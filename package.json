@@ -1,0 +1,29 @@
+{
+  "name": "ClientAppVue",
+  "version": "1.0.0",
+  "description": "TTDoc Nuxt SPA",
+  "author": "Timur Kleperson",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "build-themes": "devextreme build",
+    "postinstall": "npm run build-themes"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "devextreme": "19.2.5",
+    "devextreme-cli": "^1.1.10",
+    "devextreme-vue": "19.2.5",
+    "nuxt": "^2.0.0",
+    "nuxt-i18n": "^6.5.0",
+    "oidc-client": "^1.10.1"
+  },
+  "devDependencies": {
+    "devextreme-themebuilder": "^19.2.5",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2"
+  }
+}
