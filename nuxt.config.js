@@ -36,6 +36,7 @@ export default {
   */
   plugins: [
     '~/plugins/axios',
+    '~/plugins/customStore'
   ],
   /*
   ** Nuxt.js dev-modules

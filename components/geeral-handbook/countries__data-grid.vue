@@ -18,7 +18,7 @@
       >-->
       <DxDataGrid
         :show-borders="true"
-        :data-source="dataSource"
+        :data-source="store"
         :remote-operations="true"
         :height="600"
       >
@@ -31,8 +31,6 @@
         <DxColumn data-field="id" caption="Id" />
         <DxColumn data-field="name" />
         <DxColumn data-field="status" />
-        <DxColumn :width="130" data-field="userId" />
-        <DxColumn :width="125" data-field="phone" caption="State" />
         <!-- <DxLookup :data-source="states" display-expr="Name" value-expr="ID" /> -->
         <!-- </DxColumn> -->
         <!-- <DxColumn :width="125" data-field="BirthDate" data-type="date" /> -->
@@ -41,11 +39,20 @@
   </main>
 </template>
 <script>
-// import TTDocStore from "../TTDocStore.js";
 // import { createStore } from "devextreme-aspnet-data-nojquery";
-import { employees, states } from "~/static/data-user.js";
-import CustomStore from "devextreme/data/custom_store";
+import DataSource from 'devextreme/data/data_source';
+// import CustomStore from "devextreme/data/custom_store";
 import oidc from "~/plugins/oidc-plugin.js";
+// import CustomStore from "~/plugins/customStore";
+// const url = "http://192.168.4.99";
+// const dataSource = new CustomStore({
+//   key: "OrderID",
+//   loadUrl: `${url}/api/Employee`
+//   // insertUrl: `${url}/InsertOrder`,
+//   // updateUrl: `${url}/UpdateOrder`,
+//   // deleteUrl: `${url}/DeleteOrder`
+// });
+
 // import DxButton from "devextreme-vue/button";
 import {
   DxSearchPanel,
@@ -69,15 +76,8 @@ import {
   DxValueFormat
 } from "devextreme-vue/data-grid";
 
-// let options = createStore({
-//   key: "id",
-//   loadUrl: `http://192.168.4.99/api/Employee`,
-// });
-
-let dataSource;
-
 export default {
-  middleware: "authorization",
+    middleware: "authorization",
   components: {
     DxSearchPanel,
     // DxButton,
@@ -99,18 +99,21 @@ export default {
     DxRangeRule,
     DxValueFormat
   },
+  mounted() {
 
+   this.store = this.$dxStore({
+     loadUrl : "http://192.168.4.99/api/Employee",
+     insertUrl:"http://192.168.4.99/api/"
+   });
+  //  this.dataSource = this.$dxStore;
+  //  console.log(this.$dxStore, "this view ");
+  },
   data() {
     return {
-      dataSource
+      store:null
     };
   },
-  methods: {
-    configureDataSource() {
-      var test = this.$store.dispatch("TTDocStore/CreateStore", options);
-      console.log("Finish dispatch") 
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped >

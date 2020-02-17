@@ -1,7 +1,9 @@
 import Oidc, { WebStorageStateStore } from "oidc-client";
+import { url } from '../static/dataApi'
+console.log(url);
 const config = {
     userStore: new WebStorageStateStore({ store: window.localStorage }),
-    authority: "http://192.168.4.99",
+    authority: url,
     client_id: "TTDoc.UI",
     redirect_uri: "http://localhost:3000/callback",
     response_type: "code",

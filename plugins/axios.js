@@ -3,7 +3,7 @@
 
 
 import oidc from "~/plugins/oidc-plugin";
-export default function ({app, $axios, redirect }) {
+export default function ({ app, $axios, redirect }) {
     $axios.onRequest(config => {
         console.log('Making request to ' + config.url)
     })
@@ -18,7 +18,7 @@ export default function ({app, $axios, redirect }) {
             let axiosConfig = error.response.config;
             if (!refreshing) {
                 refreshing = true
-                return mgr.signinSilent().then(user => {
+                return oidc.signinSilent().then(user => {
                     $axios.setToken(user.access_token, 'Bearer')
                     localStorage.setItem('role', user.profile.role)
                     localStorage.setItem('islogin', true)
@@ -33,7 +33,8 @@ export default function ({app, $axios, redirect }) {
         .then(user => {
             $axios.setToken(user.access_token, 'Bearer')
         })
-    $axios.setHeader('acceptlang', app.i18n.locale)
+    $axios.setHeader('Accept-Language', app.i18n.locale)
+
 
 
 
