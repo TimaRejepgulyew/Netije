@@ -19,7 +19,9 @@
         :close-on-outside-click="drawerOptions.closeOnOutsideClick"
       >
         <dx-scroll-view class="with-footer">
-          <nuxt />
+          <div class="main-content">
+            <nuxt />
+          </div>
           <slot name="footer" />
         </dx-scroll-view>
         <!-- eslint-disable vue/no-unused-vars -->
@@ -43,7 +45,6 @@ import DxButton from "devextreme-vue/button";
 import DxDrawer from "devextreme-vue/drawer";
 import DxScrollView from "devextreme-vue/scroll-view";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-
 import HeaderToolbar from "~/components/Layout/header-toolbar";
 import SideNavMenu from "~/components/Layout/side-nav-menu";
 
@@ -71,23 +72,119 @@ export default {
     return {
       menuOpened: this.isLarge,
       menuTemporaryOpened: false,
+
       menuItems: [
         {
-          text: this.$t("translations.menu.home"),
+          text: "Dasboard",
           path: "/home",
           icon: "home"
         },
         {
-          text:  this.$t("translations.menu.example"),
-          icon: "folder",
+          text: this.$t("translations.menu.paperwork"),
+          icon: "alignjustify",
+          path: "/paper-work",
+
           items: [
             {
               text: this.$t("translations.menu.profile"),
-              path: "/profile"
+              path: "/paper-work/profile"
             },
             {
               text: this.$t("translations.menu.diplayData"),
+              path: "/paper-work/display-data"
+            }
+          ]
+        },
+        {
+          text: this.$t("translations.menu.counterPart"),
+          icon: "group",
+          path: "/counterPart",
+          items: [
+            {
+              text: this.$t("translations.menu.profile"),
+              icon: "user",
+              path: "/guide/profile"
+            },
+            {
+              text: this.$t("translations.menu.diplayData"),
+              icon: "fields",
               path: "/display-data"
+            }
+          ]
+        },
+        {
+          text: this.$t("translations.menu.company-structure"),
+          icon: "detailslayout",
+          path: "/company-structure",
+          items: [
+            {
+              text: this.$t("translations.menu.profile"),
+              icon: "user",
+              path: "/company-structure/profile"
+            },
+            {
+              text: this.$t("translations.menu.diplayData"),
+              icon: "fields",
+              path: "/company-structure/display-data"
+            }
+          ]
+        },
+        {
+          text: this.$t("translations.menu.document-circulation"),
+          icon: "docfile",
+          path: "/document-circulation",
+          items: [
+            {
+              text: this.$t("translations.menu.profile"),
+              icon: "user",
+              path: "/document-circulation/profile"
+            },
+            {
+              text: this.$t("translations.menu.diplayData"),
+              icon: "fields",
+              path: "/document-circulation/display-data"
+            }
+          ]
+        },
+        {
+          text: this.$t("translations.menu.geeral-handbook"),
+          icon: "docfile",
+          path: "/geeral-handbook",
+          items: [
+            {
+              text: this.$t("translations.menu.countries"),
+              icon: "circle",
+              path: "/geeral-handbook/countries"
+            },
+            {
+              text: this.$t("translations.menu.region"),
+              icon: "circle",
+              path: "/geeral-handbook/region"
+            },
+            {
+              text: this.$t("translations.menu.human-settlement"),
+              icon: "human",
+              path: "/geeral-handbook/human-settlement"
+            },
+            {
+              text: this.$t("translations.menu.currencies"),
+              icon: "money",
+              path: "/geeral-handbook/currencies"
+            }
+          ]
+        },
+        {
+          text: this.$t("translations.menu.document-circulation"),
+          icon: "docfile",
+
+          items: [
+            {
+              text: this.$t("translations.menu.profile"),
+              icon: "user"
+            },
+            {
+              text: this.$t("translations.menu.diplayData"),
+              icon: "fields"
             }
           ]
         }
@@ -110,6 +207,7 @@ export default {
       return this.isXSmall;
     }
   },
+
   watch: {
     isLarge() {
       if (!this.menuTemporaryOpened) {
@@ -154,5 +252,11 @@ export default {
 
 .content {
   flex-grow: 1;
+}
+.main-content {
+  margin: 1vw 0.5vw 0 2vw;
+  -webkit-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
+  -moz-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
+  box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
 }
 </style>

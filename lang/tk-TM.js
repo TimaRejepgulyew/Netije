@@ -1,12 +1,20 @@
-export default{
-  "greating":"Salam",
+export default {
+  "greating": "Salam",
   "translations": {
     "menu": {
-      "home":"Home",
+      "currencies":"currencies",
+      "human-settlement":"human-settlement",
+      "regions":"regions",
+      "geeral-handbook": "geeral-handbook",
+      "document-circulation": "document-circulation",
+      "company-structure": "company-structure",
+      "contractors": "contractors",
+      "paperwork": "paperwork",
+      "home": "Home",
       "example": "Mysallar",
       "diplayData": "diplay data",
-      "profile":"Ozun",
-      "logout":"cykmak",
+      "profile": "Ozun",
+      "logout": "cykmak",
       "inbox": "Vhodyashie",
       "administration": "Administrirovaniye",
       "subsitution": "Zamena sotrudnika",
@@ -121,5 +129,5 @@ export default{
       "male": "Мужской_TM",
       "female": "Женский_TM"
     }
-  }  
+  }
 }

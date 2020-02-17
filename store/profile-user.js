@@ -12,6 +12,7 @@ export const mutations = {
 }
 export const actions = {
     getUserName({ commit }, payload) {
+        console.log(this.$i18n.t("translations.menu.counterPart"),'store');
         commit('GET_USER_NAME', payload)
 
     },

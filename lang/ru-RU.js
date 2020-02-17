@@ -2,6 +2,13 @@ export default {
   "greating": "Hello",
   "translations": {
     "menu": {
+      "currencies":"Валюты",
+      "human-settlement":"Населенные пункты",
+      "geeral-handbook":"Общие справочники",
+      "document-circulation":"Документооборот",
+      "company-structure":"Структура компании",
+      "contractors":"контрагенты",
+      "paperwork":"Делопроизводство",
       "home": "Домой",
       "example": "Примеры",
       "diplayData": "отобразить данные",

@@ -36,6 +36,7 @@ export default {
   },
   watch: {
     activeLang: function changeLang(val) {
+      this.$i18n.setLocaleCookie(val);
       window.location.href = this.switchLocalePath(val);
     }
   },

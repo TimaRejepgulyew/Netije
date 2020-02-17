@@ -1,6 +1,9 @@
 
 export default {
   mode: 'spa',
+  router: {
+    middleware: 'i18n-middleware'
+  },
   /*
   ** Headers of the page
   */
@@ -46,6 +49,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     ['nuxt-i18n', {
+      
       locales: [
         {
           name: 'Русский',
@@ -60,10 +64,24 @@ export default {
           file: 'tk-TM.js'
         },
       ],
+      detectBrowserLanguage:{
+        useCookie:true,
+        cookieKey: "locale",
+        alwaysRedirect: true,
+        fallbackLocale: "ru"
+      },
       lazy: true,
       langDir: 'lang/',
-      rootRedirect: '',
       defaultLocale: 'ru',
+      // rootRedirect: '',
+       vuex: {
+         moduleName: 'i18n',
+         syncLocale: true,
+         syncMessages: true,
+         syncRouteParams: true
+       },
+
+
     }]
   ],
   /*
