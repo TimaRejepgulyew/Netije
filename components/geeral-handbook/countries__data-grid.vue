@@ -1,11 +1,13 @@
 <template>
   <main class="container container--grid">
     <DxDataGrid
-      :show-borders="true"
-      :data-source="store"
-      :remote-operations="true"
-      @row-updating="rowUpdating"
-    >
+        :show-borders="true"
+        :data-source="store"
+        :remote-operations="true"
+        :height="600"
+        @row-updating="rowUpdating"
+        @init-new-row="initNewRow">
+      >
       <DxHeaderFilter :visible="true" />
       <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
       <DxSearchPanel
@@ -56,13 +58,15 @@ export default {
   data() {
     return {
       store: this.$dxStore({
-        key: "id",
         loadUrl: dataApi.Country,
         insertUrl: dataApi.Country,
         updateUrl: dataApi.Country,
         removeUrl: dataApi.Country
       }),
       customStores: this.$store.getters["general-handbook/countryStatus"],
+      initNewRow: e => {
+        e.data.status = this.Status[0].id
+      },
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       }

@@ -6,6 +6,7 @@
         :data-source="store"
         :remote-operations="true"
         @row-updating="rowUpdating"
+        @init-new-row="initNewRow"
       >
         <DxHeaderFilter :visible="true" />
         <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
@@ -21,7 +22,7 @@
           :caption="$t('translations.fields.countryId')"
           data-type="number"
         >
-          <DxLookup :data-source="country" value-expr="id" display-expr="name" />
+          <DxLookup :data-source="getFilteredStatus" value-expr="id" display-expr="name" />
         </DxColumn>
 
         <DxColumn data-field="status" :caption="$t('translations.fields.status')">
@@ -72,12 +73,22 @@ export default {
         key: "id",
         loadUrl: dataApi.Country
       }),
+      initNewRow: e=>{
+          e.data.status = this.customStores[0].id
+      },
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       }
     };
   },
-  methods: {}
+  methods: {
+    getFilteredStatus(options){
+      return {
+        store: this.country,
+        filter: options.data ? ['status', '=', 0] : null
+      };
+    },
+  }
 };
 </script>
 <style lang="scss" scoped >
