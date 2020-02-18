@@ -6,31 +6,45 @@ export default ({ $axios }, inject) => {
         function isNotEmpty(value) {
             return value !== undefined && value !== null && value !== '';
         }
+
+        function loadToActionParams(loadOptions, isCountQuery) {
+            let params = '?';
+            [
+                'skip',
+                'take',
+                'requireTotalCount',
+                'requireGroupCount',
+                'sort',
+                'filter',
+                'totalSummary',
+                'group',
+                'groupSummary'
+            ].forEach(function (i) {
+                if (i in loadOptions && isNotEmpty(loadOptions[i])) { params += `${i}=${JSON.stringify(loadOptions[i])}&`; }
+            });
+            params = params.slice(0, -1);
+            return params;
+        }
+
+        function errorHandler(e) {
+            console.log(e);
+        }
+
         const store = new CustomStore({
-            key: options.key,
+            key: "id",
+            errorHandler: errorHandler,
             load: async (loadOptions) => {
-                let params = '?';
-                [
-                    'skip',
-                    'take',
-                    'requireTotalCount',
-                    'requireGroupCount',
-                ].forEach(function (i) {
-                    if (i in loadOptions && isNotEmpty(loadOptions[i])) { params += `${i}=${JSON.stringify(loadOptions[i])}&`; }
-                });
-                params = params.slice(0, -1);
-
-                var result = await $axios.get(options.loadUrl + params);
+                var result = await $axios.get(options.loadUrl+ loadToActionParams(loadOptions));
                 return result.data;
             },
 
-            totalCount: async () => {
-                 var result = await $axios.get(options.loadUrl)
-                 return result.data;
+            totalCount: async (loadOptions) => {
+                var result = await $axios.get(options.loadUrl, loadToActionParams(loadOptions))
+                return result.totalCount;
             },
-            byKey: async(key)=>{
-                var result = await $axios.get(options.loadUrl+"/"+key)
-                return result.data;
+            byKey: async (key) => {
+                var result = await $axios.get(options.loadUrl)
+                return result.data[0];
             },
             insert: async (values) => {
                 let result = await $axios.post(options.insertUrl, values)

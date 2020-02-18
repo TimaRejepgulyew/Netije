@@ -7,6 +7,7 @@
         :remote-operations="true"
         :height="600"
         @row-updating="rowUpdating"
+        @init-new-row="initNewRow">
       >
         <DxHeaderFilter :visible="true" />
         <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
@@ -19,7 +20,7 @@
         data-field="status"
         >
           <DxLookup 
-          :data-source="customStores" 
+          :data-source="Status" 
           value-expr="id" 
           display-expr="status"
           /> 
@@ -79,14 +80,13 @@ export default {
   },
   mounted() {
     this.store = this.$dxStore({
-      key: "id",
       loadUrl: "http://192.168.4.99/api/Country",
       insertUrl: "http://192.168.4.99/api/Country",
       updateUrl: "http://192.168.4.99/api/Country",
       removeUrl: "http://192.168.4.99/api/Country"
     });
 
-    this.customStores = [
+    this.Status = [
       { id: 0, status: "Активна" },
       { id: 1, status: "Закрыта" }
     ];
@@ -94,11 +94,14 @@ export default {
   data() {
     return {
       store: null,
-      customStores: null,
+      Status: null,
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData)
       },
+      initNewRow: e => {
+        e.data.status = this.Status[0].id
+      }
     };
   },
   methods: {}
