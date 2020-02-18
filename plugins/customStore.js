@@ -44,7 +44,7 @@ export default ({ $axios }, inject) => {
             },
             byKey: async (key) => {
                 var result = await $axios.get(options.loadUrl)
-                return result.data[0];
+                return result.data;
             },
             insert: async (values) => {
                 let result = await $axios.post(options.insertUrl, values)

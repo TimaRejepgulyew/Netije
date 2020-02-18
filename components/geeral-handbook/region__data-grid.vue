@@ -5,10 +5,14 @@
         :show-borders="true"
         :data-source="store"
         :remote-operations="true"
+        id="dataGrid"
+        :allow-column-reordering="true"
+        :repaintChangesOnly="true"
         @row-updating="rowUpdating"
         @init-new-row="initNewRow"
+        @editing-start="editingStart"
       >
-        <DxHeaderFilter :visible="true"  />
+        <DxHeaderFilter :visible="true" />
         <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
         <DxSearchPanel
           position="after"
@@ -17,11 +21,7 @@
         />
         <DxScrolling mode="virtual" />
         <DxColumn data-field="name" :caption="$t('translations.fields.regionId')" />
-        <DxColumn
-          data-field="countryId"
-          :caption="$t('translations.fields.countryId')"
-          data-type="number"
-        >
+        <DxColumn data-field="countryId" :caption="$t('translations.fields.countryId')">
           <DxLookup :data-source="getFilteredStatus" value-expr="id" display-expr="name" />
         </DxColumn>
 
@@ -70,21 +70,22 @@ export default {
         key: "id",
         loadUrl: dataApi.Country
       }),
-      initNewRow: e=>{
-          e.data.status = this.customStores[0].id
+      initNewRow: e => {
+        e.data.status = this.customStores[0].id;
       },
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      }
+      },
+      editingStart: e => {}
     };
   },
   methods: {
-    getFilteredStatus(options){
+    getFilteredStatus(options) {
       return {
         store: this.country,
-        filter: options.data ? ['status', '=', 0] : null
+        filter: options.data ? ["status", "=", 0] : null
       };
-    },
+    }
   }
 };
 </script>

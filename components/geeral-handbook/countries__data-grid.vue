@@ -9,7 +9,11 @@
         @init-new-row="initNewRow">
       >
       <DxHeaderFilter :visible="true" />
-      <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
+      <DxEditing 
+      :allow-updating="true" 
+      :allow-deleting="true" 
+      :allow-adding="true" 
+      mode="row" />
       <DxSearchPanel
         position="after"
         :placeholder="$t('translations.fields.search')+'...'"
@@ -65,7 +69,7 @@ export default {
       }),
       customStores: this.$store.getters["general-handbook/countryStatus"],
       initNewRow: e => {
-        e.data.status = this.Status[0].id
+        e.data.status = this.customStores[0].id
       },
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
