@@ -14,6 +14,10 @@
         <DxScrolling mode="virtual" />
         <DxColumn data-field="name" />
         <DxColumn 
+        data-field="countryId" 
+        data-type="number" />
+
+        <DxColumn 
         data-field="status"
         >
           <DxLookup 
@@ -78,10 +82,10 @@ export default {
   mounted() {
     this.store = this.$dxStore({
       key: "id",
-      loadUrl: "http://192.168.4.99/api/Country",
-      insertUrl: "http://192.168.4.99/api/Country",
-      updateUrl: "http://192.168.4.99/api/Country",
-      removeUrl: "http://192.168.4.99/api/Country"
+      loadUrl: "http://192.168.4.99/api/Region",
+      insertUrl: "http://192.168.4.99/api/Region",
+      updateUrl: "http://192.168.4.99/api/Region",
+      removeUrl: "http://192.168.4.99/api/Region"
     });
 
     this.customStores = [

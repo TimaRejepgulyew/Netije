@@ -1,15 +1,19 @@
 <template>
   <main class="container">
     <h1>{{$t("translations.menu.region")}}</h1>
+    <dataGrid />
   </main>
 </template>
 <script>
+import dataGrid from "~/components/geeral-handbook/region__data-grid";
 export default {
   middleware: "authorization",
   data() {
     return {};
   },
-  components: {},
+  components: {
+    dataGrid
+  },
   methods: {},
   computed: {}
 };
