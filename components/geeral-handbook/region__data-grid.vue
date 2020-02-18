@@ -5,7 +5,6 @@
         :show-borders="true"
         :data-source="store"
         :remote-operations="true"
-        :height="600"
         @row-updating="rowUpdating"
       >
         <DxHeaderFilter :visible="true" />
@@ -14,8 +13,16 @@
         <DxScrolling mode="virtual" />
         <DxColumn data-field="name" />
         <DxColumn 
-        data-field="countryId" 
-        data-type="number" />
+        data-field="countryId"
+        caption="Country"
+        data-type="number" 
+        >
+         <DxLookup 
+          :data-source="country" 
+          value-expr="id" 
+          display-expr="name"
+          /> 
+        </DxColumn>
 
         <DxColumn 
         data-field="status"
@@ -88,6 +95,11 @@ export default {
       removeUrl: "http://192.168.4.99/api/Region"
     });
 
+    this.country = this.$dxStore({
+        key:"id",
+        loadUrl:"http://192.168.4.99/api/Country"
+    })
+
     this.customStores = [
       { id: 0, status: "Активна" },
       { id: 1, status: "Закрыта" }
@@ -97,7 +109,7 @@ export default {
     return {
       store: null,
       customStores: null,
-
+      country: null,
       rowUpdating: e => {
         Object.assign(e.newData, e.oldData);
       },

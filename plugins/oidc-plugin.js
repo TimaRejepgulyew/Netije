@@ -1,6 +1,5 @@
 import Oidc, { WebStorageStateStore } from "oidc-client";
 import { url } from '../static/dataApi'
-console.log(url);
 const config = {
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     authority: url,

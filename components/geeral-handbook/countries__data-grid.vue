@@ -12,7 +12,9 @@
         <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
-        <DxColumn data-field="name" />
+
+        <DxColumn data-field="name" alignment="left" data-type="string" />
+
         <DxColumn 
         data-field="status"
         >
@@ -95,7 +97,7 @@ export default {
       customStores: null,
 
       rowUpdating: e => {
-        Object.assign(e.newData, e.oldData);
+        e.newData = Object.assign(e.oldData, e.newData)
       },
     };
   },
