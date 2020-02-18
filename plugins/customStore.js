@@ -7,9 +7,8 @@ export default ({ $axios }, inject) => {
             return value !== undefined && value !== null && value !== '';
         }
         const store = new CustomStore({
-            key: "id",
+            key: options.key,
             load: async (loadOptions) => {
-                loadOptions.requireTotalCount = false;
                 let params = '?';
                 [
                     'skip',
@@ -26,18 +25,12 @@ export default ({ $axios }, inject) => {
             },
 
             totalCount: async () => {
-                // let params = '?';
-                // [
-                //     'skip',
-                //     'take',
-                //     'requireTotalCount',
-                //     'requireGroupCount',
-                // ].forEach(function (i) {
-                //     if (i in loadOptions && isNotEmpty(loadOptions[i])) { params += `${i}=${loadOptions[i]}&`; }
-                // });
-                // params = params.slice(0, -1);
-
-                return await $axios.get(options.loadUrl)
+                 var result = await $axios.get(options.loadUrl)
+                 return result.data;
+            },
+            byKey: async(key)=>{
+                var result = await $axios.get(options.loadUrl+"/"+key)
+                return result.data;
             },
             insert: async (values) => {
                 let result = await $axios.post(options.insertUrl, values)
@@ -48,10 +41,10 @@ export default ({ $axios }, inject) => {
                 return result.data
             },
             remove: async (key) => {
-                return await $axios.delete(options.removetUrl + '/' + key)
+                return await $axios.delete(options.removeUrl + '/' + key)
             }
         });
-
+        store._useDefaultSearch = true;
         return store;
     }
 
