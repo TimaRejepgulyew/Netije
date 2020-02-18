@@ -1,5 +1,5 @@
 <template>
-  <main class="container">
+  <main class="container container--grid">
     <div>
       <DxDataGrid
         :show-borders="true"
@@ -7,7 +7,7 @@
         :remote-operations="true"
         @row-updating="rowUpdating"
       >
-        <DxHeaderFilter :visible="true"  />
+        <DxHeaderFilter :visible="true" />
         <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
         <DxSearchPanel
           position="after"
@@ -63,6 +63,9 @@ export default {
         insertUrl: dataApi.Region,
         updateUrl: dataApi.Region,
         removeUrl: dataApi.Region
+        // errorHandler : function(e){
+
+        // }
       }),
       customStores: this.$store.getters["general-handbook/countryStatus"],
       country: this.$dxStore({
@@ -79,10 +82,10 @@ export default {
 </script>
 <style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
-.lang-icon {
-  position: relative;
-  top: 25%;
-  width: 25px;
-  height: 25px;
+.container {
+  display: block;
+}
+.container--grid {
+  border: 5.5px solid $base-border-color;
 }
 </style>

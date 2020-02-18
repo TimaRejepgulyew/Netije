@@ -73,6 +73,9 @@ export default {
 </script>
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
+.container {
+  display: block;
+}
 .container--grid {
   border: 5.5px solid $base-border-color;
 }
