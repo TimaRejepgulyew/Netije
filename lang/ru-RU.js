@@ -80,6 +80,7 @@ export default {
       "account": "Номер счет",
       "accountRequired": "Введите номер счета",
       "nonresident": "Нерезидент",
+      "search":"Поиск",
       "status": "Статус",
       "statusRequired": "Выберите статус",
       "note": "Заметки",

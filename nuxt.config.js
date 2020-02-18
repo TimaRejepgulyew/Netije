@@ -1,9 +1,6 @@
 
 export default {
   mode: 'spa',
-  router: {
-    middleware: 'i18n-middleware'
-  },
   /*
   ** Headers of the page
   */

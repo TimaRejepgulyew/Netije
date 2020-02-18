@@ -10,7 +10,6 @@ export default function (context) {
         } else {
 
             context.store.dispatch("profile-user/getUserName", user.profile.name)
-            console.log(context.store.getters["profile-user/userName"])
         }
 
     })

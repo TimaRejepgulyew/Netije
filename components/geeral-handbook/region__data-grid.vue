@@ -3,26 +3,30 @@
     <div>
       <DxDataGrid
         :show-borders="true"
-        :data-source="dataStore"
+        :data-source="store"
         :remote-operations="true"
         @row-updating="rowUpdating"
         @init-new-row="initNewRow"
       >
-        <DxHeaderFilter :visible="true" />
-
+        <DxHeaderFilter :visible="true"  />
         <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
-
-        <DxSearchPanel position="after" :visible="true" />
+        <DxSearchPanel
+          position="after"
+          :visible="true"
+          :placeholder="$t('translations.fields.search')+'...'"
+        />
         <DxScrolling mode="virtual" />
-
-        <DxColumn data-field="name" />
-
-        <DxColumn data-field="countryId" caption="Country" >
-          <DxLookup :data-source="getFilteredStatus" value-expr="id" display-expr="name"/>
+        <DxColumn data-field="name" :caption="$t('translations.fields.regionId')" />
+        <DxColumn
+          data-field="countryId"
+          :caption="$t('translations.fields.countryId')"
+          data-type="number"
+        >
+          <DxLookup :data-source="getFilteredStatus" value-expr="id" display-expr="name" />
         </DxColumn>
 
-        <DxColumn data-field="status">
-          <DxLookup :data-source="Status" value-expr="id" display-expr="status" />
+        <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+          <DxLookup :data-source="customStores" value-expr="id" display-expr="status" />
         </DxColumn>
       </DxDataGrid>
     </div>
@@ -30,80 +34,54 @@
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
-import oidc from "~/plugins/oidc-plugin.js";
+import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
-  // DxButton,
   DxDataGrid,
   DxColumn,
   DxEditing,
-  DxFilterRow,
   DxHeaderFilter,
-  DxGroupPanel,
-  DxGrouping,
   DxScrolling,
-  DxSummary,
-  DxLookup,
-  DxTotalItem,
-  DxGroupItem,
-  DxMasterDetail,
-  DxStringLengthRule,
-  DxRequiredRule,
-  DxRangeRule,
-  DxValueFormat
+  DxLookup
 } from "devextreme-vue/data-grid";
 
 export default {
   middleware: "authorization",
   components: {
     DxSearchPanel,
-    // DxButton,
     DxDataGrid,
     DxColumn,
     DxEditing,
-    DxFilterRow,
     DxHeaderFilter,
-    DxGroupPanel,
-    DxGrouping,
     DxScrolling,
-    DxSummary,
-    DxLookup,
-    DxTotalItem,
-    DxGroupItem,
-    DxMasterDetail,
-    DxStringLengthRule,
-    DxRequiredRule,
-    DxRangeRule,
-    DxValueFormat
+    DxLookup
   },
-  mounted() {},
   data() {
     return {
-      dataStore: this.$dxStore({
-        loadUrl: "http://192.168.4.99/api/Region",
-        insertUrl: "http://192.168.4.99/api/Region",
-        updateUrl: "http://192.168.4.99/api/Region",
-        removeUrl: "http://192.168.4.99/api/Region"
+      store: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.Region,
+        insertUrl: dataApi.Region,
+        updateUrl: dataApi.Region,
+        removeUrl: dataApi.Region
       }),
-      Status: [
-        { id: 0, status: "Активна" },
-        { id: 1, status: "Закрыта" }
-      ],
-      countrySource: this.$dxStore({
-        loadUrl: "http://192.168.4.99/api/Country"
+      customStores: this.$store.getters["general-handbook/countryStatus"],
+      country: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.Country
       }),
+      initNewRow: e=>{
+          e.data.status = this.customStores[0].id
+      },
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      },
-      initNewRow: e => {
-        e.data.status = this.Status[0].id;
       }
     };
   },
   methods: {
     getFilteredStatus(options){
       return {
-        store: this.countrySource,
+        store: this.country,
         filter: options.data ? ['status', '=', 0] : null
       };
     },

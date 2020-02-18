@@ -20,13 +20,9 @@ export default {
 </script>
 <style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
-.lang-icon {
-  position: relative;
-  top: 25%;
-  width: 25px;
-  height: 25px;
-}
+@import "~assets/dx-styles.scss";
 .container {
   display: block;
 }
+
 </style>
