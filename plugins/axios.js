@@ -11,7 +11,7 @@ export default function ({ app, $axios, redirect }) {
     $axios.onError(error => {
         const code = parseInt(error.response && error.response.status)
         if (code === 400) {
-            redirect('/400')
+            // redirect('/400')
         }
         else if (code === 401) {
             localStorage.setItem('islogin', false)
@@ -33,6 +33,7 @@ export default function ({ app, $axios, redirect }) {
         .then(user => {
             $axios.setToken(user.access_token, 'Bearer')
         })
+
     $axios.setHeader('Accept-Language', app.i18n.locale)
 
 

@@ -7,31 +7,25 @@
         :remote-operations="true"
         @row-updating="rowUpdating"
       >
-        <DxHeaderFilter :visible="true" />
+        <DxHeaderFilter :visible="true"  />
         <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" />
-        <DxSearchPanel position="after" :visible="true" />
+        <DxSearchPanel
+          position="after"
+          :visible="true"
+          :placeholder="$t('translations.fields.search')+'...'"
+        />
         <DxScrolling mode="virtual" />
-        <DxColumn data-field="name" />
-        <DxColumn 
-        data-field="countryId"
-        caption="Country"
-        data-type="number" 
+        <DxColumn data-field="name" :caption="$t('translations.fields.regionId')" />
+        <DxColumn
+          data-field="countryId"
+          :caption="$t('translations.fields.countryId')"
+          data-type="number"
         >
-         <DxLookup 
-          :data-source="country" 
-          value-expr="id" 
-          display-expr="name"
-          /> 
+          <DxLookup :data-source="country" value-expr="id" display-expr="name" />
         </DxColumn>
 
-        <DxColumn 
-        data-field="status"
-        >
-          <DxLookup 
-          :data-source="customStores" 
-          value-expr="id" 
-          display-expr="status"
-          /> 
+        <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+          <DxLookup :data-source="customStores" value-expr="id" display-expr="status" />
         </DxColumn>
       </DxDataGrid>
     </div>
@@ -39,80 +33,45 @@
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
-import oidc from "~/plugins/oidc-plugin.js";
-
+import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
-  // DxButton,
   DxDataGrid,
   DxColumn,
   DxEditing,
-  DxFilterRow,
   DxHeaderFilter,
-  DxGroupPanel,
-  DxGrouping,
   DxScrolling,
-  DxSummary,
-  DxLookup,
-  DxTotalItem,
-  DxGroupItem,
-  DxMasterDetail,
-  DxStringLengthRule,
-  DxRequiredRule,
-  DxRangeRule,
-  DxValueFormat
+  DxLookup
 } from "devextreme-vue/data-grid";
 
 export default {
   middleware: "authorization",
   components: {
     DxSearchPanel,
-    // DxButton,
     DxDataGrid,
     DxColumn,
     DxEditing,
-    DxFilterRow,
     DxHeaderFilter,
-    DxGroupPanel,
-    DxGrouping,
     DxScrolling,
-    DxSummary,
-    DxLookup,
-    DxTotalItem,
-    DxGroupItem,
-    DxMasterDetail,
-    DxStringLengthRule,
-    DxRequiredRule,
-    DxRangeRule,
-    DxValueFormat
-  },
-  mounted() {
-    this.store = this.$dxStore({
-      key: "id",
-      loadUrl: "http://192.168.4.99/api/Region",
-      insertUrl: "http://192.168.4.99/api/Region",
-      updateUrl: "http://192.168.4.99/api/Region",
-      removeUrl: "http://192.168.4.99/api/Region"
-    });
-
-    this.country = this.$dxStore({
-        key:"id",
-        loadUrl:"http://192.168.4.99/api/Country"
-    })
-
-    this.customStores = [
-      { id: 0, status: "Активна" },
-      { id: 1, status: "Закрыта" }
-    ];
+    DxLookup
   },
   data() {
     return {
-      store: null,
-      customStores: null,
-      country: null,
+      store: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.Region,
+        insertUrl: dataApi.Region,
+        updateUrl: dataApi.Region,
+        removeUrl: dataApi.Region
+      }),
+      customStores: this.$store.getters["general-handbook/countryStatus"],
+      country: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.Country
+      }),
       rowUpdating: e => {
-        Object.assign(e.newData, e.oldData);
-      },
+        e.newData = Object.assign(e.oldData, e.newData);
+      }
     };
   },
   methods: {}

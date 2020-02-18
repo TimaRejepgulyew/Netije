@@ -1,10 +1,10 @@
 <template>
   <div id="root">
     <div :class="cssClasses">
-      <app-content :title="title" :is-x-small="screen.isXSmall" :is-large="screen.isLarge">
+      <app-content class="content" :title="title" :is-x-small="screen.isXSmall" :is-large="screen.isLarge">
 
-        <template #footer>
-          <the-footer />
+        <template  #footer>
+          <the-footer class="footer"  />
         </template>
       </app-content>
     </div>
@@ -72,9 +72,12 @@ body {
 }
 
 #root {
-  height: 100%;
+  height: 100vh;
 }
-
+.footer{
+  height: 10vh;
+  margin-top: auto;
+}
 * {
   box-sizing: border-box;
 }

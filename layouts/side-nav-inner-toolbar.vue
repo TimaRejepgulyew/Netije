@@ -252,6 +252,7 @@ export default {
 
 .content {
   flex-grow: 1;
+ height: 100vh;
 }
 .main-content {
   margin: 1vw 0.5vw 0 2vw;
