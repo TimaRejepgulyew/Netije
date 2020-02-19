@@ -1,9 +1,8 @@
 {
   "items": [],
-  "baseTheme": "dx.material.blue.light",
+  "baseTheme": "generic.light",
   "assetsBasePath": "../../../node_modules/devextreme/dist/css/",
   "outputColorScheme": "additional",
   "makeSwatch": true,
-  "base": true,
-  "widgets": ["treeview", "navbar",]
+  "base": true
 }

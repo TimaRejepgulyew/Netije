@@ -1,7 +1,7 @@
 
 
 export const state = () => ({
-    countryStatus:[
+    status:[
         { id: 0, status: "Активна" },
         { id: 1, status: "Закрыта" }
       ],
@@ -9,8 +9,8 @@ export const state = () => ({
 })
 
 export const getters = {
-    countryStatus(state) {
-        return state.countryStatus
+    Status(state) {
+        return state.status
     },
 
 }

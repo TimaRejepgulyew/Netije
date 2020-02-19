@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
-    "devextreme": "19.2.5",
+    "devextreme": "19.2.6",
     "devextreme-aspnet-data-nojquery": "^2.5.1",
     "devextreme-cli": "^1.1.10",
-    "devextreme-vue": "19.2.5",
+    "devextreme-vue": "19.2.6",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.5.0",
     "oidc-client": "^1.10.1"

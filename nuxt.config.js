@@ -1,5 +1,8 @@
 
 export default {
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://192.168.4.99'
+  },
   mode: 'spa',
   /*
   ** Headers of the page
@@ -33,7 +36,8 @@ export default {
   */
   plugins: [
     '~/plugins/axios',
-    '~/plugins/customStore'
+    '~/plugins/customStore',
+    "~/plugins/customValidator"
   ],
   /*
   ** Nuxt.js dev-modules

@@ -4,18 +4,12 @@
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
-      :errorRowEnabled="true"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      >
       <DxHeaderFilter :visible="true" />
-      <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
-        :useIcons="true"
-        mode="form"
-      />
+      <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" :useIcons="true" />
 
       <DxSearchPanel
         position="after"
@@ -24,14 +18,18 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.countryId')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateCountryName"
-        ></DxAsyncRule>
-      </DxColumn>
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.currencyId')"
+        alignment="left"
+        data-type="string"
+      ></DxColumn>
 
+      <DxColumn data-field="alphaCode" :caption="$t('translations.fields.alphaCode')"></DxColumn>
+      <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')"></DxColumn>
+      <DxColumn data-field="fractionName" :caption="$t('translations.fields.fractionName')"></DxColumn>
+      <DxColumn data-field="isDefault" data-type="boolean" :caption="$t('translations.fields.isDefault')"></DxColumn>
+      <DxColumn data-field="numericCode"  :caption="$t('translations.fields.numericCode')"></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
@@ -49,7 +47,6 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
-  DxAsyncRule,
   DxRequiredRule
 } from "devextreme-vue/data-grid";
 
@@ -63,36 +60,29 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
-    DxRequiredRule,
-    DxAsyncRule
+    DxRequiredRule
   },
   mounted() {},
   data() {
     return {
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.Country,
-        insertUrl: dataApi.Country,
-        updateUrl: dataApi.Country,
-        removeUrl: dataApi.Country
+        loadUrl: dataApi.Currency,
+        insertUrl: dataApi.Currency,
+        updateUrl: dataApi.Currency,
+        removeUrl: dataApi.Currency
       }),
-
-      statusStores: this.$store.getters["general-handbook/Status"],
-
+      statusStores: this.$store.getters["general-handbook/countryStatus"],
+      
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
-
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       }
     };
   },
-  methods: {
-    validateCountryName(params) {
-      return this.$customValidator.isCountryNotExists({ id: params.data.id, name: params.value });
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">
