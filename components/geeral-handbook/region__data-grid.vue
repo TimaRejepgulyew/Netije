@@ -88,7 +88,8 @@ export default {
         filter: options.data ? ['status', '=', 0] : null
       };
     },
-  }
+  },
+
 };
 </script>
 <style lang="scss" scoped >
