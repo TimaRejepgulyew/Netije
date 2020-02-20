@@ -29,18 +29,29 @@ export default ({ app }, inject) => {
     }
 
     async function isRegionExists(payload) {
-        return await isNameExists(dataApi.Region, payload);
+        return (await isNameExists(dataApi.Region, payload)) == false;
+    }
+
+    async function isHumanSettlementExists(payload) {
+        return (await isNameExists(dataApi.Locality, payload)) == false;
     }
 
     async function isCurrencyCodeExists(payload) {
-        return await isEntityExists(dataApi.Currency, payload, "code");
+        return (await isEntityExists(dataApi.Currency, payload, "code")) == false;
     }
+
+    async function isCurrencyNameExists(payload) {
+        return (await isEntityExists(dataApi.Currency, payload, "name")) == false;
+    }
+
 
     let obj = {
         isNameExists: isNameExists,
         isCountryNotExists: isCountryNotExists,
         isRegionExists: isRegionExists,
-        isCurrencyCodeExists: isCurrencyCodeExists
+        isCurrencyCodeExists: isCurrencyCodeExists,
+        isCurrencyNameExists:isCurrencyNameExists,
+        isHumanSettlementExists: isHumanSettlementExists
     }
 
     inject("customValidator", obj);

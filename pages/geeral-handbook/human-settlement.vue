@@ -1,32 +1,58 @@
 <template>
   <main class="container container--grid">
-    <h1>{{$t("translations.menu.human-settlement")}}</h1>
+    <h1>{{ $t("translations.menu.human-settlement") }}</h1>
     <DxDataGrid
-        :show-borders="true"
-        :data-source="store"
-        :remote-operations="true"
-        @row-updating="rowUpdating"
-        @init-new-row="initNewRow"
+      :show-borders="true"
+      :data-source="store"
+      :remote-operations="true"
+      @row-updating="rowUpdating"
+      @init-new-row="initNewRow"
+    >
+      <DxHeaderFilter :visible="true" />
+      <DxEditing
+        :allow-updating="true"
+        :allow-deleting="true"
+        :allow-adding="true"
+        mode="form"
+        :useIcons="true"
+      />
+      <DxSearchPanel
+        position="after"
+        :visible="true"
+        :placeholder="$t('translations.fields.search') + '...'"
+      />
+      <DxScrolling mode="virtual" />
+
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.localityId')"
       >
-        <DxHeaderFilter :visible="true" />
-        <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="row" :useIcons="true"/>
-        <DxSearchPanel
-          position="after"
-          :visible="true"
-          :placeholder="$t('translations.fields.search')+'...'"
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateHumanSettlementName"
+        ></DxAsyncRule>
+      </DxColumn>
+
+      <DxColumn
+        data-field="regionId"
+        :caption="$t('translations.fields.regionId')"
+      >
+        <DxLookup
+          :data-source="getFilteredRegion"
+          value-expr="id"
+          display-expr="name"
         />
-        <DxScrolling mode="virtual" />
-        
-        <DxColumn data-field="name" :caption="$t('translations.fields.localityId')" />
+      </DxColumn>
 
-        <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
-          <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
-        </DxColumn>
-
-        <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-          <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
-        </DxColumn>
-      </DxDataGrid>
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
+      </DxColumn>
+    </DxDataGrid>
   </main>
 </template>
 <script>
@@ -39,7 +65,9 @@ import {
   DxEditing,
   DxHeaderFilter,
   DxScrolling,
-  DxLookup
+  DxLookup,
+  DxRequiredRule,
+  DxAsyncRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -51,7 +79,9 @@ export default {
     DxEditing,
     DxHeaderFilter,
     DxScrolling,
-    DxLookup
+    DxLookup,
+    DxRequiredRule,
+    DxAsyncRule
   },
   data() {
     return {
@@ -64,7 +94,7 @@ export default {
       }),
       statusStores: this.$store.getters["general-handbook/Status"],
 
-      country: this.$dxStore({
+      region: this.$dxStore({
         key: "id",
         loadUrl: dataApi.Region
       }),
@@ -78,16 +108,24 @@ export default {
     };
   },
   methods: {
-     getFilteredRegion(options) {
+    getFilteredRegion(options) {
       return {
-        store: this.country,
-        filter: options.data ? ["status", "=", 0, 'or', 'id', '=', options.data.regionId] : null
+        store: this.region,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id", "=", options.data.regionId]
+          : null
       };
+    },
+    validateHumanSettlementName(params) {
+      return this.$customValidator.isHumanSettlementExists({
+        id: params.data.id,
+        name: params.value
+      });
     }
-  },
+  }
 };
 </script>
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 .lang-icon {
   position: relative;
