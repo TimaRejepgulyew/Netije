@@ -42,6 +42,7 @@ export default {
       "clericalWork": "Делопроизводство"
     },
     "fields": {
+      
       "code": "Код",
       "codeRequired": "Введите код",
       "name": "Наименование",
@@ -113,6 +114,12 @@ export default {
       "regionIdRequired": "Выберите регион",
       "localityId": "Населенный пункт",
       "localityIdRequired": "Выберите населенный пункт",
+      "currencyId": "Валюта",
+      "alphaCode":"Альфа код",
+      "shortName":"Короткое имя",
+      "fractionName":"Наименование фракции",
+      "isDefault":"По умолчанию",
+      "numericCode":"Номер кода",
       "bankId": "Банк",
       "bankIdRequired": "Выберите банк",
       "userId": "Сотрудник",

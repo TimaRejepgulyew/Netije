@@ -3,20 +3,38 @@
 </template>
 <script>
 import Oidc, { WebStorageStateStore } from "oidc-client";
-
+import { mapActions } from "vuex";
 export default {
-  mounted() {
+  //   mounted() {
 
-    new Oidc.UserManager({
-      response_mode: "query",
-      userStore: new WebStorageStateStore({ store: window.localStorage })
-    })
+  //     new Oidc.UserManager({
+  //       response_mode: "query",
+  //       userStore: new WebStorageStateStore({ store: window.localStorage })
+  //     })
 
-      .signinRedirectCallback()
-      .then(() => {
-        this.$router.push("/home");
-      })
-      .catch(function(e) {});
+  //       .signinRedirectCallback()
+  //       .then(() => {
+  //         this.$router.push("/home");
+  //       })
+  //       .catch(function(e) {});
+  //   }
+  created() {
+    if (process.client) {
+      this.oidcSignInCallback()
+        .then(redirectPath => {
+          this.router.push(redirectPath);
+          // window.location.href = redirectPath;
+          // this.$router.push(redirectPath);
+        })
+        .catch(err => {
+          console.error(err);
+          this.$router.push("/signin-oidc-error");
+          // window.location.href =  "/signin-oidc-error" // Handle errors any way you want
+        });
+    }
+  },
+  methods: {
+    ...mapActions("oidc", ["oidcSignInCallback"])
   }
 };
 </script>

@@ -30,11 +30,21 @@ export default ({ $axios }, inject) => {
             console.log(e);
         }
 
+        function filterByKey(keyValue) {
+
+            if (!Array.isArray(options.key)) {
+                return [options.key, keyValue];
+            }
+            return options.key.map(function (i) {
+                return [i, keyValue[i]];
+            });
+        }
+
         const store = new CustomStore({
-            key: "id",
+            key: options.key,
             errorHandler: errorHandler,
             load: async (loadOptions) => {
-                var result = await $axios.get(options.loadUrl+ loadToActionParams(loadOptions));
+                var result = await $axios.get(options.loadUrl + loadToActionParams(loadOptions));
                 return result.data;
             },
 
@@ -43,8 +53,8 @@ export default ({ $axios }, inject) => {
                 return result.totalCount;
             },
             byKey: async (key) => {
-                var result = await $axios.get(options.loadUrl)
-                return result.data[0];
+                var result = await $axios.get(options.loadUrl + loadToActionParams({ filter: filterByKey(key) }))
+                return result.data.data[0];
             },
             insert: async (values) => {
                 let result = await $axios.post(options.insertUrl, values)

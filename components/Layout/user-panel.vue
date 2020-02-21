@@ -11,17 +11,13 @@
       v-if="menuMode === 'context'"
       target=".user-button"
       :items="menuItems"
-      :width='200'
+      :width="200"
       :position="menuPositionConfig"
       show-event="dxclick"
       css-class="user-menu"
     />
 
-    <dx-list
-      v-if="menuMode === 'list'"
-      class="dx-toolbar-menu-action"
-      :items="menuItems"
-    />
+    <dx-list v-if="menuMode === 'list'" class="dx-toolbar-menu-action" :items="menuItems" />
   </div>
 </template>
 
@@ -31,23 +27,43 @@ import DxList from "devextreme-vue/list";
 
 export default {
   props: {
-    menuMode: String,
-    menuItems: Array
+    menuMode: String
   },
   data() {
     return {
       menuPositionConfig: {
         my: "top center",
         at: "bottom center"
-      }
+      },
+      userMenuItems: [
+        {
+          text: this.$t("translations.menu.profile"),
+          icon: "user",
+          onClick: this.onProfileClick
+        },
+        {
+          text: this.$t("translations.menu.logout"),
+          icon: "runner",
+          onClick: this.onLogoutClick
+        }
+      ]
     };
   },
-  computed:{
-    userName(){
-      return  this.$store.getters['profile-user/userName']
+  computed: {
+    userName() {
+      let name = "Tima";
+      console.log(name);
+      return name;
     }
   },
-  
+  methods: {
+    onLogoutClick() {
+      oidc.signoutRedirect();
+    },
+    onProfileClick() {
+      window.location.href = "http://192.168.4.99/Identity/Account/Manage";
+    }
+  },
   components: {
     DxContextMenu,
     DxList
