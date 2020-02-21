@@ -5,11 +5,23 @@
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
+      :column-auto-width="true"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-      >
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        file-name="Currency"
+      />
+      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
+
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
       <DxEditing
         :allow-updating="true"
         :allow-deleting="true"
@@ -46,7 +58,7 @@
         data-field="alphaCode"
         :caption="$t('translations.fields.alphaCode')"
       >
-       <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxStringLengthRule
           :max="3"
           message="The name must not exceed 3 symbols"
@@ -60,7 +72,7 @@
         data-field="shortName"
         :caption="$t('translations.fields.shortName')"
       >
-      <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxStringLengthRule
           :max="60"
           message="The Short name must not exceed 60 symbols"
@@ -74,7 +86,7 @@
         data-field="fractionName"
         :caption="$t('translations.fields.fractionName')"
       >
-      <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxStringLengthRule
           :max="20"
           message="The Fraction name must not exceed 20 symbols"
@@ -93,7 +105,7 @@
         data-field="numericCode"
         :caption="$t('translations.fields.numericCode')"
       >
-      <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxStringLengthRule
           :max="3"
           message="The name must not exceed 3 symbols"
@@ -126,7 +138,11 @@ import {
   DxLookup,
   DxRequiredRule,
   DxAsyncRule,
-  DxStringLengthRule
+  DxStringLengthRule,
+  DxExport,
+  DxSelection,
+  DxColumnChooser,
+  DxColumnFixing
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -140,7 +156,11 @@ export default {
     DxLookup,
     DxRequiredRule,
     DxAsyncRule,
-    DxStringLengthRule
+    DxStringLengthRule,
+    DxExport,
+    DxSelection,
+    DxColumnChooser,
+    DxColumnFixing
   },
   data() {
     return {
@@ -169,12 +189,15 @@ export default {
       });
     },
     validateEntityExists(params) {
-      var dataField = params.column.dataField; 
-      return this.$customValidator.CurrencyDataFieldValueNotExists({
-        id: params.data.id,
-        [dataField]: params.value
-      },dataField);
-    },
+      var dataField = params.column.dataField;
+      return this.$customValidator.CurrencyDataFieldValueNotExists(
+        {
+          id: params.data.id,
+          [dataField]: params.value
+        },
+        dataField
+      );
+    }
   }
 };
 </script>

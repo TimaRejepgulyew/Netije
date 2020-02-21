@@ -5,10 +5,24 @@
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
+      :column-auto-width="true"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
+
+      <DxColumnChooser :enabled="true"/>
+      <DxColumnFixing :enabled="true"/>
+
+       <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        file-name="Region"
+      />
+
       <DxEditing
         :allow-updating="true"
         :allow-deleting="true"
@@ -64,7 +78,11 @@ import {
   DxScrolling,
   DxLookup,
   DxRequiredRule,
-  DxAsyncRule
+  DxAsyncRule,
+   DxExport,
+  DxSelection,
+  DxColumnChooser,
+  DxColumnFixing
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -77,7 +95,11 @@ export default {
     DxScrolling,
     DxLookup,
     DxRequiredRule,
-    DxAsyncRule
+    DxAsyncRule,
+     DxExport,
+  DxSelection,
+  DxColumnChooser,
+  DxColumnFixing
   },
   data() {
     return {

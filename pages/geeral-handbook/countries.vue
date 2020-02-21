@@ -1,15 +1,28 @@
 <template>
   <main class="container container--grid">
-    <h1>{{$t("translations.menu.countries")}}</h1>
+    <h1>{{ $t("translations.menu.countries") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :errorRowEnabled="true"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
+      :column-auto-width="true"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        file-name="Countries"
+      />
+      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
+
+      <DxColumnChooser :enabled="true"/>
+      <DxColumnFixing :enabled="true"/>
+
       <DxEditing
         :allow-updating="true"
         :allow-deleting="true"
@@ -20,13 +33,19 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search')+'...'"
+        :placeholder="$t('translations.fields.search') + '...'"
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.countryId')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.countryId')"
+        data-type="string"
+      >
+        <DxRequiredRule
+          :message="$t('translations.fields.countryIdRequired')"
+        />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateCountryName"
@@ -34,7 +53,11 @@
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -51,7 +74,11 @@ import {
   DxScrolling,
   DxLookup,
   DxAsyncRule,
-  DxRequiredRule
+  DxRequiredRule,
+  DxExport,
+  DxSelection,
+  DxColumnChooser,
+  DxColumnFixing
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -64,7 +91,11 @@ export default {
     DxScrolling,
     DxLookup,
     DxRequiredRule,
-    DxAsyncRule
+    DxAsyncRule,
+    DxExport,
+    DxSelection,
+    DxColumnChooser,
+    DxColumnFixing
   },
   data() {
     return {
@@ -97,7 +128,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {
