@@ -152,29 +152,29 @@ export default {
           ]
         },
         {
-          text: this.$t("translations.menu.share-directory"),
+          text: this.$t("translations.menu.shared-directory"),
           icon: "docfile",
-          path: "/share-directory",
+          path: "/shared-directory",
           items: [
             {
               text: this.$t("translations.menu.countries"),
               icon: "isnotblank",
-              path: "/share-directory/territorialStructure/countries"
+              path: "/shared-directory/territorialStructure/countries"
             },
             {
               text: this.$t("translations.menu.region"),
               icon: "isnotblank",
-              path: "/share-directory/territorialStructure/region"
+              path: "/shared-directory/territorialStructure/region"
             },
             {
               text: this.$t("translations.menu.locality"),
               icon: "isnotblank",
-              path: "/share-directory/territorialStructure/localities"
+              path: "/shared-directory/territorialStructure/localities"
             },
             {
               text: this.$t("translations.menu.currencies"),
               icon: "isnotblank",
-              path: "/share-directory/currencies"
+              path: "/shared-directory/currencies"
             }
           ]
         },

@@ -1,6 +1,5 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.region") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -11,16 +10,14 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-       <DxSelection mode="multiple" />
-      <DxHeaderFilter :visible="true" />
+      <DxSelection mode="multiple" />
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
 
-      <DxColumnChooser :enabled="true"/>
-      <DxColumnFixing :enabled="true"/>
-
-       <DxExport
+      <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        file-name="Region"
+        file-name="Locality"
       />
 
       <DxEditing
@@ -30,27 +27,30 @@
         mode="form"
         :useIcons="true"
       />
-
       <DxSearchPanel
         position="after"
         :visible="true"
         :placeholder="$t('translations.fields.search') + '...'"
       />
-
       <DxScrolling mode="virtual" />
-      <DxColumn data-field="name" :caption="$t('translations.fields.regionId')">
+
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.localityId')"
+      >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateRegionName"
+          :validation-callback="validateHumanSettlementName"
         ></DxAsyncRule>
       </DxColumn>
+
       <DxColumn
-        data-field="countryId"
-        :caption="$t('translations.fields.countryId')"
+        data-field="regionId"
+        :caption="$t('translations.fields.regionId')"
       >
         <DxLookup
-          :data-source="getFilteredCountry"
+          :data-source="getFilteredRegion"
           value-expr="id"
           display-expr="name"
         />
@@ -79,13 +79,14 @@ import {
   DxLookup,
   DxRequiredRule,
   DxAsyncRule,
-   DxExport,
+  DxExport,
   DxSelection,
   DxColumnChooser,
   DxColumnFixing
 } from "devextreme-vue/data-grid";
 
 export default {
+
   components: {
     DxSearchPanel,
     DxDataGrid,
@@ -96,26 +97,25 @@ export default {
     DxLookup,
     DxRequiredRule,
     DxAsyncRule,
-     DxExport,
-  DxSelection,
-  DxColumnChooser,
-  DxColumnFixing
+    DxExport,
+    DxSelection,
+    DxColumnChooser,
+    DxColumnFixing
   },
   data() {
     return {
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.sharedDirectory.Region,
-        insertUrl: dataApi.sharedDirectory.Region,
-        updateUrl: dataApi.sharedDirectory.Region,
-        removeUrl: dataApi.sharedDirectory.Region
+        loadUrl: dataApi.sharedDirectory.Locality,
+        insertUrl: dataApi.sharedDirectory.Locality,
+        updateUrl: dataApi.sharedDirectory.Locality,
+        removeUrl: dataApi.sharedDirectory.Locality
       }),
+      statusStores: this.$store.getters["share-directory/Status"],
 
-      statusStores: this.$store.getters["general-handbook/Status"],
-
-      country: this.$dxStore({
+      region: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.Country
+        loadUrl: dataApi.Region
       }),
 
       initNewRow: e => {
@@ -127,15 +127,15 @@ export default {
     };
   },
   methods: {
-    getFilteredCountry(options) {
+    getFilteredRegion(options) {
       return {
-        store: this.country,
+        store: this.region,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.countryId]
+          ? ["status", "=", 0, "or", "id", "=", options.data.regionId]
           : null
       };
     },
-    validateRegionName(params) {
+    validateHumanSettlementName(params) {
       return this.$customValidator.isHumanSettlementNotExists({
         id: params.data.id,
         name: params.value
@@ -154,8 +154,5 @@ export default {
 }
 .container {
   display: block;
-}
-.container--grid {
-  border: 5.5px solid $base-border-color;
 }
 </style>

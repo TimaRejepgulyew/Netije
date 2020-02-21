@@ -1,63 +1,51 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.countries") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
-      :errorRowEnabled="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        file-name="Countries"
-      />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
-      <DxColumnChooser :enabled="true"/>
-      <DxColumnFixing :enabled="true"/>
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
+      <DxExport :enabled="true" :allow-export-selected-data="true" file-name="Region" />
 
       <DxEditing
         :allow-updating="true"
         :allow-deleting="true"
         :allow-adding="true"
-        :useIcons="true"
         mode="form"
+        :useIcons="true"
       />
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
         :visible="true"
+        :placeholder="$t('translations.fields.search') + '...'"
       />
-      <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.countryId')"
-        data-type="string"
-      >
-        <DxRequiredRule
-          :message="$t('translations.fields.countryIdRequired')"
-        />
+      <DxScrolling mode="virtual" />
+      <DxColumn data-field="name" :caption="$t('translations.fields.regionId')">
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateCountryName"
+          :validation-callback="validateRegionName"
         ></DxAsyncRule>
+      </DxColumn>
+      <DxColumn data-field="countryId" :caption="$t('translations.fields.countryId')">
+        <DxLookup :data-source="getFilteredCountry" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -73,8 +61,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
-  DxAsyncRule,
   DxRequiredRule,
+  DxAsyncRule,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -101,26 +89,38 @@ export default {
     return {
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.sharedDirectory.Country,
-        insertUrl: dataApi.sharedDirectory.Country,
-        updateUrl: dataApi.sharedDirectory.Country,
-        removeUrl: dataApi.sharedDirectory.Country
+        loadUrl: dataApi.sharedDirectory.Region,
+        insertUrl: dataApi.sharedDirectory.Region,
+        updateUrl: dataApi.sharedDirectory.Region,
+        removeUrl: dataApi.sharedDirectory.Region
       }),
 
-      statusStores: this.$store.getters["general-handbook/Status"],
+      statusStores: this.$store.getters["share-directory/Status"],
+
+      country: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.Country
+      }),
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
-
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       }
     };
   },
   methods: {
-    validateCountryName(params) {
-      return this.$customValidator.isCountryNotExists({
+    getFilteredCountry(options) {
+      return {
+        store: this.country,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id", "=", options.data.countryId]
+          : null
+      };
+    },
+    validateRegionName(params) {
+      return this.$customValidator.isHumanSettlementNotExists({
         id: params.data.id,
         name: params.value
       });
@@ -130,9 +130,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
+.lang-icon {
+  position: relative;
+  top: 25%;
+  width: 25px;
+  height: 25px;
+}
 .container {
   display: block;
 }
-
 </style>
