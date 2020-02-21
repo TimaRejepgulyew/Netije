@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     onLogoutClick() {
-      oidc.signoutRedirect();
     },
     onProfileClick() {
       window.location.href = "http://192.168.4.99/Identity/Account/Manage";

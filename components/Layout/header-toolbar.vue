@@ -47,7 +47,6 @@ import DxButton from "devextreme-vue/button";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import UserPanel from "./user-panel";
 import LangPanel from "./lang-panel.vue";
-import oidc from "~/plugins/oidc-plugin";
 export default {
   props: {
     menuToggleEnabled: Boolean,
@@ -59,14 +58,6 @@ export default {
     return {
      
     };
-  },
-  methods: {
-    onLogoutClick() {
-      oidc.signoutRedirect();
-    },
-    onProfileClick() {
-      window.location.href = "http://192.168.4.99/Identity/Account/Manage";
-    }
   },
   computed: {
   },
