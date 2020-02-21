@@ -10,8 +10,6 @@ export default function ({ app, $axios }) {
       // redirect('/400')
     } else if (code === 401) {
       let axiosConfig = error.response.config;
-      console.log(axiosConfig, 'axios');
-      console.log(app.store);
       if (!refreshing) {
         refreshing = true;
         app.store.dispatch('oidc/oidcSignInCallback');

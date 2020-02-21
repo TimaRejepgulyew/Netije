@@ -1,6 +1,4 @@
-<template>
-  <h1>callback</h1>
-</template>
+<template></template>
 <script>
 import Oidc, { WebStorageStateStore } from "oidc-client";
 import { mapActions } from "vuex";
@@ -22,10 +20,10 @@ export default {
     if (process.client) {
       this.oidcSignInCallback()
         .then(redirectPath => {
-          this.router.push(redirectPath);
+        
+          window.location.href = redirectPath;
         })
         .catch(err => {
-  
           this.$router.push("/signin-oidc-error");
         });
     }

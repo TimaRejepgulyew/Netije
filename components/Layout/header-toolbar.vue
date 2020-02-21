@@ -9,7 +9,7 @@
 
       <dx-item v-if="title" location="before" css-class="header-title dx-toolbar-label">
         <!-- eslint-disable vue/no-unused-vars -->
-        <div slot-scope="_">{{ title }}</div>
+        <img class="menu-icon" src="~/static/icons/icon-TTDoc.png" slot-scope="_" />
         <!-- eslint-enable -->
       </dx-item>
 
@@ -27,14 +27,8 @@
         <!-- eslint-disable vue/no-unused-vars -->
         <div slot-scope="_">
           <!-- eslint-enable -->
-          <dx-button
-            class="user-button authorization"
-            :width="200"
-            height="100%"
-            styling-mode="text"
-          >
-            <user-panel  menu-mode="context" />
-          </dx-button>
+
+          <user-panel menu-mode="context" />
         </div>
       </dx-item>
       <!-- eslint-disable vue/no-unused-vars -->
@@ -55,12 +49,9 @@ export default {
     logOutFunc: Function
   },
   data() {
-    return {
-     
-    };
+    return {};
   },
-  computed: {
-  },
+  computed: {},
   components: {
     DxButton,
     DxToolbar,
@@ -79,7 +70,11 @@ export default {
   flex: 0 0 auto;
   z-index: 1;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-
+  .header-toolbar {
+    box-sizing: border-box;
+    height: 50px;
+    padding: 5px 0;
+  }
   .dx-toolbar .dx-toolbar-item.menu-button > .dx-toolbar-item-content .dx-icon {
     color: $base-accent;
   }

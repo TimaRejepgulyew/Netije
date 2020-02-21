@@ -152,29 +152,29 @@ export default {
           ]
         },
         {
-          text: this.$t("translations.menu.geeral-handbook"),
+          text: this.$t("translations.menu.share-directory"),
           icon: "docfile",
-          path: "/geeral-handbook",
+          path: "/share-directory",
           items: [
             {
               text: this.$t("translations.menu.countries"),
-              icon: "circle",
-              path: "/geeral-handbook/countries"
+              icon: "isnotblank",
+              path: "/share-directory/territorialStructure/countries"
             },
             {
               text: this.$t("translations.menu.region"),
-              icon: "circle",
-              path: "/geeral-handbook/region"
+              icon: "isnotblank",
+              path: "/share-directory/territorialStructure/region"
             },
             {
-              text: this.$t("translations.menu.human-settlement"),
-              icon: "human",
-              path: "/geeral-handbook/human-settlement"
+              text: this.$t("translations.menu.locality"),
+              icon: "isnotblank",
+              path: "/share-directory/territorialStructure/localities"
             },
             {
               text: this.$t("translations.menu.currencies"),
-              icon: "money",
-              path: "/geeral-handbook/currencies"
+              icon: "isnotblank",
+              path: "/share-directory/currencies"
             }
           ]
         },
@@ -239,6 +239,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/dx-styles.scss";
+
 .side-nav-outer-toolbar {
   flex-direction: column;
   display: flex;
@@ -257,10 +260,11 @@ export default {
 
 .content {
   flex-grow: 1;
- height: 100vh;
+  min-height: 100vh;
 }
 .main-content {
-  margin: 1vw 0.5vw 0 2vw;
+  background: $base-bg;
+  margin: 1vw 0.5vw 0 1vw;
   -webkit-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   -moz-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);

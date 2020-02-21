@@ -12,10 +12,10 @@ const storeModule = vuexOidcCreateStoreModule(
     {
         namespaced: true,
         dispatchEventsOnWindow: true,
-        publicRoutePaths: ['/', 'oidc-callback-error']
+        publicRoutePaths: ['/callback']
     },
     {
-        userLoaded:(user)  => { console.log('OIDC user is loaded:', user) },
+        userLoaded: (user) => { console.log('OIDC user is loaded:', user) },
         userUnloaded: () => console.log('OIDC user is unloaded'),
         accessTokenExpiring: () => console.log('Access token will expire'),
         accessTokenExpired: () => console.log('Access token did expire'),
