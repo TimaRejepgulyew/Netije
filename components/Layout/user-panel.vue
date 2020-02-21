@@ -56,7 +56,11 @@ export default {
   },
   computed: {
     userName() {
-      return this.$store.getters["oidc/oidcUser"].name || "no found";
+      if (this.$store.getters["oidc/oidcUser"] != undefined) {
+        return this.$store.getters["oidc/oidcUser"].name;
+      } else {
+        return "not found";
+      }
     }
   },
   methods: {

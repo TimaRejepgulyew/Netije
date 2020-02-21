@@ -7,7 +7,7 @@ export default {
       "shared-directory":"Общие справочники",
       "document-circulation":"Документооборот",
       "company-structure":"Структура компании",
-      "contractors":"контрагенты",
+      "contractors":"Контрагенты",
       "paperwork":"Делопроизводство",
       "home": "Домой",
       "example": "Примеры",

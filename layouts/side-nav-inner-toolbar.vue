@@ -96,24 +96,29 @@ export default {
           ]
         },
         {
-          text: this.$t("translations.menu.counterPart"),
+          text: this.$t("translations.menu.contractors"),
           icon: "group",
-          path: "/counterPart",
+          path: "/parties",
           items: [
-            {
-              text: this.$t("translations.menu.profile"),
-              icon: "user",
-              path: "/guide/profile"
-            },
-            {
-              text: this.$t("translations.menu.diplayData"),
-              icon: "fields",
-              path: "/display-data"
-            },
             {
               text: this.$t("translations.menu.company"),
               icon: "fields",
-              path: "/counterPart/company"
+              path: "/parties/organizations/company"
+            },
+            {
+              text: this.$t("translations.menu.banks"),
+              icon: "fields",
+              path: "/parties/organizations/bank"
+            },
+            {
+              text: this.$t("translations.menu.counterPartList"),
+              icon: "fields",
+              path: "/parties/counterParts/"
+            },
+            {
+              text: this.$t("translations.menu.person"),
+              icon: "fields",
+              path: "/parties/persons/"
             }
           ]
         },

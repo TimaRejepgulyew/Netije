@@ -16,10 +16,18 @@
         file-name="Currency"
       />
       <DxSelection mode="multiple" />
+      
       <DxHeaderFilter :visible="true" />
+      <DxFilterRow :visible="true" />
 
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
+
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="currency"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -141,7 +149,9 @@ import {
   DxExport,
   DxSelection,
   DxColumnChooser,
-  DxColumnFixing
+  DxColumnFixing,
+  DxStateStoring,
+  DxFilterRow
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -159,7 +169,9 @@ export default {
     DxExport,
     DxSelection,
     DxColumnChooser,
-    DxColumnFixing
+    DxColumnFixing,
+    DxStateStoring,
+    DxFilterRow
   },
   data() {
     return {
@@ -170,7 +182,7 @@ export default {
         updateUrl: dataApi.sharedDirectory.Currency,
         removeUrl: dataApi.sharedDirectory.Currency
       }),
-      statusStores: this.$store.getters["share-directory/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;

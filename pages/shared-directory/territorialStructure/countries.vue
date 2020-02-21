@@ -16,11 +16,18 @@
         :allow-export-selected-data="true"
         file-name="Countries"
       />
+      <DxFilterRow :visible="true" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
-      <DxColumnChooser :enabled="true"/>
-      <DxColumnFixing :enabled="true"/>
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="countries"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -77,7 +84,9 @@ import {
   DxExport,
   DxSelection,
   DxColumnChooser,
-  DxColumnFixing
+  DxColumnFixing,
+  DxFilterRow,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -94,7 +103,9 @@ export default {
     DxExport,
     DxSelection,
     DxColumnChooser,
-    DxColumnFixing
+    DxColumnFixing,
+    DxFilterRow,
+    DxStateStoring
   },
   data() {
     return {
@@ -106,7 +117,7 @@ export default {
         removeUrl: dataApi.sharedDirectory.Country
       }),
 
-      statusStores: this.$store.getters["share-directory/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
@@ -128,8 +139,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .container {
   display: block;
 }

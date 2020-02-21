@@ -12,13 +12,23 @@
     >
       <DxSelection mode="multiple" />
       <DxColumnChooser :enabled="true" />
+
       <DxColumnFixing :enabled="true" />
+      <DxFilterRow :visible="true" />
 
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
         file-name="Locality"
       />
+
+
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Locality"
+      />
+
 
       <DxEditing
         :allow-updating="true"
@@ -49,6 +59,7 @@
         data-field="regionId"
         :caption="$t('translations.fields.regionId')"
       >
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup
           :data-source="getFilteredRegion"
           value-expr="id"
@@ -82,11 +93,12 @@ import {
   DxExport,
   DxSelection,
   DxColumnChooser,
-  DxColumnFixing
+  DxColumnFixing,
+  DxFilterRow,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
-
   components: {
     DxSearchPanel,
     DxDataGrid,
@@ -100,7 +112,9 @@ export default {
     DxExport,
     DxSelection,
     DxColumnChooser,
-    DxColumnFixing
+    DxColumnFixing,
+    DxFilterRow,
+    DxStateStoring
   },
   data() {
     return {
@@ -111,11 +125,11 @@ export default {
         updateUrl: dataApi.sharedDirectory.Locality,
         removeUrl: dataApi.sharedDirectory.Locality
       }),
-      statusStores: this.$store.getters["share-directory/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.Region
+        loadUrl: dataApi.sharedDirectory.Region
       }),
 
       initNewRow: e => {

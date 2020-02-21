@@ -5,7 +5,6 @@
 </template>
 <script>
 export default {
-  middleware: "authorization",
   data() {
     return {};
   },
@@ -16,10 +15,5 @@ export default {
 </script>
 <style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
-.lang-icon {
-  position: relative;
-  top: 25%;
-  width: 25px;
-  height: 25px;
-}
+
 </style>

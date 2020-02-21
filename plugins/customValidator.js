@@ -23,23 +23,35 @@ export default ({ app }, inject) => {
   }
 
   async function isCountryNotExists(payload) {
-    return (await isNameExists(dataApi.Country, payload)) == false;
+    return (await isNameExists(dataApi.sharedCountry.Country, payload)) == false;
   }
 
   async function isRegionNotExists(payload) {
-    return (await isNameExists(dataApi.Region, payload)) == false;
+    return (await isNameExists(dataApi.sharedCountry.Region, payload)) == false;
   }
 
   async function isHumanSettlementNotExists(payload) {
-    return (await isNameExists(dataApi.Locality, payload)) == false;
+    return (await isNameExists(dataApi.sharedCountry.Locality, payload)) == false;
   }
 
   async function isCurrencyNameNotExists(payload) {
-    return (await isNameExists(dataApi.Currency, payload)) == false;
+    return (await isNameExists(dataApi.sharedCountry.Currency, payload)) == false;
   }
 
   async function CurrencyDataFieldValueNotExists(payload, propertyName) {
-    return (await isEntityExists(dataApi.Currency, payload, propertyName)) == false;
+    return (await isEntityExists(dataApi.sharedCountry.Currency, payload, propertyName)) == false;
+  }
+
+  async function CompanyDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.contragents.Company, payload, propertyName)) == false;
+  }
+
+  async function BankDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.contragents.Bank, payload, propertyName)) == false;
+  }
+
+  async function PersonDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.contragents.Person, payload, propertyName)) == false;
   }
 
   let obj = {
@@ -47,8 +59,11 @@ export default ({ app }, inject) => {
     isCountryNotExists: isCountryNotExists,
     isRegionExists: isRegionNotExists,
     isCurrencyNameNotExists: isCurrencyNameNotExists,
-    isHumanSettlementExists: isHumanSettlementNotExists,
-    CurrencyDataFieldValueNotExists: CurrencyDataFieldValueNotExists
+    isHumanSettlementNotExists: isHumanSettlementNotExists,
+    CurrencyDataFieldValueNotExists: CurrencyDataFieldValueNotExists,
+    CompanyDataFieldValueNotExists:CompanyDataFieldValueNotExists,
+    BankDataFieldValueNotExists:BankDataFieldValueNotExists,
+    PersonDataFieldValueNotExists: PersonDataFieldValueNotExists
   };
 
   inject("customValidator", obj);
