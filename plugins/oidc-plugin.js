@@ -10,4 +10,6 @@ const config = {
     post_logout_redirect_uri: "http://localhost:3000/"
 };
 
-export default new Oidc.UserManager(config);
+const oidcManager = new Oidc.UserManager(config);
+
+export default oidcManager;

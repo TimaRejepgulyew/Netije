@@ -1,4 +1,6 @@
 import oidc from "~/plugins/oidc-plugin";
+const oidcManager = oidc;
+
 export default function({ app, $axios, redirect }) {
   $axios.onRequest(config => {
     console.log("Making request to " + config.url);
@@ -8,14 +10,12 @@ export default function({ app, $axios, redirect }) {
     const code = parseInt(error.response && error.response.status);
     if (code === 400) {
       // redirect('/400')
-    } else if (code === 401) {
+    } else if (code == 401) {
       localStorage.setItem("islogin", false);
       let axiosConfig = error.response.config;
       if (!refreshing) {
         refreshing = true;
-        return oidc.signinSilent().then(user => {
-            console.log("this is 401 error");
-            console.log(user);
+        return oidcManager.signinSilent().then(user => {
           $axios.setToken(user.access_token, "Bearer");
           localStorage.setItem("role", user.profile.role);
           localStorage.setItem("islogin", true);
@@ -25,7 +25,7 @@ export default function({ app, $axios, redirect }) {
       return Promise.reject(error);
     }
   });
-  oidc.getUser().then(user => {
+  oidcManager.getUser().then(user => {
     $axios.setToken(user.access_token, "Bearer");
   });
 
