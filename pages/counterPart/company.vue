@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.countries") }}</h1>
+    <h1>{{ $t("translations.menu.company") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -40,17 +40,112 @@
 
       <DxColumn
         data-field="name"
-        :caption="$t('translations.fields.countryId')"
         data-type="string"
       >
         <DxRequiredRule
           :message="$t('translations.fields.countryIdRequired')"
         />
-        <DxAsyncRule
+        <!-- <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateCountryName"
-        ></DxAsyncRule>
+        ></DxAsyncRule> -->
       </DxColumn>
+
+      <DxColumn
+        data-field="headCompanyId"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="legalName"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="tin"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="tin"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="code"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="regionId"
+      >
+      <DxLookup
+          :data-source="getFilteredRegion"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+
+      <DxColumn
+        data-field="localityId"
+      >
+      <DxLookup
+          :data-source="getFilteredLocality"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+
+      <DxColumn
+        data-field="legalAddress"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="postAddress"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="phones"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="email"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="webSite"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="note"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="nonresident"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="account"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="bankId"
+      >
+      </DxColumn>
+
+      <DxColumn
+        data-field="type"
+      >
+      </DxColumn>
+
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -82,6 +177,7 @@ import {
 } from "devextreme-vue/data-grid";
 
 export default {
+  middleware: "authorization",
   components: {
     DxSearchPanel,
     DxDataGrid,
@@ -101,14 +197,24 @@ export default {
     return {
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.sharedDirectory.Country,
-        insertUrl: dataApi.sharedDirectory.Country,
-        updateUrl: dataApi.sharedDirectory.Country,
-        removeUrl: dataApi.sharedDirectory.Country
+        loadUrl: dataApi.contragents.Company,
+        insertUrl: dataApi.contragents.Company,
+        updateUrl: dataApi.contragents.Company,
+        removeUrl: dataApi.contragents.Company
       }),
 
       statusStores: this.$store.getters["general-handbook/Status"],
 
+      region: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.sharedDirectory.Region
+      }),
+
+      locality: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.sharedDirectory.Locality
+      }),
+      
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
@@ -119,12 +225,28 @@ export default {
     };
   },
   methods: {
-    validateCountryName(params) {
-      return this.$customValidator.isCountryNotExists({
-        id: params.data.id,
-        name: params.value
-      });
-    }
+     getFilteredRegion(options) {
+      return {
+        store: this.region,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id", "=", options.data.regionId]
+          : null
+      };
+    },
+     getFilteredLocality(options) {
+      return {
+        store: this.locality,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id", "=", options.data.localityId]
+          : null
+      };
+    },
+    // validateCompanyName(params) {
+    //   return this.$customValidator.isCountryNotExists({
+    //     id: params.data.id,
+    //     name: params.value
+    //   });
+    // }
   }
 };
 </script>

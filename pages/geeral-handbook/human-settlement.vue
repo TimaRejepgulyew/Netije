@@ -107,10 +107,10 @@ export default {
     return {
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.Locality,
-        insertUrl: dataApi.Locality,
-        updateUrl: dataApi.Locality,
-        removeUrl: dataApi.Locality
+        loadUrl: dataApi.sharedDirectory.Locality,
+        insertUrl: dataApi.sharedDirectory.Locality,
+        updateUrl: dataApi.sharedDirectory.Locality,
+        removeUrl: dataApi.sharedDirectory.Locality
       }),
       statusStores: this.$store.getters["general-handbook/Status"],
 
