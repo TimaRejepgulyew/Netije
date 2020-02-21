@@ -5,8 +5,6 @@
 </template>
 <script>
 export default {
-  middleware: "authorization",
-
   data() {
     return {};
   },

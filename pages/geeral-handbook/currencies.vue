@@ -17,10 +17,18 @@
         file-name="Currency"
       />
       <DxSelection mode="multiple" />
+      
       <DxHeaderFilter :visible="true" />
+      <DxFilterRow :visible="true" />
 
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
+
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="currency"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -142,7 +150,9 @@ import {
   DxExport,
   DxSelection,
   DxColumnChooser,
-  DxColumnFixing
+  DxColumnFixing,
+  DxStateStoring,
+  DxFilterRow
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -160,7 +170,9 @@ export default {
     DxExport,
     DxSelection,
     DxColumnChooser,
-    DxColumnFixing
+    DxColumnFixing,
+    DxStateStoring,
+    DxFilterRow
   },
   data() {
     return {

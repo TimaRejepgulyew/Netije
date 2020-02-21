@@ -11,16 +11,23 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-       <DxSelection mode="multiple" />
+      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
-      <DxColumnChooser :enabled="true"/>
-      <DxColumnFixing :enabled="true"/>
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+      <DxFilterRow :visible="true" />
 
-       <DxExport
+      <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
         file-name="Region"
+      />
+
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Region"
       />
 
       <DxEditing
@@ -79,10 +86,12 @@ import {
   DxLookup,
   DxRequiredRule,
   DxAsyncRule,
-   DxExport,
+  DxExport,
   DxSelection,
   DxColumnChooser,
-  DxColumnFixing
+  DxColumnFixing,
+  DxFilterRow,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -96,10 +105,12 @@ export default {
     DxLookup,
     DxRequiredRule,
     DxAsyncRule,
-     DxExport,
-  DxSelection,
-  DxColumnChooser,
-  DxColumnFixing
+    DxExport,
+    DxSelection,
+    DxColumnChooser,
+    DxColumnFixing,
+    DxFilterRow,
+    DxStateStoring
   },
   data() {
     return {
@@ -115,7 +126,7 @@ export default {
 
       country: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.Country
+        loadUrl: dataApi.sharedDirectory.Country
       }),
 
       initNewRow: e => {

@@ -5,23 +5,32 @@
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
-      :errorRowEnabled="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        file-name="Countries"
-      />
+      
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
-      <DxColumnChooser :enabled="true"/>
-      <DxColumnFixing :enabled="true"/>
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
+      <DxFilterRow :visible="true" />
+
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        file-name="Company"
+      />
+
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Company"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -38,114 +47,82 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        data-type="string"
-      >
+      <DxColumn data-field="name" data-type="string">
         <DxRequiredRule
           :message="$t('translations.fields.countryIdRequired')"
         />
-        <!-- <DxAsyncRule
+        <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateCountryName"
-        ></DxAsyncRule> -->
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="headCompanyId"
-      >
-      </DxColumn>
+      <DxColumn data-field="headCompanyId" :visible="false">
+        <DxLookup
+          :data-source="store"
+          value-expr="id"
+          display-expr="name"
+        />
+       </DxColumn>
 
-      <DxColumn
-        data-field="legalName"
-      >
-      </DxColumn>
+      <DxColumn data-field="legalName" :visible="false"> </DxColumn>
 
-      <DxColumn
-        data-field="tin"
-      >
-      </DxColumn>
+      <DxColumn data-field="tin" :visible="false">
+        <DxRequiredRule
+          :message="$t('translations.fields.countryIdRequired')"
+        />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+       </DxColumn>
 
-      <DxColumn
-        data-field="tin"
-      >
-      </DxColumn>
+      <DxColumn data-field="code"> </DxColumn>
 
-      <DxColumn
-        data-field="code"
-      >
-      </DxColumn>
-
-      <DxColumn
-        data-field="regionId"
-      >
-      <DxLookup
+      <DxColumn data-field="regionId" :set-cell-value="onRegionIdChanged">
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxLookup
           :data-source="getFilteredRegion"
           value-expr="id"
           display-expr="name"
         />
       </DxColumn>
 
-      <DxColumn
-        data-field="localityId"
-      >
-      <DxLookup
+      <DxColumn data-field="localityId">
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxLookup
           :data-source="getFilteredLocality"
           value-expr="id"
           display-expr="name"
         />
       </DxColumn>
 
-      <DxColumn
-        data-field="legalAddress"
-      >
-      </DxColumn>
+      <DxColumn data-field="legalAddress" :visible="false"> </DxColumn>
 
-      <DxColumn
-        data-field="postAddress"
-      >
-      </DxColumn>
+      <DxColumn data-field="postAddress" :visible="false"> </DxColumn>
 
-      <DxColumn
-        data-field="phones"
-      >
-      </DxColumn>
+      <DxColumn data-field="phones" :visible="false"> </DxColumn>
 
-      <DxColumn
-        data-field="email"
-      >
-      </DxColumn>
+      <DxColumn data-field="email" :visible="false"> </DxColumn>
 
-      <DxColumn
-        data-field="webSite"
-      >
-      </DxColumn>
+      <DxColumn data-field="webSite" > </DxColumn>
 
-      <DxColumn
-        data-field="note"
-      >
-      </DxColumn>
+      <DxColumn data-field="note" :visible="false"> </DxColumn>
 
-      <DxColumn
-        data-field="nonresident"
-      >
-      </DxColumn>
+      <DxColumn data-field="nonresident" :visible="false" data-type="boolean"> </DxColumn>
 
-      <DxColumn
-        data-field="account"
-      >
-      </DxColumn>
+      <DxColumn data-field="account"> </DxColumn>
 
-      <DxColumn
-        data-field="bankId"
-      >
-      </DxColumn>
+      <DxColumn data-field="bankId">
+        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxLookup
+          :data-source="getFilteredBank"
+          value-expr="id"
+          display-expr="name"
+        />
+       </DxColumn>
 
-      <DxColumn
-        data-field="type"
-      >
-      </DxColumn>
-
+      <DxColumn data-field="type" :visible="false"> </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -173,11 +150,12 @@ import {
   DxExport,
   DxSelection,
   DxColumnChooser,
-  DxColumnFixing
+  DxColumnFixing,
+  DxFilterRow,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
-  middleware: "authorization",
   components: {
     DxSearchPanel,
     DxDataGrid,
@@ -191,7 +169,9 @@ export default {
     DxExport,
     DxSelection,
     DxColumnChooser,
-    DxColumnFixing
+    DxColumnFixing,
+    DxFilterRow,
+    DxStateStoring
   },
   data() {
     return {
@@ -214,18 +194,28 @@ export default {
         key: "id",
         loadUrl: dataApi.sharedDirectory.Locality
       }),
-      
+
+      bank: this.$dxStore({
+        key:"id",
+        loadUrl: dataApi.contragents.Bank
+      }),
+
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      }
+      },
+
+      onRegionIdChanged(rowData, value) {
+      rowData.localityId = null;
+      this.defaultSetCellValue(rowData, value)
+    }
     };
   },
   methods: {
-     getFilteredRegion(options) {
+    getFilteredRegion(options) {
       return {
         store: this.region,
         filter: options.data
@@ -233,20 +223,30 @@ export default {
           : null
       };
     },
-     getFilteredLocality(options) {
+    getFilteredLocality(options) {
       return {
         store: this.locality,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.localityId]
+          ? ['regionId', '=', options.data.regionId, "or", "status", "=", 0]
           : null
       };
     },
-    // validateCompanyName(params) {
-    //   return this.$customValidator.isCountryNotExists({
-    //     id: params.data.id,
-    //     name: params.value
-    //   });
-    // }
+    getFilteredBank(options) {
+      return {
+        store: this.bank,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id","=", options.data.bankId]
+          : null
+      };
+    },
+    
+    validateEntityExists(params) {
+      var dataField = params.column.dataField
+      return this.$customValidator.CompanyDataFieldValueNotExists({
+        id: params.data.id,
+        [dataField]: params.value
+      }, dataField);
+    }
   }
 };
 </script>
