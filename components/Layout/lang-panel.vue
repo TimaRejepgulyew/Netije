@@ -1,18 +1,17 @@
 <template>
-  <div class="user-info">
+  <div class="lang-panel">
+
     <DxSelectBox
-      drop-down-button-template="globalIcon"
-      styling-mode="filled"
+      styling-mode
       v-model="activeLang"
       :items=" languages"
       :grouped="true"
       display-expr="name"
       value-expr="value"
       :width="150"
+      :height="40"
     >
-      <template #globalIcon>
-        <img src="~assets/icon/global.svg" class="lang-icon" />
-      </template>
+    
     </DxSelectBox>
   </div>
 </template>
@@ -46,12 +45,21 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped >
+<style lang="scss"  >
 @import "~assets/themes/generated/variables.base.scss";
+
 .lang-icon {
   position: relative;
   top: 25%;
   width: 25px;
+  height: 25px;
+}
+.lang-panel {
+  display: flex;
+  align-items: center;
+}
+.menu-icon {
+  width: 100px;
   height: 25px;
 }
 </style>

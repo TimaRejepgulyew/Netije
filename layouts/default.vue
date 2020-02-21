@@ -19,7 +19,6 @@
 import AppContent from "./side-nav-inner-toolbar";
 import DxButton from "devextreme-vue/button";
 import TheFooter from "~/components/Layout/the-footer";
-
 import { sizes, subscribe, unsubscribe } from "./media-query";
 
 function getScreenSizeInfo() {

@@ -145,7 +145,5 @@ export default {
 .container {
   display: block;
 }
-.container--grid {
-  border: 5.5px solid $base-border-color;
-}
+
 </style>

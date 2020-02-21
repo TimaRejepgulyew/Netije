@@ -1,29 +1,34 @@
 <template>
-  <div class="user-panel">
-    <div class="user-info">
-      <div class="image-container">
-        <div class="user-image" />
+  <dx-button class="user-button authorization" :height="40" :width="150" styling-mode="text">
+    <div class="user-panel">
+      <div class="user-info">
+        <div class="image-container">
+          <div
+            :style="{'background-image': 'url(' + require('~/static/icons/user-panel--icon.png') + ')' }"
+            class="user-image"
+          />
+        </div>
+        <div class="user-name">{{userName}}</div>
       </div>
-      <div class="user-name">{{userName}}</div>
+
+      <dx-context-menu
+        v-if="menuMode === 'context'"
+        target=".user-button"
+        :items="menuItems"
+        :position="menuPositionConfig"
+        show-event="dxclick"
+        css-class="user-menu"
+      />
+
+      <dx-list v-if="menuMode === 'list'" class="dx-toolbar-menu-action" :items="menuItems" />
     </div>
-
-    <dx-context-menu
-      v-if="menuMode === 'context'"
-      target=".user-button"
-      :items="menuItems"
-      :width="200"
-      :position="menuPositionConfig"
-      show-event="dxclick"
-      css-class="user-menu"
-    />
-
-    <dx-list v-if="menuMode === 'list'" class="dx-toolbar-menu-action" :items="menuItems" />
-  </div>
+  </dx-button>
 </template>
 
 <script>
 import DxContextMenu from "devextreme-vue/context-menu";
 import DxList from "devextreme-vue/list";
+import DxButton from "devextreme-vue/button";
 
 export default {
   props: {
@@ -51,13 +56,12 @@ export default {
   },
   computed: {
     userName() {
-      let name = "Tima";
-      return name;
+      return this.$store.getters["oidc/oidcUser"].name || "no found";
     }
   },
   methods: {
     onLogoutClick() {
-      oidc.signoutRedirect();
+      this.$store.dispatch("oidc/signOutOidc");
     },
     onProfileClick() {
       window.location.href = "http://192.168.4.99/Identity/Account/Manage";
@@ -65,7 +69,8 @@ export default {
   },
   components: {
     DxContextMenu,
-    DxList
+    DxList,
+    DxButton
   }
 };
 </script>
@@ -94,9 +99,9 @@ export default {
     .user-image {
       width: 100%;
       height: 100%;
-      background: url("https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png")
-        no-repeat #fff;
-      background-size: cover;
+      border: none;
+      background-repeat: no-repeat;
+      background-size: contain;
     }
   }
 

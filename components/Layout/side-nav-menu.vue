@@ -22,7 +22,6 @@
 
 <script>
 import DxTreeView from "devextreme-vue/ui/tree-view";
-
 const treeViewRef = "treeViewRef";
 
 export default {

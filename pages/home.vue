@@ -2,7 +2,6 @@
   <main class="container"></main>
 </template>
 <script>
-import oidc from "~/plugins/oidc-plugin";
 
 export default {
   data() {
