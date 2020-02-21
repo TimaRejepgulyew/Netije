@@ -109,6 +109,11 @@ export default {
               text: this.$t("translations.menu.diplayData"),
               icon: "fields",
               path: "/display-data"
+            },
+            {
+              text: this.$t("translations.menu.company"),
+              icon: "fields",
+              path: "/counterPart/company"
             }
           ]
         },

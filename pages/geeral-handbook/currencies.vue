@@ -167,10 +167,10 @@ export default {
     return {
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.Currency,
-        insertUrl: dataApi.Currency,
-        updateUrl: dataApi.Currency,
-        removeUrl: dataApi.Currency
+        loadUrl: dataApi.sharedDirectory.Currency,
+        insertUrl: dataApi.sharedDirectory.Currency,
+        updateUrl: dataApi.sharedDirectory.Currency,
+        removeUrl: dataApi.sharedDirectory.Currency
       }),
       statusStores: this.$store.getters["general-handbook/Status"],
 

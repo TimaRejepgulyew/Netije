@@ -1,7 +1,15 @@
-export const  url = process.env.baseUrl
-export default  {
-     Country:`${url}/api/Country`,
-     Region:`${url}/api/Region`,
-     Locality:`${url}/api/Locality`,
-     Currency:`${url}/api/Currency`,
-}
+export const url = process.env.baseUrl;
+export default {
+  sharedDirectory: {
+    Country: `${url}/api/Country`,
+    Region: `${url}/api/Region`,
+    Locality: `${url}/api/Locality`,
+    Currency: `${url}/api/Currency`
+  },
+  contragents: {
+       Company: `${url}/api/Company`,
+       Bank: `${url}/api/Bank`,
+       Person: `${url}/api/Person`,
+       CounterPart:`${url}/api/CounterPart`
+  }
+};
