@@ -20,7 +20,8 @@
     "devextreme-vue": "19.2.6",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.5.0",
-    "oidc-client": "^1.10.1"
+    "oidc-client": "^1.10.1",
+    "vuex-oidc": "^3.4.1"
   },
   "devDependencies": {
     "devextreme-themebuilder": "^19.2.5",

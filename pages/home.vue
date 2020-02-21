@@ -1,24 +1,18 @@
 <template>
-  <main class="container">
-  </main>
+  <main class="container"></main>
 </template>
 <script>
 import oidc from "~/plugins/oidc-plugin";
 
 export default {
-  middleware: "authorization",
   data() {
     return {
       columns: ["CompanyName", "City", "State", "Phone", "Fax"]
     };
   },
-  components: {
-  },
-  methods: {
-    
-  },
-  computed: {
-  }
+  components: {},
+  methods: {},
+  computed: {}
 };
 </script>
 <style scoped>

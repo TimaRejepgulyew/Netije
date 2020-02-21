@@ -1,7 +1,7 @@
 
 export default {
   env: {
-    baseUrl: process.env.BASE_URL || 'http://192.168.4.99'
+    baseUrl: process.env.BASE_URL || 'http://192.168.4.99:1234'
   },
   mode: 'spa',
   /*
@@ -17,6 +17,9 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+  router: {
+    middleware: 'authorization'
   },
 
   /*
@@ -51,7 +54,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     ['nuxt-i18n', {
-      
+
       locales: [
         {
           name: 'Русский',
@@ -66,8 +69,8 @@ export default {
           file: 'tk-TM.js'
         },
       ],
-      detectBrowserLanguage:{
-        useCookie:true,
+      detectBrowserLanguage: {
+        useCookie: true,
         cookieKey: "locale",
         alwaysRedirect: true,
         fallbackLocale: "ru"
@@ -76,12 +79,12 @@ export default {
       langDir: 'lang/',
       defaultLocale: 'ru',
       // rootRedirect: '',
-       vuex: {
-         moduleName: 'i18n',
-         syncLocale: true,
-         syncMessages: true,
-         syncRouteParams: true
-       },
+      vuex: {
+        moduleName: 'i18n',
+        syncLocale: true,
+        syncMessages: true,
+        syncRouteParams: true
+      },
 
 
     }]

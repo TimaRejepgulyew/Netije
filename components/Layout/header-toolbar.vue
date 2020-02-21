@@ -33,7 +33,7 @@
             height="100%"
             styling-mode="text"
           >
-            <user-panel :menu-items="userMenuItems" menu-mode="context" />
+            <user-panel  menu-mode="context" />
           </dx-button>
         </div>
       </dx-item>
@@ -57,18 +57,7 @@ export default {
   },
   data() {
     return {
-      userMenuItems: [
-        {
-          text: this.$t("translations.menu.profile") ,
-          icon: "user",
-          onClick: this.onProfileClick
-        },
-        {
-          text: this.$t("translations.menu.logout"),
-          icon: "runner",
-          onClick: this.onLogoutClick
-        }
-      ]
+     
     };
   },
   methods: {

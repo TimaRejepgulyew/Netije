@@ -30,7 +30,6 @@
 <script>
 
 export default {
-  middleware: 'authorization',
   components: {
     
   },

@@ -146,7 +146,6 @@ import {
 } from "devextreme-vue/data-grid";
 
 export default {
-  middleware: "authorization",
   components: {
     DxSearchPanel,
     DxDataGrid,

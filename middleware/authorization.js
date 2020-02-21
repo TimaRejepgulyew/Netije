@@ -1,14 +1,19 @@
-import oidc from "~/plugins/oidc-plugin";
+// import oidc from '~/plugins/oidc-plugin'
 
-export default async function(context) {
-  const user = await oidc.getUser();
-  if (user) {
-    if (user.expired) {
-      oidc.signinRedirect();
-    } else {
-      context.store.dispatch("profile-user/getUserName", user.profile.name);
-    }
-  } else {
-    oidc.signinRedirect();
-  }
-}
+// export default function (context) {
+
+//     oidc.getUser().then(user => {
+//         if (user == null) {
+
+//             oidc.signinRedirect()
+
+//         } else {
+
+//             context.store.dispatch("profile-user/getUserName", user.profile.name)
+//         }
+
+//     })
+// }
+import { vuexOidcCreateNuxtRouterMiddleware } from 'vuex-oidc'
+
+export default vuexOidcCreateNuxtRouterMiddleware('oidc')

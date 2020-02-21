@@ -1,7 +1,5 @@
-import oidc from "~/plugins/oidc-plugin";
-const oidcManager = oidc;
 
-export default function({ app, $axios, redirect }) {
+export default function ({ app, $axios }) {
   $axios.onRequest(config => {
     console.log("Making request to " + config.url);
   });
@@ -10,24 +8,24 @@ export default function({ app, $axios, redirect }) {
     const code = parseInt(error.response && error.response.status);
     if (code === 400) {
       // redirect('/400')
-    } else if (code == 401) {
-      localStorage.setItem("islogin", false);
-      let axiosConfig = error.response.config;
-      if (!refreshing) {
-        refreshing = true;
-        return oidcManager.signinSilent().then(user => {
-          $axios.setToken(user.access_token, "Bearer");
-          localStorage.setItem("role", user.profile.role);
-          localStorage.setItem("islogin", true);
-          return $axios(axiosConfig);
-        });
-      }
+    } else if (code === 401) {
+      // let axiosConfig = error.response.config;
+      // console.log(axiosConfig, 'axios');
+      // console.log(app.store);
+      // if (!refreshing) {
+      //   refreshing = true;
+      //   app.store.dispatch('oidc/oidcSignInCallback');
+      //   return $axios(axiosConfig);
+      //   // return oidc.signinSilent().then(user => {
+      //   //     console.log("this is 401 error");
+      //   //     console.log(user);
+      //   //   $axios.setToken(user.access_token, "Bearer");
+
+      //   //   return $axios(axiosConfig);
+      //   // });
+      // }
       return Promise.reject(error);
     }
   });
-  oidcManager.getUser().then(user => {
-    $axios.setToken(user.access_token, "Bearer");
-  });
 
-  $axios.setHeader("Accept-Language", app.i18n.locale);
 }

@@ -1,10 +1,14 @@
 <template>
   <div id="root">
     <div :class="cssClasses">
-      <app-content class="content" :title="title" :is-x-small="screen.isXSmall" :is-large="screen.isLarge">
-
-        <template  #footer>
-          <the-footer class="footer"  />
+      <app-content
+        class="content"
+        :title="title"
+        :is-x-small="screen.isXSmall"
+        :is-large="screen.isLarge"
+      >
+        <template #footer>
+          <the-footer class="footer" />
         </template>
       </app-content>
     </div>
@@ -46,6 +50,13 @@ export default {
       this.screen = getScreenSizeInfo();
     }
   },
+  beforeCreate() {
+    //TODO: Выбрать лучшее  место
+    let token = this.$store.getters["oidc/oidcAccessToken"];
+    this.$axios.setToken(token, "Bearer");
+
+    this.$axios.setHeader("Accept-Language", this.$i18n.locale);
+  },
 
   mounted() {
     subscribe(this.screenSizeChanged);
@@ -74,7 +85,7 @@ body {
 #root {
   height: 100vh;
 }
-.footer{
+.footer {
   height: 10vh;
   margin-top: auto;
 }
