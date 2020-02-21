@@ -114,7 +114,7 @@ export default {
       };
     },
     validateRegionName(params) {
-      return this.$customValidator.isHumanSettlementExists({
+      return this.$customValidator.isHumanSettlementNotExists({
         id: params.data.id,
         name: params.value
       });

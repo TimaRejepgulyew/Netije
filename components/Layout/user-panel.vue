@@ -35,7 +35,7 @@ export default {
         my: "top center",
         at: "bottom center"
       },
-      userMenuItems: [
+      menuItems: [
         {
           text: this.$t("translations.menu.profile"),
           icon: "user",
@@ -52,7 +52,6 @@ export default {
   computed: {
     userName() {
       let name = "Tima";
-      console.log(name);
       return name;
     }
   },

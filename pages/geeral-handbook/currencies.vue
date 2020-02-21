@@ -45,15 +45,45 @@
       <DxColumn
         data-field="alphaCode"
         :caption="$t('translations.fields.alphaCode')"
-      ></DxColumn>
+      >
+       <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxStringLengthRule
+          :max="3"
+          message="The name must not exceed 3 symbols"
+        />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
       <DxColumn
         data-field="shortName"
         :caption="$t('translations.fields.shortName')"
-      ></DxColumn>
+      >
+      <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxStringLengthRule
+          :max="60"
+          message="The Short name must not exceed 60 symbols"
+        />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
       <DxColumn
         data-field="fractionName"
         :caption="$t('translations.fields.fractionName')"
-      ></DxColumn>
+      >
+      <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxStringLengthRule
+          :max="20"
+          message="The Fraction name must not exceed 20 symbols"
+        />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
       <DxColumn
         data-field="isDefault"
         data-type="boolean"
@@ -63,9 +93,14 @@
         data-field="numericCode"
         :caption="$t('translations.fields.numericCode')"
       >
+      <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxStringLengthRule
+          :max="3"
+          message="The name must not exceed 3 symbols"
+        />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateCurrencyCode"
+          :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
@@ -128,17 +163,18 @@ export default {
   },
   methods: {
     validateCurrencyName(params) {
-      return this.$customValidator.isCurrencyNameExists({
+      return this.$customValidator.isCurrencyNameNotExists({
         id: params.data.id,
         name: params.value
       });
     },
-    validateCurrencyCode(params) {
-      return this.$customValidator.isCurrencyCodeExists({
+    validateEntityExists(params) {
+      var dataField = params.column.dataField; 
+      return this.$customValidator.CurrencyDataFieldValueNotExists({
         id: params.data.id,
-        name: params.value
-      });
-    }
+        [dataField]: params.value
+      },dataField);
+    },
   }
 };
 </script>
