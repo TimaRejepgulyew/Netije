@@ -227,7 +227,7 @@ export default {
         removeUrl: dataApi.contragents.Person
       }),
 
-      statusStores: this.$store.getters["general-handbook/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       sex:[
         {id: 0, name: "Мужской"},
@@ -300,12 +300,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .container {
   display: block;
 }
-.container--grid {
-  border: 5.5px solid $base-border-color;
-}
+
 </style>

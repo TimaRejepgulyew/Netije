@@ -183,7 +183,7 @@ export default {
         removeUrl: dataApi.contragents.Company
       }),
 
-      statusStores: this.$store.getters["general-handbook/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({
         key: "id",
@@ -255,8 +255,5 @@ export default {
 @import "~assets/dx-styles.scss";
 .container {
   display: block;
-}
-.container--grid {
-  border: 5.5px solid $base-border-color;
 }
 </style>

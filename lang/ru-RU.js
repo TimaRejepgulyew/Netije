@@ -4,7 +4,7 @@ export default {
     "menu": {
       "currencies":"Валюты",
       "human-settlement":"Населенные пункты",
-      "share-directory":"Общие справочники",
+      "shared-directory":"Общие справочники",
       "document-circulation":"Документооборот",
       "company-structure":"Структура компании",
       "contractors":"Контрагенты",

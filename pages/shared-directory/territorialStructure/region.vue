@@ -1,6 +1,5 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.region") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -52,23 +51,12 @@
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn
-        data-field="countryId"
-        :caption="$t('translations.fields.countryId')"
-      >
-        <DxLookup
-          :data-source="getFilteredCountry"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn data-field="countryId" :caption="$t('translations.fields.countryId')">
+        <DxLookup :data-source="getFilteredCountry" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -122,7 +110,7 @@ export default {
         removeUrl: dataApi.sharedDirectory.Region
       }),
 
-      statusStores: this.$store.getters["general-handbook/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       country: this.$dxStore({
         key: "id",
@@ -165,8 +153,5 @@ export default {
 }
 .container {
   display: block;
-}
-.container--grid {
-  border: 5.5px solid $base-border-color;
 }
 </style>

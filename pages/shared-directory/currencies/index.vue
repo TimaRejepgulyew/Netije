@@ -1,6 +1,5 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.currencies") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -183,7 +182,7 @@ export default {
         updateUrl: dataApi.sharedDirectory.Currency,
         removeUrl: dataApi.sharedDirectory.Currency
       }),
-      statusStores: this.$store.getters["general-handbook/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
@@ -219,7 +218,5 @@ export default {
 .container {
   display: block;
 }
-.container--grid {
-  border: 5.5px solid $base-border-color;
-}
+
 </style>

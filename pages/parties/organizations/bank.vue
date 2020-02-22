@@ -177,7 +177,7 @@ export default {
         removeUrl: dataApi.contragents.Bank
       }),
 
-      statusStores: this.$store.getters["general-handbook/Status"],
+      statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({
         key: "id",
@@ -242,7 +242,5 @@ export default {
 .container {
   display: block;
 }
-.container--grid {
-  border: 5.5px solid $base-border-color;
-}
+
 </style>

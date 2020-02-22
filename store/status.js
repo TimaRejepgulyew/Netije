@@ -9,7 +9,7 @@ export const state = () => ({
 })
 
 export const getters = {
-    Status(state) {
+    status(state) {
         return state.status
     },
 

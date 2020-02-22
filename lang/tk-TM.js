@@ -5,7 +5,7 @@ export default {
       "currencies":"currencies",
       "human-settlement":"human-settlement",
       "regions":"regions",
-      "share-directory": "geeral-handbook",
+      "shared-directory": "geeral-handbook",
       "document-circulation": "document-circulation",
       "company-structure": "company-structure",
       "contractors": "contractors",
