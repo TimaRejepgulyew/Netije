@@ -128,27 +128,22 @@ export default {
           items: [
             {
               text: this.$t("translations.menu.businessUnit"),
-              icon: "user",
               path: "/company/organizationStructure/businessUnits"
             },
             {
               text: this.$t("translations.menu.department"),
-              icon: "user",
               path: "/company/organizationStructure/departments"
             },
             {
               text: this.$t("translations.menu.employee"),
-              icon: "user",
               path: "/company/staff/employees"
             },
             {
               text: this.$t("translations.fields.jobTitleId"),
-              icon: "user",
               path: "/company/staff/jobTitles"
             },
             {
               text: this.$t("translations.menu.managersAssistant"),
-              icon: "user",
               path: "/company/staff/managerAssistants"
             }
           ]

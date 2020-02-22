@@ -11,5 +11,12 @@ export default {
        Bank: `${url}/api/Bank`,
        Person: `${url}/api/Person`,
        CounterPart:`${url}/api/CounterPart`
+  },
+  company:{
+    Department:`${url}/api/Department`,
+    BusinessUnit:`${url}/api/BusinessUnit`,
+    Employee:`${url}/api/Employee`,
+    JobTitle:`${url}/api/JobTitle`,
+    ManagersAssistant:`${url}/api/ManagersAssistant`,
   }
 };

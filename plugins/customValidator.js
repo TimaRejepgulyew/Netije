@@ -54,6 +54,10 @@ export default ({ app }, inject) => {
     return (await isEntityExists(dataApi.contragents.Person, payload, propertyName)) == false;
   }
 
+  async function BusinnesUnitDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.company.BusinessUnit, payload, propertyName)) == false;
+  }
+
   let obj = {
     isNameExists: isNameExists,
     isCountryNotExists: isCountryNotExists,
@@ -61,9 +65,10 @@ export default ({ app }, inject) => {
     isCurrencyNameNotExists: isCurrencyNameNotExists,
     isHumanSettlementNotExists: isHumanSettlementNotExists,
     CurrencyDataFieldValueNotExists: CurrencyDataFieldValueNotExists,
-    CompanyDataFieldValueNotExists:CompanyDataFieldValueNotExists,
-    BankDataFieldValueNotExists:BankDataFieldValueNotExists,
-    PersonDataFieldValueNotExists: PersonDataFieldValueNotExists
+    CompanyDataFieldValueNotExists: CompanyDataFieldValueNotExists,
+    BankDataFieldValueNotExists: BankDataFieldValueNotExists,
+    PersonDataFieldValueNotExists: PersonDataFieldValueNotExists,
+    BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists
   };
 
   inject("customValidator", obj);

@@ -27,7 +27,7 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption:'' data-type="string"></DxColumn>
+      <DxColumn data-field="name"  data-type="string"></DxColumn>
 
       <DxColumn data-field="headCompanyId" :visible="false">
         <DxLookup :data-source="store" value-expr="id" display-expr="name" />
@@ -78,7 +78,6 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-import dxlocalization from 'devextreme/localization'
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -108,10 +107,6 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring
-  },
-  created(){
-    console.log(dxlocalization,'locale');
-    dxlocalization.locale('de');
   },
   data() {
     return {

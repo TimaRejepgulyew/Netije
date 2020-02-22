@@ -20,7 +20,9 @@ import AppContent from "./side-nav-inner-toolbar";
 import DxButton from "devextreme-vue/button";
 import TheFooter from "~/components/Layout/the-footer";
 import { sizes, subscribe, unsubscribe } from "./media-query";
-
+import tkMessages from "devextreme/localization/messages/tk.json";
+import ruMessages from "devextreme/localization/messages/ru.json";
+import { locale, loadMessages } from "devextreme/localization";
 function getScreenSizeInfo() {
   const screenSizes = sizes();
 
@@ -53,8 +55,10 @@ export default {
     //TODO: Выбрать лучшее  место
     let token = this.$store.getters["oidc/oidcAccessToken"];
     this.$axios.setToken(token, "Bearer");
-
     this.$axios.setHeader("Accept-Language", this.$i18n.locale);
+    loadMessages(tkMessages);
+    loadMessages(ruMessages);
+    locale(this.$i18n.locale);
   },
 
   mounted() {
