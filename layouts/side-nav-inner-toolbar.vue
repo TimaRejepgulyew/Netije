@@ -27,7 +27,6 @@
         <!-- eslint-disable vue/no-unused-vars -->
         <side-nav-menu
           slot="menu"
-          slot-scope="_"
           class="dx-swatch-additional"
           :compact-mode="!menuOpened"
           :selected-item="$route.path"
@@ -125,17 +124,32 @@ export default {
         {
           text: this.$t("translations.menu.company-structure"),
           icon: "detailslayout",
-          path: "/company-structure",
+          path: "/company",
           items: [
             {
-              text: this.$t("translations.menu.profile"),
+              text: this.$t("translations.menu.businessUnit"),
               icon: "user",
-              path: "/company-structure/profile"
+              path: "/company/organizationStructure/businessUnits"
             },
             {
-              text: this.$t("translations.menu.diplayData"),
-              icon: "fields",
-              path: "/company-structure/display-data"
+              text: this.$t("translations.menu.department"),
+              icon: "user",
+              path: "/company/organizationStructure/departments"
+            },
+            {
+              text: this.$t("translations.menu.employee"),
+              icon: "user",
+              path: "/company/staff/employees"
+            },
+            {
+              text: this.$t("translations.fields.jobTitleId"),
+              icon: "user",
+              path: "/company/staff/jobTitles"
+            },
+            {
+              text: this.$t("translations.menu.managersAssistant"),
+              icon: "user",
+              path: "/company/staff/managerAssistants"
             }
           ]
         },

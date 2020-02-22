@@ -39,7 +39,7 @@ export default {
       "documentKind": "Вид документа",
       "registrationSetting": "Настройки регистрации",
       "registrationGroup": "Группа регистрации",
-      "clericalWork": "Делопроизводство"
+      "clericalWork": "Делопроизводство",
     },
     "fields": {
       

@@ -49,6 +49,7 @@
 
 
       <DxColumn data-field="firstName" :hint="$t('translations.fields.countryAlreadyAxists')" data-type="string">
+        
         <DxRequiredRule
           :message="$t('translations.fields.countryIdRequired')"
         />
@@ -179,6 +180,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -194,7 +196,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -213,7 +215,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
   },
   data() {
     return {
