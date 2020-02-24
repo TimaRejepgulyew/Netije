@@ -276,9 +276,12 @@ export default {
   flex-grow: 1;
   min-height: 100vh;
 }
+
 .main-content {
   background: $base-bg;
   margin: 1vw 0.5vw 0 1vw;
+  padding: 10px 15px;
+
   -webkit-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   -moz-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
