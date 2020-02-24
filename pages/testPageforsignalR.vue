@@ -50,10 +50,9 @@ export default {
   },
   created() {
     this.connection = new HubConnectionBuilder()
-      .withUrl("https://localhost:5001/chathub")
+      .withUrl("http://192.168.4.98:1234/chathub")
       .configureLogging(LogLevel.Information)
       .build();
-
     this.connection.start().catch(function(err) {
       return console.error(err.toString());
     });
@@ -62,7 +61,6 @@ export default {
     var thisVue = this;
     thisVue.connection.start();
     thisVue.connection.on("ReceiveMessage", function(user, message) {
-      console.log("This is connection SIGNALR");
       thisVue.messages.push({ user, message });
     });
   }
