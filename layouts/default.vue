@@ -20,8 +20,8 @@ import AppContent from "./side-nav-inner-toolbar";
 import DxButton from "devextreme-vue/button";
 import TheFooter from "~/components/Layout/the-footer";
 import { sizes, subscribe, unsubscribe } from "./media-query";
-import tkMessages from "devextreme/localization/messages/tk.json";
-import ruMessages from "devextreme/localization/messages/ru.json";
+import tkMessages from "../lang/devExtremeLocalization/tk.json";
+import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
 function getScreenSizeInfo() {
   const screenSizes = sizes();
