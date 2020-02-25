@@ -84,7 +84,6 @@
       </DxColumn>
 
       <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
 

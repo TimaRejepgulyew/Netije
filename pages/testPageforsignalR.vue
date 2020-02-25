@@ -50,7 +50,9 @@ export default {
   },
   created() {
     this.connection = new HubConnectionBuilder()
-      .withUrl("http://192.168.4.98:1234/chathub")
+      .withUrl("http://192.168.4.98:1234/chathub",{
+        accessTokenFactory: () => this.$store.getters["oidc/oidcAccessToken"]
+      })
       .configureLogging(LogLevel.Information)
       .build();
     this.connection.start().catch(function(err) {
@@ -59,7 +61,6 @@ export default {
   },
   mounted() {
     var thisVue = this;
-    thisVue.connection.start();
     thisVue.connection.on("ReceiveMessage", function(user, message) {
       thisVue.messages.push({ user, message });
     });

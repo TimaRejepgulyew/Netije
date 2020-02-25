@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.businessUnit") }}</h1>
+    <h1 class="grid--title">{{ $t("translations.menu.businessUnit") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -42,7 +42,7 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" data-type="string">
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
@@ -50,9 +50,13 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="description" data-type="string" />
+      <DxColumn
+        data-field="description"
+        :caption="$t('translations.fields.description')"
+        data-type="string"
+      />
 
-      <DxColumn data-field="tin" :visible="false">
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
@@ -60,7 +64,7 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="localityId">
+      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
@@ -75,34 +79,56 @@
         <DxRequiredRule :message="$t('translations.fields.legalNameRequired')" />
       </DxColumn>
 
-      <DxColumn data-field="regionId" :set-cell-value="onRegionIdChanged">
+      <DxColumn
+        data-field="regionId"
+        :caption="$t('translations.fields.regionId')"
+        :set-cell-value="onRegionIdChanged"
+      >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn data-field="headCompanyId" :visible="false">
+      <DxColumn
+        data-field="headCompanyId"
+        :caption="$t('translations.fields.headOfficeId')"
+        :visible="false"
+      >
         <DxLookup :data-source="store" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn data-field="legalAddress" :visible="false" />
+      <DxColumn
+        data-field="legalAddress"
+        :caption="$t('translations.fields.legalAddress')"
+        :visible="false"
+      />
 
-      <DxColumn data-field="postalAddress" :visible="false" />
+      <DxColumn
+        data-field="postalAddress"
+        :caption="$t('translations.fields.postAddress')"
+        :visible="false"
+      />
 
-      <DxColumn data-field="note" :visible="false" />
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false" />
 
-      <DxColumn data-field="ceo" :visible="false" />
+      <DxColumn data-field="ceo" :caption="$t('translations.fields.ceo')" :visible="false" >
+      <DxLookup :data-source="getFilteredEmploee" value-expr="id" display-expr="name" />
+      </DxColumn>
 
-      <DxColumn data-field="email" :visible="false" />
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false" />
 
-      <DxColumn data-field="homepage" :visible="false" />
+      <DxColumn
+        data-field="homepage"
+        :caption="$t('translations.fields.homepage')"
+        :visible="false"
+      />
 
-      <DxColumn data-field="account"></DxColumn>
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
-      <DxColumn data-field="bankId">
+      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
-      <DxColumn data-field="code"></DxColumn>
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')"></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
@@ -175,6 +201,10 @@ export default {
         key: "id",
         loadUrl: dataApi.contragents.Bank
       }),
+      employee: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.Employee
+      }),
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
@@ -215,7 +245,14 @@ export default {
           : null
       };
     },
-
+    getFilteredEmployee(options) {
+      return {
+        store: this.employee,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id", "=", options.data.ceo]
+          : null
+      };
+    },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.BusinnesUnitDataFieldValueNotExists(
@@ -229,7 +266,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {

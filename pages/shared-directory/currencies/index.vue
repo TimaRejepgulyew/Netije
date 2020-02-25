@@ -13,21 +13,17 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        file-name="Currency"
+        :file-name="$t('translations.fields.currencyId')"
       />
       <DxSelection mode="multiple" />
-      
+
       <DxHeaderFilter :visible="true" />
       <DxFilterRow :visible="true" />
 
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="currency"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="currency" />
 
       <DxEditing
         :allow-updating="true"
@@ -51,53 +47,32 @@
         data-type="string"
       >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule
-          :max="60"
-          message="The name must not exceed 60 symbols"
-        />
+        <DxStringLengthRule :max="60" message="The name must not exceed 60 symbols" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateCurrencyName"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="alphaCode"
-        :caption="$t('translations.fields.alphaCode')"
-      >
+      <DxColumn data-field="alphaCode" :caption="$t('translations.fields.alphaCode')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule
-          :max="3"
-          message="The name must not exceed 3 symbols"
-        />
+        <DxStringLengthRule :max="3" message="The name must not exceed 3 symbols" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn
-        data-field="shortName"
-        :caption="$t('translations.fields.shortName')"
-      >
+      <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule
-          :max="60"
-          message="The Short name must not exceed 60 symbols"
-        />
+        <DxStringLengthRule :max="60" message="The Short name must not exceed 60 symbols" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn
-        data-field="fractionName"
-        :caption="$t('translations.fields.fractionName')"
-      >
+      <DxColumn data-field="fractionName" :caption="$t('translations.fields.fractionName')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule
-          :max="20"
-          message="The Fraction name must not exceed 20 symbols"
-        />
+        <DxStringLengthRule :max="20" message="The Fraction name must not exceed 20 symbols" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
@@ -108,26 +83,16 @@
         data-type="boolean"
         :caption="$t('translations.fields.isDefault')"
       ></DxColumn>
-      <DxColumn
-        data-field="numericCode"
-        :caption="$t('translations.fields.numericCode')"
-      >
+      <DxColumn data-field="numericCode" :caption="$t('translations.fields.numericCode')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule
-          :max="3"
-          message="The name must not exceed 3 symbols"
-        />
+        <DxStringLengthRule :max="3" message="The name must not exceed 3 symbols" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -218,5 +183,4 @@ export default {
 .container {
   display: block;
 }
-
 </style>
