@@ -8,12 +8,13 @@ export default ({ app }, inject) => {
       requireTotalCount: true
     });
     var filter = [[propertyName, "=", payload[propertyName]]];
+
     if (payload.id) {
       filter.push("and");
       filter.push(["id", "<>", payload.id]);
     }
     ds.filter(filter);
-    await ds.load();
+     await ds.load();
 
     return ds.totalCount() > 0;
   }
@@ -23,23 +24,23 @@ export default ({ app }, inject) => {
   }
 
   async function isCountryNotExists(payload) {
-    return (await isNameExists(dataApi.sharedCountry.Country, payload)) == false;
+    return (await isNameExists(dataApi.sharedDirectory.Country, payload)) == false;
   }
 
   async function isRegionNotExists(payload) {
-    return (await isNameExists(dataApi.sharedCountry.Region, payload)) == false;
+    return (await isNameExists(dataApi.sharedDirectory.Region, payload)) == false;
   }
 
   async function isHumanSettlementNotExists(payload) {
-    return (await isNameExists(dataApi.sharedCountry.Locality, payload)) == false;
+    return (await isNameExists(dataApi.sharedDirectory.Locality, payload)) == false;
   }
 
   async function isCurrencyNameNotExists(payload) {
-    return (await isNameExists(dataApi.sharedCountry.Currency, payload)) == false;
+    return (await isNameExists(dataApi.sharedDirectory.Currency, payload)) == false;
   }
 
   async function CurrencyDataFieldValueNotExists(payload, propertyName) {
-    return (await isEntityExists(dataApi.sharedCountry.Currency, payload, propertyName)) == false;
+    return (await isEntityExists(dataApi.sharedDirectory.Currency, payload, propertyName)) == false;
   }
 
   async function CompanyDataFieldValueNotExists(payload, propertyName) {
@@ -58,6 +59,10 @@ export default ({ app }, inject) => {
     return (await isEntityExists(dataApi.company.BusinessUnit, payload, propertyName)) == false;
   }
 
+  async function EmployeeDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.company.Employee, payload, propertyName)) == false;
+  }
+
   let obj = {
     isNameExists: isNameExists,
     isCountryNotExists: isCountryNotExists,
@@ -68,7 +73,8 @@ export default ({ app }, inject) => {
     CompanyDataFieldValueNotExists: CompanyDataFieldValueNotExists,
     BankDataFieldValueNotExists: BankDataFieldValueNotExists,
     PersonDataFieldValueNotExists: PersonDataFieldValueNotExists,
-    BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists
+    BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists,
+    EmployeeDataFieldValueNotExists:EmployeeDataFieldValueNotExists,
   };
 
   inject("customValidator", obj);

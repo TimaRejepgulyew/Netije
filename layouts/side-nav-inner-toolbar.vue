@@ -79,11 +79,6 @@ export default {
           icon: "home"
         },
         {
-          text: "Main",
-          path: "/testPageforsignalR",
-          icon: "home"
-        },
-        {
           text: this.$t("translations.menu.paperwork"),
           icon: "alignjustify",
           path: "/paper-work",

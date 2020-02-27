@@ -48,7 +48,7 @@
         data-field="name"
         :caption="$t('translations.fields.localityId')"
       >
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateHumanSettlementName"

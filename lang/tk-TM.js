@@ -27,6 +27,8 @@ export default {
       "businessUnit": "Organizaciya",
       "department": "Podrazdeleniya",
       "employee": "Sotrudniki",
+      "addEmployeeSucces":"Добавлен один сотрудник__TM",
+      "addEmployeeError":"Возникла ошибка при добавлении сотрудника__TM",
       "managersAssistant": "Pomoshnik rukovoditelya",
       "generalDirectories": "Obshiye spravochniki",
       "countries": "Strany",
@@ -42,6 +44,10 @@ export default {
       "shortNameRequired": "Введите короткое наименование_TM",
       "legalName": "Официальное наименование_TM",
       "legalNameRequired": "Введите официальное наименование_TM",
+      "personalData":"Персональные данные__TM",
+      "fullName":"ФИО__TM",
+      "fullNameRequired":"Фамилия Имя и Отчество не должно быть пустым__TM",
+      "fullNameNoDigits":"ФИО не должно быть цифр__TM",
       "firstName": "Имя_TM",
       "firstNameRequired": "Введите имя_TM",
       "lastName": "Фамилия_TM",
@@ -52,6 +58,7 @@ export default {
       "dateOfBirthRequired": "Выберите дату рождения_TM",
       "sex": "Пол_TM",
       "sexRequired": "Выберите пол_TM",
+      "APN":"Должность, место проживания и номер телефона__Tm",
       "address": "Адрес_TM",
       "addressRequired": "Введите адрес_TM",
       "legalAddress": "Официальный адрес_TM",
@@ -60,6 +67,8 @@ export default {
       "postAddressRequired": "Введите почтовый адрес_TM",
       "phones": "Телефон_TM",
       "phonesRequired": "Введите телефон_TM",
+      "phoneFormat":"Номер должен начинаться с +993__TM",
+      "phoneRule":"Номер введен не верно__TM",
       "email": "Email_TM",
       "emailRequired": "Введите email_TM",
       "emailRule": "Email введен не верно_TM",
@@ -86,6 +95,7 @@ export default {
       "commentRequired": "Введите комментарий_TM",
       "password": "Пароль_TM",
       "passwordRequired": "Введите пароль_TM",
+      "passwordRule": "Пароль должен состоять из хотя бы одной латинской  буквы и хотя бы одной цифры и хотя бы одного символа",
       "confirmPassword": "Подтвердите пароль_TM",
       "confirmPasswordRequired": "Введите подтверждения пароля_TM",
       "confirmPasswordRule": "Пароль и Подтвердить пароль не подходят_TM",
@@ -106,8 +116,11 @@ export default {
       "localityIdRequired": "Выберите населенный пункт_TM",
       "bankId": "Банк_TM",
       "bankIdRequired": "Выберите банк_TM",
+      "userName": "Логин пользователя__TM",
       "userId": "Сотрудник_TM",
       "userIdRequired": "Выберите сотрудника_TM",
+      "userNameRule": "Логин пользователя должен быть уникальным__TM",
+      "userNamePattern":"Логин должен быть без пробелов и символов_TM",
       "substituteId": "Заменяющий сотрудник_TM",
       "substituteIdRequired": "Выберите заменяющего сотрудника_TM",
       "parentId": "Родитель_TM",
@@ -131,6 +144,23 @@ export default {
       "closed": "Закрытая_TM",
       "male": "Мужской_TM",
       "female": "Женский_TM"
+    },
+    "headers": {
+      "addDocumentKind": "Добавление вида документа__TM",
+      "editDocumentKind": "Редактирование вида документа__TM",
+      "addDocumentRegistry": "Добавление журнала регистрации__TM",
+      "editDocumentRegistry": "Редактирование журнала регистрации__TM",
+      "addRegistrationSetting": "Добавление настройки регистрации__TM",
+      "editRegistrationSetting": "Редактирование настройки регистрации__TM",
+      "addRegistrationGroup": "Добавление групп регистрации__TM",
+      "editRegistrationGroup": "Редактирование групп регистрации__TM"
+    },
+    "links": {
+      "save": "Сохранить__TM",
+      "add": "Добавить__TM",
+      "cancel":"Назад__TM",
+      "delete":"Удалить__TM"
+
     }
   }
 }

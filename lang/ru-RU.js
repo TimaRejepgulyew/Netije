@@ -27,6 +27,8 @@ export default {
       "businessUnit": "Организация",
       "department": "Подразделения",
       "employee": "Сотрудники",
+      "addEmployeeSucces":"Добавлен один сотрудник",
+      "addEmployeeError":"Возникла ошибка при добавлении сотрудника",
       "managersAssistant": "Помощник руководителя",
       "generalDirectories": "Общие справочники",
       "countries": "Страны",
@@ -51,6 +53,10 @@ export default {
       "shortNameRequired": "Введите короткое наименование",
       "legalName": "Официальное наименование",
       "legalNameRequired": "Введите официальное наименование",
+      "personalData":"Персональные данные",
+      "fullName":"ФИО",
+      "fullNameRequired":"ФИО не должно быть пустым",
+      "fullNameNoDigits":"ФИО не должно быть цифр",
       "firstName": "Имя",
       "firstNameRequired": "Введите имя",
       "lastName": "Фамилия",
@@ -61,6 +67,7 @@ export default {
       "dateOfBirthRequired": "Выберите дату рождения",
       "sex": "Пол",
       "sexRequired": "Выберите пол",
+      "APN":"Должность, место проживания и номер телефона",
       "address": "Адрес",
       "addressRequired": "Введите адрес",
       "legalAddress": "Официальный адрес",
@@ -69,8 +76,12 @@ export default {
       "postAddressRequired": "Введите почтовый адрес",
       "phones": "Телефон",
       "phonesRequired": "Введите телефон",
+      "phoneFormat":"Номер должен начинаться с +993",
+      "phoneRule":"Номер введен не верно",
       "userName": "Логин пользователя",
       "userNameRequired": "Введите логин пользователя",
+      "userNameRule": "Логин пользователя должен быть уникальным",
+      "userNamePattern":"Логин должен быть без пробелов и символов",
       "email": "Email",
       "emailRequired": "Введите email",
       "emailRule": "Email введен не верно",
@@ -97,6 +108,7 @@ export default {
       "commentRequired": "Введите комментарий",
       "password": "Пароль",
       "passwordRequired": "Введите пароль",
+      "passwordRule": "Пароль должен состоять из хотя бы одной латинской  буквы и хотя бы одной цифры и хотя бы одного символа",
       "confirmPassword": "Подтвердите пароль",
       "confirmPasswordRequired": "Введите подтверждения пароля",
       "confirmPasswordRule": "Пароль и Подтвердить пароль не подходят",
@@ -269,7 +281,9 @@ export default {
     },
     "links": {
       "save": "Сохранить",
-      "add": "Добавить"
+      "add": "Добавить",
+      "cancel":"Назад",
+      "delete":"Удалить"
     }
   }
 }

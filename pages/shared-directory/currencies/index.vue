@@ -54,6 +54,8 @@
         ></DxAsyncRule>
       </DxColumn>
 
+      
+
       <DxColumn data-field="alphaCode" :caption="$t('translations.fields.alphaCode')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxStringLengthRule :max="3" message="The name must not exceed 3 symbols" />
