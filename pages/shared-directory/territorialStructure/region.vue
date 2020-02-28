@@ -1,7 +1,10 @@
 <template>
-  <main class="container container--grid">
+  <main>
     <DxDataGrid
       :show-borders="true"
+      id="gridContainer"
+      :repaint-changes-only="true"
+      :highlight-changes="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -51,12 +54,23 @@
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="countryId" :caption="$t('translations.fields.countryId')">
-        <DxLookup :data-source="getFilteredCountry" value-expr="id" display-expr="name" />
+      <DxColumn
+        data-field="countryId"
+        :caption="$t('translations.fields.countryId')"
+      >
+        <DxLookup
+          :data-source="getFilteredCountry"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -64,6 +78,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -111,12 +126,10 @@ export default {
       }),
 
       statusStores: this.$store.getters["status/status"],
-
       country: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Country
       }),
-
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
@@ -135,7 +148,7 @@ export default {
       };
     },
     validateRegionName(params) {
-      return this.$customValidator.isHumanSettlementNotExists({
+      return this.$customValidator.isRegionNotExists({
         id: params.data.id,
         name: params.value
       });

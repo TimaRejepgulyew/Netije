@@ -3,28 +3,36 @@
     <div>
       <div class="form-group">
         <form>
-            <div>
-                <label for="userName">Your Name</label>
-                <input type="text" name="Name" id="userName" v-model="userName">
-            </div>
-            <div>
-                <label for="userMessage">Message</label>
-                <input type="text" name="Message" id="userMessage" v-model="userMessage">
-            </div>
-            <button v-on:click="submitCard" type="button">Submit</button>
+          <div>
+            <label for="userName">Your Name</label>
+            <input type="text" name="Name" id="userName" v-model="userName" />
+          </div>
+          <div>
+            <label for="userMessage">Message</label>
+            <input
+              type="text"
+              name="Message"
+              id="userMessage"
+              v-model="userMessage"
+            />
+          </div>
+          <button v-on:click="submitCard" type="button">Submit</button>
         </form>
-        <ul v-for="(item, index) in messages" v-bind:key="index + 'itemMessage'">
-            <li><b>Name: </b>{{item.user}}</li>
-            <li><b>Message: </b>{{item.message}}</li>
+        <ul
+          v-for="(item, index) in messages"
+          v-bind:key="index + 'itemMessage'"
+        >
+          <li><b>Name: </b>{{ item.id }}</li>
+          <li><b>Message: </b>{{ item.name }}</li>
         </ul>
-    </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {HubConnectionBuilder, LogLevel} from "@aspnet/signalr" 
-
+import { HubConnectionBuilder, LogLevel, HttpTransportType } from "@aspnet/signalr";
+// import dataApi from "~/static/dataApi";
 export default {
   data() {
     return {
@@ -36,35 +44,41 @@ export default {
   },
   methods: {
     submitCard() {
-      if (this.userName && this.userMessage) {
-        this.connection
-          .invoke("SendMessage", this.userName, this.userMessage)
-          .catch(function(err) {
-            return console.log(err);
-          });
+      this.$notifications.regionsNotification("TEST")
+        // this.connection
+        //   .invoke("SendMessage")
+        //   .catch(function(err) {
+        //     return console.log(err);
+        //   });
 
-        this.userName = "";
-        this.userMessage = "";
-      }
     }
   },
   created() {
-    this.connection = new HubConnectionBuilder()
-      .withUrl("https://localhost:5001/chathub")
-      .configureLogging(LogLevel.Information)
-      .build();
 
-    this.connection.start().catch(function(err) {
-      return console.error(err.toString());
-    });
+   
+    //TODO: Посмотреть как правильно сконфигурировать webSockets
+    // this.connection = new HubConnectionBuilder()
+    //   .withUrl("https://localhost:5001/chathub", {
+    //     accessTokenFactory: () => this.$store.getters["oidc/oidcAccessToken"]
+    //   })
+    //   .configureLogging(LogLevel.Information)
+    //   .build();
+
+    // this.connection.start().then((res) =>{
+    //   console.log(res);
+    // }).catch(function(err) {
+    //   return console.error(err.toString());
+    // }); 
   },
   mounted() {
-    var thisVue = this;
-    thisVue.connection.start();
-    thisVue.connection.on("ReceiveMessage", function(user, message) {
-      console.log("This is connection SIGNALR");
-      thisVue.messages.push({ user, message });
-    });
+    var ar = this.$notifications.getNotification();
+    console.log(ar);
+    // var thisVue = this;
+    // thisVue.connection.on("GetData", function(data) {
+    //   // console.log(data)
+    //   thisVue.messages.push({ data });
+    //   console.log(thisVue.messages)
+    // });
   }
 };
 </script>

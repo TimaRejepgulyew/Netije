@@ -1,6 +1,6 @@
 export default {
   env: {
-    baseUrl: process.env.BASE_URL || "http://192.168.4.98"
+    baseUrl: process.env.BASE_URL || "http://192.168.4.98",
   },
   mode: "spa",
   /*
@@ -41,7 +41,8 @@ export default {
   plugins: [
     "~/plugins/axios",
     "~/plugins/customStore",
-    "~/plugins/customValidator"
+    "~/plugins/customValidator",
+    "~/plugins/signalRStore"
   ],
   /*
    ** Nuxt.js dev-modules
