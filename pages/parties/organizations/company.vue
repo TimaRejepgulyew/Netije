@@ -11,7 +11,6 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-      
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -23,14 +22,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        file-name="Company"
+        :file-name="$t('translations.fields.company')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Company"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Company" />
 
       <DxEditing
         :allow-updating="true"
@@ -47,89 +42,89 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" data-type="string">
-        <DxRequiredRule
-          :message="$t('translations.fields.countryIdRequired')"
-        />
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="headCompanyId" :visible="false">
-        <DxLookup
-          :data-source="store"
-          value-expr="id"
-          display-expr="name"
-        />
-       </DxColumn>
+      <DxColumn
+        data-field="headCompanyId"
+        :caption="$t('translations.fields.headOfficeId')"
+        :visible="false"
+      >
+        <DxLookup :data-source="store" value-expr="id" display-expr="name" />
+      </DxColumn>
 
-      <DxColumn data-field="legalName" :visible="false"> </DxColumn>
+      <DxColumn
+        data-field="legalName"
+        :caption="$t('translations.fields.legalName')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="tin" :visible="false">
-        <DxRequiredRule
-          :message="$t('translations.fields.countryIdRequired')"
-        />
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
+        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
-       </DxColumn>
-
-      <DxColumn data-field="code"> </DxColumn>
-
-      <DxColumn data-field="regionId" :set-cell-value="onRegionIdChanged">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup
-          :data-source="getFilteredRegion"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
 
-      <DxColumn data-field="localityId">
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')"></DxColumn>
+
+      <DxColumn
+        data-field="regionId"
+        :caption="$t('translations.fields.regionId')"
+        :set-cell-value="onRegionIdChanged"
+      >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup
-          :data-source="getFilteredLocality"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn data-field="legalAddress" :visible="false"> </DxColumn>
+      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
+        <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
+      </DxColumn>
 
-      <DxColumn data-field="postAddress" :visible="false"> </DxColumn>
+      <DxColumn
+        data-field="legalAddress"
+        :caption="$t('translations.fields.legalAddress')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="phones" :visible="false"> </DxColumn>
+      <DxColumn
+        data-field="postAddress"
+        :caption="$t('translations.fields.postAddress')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="email" :visible="false"> </DxColumn>
+      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="webSite" > </DxColumn>
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="note" :visible="false"> </DxColumn>
+      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
 
-      <DxColumn data-field="nonresident" :visible="false" data-type="boolean"> </DxColumn>
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="account"> </DxColumn>
+      <DxColumn
+        data-field="nonresident"
+        :caption="$t('translations.fields.nonresident')"
+        :visible="false"
+        data-type="boolean"
+      ></DxColumn>
 
-      <DxColumn data-field="bankId">
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
+
+      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup
-          :data-source="getFilteredBank"
-          value-expr="id"
-          display-expr="name"
-        />
-       </DxColumn>
+        <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
+      </DxColumn>
 
-      <DxColumn data-field="type" :visible="false"> </DxColumn>
+      <DxColumn data-field="type" :visible="false"></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -196,7 +191,7 @@ export default {
       }),
 
       bank: this.$dxStore({
-        key:"id",
+        key: "id",
         loadUrl: dataApi.contragents.Bank
       }),
 
@@ -209,9 +204,9 @@ export default {
       },
 
       onRegionIdChanged(rowData, value) {
-      rowData.localityId = null;
-      this.defaultSetCellValue(rowData, value)
-    }
+        rowData.localityId = null;
+        this.defaultSetCellValue(rowData, value);
+      }
     };
   },
   methods: {
@@ -227,7 +222,7 @@ export default {
       return {
         store: this.locality,
         filter: options.data
-          ? ['regionId', '=', options.data.regionId, "or", "status", "=", 0]
+          ? ["regionId", "=", options.data.regionId, "or", "status", "=", 0]
           : null
       };
     },
@@ -235,17 +230,20 @@ export default {
       return {
         store: this.bank,
         filter: options.data
-          ? ["status", "=", 0, "or", "id","=", options.data.bankId]
+          ? ["status", "=", 0, "or", "id", "=", options.data.bankId]
           : null
       };
     },
-    
+
     validateEntityExists(params) {
-      var dataField = params.column.dataField
-      return this.$customValidator.CompanyDataFieldValueNotExists({
-        id: params.data.id,
-        [dataField]: params.value
-      }, dataField);
+      var dataField = params.column.dataField;
+      return this.$customValidator.CompanyDataFieldValueNotExists(
+        {
+          id: params.data.id,
+          [dataField]: params.value
+        },
+        dataField
+      );
     }
   }
 };

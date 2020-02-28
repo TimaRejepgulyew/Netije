@@ -2,8 +2,10 @@
   <main class="container"></main>
 </template>
 <script>
-
 export default {
+  created() {
+    console.log(this.$store.getters["oidc/oidcAccessToken"]);
+  },
   data() {
     return {
       columns: ["CompanyName", "City", "State", "Phone", "Fax"]

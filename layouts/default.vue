@@ -98,9 +98,13 @@ body {
 
 .app {
   @import "~assets/themes/generated/variables.base.scss";
+  @import "~assets/themes/generated/variables.base.scss";
   background-color: darken($base-bg, 5);
   display: flex;
   height: 100%;
   width: 100%;
+}
+.grid--title {
+  color: #333;
 }
 </style>

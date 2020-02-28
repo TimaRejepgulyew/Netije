@@ -5,7 +5,7 @@ const storeModule = vuexOidcCreateStoreModule(
 
     {
         ...oidcSettings,
-        userStore: new WebStorageStateStore({ store: window.sessionStorage }),
+        userStore: new WebStorageStateStore({ store: window.localStorage }),
 
     },
 

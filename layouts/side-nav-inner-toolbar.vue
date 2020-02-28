@@ -79,11 +79,6 @@ export default {
           icon: "home"
         },
         {
-          text: "Main",
-          path: "/testPageforsignalR",
-          icon: "home"
-        },
-        {
           text: this.$t("translations.menu.paperwork"),
           icon: "alignjustify",
           path: "/paper-work",
@@ -281,11 +276,18 @@ export default {
   flex-grow: 1;
   min-height: 100vh;
 }
+
 .main-content {
+  min-height: 80vh;
   background: $base-bg;
   margin: 1vw 0.5vw 0 1vw;
+  padding: 10px 15px;
   -webkit-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   -moz-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
+}
+.footer {
+  margin-top: auto;
+  min-height: 10vh;
 }
 </style>

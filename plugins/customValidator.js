@@ -8,12 +8,13 @@ export default ({ app }, inject) => {
       requireTotalCount: true
     });
     var filter = [[propertyName, "=", payload[propertyName]]];
+
     if (payload.id) {
       filter.push("and");
       filter.push(["id", "<>", payload.id]);
     }
     ds.filter(filter);
-    await ds.load();
+     await ds.load();
 
     return ds.totalCount() > 0;
   }
@@ -58,6 +59,10 @@ export default ({ app }, inject) => {
     return (await isEntityExists(dataApi.company.BusinessUnit, payload, propertyName)) == false;
   }
 
+  async function EmployeeDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.company.Employee, payload, propertyName)) == false;
+  }
+
   let obj = {
     isNameExists: isNameExists,
     isCountryNotExists: isCountryNotExists,
@@ -68,7 +73,8 @@ export default ({ app }, inject) => {
     CompanyDataFieldValueNotExists: CompanyDataFieldValueNotExists,
     BankDataFieldValueNotExists: BankDataFieldValueNotExists,
     PersonDataFieldValueNotExists: PersonDataFieldValueNotExists,
-    BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists
+    BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists,
+    EmployeeDataFieldValueNotExists:EmployeeDataFieldValueNotExists,
   };
 
   inject("customValidator", obj);

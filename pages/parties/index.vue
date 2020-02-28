@@ -5,8 +5,9 @@
 </template>
 <script>
 export default {
+
   data() {
-    return {};
+    return { };
   },
   components: {},
   methods: {},
@@ -15,5 +16,4 @@ export default {
 </script>
 <style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
-
 </style>
