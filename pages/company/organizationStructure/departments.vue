@@ -90,7 +90,7 @@
 
 
       <DxColumn data-field="businessUnitId" :caption="$t('translations.fields.businessUnitId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
         <DxLookup :data-source="getFilteredBussinessUnit" value-expr="id" display-expr="name" />
       </DxColumn>
 
@@ -102,7 +102,6 @@
   </main>
 </template>
 <script>
-import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
@@ -175,10 +174,6 @@ export default {
         e.newData = Object.assign(e.oldData, e.newData);
       },
 
-      onRegionIdChanged(rowData, value) {
-        rowData.localityId = null;
-        this.defaultSetCellValue(rowData, value);
-      }
     };
   },
   methods: {
@@ -210,7 +205,7 @@ export default {
     },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
-      return this.$customValidator.BusinnesUnitDataFieldValueNotExists(
+      return this.$customValidator.DepartmentDataFieldValueNotExists(
         {
           id: params.data.id,
           [dataField]: params.value
