@@ -10,7 +10,8 @@ export default {
        Company: `${url}/api/Company`,
        Bank: `${url}/api/Bank`,
        Person: `${url}/api/Person`,
-       CounterPart:`${url}/api/CounterPart`
+       CounterPart:`${url}/api/CounterPart`,
+       Contact:`${url}/api/Contact`
   },
   company:{
     Department:`${url}/api/Department`,

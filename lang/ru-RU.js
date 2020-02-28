@@ -42,9 +42,10 @@ export default {
       "registrationSetting": "Настройки регистрации",
       "registrationGroup": "Группа регистрации",
       "clericalWork": "Делопроизводство",
+      "contacts": "Контакты"
     },
     "fields": {
-      
+
       "code": "Код",
       "codeRequired": "Введите код",
       "name": "Наименование",
