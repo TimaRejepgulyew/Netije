@@ -1,54 +1,56 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
+      <header class="grid__header">
+        <h3 class="grid__title">{{$t('translations.menu.editEmployeeText')}} {{this.employee.name}}</h3>
+      </header>
+      <DxPopup
+        :visible.sync="popupPasswordVisible"
+        :drag-enabled="false"
+        :close-on-outside-click="true"
+        :show-title="true"
+        :width="500"
+        :height="250"
+        :title="$t('translations.fields.passwordChange')"
+      >
+        <div>
+          <popup-change-password @popupDisabled="popupDisabled('popupPasswordVisible')" />
+        </div>
+      </DxPopup>
+      <DxPopup
+        :visible.sync="popupRoleVisible"
+        :drag-enabled="false"
+        :close-on-outside-click="true"
+        :show-title="true"
+        :width="500"
+        :height="250"
+        :title="$t('translations.fields.assingRole')"
+      >
+        <div>
+          <popup-user-role  @popupDisabled="popupDisabled('popupRoleVisible')" />
+        </div>
+      </DxPopup>
       <form action="your-action" @submit="handleSubmit">
         <DxForm
-          :col-count="2"
+          :col-count="12"
           :form-data.sync="employee"
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
-          validation-group="customerData"
+          validation-group="upgreateEmployee"
         >
-          <DxGroupItem :caption="$t('translations.fields.personalData')">
-            <DxSimpleItem data-field="userName" data-type="string">
+          <DxGroupItem :col-span="4" :caption="$t('translations.fields.personalData')">
+            <DxSimpleItem
+              data-field="userName"
+              :editor-options="{disabled:'true'}"
+              data-type="string"
+            >
               <DxLabel :text="$t('translations.fields.userName')" />
-              <DxAsyncRule
-                :validation-callback="validateEntityExists"
-                :message="$t('translations.fields.userNameRule')"
-              />
-              <DxPatternRule
-                :pattern="userNamePattern"
-                :message="$t('translations.fields.userNamePattern')"
-              />
-              <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
               <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
               <DxEmailRule :message="$t('translations.fields.emailRule')" />
             </DxSimpleItem>
-            <DxSimpleItem :editor-options="passwordOptions" data-field="password">
-              <DxLabel :text="$t('translations.fields.password')" />
-              <DxPatternRule
-                :pattern="passwordPattern"
-                :message="$t('translations.fields.passwordRule')"
-              />
-              <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
-            </DxSimpleItem>
-            <DxSimpleItem
-              :editor-options="passwordOptions"
-              editor-type="dxTextBox"
-              data-field="confirmPassword"
-            >
-              <DxLabel :text="$t('translations.fields.confirmPassword')" />
-              <DxRequiredRule :message="$t('translations.fields.confirmPasswordRequired')" />
-              <DxCompareRule
-                :comparison-target="passwordComparison"
-                :message="$t('translations.fields.confirmPasswordRule')"
-              />
-            </DxSimpleItem>
-          </DxGroupItem>
-          <DxGroupItem :caption="$t('translations.fields.APN')">
             <DxSimpleItem data-field="name">
               <DxLabel :text="$t('translations.fields.fullName')" />
               <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
@@ -57,6 +59,14 @@
                 :message="$t('translations.fields.fullNameNoDigits')"
               />
             </DxSimpleItem>
+            <DxSimpleItem
+              data-field="note"
+              :col-span="1"
+              :editor-options="{height: 90}"
+              editor-type="dxTextArea"
+            ></DxSimpleItem>
+          </DxGroupItem>
+          <DxGroupItem :col-span="5" :caption="$t('translations.fields.APN')">
             <DxSimpleItem
               data-field="jobTitleId"
               :editor-options="jobTitleOptions"
@@ -73,24 +83,22 @@
               <DxLabel :text="$t('translations.fields.departmentId')" />
             </DxSimpleItem>
 
-            <DxSimpleItem data-field="phone" :help-text="$t('translations.fields.phoneFormat')">
+            <DxSimpleItem data-field="phone">
               <DxLabel :text="$t('translations.fields.phones')" />
-              <DxPatternRule
-                :pattern="phonePattern"
-                :message="$t('translations.fields.phoneRule')"
-              />
             </DxSimpleItem>
           </DxGroupItem>
-          <DxSimpleItem
-            data-field="note"
-            :col-span="1"
-            :editor-options="{height: 90}"
-            editor-type="dxTextArea"
-          ></DxSimpleItem>
-          <DxGroupItem :col-count="12" :col-span="2">
+          <DxGroupItem
+            :col-span="3"
+            :col-count="2"
+            :caption="$t('translations.fields.moreSettings')"
+          >
+            <DxButtonItem :button-options="popupPasswordOpt" horizontal-alignment="center" />
+            <DxButtonItem :button-options="popupRoleOpt" horizontal-alignment="center" />
+          </DxGroupItem>
+          <DxGroupItem :col-count="12" :col-span="12">
             <DxButtonItem
               :col-span="11"
-              :button-options="addButtonOptions"
+              :button-options=" saveButtonOptions"
               horizontal-alignment="right"
             />
             <DxButtonItem
@@ -105,7 +113,11 @@
   </div>
 </template>
 <script>
+import popupChangePassword from "~/components/employee/popup-changePassword";
+import popupUserRole from "~/components/employee/popup-change-userRole";
+
 import "devextreme-vue/text-area";
+import { DxPopup } from "devextreme-vue/popup";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
@@ -137,9 +149,16 @@ export default {
     DxStringLengthRule,
     DxForm,
     DxAsyncRule,
-    notify
+    DxPopup,
+    popupUserRole,
+    popupChangePassword
   },
-
+  async created() {
+    const response = await this.$axios.get(
+      dataApi.company.Employee + "/" + this.$route.params.id
+    );
+    this.employee = response.data;
+  },
   data() {
     return {
       employee: {
@@ -153,19 +172,35 @@ export default {
         password: null,
         confirmPassword: null
       },
-      addButtonOptions: {
-        width: 100,
-        height: 50,
-        text: this.$t("translations.links.add"),
-        useSubmitBehavior: true,
-        type: "success"
-      },
+
       cancelButtonOptions: {
         onClick: this.backToEmployee,
         width: 100,
         height: 50,
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
+      },
+      saveButtonOptions: {
+        height: 50,
+        text: this.$t("translations.links.save"),
+        useSubmitBehavior: true,
+        type: "success"
+      },
+      popupPasswordOpt: {
+        onClick: () => {
+          this.popupPasswordVisible = true;
+        },
+        width: 150,
+        height: 70,
+        icon: "key"
+      },
+      popupRoleOpt: {
+        onClick: () => {
+          this.popupRoleVisible = true;
+        },
+        width: 150,
+        height: 70,
+        icon: "user"
       },
       passwordOptions: {
         mode: "password"
@@ -189,13 +224,16 @@ export default {
         valueExpr: "id",
         displayExpr: "name"
       },
+      popupPasswordVisible: false,
+      popupRoleVisible: false,
       namePattern: /^[^0-9]+$/,
-      userNamePattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/,
-      passwordPattern: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!@#$%^&*a-zA-Z]{6,}/g,
-      phonePattern: /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/
+      userNamePattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/
     };
   },
   methods: {
+    popupDisabled(popup) {
+      this[popup] = false;
+    },
     passwordComparison() {
       return this.employee.password;
     },
@@ -248,9 +286,17 @@ export default {
   }
 };
 </script>
-<style>
+<style  lang="scss" scoped>
 form {
   margin: 10px;
+}
+.grid__header {
+  background: #f0f3f5;
+}
+.grid__title {
+  font-size: 30px;
+  font-weight: normal;
+  padding: 30px 20px;
 }
 </style>
 
