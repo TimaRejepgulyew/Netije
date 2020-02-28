@@ -110,8 +110,8 @@
 
       <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false" />
 
-      <DxColumn data-field="ceo" :caption="$t('translations.fields.ceo')" :visible="false" >
-      <DxLookup :data-source="getFilteredEmploee" value-expr="id" display-expr="name" />
+      <DxColumn data-field="ceo" :caption="$t('translations.fields.ceo')" :visible="true" >
+      <DxLookup :data-source="getFilteredEmployee" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false" />
@@ -246,6 +246,7 @@ export default {
       };
     },
     getFilteredEmployee(options) {
+      console.log(options)
       return {
         store: this.employee,
         filter: options.data

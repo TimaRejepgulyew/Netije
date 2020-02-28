@@ -63,10 +63,22 @@ export default ({ app }, inject) => {
     return (await isEntityExists(dataApi.company.Employee, payload, propertyName)) == false;
   }
 
+  async function DepartmentDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.company.Department, payload, propertyName)) == false;
+  }
+
+  async function JobTitleDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.company.JobTitle, payload, propertyName)) == false;
+  }
+
+  async function ManagerAssistantDataFieldValueNotExists(payload, propertyName) {
+    return (await isEntityExists(dataApi.company.ManagersAssistant, payload, propertyName)) == false;
+  }
+
   let obj = {
     isNameExists: isNameExists,
     isCountryNotExists: isCountryNotExists,
-    isRegionExists: isRegionNotExists,
+    isRegionNotExists: isRegionNotExists,
     isCurrencyNameNotExists: isCurrencyNameNotExists,
     isHumanSettlementNotExists: isHumanSettlementNotExists,
     CurrencyDataFieldValueNotExists: CurrencyDataFieldValueNotExists,
@@ -75,6 +87,9 @@ export default ({ app }, inject) => {
     PersonDataFieldValueNotExists: PersonDataFieldValueNotExists,
     BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists,
     EmployeeDataFieldValueNotExists:EmployeeDataFieldValueNotExists,
+    DepartmentDataFieldValueNotExists: DepartmentDataFieldValueNotExists,
+    JobTitleDataFieldValueNotExists: JobTitleDataFieldValueNotExists,
+    ManagerAssistantDataFieldValueNotExists: ManagerAssistantDataFieldValueNotExists
   };
 
   inject("customValidator", obj);

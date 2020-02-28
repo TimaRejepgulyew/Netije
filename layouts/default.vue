@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       title: "TTDoc",
-      screen: getScreenSizeInfo()
+      screen: getScreenSizeInfo(),
     };
   },
   computed: {

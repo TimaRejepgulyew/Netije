@@ -121,17 +121,27 @@
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn data-field="type" :visible="false"></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
+
+      <DxMasterDetail
+      :enabled="true"
+      template="masterDetailTemplate"
+    />
+    <template #masterDetailTemplate="company">
+      <ContactMasterDetail
+      :company="company.data"
+      />
+    </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import ContactMasterDetail from '~/components/parties/organizations/contact__masterDetail';
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -147,7 +157,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxMasterDetail
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -166,7 +177,9 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxMasterDetail,
+    ContactMasterDetail
   },
   data() {
     return {

@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1 class="grid--title">{{ $t("translations.menu.departments") }}</h1>
+    <h1>{{ $t("translations.menu.contact") }}</h1>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -22,10 +22,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.departments')"
+        :file-name="$t('translations.fields.contact')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact" />
 
       <DxEditing
         :allow-updating="true"
@@ -43,58 +43,58 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phone')" :visible="false" />
-
-
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false" />
-
-
       <DxColumn
-        data-field="shortName"
-        :caption="$t('translations.fields.shortName')"
-      >
-      </DxColumn>
-
-      <DxColumn
-        data-field="headOfficeId"
+        data-field="companyId"
         :caption="$t('translations.fields.headOfficeId')"
-        :visible="false"
+        :visible="true"
       >
-        <DxLookup :data-source="getFilteredHeadOffice" value-expr="id" display-expr="name" />
+        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn
-        data-field="description"
-        :caption="$t('translations.fields.description')"
+        data-field="department"
+        :caption="$t('translations.fields.department')"
         :visible="false"
-      />
+      ></DxColumn>
+
+      <DxColumn data-field="jobTitle" :caption="$t('translations.fields.jobTitle')" :visible="false">
+        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
+
+      <DxColumn data-field="phone" :caption="$t('translations.fields.phone')"></DxColumn>
+
+      <DxColumn
+        data-field="fax"
+        :caption="$t('translations.fields.fax')"
+      >
+        <DxRequiredRule :message="$t('translations.fields.fax')" />
+      </DxColumn>
+
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')">
+      </DxColumn>
 
       <DxColumn
         data-field="note"
         :caption="$t('translations.fields.note')"
         :visible="false"
-      />
+      ></DxColumn>
 
-      <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup :data-source="getFilteredManager" value-expr="id" display-expr="name" />
-      </DxColumn>
-
-
-      <DxColumn data-field="businessUnitId" :caption="$t('translations.fields.businessUnitId')">
-        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-        <DxLookup :data-source="getFilteredBussinessUnit" value-expr="id" display-expr="name" />
-      </DxColumn>
-
-
+      <DxColumn
+        data-field="homepage"
+        :caption="$t('translations.fields.homepage')"
+        :visible="false"
+      ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
@@ -102,6 +102,7 @@
   </main>
 </template>
 <script>
+import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
@@ -143,28 +144,19 @@ export default {
     return {
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.Department,
-        insertUrl: dataApi.company.Department,
-        updateUrl: dataApi.company.Department,
-        removeUrl: dataApi.company.Department
+        loadUrl: dataApi.contragents.Contact,
+        insertUrl: dataApi.contragents.Contact,
+        updateUrl: dataApi.contragents.Contact,
+        removeUrl: dataApi.contragents.Contact
       }),
 
       statusStores: this.$store.getters["status/status"],
 
-      managerStore: this.$dxStore({
+      companyStore: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.Employee
+        loadUrl: dataApi.contragents.Company
       }),
 
-      businessUnitStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.BusinessUnit
-      }),
-
-      headOfficeStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Department
-      }),
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
@@ -173,39 +165,20 @@ export default {
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       },
-
     };
   },
   methods: {
-    getFilteredHeadOffice(options) {
-      console.log(options)
+    getFilteredRegion(options) {
       return {
-        store: this.headOfficeStore,
+        store: this.company,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.headOfficeId]
-          : null
-      };
-    },
-
-    getFilteredManager(options) {
-      return {
-        store: this.managerStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.managerId]
-          : null
-      };
-    },
-    getFilteredBussinessUnit(options) {
-      return {
-        store: this.businessUnitStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.businessUnitId]
+          ? ["status", "=", 0, "or", "id", "=", options.data.companyId]
           : null
       };
     },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
-      return this.$customValidator.DepartmentDataFieldValueNotExists(
+      return this.$customValidator.CompanyDataFieldValueNotExists(
         {
           id: params.data.id,
           [dataField]: params.value
@@ -216,7 +189,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {

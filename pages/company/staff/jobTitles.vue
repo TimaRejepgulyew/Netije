@@ -1,0 +1,140 @@
+<template>
+  <main class="container container--grid">
+    <h1 class="grid--title">{{ $t("translations.menu.jobTitle") }}</h1>
+    <DxDataGrid
+      :show-borders="true"
+      :data-source="store"
+      :remote-operations="true"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
+      :column-auto-width="true"
+      @row-updating="rowUpdating"
+      @init-new-row="initNewRow"
+    >
+      <DxSelection mode="multiple" />
+      <DxHeaderFilter :visible="true" />
+
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
+      <DxFilterRow :visible="true" />
+
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        :file-name="$t('translations.menu.jobTitle')"
+      />
+
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="JobTitle" />
+
+      <DxEditing
+        :allow-updating="true"
+        :allow-deleting="true"
+        :allow-adding="true"
+        :useIcons="true"
+        mode="form"
+      />
+
+      <DxSearchPanel
+        position="after"
+        :placeholder="$t('translations.fields.search') + '...'"
+        :visible="true"
+      />
+      <DxScrolling mode="virtual" />
+
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
+
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+      </DxColumn>
+    </DxDataGrid>
+  </main>
+</template>
+<script>
+import dataApi from "~/static/dataApi";
+import {
+  DxSearchPanel,
+  DxDataGrid,
+  DxColumn,
+  DxEditing,
+  DxHeaderFilter,
+  DxScrolling,
+  DxLookup,
+  DxAsyncRule,
+  DxRequiredRule,
+  DxExport,
+  DxSelection,
+  DxColumnChooser,
+  DxColumnFixing,
+  DxFilterRow,
+  DxStateStoring
+} from "devextreme-vue/data-grid";
+
+export default {
+  components: {
+    DxSearchPanel,
+    DxDataGrid,
+    DxColumn,
+    DxEditing,
+    DxHeaderFilter,
+    DxScrolling,
+    DxLookup,
+    DxRequiredRule,
+    DxAsyncRule,
+    DxExport,
+    DxSelection,
+    DxColumnChooser,
+    DxColumnFixing,
+    DxFilterRow,
+    DxStateStoring
+  },
+  data() {
+    return {
+      store: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.JobTitle,
+        insertUrl: dataApi.company.JobTitle,
+        updateUrl: dataApi.company.JobTitle,
+        removeUrl: dataApi.company.JobTitle
+      }),
+
+      statusStores: this.$store.getters["status/status"],
+
+      initNewRow: e => {
+        e.data.status = this.statusStores[0].id;
+      },
+
+      rowUpdating: e => {
+        e.newData = Object.assign(e.oldData, e.newData);
+      },
+
+    };
+  },
+  methods: {
+
+    validateEntityExists(params) {
+      var dataField = params.column.dataField;
+      return this.$customValidator.JobTitleDataFieldValueNotExists(
+        {
+          id: params.data.id,
+          [dataField]: params.value
+        },
+        dataField
+      );
+    }
+  }
+};
+</script>
+<style lang="scss" >
+@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/dx-styles.scss";
+.container {
+  display: block;
+}
+</style>

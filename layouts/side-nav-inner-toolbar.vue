@@ -110,6 +110,11 @@ export default {
               path: "/parties/organizations/bank"
             },
             {
+              text: this.$t("translations.menu.contacts"),
+              icon: "fields",
+              path: "/parties/organizations/contact"
+            },
+            {
               text: this.$t("translations.menu.counterPartList"),
               icon: "fields",
               path: "/parties/counterParts/"

@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1 class="grid--title">{{ $t("translations.menu.managerAssistants") }}</h1>
+    <h5>{{ $t("translations.menu.contact") }}</h5>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -22,13 +22,13 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.jobTitle')"
+        :file-name="$t('translations.fields.contact')"
       />
 
       <DxStateStoring
         :enabled="true"
         type="localStorage"
-        storage-key="JobTitle"
+        storage-key="Contact"
       />
 
       <DxEditing
@@ -47,40 +47,71 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn
-        data-field="managerId"
-        :caption="$t('translations.fields.managerId')"
-        :set-cell-value="onManagerIdChanged"
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup
-          :data-source="getFilteredManager"
-          value-expr="id"
-          display-expr="name"
+        <DxRequiredRule
+          :message="$t('translations.fields.countryIdRequired')"
         />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
-
 
       <DxColumn
-        data-field="assistantId"
-        :caption="$t('translations.fields.assistantId')"
-        :set-cell-value="onAssistantIdChanged"
+        data-field="companyId"
+        :caption="$t('translations.fields.companyId')"
+        :visible="true"
+        :allow-editing="false"
       >
-        <DxRequiredRule :message="$t('translations.fields.assistantIdRequired')" />
         <DxLookup
-          :data-source="getFilteredAssistant"
+          :data-source="getFilteredCompany"
           value-expr="id"
           display-expr="name"
         />
-      </DxColumn>PreparesResolution
-
-        <DxColumn
-        data-field="preparesResolution"
-        :caption="$t('translations.fields.preparesResolution')"
-        data-type="boolean"
-      >
-
       </DxColumn>
 
+      <DxColumn
+        data-field="department"
+        :caption="$t('translations.fields.department')"
+        :visible="false"
+      ></DxColumn>
+
+      <DxColumn
+        data-field="jobTitle"
+        :caption="$t('translations.fields.jobTitle')"
+        :visible="false"
+      >
+        <DxRequiredRule
+          :message="$t('translations.fields.countryIdRequired')"
+        />
+      </DxColumn>
+
+      <DxColumn
+        data-field="phone"
+        :caption="$t('translations.fields.phone')"
+      ></DxColumn>
+
+      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')">
+        <DxRequiredRule :message="$t('translations.fields.fax')" />
+      </DxColumn>
+
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')">
+      </DxColumn>
+
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+      ></DxColumn>
+
+      <DxColumn
+        data-field="homepage"
+        :caption="$t('translations.fields.homepage')"
+        :visible="false"
+      ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :data-source="statusStores"
@@ -92,6 +123,7 @@
   </main>
 </template>
 <script>
+import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
@@ -129,61 +161,55 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
+  props: {
+    company: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
+    let {name, id} = this.company.data;
     return {
-      store: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.ManagersAssistant,
-        insertUrl: dataApi.company.ManagersAssistant,
-        updateUrl: dataApi.company.ManagersAssistant,
-        removeUrl: dataApi.company.ManagersAssistant
+      store: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.Contact,
+          insertUrl: dataApi.contragents.Contact,
+          updateUrl: dataApi.contragents.Contact,
+          removeUrl: dataApi.contragents.Contact
+        }),
+        filter: ["companyId", "=", id]
       }),
 
       statusStores: this.$store.getters["status/status"],
 
-      employeeStore: this.$dxStore({
+      companyStore: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.Employee
+        loadUrl: dataApi.contragents.Company
       }),
 
       initNewRow: e => {
+        e.data.companyId = id;
         e.data.status = this.statusStores[0].id;
       },
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      },
-
-       onManagerIdChanged(rowData, value) {
-        this.defaultSetCellValue(rowData, value);
-      },
-
-       onAssistantIdChanged(rowData, value) {
-        this.defaultSetCellValue(rowData, value);
       }
     };
   },
   methods: {
-    getFilteredManager(options) {
+    getFilteredCompany(options) {
       return {
-        store: this.employeeStore,
+        store: this.companyStore,
         filter: options.data
-          ? ["id", "<>", options.data.assistantId, "or","status", "=", 0]
-          : null
-      };
-    },
-    getFilteredAssistant(options) {
-      console.log(options)
-      return {
-        store: this.employeeStore,
-        filter: options.data
-          ? ["id", "<>", options.data.managerId, "or", "status", "=", 0]
+          ? ["status", "=", 0, "or", "id", "=", options.data.companyId]
           : null
       };
     },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
-      return this.$customValidator.ManagerAssistantDataFieldValueNotExists(
+      return this.$customValidator.CompanyDataFieldValueNotExists(
         {
           id: params.data.id,
           [dataField]: params.value
@@ -194,7 +220,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {

@@ -1,76 +1,81 @@
 <template>
-  <main class="container container--grid">
-    <DxDataGrid
-      :show-borders="true"
-      :data-source="store"
-      :remote-operations="true"
-      :errorRowEnabled="true"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="true"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
-    >
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        file-name="Countries"
-      />
-      <DxFilterRow :visible="true" />
-      <DxSelection mode="multiple" />
-      <DxHeaderFilter :visible="true" />
-
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="countries"
-      />
-
-      <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
-        :useIcons="true"
-        mode="form"
-      />
-
-      <DxSearchPanel
-        position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
-        :visible="true"
-      />
-      <DxScrolling mode="virtual" />
-
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.countryId')"
-        data-type="string"
+    <main class="container container--grid">
+      <DxDataGrid
+        :show-borders="true"
+        :data-source="store"
+        :remote-operations="true"
+        :errorRowEnabled="true"
+        :allow-column-reordering="true"
+        :allow-column-resizing="true"
+        :column-auto-width="true"
+        @row-updating="rowUpdating"
+        @init-new-row="initNewRow"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.countryIdRequired')"
+        <DxExport
+          :enabled="true"
+          :allow-export-selected-data="true"
+          file-name="Countries"
         />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateCountryName"
-        ></DxAsyncRule>
-      </DxColumn>
+        <DxFilterRow :visible="true" />
+        <DxSelection mode="multiple" />
+        <DxHeaderFilter :visible="true" />
 
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
+        <DxColumnChooser :enabled="true" />
+        <DxColumnFixing :enabled="true" />
+
+        <DxStateStoring
+          :enabled="true"
+          type="localStorage"
+          storage-key="countries"
         />
-      </DxColumn>
-    </DxDataGrid>
-  </main>
+
+        <DxEditing
+          :allow-updating="true"
+          :allow-deleting="true"
+          :allow-adding="true"
+          :useIcons="true"
+          mode="form"
+        />
+
+        <DxSearchPanel
+          position="after"
+          :placeholder="$t('translations.fields.search') + '...'"
+          :visible="true"
+        />
+        <DxScrolling mode="virtual" />
+
+        <DxColumn
+          data-field="name"
+          :caption="$t('translations.fields.countryId')"
+          data-type="string"
+        >
+          <DxRequiredRule
+            :message="$t('translations.fields.countryIdRequired')"
+          />
+          <DxAsyncRule
+            :message="$t('translations.fields.countryAlreadyAxists')"
+            :validation-callback="validateCountryName"
+          ></DxAsyncRule>
+        </DxColumn>
+
+        <DxColumn
+          data-field="status"
+          :caption="$t('translations.fields.status')"
+        >
+          <DxLookup
+            :data-source="statusStores"
+            value-expr="id"
+            display-expr="status"
+          />
+        </DxColumn>
+      </DxDataGrid>
+    </main>
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
+import CustomStore from "devextreme/data/custom_store";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -107,6 +112,9 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
+  mounted() {
+    
+  },
   data() {
     return {
       store: this.$dxStore({
@@ -142,5 +150,4 @@ export default {
 .container {
   display: block;
 }
-
 </style>

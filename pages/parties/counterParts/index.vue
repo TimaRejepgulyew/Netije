@@ -31,6 +31,15 @@
       />
       <DxScrolling mode="virtual" />
 
+
+      <DxColumn
+        data-field="type"
+        :width="60"
+        :caption="$t('translations.fields.type')"
+        cell-template="cellTemplate"
+        :visible="true"
+      ></DxColumn>
+
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
       <DxColumn
@@ -84,13 +93,6 @@
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="type"
-        :width="60"
-        :caption="$t('translations.fields.type')"
-        cell-template="cellTemplate"
-        :visible="true"
-      ></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
