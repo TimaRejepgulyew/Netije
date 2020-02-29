@@ -1,20 +1,18 @@
 <template>
-  <form action="your-action">
+  <form @submit="handleSubmit">
     <DxForm
       :form-data="store"
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
-      validation-group="changePassword"
+      validation-group="changeRole"
     >
-      <DxSimpleItem :editor-options="tagboxOptions" editor-type="dxTagBox" data-field="password">
+      <DxSimpleItem :editor-options="tagboxOptions" editor-type="dxTagBox" data-field="roles">
         <DxLabel :text="$t('translations.fields.role')" />
-        
         <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>
-
   </form>
 </template>
 <script>
@@ -48,11 +46,24 @@ export default {
     DxTagBox,
     DxButton
   },
-
+  async mounted() {
+   var roles = await this.$axios.get(
+      dataApi.company.Employee + "/GetAllUserRoles/" + this.$route.params.id
+    );
+    console.log(roles.data);
+  },
   data() {
     return {
-      roles: [],
+      store: {
+        employeeId: parseInt(this.$route.params.id),
+        roles: []
+      },
+
       tagboxOptions: {
+        // dataSource: this.$dxStore({
+        //   key: "id",
+        //   loadUrl: dataApi.company.Department
+        // }),
         items: this.roles,
         acceptCustomValue: true,
         onCustomItemCreating: this.addNewRole
@@ -73,10 +84,7 @@ export default {
   methods: {
     handleSubmit(e) {
       this.$axios
-        .post(dataApi.company.Employee + "/ChangePassword", {
-          roles: this.store.password,
-          employeeId: parseInt(this.$route.params.id)
-        })
+        .post(dataApi.company.Employee + "/ChangeUserRoles", this.store)
         .then(res => {
           this.$emit("popupDisabled");
           notify(

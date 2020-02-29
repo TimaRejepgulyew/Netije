@@ -75,6 +75,7 @@ export default ({ app }, inject) => {
     return (await isEntityExists(dataApi.company.ManagersAssistant, payload, propertyName)) == false;
   }
 
+
   let obj = {
     isNameExists: isNameExists,
     isCountryNotExists: isCountryNotExists,

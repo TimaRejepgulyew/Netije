@@ -2,7 +2,7 @@
   <div id="form-demo">
     <div class="widget-container">
       <header class="grid__header">
-        <h3 class="grid__title">{{$t('translations.menu.editEmployeeText')}} {{this.employee.name}}</h3>
+        <h3 class="grid__title">{{$t('translations.menu.upgratingEmployee')}} {{this.employee.name}}</h3>
       </header>
       <DxPopup
         :visible.sync="popupPasswordVisible"
@@ -27,7 +27,7 @@
         :title="$t('translations.fields.assingRole')"
       >
         <div>
-          <popup-user-role  @popupDisabled="popupDisabled('popupRoleVisible')" />
+          <popup-user-role @popupDisabled="popupDisabled('popupRoleVisible')" />
         </div>
       </DxPopup>
       <form action="your-action" @submit="handleSubmit">
@@ -50,6 +50,10 @@
             <DxSimpleItem data-field="email">
               <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
               <DxEmailRule :message="$t('translations.fields.emailRule')" />
+              <DxAsyncRule
+                :validation-callback="validateEntityExists"
+                :message="$t('translations.fields.haveRegistredEmail')"
+              />
             </DxSimpleItem>
             <DxSimpleItem data-field="name">
               <DxLabel :text="$t('translations.fields.fullName')" />
@@ -92,8 +96,8 @@
             :col-count="2"
             :caption="$t('translations.fields.moreSettings')"
           >
-            <DxButtonItem :button-options="popupPasswordOpt" horizontal-alignment="center" />
-            <DxButtonItem :button-options="popupRoleOpt" horizontal-alignment="center" />
+            <DxButtonItem :button-options="popupPasswordOpt" horizontal-alignment="right" />
+            <DxButtonItem :button-options="popupRoleOpt" horizontal-alignment="right" />
           </DxGroupItem>
           <DxGroupItem :col-count="12" :col-span="12">
             <DxButtonItem
@@ -162,6 +166,7 @@ export default {
   data() {
     return {
       employee: {
+        id: parseInt(this.$route.params.id),
         email: null,
         name: null,
         phone: null,
@@ -190,16 +195,16 @@ export default {
         onClick: () => {
           this.popupPasswordVisible = true;
         },
-        width: 150,
-        height: 70,
-        icon: "key"
+        height: 50,
+        icon: "key",
+        text: "Сменить пароль"
       },
       popupRoleOpt: {
         onClick: () => {
           this.popupRoleVisible = true;
         },
-        width: 150,
-        height: 70,
+        height: 50,
+        text: "Назначить роль",
         icon: "user"
       },
       passwordOptions: {
@@ -217,9 +222,12 @@ export default {
         displayExpr: "name"
       },
       departmentOptions: {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Department
+        dataSource: new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.company.Department
+          }),
+          filter: ["status", "=", 0]
         }),
         valueExpr: "id",
         displayExpr: "name"
@@ -239,25 +247,26 @@ export default {
     },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
-      var test = this.$customValidator.EmployeeDataFieldValueNotExists(
+      return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
+          id: this.employee.id,
           [dataField]: params.value
         },
         dataField
       );
-      return test;
     },
     backToEmployee() {
       this.$router.push("/company/staff/employees");
     },
     handleSubmit(e) {
+      delete this.employee.userName;
       this.$axios
-        .post(dataApi.company.Employee, this.employee)
+        .put(dataApi.company.Employee + "/" + this.employee.id, this.employee)
         .then(res => {
           this.backToEmployee();
           notify(
             {
-              message: this.$t("translations.menu.addEmployeeSucces"),
+              message: this.$t("translations.menu.upgrateEmployeeSucces"),
               position: {
                 my: "center top",
                 at: "center top"

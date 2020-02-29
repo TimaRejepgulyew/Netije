@@ -1,6 +1,5 @@
 <template>
-  <form action="your-action" @submit="handleSubmit">
-    <h1>{{store.password}}</h1>
+  <form @submit="handleSubmit">
     <DxForm
       :form-data="store"
       :read-only="false"
@@ -8,7 +7,7 @@
       :show-validation-summary="true"
       validation-group="changePassword"
     >
-      <DxSimpleItem :editor-options="passwordOptions" data-field="password">
+      <DxSimpleItem :editor-options="passwordOptions" data-field="newPassword">
         <DxLabel :text="$t('translations.fields.password')" />
         <DxPatternRule
           :pattern="passwordPattern"
@@ -51,7 +50,8 @@ export default {
   data() {
     return {
       store: {
-        password: ""
+        id: parseInt(this.$route.params.id),
+        newPassword: ""
       },
 
       saveButtonOptions: {
@@ -63,16 +63,13 @@ export default {
       passwordOptions: {
         mode: "password"
       },
-      passwordPattern: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!@#$%^&*a-zA-Z]{6,}/g
+      passwordPattern: /(?=.*[0-9])(?=.*[!.-_@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!.-_@#$%^&*a-zA-Z]{6,}/g
     };
   },
   methods: {
     handleSubmit(e) {
       this.$axios
-        .post(dataApi.company.Employee + "/ChangePassword", {
-          newPassword: this.store.password,
-          id: parseInt(this.$route.params.id)
-        })
+        .post(dataApi.company.Employee + "/ChangePassword", this.store)
         .then(res => {
           this.$emit("popupDisabled");
           notify(

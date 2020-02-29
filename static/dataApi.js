@@ -19,5 +19,5 @@ export default {
     Employee:`${url}/api/Employee`,
     JobTitle:`${url}/api/JobTitle`,
     ManagersAssistant:`${url}/api/ManagersAssistant`,
-  }
+  },
 };

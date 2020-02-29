@@ -17,15 +17,15 @@
                 :validation-callback="validateEntityExists"
                 :message="$t('translations.fields.userNameRule')"
               />
-              <DxPatternRule
-                :pattern="userNamePattern"
-                :message="$t('translations.fields.userNamePattern')"
-              />
               <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
               <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
               <DxEmailRule :message="$t('translations.fields.emailRule')" />
+              <DxAsyncRule
+                :validation-callback="validateEntityExists"
+                :message="$t('translations.fields.haveRegistredEmail')"
+              />
             </DxSimpleItem>
             <DxSimpleItem :editor-options="passwordOptions" data-field="password">
               <DxLabel :text="$t('translations.fields.password')" />
@@ -73,7 +73,7 @@
               <DxLabel :text="$t('translations.fields.departmentId')" />
             </DxSimpleItem>
 
-            <DxSimpleItem data-field="phone" :help-text="$t('translations.fields.phoneFormat')">
+            <DxSimpleItem data-field="phone">
               <DxLabel :text="$t('translations.fields.phones')" />
               <DxPatternRule
                 :pattern="phonePattern"
@@ -182,16 +182,17 @@ export default {
         displayExpr: "name"
       },
       departmentOptions: {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Department
+        dataSource: new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.company.Department
+          }),
+          filter: ["status", "=", 0]
         }),
         valueExpr: "id",
         displayExpr: "name"
       },
-      namePattern: /^[^0-9]+$/,
-      userNamePattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/,
-      passwordPattern: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!@#$%^&*a-zA-Z]{6,}/g,
+      passwordPattern: /(?=.*[0-9])(?=.*[!-_.@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!-_.@#$%^&*a-zA-Z]{6,}/g,
       phonePattern: /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/
     };
   },
@@ -201,13 +202,12 @@ export default {
     },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
-      var test = this.$customValidator.EmployeeDataFieldValueNotExists(
+      return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
           [dataField]: params.value
         },
         dataField
       );
-      return test;
     },
     backToEmployee() {
       this.$router.push("/company/staff/employees");

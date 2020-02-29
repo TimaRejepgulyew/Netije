@@ -29,7 +29,8 @@ export default {
       "employee": "Sotrudniki",
       "addEmployeeSucces":"Добавлен один сотрудник__TM",
       "addEmployeeError":"Возникла ошибка при добавлении сотрудника__TM",
-      "editEmployeeText":"Редактирование сотрудника -__TM",
+      "upgratingEmployee":"Редактирование сотрудника -__TM",
+     
       "managersAssistant": "Pomoshnik rukovoditelya",
       "generalDirectories": "Obshiye spravochniki",
       "countries": "Strany",
@@ -74,6 +75,7 @@ export default {
       "email": "Email_TM",
       "emailRequired": "Введите email_TM",
       "emailRule": "Email введен не верно_TM",
+      "haveRegistredEmail":"Сотрудник с таким email уже существует__TM",
       "webSite": "Веб-сайт_TM",
       "webSiteRequired": "Введите веб-сайт_TM",
       "homepage":"Домашняя страница__TM",

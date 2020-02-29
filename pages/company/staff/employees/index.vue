@@ -89,7 +89,9 @@ export default {
     DxPopup,
     DxButton
   },
-  created() {},
+  created() {
+    console.log(this.$store);
+  },
   data() {
     return {
       store: this.$dxStore({
@@ -104,7 +106,9 @@ export default {
         this.$router.push("/company/staff/employees/addEmployee");
       },
       editingStart: e => {
-        this.$router.push(`/company/staff/employees/updateEmployee/${e.data.id}`);
+        this.$router.push(
+          `/company/staff/employees/updateEmployee/${e.data.id}`
+        );
       }
     };
   },
