@@ -46,6 +46,7 @@ export default {
       "fileRetentionPeriod": "Срок хранения дел",
       "mailDeliveryMethod": "Способ доставки документов",
       "documentRegistry": "Журналы регистраций",
+      "documentType":"Тип документа",
       "documentKind": "Вид документа",
       "registrationSetting": "Настройки регистрации",
       "registrationGroup": "Группа регистрации",
@@ -53,7 +54,7 @@ export default {
       "contacts": "Контакты"
     },
     "fields": {
-
+      "fax":"Факс",
       "code": "Код",
       "codeRequired": "Введите код",
       "name": "Наименование",
@@ -208,10 +209,12 @@ export default {
       "retentionPeriodRequired": "Введите срок хранения (лет)",
       "documentFlow": "Документопоток",
       "documentFlowRequired": "Выберите документопоток",
+      
       "incomingEnum": "ВХ",
       "outcomingEnum": "ИСХ",
       "inner": "Внутренний",
       "contracts": "Договора",
+      "isRegistrationAllowed":"Разрешена ли регистрация",
       "year": "Год",
       "continuous": "Сквозной",
       "numberingPeriod": "Период нумерации",

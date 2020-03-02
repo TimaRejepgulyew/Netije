@@ -159,15 +159,11 @@ export default {
           path: "/document-circulation",
           items: [
             {
-              text: this.$t("translations.menu.profile"),
+              text: this.$t("translations.menu.documentType"),
               icon: "user",
-              path: "/document-circulation/profile"
+              path: "/document-circulation/document-type"
             },
-            {
-              text: this.$t("translations.menu.diplayData"),
-              icon: "fields",
-              path: "/document-circulation/display-data"
-            }
+           
           ]
         },
         {
@@ -198,7 +194,7 @@ export default {
           ]
         },
         {
-          text: this.$t("translations.menu.document-circulation"),
+          text: this.$t("translations.menu.docFlow"),
           icon: "docfile",
 
           items: [

@@ -118,11 +118,13 @@ export default {
       "confirmPasswordRule": "Пароль и Подтвердить пароль не подходят_TM",
       "preparesResolution": "Готовит резолюцию_TM",
       "correspondentAccount": "Корреспондентский счет_TM",
+      "documentType":"Тип документа__TM",
       "bic": "Уникальный идентификатор банка_TM",
       "bicRequired": "Введите уникальный идентификатор банка_TM",
       "type": "Тип_TM",
       "typeRequired": "Введите тип_TM",
 
+      "isRegistrationAllowed":"Разрешена ли регистрация__TM",
       "company": "Компания_TM",
       "companyRequired": "Выберите компанию_TM",
       "countryId": "Страна_TM",
