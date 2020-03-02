@@ -1,6 +1,6 @@
 export default {
   env: {
-    baseUrl: process.env.BASE_URL || "http://192.168.4.199",
+    baseUrl: process.env.npm_package_url,
   },
   mode: "spa",
   /*

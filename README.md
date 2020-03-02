@@ -1,6 +1,6 @@
 # ClientAppVue
 
-> TTDoc Nuxt SPA
+> Netije Nuxt SPA
 
 ## Build Setup
 
