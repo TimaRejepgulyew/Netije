@@ -1,5 +1,6 @@
 <template>
   <main class="container container--grid">
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -30,7 +31,6 @@
         :visible="true"
       />
       <DxScrolling mode="virtual" />
-
 
       <DxColumn
         data-field="type"
@@ -93,7 +93,6 @@
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
-
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
@@ -106,6 +105,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -123,6 +123,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -138,6 +139,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.counterPart"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.CounterPart
@@ -199,7 +201,7 @@ export default {
           break;
 
         default:
-          return require("~/static/icons/company.svg");
+          return require("~/static/icons/user-panel--icon.png");
           break;
       }
     }

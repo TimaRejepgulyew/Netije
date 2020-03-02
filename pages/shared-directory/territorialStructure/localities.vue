@@ -1,5 +1,6 @@
 <template>
   <main class="container container--grid">
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -19,16 +20,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        file-name="Locality"
+        :file-name="$t('translations.fields.localityId')"
       />
 
-
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Locality"
-      />
-
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Locality" />
 
       <DxEditing
         :allow-updating="true"
@@ -44,10 +39,7 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.localityId')"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.localityId')">
         <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
@@ -55,24 +47,13 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="regionId"
-        :caption="$t('translations.fields.regionId')"
-      >
+      <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup
-          :data-source="getFilteredRegion"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -80,6 +61,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -100,6 +82,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -118,6 +101,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.locality"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Locality,

@@ -75,10 +75,6 @@
 
             <DxSimpleItem data-field="phone">
               <DxLabel :text="$t('translations.fields.phones')" />
-              <DxPatternRule
-                :pattern="phonePattern"
-                :message="$t('translations.fields.phoneRule')"
-              />
             </DxSimpleItem>
           </DxGroupItem>
           <DxSimpleItem
@@ -134,7 +130,6 @@ export default {
     DxPatternRule,
     DxRangeRule,
     DxEmailRule,
-    DxStringLengthRule,
     DxForm,
     DxAsyncRule,
     notify
@@ -192,8 +187,7 @@ export default {
         valueExpr: "id",
         displayExpr: "name"
       },
-      passwordPattern: /(?=.*[0-9])(?=.*[!-_.@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!-_.@#$%^&*a-zA-Z]{6,}/g,
-      phonePattern: /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/
+      passwordPattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$ /g
     };
   },
   methods: {

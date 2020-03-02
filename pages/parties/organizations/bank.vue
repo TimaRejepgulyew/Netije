@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.banks") }}</h1>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -73,7 +73,11 @@
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')"></DxColumn>
 
-      <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')" :set-cell-value="onRegionIdChanged">
+      <DxColumn
+        data-field="regionId"
+        :caption="$t('translations.fields.regionId')"
+        :set-cell-value="onRegionIdChanged"
+      >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
@@ -83,9 +87,17 @@
         <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn data-field="legalAddress" :caption="$t('translations.fields.legalAddress')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="legalAddress"
+        :caption="$t('translations.fields.legalAddress')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="postAddress" :caption="$t('translations.fields.postAddress')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="postAddress"
+        :caption="$t('translations.fields.postAddress')"
+        :visible="false"
+      ></DxColumn>
 
       <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false"></DxColumn>
 
@@ -95,7 +107,12 @@
 
       <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="nonresident" :caption="$t('translations.fields.nonresident')" :visible="false" data-type="boolean"></DxColumn>
+      <DxColumn
+        data-field="nonresident"
+        :caption="$t('translations.fields.nonresident')"
+        :visible="false"
+        data-type="boolean"
+      ></DxColumn>
 
       <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
@@ -108,6 +125,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -128,6 +146,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -146,6 +165,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.banks"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Bank,

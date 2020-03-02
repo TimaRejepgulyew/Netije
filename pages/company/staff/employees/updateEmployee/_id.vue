@@ -24,7 +24,7 @@
         :show-title="true"
         :width="500"
         :height="250"
-        :title="$t('translations.fields.assingRole')"
+        :title="$t('translations.fields.addingRoles')"
       >
         <div>
           <popup-user-role @popupDisabled="popupDisabled('popupRoleVisible')" />
@@ -37,7 +37,7 @@
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
-          validation-group="upgreateEmployee"
+          validation-group="upgrateEmployee"
         >
           <DxGroupItem :col-span="4" :caption="$t('translations.fields.personalData')">
             <DxSimpleItem
@@ -131,7 +131,6 @@ import DxForm, {
   DxRequiredRule,
   DxCompareRule,
   DxRangeRule,
-  DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
   DxAsyncRule
@@ -150,7 +149,6 @@ export default {
     DxPatternRule,
     DxRangeRule,
     DxEmailRule,
-    DxStringLengthRule,
     DxForm,
     DxAsyncRule,
     DxPopup,
@@ -235,7 +233,6 @@ export default {
       popupPasswordVisible: false,
       popupRoleVisible: false,
       namePattern: /^[^0-9]+$/,
-      userNamePattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/
     };
   },
   methods: {
@@ -266,7 +263,7 @@ export default {
           this.backToEmployee();
           notify(
             {
-              message: this.$t("translations.menu.upgrateEmployeeSucces"),
+              message: this.$t("translations.menu.upgradeEmployeeSucces"),
               position: {
                 my: "center top",
                 at: "center top"
@@ -279,7 +276,7 @@ export default {
         .catch(e => {
           notify(
             {
-              message: this.$t("translations.menu.addEmployeeError"),
+              message: this.$t("translations.menu.upgradeEmployeeError"),
               position: {
                 my: "center top",
                 at: "center top"

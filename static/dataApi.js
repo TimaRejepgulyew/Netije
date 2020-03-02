@@ -7,17 +7,20 @@ export default {
     Currency: `${url}/api/Currency`
   },
   contragents: {
-       Company: `${url}/api/Company`,
-       Bank: `${url}/api/Bank`,
-       Person: `${url}/api/Person`,
-       CounterPart:`${url}/api/CounterPart`,
-       Contact:`${url}/api/Contact`
+    Company: `${url}/api/Company`,
+    Bank: `${url}/api/Bank`,
+    Person: `${url}/api/Person`,
+    CounterPart: `${url}/api/CounterPart`,
+    Contact: `${url}/api/Contact`
   },
-  company:{
-    Department:`${url}/api/Department`,
-    BusinessUnit:`${url}/api/BusinessUnit`,
-    Employee:`${url}/api/Employee`,
-    JobTitle:`${url}/api/JobTitle`,
-    ManagersAssistant:`${url}/api/ManagersAssistant`,
+  company: {
+    Department: `${url}/api/Department`,
+    BusinessUnit: `${url}/api/BusinessUnit`,
+    Employee: `${url}/api/Employee`,
+    JobTitle: `${url}/api/JobTitle`,
+    ManagersAssistant: `${url}/api/ManagersAssistant`
   },
+  admin: {
+    Roles: `${url}/api/Role`
+  }
 };

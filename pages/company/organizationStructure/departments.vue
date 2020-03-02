@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1 class="grid--title">{{ $t("translations.menu.departments") }}</h1>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -50,18 +50,11 @@
         ></DxAsyncRule>
       </DxColumn>
 
-
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phone')" :visible="false" />
-
+      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false" />
 
-
-      <DxColumn
-        data-field="shortName"
-        :caption="$t('translations.fields.shortName')"
-      >
-      </DxColumn>
+      <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')"></DxColumn>
 
       <DxColumn
         data-field="headOfficeId"
@@ -77,23 +70,17 @@
         :visible="false"
       />
 
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      />
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false" />
 
       <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.managerIdRequired')" />
         <DxLookup :data-source="getFilteredManager" value-expr="id" display-expr="name" />
       </DxColumn>
-
 
       <DxColumn data-field="businessUnitId" :caption="$t('translations.fields.businessUnitId')">
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
         <DxLookup :data-source="getFilteredBussinessUnit" value-expr="id" display-expr="name" />
       </DxColumn>
-
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
@@ -103,6 +90,7 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -123,6 +111,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -141,6 +130,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.department"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Department,
@@ -172,13 +162,12 @@ export default {
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      },
-
+      }
     };
   },
   methods: {
     getFilteredHeadOffice(options) {
-      console.log(options)
+      console.log(options);
       return {
         store: this.headOfficeStore,
         filter: options.data

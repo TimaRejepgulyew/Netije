@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.contact") }}</h1>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -64,7 +64,11 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="jobTitle" :caption="$t('translations.fields.jobTitle')" :visible="false">
+      <DxColumn
+        data-field="jobTitle"
+        :caption="$t('translations.fields.jobTitle')"
+        :visible="false"
+      >
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
@@ -74,21 +78,13 @@
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phone')"></DxColumn>
 
-      <DxColumn
-        data-field="fax"
-        :caption="$t('translations.fields.fax')"
-      >
+      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')">
         <DxRequiredRule :message="$t('translations.fields.fax')" />
       </DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')">
-      </DxColumn>
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
 
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
 
       <DxColumn
         data-field="homepage"
@@ -104,6 +100,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -124,6 +121,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -142,6 +140,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.contacts"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Contact,
@@ -157,14 +156,13 @@ export default {
         loadUrl: dataApi.contragents.Company
       }),
 
-
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      },
+      }
     };
   },
   methods: {

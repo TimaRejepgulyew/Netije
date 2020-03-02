@@ -1,13 +1,12 @@
 <template>
   <main class="container">
-    <h1>{{$t("translations.menu.counterPart")}}</h1>
+    <h1>{{$t("translations.menu.administration")}}</h1>
   </main>
 </template>
 <script>
 export default {
-
   data() {
-    return { };
+    return {};
   },
   components: {},
   methods: {},
@@ -16,4 +15,10 @@ export default {
 </script>
 <style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
+.lang-icon {
+  position: relative;
+  top: 25%;
+  width: 25px;
+  height: 25px;
+}
 </style>

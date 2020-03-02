@@ -1,7 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1 class="grid--title">{{ $t("translations.menu.employee") }}</h1>
-
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -39,7 +38,9 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
-      <DxColumn data-field="userName"></DxColumn>
+      <DxColumn data-field="userName" :caption="$t('translations.fields.userName')">
+
+      </DxColumn>
 
       <DxColumn data-field="jobTitleId" :caption="$t('translations.fields.jobTitleId')"></DxColumn>
 
@@ -53,6 +54,7 @@
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
+import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
@@ -74,6 +76,7 @@ import {
 import { DxItem } from "devextreme-vue/form";
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -89,11 +92,9 @@ export default {
     DxPopup,
     DxButton
   },
-  created() {
-    console.log(this.$store);
-  },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.employee"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Employee,

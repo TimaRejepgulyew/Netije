@@ -1,5 +1,6 @@
 <template>
   <main>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       id="gridContainer"
@@ -23,14 +24,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        file-name="Region"
+        :file-name="$t('translations.fields.regionId')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Region"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Region" />
 
       <DxEditing
         :allow-updating="true"
@@ -54,23 +51,13 @@
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn
-        data-field="countryId"
-        :caption="$t('translations.fields.countryId')"
-      >
-        <DxLookup
-          :data-source="getFilteredCountry"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn data-field="countryId" :caption="$t('translations.fields.countryId')">
+        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxLookup :data-source="getFilteredCountry" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -78,7 +65,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -99,6 +86,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -117,6 +105,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.region"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Region,

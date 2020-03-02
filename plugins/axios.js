@@ -9,7 +9,7 @@ export default function({ app, $axios }) {
     if (code === 400) {
       // redirect('/400')
     } else if (code === 401) {
-      window.location.reload;
+      app.$router.push("/calback");
     }
   });
 }

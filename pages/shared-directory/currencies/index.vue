@@ -1,5 +1,6 @@
 <template>
   <main class="container container--grid">
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -46,37 +47,35 @@
         alignment="left"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule :max="60" message="The name must not exceed 60 symbols" />
+        <DxRequiredRule :message="$t('translations.fields.currencyIdRequired')" />
+        <DxStringLengthRule :max="60" :message="$t('translations.fields.maxLength')+' 60'" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.currencyAlreadyAxists')"
           :validation-callback="validateCurrencyName"
         ></DxAsyncRule>
       </DxColumn>
 
-      
-
       <DxColumn data-field="alphaCode" :caption="$t('translations.fields.alphaCode')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule :max="3" message="The name must not exceed 3 symbols" />
+        <DxRequiredRule :message="$t('translations.fields.alphaCodeRequired')" />
+        <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.alphaCodeAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
       <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule :max="60" message="The Short name must not exceed 60 symbols" />
+        <DxRequiredRule :message="$t('translations.fields.shortNameRequired')" />
+        <DxStringLengthRule :max="60" :message="$t('translations.fields.maxLength')+' 60'" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
       <DxColumn data-field="fractionName" :caption="$t('translations.fields.fractionName')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule :max="20" message="The Fraction name must not exceed 20 symbols" />
+        <DxRequiredRule :message="$t('translations.fields.fractionNameRequired')" />
+        <DxStringLengthRule :max="20" :message="$t('translations.fields.maxLength')+' 20'" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.fractionNameAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -86,10 +85,10 @@
         :caption="$t('translations.fields.isDefault')"
       ></DxColumn>
       <DxColumn data-field="numericCode" :caption="$t('translations.fields.numericCode')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule :max="3" message="The name must not exceed 3 symbols" />
+        <DxRequiredRule :message="$t('translations.fields.numericCodeRequired')" />
+        <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.numericCodeAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -102,6 +101,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -123,6 +123,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -142,6 +143,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.currencies"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Currency,

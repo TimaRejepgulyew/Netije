@@ -1,5 +1,6 @@
 <template>
   <form @submit="handleSubmit">
+    
     <DxForm
       :form-data="store"
       :read-only="false"
@@ -63,7 +64,7 @@ export default {
       passwordOptions: {
         mode: "password"
       },
-      passwordPattern: /(?=.*[0-9])(?=.*[!.-_@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!.-_@#$%^&*a-zA-Z]{6,}/g
+      passwordPattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$ /g
     };
   },
   methods: {

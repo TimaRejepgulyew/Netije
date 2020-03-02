@@ -9,7 +9,6 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
     >
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
@@ -22,14 +21,14 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.managersAssistant')"
+        :file-name="$t('translations.menu.departments')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="managersAssistant" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
+        :allow-updating="store.isSistem"
+        :allow-deleting="store.isSistem"
         :allow-adding="true"
         :useIcons="true"
         mode="form"
@@ -42,31 +41,23 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="managerId"
-        :caption="$t('translations.fields.managerId')"
-        :set-cell-value="onManagerIdChanged"
-      >
-        <DxRequiredRule :message="$t('translations.fields.managerIdRequired')" />
-        <DxLookup :data-source="getFilteredManager" value-expr="id" display-expr="name" />
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
-
       <DxColumn
-        data-field="assistantId"
-        :caption="$t('translations.fields.assistantId')"
-        :set-cell-value="onAssistantIdChanged"
+        data-field="employees"
+        :caption="$t('translations.fields.employee')"
+        data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.assistantIdRequired')" />
-        <DxLookup :data-source="getFilteredAssistant" value-expr="id" display-expr="name" />
-      </DxColumn>PreparesResolution
-      <DxColumn
-        data-field="preparesResolution"
-        :caption="$t('translations.fields.preparesResolution')"
-        data-type="boolean"
-      ></DxColumn>
-
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -89,7 +80,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -109,63 +101,57 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxButton,
+    Header
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.managersAssistant"),
+      headerTitle: this.$t("translations.menu.roles"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.ManagersAssistant,
-        insertUrl: dataApi.company.ManagersAssistant,
-        updateUrl: dataApi.company.ManagersAssistant,
-        removeUrl: dataApi.company.ManagersAssistant
+        loadUrl: `${dataApi.admin.Roles}/${this.$route.params.id}`,
+        insertUrl: `${dataApi.admin.Roles}/${this.$route.params.id}`,
+        updateUrl: `${dataApi.admin.Roles}/${this.$route.params.id}`,
+        removeUrl: `${dataApi.admin.Roles}/${this.$route.params.id}`
       }),
-
-      statusStores: this.$store.getters["status/status"],
-
-      employeeStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee
-      }),
-
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       },
-
-      onManagerIdChanged(rowData, value) {
-        this.defaultSetCellValue(rowData, value);
-      },
-
-      onAssistantIdChanged(rowData, value) {
-        this.defaultSetCellValue(rowData, value);
+      toCurrentRole: e => {
+        this.$router.push("/admin/currentRole/" + e.row.data.id);
       }
     };
   },
   methods: {
-    getFilteredManager(options) {
+    getFilteredHeadOffice(options) {
       return {
-        store: this.employeeStore,
+        store: this.headOfficeStore,
         filter: options.data
-          ? ["id", "<>", options.data.assistantId, "or", "status", "=", 0]
+          ? ["status", "=", 0, "or", "id", "=", options.data.headOfficeId]
           : null
       };
     },
-    getFilteredAssistant(options) {
+
+    getFilteredManager(options) {
       return {
-        store: this.employeeStore,
+        store: this.managerStore,
         filter: options.data
-          ? ["id", "<>", options.data.managerId, "or", "status", "=", 0]
+          ? ["status", "=", 0, "or", "id", "=", options.data.managerId]
+          : null
+      };
+    },
+    getFilteredBussinessUnit(options) {
+      return {
+        store: this.businessUnitStore,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id", "=", options.data.businessUnitId]
           : null
       };
     },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
-      return this.$customValidator.ManagerAssistantDataFieldValueNotExists(
+      return this.$customValidator.DepartmentDataFieldValueNotExists(
         {
           id: params.data.id,
           [dataField]: params.value
@@ -176,7 +162,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" >
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {

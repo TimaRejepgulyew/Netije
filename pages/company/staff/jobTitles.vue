@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1 class="grid--title">{{ $t("translations.menu.jobTitle") }}</h1>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -58,6 +58,7 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -78,6 +79,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -96,6 +98,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.fields.jobTitleId"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.JobTitle,
@@ -112,12 +115,10 @@ export default {
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      },
-
+      }
     };
   },
   methods: {
-
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.JobTitleDataFieldValueNotExists(

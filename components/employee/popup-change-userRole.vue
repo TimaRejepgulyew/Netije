@@ -9,7 +9,7 @@
     >
       <DxSimpleItem :editor-options="tagboxOptions" editor-type="dxTagBox" data-field="roles">
         <DxLabel :text="$t('translations.fields.role')" />
-        <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.roleRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>
@@ -47,10 +47,10 @@ export default {
     DxButton
   },
   async mounted() {
-   var roles = await this.$axios.get(
+    var res = await this.$axios.get(
       dataApi.company.Employee + "/GetAllUserRoles/" + this.$route.params.id
     );
-    console.log(roles.data);
+    this.store.roles = res.data;
   },
   data() {
     return {
@@ -60,10 +60,10 @@ export default {
       },
 
       tagboxOptions: {
-        // dataSource: this.$dxStore({
-        //   key: "id",
-        //   loadUrl: dataApi.company.Department
-        // }),
+        dataSource: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Department
+        }),
         items: this.roles,
         acceptCustomValue: true,
         onCustomItemCreating: this.addNewRole
@@ -89,7 +89,7 @@ export default {
           this.$emit("popupDisabled");
           notify(
             {
-              message: this.$t("translations.menu.addEmployeeSucces"),
+              message: this.$t("translations.fields.addNewRoles"),
               position: {
                 my: "center top",
                 at: "center top"
@@ -102,7 +102,7 @@ export default {
         .catch(e => {
           notify(
             {
-              message: this.$t("translations.menu.addEmployeeError"),
+              message: this.$t("translations.fields.addNewRolesError"),
               position: {
                 my: "center top",
                 at: "center top"

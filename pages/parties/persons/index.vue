@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.person") }}</h1>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -40,8 +40,7 @@
         :placeholder="$t('translations.fields.search') + '...'"
         :visible="true"
       />
-      <DxScrolling mode="virtual" />
-
+      <DxScrolling mode="virtual"/>
       <DxColumn
         data-field="firstName"
         :caption="$t('translations.fields.firstName')"
@@ -49,34 +48,19 @@
         data-type="string"
       >
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
-
       <DxColumn
         data-field="lastName"
         :caption="$t('translations.fields.lastName')"
         data-type="string"
       >
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
-
       <DxColumn
         data-field="middleName"
         :caption="$t('translations.fields.middleName')"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -85,28 +69,24 @@
         data-type="date"
       >
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="sex" :caption="$t('translations.fields.sex')" data-type="string">
         <DxLookup :data-source="sex" value-expr="id" display-expr="name"></DxLookup>
       </DxColumn>
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+      <DxColumn data-field="name" :caption="$t('translations.fields.fullName')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.fullNameAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.tinRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.tinAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -118,12 +98,10 @@
         :caption="$t('translations.fields.regionId')"
         :set-cell-value="onRegionIdChanged"
       >
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
 
@@ -157,7 +135,6 @@
       <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
@@ -172,7 +149,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -193,6 +170,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -211,6 +189,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.person"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Person,

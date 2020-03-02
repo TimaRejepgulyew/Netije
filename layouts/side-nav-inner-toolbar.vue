@@ -211,7 +211,21 @@ export default {
               icon: "fields"
             }
           ]
-        }
+        },
+        {
+          text: this.$t("translations.menu.administration"),
+          path: "/admin",
+          icon: "admin",
+
+          items: [
+            {
+              text: this.$t("translations.menu.roles"),
+               path: "/admin/roles",
+              icon: "user"
+            },
+           
+          ]
+        },
       ]
     };
   },

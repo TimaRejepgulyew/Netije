@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1>{{ $t("translations.menu.company") }}</h1>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -121,27 +121,22 @@
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
-
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
 
-      <DxMasterDetail
-      :enabled="true"
-      template="masterDetailTemplate"
-    />
-    <template #masterDetailTemplate="company">
-      <ContactMasterDetail
-      :company="company.data"
-      />
-    </template>
+      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <template #masterDetailTemplate="company">
+        <ContactMasterDetail :company="company.data" />
+      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-import ContactMasterDetail from '~/components/parties/organizations/contact__masterDetail';
+import ContactMasterDetail from "~/components/parties/organizations/contact__masterDetail";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -163,6 +158,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -183,6 +179,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.company"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Company,

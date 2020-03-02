@@ -1,81 +1,65 @@
 <template>
-    <main class="container container--grid">
-      <DxDataGrid
-        :show-borders="true"
-        :data-source="store"
-        :remote-operations="true"
-        :errorRowEnabled="true"
-        :allow-column-reordering="true"
-        :allow-column-resizing="true"
-        :column-auto-width="true"
-        @row-updating="rowUpdating"
-        @init-new-row="initNewRow"
-      >
-        <DxExport
-          :enabled="true"
-          :allow-export-selected-data="true"
-          file-name="Countries"
-        />
-        <DxFilterRow :visible="true" />
-        <DxSelection mode="multiple" />
-        <DxHeaderFilter :visible="true" />
+  <main class="container container--grid">
+    <Header :headerTitle="headerTitle"></Header>
+    <DxDataGrid
+      :show-borders="true"
+      :data-source="store"
+      :remote-operations="true"
+      :errorRowEnabled="true"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
+      :column-auto-width="true"
+      @row-updating="rowUpdating"
+      @init-new-row="initNewRow"
+    >
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        :file-name="$t('translations.fields.countryId')"
+      />
+      <DxFilterRow :visible="true" />
+      <DxSelection mode="multiple" />
+      <DxHeaderFilter :visible="true" />
 
-        <DxColumnChooser :enabled="true" />
-        <DxColumnFixing :enabled="true" />
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
 
-        <DxStateStoring
-          :enabled="true"
-          type="localStorage"
-          storage-key="countries"
-        />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="countries" />
 
-        <DxEditing
-          :allow-updating="true"
-          :allow-deleting="true"
-          :allow-adding="true"
-          :useIcons="true"
-          mode="form"
-        />
+      <DxEditing
+        :allow-updating="true"
+        :allow-deleting="true"
+        :allow-adding="true"
+        :useIcons="true"
+        mode="form"
+      />
 
-        <DxSearchPanel
-          position="after"
-          :placeholder="$t('translations.fields.search') + '...'"
-          :visible="true"
-        />
-        <DxScrolling mode="virtual" />
+      <DxSearchPanel
+        position="after"
+        :placeholder="$t('translations.fields.search') + '...'"
+        :visible="true"
+      />
+      <DxScrolling mode="virtual" />
 
-        <DxColumn
-          data-field="name"
-          :caption="$t('translations.fields.countryId')"
-          data-type="string"
-        >
-          <DxRequiredRule
-            :message="$t('translations.fields.countryIdRequired')"
-          />
-          <DxAsyncRule
-            :message="$t('translations.fields.countryAlreadyAxists')"
-            :validation-callback="validateCountryName"
-          ></DxAsyncRule>
-        </DxColumn>
+      <DxColumn data-field="name" :caption="$t('translations.fields.countryId')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyAxists')"
+          :validation-callback="validateCountryName"
+        ></DxAsyncRule>
+      </DxColumn>
 
-        <DxColumn
-          data-field="status"
-          :caption="$t('translations.fields.status')"
-        >
-          <DxLookup
-            :data-source="statusStores"
-            value-expr="id"
-            display-expr="status"
-          />
-        </DxColumn>
-      </DxDataGrid>
-    </main>
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+      </DxColumn>
+    </DxDataGrid>
+  </main>
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
 import CustomStore from "devextreme/data/custom_store";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -96,6 +80,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -112,11 +97,10 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
-  mounted() {
-    
-  },
+  mounted() {},
   data() {
     return {
+      headerTitle: this.$t("translations.menu.countries"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Country,

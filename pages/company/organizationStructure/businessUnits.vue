@@ -1,6 +1,6 @@
 <template>
   <main class="container container--grid">
-    <h1 class="grid--title">{{ $t("translations.menu.businessUnit") }}</h1>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -43,9 +43,9 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.businessUnitAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -57,15 +57,15 @@
       />
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.tinRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.tinAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
         <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
 
@@ -90,7 +90,7 @@
 
       <DxColumn
         data-field="headCompanyId"
-        :caption="$t('translations.fields.headOfficeId')"
+        :caption="$t('translations.fields.headCompanyId')"
         :visible="false"
       >
         <DxLookup :data-source="store" value-expr="id" display-expr="name" />
@@ -110,8 +110,8 @@
 
       <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false" />
 
-      <DxColumn data-field="ceo" :caption="$t('translations.fields.ceo')" :visible="true" >
-      <DxLookup :data-source="getFilteredEmployee" value-expr="id" display-expr="name" />
+      <DxColumn data-field="ceo" :caption="$t('translations.fields.ceo')" :visible="true">
+        <DxLookup :data-source="getFilteredEmployee" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false" />
@@ -125,7 +125,7 @@
       <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.bankIdRequired')" />
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
       <DxColumn data-field="code" :caption="$t('translations.fields.code')"></DxColumn>
@@ -138,6 +138,7 @@
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
+import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
@@ -159,6 +160,7 @@ import {
 
 export default {
   components: {
+    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -177,6 +179,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.menu.businessUnit"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.BusinessUnit,
@@ -246,7 +249,6 @@ export default {
       };
     },
     getFilteredEmployee(options) {
-      console.log(options)
       return {
         store: this.employee,
         filter: options.data
@@ -268,8 +270,6 @@ export default {
 };
 </script>
 <style lang="scss" >
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .container {
   display: block;
 }
