@@ -89,7 +89,9 @@ export default {
     DxPopup,
     DxButton
   },
-  created() {},
+  created() {
+    console.log(this.$store);
+  },
   data() {
     return {
       store: this.$dxStore({

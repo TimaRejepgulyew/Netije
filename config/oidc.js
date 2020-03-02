@@ -7,4 +7,5 @@ export const oidcSettings = {
     scope: "TTDoc.UIAPI openid profile offline_access",
     post_logout_redirect_uri: "http://localhost:3000/",
     automaticSilentRenew: true,
+    silentRequestTimeout: 100,
 }
