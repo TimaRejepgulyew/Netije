@@ -161,7 +161,7 @@ export default {
             {
               text: this.$t("translations.menu.profile"),
               icon: "user",
-              path: "/document-circulation/profile"
+              path: "/document-circulation/document-type"
             },
             {
               text: this.$t("translations.menu.diplayData"),
