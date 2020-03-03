@@ -25,15 +25,13 @@
         :file-name="$t('translations.menu.contacts')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact" />
-
-      <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
-        :useIcons="true"
-        mode="form"
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Contact"
       />
+
+      <DxEditing :useIcons="true" mode="form" />
 
       <DxSearchPanel
         position="after"
@@ -65,22 +63,31 @@
         :caption="$t('translations.fields.jobTitleId')"
         :visible="false"
       >
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
+      <DxColumn
+        data-field="phone"
+        :caption="$t('translations.fields.phones')"
+      ></DxColumn>
 
       <DxColumn data-field="fax" :caption="$t('translations.fields.fax')">
         <DxRequiredRule :message="$t('translations.fields.fax')" />
       </DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
+      <DxColumn
+        data-field="email"
+        :caption="$t('translations.fields.email')"
+      ></DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+      ></DxColumn>
 
       <DxColumn
         data-field="homepage"
@@ -88,7 +95,11 @@
         :visible="false"
       ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -137,12 +148,10 @@ export default {
   data() {
     return {
       headerTitle: this.$t("translations.menu.contacts"),
+
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Contact,
-        insertUrl: dataApi.contragents.Contact,
-        updateUrl: dataApi.contragents.Contact,
-        removeUrl: dataApi.contragents.Contact
       }),
 
       statusStores: this.$store.getters["status/status"],
