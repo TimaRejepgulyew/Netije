@@ -24,11 +24,13 @@ export default {
     Roles: `${url}/api/Role`
   },
   docFlow: {
+    DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
     CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
-    MailDeliveryMethod: `${url}/api/MailDeliveryMethod`
+    MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
+    
 
   }
 };
