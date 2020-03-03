@@ -161,7 +161,22 @@ export default {
             {
               text: this.$t("translations.menu.documentKind"),
               icon: "user",
-              path: "/docFlow/document-kind"
+              path: "/docFlow/document-type"
+            },
+            {
+              text: this.$t("translations.menu.caseFile"),
+              icon: "user",
+              path: "/docFlow/case-file/"
+            },
+            {
+              text: this.$t("translations.menu.fileRetentionPeriod"),
+              icon: "user",
+              path: "/docFlow/file-retention-period/"
+            },
+            {
+              text: this.$t("translations.menu.mailDeliveryMethod"),
+              icon: "user",
+              path: "/docFlow/mail-delivery-method/"
             }
           ]
         },
