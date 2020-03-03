@@ -23,7 +23,11 @@ export default {
   admin: {
     Roles: `${url}/api/Role`
   },
-  documentCirculation: {
-    DocumentType: `${url}/api/DocumentType`
+  docFlow: {
+    DocumentType: `${url}/api/DocumentType`,
+    CaseFile: `${url}/api/CaseFile`,
+    FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
+    RegistrationGroup: `${url}/api/RegistrationGroup`
+
   }
 };

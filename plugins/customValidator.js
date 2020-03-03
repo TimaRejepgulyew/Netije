@@ -131,10 +131,7 @@ export default ({ app }, inject) => {
     );
   }
 
-  async function ContactDataFieldValueNotExists(
-    payload,
-    propertyName
-  ) {
+  async function ContactDataFieldValueNotExists(payload, propertyName) {
     return (
       (await isEntityExists(
         dataApi.contragents.Contact,
@@ -143,6 +140,28 @@ export default ({ app }, inject) => {
       )) == false
     );
   }
+
+  async function CaseFileDataFieldValueNotExists(payload, propertyName) {
+    return (
+      (await isEntityExists(
+        dataApi.docFlow.CaseFile,
+        payload,
+        propertyName
+      )) == false
+    );
+  }
+
+
+  async function FileRetentionPeriodDataFieldValueNotExists(payload, propertyName) {
+    return (
+      (await isEntityExists(
+        dataApi.docFlow.FileRetentionPeriod,
+        payload,
+        propertyName
+      )) == false
+    );
+  }
+
 
   let obj = {
     isNameExists: isNameExists,
@@ -159,7 +178,9 @@ export default ({ app }, inject) => {
     DepartmentDataFieldValueNotExists: DepartmentDataFieldValueNotExists,
     JobTitleDataFieldValueNotExists: JobTitleDataFieldValueNotExists,
     ManagerAssistantDataFieldValueNotExists: ManagerAssistantDataFieldValueNotExists,
-    ContactDataFieldValueNotExists: ContactDataFieldValueNotExists
+    ContactDataFieldValueNotExists: ContactDataFieldValueNotExists,
+    CaseFileDataFieldValueNotExists: CaseFileDataFieldValueNotExists,
+    FileRetentionPeriodDataFieldValueNotExists: FileRetentionPeriodDataFieldValueNotExists
   };
 
   inject("customValidator", obj);
