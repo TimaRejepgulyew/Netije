@@ -15,7 +15,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.fileRetentionPeriod')"
+        :file-name="$t('translations.fields.mailDeliveryMethod')"
       />
       <DxFilterRow :visible="true" />
       <DxSelection mode="multiple" />
@@ -27,7 +27,7 @@
       <DxStateStoring
         :enabled="true"
         type="localStorage"
-        storage-key="FileRetentionPeriod"
+        storage-key="MailDeliveryMethod"
       />
 
       <DxEditing
@@ -57,11 +57,6 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="retentionPeriod"
-        :caption="$t('translations.fields.retentionPeriod')"
-      >
-      </DxColumn>
 
       <DxColumn
         data-field="note"
@@ -125,13 +120,13 @@ export default {
   mounted() {},
   data() {
     return {
-      headerTitle: this.$t("translations.menu.fileRetentionPeriod"),
+      headerTitle: this.$t("translations.menu.mailDeliveryMethod"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.FileRetentionPeriod,
-        insertUrl: dataApi.docFlow.FileRetentionPeriod,
-        updateUrl: dataApi.docFlow.FileRetentionPeriod,
-        removeUrl: dataApi.docFlow.FileRetentionPeriod
+        loadUrl: dataApi.docFlow.MailDeliveryMethod,
+        insertUrl: dataApi.docFlow.MailDeliveryMethod,
+        updateUrl: dataApi.docFlow.MailDeliveryMethod,
+        removeUrl: dataApi.docFlow.MailDeliveryMethod
       }),
 
       statusStores: this.$store.getters["status/status"],
@@ -149,7 +144,7 @@ export default {
   methods: {
     validateEntityExists(params) {
       var dataField = params.column.dataField;
-      return this.$customValidator.FileRetentionPeriodDataFieldValueNotExists(
+      return this.$customValidator.MailDeliveryMethodDataFieldValueNotExists(
         {
           id: params.data.id,
           [dataField]: params.value

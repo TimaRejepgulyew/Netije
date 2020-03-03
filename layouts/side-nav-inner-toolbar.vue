@@ -173,6 +173,11 @@ export default {
               icon: "user",
               path: "/docFlow/file-retention-period/"
             },
+            {
+              text: this.$t("translations.menu.mailDeliveryMethod"),
+              icon: "user",
+              path: "/docFlow/mail-delivery-method/"
+            }
           ]
         },
         {

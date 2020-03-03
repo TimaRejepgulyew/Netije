@@ -152,6 +152,17 @@ export default ({ app }, inject) => {
   }
 
 
+  async function MailDeliveryMethodDataFieldValueNotExists(payload, propertyName) {
+    return (
+      (await isEntityExists(
+        dataApi.docFlow.MailDeliveryMethod,
+        payload,
+        propertyName
+      )) == false
+    );
+  }
+
+
   async function FileRetentionPeriodDataFieldValueNotExists(payload, propertyName) {
     return (
       (await isEntityExists(
@@ -180,7 +191,8 @@ export default ({ app }, inject) => {
     ManagerAssistantDataFieldValueNotExists: ManagerAssistantDataFieldValueNotExists,
     ContactDataFieldValueNotExists: ContactDataFieldValueNotExists,
     CaseFileDataFieldValueNotExists: CaseFileDataFieldValueNotExists,
-    FileRetentionPeriodDataFieldValueNotExists: FileRetentionPeriodDataFieldValueNotExists
+    FileRetentionPeriodDataFieldValueNotExists: FileRetentionPeriodDataFieldValueNotExists,
+    MailDeliveryMethodDataFieldValueNotExists: MailDeliveryMethodDataFieldValueNotExists
   };
 
   inject("customValidator", obj);
