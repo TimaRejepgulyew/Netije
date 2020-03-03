@@ -1,9 +1,10 @@
 {
-  "name": "ClientAppVue",
+  "name": "Netije",
   "version": "1.0.0",
-  "description": "TTDoc Nuxt SPA",
+  "description": "Netije Nuxt SPA",
   "author": "Timur Kleperson",
   "private": true,
+  "url": "http://192.168.4.199",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
