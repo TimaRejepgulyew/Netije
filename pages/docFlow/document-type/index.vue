@@ -22,7 +22,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.departments')"
+        :file-name="$t('translations.menu.contact')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
@@ -65,7 +65,6 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,

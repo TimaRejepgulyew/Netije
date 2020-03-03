@@ -43,9 +43,9 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -65,9 +65,9 @@
       ></DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.tinRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.tinAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -101,7 +101,9 @@
 
       <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false"></DxColumn>
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false">
+        <DxEmailRule :message="$t('translations.fields.emailRule')" />
+      </DxColumn>
 
       <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
 
@@ -153,7 +155,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxMasterDetail
+  DxMasterDetail,
+  DxEmailRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -175,7 +178,8 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxMasterDetail,
-    ContactMasterDetail
+    ContactMasterDetail,
+    DxEmailRule
   },
   data() {
     return {

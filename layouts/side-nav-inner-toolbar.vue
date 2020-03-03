@@ -154,16 +154,15 @@ export default {
           ]
         },
         {
-          text: this.$t("translations.menu.document-circulation"),
+          text: this.$t("translations.menu.docFlow"),
           icon: "docfile",
-          path: "/document-circulation",
+          path: "/docFlow",
           items: [
             {
               text: this.$t("translations.menu.documentType"),
               icon: "user",
-              path: "/document-circulation/document-type"
-            },
-           
+              path: "/docFlow/document-type"
+            }
           ]
         },
         {
@@ -194,21 +193,6 @@ export default {
           ]
         },
         {
-          text: this.$t("translations.menu.docFlow"),
-          icon: "docfile",
-
-          items: [
-            {
-              text: this.$t("translations.menu.profile"),
-              icon: "user"
-            },
-            {
-              text: this.$t("translations.menu.diplayData"),
-              icon: "fields"
-            }
-          ]
-        },
-        {
           text: this.$t("translations.menu.administration"),
           path: "/admin",
           icon: "admin",
@@ -216,12 +200,11 @@ export default {
           items: [
             {
               text: this.$t("translations.menu.roles"),
-               path: "/admin/roles",
+              path: "/admin/roles",
               icon: "user"
-            },
-           
+            }
           ]
-        },
+        }
       ]
     };
   },

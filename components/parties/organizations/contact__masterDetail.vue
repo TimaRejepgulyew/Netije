@@ -1,6 +1,5 @@
 <template>
   <main class="container container--grid">
-    <h5>{{ $t("translations.menu.contact") }}</h5>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -22,14 +21,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.contact')"
+        :file-name="$t('translations.menu.contacts')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Contact"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact-detail" />
 
       <DxEditing
         :allow-updating="true"
@@ -46,31 +41,20 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
-        <DxRequiredRule
-          :message="$t('translations.fields.countryIdRequired')"
-        />
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-
       <DxColumn
         data-field="companyId"
-        :caption="$t('translations.fields.companyId')"
+        :caption="$t('translations.fields.company')"
         :visible="true"
         :allow-editing="false"
       >
-        <DxLookup
-          :data-source="getFilteredCompany"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredCompany" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn
@@ -81,31 +65,19 @@
 
       <DxColumn
         data-field="jobTitle"
-        :caption="$t('translations.fields.jobTitle')"
+        :caption="$t('translations.fields.jobTitleId')"
         :visible="false"
-      >
-        <DxRequiredRule
-          :message="$t('translations.fields.countryIdRequired')"
-        />
-      </DxColumn>
-
-      <DxColumn
-        data-field="phone"
-        :caption="$t('translations.fields.phone')"
       ></DxColumn>
 
-      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')">
-        <DxRequiredRule :message="$t('translations.fields.fax')" />
-      </DxColumn>
+      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
+
+      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')"></DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
+        <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
 
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
 
       <DxColumn
         data-field="homepage"
@@ -113,11 +85,7 @@
         :visible="false"
       ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -140,7 +108,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxEmailRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -159,7 +128,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxEmailRule
   },
   props: {
     company: {
@@ -168,7 +138,7 @@ export default {
     }
   },
   data() {
-    let {name, id} = this.company.data;
+    let { name, id } = this.company.data;
     return {
       store: new DataSource({
         store: this.$dxStore({

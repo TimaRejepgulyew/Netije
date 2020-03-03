@@ -7,7 +7,7 @@ export default {
     Currency: `${url}/api/Currency`
   },
   contragents: {
-    Company: `${url}/api/Company`,
+    Company: `${url}/api/Companies`,
     Bank: `${url}/api/Bank`,
     Person: `${url}/api/Person`,
     CounterPart: `${url}/api/CounterPart`,

@@ -43,6 +43,7 @@ export default {
       "codeRequired": "Введите код_TM",
       "name": "Наименование_TM",
       "nameRequired": "Введите наименование_TM",
+      "nameAlreadyAxists": "Такое наименование уже существует__TM",
       "shortName": "Короткое наименование_TM",
       "shortNameRequired": "Введите короткое наименование_TM",
       "shortNameAlreadyAxists": "Такое короткое наименование уже существует__TM",

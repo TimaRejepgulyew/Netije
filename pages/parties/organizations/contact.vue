@@ -22,7 +22,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.contact')"
+        :file-name="$t('translations.menu.contacts')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact" />
@@ -43,19 +43,15 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.name')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyAxists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxColumn>
 
       <DxColumn
         data-field="companyId"
-        :caption="$t('translations.fields.headOfficeId')"
+        :caption="$t('translations.menu.company')"
         :visible="true"
       >
-        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
+        <DxLookup :data-source="getFilteredCompany" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn
@@ -153,7 +149,7 @@ export default {
 
       companyStore: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.Company
+        loadUrl: dataApi.contragents.CounterPart
       }),
 
       initNewRow: e => {
@@ -166,24 +162,24 @@ export default {
     };
   },
   methods: {
-    getFilteredRegion(options) {
+    getFilteredCompany(options) {
       return {
-        store: this.company,
+        store: this.companyStore,
         filter: options.data
           ? ["status", "=", 0, "or", "id", "=", options.data.companyId]
           : null
       };
     },
-    // validateEntityExists(params) {
-    //   var dataField = params.column.dataField;
-    //   return this.$customValidator.ContactDataFieldValueNotExists(
-    //     {
-    //       id: params.data.id,
-    //       [dataField]: params.value
-    //     },
-    //     dataField
-    //   );
-    // }
+    validateEntityExists(params) {
+      var dataField = params.column.dataField;
+      return this.$customValidator.CompanyDataFieldValueNotExists(
+        {
+          id: params.data.id,
+          [dataField]: params.value
+        },
+        dataField
+      );
+    }
   }
 };
 </script>
