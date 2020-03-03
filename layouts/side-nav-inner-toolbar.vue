@@ -159,9 +159,9 @@ export default {
           path: "/docFlow",
           items: [
             {
-              text: this.$t("translations.menu.documentType"),
+              text: this.$t("translations.menu.documentKind"),
               icon: "user",
-              path: "/docFlow/document-type"
+              path: "/docFlow/document-kind"
             }
           ]
         },

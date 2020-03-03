@@ -1,8 +1,8 @@
 export const state = () => ({
   userPermissions: {
     allowUpdating: true,
-    allowAdding: false,
-    allowDeleteing: false
+    allowAdding: true,
+    allowDeleteing: true
   }
 });
 

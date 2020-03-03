@@ -8,22 +8,32 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      @row-updating="rowUpdating"
+      @init-new-row="initNewRow"
     >
-      <DxSelection mode="multiple" />
-      <DxHeaderFilter :visible="true" />
-
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
-      <DxFilterRow :visible="true" />
-
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
         :file-name="$t('translations.menu.documentKind')"
       />
+      <DxSelection mode="multiple" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentKind" />
+      <DxHeaderFilter :visible="true" />
+      <DxFilterRow :visible="true" />
+
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="documentKind" />
+
+      <DxEditing
+        :allow-updating="userPermissions.allowUpdating"
+        :allow-deleting="userPermissions.allowDeleteing"
+        :allow-adding="userPermissions.allowDeleteing"
+        mode="form"
+        :useIcons="true"
+      />
+
       <DxSearchPanel
         position="after"
         :placeholder="$t('translations.fields.search') + '...'"
@@ -31,15 +41,25 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
       <DxColumn
-        data-field="isRegistrationAllowed"
-        data-type="boolean"
-        :caption="$t('translations.fields.isRegistrationAllowed')"
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        alignment="left"
+        data-type="string"
       ></DxColumn>
+
       <DxColumn data-field="documentFlow" :caption="$t('translations.fields.documentFlow')">
         <DxLookup :data-source="documentFlow" value-expr="id" display-expr="name" />
       </DxColumn>
+
+      <DxColumn data-field="numberingType" :caption="$t('translations.fields.numberingType')">
+        <DxLookup :data-source="numberingType" value-expr="id" display-expr="name" />
+      </DxColumn>
+
+      <DxColumn data-field="documentTypeId" :caption="$t('translations.menu.documentType')">
+        <DxLookup :data-source="documentType" value-expr="id" display-expr="name" />
+      </DxColumn>
+
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
@@ -47,6 +67,7 @@
   </main>
 </template>
 <script>
+import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import {
@@ -61,8 +82,8 @@ import {
   DxSelection,
   DxColumnChooser,
   DxColumnFixing,
-  DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxFilterRow
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -79,18 +100,22 @@ export default {
     DxSelection,
     DxColumnChooser,
     DxColumnFixing,
-    DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxFilterRow
+  },
+  async created() {
+    let docType = await this.$axios.get(dataApi.docFlow.DocumentType);
+    this.documentType = docType.data.data;
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.documentType"),
+      headerTitle: this.$t("translations.menu.documentKind"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.documentCirculation.DocumentType,
-        insertUrl: dataApi.documentCirculation.DocumentType,
-        updateUrl: dataApi.documentCirculation.DocumentType,
-        removeUrl: dataApi.documentCirculation.DocumentType
+        loadUrl: dataApi.docFlow.DocumentKind,
+        insertUrl: dataApi.docFlow.DocumentKind,
+        updateUrl: dataApi.docFlow.DocumentKind,
+        removeUrl: dataApi.docFlow.DocumentKind
       }),
       statusStores: this.$store.getters["status/status"],
       documentFlow: [
@@ -99,29 +124,32 @@ export default {
         { id: 2, name: this.$t("translations.fields.inner") },
         { id: 3, name: this.$t("translations.fields.contracts") }
       ],
+      numberingType: [
+        { id: 0, name: this.$t("translations.fields.numerable") },
+        { id: 1, name: this.$t("translations.fields.notNumerable") },
+        { id: 2, name: this.$t("translations.fields.registrable") }
+      ],
+      documentType: [],
+      initNewRow: e => {
+        // this.$router.push('/docFlow/docKindForms/newDocKind')
+      },
+      rowUpdating: e => {
+         // this.$router.push('/docFlow/docKindForms/newDocKind')
+      }
     };
   },
   methods: {
-   
-
- 
-    
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.DepartmentDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
+  },
+  computed: {
+    userPermissions() {
+      return this.$store.getters["roles/userPermissions"];
     }
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
+
 .container {
   display: block;
 }
