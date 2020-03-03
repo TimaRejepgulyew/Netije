@@ -143,7 +143,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.currencies"),
+      headerTitle: this.$t("translations.menu.documentKind"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Currency,

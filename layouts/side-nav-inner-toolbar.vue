@@ -169,6 +169,7 @@ export default {
           text: this.$t("translations.menu.shared-directory"),
           icon: "docfile",
           path: "/shared-directory",
+          visible: false,
           items: [
             {
               text: this.$t("translations.menu.countries"),

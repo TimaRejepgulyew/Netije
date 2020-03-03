@@ -8,8 +8,6 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
     >
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
@@ -26,15 +24,6 @@
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentType" />
-
-      <DxEditing
-        :allow-updating="store.isSistem"
-        :allow-deleting="store.isSistem"
-        :allow-adding="true"
-        :useIcons="true"
-        mode="form"
-      />
-
       <DxSearchPanel
         position="after"
         :placeholder="$t('translations.fields.search') + '...'"
@@ -42,13 +31,7 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
-      </DxColumn>
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
       <DxColumn
         data-field="isRegistrationAllowed"
         data-type="boolean"
@@ -74,15 +57,12 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
-  DxAsyncRule,
-  DxRequiredRule,
   DxExport,
   DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
-  DxButton
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -95,15 +75,12 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
-    DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring,
-    DxButton
+    DxStateStoring
   },
   data() {
     return {
@@ -122,44 +99,13 @@ export default {
         { id: 2, name: this.$t("translations.fields.inner") },
         { id: 3, name: this.$t("translations.fields.contracts") }
       ],
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
-      toCurrentRole: e => {
-        this.$router.push("/admin/currentRole/" + e.row.data.id);
-      }
     };
   },
   methods: {
-    getFilteredHeadOffice(options) {
-      return {
-        store: this.headOfficeStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.headOfficeId]
-          : null
-      };
-    },
+   
 
-    getFilteredManager(options) {
-      return {
-        store: this.managerStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.managerId]
-          : null
-      };
-    },
-    getFilteredBussinessUnit(options) {
-      return {
-        store: this.businessUnitStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.businessUnitId]
-          : null
-      };
-    },
+ 
+    
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.DepartmentDataFieldValueNotExists(
