@@ -131,7 +131,7 @@ export default {
       ],
       documentType: [],
       initNewRow: e => {
-        // this.$router.push('/docFlow/docKindForms/newDocKind')
+        this.$router.push('/docFlow/document-kind/add-docKind')
       },
       rowUpdating: e => {
          // this.$router.push('/docFlow/docKindForms/newDocKind')

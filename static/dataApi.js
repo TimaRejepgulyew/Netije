@@ -25,10 +25,11 @@ export default {
   },
   docFlow: {
     DocumentType: `${url}/api/DocumentType`,
+    DocumentKind: `${url}/api/DocumentKind`,
+    DocumentSendAction: `${url}/api/DocumentSendAction`,
     CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
     MailDeliveryMethod: `${url}/api/MailDeliveryMethod`
-
   }
 };

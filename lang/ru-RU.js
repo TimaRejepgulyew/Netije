@@ -290,6 +290,7 @@ export default {
       "settingType": "Тип настройки регистрации документов",
       "settingTypeRequired": "Выберите тип настройки регистрации документов",
       "availableActions": "Действие по отправке",
+      "availableActions": "Действие по отправке",
       "numberingSection": "Разрез нумерации",
       "numberingSectionRequired": "Выберите разрез нумерации",
       "department": "Подразделение",
