@@ -25,7 +25,7 @@
         :file-name="$t('translations.menu.contact')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentType" />
 
       <DxEditing
         :allow-updating="store.isSistem"
