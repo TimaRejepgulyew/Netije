@@ -159,7 +159,7 @@ export default {
           path: "/docFlow",
           items: [
             {
-              text: this.$t("translations.menu.documentType"),
+              text: this.$t("translations.menu.documentKind"),
               icon: "user",
               path: "/docFlow/document-type"
             },
@@ -184,6 +184,7 @@ export default {
           text: this.$t("translations.menu.shared-directory"),
           icon: "docfile",
           path: "/shared-directory",
+          visible: false,
           items: [
             {
               text: this.$t("translations.menu.countries"),

@@ -27,9 +27,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="currency" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="userPermissions.allowUpdating"
+        :allow-deleting="userPermissions.allowDeleteing"
+        :allow-adding="userPermissions.allowDeleteing"
         mode="form"
         :useIcons="true"
       />
@@ -177,6 +177,11 @@ export default {
         },
         dataField
       );
+    }
+  },
+  computed: {
+    userPermissions() {
+      return this.$store.getters["roles/userPermissions"];
     }
   }
 };
