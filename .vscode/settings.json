@@ -1,11 +1,7 @@
 {
     "gitflow4code.features": [
         {
-            "name": "feature/documentKind",
-            "base": "develop"
-        },
-        {
-            "name": "feature/group-registration",
+            "name": "feature/feature/document-kinds",
             "base": "develop"
         }
     ]
