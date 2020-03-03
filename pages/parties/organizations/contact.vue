@@ -25,15 +25,13 @@
         :file-name="$t('translations.fields.contact')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact" />
-
-      <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
-        :useIcons="true"
-        mode="form"
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Contact"
       />
+
+      <DxEditing :useIcons="true" mode="form" />
 
       <DxSearchPanel
         position="after"
@@ -42,7 +40,11 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('translations.fields.name')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyAxists')"
@@ -52,10 +54,19 @@
 
       <DxColumn
         data-field="companyId"
-        :caption="$t('translations.fields.headOfficeId')"
+        :caption="$t('translations.fields.companyId')"
         :visible="true"
       >
-        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
+        <DxRequiredRule :message="$t('translations.fields.companyId')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.companyIdRequired')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+        <DxLookup
+          :data-source="getFilteredCompany"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -69,22 +80,31 @@
         :caption="$t('translations.fields.jobTitleId')"
         :visible="false"
       >
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
+      <DxColumn
+        data-field="phone"
+        :caption="$t('translations.fields.phones')"
+      ></DxColumn>
 
       <DxColumn data-field="fax" :caption="$t('translations.fields.fax')">
         <DxRequiredRule :message="$t('translations.fields.fax')" />
       </DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
+      <DxColumn
+        data-field="email"
+        :caption="$t('translations.fields.email')"
+      ></DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+      ></DxColumn>
 
       <DxColumn
         data-field="homepage"
@@ -92,7 +112,11 @@
         :visible="false"
       ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -141,12 +165,10 @@ export default {
   data() {
     return {
       headerTitle: this.$t("translations.menu.contacts"),
+
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Contact,
-        insertUrl: dataApi.contragents.Contact,
-        updateUrl: dataApi.contragents.Contact,
-        removeUrl: dataApi.contragents.Contact
       }),
 
       statusStores: this.$store.getters["status/status"],
@@ -166,24 +188,24 @@ export default {
     };
   },
   methods: {
-    getFilteredRegion(options) {
+    getFilteredCompany(options) {
       return {
-        store: this.company,
+        store: this.companyStore,
         filter: options.data
           ? ["status", "=", 0, "or", "id", "=", options.data.companyId]
           : null
       };
     },
-    // validateEntityExists(params) {
-    //   var dataField = params.column.dataField;
-    //   return this.$customValidator.ContactDataFieldValueNotExists(
-    //     {
-    //       id: params.data.id,
-    //       [dataField]: params.value
-    //     },
-    //     dataField
-    //   );
-    // }
+    validateEntityExists(params) {
+      var dataField = params.column.dataField;
+      return this.$customValidator.ContactDataFieldValueNotExists(
+        {
+          id: params.data.id,
+          [dataField]: params.value
+        },
+        dataField
+      );
+    }
   }
 };
 </script>

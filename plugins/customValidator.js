@@ -131,6 +131,19 @@ export default ({ app }, inject) => {
     );
   }
 
+  async function ContactDataFieldValueNotExists(
+    payload,
+    propertyName
+  ) {
+    return (
+      (await isEntityExists(
+        dataApi.contragents.Contact,
+        payload,
+        propertyName
+      )) == false
+    );
+  }
+
   let obj = {
     isNameExists: isNameExists,
     isCountryNotExists: isCountryNotExists,
@@ -146,7 +159,7 @@ export default ({ app }, inject) => {
     DepartmentDataFieldValueNotExists: DepartmentDataFieldValueNotExists,
     JobTitleDataFieldValueNotExists: JobTitleDataFieldValueNotExists,
     ManagerAssistantDataFieldValueNotExists: ManagerAssistantDataFieldValueNotExists,
-
+    ContactDataFieldValueNotExists: ContactDataFieldValueNotExists
   };
 
   inject("customValidator", obj);
