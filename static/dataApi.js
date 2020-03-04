@@ -30,7 +30,8 @@ export default {
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
     MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
-    
+    DocumentRegistry: `${url}/api/DocumentRegistry`,
+    RegistrationSetting: `${url}/api/RegistrationSetting`
 
   }
 };

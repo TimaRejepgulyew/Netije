@@ -164,6 +164,11 @@ export default {
               path: "/docFlow/document-type"
             },
             {
+              text: this.$t("translations.menu.documentRegistry"),
+              icon: "user",
+              path: "/docFlow/document-registration"
+            },
+            {
               text: this.$t("translations.menu.registrationGroup"),
               icon: "user",
               path: "/docFlow/registration-group"
