@@ -31,6 +31,9 @@ export default {
     CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
-    MailDeliveryMethod: `${url}/api/MailDeliveryMethod`
+    MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
+    DocumentRegistry: `${url}/api/DocumentRegistry`,
+    RegistrationSetting: `${url}/api/RegistrationSetting`
+
   }
 };
