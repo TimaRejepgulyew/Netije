@@ -187,6 +187,7 @@ export default {
         valueExpr: "id",
         displayExpr: "name"
       },
+      namePattern: /^[^0-9]+$/,
       passwordPattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$ /g
     };
   },

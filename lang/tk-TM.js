@@ -176,6 +176,10 @@ export default {
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа__TM",
+      "addDoctKindSucces":"Добавление вида документа прошло успешно__TM",
+      "addDoctKindError":"При добавлении  вида документа  произошла ошибка__TM",
+      "updateDocKindSucces":"Редактирование вида документа  прошло успешно__TM",
+      "updateDocKindError":"При редактирование вида документа  произошла ошибка__TM",
       "editDocumentKind": "Редактирование вида документа__TM",
       "addDocumentRegistry": "Добавление журнала регистрации__TM",
       "editDocumentRegistry": "Редактирование журнала регистрации__TM",

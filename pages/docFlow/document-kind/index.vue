@@ -8,7 +8,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      @row-updating="rowUpdating"
+      @editing-start="editingStart"
       @init-new-row="initNewRow"
     >
       <DxExport
@@ -131,15 +131,14 @@ export default {
       ],
       documentType: [],
       initNewRow: e => {
-        this.$router.push('/docFlow/document-kind/add-docKind')
+        this.$router.push("/docFlow/document-kind/form/newDocKind");
       },
-      rowUpdating: e => {
-         // this.$router.push('/docFlow/docKindForms/newDocKind')
+      editingStart: e => {
+        this.$router.push("/docFlow/document-kind/form/"+e.data.id);
       }
     };
   },
-  methods: {
-  },
+  methods: {},
   computed: {
     userPermissions() {
       return this.$store.getters["roles/userPermissions"];
