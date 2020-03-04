@@ -26,6 +26,8 @@ export default {
   docFlow: {
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
+    DocumentKind: `${url}/api/DocumentKind`,
+    DocumentSendAction: `${url}/api/DocumentSendAction`,
     CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
