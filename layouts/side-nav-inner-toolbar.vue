@@ -163,6 +163,11 @@ export default {
               path: "/docFlow/document-kind"
             },
             {
+              text: this.$t("translations.menu.registrationGroup"),
+              icon: "user",
+              path: "/docFlow/registration-group"
+            },
+            {
               text: this.$t("translations.menu.caseFile"),
               path: "/docFlow/case-file/"
             },

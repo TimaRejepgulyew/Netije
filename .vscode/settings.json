@@ -1,7 +1,7 @@
 {
     "gitflow4code.features": [
         {
-            "name": "feature/documentKind",
+            "name": "feature/feature/document-kinds",
             "base": "develop"
         }
     ]

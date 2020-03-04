@@ -24,6 +24,7 @@ export default {
     Roles: `${url}/api/Role`
   },
   docFlow: {
+    DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentSendAction: `${url}/api/DocumentSendAction`,
