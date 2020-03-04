@@ -77,7 +77,22 @@
               />
             </DxSimpleItem>
 
-            <DxDataGrid
+          </DxGroupItem>
+<!--
+          <DxGroupItem :col-count="12" :col-span="2">
+            <DxButtonItem
+              :col-span="11"
+              :button-options="addButtonOptions"
+              horizontal-alignment="right"
+            />
+            <DxButtonItem
+              :col-span="1"
+              :button-options="cancelButtonOptions"
+              horizontal-alignment="right"
+            />
+          </DxGroupItem> -->
+        </DxForm>
+        <DxDataGrid
               :show-borders="true"
               :data-source="documentRegistry.numberFormatItems"
               key-expr="id"
@@ -129,21 +144,15 @@
                 />
               </DxColumn>
             </DxDataGrid>
-          </DxGroupItem>
 
-          <DxGroupItem :col-count="12" :col-span="2">
-            <DxButtonItem
-              :col-span="11"
+             <DxButton
+              :width="120"
+              text="Contained"
+              type="success"
               :button-options="addButtonOptions"
+              styling-mode="contained"
               horizontal-alignment="right"
             />
-            <DxButtonItem
-              :col-span="1"
-              :button-options="cancelButtonOptions"
-              horizontal-alignment="right"
-            />
-          </DxGroupItem>
-        </DxForm>
       </form>
     </div>
   </div>
@@ -162,7 +171,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 
 import {
@@ -180,7 +189,7 @@ import {
   DxFilterRow,
   DxStateStoring
 } from "devextreme-vue/data-grid";
-
+import { DxButton } from 'devextreme-vue';
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 
@@ -210,7 +219,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxButton
   },
   computed: {
     documentFlowOptions() {
@@ -241,11 +251,11 @@ export default {
         name: null,
         status: 0,
         index: null,
-        numberOfDigitsInNumber: 0,
-        documentFlow: 0,
-        numberingPeriod: 0,
-        numberingSection: 0,
-        registerType: 1,
+        numberOfDigitsInNumber: null,
+        documentFlow: null,
+        numberingPeriod: null,
+        numberingSection: null,
+        registerType: null,
         numberFormatItems: []
       },
       addButtonOptions: {
