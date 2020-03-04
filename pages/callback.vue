@@ -11,7 +11,7 @@ export default {
           window.location.href = redirectPath;
         })
         .catch(err => {
-          this.$router.push("/signin-oidc-error");
+          this.$router.push("/callback");
         });
     }
   },

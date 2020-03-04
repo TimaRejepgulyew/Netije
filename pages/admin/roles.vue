@@ -28,8 +28,8 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
 
       <DxEditing
-        :allow-updating="store.isSistem"
-        :allow-deleting="store.isSistem"
+        :allow-updating="store.isSystem"
+        :allow-deleting="store.isSystem"
         :allow-adding="true"
         :useIcons="true"
         mode="form"
@@ -52,7 +52,7 @@
       <DxColumn
         data-field="isSystem"
         data-type="boolean"
-        :caption="$t('translations.fields.isSistem')"
+        :caption="$t('translations.fields.isSystem')"
       ></DxColumn>
       <DxColumn
         data-field="isSingleUser"

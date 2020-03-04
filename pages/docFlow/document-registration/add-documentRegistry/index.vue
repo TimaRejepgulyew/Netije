@@ -1,6 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
+      <Header :headerTitle="headerTitle"></Header>
       <form @submit="handleSubmit">
         <DxForm
           :form-data.sync="documentRegistry"
@@ -9,33 +10,25 @@
           :show-validation-summary="true"
           validation-group="customerData"
         >
-          <DxGroupItem
-            :caption="$t('translations.headers.addDocumentRegistry')"
-          >
+          <DxGroupItem>
             <DxSimpleItem data-field="name" data-type="string">
               <DxLabel :text="$t('translations.fields.name')" />
               <!-- <DxAsyncRule
                 :validation-callback="validateEntityExists"
                 :message="$t('translations.fields.userNameRule')"
-              /> -->
-              <DxRequiredRule
-                :message="$t('translations.fields.nameRequired')"
-              />
+              />-->
+              <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="index">
               <DxLabel :text="$t('translations.fields.index')" />
-              <DxRequiredRule
-                :message="$t('translations.fields.indexRequired')"
-              />
+              <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
               <!-- <DxAsyncRule
                 :validation-callback="validateEntityExists"
                 :message="$t('translations.fields.haveRegistredEmail')"
-              /> -->
+              />-->
             </DxSimpleItem>
             <DxSimpleItem data-field="numberOfDigitsInNumber">
-              <DxLabel
-                :text="$t('translations.fields.numberOfDigitsInNumber')"
-              />
+              <DxLabel :text="$t('translations.fields.numberOfDigitsInNumber')" />
               <DxRequiredRule
                 :message="
                   $t('translations.fields.numberOfDigitsInNumberRequired')
@@ -48,9 +41,7 @@
               editor-type="dxSelectBox"
             >
               <DxLabel :text="$t('translations.fields.documentFlow')" />
-              <DxRequiredRule
-                :message="$t('translations.fields.documentFlowRequired')"
-              />
+              <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -76,9 +67,15 @@
                 :message="$t('translations.fields.numberingPeriodRequired')"
               />
             </DxSimpleItem>
-
+            <DxSimpleItem
+              data-field="status"
+              :editor-options=" statusOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel :text="$t('translations.fields.status')" />
+            </DxSimpleItem>
           </DxGroupItem>
-<!--
+          <!--
           <DxGroupItem :col-count="12" :col-span="2">
             <DxButtonItem
               :col-span="11"
@@ -90,75 +87,61 @@
               :button-options="cancelButtonOptions"
               horizontal-alignment="right"
             />
-          </DxGroupItem> -->
+          </DxGroupItem>-->
         </DxForm>
         <DxDataGrid
-              :show-borders="true"
-              :data-source="documentRegistry.numberFormatItems"
-              key-expr="id"
-              :remote-operations="true"
-              :errorRowEnabled="true"
-              :allow-column-reordering="true"
-              :allow-column-resizing="true"
-              :column-auto-width="true"
-            >
-              <DxExport
-                :enabled="true"
-                :allow-export-selected-data="true"
-                :file-name="$t('translations.fields.documentRegistry')"
-              />
+          :show-borders="true"
+          :data-source="documentRegistry.numberFormatItems"
+          key-expr="id"
+          :remote-operations="true"
+          :errorRowEnabled="true"
+          :allow-column-reordering="true"
+          :allow-column-resizing="true"
+          :column-auto-width="true"
+        >
+          <DxExport
+            :enabled="true"
+            :allow-export-selected-data="true"
+            :file-name="$t('translations.fields.documentRegistry')"
+          />
 
-              <DxEditing
-                :allow-updating="true"
-                :allow-deleting="true"
-                :allow-adding="true"
-                :useIcons="true"
-                mode="raw"
-              />
+          <DxEditing
+            :allow-updating="true"
+            :allow-deleting="true"
+            :allow-adding="true"
+            :useIcons="true"
+            mode="raw"
+          />
 
-              <DxScrolling mode="virtual" />
+          <DxScrolling mode="virtual" />
 
-              <DxColumn
-                data-field="number"
-                :caption="$t('translations.fields.number')"
-              >
-                <DxRequiredRule
-                  :message="$t('translations.fields.numberRequired')"
-                />
-              </DxColumn>
+          <DxColumn data-field="number" :caption="$t('translations.fields.number')">
+            <DxRequiredRule :message="$t('translations.fields.numberRequired')" />
+          </DxColumn>
 
-              <DxColumn
-                data-field="element"
-                :caption="$t('translations.fields.element')"
-              >
-                <DxRequiredRule
-                  :message="$t('translations.fields.elementRequired')"
-                />
-              </DxColumn>
-              <DxColumn
-                data-field="separator"
-                :caption="$t('translations.fields.separator')"
-              >
-                <DxRequiredRule
-                  :message="$t('translations.fields.separatorRequired')"
-                />
-              </DxColumn>
-            </DxDataGrid>
+          <DxColumn data-field="element" :caption="$t('translations.fields.element')">
+            <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
+          </DxColumn>
+          <DxColumn data-field="separator" :caption="$t('translations.fields.separator')">
+            <DxRequiredRule :message="$t('translations.fields.separatorRequired')" />
+          </DxColumn>
+        </DxDataGrid>
 
-             <DxButton
-              :width="120"
-              text="Contained"
-              type="success"
-              :button-options="addButtonOptions"
-              styling-mode="contained"
-              horizontal-alignment="right"
-            />
+        <DxButton
+          :width="120"
+          text="Contained"
+          type="success"
+          :button-options="addButtonOptions"
+          styling-mode="contained"
+          horizontal-alignment="right"
+        />
       </form>
     </div>
   </div>
 </template>
 <script>
 import "devextreme-vue/text-area";
+import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
@@ -171,7 +154,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule,
+  DxAsyncRule
 } from "devextreme-vue/form";
 
 import {
@@ -189,12 +172,13 @@ import {
   DxFilterRow,
   DxStateStoring
 } from "devextreme-vue/data-grid";
-import { DxButton } from 'devextreme-vue';
+import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 
 export default {
   components: {
+    Header,
     DxGroupItem,
     DxSimpleItem,
     DxButtonItem,
@@ -247,6 +231,7 @@ export default {
   },
   data() {
     return {
+      headerTitle: this.$t("translations.headers.addDocumentRegistry"),
       documentRegistry: {
         name: null,
         status: 0,
@@ -257,6 +242,11 @@ export default {
         numberingSection: null,
         registerType: null,
         numberFormatItems: []
+      },
+      statusOptions: {
+        dataSource: this.$store.getters["status/status"],
+        valueExpr: "id",
+        displayExpr: "status"
       },
       addButtonOptions: {
         width: 100,
