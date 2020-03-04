@@ -195,6 +195,19 @@ export default ({ app }, inject) => {
     );
   }
 
+
+  async function FilesTypeDataFieldValueNotExists(payload, propertyName) {
+    return (
+      (await isEntityExists(
+        dataApi.docFlow.FilesType,
+        payload,
+        propertyName
+      )) == false
+    );
+  }
+
+
+
   let obj = {
     isNameExists: isNameExists,
     isCountryNotExists: isCountryNotExists,
@@ -215,7 +228,9 @@ export default ({ app }, inject) => {
     FileRetentionPeriodDataFieldValueNotExists: FileRetentionPeriodDataFieldValueNotExists,
     MailDeliveryMethodDataFieldValueNotExists: MailDeliveryMethodDataFieldValueNotExists,
     RegistrationGroupDataFieldValueNotExists: RegistrationGroupDataFieldValueNotExists,
-    DocumentRegistrationDataFieldValueNotExists: DocumentRegistrationDataFieldValueNotExists
+    DocumentRegistrationDataFieldValueNotExists: DocumentRegistrationDataFieldValueNotExists,
+    FilesTypeDataFieldValueNotExists: FilesTypeDataFieldValueNotExists
+
   };
 
   inject("customValidator", obj);

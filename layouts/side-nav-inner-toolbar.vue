@@ -184,6 +184,10 @@ export default {
             {
               text: this.$t("translations.menu.mailDeliveryMethod"),
               path: "/docFlow/mail-delivery-method/"
+            },
+            {
+              text: this.$t("translations.menu.filesType"),
+              path: "/docFlow/file-types/"
             }
           ]
         },
