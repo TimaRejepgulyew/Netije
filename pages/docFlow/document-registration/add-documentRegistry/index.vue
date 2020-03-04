@@ -92,18 +92,6 @@
                 :allow-export-selected-data="true"
                 :file-name="$t('translations.fields.documentRegistry')"
               />
-              <DxFilterRow :visible="true" />
-              <DxSelection mode="multiple" />
-              <DxHeaderFilter :visible="true" />
-
-              <DxColumnChooser :enabled="true" />
-              <DxColumnFixing :enabled="true" />
-
-              <DxStateStoring
-                :enabled="true"
-                type="localStorage"
-                storage-key="DocumentRegistry"
-              />
 
               <DxEditing
                 :allow-updating="true"
@@ -113,11 +101,6 @@
                 mode="raw"
               />
 
-              <DxSearchPanel
-                position="after"
-                :placeholder="$t('translations.fields.search') + '...'"
-                :visible="true"
-              />
               <DxScrolling mode="virtual" />
 
               <DxColumn
@@ -263,13 +246,7 @@ export default {
         numberingPeriod: 0,
         numberingSection: 0,
         registerType: 1,
-        numberFormatItems: [
-          {
-            number: 0,
-            separator: null,
-            element: 1
-          }
-        ]
+        numberFormatItems: []
       },
       addButtonOptions: {
         width: 100,
