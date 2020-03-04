@@ -166,7 +166,6 @@ export default {
             },
             {
               text: this.$t("translations.menu.documentRegistry"),
-              icon: "user",
               path: "/docFlow/document-registration"
             },
             {

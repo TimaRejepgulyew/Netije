@@ -4,30 +4,67 @@
       <Header :headerTitle="headerTitle"></Header>
       <form @submit="handleSubmit">
         <DxForm
-          :form-data.sync="documentRegistry"
+          :form-data.sync="store"
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="customerData"
         >
+          <template #avatar-template>
+            <div>
+              <DxDataGrid
+                :show-borders="true"
+                :data-source="store.numberFormatItems"
+                key-expr="id"
+                :errorRowEnabled="true"
+                :allow-column-reordering="true"
+                :allow-column-resizing="true"
+                :column-auto-width="true"
+              >
+                <DxExport
+                  :enabled="true"
+                  :allow-export-selected-data="true"
+                  :file-name="$t('translations.fields.documentRegistry')"
+                />
+
+                <DxEditing
+                  :allow-updating="true"
+                  :allow-deleting="allowDeleting"
+                  :allow-adding="true"
+                  :useIcons="true"
+                  mode="raw"
+                />
+
+                <DxScrolling mode="virtual" />
+
+                <DxColumn data-field="number" :caption="$t('translations.fields.number')">
+                  <DxRequiredRule :message="$t('translations.fields.numberRequired')" />
+                </DxColumn>
+
+                <DxColumn data-field="element" :caption="$t('translations.fields.element')">
+                  <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
+                  <DxLookup :data-source="element" value-expr="id" display-expr="name" />
+                </DxColumn>
+                <DxColumn data-field="separator" :caption="$t('translations.fields.separator')">
+                  <DxRequiredRule :message="$t('translations.fields.separatorRequired')" />
+                </DxColumn>
+              </DxDataGrid>
+            </div>
+          </template>
           <DxGroupItem>
             <DxSimpleItem data-field="name" data-type="string">
               <DxLabel :text="$t('translations.fields.name')" />
-              <!-- <DxAsyncRule
-                :validation-callback="validateEntityExists"
-                :message="$t('translations.fields.userNameRule')"
-              />-->
               <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="index">
               <DxLabel :text="$t('translations.fields.index')" />
               <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
-              <!-- <DxAsyncRule
-                :validation-callback="validateEntityExists"
-                :message="$t('translations.fields.haveRegistredEmail')"
-              />-->
             </DxSimpleItem>
-            <DxSimpleItem data-field="numberOfDigitsInNumber">
+            <DxSimpleItem
+              editor-type="dxNumberBox"
+              :editor-options="{max:9,min:0}"
+              data-field="numberOfDigitsInNumber"
+            >
               <DxLabel :text="$t('translations.fields.numberOfDigitsInNumber')" />
               <DxRequiredRule
                 :message="
@@ -50,10 +87,16 @@
               editor-type="dxSelectBox"
             >
               <DxLabel :text="$t('translations.fields.registerType')" />
+              <DxRequiredRule :message="$t('translations.fields.registerTypeRequired')" />
             </DxSimpleItem>
 
-            <DxSimpleItem data-field="numberingSection">
+            <DxSimpleItem
+              editor-type="dxSelectBox"
+              :editor-options="numberingSectionOptions"
+              data-field="numberingSection"
+            >
               <DxLabel :text="$t('translations.fields.numberingSection')" />
+              <DxRequiredRule :message="$t('translations.fields.numberingSectionRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -75,7 +118,8 @@
               <DxLabel :text="$t('translations.fields.status')" />
             </DxSimpleItem>
           </DxGroupItem>
-          <!--
+          <DxSimpleItem template="avatar-template" />
+
           <DxGroupItem :col-count="12" :col-span="2">
             <DxButtonItem
               :col-span="11"
@@ -87,54 +131,8 @@
               :button-options="cancelButtonOptions"
               horizontal-alignment="right"
             />
-          </DxGroupItem>-->
+          </DxGroupItem>
         </DxForm>
-        <DxDataGrid
-          :show-borders="true"
-          :data-source="documentRegistry.numberFormatItems"
-          key-expr="id"
-          :remote-operations="true"
-          :errorRowEnabled="true"
-          :allow-column-reordering="true"
-          :allow-column-resizing="true"
-          :column-auto-width="true"
-        >
-          <DxExport
-            :enabled="true"
-            :allow-export-selected-data="true"
-            :file-name="$t('translations.fields.documentRegistry')"
-          />
-
-          <DxEditing
-            :allow-updating="true"
-            :allow-deleting="true"
-            :allow-adding="true"
-            :useIcons="true"
-            mode="raw"
-          />
-
-          <DxScrolling mode="virtual" />
-
-          <DxColumn data-field="number" :caption="$t('translations.fields.number')">
-            <DxRequiredRule :message="$t('translations.fields.numberRequired')" />
-          </DxColumn>
-
-          <DxColumn data-field="element" :caption="$t('translations.fields.element')">
-            <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
-          </DxColumn>
-          <DxColumn data-field="separator" :caption="$t('translations.fields.separator')">
-            <DxRequiredRule :message="$t('translations.fields.separatorRequired')" />
-          </DxColumn>
-        </DxDataGrid>
-
-        <DxButton
-          :width="120"
-          text="Contained"
-          type="success"
-          :button-options="addButtonOptions"
-          styling-mode="contained"
-          horizontal-alignment="right"
-        />
       </form>
     </div>
   </div>
@@ -206,10 +204,25 @@ export default {
     DxStateStoring,
     DxButton
   },
+  async created() {
+    if (this.$route.params.id != "newDocRegistry") {
+      this.isUpdating = true;
+      this.address = `${dataApi.docFlow.DocumentRegistry}/${this.$route.params.id}`;
+      this.store = await this.getDataById(this.address);
+    }
+  },
   computed: {
     documentFlowOptions() {
       return {
         dataSource: this.documentFlow,
+        disabled: this.isUpdating,
+        valueExpr: "id",
+        displayExpr: "name"
+      };
+    },
+    numberingSectionOptions() {
+      return {
+        dataSource: this.numberingSection,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -224,6 +237,7 @@ export default {
     registerTypeOptions() {
       return {
         dataSource: this.registerType,
+        disabled: this.isUpdating,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -231,8 +245,10 @@ export default {
   },
   data() {
     return {
+      address: dataApi.docFlow.DocumentRegistry,
+      isUpdating: false,
       headerTitle: this.$t("translations.headers.addDocumentRegistry"),
-      documentRegistry: {
+      store: {
         name: null,
         status: 0,
         index: null,
@@ -241,19 +257,78 @@ export default {
         numberingPeriod: null,
         numberingSection: null,
         registerType: null,
-        numberFormatItems: []
+        numberFormatItems: [
+          {
+            number: 1,
+            element: 1,
+            id: "default"
+          }
+        ]
       },
+      element: [
+        {
+          id: 1,
+          name: this.$t("translations.fields.number")
+        },
+        {
+          id: 2,
+          name: this.$t("translations.fields.year2Place")
+        },
+        {
+          id: 3,
+          name: this.$t("translations.fields.year4Place")
+        },
+        {
+          id: 4,
+          name: this.$t("translations.fields.quarter")
+        },
+        {
+          id: 5,
+          name: this.$t("translations.fields.month")
+        },
+        {
+          id: 6,
+          name: this.$t("translations.fields.leadingNumber")
+        },
+        {
+          id: 7,
+          name: this.$t("translations.fields.log")
+        },
+        {
+          id: 8,
+          name: this.$t("translations.fields.caseFile")
+        },
+        {
+          id: 9,
+          name: this.$t("translations.fields.departmentCode")
+        },
+        {
+          id: 10,
+          name: this.$t("translations.fields.buCode")
+        },
+        {
+          id: 11,
+          name: this.$t("translations.fields.docKindCode")
+        },
+        {
+          id: 12,
+          name: this.$t("translations.fields.cPartyCode")
+        },
+        {
+          id: 13,
+          name: this.$t("translations.fields.customString")
+        }
+      ],
+      numberingSection: [
+        {
+          name: this.$t("translations.fields.noSection"),
+          id: 0
+        }
+      ],
       statusOptions: {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
         displayExpr: "status"
-      },
-      addButtonOptions: {
-        width: 100,
-        height: 50,
-        text: this.$t("translations.links.add"),
-        useSubmitBehavior: true,
-        type: "success"
       },
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
@@ -289,25 +364,26 @@ export default {
           name: this.$t("translations.fields.continuous")
         }
       ],
-
+      addButtonOptions: {
+        width: 100,
+        height: 50,
+        text: this.$t("translations.links.add"),
+        useSubmitBehavior: true,
+        type: "success"
+      },
       cancelButtonOptions: {
-        onClick: this.backToEmployee,
+        onClick: this.backTo,
         width: 100,
         height: 50,
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
       },
-
-      departmentOptions: {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.Department
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
+      allowDeleting(e) {
+        if (e.row.data.id != "default") {
+          return true;
+        } else {
+          return false;
+        }
       }
     };
   },
@@ -321,39 +397,72 @@ export default {
         dataField
       );
     },
-    backToDocumentRegistry() {
+    async getDataById(url) {
+      const res = await this.$axios.get(url);
+      let count = 0;
+      res.data.numberFormatItems = res.data.numberFormatItems.map(element => {
+        element.id = count;
+        count++;
+        return element;
+      });
+      return res.data;
+    },
+    async getData(url) {
+      const res = await this.$axios.get(url);
+      return res.data.data;
+    },
+    backTo() {
       this.$router.push("/docFlow/document-registration");
     },
+    notify(msgTxt, msgType) {
+      notify(
+        {
+          message: msgTxt,
+          position: {
+            my: "center top",
+            at: "center top"
+          }
+        },
+        msgType,
+        3000
+      );
+    },
     handleSubmit(e) {
-      this.$axios
-        .post(dataApi.company.Employee, this.employee)
-        .then(res => {
-          this.backToEmployee();
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeSucces"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "success",
-            3000
-          );
-        })
-        .catch(e => {
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeError"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "error",
-            3000
-          );
-        });
+      if (this.isUpdating) {
+        const object = { id: parseInt(this.$route.params.id), ...this.store };
+        this.$axios
+          .put(this.address, object)
+          .then(res => {
+            this.backTo();
+            this.notify(
+              this.$t("translations.headers.updateDocRegistrySucces"),
+              "success"
+            );
+          })
+          .catch(e => {
+            this.notify(
+              this.$t("translations.headers.updateDocRegistryError"),
+              "error"
+            );
+          });
+      } else {
+        const object = this.store;
+        this.$axios
+          .post(this.address, object)
+          .then(res => {
+            this.backTo();
+            this.notify(
+              this.$t("translations.headers.addDoctRegistrySucces"),
+              "success"
+            );
+          })
+          .catch(e => {
+            this.notify(
+              this.$t("translations.headers.addDoctRegistryError"),
+              "error"
+            );
+          });
+      }
 
       e.preventDefault();
     }

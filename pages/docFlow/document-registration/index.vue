@@ -9,7 +9,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      @row-updating="rowUpdating"
+      @editing-start="editingStart"
       @init-new-row="initNewRow"
     >
       <DxExport
@@ -24,11 +24,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="DocumentRegistry"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegistry" />
 
       <DxEditing
         :allow-updating="true"
@@ -45,11 +41,7 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyAxists')"
@@ -57,11 +49,8 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="index"
-        :caption="$t('translations.fields.index')"
-      >
-      <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
+      <DxColumn data-field="index" :caption="$t('translations.fields.index')">
+        <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
       </DxColumn>
 
       <DxColumn
@@ -69,26 +58,19 @@
         :caption="$t('translations.fields.documentFlow')"
         data-type="string"
       >
-      <DxLookup
-      :data-source="documentFlow"
-      value-expr="id"
-      display-expr="name"/>
+        <DxLookup :data-source="documentFlow" value-expr="id" display-expr="name" />
       </DxColumn>
 
-<!--
+      <!--
       <DxColumn
         data-field="registerType"
         :caption="$t('translations.fields.registerType')"
         data-type="string"
       >
-      </DxColumn> -->
+      </DxColumn>-->
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -113,7 +95,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -133,7 +115,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring,
+    DxStateStoring
   },
   mounted() {},
   data() {
@@ -157,14 +139,12 @@ export default {
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/docFlow/document-registration/add-documentRegistry");
-        e.data.status = this.statusStores[0].id;
+        this.$router.push("/docFlow/document-registration/form/newDocRegistry");
       },
 
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
-
+      editingStart: e => {
+        this.$router.push("/docFlow/document-registration/form/" + e.data.id);
+      }
     };
   },
   methods: {
@@ -177,7 +157,7 @@ export default {
         },
         dataField
       );
-    },
+    }
   }
 };
 </script>
