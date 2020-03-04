@@ -2,7 +2,7 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="headerTitle"></Header>
-      <form action="your-action" @submit="handleSubmit">
+      <form @submit="handleSubmit">
         <DxForm
           :col-count="1"
           :form-data.sync="store"
@@ -145,30 +145,34 @@ export default {
     DxAsyncRule,
     notify
   },
+
   async created() {
+    if (this.$route.params.id != "newDocKind") {
+      this.isUpdating = true;
+      this.address = `${dataApi.docFlow.DocumentKind}/${this.$route.params.id}`;
+      this.store = await this.getDataById(this.address);
+    }
     this.documentType = await this.getData(dataApi.docFlow.DocumentType);
     this.availableActions = await this.getData(
       dataApi.docFlow.DocumentSendAction
     );
-    if (this.$route.params.formtype != "newDocKind") {
-      this.isUpdating = true;
-    }
   },
   data() {
     return {
+      address: dataApi.docFlow.DocumentKind,
       isUpdating: false,
       headerTitle: this.$t("translations.headers.addDocumentKind"),
       store: {
         status: 0,
         name: "",
-        documentFlow: 0,
+        documentFlow: null,
         note: "",
         shortName: "",
-        numberingType: 1,
+        numberingType: null,
         generateDocumentName: false,
         autoNumbering: false,
         isDefault: false,
-        documentTypeId: 0,
+        documentTypeId: null,
         code: "",
         availableActions: []
       },
@@ -196,6 +200,13 @@ export default {
     };
   },
   methods: {
+    async getDataById(url) {
+      const res = await this.$axios.get(url);
+      res.data.availableActions = res.data.availableActions.map(element => {
+        return (element = element.id);
+      });
+      return res.data;
+    },
     async getData(url) {
       const res = await this.$axios.get(url);
       return res.data.data;
@@ -203,36 +214,54 @@ export default {
     backTo() {
       this.$router.push("/docFlow/document-kind");
     },
+    notify(msgTxt, msgType) {
+      notify(
+        {
+          message: msgTxt,
+          position: {
+            my: "center top",
+            at: "center top"
+          }
+        },
+        msgType,
+        3000
+      );
+    },
     handleSubmit(e) {
-      this.$axios
-        .post(dataApi.docFlow.DocumentKind, this.store)
-        .then(res => {
-          this.backTo();
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeSucces"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "success",
-            3000
-          );
-        })
-        .catch(e => {
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeError"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "error",
-            3000
-          );
-        });
+      if (this.isUpdating) {
+        const object = { id: parseInt(this.$route.params.id), ...this.store };
+        this.$axios
+          .put(this.address, object)
+          .then(res => {
+            this.backTo();
+            this.notify(
+              this.$t("translations.headers.updateDocKindSucces"),
+              "success"
+            );
+          })
+          .catch(e => {
+            this.notify(
+              this.$t("translations.headers.updateDocKindError"),
+              "error"
+            );
+          });
+      } else {
+        this.$axios
+          .post(this.address, this.store)
+          .then(res => {
+            this.backTo();
+            this.notify(
+              this.$t("translations.headers.addDoctKindSucces"),
+              "success"
+            );
+          })
+          .catch(e => {
+            this.notify(
+              this.$t("translations.headers.addDoctKindError"),
+              "error"
+            );
+          });
+      }
 
       e.preventDefault();
     }

@@ -20,7 +20,8 @@
       >
         <dx-scroll-view class="with-footer">
           <div class="main-content">
-            <nuxt />
+            <nuxt>
+            </nuxt>
           </div>
           <slot name="footer" />
         </dx-scroll-view>
@@ -40,6 +41,7 @@
 </template>
 
 <script>
+import Header from "~/components/page/page__header";
 import DxButton from "devextreme-vue/button";
 import DxDrawer from "devextreme-vue/drawer";
 import DxScrollView from "devextreme-vue/scroll-view";
@@ -164,7 +166,6 @@ export default {
             },
             {
               text: this.$t("translations.menu.registrationGroup"),
-              icon: "user",
               path: "/docFlow/registration-group"
             },
             {
@@ -262,7 +263,8 @@ export default {
     DxToolbar,
     DxItem,
     HeaderToolbar,
-    SideNavMenu
+    SideNavMenu,
+    Header
   }
 };
 </script>

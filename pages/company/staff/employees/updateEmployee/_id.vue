@@ -90,6 +90,13 @@
             <DxSimpleItem data-field="phone">
               <DxLabel :text="$t('translations.fields.phones')" />
             </DxSimpleItem>
+            <DxSimpleItem
+              data-field="status"
+              :editor-options=" statusOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel :text="$t('translations.fields.status')" />
+            </DxSimpleItem>
           </DxGroupItem>
           <DxGroupItem
             :col-span="3"
@@ -173,7 +180,8 @@ export default {
         note: null,
         userName: null,
         password: null,
-        confirmPassword: null
+        confirmPassword: null,
+        status: 0
       },
 
       cancelButtonOptions: {
@@ -182,6 +190,11 @@ export default {
         height: 50,
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
+      },
+      statusOptions: {
+        dataSource: this.$store.getters["status/status"],
+        valueExpr: "id",
+        displayExpr: "status"
       },
       saveButtonOptions: {
         height: 50,
@@ -232,7 +245,7 @@ export default {
       },
       popupPasswordVisible: false,
       popupRoleVisible: false,
-      namePattern: /^[^0-9]+$/,
+      namePattern: /^[^0-9]+$/
     };
   },
   methods: {
