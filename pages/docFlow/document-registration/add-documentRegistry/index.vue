@@ -77,9 +77,6 @@
               />
             </DxSimpleItem>
 
-            <!-- <DxSimpleItem data-field="numberFormatItems">
-              <DxLabel :text="$t('translations.fields.numberFormatItems')" />
-            </DxSimpleItem> -->
             <DxDataGrid
               :show-borders="true"
               :data-source="documentRegistry.numberFormatItems"
