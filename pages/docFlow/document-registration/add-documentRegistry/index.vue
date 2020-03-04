@@ -77,7 +77,22 @@
               />
             </DxSimpleItem>
 
-            <DxDataGrid
+          </DxGroupItem>
+<!--
+          <DxGroupItem :col-count="12" :col-span="2">
+            <DxButtonItem
+              :col-span="11"
+              :button-options="addButtonOptions"
+              horizontal-alignment="right"
+            />
+            <DxButtonItem
+              :col-span="1"
+              :button-options="cancelButtonOptions"
+              horizontal-alignment="right"
+            />
+          </DxGroupItem> -->
+        </DxForm>
+        <DxDataGrid
               :show-borders="true"
               :data-source="documentRegistry.numberFormatItems"
               key-expr="id"
@@ -92,18 +107,6 @@
                 :allow-export-selected-data="true"
                 :file-name="$t('translations.fields.documentRegistry')"
               />
-              <DxFilterRow :visible="true" />
-              <DxSelection mode="multiple" />
-              <DxHeaderFilter :visible="true" />
-
-              <DxColumnChooser :enabled="true" />
-              <DxColumnFixing :enabled="true" />
-
-              <DxStateStoring
-                :enabled="true"
-                type="localStorage"
-                storage-key="DocumentRegistry"
-              />
 
               <DxEditing
                 :allow-updating="true"
@@ -113,11 +116,6 @@
                 mode="raw"
               />
 
-              <DxSearchPanel
-                position="after"
-                :placeholder="$t('translations.fields.search') + '...'"
-                :visible="true"
-              />
               <DxScrolling mode="virtual" />
 
               <DxColumn
@@ -146,21 +144,15 @@
                 />
               </DxColumn>
             </DxDataGrid>
-          </DxGroupItem>
 
-          <DxGroupItem :col-count="12" :col-span="2">
-            <DxButtonItem
-              :col-span="11"
+             <DxButton
+              :width="120"
+              text="Contained"
+              type="success"
               :button-options="addButtonOptions"
+              styling-mode="contained"
               horizontal-alignment="right"
             />
-            <DxButtonItem
-              :col-span="1"
-              :button-options="cancelButtonOptions"
-              horizontal-alignment="right"
-            />
-          </DxGroupItem>
-        </DxForm>
       </form>
     </div>
   </div>
@@ -179,7 +171,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 
 import {
@@ -197,7 +189,7 @@ import {
   DxFilterRow,
   DxStateStoring
 } from "devextreme-vue/data-grid";
-
+import { DxButton } from 'devextreme-vue';
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 
@@ -227,7 +219,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxButton
   },
   computed: {
     documentFlowOptions() {
@@ -258,18 +251,12 @@ export default {
         name: null,
         status: 0,
         index: null,
-        numberOfDigitsInNumber: 0,
-        documentFlow: 0,
-        numberingPeriod: 0,
-        numberingSection: 0,
-        registerType: 1,
-        numberFormatItems: [
-          {
-            number: 0,
-            separator: null,
-            element: 1
-          }
-        ]
+        numberOfDigitsInNumber: null,
+        documentFlow: null,
+        numberingPeriod: null,
+        numberingSection: null,
+        registerType: null,
+        numberFormatItems: []
       },
       addButtonOptions: {
         width: 100,
