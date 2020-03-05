@@ -202,7 +202,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
   },
   async created() {
     if (this.$route.params.id != "newDocRegistry") {

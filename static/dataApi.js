@@ -33,7 +33,8 @@ export default {
     RegistrationGroup: `${url}/api/RegistrationGroup`,
     MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
     DocumentRegistry: `${url}/api/DocumentRegistry`,
-    RegistrationSetting: `${url}/api/RegistrationSetting`
-
+    RegistrationSetting: `${url}/api/RegistrationSetting`,
+    AssociatedApplication: `${url}/api/AssociatedApplication`,
+    FilesType: `${url}/api/FilesType`
   }
 };

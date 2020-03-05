@@ -7,7 +7,7 @@ export const state = () => ({
 });
 
 export const getters = {
-    userPermissions(state) {
+  userPermissions(state) {
     return state.userPermissions;
   }
 };

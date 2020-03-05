@@ -1,9 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <header class="grid__header">
-        <h3 class="grid__title">{{$t('translations.menu.upgratingEmployee')}} {{this.employee.name}}</h3>
-      </header>
+      <Header :headerTitle="headerTitle"></Header>
       <DxPopup
         :visible.sync="popupPasswordVisible"
         :drag-enabled="false"
@@ -17,7 +15,7 @@
           <popup-change-password @popupDisabled="popupDisabled('popupPasswordVisible')" />
         </div>
       </DxPopup>
-      <DxPopup
+      <!-- <DxPopup
         :visible.sync="popupRoleVisible"
         :drag-enabled="false"
         :close-on-outside-click="true"
@@ -29,11 +27,11 @@
         <div>
           <popup-user-role @popupDisabled="popupDisabled('popupRoleVisible')" />
         </div>
-      </DxPopup>
+      </DxPopup>-->
       <form action="your-action" @submit="handleSubmit">
         <DxForm
           :col-count="12"
-          :form-data.sync="employee"
+          :form-data.sync="store"
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
@@ -104,7 +102,7 @@
             :caption="$t('translations.fields.moreSettings')"
           >
             <DxButtonItem :button-options="popupPasswordOpt" horizontal-alignment="right" />
-            <DxButtonItem :button-options="popupRoleOpt" horizontal-alignment="right" />
+            <!-- <DxButtonItem :button-options="popupRoleOpt" horizontal-alignment="right" /> -->
           </DxGroupItem>
           <DxGroupItem :col-count="12" :col-span="12">
             <DxButtonItem
@@ -126,7 +124,7 @@
 <script>
 import popupChangePassword from "~/components/employee/popup-changePassword";
 import popupUserRole from "~/components/employee/popup-change-userRole";
-
+import Header from "~/components/page/page__header";
 import "devextreme-vue/text-area";
 import { DxPopup } from "devextreme-vue/popup";
 import DataSource from "devextreme/data/data_source";
@@ -147,6 +145,7 @@ import notify from "devextreme/ui/notify";
 
 export default {
   components: {
+    Header,
     DxGroupItem,
     DxSimpleItem,
     DxButtonItem,
@@ -163,14 +162,16 @@ export default {
     popupChangePassword
   },
   async created() {
-    const response = await this.$axios.get(
-      dataApi.company.Employee + "/" + this.$route.params.id
-    );
-    this.employee = response.data;
+    this.store = await this.getDataById(this.address);
+    this.headerTitle =
+      this.$t("translations.menu.upgratingEmployee") + this.store.name;
   },
+
   data() {
     return {
-      employee: {
+      headerTitle: "",
+      address: dataApi.company.Employee + "/" + this.$route.params.id,
+      store: {
         id: parseInt(this.$route.params.id),
         email: null,
         name: null,
@@ -185,7 +186,7 @@ export default {
       },
 
       cancelButtonOptions: {
-        onClick: this.backToEmployee,
+        onClick: this.backTo,
         width: 100,
         height: 50,
         text: this.$t("translations.links.cancel"),
@@ -248,55 +249,60 @@ export default {
       namePattern: /^[^0-9]+$/
     };
   },
+
   methods: {
+    async getDataById(url) {
+      const res = await this.$axios.get(url);
+      return res.data;
+    },
     popupDisabled(popup) {
       this[popup] = false;
     },
     passwordComparison() {
-      return this.employee.password;
+      return this.store.password;
     },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
-          id: this.employee.id,
+          id: this.store.id,
           [dataField]: params.value
         },
         dataField
       );
     },
-    backToEmployee() {
+    backTo() {
       this.$router.push("/company/staff/employees");
     },
+    notify(msgTxt, msgType) {
+      notify(
+        {
+          message: msgTxt,
+          position: {
+            my: "center top",
+            at: "center top"
+          }
+        },
+        msgType,
+        3000
+      );
+    },
     handleSubmit(e) {
-      delete this.employee.userName;
+      delete this.store.userName;
       this.$axios
-        .put(dataApi.company.Employee + "/" + this.employee.id, this.employee)
+        .put(this.address, this.store)
         .then(res => {
-          this.backToEmployee();
-          notify(
-            {
-              message: this.$t("translations.menu.upgradeEmployeeSucces"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "success",
-            3000
+          this.backTo();
+          this.notify(
+            this.$t("translations.menu.upgradeEmployeeSucces"),
+            "success"
           );
         })
         .catch(e => {
-          notify(
-            {
-              message: this.$t("translations.menu.upgradeEmployeeError"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "error",
-            3000
+          this.backTo();
+          this.notify(
+            this.$t("translations.menu.upgradeEmployeeError"),
+            "error"
           );
         });
 

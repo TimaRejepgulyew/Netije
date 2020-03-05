@@ -1,6 +1,5 @@
 <template>
   <form @submit="handleSubmit">
-    
     <DxForm
       :form-data="store"
       :read-only="false"
@@ -29,8 +28,6 @@ import DxForm, {
   DxButtonItem,
   DxLabel,
   DxRequiredRule,
-  DxRangeRule,
-  DxStringLengthRule,
   DxPatternRule,
   DxAsyncRule
 } from "devextreme-vue/form";
@@ -42,14 +39,13 @@ export default {
     DxLabel,
     DxRequiredRule,
     DxPatternRule,
-    DxRangeRule,
-    DxStringLengthRule,
     DxForm,
     DxAsyncRule
   },
 
   data() {
     return {
+      address: dataApi.company.Employee + "/ChangePassword",
       store: {
         id: parseInt(this.$route.params.id),
         newPassword: ""
@@ -64,39 +60,35 @@ export default {
       passwordOptions: {
         mode: "password"
       },
-      passwordPattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$ /g
+      passwordPattern: "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$"
     };
   },
   methods: {
+    notify(msgTxt, msgType) {
+      notify(
+        {
+          message: msgTxt,
+          position: {
+            my: "center top",
+            at: "center top"
+          }
+        },
+        msgType,
+        3000
+      );
+    },
     handleSubmit(e) {
       this.$axios
-        .post(dataApi.company.Employee + "/ChangePassword", this.store)
+        .post(this.address, this.store)
         .then(res => {
           this.$emit("popupDisabled");
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeSucces"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "success",
-            3000
+          this.notify(
+            this.$t("translations.menu.addEmployeeSucces"),
+            "success"
           );
         })
         .catch(e => {
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeError"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "error",
-            3000
-          );
+          this.notify(this.$t("translations.menu.addEmployeeError"), "error");
         });
 
       e.preventDefault();

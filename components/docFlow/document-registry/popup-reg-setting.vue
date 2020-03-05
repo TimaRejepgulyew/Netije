@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       addressGetRequest:
-        dataApi.company.Employee + "/GetAllUserRoles/" + this.$route.params.id,
+        dataApi.company.Employee + "/GetAllUserRoles/",
       addressPostRequest: dataApi.company.Employee + "/ChangeUserRoles",
       store: {
         employeeId: parseInt(this.$route.params.id),
@@ -120,4 +120,3 @@ export default {
 </script>
 <style  lang="scss" scoped>
 </style>
-

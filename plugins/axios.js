@@ -1,7 +1,6 @@
 import { WebStorageStateStore } from "oidc-client";
 
 export default function({ app, $axios }) {
-  console.log(app);
   $axios.onRequest(config => {
     console.log("Making request to " + config.url);
   });

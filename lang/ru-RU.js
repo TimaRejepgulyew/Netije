@@ -35,6 +35,7 @@ export default {
       "upgradeEmployeeSucces":"Данные сотрудника успешно изменены",
       "upgradeEmployeeError":"При изменение данных сотрудника произошла ошибка",
       "upgratingEmployee":"Редактирование сотрудника -",
+      "addingEmployee":"Добавление сотрудника",
       "addEmployeeSucces":"Добавлен один сотрудник",
       "addEmployeeError":"Возникла ошибка при добавлении сотрудника",
       "managersAssistant": "Помощник руководителя",
@@ -51,7 +52,10 @@ export default {
       "registrationSetting": "Настройки регистрации",
       "registrationGroup": "Группа регистрации",
       "clericalWork": "Делопроизводство",
-      "contacts": "Контакты"
+      "contacts": "Контакты",
+      "associatedApp":"Обработчики приложений",
+      "fileType":"Типы файлов",
+      "invalidFileExtention":"Неверное расширение файла"
     },
     "fields": {
       "fax":"Факс",
@@ -142,6 +146,8 @@ export default {
       "bicRequired": "Введите уникальный идентификатор банка",
       "type": "Тип",
       "typeRequired": "Введите тип",
+      "extension":"Разширение",
+      "filesTypeId":"Тип файла",
 
       "company": "Компания",
       "companyRequired": "Выберите компанию",

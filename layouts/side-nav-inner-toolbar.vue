@@ -20,8 +20,7 @@
       >
         <dx-scroll-view class="with-footer">
           <div class="main-content">
-            <nuxt>
-            </nuxt>
+            <nuxt></nuxt>
           </div>
           <slot name="footer" />
         </dx-scroll-view>
@@ -183,6 +182,14 @@ export default {
             {
               text: this.$t("translations.menu.mailDeliveryMethod"),
               path: "/docFlow/mail-delivery-method/"
+            },
+            {
+              text: this.$t("translations.menu.associatedApp"),
+              path: "/docFlow/associated-app"
+            },
+             {
+              text: this.$t("translations.menu.fileType"),
+              path: "/docFlow/files-type"
             }
           ]
         },
@@ -190,7 +197,6 @@ export default {
           text: this.$t("translations.menu.shared-directory"),
           icon: "docfile",
           path: "/shared-directory",
-          visible: false,
           items: [
             {
               text: this.$t("translations.menu.countries"),

@@ -1,10 +1,11 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
+      <Header :headerTitle="headerTitle"></Header>
       <form action="your-action" @submit="handleSubmit">
         <DxForm
           :col-count="2"
-          :form-data.sync="employee"
+          :form-data.sync="store"
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
@@ -118,9 +119,10 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
-
+import Header from "~/components/page/page__header";
 export default {
   components: {
+    Header,
     DxGroupItem,
     DxSimpleItem,
     DxButtonItem,
@@ -137,7 +139,8 @@ export default {
 
   data() {
     return {
-      employee: {
+      headerTitle: this.$t('translations.menu.addingEmployee'),
+      store: {
         email: null,
         name: null,
         phone: null,
@@ -156,7 +159,7 @@ export default {
         type: "success"
       },
       cancelButtonOptions: {
-        onClick: this.backToEmployee,
+        onClick: this.backTo,
         width: 100,
         height: 50,
         text: this.$t("translations.links.cancel"),
@@ -188,12 +191,12 @@ export default {
         displayExpr: "name"
       },
       namePattern: /^[^0-9]+$/,
-      passwordPattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$ /g
+      passwordPattern: "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$"
     };
   },
   methods: {
     passwordComparison() {
-      return this.employee.password;
+      return this.store.password;
     },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
@@ -204,38 +207,34 @@ export default {
         dataField
       );
     },
-    backToEmployee() {
+    backTo() {
       this.$router.push("/company/staff/employees");
+    },
+    notify(msgTxt, msgType) {
+      notify(
+        {
+          message: msgTxt,
+          position: {
+            my: "center top",
+            at: "center top"
+          }
+        },
+        msgType,
+        3000
+      );
     },
     handleSubmit(e) {
       this.$axios
-        .post(dataApi.company.Employee, this.employee)
+        .post(dataApi.company.Employee, this.store)
         .then(res => {
-          this.backToEmployee();
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeSucces"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "success",
-            3000
+          this.backTo();
+          this.notify(
+            this.$t("translations.menu.addEmployeeSucces"),
+            "success"
           );
         })
         .catch(e => {
-          notify(
-            {
-              message: this.$t("translations.menu.addEmployeeError"),
-              position: {
-                my: "center top",
-                at: "center top"
-              }
-            },
-            "error",
-            3000
-          );
+          this.notify(this.$t("translations.menu.addEmployeeError"), "error");
         });
 
       e.preventDefault();

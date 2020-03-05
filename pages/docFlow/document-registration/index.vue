@@ -1,5 +1,17 @@
 <template>
   <main class="container container--grid">
+    <DxPopup
+      :visible.sync="popupSetting"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      :width="800"
+      :title="$t('translations.menu.registrationSetting')"
+    >
+      <div>
+        <popup-reg-setting @popupDisabled="popupDisabled('popupVisible')" />
+      </div>
+    </DxPopup>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
@@ -9,7 +21,6 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      @editing-start="editingStart"
       @init-new-row="initNewRow"
     >
       <DxExport
@@ -26,13 +37,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegistry" />
 
-      <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
-        :useIcons="true"
-        mode="form"
-      />
+      <DxEditing :allow-deleting="true" :allow-adding="true" :useIcons="true" mode="form" />
 
       <DxSearchPanel
         position="after"
@@ -69,6 +74,12 @@
       >
       </DxColumn>-->
 
+      <DxColumn type="buttons">
+        <DxButton icon="tips" :text="$t('translations.fields.moreAbout')"></DxButton>
+        <DxButton icon="edit" :text="$t('translations.fields.moreAbout')" :onClick="editingStart"></DxButton>
+        <DxButton icon="plus" :text="$t('translations.fields.moreAbout')" :onClick="settingStart"></DxButton>
+        <DxButton icon="trash" :text="$t('translations.fields.moreAbout')" name="delete"></DxButton>
+      </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
@@ -76,10 +87,12 @@
   </main>
 </template>
 <script>
+import popupRegSetting from "~/components/docFlow/document-registry/popup-reg-setting";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import CustomStore from "devextreme/data/custom_store";
 import Header from "~/components/page/page__header";
+import { DxPopup } from "devextreme-vue/popup";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -95,7 +108,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -115,7 +129,10 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxPopup,
+    DxButton,
+    popupRegSetting
   },
   mounted() {},
   data() {
@@ -128,7 +145,14 @@ export default {
         updateUrl: dataApi.docFlow.DocumentRegistry,
         removeUrl: dataApi.docFlow.DocumentRegistry
       }),
-
+      popupVisible: false,
+      popupOpt: {
+        onClick: () => {
+          this.popupVisible = true;
+        },
+        height: 50,
+        icon: "plus"
+      },
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
         { id: 1, name: this.$t("translations.fields.outcomingEnum") },
@@ -143,7 +167,13 @@ export default {
       },
 
       editingStart: e => {
-        this.$router.push("/docFlow/document-registration/form/" + e.data.id);
+        this.$router.push(
+          "/docFlow/document-registration/form/" + e.row.data.id
+        );
+      },
+      popupSetting: false,
+      settingStart: e => {
+        this.popupSetting = true;
       }
     };
   },
