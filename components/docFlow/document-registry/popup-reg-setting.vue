@@ -5,11 +5,43 @@
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
-      validation-group="changeRole"
+      validation-group="registrationSetting"
     >
-      <DxSimpleItem :editor-options="tagboxOptions" editor-type="dxTagBox" data-field="roles">
-        <DxLabel :text="$t('translations.fields.role')" />
-        <DxRequiredRule :message="$t('translations.fields.roleRequired')" />
+      <DxSimpleItem data-field="name" data-type="string">
+        <DxLabel :text="$t('translations.fields.name')" />
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="businessUnitId"
+        :editor-options=" businessUnitOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel :text="$t('translations.fields.businessUnitId')" />
+        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        :editor-options="departmentOptions"
+        editor-type="dxTagBox"
+        data-field="departments"
+      >
+        <DxLabel :text="$t('translations.fields.departmentId')" />
+        <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        :editor-options="regGroupOptions"
+        editor-type="dxTagBox"
+        data-field="registrationGroups"
+      >
+        <DxLabel :text="$t('translations.fields.registrationGroupId')" />
+        <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        :editor-options="documentKindsOptions"
+        editor-type="dxTagBox"
+        data-field="documentKinds"
+      >
+        <DxLabel :text="$t('translations.fields.documentKindId')" />
+        <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>
@@ -20,6 +52,7 @@ import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
 import { DxTagBox } from "devextreme-vue/tag-box";
 import notify from "devextreme/ui/notify";
+import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -47,31 +80,76 @@ export default {
     DxButton
   },
   async created() {
-    this.store.roles = await this.getDataById(this.addressGetRequest);
+    if (this.id) {
+      let res = await this.getDataById(`${this.address}/${this.id}`);
+      console.log(res.data);
+      this.store = res.data;
+    }
   },
+  computed: {
+    address() {
+      return `${dataApi.docFlow.RegistrationSetting}`;
+    },
+    departmentOptions() {
+      this.store.departments = null;
+      let id = this.store.businessUnitId;
+      return {
+        dataSource: new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl:
+              dataApi.company.Department + "/FilterByBusinessUnitId/" + this.store.documentRegisterId
+          })
+        }),
+        valueExpr: "id",
+        displayExpr: "name"
+      };
+    },
+    documentKindsOptions() {
+      return {
+        dataSource: new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.docFlow.DocumentKind
+          })
+        }),
+        valueExpr: "id",
+        displayExpr: "name"
+      };
+    },
+
+    regGroupOptions() {
+      return {
+        dataSource: new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.docFlow.RegistrationGroup
+          })
+        }),
+        valueExpr: "id",
+        displayExpr: "name"
+      };
+    }
+  },
+  props: ["id"],
   data() {
     return {
-      addressGetRequest:
-        dataApi.company.Employee + "/GetAllUserRoles/",
-      addressPostRequest: dataApi.company.Employee + "/ChangeUserRoles",
       store: {
-        employeeId: parseInt(this.$route.params.id),
-        roles: []
+        documentRegisterId: this.id,
+        name: null,
+        businessUnitId: null,
+        departments: null,
+        documentKinds: null,
+        registrationGroups: null
       },
 
-      tagboxOptions: {
+      businessUnitOptions: {
         dataSource: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Department
+          loadUrl: dataApi.company.BusinessUnit
         }),
-        items: this.roles,
-        acceptCustomValue: true,
-        onCustomItemCreating: this.addNewRole
-      },
-      addNewRole: args => {
-        const newValue = args.text;
-        args.customItem = newValue;
-        this.roles.unshift(newValue);
+        valueExpr: "id",
+        displayExpr: "name"
       },
       saveButtonOptions: {
         height: 50,
@@ -86,6 +164,7 @@ export default {
       const res = await this.$axios.get(url);
       return res.data;
     },
+
     notify(msgTxt, msgType) {
       notify(
         {
@@ -101,9 +180,9 @@ export default {
     },
     handleSubmit(e) {
       this.$axios
-        .post(this.addressPostRequest, this.store)
+        .post(this.address, this.store)
         .then(res => {
-          this.$emit("popupDisabled");
+          this.$emit("popupSetting");
           this.notify(
             this.$t("translations.headers.updateDocRegistrySucces"),
             "success"

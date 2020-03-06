@@ -148,7 +148,7 @@ export default {
       "bicRequired": "Введите уникальный идентификатор банка",
       "type": "Тип",
       "typeRequired": "Введите тип",
-      "extension":"Разширение",
+      "extension":"Раcширение",
       "filesTypeId":"Тип файла",
 
       "company": "Компания",
@@ -320,7 +320,8 @@ export default {
       "isDefault": "По умолчанию",
       "isDefaultDocumentKind": "Документ по умолчанию",
       "numericCode": "Цифровой код",
-      "numericCodeRequired": "Введите цифровой код"
+      "numericCodeRequired": "Введите цифровой код",
+      "currentNumber":"Текущий номер"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
