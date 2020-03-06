@@ -2,6 +2,7 @@ export default {
   "greating": "Hello",
   "translations": {
     "menu": {
+      "filesType": "Типы файлов",
       "currencies":"Валюты",
       "human-settlement":"Населенные пункты",
       "shared-directory":"Общие справочники",
@@ -58,6 +59,7 @@ export default {
       "invalidFileExtention":"Неверное расширение файла"
     },
     "fields": {
+      "filesType":"Типы файлов",
       "fax":"Факс",
       "code": "Код",
       "codeRequired": "Введите код",
