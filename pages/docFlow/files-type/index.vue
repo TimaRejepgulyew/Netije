@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     validateEntityExists(params) {
-      var dataField = params.column.dataField;
+      var dataField = params.column.dataField;  
       return this.$customValidator.FilesTypeDataFieldValueNotExists(
         {
           id: params.data.id,
