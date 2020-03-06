@@ -25,7 +25,11 @@
         :file-name="$t('translations.menu.departments')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Department"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -42,7 +46,11 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.countryAlreadyAxists')"
@@ -50,18 +58,33 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
+      <DxColumn
+        data-field="phone"
+        :caption="$t('translations.fields.phones')"
+        :visible="false"
+      />
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false" />
+      <DxColumn
+        data-field="code"
+        :caption="$t('translations.fields.code')"
+        :visible="false"
+      />
 
-      <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')"></DxColumn>
+      <DxColumn
+        data-field="shortName"
+        :caption="$t('translations.fields.shortName')"
+      ></DxColumn>
 
       <DxColumn
         data-field="headOfficeId"
         :caption="$t('translations.fields.headOfficeId')"
         :visible="false"
       >
-        <DxLookup :data-source="getFilteredHeadOffice" value-expr="id" display-expr="name" />
+        <DxLookup
+          :data-source="getFilteredHeadOffice"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -70,20 +93,47 @@
         :visible="false"
       />
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false" />
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+      />
 
-      <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
-        <DxRequiredRule :message="$t('translations.fields.managerIdRequired')" />
-        <DxLookup :data-source="getFilteredManager" value-expr="id" display-expr="name" />
+      <DxColumn
+        data-field="managerId"
+        :caption="$t('translations.fields.managerId')"
+      >
+        <DxRequiredRule
+          :message="$t('translations.fields.managerIdRequired')"
+        />
+        <DxLookup
+          :data-source="getFilteredManager"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
-      <DxColumn data-field="businessUnitId" :caption="$t('translations.fields.businessUnitId')">
-        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-        <DxLookup :data-source="getFilteredBussinessUnit" value-expr="id" display-expr="name" />
+      <DxColumn
+        data-field="businessUnitId"
+        :caption="$t('translations.fields.businessUnitId')"
+        :set-cell-value="onBusinessUnitIdChanged"
+      >
+        <DxRequiredRule
+          :message="$t('translations.fields.businessUnitIdRequired')"
+        />
+        <DxLookup
+          :data-source="getFilteredBussinessUnit"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -155,6 +205,10 @@ export default {
         key: "id",
         loadUrl: dataApi.company.Department
       }),
+       onBusinessUnitIdChanged(rowData, value) {
+        rowData.headOfficeId = null;
+        this.defaultSetCellValue(rowData, value);
+      },
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
@@ -171,7 +225,7 @@ export default {
       return {
         store: this.headOfficeStore,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.headOfficeId]
+          ? ["businessUnitId", "=", options.data.businessUnitId, "or","status", "=", 0, "or", "id", "=", options.data.headOfficeId]
           : null
       };
     },
@@ -205,7 +259,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {

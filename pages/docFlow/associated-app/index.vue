@@ -25,7 +25,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="RegistrationGroup"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -42,22 +46,57 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.nameAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
         data-field="extension"
         data-type="string"
         :caption="$t('translations.fields.extension')"
-      ></DxColumn>
-
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        :editor-options="extensionOptions"
+      >
+        <DxRequiredRule
+          :message="$t('translations.fields.extensionRequired')"
+        />
+        <DxPatternRule
+          :pattern="extensionsPattern"
+          :message="$t('translations.fields.extensionPatternRule')"
+        />
+        <DxAsyncRule
+          :message="$t('translations.fields.extensionAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="filesTypeId" :caption="$t('translations.fields.filesTypeId')">
-        <DxLookup :data-source="filesTypeStores" value-expr="id" display-expr="name" />
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
+      </DxColumn>
+
+      <DxColumn
+        data-field="filesTypeId"
+        :caption="$t('translations.fields.filesTypeId')"
+      >
+        <DxRequiredRule
+          :message="$t('translations.fields.filesTypeIdRequired')"
+        />
+        <DxLookup
+          :data-source="filesTypeStores"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -83,7 +122,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxTagBox
+  DxTagBox,
+  DxPatternRule
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 
@@ -105,7 +145,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-
+    DxPatternRule
   },
   data() {
     return {
@@ -122,17 +162,33 @@ export default {
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
-          rowUpdating: e => {
-            e.newData = Object.assign(e.oldData, e.newData);
-          },
+      rowUpdating: e => {
+        e.newData = Object.assign(e.oldData, e.newData);
+      },
       filesTypeStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.FilesType
       }),
+
+      extensionsPattern: /^\.[^\s]\w+$/,
+
+      extensionOptions: {
+        mask: ".cccccccccc",
+        useMaskedValue: true
+      }
     };
   },
-  methods: {
-   
+  methods:{
+    validateEntityExists(params) {
+      var dataField = params.column.dataField;
+      return this.$customValidator.AssociatedApplicationDataFieldValueNotExists(
+        {
+          id: params.data.id,
+          [dataField]: params.value
+        },
+        dataField
+      );
+    },
   }
 };
 </script>

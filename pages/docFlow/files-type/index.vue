@@ -9,16 +9,13 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :on-row-inserted="(e) => e.component.navigateToRow(e.key)"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
-      @editor-preparing="blockingColumnForEdit"
     >
-      >
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.registrationGroup')"
+        :file-name="$t('translations.fields.fileTypes')"
       />
       <DxFilterRow :visible="true" />
       <DxSelection mode="multiple" />
@@ -27,7 +24,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="FileTypes"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -44,30 +45,29 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-      </DxColumn>
-
       <DxColumn
-        data-field="extension"
+        data-field="name"
+        :caption="$t('translations.fields.name')"
         data-type="string"
-        :caption="$t('translations.fields.extension')"
       >
-        <DxPatternRule :pattern="extentionPatern" :message="$t('translations.fields.invalidFileExtention')"></DxPatternRule>
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.nameAlreadyAxists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
-      </DxColumn>
-
-      <DxColumn data-field="filesTypeId" :caption="$t('translations.fields.filesTypeId')">
-        <DxLookup :data-source="filesTypeStores" value-expr="id" display-expr="name" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
 </template>
 <script>
-import EmployeeTagBoxComponent from "~/components/docFlow/registration-group/index__tag-box-component";
 import dataApi from "~/static/dataApi";
 import CustomStore from "devextreme/data/custom_store";
 import Header from "~/components/page/page__header";
@@ -81,16 +81,13 @@ import {
   DxLookup,
   DxAsyncRule,
   DxRequiredRule,
-  DxPatternRule,
   DxExport,
   DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxTagBox
 } from "devextreme-vue/data-grid";
-import DataSource from "devextreme/data/data_source";
 
 export default {
   components: {
@@ -103,18 +100,17 @@ export default {
     DxScrolling,
     DxLookup,
     DxRequiredRule,
-    DxPatternRule,
     DxAsyncRule,
     DxExport,
     DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.fileType"),
+      headerTitle: this.$t("translations.menu.filesType"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.FilesType,
@@ -122,17 +118,31 @@ export default {
         updateUrl: dataApi.docFlow.FilesType,
         removeUrl: dataApi.docFlow.FilesType
       }),
+
       statusStores: this.$store.getters["status/status"],
+
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },
+
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       },
-      extentionPatern: /^\.\w+$/
+
     };
   },
-  methods: {}
+  methods: {
+    validateEntityExists(params) {
+      var dataField = params.column.dataField;  
+      return this.$customValidator.FilesTypeDataFieldValueNotExists(
+        {
+          id: params.data.id,
+          [dataField]: params.value
+        },
+        dataField
+      );
+    },
+  }
 };
 </script>
 <style lang="scss" scoped>

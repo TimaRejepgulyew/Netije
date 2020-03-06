@@ -207,6 +207,18 @@ export default ({ app }, inject) => {
   }
 
 
+  async function AssociatedApplicationDataFieldValueNotExists(payload, propertyName) {
+    return (
+      (await isEntityExists(
+        dataApi.docFlow.AssociatedApplication,
+        payload,
+        propertyName
+      )) == false
+    );
+  }
+
+
+
 
   let obj = {
     isNameExists: isNameExists,
@@ -229,7 +241,8 @@ export default ({ app }, inject) => {
     MailDeliveryMethodDataFieldValueNotExists: MailDeliveryMethodDataFieldValueNotExists,
     RegistrationGroupDataFieldValueNotExists: RegistrationGroupDataFieldValueNotExists,
     DocumentRegistrationDataFieldValueNotExists: DocumentRegistrationDataFieldValueNotExists,
-    FilesTypeDataFieldValueNotExists: FilesTypeDataFieldValueNotExists
+    FilesTypeDataFieldValueNotExists: FilesTypeDataFieldValueNotExists,
+    AssociatedApplicationDataFieldValueNotExists: AssociatedApplicationDataFieldValueNotExists
 
   };
 

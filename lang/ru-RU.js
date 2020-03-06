@@ -59,6 +59,7 @@ export default {
       "invalidFileExtention":"Неверное расширение файла"
     },
     "fields": {
+      "extensionPatternRule": "Пожалуйста введите валидное расширение",
       "filesType":"Типы файлов",
       "fax":"Факс",
       "code": "Код",
@@ -150,6 +151,9 @@ export default {
       "typeRequired": "Введите тип",
       "extension":"Раcширение",
       "filesTypeId":"Тип файла",
+      "filesTypeIdRequired": "Тип файла не может быть пустым",
+      "extensionRequired":"Расширение не может быть пустым",
+      "extensionAlreadyAxists":"Такое расширение уже есть",
 
       "company": "Компания",
       "companyRequired": "Выберите компанию",
