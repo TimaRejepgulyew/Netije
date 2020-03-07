@@ -2,7 +2,7 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="headerTitle"></Header>
-      <form action="your-action" @submit="handleSubmit">
+      <form @submit="handleSubmit">
         <DxForm
           :col-count="2"
           :form-data.sync="store"
@@ -14,18 +14,18 @@
           <DxGroupItem :caption="$t('translations.fields.personalData')">
             <DxSimpleItem data-field="userName" data-type="string">
               <DxLabel :text="$t('translations.fields.userName')" />
+              <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
               <DxAsyncRule
                 :validation-callback="validateEntityExists"
                 :message="$t('translations.fields.userNameRule')"
               />
-              <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
               <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
               <DxEmailRule :message="$t('translations.fields.emailRule')" />
               <DxAsyncRule
                 :validation-callback="validateEntityExists"
-                :message="$t('translations.fields.haveRegistredEmail')"
+                :message="$t('translations.fields.emailAlreadyExists')"
               />
             </DxSimpleItem>
             <DxSimpleItem :editor-options="passwordOptions" data-field="password">

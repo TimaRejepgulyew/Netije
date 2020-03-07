@@ -52,7 +52,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.titleRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.titleAlreadyAxists')"
+          :message="$t('translations.fields.titleAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -64,7 +64,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.indexAlreadyAxists')"
+          :message="$t('translations.fields.indexAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -87,7 +87,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.endDateRequired')" />
         <DxCustomRule
-          :message="$t('translations.fields.endDateAlreadyAxists')"
+          :message="$t('translations.fields.endDateAlreadyExists')"
           :validation-callback="editEndDate"
           type="custom"
           :reevaluate="true"

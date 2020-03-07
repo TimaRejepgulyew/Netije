@@ -53,7 +53,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -103,9 +103,6 @@
         data-field="managerId"
         :caption="$t('translations.fields.managerId')"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.managerIdRequired')"
-        />
         <DxLookup
           :data-source="getFilteredManager"
           value-expr="id"
@@ -221,7 +218,6 @@ export default {
   },
   methods: {
     getFilteredHeadOffice(options) {
-      console.log(options);
       return {
         store: this.headOfficeStore,
         filter: options.data

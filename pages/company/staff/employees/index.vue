@@ -22,10 +22,14 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.businessUnit')"
+        :file-name="$t('translations.menu.employee')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="BusinessUnit" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Employee"
+      />
 
       <DxSearchPanel
         position="after"
@@ -34,21 +38,44 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxEditing :allow-adding="true" :allow-updating="true" :useIcons="true" mode="inline" />
+      <DxEditing
+        :allow-adding="true"
+        :allow-updating="true"
+        :useIcons="true"
+        mode="inline"
+      />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      ></DxColumn>
 
-      <DxColumn data-field="userName" :caption="$t('translations.fields.userName')">
-
+      <DxColumn
+        data-field="userName"
+        :caption="$t('translations.fields.userName')"
+      >
       </DxColumn>
 
-      <DxColumn data-field="jobTitleId" :caption="$t('translations.fields.jobTitleId')"></DxColumn>
+      <DxColumn
+        data-field="jobTitleId"
+        :caption="$t('translations.fields.jobTitleId')"
+      ></DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
+      <DxColumn
+        data-field="email"
+        :caption="$t('translations.fields.email')"
+      ></DxColumn>
 
-      <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')" />
+      <DxColumn
+        data-field="departmentId"
+        :caption="$t('translations.fields.departmentId')"
+      />
 
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" />
+      <DxColumn
+        data-field="phone"
+        :caption="$t('translations.fields.phones')"
+      />
     </DxDataGrid>
   </main>
 </template>
@@ -125,7 +152,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {

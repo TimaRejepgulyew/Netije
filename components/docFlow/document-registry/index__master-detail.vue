@@ -66,7 +66,6 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxEmailRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -86,7 +85,6 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxEmailRule
   },
   props: {
     documentRegistry: {

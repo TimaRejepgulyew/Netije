@@ -55,7 +55,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -214,7 +214,6 @@ export default {
       );
     },
     cellTemplate(container, options) {
-      console.log(options)
       var noBreakSpace = "\u00A0",
         text = (options.value || [])
           .map(element => {
@@ -225,7 +224,6 @@ export default {
       container.title = text;
     },
     onValueChanged(value, cellInfo) {
-      console.log(cellInfo)
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
     },

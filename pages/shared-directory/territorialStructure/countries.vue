@@ -24,7 +24,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="countries" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="countries"
+      />
 
       <DxEditing
         :allow-updating="true"
@@ -41,16 +45,27 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.countryId')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      >
+        <DxRequiredRule
+          :message="$t('translations.fields.nameRequired')"
+        />
+        <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateCountryName"
         ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -75,7 +90,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxStringLengthRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -95,7 +111,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxStringLengthRule
   },
   mounted() {},
   data() {

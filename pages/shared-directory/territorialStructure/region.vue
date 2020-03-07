@@ -46,8 +46,9 @@
       <DxScrolling mode="virtual" />
       <DxColumn data-field="name" :caption="$t('translations.fields.regionId')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
+        <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.countryAlreadyExists')"
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
@@ -81,7 +82,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxStringLengthRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -101,7 +103,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxStringLengthRule
   },
   data() {
     return {

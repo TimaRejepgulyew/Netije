@@ -45,7 +45,7 @@
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -55,7 +55,7 @@
         :caption="$t('translations.fields.headOfficeId')"
         :visible="false"
       >
-        <DxLookup :data-source="store" value-expr="id" display-expr="name" />
+        <DxLookup :data-source="getFilteredHeadOfficeId" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn
@@ -65,9 +65,8 @@
       ></DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
-        <DxRequiredRule :message="$t('translations.fields.tinRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.tinAlreadyAxists')"
+          :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -84,6 +83,7 @@
       </DxColumn>
 
       <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
+        <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
         <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
 
@@ -119,7 +119,6 @@
       <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
@@ -224,6 +223,14 @@ export default {
     };
   },
   methods: {
+    getFilteredHeadOfficeId(options) {
+      return {
+        store: this.store,
+        filter: options.data
+          ? ["status", "=", 0, "or", "id", "=", options.data.headOfficeId]
+          : null
+      };
+    },
     getFilteredRegion(options) {
       return {
         store: this.region,

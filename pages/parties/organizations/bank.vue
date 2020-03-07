@@ -41,10 +41,14 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      >
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -55,23 +59,32 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+      <DxColumn
+        data-field="tin"
+        :caption="$t('translations.fields.tin')"
+        :visible="false"
+      >
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="bic" :caption="$t('translations.fields.bic')" :visible="false">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+      <DxColumn
+        data-field="bic"
+        :caption="$t('translations.fields.bic')"
+        :visible="false"
+      >
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.bicAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')"></DxColumn>
+      <DxColumn
+        data-field="code"
+        :caption="$t('translations.fields.code')"
+      ></DxColumn>
 
       <DxColumn
         data-field="regionId"
@@ -79,12 +92,23 @@
         :set-cell-value="onRegionIdChanged"
       >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
+        <DxLookup
+          :data-source="getFilteredRegion"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
-      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
+      <DxColumn
+        data-field="localityId"
+        :caption="$t('translations.fields.localityId')"
+      >
+      <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
+        <DxLookup
+          :data-source="getFilteredLocality"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -99,13 +123,28 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="phones"
+        :caption="$t('translations.fields.phones')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="email"
+        :caption="$t('translations.fields.email')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
+      <DxColumn
+        data-field="webSite"
+        :caption="$t('translations.fields.webSite')"
+      ></DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+      ></DxColumn>
 
       <DxColumn
         data-field="nonresident"
@@ -114,10 +153,17 @@
         data-type="boolean"
       ></DxColumn>
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
+      <DxColumn
+        data-field="account"
+        :caption="$t('translations.fields.account')"
+      ></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
