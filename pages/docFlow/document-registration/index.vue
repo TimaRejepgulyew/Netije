@@ -5,12 +5,13 @@
       :drag-enabled="false"
       :close-on-outside-click="true"
       :show-title="true"
-      :width="800"
+      :width="600"
+      :height="500"
       :title="$t('translations.menu.registrationSetting')"
     >
       <div>
         <popup-reg-setting
-          :id="registrationSettingId"
+          :documentRegisterId="documentRegisterId"
           v-if="popupSetting"
           @popupDisabled="popupDisabled('popupSetting')"
         />
@@ -185,14 +186,13 @@ export default {
       currentNumberStart: e => {
         this.popupCurrentNumber = true;
       },
-      registrationSettingId: null,
+      documentRegisterId: null,
       popupSetting: false
     };
   },
   methods: {
     settingStart(e) {
-      
-      this.registrationSettingId = e.row.key;
+      this.documentRegisterId = e.row.key;
       this.popupSetting = true;
     },
     validateEntityExists(params) {

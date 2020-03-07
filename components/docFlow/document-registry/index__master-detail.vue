@@ -10,7 +10,8 @@
     >
       <div>
         <popup-reg-setting
-          :id="registrationSettingId"
+          :documentRegisterId="documentRegisterId"
+          :id="regSettingId"
           v-if="popupSetting"
           @popupDisabled="popupDisabled('popupSetting')"
         />
@@ -134,15 +135,14 @@ export default {
       }),
 
       statusStores: this.$store.getters["status/status"],
-
+      documentRegisterId: id,
       bussinessUnitStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.BusinessUnit
       }),
       popupSetting: false,
       editingStart: e => {
-        console.log(e);
-        this.registrationSettingId = e.row.key;
+        this.regSettingId = e.row.key;
         this.popupSetting = true;
       },
       popupDisabled(popup) {

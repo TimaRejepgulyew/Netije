@@ -82,24 +82,52 @@ export default {
   async created() {
     if (this.id) {
       let res = await this.getDataById(`${this.address}/${this.id}`);
-      console.log(res.data);
-      this.store = res.data;
+      console.log(res);
+      this.isUpdated = true;
+
+      this.store = res;
     }
   },
   computed: {
     address() {
       return `${dataApi.docFlow.RegistrationSetting}`;
     },
+    businessUnitOptions() {
+      let dataSource;
+      if (this.isUpdated) {
+        dataSource = this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.BusinessUnit
+        });
+      } else {
+        dataSource = this.$dxStore({
+          key: "id",
+          loadUrl:
+            dataApi.docFlow.RegSettingAvailableBusinessUnits +
+            "/" +
+            this.documentRegisterId
+        });
+      }
+      return {
+        dataSource: dataSource,
+        disabled: this.isUpdated,
+        valueExpr: "id",
+        displayExpr: "name"
+      };
+    },
     departmentOptions() {
-      this.store.departments = null;
+      if (!this.isUpdated) {
+        this.store.departments = null;
+      }
       let id = this.store.businessUnitId;
       return {
         dataSource: new DataSource({
           store: this.$dxStore({
             key: "id",
             loadUrl:
-              dataApi.company.Department + "/FilterByBusinessUnitId/" + this.store.documentRegisterId
-          })
+              dataApi.company.Department + "/FilterByBusinessUnitId/" + id
+          }),
+          filter: ["status", "=", 0]
         }),
         valueExpr: "id",
         displayExpr: "name"
@@ -131,26 +159,19 @@ export default {
       };
     }
   },
-  props: ["id"],
+  props: ["documentRegisterId", "id"],
   data() {
     return {
       store: {
-        documentRegisterId: this.id,
+        documentRegisterId: this.documentRegisterId,
         name: null,
         businessUnitId: null,
         departments: null,
         documentKinds: null,
         registrationGroups: null
       },
+      isUpdated: false,
 
-      businessUnitOptions: {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.BusinessUnit
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      },
       saveButtonOptions: {
         height: 50,
         text: this.$t("translations.links.save"),
