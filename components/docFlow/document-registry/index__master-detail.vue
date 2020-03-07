@@ -1,5 +1,21 @@
 <template>
   <main class="container container--grid">
+    <DxPopup
+      :visible.sync="popupSetting"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      :width="800"
+      :title="$t('translations.menu.registrationSetting')"
+    >
+      <div>
+        <popup-reg-setting
+          :id="registrationSettingId"
+          v-if="popupSetting"
+          @popupDisabled="popupDisabled('popupSetting')"
+        />
+      </div>
+    </DxPopup>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -7,12 +23,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
     >
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
-
+      <DxEditing :allow-updating="true" :allow-deleting="true" :useIcons="true" mode="form" />
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
@@ -33,23 +47,31 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
-      </DxColumn>
       <DxColumn
-        data-field="bussinessUnitId"
-        :caption="$t('translations.fields.bussinessUnitId')"
+        data-field="businessUnitId"
+        :caption="$t('translations.menu.businessUnit')"
         :visible="true"
       >
-        <DxLookup :data-source="getFilteredCompany" value-expr="id" display-expr="name" />
+        <DxLookup :data-source="bussinessUnitStores" value-expr="id" display-expr="name" />
       </DxColumn>
-
+      <DxColumn type="buttons">
+        <DxButton
+          icon="edit"
+          :text="$t('translations.headers.editDocumentRegistry')"
+          :onClick="editingStart"
+        ></DxButton>
+        <DxButton icon="trash" name="delete"></DxButton>
+      </DxColumn>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
+import popupRegSetting from "~/components/docFlow/document-registry/popup-reg-setting";
 import dataApi from "~/static/dataApi";
+import { DxPopup } from "devextreme-vue/popup";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -66,10 +88,14 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
+  DxEmailRule,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
   components: {
+    popupRegSetting,
+    DxPopup,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -85,6 +111,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
+    DxEmailRule,
+    DxButton
   },
   props: {
     documentRegistry: {
@@ -93,42 +121,36 @@ export default {
     }
   },
   data() {
-    let { name, id } = this.company.data;
+    let { name, id } = this.documentRegistry.data;
     return {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docflow.DocumentRegistry,
+          loadUrl: dataApi.docFlow.RegistrationSetting,
+          updateUrl: dataApi.docFlow.RegistrationSetting,
+          removeUrl: dataApi.docFlow.RegistrationSetting
         }),
-        filter: ["companyId", "=", id]
+        filter: ["documentRegisterId", "=", id]
       }),
 
       statusStores: this.$store.getters["status/status"],
 
-      companyStore: this.$dxStore({
+      bussinessUnitStores: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.Company
+        loadUrl: dataApi.company.BusinessUnit
       }),
-
-      initNewRow: e => {
-        e.data.companyId = id;
-        e.data.status = this.statusStores[0].id;
+      popupSetting: false,
+      editingStart: e => {
+        console.log(e);
+        this.registrationSettingId = e.row.key;
+        this.popupSetting = true;
       },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
+      popupDisabled(popup) {
+        this[popup] = false;
       }
     };
   },
   methods: {
-    getFilteredCompany(options) {
-      return {
-        store: this.companyStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.companyId]
-          : null
-      };
-    },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(

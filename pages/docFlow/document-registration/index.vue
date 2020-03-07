@@ -9,7 +9,11 @@
       :title="$t('translations.menu.registrationSetting')"
     >
       <div>
-        <popup-reg-setting @popupDisabled="popupDisabled('popupVisible')" />
+        <popup-reg-setting
+          :id="registrationSettingId"
+          v-if="popupSetting"
+          @popupDisabled="popupDisabled('popupSetting')"
+        />
       </div>
     </DxPopup>
     <Header :headerTitle="headerTitle"></Header>
@@ -65,35 +69,44 @@
       >
         <DxLookup :data-source="documentFlow" value-expr="id" display-expr="name" />
       </DxColumn>
-
-      <!--
-      <DxColumn
-        data-field="registerType"
-        :caption="$t('translations.fields.registerType')"
-        data-type="string"
-      >
-      </DxColumn>-->
-
       <DxColumn type="buttons">
-        <DxButton icon="tips" :text="$t('translations.fields.moreAbout')"></DxButton>
-        <DxButton icon="edit" :text="$t('translations.fields.moreAbout')" :onClick="editingStart"></DxButton>
-        <DxButton icon="plus" :text="$t('translations.fields.moreAbout')" :onClick="settingStart"></DxButton>
-        <DxButton icon="trash" :text="$t('translations.fields.moreAbout')" name="delete"></DxButton>
+        <DxButton
+          icon="tips"
+          :text="$t('translations.fields.currentNumber')"
+          :onClick="currentNumberStart"
+        ></DxButton>
+        <DxButton
+          icon="edit"
+          :text="$t('translations.headers.editDocumentRegistry')"
+          :onClick="editingStart"
+        ></DxButton>
+        <DxButton
+          icon="plus"
+          :text="$t('translations.headers.addRegistrationSetting')"
+          :onClick="settingStart"
+        ></DxButton>
+        <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
+      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <template #masterDetailTemplate="documentRegistry">
+        <RegSettingDetail :documentRegistry="documentRegistry.data" />
+      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import popupRegSetting from "~/components/docFlow/document-registry/popup-reg-setting";
+import RegSettingDetail from "~/components/docFlow/document-registry/index__master-detail";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import CustomStore from "devextreme/data/custom_store";
 import Header from "~/components/page/page__header";
 import { DxPopup } from "devextreme-vue/popup";
 import {
+  DxMasterDetail,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -114,6 +127,8 @@ import {
 
 export default {
   components: {
+    DxMasterDetail,
+    RegSettingDetail,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -145,14 +160,6 @@ export default {
         updateUrl: dataApi.docFlow.DocumentRegistry,
         removeUrl: dataApi.docFlow.DocumentRegistry
       }),
-      popupVisible: false,
-      popupOpt: {
-        onClick: () => {
-          this.popupVisible = true;
-        },
-        height: 50,
-        icon: "plus"
-      },
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
         { id: 1, name: this.$t("translations.fields.outcomingEnum") },
@@ -171,13 +178,23 @@ export default {
           "/docFlow/document-registration/form/" + e.row.data.id
         );
       },
-      popupSetting: false,
-      settingStart: e => {
-        this.popupSetting = true;
-      }
+      popupDisabled(popup) {
+        this[popup] = false;
+      },
+      popupCurrentNumber: false,
+      currentNumberStart: e => {
+        this.popupCurrentNumber = true;
+      },
+      registrationSettingId: null,
+      popupSetting: false
     };
   },
   methods: {
+    settingStart(e) {
+      
+      this.registrationSettingId = e.row.key;
+      this.popupSetting = true;
+    },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.DocumentRegistrationDataFieldValueNotExists(

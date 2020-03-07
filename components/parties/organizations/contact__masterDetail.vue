@@ -138,6 +138,7 @@ export default {
     }
   },
   data() {
+    console.log(this.company, "TEST");
     let { name, id } = this.company.data;
     return {
       store: new DataSource({

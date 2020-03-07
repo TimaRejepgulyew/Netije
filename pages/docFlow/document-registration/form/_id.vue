@@ -112,7 +112,7 @@
             </DxSimpleItem>
             <DxSimpleItem
               data-field="status"
-              :editor-options=" statusOptions"
+              :editor-options="statusOptions"
               editor-type="dxSelectBox"
             >
               <DxLabel :text="$t('translations.fields.status')" />

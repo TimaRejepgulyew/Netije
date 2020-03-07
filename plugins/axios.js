@@ -12,7 +12,7 @@ export default function({ app, $axios }) {
       // redirect('/400')
     } else if (code === 401) {
       app.store.dispatch("oidc/authenticateOidcSilent");
-    
+      window.location.reload
     }
   });
 }

@@ -151,7 +151,7 @@ export default {
       "bicAlreadyExists": "Такой идентификатор уже существует",
       "type": "Тип",
       "typeRequired": "Введите тип",
-      "extension":"Разширение",
+      "extension":"Раcширение",
       "filesTypeId":"Тип файла",
       "filesTypeIdRequired": "Тип файла не может быть пустым",
       "extensionRequired":"Расширение не может быть пустым",
@@ -328,7 +328,8 @@ export default {
       "isDefault": "По умолчанию",
       "isDefaultDocumentKind": "Документ по умолчанию",
       "numericCode": "Цифровой код",
-      "numericCodeRequired": "Введите цифровой код"
+      "numericCodeRequired": "Введите цифровой код",
+      "currentNumber":"Текущий номер"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
