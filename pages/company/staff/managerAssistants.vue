@@ -58,7 +58,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.assistantIdRequired')" />
         <DxLookup :data-source="getFilteredAssistant" value-expr="id" display-expr="name" />
-      </DxColumn>PreparesResolution
+      </DxColumn>
       <DxColumn
         data-field="preparesResolution"
         :caption="$t('translations.fields.preparesResolution')"

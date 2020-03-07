@@ -4,7 +4,6 @@ import dataApi from "~/static/dataApi";
 export default ({ app }, inject) => {
   var connection = "";
   function connectionSignalR() {
-      console.log(app);
     connection = new HubConnectionBuilder()
       .withUrl("https://localhost:5001/regions", {
         accessTokenFactory: () => app.store.getters["oidc/oidcAccessToken"]
@@ -15,13 +14,12 @@ export default ({ app }, inject) => {
     connection
       .start()
       .then(res => {
-        console.log(res);
       })
       .catch(function(err) {
         return console.error(err.toString());
       });
   }
-  
+
   function RegionsNotification(message) {
     connection.invoke("SendTaskClient", message).catch(function(err) {
       return console.log(err);

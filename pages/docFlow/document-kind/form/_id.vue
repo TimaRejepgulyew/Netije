@@ -123,7 +123,6 @@ import DxForm, {
   DxRangeRule,
   DxStringLengthRule,
   DxPatternRule,
-  DxEmailRule,
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
@@ -140,7 +139,6 @@ export default {
     DxCompareRule,
     DxPatternRule,
     DxRangeRule,
-    DxEmailRule,
     DxForm,
     DxAsyncRule,
     notify

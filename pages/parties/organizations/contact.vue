@@ -40,8 +40,16 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.nameAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -49,7 +57,12 @@
         :caption="$t('translations.menu.company')"
         :visible="true"
       >
-        <DxLookup :data-source="getFilteredCompany" value-expr="id" display-expr="name" />
+        <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
+        <DxLookup
+          :data-source="getFilteredCompany"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -64,7 +77,7 @@
         :visible="false"
       >
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.jobTitleIdAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -75,13 +88,14 @@
       ></DxColumn>
 
       <DxColumn data-field="fax" :caption="$t('translations.fields.fax')">
-        <DxRequiredRule :message="$t('translations.fields.fax')" />
       </DxColumn>
 
       <DxColumn
         data-field="email"
         :caption="$t('translations.fields.email')"
-      ></DxColumn>
+      >
+      <DxEmailRule :message="$t('translations.fields.emailRule')" />
+      </DxColumn>
 
       <DxColumn
         data-field="note"
@@ -123,7 +137,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxEmailRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -143,7 +158,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxEmailRule
   },
   data() {
     return {
@@ -151,14 +167,14 @@ export default {
 
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.Contact,
+        loadUrl: dataApi.contragents.Contact
       }),
 
       statusStores: this.$store.getters["status/status"],
 
       companyStore: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.CounterPart
+        loadUrl: dataApi.contragents.Company
       }),
 
       initNewRow: e => {

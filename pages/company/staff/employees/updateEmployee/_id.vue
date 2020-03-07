@@ -28,7 +28,7 @@
           <popup-user-role @popupDisabled="popupDisabled('popupRoleVisible')" />
         </div>
       </DxPopup>-->
-      <form action="your-action" @submit="handleSubmit">
+      <form @submit="handleSubmit">
         <DxForm
           :col-count="12"
           :form-data.sync="store"
@@ -50,7 +50,7 @@
               <DxEmailRule :message="$t('translations.fields.emailRule')" />
               <DxAsyncRule
                 :validation-callback="validateEntityExists"
-                :message="$t('translations.fields.haveRegistredEmail')"
+                :message="$t('translations.fields.emailAlreadyExists')"
               />
             </DxSimpleItem>
             <DxSimpleItem data-field="name">

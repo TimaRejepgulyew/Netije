@@ -52,7 +52,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>

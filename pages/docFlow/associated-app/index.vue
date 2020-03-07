@@ -53,7 +53,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyAxists')"
+          :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -72,7 +72,7 @@
           :message="$t('translations.fields.extensionPatternRule')"
         />
         <DxAsyncRule
-          :message="$t('translations.fields.extensionAlreadyAxists')"
+          :message="$t('translations.fields.extensionAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>

@@ -44,7 +44,7 @@
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.countryAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -55,7 +55,7 @@
       >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyAxists')"
+          :message="$t('translations.fields.countryAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>

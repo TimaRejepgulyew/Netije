@@ -151,7 +151,6 @@ import DxForm, {
   DxRangeRule,
   DxStringLengthRule,
   DxPatternRule,
-  DxEmailRule,
   DxAsyncRule
 } from "devextreme-vue/form";
 
@@ -185,7 +184,6 @@ export default {
     DxCompareRule,
     DxPatternRule,
     DxRangeRule,
-    DxEmailRule,
     DxForm,
     DxAsyncRule,
     notify,
