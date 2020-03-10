@@ -329,7 +329,8 @@ export default {
       "isDefaultDocumentKind": "Документ по умолчанию",
       "numericCode": "Цифровой код",
       "numericCodeRequired": "Введите цифровой код",
-      "currentNumber":"Текущий номер"
+      "currentNumber":"Текущий номер",
+      "currentNumberRequired": "Введите текущий номер",
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
