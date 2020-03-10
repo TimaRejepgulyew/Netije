@@ -43,6 +43,14 @@
         <DxLabel :text="$t('translations.fields.documentKindId')" />
         <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
       </DxSimpleItem>
+      <DxSimpleItem
+        data-field="status"
+        :visible="isUpdated"
+        :editor-options="statusOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel :text="$t('translations.fields.status')" />
+      </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>
   </form>
@@ -82,9 +90,8 @@ export default {
   async created() {
     if (this.id) {
       let res = await this.getDataById(`${this.address}/${this.id}`);
-      console.log(res);
       this.isUpdated = true;
-
+      res.status = 0;
       this.store = res;
     }
   },
@@ -124,10 +131,9 @@ export default {
         dataSource: new DataSource({
           store: this.$dxStore({
             key: "id",
-            loadUrl:
-              dataApi.company.Department + "/FilterByBusinessUnitId/" + id
+            loadUrl: dataApi.company.Department
           }),
-          filter: ["status", "=", 0]
+          filter: [["businessUnitId", "=", id], "and", ["status", "=", 0]]
         }),
         valueExpr: "id",
         displayExpr: "name"
@@ -139,7 +145,8 @@ export default {
           store: this.$dxStore({
             key: "id",
             loadUrl: dataApi.docFlow.DocumentKind
-          })
+          }),
+          filter: ["numberingType", "=", 1]
         }),
         valueExpr: "id",
         displayExpr: "name"
@@ -157,6 +164,13 @@ export default {
         valueExpr: "id",
         displayExpr: "name"
       };
+    },
+    statusOptions() {
+      return {
+        dataSource: this.$store.getters["status/status"],
+        valueExpr: "id",
+        displayExpr: "status"
+      };
     }
   },
   props: ["documentRegisterId", "id"],
@@ -171,7 +185,6 @@ export default {
         registrationGroups: null
       },
       isUpdated: false,
-
       saveButtonOptions: {
         height: 50,
         text: this.$t("translations.links.save"),
@@ -200,18 +213,40 @@ export default {
       );
     },
     handleSubmit(e) {
-      this.$axios
-        .post(this.address, this.store)
-        .then(res => {
-          this.$emit("popupSetting");
-          this.notify(
-            this.$t("translations.headers.updateDocRegistrySucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(this.$t("translations.fields.addNewRolesError"), "error");
-        });
+      if (this.isUpdated) {
+        delete this.store.businessUnitId;
+        this.$axios
+          .put(`${this.address}/${this.id}`, this.store)
+          .then(res => {
+            this.$emit("popupDisabled");
+            this.notify(
+              this.$t("translations.headers.updateDocRegistrySucces"),
+              "success"
+            );
+          })
+          .catch(e => {
+            this.notify(
+              this.$t("translations.headers.updateDocRegistrySucces"),
+              "error"
+            );
+          });
+      } else {
+        this.$axios
+          .post(this.address, this.store)
+          .then(res => {
+            this.$emit("popupDisabled");
+            this.notify(
+              this.$t("translations.headers.addDoctRegistrySucces"),
+              "success"
+            );
+          })
+          .catch(e => {
+            this.notify(
+              this.$t("translations.headers.addDoctRegistryError"),
+              "error"
+            );
+          });
+      }
 
       e.preventDefault();
     }

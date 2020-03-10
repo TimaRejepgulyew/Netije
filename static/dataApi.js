@@ -1,5 +1,6 @@
 export const url = process.env.baseUrl;
 export default {
+  account:`${url}/Identity/Account/Manage`,
   sharedDirectory: {
     Country: `${url}/api/Country`,
     Region: `${url}/api/Region`,

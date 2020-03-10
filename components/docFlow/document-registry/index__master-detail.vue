@@ -1,11 +1,12 @@
 <template>
-  <main class="container container--grid">
+  <main>
     <DxPopup
       :visible.sync="popupSetting"
       :drag-enabled="false"
       :close-on-outside-click="true"
       :show-title="true"
       :width="800"
+      :height="600"
       :title="$t('translations.menu.registrationSetting')"
     >
       <div>
@@ -17,6 +18,7 @@
         />
       </div>
     </DxPopup>
+
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -24,7 +26,9 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :ref="dataGridRefKey"
     >
+      >
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
       <DxEditing :allow-updating="true" :allow-deleting="true" :useIcons="true" mode="form" />
@@ -36,10 +40,14 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.contacts')"
+        :file-name="$t('translations.menu.registrationSetting')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegister-detail" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="registration-setting-detail"
+      />
 
       <DxSearchPanel
         position="after"
@@ -81,15 +89,12 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
-  DxAsyncRule,
-  DxRequiredRule,
   DxExport,
   DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxEmailRule,
   DxButton
 } from "devextreme-vue/data-grid";
 
@@ -104,15 +109,12 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
-    DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxEmailRule,
     DxButton
   },
   props: {
@@ -128,12 +130,11 @@ export default {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.docFlow.RegistrationSetting,
-          updateUrl: dataApi.docFlow.RegistrationSetting,
           removeUrl: dataApi.docFlow.RegistrationSetting
         }),
         filter: ["documentRegisterId", "=", id]
       }),
-
+      dataGridRefKey: "dataGrid",
       statusStores: this.$store.getters["status/status"],
       documentRegisterId: id,
       bussinessUnitStores: this.$dxStore({
@@ -144,22 +145,18 @@ export default {
       editingStart: e => {
         this.regSettingId = e.row.key;
         this.popupSetting = true;
-      },
-      popupDisabled(popup) {
-        this[popup] = false;
       }
     };
   },
+  computed:{
+    dataGrid: function() {
+            return this.$refs[this.dataGridRefKey].instance;
+        }
+  },
   methods: {
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.CompanyDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
+    popupDisabled(popup) {
+      this.dataGrid.refresh()
+      this[popup] = false;
     }
   }
 };
