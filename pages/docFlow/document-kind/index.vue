@@ -126,15 +126,15 @@ export default {
       ],
       numberingType: [
         { id: 0, name: this.$t("translations.fields.numerable") },
-        { id: 1, name: this.$t("translations.fields.notNumerable") },
-        { id: 2, name: this.$t("translations.fields.registrable") }
+        { id: 1, name: this.$t("translations.fields.registrable") },
+        { id: 2, name: this.$t("translations.fields.notNumerable") }
       ],
       documentType: [],
       initNewRow: e => {
         this.$router.push("/docFlow/document-kind/form/newDocKind");
       },
       editingStart: e => {
-        this.$router.push("/docFlow/document-kind/form/"+e.data.id);
+        this.$router.push("/docFlow/document-kind/form/" + e.data.id);
       }
     };
   },

@@ -63,7 +63,8 @@ export default {
         type: "success"
       },
       numberBoxOptions: {
-        placeholder: this.$t("translations.fields.currentNumberRequired")
+        placeholder: this.$t("translations.fields.currentNumberRequired"),
+        min:1
       }
     };
   },

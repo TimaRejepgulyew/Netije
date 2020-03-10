@@ -29,7 +29,7 @@
 import DxContextMenu from "devextreme-vue/context-menu";
 import DxList from "devextreme-vue/list";
 import DxButton from "devextreme-vue/button";
-
+import dataApi from "~/static/dataApi";
 export default {
   props: {
     menuMode: String
@@ -68,7 +68,7 @@ export default {
       this.$store.dispatch("oidc/signOutOidc");
     },
     onProfileClick() {
-      window.location.href = "http://192.168.4.99/Identity/Account/Manage";
+      window.location.href = dataApi.account;
     }
   },
   components: {

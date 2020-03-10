@@ -146,7 +146,7 @@ export default {
             key: "id",
             loadUrl: dataApi.docFlow.DocumentKind
           }),
-          filter: ["status", "=", 0]
+          filter: ["numberingType", "=", 1]
         }),
         valueExpr: "id",
         displayExpr: "name"

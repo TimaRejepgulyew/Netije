@@ -66,14 +66,6 @@
             </DxSimpleItem>
 
             <DxSimpleItem
-              data-field="status"
-              :editor-options=" statusOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.fields.status')" />
-            </DxSimpleItem>
-
-            <DxSimpleItem
               :editor-options="tagboxOptions"
               editor-type="dxTagBox"
               data-field="availableActions"
@@ -90,6 +82,14 @@
               <DxLabel :text="$t('translations.fields.note')" />
             </DxSimpleItem>
 
+            <DxSimpleItem
+              data-field="status"
+              :visible="isUpdating"
+              :editor-options="statusOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel :text="$t('translations.fields.status')" />
+            </DxSimpleItem>
             <DxGroupItem :col-span="1" :col-count="12">
               <DxButtonItem
                 :button-options="addButtonOptions"
@@ -189,11 +189,6 @@ export default {
         height: 50,
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
-      },
-      statusOptions: {
-        dataSource: this.$store.getters["status/status"],
-        valueExpr: "id",
-        displayExpr: "status"
       }
     };
   },
@@ -265,12 +260,19 @@ export default {
     }
   },
   computed: {
+    statusOptions() {
+      return {
+        dataSource: this.$store.getters["status/status"],
+        valueExpr: "id",
+        displayExpr: "status"
+      };
+    },
     numberingTypeOptions() {
       return {
         dataSource: [
           { id: 0, name: this.$t("translations.fields.numerable") },
-          { id: 1, name: this.$t("translations.fields.notNumerable") },
-          { id: 2, name: this.$t("translations.fields.registrable") }
+          { id: 1, name: this.$t("translations.fields.registrable") },
+          { id: 2, name: this.$t("translations.fields.notNumerable") },
         ],
         disabled: this.isUpdating,
         valueExpr: "id",
