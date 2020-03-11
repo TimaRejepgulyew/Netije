@@ -1,6 +1,6 @@
 export const url = process.env.baseUrl;
 export default {
-  account:`${url}/Identity/Account/Manage`,
+  account: `${url}/Identity/Account/Manage`,
   sharedDirectory: {
     Country: `${url}/api/Country`,
     Region: `${url}/api/Region`,
@@ -38,5 +38,16 @@ export default {
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
     FilesType: `${url}/api/FilesType`
+  },
+  paperWork: {
+    IncommingLetter: `${url}/api/OfficialDocument/1`,
+    OutgoingLetter: `${url}/api/OfficialDocument/2`,
+    Order: `${url}/api/OfficialDocument/3`,
+    companyDirective: `${url}/api/OfficialDocument/4`,
+    SimpleDocument: `${url}/api/OfficialDocument/5`,
+    Addendum: `${url}/api/OfficialDocument/6`,
+    Memo: `${url}/api/OfficialDocument/7`,
+    PowerOfAttorney: `${url}/api/OfficialDocument/8`,
+    DeleteDocument: `${url}/api/OfficialDocument/`
   }
 };

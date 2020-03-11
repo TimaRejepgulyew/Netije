@@ -72,7 +72,6 @@ export default {
     return {
       menuOpened: this.isLarge,
       menuTemporaryOpened: false,
-
       menuItems: [
         {
           text: "Dasboard",
@@ -86,12 +85,36 @@ export default {
 
           items: [
             {
-              text: this.$t("translations.menu.profile"),
-              path: "/paper-work/profile"
+              text: this.$t("translations.menu.incommingLetter"),
+              path: "/paper-work/incomming-letter"
             },
             {
-              text: this.$t("translations.menu.diplayData"),
-              path: "/paper-work/display-data"
+              text: this.$t("translations.menu.outgoingLetter"),
+              path: "/paper-work/outgoing-letter"
+            },
+            {
+              text: this.$t("translations.menu.order"),
+              path: "/paper-work/order"
+            },
+            {
+              text: this.$t("translations.menu.companyDirective"),
+              path: "/paper-work/company-directive"
+            },
+            {
+              text: this.$t("translations.menu.simpleDocument"),
+              path: "/paper-work/simple-document"
+            },
+            {
+              text: this.$t("translations.menu.addendum"),
+              path: "/paper-work/addendum"
+            },
+            {
+              text: this.$t("translations.menu.memo"),
+              path: "/paper-work/memo"
+            },
+            {
+              text: this.$t("translations.menu.powerOfAttorney"),
+              path: "/paper-work/power-of-attorney"
             }
           ]
         },

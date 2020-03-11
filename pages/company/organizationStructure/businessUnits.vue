@@ -148,6 +148,7 @@
         data-field="ceo"
         :caption="$t('translations.fields.ceo')"
         :visible="true"
+        :set-cell-value="onCeoCheck"
       >
         <DxLookup
           :data-source="getFilteredEmployee"
@@ -251,7 +252,7 @@ export default {
         updateUrl: dataApi.company.BusinessUnit,
         removeUrl: dataApi.company.BusinessUnit
       }),
-
+      
       statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({
@@ -284,7 +285,10 @@ export default {
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
-      }
+      },
+      onCeoCheck(rowData, value) {
+        this.defaultSetCellValue(rowData, value);
+      },
     };
   },
   methods: {
@@ -312,6 +316,7 @@ export default {
           : null
       };
     },
+     // TODO валидатор вытаскивать только тех у кого нет должности руководителя организации 
     getFilteredEmployee(options) {
       return {
         store: this.employee,
