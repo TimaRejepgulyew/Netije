@@ -44,6 +44,8 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
       <DxColumn data-field="dated" data-type="date" />
+      <DxColumn data-field="inNumber" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
+      <DxColumn data-field="inNumber" :caption="$t('translations.fields.name')" data-type="selectbox"></DxColumn>
     </DxDataGrid>
   </main>
 </template>
