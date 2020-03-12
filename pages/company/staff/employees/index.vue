@@ -25,11 +25,7 @@
         :file-name="$t('translations.menu.employee')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Employee"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Employee" />
 
       <DxSearchPanel
         position="after"
@@ -38,44 +34,23 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxEditing
-        :allow-adding="true"
-        :allow-updating="true"
-        :useIcons="true"
-        mode="inline"
-      />
+      <DxEditing :allow-adding="true" :allow-updating="true" :useIcons="true" mode="inline" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      ></DxColumn>
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
-      <DxColumn
-        data-field="userName"
-        :caption="$t('translations.fields.userName')"
-      >
+      <DxColumn data-field="userName" :caption="$t('translations.fields.userName')"></DxColumn>
+
+      <DxColumn data-field="jobTitleId" :caption="$t('translations.fields.jobTitleId')">
+        <DxLookup :data-source="jobTitleStores" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="jobTitleId"
-        :caption="$t('translations.fields.jobTitleId')"
-      ></DxColumn>
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
 
-      <DxColumn
-        data-field="email"
-        :caption="$t('translations.fields.email')"
-      ></DxColumn>
+      <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
+        <DxLookup :data-source="departmentsStores" value-expr="id" display-expr="name" />
+      </DxColumn>
 
-      <DxColumn
-        data-field="departmentId"
-        :caption="$t('translations.fields.departmentId')"
-      />
-
-      <DxColumn
-        data-field="phone"
-        :caption="$t('translations.fields.phones')"
-      />
+      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" />
     </DxDataGrid>
   </main>
 </template>
@@ -117,7 +92,8 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxPopup,
-    DxButton
+    DxButton,
+    DxLookup
   },
   data() {
     return {
@@ -130,6 +106,14 @@ export default {
         removeUrl: dataApi.company.Employee
       }),
       statusStores: this.$store.getters["status/status"],
+      departmentsStores: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.Department
+      }),
+      jobTitleStores: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.JobTitle
+      }),
       initNewRow: e => {
         this.$router.push("/company/staff/employees/addEmployee");
       },
@@ -140,16 +124,7 @@ export default {
       }
     };
   },
-  methods: {
-    getFilteredEmployee(options) {
-      return {
-        store: this.employee,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.ceo]
-          : null
-      };
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss">

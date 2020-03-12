@@ -1,7 +1,101 @@
 {
-  "items": [],
+  "items": [
+      {
+          "key": "@base-text-color",
+          "value": "rgba(29, 29, 27, 1)"
+      },
+      {
+          "key": "@base-bg",
+          "value": "rgba(255, 255, 255, 1)"
+      },
+      {
+          "key": "@base-border-color",
+          "value": "rgba(247, 245, 246, 1)"
+      },
+      {
+          "key": "@texteditor-hover-border-color",
+          "value": "rgba(99, 53, 204, 1)"
+      },
+      {
+          "key": "@calendar-shevron-icon-color",
+          "value": "rgba(99, 53, 204, 1)"
+      },
+      {
+          "key": "@base-accent",
+          "value": "rgba(99, 53, 204, 1)"
+      },
+      {
+          "key": "@texteditor-focused-border-color",
+          "value": "rgba(99, 53, 204, 1)"
+      },
+      {
+          "key": "@calendar-cell-selected-bg",
+          "value": "rgba(99, 53, 204, 1)"
+      },
+      {
+          "key": "@calendar-navigator-border-color",
+          "value": "rgba(247, 245, 246, 1)"
+      },
+      {
+          "key": "@fileuploader-falename-status-color",
+          "value": "rgba(207, 207, 207, 1)"
+      },
+      {
+          "key": "@fileuploader-filename-color",
+          "value": "rgba(29, 29, 27, 1)"
+      },
+      {
+          "key": "@button-group-success-selected-color",
+          "value": "rgba(0, 170, 28, 1)"
+      },
+      {
+          "key": "@button-success-border-color",
+          "value": "rgba(0, 170, 28, 1)"
+      },
+      {
+          "key": "@button-danger-border-color",
+          "value": "rgba(237, 64, 35, 1)"
+      },
+      {
+          "key": "@button-danger-bg",
+          "value": "rgba(237, 64, 35, 1)"
+      },
+      {
+          "key": "@button-group-danger-selected-color",
+          "value": "rgba(237, 64, 35, 1)"
+      },
+      {
+          "key": "@filterbuilder-remove-icon-color",
+          "value": "rgba(237, 64, 35, 0.3)"
+      },
+      {
+          "key": "@filterbuilder-group-operation-color",
+          "value": "rgba(0, 136, 255, 0.3)"
+      },
+      {
+          "key": "@filterbuilder-item-operator-color",
+          "value": "rgba(255, 170, 13, 0.3)"
+      },
+      {
+          "key": "@toast-warning-bg",
+          "value": "rgba(255, 170, 13, 1)"
+      },
+      {
+          "key": "@toast-error-bg",
+          "value": "rgba(237, 64, 35, 1)"
+      },
+      {
+          "key": "@toast-success-bg",
+          "value": "rgba(0, 170, 28, 1)"
+      },
+      {
+          "key": "@base-font-family",
+          "value": "'SF Pro Display'"
+      }
+  ],
   "baseTheme": "generic.light",
-  "assetsBasePath": "../../../node_modules/devextreme/dist/css/",
-  "outputColorScheme": "base",
-  "base": true
+  "outputColorScheme": "Netije",
+  "makeSwatch": false,
+  "version": "19.2.6",
+  "widgets": []
 }

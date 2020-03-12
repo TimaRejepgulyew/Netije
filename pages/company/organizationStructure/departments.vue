@@ -230,7 +230,7 @@ export default {
       return {
         store: this.managerStore,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.managerId]
+          ? [["departmentId", "=", null], "or","status", "=", 0, "or", "id", "=", options.data.managerId]
           : null
       };
     },

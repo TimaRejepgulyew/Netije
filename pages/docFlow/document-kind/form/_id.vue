@@ -53,6 +53,14 @@
               <DxRequiredRule :message="$t('translations.fields.documentTypeIdRequired')" />
             </DxSimpleItem>
 
+            <DxSimpleItem
+              :editor-options="tagboxOptions"
+              editor-type="dxTagBox"
+              data-field="availableActions"
+            >
+              <DxLabel :text="$t('translations.fields.availableActions')" />
+            </DxSimpleItem>
+            
             <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
               <DxLabel :text="$t('translations.fields.generateDocumentName')" />
             </DxSimpleItem>
@@ -65,13 +73,6 @@
               <DxLabel :text="$t('translations.fields.autoNumbering')" />
             </DxSimpleItem>
 
-            <DxSimpleItem
-              :editor-options="tagboxOptions"
-              editor-type="dxTagBox"
-              data-field="availableActions"
-            >
-              <DxLabel :text="$t('translations.fields.availableActions')" />
-            </DxSimpleItem>
 
             <DxSimpleItem
               data-field="note"
