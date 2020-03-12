@@ -1,11 +1,10 @@
 {
-  "name": "Netije",
+  "name": "netije",
   "version": "1.0.0",
   "description": "Netije Nuxt SPA",
   "author": "Timur Kleperson",
   "private": true,
-  
-  "url": "https://localhost:5001",
+  "url": "http://192.168.4.197",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",

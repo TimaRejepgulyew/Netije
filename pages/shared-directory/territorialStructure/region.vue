@@ -120,7 +120,7 @@ export default {
       statusStores: this.$store.getters["status/status"],
       country: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.sharedDirectory.Region
+        loadUrl: dataApi.sharedDirectory.Country
       }),
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
@@ -131,11 +131,9 @@ export default {
     };
   },
   methods: {
-   async getFilteredCountry(options) {
-      var result = await this.country.load().then(p => p.data[0].countrys)
-      console.log(result)
+   getFilteredCountry(options) {
       return {
-        store: result,
+        store: this.country,
         filter: options.data
           ? ["status", "=", 0, "or", "id", "=", options.data.countryId]
           : null
