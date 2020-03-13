@@ -299,7 +299,6 @@ export default {
           );
         })
         .catch(e => {
-          this.backTo();
           this.notify(
             this.$t("translations.menu.upgradeEmployeeError"),
             "error"

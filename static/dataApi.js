@@ -41,6 +41,7 @@ export default {
   },
   paperWork: {
     IncommingLetter: `${url}/api/OfficialDocument/1`,
+    IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
     Order: `${url}/api/OfficialDocument/3`,
     companyDirective: `${url}/api/OfficialDocument/4`,

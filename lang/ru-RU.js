@@ -175,6 +175,7 @@ export default {
       "countryIdRequired": "Выберите страну",
       "countryAlreadyExists":"Такая страна уже существует",
       "counterPart":"Контрагенты",
+      "signatury":"Подписал",
       "counterPartRequired":"выберите контрагента",
       "regionId": "Регион",
       "regionIdRequired": "Выберите регион",
@@ -272,6 +273,8 @@ export default {
       "separator": "Разделитель",
       "numberOfDigitsInNumber": "Количество цифр в номере",
       "numberOfDigitsInNumberRequired": "Введите количество цифр в номере",
+      "registration":"Зарегистрироваться",
+      "cancelRegistration":"Отменить регистрацию",
       "registrationState": "Регистрация",
       "registrationStateRequired": "Выберите регистрацию",
       "registered": "Зарегистрирован",
@@ -294,9 +297,9 @@ export default {
       "caseFileIdRequired": "Выберите дело",
       "placedToCaseFileDate": "Дата помещения в дело",
       "outgoingDocumentId": "В ответ на...",
-      "dated": "Дата от",
-      "incomingDocumentNumber": "№ входящего документа",
-      "incomingDocumentNumberRequired": "Введите № входящего документа",
+      "dated": "Дата документа",
+      "regNumberDocument": "Регистрационный № документа",
+      "regNumberDocumentRequired": "Введите регистрационный № документа",
       "files": "Файлы",
       "documentKindId": "Вид документа",
       "documentKindIdRequired": "Выберите вид документа",
@@ -347,6 +350,7 @@ export default {
       "numericCodeRequired": "Введите цифровой код",
       "currentNumber":"Текущий номер",
       "currentNumberRequired": "Введите текущий номер",
+      "areYouSure":"Вы уверены что хотите отменить регистрацию"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
@@ -370,7 +374,9 @@ export default {
       "save": "Сохранить",
       "add": "Добавить",
       "cancel":"Назад",
-      "delete":"Удалить"
+      "delete":"Удалить",
+      "yes":"Да",
+      "no":"Нет",
     }
   }
 }

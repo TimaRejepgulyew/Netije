@@ -7,20 +7,15 @@
     :show-validation-summary="false"
     validation-group="incommingLetter"
   >
-    <DxGroupItem :caption="$t('translations.fields.main')">
-      <DxSimpleItem v-if="isDefaultName" :editor-options="nameOptions">
-        <DxLabel :text="$t('translations.fields.name')" />
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-      </DxSimpleItem>
-
-      <DxSimpleItem v-else data-field="name">
-        <DxLabel :text="$t('translations.fields.name')" />
+    <DxGroupItem :col-count="2" :caption="$t('translations.fields.main')">
+      <DxSimpleItem data-field="name" :editor-options="nameOptions">
+        <DxLabel :text="$t('translations.fields.nameRequired')" />
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="subject" :editor-options="subjectOptions" editor-type="dxTextArea">
         <DxLabel :text="$t('translations.fields.subject')" />
-         <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem
@@ -58,6 +53,9 @@ export default {
     DxForm,
     DxAsyncRule
   },
+  created() {
+    this.getDefaultDocKind();
+  },
   props: ["docType"],
   data() {
     return {
@@ -67,11 +65,28 @@ export default {
         subject: "",
         documentKindId: null
       },
+      defaultDocKind: null,
       docKindName: "",
       isDefaultName: false
     };
   },
   methods: {
+    async getDefaultDocKind() {
+      let docKindStores = await this.getData(
+        dataApi.docFlow.DocumentKind +
+          `?skip=0&take=20&filter=[["documentTypeId","=",${this.docType}],"and",["status","=",0]]`
+      );
+      if (docKindStores.length < 2) {
+        this.defaultDocKind = docKindStores[0].id;
+      } else {
+        this.defaultDocKind = docKindStores.find(el => {
+          el.isDefault
+            ? this.$store.dispatch("paper-work/setDocumentKind", el)
+            : false;
+          return el.isDefault;
+        }).id;
+      }
+    },
     // async getDataById(url) {
     //   const res = await this.$axios.get(url);
     //   res.data.availableActions = res.data.availableActions.map(element => {
@@ -79,15 +94,14 @@ export default {
     //   });
     //   return res.data;
     // },
-    // async getData(url) {
-    //   const res = await this.$axios.get(url);
-    //   return res.data.data;
-    // },
+    async getData(url) {
+      const res = await this.$axios.get(url);
+      return res.data.data;
+    }
   },
   computed: {
     defaultName() {
       return this.$store.getters["paper-work/defaultName"](this.docType);
-      //   return `${this.docKindName} ${this.store.subject} ${this.$store.getters['paper-work/dated']}`;
     },
     documentKindOptions() {
       return {
@@ -96,18 +110,13 @@ export default {
             key: "id",
             loadUrl: dataApi.docFlow.DocumentKind
           }),
-          filter: ["documentTypeId", "=", 1]
+          filter: [["documentTypeId", "=", 1], "and", ["status", "=", 0]]
         }),
+        value: this.defaultDocKind,
         onSelectionChanged: e => {
           this.isDefaultName = e.selectedItem.generateDocumentName;
-          if (this.isDefaultName) {
-            this.$store.dispatch(
-              "paper-work/setDocKindName",
-              e.selectedItem.shortName
-            );
+            this.$store.dispatch("paper-work/setDocumentKind", e.selectedItem);
 
-            // console.log(e.selectedItem);
-          }
         },
         valueExpr: "id",
         displayExpr: "name"
@@ -115,15 +124,17 @@ export default {
     },
     nameOptions() {
       return {
-        value: this.defaultName,
-        disabled: this.isDefaultName
+        value: this.isDefaultName ? this.defaultName : null,
+        disabled: this.isDefaultName,
+        onValueChanged: e => {
+          this.$store.dispatch("paper-work/setName", e.value);
+        }
       };
     },
     subjectOptions() {
       return {
         onValueChanged: e => {
           this.$store.dispatch("paper-work/setSubject", e.value);
-          console.log(e);
         }
       };
     }
