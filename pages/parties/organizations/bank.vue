@@ -91,7 +91,6 @@
         :caption="$t('translations.fields.regionId')"
         :set-cell-value="onRegionIdChanged"
       >
-        <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup
           :data-source="getFilteredRegion"
           value-expr="id"
@@ -103,7 +102,6 @@
         data-field="localityId"
         :caption="$t('translations.fields.localityId')"
       >
-      <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
         <DxLookup
           :data-source="getFilteredLocality"
           value-expr="id"

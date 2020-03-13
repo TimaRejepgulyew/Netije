@@ -4,7 +4,7 @@
   "description": "Netije Nuxt SPA",
   "author": "Timur Kleperson",
   "private": true,
-  "url": "http://192.168.4.197",
+  "url": "http://192.168.4.105:8090",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -19,6 +19,7 @@
     "devextreme-aspnet-data-nojquery": "^2.5.1",
     "devextreme-cli": "^1.1.10",
     "devextreme-vue": "19.2.6",
+    "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.5.0",
     "oidc-client": "^1.10.1",

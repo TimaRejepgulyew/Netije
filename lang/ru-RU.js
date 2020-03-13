@@ -69,6 +69,7 @@ export default {
     "fields": {
       "whom":"Кому",
       "fromWhom":"От кого",
+      "from":"От: ",
       "jobTitlesNameAlreadyExists":"Такая должность уже существует",
       "extensionPatternRule": "Пожалуйста введите валидное расширение",
       "filesType":"Типы файлов",
@@ -241,6 +242,8 @@ export default {
       "documentFlow": "Документопоток",
       "documentFlowRequired": "Выберите документопоток",
 
+
+      "main":"Основное",
       "incomingEnum": "ВХ",
       "outcomingEnum": "ИСХ",
       "inner": "Внутренний",
@@ -257,6 +260,7 @@ export default {
       "year4Place": "Год, 4 цифры",
       "quarter": "Квартал",
       "month": "Месяц",
+      "inResponseTold":"В ответ на",
       "leadingNumber":"№ ведущего документа",
       "docKindCode": "Код вида документа",
       "log": "Журнал регистрации (индекс)",
