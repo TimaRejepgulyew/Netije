@@ -3,7 +3,8 @@ export const state = () => ({
   name: "",
   subject: "",
   dated: "",
-  documentKind: ""
+  documentKind: "",
+  documentId: 1
 });
 
 export const getters = {
@@ -13,8 +14,7 @@ export const getters = {
   name(state) {
     return state.name;
   },
-  documentKind: state => property =>{
-    console.log(state.documentKind);
+  documentKind: state => property => {
     return state.documentKind[property];
   },
   defaultName: state => docType => {
@@ -26,6 +26,9 @@ export const getters = {
       }
       return `${dated} ${state.subject} ${state.documentKind.shortName}`;
     }
+  },
+  documentId(state) {
+    return state.documentId;
   }
 };
 export const mutations = {
@@ -40,6 +43,9 @@ export const mutations = {
   },
   DOCUMENT_KIND(state, payload) {
     state.documentKind = payload;
+  },
+  SET_DOCUMENT_ID(state, payload) {
+    state.documentId = payload;
   }
 };
 export const actions = {
@@ -54,5 +60,9 @@ export const actions = {
   },
   setName({ commit }, payload) {
     commit("SET_NAME", payload);
+  },
+  setDocumentId({ commit }, payload) {
+    console.log(payload);
+    commit("SET_DOCUMENT_ID", payload);
   }
 };

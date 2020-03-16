@@ -11,25 +11,16 @@
         :height="'auto'"
         :title="registryState.isRegistered ? $t('translations.fields.cancelRegistration'):$t('translations.fields.registration')"
       >
-
-        <div>
-          <div class="container" v-if="
-          registryState.isRegistered">
-            <p>{{$t('translations.fields.areYouSure')}}</p>
-            <div class="button-group mr-top-auto">
-              <DxButton :text="$t('translations.links.yes')"></DxButton>
-              <DxButton
-                :text="$t('translations.links.no')"
-                :onClick="()=>{
-                  this.popupDisabled('popupRegistyDocument')
-                }"
-              ></DxButton>
-            </div>
-          </div>
+        <div v-if="popupRegistyDocument">
+          <popupCancelDocumentRegistry
+            v-if="
+          registryState.isRegistered"
+            @popupDisabled="popupDisabled('popupRegistyDocument')"
+          ></popupCancelDocumentRegistry>
 
           <popup-registy-document
             v-else
-            :store="object"
+            :doctype="1"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
@@ -174,9 +165,9 @@
   </div>
 </template>
 <script>
-
+import popupCancelDocumentRegistry from "~/components/paper-work/main-doc-form/popup-cancel-document-registry";
 import popupRegistyDocument from "~/components/paper-work/main-doc-form/popup-registy-document";
-import mainFocForm from "~/components/paper-work/main-doc-form/index";
+import mainFocForm from "~/components/paper-work/main-doc-form";
 import { DxPopup } from "devextreme-vue/popup";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -198,6 +189,8 @@ import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
+    popupCancelDocumentRegistry,
+    popupRegistyDocument,
     DxButton,
     mainFocForm,
     Header,
@@ -309,8 +302,9 @@ export default {
       this.$axios
         .post(this.addressPost, this.store)
         .then(res => {
-          this.backTo();
-          this.notify(
+          this.$store.dispatch("paper-work/setDocumentId", res.data);
+
+          this.this.notify(
             this.$t("translations.headers.addDoctKindSucces"),
             "success"
           );
@@ -335,7 +329,7 @@ export default {
   computed: {
     registryState() {
       const isRegsitrible =
-        this.$store.getters["paper-work/documentKind"]("numberingType") != 2
+        this.$store.getters["paper-work/documentKind"]("numberingType") != 3
           ? true
           : false;
       return {
@@ -469,6 +463,11 @@ export default {
           this.$store.dispatch("paper-work/setDated", e.value);
         }
       };
+    }
+  },
+  watch: {
+    isCompany: function(value) {
+      console.log("changestore");
     }
   }
 };

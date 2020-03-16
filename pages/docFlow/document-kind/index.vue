@@ -125,9 +125,9 @@ export default {
         { id: 3, name: this.$t("translations.fields.contracts") }
       ],
       numberingType: [
-        { id: 0, name: this.$t("translations.fields.numerable") },
         { id: 1, name: this.$t("translations.fields.registrable") },
-        { id: 2, name: this.$t("translations.fields.notNumerable") }
+        { id: 2, name: this.$t("translations.fields.numerable") },
+        { id: 3, name: this.$t("translations.fields.notNumerable") }
       ],
       documentType: [],
       initNewRow: e => {

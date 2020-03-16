@@ -60,7 +60,7 @@
             >
               <DxLabel :text="$t('translations.fields.availableActions')" />
             </DxSimpleItem>
-            
+
             <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
               <DxLabel :text="$t('translations.fields.generateDocumentName')" />
             </DxSimpleItem>
@@ -72,7 +72,6 @@
             <DxSimpleItem v-if="isNumerable" data-field="autoNumbering" editor-type="dxCheckBox">
               <DxLabel :text="$t('translations.fields.autoNumbering')" />
             </DxSimpleItem>
-
 
             <DxSimpleItem
               data-field="note"
@@ -271,9 +270,9 @@ export default {
     numberingTypeOptions() {
       return {
         dataSource: [
-          { id: 0, name: this.$t("translations.fields.numerable") },
           { id: 1, name: this.$t("translations.fields.registrable") },
-          { id: 2, name: this.$t("translations.fields.notNumerable") },
+          { id: 2, name: this.$t("translations.fields.numerable") },
+          { id: 3, name: this.$t("translations.fields.notNumerable") }
         ],
         disabled: this.isUpdating,
         valueExpr: "id",
@@ -312,7 +311,7 @@ export default {
       };
     },
     isNumerable() {
-      if (this.store.numberingType != 0) {
+      if (this.store.numberingType != 2) {
         return false;
       } else {
         this.store.autoNumbering = false;

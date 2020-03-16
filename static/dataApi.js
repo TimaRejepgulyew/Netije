@@ -37,7 +37,10 @@ export default {
     RegSettingAvailableBusinessUnits: `${url}/api/RegistrationSetting/AvailableBusinessUnits`,
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
-    FilesType: `${url}/api/FilesType`
+    FilesType: `${url}/api/FilesType`,
+    DocumentRegistration:`${url}/api/DocumentRegistry/RegisterDocument`,
+    UnregisterDocument:`${url}/api/DocumentRegistry/UnregisterDocument`,
+    PreliminaryNumber:`${url}/api/DocumentRegistry/PreliminaryNumber`
   },
   paperWork: {
     IncommingLetter: `${url}/api/OfficialDocument/1`,
