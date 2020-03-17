@@ -53,8 +53,13 @@ export default {
     DxForm,
     DxAsyncRule
   },
-  created() {
-    this.getDefaultDocKind();
+  async created() {
+    // if (this.$route.params.id != "add") {
+    //   this.isUpdating = true;
+    //   this.addressGet += this.$route.params.id;
+    //   // this.store = await this.getDatayId(this.addressGet);
+    //   // this.eventIsSaved();
+    // }
   },
   props: ["docType"],
   data() {

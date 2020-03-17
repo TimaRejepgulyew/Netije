@@ -25,11 +25,7 @@
         :file-name="$t('translations.menu.departments')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Department"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
 
       <DxEditing
         :allow-updating="true"
@@ -46,11 +42,7 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
@@ -58,56 +50,30 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="phone"
-        :caption="$t('translations.fields.phones')"
-        :visible="false"
-      />
+      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
 
-      <DxColumn
-        data-field="code"
-        :caption="$t('translations.fields.code')"
-        :visible="false"
-      />
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
+        <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.codeAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
 
-      <DxColumn
-        data-field="shortName"
-        :caption="$t('translations.fields.shortName')"
-      ></DxColumn>
+      <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')"></DxColumn>
 
       <DxColumn
         data-field="headOfficeId"
         :caption="$t('translations.fields.headOfficeId')"
         :visible="false"
       >
-        <DxLookup
-          :data-source="getFilteredHeadOffice"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredHeadOffice" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="description"
-        :caption="$t('translations.fields.description')"
-        :visible="false"
-      />
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false" />
 
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      />
-
-      <DxColumn
-        data-field="managerId"
-        :caption="$t('translations.fields.managerId')"
-      >
-        <DxLookup
-          :data-source="getFilteredManager"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
+        <DxLookup :data-source="getFilteredManager" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn
@@ -115,22 +81,12 @@
         :caption="$t('translations.fields.businessUnitId')"
         :set-cell-value="onBusinessUnitIdChanged"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.businessUnitIdRequired')"
-        />
-        <DxLookup
-          :data-source="getFilteredBussinessUnit"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+        <DxLookup :data-source="getFilteredBussinessUnit" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -147,6 +103,7 @@ import {
   DxScrolling,
   DxLookup,
   DxAsyncRule,
+  DxPatternRule,
   DxRequiredRule,
   DxExport,
   DxSelection,
@@ -167,6 +124,7 @@ export default {
     DxScrolling,
     DxLookup,
     DxRequiredRule,
+    DxPatternRule,
     DxAsyncRule,
     DxExport,
     DxSelection,
@@ -202,8 +160,8 @@ export default {
         key: "id",
         loadUrl: dataApi.company.Department
       }),
-       onBusinessUnitIdChanged(rowData, value) {
-        rowData.headOfficeId = null;
+      onBusinessUnitIdChanged(rowData, value) {
+        rowData.code = rowData.code;
         this.defaultSetCellValue(rowData, value);
       },
 
@@ -213,7 +171,8 @@ export default {
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      }
+      },
+      codePattern:/^[^\s]+$/,
     };
   },
   methods: {
@@ -221,7 +180,19 @@ export default {
       return {
         store: this.headOfficeStore,
         filter: options.data
-          ? ["businessUnitId", "=", options.data.businessUnitId, "or","status", "=", 0, "or", "id", "=", options.data.headOfficeId]
+          ? [
+              "businessUnitId",
+              "=",
+              options.data.businessUnitId,
+              "or",
+              "status",
+              "=",
+              0,
+              "or",
+              "id",
+              "=",
+              options.data.headOfficeId
+            ]
           : null
       };
     },
@@ -230,7 +201,17 @@ export default {
       return {
         store: this.managerStore,
         filter: options.data
-          ? [["departmentId", "=", null], "or","status", "=", 0, "or", "id", "=", options.data.managerId]
+          ? [
+              ["departmentId", "=", null],
+              "or",
+              "status",
+              "=",
+              0,
+              "or",
+              "id",
+              "=",
+              options.data.managerId
+            ]
           : null
       };
     },
@@ -244,10 +225,13 @@ export default {
     },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
+      var businessUnitId = params.data.businessUnitId
+      console.log(params);
       return this.$customValidator.DepartmentDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
+          businessUnitId
         },
         dataField
       );

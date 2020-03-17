@@ -119,7 +119,6 @@
               editor-type="dxSelectBox"
             >
               <DxLabel :text="$t('translations.fields.whom')" />
-              <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -172,6 +171,7 @@ import { DxPopup } from "devextreme-vue/popup";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
+
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -187,6 +187,7 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
+let unwatch;
 export default {
   components: {
     popupCancelDocumentRegistry,
@@ -207,14 +208,27 @@ export default {
     DxPopup,
     notify
   },
-  async created() {
-    if (this.$route.params.id != "add") {
-      this.isUpdating = true;
+   created() {
+    if (this.isUpdating) {
+      this.eventIsSaved();
+    }
+  },
+  async asyncData({ app, params }) {
+    if (params.id != "add") {
+      let store = await app.$axios.get(
+        dataApi.paperWork.GetDocumentById + params.id
+      );
+      return {
+        store: store.data.document,
+        isUpdating: true
+      };
+    } else {
+      return {};
     }
   },
   data() {
     return {
-      addressGet: dataApi.paperWork.IncommingLetter,
+      addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.IncommingLetterPost,
       isUpdating: false,
       headerTitle: this.$t("translations.headers.addDocumentKind"),
@@ -251,10 +265,31 @@ export default {
         useSubmitBehavior: false
       },
       isCompany: false,
-      isDefaultName: false
+      isDefaultName: false,
+      isSaved: false
     };
   },
   methods: {
+    async getDataById(address) {
+      const res = await this.$axios.get(address);
+      console.log(res);
+      return res.data.document;
+    },
+    test() {
+      console.log("watch is work ");
+      // unwatch()
+    },
+    eventIsSaved() {
+      this.isSaved = true;
+      console.log("this watch");
+      unwatch = this.$watch(
+        "store",
+        function(newVal, oldVal) {
+          this.test();
+        },
+        { deep: true }
+      );
+    },
     popupDisabled(popup) {
       this[popup] = false;
     },
@@ -299,6 +334,7 @@ export default {
         this.store,
         this.$store.getters["paper-work/mainFormProperties"]
       );
+      console.log(this.store);
       this.$axios
         .post(this.addressPost, this.store)
         .then(res => {
@@ -346,9 +382,11 @@ export default {
           loadUrl: dataApi.contragents.CounterPart
         }),
         onSelectionChanged: e => {
+          this.isCompany = e.selectedItem.type != "Person";
+        },
+        onValueChanged: () => {
           this.store.contactId = null;
           this.store.counterpartySignatoryId = null;
-          this.isCompany = e.selectedItem.type != "Person";
         },
         valueExpr: "id",
         displayExpr: "name"
@@ -388,13 +426,15 @@ export default {
           }),
           filter: ["status", "=", 0]
         }),
+        onValueChanged: e => {
+          this.store.departmentId = null;
+        },
         valueExpr: "id",
         displayExpr: "name"
       };
     },
     deparmentOptions() {
       let businessUnitId = this.store.businessUnitId;
-      this.store.departmentId = null;
       return {
         dataSource: new DataSource({
           store: this.$dxStore({
@@ -407,13 +447,15 @@ export default {
             ["status", "=", 0]
           ]
         }),
+        onValueChanged: e => {
+          this.store.addresseeId = null;
+        },
         valueExpr: "id",
         displayExpr: "name"
       };
     },
     addresseeOptions() {
       let departmentId = this.store.departmentId;
-      this.store.addresseeId = null;
       return {
         dataSource: new DataSource({
           store: this.$dxStore({
@@ -463,11 +505,6 @@ export default {
           this.$store.dispatch("paper-work/setDated", e.value);
         }
       };
-    }
-  },
-  watch: {
-    isCompany: function(value) {
-      console.log("changestore");
     }
   }
 };

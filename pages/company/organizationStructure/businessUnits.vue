@@ -58,11 +58,6 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="description"
-        :caption="$t('translations.fields.description')"
-        data-type="string"
-      />
 
       <DxColumn
         data-field="tin"
@@ -118,13 +113,6 @@
         />
       </DxColumn>
 
-      <DxColumn
-        data-field="headCompanyId"
-        :caption="$t('translations.fields.headCompanyId')"
-        :visible="false"
-      >
-        <DxLookup :data-source="store" value-expr="id" display-expr="name" />
-      </DxColumn>
 
       <DxColumn
         data-field="legalAddress"
@@ -187,7 +175,13 @@
       <DxColumn
         data-field="code"
         :caption="$t('translations.fields.code')"
-      ></DxColumn>
+      >
+      <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+       <DxAsyncRule
+          :message="$t('translations.fields.codeAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -212,6 +206,7 @@ import {
   DxScrolling,
   DxLookup,
   DxAsyncRule,
+  DxPatternRule,
   DxRequiredRule,
   DxExport,
   DxSelection,
@@ -233,6 +228,7 @@ export default {
     DxScrolling,
     DxLookup,
     DxRequiredRule,
+    DxPatternRule,
     DxAsyncRule,
     DxExport,
     DxSelection,
@@ -289,6 +285,7 @@ export default {
       onCeoCheck(rowData, value) {
         this.defaultSetCellValue(rowData, value);
       },
+      codePattern:/^[^\s]+$/
     };
   },
   methods: {

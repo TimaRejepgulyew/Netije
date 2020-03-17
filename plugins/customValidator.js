@@ -8,7 +8,10 @@ export default ({ app }, inject) => {
       requireTotalCount: true
     });
     var filter = [[propertyName, "=", payload[propertyName]]];
-
+    if (payload.businessUnitId) {
+      filter.push("and");
+      filter.push(["businessUnitId", "=", payload.businessUnitId]);
+    }
     if (payload.id) {
       filter.push("and");
       filter.push(["id", "<>", payload.id]);
@@ -143,16 +146,15 @@ export default ({ app }, inject) => {
 
   async function CaseFileDataFieldValueNotExists(payload, propertyName) {
     return (
-      (await isEntityExists(
-        dataApi.docFlow.CaseFile,
-        payload,
-        propertyName
-      )) == false
+      (await isEntityExists(dataApi.docFlow.CaseFile, payload, propertyName)) ==
+      false
     );
   }
 
-
-  async function MailDeliveryMethodDataFieldValueNotExists(payload, propertyName) {
+  async function MailDeliveryMethodDataFieldValueNotExists(
+    payload,
+    propertyName
+  ) {
     return (
       (await isEntityExists(
         dataApi.docFlow.MailDeliveryMethod,
@@ -162,8 +164,10 @@ export default ({ app }, inject) => {
     );
   }
 
-
-  async function FileRetentionPeriodDataFieldValueNotExists(payload, propertyName) {
+  async function FileRetentionPeriodDataFieldValueNotExists(
+    payload,
+    propertyName
+  ) {
     return (
       (await isEntityExists(
         dataApi.docFlow.FileRetentionPeriod,
@@ -171,10 +175,13 @@ export default ({ app }, inject) => {
         propertyName
       )) == false
     );
-  }RegistrationGroupDataFieldValueNotExists
+  }
+  RegistrationGroupDataFieldValueNotExists;
 
-
-  async function RegistrationGroupDataFieldValueNotExists(payload, propertyName) {
+  async function RegistrationGroupDataFieldValueNotExists(
+    payload,
+    propertyName
+  ) {
     return (
       (await isEntityExists(
         dataApi.docFlow.RegistrationGroup,
@@ -184,8 +191,10 @@ export default ({ app }, inject) => {
     );
   }
 
-
-  async function DocumentRegistrationDataFieldValueNotExists(payload, propertyName) {
+  async function DocumentRegistrationDataFieldValueNotExists(
+    payload,
+    propertyName
+  ) {
     return (
       (await isEntityExists(
         dataApi.docFlow.DocumentRegistry,
@@ -194,7 +203,6 @@ export default ({ app }, inject) => {
       )) == false
     );
   }
-
 
   async function FilesTypeDataFieldValueNotExists(payload, propertyName) {
     return (
@@ -206,8 +214,10 @@ export default ({ app }, inject) => {
     );
   }
 
-
-  async function AssociatedApplicationDataFieldValueNotExists(payload, propertyName) {
+  async function AssociatedApplicationDataFieldValueNotExists(
+    payload,
+    propertyName
+  ) {
     return (
       (await isEntityExists(
         dataApi.docFlow.AssociatedApplication,
@@ -216,9 +226,6 @@ export default ({ app }, inject) => {
       )) == false
     );
   }
-
-
-
 
   let obj = {
     isNameExists: isNameExists,
@@ -243,7 +250,6 @@ export default ({ app }, inject) => {
     DocumentRegistrationDataFieldValueNotExists: DocumentRegistrationDataFieldValueNotExists,
     FilesTypeDataFieldValueNotExists: FilesTypeDataFieldValueNotExists,
     AssociatedApplicationDataFieldValueNotExists: AssociatedApplicationDataFieldValueNotExists
-
   };
 
   inject("customValidator", obj);

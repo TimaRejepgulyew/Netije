@@ -44,6 +44,7 @@ export default {
   },
   paperWork: {
     IncommingLetter: `${url}/api/OfficialDocument/1`,
+    GetDocumentById:`${url}/api/OfficialDocument/GetDocumentById/`,
     IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
     Order: `${url}/api/OfficialDocument/3`,
