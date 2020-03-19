@@ -23,7 +23,9 @@ export default {
     ManagersAssistant: `${url}/api/ManagersAssistant`
   },
   admin: {
-    Roles: `${url}/api/Role`
+    Roles: `${url}/api/Role`,
+    RoleMembers:`${url}/api/RoleMembers/`
+
   },
   docFlow: {
     DocumentKind: `${url}/api/DocumentKind`,

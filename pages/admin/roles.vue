@@ -49,6 +49,11 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
+
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+      </DxColumn>
+      
       <DxColumn
         data-field="description"
         :caption="$t('translations.fields.note')"
@@ -73,7 +78,7 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-import masterDetailMembersList from "~/components/departments/master-detail-members-list";
+import masterDetailMembersList from "~/components/administration/master-detail-members-list";
 import textArea from "~/components/page/textArea";
 import Header from "~/components/page/page__header";
 import {
@@ -129,12 +134,10 @@ export default {
         updateUrl: dataApi.admin.Roles,
         removeUrl: dataApi.admin.Roles
       }),
-
+      statusStores: this.$store.getters["status/status"],
       initNewRow: e => {},
 
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
+      rowUpdating: e => {},
       toCurrentRole: e => {
         this.$router.push("/admin/currentRole/" + e.row.data.id);
       }

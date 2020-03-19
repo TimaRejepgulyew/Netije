@@ -44,9 +44,24 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="employeeId" :caption="$t('translations.fields.name')">
-        <DxLookup :data-source="getFilteredMembers" value-expr="id" display-expr="name" />
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.countryAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
+
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+      </DxColumn>
+
+      <DxColumn
+        data-field="description"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
     </DxDataGrid>
   </main>
 </template>
@@ -113,14 +128,7 @@ export default {
       getFilteredMembers: this.$dxStore({
         loadUrl: dataApi.company.Employee
       }),
-      members: [],
-      allowDeleting: e => {
-        return !e.row.data.isReadonly;
-      },
-      initNewRow: e => {
-        e.data.departmentId = id;
-        e.data.employeeId = null;
-      },
+     
       dataGridRefKey: "dataGrid",
       statusStores: this.$store.getters["status/status"]
     };

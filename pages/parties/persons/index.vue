@@ -114,8 +114,6 @@
 
       <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
-
       <DxColumn
         data-field="nonresident"
         :visible="false"
@@ -132,6 +130,20 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
+
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
+
+      <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
+      </template>
     </DxDataGrid>
   </main>
 </template>
@@ -139,6 +151,7 @@
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
+import textArea from "~/components/page/textArea";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -161,6 +174,7 @@ import {
 
 export default {
   components: {
+    textArea,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -263,6 +277,10 @@ export default {
         },
         dataField
       );
+    },
+     onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
     }
   }
 };
