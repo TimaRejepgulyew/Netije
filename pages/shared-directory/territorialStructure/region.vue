@@ -131,7 +131,7 @@ export default {
     };
   },
   methods: {
-    getFilteredCountry(options) {
+   getFilteredCountry(options) {
       return {
         store: this.country,
         filter: options.data
