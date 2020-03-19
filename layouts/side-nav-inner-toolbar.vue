@@ -124,9 +124,9 @@ export default {
           path: "/parties",
           items: [
             {
-              text: this.$t("translations.menu.company"),
+              text: this.$t("translations.menu.businessUnit"),
               icon: "fields",
-              path: "/parties/organizations/company"
+              path: "/parties/organizations/businessUnit"
             },
             {
               text: this.$t("translations.menu.banks"),
@@ -168,7 +168,7 @@ export default {
               path: "/company/staff/employees"
             },
             {
-              text: this.$t("translations.fields.jobTitleId"),
+              text: this.$t("translations.menu.post"),
               path: "/company/staff/jobTitles"
             },
             {

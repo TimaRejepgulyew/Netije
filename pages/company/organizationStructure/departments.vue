@@ -70,8 +70,6 @@
         <DxLookup :data-source="getFilteredHeadOffice" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false" />
-
       <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
         <DxLookup :data-source="getFilteredManager" value-expr="id" display-expr="name" />
       </DxColumn>
@@ -88,13 +86,35 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
+
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
+      
+      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <template #masterDetailTemplate="membersList">
+        <masterDetailMembersList :membersList="membersList.data" />
+      </template>
+
+      <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
+      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
+import masterDetailMembersList from "~/components/departments/master-detail-members-list";
+import textArea from "~/components/page/textArea";
 import {
+  DxMasterDetail,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -115,6 +135,9 @@ import {
 
 export default {
   components: {
+    textArea,
+    masterDetailMembersList,
+    DxMasterDetail,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -172,7 +195,7 @@ export default {
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       },
-      codePattern:/^[^\s]+$/,
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -199,20 +222,7 @@ export default {
 
     getFilteredManager(options) {
       return {
-        store: this.managerStore,
-        filter: options.data
-          ? [
-              ["departmentId", "=", null],
-              "or",
-              "status",
-              "=",
-              0,
-              "or",
-              "id",
-              "=",
-              options.data.managerId
-            ]
-          : null
+        store: this.managerStore
       };
     },
     getFilteredBussinessUnit(options) {
@@ -225,8 +235,7 @@ export default {
     },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
-      var businessUnitId = params.data.businessUnitId
-      console.log(params);
+      var businessUnitId = params.data.businessUnitId;
       return this.$customValidator.DepartmentDataFieldValueNotExists(
         {
           id: params.data.id,
@@ -235,6 +244,10 @@ export default {
         },
         dataField
       );
+    },
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
     }
   }
 };

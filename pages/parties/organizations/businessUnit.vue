@@ -1,6 +1,7 @@
 <template>
   <main class="container container--grid">
     <Header :headerTitle="headerTitle"></Header>
+
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -12,9 +13,11 @@
       @init-new-row="initNewRow"
     >
       <DxSelection mode="multiple" />
+
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
+
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
@@ -40,10 +43,12 @@
         :placeholder="$t('translations.fields.search') + '...'"
         :visible="true"
       />
+
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -52,7 +57,7 @@
 
       <DxColumn
         data-field="headCompanyId"
-        :caption="$t('translations.fields.headOfficeId')"
+        :caption="$t('translations.fields.headCompanyId')"
         :visible="false"
       >
         <DxLookup :data-source="getFilteredHeadOfficeId" value-expr="id" display-expr="name" />
@@ -71,7 +76,9 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')"></DxColumn>
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')">
+        <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+      </DxColumn>
 
       <DxColumn
         data-field="regionId"
@@ -123,10 +130,23 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
-
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+
       <template #masterDetailTemplate="company">
         <ContactMasterDetail :company="company.data" />
+      </template>
+
+      <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
       </template>
     </DxDataGrid>
   </main>
@@ -136,7 +156,9 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import ContactMasterDetail from "~/components/parties/organizations/contact__masterDetail";
 import Header from "~/components/page/page__header";
+import textArea from "~/components/page/textArea";
 import {
+  DxPatternRule,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -158,6 +180,8 @@ import {
 
 export default {
   components: {
+    textArea,
+    DxPatternRule,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -180,7 +204,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.company"),
+      headerTitle: this.$t("translations.menu.businessUnit"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Company,
@@ -217,7 +241,8 @@ export default {
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
-      }
+      },
+      codePattern: /^[^\s]+$/
     };
   },
   methods: {
@@ -263,6 +288,10 @@ export default {
         },
         dataField
       );
+    },
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
     }
   }
 };

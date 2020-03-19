@@ -25,11 +25,7 @@
         :file-name="$t('translations.fields.person')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Person"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Person" />
 
       <DxEditing
         :allow-updating="true"
@@ -49,11 +45,8 @@
         data-field="firstName"
         :caption="$t('translations.fields.firstName')"
         data-type="string"
-
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.firstNameRequired')"
-        />
+        <DxRequiredRule :message="$t('translations.fields.firstNameRequired')" />
       </DxColumn>
       <DxColumn
         data-field="lastName"
@@ -66,66 +59,39 @@
         data-field="middleName"
         :caption="$t('translations.fields.middleName')"
         data-type="string"
-      >
-      </DxColumn>
+      ></DxColumn>
 
       <DxColumn
         data-field="dateOfBirth"
         :caption="$t('translations.fields.dateOfBirth')"
         data-type="date"
-      >
+      ></DxColumn>
+
+      <DxColumn data-field="sex" :caption="$t('translations.fields.sex')" data-type="string">
+        <DxLookup :data-source="sex" value-expr="id" display-expr="name"></DxLookup>
       </DxColumn>
 
-      <DxColumn
-        data-field="sex"
-        :caption="$t('translations.fields.sex')"
-        data-type="string"
-      >
-        <DxLookup
-          :data-source="sex"
-          value-expr="id"
-          display-expr="name"
-        ></DxLookup>
-      </DxColumn>
-
-      <DxColumn
-        data-field="tin"
-        :caption="$t('translations.fields.tin')"
-        :visible="false"
-      >
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
         <DxAsyncRule
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="code"
-        :caption="$t('translations.fields.code')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')">
+        <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+      </DxColumn>
 
       <DxColumn
         data-field="regionId"
         :caption="$t('translations.fields.regionId')"
         :set-cell-value="onRegionIdChanged"
       >
-        <DxLookup
-          :data-source="getFilteredRegion"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="localityId"
-        :caption="$t('translations.fields.localityId')"
-      >
-        <DxLookup
-          :data-source="getFilteredLocality"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
+        <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn
@@ -140,30 +106,15 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn
-        data-field="phones"
-        :caption="$t('translations.fields.phones')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false"></DxColumn>
 
-      <DxColumn
-        data-field="email"
-        :caption="$t('translations.fields.email')"
-        :visible="false"
-      >
-      <DxEmailRule :message="$t('translations.fields.emailRule')" />
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false">
+        <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
 
-      <DxColumn
-        data-field="webSite"
-        :caption="$t('translations.fields.webSite')"
-      ></DxColumn>
+      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
 
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
 
       <DxColumn
         data-field="nonresident"
@@ -172,31 +123,14 @@
         :caption="$t('translations.fields.nonresident')"
       ></DxColumn>
 
-      <DxColumn
-        data-field="account"
-        :caption="$t('translations.fields.account')"
-      ></DxColumn>
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxLookup
-          :data-source="getFilteredBank"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="type"
-        :caption="$t('translations.fields.type')"
-        :visible="false"
-      ></DxColumn>
-
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -221,7 +155,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxEmailRule
+  DxEmailRule,
+  DxPatternRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -242,7 +177,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxEmailRule
+    DxEmailRule,
+    DxPatternRule
   },
   data() {
     return {
@@ -288,7 +224,8 @@ export default {
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
-      }
+      },
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {

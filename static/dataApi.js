@@ -16,6 +16,7 @@ export default {
   },
   company: {
     Department: `${url}/api/Department`,
+    DepartmentMembers:`${url}/api/DepartmentMembers/`,
     BusinessUnit: `${url}/api/BusinessUnit`,
     Employee: `${url}/api/Employee`,
     JobTitle: `${url}/api/JobTitle`,

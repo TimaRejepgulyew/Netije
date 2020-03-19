@@ -25,11 +25,7 @@
         :file-name="$t('translations.menu.contacts')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Contact"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact" />
 
       <DxEditing :useIcons="true" mode="form" />
 
@@ -40,11 +36,7 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
@@ -52,17 +44,9 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="companyId"
-        :caption="$t('translations.menu.company')"
-        :visible="true"
-      >
+      <DxColumn data-field="companyId" :caption="$t('translations.menu.company')" :visible="true">
         <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
-        <DxLookup
-          :data-source="getFilteredCompany"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredCompany" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn
@@ -82,26 +66,13 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="phone"
-        :caption="$t('translations.fields.phones')"
-      ></DxColumn>
+      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
 
-      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')">
+      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')"></DxColumn>
+
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')">
+        <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
-
-      <DxColumn
-        data-field="email"
-        :caption="$t('translations.fields.email')"
-      >
-      <DxEmailRule :message="$t('translations.fields.emailRule')" />
-      </DxColumn>
-
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      ></DxColumn>
 
       <DxColumn
         data-field="homepage"
@@ -109,12 +80,22 @@
         :visible="false"
       ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
+
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
+
+      <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
+      </template>
     </DxDataGrid>
   </main>
 </template>
@@ -122,6 +103,7 @@
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
+import textArea from "~/components/page/textArea";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -143,6 +125,7 @@ import {
 
 export default {
   components: {
+    textArea,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -204,6 +187,10 @@ export default {
         },
         dataField
       );
+    },
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
     }
   }
 };

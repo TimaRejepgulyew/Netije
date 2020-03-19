@@ -77,7 +77,7 @@
         <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
+      <DxColumn data-field="note" editor-type="dxTextArea" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
 
       <DxColumn
         data-field="homepage"
@@ -93,6 +93,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import "devextreme-vue/text-area";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -138,7 +139,6 @@ export default {
     }
   },
   data() {
-    console.log(this.company, "TEST");
     let { name, id } = this.company.data;
     return {
       store: new DataSource({

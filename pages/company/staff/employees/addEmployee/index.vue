@@ -10,6 +10,7 @@
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="customerData"
+          
         >
           <DxGroupItem :caption="$t('translations.fields.personalData')">
             <DxSimpleItem data-field="userName" data-type="string">
@@ -64,6 +65,7 @@
               editor-type="dxSelectBox"
             >
               <DxLabel :text="$t('translations.fields.jobTitleId')" />
+              <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -72,18 +74,21 @@
               editor-type="dxSelectBox"
             >
               <DxLabel :text="$t('translations.fields.departmentId')" />
+              <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem data-field="phone">
               <DxLabel :text="$t('translations.fields.phones')" />
             </DxSimpleItem>
-          </DxGroupItem>
+            
           <DxSimpleItem
             data-field="note"
             :col-span="1"
-            :editor-options="{height: 90}"
+            :editor-options="{height: 90,labelLocation:'right',}"
             editor-type="dxTextArea"
           ></DxSimpleItem>
+
+          </DxGroupItem>
           <DxGroupItem :col-count="12" :col-span="2">
             <DxButtonItem
               :col-span="11"
@@ -139,7 +144,7 @@ export default {
 
   data() {
     return {
-      headerTitle: this.$t('translations.menu.addingEmployee'),
+      headerTitle: this.$t("translations.menu.addingEmployee"),
       store: {
         email: null,
         name: null,

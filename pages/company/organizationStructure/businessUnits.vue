@@ -25,11 +25,7 @@
         :file-name="$t('translations.menu.businessUnit')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="BusinessUnit"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="BusinessUnit" />
 
       <DxEditing
         :allow-updating="true"
@@ -46,58 +42,29 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
-
-      <DxColumn
-        data-field="tin"
-        :caption="$t('translations.fields.tin')"
-        :visible="false"
-      >
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
         <DxAsyncRule
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="localityId"
-        :caption="$t('translations.fields.localityId')"
-      >
-        <DxRequiredRule
-          :message="$t('translations.fields.localityIdRequired')"
-        />
-        <DxLookup
-          :data-source="getFilteredLocality"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
+        <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="phones"
-        :caption="$t('translations.fields.phones')"
-        :visible="false"
-      />
+      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false" />
 
       <DxColumn
         data-field="legalName"
         :caption="$t('translations.fields.legalName')"
         :visible="false"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.legalNameRequired')"
-        />
+        <DxRequiredRule :message="$t('translations.fields.legalNameRequired')" />
       </DxColumn>
 
       <DxColumn
@@ -106,13 +73,8 @@
         :set-cell-value="onRegionIdChanged"
       >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup
-          :data-source="getFilteredRegion"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
       </DxColumn>
-
 
       <DxColumn
         data-field="legalAddress"
@@ -127,69 +89,54 @@
       />
 
       <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      />
-
-      <DxColumn
         data-field="ceo"
         :caption="$t('translations.fields.ceo')"
         :visible="true"
         :set-cell-value="onCeoCheck"
       >
-        <DxLookup
-          :data-source="getFilteredEmployee"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredEmployee" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="email"
-        :caption="$t('translations.fields.email')"
-        :visible="false"
-      >
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false">
         <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
 
       <DxColumn
         data-field="homepage"
-        :caption="$t('translations.fields.homepage')"
+        :caption="$t('translations.fields.webSite')"
         :visible="false"
       />
 
-      <DxColumn
-        data-field="account"
-        :caption="$t('translations.fields.account')"
-      ></DxColumn>
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxLookup
-          :data-source="getFilteredBank"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="code"
-        :caption="$t('translations.fields.code')"
-      >
-      <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
-       <DxAsyncRule
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')">
+        <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+        <DxAsyncRule
           :message="$t('translations.fields.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
+
+      <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
+      </template>
     </DxDataGrid>
   </main>
 </template>
@@ -197,6 +144,7 @@
 import DataSource from "devextreme/data/data_source";
 import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
+import textArea from "~/components/page/textArea";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -219,6 +167,7 @@ import {
 
 export default {
   components: {
+    textArea,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -248,7 +197,7 @@ export default {
         updateUrl: dataApi.company.BusinessUnit,
         removeUrl: dataApi.company.BusinessUnit
       }),
-      
+
       statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({
@@ -285,7 +234,7 @@ export default {
       onCeoCheck(rowData, value) {
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern:/^[^\s]+$/
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -313,7 +262,7 @@ export default {
           : null
       };
     },
-     // TODO валидатор вытаскивать только тех у кого нет должности руководителя организации 
+    // TODO валидатор вытаскивать только тех у кого нет должности руководителя организации
     getFilteredEmployee(options) {
       return {
         store: this.employee,
@@ -331,6 +280,10 @@ export default {
         },
         dataField
       );
+    },
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
     }
   }
 };
