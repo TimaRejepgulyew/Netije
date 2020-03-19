@@ -16,7 +16,7 @@ export default {
   },
   company: {
     Department: `${url}/api/Department`,
-    DepartmentMembers:`${url}/api/DepartmentMembers/`,
+    DepartmentMembers: `${url}/api/DepartmentMembers/`,
     BusinessUnit: `${url}/api/BusinessUnit`,
     Employee: `${url}/api/Employee`,
     JobTitle: `${url}/api/JobTitle`,
@@ -24,8 +24,8 @@ export default {
   },
   admin: {
     Roles: `${url}/api/Role`,
-    RoleMembers:`${url}/api/RoleMembers/`
-
+    RoleMembers: `${url}/api/RoleMembers/`,
+    Recipient: `${url}/api/Recipient`
   },
   docFlow: {
     DocumentKind: `${url}/api/DocumentKind`,
@@ -41,13 +41,13 @@ export default {
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
     FilesType: `${url}/api/FilesType`,
-    DocumentRegistration:`${url}/api/DocumentRegistry/RegisterDocument`,
-    UnregisterDocument:`${url}/api/DocumentRegistry/UnregisterDocument`,
-    PreliminaryNumber:`${url}/api/DocumentRegistry/PreliminaryNumber`
+    DocumentRegistration: `${url}/api/DocumentRegistry/RegisterDocument`,
+    UnregisterDocument: `${url}/api/DocumentRegistry/UnregisterDocument`,
+    PreliminaryNumber: `${url}/api/DocumentRegistry/PreliminaryNumber`
   },
   paperWork: {
     IncommingLetter: `${url}/api/OfficialDocument/1`,
-    GetDocumentById:`${url}/api/OfficialDocument/GetDocumentById/`,
+    GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
     Order: `${url}/api/OfficialDocument/3`,

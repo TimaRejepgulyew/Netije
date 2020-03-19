@@ -37,7 +37,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+      
         :visible="true"
       />
       <DxScrolling mode="virtual" />

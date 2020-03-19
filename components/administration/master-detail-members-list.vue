@@ -50,6 +50,7 @@
           :message="$t('translations.fields.countryAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
+        <DxLookup :data-source="getFilteredMembers" value-expr="id" display-expr="status" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
@@ -119,16 +120,16 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "employeeId",
-          insertUrl: dataApi.company.DepartmentMembers,
-          loadUrl: dataApi.company.DepartmentMembers + id,
-          removeUrl: dataApi.company.DepartmentMembers + id
+          insertUrl: dataApi.admin.RoleMembers,
+          loadUrl: dataApi.admin.RoleMembers + id,
+          removeUrl: dataApi.admin.RoleMembers + id
         })
       }),
       immutable,
       getFilteredMembers: this.$dxStore({
-        loadUrl: dataApi.company.Employee
+        loadUrl: dataApi.admin.Recipient
       }),
-     
+
       dataGridRefKey: "dataGrid",
       statusStores: this.$store.getters["status/status"]
     };
