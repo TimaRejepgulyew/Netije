@@ -15,8 +15,8 @@
       <DxHeaderFilter :visible="true" />
       <DxEditing
         :allow-updating="false"
-        :allow-deleting="allowDeleting"
-        :allow-adding="true"
+        :allow-deleting="false"
+        :allow-adding="false"
         :useIcons="true"
         mode="row"
       />
@@ -44,9 +44,22 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="employeeId" :caption="$t('translations.fields.name')">
+      <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxLookup :data-source="getFilteredMembers" value-expr="id" display-expr="name" />
       </DxColumn>
+
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+      </DxColumn>
+
+      <DxColumn
+        data-field="description"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
+
     </DxDataGrid>
   </main>
 </template>
@@ -67,7 +80,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton
+  DxRequiredRule,
+  DxAsyncRule,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -84,37 +98,35 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
+    DxRequiredRule,
+    DxAsyncRule,
     DxStateStoring,
-    DxButton
   },
   props: {
-    membersList: {
+    data: {
       type: Object,
       default: () => {}
     }
   },
+ 
   data() {
-    let { id } = this.membersList.data;
+    let { id, immutable } = this.data.data;
     return {
       store: new DataSource({
         store: this.$dxStore({
-          key: "employeeId",
-          insertUrl: dataApi.company.DepartmentMembers,
-          loadUrl: dataApi.company.DepartmentMembers + id,
-          removeUrl: dataApi.company.DepartmentMembers + id
+          key: "memberId",
+          insertUrl: dataApi.admin.RoleMembers,
+          loadUrl: dataApi.admin.RoleMembers + id,
+          removeUrl: dataApi.admin.RoleMembers + id
         })
       }),
+      immutable,
       getFilteredMembers: this.$dxStore({
-        loadUrl: dataApi.company.Employee
+        loadUrl: dataApi.admin.Recipient
       }),
-      members: [],
-      allowDeleting:  e => {
-        return !e.row.data.isReadonly;
-      },
       initNewRow: e => {
-        e.data.departmentId = id;
-        e.data.employeeId = null;
-       
+        e.data.status = this.statusStores[0].id;
+        e.data.roleId = id;
       },
       dataGridRefKey: "dataGrid",
       statusStores: this.$store.getters["status/status"]
@@ -126,10 +138,6 @@ export default {
     }
   },
   methods: {
-    async getDataById(address) {
-      const res = await this.$axios.get(address);
-      return res.data.data;
-    }
   }
 };
 </script>

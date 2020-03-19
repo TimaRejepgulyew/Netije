@@ -9,7 +9,6 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
     >
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
@@ -22,15 +21,15 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.departments')"
+        :file-name="$t('translations.menu.roles')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="roles" />
 
       <DxEditing
-        :allow-updating="store.isSystem"
-        :allow-deleting="store.isSystem"
-        :allow-adding="true"
+        :allow-updating="isCustom"
+        :allow-deleting="isCustom"
+        :allow-adding="false"
         :useIcons="true"
         mode="form"
       />
@@ -53,7 +52,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
       </DxColumn>
-      
+
       <DxColumn
         data-field="description"
         :caption="$t('translations.fields.note')"
@@ -61,10 +60,10 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <DxMasterDetail :enabled="true" template="master-detail" />
 
-      <template #masterDetailTemplate="membersList">
-        <masterDetailMembersList :membersList="membersList.data" />
+      <template #master-detail="data">
+        <TabRole :data="data.data" />
       </template>
 
       <template #textAreaEditor="cellInfo">
@@ -78,7 +77,9 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-import masterDetailMembersList from "~/components/administration/master-detail-members-list";
+
+// import MasterDetail from "~/components/administration/tab-role";
+import TabRole from "~/components/administration/tabRole.vue";
 import textArea from "~/components/page/textArea";
 import Header from "~/components/page/page__header";
 import {
@@ -103,7 +104,7 @@ import {
 
 export default {
   components: {
-    masterDetailMembersList,
+    TabRole,
     DxMasterDetail,
     textArea,
     Header,
@@ -134,12 +135,12 @@ export default {
         updateUrl: dataApi.admin.Roles,
         removeUrl: dataApi.admin.Roles
       }),
+      isCustom: e => {
+        return !e.row.data.isSystem;
+      },
       statusStores: this.$store.getters["status/status"],
-      initNewRow: e => {},
-
-      rowUpdating: e => {},
-      toCurrentRole: e => {
-        this.$router.push("/admin/currentRole/" + e.row.data.id);
+      rowUpdating: e => {
+        e.newData = Object.assign(e.oldData, e.newData);
       }
     };
   },

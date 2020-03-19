@@ -15,8 +15,8 @@
       <DxHeaderFilter :visible="true" />
       <DxEditing
         :allow-updating="false"
-        :allow-deleting="immutable"
-        :allow-adding="immutable"
+        :allow-deleting="!immutable"
+        :allow-adding="!immutable"
         :useIcons="true"
         mode="row"
       />
@@ -28,13 +28,13 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.registrationSetting')"
+        :file-name="$t('translations.fields.members')"
       />
 
       <DxStateStoring
         :enabled="true"
         type="localStorage"
-        storage-key="registration-setting-detail"
+        storage-key="member-list"
       />
 
       <DxSearchPanel
@@ -44,13 +44,9 @@
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
-        <DxLookup :data-source="getFilteredMembers" value-expr="id" display-expr="status" />
+        <DxLookup :data-source="getFilteredMembers" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
@@ -63,6 +59,7 @@
         :visible="false"
         edit-cell-template="textAreaEditor"
       ></DxColumn>
+
     </DxDataGrid>
   </main>
 </template>
@@ -83,7 +80,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton
+  DxRequiredRule,
+  DxAsyncRule,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -100,26 +98,23 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
+    DxRequiredRule,
+    DxAsyncRule,
     DxStateStoring,
-    DxButton
   },
   props: {
-    membersList: {
+    data: {
       type: Object,
       default: () => {}
     }
   },
-  async created() {
-    this.members = await this.getDataById(
-      dataApi.company.DepartmentMembers + this.membersList.key
-    );
-  },
+ 
   data() {
-    let { id, immutable } = this.membersList.data;
+    let { id, immutable } = this.data.data;
     return {
       store: new DataSource({
         store: this.$dxStore({
-          key: "employeeId",
+          key: "memberId",
           insertUrl: dataApi.admin.RoleMembers,
           loadUrl: dataApi.admin.RoleMembers + id,
           removeUrl: dataApi.admin.RoleMembers + id
@@ -129,7 +124,10 @@ export default {
       getFilteredMembers: this.$dxStore({
         loadUrl: dataApi.admin.Recipient
       }),
-
+      initNewRow: e => {
+        e.data.status = this.statusStores[0].id;
+        e.data.roleId = id;
+      },
       dataGridRefKey: "dataGrid",
       statusStores: this.$store.getters["status/status"]
     };
@@ -140,10 +138,6 @@ export default {
     }
   },
   methods: {
-    async getDataById(address) {
-      const res = await this.$axios.get(address);
-      return res.data.data;
-    }
   }
 };
 </script>
