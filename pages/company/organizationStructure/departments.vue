@@ -95,6 +95,7 @@
       ></DxColumn>
       
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      
       <template #masterDetailTemplate="membersList">
         <masterDetailMembersList :membersList="membersList.data" />
       </template>

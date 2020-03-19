@@ -15,8 +15,8 @@
       <DxHeaderFilter :visible="true" />
       <DxEditing
         :allow-updating="false"
-        :allow-deleting="allowDeleting"
-        :allow-adding="true"
+        :allow-deleting="immutable"
+        :allow-adding="immutable"
         :useIcons="true"
         mode="row"
       />
@@ -99,7 +99,7 @@ export default {
     );
   },
   data() {
-    let { id } = this.membersList.data;
+    let { id, immutable } = this.membersList.data;
     return {
       store: new DataSource({
         store: this.$dxStore({
@@ -109,17 +109,17 @@ export default {
           removeUrl: dataApi.company.DepartmentMembers + id
         })
       }),
+      immutable,
       getFilteredMembers: this.$dxStore({
         loadUrl: dataApi.company.Employee
       }),
       members: [],
-      allowDeleting:  e => {
+      allowDeleting: e => {
         return !e.row.data.isReadonly;
       },
       initNewRow: e => {
         e.data.departmentId = id;
         e.data.employeeId = null;
-       
       },
       dataGridRefKey: "dataGrid",
       statusStores: this.$store.getters["status/status"]

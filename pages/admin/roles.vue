@@ -50,27 +50,34 @@
         ></DxAsyncRule>
       </DxColumn>
       <DxColumn
-        data-field="isSystem"
-        data-type="boolean"
-        :caption="$t('translations.fields.isSystem')"
-      ></DxColumn>
-      <DxColumn
-        data-field="isSingleUser"
-        data-type="boolean"
-        :caption="$t('translations.fields.isSingleUser')"
+        data-field="description"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxColumn type="buttons">
-        <DxButton :text="$t('translations.fields.moreAbout')" :onClick="toCurrentRole"></DxButton>
-      </DxColumn>
+      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+
+      <template #masterDetailTemplate="membersList">
+        <masterDetailMembersList :membersList="membersList.data" />
+      </template>
+
+      <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
+      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-
+import masterDetailMembersList from "~/components/departments/master-detail-members-list";
+import textArea from "~/components/page/textArea";
 import Header from "~/components/page/page__header";
 import {
+  DxMasterDetail,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -91,6 +98,9 @@ import {
 
 export default {
   components: {
+    masterDetailMembersList,
+    DxMasterDetail,
+    textArea,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -120,9 +130,7 @@ export default {
         removeUrl: dataApi.admin.Roles
       }),
 
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
+      initNewRow: e => {},
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
