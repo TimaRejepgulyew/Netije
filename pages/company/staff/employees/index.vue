@@ -13,7 +13,8 @@
     >
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
-
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxColumnChooser :enabled="false" />
       <DxColumnFixing :enabled="true" />
 
@@ -29,7 +30,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -66,6 +67,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -89,6 +92,8 @@ export default {
     DxExport,
     DxColumnChooser,
     DxColumnFixing,
+    DxGrouping,
+    DxGroupPanel,
     DxFilterRow,
     DxStateStoring,
     DxPopup,

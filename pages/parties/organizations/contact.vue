@@ -11,6 +11,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -31,7 +33,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -46,7 +48,12 @@
 
       <DxColumn data-field="companyId" :caption="$t('translations.menu.company')" :visible="true">
         <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
-        <DxLookup :data-source="getFilteredCompany" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredCompany"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -80,7 +87,12 @@
         :visible="false"
       ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
 
       <DxColumn
@@ -112,6 +124,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
@@ -134,6 +148,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,

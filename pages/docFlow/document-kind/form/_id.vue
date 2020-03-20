@@ -264,7 +264,8 @@ export default {
       return {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
-        displayExpr: "status"
+        displayExpr: "status",
+        showClearButton: "true"
       };
     },
     numberingTypeOptions() {
@@ -276,7 +277,8 @@ export default {
         ],
         disabled: this.isUpdating,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     },
     documentFlowOptions() {
@@ -285,18 +287,19 @@ export default {
           { id: 0, name: this.$t("translations.fields.incomingEnum") },
           { id: 1, name: this.$t("translations.fields.outcomingEnum") },
           { id: 2, name: this.$t("translations.fields.inner") }
-          //   { id: 3, name: this.$t("translations.fields.contracts") }
         ],
         disabled: this.isUpdating,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     },
     tagboxOptions() {
       return {
         dataSource: this.availableActions,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     },
 
@@ -307,7 +310,8 @@ export default {
         }),
         disabled: this.isUpdating,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     },
     isNumerable() {

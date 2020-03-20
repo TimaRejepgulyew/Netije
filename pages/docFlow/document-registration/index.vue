@@ -49,6 +49,8 @@
       @init-new-row="initNewRow"
       :ref="dataGridRefKey"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -67,7 +69,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -81,7 +83,12 @@
         :caption="$t('translations.fields.documentFlow')"
         data-type="string"
       >
-        <DxLookup :data-source="documentFlow" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="documentFlow"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
       <DxColumn type="buttons">
         <DxButton
@@ -107,7 +114,12 @@
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
 
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
@@ -136,6 +148,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -157,6 +171,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxExport,
     DxSelection,
     DxColumnChooser,

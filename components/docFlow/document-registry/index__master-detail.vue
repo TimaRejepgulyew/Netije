@@ -29,6 +29,8 @@
       :ref="dataGridRefKey"
     >
       >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
       <DxEditing :allow-updating="true" :allow-deleting="true" :useIcons="true" mode="form" />
@@ -51,7 +53,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -63,7 +65,12 @@
         :caption="$t('translations.menu.businessUnit')"
         :visible="true"
       >
-        <DxLookup :data-source="bussinessUnitStores" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="bussinessUnitStores"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
       <DxColumn type="buttons">
         <DxButton
@@ -89,6 +96,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -109,6 +118,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxExport,
     DxSelection,
     DxColumnChooser,
@@ -148,14 +159,14 @@ export default {
       }
     };
   },
-  computed:{
+  computed: {
     dataGrid: function() {
-            return this.$refs[this.dataGridRefKey].instance;
-        }
+      return this.$refs[this.dataGridRefKey].instance;
+    }
   },
   methods: {
     popupDisabled(popup) {
-      this.dataGrid.refresh()
+      this.dataGrid.refresh();
       this[popup] = false;
     }
   }

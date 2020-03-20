@@ -11,6 +11,8 @@
       @editing-start="editingStart"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -37,7 +39,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -45,24 +47,30 @@
       <DxColumn data-field="dated" :caption="$t('translations.fields.dated')" data-type="date" />
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
-      <DxColumn
-        data-field="inNumber"
-        :caption="$t('translations.fields.regNumberDocument')"
-        
-      ></DxColumn>
+      <DxColumn data-field="inNumber" :caption="$t('translations.fields.regNumberDocument')"></DxColumn>
       <DxColumn
         data-field="correspondentId"
         :caption="$t('translations.fields.subject')"
         data-type="selectbox"
       >
-        <DxLookup :data-source="correspondentStores" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="correspondentStores"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
       <DxColumn
         data-field="documentKindId"
         :caption="$t('translations.fields.documentKindId')"
         data-type="selectbox"
       >
-        <DxLookup :data-source="documentKindStores" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="documentKindStores"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -82,6 +90,8 @@ import {
   DxExport,
   DxSelection,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -100,6 +110,8 @@ export default {
     DxExport,
     DxSelection,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -121,16 +133,16 @@ export default {
       },
 
       editingStart: e => {
-          this.$router.push("/paper-work/incomming-letter/form/"+e.key);
+        this.$router.push("/paper-work/incomming-letter/form/" + e.key);
       },
       correspondentStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.CounterPart
       }),
-      documentKindStores:this.$dxStore({
+      documentKindStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.DocumentKind
-      }),
+      })
     };
   },
   methods: {}

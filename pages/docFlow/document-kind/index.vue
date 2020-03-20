@@ -11,6 +11,8 @@
       @editing-start="editingStart"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -36,7 +38,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -49,19 +51,39 @@
       ></DxColumn>
 
       <DxColumn data-field="documentFlow" :caption="$t('translations.fields.documentFlow')">
-        <DxLookup :data-source="documentFlow" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="documentFlow"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="numberingType" :caption="$t('translations.fields.numberingType')">
-        <DxLookup :data-source="numberingType" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="numberingType"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="documentTypeId" :caption="$t('translations.menu.documentType')">
-        <DxLookup :data-source="documentType" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="documentType"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -78,6 +100,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -96,6 +120,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxExport,
     DxSelection,
     DxColumnChooser,

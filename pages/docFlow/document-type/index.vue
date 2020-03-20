@@ -9,6 +9,8 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -26,7 +28,7 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentKind" />
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -38,10 +40,20 @@
         :caption="$t('translations.fields.isRegistrationAllowed')"
       ></DxColumn>
       <DxColumn data-field="documentFlow" :caption="$t('translations.fields.documentFlow')">
-        <DxLookup :data-source="documentFlow" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="documentFlow"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -57,6 +69,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -75,6 +89,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxExport,
     DxSelection,
     DxColumnChooser,
@@ -98,14 +114,10 @@ export default {
         { id: 1, name: this.$t("translations.fields.outcomingEnum") },
         { id: 2, name: this.$t("translations.fields.inner") },
         { id: 3, name: this.$t("translations.fields.contracts") }
-      ],
+      ]
     };
   },
   methods: {
-   
-
- 
-    
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.DepartmentDataFieldValueNotExists(

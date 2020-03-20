@@ -9,6 +9,8 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -27,7 +29,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -53,11 +55,21 @@
       <DxColumn data-field="code" :caption="$t('translations.fields.code')" />
 
       <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
-        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredRegion"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredLocality"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -90,11 +102,21 @@
       <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredBank"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
       <template #cellTemplate="cell">
         <img class="icon--type" :src="cell.data.value|typeIcon" />
@@ -113,6 +135,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -130,6 +154,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxExport,
     DxSelection,
     DxColumnChooser,

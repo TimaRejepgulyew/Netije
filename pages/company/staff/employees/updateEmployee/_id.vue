@@ -195,7 +195,8 @@ export default {
       statusOptions: {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
-        displayExpr: "status"
+        displayExpr: "status",
+        showClearButton: "true"
       },
       saveButtonOptions: {
         height: 50,
@@ -222,28 +223,16 @@ export default {
       passwordOptions: {
         mode: "password"
       },
-      jobTitleOptions: {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.JobTitle
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      },
-      departmentOptions: {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.Department
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      },
+      jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.JobTitle,
+        filter: ["status", "=", 0]
+      }),
+      departmentOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Department,
+        filter: ["status", "=", 0]
+      }),
       popupPasswordVisible: false,
       popupRoleVisible: false,
       namePattern: /^[^0-9]+$/

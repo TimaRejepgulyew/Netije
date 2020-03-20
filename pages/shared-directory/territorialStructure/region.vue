@@ -14,7 +14,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-      <DxSelection mode="multiple" />
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" &#x3C;DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -40,7 +41,7 @@
       <DxSearchPanel
         position="after"
         :visible="true"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
       />
 
       <DxScrolling mode="virtual" />
@@ -54,11 +55,21 @@
       </DxColumn>
       <DxColumn data-field="countryId" :caption="$t('translations.fields.countryId')">
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
-        <DxLookup :data-source="getFilteredCountry" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredCountry"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -75,6 +86,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxRequiredRule,
   DxAsyncRule,
   DxExport,
@@ -96,6 +109,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
@@ -131,7 +146,7 @@ export default {
     };
   },
   methods: {
-   getFilteredCountry(options) {
+    getFilteredCountry(options) {
       return {
         store: this.country,
         filter: options.data

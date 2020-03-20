@@ -131,18 +131,11 @@ export default {
       };
     },
     documentRegisterOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl:
-              "http://192.168.4.198/api/DocumentRegistry/Registration/" + "10"
-          })
-        }),
-        onValueChanged: this.getDataByFilter,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: "http://192.168.4.198/api/DocumentRegistry/Registration/" + "10",
+        onValueChanged: this.getDataByFilter
+      });
     },
     // isDisabled(){
     //   const re

@@ -11,6 +11,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -37,7 +39,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -68,7 +70,7 @@
       ></DxColumn>
 
       <DxColumn data-field="sex" :caption="$t('translations.fields.sex')" data-type="string">
-        <DxLookup :data-source="sex" value-expr="id" display-expr="name"></DxLookup>
+        <DxLookup :allow-clearing="true" :data-source="sex" value-expr="id" display-expr="name"></DxLookup>
       </DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
@@ -87,11 +89,21 @@
         :caption="$t('translations.fields.regionId')"
         :set-cell-value="onRegionIdChanged"
       >
-        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredRegion"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredLocality"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -124,11 +136,21 @@
       <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredBank"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
 
       <DxColumn
@@ -160,6 +182,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
@@ -183,6 +207,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
@@ -278,7 +304,7 @@ export default {
         dataField
       );
     },
-     onValueChanged(value, cellInfo) {
+    onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
     }

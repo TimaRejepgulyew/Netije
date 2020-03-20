@@ -12,7 +12,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
-      >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -25,11 +26,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="RegistrationGroup"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
 
       <DxEditing
         :allow-updating="true"
@@ -41,16 +38,12 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
@@ -64,9 +57,7 @@
         :caption="$t('translations.fields.extension')"
         :editor-options="extensionOptions"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.extensionRequired')"
-        />
+        <DxRequiredRule :message="$t('translations.fields.extensionRequired')" />
         <DxPatternRule
           :pattern="extensionsPattern"
           :message="$t('translations.fields.extensionPatternRule')"
@@ -79,20 +70,17 @@
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
+          :allow-clearing="true"
           :data-source="statusStores"
           value-expr="id"
           display-expr="status"
         />
       </DxColumn>
 
-      <DxColumn
-        data-field="filesTypeId"
-        :caption="$t('translations.fields.filesTypeId')"
-      >
-        <DxRequiredRule
-          :message="$t('translations.fields.filesTypeIdRequired')"
-        />
+      <DxColumn data-field="filesTypeId" :caption="$t('translations.fields.filesTypeId')">
+        <DxRequiredRule :message="$t('translations.fields.filesTypeIdRequired')" />
         <DxLookup
+          :allow-clearing="true"
           :data-source="filesTypeStores"
           value-expr="id"
           display-expr="name"
@@ -137,6 +125,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
@@ -178,7 +168,7 @@ export default {
       }
     };
   },
-  methods:{
+  methods: {
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.AssociatedApplicationDataFieldValueNotExists(
@@ -188,7 +178,7 @@ export default {
         },
         dataField
       );
-    },
+    }
   }
 };
 </script>

@@ -11,6 +11,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -35,11 +37,7 @@
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-      
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
@@ -54,7 +52,12 @@
       </DxColumn>
 
       <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxLookup :data-source="getFilteredLocality" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredLocality"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false" />
@@ -73,7 +76,12 @@
         :set-cell-value="onRegionIdChanged"
       >
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxLookup :data-source="getFilteredRegion" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredRegion"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -94,7 +102,12 @@
         :visible="true"
         :set-cell-value="onCeoCheck"
       >
-        <DxLookup :data-source="getFilteredEmployee" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredEmployee"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false">
@@ -110,7 +123,12 @@
       <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
 
       <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
-        <DxLookup :data-source="getFilteredBank" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredBank"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')">
@@ -122,7 +140,12 @@
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
       <DxColumn
         data-field="note"
@@ -153,6 +176,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxPatternRule,
   DxRequiredRule,
@@ -176,6 +201,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxPatternRule,
     DxAsyncRule,

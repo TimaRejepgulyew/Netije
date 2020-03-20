@@ -14,7 +14,8 @@
       @init-new-row="initNewRow"
       @editor-preparing="blockingColumnForEdit"
     >
-      >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -27,11 +28,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="RegistrationGroup"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
 
       <DxEditing
         :allow-updating="true"
@@ -43,16 +40,12 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
@@ -65,24 +58,21 @@
         :caption="$t('translations.fields.canRegisterIncoming')"
         data-type="boolean"
         :visible="false"
-      >
-      </DxColumn>
+      ></DxColumn>
 
       <DxColumn
         data-field="canRegisterOutgoing"
         :caption="$t('translations.fields.canRegisterOutgoing')"
         data-type="boolean"
         :visible="false"
-      >
-      </DxColumn>
+      ></DxColumn>
 
       <DxColumn
         data-field="canRegisterInternal"
         :caption="$t('translations.fields.canRegisterInternal')"
         data-type="boolean"
         :visible="false"
-      >
-      </DxColumn>
+      ></DxColumn>
 
       <DxColumn
         data-field="members"
@@ -93,6 +83,7 @@
         :calculate-filter-expression="calculateFilterExpression"
       >
         <DxLookup
+          :allow-clearing="true"
           :data-source="employeeStore"
           value-expr="id"
           display-expr="name"
@@ -123,6 +114,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
@@ -145,6 +138,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
@@ -160,12 +155,12 @@ export default {
     return {
       headerTitle: this.$t("translations.menu.registrationGroup"),
       store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.docFlow.RegistrationGroup,
-          insertUrl: dataApi.docFlow.RegistrationGroup,
-          updateUrl: dataApi.docFlow.RegistrationGroup,
-          removeUrl: dataApi.docFlow.RegistrationGroup
-        }),
+        key: "id",
+        loadUrl: dataApi.docFlow.RegistrationGroup,
+        insertUrl: dataApi.docFlow.RegistrationGroup,
+        updateUrl: dataApi.docFlow.RegistrationGroup,
+        removeUrl: dataApi.docFlow.RegistrationGroup
+      }),
 
       statusStores: this.$store.getters["status/status"],
 
@@ -195,12 +190,10 @@ export default {
     };
   },
   methods: {
-    getFilteredEmployee(options){
-       return {
+    getFilteredEmployee(options) {
+      return {
         store: this.employeeStore,
-        filter: options.data
-          ? ["id", "=", options.data.employeeId]
-          : null
+        filter: options.data ? ["id", "=", options.data.employeeId] : null
       };
     },
     validateEntityExists(params) {

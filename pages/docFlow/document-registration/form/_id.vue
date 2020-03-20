@@ -43,7 +43,7 @@
 
                 <DxColumn data-field="element" :caption="$t('translations.fields.element')">
                   <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
-                  <DxLookup :data-source="element" value-expr="id" display-expr="name" />
+                  <DxLookup :allow-clearing="true" :data-source="element" value-expr="id" display-expr="name" />
                 </DxColumn>
                 <DxColumn data-field="separator" :caption="$t('translations.fields.separator')">
                   <DxRequiredRule :message="$t('translations.fields.separatorRequired')" />
@@ -200,7 +200,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton,
+    DxButton
   },
   async created() {
     if (this.$route.params.id != "newDocRegistry") {
@@ -215,21 +215,24 @@ export default {
         dataSource: this.documentFlow,
         disabled: this.isUpdating,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     },
     numberingSectionOptions() {
       return {
         dataSource: this.numberingSection,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     },
     numberingPeriodOptions() {
       return {
         dataSource: this.numberingPeriod,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     },
     registerTypeOptions() {
@@ -237,7 +240,8 @@ export default {
         dataSource: this.registerType,
         disabled: this.isUpdating,
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
+        showClearButton: "true"
       };
     }
   },
@@ -326,7 +330,8 @@ export default {
       statusOptions: {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
-        displayExpr: "status"
+        displayExpr: "status",
+        showClearButton: "true"
       },
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },

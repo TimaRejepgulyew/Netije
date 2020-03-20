@@ -31,7 +31,6 @@
 </template>
 <script>
 import "devextreme-vue/text-area";
-import { DxTagBox } from "devextreme-vue/tag-box";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
@@ -120,9 +119,9 @@ export default {
         value: this.defaultDocKind,
         onSelectionChanged: e => {
           this.isDefaultName = e.selectedItem.generateDocumentName;
-            this.$store.dispatch("paper-work/setDocumentKind", e.selectedItem);
-
+          this.$store.dispatch("paper-work/setDocumentKind", e.selectedItem);
         },
+        showClearButton: "true",
         valueExpr: "id",
         displayExpr: "name"
       };

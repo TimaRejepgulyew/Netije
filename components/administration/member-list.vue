@@ -11,6 +11,8 @@
       @init-new-row="initNewRow"
     >
       >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
       <DxEditing
@@ -31,26 +33,31 @@
         :file-name="$t('translations.fields.members')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="member-list"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="member-list" />
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxLookup :data-source="getFilteredMembers" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredMembers"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
 
       <DxColumn
@@ -59,7 +66,6 @@
         :visible="false"
         edit-cell-template="textAreaEditor"
       ></DxColumn>
-
     </DxDataGrid>
   </main>
 </template>
@@ -74,6 +80,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -81,7 +89,7 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxRequiredRule,
-  DxAsyncRule,
+  DxAsyncRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -93,6 +101,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxExport,
     DxSelection,
     DxColumnChooser,
@@ -100,7 +110,7 @@ export default {
     DxFilterRow,
     DxRequiredRule,
     DxAsyncRule,
-    DxStateStoring,
+    DxStateStoring
   },
   props: {
     data: {
@@ -108,7 +118,7 @@ export default {
       default: () => {}
     }
   },
- 
+
   data() {
     let { id, immutable } = this.data.data;
     return {
@@ -137,8 +147,7 @@ export default {
       return this.$refs[this.dataGridRefKey].instance;
     }
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

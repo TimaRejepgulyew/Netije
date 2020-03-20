@@ -10,7 +10,6 @@
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="customerData"
-          
         >
           <DxGroupItem :caption="$t('translations.fields.personalData')">
             <DxSimpleItem data-field="userName" data-type="string">
@@ -80,14 +79,13 @@
             <DxSimpleItem data-field="phone">
               <DxLabel :text="$t('translations.fields.phones')" />
             </DxSimpleItem>
-            
-          <DxSimpleItem
-            data-field="note"
-            :col-span="1"
-            :editor-options="{height: 90,labelLocation:'right',}"
-            editor-type="dxTextArea"
-          ></DxSimpleItem>
 
+            <DxSimpleItem
+              data-field="note"
+              :col-span="1"
+              :editor-options="{height: 90,labelLocation:'right',}"
+              editor-type="dxTextArea"
+            ></DxSimpleItem>
           </DxGroupItem>
           <DxGroupItem :col-count="12" :col-span="2">
             <DxButtonItem
@@ -173,28 +171,16 @@ export default {
       passwordOptions: {
         mode: "password"
       },
-      jobTitleOptions: {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.JobTitle
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      },
-      departmentOptions: {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.Department
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      },
+      jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.JobTitle,
+        filter: ["status", "=", 0]
+      }),
+      departmentOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Department,
+        filter: ["status", "=", 0]
+      }),
       namePattern: /^[^0-9]+$/,
       passwordPattern: "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$"
     };

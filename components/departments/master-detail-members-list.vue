@@ -11,6 +11,8 @@
       @init-new-row="initNewRow"
     >
       >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
       <DxEditing
@@ -39,13 +41,17 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="employeeId" :caption="$t('translations.fields.name')">
-        <DxLookup :data-source="getFilteredMembers" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredMembers"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -61,6 +67,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -79,6 +87,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxExport,
     DxSelection,
     DxColumnChooser,
@@ -108,13 +118,12 @@ export default {
         loadUrl: dataApi.company.Employee
       }),
       members: [],
-      allowDeleting:  e => {
+      allowDeleting: e => {
         return !e.row.data.isReadonly;
       },
       initNewRow: e => {
         e.data.departmentId = id;
         e.data.employeeId = null;
-       
       },
       dataGridRefKey: "dataGrid",
       statusStores: this.$store.getters["status/status"]

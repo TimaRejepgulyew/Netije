@@ -61,6 +61,20 @@ import { DxButton } from "devextreme-vue";
 import { DxTagBox } from "devextreme-vue/tag-box";
 import notify from "devextreme/ui/notify";
 import DataSource from "devextreme/data/data_source";
+function FormOption(context, url, filter) {
+  return {
+    dataSource: new DataSource({
+      store: context.$dxStore({
+        key: "id",
+        loadUrl: url
+      }),
+      filter
+    }),
+    showClearButton: "true",
+    valueExpr: "id",
+    displayExpr: "name"
+  };
+}
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -100,76 +114,52 @@ export default {
       return `${dataApi.docFlow.RegistrationSetting}`;
     },
     businessUnitOptions() {
+      let address;
       let dataSource;
       if (this.isUpdated) {
-        dataSource = this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.BusinessUnit
-        });
+        address = dataApi.company.BusinessUnit;
       } else {
-        dataSource = this.$dxStore({
-          key: "id",
-          loadUrl:
-            dataApi.docFlow.RegSettingAvailableBusinessUnits +
-            "/" +
-            this.documentRegisterId
-        });
+        address = `${dataApi.docFlow.RegSettingAvailableBusinessUnits}/ 
+            ${this.documentRegisterId}`;
       }
-      return {
-        dataSource: dataSource,
-        disabled: this.isUpdated,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: address,
+        disabled: this.isUpdated
+      });
     },
     departmentOptions() {
       if (!this.isUpdated) {
         this.store.departments = null;
       }
       let id = this.store.businessUnitId;
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.Department
-          }),
-          filter: [["businessUnitId", "=", id], "and", ["status", "=", 0]]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Department,
+        filter: [["businessUnitId", "=", id], "and", ["status", "=", 0]]
+      });
     },
+
     documentKindsOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.DocumentKind
-          }),
-          filter: ["numberingType", "=", 1]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.docFlow.DocumentKind,
+        filter: ["numberingType", "=", 1]
+      });
     },
 
     regGroupOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.RegistrationGroup
-          })
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.docFlow.RegistrationGroup
+      });
     },
     statusOptions() {
       return {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
-        displayExpr: "status"
+        displayExpr: "status",
+        showClearButton: "true"
       };
     }
   },

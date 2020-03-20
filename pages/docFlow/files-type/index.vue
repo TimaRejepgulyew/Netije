@@ -12,6 +12,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -24,11 +26,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="FileTypes"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="FileTypes" />
 
       <DxEditing
         :allow-updating="true"
@@ -40,16 +38,12 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
@@ -59,6 +53,7 @@
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
+          :allow-clearing="true"
           :data-source="statusStores"
           value-expr="id"
           display-expr="status"
@@ -79,6 +74,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
@@ -86,7 +83,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -99,6 +96,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
@@ -106,7 +105,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring,
+    DxStateStoring
   },
   data() {
     return {
@@ -127,8 +126,7 @@ export default {
 
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
-      },
-
+      }
     };
   },
   methods: {
@@ -141,7 +139,7 @@ export default {
         },
         dataField
       );
-    },
+    }
   }
 };
 </script>

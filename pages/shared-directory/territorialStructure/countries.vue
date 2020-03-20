@@ -12,6 +12,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -24,11 +26,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="countries"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="countries" />
 
       <DxEditing
         :allow-updating="true"
@@ -40,19 +38,13 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('translations.fields.name')"
-        data-type="string"
-      >
-        <DxRequiredRule
-          :message="$t('translations.fields.nameRequired')"
-        />
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
@@ -62,6 +54,7 @@
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
+          :allow-clearing="true"
           :data-source="statusStores"
           value-expr="id"
           display-expr="status"
@@ -83,6 +76,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
@@ -104,6 +99,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,

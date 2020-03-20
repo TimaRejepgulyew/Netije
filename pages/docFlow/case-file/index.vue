@@ -12,6 +12,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -24,11 +26,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="CaseFile"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="CaseFile" />
 
       <DxEditing
         :allow-updating="true"
@@ -40,16 +38,12 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="title"
-        :caption="$t('translations.fields.title')"
-        data-type="string"
-      >
+      <DxColumn data-field="title" :caption="$t('translations.fields.title')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.titleRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.titleAlreadyExists')"
@@ -57,11 +51,7 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="index"
-        :caption="$t('translations.fields.index')"
-        data-type="string"
-      >
+      <DxColumn data-field="index" :caption="$t('translations.fields.index')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.indexAlreadyExists')"
@@ -75,16 +65,10 @@
         data-type="date"
         :set-cell-value="editStartDate"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.startDateRequired')"
-        />
+        <DxRequiredRule :message="$t('translations.fields.startDateRequired')" />
       </DxColumn>
 
-      <DxColumn
-        data-field="endDate"
-        :caption="$t('translations.fields.endDate')"
-        data-type="date"
-      >
+      <DxColumn data-field="endDate" :caption="$t('translations.fields.endDate')" data-type="date">
         <DxRequiredRule :message="$t('translations.fields.endDateRequired')" />
         <DxCustomRule
           :message="$t('translations.fields.endDateAlreadyExists')"
@@ -99,41 +83,51 @@
         :caption="$t('translations.fields.note')"
         data-type="string"
         :visible="false"
-      >
-      </DxColumn>
-
+      ></DxColumn>
 
       <DxColumn
         data-field="retentionPeriodId"
         :caption="$t('translations.fields.retentionPeriodId')"
       >
-      <DxRequiredRule :message="$t('translations.fields.retentionPeriodIdRequired')" />
-      <DxLookup :data-source="getFilteredRetentionPeriod" value-expr="id" display-expr="name" />
+        <DxRequiredRule :message="$t('translations.fields.retentionPeriodIdRequired')" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredRetentionPeriod"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
         data-field="location"
         :caption="$t('translations.fields.location')"
         :visible="false"
-      >
-      </DxColumn>
+      ></DxColumn>
 
-      <DxColumn
-        data-field="departmentId"
-        :caption="$t('translations.fields.departmentId')"
-      >
-      <DxLookup :data-source="getFilteredDepartment" value-expr="id" display-expr="name" />
+      <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredDepartment"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
         data-field="registrationGroupId"
         :caption="$t('translations.fields.registrationGroupId')"
       >
-      <DxLookup :data-source="registrationGroupStore" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="registrationGroupStore"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
+          :allow-clearing="true"
           :data-source="statusStores"
           value-expr="id"
           display-expr="status"
@@ -155,6 +149,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
@@ -176,6 +172,8 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
+    DxGrouping,
+    DxGroupPanel,
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
@@ -219,7 +217,7 @@ export default {
         key: "id",
         loadUrl: dataApi.docFlow.RegistrationGroup
       }),
-      editStartDate(rowData, value){
+      editStartDate(rowData, value) {
         rowData.endDate = value;
         this.defaultSetCellValue(rowData, value);
       },
@@ -242,7 +240,7 @@ export default {
         dataField
       );
     },
-     getFilteredDepartment(options) {
+    getFilteredDepartment(options) {
       return {
         store: this.departmentStore,
         filter: options.data
@@ -257,8 +255,7 @@ export default {
           ? ["status", "=", 0, "or", "id", "=", options.data.retentionPeriodId]
           : null
       };
-    },
-
+    }
   }
 };
 </script>

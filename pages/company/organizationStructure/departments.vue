@@ -11,6 +11,8 @@
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
@@ -37,7 +39,7 @@
 
       <DxSearchPanel
         position="after"
-        :placeholder="$t('translations.fields.search') + '...'"
+       
         :visible="true"
       />
       <DxScrolling mode="virtual" />
@@ -67,11 +69,21 @@
         :caption="$t('translations.fields.headOfficeId')"
         :visible="false"
       >
-        <DxLookup :data-source="getFilteredHeadOffice" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredHeadOffice"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
-        <DxLookup :data-source="getFilteredManager" value-expr="id" display-expr="name" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getFilteredManager"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn
@@ -84,7 +96,12 @@
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup :data-source="statusStores" value-expr="id" display-expr="status" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusStores"
+          value-expr="id"
+          display-expr="status"
+        />
       </DxColumn>
 
       <DxColumn
@@ -93,9 +110,9 @@
         :visible="false"
         edit-cell-template="textAreaEditor"
       ></DxColumn>
-      
+
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
-      
+
       <template #masterDetailTemplate="membersList">
         <masterDetailMembersList :membersList="membersList.data" />
       </template>
@@ -123,6 +140,8 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
+  DxGrouping,
+  DxGroupPanel,
   DxAsyncRule,
   DxPatternRule,
   DxRequiredRule,
@@ -146,6 +165,8 @@ export default {
     DxEditing,
     DxHeaderFilter,
     DxScrolling,
+    DxGrouping,
+    DxGroupPanel,
     DxLookup,
     DxRequiredRule,
     DxPatternRule,
