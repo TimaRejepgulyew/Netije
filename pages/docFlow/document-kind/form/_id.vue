@@ -14,6 +14,11 @@
           <DxGroupItem :col-count="1">
             <DxSimpleItem data-field="code" data-type="string">
               <DxLabel :text="$t('translations.fields.code')" />
+              <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+              <DxAsyncRule
+                :message="$t('translations.fields.codeAlreadyExists')"
+                :validation-callback="validateEntityExists"
+              ></DxAsyncRule>
             </DxSimpleItem>
 
             <DxSimpleItem data-field="name">
@@ -149,6 +154,7 @@ export default {
       this.isUpdating = true;
       this.address = `${dataApi.docFlow.DocumentKind}/${this.$route.params.id}`;
       this.store = await this.getDataById(this.address);
+      console.log(this.store);
     }
     this.documentType = await this.getData(dataApi.docFlow.DocumentType);
     this.availableActions = await this.getData(
@@ -189,7 +195,8 @@ export default {
         height: 50,
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
-      }
+      },
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -218,6 +225,16 @@ export default {
         },
         msgType,
         3000
+      );
+    },
+    validateEntityExists(params) {
+      var dataField = params.formItem.dataField;
+      return this.$customValidator.DocumentKindtDataFieldValueNotExists(
+        {
+          id: this.store.id,
+          [dataField]: params.value,
+        },
+        dataField
       );
     },
     handleSubmit(e) {
@@ -275,7 +292,7 @@ export default {
           { id: 2, name: this.$t("translations.fields.numerable") },
           { id: 3, name: this.$t("translations.fields.notNumerable") }
         ],
-        disabled: this.isUpdating,
+        disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
         showClearButton: "true"
@@ -288,7 +305,7 @@ export default {
           { id: 1, name: this.$t("translations.fields.outcomingEnum") },
           { id: 2, name: this.$t("translations.fields.inner") }
         ],
-        disabled: this.isUpdating,
+        disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
         showClearButton: "true"
@@ -308,7 +325,7 @@ export default {
         dataSource: this.documentType.filter(element => {
           return element.documentFlow == this.store.documentFlow;
         }),
-        disabled: this.isUpdating,
+        disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
         showClearButton: "true"

@@ -97,6 +97,16 @@ export default ({ app }, inject) => {
     );
   }
 
+  async function DocumentKindtDataFieldValueNotExists(payload, propertyName) {
+    return (
+      (await isEntityExists(
+        dataApi.docFlow.DocumentKind,
+        payload,
+        propertyName
+      )) == false
+    );
+  }
+
   async function EmployeeDataFieldValueNotExists(payload, propertyName) {
     return (
       (await isEntityExists(dataApi.company.Employee, payload, propertyName)) ==
@@ -238,6 +248,7 @@ export default ({ app }, inject) => {
     BankDataFieldValueNotExists: BankDataFieldValueNotExists,
     PersonDataFieldValueNotExists: PersonDataFieldValueNotExists,
     BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists,
+    DocumentKindtDataFieldValueNotExists: DocumentKindtDataFieldValueNotExists,
     EmployeeDataFieldValueNotExists: EmployeeDataFieldValueNotExists,
     DepartmentDataFieldValueNotExists: DepartmentDataFieldValueNotExists,
     JobTitleDataFieldValueNotExists: JobTitleDataFieldValueNotExists,

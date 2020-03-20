@@ -142,10 +142,10 @@
             <DxSimpleItem data-field="placedToCaseFileDate" editor-type="dxDateBox">
               <DxLabel :text="$t('translations.fields.placedToCaseFileDate')" />
             </DxSimpleItem>
+            <DxSimpleItem data-field="note" editor-type="dxTextArea">
+              <DxLabel :text="$t('translations.fields.note')" />
+            </DxSimpleItem>
           </DxGroupItem>
-          <DxSimpleItem data-field="note" editor-type="dxTextArea">
-            <DxLabel :text="$t('translations.fields.note')" />
-          </DxSimpleItem>
           <DxGroupItem :col-count="12" :col-span="2">
             <DxButtonItem
               :col-span="11"
@@ -208,7 +208,7 @@ export default {
     DxPopup,
     notify
   },
-   created() {
+  created() {
     if (this.isUpdating) {
       this.eventIsSaved();
     }
