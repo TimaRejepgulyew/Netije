@@ -40,11 +40,7 @@
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
 
       <DxScrolling mode="virtual" />
 
@@ -85,6 +81,10 @@
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')">
         <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.codeAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -163,6 +163,7 @@
         :visible="false"
         edit-cell-template="textAreaEditor"
       ></DxColumn>
+
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="company">
@@ -273,7 +274,7 @@ export default {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern: /^[^\s]+$/
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -315,7 +316,7 @@ export default {
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );

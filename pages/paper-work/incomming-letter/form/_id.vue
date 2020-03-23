@@ -40,7 +40,7 @@
         ></DxButton>
       </div>
       <form @submit="handleSubmit">
-        <mainFocForm :docType="1"></mainFocForm>
+        <mainFocForm @eventWatch="test()" :properties="store" :docType="1"></mainFocForm>
         <DxForm
           :col-count="1"
           :form-data.sync="store"
@@ -247,7 +247,6 @@ export default {
         businessUnitId: null,
         departmentId: null,
         version: null
-        // electronicDocumentVersionId: null
       },
       popupRegistyDocument: false,
       addButtonOptions: {
@@ -270,11 +269,6 @@ export default {
     };
   },
   methods: {
-    async getDataById(address) {
-      const res = await this.$axios.get(address);
-      console.log(res);
-      return res.data.document;
-    },
     test() {
       console.log("watch is work ");
       // unwatch()
@@ -338,12 +332,12 @@ export default {
       this.$axios
         .post(this.addressPost, this.store)
         .then(res => {
-          this.$store.dispatch("paper-work/setDocumentId", res.data);
-
           this.this.notify(
             this.$t("translations.headers.addDoctKindSucces"),
             "success"
           );
+          this.$store.dispatch("paper-work/setDocumentId", res.data);
+
         })
         .catch(e => {
           this.notify(

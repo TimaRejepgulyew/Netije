@@ -299,14 +299,14 @@ export default {
       };
     },
     validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.BusinnesUnitDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
+        var dataField = params.column.dataField;
+        return this.$customValidator.BusinnesUnitDataFieldValueNotExists(
+          {
+            id: params.data.id,
+            [dataField]: params.value
+          },
+          dataField
+        );
     },
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);

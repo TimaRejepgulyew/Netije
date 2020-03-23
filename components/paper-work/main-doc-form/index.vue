@@ -41,7 +41,7 @@ import DxForm, {
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-
+let unwatch;
 export default {
   components: {
     DxGroupItem,
@@ -55,26 +55,34 @@ export default {
   async created() {
     // if (this.$route.params.id != "add") {
     //   this.isUpdating = true;
-    //   this.addressGet += this.$route.params.id;
-    //   // this.store = await this.getDatayId(this.addressGet);
-    //   // this.eventIsSaved();
+    //   this.store = await this.getDataById(
+    //     dataApi.paperWork.GetDocumentById + this.$route.params.id
+    //   );
     // }
   },
-  props: ["docType"],
-  data() {
+  props: ["docType", "properties"],
+  data(context) {
+    let { name, subject, documentKindId } = context.properties;
+    this.$store.dispatch("paper-work/setSubject", subject);
+    this.$store.dispatch("paper-work/setName", name);
     return {
       isUpdating: false,
       store: {
-        name: "",
-        subject: "",
-        documentKindId: null
+        name,
+        subject,
+        documentKindId
       },
       defaultDocKind: null,
       docKindName: "",
-      isDefaultName: false
+      isDefaultName: false,
+      isSaved: false
     };
   },
   methods: {
+    async getDataById(address) {
+      const res = await this.$axios.get(address);
+      return res.data.document;
+    },
     async getDefaultDocKind() {
       let docKindStores = await this.getData(
         dataApi.docFlow.DocumentKind +
@@ -91,16 +99,12 @@ export default {
         }).id;
       }
     },
-    // async getDataById(url) {
-    //   const res = await this.$axios.get(url);
-    //   res.data.availableActions = res.data.availableActions.map(element => {
-    //     return (element = element.id);
-    //   });
-    //   return res.data;
-    // },
     async getData(url) {
       const res = await this.$axios.get(url);
       return res.data.data;
+    },
+    test() {
+      this.$emit("eventWatch");
     }
   },
   computed: {
@@ -116,10 +120,20 @@ export default {
           }),
           filter: [["documentTypeId", "=", 1], "and", ["status", "=", 0]]
         }),
-        value: this.defaultDocKind,
+        value: this.defaultDocKind
+          ? this.defaultDocKind
+          : this.store.defaultDocKindId,
         onSelectionChanged: e => {
-          this.isDefaultName = e.selectedItem.generateDocumentName;
-          this.$store.dispatch("paper-work/setDocumentKind", e.selectedItem);
+          if (e.selectedItem) {
+            this.isDefaultName = e.selectedItem.generateDocumentName;
+            this.$store.dispatch("paper-work/setDocumentKind", e.selectedItem);
+          } else {
+            this.isDefaultName = false;
+            this.$store.dispatch("paper-work/setDocumentKind", "");
+          }
+        },
+        onValueChanged: () => {
+          this.test();
         },
         showClearButton: "true",
         valueExpr: "id",
@@ -128,10 +142,11 @@ export default {
     },
     nameOptions() {
       return {
-        value: this.isDefaultName ? this.defaultName : null,
+        value: this.isDefaultName ? this.defaultName : this.store.name,
         disabled: this.isDefaultName,
         onValueChanged: e => {
           this.$store.dispatch("paper-work/setName", e.value);
+          this.test();
         }
       };
     },
@@ -139,6 +154,7 @@ export default {
       return {
         onValueChanged: e => {
           this.$store.dispatch("paper-work/setSubject", e.value);
+          this.test();
         }
       };
     }

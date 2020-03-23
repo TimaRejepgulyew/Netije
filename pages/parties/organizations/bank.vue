@@ -36,11 +36,7 @@
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
@@ -139,6 +135,12 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
+      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+
+      <template #masterDetailTemplate="company">
+        <ContactMasterDetail :company="company.data" />
+      </template>
+
       <template #textAreaEditor="cellInfo">
         <textArea
           :value="cellInfo.data.value"
@@ -152,6 +154,7 @@
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
+import ContactMasterDetail from "~/components/parties/organizations/contact__masterDetail";
 import textArea from "~/components/page/textArea";
 import {
   DxSearchPanel,
@@ -171,11 +174,13 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
+  DxMasterDetail,
   DxPatternRule
 } from "devextreme-vue/data-grid";
 
 export default {
   components: {
+    ContactMasterDetail,
     textArea,
     Header,
     DxSearchPanel,
@@ -195,7 +200,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxPatternRule
+    DxPatternRule,
+    DxMasterDetail
   },
   data() {
     return {

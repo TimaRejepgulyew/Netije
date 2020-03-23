@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -36,19 +36,11 @@
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
       <DxColumn
         data-field="companyId"
@@ -85,13 +77,6 @@
       </DxColumn>
 
       <DxColumn
-        data-field="note"
-        editor-type="dxTextArea"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      ></DxColumn>
-
-      <DxColumn
         data-field="homepage"
         :caption="$t('translations.fields.homepage')"
         :visible="false"
@@ -104,12 +89,27 @@
           display-expr="status"
         />
       </DxColumn>
+
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        :visible="false"
+        edit-cell-template="textAreaEditor"
+      ></DxColumn>
+
+      <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
+      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import textArea from "~/components/page/textArea";
 import "devextreme-vue/text-area";
 import {
   DxSearchPanel,
@@ -134,6 +134,7 @@ import {
 
 export default {
   components: {
+    textArea,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -160,7 +161,7 @@ export default {
     }
   },
   data() {
-    let { name, id } = this.company.data;
+    let { id } = this.company.data;
     return {
       store: new DataSource({
         store: this.$dxStore({
@@ -177,7 +178,7 @@ export default {
 
       companyStore: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.Company
+        loadUrl: dataApi.contragents.CounterPart
       }),
 
       initNewRow: e => {
@@ -203,8 +204,7 @@ export default {
       var dataField = params.column.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
-          id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );

@@ -7,19 +7,25 @@ export default ({ app }, inject) => {
       store: app.$dxStore({ key: "id", loadUrl: url }),
       requireTotalCount: true
     });
-    var filter = [[propertyName, "=", payload[propertyName]]];
-    if (payload.businessUnitId) {
-      filter.push("and");
-      filter.push(["businessUnitId", "=", payload.businessUnitId]);
-    }
-    if (payload.id) {
-      filter.push("and");
-      filter.push(["id", "<>", payload.id]);
-    }
-    ds.filter(filter);
-    await ds.load();
+    if (payload[propertyName]) {
+      var filter = [[propertyName, "=", payload[propertyName]]];
+      if (payload.businessUnitId) {
+        filter.push("and");
+        filter.push(["businessUnitId", "=", payload.businessUnitId]);
+      }
 
-    return ds.totalCount() > 0;
+      if (payload.id) {
+        filter.push("and");
+        filter.push(["id", "<>", payload.id]);
+      }
+      ds.filter(filter);
+
+      await ds.load();
+
+      return ds.totalCount() > 0;
+    } else {
+      return false;
+    }
   }
 
   async function isNameExists(url, payload) {
@@ -63,7 +69,7 @@ export default ({ app }, inject) => {
   async function CompanyDataFieldValueNotExists(payload, propertyName) {
     return (
       (await isEntityExists(
-        dataApi.contragents.Company,
+        dataApi.contragents.CounterPart,
         payload,
         propertyName
       )) == false

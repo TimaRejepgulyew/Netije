@@ -9,7 +9,7 @@ export const state = () => ({
 
 export const getters = {
   mainFormProperties({ name, subject, documentKind }) {
-    return { name, subject, documentKindId: documentKind.id };
+    return { name, subject,};
   },
   name(state) {
     return state.name;
