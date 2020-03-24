@@ -3,13 +3,13 @@ export const state = () => ({
   name: "",
   subject: "",
   dated: "",
-  documentKind: "",
+  documentKind: {},
   documentId: 1
 });
 
 export const getters = {
   mainFormProperties({ name, subject, documentKind }) {
-    return { name, subject,};
+    return { name, subject, documentKindId: documentKind.id };
   },
   name(state) {
     return state.name;
@@ -62,7 +62,6 @@ export const actions = {
     commit("SET_NAME", payload);
   },
   setDocumentId({ commit }, payload) {
-    console.log(payload);
     commit("SET_DOCUMENT_ID", payload);
   }
 };

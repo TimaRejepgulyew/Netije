@@ -7,25 +7,52 @@
     :show-validation-summary="false"
     validation-group="incommingLetter"
   >
-    <DxGroupItem :col-count="2" :caption="$t('translations.fields.main')">
-      <DxSimpleItem data-field="name" :editor-options="nameOptions">
-        <DxLabel :text="$t('translations.fields.nameRequired')" />
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-      </DxSimpleItem>
+    <DxGroupItem  :col-count="2">
+      <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
+        <DxSimpleItem data-field="name" :editor-options="nameOptions">
+          <DxLabel :text="$t('translations.fields.nameRequired')" />
+          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        </DxSimpleItem>
 
-      <DxSimpleItem data-field="subject" :editor-options="subjectOptions" editor-type="dxTextArea">
-        <DxLabel :text="$t('translations.fields.subject')" />
-        <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-      </DxSimpleItem>
+        <DxSimpleItem
+          data-field="subject"
+          :editor-options="subjectOptions"
+          editor-type="dxTextArea"
+        >
+          <DxLabel :text="$t('translations.fields.subject')" />
+          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+        </DxSimpleItem>
 
-      <DxSimpleItem
-        data-field="documentKindId"
-        :editor-options="documentKindOptions"
-        editor-type="dxSelectBox"
+        <DxSimpleItem
+          data-field="documentKindId"
+          :editor-options="documentKindOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel :text="$t('translations.fields.documentKindId')" />
+          <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
+        </DxSimpleItem>
+      </DxGroupItem>
+
+      <DxGroupItem
+        :visible="this.$route.params.id !='add'"
+        :caption="$t('translations.fields.registration')"
       >
-        <DxLabel :text="$t('translations.fields.documentKindId')" />
-        <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
-      </DxSimpleItem>
+        <DxSimpleItem data-field="number" :editor-options="numberOptions">
+          <DxLabel :text="$t('translations.fields.regNumberDocument')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          data-field="documentRegisterId"
+          :editor-options="documentRegisterOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel :text="$t('translations.fields.documentRegisterId')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem data-field="date" :editor-options="dateOptions" editor-type="dxDateBox">
+          <DxLabel :text="$t('translations.fields.registrationDate')" />
+        </DxSimpleItem>
+      </DxGroupItem>
     </DxGroupItem>
   </DxForm>
 </template>
@@ -53,20 +80,36 @@ export default {
     DxAsyncRule
   },
   async created() {
-    this.getDefaultDocKind();
+    if (this.$route.params.id == "add") {
+      this.getDefaultDocKind();
+    }
   },
   props: ["docType", "properties"],
   data(context) {
-    let { name, subject, documentKindId } = context.properties;
+    let {
+      name,
+      subject,
+      documentKindId,
+
+      documentRegisterId,
+      registrationDate,
+      registrationNumber
+    } = context.properties;
     this.$store.dispatch("paper-work/setSubject", subject);
-    this.$store.dispatch("paper-work/setName", name);
-    this.$store.dispatch("paper-work/setDocumentKind", documentKindId);
+
+    if (context.$route.params.id != "add") {
+      this.$store.dispatch("paper-work/setName", name);
+      this.$store.dispatch("paper-work/setDocumentKind", documentKindId);
+    }
     return {
       isUpdating: false,
       store: {
         name,
-        subject: subject || "",
-        documentKindId
+        subject,
+        documentKindId,
+        documentRegisterId,
+        date: registrationDate,
+        number: registrationNumber
       },
       defaultDocKind: null,
       docKindName: "",
@@ -117,11 +160,15 @@ export default {
             key: "id",
             loadUrl: dataApi.docFlow.DocumentKind
           }),
-          filter: [["documentTypeId", "=", 1], "and", ["status", "=", 0]]
+          filter: [
+            ["documentTypeId", "=", this.docType],
+            "and",
+            ["status", "=", 0]
+          ]
         }),
-        value: this.defaultDocKind,
-        // ? this.defaultDocKind
-        // : this.store.defaultDocKindId,
+        value: this.defaultDocKind
+          ? this.defaultDocKind
+          : this.store.defaultDocKindId,
         onSelectionChanged: e => {
           if (e.selectedItem) {
             this.isDefaultName = e.selectedItem.generateDocumentName;
@@ -156,6 +203,31 @@ export default {
           this.test();
         }
       };
+    },
+
+    isCustomNumberOptions() {
+      return {
+        disabled: true
+      };
+    },
+    numberOptions() {
+      return {
+        disabled: true
+      };
+    },
+    dateOptions() {
+      return {
+        disabled: true
+      };
+    },
+    documentRegisterOptions() {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url:
+          "http://192.168.4.198/api/DocumentRegistry/Registration/" +
+          this.$route.params.id,
+        disabled: true
+      });
     }
   }
 };

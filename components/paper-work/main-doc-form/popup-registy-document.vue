@@ -137,11 +137,8 @@ export default {
         onValueChanged: this.getDataByFilter
       });
     },
-    // isDisabled(){
-    //   const re
-    // }
     documentId() {
-      return this.$store.getters["paper-work/documentId"];
+      return this.$route.params.id;
     }
   },
   methods: {

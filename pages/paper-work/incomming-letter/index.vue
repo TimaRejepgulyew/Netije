@@ -45,6 +45,8 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="dated" :caption="$t('translations.fields.dated')" data-type="date" />
+       <DxColumn data-field="created" :caption="$t('translations.fields.dated')" data-type="date" />
+       
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
       <DxColumn data-field="inNumber" :caption="$t('translations.fields.regNumberDocument')"></DxColumn>

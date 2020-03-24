@@ -1,7 +1,7 @@
 import DataSource from "devextreme/data/data_source";
 export const state = () => ({
   whitespacePattern: /^[^\s]+$/,
-  FormOptions(context, url, filter,disabled=false,onValueChanged) {
+  FormOptions(context, url, filter, disabled, onValueChanged) {
     return {
       dataSource: new DataSource({
         store: context.$dxStore({
@@ -12,7 +12,7 @@ export const state = () => ({
       }),
       onValueChanged,
       disabled,
-      showClearButton: "true",
+      showClearButton: true,
       valueExpr: "id",
       displayExpr: "name"
     };
@@ -23,7 +23,13 @@ export const getters = {
   whitespacePattern({ whitespacePattern }) {
     return whitespacePattern;
   },
-  FormOptions:({ FormOptions })=> ({context,url,filter}) => {
-    return  new FormOptions(context,url,filter);
+  FormOptions: ({ FormOptions }) => ({
+    context,
+    url,
+    filter,
+    disabled,
+    onValueChanged
+  }) => {
+    return new FormOptions(context, url, filter, disabled, onValueChanged);
   }
 };

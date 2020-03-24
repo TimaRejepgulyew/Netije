@@ -39,6 +39,7 @@
           :onClick="popupVisible"
         ></DxButton>
       </div>
+
       <form @submit="handleSubmit">
         <mainFocForm @eventWatch="test()" :properties="store" :docType="1"></mainFocForm>
         <DxForm
@@ -49,114 +50,122 @@
           :show-validation-summary="true"
           validation-group="incommingLetter"
         >
-          <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
-            <DxSimpleItem data-field="inNumber">
-              <DxLabel :text="$t('translations.fields.regNumberDocument')" />
-              <DxRequiredRule :message="$t('translations.fields.regNumberDocumentRequired')" />
-            </DxSimpleItem>
+          <DxGroupItem :col-count="1">
+            <DxGroupItem>
+              <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+                <DxSimpleItem data-field="inNumber">
+                  <DxLabel :text="$t('translations.fields.regNumberDocument')" />
+                  <DxRequiredRule :message="$t('translations.fields.regNumberDocumentRequired')" />
+                </DxSimpleItem>
 
-            <DxSimpleItem
-              data-field="correspondentId"
-              :editor-options="counterPartOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.fields.counterPart')" />
-              <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
-            </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="correspondentId"
+                  :editor-options="counterPartOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel :text="$t('translations.fields.counterPart')" />
+                  <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
+                </DxSimpleItem>
 
-            <DxSimpleItem
-              data-field="deliveryMethodId"
-              :editor-options="deliveryMethodOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.menu.mailDeliveryMethod')" />
-            </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="deliveryMethodId"
+                  :editor-options="deliveryMethodOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel :text="$t('translations.menu.mailDeliveryMethod')" />
+                </DxSimpleItem>
 
-            <DxGroupItem :visible="isCompany">
-              <DxSimpleItem
-                data-field="contactId"
-                :editor-options="contactOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.menu.contacts')" />
-              </DxSimpleItem>
+                <DxGroupItem :visible="isCompany">
+                  <DxSimpleItem
+                    data-field="contactId"
+                    :editor-options="contactOptions"
+                    editor-type="dxSelectBox"
+                  >
+                    <DxLabel :text="$t('translations.menu.contacts')" />
+                  </DxSimpleItem>
 
-              <DxSimpleItem
-                data-field="counterpartySignatoryId"
-                :editor-options="contactOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.signatury')" />
-              </DxSimpleItem>
+                  <DxSimpleItem
+                    data-field="counterpartySignatoryId"
+                    :editor-options="contactOptions"
+                    editor-type="dxSelectBox"
+                  >
+                    <DxLabel :text="$t('translations.fields.signatury')" />
+                  </DxSimpleItem>
+                </DxGroupItem>
+
+                <DxSimpleItem
+                  data-field="dated"
+                  :editor-options="datedOptions"
+                  editor-type="dxDateBox"
+                >
+                  <DxLabel :text="$t('translations.fields.dated')" />
+                </DxSimpleItem>
+              </DxGroupItem>
+
+              <DxGroupItem :caption="$t('translations.fields.whom')">
+                <DxSimpleItem
+                  data-field="businessUnitId"
+                  :editor-options="businessUnitOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel :text="$t('translations.fields.businessUnitId')" />
+                  <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="departmentId"
+                  :editor-options="deparmentOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel :text="$t('translations.fields.departmentId')" />
+                  <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  data-field="addresseeId"
+                  :editor-options="addresseeOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel :text="$t('translations.fields.whom')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  data-field="inResponseToId"
+                  :editor-options="inResponseToIdOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel :text="$t('translations.fields.inResponseTold')" />
+                </DxSimpleItem>
+              </DxGroupItem>
+
+              <DxGroupItem :caption="$t('translations.fields.caseFileId')">
+                <DxSimpleItem
+                  data-field="caseFileId"
+                  :editor-options="caseFileOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel :text="$t('translations.fields.caseFileId')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem data-field="placedToCaseFileDate" editor-type="dxDateBox">
+                  <DxLabel :text="$t('translations.fields.placedToCaseFileDate')" />
+                </DxSimpleItem>
+                <DxSimpleItem data-field="note" editor-type="dxTextArea">
+                  <DxLabel :text="$t('translations.fields.note')" />
+                </DxSimpleItem>
+              </DxGroupItem>
+              <DxGroupItem :col-count="12" :col-span="2">
+                <DxButtonItem
+                  :col-span="11"
+                  :button-options="addButtonOptions"
+                  horizontal-alignment="right"
+                />
+                <DxButtonItem
+                  :col-span="1"
+                  :button-options="cancelButtonOptions"
+                  horizontal-alignment="right"
+                />
+              </DxGroupItem>
             </DxGroupItem>
-
-            <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
-              <DxLabel :text="$t('translations.fields.dated')" />
-            </DxSimpleItem>
-          </DxGroupItem>
-
-          <DxGroupItem :col-count="2" :caption="$t('translations.fields.whom')">
-            <DxSimpleItem
-              data-field="businessUnitId"
-              :editor-options="businessUnitOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.fields.businessUnitId')" />
-              <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-            </DxSimpleItem>
-            <DxSimpleItem
-              data-field="departmentId"
-              :editor-options="deparmentOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.fields.departmentId')" />
-              <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-            </DxSimpleItem>
-
-            <DxSimpleItem
-              data-field="addresseeId"
-              :editor-options="addresseeOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.fields.whom')" />
-            </DxSimpleItem>
-
-            <DxSimpleItem
-              data-field="inResponseToId"
-              :editor-options="inResponseToIdOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.fields.inResponseTold')" />
-            </DxSimpleItem>
-          </DxGroupItem>
-
-          <DxGroupItem :col-count="2" :caption="$t('translations.fields.caseFileId')">
-            <DxSimpleItem
-              data-field="caseFileId"
-              :editor-options="caseFileOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel :text="$t('translations.fields.caseFileId')" />
-            </DxSimpleItem>
-
-            <DxSimpleItem data-field="placedToCaseFileDate" editor-type="dxDateBox">
-              <DxLabel :text="$t('translations.fields.placedToCaseFileDate')" />
-            </DxSimpleItem>
-            <DxSimpleItem data-field="note" editor-type="dxTextArea">
-              <DxLabel :text="$t('translations.fields.note')" />
-            </DxSimpleItem>
-          </DxGroupItem>
-          <DxGroupItem :col-count="12" :col-span="2">
-            <DxButtonItem
-              :col-span="11"
-              :button-options="addButtonOptions"
-              horizontal-alignment="right"
-            />
-            <DxButtonItem
-              :col-span="1"
-              :button-options="cancelButtonOptions"
-              horizontal-alignment="right"
-            />
           </DxGroupItem>
         </DxForm>
       </form>
@@ -216,7 +225,6 @@ export default {
       let store = await app.$axios.get(
         dataApi.paperWork.GetDocumentById + params.id
       );
-      console.log(store.data.document);
       return {
         store: store.data.document,
         isUpdating: true
@@ -270,15 +278,15 @@ export default {
   },
   methods: {
     test() {
-      // if (this.isUpdating) {
       console.log("watch is work ");
-      // unwatch()
-      // }
+      this.isSaved = false;
+      unwatch();
     },
     eventIsSaved() {
-      this.isSaved = true;
-      console.log("this watch");
-      unwatch = this.$watch("store", this.test, { deep: true });
+      if (this.isUpdating) {
+        this.isSaved = true;
+        unwatch = this.$watch("store", this.test, { deep: true });
+      }
     },
     popupDisabled(popup) {
       this[popup] = false;
@@ -324,7 +332,7 @@ export default {
         this.store,
         this.$store.getters["paper-work/mainFormProperties"]
       );
-      console.log(this.store);
+
       this.$axios
         .post(this.addressPost, this.store)
         .then(res => {
@@ -332,7 +340,6 @@ export default {
             this.$t("translations.headers.addDoctKindSucces"),
             "success"
           );
-          // this.$store.dispatch("paper-work/setDocumentId", res.data);
           this.$router.push({
             name: this.$route.name,
             params: { id: res.data }
@@ -364,7 +371,7 @@ export default {
       return {
         isRegsitrible,
         isRegistered: this.store.registrationState == 0,
-        registeryAllowed: this.store.registrationState != 1
+        registeryAllowed: !this.store.registrationState && this.isSaved
       };
     },
 
