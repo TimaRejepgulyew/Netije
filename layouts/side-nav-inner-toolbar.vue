@@ -192,7 +192,7 @@ export default {
             },
             {
               text: this.$t("translations.menu.registrationGroup"),
-              path: "/docFlow/registration-group"
+              path: "/docFlow/registration-group2"
             },
             {
               text: this.$t("translations.menu.caseFile"),

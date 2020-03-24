@@ -239,12 +239,14 @@ export default {
       "retentionPeriodIdRequired": "Выберите срок хранения дел",
       "index": "Индекс",
       "indexRequired": "Введите индекс",
+      "indexRule":"Индекс должен быть без пробелов",
       "indexAlreadyExists":"Такой индекс уже существует",
       "retentionPeriod": "Срок хранения (лет)",
       "retentionPeriodRequired": "Введите срок хранения (лет)",
       "documentFlow": "Документопоток",
       "documentFlowRequired": "Выберите документопоток",
-
+      "responsibleId":"Ответственный за группу регистрации",
+      "responsibleIdRequired":"Введите ответственного за группу регистрации",
 
       "main":"Основное",
       "incomingEnum": "ВХ",
