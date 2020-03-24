@@ -209,15 +209,14 @@ export default {
     notify
   },
   created() {
-    if (this.isUpdating) {
-      this.eventIsSaved();
-    }
+    this.eventIsSaved();
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
       let store = await app.$axios.get(
         dataApi.paperWork.GetDocumentById + params.id
       );
+      console.log(store.data.document);
       return {
         store: store.data.document,
         isUpdating: true
@@ -233,6 +232,7 @@ export default {
       isUpdating: false,
       headerTitle: this.$t("translations.headers.addDocumentKind"),
       store: {
+        subject: "",
         counterpartySignatoryId: null,
         contactId: null,
         correspondentId: null,
@@ -270,19 +270,15 @@ export default {
   },
   methods: {
     test() {
+      // if (this.isUpdating) {
       console.log("watch is work ");
       // unwatch()
+      // }
     },
     eventIsSaved() {
       this.isSaved = true;
       console.log("this watch");
-      unwatch = this.$watch(
-        "store",
-        function(newVal, oldVal) {
-          this.test();
-        },
-        { deep: true }
-      );
+      unwatch = this.$watch("store", this.test, { deep: true });
     },
     popupDisabled(popup) {
       this[popup] = false;
@@ -336,8 +332,11 @@ export default {
             this.$t("translations.headers.addDoctKindSucces"),
             "success"
           );
-          this.$store.dispatch("paper-work/setDocumentId", res.data);
-
+          // this.$store.dispatch("paper-work/setDocumentId", res.data);
+          this.$router.push({
+            name: this.$route.name,
+            params: { id: res.data }
+          });
         })
         .catch(e => {
           this.notify(

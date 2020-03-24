@@ -53,23 +53,19 @@ export default {
     DxAsyncRule
   },
   async created() {
-    // if (this.$route.params.id != "add") {
-    //   this.isUpdating = true;
-    //   this.store = await this.getDataById(
-    //     dataApi.paperWork.GetDocumentById + this.$route.params.id
-    //   );
-    // }
+    this.getDefaultDocKind();
   },
   props: ["docType", "properties"],
   data(context) {
     let { name, subject, documentKindId } = context.properties;
     this.$store.dispatch("paper-work/setSubject", subject);
     this.$store.dispatch("paper-work/setName", name);
+    this.$store.dispatch("paper-work/setDocumentKind", documentKindId);
     return {
       isUpdating: false,
       store: {
         name,
-        subject,
+        subject: subject || "",
         documentKindId
       },
       defaultDocKind: null,
@@ -95,6 +91,7 @@ export default {
           el.isDefault
             ? this.$store.dispatch("paper-work/setDocumentKind", el)
             : false;
+
           return el.isDefault;
         }).id;
       }
@@ -104,7 +101,9 @@ export default {
       return res.data.data;
     },
     test() {
-      this.$emit("eventWatch");
+      if (this.$route.params.id != "add") {
+        this.$emit("eventWatch");
+      }
     }
   },
   computed: {
@@ -120,9 +119,9 @@ export default {
           }),
           filter: [["documentTypeId", "=", 1], "and", ["status", "=", 0]]
         }),
-        value: this.defaultDocKind
-          ? this.defaultDocKind
-          : this.store.defaultDocKindId,
+        value: this.defaultDocKind,
+        // ? this.defaultDocKind
+        // : this.store.defaultDocKindId,
         onSelectionChanged: e => {
           if (e.selectedItem) {
             this.isDefaultName = e.selectedItem.generateDocumentName;
