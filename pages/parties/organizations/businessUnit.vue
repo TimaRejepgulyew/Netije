@@ -73,15 +73,26 @@
       ></DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
+        <DxPatternRule
+          :ignore-empty-value="false"
+          :pattern="codePattern"
+          :message="$t('translations.fields.tinRule')"
+        />
         <DxAsyncRule
+          :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')">
-        <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+        <DxPatternRule
+          :ignore-empty-value="false"
+          :pattern="codePattern"
+          :message="$t('translations.fields.codeRule')"
+        />
         <DxAsyncRule
+          :ignore-empty-value="true"
           :message="$t('translations.fields.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -316,7 +327,7 @@ export default {
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );

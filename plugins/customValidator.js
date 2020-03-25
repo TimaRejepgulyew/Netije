@@ -7,7 +7,6 @@ export default ({ app }, inject) => {
       store: app.$dxStore({ key: "id", loadUrl: url }),
       requireTotalCount: true
     });
-    if (payload[propertyName]) {
       var filter = [[propertyName, "=", payload[propertyName]]];
       if (payload.businessUnitId) {
         filter.push("and");
@@ -23,9 +22,6 @@ export default ({ app }, inject) => {
       await ds.load();
 
       return ds.totalCount() > 0;
-    } else {
-      return false;
-    }
   }
 
   async function isNameExists(url, payload) {

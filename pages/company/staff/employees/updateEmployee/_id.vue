@@ -64,9 +64,11 @@
             <DxSimpleItem
               data-field="note"
               :col-span="1"
-              :editor-options="{height: 90}"
+              :editor-options="{height: 90,labelLocation:'right',}"
               editor-type="dxTextArea"
-            ></DxSimpleItem>
+            >
+              <DxLabel :text="$t('translations.fields.note')" />
+            </DxSimpleItem>
           </DxGroupItem>
           <DxGroupItem :col-span="5" :caption="$t('translations.fields.APN')">
             <DxSimpleItem

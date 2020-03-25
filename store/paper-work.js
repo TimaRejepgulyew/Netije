@@ -32,6 +32,11 @@ export const getters = {
   }
 };
 export const mutations = {
+  MAIN_FORM_PROPERTIES(state, payload) {
+    for (let property in payload) {
+      state[property] = payload[property];
+    }
+  },
   SET_NAME(state, payload) {
     state.name = payload;
   },
@@ -49,6 +54,9 @@ export const mutations = {
   }
 };
 export const actions = {
+  setMainFormProperties({ commit }, payload) {
+    commit("MAIN_FORM_PROPERTIES", payload);
+  },
   setSubject({ commit }, payload) {
     commit("SUBJECT", payload);
   },

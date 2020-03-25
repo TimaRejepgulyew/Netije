@@ -1,6 +1,6 @@
 import DataSource from "devextreme/data/data_source";
 export const state = () => ({
-  whitespacePattern: /^[^\s]+$/,
+  whitespacePattern: /^[^\s]*$/,
   FormOptions(context, url, filter, disabled, onValueChanged) {
     return {
       dataSource: new DataSource({

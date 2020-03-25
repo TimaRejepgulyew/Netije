@@ -14,8 +14,13 @@
           <DxGroupItem :col-count="1">
             <DxSimpleItem data-field="code" data-type="string">
               <DxLabel :text="$t('translations.fields.code')" />
-              <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+              <DxPatternRule
+                :ignore-empty-value="false"
+                :pattern="codePattern"
+                :message="$t('translations.fields.codeRule')"
+              />
               <DxAsyncRule
+                :ignore-empty-value="true"
                 :message="$t('translations.fields.codeAlreadyExists')"
                 :validation-callback="validateEntityExists"
               ></DxAsyncRule>
@@ -232,7 +237,7 @@ export default {
       return this.$customValidator.DocumentKindtDataFieldValueNotExists(
         {
           id: this.store.id,
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );

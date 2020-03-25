@@ -85,7 +85,9 @@
               :col-span="1"
               :editor-options="{height: 90,labelLocation:'right',}"
               editor-type="dxTextArea"
-            ></DxSimpleItem>
+            >
+              <DxLabel :text="$t('translations.fields.note')" />
+            </DxSimpleItem>
           </DxGroupItem>
           <DxGroupItem :col-count="12" :col-span="2">
             <DxButtonItem

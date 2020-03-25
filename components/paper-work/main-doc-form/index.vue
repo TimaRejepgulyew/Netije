@@ -7,7 +7,7 @@
     :show-validation-summary="false"
     validation-group="incommingLetter"
   >
-    <DxGroupItem  :col-count="2">
+    <DxGroupItem :col-count="2">
       <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
         <DxSimpleItem data-field="name" :editor-options="nameOptions">
           <DxLabel :text="$t('translations.fields.nameRequired')" />
@@ -95,11 +95,12 @@ export default {
       registrationDate,
       registrationNumber
     } = context.properties;
-    this.$store.dispatch("paper-work/setSubject", subject);
 
+    // this.$store.dispatch("paper-work/setSubject", subject);
+    this.$store.dispatch("paper-work/setMainFormProperties", { subject, name });
+
+    // this.$store.dispatch("paper-work/setDocumentKind", documentKindId);
     if (context.$route.params.id != "add") {
-      this.$store.dispatch("paper-work/setName", name);
-      this.$store.dispatch("paper-work/setDocumentKind", documentKindId);
     }
     return {
       isUpdating: false,
@@ -132,7 +133,9 @@ export default {
       } else {
         this.defaultDocKind = docKindStores.find(el => {
           el.isDefault
-            ? this.$store.dispatch("paper-work/setDocumentKind", el)
+            ? this.$store.dispatch("paper-work/setMainFormProperties", {
+                documentKind: el
+              })
             : false;
 
           return el.isDefault;
@@ -143,7 +146,7 @@ export default {
       const res = await this.$axios.get(url);
       return res.data.data;
     },
-    test() {
+    modified() {
       if (this.$route.params.id != "add") {
         this.$emit("eventWatch");
       }
@@ -171,15 +174,18 @@ export default {
           : this.store.defaultDocKindId,
         onSelectionChanged: e => {
           if (e.selectedItem) {
-            this.isDefaultName = e.selectedItem.generateDocumentName;
-            this.$store.dispatch("paper-work/setDocumentKind", e.selectedItem);
+            this.$store.dispatch("paper-work/setMainFormProperties", {
+              documentKind: e.selectedItem
+            });
           } else {
             this.isDefaultName = false;
-            this.$store.dispatch("paper-work/setDocumentKind", "");
+            this.$store.dispatch("paper-work/setMainFormProperties", {
+              documentKind: {}
+            });
           }
         },
         onValueChanged: () => {
-          this.test();
+          this.modified();
         },
         showClearButton: "true",
         valueExpr: "id",
@@ -192,7 +198,7 @@ export default {
         disabled: this.isDefaultName,
         onValueChanged: e => {
           this.$store.dispatch("paper-work/setName", e.value);
-          this.test();
+          this.modified();
         }
       };
     },
@@ -200,7 +206,7 @@ export default {
       return {
         onValueChanged: e => {
           this.$store.dispatch("paper-work/setSubject", e.value);
-          this.test();
+          this.modified();
         }
       };
     },

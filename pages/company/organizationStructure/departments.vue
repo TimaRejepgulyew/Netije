@@ -37,11 +37,7 @@
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
@@ -55,8 +51,13 @@
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
-        <DxPatternRule :pattern="codePattern" :message="$t('translations.fields.codeRule')" />
+        <DxPatternRule
+          :ignore-empty-value="false"
+          :pattern="codePattern"
+          :message="$t('translations.fields.codeRule')"
+        />
         <DxAsyncRule
+          :ignore-empty-value="true"
           :message="$t('translations.fields.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
