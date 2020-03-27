@@ -104,6 +104,8 @@ import {
   DxLookup,
   DxAsyncRule,
   DxRequiredRule,
+  DxGroupPanel,
+  DxGrouping,
   DxExport,
   DxSelection,
   DxColumnChooser,

@@ -7,7 +7,7 @@ export const state = () => ({
   placedToCaseFileDate: null,
   caseFileId: null,
   note: "",
-  correspondentId: null
+  correspondent: ""
 });
 
 export const getters = {
@@ -34,15 +34,23 @@ export const getters = {
   documentKind: state => property => {
     return state.documentKind[property];
   },
-  defaultName: state => docType => {
+  defaultName: state => (docType, context) => {
     if (docType == 1) {
       let dated = "";
       if (state.dated) {
-        dated = moment(state.dated).format("L");
+        dated = `${context.$t("translations.fields.from")} ${moment(
+          state.dated
+        ).format("L")}`;
       }
       return `${dated} ${state.subject} ${state.documentKind.shortName}`;
     } else if (docType == 2) {
-      return `${state.correspondentId} ${state.subject} ${state.documentKind.shortName}`;
+      let correspondent = "";
+      if (state.correspondent) {
+        correspondent = `${context.$t("translations.fields.whom")} ${
+          state.correspondent
+        }`;
+      }
+      return `${correspondent} ${state.subject} ${state.documentKind.shortName}`;
     }
   }
 };

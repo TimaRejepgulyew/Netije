@@ -20,7 +20,7 @@
 
           <popup-registy-document
             v-else
-            :doctype="1"
+            :docType="2"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
@@ -36,12 +36,13 @@
           :disabled=" !registryState.registeryAllowed"
           :text="$t('translations.fields.registration')"
           icon="bulletlist"
-          :onClick="popupVisible"
+          :onClick="()=>{
+            this.popupVisible('popupRegistyDocument')
+          }"
         ></DxButton>
       </div>
-
       <form @submit="handleSubmit">
-        <mainFocForm @eventWatch="test()" :properties="store" :docType="1"></mainFocForm>
+        <mainFocForm @eventWatch="modified()" :properties="store" :docType="2"></mainFocForm>
         <DxForm
           :col-count="1"
           :form-data.sync="store"
@@ -50,121 +51,74 @@
           :show-validation-summary="true"
           validation-group="incommingLetter"
         >
-          <DxGroupItem :col-count="1">
-            <DxGroupItem>
-              <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-                <DxSimpleItem data-field="inNumber">
-                  <DxLabel :text="$t('translations.fields.regNumberDocument')" />
-                  <DxRequiredRule :message="$t('translations.fields.regNumberDocumentRequired')" />
-                </DxSimpleItem>
+          <DxGroupItem :col-count="2">
+            <DxGroupItem :caption="$t('translations.fields.whom')">
 
-                <DxSimpleItem
-                  data-field="correspondentId"
-                  :editor-options="counterPartOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.fields.counterPart')" />
-                  <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
-                </DxSimpleItem>
+              <DxSimpleItem
+                data-field="correspondentId"
+                :editor-options="counterPartOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.counterPart')" />
+                <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
+              </DxSimpleItem>
 
-                <DxSimpleItem
-                  data-field="deliveryMethodId"
-                  :editor-options="deliveryMethodOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.menu.mailDeliveryMethod')" />
-                </DxSimpleItem>
+              <DxSimpleItem
+                data-field="addresseeId"
+                :visible="isCompany"
+                :editor-options="contactOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.whom')" />
+              </DxSimpleItem>
 
-                <DxGroupItem :visible="isCompany">
-                  <DxSimpleItem
-                    data-field="contactId"
-                    :editor-options="contactOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel :text="$t('translations.menu.contacts')" />
-                  </DxSimpleItem>
+              <DxSimpleItem
+                data-field="deliveryMethodId"
+                :editor-options="deliveryMethodOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.menu.mailDeliveryMethod')" />
+              </DxSimpleItem>
+            </DxGroupItem>
 
-                  <DxSimpleItem
-                    data-field="counterpartySignatoryId"
-                    :editor-options="contactOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel :text="$t('translations.fields.signatury')" />
-                  </DxSimpleItem>
-                </DxGroupItem>
+            <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+              <DxSimpleItem
+                data-field="businessUnitId"
+                :editor-options="businessUnitOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.businessUnitId')" />
+                <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+              </DxSimpleItem>
+              <DxSimpleItem
+                data-field="departmentId"
+                :editor-options="deparmentOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.departmentId')" />
+                <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+              </DxSimpleItem>
 
-                <DxSimpleItem
-                  data-field="dated"
-                  :editor-options="datedOptions"
-                  editor-type="dxDateBox"
-                >
-                  <DxLabel :text="$t('translations.fields.dated')" />
-                </DxSimpleItem>
-              </DxGroupItem>
+              <DxSimpleItem
+                data-field="inResponseToId"
+                :editor-options="inResponseToIdOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.inResponseTold')" />
+              </DxSimpleItem>
+            </DxGroupItem>
 
-              <DxGroupItem :caption="$t('translations.fields.whom')">
-                <DxSimpleItem
-                  data-field="businessUnitId"
-                  :editor-options="businessUnitOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.fields.businessUnitId')" />
-                  <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-                </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="departmentId"
-                  :editor-options="deparmentOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.fields.departmentId')" />
-                  <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="addresseeId"
-                  :editor-options="addresseeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.fields.whom')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="inResponseToId"
-                  :editor-options="inResponseToIdOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.fields.inResponseTold')" />
-                </DxSimpleItem>
-              </DxGroupItem>
-
-              <DxGroupItem :caption="$t('translations.fields.caseFileId')">
-                <DxSimpleItem
-                  data-field="caseFileId"
-                  :editor-options="caseFileOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.fields.caseFileId')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem data-field="placedToCaseFileDate" editor-type="dxDateBox">
-                  <DxLabel :text="$t('translations.fields.placedToCaseFileDate')" />
-                </DxSimpleItem>
-                <DxSimpleItem data-field="note" editor-type="dxTextArea">
-                  <DxLabel :text="$t('translations.fields.note')" />
-                </DxSimpleItem>
-              </DxGroupItem>
-              <DxGroupItem :col-count="12" :col-span="2">
-                <DxButtonItem
-                  :col-span="11"
-                  :button-options="addButtonOptions"
-                  horizontal-alignment="right"
-                />
-                <DxButtonItem
-                  :col-span="1"
-                  :button-options="cancelButtonOptions"
-                  horizontal-alignment="right"
-                />
-              </DxGroupItem>
+            <DxGroupItem :col-count="12" :col-span="2">
+              <DxButtonItem
+                :col-span="11"
+                :button-options="addButtonOptions"
+                horizontal-alignment="right"
+              />
+              <DxButtonItem
+                :col-span="1"
+                :button-options="cancelButtonOptions"
+                horizontal-alignment="right"
+              />
             </DxGroupItem>
           </DxGroupItem>
         </DxForm>
@@ -218,7 +172,10 @@ export default {
     notify
   },
   created() {
-    this.eventIsSaved();
+    this.eventIsModified();
+    this.$store.dispatch("paper-work/setMainFormProperties", {
+      correspondentId: this.store.correspondentId
+    });
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
@@ -238,16 +195,14 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.IncommingLetterPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addDocumentKind"),
+      headerTitle: this.$t("translations.headers.addOutgoingLetter"),
       store: {
         subject: "",
-        counterpartySignatoryId: null,
-        contactId: null,
-        correspondentId: null,
-        dated: null,
-        inResponseToId: null,
-        inNumber: null,
+        ourSignatoryId: null,
         addresseeId: null,
+        correspondentId: null,
+
+        inResponseToId: null,
         deliveryMethodId: null,
         note: null,
         caseFileId: null,
@@ -277,22 +232,22 @@ export default {
     };
   },
   methods: {
-    test() {
+    modified() {
       console.log("watch is work ");
       this.isSaved = false;
       unwatch();
     },
-    eventIsSaved() {
+    eventIsModified() {
       if (this.isUpdating) {
         this.isSaved = true;
-        unwatch = this.$watch("store", this.test, { deep: true });
+        unwatch = this.$watch("store", this.modified, { deep: true });
       }
     },
     popupDisabled(popup) {
       this[popup] = false;
     },
-    popupVisible() {
-      this.popupRegistyDocument = true;
+    popupVisible(popup) {
+      this[popup] = true;
     },
     backTo() {
       this.$router.push("/paper-work/incomming-letter");
@@ -311,32 +266,31 @@ export default {
       );
     },
     updateRequest() {
-      this.$axios
-        .put(this.address, object)
-        .then(res => {
-          this.backTo();
-          this.notify(
-            this.$t("translations.headers.updateDocKindSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.updateDocKindError"),
-            "error"
-          );
-        });
+      // this.$axios
+      //   .put(this.address,)
+      //   .then(res => {
+      //     this.backTo();
+      //     this.notify(
+      //       this.$t("translations.headers.updateDocKindSucces"),
+      //       "success"
+      //     );
+      //   })
+      //   .catch(e => {
+      //     this.notify(
+      //       this.$t("translations.headers.updateDocKindError"),
+      //       "error"
+      //     );
+      //   });
     },
     addRequest() {
       this.store = Object.assign(
         this.store,
         this.$store.getters["paper-work/mainFormProperties"]
       );
-
       this.$axios
         .post(this.addressPost, this.store)
         .then(res => {
-          this.this.notify(
+          this.notify(
             this.$t("translations.headers.addDoctKindSucces"),
             "success"
           );
@@ -383,11 +337,14 @@ export default {
         }),
         onSelectionChanged: e => {
           this.isCompany = e.selectedItem.type != "Person";
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            correspondent: e.selectedItem.name
+          });
         },
         onValueChanged: () => {
-          this.store.contactId = null;
-          this.store.counterpartySignatoryId = null;
+          this.store.addresseeId = null;
         },
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -398,24 +355,18 @@ export default {
           key: "id",
           loadUrl: dataApi.docFlow.MailDeliveryMethod
         }),
-
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
     },
     contactOptions() {
       const companyId = this.store.correspondentId;
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.contragents.Contact
-          }),
-          filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.contragents.Contact,
+        filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
+      });
     },
     businessUnitOptions() {
       return {
@@ -429,61 +380,25 @@ export default {
         onValueChanged: e => {
           this.store.departmentId = null;
         },
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
     },
     deparmentOptions() {
       let businessUnitId = this.store.businessUnitId;
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.Department
-          }),
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", 0]
-          ]
-        }),
-        onValueChanged: e => {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Department,
+        filter: [
+          ["businessUnitId", "=", businessUnitId],
+          "and",
+          ["status", "=", 0]
+        ],
+        onValueChanged: () => {
           this.store.addresseeId = null;
-        },
-        valueExpr: "id",
-        displayExpr: "name"
-      };
-    },
-    addresseeOptions() {
-      let departmentId = this.store.departmentId;
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.Employee
-          }),
-          filter: [
-            ["departmentId", "=", departmentId],
-            "and",
-            ["status", "=", 0]
-          ]
-        }),
-        valueExpr: "id",
-        displayExpr: "name"
-      };
-    },
-    caseFileOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.CaseFile
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "title"
-      };
+        }
+      });
     },
     inResponseToIdOptions() {
       return {
@@ -495,17 +410,12 @@ export default {
           paginate: true,
           pageSize: 5
         }),
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
     },
-    datedOptions() {
-      return {
-        onValueChanged: e => {
-          this.$store.dispatch("paper-work/setDated", e.value);
-        }
-      };
-    }
+    
   }
 };
 </script>

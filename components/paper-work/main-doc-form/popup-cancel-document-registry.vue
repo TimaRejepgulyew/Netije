@@ -20,7 +20,7 @@ export default {
   components: {
     DxButton
   },
-  props: ["doctype"],
+  props: ["docType"],
   data() {
     return {
       address: dataApi.docFlow.UnregisterDocument,

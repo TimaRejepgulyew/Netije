@@ -55,7 +55,6 @@
             <DxGroupItem :caption="$t('translations.fields.fromWhom')">
               <DxSimpleItem data-field="inNumber">
                 <DxLabel :text="$t('translations.fields.regNumberDocument')" />
-                <DxRequiredRule :message="$t('translations.fields.regNumberDocumentRequired')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -122,7 +121,7 @@
 
               <DxSimpleItem
                 data-field="addresseeId"
-                :editor-options="addresseeOptions"
+                :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
                 <DxLabel :text="$t('translations.fields.whom')" />
@@ -224,7 +223,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.IncommingLetterPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.fields.addIncomLetter"),
+      headerTitle: this.$t("translations.headers.addIncomLetter"),
       store: {
         subject: "",
         counterpartySignatoryId: null,
@@ -265,8 +264,8 @@ export default {
   methods: {
     modified() {
       console.log("watch is work ");
-      this.isSaved = false;
-      unwatch();
+      // this.isSaved = false;
+      // unwatch();
     },
     eventIsModified() {
       if (this.isUpdating) {
@@ -373,6 +372,7 @@ export default {
           this.store.contactId = null;
           this.store.counterpartySignatoryId = null;
         },
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -383,7 +383,7 @@ export default {
           key: "id",
           loadUrl: dataApi.docFlow.MailDeliveryMethod
         }),
-
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -408,6 +408,7 @@ export default {
         onValueChanged: e => {
           this.store.departmentId = null;
         },
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -427,7 +428,7 @@ export default {
         }
       });
     },
-    addresseeOptions() {
+    employeeOptions() {
       let departmentId = this.store.departmentId;
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
@@ -445,6 +446,7 @@ export default {
           paginate: true,
           pageSize: 5
         }),
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };

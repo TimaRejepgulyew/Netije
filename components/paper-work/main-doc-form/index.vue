@@ -183,7 +183,7 @@ export default {
   },
   computed: {
     defaultName() {
-      return this.$store.getters["paper-work/defaultName"](this.docType);
+      return this.$store.getters["paper-work/defaultName"](this.docType, this);
     },
     documentKindOptions() {
       return {
@@ -224,9 +224,10 @@ export default {
     },
     nameOptions() {
       return {
-        value: this.isDefaultName ? this.defaultName : this.store.name,
+        value: this.isDefaultName ? this.defaultName : "",
         disabled: this.isDefaultName,
         onValueChanged: e => {
+          e.value = this.isDefaultName ? this.defaultName : "";
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
@@ -264,16 +265,7 @@ export default {
         }
       };
     },
-    caseFileIdOptions() {
-      return {
-        onValueChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            caseFileId: e.value
-          });
-          this.modified();
-        }
-      };
-    },
+
     numberOptions() {
       return {
         disabled: true
