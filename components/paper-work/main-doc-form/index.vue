@@ -53,6 +53,26 @@
           <DxLabel :text="$t('translations.fields.registrationDate')" />
         </DxSimpleItem>
       </DxGroupItem>
+      <DxGroupItem :caption="$t('translations.fields.caseFileId')">
+        <DxSimpleItem
+          data-field="caseFileId"
+          :editor-options="caseFileOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel :text="$t('translations.fields.caseFileId')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          data-field="placedToCaseFileDate"
+          :editor-options="placedToCaseFileDateOptions"
+          editor-type="dxDateBox"
+        >
+          <DxLabel :text="$t('translations.fields.placedToCaseFileDate')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="note" :editor-options="noteOptions" editor-type="dxTextArea">
+          <DxLabel :text="$t('translations.fields.note')" />
+        </DxSimpleItem>
+      </DxGroupItem>
     </DxGroupItem>
   </DxForm>
 </template>
@@ -90,23 +110,32 @@ export default {
       name,
       subject,
       documentKindId,
-
+      note,
+      placedToCaseFileDate,
+      caseFileId,
       documentRegisterId,
       registrationDate,
       registrationNumber
     } = context.properties;
 
-    // this.$store.dispatch("paper-work/setSubject", subject);
-    this.$store.dispatch("paper-work/setMainFormProperties", { subject, name });
-
+    this.$store.dispatch("paper-work/setMainFormProperties", {
+      subject,
+      name,
+      caseFileId,
+      placedToCaseFileDate,
+      note
+    });
+    // if (context.$route.params.id != "add") {
     // this.$store.dispatch("paper-work/setDocumentKind", documentKindId);
-    if (context.$route.params.id != "add") {
-    }
+    // }
     return {
       isUpdating: false,
       store: {
         name,
         subject,
+        note,
+        placedToCaseFileDate,
+        caseFileId,
         documentKindId,
         documentRegisterId,
         date: registrationDate,
@@ -174,6 +203,7 @@ export default {
           : this.store.defaultDocKindId,
         onSelectionChanged: e => {
           if (e.selectedItem) {
+            this.isDefaultName = true;
             this.$store.dispatch("paper-work/setMainFormProperties", {
               documentKind: e.selectedItem
             });
@@ -197,7 +227,9 @@ export default {
         value: this.isDefaultName ? this.defaultName : this.store.name,
         disabled: this.isDefaultName,
         onValueChanged: e => {
-          this.$store.dispatch("paper-work/setName", e.value);
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            name: e.value
+          });
           this.modified();
         }
       };
@@ -205,15 +237,41 @@ export default {
     subjectOptions() {
       return {
         onValueChanged: e => {
-          this.$store.dispatch("paper-work/setSubject", e.value);
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            subject: e.value
+          });
           this.modified();
         }
       };
     },
-
-    isCustomNumberOptions() {
+    noteOptions() {
       return {
-        disabled: true
+        onValueChanged: e => {
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            note: e.value
+          });
+          this.modified();
+        }
+      };
+    },
+    placedToCaseFileDateOptions() {
+      return {
+        onValueChanged: e => {
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            placedToCaseFileDate: e.value
+          });
+          this.modified();
+        }
+      };
+    },
+    caseFileIdOptions() {
+      return {
+        onValueChanged: e => {
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            caseFileId: e.value
+          });
+          this.modified();
+        }
       };
     },
     numberOptions() {
@@ -234,6 +292,19 @@ export default {
           this.$route.params.id,
         disabled: true
       });
+    },
+    caseFileOptions() {
+      return {
+        dataSource: new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.docFlow.CaseFile
+          }),
+          filter: ["status", "=", 0]
+        }),
+        valueExpr: "id",
+        displayExpr: "title"
+      };
     }
   }
 };

@@ -41,10 +41,7 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="dated" :caption="$t('translations.fields.dated')" data-type="date" />
-      <DxColumn data-field="created" :caption="$t('translations.fields.dated')" data-type="date" />
-
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
-
       <DxColumn data-field="inNumber" :caption="$t('translations.fields.regNumberDocument')"></DxColumn>
       <DxColumn
         data-field="correspondentId"
@@ -127,11 +124,11 @@ export default {
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/paper-work/incomming-letter/form/add");
+        this.$router.push("/paper-work/outgoing-letter/form/add");
       },
 
       editingStart: e => {
-        this.$router.push("/paper-work/incomming-letter/form/" + e.key);
+        this.$router.push("/paper-work/outgoing-letter/form/" + e.key);
       },
       correspondentStores: this.$dxStore({
         key: "id",
