@@ -287,7 +287,7 @@ export default {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: "true"
+        showClearButton: true,
       };
     },
     numberingTypeOptions() {
@@ -300,7 +300,7 @@ export default {
         disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: "true"
+        showClearButton: true,
       };
     },
     documentFlowOptions() {
@@ -313,7 +313,7 @@ export default {
         disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: "true"
+        showClearButton: true,
       };
     },
     tagboxOptions() {
@@ -321,7 +321,7 @@ export default {
         dataSource: this.availableActions,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: "true"
+        showClearButton: true,
       };
     },
 
@@ -333,7 +333,7 @@ export default {
         disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: "true"
+        showClearButton: true,
       };
     },
     isNumerable() {

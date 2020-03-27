@@ -53,7 +53,6 @@
         >
           <DxGroupItem :col-count="2">
             <DxGroupItem :caption="$t('translations.fields.whom')">
-
               <DxSimpleItem
                 data-field="correspondentId"
                 :editor-options="counterPartOptions"
@@ -362,6 +361,7 @@ export default {
     },
     contactOptions() {
       const companyId = this.store.correspondentId;
+   
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Contact,
@@ -414,8 +414,7 @@ export default {
         valueExpr: "id",
         displayExpr: "name"
       };
-    },
-    
+    }
   }
 };
 </script>

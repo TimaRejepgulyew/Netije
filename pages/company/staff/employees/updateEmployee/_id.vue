@@ -198,7 +198,7 @@ export default {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: "true"
+        showClearButton: true,
       },
       saveButtonOptions: {
         height: 50,

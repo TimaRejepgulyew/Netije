@@ -28,9 +28,9 @@
                 />
 
                 <DxEditing
-                  :allow-updating="true"
-                  :allow-deleting="allowDeleting"
-                  :allow-adding="true"
+                  :allow-updating="isOwnerGroup"
+                  :allow-deleting="allowDeleting&&isOwnerGroup"
+                  :allow-adding="isOwnerGroup"
                   :useIcons="true"
                   mode="raw"
                 />
@@ -43,7 +43,12 @@
 
                 <DxColumn data-field="element" :caption="$t('translations.fields.element')">
                   <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
-                  <DxLookup :allow-clearing="true" :data-source="element" value-expr="id" display-expr="name" />
+                  <DxLookup
+                    :data-source="element"
+                    :allowClearing="true"
+                    valueExpr="id"
+                    displayExpr="name"
+                  />
                 </DxColumn>
                 <DxColumn data-field="separator" :caption="$t('translations.fields.separator')">
                   <DxRequiredRule :message="$t('translations.fields.separatorRequired')" />
@@ -52,17 +57,18 @@
             </div>
           </template>
           <DxGroupItem>
-            <DxSimpleItem data-field="name" data-type="string">
+            <DxSimpleItem data-field="name" :editor-options="nameOptions">
               <DxLabel :text="$t('translations.fields.name')" />
               <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
             </DxSimpleItem>
-            <DxSimpleItem data-field="index">
+            <DxSimpleItem data-field="index" :editor-options="indexOptions">
               <DxLabel :text="$t('translations.fields.index')" />
               <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
             </DxSimpleItem>
+
             <DxSimpleItem
               editor-type="dxNumberBox"
-              :editor-options="{max:9,min:0}"
+              :editor-options="numberOfDigitsInNumber"
               data-field="numberOfDigitsInNumber"
             >
               <DxLabel :text="$t('translations.fields.numberOfDigitsInNumber')" />
@@ -79,6 +85,15 @@
             >
               <DxLabel :text="$t('translations.fields.documentFlow')" />
               <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
+            </DxSimpleItem>
+
+            <DxSimpleItem
+              data-field="registrationGroupId"
+              :editor-options="registrationGroupIdOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel :text="$t('translations.fields.registrationGroupId')" />
+              <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -172,7 +187,20 @@ import {
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
-
+function BasicOptions(
+  dataSource,
+  disabled = false,
+  showClearButton,
+  displayExpr = "name"
+) {
+  return {
+    dataSource,
+    disabled,
+    showClearButton,
+    valueExpr: "id",
+    displayExpr
+  };
+}
 export default {
   components: {
     Header,
@@ -210,38 +238,88 @@ export default {
     }
   },
   computed: {
-    documentFlowOptions() {
-      return {
-        dataSource: this.documentFlow,
-        disabled: this.isUpdating,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: "true"
-      };
+    isOwnerGroup() {
+      if (this.isUpdating) {
+        const ownerId = this.store.responsibleEmployeeId;
+        const myId = this.$store.getters["oidc/oidcUser"]["ИД сотрудника"];
+        return ownerId == myId;
+      } else {
+        return true;
+      }
     },
+    isRegistered() {
+      let { hasDocuments, hasRegistrationSettings } = this.store;
+      return hasDocuments && hasRegistrationSettings;
+    },
+    documentFlowOptions() {
+      return new BasicOptions(
+        this.documentFlow,
+        !this.isRegistered && !this.isOwnerGroup,
+        true
+      );
+    },
+    registrationGroupIdOptions() {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.docFlow.ResponsibleForGroupOnMe,
+        disabled: !this.isRegistered && !this.isOwnerGroup
+      });
+    },
+
     numberingSectionOptions() {
-      return {
-        dataSource: this.numberingSection,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: "true"
-      };
+      return new BasicOptions(
+        this.numberingSection,
+        !this.isRegistered && !this.isOwnerGroup,
+        true
+      );
     },
     numberingPeriodOptions() {
-      return {
-        dataSource: this.numberingPeriod,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: "true"
-      };
+      return new BasicOptions(
+        this.numberingPeriod,
+        !this.isRegistered && !this.isOwnerGroup,
+        true
+      );
     },
     registerTypeOptions() {
+      return new BasicOptions(
+        this.registerType,
+        !this.isRegistered && !this.isOwnerGroup,
+        true
+      );
+    },
+    statusOptions() {
+      return new BasicOptions(
+        this.$store.getters["status/status"],
+        !this.isOwnerGroup,
+        true,
+        "status"
+      );
+    },
+    numberOfDigitsInNumber() {
       return {
-        dataSource: this.registerType,
-        disabled: this.isUpdating,
+        disabled: !this.isOwnerGroup,
+        max: 9,
+        min: 0
+      };
+    },
+
+    
+    elementOptions() {
+      return {
+        dataSource: this.element,
+        allowClearing: true,
         valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: "true"
+        displayExpr: "name"
+      };
+    },
+    nameOptions() {
+      return {
+        disabled: !this.isOwnerGroup
+      };
+    },
+    indexOptions() {
+      return {
+        disabled: !this.isOwnerGroup
       };
     }
   },
@@ -254,6 +332,8 @@ export default {
         name: null,
         status: 0,
         index: null,
+        hasDocuments: false,
+        hasRegistrationSettings: false,
         numberOfDigitsInNumber: null,
         documentFlow: null,
         numberingPeriod: null,
@@ -327,18 +407,13 @@ export default {
           id: 0
         }
       ],
-      statusOptions: {
-        dataSource: this.$store.getters["status/status"],
-        valueExpr: "id",
-        displayExpr: "status",
-        showClearButton: "true"
-      },
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
         { id: 1, name: this.$t("translations.fields.outcomingEnum") },
         { id: 2, name: this.$t("translations.fields.inner") },
         { id: 3, name: this.$t("translations.fields.contracts") }
       ],
+
       registerType: [
         {
           id: 1,

@@ -217,7 +217,7 @@ export default {
         onValueChanged: () => {
           this.modified();
         },
-        showClearButton: "true",
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };

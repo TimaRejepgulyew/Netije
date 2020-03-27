@@ -70,7 +70,7 @@ function FormOption(context, url, filter) {
       }),
       filter
     }),
-    showClearButton: "true",
+    showClearButton: true,
     valueExpr: "id",
     displayExpr: "name"
   };
@@ -159,7 +159,7 @@ export default {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: "true"
+        showClearButton: true
       };
     }
   },
