@@ -15,7 +15,6 @@
               <DxDataGrid
                 :show-borders="true"
                 :data-source="store.numberFormatItems"
-                key-expr="id"
                 :errorRowEnabled="true"
                 :allow-column-reordering="true"
                 :allow-column-resizing="true"
@@ -88,7 +87,7 @@
             </DxSimpleItem>
 
             <DxSimpleItem
-            :visible='isRegistrible'
+              :visible="isRegistrible"
               data-field="registrationGroupId"
               :editor-options="registrationGroupIdOptions"
               editor-type="dxSelectBox"
@@ -231,100 +230,24 @@ export default {
     DxStateStoring,
     DxButton
   },
-  async created() {
-    if (this.$route.params.id != "newDocRegistry") {
-      this.isUpdating = true;
-      this.address = `${dataApi.docFlow.DocumentRegistry}/${this.$route.params.id}`;
-      this.store = await this.getDataById(this.address);
-    }
-  },
-  computed: {
-    isOwnerGroup() {
-      if (this.isUpdating) {
-        const ownerId = this.store.responsibleEmployeeId;
-        const myId = this.$store.getters["oidc/oidcUser"]["ИД сотрудника"];
-        return ownerId == myId;
-      } else {
-        return true;
-      }
-    },
-    isRegistered() {
-      let { hasDocuments, hasRegistrationSettings } = this.store;
-      return hasDocuments && hasRegistrationSettings;
-    },
-    isRegistrible(){
-      return this.store.registerType == 1 
-    },
-    documentFlowOptions() {
-      return new BasicOptions(
-        this.documentFlow,
-        !this.isRegistered && !this.isOwnerGroup,
-        true
-      );
-    },
-    registrationGroupIdOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.docFlow.ResponsibleForGroupOnMe,
-        disabled: !this.isRegistered && !this.isOwnerGroup
-      });
-    },
 
-    numberingSectionOptions() {
-      return new BasicOptions(
-        this.numberingSection,
-        !this.isRegistered && !this.isOwnerGroup,
-        true
+  async asyncData({ app, params }) {
+    if (params.id != "newDocRegistry") {
+      let store = await app.$axios.get(
+        dataApi.docFlow.DocumentRegistry + params.id,
+        {
+          headers: {
+            Authorization: "Bearer " + app.store.getters["oidc/oidcAccessToken"]
+          }
+        }
       );
-    },
-    numberingPeriodOptions() {
-      return new BasicOptions(
-        this.numberingPeriod,
-        !this.isRegistered && !this.isOwnerGroup,
-        true
-      );
-    },
-    registerTypeOptions() {
-      return new BasicOptions(
-        this.registerType,
-        !this.isRegistered && !this.isOwnerGroup,
-        true
-      );
-    },
-    statusOptions() {
-      return new BasicOptions(
-        this.$store.getters["status/status"],
-        !this.isOwnerGroup,
-        true,
-        "status"
-      );
-    },
-    numberOfDigitsInNumber() {
       return {
-        disabled: !this.isOwnerGroup,
-        max: 9,
-        min: 0
+        address: dataApi.docFlow.DocumentRegistry + params.id,
+        store: store.data,
+        isUpdating: true
       };
-    },
-
-    
-    elementOptions() {
-      return {
-        dataSource: this.element,
-        allowClearing: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
-    },
-    nameOptions() {
-      return {
-        disabled: !this.isOwnerGroup
-      };
-    },
-    indexOptions() {
-      return {
-        disabled: !this.isOwnerGroup
-      };
+    } else {
+      return {};
     }
   },
   data() {
@@ -337,6 +260,7 @@ export default {
         status: 0,
         index: null,
         hasDocuments: false,
+        registrationGroupId: null,
         hasRegistrationSettings: false,
         numberOfDigitsInNumber: null,
         documentFlow: null,
@@ -469,6 +393,99 @@ export default {
       }
     };
   },
+  computed: {
+    isOwnerGroup() {
+      if (this.isUpdating) {
+        return this.store.hasAccess;
+      } else {
+        return true;
+      }
+    },
+    isRegistered() {
+      let { hasDocuments, hasRegistrationSettings } = this.store;
+      return hasDocuments && hasRegistrationSettings;
+    },
+    isRegistrible() {
+      return this.store.registerType == 1;
+    },
+    documentFlowOptions() {
+      return new BasicOptions(
+        this.documentFlow,
+        !this.isRegistered && !this.isOwnerGroup,
+        true
+      );
+    },
+    registrationGroupIdOptions() {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.docFlow.ResponsibleForGroupOnMe,
+        disabled: !this.isRegistered && !this.isOwnerGroup
+      });
+    },
+
+    numberingSectionOptions() {
+      return new BasicOptions(
+        this.numberingSection,
+        !this.isRegistered && !this.isOwnerGroup,
+        true
+      );
+    },
+    numberingPeriodOptions() {
+      return new BasicOptions(
+        this.numberingPeriod,
+        !this.isRegistered && !this.isOwnerGroup,
+        true
+      );
+    },
+    registerTypeOptions() {
+      return {
+        dataSource: this.registerType,
+        disabled: !this.isRegistered && !this.isOwnerGroup,
+        allowClearing: true,
+        valueExpr: "id",
+        displayExpr: "name",
+        onValueChanged: e => {
+          console.log("regiGroup null");
+          this.store.registrationGroupId = null;
+        }
+      };
+    },
+    statusOptions() {
+      return new BasicOptions(
+        this.$store.getters["status/status"],
+        !this.isOwnerGroup,
+        true,
+        "status"
+      );
+    },
+    numberOfDigitsInNumber() {
+      return {
+        disabled: !this.isOwnerGroup,
+        max: 9,
+        min: 0
+      };
+    },
+
+    elementOptions() {
+      return {
+        dataSource: this.element,
+        allowClearing: true,
+        valueExpr: "id",
+        displayExpr: "name"
+      };
+    },
+    nameOptions() {
+      return {
+        disabled: !this.isOwnerGroup
+      };
+    },
+    indexOptions() {
+      return {
+        disabled: !this.isOwnerGroup
+      };
+    }
+  },
+
   methods: {
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
@@ -493,7 +510,7 @@ export default {
       const res = await this.$axios.get(url);
       return res.data.data;
     },
-backTo() {
+    backTo() {
       this.$router.go(-1);
     },
     notify(msgTxt, msgType) {

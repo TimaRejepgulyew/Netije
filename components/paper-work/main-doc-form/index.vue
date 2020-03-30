@@ -102,6 +102,8 @@ export default {
   async created() {
     if (this.$route.params.id == "add") {
       this.getDefaultDocKind();
+      this.isSaved = false
+
     }
   },
   props: ["docType", "properties"],
@@ -141,7 +143,7 @@ export default {
       defaultDocKind: null,
       docKindName: "",
       isDefaultName: false,
-      isSaved: false
+      isSaved: true
     };
   },
   methods: {
@@ -200,22 +202,17 @@ export default {
           ? this.defaultDocKind
           : this.store.defaultDocKindId,
         onSelectionChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            documentKind: e.selectedItem
-          });
-          if (e.selectedItem.generateDocumentName) {
-            this.isDefaultName = true;
-          } else {
-            this.isDefaultName = false;
+          if (e.selectedItem) {
+            this.isDefaultName = e.selectedItem.generateDocumentName;
             this.$store.dispatch("paper-work/setMainFormProperties", {
-              documentKind: {}
+              documentKind: e.selectedItem
             });
+            console.log(this.$store.getters["paper-work/defaultName"](1, this));
           }
         },
         onValueChanged: () => {
           this.modified();
         },
-        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -233,6 +230,7 @@ export default {
       if (!this.isSaved) {
         options.value = this.isDefaultName ? this.defaultName : "";
       }
+      console.log(options);
       return options;
     },
     subjectOptions() {

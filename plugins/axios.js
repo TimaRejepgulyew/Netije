@@ -1,7 +1,6 @@
 import { WebStorageStateStore } from "oidc-client";
 
 export default function({ app, $axios }) {
- 
   $axios.onRequest(config => {
     console.log("Making request to " + config.url);
   });
@@ -11,10 +10,11 @@ export default function({ app, $axios }) {
 
     if (code === 400) {
       // redirect('/400')
-    } else if (code === 401) {
-      app.store.dispatch("oidc/authenticateOidcSilent");
-      window.location.reload;
     }
+    // else if (code === 401) {
+    //   app.store.dispatch("oidc/authenticateOidcSilent");
+    //   window.location.reload;
+    // }
   });
   $axios.setHeader("Accept-Language", app.i18n.locale);
 }

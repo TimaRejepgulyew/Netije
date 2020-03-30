@@ -219,7 +219,7 @@ export default {
       "businessUnitIdRequired": "Выберите организацию",
       "businessUnitAlreadyExists":"Такая организация уже существует",
       "headCompanyId":"Головная организация",
-
+      "createdDate":"Дата создания",
       "headOfficeId": "Головное подразделение",
       "headOfficeIdRequired": "Выберите головная организация",
       "jobTitleId": "Должность",

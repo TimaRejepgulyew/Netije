@@ -38,7 +38,7 @@ export default {
     ResponsibleForGroupOnMe:`${url}/api/RegistrationGroup/ResponsibleForGroupOnMe`,
     RegistrationGroupMembers: `${url}/api/RegistrationGroupMembers/`,
     MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
-    DocumentRegistry: `${url}/api/DocumentRegistry`,
+    DocumentRegistry: `${url}/api/DocumentRegistry/`,
     RegSettingAvailableBusinessUnits: `${url}/api/RegistrationSetting/AvailableBusinessUnits`,
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
@@ -48,12 +48,12 @@ export default {
     PreliminaryNumber: `${url}/api/DocumentRegistry/PreliminaryNumber`
   },
   paperWork: {
+    AllDocument:`${url}/api/OfficialDocument/100`,
     IncommingLetter: `${url}/api/OfficialDocument/1`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
     OutgoingLetterPost:`${url}/api/OfficialDocument/CreateOutgoingLetter`,
-
     Order: `${url}/api/OfficialDocument/3`,
     companyDirective: `${url}/api/OfficialDocument/4`,
     SimpleDocument: `${url}/api/OfficialDocument/5`,

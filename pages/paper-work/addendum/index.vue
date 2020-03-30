@@ -46,12 +46,25 @@
         data-type="date"
       />
 
-      <DxColumn data-field="created" :caption="$t('translations.fields.dated')" data-type="date" />
+      <DxColumn data-field="created" :caption="$t('translations.fields.createdDate')" data-type="date" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')"></DxColumn>
 
-      <DxColumn data-field="subject" :caption="$t('translations.fields.regNumberDocument')"></DxColumn>
-     
+      <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+
+      <DxColumn
+        data-field="leadingDocumentId"
+        :caption="$t('translations.fields.leadingDocumentId')"
+        data-type="selectbox"
+      >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="leadingDocumentStores"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+
       <DxColumn
         data-field="documentKindId"
         :caption="$t('translations.fields.documentKindId')"
@@ -126,9 +139,9 @@ export default {
       editingStart: e => {
         this.$router.push("/paper-work/addendum/form/" + e.key);
       },
-      correspondentStores: this.$dxStore({
+      leadingDocumentStores: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.CounterPart
+        loadUrl: dataApi.paperWork.AllDocument
       }),
       documentKindStores: this.$dxStore({
         key: "id",
