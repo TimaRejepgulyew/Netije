@@ -24,10 +24,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.outgoingLetter')"
+        :file-name="$t('translations.menu.incommingLetter')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="outgoingLetter" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="incommingLetter" />
 
       <DxEditing
         :allow-updating="true"
@@ -40,20 +40,18 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
-      <DxColumn data-field="inNumber" :caption="$t('translations.fields.regNumberDocument')"></DxColumn>
       <DxColumn
-        data-field="correspondentId"
-        :caption="$t('translations.fields.subject')"
-        data-type="selectbox"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="correspondentStores"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
+        data-field="placedToCaseFileDate"
+        :caption="$t('translations.fields.placedToCaseFileDate')"
+        data-type="date"
+      />
+
+      <DxColumn data-field="created" :caption="$t('translations.fields.dated')" data-type="date" />
+
+      <DxColumn data-field="name" :caption="$t('translations.fields.name')"></DxColumn>
+
+      <DxColumn data-field="subject" :caption="$t('translations.fields.regNumberDocument')"></DxColumn>
+     
       <DxColumn
         data-field="documentKindId"
         :caption="$t('translations.fields.documentKindId')"
@@ -72,7 +70,6 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
@@ -113,21 +110,21 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.outgoingLetter"),
+      headerTitle: this.$t("translations.menu.addendum"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.paperWork.OutgoingLetter,
+        loadUrl: dataApi.paperWork.Addendum,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
 
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/paper-work/outgoing-letter/form/add");
+        this.$router.push("/paper-work/addendum/form/add");
       },
 
       editingStart: e => {
-        this.$router.push("/paper-work/outgoing-letter/form/" + e.key);
+        this.$router.push("/paper-work/addendum/form/" + e.key);
       },
       correspondentStores: this.$dxStore({
         key: "id",

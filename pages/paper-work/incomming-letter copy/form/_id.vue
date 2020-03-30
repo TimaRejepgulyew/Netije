@@ -48,7 +48,7 @@
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
-          validation-group="incommingLetter"
+          validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="1">
             <DxGroupItem>
@@ -295,7 +295,7 @@ export default {
       this.popupRegistyDocument = true;
     },
     backTo() {
-      this.$router.push("/paper-work/incomming-letter");
+      this.$router.go(-1);
     },
     notify(msgTxt, msgType) {
       notify(

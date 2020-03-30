@@ -88,6 +88,7 @@
             </DxSimpleItem>
 
             <DxSimpleItem
+            :visible='isRegistrible'
               data-field="registrationGroupId"
               :editor-options="registrationGroupIdOptions"
               editor-type="dxSelectBox"
@@ -250,6 +251,9 @@ export default {
     isRegistered() {
       let { hasDocuments, hasRegistrationSettings } = this.store;
       return hasDocuments && hasRegistrationSettings;
+    },
+    isRegistrible(){
+      return this.store.registerType == 1 
     },
     documentFlowOptions() {
       return new BasicOptions(
@@ -489,8 +493,8 @@ export default {
       const res = await this.$axios.get(url);
       return res.data.data;
     },
-    backTo() {
-      this.$router.push("/docFlow/document-registration");
+backTo() {
+      this.$router.go(-1);
     },
     notify(msgTxt, msgType) {
       notify(

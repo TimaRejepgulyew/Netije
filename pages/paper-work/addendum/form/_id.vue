@@ -42,66 +42,17 @@
         ></DxButton>
       </div>
       <form @submit="handleSubmit">
-        <mainFocForm @eventWatch="modified()" :properties="store" :docType="1"></mainFocForm>
+        <mainFocForm @eventWatch="modified()" :properties="store" :docType="6"></mainFocForm>
         <DxForm
           :col-count="1"
           :form-data.sync="store"
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
-          validation-group="OfficialDocument"
+           validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
             <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-              <DxSimpleItem data-field="inNumber">
-                <DxLabel :text="$t('translations.fields.regNumberDocument')" />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="correspondentId"
-                :editor-options="counterPartOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.counterPart')" />
-                <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="deliveryMethodId"
-                :editor-options="deliveryMethodOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.menu.mailDeliveryMethod')" />
-              </DxSimpleItem>
-
-              <DxGroupItem :visible="isCompany">
-                <DxSimpleItem
-                  data-field="contactId"
-                  :editor-options="contactOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.menu.contacts')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="counterpartySignatoryId"
-                  :editor-options="contactOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel :text="$t('translations.fields.signatury')" />
-                </DxSimpleItem>
-              </DxGroupItem>
-
-              <DxSimpleItem
-                data-field="dated"
-                :editor-options="datedOptions"
-                editor-type="dxDateBox"
-              >
-                <DxLabel :text="$t('translations.fields.dated')" />
-              </DxSimpleItem>
-            </DxGroupItem>
-
-            <DxGroupItem :caption="$t('translations.fields.whom')">
               <DxSimpleItem
                 data-field="businessUnitId"
                 :editor-options="businessUnitOptions"
@@ -120,34 +71,26 @@
               </DxSimpleItem>
 
               <DxSimpleItem
-                data-field="addresseeId"
-                :editor-options="employeeOptions"
+                data-field="leadingDocumentId"
+                :editor-options="leadingDocumentOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.whom')" />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="inResponseToId"
-                :editor-options="inResponseToIdOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.inResponseTold')" />
+                <DxLabel :text="$t('translations.fields.leadingDocumentId')" />
+                <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
               </DxSimpleItem>
             </DxGroupItem>
-
-            <DxGroupItem :col-count="12" :col-span="2">
-              <DxButtonItem
-                :col-span="11"
-                :button-options="addButtonOptions"
-                horizontal-alignment="right"
-              />
-              <DxButtonItem
-                :col-span="1"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="right"
-              />
-            </DxGroupItem>
+          </DxGroupItem>
+          <DxGroupItem :col-count="12" :col-span="2">
+            <DxButtonItem
+              :col-span="11"
+              :button-options="addButtonOptions"
+              horizontal-alignment="right"
+            />
+            <DxButtonItem
+              :col-span="1"
+              :button-options="cancelButtonOptions"
+              horizontal-alignment="right"
+            />
           </DxGroupItem>
         </DxForm>
       </form>
@@ -221,25 +164,20 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.IncommingLetterPost,
+      addressPost: dataApi.paperWork.AddendumPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addIncomLetter"),
+      headerTitle: this.$t("translations.headers.addAddendum"),
       store: {
+        leadingDocumentId: null,
+        name: "",
         subject: "",
-        counterpartySignatoryId: null,
-        contactId: null,
-        correspondentId: null,
-        dated: null,
-        inResponseToId: null,
-        inNumber: null,
-        addresseeId: null,
-        deliveryMethodId: null,
-        note: null,
+        note: "",
+        documentKindId: null,
         caseFileId: null,
         placedToCaseFileDate: null,
-        businessUnitId: null,
+        businessUnitId: 0,
         departmentId: null,
-        version: null
+        version: ""
       },
       popupRegistyDocument: false,
       addButtonOptions: {
@@ -264,8 +202,8 @@ export default {
   methods: {
     modified() {
       console.log("watch is work ");
-       this.isSaved = false;
-      // unwatch();
+      this.isSaved = false;
+       unwatch();
     },
     eventIsModified() {
       if (this.isUpdating) {
@@ -358,60 +296,15 @@ export default {
         registeryAllowed: !this.store.registrationState && this.isSaved
       };
     },
-
-    counterPartOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.contragents.CounterPart
-        }),
-        onSelectionChanged: e => {
-          this.isCompany = e.selectedItem.type != "Person";
-        },
-        onValueChanged: () => {
-          this.store.contactId = null;
-          this.store.counterpartySignatoryId = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
-    },
-    deliveryMethodOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.docFlow.MailDeliveryMethod
-        }),
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
-    },
-    contactOptions() {
-      const companyId = this.store.correspondentId;
+    businessUnitOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: dataApi.contragents.Contact,
-        filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
-      });
-    },
-    businessUnitOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.BusinessUnit
-          }),
-          filter: ["status", "=", 0]
-        }),
+        url: dataApi.company.BusinessUnit,
+        filter: ["status", "=", 0],
         onValueChanged: e => {
           this.store.departmentId = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+        }
+      });
     },
     deparmentOptions() {
       let businessUnitId = this.store.businessUnitId;
@@ -422,21 +315,10 @@ export default {
           ["businessUnitId", "=", businessUnitId],
           "and",
           ["status", "=", 0]
-        ],
-        onValueChanged: () => {
-          this.store.addresseeId = null;
-        }
+        ]
       });
     },
-    employeeOptions() {
-      let departmentId = this.store.departmentId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Employee,
-        filter: [["departmentId", "=", departmentId], "and", ["status", "=", 0]]
-      });
-    },
-    inResponseToIdOptions() {
+    leadingDocumentOptions() {
       return {
         dataSource: new DataSource({
           store: this.$dxStore({
@@ -449,15 +331,6 @@ export default {
         showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
-      };
-    },
-    datedOptions() {
-      return {
-        onValueChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            dated: e.value
-          });
-        }
       };
     }
   }

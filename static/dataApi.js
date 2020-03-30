@@ -52,10 +52,13 @@ export default {
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
+    OutgoingLetterPost:`${url}/api/OfficialDocument/CreateOutgoingLetter`,
+
     Order: `${url}/api/OfficialDocument/3`,
     companyDirective: `${url}/api/OfficialDocument/4`,
     SimpleDocument: `${url}/api/OfficialDocument/5`,
     Addendum: `${url}/api/OfficialDocument/6`,
+    AddendumPost: `${url}/api/OfficialDocument/CreateAddendum`,
     Memo: `${url}/api/OfficialDocument/7`,
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
     DeleteDocument: `${url}/api/OfficialDocument/`

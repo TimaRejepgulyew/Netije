@@ -201,7 +201,7 @@ export default {
       );
     },
     backTo() {
-      this.$router.push("/company/staff/employees");
+      this.$router.go(-1);
     },
     notify(msgTxt, msgType) {
       notify(

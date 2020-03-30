@@ -49,7 +49,7 @@
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
-          validation-group="incommingLetter"
+          validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
             <DxGroupItem :caption="$t('translations.fields.whom')">
@@ -64,6 +64,15 @@
 
               <DxSimpleItem
                 data-field="addresseeId"
+                :visible="isCompany"
+                :editor-options="contactOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.contactId')" />
+              </DxSimpleItem>
+
+              <DxSimpleItem
+                data-field="contactId"
                 :visible="isCompany"
                 :editor-options="contactOptions"
                 editor-type="dxSelectBox"
@@ -96,6 +105,22 @@
               >
                 <DxLabel :text="$t('translations.fields.departmentId')" />
                 <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+              </DxSimpleItem>
+
+              <DxSimpleItem
+                data-field="ourSignatoryId"
+                :editor-options="employeeOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.signatury')" />
+              </DxSimpleItem>
+
+              <DxSimpleItem
+                data-field="preparedById"
+                :editor-options="employeeOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel :text="$t('translations.fields.prepared')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -192,7 +217,7 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.IncommingLetterPost,
+      addressPost: dataApi.paperWork.OutgoingLetterPost,
       isUpdating: false,
       headerTitle: this.$t("translations.headers.addOutgoingLetter"),
       store: {
@@ -200,7 +225,7 @@ export default {
         ourSignatoryId: null,
         addresseeId: null,
         correspondentId: null,
-
+        contactId: null,
         inResponseToId: null,
         deliveryMethodId: null,
         note: null,
@@ -208,6 +233,8 @@ export default {
         placedToCaseFileDate: null,
         businessUnitId: null,
         departmentId: null,
+        ourSignatoryId: null,
+        preparedById: null,
         version: null
       },
       popupRegistyDocument: false,
@@ -249,7 +276,7 @@ export default {
       this[popup] = true;
     },
     backTo() {
-      this.$router.push("/paper-work/incomming-letter");
+      this.$router.go(-1);
     },
     notify(msgTxt, msgType) {
       notify(
@@ -335,15 +362,14 @@ export default {
           loadUrl: dataApi.contragents.CounterPart
         }),
         onSelectionChanged: e => {
-          this.isCompany = e.selectedItem.type != "Person";
+          this.isCompany = e.selectedItem.type == "Company";
           this.$store.dispatch("paper-work/setMainFormProperties", {
             correspondent: e.selectedItem.name
           });
         },
-        onValueChanged: () => {
+        onValueChanged: e => {
           this.store.addresseeId = null;
         },
-        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -361,7 +387,6 @@ export default {
     },
     contactOptions() {
       const companyId = this.store.correspondentId;
-   
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Contact,
@@ -379,6 +404,8 @@ export default {
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
+          this.store.ourSignatoryId = null;
+          this.store.preparedById = null;
         },
         showClearButton: true,
         valueExpr: "id",
@@ -394,10 +421,19 @@ export default {
           ["businessUnitId", "=", businessUnitId],
           "and",
           ["status", "=", 0]
-        ],
-        onValueChanged: () => {
-          this.store.addresseeId = null;
-        }
+        ]
+      });
+    },
+    employeeOptions() {
+      let businessUnitId = this.store.businessUnitId;
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Employee,
+        filter: [
+          ["businessUnitId", "=", businessUnitId],
+          "and",
+          ["status", "=", 0]
+        ]
       });
     },
     inResponseToIdOptions() {
@@ -405,7 +441,7 @@ export default {
         dataSource: new DataSource({
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.paperWork.OutgoingLetter
+            loadUrl: dataApi.paperWork.IncommingLetter
           }),
           paginate: true,
           pageSize: 5

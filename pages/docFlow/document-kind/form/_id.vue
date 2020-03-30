@@ -216,8 +216,8 @@ export default {
       const res = await this.$axios.get(url);
       return res.data.data;
     },
-    backTo() {
-      this.$router.push("/docFlow/document-kind");
+   backTo() {
+      this.$router.go(-1);
     },
     notify(msgTxt, msgType) {
       notify(

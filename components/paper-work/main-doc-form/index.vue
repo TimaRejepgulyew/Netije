@@ -5,7 +5,7 @@
     :read-only="false"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="incommingLetter"
+    validation-group="OfficialDocument"
   >
     <DxGroupItem :col-count="2">
       <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
@@ -125,9 +125,6 @@ export default {
       placedToCaseFileDate,
       note
     });
-    // if (context.$route.params.id != "add") {
-    // this.$store.dispatch("paper-work/setDocumentKind", documentKindId);
-    // }
     return {
       isUpdating: false,
       store: {
@@ -177,6 +174,7 @@ export default {
     },
     modified() {
       if (this.$route.params.id != "add") {
+        console.log("watch");
         this.$emit("eventWatch");
       }
     }
@@ -202,11 +200,11 @@ export default {
           ? this.defaultDocKind
           : this.store.defaultDocKindId,
         onSelectionChanged: e => {
-          if (e.selectedItem) {
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            documentKind: e.selectedItem
+          });
+          if (e.selectedItem.generateDocumentName) {
             this.isDefaultName = true;
-            this.$store.dispatch("paper-work/setMainFormProperties", {
-              documentKind: e.selectedItem
-            });
           } else {
             this.isDefaultName = false;
             this.$store.dispatch("paper-work/setMainFormProperties", {
@@ -223,17 +221,19 @@ export default {
       };
     },
     nameOptions() {
-      return {
-        value: this.isDefaultName ? this.defaultName : "",
+      const options = {
         disabled: this.isDefaultName,
         onValueChanged: e => {
-          e.value = this.isDefaultName ? this.defaultName : "";
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
           this.modified();
         }
       };
+      if (!this.isSaved) {
+        options.value = this.isDefaultName ? this.defaultName : "";
+      }
+      return options;
     },
     subjectOptions() {
       return {

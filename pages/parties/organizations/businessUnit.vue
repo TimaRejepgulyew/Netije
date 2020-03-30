@@ -140,8 +140,6 @@
 
       <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
-
       <DxColumn
         data-field="nonresident"
         :caption="$t('translations.fields.nonresident')"
