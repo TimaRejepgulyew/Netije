@@ -92,11 +92,7 @@
                 </DxSimpleItem>
               </DxGroupItem>
 
-              <DxSimpleItem
-                data-field="dated"
-                :editor-options="datedOptions"
-                editor-type="dxDateBox"
-              >
+              <DxSimpleItem data-field="dated" editor-type="dxDateBox">
                 <DxLabel :text="$t('translations.fields.dated')" />
               </DxSimpleItem>
             </DxGroupItem>
@@ -202,7 +198,7 @@ export default {
   created() {
     this.eventIsModified();
     this.$store.dispatch("paper-work/setMainFormProperties", {
-      dated: this.store.dated
+      correspondentId: this.store.correspondentId
     });
   },
   async asyncData({ app, params }) {
@@ -264,7 +260,7 @@ export default {
   methods: {
     modified() {
       console.log("watch is work ");
-       this.isSaved = false;
+      this.isSaved = false;
       // unwatch();
     },
     eventIsModified() {
@@ -367,6 +363,9 @@ export default {
         }),
         onSelectionChanged: e => {
           this.isCompany = e.selectedItem.type != "Person";
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            correspondent: e.selectedItem.name
+          });
         },
         onValueChanged: () => {
           this.store.contactId = null;
@@ -449,15 +448,6 @@ export default {
         showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
-      };
-    },
-    datedOptions() {
-      return {
-        onValueChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            dated: e.value
-          });
-        }
       };
     }
   }

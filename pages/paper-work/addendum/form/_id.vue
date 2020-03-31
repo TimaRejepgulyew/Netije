@@ -20,7 +20,7 @@
 
           <popup-registy-document
             v-else
-            :doctype="1"
+            :docType="6"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>

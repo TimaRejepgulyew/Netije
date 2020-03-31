@@ -20,7 +20,7 @@
 
           <popup-registy-document
             v-else
-            :docType="2"
+            :docType="7"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
@@ -42,7 +42,7 @@
         ></DxButton>
       </div>
       <form @submit="handleSubmit">
-        <mainFocForm @eventWatch="modified()" :properties="store" :docType="2"></mainFocForm>
+        <mainFocForm @eventWatch="modified()" :properties="store" :docType="7"></mainFocForm>
         <DxForm
           :col-count="1"
           :form-data.sync="store"
@@ -52,7 +52,7 @@
           validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
-            <DxGroupItem :caption="$t('translations.fields.whom')">
+            <DxGroupItem>
               <DxSimpleItem
                 data-field="businessUnitId"
                 :editor-options="businessUnitOptions"
@@ -72,20 +72,22 @@
 
               <DxSimpleItem
                 data-field="addresseeId"
-                :editor-options="contactOptions"
+                :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
                 <DxLabel :text="$t('translations.fields.addresseeId')" />
+                 <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
               </DxSimpleItem>
             </DxGroupItem>
 
-            <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+            <DxGroupItem>
               <DxSimpleItem
                 data-field="ourSignatoryId"
                 :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
                 <DxLabel :text="$t('translations.fields.signatury')" />
+                 <DxRequiredRule :message="$t('translations.fields.signaturyRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
                 data-field="assigneeId"
@@ -97,10 +99,11 @@
 
               <DxSimpleItem
                 data-field="preparedById"
-                :editor-options="employeeOptions"
+                :editor-options="preparedOptions"
                 editor-type="dxSelectBox"
               >
                 <DxLabel :text="$t('translations.fields.prepared')" />
+                 <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
               </DxSimpleItem>
             </DxGroupItem>
 
@@ -323,7 +326,7 @@ export default {
         registeryAllowed: !this.store.registrationState && this.isSaved
       };
     },
-    addresseeOptions() {
+    preparedOptions() {
       const departmentId = this.store.departmentId;
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
@@ -365,10 +368,15 @@ export default {
       });
     },
     employeeOptions() {
+      let businessUnitId = this.store.businessUnitId;
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Employee,
-        filter: ["status", "=", 0]
+        filter: [
+          ["businessUnitId", "=", businessUnitId],
+          "and",
+          ["status", "=", 0]
+        ]
       });
     }
   }

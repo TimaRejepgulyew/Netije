@@ -213,6 +213,7 @@ export default {
             this.$store.dispatch("paper-work/setMainFormProperties", {
               documentKind: { shortName: "" }
             });
+             this.isDefaultName = false
           }
         },
         onValueChanged: () => {

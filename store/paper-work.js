@@ -36,30 +36,31 @@ export const getters = {
     return state.documentKind[property];
   },
   defaultName: state => (docType, context) => {
-    if (docType == 1) {
-      let dated = "";
-      if (state.dated) {
-        dated = `${context.$t("translations.fields.from")} ${moment(
-          state.dated
-        ).format("L")}`;
-      }
-      return `${dated} ${state.subject} ${state.documentKind.shortName}`;
-    } else if (docType == 2) {
-      let correspondent = "";
+    let subject = "";
+    if (state.subject) {
+      subject = `содержание: ${state.subject}`;
+    }
+    let documentKind = "";
+    if (state.documentKind.shortName) {
+      documentKind = state.documentKind.shortName;
+    }
+    let correspondent = "";
+    if (docType == 2) {
       if (state.correspondent) {
-        correspondent = `${context.$t("translations.fields.whom")} ${
+        correspondent = `${context.$t("translations.fields.for")} ${
           state.correspondent
         }`;
       }
-      return `${correspondent} ${state.subject} ${state.documentKind.shortName}`;
-    } else if (docType == 6) {
-      let leadingDocument = "";
-      if (state.leadingDocument) {
-        leadingDocument = `${context.$t("translations.menu.addendum")} ${
-          state.leadingDocument
+      return `${documentKind} ${subject} ${correspondent}`;
+    } else if (docType == 1) {
+      if (state.correspondent) {
+        correspondent = `${context.$t("translations.fields.from")} ${
+          state.correspondent
         }`;
       }
-      return `${leadingDocument} ${state.subject} ${state.documentKind.shortName}`;
+      return `${documentKind} ${correspondent}  ${subject}`;
+    } else {
+      return `${documentKind}  ${subject}`;
     }
   }
 };
