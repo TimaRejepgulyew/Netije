@@ -70,6 +70,8 @@ export default {
       "whom":"Кому",
       "fromWhom":"От кого",
       "from":"От: ",
+      "addresseeId":"Адрессат",
+      "assigneeId":"Исполнительтель",
       "jobTitlesNameAlreadyExists":"Такая должность уже существует",
       "extensionPatternRule": "Пожалуйста введите валидное расширение",
       "filesType":"Типы файлов",

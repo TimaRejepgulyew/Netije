@@ -102,8 +102,7 @@ export default {
   async created() {
     if (this.$route.params.id == "add") {
       this.getDefaultDocKind();
-      this.isSaved = false
-
+      this.isSaved = false;
     }
   },
   props: ["docType", "properties"],
@@ -143,7 +142,7 @@ export default {
       defaultDocKind: null,
       docKindName: "",
       isDefaultName: false,
-      isSaved: true
+      isSaved: false
     };
   },
   methods: {
@@ -152,22 +151,26 @@ export default {
       return res.data.document;
     },
     async getDefaultDocKind() {
-      let docKindStores = await this.getData(
-        dataApi.docFlow.DocumentKind +
-          `?skip=0&take=20&filter=[["documentTypeId","=",${this.docType}],"and",["status","=",0]]`
-      );
-      if (docKindStores.length < 2) {
-        this.defaultDocKind = docKindStores[0].id;
-      } else {
-        this.defaultDocKind = docKindStores.find(el => {
-          el.isDefault
-            ? this.$store.dispatch("paper-work/setMainFormProperties", {
-                documentKind: el
-              })
-            : false;
-
-          return el.isDefault;
-        }).id;
+      if (!this.isSaved) {
+        let docKindStores = await this.getData(
+          dataApi.docFlow.DocumentKind +
+            `?skip=0&take=20&filter=[["documentTypeId","=",${this.docType}],"and",["status","=",0]]`
+        );
+        if (docKindStores.length == 1) {
+          this.store.documentKindId = docKindStores[0].id;
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            documentKind: docKindStores[0]
+          });
+        } else {
+          this.store.documentKindId = docKindStores.find(el => {
+            el.isDefault
+              ? this.$store.dispatch("paper-work/setMainFormProperties", {
+                  documentKind: el
+                })
+              : false;
+            return el.isDefault;
+          }).id;
+        }
       }
     },
     async getData(url) {
@@ -192,27 +195,30 @@ export default {
             key: "id",
             loadUrl: dataApi.docFlow.DocumentKind
           }),
+
           filter: [
             ["documentTypeId", "=", this.docType],
             "and",
             ["status", "=", 0]
           ]
         }),
-        value: this.defaultDocKind
-          ? this.defaultDocKind
-          : this.store.defaultDocKindId,
+
         onSelectionChanged: e => {
           if (e.selectedItem) {
             this.isDefaultName = e.selectedItem.generateDocumentName;
             this.$store.dispatch("paper-work/setMainFormProperties", {
               documentKind: e.selectedItem
             });
-            console.log(this.$store.getters["paper-work/defaultName"](1, this));
+          } else {
+            this.$store.dispatch("paper-work/setMainFormProperties", {
+              documentKind: { shortName: "" }
+            });
           }
         },
         onValueChanged: () => {
           this.modified();
         },
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };
@@ -224,13 +230,13 @@ export default {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
-          this.modified();
+          // this.modified();
         }
       };
       if (!this.isSaved) {
         options.value = this.isDefaultName ? this.defaultName : "";
       }
-      console.log(options);
+
       return options;
     },
     subjectOptions() {

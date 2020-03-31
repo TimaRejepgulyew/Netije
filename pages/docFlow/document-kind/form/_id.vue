@@ -216,7 +216,7 @@ export default {
       const res = await this.$axios.get(url);
       return res.data.data;
     },
-   backTo() {
+    backTo() {
       this.$router.go(-1);
     },
     notify(msgTxt, msgType) {
@@ -287,7 +287,7 @@ export default {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true,
+        showClearButton: true
       };
     },
     numberingTypeOptions() {
@@ -300,7 +300,7 @@ export default {
         disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: true,
+        showClearButton: true
       };
     },
     documentFlowOptions() {
@@ -310,10 +310,13 @@ export default {
           { id: 1, name: this.$t("translations.fields.outcomingEnum") },
           { id: 2, name: this.$t("translations.fields.inner") }
         ],
+        onValueChanged: e => {
+          this.store.documentTypeId = null;
+        },
         disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: true,
+        showClearButton: true
       };
     },
     tagboxOptions() {
@@ -321,7 +324,7 @@ export default {
         dataSource: this.availableActions,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: true,
+        showClearButton: true
       };
     },
 
@@ -333,7 +336,7 @@ export default {
         disabled: this.isUpdating ? this.store.hasDependencies : false,
         valueExpr: "id",
         displayExpr: "name",
-        showClearButton: true,
+        showClearButton: true
       };
     },
     isNumerable() {

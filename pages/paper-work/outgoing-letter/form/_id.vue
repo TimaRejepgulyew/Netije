@@ -362,14 +362,22 @@ export default {
           loadUrl: dataApi.contragents.CounterPart
         }),
         onSelectionChanged: e => {
-          this.isCompany = e.selectedItem.type == "Company";
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            correspondent: e.selectedItem.name
-          });
+          if (e.selectedItem) {
+            this.isCompany = e.selectedItem.type != "Person";
+            this.$store.dispatch("paper-work/setMainFormProperties", {
+              correspondent: e.selectedItem.name
+            });
+          } else {
+            this.$store.dispatch("paper-work/setMainFormProperties", {
+              correspondent: ""
+            });
+            this.isCompany = false;
+          }
         },
         onValueChanged: e => {
           this.store.addresseeId = null;
         },
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
       };

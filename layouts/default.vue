@@ -52,10 +52,6 @@ export default {
     }
   },
   beforeCreate() {
-    //TODO: Выбрать лучшее  место
-    let token = this.$store.getters["oidc/oidcAccessToken"];
-    this.$axios.setToken(token, "Bearer");
-    this.$axios.setHeader("Accept-Language", this.$i18n.locale);
     loadMessages(tkMessages);
     loadMessages(ruMessages);
     locale(this.$i18n.locale);

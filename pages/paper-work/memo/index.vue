@@ -43,28 +43,32 @@
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
       <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
       <DxColumn
-        data-field="correspondentId"
-        :caption="$t('translations.fields.subject')"
+        data-field="businessUnitId"
+        :caption="$t('translations.fields.businessUnitId')"
         data-type="selectbox"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="correspondentStores"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="businessUnitStores" value-expr="id" display-expr="name" />
+      </DxColumn>
+      <DxColumn
+        data-field="departmentId"
+        :caption="$t('translations.fields.departmentId')"
+        data-type="selectbox"
+      >
+        <DxLookup :data-source="departmentStores" value-expr="id" display-expr="name" />
+      </DxColumn>
+      <DxColumn
+        data-field="addresseeId"
+        :caption="$t('translations.fields.addresseeId')"
+        data-type="selectbox"
+      >
+        <DxLookup :data-source="employeeStores" value-expr="id" display-expr="name" />
       </DxColumn>
       <DxColumn
         data-field="documentKindId"
         :caption="$t('translations.fields.documentKindId')"
         data-type="selectbox"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="documentKindStores"
-          value-expr="id"
-          display-expr="name"
-        />
+        <DxLookup :data-source="documentKindStores" value-expr="id" display-expr="name" />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -116,22 +120,30 @@ export default {
       headerTitle: this.$t("translations.menu.outgoingLetter"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.paperWork.OutgoingLetter,
+        loadUrl: dataApi.paperWork.Memo,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
 
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/paper-work/outgoing-letter/form/add");
+        this.$router.push("/paper-work/memo/form/add");
       },
 
       editingStart: e => {
-        this.$router.push("/paper-work/outgoing-letter/form/" + e.key);
+        this.$router.push("/paper-work/memo/form/" + e.key);
       },
-      correspondentStores: this.$dxStore({
+      businessUnitStores: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.CounterPart
+        loadUrl: dataApi.company.CounterPart
+      }),
+      departmentStores: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.Department
+      }),
+      employeeStores: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.Employee
       }),
       documentKindStores: this.$dxStore({
         key: "id",
@@ -139,7 +151,6 @@ export default {
       })
     };
   },
-  methods: {}
 };
 </script>
 <style lang="scss" scoped>

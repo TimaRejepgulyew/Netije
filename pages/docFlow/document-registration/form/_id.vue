@@ -235,11 +235,6 @@ export default {
     if (params.id != "newDocRegistry") {
       let store = await app.$axios.get(
         dataApi.docFlow.DocumentRegistry + params.id,
-        {
-          headers: {
-            Authorization: "Bearer " + app.store.getters["oidc/oidcAccessToken"]
-          }
-        }
       );
       return {
         address: dataApi.docFlow.DocumentRegistry + params.id,

@@ -8,7 +8,7 @@ export const state = () => ({
   caseFileId: null,
   note: "",
   correspondent: "",
-  leadingDocument:'',
+  leadingDocument: ""
 });
 
 export const getters = {
@@ -52,11 +52,10 @@ export const getters = {
         }`;
       }
       return `${correspondent} ${state.subject} ${state.documentKind.shortName}`;
-    }
-    else if (docType == 6) {
+    } else if (docType == 6) {
       let leadingDocument = "";
-      if (state.correspondent) {
-        correspondent = `${context.$t("translations.menu.addendum")} ${
+      if (state.leadingDocument) {
+        leadingDocument = `${context.$t("translations.menu.addendum")} ${
           state.leadingDocument
         }`;
       }

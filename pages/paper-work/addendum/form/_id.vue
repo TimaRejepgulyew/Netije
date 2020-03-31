@@ -52,7 +52,7 @@
           validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
-            <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+            <DxGroupItem >
               <DxSimpleItem
                 data-field="businessUnitId"
                 :editor-options="businessUnitOptions"
@@ -144,9 +144,9 @@ export default {
   },
   created() {
     this.eventIsModified();
-    // this.$store.dispatch("paper-work/setMainFormProperties", {
-    //   leadingDocument: this.leadingDocument
-    // });
+    this.$store.dispatch("paper-work/setMainFormProperties", {
+      leadingDocument: this.leadingDocument
+    });
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
@@ -177,7 +177,7 @@ export default {
         placedToCaseFileDate: null,
         businessUnitId: 0,
         departmentId: null,
-        version: ""
+
       },
       leadingDocument: "",
       popupRegistyDocument: false,
@@ -330,9 +330,13 @@ export default {
           pageSize: 5
         }),
         onSelectionChanged: e => {
-          if (e.selectedItem.name) {
+          if (e.selectedItem) {
             this.$store.dispatch("paper-work/setMainFormProperties", {
               leadingDocument: e.selectedItem.name
+            });
+          } else {
+            this.$store.dispatch("paper-work/setMainFormProperties", {
+              leadingDocument: ""
             });
           }
         },

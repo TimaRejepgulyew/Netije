@@ -58,7 +58,7 @@ export default {
     companyDirective: `${url}/api/OfficialDocument/4`,
     SimpleDocument: `${url}/api/OfficialDocument/5`,
     Addendum: `${url}/api/OfficialDocument/6`,
-    AddendumPost: `${url}/api/OfficialDocument/CreateAddendum`,
+    AddendumPost: `${url}/api/OfficialDocument/CreateAddendum/`,
     Memo: `${url}/api/OfficialDocument/7`,
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
     DeleteDocument: `${url}/api/OfficialDocument/`
