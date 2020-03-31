@@ -60,6 +60,7 @@ export default {
     Addendum: `${url}/api/OfficialDocument/6`,
     AddendumPost: `${url}/api/OfficialDocument/CreateAddendum/`,
     Memo: `${url}/api/OfficialDocument/7`,
+    MemoPost: `${url}/api/OfficialDocument/CreateMemo`,
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
     DeleteDocument: `${url}/api/OfficialDocument/`
   }

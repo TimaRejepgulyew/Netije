@@ -117,7 +117,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.outgoingLetter"),
+      headerTitle: this.$t("translations.menu.memo"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.Memo,

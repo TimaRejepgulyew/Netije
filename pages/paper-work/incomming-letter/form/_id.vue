@@ -198,7 +198,7 @@ export default {
   created() {
     this.eventIsModified();
     this.$store.dispatch("paper-work/setMainFormProperties", {
-      correspondentId: this.store.correspondentId
+      correspondent: ""
     });
   },
   async asyncData({ app, params }) {
@@ -261,7 +261,7 @@ export default {
     modified() {
       console.log("watch is work ");
       this.isSaved = false;
-      // unwatch();
+       unwatch();
     },
     eventIsModified() {
       if (this.isUpdating) {

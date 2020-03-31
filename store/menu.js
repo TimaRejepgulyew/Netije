@@ -43,6 +43,10 @@ export const state = () => ({
             path: "/paper-work/memo"
           },
           {
+            text: context.$t("translations.menu.memo"),
+            path: "/paper-work/order"
+          },
+          {
             text: context.$t("translations.menu.powerOfAttorney"),
             path: "/paper-work/power-of-attorney"
           }
