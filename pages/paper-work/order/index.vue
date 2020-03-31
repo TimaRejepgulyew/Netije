@@ -117,7 +117,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.memo"),
+      headerTitle: this.$t("translations.menu.order"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.Order,
@@ -127,11 +127,11 @@ export default {
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/paper-work/memo/form/add");
+        this.$router.push("/paper-work/order/form/add");
       },
 
       editingStart: e => {
-        this.$router.push("/paper-work/memo/form/" + e.key);
+        this.$router.push("/paper-work/order/form/" + e.key);
       },
       businessUnitStores: this.$dxStore({
         key: "id",

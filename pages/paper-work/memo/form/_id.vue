@@ -194,7 +194,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.MemoPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addOutgoingLetter"),
+      headerTitle: this.$t("translations.headers.addMemo"),
       store: {
         ourSignatoryId: null,
         preparedById: null,
