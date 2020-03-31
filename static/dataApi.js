@@ -55,6 +55,7 @@ export default {
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
     OutgoingLetterPost:`${url}/api/OfficialDocument/CreateOutgoingLetter`,
     Order: `${url}/api/OfficialDocument/3`,
+    OrderPost:`${url}/api/OfficialDocument/CreateOrder`,
     companyDirective: `${url}/api/OfficialDocument/4`,
     SimpleDocument: `${url}/api/OfficialDocument/5`,
     Addendum: `${url}/api/OfficialDocument/6`,

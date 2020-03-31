@@ -153,14 +153,20 @@ export default {
     DxAsyncRule,
     notify
   },
-
-  async created() {
-    if (this.$route.params.id != "newDocKind") {
-      this.isUpdating = true;
-      this.address = `${dataApi.docFlow.DocumentKind}/${this.$route.params.id}`;
-      this.store = await this.getDataById(this.address);
-      console.log(this.store);
+  async asyncData({ app, params }) {
+    if (params.id != "add") {
+      let address = `${dataApi.docFlow.DocumentKind}/${params.id}`;
+      let { data } = await app.$axios.get(address);
+      return {
+        store: data,
+        address,
+        isUpdating: true
+      };
+    } else {
+      return {};
     }
+  },
+  async created() {
     this.documentType = await this.getData(dataApi.docFlow.DocumentType);
     this.availableActions = await this.getData(
       dataApi.docFlow.DocumentSendAction
