@@ -64,6 +64,7 @@ export default {
     MemoPost: `${url}/api/OfficialDocument/CreateMemo`,
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
     DeleteDocument: `${url}/api/OfficialDocument/`,
-    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile/`
+    Version: `${url}/api/OfficialDocument/Version/`,
+    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`
   }
 };

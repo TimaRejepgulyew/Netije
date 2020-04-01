@@ -115,4 +115,13 @@ body {
 .grid--title {
   color: #333;
 }
+.justify-center {
+  justify-items: flex-end;
+}
+.list__btn-group {
+  margin-left: auto;
+}
+.list__content {
+  justify-self: flex-start;
+}
 </style>

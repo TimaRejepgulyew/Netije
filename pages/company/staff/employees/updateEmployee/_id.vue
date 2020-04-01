@@ -46,6 +46,7 @@
               <DxLabel location="top" :text="$t('translations.fields.userName')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
+              <DxLabel location="top" />
               <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
               <DxEmailRule :message="$t('translations.fields.emailRule')" />
               <DxAsyncRule
@@ -198,7 +199,7 @@ export default {
         dataSource: this.$store.getters["status/status"],
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true,
+        showClearButton: true
       },
       saveButtonOptions: {
         height: 50,

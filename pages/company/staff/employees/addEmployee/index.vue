@@ -21,6 +21,7 @@
               />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
+              <DxLabel location="top"  />
               <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
               <DxEmailRule :message="$t('translations.fields.emailRule')" />
               <DxAsyncRule
