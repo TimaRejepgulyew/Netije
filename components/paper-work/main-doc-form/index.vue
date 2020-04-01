@@ -7,72 +7,24 @@
     :show-validation-summary="false"
     validation-group="OfficialDocument"
   >
-    <DxGroupItem :col-count="2">
-      <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
-        <DxSimpleItem data-field="name" :editor-options="nameOptions">
-          <DxLabel :text="$t('translations.fields.nameRequired')" />
-          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        </DxSimpleItem>
-
-        <DxSimpleItem
-          data-field="subject"
-          :editor-options="subjectOptions"
-          editor-type="dxTextArea"
-        >
-          <DxLabel :text="$t('translations.fields.subject')" />
-          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-        </DxSimpleItem>
-
-        <DxSimpleItem
-          data-field="documentKindId"
-          :editor-options="documentKindOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel :text="$t('translations.fields.documentKindId')" />
-          <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
-        </DxSimpleItem>
-      </DxGroupItem>
-
-      <DxGroupItem
-        :visible="this.$route.params.id !='add'"
-        :caption="$t('translations.fields.registration')"
+    <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
+      <DxSimpleItem data-field="name" :editor-options="nameOptions">
+        <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="documentKindId"
+        :editor-options="documentKindOptions"
+        editor-type="dxSelectBox"
       >
-        <DxSimpleItem data-field="number" :editor-options="numberOptions">
-          <DxLabel :text="$t('translations.fields.regNumberDocument')" />
-        </DxSimpleItem>
+        <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
+        <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
+      </DxSimpleItem>
 
-        <DxSimpleItem
-          data-field="documentRegisterId"
-          :editor-options="documentRegisterOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel :text="$t('translations.fields.documentRegisterId')" />
-        </DxSimpleItem>
-
-        <DxSimpleItem data-field="date" :editor-options="dateOptions" editor-type="dxDateBox">
-          <DxLabel :text="$t('translations.fields.registrationDate')" />
-        </DxSimpleItem>
-      </DxGroupItem>
-      <DxGroupItem :caption="$t('translations.fields.caseFileId')">
-        <DxSimpleItem
-          data-field="caseFileId"
-          :editor-options="caseFileOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel :text="$t('translations.fields.caseFileId')" />
-        </DxSimpleItem>
-
-        <DxSimpleItem
-          data-field="placedToCaseFileDate"
-          :editor-options="placedToCaseFileDateOptions"
-          editor-type="dxDateBox"
-        >
-          <DxLabel :text="$t('translations.fields.placedToCaseFileDate')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="note" :editor-options="noteOptions" editor-type="dxTextArea">
-          <DxLabel :text="$t('translations.fields.note')" />
-        </DxSimpleItem>
-      </DxGroupItem>
+      <DxSimpleItem data-field="subject" :editor-options="subjectOptions" editor-type="dxTextArea">
+        <DxLabel location="top" :text="$t('translations.fields.subject')" />
+        <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+      </DxSimpleItem>
     </DxGroupItem>
   </DxForm>
 </template>
@@ -102,7 +54,6 @@ export default {
   async created() {
     if (this.$route.params.id == "add") {
       this.getDefaultDocKind();
-      this.isSaved = false;
     }
   },
   props: ["docType", "properties"],
@@ -121,23 +72,14 @@ export default {
 
     this.$store.dispatch("paper-work/setMainFormProperties", {
       subject,
-      name,
-      caseFileId,
-      placedToCaseFileDate,
-      note
+      name
     });
     return {
       isUpdating: false,
       store: {
         name,
         subject,
-        note,
-        placedToCaseFileDate,
-        caseFileId,
-        documentKindId,
-        documentRegisterId,
-        date: registrationDate,
-        number: registrationNumber
+        documentKindId
       },
       defaultDocKind: null,
       docKindName: "",
@@ -146,10 +88,6 @@ export default {
     };
   },
   methods: {
-    async getDataById(address) {
-      const res = await this.$axios.get(address);
-      return res.data.document;
-    },
     async getDefaultDocKind() {
       if (!this.isSaved) {
         let docKindStores = await this.getData(
@@ -213,7 +151,7 @@ export default {
             this.$store.dispatch("paper-work/setMainFormProperties", {
               documentKind: { shortName: "" }
             });
-             this.isDefaultName = false
+            this.isDefaultName = false;
           }
         },
         onValueChanged: () => {
@@ -231,10 +169,10 @@ export default {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
-          // this.modified();
+          this.modified();
         }
       };
-      if (!this.isSaved) {
+      if (this.isSaved) {
         options.value = this.isDefaultName ? this.defaultName : "";
       }
 
@@ -249,65 +187,9 @@ export default {
           this.modified();
         }
       };
-    },
-    noteOptions() {
-      return {
-        onValueChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            note: e.value
-          });
-          this.modified();
-        }
-      };
-    },
-    placedToCaseFileDateOptions() {
-      return {
-        onValueChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            placedToCaseFileDate: e.value
-          });
-          this.modified();
-        }
-      };
-    },
-
-    numberOptions() {
-      return {
-        disabled: true
-      };
-    },
-    dateOptions() {
-      return {
-        disabled: true
-      };
-    },
-    documentRegisterOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url:
-          "http://192.168.4.198/api/DocumentRegistry/Registration/" +
-          this.$route.params.id,
-        disabled: true
-      });
-    },
-    caseFileOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.CaseFile
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "title"
-      };
     }
   }
 };
 </script>
 <style>
-form {
-  margin: 10px;
-}
 </style>

@@ -15,12 +15,10 @@ export default {
 .container {
   display: block;
 }
-.grid__header {
-  background: #f0f3f5;
-}
+
 .grid__title {
-  font-size: 30px;
-  font-weight: normal;
-  padding: 30px 20px;
+  font-weight: bold;
+  font-size: 25px;
+  padding: 0px 40px;
 }
 </style>

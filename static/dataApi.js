@@ -35,7 +35,7 @@ export default {
     CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
-    ResponsibleForGroupOnMe:`${url}/api/RegistrationGroup/ResponsibleForGroupOnMe`,
+    ResponsibleForGroupOnMe: `${url}/api/RegistrationGroup/ResponsibleForGroupOnMe`,
     RegistrationGroupMembers: `${url}/api/RegistrationGroupMembers/`,
     MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
     DocumentRegistry: `${url}/api/DocumentRegistry/`,
@@ -48,14 +48,14 @@ export default {
     PreliminaryNumber: `${url}/api/DocumentRegistry/PreliminaryNumber`
   },
   paperWork: {
-    AllDocument:`${url}/api/OfficialDocument/100`,
+    AllDocument: `${url}/api/OfficialDocument/100`,
     IncommingLetter: `${url}/api/OfficialDocument/1`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
-    OutgoingLetterPost:`${url}/api/OfficialDocument/CreateOutgoingLetter`,
+    OutgoingLetterPost: `${url}/api/OfficialDocument/CreateOutgoingLetter`,
     Order: `${url}/api/OfficialDocument/3`,
-    OrderPost:`${url}/api/OfficialDocument/CreateOrder`,
+    OrderPost: `${url}/api/OfficialDocument/CreateOrder`,
     companyDirective: `${url}/api/OfficialDocument/4`,
     SimpleDocument: `${url}/api/OfficialDocument/5`,
     Addendum: `${url}/api/OfficialDocument/6`,
@@ -63,6 +63,7 @@ export default {
     Memo: `${url}/api/OfficialDocument/7`,
     MemoPost: `${url}/api/OfficialDocument/CreateMemo`,
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
-    DeleteDocument: `${url}/api/OfficialDocument/`
+    DeleteDocument: `${url}/api/OfficialDocument/`,
+    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile/`
   }
 };

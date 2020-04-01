@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       title: "TTDoc",
-      screen: getScreenSizeInfo(),
+      screen: getScreenSizeInfo()
     };
   },
   computed: {
@@ -74,6 +74,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/themes/generated/variables.base.scss";
 html,
 body {
   margin: 0px;
@@ -84,17 +86,27 @@ body {
 #root {
   height: 100vh;
 }
-.footer {
-  height: 10vh;
-  margin-top: auto;
-}
 * {
   box-sizing: border-box;
 }
-
+.d-flex {
+  display: flex;
+  .item {
+    flex-grow: 1;
+    padding-left: 30px;
+  }
+  .f-grow-2 {
+    flex-grow: 2;
+  }
+  .btn--group {
+    margin-top: 30px;
+    padding-top: 350px;
+  }
+}
+.navBar {
+  background-color: darken($base-bg, 5);
+}
 .app {
-  @import "~assets/themes/generated/variables.base.scss";
-  @import "~assets/themes/generated/variables.base.scss";
   background-color: darken($base-bg, 5);
   display: flex;
   height: 100%;

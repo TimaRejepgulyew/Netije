@@ -58,7 +58,7 @@
                 :editor-options="counterPartOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.counterPart')" />
+                <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
                 <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
               </DxSimpleItem>
 
@@ -68,7 +68,7 @@
                 :editor-options="contactOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.contactId')" />
+                <DxLabel location="top" :text="$t('translations.fields.contactId')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -77,7 +77,7 @@
                 :editor-options="contactOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.whom')" />
+                <DxLabel location="top" :text="$t('translations.fields.whom')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -85,7 +85,7 @@
                 :editor-options="deliveryMethodOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.menu.mailDeliveryMethod')" />
+                <DxLabel location="top" :text="$t('translations.menu.mailDeliveryMethod')" />
               </DxSimpleItem>
             </DxGroupItem>
 
@@ -95,7 +95,7 @@
                 :editor-options="businessUnitOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.businessUnitId')" />
+                <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
                 <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
@@ -103,7 +103,7 @@
                 :editor-options="deparmentOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.departmentId')" />
+                <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
                 <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
               </DxSimpleItem>
 
@@ -112,7 +112,7 @@
                 :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.signatury')" />
+                <DxLabel location="top" :text="$t('translations.fields.signatury')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -120,7 +120,7 @@
                 :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.prepared')" />
+                <DxLabel location="top" :text="$t('translations.fields.prepared')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -128,7 +128,7 @@
                 :editor-options="inResponseToIdOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.inResponseTold')" />
+                <DxLabel location="top" :text="$t('translations.fields.inResponseTold')" />
               </DxSimpleItem>
             </DxGroupItem>
 

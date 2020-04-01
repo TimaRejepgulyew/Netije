@@ -8,7 +8,7 @@
       validation-group="currentNumberStart"
     >
       <DxSimpleItem data-field="value" :editor-options="numberBoxOptions" editor-type="dxNumberBox">
-        <DxLabel :visible="false" />
+        <DxLabel location="top" :visible="false" />
         <DxRequiredRule :message="$t('translations.fields.currentNumberRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
@@ -43,10 +43,10 @@ export default {
   },
   computed: {
     addressGet() {
-      return `${dataApi.docFlow.DocumentRegistry}/CurrentNumber?documentRegisterId=${this.documentRegisterId}`;
+      return `${dataApi.docFlow.DocumentRegistry}CurrentNumber?documentRegisterId=${this.documentRegisterId}`;
     },
     addressPut() {
-      return `${dataApi.docFlow.DocumentRegistry}/CurrentNumber/${this.documentRegisterId}`;
+      return `${dataApi.docFlow.DocumentRegistry}CurrentNumber/${this.documentRegisterId}`;
     }
   },
   props: ["documentRegisterId", "id"],

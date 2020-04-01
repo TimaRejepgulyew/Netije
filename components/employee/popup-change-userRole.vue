@@ -8,7 +8,7 @@
       validation-group="changeRole"
     >
       <DxSimpleItem :editor-options="tagboxOptions" editor-type="dxTagBox" data-field="roles">
-        <DxLabel :text="$t('translations.fields.role')" />
+        <DxLabel location="top" :text="$t('translations.fields.role')" />
         <DxRequiredRule :message="$t('translations.fields.roleRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />

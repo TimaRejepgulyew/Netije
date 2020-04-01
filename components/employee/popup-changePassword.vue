@@ -8,7 +8,7 @@
       validation-group="changePassword"
     >
       <DxSimpleItem :editor-options="passwordOptions" data-field="newPassword">
-        <DxLabel :text="$t('translations.fields.password')" />
+        <DxLabel location="top" :text="$t('translations.fields.password')" />
         <DxPatternRule
           :pattern="passwordPattern"
           :message="$t('translations.fields.passwordRule')"

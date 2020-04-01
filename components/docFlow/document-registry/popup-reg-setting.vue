@@ -8,7 +8,7 @@
       validation-group="registrationSetting"
     >
       <DxSimpleItem data-field="name" data-type="string">
-        <DxLabel :text="$t('translations.fields.name')" />
+        <DxLabel location="top" :text="$t('translations.fields.name')" />
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -16,7 +16,7 @@
         :editor-options=" businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel :text="$t('translations.fields.businessUnitId')" />
+        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -24,7 +24,7 @@
         editor-type="dxTagBox"
         data-field="departments"
       >
-        <DxLabel :text="$t('translations.fields.departmentId')" />
+        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -32,7 +32,7 @@
         editor-type="dxTagBox"
         data-field="registrationGroups"
       >
-        <DxLabel :text="$t('translations.fields.registrationGroupId')" />
+        <DxLabel location="top" :text="$t('translations.fields.registrationGroupId')" />
         <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -40,7 +40,7 @@
         editor-type="dxTagBox"
         data-field="documentKinds"
       >
-        <DxLabel :text="$t('translations.fields.documentKindId')" />
+        <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
         <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -49,7 +49,7 @@
         :editor-options="statusOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel :text="$t('translations.fields.status')" />
+        <DxLabel location="top" :text="$t('translations.fields.status')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>

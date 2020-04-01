@@ -58,7 +58,7 @@
                 :editor-options="businessUnitOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.businessUnitId')" />
+                <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
                 <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
@@ -66,7 +66,7 @@
                 :editor-options="deparmentOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.departmentId')" />
+                <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
                 <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
               </DxSimpleItem>
 
@@ -75,7 +75,7 @@
                 :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.addresseeId')" />
+                <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
                  <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
               </DxSimpleItem>
             </DxGroupItem>
@@ -86,7 +86,7 @@
                 :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.signatury')" />
+                <DxLabel location="top" :text="$t('translations.fields.signatury')" />
                  <DxRequiredRule :message="$t('translations.fields.signaturyRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
@@ -94,7 +94,7 @@
                 :editor-options="employeeOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.assigneeId')" />
+                <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -102,7 +102,7 @@
                 :editor-options="preparedOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.prepared')" />
+                <DxLabel location="top" :text="$t('translations.fields.prepared')" />
                  <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
               </DxSimpleItem>
             </DxGroupItem>

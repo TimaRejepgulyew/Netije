@@ -245,7 +245,7 @@ export default {
         store: this.departmentStore,
         filter: options.data
           ? ["status", "=", 0, "or", "id", "=", options.data.departmentId]
-          : null
+          : null,
       };
     },
     getFilteredRetentionPeriod(options) {

@@ -29,7 +29,7 @@ export default {
   computed: {
     store() {
       return {
-        documentId: this.$store.getters["paper-work/documentId"]
+        documentId: this.$route.params.id
       };
     }
   },

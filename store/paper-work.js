@@ -6,7 +6,6 @@ export const state = () => ({
   documentKind: {},
   placedToCaseFileDate: null,
   caseFileId: null,
-  note: "",
   correspondent: "",
   leadingDocument: ""
 });

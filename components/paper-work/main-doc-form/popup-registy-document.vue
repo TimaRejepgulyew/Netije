@@ -12,12 +12,12 @@
         :editor-options="isCustomNumberOptions"
         editor-type="dxCheckBox"
       >
-        <DxLabel :text="$t('translations.fields.isCustomNumber')" />
+        <DxLabel location="top" :text="$t('translations.fields.isCustomNumber')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="number" :editor-options="numberOptions">
         <DxPatternRule :pattern="numberPattern" />
-        <DxLabel :text="$t('translations.fields.regNumberDocument')" />
+        <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
         <DxRequiredRule :message="$t('translations.fields.regNumberDocumentRequired')" />
       </DxSimpleItem>
 
@@ -26,12 +26,12 @@
         :editor-options="documentRegisterOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel :text="$t('translations.fields.documentRegisterId')" />
+        <DxLabel location="top" :text="$t('translations.fields.documentRegisterId')" />
         <DxRequiredRule :message="$t('translations.fields.documentRegisterRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="date" :editor-options="dateOptions" editor-type="dxDateBox">
-        <DxLabel :text="$t('translations.fields.registrationDate')" />
+        <DxLabel location="top" :text="$t('translations.fields.registrationDate')" />
         <DxRequiredRule :message="$t('translations.fields.registrationDateRequired')" />
       </DxSimpleItem>
 

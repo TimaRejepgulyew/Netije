@@ -166,7 +166,7 @@ export default {
 
       extensionOptions: {
         mask: ".cccccccccc",
-        useMaskedValue: true
+        useMaskedValue: true,
       }
     };
   },

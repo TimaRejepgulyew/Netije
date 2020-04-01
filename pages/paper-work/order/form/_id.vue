@@ -25,109 +25,108 @@
           />
         </div>
       </DxPopup>
-      <div v-if="registryState.isRegsitrible" class="navBar">
-        <DxButton
-          v-if="registryState.isRegistered"
-          :text="$t('translations.fields.cancelRegistration')"
-          icon="clear"
-        ></DxButton>
-        <DxButton
-          v-else
-          :disabled=" !registryState.registeryAllowed"
-          :text="$t('translations.fields.registration')"
-          icon="bulletlist"
-          :onClick="()=>{
-            this.popupVisible('popupRegistyDocument')
-          }"
-        ></DxButton>
-      </div>
-      <form @submit="handleSubmit">
-        <mainFocForm @eventWatch="modified()" :properties="store" :docType="3"></mainFocForm>
-        <DxForm
-          :col-count="1"
-          :form-data.sync="store"
-          :read-only="false"
-          :show-colon-after-label="true"
-          :show-validation-summary="true"
-          validation-group="OfficialDocument"
-        >
-          <DxGroupItem :col-count="2">
-            <DxGroupItem>
-              <DxSimpleItem
-                data-field="businessUnitId"
-                :editor-options="businessUnitOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.businessUnitId')" />
-                <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-              </DxSimpleItem>
-              <DxSimpleItem
-                data-field="departmentId"
-                :editor-options="deparmentOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.departmentId')" />
-                <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-              </DxSimpleItem>
+      <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')"></navBar>
 
-              <DxSimpleItem
-                data-field="addresseeId"
-                :editor-options="employeeOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.addresseeId')" />
-                 <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
+      <form class="d-flex" @submit="handleSubmit">
+        <div class="item f-grow-2">
+          <mainFocForm @eventWatch="modified()" :properties="store" :docType="3"></mainFocForm>
+          <DxForm
+            :col-count="1"
+            :form-data.sync="store"
+            :read-only="false"
+            :show-colon-after-label="true"
+            :show-validation-summary="true"
+            validation-group="OfficialDocument"
+          >
+            <DxGroupItem :col-count="2">
+              <DxGroupItem>
+                <DxSimpleItem
+                  data-field="businessUnitId"
+                  :editor-options="businessUnitOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+                  <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="departmentId"
+                  :editor-options="deparmentOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+                  <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  data-field="addresseeId"
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+                  <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
+                </DxSimpleItem>
+              </DxGroupItem>
+
+              <DxGroupItem>
+                <DxSimpleItem
+                  data-field="ourSignatoryId"
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.signatury')" />
+                  <DxRequiredRule :message="$t('translations.fields.signaturyRequired')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="assigneeId"
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  data-field="preparedById"
+                  :editor-options="preparedOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+                  <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+                </DxSimpleItem>
+              </DxGroupItem>
+              <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
+                <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
+              <DxGroupItem cssClass="btn--group" :col-count="12" :col-span="2">
+                <DxButtonItem
+                  :col-span="1"
+                  :button-options="addButtonOptions"
+                  horizontal-alignment="right"
+                />
+                <DxButtonItem
+                  :col-span="1"
+                  :button-options="cancelButtonOptions"
+                  horizontal-alignment="right"
+                />
+              </DxGroupItem>
             </DxGroupItem>
-
-            <DxGroupItem>
-              <DxSimpleItem
-                data-field="ourSignatoryId"
-                :editor-options="employeeOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.signatury')" />
-                 <DxRequiredRule :message="$t('translations.fields.signaturyRequired')" />
-              </DxSimpleItem>
-              <DxSimpleItem
-                data-field="assigneeId"
-                :editor-options="employeeOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.assigneeId')" />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="preparedById"
-                :editor-options="preparedOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel :text="$t('translations.fields.prepared')" />
-                 <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-              </DxSimpleItem>
-            </DxGroupItem>
-
-            <DxGroupItem :col-count="12" :col-span="2">
-              <DxButtonItem
-                :col-span="11"
-                :button-options="addButtonOptions"
-                horizontal-alignment="right"
-              />
-              <DxButtonItem
-                :col-span="1"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="right"
-              />
-            </DxGroupItem>
-          </DxGroupItem>
-        </DxForm>
+          </DxForm>
+        </div>
+        <div class="item">
+          <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
+        </div>
+        <div class="item">
+          <docVersion @eventWatch="modified()" :properties="store" :docType="3"></docVersion>
+        </div>
       </form>
     </div>
   </div>
 </template>
 <script>
+import docVersion from "~/components/paper-work/main-doc-form/doc-version";
+import navBar from "~/components/paper-work/main-doc-form/nav-bar";
 import popupCancelDocumentRegistry from "~/components/paper-work/main-doc-form/popup-cancel-document-registry";
 import popupRegistyDocument from "~/components/paper-work/main-doc-form/popup-registy-document";
+import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
 import mainFocForm from "~/components/paper-work/main-doc-form";
 import { DxPopup } from "devextreme-vue/popup";
 import "devextreme-vue/text-area";
@@ -152,6 +151,9 @@ import DxButton from "devextreme-vue/button";
 let unwatch;
 export default {
   components: {
+    docVersion,
+    navBar,
+    docRegistration,
     popupCancelDocumentRegistry,
     popupRegistyDocument,
     DxButton,
@@ -194,7 +196,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.OrderPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addOrder"),
+      headerTitle: this.$t("translations.fields.orderId"),
       store: {
         ourSignatoryId: null,
         preparedById: null,
@@ -211,16 +213,13 @@ export default {
       },
       popupRegistyDocument: false,
       addButtonOptions: {
-        width: 100,
-        height: 50,
-        text: this.$t("translations.links.add"),
+        text: this.$t("translations.links.save"),
         useSubmitBehavior: true,
         type: "success"
       },
       cancelButtonOptions: {
         onClick: this.backTo,
-        width: 100,
-        height: 50,
+
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
       },
@@ -243,7 +242,8 @@ export default {
     popupDisabled(popup) {
       this[popup] = false;
     },
-    popupVisible(popup) {
+    popupVisible(popup, e) {
+      console.log(popup, e);
       this[popup] = true;
     },
     backTo() {

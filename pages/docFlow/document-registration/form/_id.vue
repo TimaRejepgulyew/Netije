@@ -57,11 +57,11 @@
           </template>
           <DxGroupItem>
             <DxSimpleItem data-field="name" :editor-options="nameOptions">
-              <DxLabel :text="$t('translations.fields.name')" />
+              <DxLabel location="top" :text="$t('translations.fields.name')" />
               <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="index" :editor-options="indexOptions">
-              <DxLabel :text="$t('translations.fields.index')" />
+              <DxLabel location="top" :text="$t('translations.fields.index')" />
               <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
             </DxSimpleItem>
 
@@ -70,7 +70,7 @@
               :editor-options="numberOfDigitsInNumber"
               data-field="numberOfDigitsInNumber"
             >
-              <DxLabel :text="$t('translations.fields.numberOfDigitsInNumber')" />
+              <DxLabel location="top" :text="$t('translations.fields.numberOfDigitsInNumber')" />
               <DxRequiredRule
                 :message="
                   $t('translations.fields.numberOfDigitsInNumberRequired')
@@ -82,7 +82,7 @@
               :editor-options="documentFlowOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.documentFlow')" />
+              <DxLabel location="top" :text="$t('translations.fields.documentFlow')" />
               <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
             </DxSimpleItem>
 
@@ -92,7 +92,7 @@
               :editor-options="registrationGroupIdOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.registrationGroupId')" />
+              <DxLabel location="top" :text="$t('translations.fields.registrationGroupId')" />
               <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
             </DxSimpleItem>
 
@@ -101,7 +101,7 @@
               :editor-options="registerTypeOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.registerType')" />
+              <DxLabel location="top" :text="$t('translations.fields.registerType')" />
               <DxRequiredRule :message="$t('translations.fields.registerTypeRequired')" />
             </DxSimpleItem>
 
@@ -110,7 +110,7 @@
               :editor-options="numberingSectionOptions"
               data-field="numberingSection"
             >
-              <DxLabel :text="$t('translations.fields.numberingSection')" />
+              <DxLabel location="top" :text="$t('translations.fields.numberingSection')" />
               <DxRequiredRule :message="$t('translations.fields.numberingSectionRequired')" />
             </DxSimpleItem>
 
@@ -119,7 +119,7 @@
               :editor-options="numberingPeriodOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.numberingPeriod')" />
+              <DxLabel location="top" :text="$t('translations.fields.numberingPeriod')" />
               <DxRequiredRule
                 numberingPeriodOptions
                 :message="$t('translations.fields.numberingPeriodRequired')"
@@ -130,7 +130,7 @@
               :editor-options="statusOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.status')" />
+              <DxLabel location="top" :text="$t('translations.fields.status')" />
             </DxSimpleItem>
           </DxGroupItem>
           <DxSimpleItem template="avatar-template" />

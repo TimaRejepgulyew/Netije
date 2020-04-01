@@ -3,6 +3,14 @@
        {
            "key": "@base-accent",
            "value": "rgba(0, 154, 64, 1)"
+       },
+       {
+           "key": "@filterbuilder-item-operator-color",
+           "value": "rgba(0, 63, 30, 0.3)"
+       },
+       {
+           "key": "@filterbuilder-group-operation-color",
+           "value": "rgba(249, 209, 43, 1)"
        }
    ],
    "baseTheme": "generic.light",

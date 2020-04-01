@@ -13,7 +13,7 @@
         >
           <DxGroupItem :caption="$t('translations.fields.personalData')">
             <DxSimpleItem data-field="userName" data-type="string">
-              <DxLabel :text="$t('translations.fields.userName')" />
+              <DxLabel location="top" :text="$t('translations.fields.userName')" />
               <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
               <DxAsyncRule
                 :validation-callback="validateEntityExists"
@@ -29,7 +29,7 @@
               />
             </DxSimpleItem>
             <DxSimpleItem :editor-options="passwordOptions" data-field="password">
-              <DxLabel :text="$t('translations.fields.password')" />
+              <DxLabel location="top" :text="$t('translations.fields.password')" />
               <DxPatternRule
                 :pattern="passwordPattern"
                 :message="$t('translations.fields.passwordRule')"
@@ -41,7 +41,7 @@
               editor-type="dxTextBox"
               data-field="confirmPassword"
             >
-              <DxLabel :text="$t('translations.fields.confirmPassword')" />
+              <DxLabel location="top" :text="$t('translations.fields.confirmPassword')" />
               <DxRequiredRule :message="$t('translations.fields.confirmPasswordRequired')" />
               <DxCompareRule
                 :comparison-target="passwordComparison"
@@ -51,7 +51,7 @@
           </DxGroupItem>
           <DxGroupItem :caption="$t('translations.fields.APN')">
             <DxSimpleItem data-field="name">
-              <DxLabel :text="$t('translations.fields.fullName')" />
+              <DxLabel location="top" :text="$t('translations.fields.fullName')" />
               <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
               <DxPatternRule
                 :pattern="namePattern"
@@ -63,7 +63,7 @@
               :editor-options="jobTitleOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.jobTitleId')" />
+              <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
               <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
             </DxSimpleItem>
 
@@ -72,12 +72,12 @@
               :editor-options="departmentOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.departmentId')" />
+              <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
               <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem data-field="phone">
-              <DxLabel :text="$t('translations.fields.phones')" />
+              <DxLabel location="top" :text="$t('translations.fields.phones')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -86,7 +86,7 @@
               :editor-options="{height: 90,labelLocation:'right',}"
               editor-type="dxTextArea"
             >
-              <DxLabel :text="$t('translations.fields.note')" />
+              <DxLabel location="top" :text="$t('translations.fields.note')" />
             </DxSimpleItem>
           </DxGroupItem>
           <DxGroupItem :col-count="12" :col-span="2">

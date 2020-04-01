@@ -58,7 +58,7 @@
                 :editor-options="businessUnitOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.businessUnitId')" />
+                <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
                 <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
@@ -66,7 +66,7 @@
                 :editor-options="deparmentOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.departmentId')" />
+                <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
                 <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
               </DxSimpleItem>
 
@@ -75,7 +75,7 @@
                 :editor-options="leadingDocumentOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel :text="$t('translations.fields.leadingDocumentId')" />
+                <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
                 <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
               </DxSimpleItem>
             </DxGroupItem>

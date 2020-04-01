@@ -43,7 +43,7 @@
               :editor-options="{disabled:'true'}"
               data-type="string"
             >
-              <DxLabel :text="$t('translations.fields.userName')" />
+              <DxLabel location="top" :text="$t('translations.fields.userName')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
               <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
@@ -54,7 +54,7 @@
               />
             </DxSimpleItem>
             <DxSimpleItem data-field="name">
-              <DxLabel :text="$t('translations.fields.fullName')" />
+              <DxLabel location="top" :text="$t('translations.fields.fullName')" />
               <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
               <DxPatternRule
                 :pattern="namePattern"
@@ -67,7 +67,7 @@
               :editor-options="{height: 90,labelLocation:'right',}"
               editor-type="dxTextArea"
             >
-              <DxLabel :text="$t('translations.fields.note')" />
+              <DxLabel location="top" :text="$t('translations.fields.note')" />
             </DxSimpleItem>
           </DxGroupItem>
           <DxGroupItem :col-span="5" :caption="$t('translations.fields.APN')">
@@ -76,7 +76,7 @@
               :editor-options="jobTitleOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.jobTitleId')" />
+              <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -84,18 +84,18 @@
               :editor-options="departmentOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.departmentId')" />
+              <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
             </DxSimpleItem>
 
             <DxSimpleItem data-field="phone">
-              <DxLabel :text="$t('translations.fields.phones')" />
+              <DxLabel location="top" :text="$t('translations.fields.phones')" />
             </DxSimpleItem>
             <DxSimpleItem
               data-field="status"
               :editor-options=" statusOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.status')" />
+              <DxLabel location="top" :text="$t('translations.fields.status')" />
             </DxSimpleItem>
           </DxGroupItem>
           <DxGroupItem

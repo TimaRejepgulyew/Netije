@@ -13,7 +13,7 @@
         >
           <DxGroupItem :col-count="1">
             <DxSimpleItem data-field="code" data-type="string">
-              <DxLabel :text="$t('translations.fields.code')" />
+              <DxLabel location="top" :text="$t('translations.fields.code')" />
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
@@ -27,12 +27,12 @@
             </DxSimpleItem>
 
             <DxSimpleItem data-field="name">
-              <DxLabel :text="$t('translations.fields.name')" />
+              <DxLabel location="top" :text="$t('translations.fields.name')" />
               <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem data-field="shortName">
-              <DxLabel :text="$t('translations.fields.shortName')" />
+              <DxLabel location="top" :text="$t('translations.fields.shortName')" />
               <DxRequiredRule :message="$t('translations.fields.shortNameRequired')" />
             </DxSimpleItem>
 
@@ -41,7 +41,7 @@
               :editor-options="documentFlowOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.documentFlow')" />
+              <DxLabel location="top" :text="$t('translations.fields.documentFlow')" />
               <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
             </DxSimpleItem>
 
@@ -50,7 +50,7 @@
               :editor-options="numberingTypeOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.numberingType')" />
+              <DxLabel location="top" :text="$t('translations.fields.numberingType')" />
               <DxRequiredRule :message="$t('translations.fields.numberingTypeRequired')" />
             </DxSimpleItem>
 
@@ -59,7 +59,7 @@
               :editor-options=" docTypeOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.menu.documentType')" />
+              <DxLabel location="top" :text="$t('translations.menu.documentType')" />
               <DxRequiredRule :message="$t('translations.fields.documentTypeIdRequired')" />
             </DxSimpleItem>
 
@@ -68,19 +68,19 @@
               editor-type="dxTagBox"
               data-field="availableActions"
             >
-              <DxLabel :text="$t('translations.fields.availableActions')" />
+              <DxLabel location="top" :text="$t('translations.fields.availableActions')" />
             </DxSimpleItem>
 
             <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
-              <DxLabel :text="$t('translations.fields.generateDocumentName')" />
+              <DxLabel location="top" :text="$t('translations.fields.generateDocumentName')" />
             </DxSimpleItem>
 
             <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
-              <DxLabel :text="$t('translations.fields.isDefault')" />
+              <DxLabel location="top" :text="$t('translations.fields.isDefault')" />
             </DxSimpleItem>
 
             <DxSimpleItem v-if="isNumerable" data-field="autoNumbering" editor-type="dxCheckBox">
-              <DxLabel :text="$t('translations.fields.autoNumbering')" />
+              <DxLabel location="top" :text="$t('translations.fields.autoNumbering')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -89,7 +89,7 @@
               :editor-options="{height: 90}"
               editor-type="dxTextArea"
             >
-              <DxLabel :text="$t('translations.fields.note')" />
+              <DxLabel location="top" :text="$t('translations.fields.note')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -98,7 +98,7 @@
               :editor-options="statusOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel :text="$t('translations.fields.status')" />
+              <DxLabel location="top" :text="$t('translations.fields.status')" />
             </DxSimpleItem>
             <DxGroupItem :col-span="1" :col-count="12">
               <DxButtonItem
@@ -154,7 +154,7 @@ export default {
     notify
   },
   async asyncData({ app, params }) {
-    if (params.id != "add") {
+    if (params.id != "newDocKind") {
       let address = `${dataApi.docFlow.DocumentKind}/${params.id}`;
       let { data } = await app.$axios.get(address);
       return {
