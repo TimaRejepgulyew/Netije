@@ -147,7 +147,7 @@ export default {
   min-height: 80vh;
   background: $base-bg;
   margin: 1vw 0.5vw 0 1vw;
-  padding: 10px 15px;
+  padding: 0.2vh 0.3vw;
   -webkit-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   -moz-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
   box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);

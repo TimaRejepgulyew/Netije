@@ -94,9 +94,10 @@ body {
   .item {
     flex-grow: 1;
     padding-left: 30px;
+    width: 20%;
   }
-  .f-grow-2 {
-    flex-grow: 2;
+  .f-grow-3 {
+    flex-grow: 3;
   }
   .btn--group {
     margin-top: 30px;
@@ -115,12 +116,7 @@ body {
 .grid--title {
   color: #333;
 }
-.justify-center {
-  justify-items: flex-end;
-}
-.list__btn-group {
-  margin-left: auto;
-}
+
 .list__content {
   justify-self: flex-start;
 }

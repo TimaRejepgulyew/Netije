@@ -1,32 +1,37 @@
 <template>
   <div class="main-block">
     <div class="file-uploader-block">
-      <span class="dx-form-group-caption bor">Версии</span>
-      <DxFileUploader
-        :multiple="true"
-        :allowed-file-extensions="['.jpg', '.jpeg', '.gif', '.png']"
-        :uploadFile="onUploadProgress"
-        :showFileList="false"
-      />
-      <div class="note">
-        Allowed file extensions:
-        <span>.jpg, .jpeg, .gif, .png</span>.
-      </div>
-    </div>
-    <div class="list-container">
-      <DxList :data-source="versions" :height="400" search-expr="note" :search-enabled="true">
-        <template #item="item">
-          <div>
-            <div class="d-flex">
-              <div class="list__content">{{ item.data.note}} {{item.data.id}}</div>
-              <div class="list__btn-group">
-                <DxButton icon="edit" class="list__btn"></DxButton>
-                <DxButton icon="edit" class="list__btn"></DxButton>
+      <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
+      <div class="list-container">
+        <DxList :data-source="versions" search-expr="note" :search-enabled="true">
+          <template #item="item">
+            <div>
+              <div class="d-flex">
+                <i :class="'flaticon-'+ item.data.extension"></i>
+
+                <div class="list__content">{{ item.data.note}}</div>
+                <div class="list__btn-group">
+                  <DxButton icon="edit" class="list__btn" :onClick="editVersion(item.data)"></DxButton>
+                  <DxButton
+                    icon="download"
+                    class="list__btn"
+                    :on-click="()=>{downloadVersion(item.data)}"
+                  ></DxButton>
+                  <DxButton icon="trash" class="list__btn" :onClick="deleteVersion(item.data.id)"></DxButton>
+                </div>
               </div>
             </div>
-          </div>
-        </template>
-      </DxList>
+          </template>
+        </DxList>
+      </div>
+      <DxFileUploader
+        :multiple="true"
+        :allowed-file-extensions="extension"
+        @progress="addVersion"
+        :showFileList="false"
+        :invalid-fileextension-message="$t('translations.fields.invalidExeption')"
+        upload-mode="useButtons"
+      />
     </div>
   </div>
 </template>
@@ -36,6 +41,7 @@ import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
 import notify from "devextreme/ui/notify";
+import { saveAs } from "file-saver";
 export default {
   components: {
     DxFileUploader,
@@ -43,66 +49,135 @@ export default {
     DxButton
   },
   async created() {
+    this.associatedApplication = await this.getData(
+      dataApi.docFlow.AssociatedApplication
+    );
     if (this.$route.params.id != "add") {
-      let data = await this.$axios.get(
-        dataApi.paperWork.Version + this.$route.params.id
-      );
-      this.versions = data.data;
-      console.log(this.versions);
+      this.versions = await this.getVersions();
     }
   },
   data() {
     return {
       versions: [],
-      chunks: [],
-      message: "succses"
+      associatedApplication: []
     };
   },
+  computed: {
+    extension() {
+      return this.associatedApplication.map(el => {
+        return el.extension;
+      });
+    },
+    name() {
+      return this.$store.getters["paper-work/name"];
+    }
+  },
   methods: {
-    onUploadProgress(e) {
+    async getVersions() {
+      const data = await this.$axios.get(
+        dataApi.paperWork.Version + this.$route.params.id
+      );
+      return data.data.map(version => {
+        const associatedApplicationId =
+          version.binaryDataAssociatedApplicationId;
+        version.extension = this.addExtensionProperty(associatedApplicationId);
+        return version;
+      });
+    },
+    addExtensionProperty(associatedApplicationId) {
+      return this.associatedApplication
+        .find(associatedApp => {
+          if (associatedApplicationId == associatedApp.id) {
+            return associatedApp.extension;
+          }
+        })
+        .extension.slice(1);
+    },
+    async getData(address) {
+      const associatedApplication = await this.$axios.get(address);
+      return associatedApplication.data.data;
+    },
+    editVersion() {
+      // this.editVersionPopup = true;
+    },
+    downloadVersion(version) {
+      this.$axios
+        .get(dataApi.paperWork.DownloadVersion + version.id, {
+          responseType: "blob"
+        })
+        .then(response => {
+          var blob = new Blob([response.data], {
+            type: `data:${response.data.type}`
+          });
+          saveAs(blob, `${this.name}.${version.extension}`);
+        });
+    },
+    deleteVersion() {
+      // this.editVersionPopup = true;
+    },
+    notify(msgTxt, msgType) {
+      notify(
+        {
+          message: msgTxt,
+          position: {
+            my: "center top",
+            at: "center top"
+          }
+        },
+        msgType,
+        3000
+      );
+    },
+    addVersion(e) {
       let formData = new FormData();
-      formData.append("File", e.value);
+      formData.append("File", e.file);
       formData.append("documentId", parseInt(this.$route.params.id));
-      console.log(formData);
       this.$axios
         .post(dataApi.paperWork.DocumentVersion, formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         })
-        .then(function() {
-          console.log("SUCCESS!!");
+        .then(version => {
+          this.notify(this.$t("translations.fields.uploadSuccess"), "success");
+          version.data.extension = this.addExtensionProperty(
+            version.data.binaryDataAssociatedApplicationId
+          );
+          this.versions.push(version.data);
         })
-        .catch(function() {
-          console.log("FAILURE!!");
+        .catch(() => {
+          this.notify(this.$t("translations.fields.uploadError"), "error");
         });
     }
-    // test(e) {
-    // //   console.log(e);
-    // //   e.onError();
-    // }
   }
 };
 </script>
-<style>
+<style lang="scss">
+@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/themes/generated/variables.base.scss";
 .file-uploader-block {
   display: block;
   padding: 0;
   margin: 0;
-  width: 400px;
-}
-.list-container {
-  width: 400px;
-}
+  .border-b {
+    display: block;
+    width: 100%;
+    padding-bottom: 7px;
+    border-bottom: 1px solid darken($base-bg, 15);
+  }
 
-.note {
-  font-size: 10pt;
-  color: #484848;
-  margin-left: 9px;
-}
-
-.note > span {
-  font-weight: 700;
+  .list-container {
+    padding: 35px 0;
+    max-height: 60vh;
+    overflow: auto;
+    width: 100%;
+    i {
+      display: inline;
+    }
+    .list__btn-group {
+      margin-left: auto;
+    }
+  }
 }
 </style>
 

@@ -1,6 +1,6 @@
 export default {
   env: {
-    baseUrl: process.env.npm_package_url,
+    baseUrl: process.env.npm_package_url
   },
   mode: "spa",
   /*
@@ -33,7 +33,8 @@ export default {
   css: [
     { src: "devextreme/dist/css/dx.common.css", lang: "css" },
     { src: "~/assets/themes/generated/theme.base.css", lang: "css" },
-    { src: "~/assets/themes/generated/theme.additional.css", lang: "css" }
+    { src: "~/assets/themes/generated/theme.additional.css", lang: "css" },
+    { src: "~/assets/extentions/flaticon.css", lang: "css" }
   ],
   /*
    ** Plugins to load before mounting the App

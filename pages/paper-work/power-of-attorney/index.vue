@@ -24,10 +24,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.outgoingLetter')"
+        :file-name="$t('translations.menu.powerOfAttorney')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="outgoingLetter" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="powerOfAttorney" />
 
       <DxEditing
         :allow-updating="true"
@@ -57,8 +57,22 @@
         <DxLookup :data-source="departmentStores" value-expr="id" display-expr="name" />
       </DxColumn>
       <DxColumn
-        data-field="addresseeId"
-        :caption="$t('translations.fields.addresseeId')"
+        data-field="preparedById"
+        :caption="$t('translations.fields.prepared')"
+        data-type="selectbox"
+      >
+        <DxLookup :data-source="employeeStores" value-expr="id" display-expr="name" />
+      </DxColumn>
+      <DxColumn
+        data-field="ourSignatoryId"
+        :caption="$t('translations.fields.signatory')"
+        data-type="selectbox"
+      >
+        <DxLookup :data-source="employeeStores" value-expr="id" display-expr="name" />
+      </DxColumn>
+      <DxColumn
+        data-field="issuedToId"
+        :caption="$t('translations.fields.issuedToId')"
         data-type="selectbox"
       >
         <DxLookup :data-source="employeeStores" value-expr="id" display-expr="name" />
@@ -70,6 +84,11 @@
       >
         <DxLookup :data-source="documentKindStores" value-expr="id" display-expr="name" />
       </DxColumn>
+      <DxColumn
+        data-field="validTill"
+        :caption="$t('translations.fields.validTill')"
+        data-type="date"
+      />
     </DxDataGrid>
   </main>
 </template>
@@ -120,18 +139,18 @@ export default {
       headerTitle: this.$t("translations.menu.powerOfAttorney"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.paperWork.Order,
+        loadUrl: dataApi.paperWork.PowerOfAttorney,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
 
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/paper-work/order/form/add");
+        this.$router.push("/paper-work/power-of-attorney/form/add");
       },
 
       editingStart: e => {
-        this.$router.push("/paper-work/order/form/" + e.key);
+        this.$router.push("/paper-work/power-of-attorney/form/" + e.key);
       },
       businessUnitStores: this.$dxStore({
         key: "id",
@@ -150,7 +169,7 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind
       })
     };
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

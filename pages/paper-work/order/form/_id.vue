@@ -28,7 +28,7 @@
       <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')"></navBar>
 
       <form class="d-flex" @submit="handleSubmit">
-        <div class="item f-grow-2">
+        <div class="item f-grow-3">
           <mainFocForm @eventWatch="modified()" :properties="store" :docType="3"></mainFocForm>
           <DxForm
             :col-count="1"
@@ -73,8 +73,8 @@
                   :editor-options="employeeOptions"
                   editor-type="dxSelectBox"
                 >
-                  <DxLabel location="top" :text="$t('translations.fields.signatury')" />
-                  <DxRequiredRule :message="$t('translations.fields.signaturyRequired')" />
+                  <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+                  <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
                 </DxSimpleItem>
                 <DxSimpleItem
                   data-field="assigneeId"
@@ -96,10 +96,10 @@
               <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
-              <DxGroupItem cssClass="btn--group" :col-count="12" :col-span="2">
+              <DxGroupItem  :col-count="12" :col-span="2">
                 <DxButtonItem
                   :col-span="1"
-                  :button-options="addButtonOptions"
+                  :button-options="saveButtonOptions"
                   horizontal-alignment="right"
                 />
                 <DxButtonItem
@@ -114,8 +114,8 @@
         <div class="item">
           <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
         </div>
-        <div class="item">
-          <docVersion @eventWatch="modified()" :properties="store" :docType="3"></docVersion>
+        <div v-if="isUpdating" class="item">
+          <docVersion></docVersion>
         </div>
       </form>
     </div>
@@ -124,9 +124,9 @@
 <script>
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
 import navBar from "~/components/paper-work/main-doc-form/nav-bar";
+import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
 import popupCancelDocumentRegistry from "~/components/paper-work/main-doc-form/popup-cancel-document-registry";
 import popupRegistyDocument from "~/components/paper-work/main-doc-form/popup-registy-document";
-import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
 import mainFocForm from "~/components/paper-work/main-doc-form";
 import { DxPopup } from "devextreme-vue/popup";
 import "devextreme-vue/text-area";
@@ -212,18 +212,6 @@ export default {
         departmentId: null
       },
       popupRegistyDocument: false,
-      addButtonOptions: {
-        text: this.$t("translations.links.save"),
-        useSubmitBehavior: true,
-        type: "success"
-      },
-      cancelButtonOptions: {
-        onClick: this.backTo,
-
-        text: this.$t("translations.links.cancel"),
-        useSubmitBehavior: false
-      },
-      isCompany: false,
       isDefaultName: false,
       isSaved: false
     };
@@ -243,7 +231,6 @@ export default {
       this[popup] = false;
     },
     popupVisible(popup, e) {
-      console.log(popup, e);
       this[popup] = true;
     },
     backTo() {
@@ -314,6 +301,15 @@ export default {
     }
   },
   computed: {
+    saveButtonOptions() {
+      return this.$store.getters["globalProperties/btnSave"](this);
+    },
+    cancelButtonOptions() {
+      return this.$store.getters["globalProperties/btnCancel"](
+        this,
+        this.backTo
+      );
+    },
     registryState() {
       const isRegsitrible =
         this.$store.getters["paper-work/documentKind"]("numberingType") != 3

@@ -54,6 +54,8 @@ export default {
   async created() {
     if (this.$route.params.id == "add") {
       this.getDefaultDocKind();
+    } else {
+      this.isSaved = false;
     }
   },
   props: ["docType", "properties"],
@@ -84,7 +86,7 @@ export default {
       defaultDocKind: null,
       docKindName: "",
       isDefaultName: false,
-      isSaved: false
+      isSaved: true
     };
   },
   methods: {
@@ -165,15 +167,20 @@ export default {
     nameOptions() {
       const options = {
         disabled: this.isDefaultName,
+        value: this.isDefaultName ? this.defaultName : "",
         onValueChanged: e => {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
-          this.modified();
         }
       };
-      if (this.isSaved) {
-        options.value = this.isDefaultName ? this.defaultName : "";
+      if (!this.isSaved) {
+        options.onValueChanged = e => {
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            name: e.value
+          });
+          this.modified;
+        };
       }
 
       return options;

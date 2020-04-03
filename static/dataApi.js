@@ -65,6 +65,7 @@ export default {
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
     DeleteDocument: `${url}/api/OfficialDocument/`,
     Version: `${url}/api/OfficialDocument/Version/`,
-    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`
+    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,
+    DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`
   }
 };

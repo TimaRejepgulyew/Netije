@@ -168,8 +168,8 @@ export default {
       "preparesResolution": "Готовит резолюцию для руководителя",
       "prepared":"Подготовил",
       "preparedRequired":"Введите того кто подготовил",
-      "signatury":"Подписал",
-      "signaturyRequired":"Введите того кто подписал",
+      "signatory":"Подписал",
+      "signatoryRequired":"Введите того кто подписал",
       "correspondentAccount": "Корреспондентский счет",
       "bic": "Уникальный идентификатор банка",
       "bicRequired": "Введите уникальный идентификатор банка",
@@ -358,7 +358,9 @@ export default {
       "canRegisterOutgoing": "Регистрирует исходящие документы",
       "canRegisterInternal": "Регистрирует внутренние документы",
       "canRegisterContractual": "Регистрирует договорные документы",
-      
+      "invalidExeption":"Недоступное разширение",
+      "uploadSuccess":"Загрузка файла прошла успешна",
+      "uploadError":"Не удалось загрузить файл",
       "members": "Участники",
       "membersRequired": "Выберите участников",
       "registrationGroupId": "Группа регистрации",
@@ -371,7 +373,9 @@ export default {
       "numericCodeRequired": "Введите цифровой код",
       "currentNumber":"Текущий номер",
       "currentNumberRequired": "Введите текущий номер",
-      "areYouSure":"Вы уверены что хотите отменить регистрацию"
+      "areYouSure":"Вы уверены что хотите отменить регистрацию",
+      "validTill":"Действителен до",
+      "issuedToId":"Кем выдан"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
@@ -395,7 +399,8 @@ export default {
       "addRegistrationSetting": "Добавление настройки регистрации",
       "editRegistrationSetting": "Редактирование настройки регистрации",
       "addRegistrationGroup": "Добавление групп регистрации",
-      "editRegistrationGroup": "Редактирование групп регистрации"
+      "editRegistrationGroup": "Редактирование групп регистрации",
+      "versions":"Версии",
     },
     "links": {
       "save": "Сохранить",

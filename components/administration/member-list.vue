@@ -35,10 +35,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="member-list" />
 
-      <DxSearchPanel
-        position="after"
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
@@ -51,14 +48,6 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="statusStores"
-          value-expr="id"
-          display-expr="status"
-        />
-      </DxColumn>
 
       <DxColumn
         data-field="description"
@@ -118,7 +107,6 @@ export default {
       default: () => {}
     }
   },
-
   data() {
     let { id, immutable } = this.data.data;
     return {
@@ -135,7 +123,6 @@ export default {
         loadUrl: dataApi.admin.Recipient
       }),
       initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
         e.data.roleId = id;
       },
       dataGridRefKey: "dataGrid",
