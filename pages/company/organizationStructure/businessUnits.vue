@@ -31,7 +31,7 @@
 
       <DxEditing
         :allow-updating="true"
-        :allow-deleting="true"
+        :allow-deleting="allowDeleting"
         :allow-adding="true"
         :useIcons="true"
         mode="form"
@@ -51,7 +51,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
-         :ignore-empty-value="true"
+          :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -276,6 +276,10 @@ export default {
     };
   },
   methods: {
+    allowDeleting: e => {
+      console.log(e);
+      return e.row.data.isSistem;
+    },
     getFilteredRegion(options) {
       return {
         store: this.region,

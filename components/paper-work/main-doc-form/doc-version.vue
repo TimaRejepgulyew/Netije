@@ -22,7 +22,6 @@
                     class="list__btn"
                     :on-click="()=>{downloadVersion(item.data)}"
                   ></DxButton>
-                  <DxButton icon="trash" class="list__btn" :onClick="deleteVersion(item.data.id)"></DxButton>
                 </div>
               </div>
             </div>
@@ -109,13 +108,13 @@ export default {
       return associatedApplication.data.data;
     },
     openVersion(version) {
+      console.log("work");
       this.$axios
         .get(dataApi.paperWork.DownloadVersion + version.id, {
           responseType: "blob"
         })
         .then(response => {
-              window.open(URL.createObjectURL(response.data))
-        
+          window.open(URL.createObjectURL(response.data));
         });
     },
 
@@ -128,6 +127,7 @@ export default {
           var blob = new Blob([response.data], {
             type: `data:${response.data.type}`
           });
+
           saveAs(blob, `${this.name}.${version.extension}`);
         });
     },

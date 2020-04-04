@@ -31,7 +31,7 @@
 
       <DxEditing
         :allow-updating="true"
-        :allow-deleting="true"
+        :allow-deleting="allowDeleting"
         :allow-adding="true"
         :useIcons="true"
         mode="form"
@@ -222,6 +222,9 @@ export default {
     };
   },
   methods: {
+    allowDeleting: e => {
+      return e.row.data.isSistem;
+    },
     getFilteredHeadOffice(options) {
       return {
         store: this.headOfficeStore,
