@@ -1,17 +1,5 @@
 <template>
   <div class="main-block">
-    <DxPopup
-      :visible.sync="popupVersion"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      width="80%"
-      height="100%"
-    >
-      <div class="d-flex">
-        <img class="popup__img" v-if="addresImg" :src="addresImg" alt />
-      </div>
-    </DxPopup>
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
       <div class="list-container">
@@ -126,22 +114,8 @@ export default {
           responseType: "blob"
         })
         .then(response => {
-          var blob = new Blob([response.data], {
-            type: `data:${response.data.type}`
-          });
-          if (version.extension) {
-            // window.open(URL.createObjectURL(blob).slice(5) + ".jpg");
-
-             URL.createObjectURL(blob)
-
-            // this.$router.push(URL.createObjectURL(blob));
-            // window.location = URL.createObjectURL(blob);
-
-            setTimeout(() => {
-            
-              window.open(URL.createObjectURL(blob), "name", "height=500,width=850");
-            }, 1000);
-          }
+              window.open(URL.createObjectURL(response.data))
+        
         });
     },
 

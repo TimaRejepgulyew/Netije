@@ -57,12 +57,14 @@ export default {
     locale(this.$i18n.locale);
   },
 
-  mounted() {
+  created() {
     subscribe(this.screenSizeChanged);
+    window.addEventListener('vuexoidc:userSignedOut', ()=> this.$store.dispatch("oidc/signOutOidc"))
   },
 
   beforeDestroy() {
     unsubscribe(this.screenSizeChanged);
+     window.removeEventListener('vuexoidc:userSignedOut')
   },
 
   components: {

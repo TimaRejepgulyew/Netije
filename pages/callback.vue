@@ -7,7 +7,7 @@ export default {
     if (process.client) {
       this.oidcSignInCallback()
         .then(redirectPath => {
-          window.location.href = redirectPath;
+          this.$router.push(redirectPath);
         })
         .catch(err => {
           this.$router.push("/callback");
