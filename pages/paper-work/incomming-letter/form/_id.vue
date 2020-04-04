@@ -219,7 +219,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.IncommingLetterPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addIncomLetter"),
+      headerTitle: this.$t("translations.headers.incommingLetter"),
       store: {
         subject: "",
         counterpartySignatoryId: null,

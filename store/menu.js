@@ -27,7 +27,7 @@ export const state = () => ({
             path: "/paper-work/order"
           },
           {
-            text: context.$t("translations.menu.companyDirective"),
+            text: context.$t("translations.menu.companyDirectives"),
             path: "/paper-work/company-directive"
           },
           {

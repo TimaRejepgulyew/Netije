@@ -24,10 +24,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.memo')"
+        :file-name="$t('translations.menu.companyDirectives')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="memo" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="companyDirective" />
 
       <DxEditing
         :allow-updating="true"
@@ -117,21 +117,21 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.memo"),
+      headerTitle: this.$t("translations.menu.companyDirectives"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.paperWork.Memo,
+        loadUrl: dataApi.paperWork.CompanyDirective,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
 
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/paper-work/memo/form/add");
+        this.$router.push("/paper-work/company-directive/form/add");
       },
 
       editingStart: e => {
-        this.$router.push("/paper-work/memo/form/" + e.key);
+        this.$router.push("/paper-work/company-directive/form/" + e.key);
       },
       businessUnitStores: this.$dxStore({
         key: "id",

@@ -196,7 +196,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.MemoPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addMemo"),
+      headerTitle: this.$t("translations.headers.memo"),
       store: {
         ourSignatoryId: null,
         preparedById: null,
@@ -341,7 +341,10 @@ export default {
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
+          this.store.ourSignatoryId = null;
+          this.store.preparedById = null;
           this.store.addresseeId = null;
+          this.store.assigneeId = null;
         },
         showClearButton: true,
         valueExpr: "id",

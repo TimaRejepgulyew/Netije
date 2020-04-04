@@ -58,12 +58,12 @@
                 </DxSimpleItem>
 
                 <DxSimpleItem
-                  data-field="addresseeId"
+                  data-field="preparedById"
                   :editor-options="employeeOptions"
                   editor-type="dxSelectBox"
                 >
-                  <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
-                  <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
+                  <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+                  <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
                 </DxSimpleItem>
               </DxGroupItem>
 
@@ -76,21 +76,19 @@
                   <DxLabel location="top" :text="$t('translations.fields.signatory')" />
                   <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
                 </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="assigneeId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+
+                <DxSimpleItem data-field="validTill" editor-type="dxDateBox">
+                  <DxLabel location="top" :text="$t('translations.fields.validTill')" />
+                  <DxRequiredRule :message="$t('translations.fields.validTillRequired')" />
                 </DxSimpleItem>
 
                 <DxSimpleItem
-                  data-field="preparedById"
-                  :editor-options="preparedOptions"
+                  data-field="issuedToId"
+                  :editor-options="issuedToIdOptions"
                   editor-type="dxSelectBox"
                 >
-                  <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-                  <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+                  <DxLabel location="top" :text="$t('translations.fields.issuedToId')" />
+                  <DxRequiredRule :message="$t('translations.fields.issuedToIdRequired')" />
                 </DxSimpleItem>
               </DxGroupItem>
               <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
@@ -98,7 +96,7 @@
               </DxSimpleItem>
               <DxGroupItem :col-count="12" :col-span="2">
                 <DxButtonItem
-                  :col-span="11"
+                  :col-span="1"
                   :button-options="saveButtonOptions"
                   horizontal-alignment="right"
                 />
@@ -194,9 +192,9 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.OrderPost,
+      addressPost: dataApi.paperWork.PowerOfAttorneyPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addOrder"),
+      headerTitle: this.$t("translations.headers.powerOfAttorney"),
       store: {
         validTill: null,
         issuedToId: null,
@@ -321,7 +319,7 @@ export default {
         registeryAllowed: !this.store.registrationState && this.isSaved
       };
     },
-    preparedOptions() {
+    issuedToIdOptions() {
       const departmentId = this.store.departmentId;
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
@@ -340,7 +338,9 @@ export default {
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
-          this.store.addresseeId = null;
+          this.store.issuedToId = null;
+          this.store.preparedById = null;
+          this.store.ourSignatoryId = null;
         },
         showClearButton: true,
         valueExpr: "id",
@@ -353,7 +353,7 @@ export default {
         context: this,
         url: dataApi.company.Department,
         onValueChanged: e => {
-          this.store.addresseeId = null;
+          this.store.issuedToId = null;
         },
         filter: [
           ["businessUnitId", "=", businessUnitId],

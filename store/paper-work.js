@@ -17,7 +17,6 @@ export const getters = {
     documentKind,
     placedToCaseFileDate,
     caseFileId,
-    note
   }) {
     return {
       name,
@@ -25,7 +24,6 @@ export const getters = {
       documentKindId: documentKind.id,
       placedToCaseFileDate,
       caseFileId,
-      note
     };
   },
   name(state) {

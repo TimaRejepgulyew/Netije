@@ -154,7 +154,7 @@ export default {
       },
       businessUnitStores: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.CounterPart
+        loadUrl: dataApi.company.BusinessUnit
       }),
       departmentStores: this.$dxStore({
         key: "id",

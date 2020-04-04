@@ -54,8 +54,6 @@ export default {
   async created() {
     if (this.$route.params.id == "add") {
       this.getDefaultDocKind();
-    } else {
-      this.isSaved = false;
     }
   },
   props: ["docType", "properties"],
@@ -86,7 +84,7 @@ export default {
       defaultDocKind: null,
       docKindName: "",
       isDefaultName: false,
-      isSaved: true
+      isSaved: false
     };
   },
   methods: {

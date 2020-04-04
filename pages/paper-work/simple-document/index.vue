@@ -24,10 +24,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.memo')"
+        :file-name="$t('translations.menu.simpleDocument')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="memo" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="simpleDocument" />
 
       <DxEditing
         :allow-updating="true"
@@ -57,13 +57,6 @@
         <DxLookup :data-source="departmentStores" value-expr="id" display-expr="name" />
       </DxColumn>
       <DxColumn
-        data-field="addresseeId"
-        :caption="$t('translations.fields.addresseeId')"
-        data-type="selectbox"
-      >
-        <DxLookup :data-source="employeeStores" value-expr="id" display-expr="name" />
-      </DxColumn>
-      <DxColumn
         data-field="documentKindId"
         :caption="$t('translations.fields.documentKindId')"
         data-type="selectbox"
@@ -76,7 +69,6 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
@@ -117,21 +109,21 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.memo"),
+      headerTitle: this.$t("translations.menu.simpleDocument"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.paperWork.Memo,
+        loadUrl: dataApi.paperWork.SimpleDocument,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
 
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/paper-work/memo/form/add");
+        this.$router.push("/paper-work/simple-document/form/add");
       },
 
       editingStart: e => {
-        this.$router.push("/paper-work/memo/form/" + e.key);
+        this.$router.push("/paper-work/simple-document/form/" + e.key);
       },
       businessUnitStores: this.$dxStore({
         key: "id",
@@ -140,10 +132,6 @@ export default {
       departmentStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Department
-      }),
-      employeeStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee
       }),
       documentKindStores: this.$dxStore({
         key: "id",

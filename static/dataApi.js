@@ -49,23 +49,26 @@ export default {
   },
   paperWork: {
     AllDocument: `${url}/api/OfficialDocument/100`,
-    IncommingLetter: `${url}/api/OfficialDocument/1`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
+    DeleteDocument: `${url}/api/OfficialDocument/`,
+    Version: `${url}/api/OfficialDocument/Version/`,
+    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,
+    DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
+    IncommingLetter: `${url}/api/OfficialDocument/1`,
     IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,
     OutgoingLetterPost: `${url}/api/OfficialDocument/CreateOutgoingLetter`,
     Order: `${url}/api/OfficialDocument/3`,
     OrderPost: `${url}/api/OfficialDocument/CreateOrder`,
-    companyDirective: `${url}/api/OfficialDocument/4`,
+    CompanyDirective: `${url}/api/OfficialDocument/4`,
+    CompanyDirectivePost: `${url}/api/OfficialDocument/CreateCompanyDirective`,
     SimpleDocument: `${url}/api/OfficialDocument/5`,
+    SimpleDocumentPost: `${url}/api/OfficialDocument/CreateSimpleDocument`,
     Addendum: `${url}/api/OfficialDocument/6`,
     AddendumPost: `${url}/api/OfficialDocument/CreateAddendum/`,
     Memo: `${url}/api/OfficialDocument/7`,
     MemoPost: `${url}/api/OfficialDocument/CreateMemo`,
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
-    DeleteDocument: `${url}/api/OfficialDocument/`,
-    Version: `${url}/api/OfficialDocument/Version/`,
-    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,
-    DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`
+    PowerOfAttorneyPost: `${url}/api/OfficialDocument/CreatePowerOfAttorney`
   }
 };

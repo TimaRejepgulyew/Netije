@@ -168,7 +168,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.AddendumPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addAddendum"),
+      headerTitle: this.$t("translations.headers.addendum"),
       store: {
         leadingDocumentId: null,
         name: "",

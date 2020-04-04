@@ -221,7 +221,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.OutgoingLetterPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addOutgoingLetter"),
+      headerTitle: this.$t("translations.headers.outgoingLetter"),
       store: {
         subject: "",
         ourSignatoryId: null,

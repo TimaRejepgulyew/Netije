@@ -1,5 +1,17 @@
 <template>
   <div class="main-block">
+    <DxPopup
+      :visible.sync="popupVersion"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="80%"
+      height="100%"
+    >
+      <div class="d-flex">
+        <img class="popup__img" v-if="addresImg" :src="addresImg" alt />
+      </div>
+    </DxPopup>
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
       <div class="list-container">
@@ -11,7 +23,12 @@
 
                 <div class="list__content">{{ item.data.note}}</div>
                 <div class="list__btn-group">
-                  <DxButton icon="edit" class="list__btn" :onClick="editVersion(item.data)"></DxButton>
+                  <DxButton
+                    icon="search"
+                    class="list__btn"
+                    v-if="!item.data.preview"
+                    :onClick="()=>{openVersion(item.data)}"
+                  ></DxButton>
                   <DxButton
                     icon="download"
                     class="list__btn"
@@ -42,11 +59,13 @@ import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
 import notify from "devextreme/ui/notify";
 import { saveAs } from "file-saver";
+import { DxPopup } from "devextreme-vue/popup";
 export default {
   components: {
     DxFileUploader,
     DxList,
-    DxButton
+    DxButton,
+    DxPopup
   },
   async created() {
     this.associatedApplication = await this.getData(
@@ -59,7 +78,9 @@ export default {
   data() {
     return {
       versions: [],
-      associatedApplication: []
+      associatedApplication: [],
+      addresImg: "",
+      popupVersion: false
     };
   },
   computed: {
@@ -80,26 +101,50 @@ export default {
       return data.data.map(version => {
         const associatedApplicationId =
           version.binaryDataAssociatedApplicationId;
-        version.extension = this.addExtensionProperty(associatedApplicationId);
+        const associatedApplication = this.getThisAssociatedApp(
+          associatedApplicationId
+        );
+        version.extension = associatedApplication.extension.slice(1);
+        version.preview = associatedApplication.preview;
         return version;
       });
     },
-    addExtensionProperty(associatedApplicationId) {
-      return this.associatedApplication
-        .find(associatedApp => {
-          if (associatedApplicationId == associatedApp.id) {
-            return associatedApp.extension;
-          }
-        })
-        .extension.slice(1);
+    getThisAssociatedApp(associatedApplicationId) {
+      return this.associatedApplication.find(associatedApp => {
+        if (associatedApplicationId == associatedApp.id) {
+          return associatedApp;
+        }
+      });
     },
     async getData(address) {
       const associatedApplication = await this.$axios.get(address);
       return associatedApplication.data.data;
     },
-    editVersion() {
-      // this.editVersionPopup = true;
+    openVersion(version) {
+      this.$axios
+        .get(dataApi.paperWork.DownloadVersion + version.id, {
+          responseType: "blob"
+        })
+        .then(response => {
+          var blob = new Blob([response.data], {
+            type: `data:${response.data.type}`
+          });
+          if (version.extension) {
+            // window.open(URL.createObjectURL(blob).slice(5) + ".jpg");
+
+             URL.createObjectURL(blob)
+
+            // this.$router.push(URL.createObjectURL(blob));
+            // window.location = URL.createObjectURL(blob);
+
+            setTimeout(() => {
+            
+              window.open(URL.createObjectURL(blob), "name", "height=500,width=850");
+            }, 1000);
+          }
+        });
     },
+
     downloadVersion(version) {
       this.$axios
         .get(dataApi.paperWork.DownloadVersion + version.id, {
@@ -140,7 +185,7 @@ export default {
         })
         .then(version => {
           this.notify(this.$t("translations.fields.uploadSuccess"), "success");
-          version.data.extension = this.addExtensionProperty(
+          version.data.extension = this.getThisAssociatedApp(
             version.data.binaryDataAssociatedApplicationId
           );
           this.versions.push(version.data);
@@ -178,6 +223,14 @@ export default {
       margin-left: auto;
     }
   }
+}
+
+.popup__img {
+  object-fit: contain;
+  display: block;
+  position: relative;
+  width: 80%;
+  height: 100%;
 }
 </style>
 

@@ -20,7 +20,7 @@
 
           <popup-registy-document
             v-else
-            :docType="3"
+            :docType="4"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
@@ -29,7 +29,7 @@
 
       <form class="d-flex" @submit="handleSubmit">
         <div class="item f-grow-3">
-          <mainFocForm @eventWatch="modified()" :properties="store" :docType="3"></mainFocForm>
+          <mainFocForm @eventWatch="modified()" :properties="store" :docType="4"></mainFocForm>
           <DxForm
             :col-count="1"
             :form-data.sync="store"
@@ -76,14 +76,6 @@
                   <DxLabel location="top" :text="$t('translations.fields.signatory')" />
                   <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
                 </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="assigneeId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
-                </DxSimpleItem>
-
                 <DxSimpleItem
                   data-field="preparedById"
                   :editor-options="preparedOptions"
@@ -194,14 +186,13 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.OrderPost,
+      addressPost: dataApi.paperWork.CompanyDirectivePost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.order"),
+      headerTitle: this.$t("translations.headers.companyDirective"),
       store: {
         ourSignatoryId: null,
         preparedById: null,
         addresseeId: null,
-        assigneeId: null,
         name: "",
         subject: "",
         note: "",
@@ -218,6 +209,7 @@ export default {
   },
   methods: {
     modified() {
+      console.log("watch is work ");
       this.isSaved = false;
       unwatch();
     },
@@ -230,7 +222,7 @@ export default {
     popupDisabled(popup) {
       this[popup] = false;
     },
-    popupVisible(popup, e) {
+    popupVisible(popup) {
       this[popup] = true;
     },
     backTo() {

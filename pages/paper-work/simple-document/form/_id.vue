@@ -20,7 +20,7 @@
 
           <popup-registy-document
             v-else
-            :docType="3"
+            :docType="5"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
@@ -29,7 +29,7 @@
 
       <form class="d-flex" @submit="handleSubmit">
         <div class="item f-grow-3">
-          <mainFocForm @eventWatch="modified()" :properties="store" :docType="3"></mainFocForm>
+          <mainFocForm @eventWatch="modified()" :properties="store" :docType="5"></mainFocForm>
           <DxForm
             :col-count="1"
             :form-data.sync="store"
@@ -38,7 +38,7 @@
             :show-validation-summary="true"
             validation-group="OfficialDocument"
           >
-            <DxGroupItem :col-count="2">
+            <DxGroupItem :col-count="1">
               <DxGroupItem>
                 <DxSimpleItem
                   data-field="businessUnitId"
@@ -56,44 +56,9 @@
                   <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
                   <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
                 </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="addresseeId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
-                  <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
-                </DxSimpleItem>
               </DxGroupItem>
-
-              <DxGroupItem>
-                <DxSimpleItem
-                  data-field="ourSignatoryId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-                  <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
-                </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="assigneeId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="preparedById"
-                  :editor-options="preparedOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-                  <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-                </DxSimpleItem>
-              </DxGroupItem>
-              <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
+              <DxGroupItem></DxGroupItem>
+              <DxSimpleItem :col-span="1" data-field="note" editor-type="dxTextArea">
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
               <DxGroupItem :col-count="12" :col-span="2">
@@ -112,7 +77,7 @@
           </DxForm>
         </div>
         <div class="item">
-          <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
+          <docRegistration @eventWatch="modified()" :properties="store" :docType="5"></docRegistration>
         </div>
         <div v-if="isUpdating" class="item">
           <docVersion></docVersion>
@@ -194,14 +159,10 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.OrderPost,
+      addressPost: dataApi.paperWork.SimpleDocumentPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.order"),
+      headerTitle: this.$t("translations.headers.simpleDocument"),
       store: {
-        ourSignatoryId: null,
-        preparedById: null,
-        addresseeId: null,
-        assigneeId: null,
         name: "",
         subject: "",
         note: "",
@@ -218,6 +179,7 @@ export default {
   },
   methods: {
     modified() {
+      console.log("watch is work ");
       this.isSaved = false;
       unwatch();
     },
@@ -230,7 +192,7 @@ export default {
     popupDisabled(popup) {
       this[popup] = false;
     },
-    popupVisible(popup, e) {
+    popupVisible(popup) {
       this[popup] = true;
     },
     backTo() {
@@ -321,14 +283,6 @@ export default {
         registeryAllowed: !this.store.registrationState && this.isSaved
       };
     },
-    preparedOptions() {
-      const departmentId = this.store.departmentId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Employee,
-        filter: [["departmentId", "=", departmentId], "and", ["status", "=", 0]]
-      });
-    },
     businessUnitOptions() {
       return {
         dataSource: new DataSource({
@@ -340,10 +294,6 @@ export default {
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
-          this.store.ourSignatoryId = null;
-          this.store.preparedById = null;
-          this.store.addresseeId = null;
-          this.store.assigneeId = null;
         },
         showClearButton: true,
         valueExpr: "id",
@@ -355,9 +305,6 @@ export default {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Department,
-        onValueChanged: e => {
-          this.store.addresseeId = null;
-        },
         filter: [
           ["businessUnitId", "=", businessUnitId],
           "and",
@@ -365,18 +312,6 @@ export default {
         ]
       });
     },
-    employeeOptions() {
-      let businessUnitId = this.store.businessUnitId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Employee,
-        filter: [
-          ["businessUnitId", "=", businessUnitId],
-          "and",
-          ["status", "=", 0]
-        ]
-      });
-    }
   }
 };
 </script>

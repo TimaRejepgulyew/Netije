@@ -24,10 +24,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.outgoingLetter')"
+        :file-name="$t('translations.menu.order')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="outgoingLetter" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="order" />
 
       <DxEditing
         :allow-updating="true"
@@ -135,7 +135,7 @@ export default {
       },
       businessUnitStores: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.CounterPart
+        loadUrl: dataApi.company.BusinessUnit
       }),
       departmentStores: this.$dxStore({
         key: "id",
@@ -150,7 +150,7 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind
       })
     };
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
