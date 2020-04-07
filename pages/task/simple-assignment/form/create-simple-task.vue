@@ -22,7 +22,7 @@
                 <DxGroupItem :col-count="3">
                   <DxSimpleItem data-field="deadLine" editor-type="dxDateBox">
                     <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
-                    <DxRangeRule :max="maxDate" message="You must be at least 21 years old" />
+                    <!-- <DxRangeRule :max="maxDate" message="You must be at least 21 years old" /> -->
                   </DxSimpleItem>
 
                   <DxSimpleItem
@@ -82,7 +82,6 @@
   </div>
 </template>
 <script>
-import moment from
 import navBar from "~/components/task/nav-bar";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -102,7 +101,6 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
-import moment from 'moment';
 export default {
   components: {
     DxRangeRule,
@@ -121,7 +119,7 @@ export default {
     DxAsyncRule
   },
   created(){
-    console.log(this.maxDate,'dawdaw');
+
   },
   data() {
     return {
@@ -137,7 +135,7 @@ export default {
         accessRights: 60,
         attachmentDetails: []
       },
-      maxDate: moment().fromNow(),
+      // maxDate: moment().fromNow(),
       routeTypeOptions: {
         dataSource: [
           { id: 0, name: this.$t("translations.fields.gradually") },
