@@ -20,9 +20,13 @@
                   <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
                 </DxSimpleItem>
                 <DxGroupItem :col-count="3">
-                  <DxSimpleItem data-field="deadLine" editor-type="dxDateBox">
+                  <DxSimpleItem
+                    data-field="deadline"
+                    :editor-options="dateTimeOptions"
+                    editor-type="dxDateBox"
+                  >
                     <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
-                    <!-- <DxRangeRule :max="maxDate" message="You must be at least 21 years old" /> -->
+                    <DxRangeRule :min="minDate" :message="$t('translations.fields.deadLineRule')" />
                   </DxSimpleItem>
 
                   <DxSimpleItem
@@ -82,6 +86,7 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 import navBar from "~/components/task/nav-bar";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -118,9 +123,6 @@ export default {
     DxForm,
     DxAsyncRule
   },
-  created(){
-
-  },
   data() {
     return {
       addressPost: dataApi.task.SimpleTask,
@@ -128,14 +130,17 @@ export default {
       store: {
         subject: "",
         importance: 1,
-        deadLine: null,
+        deadline:  new Date(),
         routeType: 0,
         observers: [],
         performers: [],
         accessRights: 60,
         attachmentDetails: []
       },
-      // maxDate: moment().fromNow(),
+      dateTimeOptions: {
+        type: "datetime"
+      },
+      minDate: new Date(),
       routeTypeOptions: {
         dataSource: [
           { id: 0, name: this.$t("translations.fields.gradually") },
@@ -252,7 +257,7 @@ form {
 }
 .navBar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 .mr-top-auto {
   margin-top: 40%;

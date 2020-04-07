@@ -381,13 +381,15 @@ export default {
       "issuedToId":"Кому выдан",
       "issuedToIdRequired":"Введите кому выдана доверенность",
       "deadLine":"Срок",
+      "deadLineRule":"Дата и время не должны быть просроченны",
       "parallel":"паралельно",
       "gradually":"друг за другом",
       "start":"Старт",
       "accessDenied":"Доступ запрещен",
       "fullAccess":"Полный доступ",
-      "observers":"Исполнители",
-      "performers":"Наблюдатели",
+      "observers":"Наблюдатели",
+      "performers":"Исполнители",
+      "performerId":"Исполнитель",
       "reading":"Просмотр",
       "edit":"Изменение",
       "create":"создание",
@@ -396,7 +398,7 @@ export default {
       "lowImportance":"Низкая важность",
       "subjectTask":"Тема",
       "authorId":"Создатель",
-
+      "importanceMessage":"Это задание имеет высокую важность"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
@@ -426,11 +428,16 @@ export default {
       "simpleTask":"Простое задание",
       "createSimpleTask":"Создать простую задачу",
       "versions":"Версии",
-      "attachment":"Вложения"
+      "attachment":"Вложения",
+      "moreAbout":"Подробнее"
     },
     "links": {
       "save": "Сохранить",
       "add": "Добавить",
+      "complete":"Завершить",
+      "modification":"Отправить на дооработку",
+      "stop":"Прекратить",
+      "accept":"Принять",
       "cancel":"Назад",
       "delete":"Удалить",
       "yes":"Да",

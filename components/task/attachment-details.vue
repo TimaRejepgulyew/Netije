@@ -7,9 +7,7 @@
           <template #item="item">
             <div>
               <div class="d-flex">
-                <div class="list__content">
-                  {{item.data.name}}
-                </div>
+                <div class="list__content">{{item.data.name}}</div>
                 <div class="list__btn-group">
                   <DxButton
                     icon="search"
@@ -34,7 +32,6 @@
         :value.sync="store"
         :show-selection-controls="true"
         :show-multi-tag-only="false"
-        :selected-items="attachments"
         value-expr="id"
         display-expr="name"
         apply-value-mode="useButtons"
@@ -68,7 +65,6 @@ export default {
   async created() {
     const { data } = await this.$axios.get(dataApi.paperWork.AllDocument);
     this.allDocuments = data.data;
-    console.log(this.allDocuments, "created");
   },
 
   data() {
@@ -85,12 +81,15 @@ export default {
   computed: {
     attachments() {
       const attachmentDetails = [...this.attachmentDetails];
-
-      return attachmentDetails.map(id => {
-        return this.allDocuments.find(document => {
-          return document.id == id;
+      if (attachmentDetails) {
+        return attachmentDetails.map(attachment => {
+          return this.allDocuments.find(document => {
+            return document.id == attachment.attachmentId;
+          });
         });
-      });
+      } else {
+        return [];
+      }
     }
   },
   methods: {

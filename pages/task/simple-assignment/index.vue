@@ -119,9 +119,6 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
-  async created() {
-    console.log(await this.$axios.get(dataApi.task.SimpleAssignment));
-  },
   data() {
     return {
       headerTitle: this.$t("translations.headers.simpleTask"),
@@ -135,7 +132,8 @@ export default {
       },
 
       editingStart: e => {
-        // this.$router.push("/simple-assigment/form/" + e.key);
+        // console.log(e.key);
+        this.$router.push("/task/simple-assignment/form/" + e.key);
       },
       employeeStores: this.$dxStore({
         key: "id",

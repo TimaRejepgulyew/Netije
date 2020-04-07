@@ -108,7 +108,6 @@ export default {
       return associatedApplication.data.data;
     },
     openVersion(version) {
-      console.log("work");
       this.$axios
         .get(dataApi.paperWork.DownloadVersion + version.id, {
           responseType: "blob"
@@ -186,8 +185,9 @@ export default {
   }
 
   .list-container {
+    border: 0.1px solid darken($base-bg, 15);
     padding: 35px 0;
-    max-height: 60vh;
+    height: 50vh;
     overflow: auto;
     width: 100%;
     i {

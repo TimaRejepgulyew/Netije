@@ -107,7 +107,7 @@ body {
   }
 }
 .navBar {
-  background-color: darken($base-bg, 5);
+  background-color: darken($base-bg, 1);
 }
 .app {
   background-color: darken($base-bg, 5);

@@ -1,6 +1,11 @@
 <template>
   <div class="navBar">
+    <div>
+      <slot></slot>
+    </div>
+
     <DxButton
+      :disabled="btnDisabled"
       :text="$t('translations.fields.hightImportance')"
       :height="40"
       :onClick="(e)=>this.importanceChanged(0)"
@@ -8,6 +13,7 @@
       :type="hightImportance?'default':'normal'"
     ></DxButton>
     <DxButton
+      :disabled="btnDisabled"
       :text="$t('translations.fields.middleImportance')"
       :height="40"
       icon="sorted"
@@ -15,6 +21,7 @@
       :onClick="(e)=>this.importanceChanged(1)"
     ></DxButton>
     <DxButton
+      :disabled="btnDisabled"
       :text="$t('translations.fields.lowImportance')"
       :height="40"
       icon="sortdown"
@@ -31,7 +38,7 @@ export default {
   components: {
     DxButton
   },
-  props: ["registryState"],
+  props: ["btnDisabled"],
   data() {
     return {
       hightImportance: false,
