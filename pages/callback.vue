@@ -1,4 +1,6 @@
-
+<template>
+  <div></div>
+</template>
 <script>
 import Oidc, { WebStorageStateStore } from "oidc-client";
 import { mapActions } from "vuex";

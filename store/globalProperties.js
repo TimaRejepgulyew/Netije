@@ -6,34 +6,48 @@ export const state = () => ({
       dataSource: new DataSource({
         store: context.$dxStore({
           key: "id",
-          loadUrl: url
+          loadUrl: url,
         }),
-        filter
+        filter,
       }),
       onValueChanged,
       disabled,
       showClearButton: true,
       valueExpr: "id",
-      displayExpr: "name"
+      displayExpr: "name",
     };
   },
+  documentTypeGuid: [
+    "",
+    "incomming-letter",
+    "outgoing-letter",
+    "order",
+    "company-directive",
+    "simple-document",
+    "addendum",
+    "memo",
+    "power-of-attorney",
+  ],
   btnSave(context) {
     return {
       text: context.$t("translations.links.save"),
       useSubmitBehavior: true,
-      type: "success"
+      type: "success",
     };
   },
   btnCancel(context, onClick) {
     return {
       onClick,
       text: context.$t("translations.links.cancel"),
-      useSubmitBehavior: false
+      useSubmitBehavior: false,
     };
-  }
+  },
 });
 
 export const getters = {
+  documentTypeGuid: ({ documentTypeGuid }) => (index) => {
+    return `/paper-work/${documentTypeGuid[index]}/form/`;
+  },
   whitespacePattern({ whitespacePattern }) {
     return whitespacePattern;
   },
@@ -42,14 +56,14 @@ export const getters = {
     url,
     filter,
     disabled,
-    onValueChanged
+    onValueChanged,
   }) => {
     return new FormOptions(context, url, filter, disabled, onValueChanged);
   },
   btnCancel: ({ btnCancel }) => (context, onClick) => {
     return btnCancel(context, onClick);
   },
-  btnSave: ({ btnSave }) => context => {
+  btnSave: ({ btnSave }) => (context) => {
     return btnSave(context);
-  }
+  },
 };

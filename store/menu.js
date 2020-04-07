@@ -5,7 +5,19 @@ export const state = () => ({
       {
         text: "Dasboard",
         path: "/home",
-        icon: "home"
+        icon: "home",
+      },
+      {
+        text: context.$t("translations.menu.task"),
+        icon: "alignjustify",
+        path: "/task",
+
+        items: [
+          {
+            text: context.$t("translations.menu.simpleTask"),
+            path: "/task/simple-assignment",
+          },
+        ],
       },
       {
         text: context.$t("translations.menu.paperwork"),
@@ -15,38 +27,38 @@ export const state = () => ({
         items: [
           {
             text: context.$t("translations.menu.incommingLetter"),
-            path: "/paper-work/incomming-letter"
+            path: "/paper-work/incomming-letter",
           },
           {
             text: context.$t("translations.menu.outgoingLetter"),
-            path: "/paper-work/outgoing-letter"
+            path: "/paper-work/outgoing-letter",
           },
 
           {
             text: context.$t("translations.menu.order"),
-            path: "/paper-work/order"
+            path: "/paper-work/order",
           },
           {
             text: context.$t("translations.menu.companyDirectives"),
-            path: "/paper-work/company-directive"
+            path: "/paper-work/company-directive",
           },
           {
             text: context.$t("translations.menu.simpleDocument"),
-            path: "/paper-work/simple-document"
+            path: "/paper-work/simple-document",
           },
           {
             text: context.$t("translations.menu.addendum"),
-            path: "/paper-work/addendum"
+            path: "/paper-work/addendum",
           },
           {
             text: context.$t("translations.menu.memo"),
-            path: "/paper-work/memo"
+            path: "/paper-work/memo",
           },
           {
             text: context.$t("translations.menu.powerOfAttorney"),
-            path: "/paper-work/power-of-attorney"
-          }
-        ]
+            path: "/paper-work/power-of-attorney",
+          },
+        ],
       },
       {
         text: context.$t("translations.menu.contractors"),
@@ -56,29 +68,29 @@ export const state = () => ({
           {
             text: context.$t("translations.menu.businessUnit"),
             icon: "fields",
-            path: "/parties/organizations/businessUnit"
+            path: "/parties/organizations/businessUnit",
           },
           {
             text: context.$t("translations.menu.banks"),
             icon: "fields",
-            path: "/parties/organizations/bank"
+            path: "/parties/organizations/bank",
           },
           {
             text: context.$t("translations.menu.contacts"),
             icon: "fields",
-            path: "/parties/organizations/contact"
+            path: "/parties/organizations/contact",
           },
           {
             text: context.$t("translations.menu.counterPartList"),
             icon: "fields",
-            path: "/parties/counterParts/"
+            path: "/parties/counterParts/",
           },
           {
             text: context.$t("translations.menu.person"),
             icon: "fields",
-            path: "/parties/persons/"
-          }
-        ]
+            path: "/parties/persons/",
+          },
+        ],
       },
       {
         text: context.$t("translations.menu.company-structure"),
@@ -87,25 +99,25 @@ export const state = () => ({
         items: [
           {
             text: context.$t("translations.menu.businessUnit"),
-            path: "/company/organizationStructure/businessUnits"
+            path: "/company/organizationStructure/businessUnits",
           },
           {
             text: context.$t("translations.menu.department"),
-            path: "/company/organizationStructure/departments"
+            path: "/company/organizationStructure/departments",
           },
           {
             text: context.$t("translations.menu.employee"),
-            path: "/company/staff/employees"
+            path: "/company/staff/employees",
           },
           {
             text: context.$t("translations.menu.post"),
-            path: "/company/staff/jobTitles"
+            path: "/company/staff/jobTitles",
           },
           {
             text: context.$t("translations.menu.managersAssistant"),
-            path: "/company/staff/managerAssistants"
-          }
-        ]
+            path: "/company/staff/managerAssistants",
+          },
+        ],
       },
       {
         text: context.$t("translations.menu.docFlow"),
@@ -114,37 +126,37 @@ export const state = () => ({
         items: [
           {
             text: context.$t("translations.menu.documentKind"),
-            path: "/docFlow/document-kind"
+            path: "/docFlow/document-kind",
           },
           {
             text: context.$t("translations.menu.documentRegistry"),
-            path: "/docFlow/document-registration"
+            path: "/docFlow/document-registration",
           },
           {
             text: context.$t("translations.menu.registrationGroup"),
-            path: "/docFlow/registration-group2"
+            path: "/docFlow/registration-group2",
           },
           {
             text: context.$t("translations.menu.caseFile"),
-            path: "/docFlow/case-file/"
+            path: "/docFlow/case-file/",
           },
           {
             text: context.$t("translations.menu.fileRetentionPeriod"),
-            path: "/docFlow/file-retention-period/"
+            path: "/docFlow/file-retention-period/",
           },
           {
             text: context.$t("translations.menu.mailDeliveryMethod"),
-            path: "/docFlow/mail-delivery-method/"
+            path: "/docFlow/mail-delivery-method/",
           },
           {
             text: context.$t("translations.menu.associatedApp"),
-            path: "/docFlow/associated-app"
+            path: "/docFlow/associated-app",
           },
           {
             text: context.$t("translations.menu.fileType"),
-            path: "/docFlow/files-type"
-          }
-        ]
+            path: "/docFlow/files-type",
+          },
+        ],
       },
       {
         text: context.$t("translations.menu.shared-directory"),
@@ -154,24 +166,24 @@ export const state = () => ({
           {
             text: context.$t("translations.menu.countries"),
             icon: "isnotblank",
-            path: "/shared-directory/territorialStructure/countries"
+            path: "/shared-directory/territorialStructure/countries",
           },
           {
             text: context.$t("translations.menu.region"),
             icon: "isnotblank",
-            path: "/shared-directory/territorialStructure/region"
+            path: "/shared-directory/territorialStructure/region",
           },
           {
             text: context.$t("translations.menu.locality"),
             icon: "isnotblank",
-            path: "/shared-directory/territorialStructure/localities"
+            path: "/shared-directory/territorialStructure/localities",
           },
           {
             text: context.$t("translations.menu.currencies"),
             icon: "isnotblank",
-            path: "/shared-directory/currencies"
-          }
-        ]
+            path: "/shared-directory/currencies",
+          },
+        ],
       },
       {
         text: context.$t("translations.menu.administration"),
@@ -182,16 +194,16 @@ export const state = () => ({
           {
             text: context.$t("translations.menu.roles"),
             path: "/admin/roles",
-            icon: "user"
-          }
-        ]
-      }
+            icon: "user",
+          },
+        ],
+      },
     ];
-  }
+  },
 });
 
 export const getters = {
-  menuList: ({ menuList }) => context => {
+  menuList: ({ menuList }) => (context) => {
     return menuList(context);
-  }
+  },
 };
