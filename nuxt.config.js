@@ -1,6 +1,6 @@
 export default {
   env: {
-    baseUrl: process.env.npm_package_url
+    baseUrl: process.env.npm_package_url,
   },
   mode: "spa",
   /*
@@ -14,13 +14,13 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
-      }
+        content: process.env.npm_package_description || "",
+      },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
   router: {
-    middleware: "authorization"
+    middleware: "authorization",
   },
 
   /*
@@ -34,7 +34,7 @@ export default {
     { src: "devextreme/dist/css/dx.common.css", lang: "css" },
     { src: "~/assets/themes/generated/theme.base.css", lang: "css" },
     { src: "~/assets/themes/generated/theme.additional.css", lang: "css" },
-    { src: "~/assets/extentions/flaticon.css", lang: "css" }
+    { src: "~/assets/extentions/flaticon.css", lang: "css" },
   ],
   /*
    ** Plugins to load before mounting the App
@@ -43,7 +43,7 @@ export default {
     "~/plugins/axios",
     "~/plugins/customStore",
     "~/plugins/customValidator",
-    "~/plugins/signalRStore"
+    "~/plugins/signalRStore",
   ],
   /*
    ** Nuxt.js dev-modules
@@ -63,20 +63,20 @@ export default {
             name: "Русский",
             code: "ru",
             iso: "ru-RU",
-            file: "ru-RU.js"
+            file: "ru-RU.js",
           },
           {
             name: "Turkmen",
             code: "tk",
             iso: "tk-TM",
-            file: "tk-TM.js"
-          }
+            file: "tk-TM.js",
+          },
         ],
         detectBrowserLanguage: {
           useCookie: true,
           cookieKey: "locale",
           alwaysRedirect: true,
-          fallbackLocale: "ru"
+          fallbackLocale: "ru",
         },
         lazy: true,
         langDir: "lang/",
@@ -86,10 +86,10 @@ export default {
           moduleName: "i18n",
           syncLocale: true,
           syncMessages: true,
-          syncRouteParams: true
-        }
-      }
-    ]
+          syncRouteParams: true,
+        },
+      },
+    ],
   ],
   /*
    ** Axios module configuration
@@ -103,6 +103,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
-  }
+    extend(config, ctx) {},
+  },
 };

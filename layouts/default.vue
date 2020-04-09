@@ -1,18 +1,25 @@
 <template>
-  <div id="root">
-    <div :class="cssClasses">
-      <app-content
-        class="content"
-        :title="title"
-        :is-x-small="screen.isXSmall"
-        :is-large="screen.isLarge"
-      >
-        <template #footer>
-          <the-footer class="footer" />
-        </template>
-      </app-content>
+  <transition name="fade">
+    <div id="root">
+      <div :class="cssClasses">
+        <app-content
+          class="content"
+          :title="title"
+          :is-x-small="screen.isXSmall"
+          :is-large="screen.isLarge"
+        >
+          <template #footer>
+            <the-footer class="footer" />
+          </template>
+        </app-content>
+      </div>
     </div>
-  </div>
+  </transition>
+</template>
+        </app-content>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -23,6 +30,7 @@ import { sizes, subscribe, unsubscribe } from "./media-query";
 import tkMessages from "../lang/devExtremeLocalization/tk.json";
 import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
+
 function getScreenSizeInfo() {
   const screenSizes = sizes();
 
@@ -55,16 +63,31 @@ export default {
     loadMessages(tkMessages);
     loadMessages(ruMessages);
     locale(this.$i18n.locale);
+   if (this.$store.getters["oidc/oidcUser"] != null) {
+       this.$store.dispatch(
+        "permissions/getPermissions",
+        this.$store.getters["oidc/oidcUser"].Metadata
+      );
+    }
   },
 
   created() {
     subscribe(this.screenSizeChanged);
-    window.addEventListener('vuexoidc:userSignedOut', ()=> this.$store.dispatch("oidc/signOutOidc"))
+    window.addEventListener("vuexoidc:userSignedOut", () =>
+      this.$store.dispatch("oidc/signOutOidc")
+    );
+     
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
 
+      setTimeout(() => this.$nuxt.$loading.finish(), 50000);
+    });
+  },
   beforeDestroy() {
     unsubscribe(this.screenSizeChanged);
-     window.removeEventListener('vuexoidc:userSignedOut')
+    window.removeEventListener("vuexoidc:userSignedOut");
   },
 
   components: {
@@ -88,9 +111,11 @@ body {
 #root {
   height: 100vh;
 }
+
 * {
   box-sizing: border-box;
 }
+
 .d-flex {
   display: flex;
   .item {
@@ -106,20 +131,27 @@ body {
     padding-top: 350px;
   }
 }
+
 .navBar {
   background-color: darken($base-bg, 1);
 }
+
 .app {
   background-color: darken($base-bg, 5);
   display: flex;
   height: 100%;
   width: 100%;
 }
+
 .grid--title {
   color: #333;
 }
 
 .list__content {
   justify-self: flex-start;
+}
+
+.container {
+  text-align: start;
 }
 </style>

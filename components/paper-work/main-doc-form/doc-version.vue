@@ -158,9 +158,12 @@ export default {
         })
         .then(version => {
           this.notify(this.$t("translations.fields.uploadSuccess"), "success");
-          version.data.extension = this.getThisAssociatedApp(
+          const associatedApplication = this.getThisAssociatedApp(
             version.data.binaryDataAssociatedApplicationId
           );
+
+          version.data.extension = associatedApplication.extension.slice(1);
+          version.data.preview = associatedApplication.preview;
           this.versions.push(version.data);
         })
         .catch(() => {

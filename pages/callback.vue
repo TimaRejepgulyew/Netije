@@ -5,10 +5,16 @@
 import Oidc, { WebStorageStateStore } from "oidc-client";
 import { mapActions } from "vuex";
 export default {
+  layout: "entity",
   created() {
     if (process.client) {
       this.oidcSignInCallback()
         .then(redirectPath => {
+          this.$store.dispatch(
+            "permissions/getPermissions",
+            this.$store.getters["oidc/oidcUser"].Metadata
+          );
+
           this.$router.push(redirectPath);
         })
         .catch(err => {

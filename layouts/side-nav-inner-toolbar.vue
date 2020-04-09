@@ -144,6 +144,8 @@ export default {
 }
 
 .main-content {
+  position: relative;
+  
   min-height: 80vh;
   background: $base-bg;
   margin: 1vw 0.5vw 0 1vw;

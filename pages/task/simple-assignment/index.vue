@@ -1,6 +1,16 @@
 <template>
   <main class="container container--grid">
     <Header :headerTitle="headerTitle"></Header>
+    <DxDropDownButton
+      :use-select-mode="false"
+      :text="$t('translations.links.create')"
+      :drop-down-options="{ width: 230 }"
+      :items="assignmentsTypes"
+      icon="plus"
+      display-expr="name"
+      @button-click="buttonClick"
+      @item-click="onItemClick"
+    />
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -8,6 +18,8 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :show-column-lines="false"
+      :onRowDblClick="toMoreAbout"
       @editing-start="editingStart"
       @init-new-row="initNewRow"
     >
@@ -30,9 +42,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="simpleAssignment" />
 
       <DxEditing
-        :allow-updating="true"
+        :allow-updating="false"
         :allow-deleting="false"
-        :allow-adding="true"
+        :allow-adding="false"
         :useIcons="true"
         mode="form"
       />
@@ -79,6 +91,7 @@
   </main>
 </template>
 <script>
+import { DxDropDownButton } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -102,6 +115,7 @@ import {
 
 export default {
   components: {
+    DxDropDownButton,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -126,7 +140,14 @@ export default {
         key: "id",
         loadUrl: dataApi.task.SimpleAssignment
       }),
-
+      assignmentsTypes: [
+        { id: 0, path: "/task/createTask/1", name: "Создать простую задачу" },
+        {
+          id: 1,
+          path: "/task/createTask/2",
+          name: "Создать задачу на расмотрение"
+        }
+      ],
       initNewRow: e => {
         this.$router.push("/task/simple-assignment/form/create-simple-task");
       },
@@ -145,7 +166,19 @@ export default {
       // })
     };
   },
-  methods: {}
+  methods: {
+    toMoreAbout(e) {
+      console.log(e, "row");
+      this.$router.push("task/moreAbout/0");
+    },
+    onItemClick(e) {
+      // this.$router.push(path);
+      console.log(e.itemData.path);
+    },
+    buttonClick() {
+      // this.$router.push("task/createTask/0");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

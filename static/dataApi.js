@@ -73,8 +73,8 @@ export default {
   },
   task: {
     SimpleTask: `${url}/api/SimpleTask`,
-    SimpleAssignment: `${url}/api/SimpleAssignment/GetAllAssignment`,
-    SimpleAssignmentId: `${url}/api/SimpleAssignment/`,
+    AssignmentId: `${url}/api/Assignment/GetAssignmentById/`,
+    AllAssignments: `${url}/api/Assignment/GetAllAssignment/`,
     CompleteAssignment: `${url}/api/SimpleAssignment/CompleteAssignment`,
     MarkAsRead: `${url}/api/SimpleAssignment/MarkAsRead`,
   },

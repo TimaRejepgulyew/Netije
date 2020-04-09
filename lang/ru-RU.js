@@ -26,6 +26,7 @@ export default {
       "person": "Физические лица",
       "counterPartList": "Список контрагентов",
       "post": "Должности",
+      "assignments":"Задания",
       "task":"Задачи",
       "simpleTask":"Простые задачи",
       "businessUnit": "Организации",
@@ -67,6 +68,11 @@ export default {
       "addendum":"Приложении к документу",
       "memo":"Служебные записки",
       "powerOfAttorney":"Доверенности",
+      "allAssignments":"Все задания",
+      "simpleAssignments":"Простые задания",
+      "acquaintanceAssignments":"Задания на ознакомление",
+      "actionAssignments":"Задания на исполнение",
+      "allNotice":"Все уведомления",
     },
     "fields": {
       "whom":"Кому",
@@ -397,8 +403,12 @@ export default {
       "middleImportance":"Средняя важность",
       "lowImportance":"Низкая важность",
       "subjectTask":"Тема",
-      "authorId":"Создатель",
-      "importanceMessage":"Это задание имеет высокую важность"
+      "authorId":"Автор",
+      "importanceMessage":"Это задание имеет высокую важность",
+      "createSimpleTask":"Создать простую задачу",
+      "createActionTask":"Создать задачу на поручение",
+      "createAcquaintanceTask":"Создать задачу на расмотрение",
+      "attachmentSimpleTask":"Вложение к простой задаче"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
@@ -436,10 +446,12 @@ export default {
       "add": "Добавить",
       "complete":"Завершить",
       "modification":"Отправить на дооработку",
+      "filter":"Фильтр",
       "stop":"Прекратить",
       "accept":"Принять",
       "cancel":"Назад",
       "delete":"Удалить",
+      "create":"Создать",
       "yes":"Да",
       "no":"Нет",
     }

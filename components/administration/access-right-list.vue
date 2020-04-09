@@ -39,10 +39,7 @@
         storage-key="registration-setting-detail"
       />
 
-      <DxSearchPanel
-        position="after"
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
@@ -159,5 +156,6 @@ export default {
 @import "~assets/dx-styles.scss";
 .container {
   display: block;
+  text-align: start;
 }
 </style>
