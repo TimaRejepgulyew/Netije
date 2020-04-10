@@ -1,7 +1,5 @@
 export const state = () => ({
-  EmployeeId: null,
-  Roles: [],
-  AccessRights: [],
+  accessRights: {},
   access: new Map([
     [
       100,
@@ -57,52 +55,51 @@ export const state = () => ({
 });
 
 export const getters = {
-  employeeId({ EmployeeId }) {
-    return EmployeeId;
+  employeeId({ accessRights }) {
+    return accessRights.employeeId;
   },
-  roles({ Roles }) {
-    return Roles;
-  },
-
-  accessRights: ({ AccessRights, Roles, access }) => Key => {
-    if (Key !== undefined) {
-      if (Roles.includes("Администраторы")) {
-        return {
-          delete: true,
-          has: true,
-          read: true,
-          create: true,
-          update: true
-        };
-      } else {
-        const accessRight = AccessRights.find(el => {
-          return el.Key == Key;
-        });
-        if (accessRight) {
-          return access.get(accessRight.Value);
-        } else {
-          // console.log(accessRight);
-        }
-        return {
-          delete: true,
-          has: true,
-          read: true,
-          create: true,
-          update: true
-        };
-      }
-    } else {
-      return AccessRights;
+  allowUpdating: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin) {
+      return true;
     }
+    return accessRights.operations.get(entityType).update;
+  },
+  allowReading: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin || accessRights.isAuditor) {
+      return true;
+    }
+    return accessRights.operations.get(entityType).read;
+  },
+  allowCreating: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin) {
+      return true;
+    }
+    return accessRights.operations.get(entityType).update;
+  },
+  allowDeleting: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin) {
+      return true;
+    }
+    return accessRights.operations.get(entityType).update;
   }
 };
 export const mutations = {
   PERMISSIONS(state, payload) {
     payload = JSON.parse(payload);
-    for (let property in payload) {
-      console.log(payload[property]);
-      state[property] = payload[property];
-    }
+    console.log(payload);
+    const accessRights = {
+      employeeId: payload.EmployeeId,
+      isAdmin: payload.Roles.includes("Администраторы"),
+      isAuditor: payload.Roles.includes("Аудиторы"),
+      Roles: payload.Roles,
+      operations: new Map(
+        payload.AccessRights.map(({ entityType, operation }) => {
+          let obj = { ...state.access.get(operation) };
+          return [entityType, obj];
+        })
+      )
+    };
+    state.accessRights = accessRights;
   }
 };
 export const actions = {

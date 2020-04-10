@@ -29,7 +29,7 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="countries" />
 
       <DxEditing
-        :allow-updating="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](0)"
         :allow-deleting="true"
         :allow-adding="true"
         :useIcons="true"

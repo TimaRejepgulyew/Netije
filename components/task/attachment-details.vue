@@ -44,49 +44,6 @@
           :on-click="addAttachment"
         ></DxButton>
       </div>
-      <span class="dx-form-group-caption border-b" slot="attachment__header">Приложение к документу</span>
-      <div class="list-container">
-        <DxList :data-source="attachments" search-expr="name" :search-enabled="true">
-          <template #item="item">
-            <div>
-              <div class="d-flex">
-                <div class="list__content">{{item.data.name}}</div>
-                <div class="list__btn-group">
-                  <DxButton
-                    icon="search"
-                    class="list__btn"
-                    v-if="!item.data.preview"
-                    :onClick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
-                  ></DxButton>
-                  <DxButton
-                    icon="download"
-                    class="list__btn"
-                    :on-click="()=>{downloadVersion(item.data.documentTypeGuid)}"
-                  ></DxButton>
-                </div>
-              </div>
-            </div>
-          </template>
-        </DxList>
-      </div>
-      <span class>{{$t("translations.headers.attachment")}}</span>
-      <DxTagBox
-        :data-source="dataSource"
-        :value.sync="store"
-        :show-selection-controls="true"
-        :show-multi-tag-only="false"
-        value-expr="id"
-        display-expr="name"
-        apply-value-mode="useButtons"
-      />
-      <div class="column">
-        <DxButton
-          icon="add"
-          type="success"
-          :text="$t('translations.links.add')"
-          :on-click="addAttachment"
-        ></DxButton>
-      </div>
     </div>
   </div>
 </template>
@@ -133,7 +90,7 @@ export default {
       } else {
         return [];
       }
-    },
+    }
   },
   methods: {
     openVersion(documentId, documentTypeGuid) {
