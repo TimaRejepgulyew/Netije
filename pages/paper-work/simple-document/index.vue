@@ -30,9 +30,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="simpleDocument" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -115,7 +115,7 @@ export default {
         loadUrl: dataApi.paperWork.SimpleDocument,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-
+      entityType: "SimpleDocument",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
@@ -138,7 +138,7 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind
       })
     };
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

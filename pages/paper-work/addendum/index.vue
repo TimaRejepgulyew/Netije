@@ -30,9 +30,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="incommingLetter" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -46,7 +46,11 @@
         data-type="date"
       />
 
-      <DxColumn data-field="created" :caption="$t('translations.fields.createdDate')" data-type="date" />
+      <DxColumn
+        data-field="created"
+        :caption="$t('translations.fields.createdDate')"
+        data-type="date"
+      />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')"></DxColumn>
 
@@ -129,7 +133,7 @@ export default {
         loadUrl: dataApi.paperWork.Addendum,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-
+      entityType: "Addendum",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {

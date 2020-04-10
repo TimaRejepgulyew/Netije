@@ -30,9 +30,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -160,7 +160,7 @@ export default {
         updateUrl: dataApi.docFlow.RegistrationGroup,
         removeUrl: dataApi.docFlow.RegistrationGroup
       }),
-
+      entityType: "RegistrationGroup",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
@@ -193,7 +193,7 @@ export default {
         },
         dataField
       );
-    },
+    }
   }
 };
 </script>

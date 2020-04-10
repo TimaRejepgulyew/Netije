@@ -29,18 +29,14 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
@@ -149,7 +145,7 @@ export default {
         updateUrl: dataApi.docFlow.AssociatedApplication,
         removeUrl: dataApi.docFlow.AssociatedApplication
       }),
-
+      entityType: "AssociatedApp",
       statusStores: this.$store.getters["status/status"],
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
@@ -166,7 +162,7 @@ export default {
 
       extensionOptions: {
         mask: ".cccccccccc",
-        useMaskedValue: true,
+        useMaskedValue: true
       }
     };
   },

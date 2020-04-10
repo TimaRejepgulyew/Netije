@@ -28,17 +28,13 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Locality" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
         :useIcons="true"
       />
-      <DxSearchPanel
-        position="after"
-        :visible="true"
-       
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.localityId')">
@@ -118,6 +114,11 @@ export default {
     DxStateStoring,
     DxStringLengthRule
   },
+  mounted() {
+    console.log(
+      this.$store.getters["permissions/allowUpdating"](this.entityType)
+    );
+  },
   data() {
     return {
       headerTitle: this.$t("translations.menu.locality"),
@@ -128,6 +129,7 @@ export default {
         updateUrl: dataApi.sharedDirectory.Locality,
         removeUrl: dataApi.sharedDirectory.Locality
       }),
+      entityType: "Locality",
       statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({

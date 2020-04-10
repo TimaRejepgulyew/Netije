@@ -29,13 +29,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="order" />
 
-      <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
-        :useIcons="true"
-        mode="form"
-      />
+      <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="form" />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
@@ -123,7 +117,7 @@ export default {
         loadUrl: dataApi.paperWork.Order,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-
+      entityType: "Order",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {

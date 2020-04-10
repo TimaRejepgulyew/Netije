@@ -29,9 +29,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Bank" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -228,7 +228,7 @@ export default {
         updateUrl: dataApi.contragents.Bank,
         removeUrl: dataApi.contragents.Bank
       }),
-
+      entityType: "Bank",
       statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({

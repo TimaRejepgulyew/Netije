@@ -1,3 +1,4 @@
+import entityTypes from "~/config/entityTypes";
 export const state = () => ({
   accessRights: {},
   access: new Map([
@@ -62,31 +63,34 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.get(entityType).update;
+    console.log(accessRights.operations);
+    return accessRights.operations.get(entityTypes[entityType]).update;
   },
   allowReading: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin || accessRights.isAuditor) {
       return true;
     }
-    return accessRights.operations.get(entityType).read;
+
+    return accessRights.operations.get(entityTypes[entityType]).read;
   },
   allowCreating: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.get(entityType).update;
+
+    return accessRights.operations.get(entityTypes[entityType]).update;
   },
   allowDeleting: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.get(entityType).update;
+
+    return accessRights.operations.get(entityTypes[entityType]).update;
   }
 };
 export const mutations = {
   PERMISSIONS(state, payload) {
     payload = JSON.parse(payload);
-    console.log(payload);
     const accessRights = {
       employeeId: payload.EmployeeId,
       isAdmin: payload.Roles.includes("Администраторы"),

@@ -29,18 +29,14 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="CaseFile" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="title" :caption="$t('translations.fields.title')" data-type="string">
@@ -195,7 +191,7 @@ export default {
         updateUrl: dataApi.docFlow.CaseFile,
         removeUrl: dataApi.docFlow.CaseFile
       }),
-
+      entityType: "CaseFile",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
@@ -245,7 +241,7 @@ export default {
         store: this.departmentStore,
         filter: options.data
           ? ["status", "=", 0, "or", "id", "=", options.data.departmentId]
-          : null,
+          : null
       };
     },
     getFilteredRetentionPeriod(options) {

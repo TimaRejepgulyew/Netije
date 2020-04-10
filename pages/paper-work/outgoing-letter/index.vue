@@ -30,9 +30,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="outgoingLetter" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -119,7 +119,7 @@ export default {
         loadUrl: dataApi.paperWork.OutgoingLetter,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-
+      entityType: "OutgoingLetter",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {

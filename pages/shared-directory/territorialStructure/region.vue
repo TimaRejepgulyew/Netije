@@ -15,7 +15,11 @@
       @init-new-row="initNewRow"
     >
       <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false" &#x3C;DxSelection mode="multiple" />
+      <DxGrouping
+        :auto-expand-all="false"
+        &#x26;#x26;#x26;#x26;#x26;#x3C;DxSelection
+        mode="multiple"
+      />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -31,18 +35,14 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Region" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
         :useIcons="true"
       />
 
-      <DxSearchPanel
-        position="after"
-        :visible="true"
-       
-      />
+      <DxSearchPanel position="after" :visible="true" />
 
       <DxScrolling mode="virtual" />
       <DxColumn data-field="name" :caption="$t('translations.fields.regionId')">
@@ -131,7 +131,7 @@ export default {
         updateUrl: dataApi.sharedDirectory.Region,
         removeUrl: dataApi.sharedDirectory.Region
       }),
-
+      entityType: "Region",
       statusStores: this.$store.getters["status/status"],
       country: this.$dxStore({
         key: "id",

@@ -29,9 +29,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact-detail" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -173,7 +173,7 @@ export default {
         }),
         filter: ["companyId", "=", id]
       }),
-
+      entityType: "Contact",
       statusStores: this.$store.getters["status/status"],
 
       companyStore: this.$dxStore({
@@ -204,7 +204,7 @@ export default {
       var dataField = params.column.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );

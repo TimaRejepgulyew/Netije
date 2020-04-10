@@ -30,18 +30,14 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="managersAssistant" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn
@@ -142,7 +138,7 @@ export default {
         updateUrl: dataApi.company.ManagersAssistant,
         removeUrl: dataApi.company.ManagersAssistant
       }),
-
+      entityType: "ManagersAssistant",
       statusStores: this.$store.getters["status/status"],
 
       employeeStore: this.$dxStore({

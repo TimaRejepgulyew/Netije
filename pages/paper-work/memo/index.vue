@@ -30,9 +30,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="memo" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -123,7 +123,7 @@ export default {
         loadUrl: dataApi.paperWork.Memo,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-
+      entityType: "Memo",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
@@ -150,7 +150,7 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind
       })
     };
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
