@@ -213,8 +213,8 @@ export default {
         `translations.menu.${assignmentsTypes[this.assignmentType]}`
       );
     },
-    filter(){
-        return 
+    filter() {
+      return;
     },
     store() {
       return {
@@ -228,8 +228,8 @@ export default {
   methods: {
     toMoreAbout(e) {
       const assignmentsTypes = [
-        ,
-        ,
+        "all",
+        "assignments",
         "simple",
         "acquaintance",
         "action-execution",

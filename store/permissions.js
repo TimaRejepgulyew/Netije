@@ -10,8 +10,8 @@ export const state = () => ({
         has: false,
         read: false,
         create: false,
-        update: false,
-      },
+        update: false
+      }
     ],
     [
       90,
@@ -20,8 +20,8 @@ export const state = () => ({
         has: true,
         read: true,
         create: true,
-        update: true,
-      },
+        update: true
+      }
     ],
     [
       80,
@@ -30,8 +30,8 @@ export const state = () => ({
         has: true,
         read: true,
         create: true,
-        update: true,
-      },
+        update: true
+      }
     ],
     [
       70,
@@ -40,8 +40,8 @@ export const state = () => ({
         has: true,
         read: true,
         create: true,
-        update: false,
-      },
+        update: false
+      }
     ],
     [
       60,
@@ -50,10 +50,10 @@ export const state = () => ({
         has: true,
         read: true,
         create: false,
-        update: false,
-      },
-    ],
-  ]),
+        update: false
+      }
+    ]
+  ])
 });
 
 export const getters = {
@@ -64,18 +64,18 @@ export const getters = {
     return Roles;
   },
 
-  accessRights: ({ AccessRights, Roles, access }) => (Key) => {
+  accessRights: ({ AccessRights, Roles, access }) => Key => {
     if (Key !== undefined) {
-      if (Roles == "Администраторы") {
+      if (Roles.includes("Администраторы")) {
         return {
           delete: true,
           has: true,
           read: true,
           create: true,
-          update: true,
+          update: true
         };
       } else {
-        const accessRight = AccessRights.find((el) => {
+        const accessRight = AccessRights.find(el => {
           return el.Key == Key;
         });
         if (accessRight) {
@@ -88,13 +88,13 @@ export const getters = {
           has: true,
           read: true,
           create: true,
-          update: true,
+          update: true
         };
       }
     } else {
       return AccessRights;
     }
-  },
+  }
 };
 export const mutations = {
   PERMISSIONS(state, payload) {
@@ -103,10 +103,10 @@ export const mutations = {
       console.log(payload[property]);
       state[property] = payload[property];
     }
-  },
+  }
 };
 export const actions = {
   getPermissions({ commit }, payload) {
     commit("PERMISSIONS", payload);
-  },
+  }
 };
