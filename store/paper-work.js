@@ -15,14 +15,14 @@ export const getters = {
     subject,
     documentKind,
     placedToCaseFileDate,
-    caseFileId,
+    caseFileId
   }) {
     return {
       name,
       subject,
       documentKindId: documentKind.id,
       placedToCaseFileDate,
-      caseFileId,
+      caseFileId
     };
   },
   name(state) {
@@ -34,7 +34,7 @@ export const getters = {
   defaultName: state => (docType, context) => {
     let subject = "";
     if (state.subject) {
-      subject = `содержание: ${state.subject}`;
+      subject = state.subject;
     }
     let documentKind = "";
     if (state.documentKind.shortName) {
@@ -43,7 +43,7 @@ export const getters = {
     let correspondent = "";
     if (docType == 2) {
       if (state.correspondent) {
-        correspondent = `${context.$t("translations.fields.for")} ${
+        correspondent = ` ${context.$t("translations.fields.for")} ${
           state.correspondent
         }`;
       }
@@ -54,7 +54,7 @@ export const getters = {
           state.correspondent
         }`;
       }
-      return `${documentKind} ${correspondent}  ${subject}`;
+      return `${documentKind} ${correspondent} ${subject}`;
     } else {
       return `${documentKind}  ${subject}`;
     }

@@ -65,13 +65,14 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegistry" />
 
-      <DxEditing :allow-deleting="true" :allow-adding="true" :useIcons="true" mode="form" />
-
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
+      <DxEditing
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        :useIcons="true"
+        mode="form"
       />
+
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
@@ -92,7 +93,6 @@
       </DxColumn>
       <DxColumn type="buttons">
         <DxButton
-          :visible="isRegistrationSetting"
           icon="tips"
           :text="$t('translations.fields.currentNumber')"
           :onClick="currentNumberStart"
@@ -102,10 +102,11 @@
           icon="edit"
           :text="$t('translations.headers.editDocumentRegistry')"
           :onClick="editingStart"
+          :visible="$store.getters['permissions/allowUpdating'](entityType)"
         ></DxButton>
 
         <DxButton
-          :visible="isRegistrationSetting"
+          :visible="$store.getters['permissions/allowCreating'](entityType2)"
           icon="plus"
           :text="$t('translations.headers.addRegistrationSetting')"
           :onClick="settingStart"
@@ -202,6 +203,8 @@ export default {
         { id: 2, name: this.$t("translations.fields.inner") },
         { id: 3, name: this.$t("translations.fields.contracts") }
       ],
+      entityType: "DocumentRegister",
+      entityType2: "RegistrationSetting",
 
       statusStores: this.$store.getters["status/status"],
 

@@ -29,18 +29,14 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="currency" />
 
       <DxEditing
-        :allow-updating="userPermissions.allowUpdating"
-        :allow-deleting="userPermissions.allowDeleteing"
-        :allow-adding="userPermissions.allowDeleteing"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
         :useIcons="true"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn
@@ -162,6 +158,7 @@ export default {
         updateUrl: dataApi.sharedDirectory.Currency,
         removeUrl: dataApi.sharedDirectory.Currency
       }),
+      entityType: "Currencies",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
@@ -188,11 +185,6 @@ export default {
         },
         dataField
       );
-    }
-  },
-  computed: {
-    userPermissions() {
-      return this.$store.getters["roles/userPermissions"];
     }
   }
 };

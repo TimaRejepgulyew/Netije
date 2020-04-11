@@ -30,9 +30,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="BusinessUnit" />
 
       <DxEditing
-        :allow-updating="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
         :allow-deleting="allowDeleting"
-        :allow-adding="true"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -235,7 +235,7 @@ export default {
         updateUrl: dataApi.company.BusinessUnit,
         removeUrl: dataApi.company.BusinessUnit
       }),
-
+      entityType: "BusinessUnit",
       statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({
@@ -277,8 +277,13 @@ export default {
   },
   methods: {
     allowDeleting: e => {
-      console.log(e);
-      return e.row.data.isSistem;
+      if (!e.row.data.isSystem) {
+        return this.$store.getters["permissions/allowDeleting"](
+          this.entityType
+        );
+      } else {
+        return !e.row.data.isSystem;
+      }
     },
     getFilteredRegion(options) {
       return {

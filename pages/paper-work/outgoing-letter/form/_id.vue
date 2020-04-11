@@ -39,6 +39,41 @@
             validation-group="OfficialDocument"
           >
             <DxGroupItem :col-count="2">
+              <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+                <DxSimpleItem
+                  data-field="businessUnitId"
+                  :editor-options="businessUnitOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+                  <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="departmentId"
+                  :editor-options="deparmentOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+                  <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  data-field="ourSignatoryId"
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  data-field="preparedById"
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+                </DxSimpleItem>
+              </DxGroupItem>
+
               <DxGroupItem :caption="$t('translations.fields.whom')">
                 <DxSimpleItem
                   data-field="correspondentId"
@@ -74,42 +109,6 @@
                 >
                   <DxLabel location="top" :text="$t('translations.menu.mailDeliveryMethod')" />
                 </DxSimpleItem>
-              </DxGroupItem>
-
-              <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-                <DxSimpleItem
-                  data-field="businessUnitId"
-                  :editor-options="businessUnitOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-                  <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-                </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="departmentId"
-                  :editor-options="deparmentOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-                  <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="ourSignatoryId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="preparedById"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-                </DxSimpleItem>
-
                 <DxSimpleItem
                   data-field="inResponseToId"
                   :editor-options="inResponseToIdOptions"
@@ -118,6 +117,7 @@
                   <DxLabel location="top" :text="$t('translations.fields.inResponseTold')" />
                 </DxSimpleItem>
               </DxGroupItem>
+
               <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>

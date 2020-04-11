@@ -30,23 +30,23 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="incommingLetter" />
 
       <DxEditing
-        :allow-updating="true"
-        :allow-deleting="true"
-        :allow-adding="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="dated" :caption="$t('translations.fields.dated')" data-type="date" />
-       <DxColumn data-field="created" :caption="$t('translations.fields.createdDate')" data-type="date" />
-       
+      <DxColumn
+        data-field="created"
+        :caption="$t('translations.fields.createdDate')"
+        data-type="date"
+      />
+
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
       <DxColumn data-field="inNumber" :caption="$t('translations.fields.regNumberDocument')"></DxColumn>
@@ -127,7 +127,7 @@ export default {
         loadUrl: dataApi.paperWork.IncommingLetter,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-
+      entityType: "IncomingLetter",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {

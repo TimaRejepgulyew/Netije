@@ -43,6 +43,10 @@
                   <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
                 </DxSimpleItem>
 
+                <DxSimpleItem data-field="dated" editor-type="dxDateBox">
+                  <DxLabel location="top" :text="$t('translations.fields.dated')" />
+                </DxSimpleItem>
+
                 <DxSimpleItem
                   data-field="correspondentId"
                   :editor-options="counterPartOptions"
@@ -77,10 +81,6 @@
                     <DxLabel location="top" :text="$t('translations.fields.signatory')" />
                   </DxSimpleItem>
                 </DxGroupItem>
-
-                <DxSimpleItem data-field="dated" editor-type="dxDateBox">
-                  <DxLabel location="top" :text="$t('translations.fields.dated')" />
-                </DxSimpleItem>
               </DxGroupItem>
 
               <DxGroupItem :caption="$t('translations.fields.whom')">

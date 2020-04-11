@@ -57,8 +57,8 @@
         <DxLookup :data-source="departmentStores" value-expr="id" display-expr="name" />
       </DxColumn>
       <DxColumn
-        data-field="addresseeId"
-        :caption="$t('translations.fields.addresseeId')"
+        data-field="assigneeId"
+        :caption="$t('translations.fields.assigneeId')"
         data-type="selectbox"
       >
         <DxLookup :data-source="employeeStores" value-expr="id" display-expr="name" />
@@ -123,7 +123,7 @@ export default {
         loadUrl: dataApi.paperWork.CompanyDirective,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-      entityType: "CompanyDirective",
+      entityType: "BaseOrder",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {

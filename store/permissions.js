@@ -77,15 +77,15 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-
-    return accessRights.operations.get(entityTypes[entityType]).update;
+    console.log(accessRights.operations);
+    return accessRights.operations.get(entityTypes[entityType]).create;
   },
   allowDeleting: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin) {
       return true;
     }
 
-    return accessRights.operations.get(entityTypes[entityType]).update;
+    return accessRights.operations.get(entityTypes[entityType]).delete;
   }
 };
 export const mutations = {

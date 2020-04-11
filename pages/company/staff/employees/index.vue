@@ -28,14 +28,15 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Employee" />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxEditing :allow-adding="true" :allow-updating="true" :useIcons="true" mode="inline" />
+      <DxEditing
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        :useIcons="true"
+        mode="inline"
+      />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
@@ -110,6 +111,7 @@ export default {
         updateUrl: dataApi.company.Employee,
         removeUrl: dataApi.company.Employee
       }),
+      entityType: "Employee",
       statusStores: this.$store.getters["status/status"],
       departmentsStores: this.$dxStore({
         key: "id",

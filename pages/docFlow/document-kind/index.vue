@@ -29,18 +29,14 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="documentKind" />
 
       <DxEditing
-        :allow-updating="userPermissions.allowUpdating"
-        :allow-deleting="userPermissions.allowDeleteing"
-        :allow-adding="userPermissions.allowDeleteing"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
         :useIcons="true"
       />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn
@@ -143,6 +139,7 @@ export default {
         updateUrl: dataApi.docFlow.DocumentKind,
         removeUrl: dataApi.docFlow.DocumentKind
       }),
+      entityType: "DocumentKind",
       statusStores: this.$store.getters["status/status"],
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
@@ -164,12 +161,7 @@ export default {
       }
     };
   },
-  methods: {},
-  computed: {
-    userPermissions() {
-      return this.$store.getters["roles/userPermissions"];
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

@@ -63,7 +63,7 @@ export default {
       "incommingLetter":"Входящие письма",
       "outgoingLetter":"Исходящие письма",
       "order":"Приказы",
-      "companyDirectives":"Распоряжении",
+      "companyDirectives":"Распоряжения",
       "simpleDocument":"Простые документы",
       "addendum":"Приложении к документу",
       "memo":"Служебные записки",

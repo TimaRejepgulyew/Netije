@@ -29,7 +29,13 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="order" />
 
-      <DxEditing :allow-updating="true" :allow-deleting="true" :allow-adding="true" mode="form" />
+      <DxEditing
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        :useIcons="true"
+        mode="form"
+      />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
@@ -51,8 +57,8 @@
         <DxLookup :data-source="departmentStores" value-expr="id" display-expr="name" />
       </DxColumn>
       <DxColumn
-        data-field="addresseeId"
-        :caption="$t('translations.fields.addresseeId')"
+        data-field="assigneeId"
+        :caption="$t('translations.fields.assigneeId')"
         data-type="selectbox"
       >
         <DxLookup :data-source="employeeStores" value-expr="id" display-expr="name" />
@@ -117,7 +123,7 @@ export default {
         loadUrl: dataApi.paperWork.Order,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-      entityType: "Order",
+      entityType: "BaseOrder",
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {

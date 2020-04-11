@@ -228,7 +228,7 @@ export default {
         updateUrl: dataApi.contragents.Bank,
         removeUrl: dataApi.contragents.Bank
       }),
-      entityType: "Bank",
+      entityType: "Counterparty",
       statusStores: this.$store.getters["status/status"],
 
       region: this.$dxStore({

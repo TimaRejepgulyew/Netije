@@ -30,9 +30,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
 
       <DxEditing
-        :allow-updating="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
         :allow-deleting="allowDeleting"
-        :allow-adding="true"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
       />
@@ -189,7 +189,7 @@ export default {
         updateUrl: dataApi.company.Department,
         removeUrl: dataApi.company.Department
       }),
-
+      entityType: "Department",
       statusStores: this.$store.getters["status/status"],
 
       managerStore: this.$dxStore({
@@ -223,7 +223,13 @@ export default {
   },
   methods: {
     allowDeleting: e => {
-      return e.row.data.isSistem;
+      if (!e.row.data.isSystem) {
+        return this.$store.getters["permissions/allowDeleting"](
+          this.entityType
+        );
+      } else {
+        return !e.row.data.isSystem;
+      }
     },
     getFilteredHeadOffice(options) {
       return {

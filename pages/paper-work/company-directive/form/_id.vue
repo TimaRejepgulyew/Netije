@@ -58,12 +58,11 @@
                 </DxSimpleItem>
 
                 <DxSimpleItem
-                  data-field="addresseeId"
+                  data-field="assigneeId"
                   :editor-options="employeeOptions"
                   editor-type="dxSelectBox"
                 >
-                  <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
-                  <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
+                  <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
                 </DxSimpleItem>
               </DxGroupItem>
 
@@ -74,7 +73,7 @@
                   editor-type="dxSelectBox"
                 >
                   <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-                  <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
+            
                 </DxSimpleItem>
                 <DxSimpleItem
                   data-field="preparedById"
@@ -192,7 +191,7 @@ export default {
       store: {
         ourSignatoryId: null,
         preparedById: null,
-        addresseeId: null,
+        assigneeId: null,
         name: "",
         subject: "",
         note: "",
@@ -334,7 +333,7 @@ export default {
           this.store.departmentId = null;
           this.store.ourSignatoryId = null;
           this.store.preparedById = null;
-          this.store.addresseeId = null;
+          this.store.assigneeId = null;
           this.store.assigneeId = null;
         },
         showClearButton: true,
@@ -348,7 +347,7 @@ export default {
         context: this,
         url: dataApi.company.Department,
         onValueChanged: e => {
-          this.store.addresseeId = null;
+          this.store.assigneeId = null;
         },
         filter: [
           ["businessUnitId", "=", businessUnitId],
