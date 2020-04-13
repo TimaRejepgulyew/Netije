@@ -7,13 +7,13 @@
     :show-validation-summary="false"
     validation-group="OfficialDocument"
   >
-    <DxGroupItem :col-count="1"> 
+    <DxGroupItem :col-count="1">
       <DxGroupItem
         :visible="this.$route.params.id !='add'"
         :caption="$t('translations.fields.registration')"
       >
         <DxSimpleItem data-field="number" :editor-options="numberOptions">
-          <DxLabel  location="top" :text="$t('translations.fields.regNumberDocument')" />
+          <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -21,11 +21,11 @@
           :editor-options="documentRegisterOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel  location="top" :text="$t('translations.fields.documentRegisterId')" />
+          <DxLabel location="top" :text="$t('translations.fields.documentRegisterId')" />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="date" :editor-options="dateOptions" editor-type="dxDateBox">
-          <DxLabel  location="top" :text="$t('translations.fields.registrationDate')" />
+          <DxLabel location="top" :text="$t('translations.fields.registrationDate')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :caption="$t('translations.fields.storing')">
@@ -34,7 +34,7 @@
           :editor-options="caseFileOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel  location="top" :text="$t('translations.fields.caseFileId')" />
+          <DxLabel location="top" :text="$t('translations.fields.caseFileId')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -42,9 +42,8 @@
           :editor-options="placedToCaseFileDateOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel  location="top" :text="$t('translations.fields.placedToCaseFileDate')" />
+          <DxLabel location="top" :text="$t('translations.fields.placedToCaseFileDate')" />
         </DxSimpleItem>
-      
       </DxGroupItem>
     </DxGroupItem>
   </DxForm>
@@ -88,7 +87,7 @@ export default {
 
     this.$store.dispatch("paper-work/setMainFormProperties", {
       caseFileId,
-      placedToCaseFileDate,
+      placedToCaseFileDate
     });
     return {
       isUpdating: false,
@@ -135,6 +134,7 @@ export default {
     documentRegisterOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
+        //TODO корректный адресс
         url:
           "http://192.168.4.198/api/DocumentRegistry/Registration/" +
           this.$route.params.id,
@@ -142,17 +142,12 @@ export default {
       });
     },
     caseFileOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.CaseFile
-          }),
-          filter: ["status", "=", 0]
-        }),
-        valueExpr: "id",
-        displayExpr: "title"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.docFlow.CaseFile,
+        filter: ["status", "=", 0],
+        value: "title"
+      });
     }
   }
 };

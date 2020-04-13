@@ -285,19 +285,14 @@ export default {
     },
     businessUnitOptions() {
       return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.BusinessUnit
-          }),
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0]
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
+        }
       };
     },
     deparmentOptions() {
@@ -311,7 +306,7 @@ export default {
           ["status", "=", 0]
         ]
       });
-    },
+    }
   }
 };
 </script>

@@ -133,7 +133,7 @@ export default {
     DxButton
   },
   data() {
-    const entityType = ""
+    const entityType = "";
     return {
       headerTitle: this.$t("translations.menu.roles"),
       store: this.$dxStore({
@@ -192,6 +192,10 @@ export default {
         },
         dataField
       );
+    },
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
     }
   }
 };

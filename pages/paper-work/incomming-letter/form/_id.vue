@@ -353,9 +353,9 @@ export default {
 
     counterPartOptions() {
       return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.contragents.CounterPart
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.CounterPart
         }),
         onSelectionChanged: e => {
           this.isCompany = e.selectedItem.type != "Person";
@@ -366,22 +366,14 @@ export default {
         onValueChanged: () => {
           this.store.contactId = null;
           this.store.counterpartySignatoryId = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
+        }
       };
     },
     deliveryMethodOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.docFlow.MailDeliveryMethod
-        }),
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.docFlow.MailDeliveryMethod
+      });
     },
     contactOptions() {
       const companyId = this.store.correspondentId;
@@ -393,35 +385,32 @@ export default {
     },
     businessUnitOptions() {
       return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.BusinessUnit
-          }),
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0]
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
+        }
       };
     },
     deparmentOptions() {
       let businessUnitId = this.store.businessUnitId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Department,
-        filter: [
-          ["businessUnitId", "=", businessUnitId],
-          "and",
-          ["status", "=", 0]
-        ],
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Department,
+          filter: [
+            ["businessUnitId", "=", businessUnitId],
+            "and",
+            ["status", "=", 0]
+          ]
+        }),
         onValueChanged: () => {
           this.store.addresseeId = null;
         }
-      });
+      };
     },
     employeeOptions() {
       let departmentId = this.store.departmentId;
@@ -432,19 +421,10 @@ export default {
       });
     },
     inResponseToIdOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.paperWork.OutgoingLetter
-          }),
-          paginate: true,
-          pageSize: 5
-        }),
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.paperWork.OutgoingLetter
+      });
     }
   }
 };

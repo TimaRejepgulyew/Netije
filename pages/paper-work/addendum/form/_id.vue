@@ -293,17 +293,20 @@ export default {
       };
     },
     businessUnitOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.BusinessUnit,
-        filter: ["status", "=", 0],
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit,
+          filter: ["status", "=", 0]
+        }),
         onValueChanged: e => {
           this.store.departmentId = null;
         }
-      });
+      };
     },
     deparmentOptions() {
       let businessUnitId = this.store.businessUnitId;
+      
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Department,
@@ -315,30 +318,10 @@ export default {
       });
     },
     leadingDocumentOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.paperWork.AllDocument
-          }),
-          paginate: true,
-          pageSize: 5
-        }),
-        onSelectionChanged: e => {
-          if (e.selectedItem) {
-            this.$store.dispatch("paper-work/setMainFormProperties", {
-              leadingDocument: e.selectedItem.name
-            });
-          } else {
-            this.$store.dispatch("paper-work/setMainFormProperties", {
-              leadingDocument: ""
-            });
-          }
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.paperWork.AllDocument
+      });
     }
   }
 };

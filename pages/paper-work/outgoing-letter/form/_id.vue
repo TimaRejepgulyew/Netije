@@ -90,16 +90,7 @@
                   :editor-options="contactOptions"
                   editor-type="dxSelectBox"
                 >
-                  <DxLabel location="top" :text="$t('translations.fields.contactId')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="contactId"
-                  :visible="isCompany"
-                  :editor-options="contactOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.whom')" />
+                  <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
                 </DxSimpleItem>
 
                 <DxSimpleItem
@@ -354,9 +345,9 @@ export default {
 
     counterPartOptions() {
       return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.contragents.CounterPart
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.CounterPart
         }),
         onSelectionChanged: e => {
           if (e.selectedItem) {
@@ -372,23 +363,15 @@ export default {
           }
         },
         onValueChanged: e => {
-          this.store.addresseeId = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
+          // this.store.addresseeId = null;
+        }
       };
     },
     deliveryMethodOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.docFlow.MailDeliveryMethod
-        }),
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.docFlow.MailDeliveryMethod
+      });
     },
     contactOptions() {
       const companyId = this.store.correspondentId;
@@ -400,21 +383,16 @@ export default {
     },
     businessUnitOptions() {
       return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.BusinessUnit
-          }),
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0]
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
           this.store.ourSignatoryId = null;
           this.store.preparedById = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
+        }
       };
     },
     deparmentOptions() {
@@ -442,19 +420,10 @@ export default {
       });
     },
     inResponseToIdOptions() {
-      return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.paperWork.IncommingLetter
-          }),
-          paginate: true,
-          pageSize: 5
-        }),
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
-      };
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.paperWork.IncommingLetter
+      });
     }
   }
 };

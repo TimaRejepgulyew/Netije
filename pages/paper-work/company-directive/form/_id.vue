@@ -73,7 +73,6 @@
                   editor-type="dxSelectBox"
                 >
                   <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-            
                 </DxSimpleItem>
                 <DxSimpleItem
                   data-field="preparedById"
@@ -322,11 +321,9 @@ export default {
     },
     businessUnitOptions() {
       return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.company.BusinessUnit
-          }),
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0]
         }),
         onValueChanged: e => {
@@ -334,27 +331,26 @@ export default {
           this.store.ourSignatoryId = null;
           this.store.preparedById = null;
           this.store.assigneeId = null;
-          this.store.assigneeId = null;
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
+        }
       };
     },
     deparmentOptions() {
       let businessUnitId = this.store.businessUnitId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Department,
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Department,
+
+          filter: [
+            ["businessUnitId", "=", businessUnitId],
+            "and",
+            ["status", "=", 0]
+          ]
+        }),
         onValueChanged: e => {
           this.store.assigneeId = null;
-        },
-        filter: [
-          ["businessUnitId", "=", businessUnitId],
-          "and",
-          ["status", "=", 0]
-        ]
-      });
+        }
+      };
     },
     employeeOptions() {
       let businessUnitId = this.store.businessUnitId;

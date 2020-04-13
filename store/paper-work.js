@@ -6,7 +6,7 @@ export const state = () => ({
   placedToCaseFileDate: null,
   caseFileId: null,
   correspondent: "",
-  leadingDocument: ""
+
 });
 
 export const getters = {

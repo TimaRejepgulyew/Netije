@@ -128,19 +128,18 @@ export default {
     },
     documentKindOptions() {
       return {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.DocumentKind
-          }),
-
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.docFlow.DocumentKind,
           filter: [
             ["documentTypeId", "=", this.docType],
             "and",
             ["status", "=", 0]
           ]
         }),
-
+        onValueChanged: () => {
+          this.modified();
+        },
         onSelectionChanged: e => {
           if (e.selectedItem) {
             this.isDefaultName = e.selectedItem.generateDocumentName;
@@ -153,13 +152,7 @@ export default {
             });
             this.isDefaultName = false;
           }
-        },
-        onValueChanged: () => {
-          this.modified();
-        },
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
+        }
       };
     },
     nameOptions() {
