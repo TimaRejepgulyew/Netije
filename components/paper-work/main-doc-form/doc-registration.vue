@@ -136,7 +136,7 @@ export default {
         context: this,
         //TODO корректный адресс
         url:
-          "http://192.168.4.198/api/DocumentRegistry/Registration/" +
+          "http://192.168.4.198/api/DocumentRegistration/Registration/" +
           this.$route.params.id,
         disabled: true
       });

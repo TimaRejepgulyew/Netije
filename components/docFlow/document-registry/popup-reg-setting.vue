@@ -27,14 +27,7 @@
         <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        :editor-options="regGroupOptions"
-        editor-type="dxTagBox"
-        data-field="registrationGroups"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.registrationGroupId')" />
-        <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
-      </DxSimpleItem>
+
       <DxSimpleItem
         :editor-options="documentKindsOptions"
         editor-type="dxTagBox"
@@ -61,20 +54,6 @@ import { DxButton } from "devextreme-vue";
 import { DxTagBox } from "devextreme-vue/tag-box";
 import notify from "devextreme/ui/notify";
 import DataSource from "devextreme/data/data_source";
-function FormOption(context, url, filter) {
-  return {
-    dataSource: new DataSource({
-      store: context.$dxStore({
-        key: "id",
-        loadUrl: url
-      }),
-      filter
-    }),
-    showClearButton: true,
-    valueExpr: "id",
-    displayExpr: "name"
-  };
-}
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -101,6 +80,7 @@ export default {
     DxTagBox,
     DxButton
   },
+  props: ["documentRegisterId", "id"],
   async created() {
     if (this.id) {
       let res = await this.getDataById(`${this.address}/${this.id}`);
@@ -143,17 +123,10 @@ export default {
     documentKindsOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: dataApi.docFlow.DocumentKind,
-        filter: ["numberingType", "=", 1]
+        url: `${dataApi.docFlow.RegSettingAvailableDocumentKinds}/${this.documentRegisterId}`
       });
     },
 
-    regGroupOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.docFlow.RegistrationGroup
-      });
-    },
     statusOptions() {
       return {
         dataSource: this.$store.getters["status/status"],
@@ -163,7 +136,7 @@ export default {
       };
     }
   },
-  props: ["documentRegisterId", "id"],
+
   data() {
     return {
       store: {
@@ -171,8 +144,7 @@ export default {
         name: null,
         businessUnitId: null,
         departments: null,
-        documentKinds: null,
-        registrationGroups: null
+        documentKinds: null
       },
       isUpdated: false,
       saveButtonOptions: {

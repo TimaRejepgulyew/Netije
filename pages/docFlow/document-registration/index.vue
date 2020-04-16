@@ -230,7 +230,8 @@ export default {
         } else {
           return false;
         }
-      }
+      },
+      regSettingFilter: null
     };
   },
   computed: {

@@ -74,6 +74,8 @@ export default {
       "actionAssignments":"Задания на исполнение",
       "allNotice":"Все уведомления",
       "notices":"Уведомления",
+      "mainInfo":"Основная информация",
+      "relation":"Связи"
     },
     "fields": {
       "mailDeliveryMethod": "Способ доставки документа",

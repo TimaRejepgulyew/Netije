@@ -26,74 +26,85 @@
         </div>
       </DxPopup>
       <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')"></navBar>
-      <form class="d-flex" @submit="handleSubmit">
-        <div class="item f-grow-3">
-          <mainFocForm @eventWatch="modified()" :properties="store" :docType="6"></mainFocForm>
-          <DxForm
-            :col-count="1"
-            :form-data.sync="store"
-            :read-only="false"
-            :show-colon-after-label="true"
-            :show-validation-summary="true"
-            validation-group="OfficialDocument"
-          >
-            <DxGroupItem>
+      <DxTabPanel>
+        <DxItem :title="$t('translations.menu.mainInfo')" template="members-list" />
+        <form class="d-flex" @submit="handleSubmit" slot="members-list">
+          <div class="item f-grow-3">
+            <mainFocForm @eventWatch="modified()" :properties="store" :docType="6"></mainFocForm>
+            <DxForm
+              :col-count="1"
+              :form-data.sync="store"
+              :read-only="false"
+              :show-colon-after-label="true"
+              :show-validation-summary="true"
+              validation-group="OfficialDocument"
+            >
               <DxGroupItem>
-                <DxSimpleItem
-                  data-field="businessUnitId"
-                  :editor-options="businessUnitOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-                  <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-                </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="departmentId"
-                  :editor-options="deparmentOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-                  <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-                </DxSimpleItem>
+                <DxGroupItem>
+                  <DxSimpleItem
+                    data-field="businessUnitId"
+                    :editor-options="businessUnitOptions"
+                    editor-type="dxSelectBox"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+                    <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+                  </DxSimpleItem>
+                  <DxSimpleItem
+                    data-field="departmentId"
+                    :editor-options="deparmentOptions"
+                    editor-type="dxSelectBox"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+                    <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+                  </DxSimpleItem>
 
-                <DxSimpleItem
-                  data-field="leadingDocumentId"
-                  :editor-options="leadingDocumentOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
-                  <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
-                </DxSimpleItem>
+                  <DxSimpleItem
+                    data-field="leadingDocumentId"
+                    :editor-options="leadingDocumentOptions"
+                    editor-type="dxSelectBox"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
+                    <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
+                  </DxSimpleItem>
+                </DxGroupItem>
               </DxGroupItem>
-            </DxGroupItem>
-            <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
-              <DxLabel location="top" :text="$t('translations.fields.note')" />
-            </DxSimpleItem>
-            <DxGroupItem :col-count="12" :col-span="2">
-              <DxButtonItem
-                :col-span="1"
-                :button-options="saveButtonOptions"
-                horizontal-alignment="right"
-              />
-              <DxButtonItem
-                :col-span="1"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="right"
-              />
-            </DxGroupItem>
-          </DxForm>
-        </div>
-        <div class="item">
-          <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
-        </div>
-        <div v-if="isUpdating" class="item">
-          <docVersion></docVersion>
-        </div>
-      </form>
+              <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
+                <DxLabel location="top" :text="$t('translations.fields.note')" />
+              </DxSimpleItem>
+              <DxGroupItem :col-count="12" :col-span="2">
+                <DxButtonItem
+                  :col-span="1"
+                  :button-options="saveButtonOptions"
+                  horizontal-alignment="right"
+                />
+                <DxButtonItem
+                  :col-span="1"
+                  :button-options="cancelButtonOptions"
+                  horizontal-alignment="right"
+                />
+              </DxGroupItem>
+            </DxForm>
+          </div>
+          <div class="item">
+            <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
+          </div>
+          <div v-if="isUpdating" class="item">
+            <docVersion></docVersion>
+          </div>
+        </form>
+        <DxItem
+          v-if="isUpdating"
+          :title="$t('translations.menu.relation')"
+          template="access-right-list"
+        />
+        <Relation slot="access-right-list"></Relation>
+      </DxTabPanel>
     </div>
   </div>
 </template>
 <script>
+import Relation from "~/components/paper-work/main-doc-form/relation";
+import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
 import navBar from "~/components/paper-work/main-doc-form/nav-bar";
 import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
@@ -123,6 +134,9 @@ import DxButton from "devextreme-vue/button";
 let unwatch;
 export default {
   components: {
+    Relation,
+    DxTabPanel,
+    DxItem,
     docVersion,
     navBar,
     docRegistration,
@@ -306,7 +320,7 @@ export default {
     },
     deparmentOptions() {
       let businessUnitId = this.store.businessUnitId;
-      
+
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Department,

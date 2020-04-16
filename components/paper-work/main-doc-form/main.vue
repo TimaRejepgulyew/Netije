@@ -31,103 +31,7 @@
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
             <mainFocForm @eventWatch="modified()" :properties="store" :docType="2"></mainFocForm>
-            <DxForm
-              :col-count="1"
-              :form-data.sync="store"
-              :read-only="false"
-              :show-colon-after-label="true"
-              :show-validation-summary="true"
-              validation-group="OfficialDocument"
-            >
-              <DxGroupItem :col-count="2">
-                <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-                  <DxSimpleItem
-                    data-field="businessUnitId"
-                    :editor-options="businessUnitOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-                    <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-                  </DxSimpleItem>
-                  <DxSimpleItem
-                    data-field="departmentId"
-                    :editor-options="deparmentOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-                    <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    data-field="ourSignatoryId"
-                    :editor-options="employeeOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    data-field="preparedById"
-                    :editor-options="employeeOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-                    <DxRequiredRule :message="$t('translations.fields.preparedByIdRequired')" />
-                  </DxSimpleItem>
-                </DxGroupItem>
-
-                <DxGroupItem :caption="$t('translations.fields.whom')">
-                  <DxSimpleItem
-                    data-field="correspondentId"
-                    :editor-options="counterPartOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
-                    <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    data-field="contactId"
-                    :visible="isCompany"
-                    :editor-options="contactOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.contactId')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    data-field="deliveryMethodId"
-                    :editor-options="deliveryMethodOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.mailDeliveryMethod')" />
-                  </DxSimpleItem>
-                  <DxSimpleItem
-                    data-field="inResponseToId"
-                    :editor-options="inResponseToIdOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.inResponseTold')" />
-                  </DxSimpleItem>
-                </DxGroupItem>
-
-                <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
-                  <DxLabel location="top" :text="$t('translations.fields.note')" />
-                </DxSimpleItem>
-                <DxGroupItem :col-count="12" :col-span="2">
-                  <DxButtonItem
-                    :col-span="1"
-                    :button-options="saveButtonOptions"
-                    horizontal-alignment="right"
-                  />
-                  <DxButtonItem
-                    :col-span="1"
-                    :button-options="cancelButtonOptions"
-                    horizontal-alignment="right"
-                  />
-                </DxGroupItem>
-              </DxGroupItem>
-            </DxForm>
+            <slot></slot>
           </div>
           <div class="item">
             <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
@@ -458,4 +362,3 @@ form {
   align-items: flex-end;
 }
 </style>
-

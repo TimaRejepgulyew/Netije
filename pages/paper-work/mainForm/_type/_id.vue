@@ -28,6 +28,7 @@
       <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')"></navBar>
       <DxTabPanel>
         <DxItem :title="$t('translations.menu.mainInfo')" template="members-list" />
+      
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
             <mainFocForm @eventWatch="modified()" :properties="store" :docType="2"></mainFocForm>

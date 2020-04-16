@@ -4,5 +4,6 @@
             "name": "feature/feature/document-kinds",
             "base": "develop"
         }
-    ]
+    ],
+    "vue-i18n-ally.localesPaths": "lang"
 }
