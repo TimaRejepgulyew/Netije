@@ -20,13 +20,13 @@
         :remote-operations="true"
         :allow-column-reordering="true"
         :allow-column-resizing="true"
-        :column-auto-width="true"
+        :column-auto-width="false"
         :show-column-lines="false"
         :onRowDblClick="toMoreAbout"
+        :on-row-prepared="onRowPrepared"
       >
         <DxGroupPanel :visible="true" />
         <DxGrouping :auto-expand-all="false" />
-        <DxSelection mode="multiple" />
         <DxHeaderFilter :visible="true" />
 
         <DxColumnChooser :enabled="true" />
@@ -40,7 +40,7 @@
           :file-name="$t('translations.menu.simpleAssignment')"
         />
 
-        <DxStateStoring :enabled="true" type="localStorage" storage-key="simpleAssignment" />
+        <DxStateStoring :enabled="true" type="localStorage" storage-key="assignment" />
 
         <DxEditing
           :allow-updating="false"
@@ -60,6 +60,12 @@
         />
 
         <DxColumn
+          data-field="assignmentType"
+          :caption="$t('translations.fields.type')"
+          cell-template="cellTemplate"
+        ></DxColumn>
+
+        <DxColumn
           data-field="created"
           :caption="$t('translations.fields.createdDate')"
           data-type="date"
@@ -75,22 +81,12 @@
             display-expr="name"
           />
         </DxColumn>
-
-        <!-- <DxColumn
-            data-field="taskId"
-            :caption="$t('translations.fields.taskId')"
-            data-type="selectbox"
-          >
-            <DxLookup
-              :allow-clearing="true"
-              :data-source="documentKindStores"
-              value-expr="id"
-              display-expr="name"
-            />
-        </DxColumn>-->
+        <template #cellTemplate="cell">
+          <img class="icon--type" :src="cell.data.value|typeIcon" />
+        </template>
       </DxDataGrid>
       <transition name="fade">
-        <aside class="sideBar" v-if="isFilterOpen">
+        <aside class="sideBar" v-show="isFilterOpen">
           <TaskFilter @changeFilter="changeFilter" @showFilter="showFilter"></TaskFilter>
         </aside>
       </transition>
@@ -148,8 +144,13 @@ export default {
   },
   data() {
     return {
-      assignmentType: this.$route.params.type,
-
+      store: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.task.AllAssignments + 0
+        })
+      }),
+      iconStatus: ["inProccess.svg", "completed.svg"],
       assignmentsTypes: [
         {
           id: 0,
@@ -172,45 +173,49 @@ export default {
         key: "id",
         loadUrl: dataApi.company.Employee
       })
-      // documentKindStores: this.$dxStore({
-      //   key: "id",
-      //   loadUrl: dataApi.docFlow.DocumentKind
-      // })
     };
   },
   computed: {
     headerTitle() {
-      console.log(this.store);
-      const assignmentsTypes = [
-        "all",
-        "allAssignments",
-        "simpleAssignments",
-        "acquaintanceAssignments",
-        "actionAssignments",
-        "allNotice"
-      ];
-
-      return this.$t(
-        `translations.menu.${assignmentsTypes[this.assignmentType]}`
-      );
-    },
-
-    store() {
-      const assignmentType = this.assignmentType;
-      console.log("request", assignmentType);
-      return new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.task.AllAssignments + this.assignmentType
-        }),
-        filter: this.filter
-      });
+      return this.$t(`translations.menu.allAssignments`);
     }
   },
   methods: {
+    onRowPrepared(e) {
+      this.showImportance(e);
+      this.showNew(e);
+      this.showStatus(e);
+      // this.showOfford(e);
+    },
+    showImportance(e) {
+      if (e.data != undefined && e.data.importance == undefined) {
+        e.rowElement.bgColor = "lightBlue";
+      }
+    },
+    showOfford(e) {
+      if (e.data != undefined && new Date(e.data.deadline) < new Date()) {
+        e.rowElement.bgColor = "#FF6600";
+      }
+    },
+    showStatus(e) {
+      if (e.data != undefined && e.data.status == 2) {
+        e.rowElement.style.textDecoration = "line-through";
+      }
+    },
+    showNew(e) {
+      if (e.data != undefined && !e.data.isRead) {
+        e.rowElement.bgColor = "#00CC00";
+        e.rowElement.style.borderBottom = "1px solid #339966";
+      }
+    },
     changeFilter({ assignmentType, filter }) {
-      this.assignmentType = assignmentType;
-      this.filter = filter;
+      this.store = new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.task.AllAssignments + assignmentType
+        }),
+        filter: filter
+      });
     },
     toMoreAbout(e) {
       const assignmentsTypes = [
@@ -229,13 +234,29 @@ export default {
       this.$router.push(e.itemData.path);
     },
     showFilter() {
-      console.log(this.isFilterOpen);
       this.isFilterOpen = !this.isFilterOpen;
+    }
+  },
+  filters: {
+    typeIcon(value) {
+      switch (value) {
+        case 2:
+          return require("~/static/icons/iconAssignment/assignment.svg");
+          break;
+
+        case 5:
+          return require("~/static/icons/iconAssignment/notice.svg");
+          break;
+
+        default:
+          return require("~/static/icons/iconAssignment/inProccess1.svg");
+          break;
+      }
     }
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .container {
@@ -249,7 +270,6 @@ export default {
 .fade-leave-active {
   transition: transform 0.5s;
 }
-
 .right {
   display: flex;
   justify-content: space-between;
@@ -257,34 +277,9 @@ export default {
     justify-self: flex-start;
   }
 }
-.sideBar {
-  border: 1px solid darken($base-bg, 5);
-  height: 100%;
-  padding: 20px;
-  background: $base-bg;
-  position: absolute;
-  right: 0;
-  top: 0;
-  max-width: 300px;
-  width: 100%;
-  z-index: 2;
-  -webkit-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
-  -moz-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
-  box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
-  .filter__header {
-    font-size: 24px;
-  }
-  .filter__content {
-    padding: 20px 0;
-    .option--group {
-      padding: 10px 0;
-      .option__title {
-        padding: 10px 0;
-      }
-      .option {
-        padding: 10px 10px;
-      }
-    }
-  }
+.icon--type {
+  display: flex;
+  margin: 0 auto;
+  width: 25px;
 }
 </style>

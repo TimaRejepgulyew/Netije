@@ -1,4 +1,3 @@
-import { WebStorageStateStore } from "oidc-client";
 import { alert } from 'devextreme/ui/dialog';
 
 export default function({ store, app: { $axios, i18n } }) {

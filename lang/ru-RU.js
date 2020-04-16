@@ -73,6 +73,7 @@ export default {
       "acquaintanceAssignments":"Задания на ознакомление",
       "actionAssignments":"Задания на исполнение",
       "allNotice":"Все уведомления",
+      "notices":"Уведомления",
     },
     "fields": {
       "mailDeliveryMethod": "Способ доставки документа",
@@ -267,7 +268,6 @@ export default {
       "documentFlowRequired": "Выберите документопоток",
       "responsibleId":"Ответственный за группу регистрации",
       "responsibleIdRequired":"Введите ответственного за группу регистрации",
-
       "inProccess":"В процессе",
       "all":"Все",
       "main":"Основное",

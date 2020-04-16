@@ -5,14 +5,14 @@ export default {
     Country: `${url}/api/Country`,
     Region: `${url}/api/Region`,
     Locality: `${url}/api/Locality`,
-    Currency: `${url}/api/Currency`,
+    Currency: `${url}/api/Currency`
   },
   contragents: {
     Company: `${url}/api/Companies`,
     Bank: `${url}/api/Bank`,
     Person: `${url}/api/Person`,
     CounterPart: `${url}/api/CounterPart`,
-    Contact: `${url}/api/Contact`,
+    Contact: `${url}/api/Contact`
   },
   company: {
     Department: `${url}/api/Department`,
@@ -20,12 +20,12 @@ export default {
     BusinessUnit: `${url}/api/BusinessUnit`,
     Employee: `${url}/api/Employee`,
     JobTitle: `${url}/api/JobTitle`,
-    ManagersAssistant: `${url}/api/ManagersAssistant`,
+    ManagersAssistant: `${url}/api/ManagersAssistant`
   },
   admin: {
     Roles: `${url}/api/Role`,
     RoleMembers: `${url}/api/RoleMembers/`,
-    Recipient: `${url}/api/Recipient`,
+    Recipient: `${url}/api/Recipient`
   },
   docFlow: {
     DocumentKind: `${url}/api/DocumentKind`,
@@ -45,7 +45,7 @@ export default {
     FilesType: `${url}/api/FilesType`,
     DocumentRegistration: `${url}/api/DocumentRegistry/RegisterDocument`,
     UnregisterDocument: `${url}/api/DocumentRegistry/UnregisterDocument`,
-    PreliminaryNumber: `${url}/api/DocumentRegistry/PreliminaryNumber`,
+    PreliminaryNumber: `${url}/api/DocumentRegistry/PreliminaryNumber`
   },
   paperWork: {
     AllDocument: `${url}/api/OfficialDocument/100`,
@@ -69,13 +69,13 @@ export default {
     Memo: `${url}/api/OfficialDocument/7`,
     MemoPost: `${url}/api/OfficialDocument/CreateMemo`,
     PowerOfAttorney: `${url}/api/OfficialDocument/8`,
-    PowerOfAttorneyPost: `${url}/api/OfficialDocument/CreatePowerOfAttorney`,
+    PowerOfAttorneyPost: `${url}/api/OfficialDocument/CreatePowerOfAttorney`
   },
   task: {
     SimpleTask: `${url}/api/SimpleTask`,
     AssignmentId: `${url}/api/Assignment/GetAssignmentById/`,
     AllAssignments: `${url}/api/Assignment/GetAllAssignment/`,
-    CompleteAssignment: `${url}/api/SimpleAssignment/CompleteAssignment`,
-    MarkAsRead: `${url}/api/SimpleAssignment/MarkAsRead`,
-  },
+    CompleteAssignment: `${url}/api​/Assignment​/CompleteAssignment`,
+    MarkAsRead: `${url}/api/SimpleAssignment/MarkAsRead`
+  }
 };

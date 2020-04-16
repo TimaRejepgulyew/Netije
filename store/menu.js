@@ -1,7 +1,6 @@
 export const state = () => ({
   whitespacePattern: /^[^\s]+$/,
   menuList(context) {
-   
     return [
       {
         text: "Dasboard",
@@ -11,20 +10,11 @@ export const state = () => ({
       {
         text: context.$t("translations.menu.assignments"),
         icon: "event",
-        path: "/task/assignments/1",
 
         items: [
           {
-            text: context.$t("translations.menu.simpleAssignments"),
+            text: context.$t("translations.menu.assignments"),
             path: "/task/assignments/2"
-          },
-          {
-            text: context.$t("translations.menu.acquaintanceAssignments"),
-            path: "/task/assignments/3"
-          },
-          {
-            text: context.$t("translations.menu.actionAssignments"),
-            path: "/task/assignments/4"
           }
         ]
       },

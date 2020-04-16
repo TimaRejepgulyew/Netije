@@ -2,16 +2,10 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="headerTitle"></Header>
-      <div class="nav-bar">
+      <NavBarPerformers></NavBarPerformers>
+      <!-- <div class="nav-bar">
         <template v-if="isPerformer" name="performer functional">
-          <template v-if="!iscompleteAssignment" name="completeAssignment functional">
-            <DxButton
-              icon="check"
-              :height="40"
-              :on-click="completeAssignment"
-              :text="$t('translations.links.complete')"
-            ></DxButton>
-          </template>
+          <template v-if="!iscompleteAssignment" name="completeAssignment functional"></template>
           <template v-else-if="isObserver" name="observers functional">
             <template v-if="iscompleteAssignment" name="completeAssignment functional">
               <DxButton icon="check" :text="$t('translations.links.accept')"></DxButton>
@@ -22,19 +16,18 @@
             </template>
           </template>
         </template>
-      </div>
+      </div> -->
 
       <div class="d-flex message" v-if="isImportance">
         <i class="dx-icon dx-icon-info"></i>
         <span>{{$t('translations.fields.importanceMessage')}}</span>
       </div>
-      <form class="d-flex" @submit.prevent="handleSubmit">
+      <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm
-            :disabled="true"
             :col-count="1"
             :form-data.sync="store"
-            :read-only="false"
+            :read-only="true"
             :show-colon-after-label="true"
             :show-validation-summary="true"
             validation-group="OfficialDocument"
@@ -69,33 +62,7 @@
               </DxGroupItem>
             </DxGroupItem>
           </DxForm>
-          <div class="list-container">
-            <DxList>
-              <template #item="item">
-                <div>
-                  <div class="d-flex">
-                    <div class="list__content">{{item.data.name}}</div>
-                    <div class="list__btn-group">
-                      <DxButton
-                        icon="search"
-                        class="list__btn"
-                        v-if="!item.data.preview"
-                        :onClick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
-                      ></DxButton>
-                      <DxButton
-                        icon="download"
-                        class="list__btn"
-                        :on-click="()=>{downloadVersion(item.data.documentTypeGuid)}"
-                      ></DxButton>
-                    </div>
-                  </div>
-                </div>
-              </template>
-            </DxList>
-          </div>
-          <div>
-            <DxTextArea :height="90" :value.sync="comment" />
-          </div>
+          <Assignment-comments></Assignment-comments>
         </div>
         <div class="item">
           <attachmentDetails
@@ -110,7 +77,6 @@
 <script>
 import DxList from "devextreme-vue/list";
 import navBar from "~/components/task/nav-bar";
-import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import attachmentDetails from "~/components/task/attachment-details";
@@ -120,14 +86,16 @@ import DxForm, {
   DxButtonItem,
   DxLabel
 } from "devextreme-vue/form";
-import { DxTextArea } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
+import NavBarPerformers from "~/components/task/nav-bar/simple-assignment-perf";
+import AssignmentComments from "~/components/task/assignment-comments";
 export default {
   components: {
-    DxTextArea,
+    NavBarPerformers,
     DxList,
+    AssignmentComments,
     attachmentDetails,
     navBar,
     DxButton,
@@ -139,17 +107,13 @@ export default {
     DxForm
   },
   async asyncData({ app, params }) {
-    let store = await app.$axios.get(
-      dataApi.task.AssignmentId + params.id
-    );
-
+    let store = await app.$axios.get(dataApi.task.AssignmentId + params.id);
     return {
       store: store.data
     };
   },
   created() {
-    console.log(this.store);
-    if (!this.store.isRead && this.isPerformer) {
+    if (!this.store.isRead) {
       this.markingRead();
     }
   },
@@ -157,29 +121,27 @@ export default {
     return {
       headerTitle: this.$t("translations.headers.moreAbout"),
       store: {},
-      comment: "",
       dateTimeOptions: {
         type: "datetime"
-      },
-      employeeOptions: {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee
-        }),
-        showClearButton: true,
-        valueExpr: "id",
-        displayExpr: "name"
       }
     };
   },
   methods: {
-    async completeAssignment() {
+    completeAssignment() {
       const store = {};
+      store.assignmentType = this.store.assignmentType;
       store.assignmentId = parseInt(this.$route.params.id);
       store.attachmentDetails = this.store.attachmentDetails;
-      console.log(store);
-      await this.$axios.post(dataApi.task.CompleteAssignment, store);
-      this.store.status = 2;
+
+      this.$axios
+        .post(
+          "http://192.168.4.57:8090/api/Assignment/CompleteAssignment",
+          store
+        )
+        .then(() => (this.store.status = 2))
+        .catch(e => {
+          console.log(e);
+        });
     },
     async markingRead() {
       let isread = await this.$axios.post(dataApi.task.MarkAsRead, {
@@ -197,9 +159,6 @@ export default {
         this.store.attachmentDetails = documents;
       }
     },
-    importanceChanged(importanceType) {
-      this.store.importance = importanceType;
-    },
     backTo() {
       this.$router.go(-1);
     },
@@ -215,49 +174,29 @@ export default {
         msgType,
         3000
       );
-    },
-    handleSubmit() {
-      this.$axios
-        .post(this.addressPost, this.store)
-        .then(res => {
-          this.$router.push("/task/simple-assignment");
-          this.notify(
-            this.$t("translations.headers.addDoctKindSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindError"),
-            "error"
-          );
-        });
     }
   },
   computed: {
+    employeeOptions() {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Employee
+      });
+    },
     isObserver() {
-      console.log(
-        "isObserver",
-        this.store.authorId ==
-          parseInt(this.$store.getters["oidc/oidcUser"]["ИД сотрудника"])
-      );
       return (
         this.store.authorId ==
-        parseInt(this.$store.getters["oidc/oidcUser"]["ИД сотрудника"])
+        parseInt(this.$store.getters["permissons/employeeId"])
       );
     },
     isPerformer() {
-      console.log(
-        "isPerformer",
-        this.store.performerId ==
-          parseInt(this.$store.getters["oidc/oidcUser"]["ИД сотрудника"])
-      );
       return (
         this.store.performerId ==
-        parseInt(this.$store.getters["oidc/oidcUser"]["ИД сотрудника"])
+        parseInt(this.$store.getters["permissons/employeeId"])
       );
     },
     isImportance() {
+      console.log(this.store.importance, "status");
       return this.store.importance == 0;
     },
     iscompleteAssignment() {

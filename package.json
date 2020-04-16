@@ -20,6 +20,7 @@
     "devextreme-cli": "^1.1.10",
     "devextreme-vue": "19.2.6",
     "file-saver": "^2.0.2",
+    "globalize": "^1.5.0",
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.5.0",

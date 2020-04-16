@@ -12,15 +12,17 @@
           :onValueChanged="(e)=>{this.filterChaged(e,'status')}"
           valueExpr="id"
           displayExpr="name"
+          :value="status"
           :items="statusRadioItems"
         />
       </div>
       <div class="option--group">
         <div class="option__title">Тип</div>
         <DxRadioGroup
+          :value="assignmentType"
           valueExpr="id"
           displayExpr="name"
-          :onValueChanged="(e)=>{this.filterChaged(e,'type')}"
+          :onValueChanged="(e)=>{this.filterChaged(e,'assignmentType')}"
           :items="typeRadioItems"
         />
       </div>
@@ -35,6 +37,10 @@ export default {
     DxRadioGroup,
     DxCheckBox,
     DxButton
+  },
+  created() {
+    console.log(this.assignmentType);
+    this.filterChaged();
   },
   data() {
     return {
@@ -74,25 +80,27 @@ export default {
           name: this.$t("translations.fields.all")
         }
       ],
-      status: 0,
-      assignmentType: 2
+      status: parseInt(localStorage.getItem("status")) || 0,
+      assignmentType: parseInt(localStorage.getItem("assignmentType")) || 0
     };
   },
   methods: {
     filterChaged(e, name) {
-      (this[name] = e.value), console.log(this[name]);
+      if (e) {
+        this[name] = e.value;
+        localStorage.setItem("status", this.status);
+        localStorage.setItem("assignmentType", this.assignmentType);
+      }
+      let filter;
+      if (this.status == 1) {
+        filter = null;
+      } else {
+        filter = ["status", "=", this.status];
+      }
       this.$emit("changeFilter", {
         assignmentType: this.assignmentType,
-        filter: ["status", "=", this.status]
+        filter
       });
-
-      //   this.$emit("filterChange", {
-      //       assignmentType :this.assignmentType
-      //     // inProccess: this.inProccess,
-      //     // completed: this.completed,
-      //     // notice: this.notice,
-      //     // assignment: this.assignment
-      //   });
     },
     showFilter() {
       this.$emit("showFilter");
