@@ -11,7 +11,7 @@
         display-expr="name"
         @item-click="onItemClick"
       />
-      <DxButton icon="filter" :text="$t('translations.links.filter')" :on-click="openFilter" />
+      <DxButton icon="filter" :text="$t('translations.links.filter')" :on-click="showFilter" />
     </div>
     <div class="grid">
       <DxDataGrid
@@ -90,32 +90,9 @@
         </DxColumn>-->
       </DxDataGrid>
       <transition name="fade">
-        <div class="sideBar" v-if="isFilterOpen">
-          <div class="btn--close right">
-            <label class="filter__header">Фильтр</label>
-            <DxButton icon="close" :on-click="openFilter" />
-          </div>
-          <div class="filter__content">
-            <div class="option--group">
-              <div class="option__title">Статус</div>
-              <div class="option">
-                <DxCheckBox v-model="inProccess" text="в работе" />
-              </div>
-              <div class="option">
-                <DxCheckBox v-model="completed" text="завершенные" />
-              </div>
-            </div>
-            <div class="option--group">
-              <div class="option__title">Тип</div>
-              <div class="option">
-                <DxCheckBox v-model="notice" text="уведомления" />
-              </div>
-              <div class="option">
-                <DxCheckBox v-model="assignment" text="задания" />
-              </div>
-            </div>
-          </div>
-        </div>
+        <aside class="sideBar" v-if="isFilterOpen">
+          <TaskFilter @changeFilter="changeFilter" @showFilter="showFilter"></TaskFilter>
+        </aside>
       </transition>
     </div>
   </main>
@@ -126,6 +103,7 @@ import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
+import TaskFilter from "~/components/task/filter";
 import DxButton from "devextreme-vue/button";
 import {
   DxSearchPanel,
@@ -147,6 +125,7 @@ import {
 
 export default {
   components: {
+    TaskFilter,
     DxCheckBox,
     DxButton,
     DxDropDownButton,
@@ -201,7 +180,9 @@ export default {
   },
   computed: {
     headerTitle() {
+      console.log(this.store);
       const assignmentsTypes = [
+        "all",
         "allAssignments",
         "simpleAssignments",
         "acquaintanceAssignments",
@@ -213,19 +194,24 @@ export default {
         `translations.menu.${assignmentsTypes[this.assignmentType]}`
       );
     },
-    filter() {
-      return;
-    },
+
     store() {
-      return {
+      const assignmentType = this.assignmentType;
+      console.log("request", assignmentType);
+      return new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.task.AllAssignments + this.assignmentType
-        })
-      };
+        }),
+        filter: this.filter
+      });
     }
   },
   methods: {
+    changeFilter({ assignmentType, filter }) {
+      this.assignmentType = assignmentType;
+      this.filter = filter;
+    },
     toMoreAbout(e) {
       const assignmentsTypes = [
         "all",
@@ -242,7 +228,7 @@ export default {
     onItemClick(e) {
       this.$router.push(e.itemData.path);
     },
-    openFilter() {
+    showFilter() {
       console.log(this.isFilterOpen);
       this.isFilterOpen = !this.isFilterOpen;
     }

@@ -28,7 +28,7 @@
 
                 <DxEditing
                   :allow-updating="isOwnerGroup"
-                  :allow-deleting="allowDeleting&&isOwnerGroup"
+                  :allow-deleting="!accessDenied"
                   :allow-adding="isOwnerGroup"
                   :useIcons="true"
                   mode="raw"
@@ -135,10 +135,10 @@
           </DxGroupItem>
           <DxSimpleItem template="avatar-template" />
 
-          <DxGroupItem :col-count="12" :col-span="2">
+          <DxGroupItem :col-count="24" :col-span="2">
             <DxButtonItem
-              :col-span="11"
-              :button-options="addButtonOptions"
+              :col-span="1"
+              :button-options="saveButtonOptions"
               horizontal-alignment="right"
             />
             <DxButtonItem
@@ -234,7 +234,7 @@ export default {
   async asyncData({ app, params }) {
     if (params.id != "newDocRegistry") {
       let store = await app.$axios.get(
-        dataApi.docFlow.DocumentRegistry + params.id,
+        dataApi.docFlow.DocumentRegistry + params.id
       );
       return {
         address: dataApi.docFlow.DocumentRegistry + params.id,
@@ -365,20 +365,6 @@ export default {
           name: this.$t("translations.fields.continuous")
         }
       ],
-      addButtonOptions: {
-        width: 100,
-        height: 50,
-        text: this.$t("translations.links.add"),
-        useSubmitBehavior: true,
-        type: "success"
-      },
-      cancelButtonOptions: {
-        onClick: this.backTo,
-        width: 100,
-        height: 50,
-        text: this.$t("translations.links.cancel"),
-        useSubmitBehavior: false
-      },
       allowDeleting(e) {
         if (e.row.data.id != "default") {
           return true;
@@ -389,6 +375,18 @@ export default {
     };
   },
   computed: {
+    saveButtonOptions() {
+      return this.$store.getters["globalProperties/btnSave"](this);
+    },
+    cancelButtonOptions() {
+      return this.$store.getters["globalProperties/btnCancel"](
+        this,
+        this.backTo
+      );
+    },
+    accessDenied() {
+      return !this.isRegistered && !this.isOwnerGroup;
+    },
     isOwnerGroup() {
       if (this.isUpdating) {
         return this.store.hasAccess;
@@ -404,69 +402,67 @@ export default {
       return this.store.registerType == 1;
     },
     documentFlowOptions() {
-      return new BasicOptions(
-        this.documentFlow,
-        !this.isRegistered && !this.isOwnerGroup,
-        true
-      );
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          disabled: this.accessDenied
+        }),
+        dataSource: this.documentFlow
+      };
     },
     registrationGroupIdOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.docFlow.ResponsibleForGroupOnMe,
-        disabled: !this.isRegistered && !this.isOwnerGroup
+        disabled: this.accessDenied
       });
     },
 
     numberingSectionOptions() {
-      return new BasicOptions(
-        this.numberingSection,
-        !this.isRegistered && !this.isOwnerGroup,
-        true
-      );
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          disabled: this.accessDenied
+        }),
+        dataSource: this.numberingSection
+      };
     },
     numberingPeriodOptions() {
-      return new BasicOptions(
-        this.numberingPeriod,
-        !this.isRegistered && !this.isOwnerGroup,
-        true
-      );
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          disabled: this.accessDenied
+        }),
+        dataSource: this.numberingPeriod
+      };
     },
     registerTypeOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          disabled: this.accessDenied
+        }),
         dataSource: this.registerType,
-        disabled: !this.isRegistered && !this.isOwnerGroup,
-        allowClearing: true,
-        valueExpr: "id",
-        displayExpr: "name",
         onValueChanged: e => {
-          console.log("regiGroup null");
           this.store.registrationGroupId = null;
         }
       };
     },
     statusOptions() {
-      return new BasicOptions(
-        this.$store.getters["status/status"],
-        !this.isOwnerGroup,
-        true,
-        "status"
-      );
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          value: "status",
+          disabled: !this.isOwnerGroup
+        }),
+        dataSource: this.$store.getters["status/status"]
+      };
     },
     numberOfDigitsInNumber() {
       return {
         disabled: !this.isOwnerGroup,
         max: 9,
         min: 0
-      };
-    },
-
-    elementOptions() {
-      return {
-        dataSource: this.element,
-        allowClearing: true,
-        valueExpr: "id",
-        displayExpr: "name"
       };
     },
     nameOptions() {
@@ -557,7 +553,6 @@ export default {
             );
           });
       }
-
       e.preventDefault();
     }
   }

@@ -61,7 +61,7 @@
                   :editor-options="deliveryMethodOptions"
                   editor-type="dxSelectBox"
                 >
-                  <DxLabel location="top" :text="$t('translations.menu.mailDeliveryMethod')" />
+                  <DxLabel location="top" :text="$t('translations.fields.mailDeliveryMethod')" />
                 </DxSimpleItem>
 
                 <DxGroupItem :visible="isCompany">

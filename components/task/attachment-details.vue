@@ -35,6 +35,10 @@
         value-expr="id"
         display-expr="name"
         apply-value-mode="useButtons"
+        searchEnabled="true"
+        searchExpr="name"
+        :paginate="true"
+        :page-size="10"
       />
       <div class="column">
         <DxButton
@@ -71,7 +75,6 @@ export default {
     return {
       allDocuments: [],
       store: [],
-      addresImg: "",
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.AllDocument
@@ -94,11 +97,6 @@ export default {
   },
   methods: {
     openVersion(documentId, documentTypeGuid) {
-      console.log(
-        this.$store.getters["globalProperties/documentTypeGuid"](
-          documentTypeGuid
-        )
-      );
       window.open(
         this.$store.getters["globalProperties/documentTypeGuid"](
           documentTypeGuid

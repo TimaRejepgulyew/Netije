@@ -30,11 +30,12 @@
       </div>
       <DxFileUploader
         :multiple="true"
+        :accept="acceptExtension"
         :allowed-file-extensions="extension"
         @progress="addVersion"
-        :showFileList="false"
+        @value-changed="e => files = e.value"
+        :showFileList="true"
         :invalid-fileextension-message="$t('translations.fields.invalidExeption')"
-        upload-mode="useButtons"
       />
     </div>
   </div>
@@ -71,6 +72,9 @@ export default {
     };
   },
   computed: {
+    acceptExtension() {
+      return this.extension.join(",");
+    },
     extension() {
       return this.associatedApplication.map(el => {
         return el.extension;

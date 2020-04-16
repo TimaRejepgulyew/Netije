@@ -38,59 +38,54 @@
             :show-validation-summary="true"
             validation-group="OfficialDocument"
           >
-            <DxGroupItem :col-count="2">
-              <DxGroupItem>
-                <DxSimpleItem
-                  data-field="businessUnitId"
-                  :editor-options="businessUnitOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-                  <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-                </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="departmentId"
-                  :editor-options="deparmentOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-                  <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-                </DxSimpleItem>
+            <DxGroupItem>
+              <DxSimpleItem
+                data-field="businessUnitId"
+                :editor-options="businessUnitOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+                <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+              </DxSimpleItem>
+              <DxSimpleItem
+                data-field="departmentId"
+                :editor-options="deparmentOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+                <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+              </DxSimpleItem>
 
-                <DxSimpleItem
-                  data-field="preparedById"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-                  <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-                </DxSimpleItem>
-              </DxGroupItem>
+              <DxSimpleItem
+                data-field="preparedById"
+                :editor-options="employeeOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+                <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+              </DxSimpleItem>
+              <DxSimpleItem data-field="validTill" editor-type="dxDateBox">
+                <DxLabel location="top" :text="$t('translations.fields.validTill')" />
+                <DxRequiredRule :message="$t('translations.fields.validTillRequired')" />
+              </DxSimpleItem>
 
-              <DxGroupItem>
-                <DxSimpleItem
-                  data-field="ourSignatoryId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-                  <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
-                </DxSimpleItem>
+              <DxSimpleItem
+                data-field="issuedToId"
+                :editor-options="issuedToIdOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.issuedToId')" />
+                <DxRequiredRule :message="$t('translations.fields.issuedToIdRequired')" />
+              </DxSimpleItem>
+              <DxSimpleItem
+                data-field="ourSignatoryId"
+                :editor-options="employeeOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+                <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
+              </DxSimpleItem>
 
-                <DxSimpleItem data-field="validTill" editor-type="dxDateBox">
-                  <DxLabel location="top" :text="$t('translations.fields.validTill')" />
-                  <DxRequiredRule :message="$t('translations.fields.validTillRequired')" />
-                </DxSimpleItem>
-
-                <DxSimpleItem
-                  data-field="issuedToId"
-                  :editor-options="issuedToIdOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.issuedToId')" />
-                  <DxRequiredRule :message="$t('translations.fields.issuedToIdRequired')" />
-                </DxSimpleItem>
-              </DxGroupItem>
               <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>

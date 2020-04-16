@@ -11,20 +11,20 @@ export const state = () => ({
       {
         text: context.$t("translations.menu.assignments"),
         icon: "event",
-        path: "/task/assignments/0",
+        path: "/task/assignments/1",
 
         items: [
           {
             text: context.$t("translations.menu.simpleAssignments"),
-            path: "/task/assignments/1"
-          },
-          {
-            text: context.$t("translations.menu.acquaintanceAssignments"),
             path: "/task/assignments/2"
           },
           {
-            text: context.$t("translations.menu.actionAssignments"),
+            text: context.$t("translations.menu.acquaintanceAssignments"),
             path: "/task/assignments/3"
+          },
+          {
+            text: context.$t("translations.menu.actionAssignments"),
+            path: "/task/assignments/4"
           }
         ]
       },

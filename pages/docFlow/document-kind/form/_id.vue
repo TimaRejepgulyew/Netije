@@ -211,13 +211,6 @@ export default {
     };
   },
   methods: {
-    async getDataById(url) {
-      const res = await this.$axios.get(url);
-      res.data.availableActions = res.data.availableActions.map(element => {
-        return (element = element.id);
-      });
-      return res.data;
-    },
     async getData(url) {
       const res = await this.$axios.get(url);
       return res.data.data;
@@ -248,69 +241,82 @@ export default {
         dataField
       );
     },
+    putRequest() {
+      const object = { id: parseInt(this.$route.params.id), ...this.store };
+      this.$axios
+        .put(this.address, object)
+        .then(res => {
+          this.backTo();
+          this.notify(
+            this.$t("translations.headers.updateDocKindSucces"),
+            "success"
+          );
+        })
+        .catch(e => {
+          this.notify(
+            this.$t("translations.headers.updateDocKindError"),
+            "error"
+          );
+        });
+    },
+    postRequest() {
+      this.$axios
+        .post(this.address, this.store)
+        .then(res => {
+          this.backTo();
+          this.notify(
+            this.$t("translations.headers.addDoctKindSucces"),
+            "success"
+          );
+        })
+        .catch(e => {
+          this.notify(
+            this.$t("translations.headers.addDoctKindError"),
+            "error"
+          );
+        });
+    },
     handleSubmit(e) {
       if (this.isUpdating) {
-        const object = { id: parseInt(this.$route.params.id), ...this.store };
-        this.$axios
-          .put(this.address, object)
-          .then(res => {
-            this.backTo();
-            this.notify(
-              this.$t("translations.headers.updateDocKindSucces"),
-              "success"
-            );
-          })
-          .catch(e => {
-            this.notify(
-              this.$t("translations.headers.updateDocKindError"),
-              "error"
-            );
-          });
+        this.putRequest();
       } else {
-        this.$axios
-          .post(this.address, this.store)
-          .then(res => {
-            this.backTo();
-            this.notify(
-              this.$t("translations.headers.addDoctKindSucces"),
-              "success"
-            );
-          })
-          .catch(e => {
-            this.notify(
-              this.$t("translations.headers.addDoctKindError"),
-              "error"
-            );
-          });
+        this.postRequest();
       }
-
       e.preventDefault();
     }
   },
   computed: {
+    accessRightHasDependies() {
+      return this.isUpdating ? this.store.hasDependencies : false;
+    },
     statusOptions() {
       return {
-        dataSource: this.$store.getters["status/status"],
-        valueExpr: "id",
-        displayExpr: "status",
-        showClearButton: true
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          value: "status"
+        }),
+        dataSource: this.$store.getters["status/status"]
       };
     },
     numberingTypeOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          disabled: this.accessRightHasDependies
+        }),
         dataSource: [
           { id: 1, name: this.$t("translations.fields.registrable") },
           { id: 2, name: this.$t("translations.fields.numerable") },
           { id: 3, name: this.$t("translations.fields.notNumerable") }
-        ],
-        disabled: this.isUpdating ? this.store.hasDependencies : false,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: true
+        ]
       };
     },
     documentFlowOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          disabled: this.accessRightHasDependies
+        }),
         dataSource: [
           { id: 0, name: this.$t("translations.fields.incomingEnum") },
           { id: 1, name: this.$t("translations.fields.outcomingEnum") },
@@ -318,31 +324,27 @@ export default {
         ],
         onValueChanged: e => {
           this.store.documentTypeId = null;
-        },
-        disabled: this.isUpdating ? this.store.hasDependencies : false,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: true
+        }
       };
     },
     tagboxOptions() {
       return {
-        dataSource: this.availableActions,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: true
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
+        dataSource: this.availableActions
       };
     },
 
     docTypeOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          disabled: this.accessRightHasDependies
+        }),
         dataSource: this.documentType.filter(element => {
           return element.documentFlow == this.store.documentFlow;
-        }),
-        disabled: this.isUpdating ? this.store.hasDependencies : false,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: true
+        })
       };
     },
     isNumerable() {

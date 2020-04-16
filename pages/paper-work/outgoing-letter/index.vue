@@ -44,7 +44,7 @@
       <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
       <DxColumn
         data-field="correspondentId"
-        :caption="$t('translations.fields.subject')"
+        :caption="$t('translations.fields.correspondentId')"
         data-type="selectbox"
       >
         <DxLookup

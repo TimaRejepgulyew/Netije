@@ -231,7 +231,7 @@ export default {
       this.$axios
         .post(this.addressPost, this.store)
         .then(res => {
-          this.$router.push("/task/simple-assignment");
+          this.$router.push("/task/assignments/");
           this.notify(
             this.$t("translations.headers.addDoctKindSucces"),
             "success"
