@@ -1,13 +1,13 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <MainForm :store="store">
+      <MainForm :isSaved="isSaved" @modified="modified" :headerTitle="headerTitle" :store="store">
         <DxForm
           :col-count="1"
           :form-data.sync="store"
           :read-only="false"
           :show-colon-after-label="true"
-          :show-validation-summary="true"
+          :show-validation-summary="false"
           validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
@@ -81,22 +81,6 @@
                 <DxLabel location="top" :text="$t('translations.fields.inResponseTold')" />
               </DxSimpleItem>
             </DxGroupItem>
-
-            <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
-              <DxLabel location="top" :text="$t('translations.fields.note')" />
-            </DxSimpleItem>
-            <DxGroupItem :col-count="12" :col-span="2">
-              <DxButtonItem
-                :col-span="1"
-                :button-options="saveButtonOptions"
-                horizontal-alignment="right"
-              />
-              <DxButtonItem
-                :col-span="1"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="right"
-              />
-            </DxGroupItem>
           </DxGroupItem>
         </DxForm>
       </MainForm>
@@ -105,8 +89,6 @@
 </template>
 <script>
 import MainForm from "~/components/paper-work/main-doc-form/main";
-
-import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 
@@ -145,9 +127,6 @@ export default {
   },
   created() {
     this.eventIsModified();
-    this.$store.dispatch("paper-work/setMainFormProperties", {
-      correspondent: ""
-    });
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
@@ -167,6 +146,7 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.OutgoingLetterPost,
       isUpdating: false,
+      isSaved: true,
       headerTitle: this.$t("translations.headers.outgoingLetter"),
       store: {
         subject: "",
@@ -185,6 +165,7 @@ export default {
         preparedById: null,
         version: null
       },
+      isCompany: false
     };
   },
   methods: {
@@ -199,7 +180,7 @@ export default {
         unwatch = this.$watch("store", this.modified, { deep: true });
       }
     },
-    
+
     backTo() {
       this.$router.go(-1);
     },

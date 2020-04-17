@@ -56,7 +56,7 @@ export default {
       this.getDefaultDocKind();
     }
   },
-  props: ["docType", "properties"],
+  props: ["docType", "properties", "isSaved"],
   data(context) {
     let {
       name,
@@ -83,8 +83,7 @@ export default {
       },
       defaultDocKind: null,
       docKindName: "",
-      isDefaultName: false,
-      isSaved: false
+      isDefaultName: false
     };
   },
   methods: {
@@ -124,7 +123,14 @@ export default {
   },
   computed: {
     defaultName() {
-      return this.$store.getters["paper-work/defaultName"](this.docType, this);
+      if (this.isDefaultName) {
+        return this.$store.getters["paper-work/defaultName"](
+          this.docType,
+          this
+        );
+      } else {
+        return this.name;
+      }
     },
     documentKindOptions() {
       return {
@@ -158,19 +164,20 @@ export default {
     nameOptions() {
       const options = {
         disabled: this.isDefaultName,
-        value: this.isDefaultName ? this.defaultName : "",
         onValueChanged: e => {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
+          this.modified();
         }
       };
       if (!this.isSaved) {
+        options.value = this.defaultName;
         options.onValueChanged = e => {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
-          this.modified;
+          this.modified();
         };
       }
 

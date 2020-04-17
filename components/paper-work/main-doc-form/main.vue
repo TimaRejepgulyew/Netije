@@ -30,11 +30,40 @@
         <DxItem :title="$t('translations.menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
-            <mainFocForm @eventWatch="modified()" :properties="store" :docType="2"></mainFocForm>
+            <mainFocForm @eventWatch="modified" :isSaved="isSaved" :properties="store" :docType="1"></mainFocForm>
             <slot></slot>
+            <DxForm
+              :col-count="1"
+              :form-data.sync="store"
+              :read-only="false"
+              :show-colon-after-label="true"
+              :show-validation-summary="true"
+              validation-group="OfficialDocument"
+            >
+              <DxSimpleItem
+                :col-span="2"
+                data-field="note"
+                :editor-options="noteOptions"
+                editor-type="dxTextArea"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.note')" />
+              </DxSimpleItem>
+              <DxGroupItem :col-count="12" :col-span="2">
+                <DxButtonItem
+                  :col-span="1"
+                  :button-options="saveButtonOptions"
+                  horizontal-alignment="right"
+                />
+                <DxButtonItem
+                  :col-span="1"
+                  :button-options="cancelButtonOptions"
+                  horizontal-alignment="right"
+                />
+              </DxGroupItem>
+            </DxForm>
           </div>
           <div class="item">
-            <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
+            <docRegistration @eventWatch="modified" :properties="store" :docType="3"></docRegistration>
           </div>
           <div v-if="isUpdating" class="item">
             <docVersion></docVersion>
@@ -63,23 +92,16 @@ import { DxPopup } from "devextreme-vue/popup";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
-
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxButtonItem,
   DxLabel,
-  DxRequiredRule,
-  DxCompareRule,
-  DxRangeRule,
-  DxStringLengthRule,
-  DxPatternRule,
-  DxAsyncRule
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
-let unwatch;
 export default {
   components: {
     Relation,
@@ -97,32 +119,14 @@ export default {
     DxSimpleItem,
     DxButtonItem,
     DxLabel,
-    DxRequiredRule,
-    DxCompareRule,
-    DxPatternRule,
-    DxRangeRule,
     DxForm,
-    DxAsyncRule,
     DxPopup,
-    notify
+    DxRequiredRule
   },
+  props: ["store", "isSaved", "headerTitle"],
   created() {
-    this.eventIsModified();
-    this.$store.dispatch("paper-work/setMainFormProperties", {
-      correspondent: ""
-    });
-  },
-  async asyncData({ app, params }) {
-    if (params.id != "add") {
-      let store = await app.$axios.get(
-        dataApi.paperWork.GetDocumentById + params.id
-      );
-      return {
-        store: store.data.document,
-        isUpdating: true
-      };
-    } else {
-      return {};
+    if (this.$route.params.id != "add") {
+      this.isUpdating = true;
     }
   },
   data() {
@@ -130,42 +134,14 @@ export default {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: dataApi.paperWork.OutgoingLetterPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.outgoingLetter"),
-      store: {
-        subject: "",
-        ourSignatoryId: null,
-        contactId: null,
-        correspondentId: null,
-        contactId: null,
-        inResponseToId: null,
-        deliveryMethodId: null,
-        note: null,
-        caseFileId: null,
-        placedToCaseFileDate: null,
-        businessUnitId: null,
-        departmentId: null,
-        ourSignatoryId: null,
-        preparedById: null,
-        version: null
-      },
-      popupRegistyDocument: false,
-      isCompany: false,
-      isDefaultName: false,
-      isSaved: false
+      popupRegistyDocument: false
     };
   },
   methods: {
     modified() {
-      console.log("watch is work ");
-      this.isSaved = false;
-      unwatch();
+      this.$emit("modified");
     },
-    eventIsModified() {
-      if (this.isUpdating) {
-        this.isSaved = true;
-        unwatch = this.$watch("store", this.modified, { deep: true });
-      }
-    },
+
     popupDisabled(popup) {
       this[popup] = false;
     },
@@ -206,12 +182,13 @@ export default {
       //   });
     },
     addRequest() {
-      this.store = Object.assign(
+      const store = Object.assign(
         this.store,
         this.$store.getters["paper-work/mainFormProperties"]
       );
+      console.log(store);
       this.$axios
-        .post(this.addressPost, this.store)
+        .post(this.addressPost, store)
         .then(res => {
           this.notify(
             this.$t("translations.headers.addDoctKindSucces"),
@@ -230,16 +207,20 @@ export default {
         });
     },
     handleSubmit(e) {
-      if (this.isUpdating) {
-        this.updateRequest();
-      } else {
-        this.addRequest();
-      }
+      console.log(this.store);
+      // if (this.isUpdating) {
+      //   this.updateRequest();
+      // } else {
+      //   this.addRequest();
+      // }
 
       e.preventDefault();
     }
   },
   computed: {
+    computed() {
+      return this.isSaved;
+    },
     saveButtonOptions() {
       return this.$store.getters["globalProperties/btnSave"](this);
     },
@@ -260,88 +241,12 @@ export default {
         registeryAllowed: !this.store.registrationState && this.isSaved
       };
     },
-
-    counterPartOptions() {
+    noteOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.contragents.CounterPart
-        }),
-        onSelectionChanged: e => {
-          if (e.selectedItem) {
-            this.isCompany = e.selectedItem.type != "Person";
-            this.$store.dispatch("paper-work/setMainFormProperties", {
-              correspondent: e.selectedItem.name
-            });
-          } else {
-            this.$store.dispatch("paper-work/setMainFormProperties", {
-              correspondent: ""
-            });
-            this.isCompany = false;
-          }
-        },
-        onValueChanged: e => {
-          // this.store.contactId = null;
+        onValueChanged: () => {
+          this.modified();
         }
       };
-    },
-    deliveryMethodOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.docFlow.MailDeliveryMethod
-      });
-    },
-    contactOptions() {
-      const companyId = this.store.correspondentId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.contragents.Contact,
-        filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
-      });
-    },
-    businessUnitOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
-        }),
-        onValueChanged: e => {
-          this.store.departmentId = null;
-          this.store.ourSignatoryId = null;
-          this.store.preparedById = null;
-        }
-      };
-    },
-    deparmentOptions() {
-      let businessUnitId = this.store.businessUnitId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Department,
-        filter: [
-          ["businessUnitId", "=", businessUnitId],
-          "and",
-          ["status", "=", 0]
-        ]
-      });
-    },
-    employeeOptions() {
-      let businessUnitId = this.store.businessUnitId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Employee,
-        filter: [
-          ["businessUnitId", "=", businessUnitId],
-          "and",
-          ["status", "=", 0]
-        ]
-      });
-    },
-    inResponseToIdOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.paperWork.IncommingLetter
-      });
     }
   }
 };
