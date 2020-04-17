@@ -102,6 +102,18 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
+
+const requests = [
+  ,
+  dataApi.paperWork.IncommingLetterPost,
+  dataApi.paperWork.OutgoingingLetterPost,
+  dataApi.paperWork.OrderPost,
+  dataApi.paperWork.CompanyDirectivePost,
+  dataApi.paperWork.SimpleDocumentPost,
+  dataApi.paperWork.AddendumPost,
+  dataApi.paperWork.MemoPost,
+  dataApi.paperWork.PowerOfAttorneyPost
+];
 export default {
   components: {
     Relation,
@@ -123,7 +135,7 @@ export default {
     DxPopup,
     DxRequiredRule
   },
-  props: ["store", "isSaved", "headerTitle"],
+  props: ["store", "isSaved", "headerTitle", "addressPost"],
   created() {
     if (this.$route.params.id != "add") {
       this.isUpdating = true;
@@ -132,7 +144,6 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.OutgoingLetterPost,
       isUpdating: false,
       popupRegistyDocument: false
     };
@@ -186,7 +197,6 @@ export default {
         this.store,
         this.$store.getters["paper-work/mainFormProperties"]
       );
-      console.log(store);
       this.$axios
         .post(this.addressPost, store)
         .then(res => {
@@ -207,12 +217,11 @@ export default {
         });
     },
     handleSubmit(e) {
-      console.log(this.store);
-      // if (this.isUpdating) {
-      //   this.updateRequest();
-      // } else {
-      //   this.addRequest();
-      // }
+      if (this.isUpdating) {
+        this.updateRequest();
+      } else {
+        this.addRequest();
+      }
 
       e.preventDefault();
     }

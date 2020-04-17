@@ -160,9 +160,6 @@ export default {
   },
   created() {
     this.eventIsModified();
-    this.$store.dispatch("paper-work/setMainFormProperties", {
-      leadingDocument: this.leadingDocument
-    });
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
@@ -179,8 +176,6 @@ export default {
   },
   data() {
     return {
-      addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.AddendumPost,
       isUpdating: false,
       headerTitle: this.$t("translations.headers.addendum"),
       store: {
@@ -202,9 +197,11 @@ export default {
   },
   methods: {
     modified() {
-      console.log("watch is work ");
-      this.isSaved = false;
-      unwatch();
+      if (this.isUpdating) {
+        // unwatch();
+        console.log("watch is work ");
+        this.isSaved = false;
+      }
     },
     eventIsModified() {
       if (this.isUpdating) {

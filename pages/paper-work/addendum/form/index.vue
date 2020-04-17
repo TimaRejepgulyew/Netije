@@ -1,17 +1,23 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <MainForm :isSaved="isSaved" @modified="modified" :headerTitle="headerTitle" :store="store">
+      <MainForm
+        :isSaved="isSaved"
+        @modified="modified"
+        :headerTitle="headerTitle"
+        :store="store"
+        :docType="6"
+      >
         <DxForm
           :col-count="1"
           :form-data.sync="store"
           :read-only="false"
           :show-colon-after-label="true"
-          :show-validation-summary="false"
+          :show-validation-summary="true"
           validation-group="OfficialDocument"
         >
-          <DxGroupItem :col-count="2">
-            <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+          <DxGroupItem>
+            <DxGroupItem>
               <DxSimpleItem
                 data-field="businessUnitId"
                 :editor-options="businessUnitOptions"
@@ -30,55 +36,12 @@
               </DxSimpleItem>
 
               <DxSimpleItem
-                data-field="ourSignatoryId"
-                :editor-options="employeeOptions"
+                data-field="leadingDocumentId"
+                :editor-options="leadingDocumentOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="preparedById"
-                :editor-options="employeeOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-                <DxRequiredRule :message="$t('translations.fields.preparedByIdRequired')" />
-              </DxSimpleItem>
-            </DxGroupItem>
-
-            <DxGroupItem :caption="$t('translations.fields.whom')">
-              <DxSimpleItem
-                data-field="correspondentId"
-                :editor-options="counterPartOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
-                <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="contactId"
-                :visible="isCompany"
-                :editor-options="contactOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel location="top" :text="$t('translations.fields.contactId')" />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="deliveryMethodId"
-                :editor-options="deliveryMethodOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel location="top" :text="$t('translations.fields.mailDeliveryMethod')" />
-              </DxSimpleItem>
-              <DxSimpleItem
-                data-field="inResponseToId"
-                :editor-options="inResponseToIdOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel location="top" :text="$t('translations.fields.inResponseTold')" />
+                <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
+                <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
               </DxSimpleItem>
             </DxGroupItem>
           </DxGroupItem>
@@ -91,39 +54,28 @@
 import MainForm from "~/components/paper-work/main-doc-form/main";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
-
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel,
   DxRequiredRule,
-  DxCompareRule,
-  DxRangeRule,
-  DxStringLengthRule,
   DxPatternRule,
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
-import DxButton from "devextreme-vue/button";
 let unwatch;
 export default {
   components: {
     MainForm,
-    DxButton,
     Header,
+    DxForm,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel,
     DxRequiredRule,
-    DxCompareRule,
     DxPatternRule,
-    DxRangeRule,
-    DxForm,
-    DxAsyncRule,
-    notify
+    DxAsyncRule
   },
   created() {
     this.eventIsModified();
@@ -144,26 +96,19 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.OutgoingLetterPost,
+      addressPost: dataApi.paperWork.AddendumPost,
       isUpdating: false,
-      isSaved: true,
-      headerTitle: this.$t("translations.headers.outgoingLetter"),
+      headerTitle: this.$t("translations.headers.addendum"),
       store: {
+        leadingDocumentId: null,
+        name: "",
         subject: "",
-        ourSignatoryId: null,
-        contactId: null,
-        correspondentId: null,
-        contactId: null,
-        inResponseToId: null,
-        deliveryMethodId: null,
-        note: null,
+        note: "",
+        documentKindId: null,
         caseFileId: null,
         placedToCaseFileDate: null,
-        businessUnitId: null,
-        departmentId: null,
-        ourSignatoryId: null,
-        preparedById: null,
-        version: null
+        businessUnitId: 0,
+        departmentId: null
       },
       isCompany: false
     };
@@ -171,7 +116,6 @@ export default {
   methods: {
     modified() {
       console.log("watch is work ");
-      this.isSaved = false;
       unwatch();
     },
     eventIsModified() {
@@ -179,97 +123,9 @@ export default {
         this.isSaved = true;
         unwatch = this.$watch("store", this.modified, { deep: true });
       }
-    },
-
-    backTo() {
-      this.$router.go(-1);
-    },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
-    },
-    updateRequest() {
-      // this.$axios
-      //   .put(this.address,)
-      //   .then(res => {
-      //     this.backTo();
-      //     this.notify(
-      //       this.$t("translations.headers.updateDocKindSucces"),
-      //       "success"
-      //     );
-      //   })
-      //   .catch(e => {
-      //     this.notify(
-      //       this.$t("translations.headers.updateDocKindError"),
-      //       "error"
-      //     );
-      //   });
-    },
-    addRequest() {
-      this.store = Object.assign(
-        this.store,
-        this.$store.getters["paper-work/mainFormProperties"]
-      );
-      this.$axios
-        .post(this.addressPost, this.store)
-        .then(res => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindSucces"),
-            "success"
-          );
-          this.$router.push({
-            name: this.$route.name,
-            params: { id: res.data }
-          });
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindError"),
-            "error"
-          );
-        });
-    },
-    handleSubmit(e) {
-      if (this.isUpdating) {
-        this.updateRequest();
-      } else {
-        this.addRequest();
-      }
-
-      e.preventDefault();
     }
   },
   computed: {
-    saveButtonOptions() {
-      return this.$store.getters["globalProperties/btnSave"](this);
-    },
-    cancelButtonOptions() {
-      return this.$store.getters["globalProperties/btnCancel"](
-        this,
-        this.backTo
-      );
-    },
-    registryState() {
-      const isRegsitrible =
-        this.$store.getters["paper-work/documentKind"]("numberingType") != 3
-          ? true
-          : false;
-      return {
-        isRegsitrible,
-        isRegistered: this.store.registrationState == 0,
-        registeryAllowed: !this.store.registrationState && this.isSaved
-      };
-    },
-
     counterPartOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -290,7 +146,7 @@ export default {
           }
         },
         onValueChanged: e => {
-          // this.store.contactId = null;
+          this.store.contactId = null;
         }
       };
     },
