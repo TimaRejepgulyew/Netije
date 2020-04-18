@@ -56,6 +56,7 @@ export default {
     Relation: `${url}/api/OfficialDocument/Relations/`,
     DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
+    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`,
     IncommingLetter: `${url}/api/OfficialDocument/1`,
     IncommingLetterPost: `${url}/api/OfficialDocument/CreateIncomingLetter`,
     OutgoingLetter: `${url}/api/OfficialDocument/2`,

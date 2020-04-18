@@ -14,7 +14,7 @@
                   <DxButton
                     icon="search"
                     class="list__btn"
-                    v-if="!item.data.preview"
+                    v-if="item.data.preview"
                     :onClick="()=>{openVersion(item.data)}"
                   ></DxButton>
                   <DxButton
@@ -29,7 +29,8 @@
         </DxList>
       </div>
       <DxFileUploader
-        :multiple="true"
+        uploadMode="useButtons"
+        :multiple="false"
         :accept="acceptExtension"
         :allowed-file-extensions="extension"
         @progress="addVersion"
@@ -59,6 +60,7 @@ export default {
     this.associatedApplication = await this.getData(
       dataApi.docFlow.AssociatedApplication
     );
+    console.log(this.associatedApplication);
     if (this.$route.params.id != "add") {
       this.versions = await this.getVersions();
     }
@@ -96,7 +98,7 @@ export default {
           associatedApplicationId
         );
         version.extension = associatedApplication.extension.slice(1);
-        version.preview = associatedApplication.preview;
+        version.preview = associatedApplication.canBeOpenedWithPreview;
         return version;
       });
     },
@@ -113,7 +115,7 @@ export default {
     },
     openVersion(version) {
       this.$axios
-        .get(dataApi.paperWork.DownloadVersion + version.id, {
+        .get(dataApi.paperWork.PreviewVersion + version.id, {
           responseType: "blob"
         })
         .then(response => {
@@ -165,9 +167,8 @@ export default {
           const associatedApplication = this.getThisAssociatedApp(
             version.data.binaryDataAssociatedApplicationId
           );
-
           version.data.extension = associatedApplication.extension.slice(1);
-          version.data.preview = associatedApplication.preview;
+          version.data.preview = associatedApplication.canBeOpenedWithPreview;
           this.versions.push(version.data);
         })
         .catch(() => {
