@@ -6,7 +6,7 @@
         @modified="modified"
         :headerTitle="headerTitle"
         :store="store"
-        :docType="6"
+        :docType="5"
       >
         <DxForm
           :col-count="1"
@@ -16,7 +16,7 @@
           :show-validation-summary="true"
           validation-group="OfficialDocument"
         >
-          <DxGroupItem>
+          <DxGroupItem :col-count="1">
             <DxGroupItem>
               <DxSimpleItem
                 data-field="businessUnitId"
@@ -34,15 +34,22 @@
                 <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
                 <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
               </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="leadingDocumentId"
-                :editor-options="leadingDocumentOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
-                <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
-              </DxSimpleItem>
+            </DxGroupItem>
+            <DxGroupItem></DxGroupItem>
+            <DxSimpleItem :col-span="1" data-field="note" editor-type="dxTextArea">
+              <DxLabel location="top" :text="$t('translations.fields.note')" />
+            </DxSimpleItem>
+            <DxGroupItem :col-count="12" :col-span="2">
+              <DxButtonItem
+                :col-span="1"
+                :button-options="saveButtonOptions"
+                horizontal-alignment="right"
+              />
+              <DxButtonItem
+                :col-span="1"
+                :button-options="cancelButtonOptions"
+                horizontal-alignment="right"
+              />
             </DxGroupItem>
           </DxGroupItem>
         </DxForm>
@@ -95,28 +102,28 @@ export default {
   },
   data() {
     return {
-      addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: dataApi.paperWork.AddendumPost,
       isUpdating: false,
-      headerTitle: this.$t("translations.headers.addendum"),
+      isSaved: false,
+      headerTitle: this.$t("translations.headers.simpleDocument"),
       store: {
-        leadingDocumentId: null,
         name: "",
         subject: "",
         note: "",
         documentKindId: null,
         caseFileId: null,
         placedToCaseFileDate: null,
-        businessUnitId: 0,
+        businessUnitId: null,
         departmentId: null
-      },
-      isCompany: false
+      }
     };
   },
   methods: {
     modified() {
-      console.log("watch is work ");
-      unwatch();
+      if (this.isUpdating) {
+        unwatch();
+        console.log("watch is work ");
+        this.isSaved = false;
+      }
     },
     eventIsModified() {
       if (this.isUpdating) {
@@ -126,44 +133,6 @@ export default {
     }
   },
   computed: {
-    counterPartOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.contragents.CounterPart
-        }),
-        onSelectionChanged: e => {
-          if (e.selectedItem) {
-            this.isCompany = e.selectedItem.type != "Person";
-            this.$store.dispatch("paper-work/setMainFormProperties", {
-              correspondent: e.selectedItem.name
-            });
-          } else {
-            this.$store.dispatch("paper-work/setMainFormProperties", {
-              correspondent: ""
-            });
-            this.isCompany = false;
-          }
-        },
-        onValueChanged: e => {
-          this.store.contactId = null;
-        }
-      };
-    },
-    deliveryMethodOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.docFlow.MailDeliveryMethod
-      });
-    },
-    contactOptions() {
-      const companyId = this.store.correspondentId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.contragents.Contact,
-        filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
-      });
-    },
     businessUnitOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -173,8 +142,6 @@ export default {
         }),
         onValueChanged: e => {
           this.store.departmentId = null;
-          this.store.ourSignatoryId = null;
-          this.store.preparedById = null;
         }
       };
     },
@@ -189,41 +156,9 @@ export default {
           ["status", "=", 0]
         ]
       });
-    },
-    employeeOptions() {
-      let businessUnitId = this.store.businessUnitId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Employee,
-        filter: [
-          ["businessUnitId", "=", businessUnitId],
-          "and",
-          ["status", "=", 0]
-        ]
-      });
-    },
-    inResponseToIdOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.paperWork.IncommingLetter
-      });
     }
   }
 };
 </script>
-<style>
-form {
-  margin: 10px;
-}
-.navBar {
-  display: flex;
-  justify-content: flex-end;
-}
-.mr-top-auto {
-  margin-top: 40%;
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-</style>
+
+

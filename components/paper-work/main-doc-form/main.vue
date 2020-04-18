@@ -20,7 +20,7 @@
 
           <popup-registy-document
             v-else
-            :docType="2"
+            :docType="docType"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
@@ -63,7 +63,7 @@
             </DxForm>
           </div>
           <div class="item">
-            <docRegistration @eventWatch="modified" :properties="store" :docType="3"></docRegistration>
+            <docRegistration @eventWatch="modified" :properties="store" :docType="docType"></docRegistration>
           </div>
           <div v-if="isUpdating" class="item">
             <docVersion></docVersion>
@@ -106,7 +106,7 @@ import DxButton from "devextreme-vue/button";
 const requests = [
   ,
   dataApi.paperWork.IncommingLetterPost,
-  dataApi.paperWork.OutgoingingLetterPost,
+  dataApi.paperWork.OutgoingLetterPost,
   dataApi.paperWork.OrderPost,
   dataApi.paperWork.CompanyDirectivePost,
   dataApi.paperWork.SimpleDocumentPost,
@@ -135,7 +135,7 @@ export default {
     DxPopup,
     DxRequiredRule
   },
-  props: ["store", "isSaved", "headerTitle", "addressPost"],
+  props: ["store", "isSaved", "headerTitle", "docType"],
   created() {
     if (this.$route.params.id != "add") {
       this.isUpdating = true;
@@ -144,6 +144,7 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
+      addressPost: requests[this.docType],
       isUpdating: false,
       popupRegistyDocument: false
     };
@@ -227,9 +228,6 @@ export default {
     }
   },
   computed: {
-    computed() {
-      return this.isSaved;
-    },
     saveButtonOptions() {
       return this.$store.getters["globalProperties/btnSave"](this);
     },

@@ -1,162 +1,81 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <Header :headerTitle="headerTitle"></Header>
-      <DxPopup
-        :visible.sync="popupRegistyDocument"
-        :drag-enabled="false"
-        :close-on-outside-click="true"
-        :show-title="true"
-        :width="500"
-        :height="'auto'"
-        :title="registryState.isRegistered ? $t('translations.fields.cancelRegistration'):$t('translations.fields.registration')"
+      <MainForm
+        :isSaved="isSaved"
+        @modified="modified"
+        :headerTitle="headerTitle"
+        :store="store"
+        :docType="6"
       >
-        <div v-if="popupRegistyDocument">
-          <popupCancelDocumentRegistry
-            v-if="
-          registryState.isRegistered"
-            @popupDisabled="popupDisabled('popupRegistyDocument')"
-          ></popupCancelDocumentRegistry>
-
-          <popup-registy-document
-            v-else
-            :docType="6"
-            @popupDisabled="popupDisabled('popupRegistyDocument')"
-          />
-        </div>
-      </DxPopup>
-      <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')"></navBar>
-      <DxTabPanel>
-        <DxItem :title="$t('translations.menu.mainInfo')" template="members-list" />
-        <form class="d-flex" @submit="handleSubmit" slot="members-list">
-          <div class="item f-grow-3">
-            <mainFocForm @eventWatch="modified()" :properties="store" :docType="6"></mainFocForm>
-            <DxForm
-              :col-count="1"
-              :form-data.sync="store"
-              :read-only="false"
-              :show-colon-after-label="true"
-              :show-validation-summary="true"
-              validation-group="OfficialDocument"
-            >
-              <DxGroupItem>
-                <DxGroupItem>
-                  <DxSimpleItem
-                    data-field="businessUnitId"
-                    :editor-options="businessUnitOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-                    <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-                  </DxSimpleItem>
-                  <DxSimpleItem
-                    data-field="departmentId"
-                    :editor-options="deparmentOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-                    <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    data-field="leadingDocumentId"
-                    :editor-options="leadingDocumentOptions"
-                    editor-type="dxSelectBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
-                    <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
-                  </DxSimpleItem>
-                </DxGroupItem>
-              </DxGroupItem>
-              <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
-                <DxLabel location="top" :text="$t('translations.fields.note')" />
+        <DxForm
+          :col-count="1"
+          :form-data.sync="store"
+          :read-only="false"
+          :show-colon-after-label="true"
+          :show-validation-summary="true"
+          validation-group="OfficialDocument"
+        >
+          <DxGroupItem>
+            <DxGroupItem>
+              <DxSimpleItem
+                data-field="businessUnitId"
+                :editor-options="businessUnitOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+                <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
               </DxSimpleItem>
-              <DxGroupItem :col-count="12" :col-span="2">
-                <DxButtonItem
-                  :col-span="1"
-                  :button-options="saveButtonOptions"
-                  horizontal-alignment="right"
-                />
-                <DxButtonItem
-                  :col-span="1"
-                  :button-options="cancelButtonOptions"
-                  horizontal-alignment="right"
-                />
-              </DxGroupItem>
-            </DxForm>
-          </div>
-          <div class="item">
-            <docRegistration @eventWatch="modified()" :properties="store" :docType="3"></docRegistration>
-          </div>
-          <div v-if="isUpdating" class="item">
-            <docVersion></docVersion>
-          </div>
-        </form>
-        <DxItem
-          v-if="isUpdating"
-          :title="$t('translations.menu.relation')"
-          template="access-right-list"
-        />
-        <Relation slot="access-right-list"></Relation>
-      </DxTabPanel>
+              <DxSimpleItem
+                data-field="departmentId"
+                :editor-options="deparmentOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+                <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+              </DxSimpleItem>
+
+              <DxSimpleItem
+                data-field="leadingDocumentId"
+                :editor-options="leadingDocumentOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
+                <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
+              </DxSimpleItem>
+            </DxGroupItem>
+          </DxGroupItem>
+        </DxForm>
+      </MainForm>
     </div>
   </div>
 </template>
 <script>
-import Relation from "~/components/paper-work/main-doc-form/relation";
-import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
-import docVersion from "~/components/paper-work/main-doc-form/doc-version";
-import navBar from "~/components/paper-work/main-doc-form/nav-bar";
-import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
-import popupCancelDocumentRegistry from "~/components/paper-work/main-doc-form/popup-cancel-document-registry";
-import popupRegistyDocument from "~/components/paper-work/main-doc-form/popup-registy-document";
-import mainFocForm from "~/components/paper-work/main-doc-form";
-import { DxPopup } from "devextreme-vue/popup";
-import "devextreme-vue/text-area";
+import MainForm from "~/components/paper-work/main-doc-form/main";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
-
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel,
   DxRequiredRule,
-  DxCompareRule,
-  DxRangeRule,
-  DxStringLengthRule,
   DxPatternRule,
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
-import DxButton from "devextreme-vue/button";
 let unwatch;
 export default {
   components: {
-    Relation,
-    DxTabPanel,
-    DxItem,
-    docVersion,
-    navBar,
-    docRegistration,
-    popupCancelDocumentRegistry,
-    popupRegistyDocument,
-    DxButton,
-    mainFocForm,
+    MainForm,
     Header,
+    DxForm,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel,
     DxRequiredRule,
-    DxCompareRule,
     DxPatternRule,
-    DxRangeRule,
-    DxForm,
-    DxAsyncRule,
-    DxPopup,
-    notify
+    DxAsyncRule
   },
   created() {
     this.eventIsModified();
@@ -176,7 +95,9 @@ export default {
   },
   data() {
     return {
+      addressPost: dataApi.paperWork.AddendumPost,
       isUpdating: false,
+      isSaved: false,
       headerTitle: this.$t("translations.headers.addendum"),
       store: {
         leadingDocumentId: null,
@@ -189,16 +110,13 @@ export default {
         businessUnitId: 0,
         departmentId: null
       },
-      leadingDocument: "",
-      popupRegistyDocument: false,
-      isDefaultName: false,
-      isSaved: false
+      isCompany: false
     };
   },
   methods: {
     modified() {
       if (this.isUpdating) {
-        // unwatch();
+        unwatch();
         console.log("watch is work ");
         this.isSaved = false;
       }
@@ -208,101 +126,9 @@ export default {
         this.isSaved = true;
         unwatch = this.$watch("store", this.modified, { deep: true });
       }
-    },
-    popupDisabled(popup) {
-      this[popup] = false;
-    },
-    popupVisible(popup) {
-      this[popup] = true;
-    },
-    backTo() {
-      this.$router.go(-1);
-    },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
-    },
-    updateRequest() {
-      this.$axios
-        .put(this.address, object)
-        .then(res => {
-          this.backTo();
-          this.notify(
-            this.$t("translations.headers.updateDocKindSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.updateDocKindError"),
-            "error"
-          );
-        });
-    },
-    addRequest() {
-      this.store = Object.assign(
-        this.store,
-        this.$store.getters["paper-work/mainFormProperties"]
-      );
-      this.$axios
-        .post(this.addressPost, this.store)
-        .then(res => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindSucces"),
-            "success"
-          );
-          this.$router.push({
-            name: this.$route.name,
-            params: { id: res.data }
-          });
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindError"),
-            "error"
-          );
-        });
-    },
-    handleSubmit(e) {
-      if (this.isUpdating) {
-        this.updateRequest();
-      } else {
-        this.addRequest();
-      }
-
-      e.preventDefault();
     }
   },
   computed: {
-    saveButtonOptions() {
-      return this.$store.getters["globalProperties/btnSave"](this);
-    },
-    cancelButtonOptions() {
-      return this.$store.getters["globalProperties/btnCancel"](
-        this,
-        this.backTo
-      );
-    },
-    registryState() {
-      const isRegsitrible =
-        this.$store.getters["paper-work/documentKind"]("numberingType") != 3
-          ? true
-          : false;
-      return {
-        isRegsitrible,
-        isRegistered: this.store.registrationState == 0,
-        registeryAllowed: !this.store.registrationState && this.isSaved
-      };
-    },
     businessUnitOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -337,20 +163,5 @@ export default {
   }
 };
 </script>
-<style>
-form {
-  margin: 10px;
-}
-.navBar {
-  display: flex;
-  justify-content: flex-end;
-}
-.mr-top-auto {
-  margin-top: 40%;
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-</style>
+
 

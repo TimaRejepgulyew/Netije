@@ -42,6 +42,14 @@
               >
                 <DxLabel location="top" :text="$t('translations.fields.signatory')" />
               </DxSimpleItem>
+              <DxSimpleItem
+                data-field="preparedById"
+                :editor-options="employeeOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+                <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+              </DxSimpleItem>
             </DxGroupItem>
 
             <DxGroupItem :caption="$t('translations.fields.whom')">
@@ -130,8 +138,8 @@ export default {
   data() {
     return {
       isUpdating: false,
-      isSaved: true,
-      headerTitle: this.$t("translations.headers.OutgoingLetter"),
+      isSaved: false,
+      headerTitle: this.$t("translations.headers.outgoingLetter"),
       store: {
         subject: "",
         ourSignatoryId: null,
@@ -144,7 +152,6 @@ export default {
         placedToCaseFileDate: null,
         businessUnitId: null,
         departmentId: null,
-        ourSignatoryId: null,
         preparedById: null,
         version: null
       },
@@ -153,9 +160,11 @@ export default {
   },
   methods: {
     modified() {
-      console.log("watch is work ");
-      this.isSaved = false;
-      unwatch();
+      if (this.isUpdating) {
+        unwatch();
+        console.log("watch is work ");
+        this.isSaved = false;
+      }
     },
     eventIsModified() {
       if (this.isUpdating) {
