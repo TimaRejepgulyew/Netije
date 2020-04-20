@@ -51,7 +51,7 @@ export default {
   paperWork: {
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
-    DeleteDocument: `${url}/api/OfficialDocument/`,
+    DeleteDocument: `${url}/api/OfficialDocument`,
     Version: `${url}/api/OfficialDocument/Version/`,
     Relation: `${url}/api/OfficialDocument/Relations/`,
     DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,

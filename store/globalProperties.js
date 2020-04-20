@@ -45,9 +45,11 @@ export const state = () => ({
       text: context.$t("translations.links.cancel"),
       useSubmitBehavior: false
     };
+  },
+  toPath(context) {
+    return context.$router.push(`${context.$route.path}/form/add`);
   }
 });
-
 export const getters = {
   documentTypeGuid: ({ documentTypeGuid }) => index => {
     return `/paper-work/${documentTypeGuid[index]}/form/`;
@@ -63,5 +65,8 @@ export const getters = {
   },
   btnSave: ({ btnSave }) => context => {
     return btnSave(context);
+  },
+  toForm: () => (context, path = "add") => {
+    return context.$router.push(`${context.$route.path}/form/${path}`);
   }
 };

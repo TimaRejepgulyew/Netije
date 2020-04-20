@@ -30,7 +30,12 @@
         <DxItem :title="$t('translations.menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
-            <mainFocForm @eventWatch="modified" :isSaved="isSaved" :properties="store" :docType="1"></mainFocForm>
+            <mainFocForm
+              @eventWatch="modified"
+              :isSaved="isSaved"
+              :properties="store"
+              :docType="docType"
+            ></mainFocForm>
             <slot></slot>
             <DxForm
               :col-count="1"
@@ -48,7 +53,7 @@
               >
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
-              <DxGroupItem :col-count="12" :col-span="2">
+              <DxGroupItem :visible="hasPermissions" :col-count="12" :col-span="2">
                 <DxButtonItem
                   :col-span="1"
                   :button-options="saveButtonOptions"
@@ -153,7 +158,6 @@ export default {
     modified() {
       this.$emit("modified");
     },
-
     popupDisabled(popup) {
       this[popup] = false;
     },
@@ -247,6 +251,29 @@ export default {
         isRegistered: this.store.registrationState == 0,
         registeryAllowed: !this.store.registrationState && this.isSaved
       };
+    },
+    entityTypes() {
+      const entityTypes = [
+        ,
+        "IncomingLetter",
+        "OutgoingLetter",
+        "BaseOrder",
+        "BaseOrder",
+        "SimpleDocument",
+        "Addendum",
+        "Memo",
+        "PowerOfAttorney"
+      ];
+      return entityTypes[this.docType];
+    },
+    hasPermissions() {
+      if (!this.isUpdating) {
+        return true;
+      } else {
+        return this.$store.getters["permissions/allowDeleting"](
+          this.entityTypes
+        );
+      }
     },
     noteOptions() {
       return {

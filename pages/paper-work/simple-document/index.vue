@@ -8,8 +8,8 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      @editing-start="editingStart"
-      @init-new-row="initNewRow"
+      :onRowDblClick="toMoreAbout"
+      @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -30,11 +30,10 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="simpleDocument" />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
         :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
-        mode="form"
+        mode="popup"
       />
 
       <DxSearchPanel position="after" :visible="true" />
@@ -118,12 +117,13 @@ export default {
       entityType: "SimpleDocument",
       statusStores: this.$store.getters["status/status"],
 
-      initNewRow: e => {
-        this.$router.push("/paper-work/simple-document/form/add");
+      toMoreAbout: e => {
+        this.$store.getters["globalProperties/toForm"](this, e.key);
       },
-
-      editingStart: e => {
-        this.$router.push("/paper-work/simple-document/form/" + e.key);
+      onToolbarPreparing(e) {
+        e.toolbarOptions.items[1].options.onClick = () => {
+          this.$store.getters["globalProperties/toForm"](this);
+        };
       },
       businessUnitStores: this.$dxStore({
         key: "id",
