@@ -270,7 +270,7 @@ export default {
       if (!this.isUpdating) {
         return true;
       } else {
-        return this.$store.getters["permissions/allowDeleting"](
+        return this.$store.getters["permissions/allowUpdating"](
           this.entityTypes
         );
       }

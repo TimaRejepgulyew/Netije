@@ -9,10 +9,7 @@
     >
       <DxSimpleItem :editor-options="passwordOptions" data-field="newPassword">
         <DxLabel location="top" :text="$t('translations.fields.password')" />
-        <DxPatternRule
-          :pattern="passwordPattern"
-          :message="$t('translations.fields.passwordRule')"
-        />
+
         <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
@@ -59,8 +56,7 @@ export default {
       },
       passwordOptions: {
         mode: "password"
-      },
-      passwordPattern: "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$"
+      }
     };
   },
   methods: {
@@ -69,8 +65,8 @@ export default {
         {
           message: msgTxt,
           position: {
-            my: "center top",
-            at: "center top"
+            my: "center bottom",
+            at: "center bottom"
           }
         },
         msgType,

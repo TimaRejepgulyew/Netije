@@ -459,6 +459,9 @@ export default {
       "create":"Создать",
       "yes":"Да",
       "no":"Нет",
+    },
+    "shared":{
+      "error":"Произошла ошибка"
     }
   }
 }

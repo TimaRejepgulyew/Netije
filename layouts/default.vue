@@ -114,7 +114,9 @@ body {
 * {
   box-sizing: border-box;
 }
-
+.text--error {
+  color: red;
+}
 .d-flex {
   display: flex;
   .item {
