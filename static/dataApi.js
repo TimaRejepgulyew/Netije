@@ -49,6 +49,7 @@ export default {
     RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
   },
   paperWork: {
+    AvailableRegistries: `${url}/api/DocumentRegistration/Registries/`,
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     DeleteDocument: `${url}/api/OfficialDocument`,

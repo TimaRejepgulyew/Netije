@@ -27,7 +27,7 @@
       <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
-
+      
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 

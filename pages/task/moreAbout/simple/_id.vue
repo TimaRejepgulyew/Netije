@@ -3,6 +3,7 @@
     <div class="widget-container">
       <Header :headerTitle="headerTitle"></Header>
       <NavBarPerformers></NavBarPerformers>
+      <NavBarObservers></NavBarObservers>
       <!-- <div class="nav-bar">
         <template v-if="isPerformer" name="performer functional">
           <template v-if="!iscompleteAssignment" name="completeAssignment functional"></template>
@@ -16,7 +17,7 @@
             </template>
           </template>
         </template>
-      </div> -->
+      </div>-->
 
       <div class="d-flex message" v-if="isImportance">
         <i class="dx-icon dx-icon-info"></i>

@@ -8,6 +8,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/loading.gif'),shading:true}"
       :onRowDblClick="toMoreAbout"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
@@ -87,6 +88,7 @@
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
+import { DxLoadPanel } from "devextreme-vue/load-panel";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -107,6 +109,7 @@ import {
 
 export default {
   components: {
+    DxLoadPanel,
     Header,
     DxSearchPanel,
     DxDataGrid,

@@ -70,3 +70,4 @@ export const getters = {
     return context.$router.push(`${context.$route.path}/form/${path}`);
   }
 };
+

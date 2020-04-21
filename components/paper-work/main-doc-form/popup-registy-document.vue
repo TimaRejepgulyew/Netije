@@ -93,9 +93,9 @@ export default {
       return dataApi.docFlow.PreliminaryNumber;
     },
     filter() {
-      return `?documentRegisterId=${
-        this.store.documentRegisterId
-      }&documentId=10&registrationDate=${moment(this.store.date).format("L")}`;
+      return `?documentRegisterId=${this.store.documentRegisterId}&documentId=${
+        this.route.params.id
+      }&registrationDate=${moment(this.store.date).format("L")}`;
     },
     isCustomNumberOptions() {
       const numberingType = this.$store.getters["paper-work/documentKind"](
@@ -133,7 +133,7 @@ export default {
     documentRegisterOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: "http://192.168.4.198/api/DocumentRegistry/Registration/" + "10",
+        url: dataApi.paperWork.AvailableRegistries + this.$route.params.id,
         onValueChanged: this.getDataByFilter
       });
     },

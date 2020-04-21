@@ -135,9 +135,7 @@ export default {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         //TODO корректный адресс
-        url:
-          "http://192.168.4.198/api/DocumentRegistration/Registration/" +
-          this.$route.params.id,
+        url: dataApi.paperWork.AvailableRegistries + this.$route.params.id,
         disabled: true
       });
     },

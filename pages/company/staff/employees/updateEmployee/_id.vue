@@ -8,7 +8,7 @@
         :close-on-outside-click="true"
         :show-title="true"
         :width="500"
-        :height="250"
+        height="auto"
         :title="$t('translations.fields.passwordChange')"
       >
         <div>
@@ -271,8 +271,7 @@ export default {
         {
           message: msgTxt,
           position: {
-            my: "center top",
-            at: "center top"
+         
           }
         },
         msgType,

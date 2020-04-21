@@ -204,8 +204,9 @@ export default {
     },
     showNew(e) {
       if (e.data != undefined && !e.data.isRead) {
-        e.rowElement.bgColor = "#00CC00";
-        e.rowElement.style.borderBottom = "1px solid #339966";
+        e.rowElement.style.fontWeight = "bold";
+        // e.rowElement.bgColor = "#00CC00";
+        e.rowElement.style.borderBottom = "2px solid #339966";
       }
     },
     changeFilter({ assignmentType, filter }) {
