@@ -30,6 +30,7 @@
       </div>
       <DxFileUploader
         uploadMode="useButtons"
+        ref="fileUploader"
         :multiple="false"
         :accept="acceptExtension"
         :allowed-file-extensions="extension"
@@ -118,7 +119,11 @@ export default {
           responseType: "blob"
         })
         .then(response => {
-          window.open(URL.createObjectURL(response.data));
+          var x = screen.width * 0.25;
+          var offset = screen.height * 0.2;
+          let params = `height=${screen.height - offset},width=${screen.width *
+            0.5},left=${x},top=${50}`;
+          window.open(URL.createObjectURL(response.data), "Preview", params);
         });
     },
 
@@ -169,6 +174,7 @@ export default {
           version.data.extension = associatedApplication.extension.slice(1);
           version.data.preview = associatedApplication.canBeOpenedWithPreview;
           this.versions.unshift(version.data);
+          this.$refs["fileUploader"].instance.reset();
         })
         .catch(() => {
           this.notify(this.$t("translations.fields.uploadError"), "error");
