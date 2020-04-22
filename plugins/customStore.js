@@ -27,7 +27,6 @@ export default ({ $axios }, inject) => {
         }
 
         function errorHandler(e) {
-            console.log(e.response);
         }
 
         function filterByKey(keyValue) {

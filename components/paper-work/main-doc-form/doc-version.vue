@@ -60,7 +60,6 @@ export default {
     this.associatedApplication = await this.getData(
       dataApi.docFlow.AssociatedApplication
     );
-    console.log(this.associatedApplication);
     if (this.$route.params.id != "add") {
       this.versions = await this.getVersions();
     }

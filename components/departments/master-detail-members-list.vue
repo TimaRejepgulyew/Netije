@@ -7,6 +7,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :ref="dataGridRefKey"
       @init-new-row="initNewRow"
     >
@@ -39,10 +40,7 @@
         storage-key="registration-setting-detail"
       />
 
-      <DxSearchPanel
-        position="after"
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="employeeId" :caption="$t('translations.fields.name')">

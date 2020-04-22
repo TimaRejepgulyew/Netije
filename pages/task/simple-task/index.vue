@@ -8,6 +8,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       @editing-start="editingStart"
       @init-new-row="initNewRow"
     >
@@ -46,7 +47,11 @@
         data-type="date"
       />
 
-      <DxColumn data-field="created" :caption="$t('translations.fields.createdDate')" data-type="date" />
+      <DxColumn
+        data-field="created"
+        :caption="$t('translations.fields.createdDate')"
+        data-type="date"
+      />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')"></DxColumn>
 
@@ -126,7 +131,7 @@ export default {
       headerTitle: this.$t("translations.headers.simpleTask"),
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.task.SimpleAssignment,
+        loadUrl: dataApi.task.SimpleAssignment
       }),
 
       statusStores: this.$store.getters["status/status"],

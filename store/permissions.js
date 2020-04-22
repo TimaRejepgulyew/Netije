@@ -1,6 +1,10 @@
 import entityTypes from "~/config/entityTypes";
+class AccessOperation {
+  constructor() {}
+}
 export const state = () => ({
   accessRights: {},
+
   access: new Map([
     [
       100,
@@ -43,14 +47,14 @@ export const state = () => ({
       }
     ],
     [
-      60,
+      (60,
       {
         delete: false,
         has: true,
         read: true,
         create: false,
         update: false
-      }
+      })
     ]
   ])
 });
@@ -77,7 +81,6 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-    console.log(accessRights.operations);
     return accessRights.operations.get(entityTypes[entityType]).create;
   },
   allowDeleting: ({ accessRights }) => entityType => {
@@ -86,6 +89,12 @@ export const getters = {
     }
 
     return accessRights.operations.get(entityTypes[entityType]).delete;
+  },
+  allowRegisterDocument: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin) {
+      return true;
+    }
+    return accessRights.operations.has(entityTypes[entityType]);
   }
 };
 export const mutations = {

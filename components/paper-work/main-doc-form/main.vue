@@ -40,7 +40,7 @@
             <DxForm
               :col-count="1"
               :form-data.sync="store"
-              :read-only="false"
+              :read-only="!hasPermissions"
               :show-colon-after-label="true"
               :show-validation-summary="true"
               validation-group="OfficialDocument"
@@ -53,8 +53,9 @@
               >
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
-              <DxGroupItem :visible="hasPermissions" :col-count="12" :col-span="2">
+              <DxGroupItem :col-count="12" :col-span="2">
                 <DxButtonItem
+                  :visible="hasPermissions"
                   :col-span="1"
                   :button-options="saveButtonOptions"
                   horizontal-alignment="right"
@@ -144,6 +145,10 @@ export default {
   created() {
     if (this.$route.params.id != "add") {
       this.isUpdating = true;
+      this.$store.commit("paper-work/SET_IS_REGISTERED", {
+        documentId: +this.$route.params.id,
+        state: this.store.registrationState
+      });
     }
   },
   data() {
@@ -248,8 +253,13 @@ export default {
           : false;
       return {
         isRegsitrible,
-        isRegistered: this.store.registrationState == 0,
-        registeryAllowed: !this.store.registrationState && this.isSaved
+        isRegistered: this.$store.getters["paper-work/isRegistered"](
+          this.$route.params.id
+        ),
+        registeryAllowed:
+          !this.$store.getters["paper-work/isRegistered"](
+            this.$route.params.id
+          ) && this.isSaved
       };
     },
     entityTypes() {
@@ -270,9 +280,12 @@ export default {
       if (!this.isUpdating) {
         return true;
       } else {
-        return this.$store.getters["permissions/allowUpdating"](
-          this.entityTypes
+        this.$store.commit(
+          "paper-work/SET_HAS_PERMISSIONS",
+          this.$store.getters["permissions/allowUpdating"](this.entityTypes) &&
+            !this.registryState.isRegistered
         );
+        return this.$store.getters["paper-work/hasPermissions"];
       }
     },
     noteOptions() {

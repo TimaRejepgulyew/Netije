@@ -43,12 +43,12 @@ export default {
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
     FilesType: `${url}/api/FilesType`,
-    DocumentRegistration: `${url}/api/DocumentRegistration/RegisterDocument`,
-    UnregisterDocument: `${url}/api/DocumentRegistration/UnregisterDocument`,
-    PreliminaryNumber: `${url}/api/DocumentRegistration/PreliminaryNumber`,
     RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
   },
   paperWork: {
+    RegisterDocument: `${url}/api/DocumentRegistration/Register`,
+    UnregisterDocument: `${url}/api/DocumentRegistration/Unregister`,
+    PreliminaryNumber: `${url}/api/DocumentRegistration/PreliminaryNumber`,
     AvailableRegistries: `${url}/api/DocumentRegistration/Registries/`,
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,

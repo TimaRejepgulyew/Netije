@@ -8,6 +8,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :onRowDblClick="toMoreAbout"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
@@ -29,7 +30,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="outgoingLetter" />
 
-       <DxEditing
+      <DxEditing
         :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"

@@ -2,7 +2,7 @@
   <DxForm
     :col-count="1"
     :form-data.sync="store"
-    :read-only="false"
+     :read-only="$store.getters['paper-work/isRegistered']($route.params.id)"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"

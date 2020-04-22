@@ -8,6 +8,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -27,11 +28,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="CounterParts" />
 
-      <DxSearchPanel
-        position="after"
-       
-        :visible="true"
-      />
+      <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxColumn

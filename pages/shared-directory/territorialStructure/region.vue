@@ -11,13 +11,14 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping
         :auto-expand-all="false"
-        &#x26;#x26;#x26;#x26;#x26;#x3C;DxSelection
+        &#x26;#x26;#x26;#x26;#x26;#x26;#x3C;DxSelection
         mode="multiple"
       />
       <DxHeaderFilter :visible="true" />

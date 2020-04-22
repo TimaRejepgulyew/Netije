@@ -64,7 +64,6 @@ export default {
       this.$router.push(
         `/paper-work/${docKindPath[documentTypeGuidId]}/form/${documentId}`
       );
-      console.log(documentTypeGuidId, documentId);
     },
     async getData(address) {
       const store = await this.$axios.get(address);

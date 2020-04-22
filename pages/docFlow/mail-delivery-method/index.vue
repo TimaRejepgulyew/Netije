@@ -9,6 +9,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >

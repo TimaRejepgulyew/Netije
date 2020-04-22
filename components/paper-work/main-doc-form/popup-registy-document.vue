@@ -74,14 +74,13 @@ export default {
   data() {
     return {
       store: {
-        isCustomNumber: true,
+        isCustomNumber: false,
         documentRegisterId: null,
         date: null,
         number: null
       },
       saveButtonOptions: {
-        height: 50,
-        text: this.$t("translations.links.save"),
+        text: this.$t("translations.links.register"),
         useSubmitBehavior: true,
         type: "success"
       },
@@ -89,12 +88,9 @@ export default {
     };
   },
   computed: {
-    address() {
-      return dataApi.docFlow.PreliminaryNumber;
-    },
     filter() {
       return `?documentRegisterId=${this.store.documentRegisterId}&documentId=${
-        this.route.params.id
+        this.documentId
       }&registrationDate=${moment(this.store.date).format("L")}`;
     },
     isCustomNumberOptions() {
@@ -106,19 +102,17 @@ export default {
         autoNumbering = this.$store.getters["paper-work/documentKind"](
           "autoNumbering"
         );
-      }
+        if (autoNumbering) {
+          this.store.isCustomNumber = false;
 
-      if (numberingType == 2 && autoNumbering) {
-        this.store.isCustomNumber = false;
-
-        return {
-          disabled: true
-        };
-      } else {
-        return {
-          disabled: false
-        };
+          return {
+            disabled: true
+          };
+        }
       }
+      return {
+        disabled: false
+      };
     },
     numberOptions() {
       return {
@@ -133,7 +127,7 @@ export default {
     documentRegisterOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: dataApi.paperWork.AvailableRegistries + this.$route.params.id,
+        url: dataApi.paperWork.AvailableRegistries + this.documentId,
         onValueChanged: this.getDataByFilter
       });
     },
@@ -144,7 +138,9 @@ export default {
   methods: {
     async getDataByFilter() {
       if (this.store.date && this.store.documentRegisterId) {
-        const res = await this.$axios.get(this.address + this.filter);
+        const res = await this.$axios.get(
+          dataApi.paperWork.PreliminaryNumber + this.filter
+        );
         this.store.number = res.data.preliminaryNumber;
         this.numberPattern = res.data.pattern;
       }
@@ -163,18 +159,26 @@ export default {
       );
     },
     handleSubmit(e) {
-      this.store.documentId = this.documentId;
+      this.store.documentId = +this.documentId;
       this.$axios
-        .post(this.address, this.store)
+        .post(dataApi.paperWork.RegisterDocument, this.store)
         .then(res => {
+          this.$store.commit("paper-work/SET_IS_REGISTERED", {
+            documentId: +this.$route.params.id,
+            state: 0
+          });
           this.$emit("popupDisabled");
           this.notify(
-            this.$t("translations.headers.updateDocRegistrySucces"),
+            this.$t("translations.headers.registrationSucceded"),
             "success"
           );
         })
         .catch(e => {
-          this.notify(this.$t("translations.fields.addNewRolesError"), "error");
+          //TODO вывести ошибку not notify to popup
+          this.notify(
+            this.$t("translations.fields.registrationError"),
+            "error"
+          );
         });
 
       e.preventDefault();

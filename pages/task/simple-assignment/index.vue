@@ -18,6 +18,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :show-column-lines="false"
       :onRowDblClick="toMoreAbout"
       @editing-start="editingStart"
@@ -27,7 +28,7 @@
       <DxGrouping :auto-expand-all="false" />
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
-      
+
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 

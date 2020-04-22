@@ -39,7 +39,6 @@ export default {
     DxButton
   },
   created() {
-    console.log(this.assignmentType);
     this.filterChaged();
   },
   data() {
