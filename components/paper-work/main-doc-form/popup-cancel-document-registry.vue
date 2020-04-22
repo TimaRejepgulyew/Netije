@@ -20,19 +20,6 @@ export default {
   components: {
     DxButton
   },
-  props: ["docType"],
-  data() {
-    return {
-      address: dataApi.docFlow.UnregisterDocument,
-    };
-  },
-  computed: {
-    store() {
-      return {
-        documentId: this.$route.params.id
-      };
-    }
-  },
   methods: {
     notify(msgTxt, msgType) {
       notify(
@@ -49,8 +36,14 @@ export default {
     },
     handleSubmit(e) {
       this.$axios
-        .post(this.address, this.store)
+        .post(dataApi.paperWork.UnregisterDocument, {
+          documentId: +this.$route.params.id
+        })
         .then(res => {
+          this.$store.commit("paper-work/SET_IS_REGISTERED", {
+            documentId: +this.$route.params.id,
+            state: 1
+          });
           this.$emit("popupDisabled");
           this.notify(
             this.$t("translations.fields.cancelDocRegistrySuccess"),

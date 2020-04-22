@@ -40,7 +40,7 @@
             <DxForm
               :col-count="1"
               :form-data.sync="store"
-              :read-only="!hasPermissions"
+              :read-only="hasPermissions"
               :show-colon-after-label="true"
               :show-validation-summary="true"
               validation-group="OfficialDocument"
@@ -247,6 +247,9 @@ export default {
       );
     },
     registryState() {
+      console.log(
+        this.$store.getters["paper-work/isRegistered"](this.$route.params.id)
+      );
       const isRegsitrible =
         this.$store.getters["paper-work/documentKind"]("numberingType") != 3
           ? true

@@ -64,7 +64,6 @@ export const getters = {
     return isRegistered[documentId] == 0;
   },
   hasPermissions({ hasPermissions }) {
-    console.log(hasPermissions);
     return hasPermissions;
   }
 };
@@ -75,7 +74,6 @@ export const mutations = {
     }
   },
   SET_IS_REGISTERED({ isRegistered }, { documentId, state }) {
-    console.log(typeof documentId,'dockind');
     if (typeof documentId == "number") isRegistered[documentId] = state;
   },
   SET_HAS_PERMISSIONS({ hasPermissions }, payload) {

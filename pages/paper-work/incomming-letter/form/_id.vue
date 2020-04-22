@@ -49,7 +49,7 @@
                   :editor-options="contactOptions"
                   editor-type="dxSelectBox"
                 >
-                  <DxLabel location="top" :text="$t('translations.menu.contacts')" />
+                  <DxLabel location="top" :text="$t('translations.fields.contactId')" />
                 </DxSimpleItem>
 
                 <DxSimpleItem
@@ -131,6 +131,11 @@ export default {
   },
   created() {
     this.eventIsModified();
+    if (!this.isUpdating) {
+      this.$store.dispatch("paper-work/setMainFormProperties", {
+        correspondent: ""
+      });
+    }
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
@@ -212,11 +217,13 @@ export default {
     },
     contactOptions() {
       const companyId = this.store.correspondentId;
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.contragents.Contact,
-        filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
-      });
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.Contact,
+          filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
+        })
+      };
     },
     businessUnitOptions() {
       return {

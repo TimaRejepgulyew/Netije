@@ -121,6 +121,9 @@ export default {
   },
   created() {
     this.eventIsModified();
+    this.$store.dispatch("paper-work/setMainFormProperties", {
+      correspondent: ""
+    });
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {

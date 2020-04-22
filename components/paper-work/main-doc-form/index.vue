@@ -2,7 +2,7 @@
   <DxForm
     :col-count="1"
     :form-data.sync="store"
-     :read-only="$store.getters['paper-work/isRegistered']($route.params.id)"
+    :read-only="$store.getters['paper-work/isRegistered']($route.params.id)"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -122,6 +122,14 @@ export default {
     }
   },
   computed: {
+    state() {
+      console.log(
+        this.$store.getters["paper-work/isRegistered"](this.$route.params.id)
+      );
+      return this.$store.getters["paper-work/isRegistered"](
+        this.$route.params.id
+      );
+    },
     defaultName() {
       if (this.isDefaultName) {
         return this.$store.getters["paper-work/defaultName"](

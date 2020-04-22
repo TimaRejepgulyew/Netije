@@ -1,14 +1,14 @@
 <template>
   <div v-if="showNavBar" class="navBar">
     <DxButton
-      v-if="registryState.isRegistered"
+      v-if="state.isRegistered"
       :text="$t('translations.fields.cancelRegistration')"
-      :on-click="this.cancelRegiter"
+      :onClick="this.popupVisible"
       icon="clear"
     ></DxButton>
     <DxButton
       v-else
-      :disabled=" !registryState.registeryAllowed"
+      :disabled=" !state.registeryAllowed"
       :text="$t('translations.fields.registration')"
       icon="bulletlist"
       :onClick="this.popupVisible"
@@ -28,14 +28,12 @@ export default {
   methods: {
     popupVisible() {
       this.$emit("popupVisible");
-    },
-    cancelRegiter() {
-      this.$axios.post(dataApi.paperWork.UnregisterDocument, {
-        documentId: +this.$route.params.id
-      });
     }
   },
   computed: {
+    state() {
+      return this.registryState;
+    },
     showNavBar() {
       return (
         this.registryState.isRegsitrible &&

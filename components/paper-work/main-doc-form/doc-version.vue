@@ -168,7 +168,7 @@ export default {
           );
           version.data.extension = associatedApplication.extension.slice(1);
           version.data.preview = associatedApplication.canBeOpenedWithPreview;
-          this.versions.push(version.data);
+          this.versions.unshift(version.data);
         })
         .catch(() => {
           this.notify(this.$t("translations.fields.uploadError"), "error");
