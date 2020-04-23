@@ -163,10 +163,13 @@ export default {
       this.$axios
         .post(dataApi.paperWork.RegisterDocument, this.store)
         .then(res => {
+          this.$store.commit("paper-work/SET_REG_PROPERTIES", res.data);
           this.$store.commit("paper-work/SET_IS_REGISTERED", {
             documentId: +this.$route.params.id,
             state: 0
           });
+
+          this.$emit("setPermissions", true);
           this.$emit("popupDisabled");
           this.notify(
             this.$t("translations.headers.registrationSucceded"),

@@ -2,7 +2,7 @@
   <DxForm
     :col-count="1"
     :form-data.sync="store"
-    :read-only="$store.getters['paper-work/isRegistered']($route.params.id)"
+    :read-only="!hasPermission"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -12,7 +12,7 @@
         :visible="this.$route.params.id !='add'"
         :caption="$t('translations.fields.registration')"
       >
-        <DxSimpleItem data-field="number" :editor-options="numberOptions">
+        <DxSimpleItem data-field="registrationNumber" :editor-options="numberOptions">
           <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
         </DxSimpleItem>
 
@@ -24,7 +24,11 @@
           <DxLabel location="top" :text="$t('translations.fields.documentRegisterId')" />
         </DxSimpleItem>
 
-        <DxSimpleItem data-field="date" :editor-options="dateOptions" editor-type="dxDateBox">
+        <DxSimpleItem
+          data-field="registrationDate"
+          :editor-options="dateOptions"
+          editor-type="dxDateBox"
+        >
           <DxLabel location="top" :text="$t('translations.fields.registrationDate')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -72,6 +76,13 @@ export default {
     DxAsyncRule
   },
   props: ["docType", "properties"],
+  created() {
+    this.$store.commit("paper-work/SET_REG_PROPERTIES", {
+      documentRegisterId: this.store.documentRegisterId,
+      registrationDate: this.store.registrationDate,
+      registrationNumber: this.store.registrationNumber
+    });
+  },
   data(context) {
     let {
       name,
@@ -82,8 +93,7 @@ export default {
       caseFileId,
       documentRegisterId,
       registrationDate,
-      registrationNumber,
-      registrationState
+      registrationNumber
     } = context.properties;
 
     this.$store.dispatch("paper-work/setMainFormProperties", {
@@ -91,14 +101,12 @@ export default {
       placedToCaseFileDate
     });
     return {
-      isUpdating: false,
       store: {
         placedToCaseFileDate,
         caseFileId,
         documentRegisterId,
-        date: registrationDate,
-        number: registrationNumber,
-        registrationState
+        registrationDate,
+        registrationNumber
       },
       isDefaultName: false,
       isSaved: false
@@ -113,6 +121,16 @@ export default {
     }
   },
   computed: {
+    hasPermission() {
+      if (this.$route.params.id != "add") {
+        this.store = {
+          ...this.store,
+          ...this.$store.getters["paper-work/regProperties"]
+        };
+      }
+
+      return this.$store.getters["paper-work/hasPermissions"];
+    },
     placedToCaseFileDateOptions() {
       return {
         onValueChanged: e => {
@@ -125,16 +143,12 @@ export default {
     },
     numberOptions() {
       return {
-        disabled: !this.$store.getters["paper-work/isRegistered"](
-          this.$route.params.id
-        )
+        disabled: this.hasPermission
       };
     },
     dateOptions() {
       return {
-        disabled: !this.$store.getters["paper-work/isRegistered"](
-          this.$route.params.id
-        )
+        disabled: this.hasPermission
       };
     },
     documentRegisterOptions() {
@@ -142,9 +156,7 @@ export default {
         context: this,
         //TODO корректный адресс
         url: dataApi.docFlow.DocumentRegistry,
-        disabled: !this.$store.getters["paper-work/isRegistered"](
-          this.$route.params.id
-        )
+        disabled: this.hasPermission
       });
     },
     caseFileOptions() {

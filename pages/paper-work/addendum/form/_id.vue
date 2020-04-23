@@ -11,7 +11,7 @@
         <DxForm
           :col-count="1"
           :form-data.sync="store"
-          :read-only="$store.getters['paper-work/isRegistered']($route.params.id)"
+          :read-only="!hasPermission"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="OfficialDocument"
@@ -129,6 +129,9 @@ export default {
     }
   },
   computed: {
+    hasPermission() {
+      return this.$store.getters["paper-work/hasPermissions"];
+    },
     businessUnitOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({

@@ -16,11 +16,13 @@
             v-if="
           registryState.isRegistered"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
+            @setPermissions="setPermissions($event)"
           ></popupCancelDocumentRegistry>
 
           <popup-registy-document
             v-else
             :docType="docType"
+            @setPermissions="setPermissions($event)"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
@@ -40,7 +42,7 @@
             <DxForm
               :col-count="1"
               :form-data.sync="store"
-              :read-only="hasPermissions"
+              :read-only="!hasPermissions"
               :show-colon-after-label="true"
               :show-validation-summary="true"
               validation-group="OfficialDocument"
@@ -145,21 +147,51 @@ export default {
   created() {
     if (this.$route.params.id != "add") {
       this.isUpdating = true;
-      this.$store.commit("paper-work/SET_IS_REGISTERED", {
-        documentId: +this.$route.params.id,
-        state: this.store.registrationState
-      });
+      this.setIsRegistered();
     }
+    this.setPermissions();
   },
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
       addressPost: requests[this.docType],
       isUpdating: false,
-      popupRegistyDocument: false
+      popupRegistyDocument: false,
+      hasPermissions: true,
+      isRegistered: false
     };
   },
   methods: {
+    setIsRegistered() {
+      this.$store.commit("paper-work/SET_IS_REGISTERED", {
+        documentId: +this.$route.params.id,
+        state: this.store.registrationState
+      });
+      this.isRegistered = this.$store.getters["paper-work/isRegistered"](
+        this.$route.params.id
+      );
+    },
+    setPermissions(isRegistered) {
+      if (isRegistered !== undefined) {
+        this.isRegistered = isRegistered;
+      }
+      if (!this.isUpdating) {
+        this.hasPermissions = true;
+      } else {
+        const factors = [
+          this.$store.getters["permissions/allowUpdating"](this.entityTypes),
+          !this.isRegistered
+        ];
+        this.$store.commit(
+          "paper-work/SET_HAS_PERMISSIONS",
+          undefined ===
+            factors.find(el => {
+              return el === false;
+            })
+        );
+        this.hasPermissions = this.$store.getters["paper-work/hasPermissions"];
+      }
+    },
     modified() {
       this.$emit("modified");
     },
@@ -246,24 +278,20 @@ export default {
         this.backTo
       );
     },
+    isRegsitrible() {
+      return this.$store.getters["paper-work/documentKind"]("numberingType") !=
+        3
+        ? true
+        : false;
+    },
     registryState() {
-      console.log(
-        this.$store.getters["paper-work/isRegistered"](this.$route.params.id)
-      );
-      const isRegsitrible =
-        this.$store.getters["paper-work/documentKind"]("numberingType") != 3
-          ? true
-          : false;
-      return {
-        isRegsitrible,
-        isRegistered: this.$store.getters["paper-work/isRegistered"](
-          this.$route.params.id
-        ),
-        registeryAllowed:
-          !this.$store.getters["paper-work/isRegistered"](
-            this.$route.params.id
-          ) && this.isSaved
+      const registryState = {
+        isRegistered: this.isRegistered,
+        isRegsitrible: this.isRegsitrible,
+        registeryAllowed: this.isSaved
       };
+      console.log(registryState);
+      return registryState;
     },
     entityTypes() {
       const entityTypes = [
@@ -278,18 +306,6 @@ export default {
         "PowerOfAttorney"
       ];
       return entityTypes[this.docType];
-    },
-    hasPermissions() {
-      if (!this.isUpdating) {
-        return true;
-      } else {
-        this.$store.commit(
-          "paper-work/SET_HAS_PERMISSIONS",
-          this.$store.getters["permissions/allowUpdating"](this.entityTypes) &&
-            !this.registryState.isRegistered
-        );
-        return this.$store.getters["paper-work/hasPermissions"];
-      }
     },
     noteOptions() {
       return {

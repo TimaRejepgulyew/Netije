@@ -7,7 +7,8 @@ export const state = () => ({
   caseFileId: null,
   correspondent: "",
   isRegistered: [],
-  hasPermissions: false
+  hasPermissions: null,
+  regProperties: null
 });
 
 export const getters = {
@@ -61,10 +62,14 @@ export const getters = {
     }
   },
   isRegistered: ({ isRegistered }) => documentId => {
+    console.log(isRegistered[documentId], "is");
     return isRegistered[documentId] == 0;
   },
   hasPermissions({ hasPermissions }) {
     return hasPermissions;
+  },
+  regProperties({ regProperties }) {
+    return regProperties;
   }
 };
 export const mutations = {
@@ -73,11 +78,14 @@ export const mutations = {
       state[property] = payload[property];
     }
   },
-  SET_IS_REGISTERED({ isRegistered }, { documentId, state }) {
-    if (typeof documentId == "number") isRegistered[documentId] = state;
+  SET_IS_REGISTERED(state, payload) {
+    state.isRegistered[payload.documentId] = payload.state;
   },
-  SET_HAS_PERMISSIONS({ hasPermissions }, payload) {
-    hasPermissions = payload;
+  SET_HAS_PERMISSIONS(state, payload) {
+    state.hasPermissions = payload;
+  },
+  SET_REG_PROPERTIES(state, payload) {
+    state.regProperties = payload;
   }
 };
 export const actions = {

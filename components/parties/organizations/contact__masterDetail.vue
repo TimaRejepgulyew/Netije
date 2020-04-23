@@ -1,5 +1,6 @@
 <template>
   <main>
+    <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -111,6 +112,7 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import textArea from "~/components/page/textArea";
 import "devextreme-vue/text-area";
+import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -134,6 +136,7 @@ import {
 
 export default {
   components: {
+    Header,
     textArea,
     DxSearchPanel,
     DxDataGrid,
@@ -163,6 +166,7 @@ export default {
   data() {
     let { id } = this.company.data;
     return {
+      headerTitle: this.$t(`translations.menu.contacts`),
       store: new DataSource({
         store: this.$dxStore({
           key: "id",

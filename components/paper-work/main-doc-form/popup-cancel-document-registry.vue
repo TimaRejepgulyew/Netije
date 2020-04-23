@@ -40,10 +40,16 @@ export default {
           documentId: +this.$route.params.id
         })
         .then(res => {
+          this.$store.commit("paper-work/SET_REG_PROPERTIES", {
+            documentRegisterId: '',
+            registrationDate: "",
+            registrationNumber: ""
+          });
           this.$store.commit("paper-work/SET_IS_REGISTERED", {
             documentId: +this.$route.params.id,
             state: 1
           });
+          this.$emit("setPermissions", false);
           this.$emit("popupDisabled");
           this.notify(
             this.$t("translations.fields.cancelDocRegistrySuccess"),

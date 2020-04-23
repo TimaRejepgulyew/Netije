@@ -10,8 +10,7 @@
       >
         <DxForm
           :col-count="1"
-          :form-data.sync="store"
-          :read-only="$store.getters['paper-work/isRegistered']($route.params.id)"
+          :read-only="!hasPermission"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="OfficialDocument"
@@ -128,7 +127,6 @@ export default {
   data() {
     return {
       isUpdating: false,
-
       headerTitle: this.$t("translations.headers.addendum"),
       store: {
         ourSignatoryId: null,
@@ -162,6 +160,9 @@ export default {
     }
   },
   computed: {
+    hasPermission() {
+      return this.$store.getters["paper-work/hasPermissions"];
+    },
     preparedOptions() {
       const departmentId = this.store.departmentId;
       return this.$store.getters["globalProperties/FormOptions"]({
