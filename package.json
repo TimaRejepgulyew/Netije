@@ -4,7 +4,7 @@
   "description": "Netije Nuxt SPA",
   "author": "Timur Kleperson",
   "private": true,
-  "url": "https://192.168.4.57:4430",
+  "url": "https://192.168.4.118:4430",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",

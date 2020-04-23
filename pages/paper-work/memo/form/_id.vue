@@ -3,6 +3,7 @@
     <div class="widget-container">
       <MainForm
         :isSaved="isSaved"
+        @saved="saved"
         @modified="modified"
         :headerTitle="headerTitle"
         :store="store"
@@ -143,6 +144,9 @@ export default {
     };
   },
   methods: {
+    saved() {
+      this.isSaved = true;
+    },
     modified() {
       if (this.isUpdating) {
         unwatch();

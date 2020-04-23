@@ -4,6 +4,7 @@
       <MainForm
         :isSaved="isSaved"
         @modified="modified"
+        @saved="saved"
         :headerTitle="headerTitle"
         :store="store"
         :docType="6"
@@ -114,6 +115,9 @@ export default {
     };
   },
   methods: {
+    saved() {
+      this.isSaved = true;
+    },
     modified() {
       if (this.isUpdating) {
         unwatch();

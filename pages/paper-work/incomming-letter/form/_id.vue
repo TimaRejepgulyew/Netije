@@ -3,6 +3,7 @@
     <div class="widget-container">
       <MainForm
         :isSaved="isSaved"
+        @saved="saved"
         @modified="modified"
         :headerTitle="headerTitle"
         :docType="1"
@@ -116,7 +117,6 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
-let unwatch;
 export default {
   components: {
     MainForm,
@@ -176,9 +176,11 @@ export default {
     };
   },
   methods: {
+    saved() {
+      this.isSaved = true;
+    },
     modified() {
       if (this.isUpdating) {
-        unwatch();
         console.log("watch is work ");
         this.isSaved = false;
       }
@@ -186,7 +188,7 @@ export default {
     eventIsModified() {
       if (this.isUpdating) {
         this.isSaved = true;
-        unwatch = this.$watch("store", this.modified, { deep: true });
+        this.$watch("store", this.modified, { deep: true });
       }
     }
   },

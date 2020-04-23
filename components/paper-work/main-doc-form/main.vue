@@ -1,6 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
+      <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
       <DxPopup
         :visible.sync="popupRegistyDocument"
@@ -88,6 +89,7 @@
   </div>
 </template>
 <script>
+import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
@@ -110,20 +112,35 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
+const api = dataApi.paperWork;
+const requests = {
+  post: [
+    ,
+    api.IncommingLetterPost,
+    api.OutgoingLetterPost,
+    api.OrderPost,
+    api.CompanyDirectivePost,
+    api.SimpleDocumentPost,
+    api.AddendumPost,
+    api.MemoPost,
+    api.PowerOfAttorneyPost
+  ],
+  put: [
+    ,
+    api.IncommingLetterPut,
+    api.OutgoingLetterPut,
+    api.OrderPost,
+    api.CompanyDirectivePut,
+    api.SimpleDocumentPut,
+    api.AddendumPut,
+    api.MemoPut,
+    api.PowerOfAttorneyPut
+  ]
+};
 
-const requests = [
-  ,
-  dataApi.paperWork.IncommingLetterPost,
-  dataApi.paperWork.OutgoingLetterPost,
-  dataApi.paperWork.OrderPost,
-  dataApi.paperWork.CompanyDirectivePost,
-  dataApi.paperWork.SimpleDocumentPost,
-  dataApi.paperWork.AddendumPost,
-  dataApi.paperWork.MemoPost,
-  dataApi.paperWork.PowerOfAttorneyPost
-];
 export default {
   components: {
+    DxLoadPanel,
     Relation,
     DxTabPanel,
     DxItem,
@@ -154,39 +171,35 @@ export default {
   data() {
     return {
       addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: requests[this.docType],
+      addressPost: requests.post[this.docType],
+      addressPut: requests.put[this.docType],
       isUpdating: false,
       popupRegistyDocument: false,
       hasPermissions: true,
-      isRegistered: false
+      isRegistered: false,
+      loadingVisible: false,
+      icon: require("~/static/icons/loading.gif")
     };
   },
   methods: {
     setIsRegistered() {
-      this.$store.commit("paper-work/SET_IS_REGISTERED", {
-        documentId: +this.$route.params.id,
-        state: this.store.registrationState
-      });
-      this.isRegistered = this.$store.getters["paper-work/isRegistered"](
-        this.$route.params.id
-      );
+      this.store.registrationState === 0
+        ? (this.isRegistered = true)
+        : (this.isRegistered = false);
     },
     setPermissions(isRegistered) {
       if (isRegistered !== undefined) {
         this.isRegistered = isRegistered;
       }
       if (!this.isUpdating) {
-        this.hasPermissions = true;
+        this.$store.commit("paper-work/SET_HAS_PERMISSIONS", true);
       } else {
-        const factors = [
-          this.$store.getters["permissions/allowUpdating"](this.entityTypes),
-          !this.isRegistered
-        ];
+        const factors = [!this.isRegistered];
         this.$store.commit(
           "paper-work/SET_HAS_PERMISSIONS",
-          undefined ===
+          undefined ==
             factors.find(el => {
-              return el === false;
+              return el == false;
             })
         );
         this.hasPermissions = this.$store.getters["paper-work/hasPermissions"];
@@ -217,28 +230,27 @@ export default {
         3000
       );
     },
-    updateRequest() {
-      // this.$axios
-      //   .put(this.address,)
-      //   .then(res => {
-      //     this.backTo();
-      //     this.notify(
-      //       this.$t("translations.headers.updateDocKindSucces"),
-      //       "success"
-      //     );
-      //   })
-      //   .catch(e => {
-      //     this.notify(
-      //       this.$t("translations.headers.updateDocKindError"),
-      //       "error"
-      //     );
-      //   });
+    updateRequest(store) {
+      store.id = +this.$route.params.id;
+      this.$axios
+        .put(this.addressPut + this.$route.params.id, store)
+        .then(res => {
+          this.loadingVisible = false;
+          this.$emit("saved");
+          this.notify(
+            this.$t("translations.headers.updateDocKindSucces"),
+            "success"
+          );
+        })
+        .catch(e => {
+          this.loadingVisible = false;
+          this.notify(
+            this.$t("translations.headers.updateDocKindError"),
+            "error"
+          );
+        });
     },
-    addRequest() {
-      const store = Object.assign(
-        this.store,
-        this.$store.getters["paper-work/mainFormProperties"]
-      );
+    addRequest(store) {
       this.$axios
         .post(this.addressPost, store)
         .then(res => {
@@ -246,12 +258,14 @@ export default {
             this.$t("translations.headers.addDoctKindSucces"),
             "success"
           );
+          this.loadingVisible = false;
           this.$router.push({
             name: this.$route.name,
             params: { id: res.data }
           });
         })
         .catch(e => {
+          this.loadingVisible = false;
           this.notify(
             this.$t("translations.headers.addDoctKindError"),
             "error"
@@ -259,10 +273,15 @@ export default {
         });
     },
     handleSubmit(e) {
+      this.loadingVisible = true;
+      const store = Object.assign(
+        this.store,
+        this.$store.getters["paper-work/mainFormProperties"]
+      );
       if (this.isUpdating) {
-        this.updateRequest();
+        this.updateRequest(store);
       } else {
-        this.addRequest();
+        this.addRequest(store);
       }
 
       e.preventDefault();
@@ -270,7 +289,10 @@ export default {
   },
   computed: {
     saveButtonOptions() {
-      return this.$store.getters["globalProperties/btnSave"](this);
+      return {
+        ...this.$store.getters["globalProperties/btnSave"](this),
+        disabled: this.isSaved
+      };
     },
     cancelButtonOptions() {
       return this.$store.getters["globalProperties/btnCancel"](
@@ -293,7 +315,7 @@ export default {
       console.log(registryState);
       return registryState;
     },
-    entityTypes() {
+    entityType() {
       const entityTypes = [
         ,
         "IncomingLetter",
