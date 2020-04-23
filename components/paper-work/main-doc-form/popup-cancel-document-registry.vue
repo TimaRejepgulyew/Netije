@@ -41,7 +41,7 @@ export default {
         })
         .then(res => {
           this.$store.commit("paper-work/SET_REG_PROPERTIES", {
-            documentRegisterId: '',
+            documentRegisterId: "",
             registrationDate: "",
             registrationNumber: ""
           });

@@ -111,7 +111,8 @@ export default {
         }
       }
       return {
-        disabled: false
+        disabled: false,
+        onValueChanged: this.getDataByFilter
       };
     },
     numberOptions() {

@@ -115,8 +115,8 @@
 
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
-      <template #masterDetailTemplate="membersList">
-        <masterDetailMembersList :membersList="membersList.data" />
+      <template #masterDetailTemplate="data">
+        <TabRole :data="data.data" memberList="Departments" />
       </template>
 
       <template #textAreaEditor="cellInfo">
@@ -131,7 +131,7 @@
 <script>
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import masterDetailMembersList from "~/components/departments/master-detail-members-list";
+import TabRole from "~/components/member-list/tabRole.vue";
 import textArea from "~/components/page/textArea";
 import {
   DxMasterDetail,
@@ -157,8 +157,8 @@ import {
 
 export default {
   components: {
+    TabRole,
     textArea,
-    masterDetailMembersList,
     DxMasterDetail,
     Header,
     DxSearchPanel,

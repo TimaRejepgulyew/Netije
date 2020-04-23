@@ -67,7 +67,7 @@
       <DxMasterDetail :enabled="true" template="master-detail" />
 
       <template #master-detail="data">
-        <TabRole :data="data.data" />
+        <TabRole :data="data.data" memberList="Roles" />
       </template>
 
       <template #textAreaEditor="cellInfo">
@@ -83,7 +83,7 @@
 import dataApi from "~/static/dataApi";
 
 // import MasterDetail from "~/components/administration/tab-role";
-import TabRole from "~/components/administration/tabRole.vue";
+import TabRole from "~/components/member-list/tabRole.vue";
 import textArea from "~/components/page/textArea";
 import Header from "~/components/page/page__header";
 import {

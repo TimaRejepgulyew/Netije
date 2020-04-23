@@ -95,13 +95,13 @@ export default {
     DxButton
   },
   props: {
-    membersList: {
+    data: {
       type: Object,
       default: () => {}
     }
   },
   data() {
-    let { id, responsibleEmployeeId } = this.membersList.data;
+    let { id, responsibleEmployeeId } = this.data.data;
     return {
       store: new DataSource({
         store: this.$dxStore({

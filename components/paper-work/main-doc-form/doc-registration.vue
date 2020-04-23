@@ -123,12 +123,12 @@ export default {
   computed: {
     hasPermission() {
       if (this.$route.params.id != "add") {
+      
         this.store = {
           ...this.store,
           ...this.$store.getters["paper-work/regProperties"]
         };
       }
-
       return this.$store.getters["paper-work/hasPermissions"];
     },
     placedToCaseFileDateOptions() {
