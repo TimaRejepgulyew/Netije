@@ -123,7 +123,6 @@ export default {
   computed: {
     hasPermission() {
       if (this.$route.params.id != "add") {
-      
         this.store = {
           ...this.store,
           ...this.$store.getters["paper-work/regProperties"]
@@ -160,12 +159,21 @@ export default {
       });
     },
     caseFileOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.docFlow.CaseFile,
-        filter: ["status", "=", 0],
-        value: "title"
-      });
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.docFlow.CaseFile,
+          filter: ["status", "=", 0],
+          value: "title"
+        }),
+        onValueChanged: e => {
+          console.log(e.value);
+          this.$store.dispatch("paper-work/setMainFormProperties", {
+            caseFileId: e.value
+          });
+          this.modified();
+        }
+      };
     }
   }
 };
