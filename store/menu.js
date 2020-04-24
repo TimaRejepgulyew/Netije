@@ -25,6 +25,10 @@ export const state = () => ({
 
         items: [
           {
+            text: context.$t("translations.menu.allDocument"),
+            path: "/paper-work/all-documents"
+          },
+          {
             text: context.$t("translations.menu.incommingLetter"),
             path: "/paper-work/incomming-letter"
           },

@@ -21,6 +21,7 @@ export default {
   },
   router: {
     middleware: "authorization"
+    
   },
 
   /*

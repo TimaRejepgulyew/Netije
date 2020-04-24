@@ -2,6 +2,7 @@ export default {
   "greating": "Hello",
   "translations": {
     "menu": {
+      "allDocument":"Все документы",
       "filesType": "Типы файлов",
       "currencies":"Валюты",
       "human-settlement":"Населенные пункты",
@@ -413,7 +414,8 @@ export default {
       "createSimpleTask":"Создать простую задачу",
       "createActionTask":"Создать задачу на поручение",
       "createAcquaintanceTask":"Создать задачу на расмотрение",
-      "attachmentSimpleTask":"Вложение к простой задаче"
+      "attachmentSimpleTask":"Вложение к простой задаче",
+      "createDocument":"Создать документ"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",

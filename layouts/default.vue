@@ -84,6 +84,11 @@ export default {
       setTimeout(() => this.$nuxt.$loading.finish(), 50000);
     });
   },
+  beforeRouteEnter(to, from, next) {
+    console.log("before route called");
+
+    
+  },
   beforeDestroy() {
     unsubscribe(this.screenSizeChanged);
     window.removeEventListener("vuexoidc:userSignedOut");

@@ -153,7 +153,6 @@ export default {
     documentRegisterOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        //TODO корректный адресс
         url: dataApi.docFlow.DocumentRegistry,
         disabled: this.hasPermission
       });
@@ -167,7 +166,6 @@ export default {
           value: "title"
         }),
         onValueChanged: e => {
-          console.log(e.value);
           this.$store.dispatch("paper-work/setMainFormProperties", {
             caseFileId: e.value
           });

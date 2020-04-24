@@ -17,9 +17,9 @@
       <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
       <DxEditing
-        :allow-updating="false"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
         :allow-deleting="allowDeleting"
-        :allow-adding="true"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="row"
       />
@@ -112,6 +112,7 @@ export default {
           removeUrl: dataApi.company.DepartmentMembers + id
         })
       }),
+      entityType: "Department",
       getFilteredMembers: this.$dxStore({
         loadUrl: dataApi.company.Employee
       }),

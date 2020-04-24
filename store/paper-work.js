@@ -7,10 +7,32 @@ export const state = () => ({
   caseFileId: null,
   correspondent: "",
   hasPermissions: true,
-  regProperties: {}
+  regProperties: {},
+  urlByTypeGuid: [
+    ,
+    "/paper-work/incomming-letter/form/",
+    "/paper-work/outgoing-letter/form/",
+    "/paper-work/order/form/",
+    "/paper-work/company-directive/form/",
+    "/paper-work/simple-document/form/",
+    "/paper-work/addendum/form/",
+    "/paper-work/memo/form/",
+    "/paper-work/power-of-attorney/form/"
+  ],
+  regState: [
+    { id: null, name: "notRegistered" },
+    { id: 0, name: "registered" },
+    { id: 1, name: "notRegistered" }
+  ]
 });
 
 export const getters = {
+  regState({ regState }) {
+    return regState;
+  },
+  urlByTypeGuid({ urlByTypeGuid }) {
+    return urlByTypeGuid;
+  },
   mainFormProperties({
     name,
     subject,

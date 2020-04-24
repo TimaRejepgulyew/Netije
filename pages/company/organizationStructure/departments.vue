@@ -223,7 +223,7 @@ export default {
     };
   },
   methods: {
-    allowDeleting: e => {
+    allowDeleting(e) {
       if (!e.row.data.isSystem) {
         return this.$store.getters["permissions/allowDeleting"](
           this.entityType
