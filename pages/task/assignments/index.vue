@@ -71,7 +71,10 @@
           data-type="date"
         />
 
+
         <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+
+        <DxColumn data-field="isRead" sort-order='asc' :visible="false" :caption="$t('translations.fields.subject')"></DxColumn>
 
         <DxColumn data-field="authorId" :caption="$t('translations.fields.authorId')">
           <DxLookup
@@ -101,6 +104,7 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import TaskFilter from "~/components/task/filter";
 import DxButton from "devextreme-vue/button";
+
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -148,7 +152,9 @@ export default {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.task.AllAssignments + 0
-        })
+        }),
+
+
       }),
       iconStatus: ["inProccess.svg", "completed.svg"],
       assignmentsTypes: [
@@ -211,11 +217,16 @@ export default {
     },
     changeFilter({ assignmentType, filter }) {
       this.store = new DataSource({
+        sort: "isRead",
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.task.AllAssignments + assignmentType
         }),
-        filter: filter
+        filter: filter,
+        //filter: ["isRead", "<>", true],
+        // sort: [
+        //   {selector: 'isRead', desc: true}
+        // ]
       });
     },
     toMoreAbout(e) {

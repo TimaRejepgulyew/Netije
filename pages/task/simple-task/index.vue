@@ -47,6 +47,8 @@
         data-type="date"
       />
 
+
+
       <DxColumn
         data-field="created"
         :caption="$t('translations.fields.createdDate')"
