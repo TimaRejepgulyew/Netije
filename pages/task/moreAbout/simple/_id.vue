@@ -50,7 +50,11 @@
                 </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
-            <DxGroupItem data-field="comments" template="comments"></DxGroupItem>
+            <DxGroupItem>
+              <DxSimpleItem data-field="texts" template="comments">
+                <DxLabel location="top" :text="$t('translations.fields.comments')" />
+              </DxSimpleItem>
+            </DxGroupItem>
             <DxGroupItem :col-count="20" :col-span="1">
               <DxButtonItem
                 :col-span="1"
@@ -64,7 +68,7 @@
               />
             </DxGroupItem>
             <template #comments="comments">
-              <Assignment-comments :comments="comments"></Assignment-comments>
+              <Assignment-comments @addComment="addComment($event)" :comments="comments"></Assignment-comments>
             </template>
           </DxForm>
         </div>
@@ -126,21 +130,23 @@ export default {
   data() {
     return {
       headerTitle: this.$t("translations.headers.moreAbout"),
-      store: {},
+      store: [],
       dateTimeOptions: {
         type: "datetime"
       }
     };
   },
   methods: {
+    addComment(comment) {
+      this.store.comment = comment;
+    },
     handleSubmit() {
+      console.log('complete');
       const store = {};
-      store.assignmentType = this.store.assignmentType;
       store.assignmentId = +this.$route.params.id;
       store.attachmentDetails = this.store.attachmentDetails;
       store.comment = this.store.comment;
-      this.$axios
-        .post(dataApi.task.CompleteAssignment, store)
+      this.$axios.post(dataApi.task.CompleteAssignment, store)
         .then(() => (this.store.status = 2))
         .catch(e => {
           console.log(e);
@@ -208,7 +214,6 @@ export default {
       );
     },
     isImportance() {
-      console.log(this.store.importance, "status");
       return this.store.importance == 0;
     },
     iscompleteAssignment() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="list-container">
-      <DxList :search-enabled="false">
+      <DxList :data-source="comments" :search-enabled="false">
         <template #item="item">
           <div>
             <div class="d-flex">
@@ -13,7 +13,7 @@
       </DxList>
     </div>
     <div>
-      <DxTextArea :height="90" :value.sync="comment" />
+      <DxTextArea :on-value-changed="addComment" :height="90" :value="comment" />
     </div>
   </div>
 </template>
@@ -25,10 +25,17 @@ export default {
     DxList,
     DxTextArea
   },
+  props: ["comments"],
   data() {
     return {
       comment: ""
     };
+  },
+  methods: {
+    addComment(e) {
+      
+      this.$emit("addComment", e.value);
+    }
   }
 };
 </script>
