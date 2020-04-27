@@ -39,6 +39,13 @@ export const state = () => ({
       type: "success"
     };
   },
+  btnCompleted(context) {
+    return {
+      text: context.$t("translations.links.completed"),
+      useSubmitBehavior: true,
+      type: "success"
+    };
+  },
   btnCancel(context, onClick) {
     return {
       onClick,
@@ -66,8 +73,10 @@ export const getters = {
   btnSave: ({ btnSave }) => context => {
     return btnSave(context);
   },
+  btnCompleted: ({ btnCompleted }) => context => {
+    return btnCompleted(context);
+  },
   toForm: () => (context, path = "add") => {
     return context.$router.push(`${context.$route.path}/form/${path}`);
   }
 };
-

@@ -3,18 +3,15 @@
     <div class="file-uploader-block">
       <slot name="attachment__header"></slot>
       <div class="list-container">
-        <DxList :data-source="attachments" search-expr="name" :search-enabled="true">
+        <DxList :data-source="attachments" :search-enabled="true">
           <template #item="item">
             <div>
-              <div class="d-flex">
+              <div
+                class="d-flex"
+                @dblclick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
+              >
                 <div class="list__content">{{item.data.name}}</div>
                 <div class="list__btn-group">
-                  <DxButton
-                    icon="search"
-                    class="list__btn"
-                    v-if="!item.data.preview"
-                    :onClick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
-                  ></DxButton>
                   <DxButton
                     icon="download"
                     class="list__btn"
@@ -28,14 +25,14 @@
       </div>
       <span class>{{$t("translations.headers.attachment")}}</span>
       <DxTagBox
-        :data-source="dataSource"
+        :data-source="allDocuments"
         :value.sync="store"
         :show-selection-controls="true"
         :show-multi-tag-only="false"
         value-expr="id"
         display-expr="name"
         apply-value-mode="useButtons"
-        searchEnabled="true"
+        :searchEnabled="true"
         searchExpr="name"
         :paginate="true"
         :page-size="10"
@@ -74,19 +71,15 @@ export default {
   data() {
     return {
       allDocuments: [],
-      store: [],
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.paperWork.AllDocument
-      })
+      store: []
     };
   },
   computed: {
     attachments() {
       const attachmentDetails = [...this.attachmentDetails];
       if (attachmentDetails) {
-        return attachmentDetails.map(attachment => {
-          return this.allDocuments.find(document => {
+        return this.allDocuments.filter(document => {
+          return this.attachmentDetails.find(attachment => {
             return document.id == attachment;
           });
         });
@@ -106,19 +99,6 @@ export default {
     addAttachment() {
       this.$emit("addAttachment", this.store);
       this.store = null;
-    },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
     }
   }
 };
@@ -138,7 +118,7 @@ export default {
   }
 
   .list-container {
-    padding: 35px 0;
+    padding: 35px 10px;
     height: auto;
     max-height: 60vh;
     overflow: auto;

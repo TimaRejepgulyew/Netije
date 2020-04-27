@@ -2,28 +2,11 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="headerTitle"></Header>
-      <NavBarPerformers></NavBarPerformers>
-      <NavBarObservers></NavBarObservers>
-      <!-- <div class="nav-bar">
-        <template v-if="isPerformer" name="performer functional">
-          <template v-if="!iscompleteAssignment" name="completeAssignment functional"></template>
-          <template v-else-if="isObserver" name="observers functional">
-            <template v-if="iscompleteAssignment" name="completeAssignment functional">
-              <DxButton icon="check" :text="$t('translations.links.accept')"></DxButton>
-              <DxButton :height="40" icon="arrowup" :text="$t('translations.links.modification')"></DxButton>
-            </template>
-            <template v-else name="inProccess functional">
-              <DxButton :height="40" icon="arrowup" :text="$t('translations.links.stop')"></DxButton>
-            </template>
-          </template>
-        </template>
-      </div>-->
-
       <div class="d-flex message" v-if="isImportance">
         <i class="dx-icon dx-icon-info"></i>
         <span>{{$t('translations.fields.importanceMessage')}}</span>
       </div>
-      <form class="d-flex">
+      <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
           <DxForm
             :col-count="1"
@@ -34,9 +17,14 @@
             validation-group="OfficialDocument"
           >
             <DxGroupItem :caption="$t('translations.fields.main')">
-              <DxSimpleItem data-field="subject">
-                <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-              </DxSimpleItem>
+              <DxGroupItem :col-count="5">
+                <DxSimpleItem :col-span="4" data-field="subject">
+                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+                </DxSimpleItem>
+                <DxSimpleItem data-field="needsReview" editor-type="dxCheckBox">
+                  <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
+                </DxSimpleItem>
+              </DxGroupItem>
               <DxGroupItem :col-count="3">
                 <DxSimpleItem
                   data-field="deadline"
@@ -62,8 +50,23 @@
                 </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
+            <DxGroupItem data-field="comments" template="comments"></DxGroupItem>
+            <DxGroupItem :col-count="20" :col-span="1">
+              <DxButtonItem
+                :col-span="1"
+                :button-options="completedButtonOptions"
+                horizontal-alignment="right"
+              />
+              <DxButtonItem
+                :col-span="1"
+                :button-options="cancelButtonOptions"
+                horizontal-alignment="right"
+              />
+            </DxGroupItem>
+            <template #comments="comments">
+              <Assignment-comments :comments="comments"></Assignment-comments>
+            </template>
           </DxForm>
-          <Assignment-comments></Assignment-comments>
         </div>
         <div class="item">
           <attachmentDetails
@@ -91,9 +94,11 @@ import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
 import NavBarPerformers from "~/components/task/nav-bar/simple-assignment-perf";
+import NavBarObservers from "~/components/task/nav-bar/simple-assignment-obser";
 import AssignmentComments from "~/components/task/assignment-comments";
 export default {
   components: {
+    NavBarObservers,
     NavBarPerformers,
     DxList,
     AssignmentComments,
@@ -128,17 +133,14 @@ export default {
     };
   },
   methods: {
-    completeAssignment() {
+    handleSubmit() {
       const store = {};
       store.assignmentType = this.store.assignmentType;
-      store.assignmentId = parseInt(this.$route.params.id);
+      store.assignmentId = +this.$route.params.id;
       store.attachmentDetails = this.store.attachmentDetails;
-
+      store.comment = this.store.comment;
       this.$axios
-        .post(
-          "http://192.168.4.57:8090/api/Assignment/CompleteAssignment",
-          store
-        )
+        .post(dataApi.task.CompleteAssignment, store)
         .then(() => (this.store.status = 2))
         .catch(e => {
           console.log(e);
@@ -178,6 +180,15 @@ export default {
     }
   },
   computed: {
+    completedButtonOptions() {
+      return this.$store.getters["globalProperties/btnCompleted"](this);
+    },
+    cancelButtonOptions() {
+      return this.$store.getters["globalProperties/btnCancel"](
+        this,
+        this.backTo
+      );
+    },
     employeeOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,

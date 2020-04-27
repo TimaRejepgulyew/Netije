@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="list-container">
-      <DxList>
+      <DxList :search-enabled="false">
         <template #item="item">
           <div>
             <div class="d-flex">
@@ -18,10 +18,17 @@
   </div>
 </template>
 <script>
+import DxList from "devextreme-vue/list";
 import { DxTextArea } from "devextreme-vue";
 export default {
   components: {
+    DxList,
     DxTextArea
+  },
+  data() {
+    return {
+      comment: ""
+    };
   }
 };
 </script>

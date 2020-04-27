@@ -3,7 +3,7 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
       <div class="list-container">
-        <DxList :data-source="versions" search-expr="note" :search-enabled="true">
+        <DxList :data-source="versions" search-expr="name" :search-enabled="true">
           <template #item="item">
             <div>
               <div class="d-flex">

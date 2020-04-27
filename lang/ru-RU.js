@@ -451,6 +451,7 @@ export default {
       "moreAbout":"Подробнее"
     },
     "links": {
+      "completed":"завершить",
       "save": "Сохранить",
       "add": "Добавить",
       "complete":"Завершить",

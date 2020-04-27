@@ -14,7 +14,6 @@
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -119,6 +118,7 @@ export default {
       statusStores: this.$store.getters["status/status"],
 
       toMoreAbout: e => {
+      
         this.$store.getters["globalProperties/toForm"](this, e.key);
       },
       onToolbarPreparing(e) {
