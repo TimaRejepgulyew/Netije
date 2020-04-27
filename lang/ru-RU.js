@@ -413,6 +413,7 @@ export default {
       "subjectTask":"Тема",
       "authorId":"Автор",
       "importanceMessage":"Это задание имеет высокую важность",
+      "completedMessage":"Задание выполнено",
       "createSimpleTask":"Создать простую задачу",
       "createActionTask":"Создать задачу на поручение",
       "createAcquaintanceTask":"Создать задачу на расмотрение",
