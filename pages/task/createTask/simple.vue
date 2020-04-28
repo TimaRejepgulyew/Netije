@@ -15,10 +15,14 @@
           >
             <DxGroupItem>
               <DxGroupItem :caption="$t('translations.fields.main')">
-                <DxSimpleItem data-field="subject">
-                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-                  <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-                </DxSimpleItem>
+                <DxGroupItem :col-count="5">
+                  <DxSimpleItem :col-span="4" data-field="subject">
+                    <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+                  </DxSimpleItem>
+                  <DxSimpleItem data-field="needsReview" editor-type="dxCheckBox">
+                    <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
+                  </DxSimpleItem>
+                </DxGroupItem>
                 <DxGroupItem :col-count="3">
                   <DxSimpleItem
                     data-field="deadline"
@@ -60,6 +64,9 @@
                   <DxLabel location="top" :text="$t('translations.fields.performers')" />
                 </DxSimpleItem>
               </DxGroupItem>
+              <DxSimpleItem :col-span="2" data-field="comment" editor-type="dxTextArea">
+                <DxLabel location="top" :text="$t('translations.fields.comment')" />
+              </DxSimpleItem>
             </DxGroupItem>
             <DxGroupItem :col-count="20" :col-span="1">
               <DxButtonItem
@@ -140,7 +147,8 @@ export default {
         observers: [],
         performers: [],
         accessRights: 60,
-        attachmentDetails: []
+        attachmentDetails: [],
+        comment: ""
       },
       dateTimeOptions: {
         type: "datetime"

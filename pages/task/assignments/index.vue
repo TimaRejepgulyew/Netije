@@ -52,6 +52,12 @@
 
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
+        <DxColumn
+          data-type="string"
+          data-field="assignmentType"
+          :caption="$t('translations.fields.type')"
+          cell-template="cellTemplate"
+        ></DxColumn>
 
         <DxColumn
           data-field="deadline"
@@ -60,21 +66,19 @@
         />
 
         <DxColumn
-          data-field="assignmentType"
-          :caption="$t('translations.fields.type')"
-          cell-template="cellTemplate"
-        ></DxColumn>
-
-        <DxColumn
           data-field="created"
           :caption="$t('translations.fields.createdDate')"
           data-type="date"
         />
 
-
         <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
 
-        <DxColumn data-field="isRead" sort-order='asc' :visible="false" :caption="$t('translations.fields.subject')"></DxColumn>
+        <DxColumn
+          data-field="isRead"
+          sort-order="asc"
+          :visible="false"
+          :caption="$t('translations.fields.subject')"
+        ></DxColumn>
 
         <DxColumn data-field="authorId" :caption="$t('translations.fields.authorId')">
           <DxLookup
@@ -152,9 +156,7 @@ export default {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.task.AllAssignments + 0
-        }),
-
-
+        })
       }),
       iconStatus: ["inProccess.svg", "completed.svg"],
       assignmentsTypes: [
@@ -210,9 +212,8 @@ export default {
     },
     showNew(e) {
       if (e.data != undefined && !e.data.isRead) {
-        e.rowElement.style.fontWeight = "bold";
-        // e.rowElement.bgColor = "#00CC00";
-        e.rowElement.style.borderBottom = "2px solid #339966";
+        e.rowElement.style.fontWeight = "bolder";
+        e.rowElement.style.color = "#339966";
       }
     },
     changeFilter({ assignmentType, filter }) {
@@ -222,11 +223,7 @@ export default {
           key: "id",
           loadUrl: dataApi.task.AllAssignments + assignmentType
         }),
-        filter: filter,
-        //filter: ["isRead", "<>", true],
-        // sort: [
-        //   {selector: 'isRead', desc: true}
-        // ]
+        filter: filter
       });
     },
     toMoreAbout(e) {

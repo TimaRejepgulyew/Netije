@@ -6,7 +6,7 @@
         <i class="dx-icon dx-icon-info"></i>
         <span>{{$t('translations.fields.importanceMessage')}}</span>
       </div>
-      <div class="d-flex isCompleted" v-if="true">
+      <div class="d-flex isCompleted" v-if="isCompleted">
         <i class="dx-icon dx-icon-check"></i>
         <span>{{$t('translations.fields.completedMessage')}}</span>
       </div>
@@ -21,14 +21,9 @@
             validation-group="OfficialDocument"
           >
             <DxGroupItem :caption="$t('translations.fields.main')">
-              <DxGroupItem :col-count="5">
-                <DxSimpleItem :col-span="4" data-field="subject">
-                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-                </DxSimpleItem>
-                <DxSimpleItem data-field="needsReview" editor-type="dxCheckBox">
-                  <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
-                </DxSimpleItem>
-              </DxGroupItem>
+              <DxSimpleItem :col-span="4" data-field="subject">
+                <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+              </DxSimpleItem>
               <DxGroupItem :col-count="3">
                 <DxSimpleItem
                   data-field="deadline"
@@ -55,12 +50,13 @@
               </DxGroupItem>
             </DxGroupItem>
             <DxGroupItem>
-              <DxSimpleItem data-field="texts" template="comments">
+              <DxSimpleItem data-field="taskId" template="comments">
                 <DxLabel location="top" :text="$t('translations.fields.comments')" />
               </DxSimpleItem>
             </DxGroupItem>
             <DxGroupItem :col-count="20" :col-span="1">
               <DxButtonItem
+                :visible="!isCompleted"
                 :col-span="1"
                 :button-options="completedButtonOptions"
                 horizontal-alignment="right"
@@ -71,8 +67,12 @@
                 horizontal-alignment="right"
               />
             </DxGroupItem>
-            <template #comments="comments">
-              <Assignment-comments @addComment="addComment($event)" :comments="comments"></Assignment-comments>
+            <template #comments="taskId">
+              <Assignment-comments
+                @addComment="addComment($event)"
+                :isCompleted="isCompleted"
+                :taskId="taskId.data.editorOptions.value"
+              ></Assignment-comments>
             </template>
           </DxForm>
         </div>
@@ -145,11 +145,11 @@ export default {
       this.store.comment = comment;
     },
     handleSubmit() {
-      console.log("complete");
       const store = {};
       store.assignmentId = +this.$route.params.id;
-      store.attachmentDetails = this.store.attachmentDetails;
+      store.attachmentDetails = [];
       store.comment = this.store.comment;
+
       this.$axios
         .post(dataApi.task.CompleteAssignment, store)
         .then(() => (this.store.status = 2))
@@ -191,6 +191,9 @@ export default {
     }
   },
   computed: {
+    isCompleted() {
+      return this.store.status == 2;
+    },
     completedButtonOptions() {
       return this.$store.getters["globalProperties/btnCompleted"](this);
     },

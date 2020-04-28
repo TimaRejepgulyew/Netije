@@ -471,6 +471,12 @@ export default {
     },
     "shared":{
       "error":"Произошла ошибка"
+    },
+    "taskMessage":{
+      "Completed":"Задание завершенно",
+      "from": "От сотрудника:",
+      "created":"Созданно:",
+      "message":"Сообщение: "
     }
   }
 }
