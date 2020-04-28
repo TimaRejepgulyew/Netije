@@ -89,6 +89,7 @@ export default {
     AllAssignments: `${url}/api/Assignment/GetAllAssignment/`,
     CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
     MarkAsRead: `${url}/api/Assignment/MarkAsRead`,
-    Texts: `${url}/api/Task/GetTexts/`
+    Texts: `${url}/api/Task/GetTexts/`,
+    Acquaintance:`${url}/api/Acquaintance`
   }
 };

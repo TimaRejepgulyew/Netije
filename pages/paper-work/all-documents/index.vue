@@ -45,7 +45,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
 
-      <DxEditing :allow-deleting="true" :allow-adding="false" :useIcons="true" mode="popup" />
+      <DxEditing :allow-deleting="true" :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
@@ -63,15 +63,8 @@
           display-expr="title"
         />
       </DxColumn>
-      <DxColumn data-field :caption="$t('translations.fields.caseFileId')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="caseFileStores"
-          value-expr="id"
-          display-expr="title"
-        />
-      </DxColumn>
       <DxColumn
+        :visible="false"
         data-field="created"
         :caption="$t('translations.fields.createdDate')"
         data-type="date"
@@ -79,9 +72,9 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')"></DxColumn>
 
-      <DxColumn :visible="true" data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+      <DxColumn :visible="false" data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
       <DxColumn
-        :visible="true"
+        :visible="false"
         data-field="businessUnitId"
         :caption="$t('translations.fields.businessUnitId')"
       >
@@ -93,7 +86,7 @@
         />
       </DxColumn>
       <DxColumn
-        :visible="true"
+        :visible="false"
         data-field="departmentId"
         :caption="$t('translations.fields.departmentId')"
       >

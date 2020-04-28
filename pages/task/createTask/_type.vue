@@ -19,11 +19,15 @@
                   <DxSimpleItem :col-span="4" data-field="subject">
                     <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
                   </DxSimpleItem>
-                  <DxSimpleItem data-field="needsReview" editor-type="dxCheckBox">
+                  <DxSimpleItem
+                    :visible="isSimpleTask"
+                    data-field="needsReview"
+                    editor-type="dxCheckBox"
+                  >
                     <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
                   </DxSimpleItem>
                 </DxGroupItem>
-                <DxGroupItem :col-count="3">
+                <DxGroupItem :col-count="2">
                   <DxSimpleItem
                     data-field="deadline"
                     :editor-options="dateTimeOptions"
@@ -34,6 +38,7 @@
                   </DxSimpleItem>
 
                   <DxSimpleItem
+                    :visible="isSimpleTask"
                     data-field="routeType"
                     editor-type="dxSelectBox"
                     :editor-options="routeTypeOptions"
@@ -132,13 +137,13 @@ export default {
   },
   data() {
     return {
-      addressPost: dataApi.task.SimpleTask,
+      addressPost: [, , dataApi.task.SimpleTask, dataApi.task.Acquaintance],
       headerTitle: this.$t("translations.headers.createSimpleTask"),
+
       store: {
         subject: "",
         importance: 1,
         deadline: new Date(),
-        routeType: 0,
         observers: [],
         performers: [],
         accessRights: 60,
@@ -154,6 +159,7 @@ export default {
           { id: 0, name: this.$t("translations.fields.gradually") },
           { id: 1, name: this.$t("translations.fields.parallel") }
         ],
+        value: 0,
         showClearButton: true,
         valueExpr: "id",
         displayExpr: "name"
@@ -237,7 +243,7 @@ export default {
         }
       );
       this.$axios
-        .post(this.addressPost, this.store)
+        .post(this.addressPost[this.$route.params.type], this.store)
         .then(res => {
           this.$router.push("/task/assignments");
           this.notify(
@@ -254,6 +260,9 @@ export default {
     }
   },
   computed: {
+    isSimpleTask() {
+      return +this.$route.params.type === 2;
+    },
     saveButtonOptions() {
       return this.$store.getters["globalProperties/btnSave"](this);
     },

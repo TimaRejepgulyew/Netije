@@ -193,7 +193,7 @@ export default {
   },
   computed: {
     showCompletedBtn() {
-      return !this.isCompleted && this.store.assignmentType == 2;
+      return !this.isCompleted && this.store.assignmentType !== 5;
     },
     isCompleted() {
       return this.store.status == 2;

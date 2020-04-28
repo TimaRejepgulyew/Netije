@@ -162,7 +162,7 @@ export default {
       assignmentsTypes: [
         {
           id: 0,
-          path: "/task/createTask/simple",
+          path: "/task/createTask/2",
           name: this.$t("translations.fields.createSimpleTask")
         },
         {
@@ -172,7 +172,7 @@ export default {
         },
         {
           id: 1,
-          path: "/task/createTask/acquaintance",
+          path: "/task/createTask/3",
           name: this.$t("translations.fields.createAcquaintanceTask")
         }
       ],
@@ -231,7 +231,7 @@ export default {
         "all",
         "assignments",
         "simple",
-        "acquaintance",
+        "simple",
         "action-execution",
         "simple"
       ];
@@ -250,6 +250,7 @@ export default {
     typeIcon(value) {
       switch (value) {
         case 2:
+        case 3:
           return require("~/static/icons/iconAssignment/assignment.svg");
           break;
 
