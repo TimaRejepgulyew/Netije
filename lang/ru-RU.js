@@ -71,7 +71,7 @@ export default {
       "powerOfAttorney":"Доверенности",
       "allAssignments":"Все задания",
       "simpleAssignments":"Простые задания",
-      "acquaintanceAssignments":"Задания на ознакомление",
+      "acquaintanceAssignments":"Задания на рассмотрение",
       "actionAssignments":"Задания на исполнение",
       "allNotice":"Все уведомления",
       "notices":"Уведомления",
@@ -448,7 +448,6 @@ export default {
       "addRegistrationGroup": "Добавление групп регистрации",
       "editRegistrationGroup": "Редактирование групп регистрации",
       "simpleTask":"Простое задание",
-      "createSimpleTask":"Создать простую задачу",
       "versions":"Версии",
       "attachment":"Вложения",
       "moreAbout":"Подробнее"

@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <Header :headerTitle="headerTitle"></Header>
+      <Header :headerTitle="headerTitle[$route.params.type]"></Header>
       <navBar @importanceChanged="importanceChanged"></navBar>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
@@ -138,8 +138,12 @@ export default {
   data() {
     return {
       addressPost: [, , dataApi.task.SimpleTask, dataApi.task.Acquaintance],
-      headerTitle: this.$t("translations.headers.createSimpleTask"),
-
+      headerTitle: [
+        ,
+        ,
+        this.$t("translations.fields.createSimpleTask"),
+        this.$t("translations.fields.createAcquaintanceTask")
+      ],
       store: {
         subject: "",
         importance: 1,
