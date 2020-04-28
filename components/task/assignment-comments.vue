@@ -87,6 +87,7 @@ export default {
       }
     },
     addComment(e) {
+      
       this.$emit("addComment", e.value);
       this.comment = e.value;
     },

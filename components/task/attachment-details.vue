@@ -3,7 +3,7 @@
     <div class="file-uploader-block">
       <slot name="attachment__header"></slot>
       <div class="list-container">
-        <DxList :data-source="attachments" :search-enabled="true">
+        <DxList :data-source="attachmentDetails" :search-enabled="true">
           <template #item="item">
             <div>
               <div
@@ -29,7 +29,6 @@
         :value.sync="store"
         :show-selection-controls="true"
         :show-multi-tag-only="false"
-        value-expr="id"
         display-expr="name"
         apply-value-mode="useButtons"
         :searchEnabled="true"
@@ -74,20 +73,7 @@ export default {
       store: []
     };
   },
-  computed: {
-    attachments() {
-      const attachmentDetails = [...this.attachmentDetails];
-      if (attachmentDetails) {
-        return this.allDocuments.filter(document => {
-          return this.attachmentDetails.find(attachment => {
-            return document.id == attachment;
-          });
-        });
-      } else {
-        return [];
-      }
-    }
-  },
+  computed: {},
   methods: {
     openVersion(documentId, documentTypeGuid) {
       window.open(
@@ -97,6 +83,9 @@ export default {
       );
     },
     addAttachment() {
+      this.store = this.store.map(({ name, id, documentTypeGuid }) => {
+        return { name, id, documentTypeGuid };
+      });
       this.$emit("addAttachment", this.store);
       this.store = null;
     }

@@ -147,7 +147,9 @@ export default {
     handleSubmit() {
       const store = {};
       store.assignmentId = +this.$route.params.id;
-      store.attachmentDetails = [];
+      store.attachmentDetails = this.store.attachmentDetails.map(({ id }) => {
+        return id;
+      });
       store.comment = this.store.comment;
 
       this.$axios
