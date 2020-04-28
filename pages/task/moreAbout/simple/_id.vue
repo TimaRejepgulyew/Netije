@@ -10,6 +10,7 @@
         <i class="dx-icon dx-icon-check"></i>
         <span>{{$t('translations.fields.completedMessage')}}</span>
       </div>
+
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
           <DxForm
@@ -56,7 +57,7 @@
             </DxGroupItem>
             <DxGroupItem :col-count="20" :col-span="1">
               <DxButtonItem
-                :visible="!isCompleted"
+                :visible="showCompletedBtn"
                 :col-span="1"
                 :button-options="completedButtonOptions"
                 horizontal-alignment="right"
@@ -155,9 +156,7 @@ export default {
       this.$axios
         .post(dataApi.task.CompleteAssignment, store)
         .then(() => (this.store.status = 2))
-        .catch(e => {
-          console.log(e);
-        });
+        .catch(e => {});
     },
     async markingRead() {
       let isread = await this.$axios.post(dataApi.task.MarkAsRead, {
@@ -193,6 +192,9 @@ export default {
     }
   },
   computed: {
+    showCompletedBtn() {
+      return !this.isCompleted && this.store.assignmentType == 2;
+    },
     isCompleted() {
       return this.store.status == 2;
     },

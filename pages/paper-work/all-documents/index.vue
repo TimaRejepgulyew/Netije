@@ -45,12 +45,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
 
-      <DxEditing
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
-        :allow-adding="false"
-        :useIcons="true"
-        mode="popup"
-      />
+      <DxEditing :allow-deleting="true" :allow-adding="false" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />

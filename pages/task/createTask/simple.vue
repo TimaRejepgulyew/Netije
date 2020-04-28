@@ -86,12 +86,7 @@
           <attachmentDetails
             :attachmentDetails="store.attachmentDetails"
             @addAttachment="addAttachment"
-          >
-            <span
-              class="dx-form-group-caption border-b"
-              slot="attachment__header"
-            >{{$t('translations.fields.attachmentSimpleTask')}}</span>
-          </attachmentDetails>
+          ></attachmentDetails>
         </div>
       </form>
     </div>
@@ -236,6 +231,11 @@ export default {
       );
     },
     handleSubmit() {
+      this.store.attachmentDetails = this.store.attachmentDetails.map(
+        ({ id }) => {
+          return id;
+        }
+      );
       this.$axios
         .post(this.addressPost, this.store)
         .then(res => {

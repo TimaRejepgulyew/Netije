@@ -59,7 +59,7 @@ export default {
   async created() {
     this.comments = await this.$axios.get(dataApi.task.Texts + this.taskId);
     this.employees = await this.$axios.get(dataApi.company.Employee);
-    await this.getAuthor();
+    this.setAllAuthor();
     this.$watch("isCompleted", this.pushComment);
   },
   methods: {
@@ -87,13 +87,12 @@ export default {
       }
     },
     addComment(e) {
-      
       this.$emit("addComment", e.value);
       this.comment = e.value;
     },
-    async getAuthor() {
+    setAllAuthor() {
       this.comments.data.map(async text => {
-        text.writtenById = await this.setAuthor(text);
+        text.writtenById = this.setAuthor(text);
       });
     },
     setAuthor(text) {
