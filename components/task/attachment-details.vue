@@ -24,18 +24,15 @@
         </DxList>
       </div>
       <span class>{{$t("translations.headers.attachment")}}</span>
-      <DxTagBox
-        :data-source="allDocuments"
-        :value.sync="store"
-        :show-selection-controls="true"
-        :show-multi-tag-only="false"
+      <DxSelectBox
+        v-model="store"
+        :items="allDocuments"
         display-expr="name"
-        apply-value-mode="useButtons"
-        :searchEnabled="true"
         searchExpr="name"
+        :searchEnabled="true"
         :paginate="true"
         :page-size="10"
-      />
+      ></DxSelectBox>
       <div class="column">
         <DxButton
           icon="add"
@@ -54,9 +51,11 @@ import { DxButton } from "devextreme-vue";
 import notify from "devextreme/ui/notify";
 import { saveAs } from "file-saver";
 import moment from "moment";
+import DxSelectBox from "devextreme-vue/select-box";
 import DxTagBox from "devextreme-vue/tag-box";
 export default {
   components: {
+    DxSelectBox,
     DxList,
     DxButton,
     DxTagBox
@@ -65,6 +64,7 @@ export default {
   async created() {
     const { data } = await this.$axios.get(dataApi.paperWork.AllDocument);
     this.allDocuments = data.data;
+    console.log(this.attachmentDetails);
   },
 
   data() {
@@ -83,9 +83,6 @@ export default {
       );
     },
     addAttachment() {
-      this.store = this.store.map(({ name, id, documentTypeGuid }) => {
-        return { name, id, documentTypeGuid };
-      });
       this.$emit("addAttachment", this.store);
       this.store = null;
     }

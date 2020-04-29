@@ -59,7 +59,7 @@ export default {
   async created() {
     this.comments = await this.$axios.get(dataApi.task.Texts + this.taskId);
     this.employees = await this.$axios.get(dataApi.company.Employee);
-    this.setAllAuthor();
+    await this.setAllAuthor();
     this.$watch("isCompleted", this.pushComment);
   },
   methods: {
@@ -92,12 +92,17 @@ export default {
     },
     setAllAuthor() {
       this.comments.data.map(async text => {
-        text.writtenById = this.setAuthor(text);
+        text.writtenById = this.setAuthor(text.writtenById);
       });
     },
-    setAuthor(text) {
-      return this.employees.data.data.find(async user => {
-        return user.id == text.writtenById;
+    setAuthor(id) {
+      console.log(
+        this.employees.data.data.find(user => {
+          return user.id === id;
+        })
+      );
+      return this.employees.data.data.find(user => {
+        return user.id === id;
       });
     }
   }

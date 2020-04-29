@@ -21,53 +21,73 @@
             :show-validation-summary="true"
             validation-group="OfficialDocument"
           >
-            <DxGroupItem :caption="$t('translations.fields.main')">
-              <DxSimpleItem :col-span="4" data-field="subject">
-                <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-              </DxSimpleItem>
-              <DxGroupItem :col-count="3">
-                <DxSimpleItem
-                  data-field="deadline"
-                  :editor-options="dateTimeOptions"
-                  editor-type="dxDateBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+            <DxGroupItem :col-count="3">
+              <DxGroupItem :col-span="2" :caption="$t('translations.fields.main')">
+                <DxSimpleItem :col-span="4" data-field="subject">
+                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
                 </DxSimpleItem>
-                <DxSimpleItem
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                  data-field="authorId"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.authorId')" />
-                </DxSimpleItem>
+                <DxGroupItem :col-count="3">
+                  <DxSimpleItem
+                    data-field="deadline"
+                    :editor-options="dateTimeOptions"
+                    editor-type="dxDateBox"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+                  </DxSimpleItem>
+                  <DxSimpleItem
+                    :editor-options="employeeOptions"
+                    editor-type="dxSelectBox"
+                    data-field="authorId"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.authorId')" />
+                  </DxSimpleItem>
 
-                <DxSimpleItem
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                  data-field="performerId"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.performerId')" />
+                  <DxSimpleItem
+                    :editor-options="employeeOptions"
+                    editor-type="dxSelectBox"
+                    data-field="performerId"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.performerId')" />
+                  </DxSimpleItem>
+                </DxGroupItem>
+
+                <DxGroupItem>
+                  <DxSimpleItem data-field="taskId" template="comments">
+                    <DxLabel location="top" :text="$t('translations.fields.comments')" />
+                  </DxSimpleItem>
+                </DxGroupItem>
+                <DxGroupItem :col-count="20" :col-span="1">
+                  <DxButtonItem
+                    :visible="showCompletedBtn"
+                    :col-span="1"
+                    :button-options="completedButtonOptions"
+                    horizontal-alignment="right"
+                  />
+                  <DxButtonItem
+                    :col-span="1"
+                    :button-options="cancelButtonOptions"
+                    horizontal-alignment="right"
+                  />
+                </DxGroupItem>
+              </DxGroupItem>
+
+              <DxGroupItem :caption="$t('translations.headers.attachment')">
+                <DxSimpleItem :col-span="2" data-field="attachmentDetails" template="attachments">
+                  <DxLabel
+                    :visible="false"
+                    location="top"
+                    :text="$t('translations.headers.attachment')"
+                  />
                 </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
-            <DxGroupItem>
-              <DxSimpleItem data-field="taskId" template="comments">
-                <DxLabel location="top" :text="$t('translations.fields.comments')" />
-              </DxSimpleItem>
-            </DxGroupItem>
-            <DxGroupItem :col-count="20" :col-span="1">
-              <DxButtonItem
-                :visible="showCompletedBtn"
-                :col-span="1"
-                :button-options="completedButtonOptions"
-                horizontal-alignment="right"
-              />
-              <DxButtonItem
-                :col-span="1"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="right"
-              />
-            </DxGroupItem>
+
+            <template #attachments="atachments">
+              <attachmentDetails
+                :attachmentDetails="store.attachmentDetails"
+                @addAttachment="addAttachment"
+              ></attachmentDetails>
+            </template>
             <template #comments="taskId">
               <Assignment-comments
                 @addComment="addComment($event)"
@@ -76,12 +96,6 @@
               ></Assignment-comments>
             </template>
           </DxForm>
-        </div>
-        <div class="item">
-          <attachmentDetails
-            :attachmentDetails="store.attachmentDetails"
-            @addAttachment="addAttachment"
-          ></attachmentDetails>
         </div>
       </form>
     </div>
@@ -193,10 +207,13 @@ export default {
   },
   computed: {
     showCompletedBtn() {
-      return !this.isCompleted && this.store.assignmentType !== 5;
+      return !this.isCompleted && this.store.assignmentType < 4;
     },
     isCompleted() {
       return this.store.status == 2;
+    },
+    isImportance() {
+      return this.store.importance == 0;
     },
     completedButtonOptions() {
       return this.$store.getters["globalProperties/btnCompleted"](this);
@@ -212,24 +229,6 @@ export default {
         context: this,
         url: dataApi.company.Employee
       });
-    },
-    isObserver() {
-      return (
-        this.store.authorId ==
-        parseInt(this.$store.getters["permissons/employeeId"])
-      );
-    },
-    isPerformer() {
-      return (
-        this.store.performerId ==
-        parseInt(this.$store.getters["permissons/employeeId"])
-      );
-    },
-    isImportance() {
-      return this.store.importance == 0;
-    },
-    iscompleteAssignment() {
-      return this.store.status == 2;
     }
   }
 };

@@ -76,7 +76,9 @@ export default {
       "allNotice":"Все уведомления",
       "notices":"Уведомления",
       "mainInfo":"Основная информация",
-      "relation":"Связи"
+      "relation":"Связи",
+      "outgoing":"Входящие",
+      "incomming":"Исходящие"
     },
     "fields": {
       "mailDeliveryMethod": "Способ доставки документа",
@@ -475,7 +477,11 @@ export default {
       "Completed":"Задание завершенно",
       "from": "От сотрудника:",
       "created":"Созданно:",
-      "message":"Сообщение: "
+      "message":"Сообщение: ",
+      "autoGenerate":"<Имя будет сгенерированно автоматически>",
+      "forAcquaintance":"На ознакомление:",
+      "completeAssignment":"Выполните задание",
+      "acquaintanceDocument":"Ознакомтесь с документом(и)"
     }
   }
 }

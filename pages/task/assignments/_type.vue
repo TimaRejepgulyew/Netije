@@ -11,7 +11,12 @@
         display-expr="name"
         @item-click="onItemClick"
       />
-      <DxButton icon="filter" :text="$t('translations.links.filter')" :on-click="showFilter" />
+      <DxButton
+        :visible="isAssignment"
+        icon="filter"
+        :text="$t('translations.links.filter')"
+        :on-click="showFilter"
+      />
     </div>
     <div class="grid">
       <DxDataGrid
@@ -152,13 +157,7 @@ export default {
   },
   data() {
     return {
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.task.AllAssignments + 0
-        })
-      }),
-      iconStatus: ["inProccess.svg", "completed.svg"],
+      
       assignmentsTypes: [
         {
           id: 0,
@@ -184,8 +183,22 @@ export default {
     };
   },
   computed: {
+    store(){
+return new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.task.AllAssignments + 0
+        })
+      })
+    },
     headerTitle() {
+      if (this.$route.params.type === "task") {
+        return this.$t(`translations.menu.task`);
+      }
       return this.$t(`translations.menu.allAssignments`);
+    },
+    isAssignment() {
+      return this.$route.params.type === "assignment";
     }
   },
   methods: {
@@ -193,7 +206,7 @@ export default {
       this.showImportance(e);
       this.showNew(e);
       this.showStatus(e);
-      // this.showOfford(e);
+      this.showOfford(e);
     },
     showImportance(e) {
       if (e.data != undefined && e.data.importance == undefined) {
@@ -201,8 +214,10 @@ export default {
       }
     },
     showOfford(e) {
-      if (e.data != undefined && new Date(e.data.deadline) < new Date()) {
-        e.rowElement.bgColor = "#FF6600";
+      if (e.data != undefined && e.data.status != 2) {
+        if (e.data != undefined && new Date(e.data.deadline) < new Date()) {
+          e.rowElement.style.color = "#FF6600";
+        }
       }
     },
     showStatus(e) {
@@ -235,9 +250,7 @@ export default {
         "action-execution",
         "simple"
       ];
-      this.$router.push(
-        `/task/moreAbout/${assignmentsTypes[e.data.assignmentType]}/${e.key}`
-      );
+      this.$router.push(`/task/moreAbout/${e.key}`);
     },
     onItemClick(e) {
       this.$router.push(e.itemData.path);

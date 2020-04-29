@@ -13,10 +13,14 @@
             :show-validation-summary="true"
             validation-group="OfficialDocument"
           >
-            <DxGroupItem>
-              <DxGroupItem :caption="$t('translations.fields.main')">
+            <DxGroupItem :col-count="3">
+              <DxGroupItem :col-span="2" :caption="$t('translations.fields.main')">
                 <DxGroupItem :col-count="5">
-                  <DxSimpleItem :col-span="4" data-field="subject">
+                  <DxSimpleItem
+                    :editor-options="{disabled:!isSimpleTask,}"
+                    :col-span="4"
+                    data-field="subject"
+                  >
                     <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
                   </DxSimpleItem>
                   <DxSimpleItem
@@ -66,13 +70,25 @@
                   editor-type="dxTagBox"
                   data-field="performers"
                 >
+                  <DxRequiredRule :message="$t('translations.fields.performersRequired')" />
                   <DxLabel location="top" :text="$t('translations.fields.performers')" />
                 </DxSimpleItem>
               </DxGroupItem>
-              <DxSimpleItem :col-span="2" data-field="comment" editor-type="dxTextArea">
-                <DxLabel location="top" :text="$t('translations.fields.comment')" />
+              <DxGroupItem :caption="$t('translations.headers.attachment')">
+                <DxSimpleItem :col-span="2" data-field="attachmentDetails" template="attachments">
+                  <DxRequiredRule :message="$t('translations.fields.performersRequired1')" />
+                  <DxLabel
+                    :visible="false"
+                    location="top"
+                    :text="$t('translations.headers.attachment')"
+                  />
+                </DxSimpleItem>
+              </DxGroupItem>
+              <DxSimpleItem :col-span="3" data-field="comment" editor-type="dxTextArea">
+                <DxLabel :visible="false" location="top" :text="$t('translations.fields.comment')" />
               </DxSimpleItem>
             </DxGroupItem>
+
             <DxGroupItem :col-count="20" :col-span="1">
               <DxButtonItem
                 :col-span="1"
@@ -85,13 +101,16 @@
                 horizontal-alignment="right"
               />
             </DxGroupItem>
+            <template #attachments="atachments">
+              <attachmentDetails
+                :attachmentDetails="store.attachmentDetails"
+                @addAttachment="addAttachment"
+              ></attachmentDetails>
+            </template>
           </DxForm>
-        </div>
-        <div class="item">
-          <attachmentDetails
-            :attachmentDetails="store.attachmentDetails"
-            @addAttachment="addAttachment"
-          ></attachmentDetails>
+          <div class="d-flex message--error" v-if="!validationAttachments">
+            <span>{{$t('translations.fields.importanceMessage')}}</span>
+          </div>
         </div>
       </form>
     </div>
@@ -120,7 +139,7 @@ import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
-    DxRangeRule,
+   
     attachmentDetails,
     navBar,
     DxButton,
@@ -130,10 +149,10 @@ export default {
     DxButtonItem,
     DxLabel,
     DxRequiredRule,
-    DxCompareRule,
-    DxPatternRule,
     DxForm,
-    DxAsyncRule
+  },
+  created() {
+    this.store.subject = this.defaultSubject;
   },
   data() {
     return {
@@ -192,6 +211,7 @@ export default {
         valueExpr: "value",
         displayExpr: "name"
       },
+
       tagboxOptions: {
         dataSource: this.$dxStore({
           key: "id",
@@ -206,22 +226,53 @@ export default {
         const newValue = args.text;
         args.customItem = newValue;
         this.roles.unshift(newValue);
-      }
+      },
+      submit: false
     };
   },
   methods: {
-    addAttachment(documents) {
+    generateName() {
+      if (this.$route.params.type == 3) {
+        const document = this.store.attachmentDetails[
+          this.store.attachmentDetails.length - 1
+        ];
+        this.store.subject = this.$t(
+          "translations.taskMessage.forAcquaintance"
+        );
+        this.store.attachmentDetails.forEach(el => {
+          this.store.subject += `${el.name}, `;
+        });
+      }
+    },
+    generateComment() {
+      switch (+this.$route.params.type) {
+        case 2:
+          this.store.comment = this.$t(
+            "translations.taskMessage.completeAssignment"
+          );
+          break;
+
+        case 3:
+          this.store.comment = this.$t(
+            "translations.taskMessage.acquaintanceDocument"
+          );
+          break;
+      }
+    },
+    addAttachment(document) {
       if (this.store.attachmentDetails) {
         this.store.attachmentDetails = new Set(this.store.attachmentDetails);
-        for (let document of documents) {
-          this.store.attachmentDetails.add(document);
-        }
+        this.store.attachmentDetails.add(document);
       } else {
-        this.store.attachmentDetails = new Set(documents);
+        this.store.attachmentDetails = new Set();
+        this.store.attachmentDetails.add(document);
       }
       this.store.attachmentDetails = [...this.store.attachmentDetails];
+      this.generateName();
+      this.generateComment();
     },
     importanceChanged(importanceType) {
+      console.log("importance", importanceType);
       this.store.importance = importanceType;
     },
     backTo() {
@@ -241,29 +292,50 @@ export default {
       );
     },
     handleSubmit() {
-      this.store.attachmentDetails = this.store.attachmentDetails.map(
-        ({ id }) => {
-          return id;
+      this.submit = true;
+      if (this.validationAttachments) {
+        if (this.store.attachmentDetails) {
+          this.store.attachmentDetails = this.store.attachmentDetails.map(
+            ({ id }) => {
+              return id;
+            }
+          );
         }
-      );
-      this.$axios
-        .post(this.addressPost[this.$route.params.type], this.store)
-        .then(res => {
-          this.$router.push("/task/assignments");
-          this.notify(
-            this.$t("translations.headers.addDoctKindSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindError"),
-            "error"
-          );
-        });
+
+        this.$axios
+          .post(this.addressPost[this.$route.params.type], this.store)
+          .then(res => {
+            this.$router.push("/task/assignments");
+            this.notify(
+              this.$t("translations.headers.addDoctKindSucces"),
+              "success"
+            );
+          })
+          .catch(e => {
+            this.notify(
+              this.$t("translations.headers.addDoctKindError"),
+              "error"
+            );
+          });
+      }
     }
   },
   computed: {
+    validationAttachments() {
+      if (+this.$route.params.type == 2) {
+        return true;
+      }
+      if (this.store.attachmentDetails.length !== 0) {
+        return true;
+      }
+      return this.submit !== true;
+    },
+    defaultSubject() {
+      if (this.isSimpleTask) {
+        return "";
+      }
+      return this.$t("translations.taskMessage.autoGenerate");
+    },
     isSimpleTask() {
       return +this.$route.params.type === 2;
     },
@@ -279,7 +351,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
 form {
   margin: 10px;
 }
@@ -293,6 +365,14 @@ form {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+}
+.message--error {
+  display: inline;
+  color: #d9534f;
+  border-bottom: 1px dashed #d9534f;
+  i {
+    font-size: 25px;
+  }
 }
 </style>
 

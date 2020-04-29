@@ -86,8 +86,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     console.log("before route called");
-
-    
   },
   beforeDestroy() {
     unsubscribe(this.screenSizeChanged);

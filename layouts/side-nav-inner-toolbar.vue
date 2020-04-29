@@ -130,7 +130,7 @@ export default {
 }
 
 .layout-header {
-  z-index: 1501;
+  z-index: 101;
 }
 
 .layout-body {
@@ -144,9 +144,9 @@ export default {
 }
 
 .main-content {
+  
   position: relative;
-
-  min-height: 80vh;
+  min-height: 93vh;
   background: $base-bg;
   margin: 1vw 0.5vw 0 1vw;
   padding: 0.2vh 0.3vw;

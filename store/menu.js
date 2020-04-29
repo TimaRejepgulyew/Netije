@@ -8,13 +8,24 @@ export const state = () => ({
         icon: "home"
       },
       {
-        text: context.$t("translations.menu.assignments"),
-        icon: "event",
+        text: context.$t("translations.menu.outgoing"),
+        icon: "clock",
 
         items: [
           {
             text: context.$t("translations.menu.assignments"),
-            path: "/task/assignments"
+            path: "/task/assignments/assignment"
+          }
+        ]
+      },
+      {
+        text: context.$t("translations.menu.incomming"),
+        icon: "selectall",
+
+        items: [
+          {
+            text: context.$t("translations.menu.task"),
+            path: "/task/assignments/task"
           }
         ]
       },
