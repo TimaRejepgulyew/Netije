@@ -212,7 +212,7 @@ export default {
       }),
       registrationGroupStore: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.RegistrationGroup
+        loadUrl: dataApi.docFlow.ResponsibleForGroupOnMe
       }),
       editStartDate(rowData, value) {
         rowData.endDate = value;
