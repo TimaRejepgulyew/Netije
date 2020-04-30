@@ -157,7 +157,6 @@ export default {
   },
   data() {
     return {
-      
       assignmentsTypes: [
         {
           id: 0,
@@ -183,13 +182,13 @@ export default {
     };
   },
   computed: {
-    store(){
-return new DataSource({
+    store() {
+      return new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.task.AllAssignments + 0
         })
-      })
+      });
     },
     headerTitle() {
       if (this.$route.params.type === "task") {

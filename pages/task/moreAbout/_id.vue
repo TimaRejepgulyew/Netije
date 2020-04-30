@@ -84,7 +84,7 @@
 
             <template #attachments="atachments">
               <attachmentDetails
-                :attachmentDetails="store.attachmentDetails"
+                :attachmentDetails="atachments"
                 @addAttachment="addAttachment"
               ></attachmentDetails>
             </template>
