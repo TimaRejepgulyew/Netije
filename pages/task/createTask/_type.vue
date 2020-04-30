@@ -139,7 +139,7 @@ import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
-   
+    DxRangeRule,
     attachmentDetails,
     navBar,
     DxButton,
@@ -149,7 +149,7 @@ export default {
     DxButtonItem,
     DxLabel,
     DxRequiredRule,
-    DxForm,
+    DxForm
   },
   created() {
     this.store.subject = this.defaultSubject;
@@ -260,19 +260,21 @@ export default {
       }
     },
     addAttachment(document) {
-      if (this.store.attachmentDetails) {
-        this.store.attachmentDetails = new Set(this.store.attachmentDetails);
-        this.store.attachmentDetails.add(document);
+      const hasDocument = this.store.attachmentDetails.some(el => {
+        return el.id === document.id;
+      });
+      if (!hasDocument) {
+        this.store.attachmentDetails.push(document);
       } else {
-        this.store.attachmentDetails = new Set();
-        this.store.attachmentDetails.add(document);
+        this.notify(
+          this.$t("translations.taskMessage.documentAlreadyHasBeen"),
+          "error"
+        );
       }
-      this.store.attachmentDetails = [...this.store.attachmentDetails];
       this.generateName();
       this.generateComment();
     },
     importanceChanged(importanceType) {
-      console.log("importance", importanceType);
       this.store.importance = importanceType;
     },
     backTo() {

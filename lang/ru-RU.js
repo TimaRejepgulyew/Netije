@@ -81,6 +81,7 @@ export default {
       "incomming":"Исходящие"
     },
     "fields": {
+
       "mailDeliveryMethod": "Способ доставки документа",
       "whom":"Кому",
       "fromWhom":"От кого",
@@ -420,7 +421,8 @@ export default {
       "createActionTask":"Создать задачу на поручение",
       "createAcquaintanceTask":"Создать задачу на расмотрение",
       "attachmentSimpleTask":"Вложение к простой задаче",
-      "createDocument":"Создать документ"
+      "createDocument":"Создать документ",
+      "completed":"Завершенно"
     },
     "headers": {
       "addDocumentKind": "Добавление вида документа",
@@ -455,7 +457,7 @@ export default {
       "moreAbout":"Подробнее"
     },
     "links": {
-      "completed":"завершить",
+      "complete":"завершить",
       "save": "Сохранить",
       "add": "Добавить",
       "complete":"Завершить",
@@ -474,6 +476,7 @@ export default {
       "error":"Произошла ошибка"
     },
     "taskMessage":{
+      "documentAlreadyHasBeen":"Такой документ уже существует",
       "Completed":"Задание завершенно",
       "from": "От сотрудника:",
       "created":"Созданно:",

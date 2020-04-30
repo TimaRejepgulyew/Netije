@@ -11,12 +11,7 @@
         display-expr="name"
         @item-click="onItemClick"
       />
-      <DxButton
-        :visible="isAssignment"
-        icon="filter"
-        :text="$t('translations.links.filter')"
-        :on-click="showFilter"
-      />
+      <DxButton icon="filter" :text="$t('translations.links.filter')" :on-click="showFilter" />
     </div>
     <div class="grid">
       <DxDataGrid
@@ -27,8 +22,10 @@
         :allow-column-resizing="true"
         :column-auto-width="false"
         :show-column-lines="false"
+        :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
         :onRowDblClick="toMoreAbout"
         :on-row-prepared="onRowPrepared"
+        @toolbar-preparing="onToolbarPreparing($event)"
       >
         <DxGroupPanel :visible="true" />
         <DxGrouping :auto-expand-all="false" />
@@ -79,9 +76,9 @@
         <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
 
         <DxColumn
+          :visible="false"
           data-field="isRead"
           sort-order="asc"
-          :visible="false"
           :caption="$t('translations.fields.subject')"
         ></DxColumn>
 
@@ -155,8 +152,15 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
+  created() {},
   data() {
     return {
+      store: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.task.AllAssignments
+        })
+      }),
       assignmentsTypes: [
         {
           id: 0,
@@ -182,25 +186,21 @@ export default {
     };
   },
   computed: {
-    store() {
-      return new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.task.AllAssignments + 0
-        })
-      });
-    },
     headerTitle() {
-      if (this.$route.params.type === "task") {
-        return this.$t(`translations.menu.task`);
-      }
       return this.$t(`translations.menu.allAssignments`);
-    },
-    isAssignment() {
-      return this.$route.params.type === "assignment";
     }
   },
   methods: {
+    onToolbarPreparing(header) {
+      header.toolbarOptions.items.unshift({
+        widget: "button",
+        location: "after",
+        options: { icon: "undo", onClick: this.reloadGrid }
+      });
+    },
+    reloadGrid() {
+      this.store.reload();
+    },
     onRowPrepared(e) {
       this.showImportance(e);
       this.showNew(e);
@@ -208,14 +208,15 @@ export default {
       this.showOfford(e);
     },
     showImportance(e) {
-      if (e.data != undefined && e.data.importance == undefined) {
+      if (e.data != undefined && e.data.importance == 0) {
         e.rowElement.bgColor = "lightBlue";
       }
     },
     showOfford(e) {
       if (e.data != undefined && e.data.status != 2) {
-        if (e.data != undefined && new Date(e.data.deadline) < new Date()) {
-          e.rowElement.style.color = "#FF6600";
+        if (e.data != undefined) {
+          if (new Date(e.data.deadline) < new Date())
+            e.rowElement.style.color = "#d9534f";
         }
       }
     },
@@ -240,6 +241,7 @@ export default {
         filter: filter
       });
     },
+
     toMoreAbout(e) {
       const assignmentsTypes = [
         "all",
@@ -263,6 +265,7 @@ export default {
       switch (value) {
         case 2:
         case 3:
+        case 8:
           return require("~/static/icons/iconAssignment/assignment.svg");
           break;
 

@@ -12,35 +12,33 @@
               >
                 <div class="list__content">{{item.data.name}}</div>
                 <div class="list__btn-group">
-                  <DxButton
-                    icon="download"
-                    class="list__btn"
-                    :on-click="()=>{downloadVersion(item.data.documentTypeGuid)}"
-                  ></DxButton>
+                  
                 </div>
               </div>
             </div>
           </template>
         </DxList>
       </div>
-      <span class>{{$t("translations.headers.attachment")}}</span>
-      <DxSelectBox
-        v-model="store"
-        :items="allDocuments"
-        display-expr="name"
-        searchExpr="name"
-        :searchEnabled="true"
-        :paginate="true"
-        :page-size="10"
-      ></DxSelectBox>
-      <div class="column">
-        <DxButton
-          icon="add"
-          type="success"
-          :text="$t('translations.links.add')"
-          :on-click="addAttachment"
-        ></DxButton>
-      </div>
+      <template v-if="!readOnly">
+        <span class>{{$t("translations.headers.attachment")}}</span>
+        <DxSelectBox
+          v-model="store"
+          :items="allDocuments"
+          display-expr="name"
+          searchExpr="name"
+          :searchEnabled="true"
+          :paginate="true"
+          :page-size="10"
+        ></DxSelectBox>
+        <div class="column">
+          <DxButton
+            icon="add"
+            type="success"
+            :text="$t('translations.links.add')"
+            :on-click="addAttachment"
+          ></DxButton>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -60,11 +58,11 @@ export default {
     DxButton,
     DxTagBox
   },
-  props: ["attachmentDetails"],
+  props: ["attachmentDetails", "readOnly"],
   async created() {
+    console.log(this.readOnly, "tim");
     const { data } = await this.$axios.get(dataApi.paperWork.AllDocument);
     this.allDocuments = data.data;
-    console.log(this.attachmentDetails);
   },
 
   data() {

@@ -41,7 +41,7 @@ export const state = () => ({
   },
   btnCompleted(context) {
     return {
-      text: context.$t("translations.links.completed"),
+      text: context.$t("translations.links.complete"),
       useSubmitBehavior: true,
       type: "success"
     };
