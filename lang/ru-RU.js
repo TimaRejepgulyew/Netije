@@ -484,7 +484,13 @@ export default {
       "autoGenerate":"<Имя будет сгенерированно автоматически>",
       "forAcquaintance":"На ознакомление:",
       "completeAssignment":"Выполните задание",
-      "acquaintanceDocument":"Ознакомтесь с документом(и)"
+      "acquaintanceDocument":"Ознакомтесь с документом(и)",
+      "InProcess":"В процессе",
+    },
+    "commentType":{
+      0:"Задача",
+      3:"Задание",
+      4:"Уведомление"
     }
   }
 }

@@ -29,12 +29,7 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="incommingLetter" />
 
-      <DxEditing
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
-        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
-        :useIcons="true"
-        mode="popup"
-      />
+      <DxEditing :allow-deleting="true" :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />

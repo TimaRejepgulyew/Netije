@@ -11,9 +11,7 @@
                 @dblclick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
               >
                 <div class="list__content">{{item.data.name}}</div>
-                <div class="list__btn-group">
-                  
-                </div>
+                <div class="list__btn-group"></div>
               </div>
             </div>
           </template>
@@ -26,12 +24,15 @@
           :items="allDocuments"
           display-expr="name"
           searchExpr="name"
+          :show-clear-button="true"
           :searchEnabled="true"
           :paginate="true"
           :page-size="10"
         ></DxSelectBox>
         <div class="column">
           <DxButton
+            :allow-clearing="true"
+            :disabled="!store"
             icon="add"
             type="success"
             :text="$t('translations.links.add')"
@@ -60,7 +61,6 @@ export default {
   },
   props: ["attachmentDetails", "readOnly"],
   async created() {
-    console.log(this.readOnly, "tim");
     const { data } = await this.$axios.get(dataApi.paperWork.AllDocument);
     this.allDocuments = data.data;
   },
@@ -68,10 +68,9 @@ export default {
   data() {
     return {
       allDocuments: [],
-      store: []
+      store: null
     };
   },
-  computed: {},
   methods: {
     openVersion(documentId, documentTypeGuid) {
       window.open(
@@ -81,8 +80,10 @@ export default {
       );
     },
     addAttachment() {
-      this.$emit("addAttachment", this.store);
-      this.store = null;
+      if (this.store) {
+        this.$emit("addAttachment", this.store);
+        this.store = null;
+      }
     }
   }
 };

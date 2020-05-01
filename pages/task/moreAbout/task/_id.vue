@@ -1,6 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
+      <DxLoadPanel :visible.sync="isReload" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
       <div class="d-flex message" v-if="isImportance">
         <i class="dx-icon dx-icon-info"></i>
@@ -10,7 +11,9 @@
         <i class="dx-icon dx-icon-check"></i>
         <span>{{$t('translations.fields.completedMessage')}}</span>
       </div>
-
+      <div class="navBar">
+        <DxButton icon="undo" :on-click="reload" />
+      </div>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
           <DxForm
@@ -72,12 +75,14 @@
             </template>
             <template #attachments="atachments">
               <attachmentDetails
+                v-if="!isReload"
                 :readOnly="true"
                 :attachmentDetails="atachments.data.editorOptions.value"
               ></attachmentDetails>
             </template>
             <template #comments="taskId">
               <Assignment-comments
+                v-if="!isReload"
                 :isCompleted="isCompleted"
                 :taskId="taskId.data.editorOptions.value"
               ></Assignment-comments>
@@ -89,7 +94,7 @@
   </div>
 </template>
 <script>
-import DxList from "devextreme-vue/list";
+import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import attachmentDetails from "~/components/task/attachment-details";
@@ -107,7 +112,6 @@ import AssignmentComments from "~/components/task/assignment-comments";
 export default {
   components: {
     employeeList,
-    DxList,
     AssignmentComments,
     attachmentDetails,
     DxButton,
@@ -116,12 +120,14 @@ export default {
     DxSimpleItem,
     DxButtonItem,
     DxLabel,
-    DxForm
+    DxForm,
+    DxLoadPanel
   },
   async asyncData({ app, params }) {
     let store = await app.$axios.get(dataApi.task.GetTaskById + params.id);
     return {
-      store: store.data
+      store: store.data,
+      isReload: false
     };
   },
   data() {
@@ -130,10 +136,22 @@ export default {
       store: [],
       dateTimeOptions: {
         type: "datetime"
-      }
+      },
+      icon: require("~/static/icons/loading.gif")
     };
   },
   methods: {
+    async reload() {
+      this.isReload = true;
+      const { data } = await this.$axios.get(
+        dataApi.task.GetTaskById + this.$route.params.id
+      );
+      this.store = await data;
+      setTimeout(() => {
+        this.isReload = false;
+      }, 1000);
+     
+    },
     backTo() {
       this.$router.go(-1);
     }
@@ -151,6 +169,7 @@ export default {
         this.backTo
       );
     },
+
     employeeOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
@@ -169,7 +188,9 @@ form {
 }
 .navBar {
   display: flex;
-  justify-content: flex-start;
+
+  justify-content: flex-end;
+  justify-items: flex-end;
 }
 
 .message {

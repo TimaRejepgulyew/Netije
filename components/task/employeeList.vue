@@ -36,7 +36,6 @@ export default {
         return id == el.id;
       });
     });
-    console.log(this.store);
   },
   data() {
     return {

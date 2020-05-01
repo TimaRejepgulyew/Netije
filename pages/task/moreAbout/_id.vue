@@ -1,6 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
+      <DxLoadPanel :visible.sync="isReload" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
       <div class="d-flex message" v-if="isImportance">
         <i class="dx-icon dx-icon-info"></i>
@@ -10,7 +11,9 @@
         <i class="dx-icon dx-icon-check"></i>
         <span>{{$t('translations.fields.completedMessage')}}</span>
       </div>
-
+      <div class="navBar">
+        <DxButton icon="undo" :on-click="reload" />
+      </div>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
           <DxForm
@@ -84,12 +87,14 @@
 
             <template #attachments="atachments">
               <attachmentDetails
+                v-if="!isReload"
                 :attachmentDetails="atachments.data.editorOptions.value"
                 @addAttachment="addAttachment"
               ></attachmentDetails>
             </template>
             <template #comments="taskId">
               <Assignment-comments
+                v-if="!isReload"
                 @addComment="addComment($event)"
                 :isCompleted="isCompleted"
                 :taskId="taskId.data.editorOptions.value"
@@ -102,6 +107,7 @@
   </div>
 </template>
 <script>
+import { DxLoadPanel } from "devextreme-vue/load-panel";
 import DxList from "devextreme-vue/list";
 import navBar from "~/components/task/nav-bar";
 import Header from "~/components/page/page__header";
@@ -121,6 +127,7 @@ import NavBarObservers from "~/components/task/nav-bar/simple-assignment-obser";
 import AssignmentComments from "~/components/task/assignment-comments";
 export default {
   components: {
+    DxLoadPanel,
     NavBarObservers,
     NavBarPerformers,
     DxList,
@@ -152,7 +159,9 @@ export default {
       store: [],
       dateTimeOptions: {
         type: "datetime"
-      }
+      },
+      isReload: false,
+      icon: require("~/static/icons/loading.gif")
     };
   },
   methods: {
@@ -207,6 +216,16 @@ export default {
         msgType,
         3000
       );
+    },
+    async reload() {
+      this.isReload = true;
+      const { data } = await this.$axios.get(
+        dataApi.task.GetTaskById + this.$route.params.id
+      );
+      this.store = await data;
+      setTimeout(() => {
+        this.isReload = false;
+      }, 1000);
     }
   },
   computed: {
@@ -255,7 +274,7 @@ form {
 }
 .navBar {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 .list-container {
   border: 0.1px solid darken($base-bg, 15);
