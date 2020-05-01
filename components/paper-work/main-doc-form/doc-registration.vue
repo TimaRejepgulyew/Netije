@@ -161,7 +161,7 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.CaseFile,
+          url: dataApi.docFlow.AvailableCaseFiles,
           filter: ["status", "=", 0],
           value: "title"
         }),
