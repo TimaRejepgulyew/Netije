@@ -102,7 +102,7 @@ export default {
 
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
-@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/dx-styles.scss";
 html,
 body {
   margin: 0px;

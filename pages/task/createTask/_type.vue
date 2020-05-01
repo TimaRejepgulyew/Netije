@@ -75,7 +75,7 @@
                 </DxSimpleItem>
               </DxGroupItem>
               <DxGroupItem :caption="$t('translations.headers.attachment')">
-                <DxSimpleItem :col-span="2" data-field="attachmentDetails" template="attachments">
+                <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
                   <DxRequiredRule :message="$t('translations.fields.performersRequired1')" />
                   <DxLabel
                     :visible="false"
@@ -102,10 +102,10 @@
               />
             </DxGroupItem>
             <template #attachments="atachments">
-              <attachmentDetails
-                :attachmentDetails="store.attachmentDetails"
+              <attachments
+                :attachments="store.attachments"
                 @addAttachment="addAttachment"
-              ></attachmentDetails>
+              ></attachments>
             </template>
           </DxForm>
           <div class="d-flex message--error" v-if="!validationAttachments">
@@ -122,7 +122,7 @@ import navBar from "~/components/task/nav-bar";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
-import attachmentDetails from "~/components/task/attachment-details";
+import attachments from "~/components/task/attachment-details";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -140,7 +140,7 @@ import DxButton from "devextreme-vue/button";
 export default {
   components: {
     DxRangeRule,
-    attachmentDetails,
+    attachments,
     navBar,
     DxButton,
     Header,
@@ -170,7 +170,7 @@ export default {
         observers: [],
         performers: [],
         accessRights: 60,
-        attachmentDetails: [],
+        attachments: [],
         comment: ""
       },
       dateTimeOptions: {
@@ -233,13 +233,13 @@ export default {
   methods: {
     generateName() {
       if (this.$route.params.type == 3) {
-        const document = this.store.attachmentDetails[
-          this.store.attachmentDetails.length - 1
+        const document = this.store.attachments[
+          this.store.attachments.length - 1
         ];
         this.store.subject = this.$t(
           "translations.taskMessage.forAcquaintance"
         );
-        this.store.attachmentDetails.forEach(el => {
+        this.store.attachments.forEach(el => {
           this.store.subject += `${el.name}, `;
         });
       }
@@ -260,11 +260,11 @@ export default {
       }
     },
     addAttachment(document) {
-      const hasDocument = this.store.attachmentDetails.some(el => {
+      const hasDocument = this.store.attachments.some(el => {
         return el.id === document.id;
       });
       if (!hasDocument) {
-        this.store.attachmentDetails.push(document);
+        this.store.attachments.push(document);
       } else {
         this.notify(
           this.$t("translations.taskMessage.documentAlreadyHasBeen"),
@@ -296,8 +296,8 @@ export default {
     handleSubmit() {
       this.submit = true;
       if (this.validationAttachments) {
-        if (this.store.attachmentDetails) {
-          this.store.attachmentDetails = this.store.attachmentDetails.map(
+        if (this.store.attachments) {
+          this.store.attachments = this.store.attachments.map(
             ({ id }) => {
               return id;
             }
@@ -327,7 +327,7 @@ export default {
       if (+this.$route.params.type == 2) {
         return true;
       }
-      if (this.store.attachmentDetails.length !== 0) {
+      if (this.store.attachments.length !== 0) {
         return true;
       }
       return this.submit !== true;
