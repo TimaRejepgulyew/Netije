@@ -53,6 +53,13 @@ export const state = () => ({
       useSubmitBehavior: false
     };
   },
+  btnSend(context) {
+    return {
+      icon: "arrowright",
+      text: context.$t("translations.links.send"),
+      useSubmitBehavior: true
+    };
+  },
   toPath(context) {
     return context.$router.push(`${context.$route.path}/form/add`);
   }
@@ -75,6 +82,9 @@ export const getters = {
   },
   btnCompleted: ({ btnCompleted }) => context => {
     return btnCompleted(context);
+  },
+  btnSend: ({ btnSend }) => context => {
+    return btnSend(context);
   },
   toForm: () => (context, path = "add") => {
     return context.$router.push(`${context.$route.path}/form/${path}`);

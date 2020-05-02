@@ -14,7 +14,7 @@ export const state = () => ({
         items: [
           {
             text: context.$t("translations.menu.assignments"),
-            path: "/task/assignments"
+            path: "/assignment"
           }
         ]
       },

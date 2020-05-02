@@ -8,7 +8,7 @@
       :disabled="btnDisabled"
       :text="$t('translations.fields.hightImportance')"
       :height="40"
-      :onClick="(e)=>this.importanceChanged(0)"
+      :onClick="(e)=>this.importanceChanged(1)"
       icon="sortup"
       :type="hightImportance?'default':'normal'"
     ></DxButton>
@@ -18,16 +18,9 @@
       :height="40"
       icon="sorted"
       :type="middleImportance?'default':'normal'"
-      :onClick="(e)=>this.importanceChanged(1)"
+      :onClick="(e)=>this.importanceChanged(0)"
     ></DxButton>
-    <DxButton
-      :disabled="btnDisabled"
-      :text="$t('translations.fields.lowImportance')"
-      :height="40"
-      icon="sortdown"
-      :type="lowImportance?'default':'normal'"
-      :onClick="(e)=>this.importanceChanged(2)"
-    ></DxButton>
+  
   </div>
 </template>
 <script>
@@ -48,19 +41,7 @@ export default {
   },
   methods: {
     importanceChanged(importanceType) {
-      if (importanceType == 0) {
-        this.hightImportance = true;
-        this.lowImportance = false;
-        this.middleImportance = false;
-      } else if (importanceType == 1) {
-        this.middleImportance = true;
-        this.hightImportance = false;
-        this.lowImportance = false;
-      } else {
-        this.lowImportance = true;
-        this.hightImportance = false;
-        this.middleImportance = false;
-      }
+    
       this.$emit("importanceChanged", importanceType);
     }
   }

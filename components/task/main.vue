@@ -97,8 +97,6 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
-import NavBarPerformers from "~/components/task/nav-bar/simple-assignment-perf";
-import NavBarObservers from "~/components/task/nav-bar/simple-assignment-obser";
 import AssignmentComments from "~/components/task/assignment-comments";
 export default {
   components: {

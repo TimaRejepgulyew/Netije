@@ -85,7 +85,7 @@ export default {
     PowerOfAttorneyPut: `${url}/api/OfficialDocument/PutPowerOfAttorney/`
   },
   task: {
-    SimpleTask: `${url}/api/SimpleTask`,
+    CreateSimpleTask: `${url}/api/Task/CreateSimpleTask`,
     AssignmentId: `${url}/api/Assignment/GetAssignmentById/`,
     AllAssignments: `${url}/api/Assignment/GetAllAssignment/`,
     CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,

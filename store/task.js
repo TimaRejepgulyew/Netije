@@ -1,13 +1,3 @@
 export const state = () => ({
-  generateName: ""
+  assignmentsTypes: ""
 });
-export const mutations = {
-  GENERATE_NAME(state, payload) {
-    state.generateName = payload;
-  }
-};
-export const getters = {
-  generateName: ({ generateName }) => {
-    return generateName;
-  }
-};

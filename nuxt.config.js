@@ -21,7 +21,6 @@ export default {
   },
   router: {
     middleware: "authorization"
-    
   },
 
   /*
@@ -35,12 +34,14 @@ export default {
     { src: "devextreme/dist/css/dx.common.css", lang: "css" },
     { src: "~/assets/themes/generated/theme.base.css", lang: "css" },
     { src: "~/assets/themes/generated/theme.additional.css", lang: "css" },
-    { src: "~/assets/extentions/flaticon.css", lang: "css" }
+    { src: "~/assets/extentions/flaticon.css", lang: "css" },
+    { src: "vue-awesome-notifications/dist/styles/style.scss", lang: "css" }
   ],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
+    "~plugins/vue-notifications",
     "~/plugins/axios",
     "~/plugins/customStore",
     "~/plugins/customValidator",

@@ -3,7 +3,7 @@
     <div class="file-uploader-block">
       <slot name="attachment__header"></slot>
       <div class="list-container">
-        <DxList :data-source="attachmentDetails" :search-enabled="true">
+        <DxList :data-source="attachments" :search-enabled="true">
           <template #item="item">
             <div>
               <div
@@ -20,8 +20,8 @@
       <template v-if="!readOnly">
         <span class>{{$t("translations.headers.attachment")}}</span>
         <DxSelectBox
-          v-model="store"
-          :items="allDocuments"
+          v-model="selectedDocument"
+          :dataSource="documents"
           display-expr="name"
           searchExpr="name"
           :show-clear-button="true"
@@ -32,7 +32,7 @@
         <div class="column">
           <DxButton
             :allow-clearing="true"
-            :disabled="!store"
+            :disabled="!selectedDocument"
             icon="add"
             type="success"
             :text="$t('translations.links.add')"
@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import DataSource from "devextreme/data/data_source";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
@@ -59,16 +60,16 @@ export default {
     DxButton,
     DxTagBox
   },
-  props: ["attachmentDetails", "readOnly"],
-  async created() {
-    const { data } = await this.$axios.get(dataApi.paperWork.AllDocument);
-    this.allDocuments = data.data;
-  },
-
+  props: ["attachments", "readOnly"],
   data() {
     return {
-      allDocuments: [],
-      store: null
+      documents: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.paperWork.AllDocument
+        })
+      }),
+      selectedDocument: null
     };
   },
   methods: {
@@ -80,9 +81,18 @@ export default {
       );
     },
     addAttachment() {
-      if (this.store) {
-        this.$emit("addAttachment", this.store);
-        this.store = null;
+      if (this.selectedDocument) {
+        const hasDocument = this.attachments.some(el => {
+          return el.id === this.selectedDocument.id;
+        });
+        let attachments = this.attachments;
+        if (!hasDocument) {
+          attachments.push(this.selectedDocument);
+        } else {
+          
+        }
+        this.$emit("updateAttachments", attachments);
+        this.selectedDocument = null;
       }
     }
   }

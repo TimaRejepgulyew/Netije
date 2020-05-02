@@ -9,7 +9,7 @@
         :items="assignmentsTypes"
         icon="plus"
         display-expr="name"
-        @item-click="onItemClick"
+        @item-click="createTask"
       />
       <DxButton icon="filter" :text="$t('translations.links.filter')" :on-click="showFilter" />
     </div>
@@ -195,10 +195,10 @@ export default {
       header.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
-        options: { icon: "undo", onClick: this.reloadGrid }
+        options: { icon: "refresh", onClick: this.reload }
       });
     },
-    reloadGrid() {
+    reload() {
       this.store.reload();
     },
     onRowPrepared(e) {
@@ -241,19 +241,10 @@ export default {
         filter: filter
       });
     },
-
     toMoreAbout(e) {
-      const assignmentsTypes = [
-        "all",
-        "assignments",
-        "simple",
-        "simple",
-        "action-execution",
-        "simple"
-      ];
-      this.$router.push(`/task/moreAbout/${e.key}`);
+      this.$router.push(`/assignment/moreAbout/${e.key}`);
     },
-    onItemClick(e) {
+    createTask(e) {
       this.$router.push(e.itemData.path);
     },
     showFilter() {

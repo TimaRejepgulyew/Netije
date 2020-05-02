@@ -1,16 +1,8 @@
 <template>
   <main class="container container--grid">
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t(`translations.menu.task`)"></Header>
     <div class="nav-bar">
-      <DxDropDownButton
-        :use-select-mode="false"
-        :text="$t('translations.links.create')"
-        :drop-down-options="{ width: 230 }"
-        :items="assignmentsTypes"
-        icon="plus"
-        display-expr="name"
-        @item-click="onItemClick"
-      />
+      <CreateTaskDropDown />
     </div>
     <div class="grid">
       <DxDataGrid
@@ -22,7 +14,7 @@
         :column-auto-width="false"
         :show-column-lines="false"
         :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-        :onRowDblClick="toMoreAbout"
+        :onRowDblClick="showTaskDetail"
         :on-row-prepared="onRowPrepared"
         @toolbar-preparing="onToolbarPreparing($event)"
       >
@@ -52,6 +44,7 @@
         />
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
+        <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
         <DxColumn
           data-field="deadline"
           :caption="$t('translations.fields.deadLine')"
@@ -71,20 +64,18 @@
             display-expr="name"
           />
         </DxColumn>
-        <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
       </DxDataGrid>
     </div>
   </main>
 </template>
 <script>
-import { DxDropDownButton } from "devextreme-vue";
+import RouteGenerator from "~/infrastructure/routing/routeGenerator";
+import CreateTaskDropDown from "~/components/task/create-task-drop-down";
 import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import TaskFilter from "~/components/task/filter";
 import DxButton from "devextreme-vue/button";
-
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -105,10 +96,9 @@ import {
 
 export default {
   components: {
-    TaskFilter,
+    CreateTaskDropDown,
     DxCheckBox,
     DxButton,
-    DxDropDownButton,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -139,69 +129,37 @@ export default {
       statusStores: [
         { id: 0, name: this.$t("translations.fields.inProccess") },
         { id: 3, name: this.$t("translations.fields.completed") }
-      ],
-      assignmentsTypes: [
-        {
-          id: 0,
-          path: "/task/createTask/2",
-          name: this.$t("translations.fields.createSimpleTask")
-        },
-        {
-          id: 2,
-          path: "/task/createTask/action-execution",
-          name: this.$t("translations.fields.createActionTask")
-        },
-        {
-          id: 1,
-          path: "/task/createTask/3",
-          name: this.$t("translations.fields.createAcquaintanceTask")
-        }
-      ],
-      employeeStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee
-      })
+      ]
     };
   },
-  computed: {
-    headerTitle() {
-      return this.$t(`translations.menu.task`);
-    }
-  },
+
   methods: {
     onToolbarPreparing(header) {
       header.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
-        options: { icon: "undo", onClick: this.reloadGrid }
+        options: { icon: "refresh", onClick: this.reload }
       });
     },
-    reloadGrid() {
+    reload() {
       this.store.reload();
     },
-    toMoreAbout(e) {
-      this.$router.push(`/task/moreAbout/task/${e.key}`);
-    },
-    onItemClick(e) {
-      this.$router.push(e.itemData.path);
+    showTaskDetail(e) {
+      this.$router.push(
+        RouteGenerator.generateTaskDetailRoute(taskType, taskId)
+      );
     },
     onRowPrepared(e) {
-      this.showImportance(e);
-      this.showStatus(e);
-      this.showOfford(e);
+      this.addImportanceStyle(e);
+      this.addStatusStyle(e);
     },
-    showImportance(e) {
+    addImportanceStyle(e) {
       if (e.data != undefined && e.data.importance == 0) {
+        console.log(e.rowElement);
         e.rowElement.bgColor = "lightBlue";
       }
     },
-    showOfford(e) {
-      if (e.data != undefined && e.data.status != 2) {
-        if (e.data != undefined) {
-        }
-      }
-    },
-    showStatus(e) {
+    addStatusStyle(e) {
       if (e.data != undefined && e.data.status == 3) {
         e.rowElement.style.textDecoration = "line-through";
       }
@@ -209,30 +167,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.container {
-  display: block;
-}
-.fade-enter,
-.fade-leave-to {
-  transform: translateX(30vw);
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 0.5s;
-}
-.right {
-  display: flex;
-  justify-content: space-between;
-  .filter__header {
-    justify-self: flex-start;
-  }
-}
-.icon--type {
-  display: flex;
-  margin: 0 auto;
-  width: 25px;
-}
-</style>
+
