@@ -11,7 +11,16 @@
                 @dblclick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
               >
                 <div class="list__content">{{item.data.name}}</div>
-                <div class="list__btn-group"></div>
+                <div class="list__btn-group">
+                  <attachmentActionBtn />
+                  <DxDropDownButton
+                    :items="data.downloads"
+                    :drop-down-options="{ width: 230 }"
+                    text="Download Trial"
+                    icon="save"
+                    @item-click="onItemClick"
+                  />
+                </div>
               </div>
             </div>
           </template>
@@ -66,7 +75,7 @@ export default {
       const { data } = await this.$axios(
         dataApi.attachment.AttachmentByTask + this.$route.params.id
       );
-
+      console.log(data);
       this.attachments = data;
     }
   },
@@ -99,7 +108,6 @@ export default {
         if (!hasDocument) {
           attachments.push(this.selectedDocument);
         } else {
-          
         }
         if (this.isCreated) {
           this.$emit("updateAttachments", attachments);

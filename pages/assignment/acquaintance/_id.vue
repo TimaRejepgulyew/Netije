@@ -109,7 +109,7 @@
 <script>
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import DxList from "devextreme-vue/list";
-import navBar from "~/components/task/nav-bar";
+
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import attachmentDetails from "~/components/task/attachment-details";
@@ -131,7 +131,6 @@ export default {
     DxList,
     AssignmentComments,
     attachmentDetails,
-    navBar,
     DxButton,
     Header,
     DxGroupItem,

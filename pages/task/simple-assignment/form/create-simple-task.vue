@@ -87,7 +87,6 @@
 </template>
 <script>
 import moment from "moment";
-import navBar from "~/components/task/nav-bar";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
@@ -110,7 +109,6 @@ export default {
   components: {
     DxRangeRule,
     attachmentDetails,
-    navBar,
     DxButton,
     Header,
     DxGroupItem,
@@ -130,7 +128,7 @@ export default {
       store: {
         subject: "",
         importance: 1,
-        deadline:  new Date(),
+        deadline: new Date(),
         routeType: 0,
         observers: [],
         performers: [],

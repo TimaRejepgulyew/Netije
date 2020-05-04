@@ -2,7 +2,7 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="$t('translations.fields.createSimpleTask')"></Header>
-      <navBar @importanceChanged="importanceChanged"></navBar>
+      <importanceChanger @importanceChanged="importanceChanged"></importanceChanger>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
           <DxForm
@@ -103,7 +103,7 @@
   </div>
 </template>
 <script>
-import navBar from "~/components/task/nav-bar";
+import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
@@ -125,7 +125,7 @@ export default {
   components: {
     DxRangeRule,
     attachments,
-    navBar,
+    importanceChanger,
     DxButton,
     Header,
     DxGroupItem,
@@ -193,7 +193,7 @@ export default {
   },
   methods: {
     updateAttachments(attachments) {
-      this.attachments = attachments;
+      this.store.attachments = attachments;
     },
     importanceChanged(importanceType) {
       this.store.importance = importanceType;
