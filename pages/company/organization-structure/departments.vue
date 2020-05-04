@@ -1,20 +1,19 @@
 <template>
   <main >
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.department')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -73,7 +72,7 @@
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredHeadOffice"
+          :data-source="getActiveHeadOffices"
           value-expr="id"
           display-expr="name"
         />
@@ -82,7 +81,7 @@
       <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredManager"
+          :data-source="getActiveEmployees"
           value-expr="id"
           display-expr="name"
         />
@@ -94,13 +93,13 @@
         :set-cell-value="onBusinessUnitIdChanged"
       >
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-        <DxLookup :data-source="getFilteredBussinessUnit" value-expr="id" display-expr="name" />
+        <DxLookup :data-source="getActiveBussinessUnit" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -129,6 +128,8 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import TabRole from "~/components/member-list/tabRole.vue";
@@ -148,7 +149,6 @@ import {
   DxPatternRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -174,7 +174,6 @@ export default {
     DxPatternRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -182,47 +181,29 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.department"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Department,
         insertUrl: dataApi.company.Department,
         updateUrl: dataApi.company.Department,
         removeUrl: dataApi.company.Department
       }),
-      entityType: "Department",
-      statusStores: this.$store.getters["status/status"],
-
-      managerStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee
-      }),
-
-      businessUnitStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.BusinessUnit
-      }),
-
-      headOfficeStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Department
-      }),
+      entityType: EntityType.Department,
+      statusDataSource: this.$store.getters["status/status"](this),
       onBusinessUnitIdChanged(rowData, value) {
         rowData.code = rowData.code;
         this.defaultSetCellValue(rowData, value);
-      },
-
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
       },
       codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
     allowDeleting(e) {
       if (!e.row.data.isSystem) {
         return this.$store.getters["permissions/allowDeleting"](
@@ -232,38 +213,40 @@ export default {
         return !e.row.data.isSystem;
       }
     },
-    getFilteredHeadOffice(options) {
+    getActiveHeadOffices(options) {
       return {
-        store: this.headOfficeStore,
+        store: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.Department
+        }),
+        paginate: true,
         filter: options.data
-          ? [
-              "businessUnitId",
-              "=",
-              options.data.businessUnitId,
-              "or",
-              "status",
-              "=",
-              0,
-              "or",
-              "id",
-              "=",
-              options.data.headOfficeId
-            ]
-          : null
+          ? [ "businessUnitId","=", options.data.businessUnitId, "or", "status","=", Status.Active, "or","id","=", options.data.headOfficeId]
+          : []
       };
     },
-
-    getFilteredManager(options) {
+    getActiveEmployees(options) {
       return {
-        store: this.managerStore
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee
+        }),
+        paginate: true,
+        filter: options.data
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
+          : []
       };
     },
-    getFilteredBussinessUnit(options) {
+    getActiveBussinessUnit(options) {
       return {
-        store: this.businessUnitStore,
+        store: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.BusinessUnit
+        }),
+        paginate: true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.businessUnitId]
-          : null
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.businessUnitId]
+          : []
       };
     },
     validateEntityExists(params) {
@@ -285,8 +268,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
-</style>

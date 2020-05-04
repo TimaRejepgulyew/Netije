@@ -43,7 +43,7 @@
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxColumn>
-      
+
       <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
         <DxPatternRule
           :ignore-empty-value="false"
@@ -321,7 +321,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
-          : null
+          : []
       };
     },
     validateEntityExists(params) {
