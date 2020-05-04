@@ -1,9 +1,9 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.countries')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :errorRowEnabled="true"
       :allow-column-reordering="false"
@@ -51,7 +51,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -78,7 +78,6 @@ import {
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -101,7 +100,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -111,8 +109,7 @@ export default {
   mounted() {},
   data() {
     return {
-      headerTitle: this.$t("translations.menu.countries"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Country,
         insertUrl: dataApi.sharedDirectory.Country,
@@ -120,12 +117,10 @@ export default {
         removeUrl: dataApi.sharedDirectory.Country
       }),
       entityType: EntityType.Country,
-      statusStores: this.$store.getters["status/status"],
-
+      statusDataSource: this.$store.getters["status/status"],
       initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
+        e.data.status = this.statusDataSource[0].id;
       },
-
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       }

@@ -2,7 +2,7 @@
   <main>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
@@ -41,7 +41,7 @@
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredMembers"
+          :data-source="recipientListDataSource"
           value-expr="id"
           display-expr="name"
         />
@@ -63,7 +63,6 @@ import {
   DxGrouping,
   DxGroupPanel,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -83,7 +82,6 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -99,7 +97,7 @@ export default {
   data() {
     let { id, immutable } = this.data.data;
     return {
-      store: new DataSource({
+      dataSource: new DataSource({
         store: this.$dxStore({
           key: "memberId",
           insertUrl: dataApi.admin.RoleMembers,
@@ -109,7 +107,7 @@ export default {
         paginate: true
       }),
       immutable,
-      getFilteredMembers: {
+      recipientListDataSource: {
         store: this.$dxStore({
           loadUrl: dataApi.recipient.list
         }),
