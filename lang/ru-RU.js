@@ -91,6 +91,7 @@ export default {
       incomming: "Исходящие"
     },
     fields: {
+      contactName:"Имя контакта",
       mailDeliveryMethod: "Способ доставки документа",
       whom: "Кому",
       fromWhom: "От кого",
