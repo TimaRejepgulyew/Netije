@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main >
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
@@ -232,9 +232,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container {
-  display: block;
-}
+
 .icon--type {
   width: 30px;
 }

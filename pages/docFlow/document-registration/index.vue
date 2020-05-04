@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main >
     <DxPopup
       :visible.sync="popupSetting"
       :drag-enabled="false"
@@ -252,8 +252,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.container {
-  display: block;
-}
-</style>

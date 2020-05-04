@@ -156,8 +156,5 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
-.container {
-  display: block;
-  text-align: start;
-}
+
 </style>

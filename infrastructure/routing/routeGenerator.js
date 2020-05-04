@@ -1,6 +1,6 @@
 import TaskType from "../constants/taskType";
 export default {
-  generateTaskDetailRoute(taskType, taskId) {
+  generateTaskDetailRoute(taskType,taskId) {
     switch (taskType) {
       case TaskType.SimpleTask:
         return `/task/simple/${taskId}`;

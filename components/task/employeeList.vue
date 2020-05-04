@@ -1,18 +1,16 @@
 <template>
   <div>
     <div class="list-container">
-      <DxList :data-source="store" :search-enabled="false">
+      <DxList
+        :data-source="store"
+        :activeStateEnabled="false"
+        :focusStateEnabled="false"
+        :search-enabled="false"
+      >
         <template :active-state-enabled="false" #item="item">
           <div>
-            <div class="d-flex list--comments">
-              <i class="dx-icon dx-icon-user"></i>
-
-              <div>
-                <div class="list__content">
-                  <span class="text--bold">{{item.data.name}}</span>
-                </div>
-              </div>
-              <div class="list__btn-group"></div>
+            <div class="list__content">
+              <span class="text--bold">{{item.data.name}}</span>
             </div>
           </div>
         </template>

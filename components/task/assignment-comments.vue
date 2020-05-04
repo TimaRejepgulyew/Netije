@@ -58,7 +58,7 @@ export default {
     DxList,
     DxTextArea
   },
-  props: ["taskId", "isCompleted"],
+  props: ["taskId", ],
   data() {
     return {
       employees: [],

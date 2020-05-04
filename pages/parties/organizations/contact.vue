@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main >
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
@@ -208,10 +208,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.container {
-  display: block;
-}
-</style>
+

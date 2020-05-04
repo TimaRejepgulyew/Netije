@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main>
     <Header :headerTitle="$t(`translations.menu.task`)"></Header>
     <div class="nav-bar">
       <CreateTaskDropDown />
@@ -144,9 +144,10 @@ export default {
     reload() {
       this.store.reload();
     },
-    showTaskDetail(e) {
+    showTaskDetail({ data }) {
+    
       this.$router.push(
-        RouteGenerator.generateTaskDetailRoute(taskType, taskId)
+        RouteGenerator.generateTaskDetailRoute(data.taskType, data.id)
       );
     },
     onRowPrepared(e) {

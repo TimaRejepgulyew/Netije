@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main >
     <Header :headerTitle="headerTitle"></Header>
     <DxDropDownButton
       :use-select-mode="false"
@@ -182,10 +182,4 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.container {
-  display: block;
-}
-</style>
+

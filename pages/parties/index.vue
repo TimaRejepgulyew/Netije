@@ -1,5 +1,5 @@
 <template>
-  <main class="container">
+  <main >
     <h1>{{$t("translations.menu.counterPart")}}</h1>
   </main>
 </template>

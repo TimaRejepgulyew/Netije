@@ -155,7 +155,5 @@ body {
   justify-self: flex-start;
 }
 
-.container {
-  text-align: start;
-}
+
 </style>

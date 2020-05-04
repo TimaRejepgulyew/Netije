@@ -1,5 +1,5 @@
 <template>
-  <main class="container">
+  <main >
     <h1>{{$t("translations.menu.document-circulation")}}</h1>
   </main>
 </template>

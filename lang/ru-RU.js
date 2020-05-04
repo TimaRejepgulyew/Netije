@@ -408,6 +408,7 @@ export default {
       fullAccess: "Полный доступ",
       observers: "Наблюдатели",
       performers: "Исполнители",
+      acquaintMembers: "Кого ознакомить",
       performerId: "Исполнитель",
       reading: "Просмотр",
       edit: "Изменение",

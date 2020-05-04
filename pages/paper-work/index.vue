@@ -1,5 +1,5 @@
 <template>
-  <main class="container">
+  <main >
     <h1>{{$t("translations.menu.paperwork")}}</h1>
   </main>
 </template>
