@@ -1,20 +1,19 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.businessUnit')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -44,6 +43,19 @@
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxColumn>
+      
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
+        <DxPatternRule
+          :ignore-empty-value="false"
+          :pattern="codePattern"
+          :message="$t('translations.fields.codeRule')"
+        />
+        <DxAsyncRule
+          :ignore-empty-value="true"
+          :message="$t('translations.fields.codeAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
         <DxPatternRule
@@ -57,26 +69,6 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-
-      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getFilteredLocality"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false" />
-
-      <DxColumn
-        data-field="legalName"
-        :caption="$t('translations.fields.legalName')"
-        :visible="false"
-      >
-        <DxRequiredRule :message="$t('translations.fields.legalNameRequired')" />
-      </DxColumn>
-
       <DxColumn
         data-field="regionId"
         :caption="$t('translations.fields.regionId')"
@@ -85,10 +77,32 @@
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredRegion"
+          :data-source="getActiveRegions"
           value-expr="id"
           display-expr="name"
         />
+      </DxColumn>
+      <DxColumn
+        data-field="localityId"
+        :caption="$t('translations.fields.localityId')"
+        :visible="false"
+      >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getActiveLocalities"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+
+      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" />
+
+      <DxColumn
+        data-field="legalName"
+        :caption="$t('translations.fields.legalName')"
+        :visible="false"
+      >
+        <DxRequiredRule :message="$t('translations.fields.legalNameRequired')" />
       </DxColumn>
 
       <DxColumn
@@ -103,15 +117,10 @@
         :visible="false"
       />
 
-      <DxColumn
-        data-field="ceo"
-        :caption="$t('translations.fields.ceo')"
-        :visible="true"
-        :set-cell-value="onCeoCheck"
-      >
+      <DxColumn data-field="ceo" :caption="$t('translations.fields.ceo')" :visible="true">
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredEmployee"
+          :data-source="getActiveEmployees"
           value-expr="id"
           display-expr="name"
         />
@@ -127,34 +136,21 @@
         :visible="false"
       />
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
+      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')" :visible="false">
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredBank"
+          :data-source="getActiveBanks"
           value-expr="id"
           display-expr="name"
         />
       </DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')">
-        <DxPatternRule
-          :ignore-empty-value="false"
-          :pattern="codePattern"
-          :message="$t('translations.fields.codeRule')"
-        />
-        <DxAsyncRule
-          :ignore-empty-value="true"
-          :message="$t('translations.fields.codeAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
-      </DxColumn>
-
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -176,6 +172,8 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
@@ -194,7 +192,6 @@ import {
   DxPatternRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -219,7 +216,6 @@ export default {
     DxPatternRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -228,55 +224,29 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.businessUnit"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.BusinessUnit,
         insertUrl: dataApi.company.BusinessUnit,
         updateUrl: dataApi.company.BusinessUnit,
         removeUrl: dataApi.company.BusinessUnit
       }),
-      entityType: "BusinessUnit",
-      statusStores: this.$store.getters["status/status"](this),
-
-      region: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.sharedDirectory.Region
-      }),
-
-      locality: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.sharedDirectory.Locality
-      }),
-
-      bank: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.contragents.Bank
-      }),
-      employee: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee
-      }),
-
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
-
+      entityType: EntityType.BusinessUnit,
+      statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
-        this.defaultSetCellValue(rowData, value);
-      },
-      onCeoCheck(rowData, value) {
         this.defaultSetCellValue(rowData, value);
       },
       codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
     allowDeleting: e => {
       if (!e.row.data.isSystem) {
         return this.$store.getters["permissions/allowDeleting"](
@@ -286,36 +256,71 @@ export default {
         return !e.row.data.isSystem;
       }
     },
-    getFilteredRegion(options) {
+    getActiveRegions(options) {
       return {
-        store: this.region,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Region
+        }),
+        paginate: true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.regionId]
-          : null
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.regionId
+            ]
+          : []
       };
     },
-    getFilteredLocality(options) {
+    getActiveLocalities(options) {
       return {
-        store: this.locality,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Locality
+        }),
+        paginate: true,
         filter: options.data
-          ? ["regionId", "=", options.data.regionId, "or", "status", "=", 0]
-          : null
+          ? [
+              "regionId",
+              "=",
+              options.data.regionId,
+              "or",
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.localityId
+            ]
+          : []
       };
     },
-    getFilteredBank(options) {
+    getActiveBanks(options) {
       return {
-        store: this.bank,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.Bank
+        }),
+        paginate: true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.bankId]
-          : null
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
+          : []
       };
     },
-    // TODO валидатор вытаскивать только тех у кого нет должности руководителя организации
-    getFilteredEmployee(options) {
+    getActiveEmployees(options) {
       return {
-        store: this.employee,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee
+        }),
+        paginate: true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.ceo]
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
           : null
       };
     },
@@ -336,6 +341,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-
-</style>
