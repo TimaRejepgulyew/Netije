@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div >
     <div>
       <h1 class="title">ClientAppVue</h1>
       <h2 class="subtitle">TTDoc Nuxt SPA 1</h2>
@@ -19,13 +19,7 @@ export default {
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .title {
   font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,

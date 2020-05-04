@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main >
     <Header :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
       <DxDropDownButton
@@ -275,9 +275,7 @@ export default {
 <style lang="scss" >
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
-.container {
-  display: block;
-}
+
 .fade-enter,
 .fade-leave-to {
   transform: translateX(30vw);

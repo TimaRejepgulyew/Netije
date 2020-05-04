@@ -1,5 +1,5 @@
 <template>
-  <main class="container"></main>
+  <main ></main>
 </template>
 <script>
 export default {
@@ -16,9 +16,7 @@ export default {
 };
 </script>
 <style scoped>
-.container {
-  display: block;
-}
+
 h1 {
   text-align: left;
 }

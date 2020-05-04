@@ -1,5 +1,5 @@
 <template>
-  <main class="container container--grid">
+  <main >
     <DxTagBox
     :data-source="dataSource"
     :value.sync="currentValue"
@@ -56,7 +56,5 @@ export default {
 <style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
-.container {
-  display: block;
-}
+
 </style>

@@ -172,7 +172,5 @@ export default {
   width: 25px;
   height: 25px;
 }
-.container {
-  display: block;
-}
+
 </style>
