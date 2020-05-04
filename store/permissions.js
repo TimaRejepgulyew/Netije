@@ -74,8 +74,11 @@ export const getters = {
     if (accessRights.isAdmin || accessRights.isAuditor) {
       return true;
     }
-
-    return accessRights.operations.get(entityTypes[entityType]).read;
+    let obj = accessRights.operations.get(entityTypes[entityType]);
+    if (obj) {
+      return obj.read;
+    }
+    return false;
   },
   allowCreating: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin) {

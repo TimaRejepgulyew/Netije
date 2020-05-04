@@ -145,7 +145,6 @@ export default {
       this.store.reload();
     },
     showTaskDetail({ data }) {
-    
       this.$router.push(
         RouteGenerator.generateTaskDetailRoute(data.taskType, data.id)
       );
@@ -156,7 +155,6 @@ export default {
     },
     addImportanceStyle(e) {
       if (e.data != undefined && e.data.importance == 0) {
-        console.log(e.rowElement);
         e.rowElement.bgColor = "lightBlue";
       }
     },
