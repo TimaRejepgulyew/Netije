@@ -1,21 +1,20 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.businessUnit')"></Header>
 
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
 
       <DxHeaderFilter :visible="true" />
 
@@ -61,7 +60,7 @@
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredHeadOfficeId"
+          :data-source="getActiveHeadOffices"
           value-expr="id"
           display-expr="name"
         />
@@ -73,7 +72,7 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="true">
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
@@ -85,8 +84,12 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
+      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')"></DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')">
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')">
+        <DxEmailRule :message="$t('translations.fields.emailRule')" />
+      </DxColumn>
+      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
@@ -106,16 +109,20 @@
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredRegion"
+          :data-source="getActiveRegions"
           value-expr="id"
           display-expr="name"
         />
       </DxColumn>
 
-      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')">
+      <DxColumn
+        data-field="localityId"
+        :caption="$t('translations.fields.localityId')"
+        :visible="false"
+      >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredLocality"
+          :data-source="getActiveLocalities"
           value-expr="id"
           display-expr="name"
         />
@@ -133,13 +140,7 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="false"></DxColumn>
-
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false">
-        <DxEmailRule :message="$t('translations.fields.emailRule')" />
-      </DxColumn>
-
-      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
+      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"  :visible="false"></DxColumn>
 
       <DxColumn
         data-field="nonresident"
@@ -148,12 +149,12 @@
         data-type="boolean"
       ></DxColumn>
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')"></DxColumn>
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')"  :visible="false"></DxColumn>
 
-      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')">
+      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')"  :visible="false">
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredBank"
+          :data-source="getActiveBanks"
           value-expr="id"
           display-expr="name"
         />
@@ -162,7 +163,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -190,6 +191,8 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import ContactMasterDetail from "~/components/parties/organizations/contact__masterDetail";
@@ -209,7 +212,6 @@ import {
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -235,7 +237,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -246,40 +247,15 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.businessUnit"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Company,
         insertUrl: dataApi.contragents.Company,
         updateUrl: dataApi.contragents.Company,
         removeUrl: dataApi.contragents.Company
       }),
-      entityType: "Counterparty",
-      statusStores: this.$store.getters["status/status"],
-
-      region: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.sharedDirectory.Region
-      }),
-
-      locality: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.sharedDirectory.Locality
-      }),
-
-      bank: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.contragents.Bank
-      }),
-
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
-
+      entityType: EntityType.Counterparty,
+      statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
@@ -288,39 +264,74 @@ export default {
     };
   },
   methods: {
-    getFilteredHeadOfficeId(options) {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
+    getActiveHeadOffices(options) {
       return {
-        store: this.store,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.headOfficeId]
-          : null
+        store: this.dataSource,
+        filter: options.data ? ["status", "=", Status.Active] : []
       };
     },
-    getFilteredRegion(options) {
+    getActiveRegions(options) {
       return {
-        store: this.region,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Region
+        }),
+        paginate: true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.regionId]
-          : null
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.regionId
+            ]
+          : []
       };
     },
-    getFilteredLocality(options) {
+    getActiveLocalities(options) {
       return {
-        store: this.locality,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Locality
+        }),
+        paginate: true,
         filter: options.data
-          ? ["regionId", "=", options.data.regionId, "or", "status", "=", 0]
-          : null
+          ? [
+              "regionId",
+              "=",
+              options.data.regionId,
+              "or",
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.localityId
+            ]
+          : []
       };
     },
-    getFilteredBank(options) {
+    getActiveBanks(options) {
       return {
-        store: this.bank,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.Bank
+        }),
+        paginate: true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.bankId]
-          : null
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
+          : []
       };
     },
-
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
