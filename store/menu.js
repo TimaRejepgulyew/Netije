@@ -79,6 +79,7 @@ export const state = () => ({
         text: context.$t("translations.menu.contractors"),
         icon: "group",
         path: "/parties",
+        visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty),
         items: [
           {
             text: context.$t("translations.menu.businessUnit"),
@@ -198,9 +199,9 @@ export const state = () => ({
         text: context.$t("translations.menu.shared-directory"),
         icon: "docfile",
         path: "/shared-directory",
-        visible: context.$store.getters["permissions/allowReading"](EntityType.Country)&&
-                 context.$store.getters["permissions/allowReading"](EntityType.Region)&&
-                 context.$store.getters["permissions/allowReading"](EntityType.Locality),
+        visible: context.$store.getters["permissions/allowReading"](EntityType.Country) &&
+          context.$store.getters["permissions/allowReading"](EntityType.Region) &&
+          context.$store.getters["permissions/allowReading"](EntityType.Locality),
         items: [
           {
             text: context.$t("translations.menu.countries"),
