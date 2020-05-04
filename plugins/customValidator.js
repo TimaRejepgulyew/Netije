@@ -40,7 +40,7 @@ export default ({ app }, inject) => {
     );
   }
 
-  async function isHumanSettlementNotExists(payload) {
+  async function isLocalityNotExists(payload) {
     return (
       (await isNameExists(dataApi.sharedDirectory.Locality, payload)) == false
     );
@@ -244,7 +244,7 @@ export default ({ app }, inject) => {
     isCountryNotExists: isCountryNotExists,
     isRegionNotExists: isRegionNotExists,
     isCurrencyNameNotExists: isCurrencyNameNotExists,
-    isHumanSettlementNotExists: isHumanSettlementNotExists,
+    isLocalityNotExists: isLocalityNotExists,
     CurrencyDataFieldValueNotExists: CurrencyDataFieldValueNotExists,
     CompanyDataFieldValueNotExists: CompanyDataFieldValueNotExists,
     BankDataFieldValueNotExists: BankDataFieldValueNotExists,

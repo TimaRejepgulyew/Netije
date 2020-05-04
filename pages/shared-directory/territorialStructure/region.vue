@@ -11,8 +11,8 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false"/>
@@ -45,7 +45,7 @@
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyExists')"
+          :message="$t('translations.fields.regionAlreadyExists')"
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
@@ -53,7 +53,7 @@
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="activeCountries"
+          :data-source="GetActiveCountriesDataSource"
           value-expr="id"
           display-expr="name"
         />
@@ -62,7 +62,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -127,17 +127,17 @@ export default {
         removeUrl: dataApi.sharedDirectory.Region
       }),
       entityType: EntityType.Region,
-      statusStores: this.$store.getters["status/status"],
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
-    };
+      statusDataSource: this.$store.getters["status/status"]
+    }
   },
   methods: {
-    activeCountries(options) {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
+    GetActiveCountriesDataSource(options) {
       return {
         store: this.$dxStore({
           key: "id",

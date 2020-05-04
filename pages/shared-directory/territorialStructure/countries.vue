@@ -10,8 +10,8 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -60,7 +60,8 @@
   </main>
 </template>
 <script>
-import EntityType from '~/infrastructure/constants/entityTypes'
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import CustomStore from "devextreme/data/custom_store";
@@ -106,7 +107,6 @@ export default {
     DxStateStoring,
     DxStringLengthRule
   },
-  mounted() {},
   data() {
     return {
       dataSource: this.$dxStore({
@@ -117,16 +117,16 @@ export default {
         removeUrl: dataApi.sharedDirectory.Country
       }),
       entityType: EntityType.Country,
-      statusDataSource: this.$store.getters["status/status"],
-      initNewRow: e => {
-        e.data.status = this.statusDataSource[0].id;
-      },
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
+      statusDataSource: this.$store.getters["status/status"]
     };
   },
   methods: {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
     validateCountryName(params) {
       return this.$customValidator.isCountryNotExists({
         id: params.data.id,

@@ -425,7 +425,9 @@ export default {
       createAcquaintanceTask: "Создать задачу на расмотрение",
       attachmentSimpleTask: "Вложение к простой задаче",
       createDocument: "Создать документ",
-      completed: "Завершенно"
+      completed: "Завершенно",
+      regionAlreadyExists:"Такой регион уже существует",
+      localityAlreadyExists:"Такой населенный пункт уже существует"
     },
     headers: {
       addDocumentKind: "Добавление вида документа",
