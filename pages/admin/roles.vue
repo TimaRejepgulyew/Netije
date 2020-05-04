@@ -46,7 +46,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -84,7 +84,6 @@ import {
   DxGrouping,
   DxGroupPanel,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -108,7 +107,6 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -127,7 +125,7 @@ export default {
       isCustom: e => {
         return !e.row.data.isSystem;
       },
-      statusStores: this.$store.getters["status/status"],
+      statusDataSource: this.$store.getters["status/status"],
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       }

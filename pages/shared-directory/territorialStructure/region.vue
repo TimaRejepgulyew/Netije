@@ -1,26 +1,21 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.region')"></Header>
     <DxDataGrid
       :show-borders="true"
-      id="gridContainer"
       :repaint-changes-only="true"
       :highlight-changes="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
-      <DxGrouping
-        :auto-expand-all="false"
-        &#x26;#x26;#x26;#x26;#x26;#x26;#x3C;DxSelection
-        mode="multiple"
-      />
+      <DxGrouping :auto-expand-all="false"/>
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -50,7 +45,7 @@
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyExists')"
+          :message="$t('translations.fields.regionAlreadyExists')"
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
@@ -58,7 +53,7 @@
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredCountry"
+          :data-source="GetActiveCountriesDataSource"
           value-expr="id"
           display-expr="name"
         />
@@ -67,7 +62,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -76,6 +71,8 @@
   </main>
 </template>
 <script>
+import EntityType from "~/infrastructure/constants/entityTypes";
+import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -92,7 +89,6 @@ import {
   DxRequiredRule,
   DxAsyncRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -115,7 +111,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -124,35 +119,34 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.region"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Region,
         insertUrl: dataApi.sharedDirectory.Region,
         updateUrl: dataApi.sharedDirectory.Region,
         removeUrl: dataApi.sharedDirectory.Region
       }),
-      entityType: "Region",
-      statusStores: this.$store.getters["status/status"],
-      country: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.sharedDirectory.Country
-      }),
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
-    };
+      entityType: EntityType.Region,
+      statusDataSource: this.$store.getters["status/status"]
+    }
   },
   methods: {
-    getFilteredCountry(options) {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
+    GetActiveCountriesDataSource(options) {
       return {
-        store: this.country,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Country
+        }),
+        paginate: true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.countryId]
-          : null
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.countryId]
+          : []
       };
     },
     validateRegionName(params) {
@@ -164,13 +158,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-.lang-icon {
-  position: relative;
-  top: 25%;
-  width: 25px;
-  height: 25px;
-}
-
-</style>
