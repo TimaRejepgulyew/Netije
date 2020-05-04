@@ -38,7 +38,6 @@
           <attachmentDetails
             v-if="!isReload"
             :readOnly="true"
-            :attachmentDetails="store.atachments"
           ></attachmentDetails>
         </div>
       </form>

@@ -506,7 +506,8 @@ export default {
       completeAssignment: "Выполните задание",
       acquaintanceDocument: "Ознакомтесь с документом(и)",
       InProcess: "В процессе",
-      Unread: "Не прочитанно"
+      Unread: "Не прочитанно",
+      expired: "Просроченно"
     },
     commentType: {
       0: "Задача",
