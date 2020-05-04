@@ -155,10 +155,10 @@ export default {
       ],
       documentType: [],
       initNewRow: e => {
-        this.$router.push("/docFlow/document-kind/upsert");
+        this.$router.push("/docflow/document-kind/upsert");
       },
       editingStart: e => {
-        this.$router.push("/docFlow/document-kind/" + e.data.id);
+        this.$router.push("/docflow/document-kind/" + e.data.id);
       }
     };
   },

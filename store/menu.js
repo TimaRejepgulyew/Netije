@@ -143,59 +143,47 @@ export const state = () => ({
       {
         text: context.$t("translations.menu.docFlow"),
         icon: "docfile",
+        visible: hasDocflowAccess(context),
         items: [
           {
             text: context.$t("translations.menu.documentKind"),
             path: "/docflow/document-kind",
-            visible: context.$store.getters["permissions/allowReading"](
-              "DocumentKind"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.DocumentKind)
           },
           {
             text: context.$t("translations.menu.documentRegistry"),
             path: "/docflow/document-registration",
-            visible: context.$store.getters["permissions/allowReading"](
-              "DocumentRegister"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister)
           },
           {
             text: context.$t("translations.menu.registrationGroup"),
             path: "/docflow/registration-group",
-            visible: context.$store.getters["permissions/allowReading"](
-              "RegistrationGroup"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.RegistrationGroup)
           },
           {
             text: context.$t("translations.menu.caseFile"),
             path: "/docflow/case-files",
-            visible: context.$store.getters["permissions/allowReading"](
-              "CaseFile"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.CaseFile)
           },
           {
             text: context.$t("translations.menu.fileRetentionPeriod"),
-            path: "/docflow/file-retention-period/"
+            path: "/docflow/file-retention-period/",
+            visible: context.$store.getters["permissions/allowReading"](EntityType.FileRetentionPeriod)
           },
           {
             text: context.$t("translations.menu.mailDeliveryMethod"),
             path: "/docflow/mail-delivery-method/",
-            visible: context.$store.getters["permissions/allowReading"](
-              "MailDeliveryMethod"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.MailDeliveryMethod)
           },
           {
             text: context.$t("translations.menu.associatedApp"),
             path: "/docflow/associated-applications",
-            visible: context.$store.getters["permissions/allowReading"](
-              "AssociatedApp"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.AssociatedApplications)
           },
           {
             text: context.$t("translations.menu.fileType"),
             path: "/docflow/files-type",
-            visible: context.$store.getters["permissions/allowReading"](
-              "FilesType"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.FilesType)
           }
         ]
       },
@@ -247,23 +235,41 @@ export const state = () => ({
 });
 
 export const hasSharedDirectoryAccess = context => {
-  return context.$store.getters["permissions/allowReading"](EntityType.Country) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Region) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Locality)
+  return 
+  context.$store.getters["permissions/allowReading"](EntityType.Country) ||
+  context.$store.getters["permissions/allowReading"](EntityType.Region) ||
+  context.$store.getters["permissions/allowReading"](EntityType.Locality)
 }
 
 export const hasCounterPartyAccess = context => {
-  return context.$store.getters["permissions/allowReading"](EntityType.Counterparty) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Contact)
+  return 
+  context.$store.getters["permissions/allowReading"](EntityType.Counterparty) ||
+  context.$store.getters["permissions/allowReading"](EntityType.Contact)
 }
 
 export const hasCompanyAccess = context => {
-  return context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant) ||
+  return 
+  context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant) ||
   context.$store.getters["permissions/allowReading"](EntityType.JobTitle) ||
   context.$store.getters["permissions/allowReading"](EntityType.Employee) ||
   context.$store.getters["permissions/allowReading"](EntityType.Department) ||
   context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit);
 }
+
+export const hasDocflowAccess = context => {
+  return 
+  context.$store.getters["permissions/allowReading"](EntityType.AssociatedApplications) ||
+  context.$store.getters["permissions/allowReading"](EntityType.FilesType) ||
+  context.$store.getters["permissions/allowReading"](EntityType.DocumentKind) ||
+  context.$store.getters["permissions/allowReading"](EntityType.CaseFile) ||
+  context.$store.getters["permissions/allowReading"](EntityType.FileRetentionPeriod) ||
+  context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister) ||
+  context.$store.getters["permissions/allowReading"](EntityType.MailDeliveryMethod) ||
+  context.$store.getters["permissions/allowReading"](EntityType.RegistrationGroup) ||
+  context.$store.getters["permissions/allowReading"](EntityType.RegistrationSetting)
+}
+
+
 
 export const getters = {
   menuList: ({ menuList }) => context => {

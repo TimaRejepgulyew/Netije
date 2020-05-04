@@ -13,7 +13,7 @@ export default {
   Counterparty: 200,
   Contact: 201,
   
-  AssociatedApp: 300,
+  AssociatedApplications: 300,
   FilesType: 301,
   DocumentKind: 302,
   CaseFile: 303,

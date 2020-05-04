@@ -210,11 +210,11 @@ export default {
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
-        this.$router.push("/docFlow/document-registration/upsert");
+        this.$router.push("/docflow/document-registration/upsert");
       },
       editingStart: e => {
         this.$router.push(
-          "/docFlow/document-registration/upsert/" + e.row.data.id
+          "/docflow/document-registration/upsert/" + e.row.data.id
         );
       },
       popupCurrentNumber: false,
