@@ -1,26 +1,18 @@
 <template>
   <div class="navBar">
-    <div>
-      <slot></slot>
-    </div>
-
     <DxButton
-      :disabled="btnDisabled"
       :text="$t('translations.fields.hightImportance')"
       :height="40"
       :onClick="(e)=>this.importanceChanged(1)"
       icon="sortup"
-      :type="hightImportance?'default':'normal'"
+      :type="importance==1?'default':'normal'"
     ></DxButton>
     <DxButton
-      :disabled="btnDisabled"
       :text="$t('translations.fields.middleImportance')"
       :height="40"
-      icon="sorted"
-      :type="middleImportance?'default':'normal'"
+      :type="importance==0?'default':'normal'"
       :onClick="(e)=>this.importanceChanged(0)"
     ></DxButton>
-  
   </div>
 </template>
 <script>
@@ -31,24 +23,16 @@ export default {
   components: {
     DxButton
   },
-  props: ["btnDisabled"],
   data() {
     return {
-      hightImportance: false,
-      middleImportance: true,
-      lowImportance: false
+      importance: 0
     };
   },
   methods: {
     importanceChanged(importanceType) {
-    
-      this.$emit("importanceChanged", importanceType);
+      this.importance = importanceType;
+      this.$emit("importanceChanged", this.importance);
     }
   }
 };
 </script>
-<style  lang="scss" scoped>
-.text--warning {
-  color: crimson;
-}
-</style>

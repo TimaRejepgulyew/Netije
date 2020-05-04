@@ -54,6 +54,8 @@ export default {
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     DeleteDocument: `${url}/api/OfficialDocument`,
     Version: `${url}/api/OfficialDocument/Version/`,
+    DownloadLastVersion: `${url}/api/OfficialDocument/DownloadLastVersion/`,
+    PreviewLastVersion: `${url}/api/OfficialDocument/PreviewLastVersion/`,
     Relation: `${url}/api/OfficialDocument/Relations/`,
     DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,

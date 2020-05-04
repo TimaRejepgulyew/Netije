@@ -2,7 +2,7 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="headerTitle[$route.params.type]"></Header>
-      <navBar @importanceChanged="importanceChanged"></navBar>
+      <importanceChanger @importanceChanged="importanceChanged"></importanceChanger>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
           <DxForm
@@ -115,7 +115,7 @@
 </template>
 <script>
 import moment from "moment";
-import navBar from "~/components/task/nav-bar";
+import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";

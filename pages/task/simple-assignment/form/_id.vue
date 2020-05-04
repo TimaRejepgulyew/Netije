@@ -109,7 +109,6 @@
 </template>
 <script>
 import DxList from "devextreme-vue/list";
-import navBar from "~/components/task/nav-bar";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
@@ -129,7 +128,6 @@ export default {
     DxTextArea,
     DxList,
     attachmentDetails,
-    navBar,
     DxButton,
     Header,
     DxGroupItem,
