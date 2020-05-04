@@ -1,19 +1,18 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t(`translations.menu.contacts`)"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -46,12 +45,12 @@
       <DxColumn
         data-field="companyId"
         :caption="$t('translations.fields.company')"
-        :visible="true"
+        :visible="false"
         :allow-editing="false"
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredCompany"
+          :data-source="getActiveCompanies"
           value-expr="id"
           display-expr="name"
         />
@@ -66,12 +65,11 @@
       <DxColumn
         data-field="jobTitle"
         :caption="$t('translations.fields.jobTitleId')"
-        :visible="false"
       ></DxColumn>
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
 
-      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')"></DxColumn>
+      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')" :visible="false"></DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
         <DxEmailRule :message="$t('translations.fields.emailRule')" />
@@ -85,7 +83,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -108,6 +106,8 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import textArea from "~/components/page/textArea";
@@ -126,7 +126,6 @@ import {
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -150,7 +149,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -166,8 +164,7 @@ export default {
   data() {
     let { id } = this.company.data;
     return {
-      headerTitle: this.$t(`translations.menu.contacts`),
-      store: new DataSource({
+      dataSource: new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.contragents.Contact,
@@ -177,31 +174,27 @@ export default {
         }),
         filter: ["companyId", "=", id]
       }),
-      entityType: "Contact",
-      statusStores: this.$store.getters["status/status"],
-
-      companyStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.contragents.CounterPart
-      }),
-
-      initNewRow: e => {
-        e.data.companyId = id;
-        e.data.status = this.statusStores[0].id;
-      },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
+      entityType: EntityType.Contact,
+      statusDataSource: this.$store.getters["status/status"](this),
     };
   },
   methods: {
-    getFilteredCompany(options) {
+    onInitNewRow(e) {
+      e.data.companyId = this.company.data.id;
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
+    getActiveCompanies(options) {
       return {
-        store: this.companyStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.companyId]
-          : null
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.CounterPart
+        }),
+        paginate: true,
+        filter: options.data ? ["status", "=", Status.Active, "or", "id", "=", options.data.companyId]
+          : []
       };
     },
     validateEntityExists(params) {
@@ -220,8 +213,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
-</style>

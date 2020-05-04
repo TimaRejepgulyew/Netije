@@ -1,20 +1,19 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.contacts')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -35,7 +34,7 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn data-field="name" :caption="$t('translations.fields.contactName')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
           :message="$t('translations.fields.nameAlreadyExists')"
@@ -47,7 +46,7 @@
         <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredCompany"
+          :data-source="companiesDataSource"
           value-expr="id"
           display-expr="name"
         />
@@ -86,7 +85,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -109,6 +108,7 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -126,7 +126,6 @@ import {
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -150,7 +149,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -159,37 +157,26 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.contacts"),
-
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Contact
       }),
-
-      statusStores: this.$store.getters["status/status"],
-
-      companyStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.contragents.Company
-      }),
-
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
+      companiesDataSource: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.Company
+        }),
+        paginate: true
       },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
-    getFilteredCompany(options) {
-      return {
-        store: this.companyStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.companyId]
-          : null
-      };
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
     },
     validateEntityExists(params) {
       var dataField = params.column.dataField;

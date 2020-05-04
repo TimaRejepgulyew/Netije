@@ -152,7 +152,7 @@
 
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
-      <template #masterDetailTemplate="company">
+      <template #masterDetailTemplate="company" v-if="hasContactAccess">
         <ContactMasterDetail :company="company.data" />
       </template>
 
@@ -228,6 +228,7 @@ export default {
         removeUrl: dataApi.contragents.Bank
       }),
       entityType: EntityType.Counterparty,
+      hasContactAccess: this.$store.getters['permissions/allowReading'](EntityType.Contact),
       statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;

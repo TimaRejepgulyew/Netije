@@ -1,6 +1,5 @@
-import entityTypes from "~/config/entityTypes";
 class AccessOperation {
-  constructor() {}
+  constructor() { }
 }
 export const state = () => ({
   accessRights: {},
@@ -46,15 +45,14 @@ export const state = () => ({
         update: false
       }
     ],
-    [
-      (60,
+    [60,
       {
         delete: false,
         has: true,
         read: true,
         create: false,
         update: false
-      })
+      }
     ]
   ])
 });
@@ -68,13 +66,14 @@ export const getters = {
       return true;
     }
     console.log(accessRights.operations);
-    return accessRights.operations.get(entityTypes[entityType]).update;
+    return accessRights.operations.get(entityType).update;
   },
   allowReading: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin || accessRights.isAuditor) {
       return true;
     }
-    let obj = accessRights.operations.get(entityTypes[entityType]);
+    let obj = accessRights.operations.get(entityType);
+    console.log(obj,entityType)
     if (obj) {
       return obj.read;
     }
@@ -84,13 +83,13 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.get(entityTypes[entityType]).create;
+    return accessRights.operations.get(entityType).create;
   },
   allowDeleting: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.get(entityTypes[entityType]).delete;
+    return accessRights.operations.get(entityType).delete;
   },
   IsAdmin: ({ accessRights }) => {
     return accessRights.isAdmin;
@@ -99,7 +98,7 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.has(entityTypes[entityType]);
+    return accessRights.operations.has(entityType);
   }
 };
 export const mutations = {

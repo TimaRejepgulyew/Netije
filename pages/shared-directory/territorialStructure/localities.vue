@@ -140,6 +140,7 @@ export default {
         key: "id",
         loadUrl: dataApi.sharedDirectory.Region
       }),
+      paginate: true,
       filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.regionId]
           : []
