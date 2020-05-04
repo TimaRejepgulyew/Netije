@@ -9,7 +9,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
+      @row-updating="onRowUpdating"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -79,6 +79,7 @@ import {
   DxColumn,
   DxEditing,
   DxHeaderFilter,
+  DxRequiredRule,
   DxScrolling,
   DxLookup,
   DxGrouping,
@@ -102,6 +103,7 @@ export default {
     DxColumn,
     DxEditing,
     DxHeaderFilter,
+    DxRequiredRule,
     DxScrolling,
     DxLookup,
     DxGrouping,
@@ -122,14 +124,16 @@ export default {
         updateUrl: dataApi.admin.Roles,
         removeUrl: dataApi.admin.Roles
       }),
-      isCustom: e => {
-        return !e.row.data.isSystem;
-      },
-      statusDataSource: this.$store.getters["status/status"],
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
+      statusDataSource: this.$store.getters["status/status"](this)
     };
+  },
+  methods: {
+    isCustom(e) {
+      return !e.row.data.isSystem;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    }
   }
 };
 </script>

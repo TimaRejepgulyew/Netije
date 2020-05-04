@@ -117,7 +117,7 @@ export default {
         removeUrl: dataApi.sharedDirectory.Country
       }),
       entityType: EntityType.Country,
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {

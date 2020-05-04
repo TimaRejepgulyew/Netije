@@ -53,7 +53,7 @@
         <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="GetActiveCountriesDataSource"
+          :data-source="getActiveCountriesDataSource"
           value-expr="id"
           display-expr="name"
         />
@@ -127,7 +127,7 @@ export default {
         removeUrl: dataApi.sharedDirectory.Region
       }),
       entityType: EntityType.Region,
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"](this)
     }
   },
   methods: {
@@ -137,7 +137,7 @@ export default {
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
     },
-    GetActiveCountriesDataSource(options) {
+    getActiveCountriesDataSource(options) {
       return {
         store: this.$dxStore({
           key: "id",
