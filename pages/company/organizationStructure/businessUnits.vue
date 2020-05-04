@@ -237,7 +237,7 @@ export default {
         removeUrl: dataApi.company.BusinessUnit
       }),
       entityType: "BusinessUnit",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
 
       region: this.$dxStore({
         key: "id",

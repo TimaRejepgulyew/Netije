@@ -10,6 +10,7 @@ export default {
   },
   translations: {
     menu: {
+      all:"Все",
       allDocument: "Все документы",
       filesType: "Типы файлов",
       currencies: "Валюты",
@@ -31,9 +32,9 @@ export default {
       subsitution: "Замена сотрудника",
       counterPart: "Контрагенты",
       company: "Компания",
+      companies: "Организации",
       banks: "Банки",
       person: "Физические лица",
-      counterPartList: "Список контрагентов",
       post: "Должности",
       assignments: "Задания",
       task: "Задачи",

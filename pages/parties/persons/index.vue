@@ -264,7 +264,6 @@ export default {
     };
   },
   methods: {
-    
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },

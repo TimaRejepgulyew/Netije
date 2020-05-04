@@ -82,29 +82,29 @@ export const state = () => ({
         visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty),
         items: [
           {
-            text: context.$t("translations.menu.businessUnit"),
+            text: context.$t("translations.menu.all"),
             icon: "fields",
-            path: "/parties/organizations/businessUnit"
+            path: "/parties/"
+          },
+          {
+            text: context.$t("translations.menu.companies"),
+            icon: "fields",
+            path: "/parties/organizations/companies"
           },
           {
             text: context.$t("translations.menu.banks"),
             icon: "fields",
-            path: "/parties/organizations/bank"
-          },
-          {
-            text: context.$t("translations.menu.contacts"),
-            icon: "fields",
-            path: "/parties/organizations/contact"
-          },
-          {
-            text: context.$t("translations.menu.counterPartList"),
-            icon: "fields",
-            path: "/parties/counterParts/"
+            path: "/parties/organizations/banks"
           },
           {
             text: context.$t("translations.menu.person"),
             icon: "fields",
             path: "/parties/persons/"
+          },
+          {
+            text: context.$t("translations.menu.contacts"),
+            icon: "fields",
+            path: "/parties/organizations/contacts"
           }
         ]
       },
