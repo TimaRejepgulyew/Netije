@@ -219,6 +219,12 @@ export const state = () => ({
             icon: "isnotblank",
             path: "/shared-directory/territorialStructure/localities",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Locality)
+          },
+          {
+            text: context.$t("translations.menu.Currencies"),
+            icon: "isnotblank",
+            path: "/shared-directory/currencies",
+            visible: false
           }
         ]
       },

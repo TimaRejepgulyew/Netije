@@ -1,16 +1,16 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.currencies')"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -19,8 +19,7 @@
         :allow-export-selected-data="true"
         :file-name="$t('translations.fields.currencyId')"
       />
-      <DxSelection mode="multiple" />
-
+     
       <DxHeaderFilter :visible="true" />
       <DxFilterRow :visible="true" />
 
@@ -94,7 +93,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -103,6 +102,8 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -120,7 +121,6 @@ import {
   DxAsyncRule,
   DxStringLengthRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxStateStoring,
@@ -143,7 +143,6 @@ export default {
     DxAsyncRule,
     DxStringLengthRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxStateStoring,
@@ -151,7 +150,6 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.currencies"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.sharedDirectory.Currency,
@@ -159,18 +157,17 @@ export default {
         updateUrl: dataApi.sharedDirectory.Currency,
         removeUrl: dataApi.sharedDirectory.Currency
       }),
-      entityType: "Currencies",
-      statusStores: this.$store.getters["status/status"],
-
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
+      entityType: EntityType.Currencies,
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
     validateCurrencyName(params) {
       return this.$customValidator.isCurrencyNameNotExists({
         id: params.data.id,
@@ -190,5 +187,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-
