@@ -65,15 +65,17 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-    console.log(accessRights.operations);
-    return accessRights.operations.get(entityType).update;
+    let obj = accessRights.operations.get(entityType);
+    if (obj) {
+      return obj.update;
+    }
+    return false;
   },
   allowReading: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin || accessRights.isAuditor) {
       return true;
     }
     let obj = accessRights.operations.get(entityType);
-    console.log(obj,entityType)
     if (obj) {
       return obj.read;
     }
@@ -83,13 +85,21 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.get(entityType).create;
+    let obj = accessRights.operations.get(entityType);
+    if (obj) {
+      return obj.create;
+    }
+    return false;
   },
   allowDeleting: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.operations.get(entityType).delete;
+    let obj = accessRights.operations.get(entityType);
+    if (obj) {
+      return obj.delete;
+    }
+    return false;
   },
   IsAdmin: ({ accessRights }) => {
     return accessRights.isAdmin;

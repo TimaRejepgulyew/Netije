@@ -1,13 +1,8 @@
 import EntityType from '~/infrastructure/constants/entityTypes'
+
 export const state = () => ({
-  whitespacePattern: /^[^\s]+$/,
   menuList(context) {
     return [
-      {
-        text: "Dasboard",
-        path: "/home",
-        icon: "home"
-      },
       {
         text: context.$t("translations.menu.outgoing"),
         icon: "clock",
@@ -79,8 +74,7 @@ export const state = () => ({
         text: context.$t("translations.menu.contractors"),
         icon: "group",
         path: "/parties",
-        visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty) ||
-          context.$store.getters["permissions/allowReading"](EntityType.Contact),
+        visible: hasCounterPartyAccess(context),
         items: [
           {
             text: context.$t("translations.menu.all"),
@@ -117,27 +111,32 @@ export const state = () => ({
       {
         text: context.$t("translations.menu.company-structure"),
         icon: "detailslayout",
-        path: "/company",
+        visible: hasCompanyAccess(context),
         items: [
           {
             text: context.$t("translations.menu.businessUnit"),
-            path: "/company/organizationStructure/businessUnits"
+            path: "/company/organization-structure/business-units",
+            visible: context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit)
           },
           {
             text: context.$t("translations.menu.department"),
-            path: "/company/organizationStructure/departments"
+            path: "/company/organization-structure/departments",
+            visible: context.$store.getters["permissions/allowReading"](EntityType.Department)
           },
           {
             text: context.$t("translations.menu.employee"),
-            path: "/company/staff/employees"
+            path: "/company/staff/employees",
+            visible: context.$store.getters["permissions/allowReading"](EntityType.Employee)
           },
           {
             text: context.$t("translations.menu.post"),
-            path: "/company/staff/jobTitles"
+            path: "/company/jobTitles",
+            visible: context.$store.getters["permissions/allowReading"](EntityType.JobTitle)
           },
           {
             text: context.$t("translations.menu.managersAssistant"),
-            path: "/company/staff/managerAssistants"
+            path: "/company/staff/managers-assistants",
+            visible: context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant)
           }
         ]
       },
@@ -162,7 +161,7 @@ export const state = () => ({
           },
           {
             text: context.$t("translations.menu.registrationGroup"),
-            path: "/docFlow/registration-group2",
+            path: "/docFlow/registration-group",
             visible: context.$store.getters["permissions/allowReading"](
               "RegistrationGroup"
             )
@@ -204,10 +203,7 @@ export const state = () => ({
       {
         text: context.$t("translations.menu.shared-directory"),
         icon: "docfile",
-        path: "/shared-directory",
-        visible: context.$store.getters["permissions/allowReading"](EntityType.Country) ||
-          context.$store.getters["permissions/allowReading"](EntityType.Region) ||
-          context.$store.getters["permissions/allowReading"](EntityType.Locality),
+        visible: hasSharedDirectoryAccess(context),
         items: [
           {
             text: context.$t("translations.menu.countries"),
@@ -237,7 +233,6 @@ export const state = () => ({
       },
       {
         text: context.$t("translations.menu.administration"),
-        path: "/admin",
         icon: "admin",
         visible: context.$store.getters["permissions/IsAdmin"],
         items: [
@@ -251,6 +246,25 @@ export const state = () => ({
     ];
   }
 });
+
+export const hasSharedDirectoryAccess = context => {
+  return context.$store.getters["permissions/allowReading"](EntityType.Country) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Region) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Locality)
+}
+
+export const hasCounterPartyAccess = context => {
+  return context.$store.getters["permissions/allowReading"](EntityType.Counterparty) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Contact)
+}
+
+export const hasCompanyAccess = context => {
+  return context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant) ||
+  context.$store.getters["permissions/allowReading"](EntityType.JobTitle) ||
+  context.$store.getters["permissions/allowReading"](EntityType.Employee) ||
+  context.$store.getters["permissions/allowReading"](EntityType.Department) ||
+  context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit);
+}
 
 export const getters = {
   menuList: ({ menuList }) => context => {

@@ -13,7 +13,6 @@
       :on-row-inserted="(e) => e.component.navigateToRow(e.key)"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
-      @editor-preparing="blockingColumnForEdit"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -51,18 +50,19 @@
       </DxColumn>
 
       <DxColumn
-        data-field="canRegisterIncoming"
-        :caption="$t('translations.fields.canRegisterIncoming')"
-        data-type="boolean"
-        :visible="false"
-      ></DxColumn>
-
-      <DxColumn
         data-field="canRegisterOutgoing"
         :caption="$t('translations.fields.canRegisterOutgoing')"
         data-type="boolean"
         :visible="false"
       ></DxColumn>
+
+      <DxColumn data-field="index" :caption="$t('translations.fields.index')">
+        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.indexAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
 
       <DxColumn
         data-field="canRegisterInternal"
@@ -72,13 +72,11 @@
       ></DxColumn>
 
       <DxColumn
-        data-field="members"
-        :caption="$t('translations.fields.members')"
+        data-field="responsibleEmployeeId"
+        :caption="$t('translations.fields.responsibleId')"
         :visible="false"
-        :cell-template="cellTemplate"
-        edit-cell-template="tagBoxEditor"
-        :calculate-filter-expression="calculateFilterExpression"
       >
+        <DxRequiredRule :message="$t('translations.fields.responsibleIdRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="employeeStore"
@@ -87,23 +85,29 @@
         />
       </DxColumn>
 
-      <template #tagBoxEditor="cellInfo">
-        <EmployeeTagBoxComponent
-          :value="cellInfo.data.value"
-          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
-          :data-source="employeeStore"
-          :data-grid-component="cellInfo.data.component"
-        />
+      <DxColumn
+        data-field="canRegisterIncoming"
+        :caption="$t('translations.fields.canRegisterIncoming')"
+        data-type="boolean"
+        :visible="false"
+      ></DxColumn>
+
+      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+
+      <template #masterDetailTemplate="data">
+          <TabRole :data="data.data" memberList="RegistrationGroup" />
       </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
-import EmployeeTagBoxComponent from "~/components/docFlow/registration-group/index__tag-box-component";
+import TabRole from "~/components/member-list/tabRole.vue";
+
 import dataApi from "~/static/dataApi";
 import CustomStore from "devextreme/data/custom_store";
 import Header from "~/components/page/page__header";
 import {
+  DxMasterDetail,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -114,19 +118,20 @@ import {
   DxGrouping,
   DxGroupPanel,
   DxAsyncRule,
+  DxPatternRule,
   DxRequiredRule,
   DxExport,
   DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
-  DxTagBox
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
-
 export default {
   components: {
+    TabRole,
+    DxMasterDetail,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -138,15 +143,14 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxRequiredRule,
+    DxPatternRule,
     DxAsyncRule,
     DxExport,
     DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring,
-    DxTagBox,
-    EmployeeTagBoxComponent
+    DxStateStoring
   },
   data() {
     return {
@@ -172,18 +176,7 @@ export default {
       rowUpdating: e => {
         e.newData = Object.assign(e.oldData, e.newData);
       },
-      calculateFilterExpression: (
-        filterValue,
-        selectedFilterOperation,
-        target
-      ) => {
-        if (target === "search" && typeof filterValue === "string") {
-          return [this.dataField, "contains", filterValue];
-        }
-        return function(data) {
-          return (data.members || []).indexOf(filterValue) !== -1;
-        };
-      }
+      indexPattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -202,27 +195,6 @@ export default {
         },
         dataField
       );
-    },
-    cellTemplate(container, options) {
-      var noBreakSpace = "\u00A0",
-        text = (options.value || [])
-          .map(element => {
-            return options.column.lookup.calculateCellValue(element);
-          })
-          .join(", ");
-      container.textContent = text || noBreakSpace;
-      container.title = text;
-    },
-    onValueChanged(value, cellInfo) {
-      cellInfo.setValue(value);
-      cellInfo.component.updateDimensions();
-    },
-    blockingColumnForEdit(e) {
-      if (e.row) {
-        if (e.dataType == "boolean" && parseInt(e.row.key) && e.row.isEditing) {
-          e.editorOptions.disabled = true;
-        }
-      }
     }
   }
 };
