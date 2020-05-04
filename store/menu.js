@@ -130,7 +130,7 @@ export const state = () => ({
           },
           {
             text: context.$t("translations.menu.post"),
-            path: "/company/jobTitles",
+            path: "/company/job-titles",
             visible: context.$store.getters["permissions/allowReading"](EntityType.JobTitle)
           },
           {
@@ -143,57 +143,56 @@ export const state = () => ({
       {
         text: context.$t("translations.menu.docFlow"),
         icon: "docfile",
-        path: "/docFlow",
         items: [
           {
             text: context.$t("translations.menu.documentKind"),
-            path: "/docFlow/document-kind",
+            path: "/docflow/document-kind",
             visible: context.$store.getters["permissions/allowReading"](
               "DocumentKind"
             )
           },
           {
             text: context.$t("translations.menu.documentRegistry"),
-            path: "/docFlow/document-registration",
+            path: "/docflow/document-registration",
             visible: context.$store.getters["permissions/allowReading"](
               "DocumentRegister"
             )
           },
           {
             text: context.$t("translations.menu.registrationGroup"),
-            path: "/docFlow/registration-group",
+            path: "/docflow/registration-group",
             visible: context.$store.getters["permissions/allowReading"](
               "RegistrationGroup"
             )
           },
           {
             text: context.$t("translations.menu.caseFile"),
-            path: "/docFlow/case-file/",
+            path: "/docflow/case-files",
             visible: context.$store.getters["permissions/allowReading"](
               "CaseFile"
             )
           },
           {
             text: context.$t("translations.menu.fileRetentionPeriod"),
-            path: "/docFlow/file-retention-period/"
+            path: "/docflow/file-retention-period/"
           },
           {
             text: context.$t("translations.menu.mailDeliveryMethod"),
-            path: "/docFlow/mail-delivery-method/",
+            path: "/docflow/mail-delivery-method/",
             visible: context.$store.getters["permissions/allowReading"](
               "MailDeliveryMethod"
             )
           },
           {
             text: context.$t("translations.menu.associatedApp"),
-            path: "/docFlow/associated-app",
+            path: "/docflow/associated-applications",
             visible: context.$store.getters["permissions/allowReading"](
               "AssociatedApp"
             )
           },
           {
             text: context.$t("translations.menu.fileType"),
-            path: "/docFlow/files-type",
+            path: "/docflow/files-type",
             visible: context.$store.getters["permissions/allowReading"](
               "FilesType"
             )
@@ -208,19 +207,19 @@ export const state = () => ({
           {
             text: context.$t("translations.menu.countries"),
             icon: "isnotblank",
-            path: "/shared-directory/territorialStructure/countries",
+            path: "/shared-directory/territorial-structure/countries",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Country)
           },
           {
             text: context.$t("translations.menu.region"),
             icon: "isnotblank",
-            path: "/shared-directory/territorialStructure/region",
+            path: "/shared-directory/territorial-structure/region",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Region)
           },
           {
             text: context.$t("translations.menu.locality"),
             icon: "isnotblank",
-            path: "/shared-directory/territorialStructure/localities",
+            path: "/shared-directory/territorial-structure/localities",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Locality)
           },
           {

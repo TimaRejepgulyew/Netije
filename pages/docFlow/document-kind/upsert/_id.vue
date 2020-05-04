@@ -154,7 +154,7 @@ export default {
     notify
   },
   async asyncData({ app, params }) {
-    if (params.id != "newDocKind") {
+    if (params.id) {
       let address = `${dataApi.docFlow.DocumentKind}/${params.id}`;
       let { data } = await app.$axios.get(address);
       return {

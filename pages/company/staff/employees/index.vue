@@ -123,11 +123,11 @@ export default {
         loadUrl: dataApi.company.JobTitle
       }),
       initNewRow: e => {
-        this.$router.push("/company/staff/employees/addEmployee");
+        this.$router.push("/company/staff/employees/create-employee");
       },
       editingStart: e => {
         this.$router.push(
-          `/company/staff/employees/updateEmployee/${e.data.id}`
+          `/company/staff/employees/${e.data.id}`
         );
       }
     };
