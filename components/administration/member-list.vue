@@ -8,7 +8,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @init-new-row="initNewRow"
+      @init-new-row="onInitNewRow"
     >
       >
       <DxGroupPanel :visible="true" />
@@ -41,7 +41,7 @@
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="recipientListDataSource"
+          :data-source="GetActiveRecipientsDataStore"
           value-expr="id"
           display-expr="name"
         />
@@ -50,6 +50,7 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import {
@@ -90,8 +91,7 @@ export default {
   },
   props: {
     data: {
-      type: Object,
-      default: () => {}
+      type: Object
     }
   },
   data() {
@@ -106,17 +106,22 @@ export default {
         }),
         paginate: true
       }),
-      immutable,
-      recipientListDataSource: {
+      immutable
+    };
+  },
+  methods: {
+    onInitNewRow(e) {
+      e.data.roleId = id;
+    },
+    GetActiveRecipientsDataStore(options) {
+      return {
         store: this.$dxStore({
+          key: "id",
           loadUrl: dataApi.recipient.list
         }),
-        paginate: true
-      },
-      initNewRow: e => {
-        e.data.roleId = id;
-      }
-    };
+        filter: options.data ? ["status", "=", Status.Active] : []
+      };
+    }
   }
 };
 </script>

@@ -127,7 +127,7 @@ export default {
         removeUrl: dataApi.sharedDirectory.Region
       }),
       entityType: EntityType.Region,
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"](this)
     }
   },
   methods: {

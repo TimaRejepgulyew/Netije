@@ -124,7 +124,7 @@ export default {
         removeUrl: dataApi.sharedDirectory.Locality
       }),
       entityType: EntityType.Locality,
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"](this)
     }
   },
   methods: {

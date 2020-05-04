@@ -1,3 +1,4 @@
 export default  {
-    Active: 0
+    Active: 0,
+    Closed:1
 }

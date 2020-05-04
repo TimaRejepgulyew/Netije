@@ -1,5 +1,9 @@
 export default {
   greating: "Hello",
+  status:{
+    active:"Активна",
+    closed:"Закрытая"
+  },
   translations: {
     menu: {
       allDocument: "Все документы",

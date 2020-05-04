@@ -1,16 +1,17 @@
 
-
+import Status from "~/infrastructure/constants/status";
 export const state = () => ({
-    status:[
-        { id: 0, status: "Активна" },
-        { id: 1, status: "Закрыта" }
-      ],
+    status: (context) => {
+        return [
+            { id: Status.Active, status: context.$t("status.active") },
+            { id: Status.Closed, status: context.$t("status.closed") }
+        ];
+    }
 
 })
 
 export const getters = {
-    status(state) {
-        return state.status
-    },
-
+    status: (state) => context => {
+        return state.status(context);
+    }
 }
