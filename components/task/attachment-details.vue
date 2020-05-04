@@ -12,13 +12,9 @@
               >
                 <div class="list__content">{{item.data.name}}</div>
                 <div class="list__btn-group">
-                  <attachmentActionBtn />
-                  <DxDropDownButton
-                    :items="data.downloads"
-                    :drop-down-options="{ width: 230 }"
-                    text="Download Trial"
-                    icon="save"
-                    @item-click="onItemClick"
+                  <attachmentActionBtn
+                    :document="item.data.document"
+                    :canDetach="item.data.canDetach"
                   />
                 </div>
               </div>
@@ -53,17 +49,17 @@
   </div>
 </template>
 <script>
+import attachmentActionBtn from "~/components/task/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
-import notify from "devextreme/ui/notify";
-import { saveAs } from "file-saver";
 import moment from "moment";
 import DxSelectBox from "devextreme-vue/select-box";
 import DxTagBox from "devextreme-vue/tag-box";
 export default {
   components: {
+    attachmentActionBtn,
     DxSelectBox,
     DxList,
     DxButton,
@@ -75,7 +71,6 @@ export default {
       const { data } = await this.$axios(
         dataApi.attachment.AttachmentByTask + this.$route.params.id
       );
-      console.log(data);
       this.attachments = data;
     }
   },
