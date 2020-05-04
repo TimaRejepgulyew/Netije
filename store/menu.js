@@ -236,13 +236,12 @@ export const state = () => ({
         text: context.$t("translations.menu.administration"),
         path: "/admin",
         icon: "admin",
-
+        visible: context.$store.getters["permissions/IsAdmin"],
         items: [
           {
             text: context.$t("translations.menu.roles"),
             path: "/admin/roles",
-            icon: "user",
-            visible: context.$store.getters["permissions/allowReading"]("Roles")
+            icon: "user"
           }
         ]
       }

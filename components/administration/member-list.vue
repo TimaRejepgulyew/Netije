@@ -4,17 +4,15 @@
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
-       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      :ref="dataGridRefKey"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       @init-new-row="initNewRow"
     >
       >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
       <DxEditing
         :allow-updating="false"
@@ -48,14 +46,6 @@
           display-expr="name"
         />
       </DxColumn>
-
-
-      <DxColumn
-        data-field="description"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-        edit-cell-template="textAreaEditor"
-      ></DxColumn>
     </DxDataGrid>
   </main>
 </template>
@@ -78,8 +68,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxRequiredRule,
-  DxAsyncRule
+  DxRequiredRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -99,7 +88,6 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxRequiredRule,
-    DxAsyncRule,
     DxStateStoring
   },
   props: {
@@ -117,31 +105,20 @@ export default {
           insertUrl: dataApi.admin.RoleMembers,
           loadUrl: dataApi.admin.RoleMembers + id,
           removeUrl: dataApi.admin.RoleMembers + id
-        })
+        }),
+        paginate: true
       }),
       immutable,
-      getFilteredMembers: this.$dxStore({
-        loadUrl: dataApi.admin.Recipient
-      }),
+      getFilteredMembers: {
+        store: this.$dxStore({
+          loadUrl: dataApi.recipient.list
+        }),
+        paginate: true
+      },
       initNewRow: e => {
         e.data.roleId = id;
-      },
-      dataGridRefKey: "dataGrid",
-      statusStores: this.$store.getters["status/status"]
+      }
     };
-  },
-  computed: {
-    dataGrid: function() {
-      return this.$refs[this.dataGridRefKey].instance;
-    }
-  },
-  methods: {}
+  }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.container {
-  display: block;
-}
-</style>

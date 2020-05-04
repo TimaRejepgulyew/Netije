@@ -1,11 +1,11 @@
 <template>
-  <main class="container container--grid">
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.roles')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
@@ -13,7 +13,6 @@
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -42,10 +41,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.countryAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
@@ -69,20 +64,11 @@
       <template #master-detail="data">
         <TabRole :data="data.data" memberList="Roles" />
       </template>
-
-      <template #textAreaEditor="cellInfo">
-        <textArea
-          :value="cellInfo.data.value"
-          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
-        ></textArea>
-      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-
-// import MasterDetail from "~/components/administration/tab-role";
 import TabRole from "~/components/member-list/tabRole.vue";
 import textArea from "~/components/page/textArea";
 import Header from "~/components/page/page__header";
@@ -97,8 +83,6 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
-  DxRequiredRule,
   DxExport,
   DxSelection,
   DxColumnChooser,
@@ -123,8 +107,6 @@ export default {
     DxLookup,
     DxGrouping,
     DxGroupPanel,
-    DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxSelection,
     DxColumnChooser,
@@ -134,10 +116,8 @@ export default {
     DxButton
   },
   data() {
-    const entityType = "";
     return {
-      headerTitle: this.$t("translations.menu.roles"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.admin.Roles,
         insertUrl: dataApi.admin.Roles,
@@ -145,11 +125,6 @@ export default {
         removeUrl: dataApi.admin.Roles
       }),
       isCustom: e => {
-        if (!e.row.data.isSystem) {
-          return this.$store.getters["permissions/allowUpdating"](
-            this.entityType
-          );
-        }
         return !e.row.data.isSystem;
       },
       statusStores: this.$store.getters["status/status"],
@@ -157,54 +132,6 @@ export default {
         e.newData = Object.assign(e.oldData, e.newData);
       }
     };
-  },
-  methods: {
-    getFilteredHeadOffice(options) {
-      return {
-        store: this.headOfficeStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.headOfficeId]
-          : null
-      };
-    },
-
-    getFilteredManager(options) {
-      return {
-        store: this.managerStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.managerId]
-          : null
-      };
-    },
-    getFilteredBussinessUnit(options) {
-      return {
-        store: this.businessUnitStore,
-        filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.businessUnitId]
-          : null
-      };
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.DepartmentDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
-    },
-    onValueChanged(value, cellInfo) {
-      cellInfo.setValue(value);
-      cellInfo.component.updateDimensions();
-    }
   }
 };
 </script>
-<style lang="scss" >
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.container {
-  display: block;
-}
-</style>

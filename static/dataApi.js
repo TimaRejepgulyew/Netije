@@ -24,8 +24,7 @@ export default {
   },
   admin: {
     Roles: `${url}/api/Role`,
-    RoleMembers: `${url}/api/RoleMembers/`,
-    Recipient: `${url}/api/Recipient`
+    RoleMembers: `${url}/api/RoleMembers/`
   },
   docFlow: {
     DocumentKind: `${url}/api/DocumentKind`,
@@ -95,5 +94,8 @@ export default {
     Acquaintance: `${url}/api/Acquaintance`,
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/GetTaskById/`
+  },
+  recipient:{
+    list:`${url}/api/Recipient`
   }
 };

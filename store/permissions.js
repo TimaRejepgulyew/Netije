@@ -89,6 +89,9 @@ export const getters = {
     }
     return accessRights.operations.get(entityTypes[entityType]).delete;
   },
+  IsAdmin: ({ accessRights }) => {
+    return accessRights.isAdmin;
+  },
   allowRegisterDocument: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin) {
       return true;
