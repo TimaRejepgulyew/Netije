@@ -1,3 +1,4 @@
+import EntityType from '~/infrastructure/constants/entityTypes'
 export const state = () => ({
   whitespacePattern: /^[^\s]+$/,
   menuList(context) {
@@ -197,38 +198,27 @@ export const state = () => ({
         text: context.$t("translations.menu.shared-directory"),
         icon: "docfile",
         path: "/shared-directory",
+        visible: context.$store.getters["permissions/allowReading"](EntityType.Country)&&
+                 context.$store.getters["permissions/allowReading"](EntityType.Region)&&
+                 context.$store.getters["permissions/allowReading"](EntityType.Locality),
         items: [
           {
             text: context.$t("translations.menu.countries"),
             icon: "isnotblank",
             path: "/shared-directory/territorialStructure/countries",
-            visible: context.$store.getters["permissions/allowReading"](
-              "Country"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.Country)
           },
           {
             text: context.$t("translations.menu.region"),
             icon: "isnotblank",
             path: "/shared-directory/territorialStructure/region",
-            visible: context.$store.getters["permissions/allowReading"](
-              "Region"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.Region)
           },
           {
             text: context.$t("translations.menu.locality"),
             icon: "isnotblank",
             path: "/shared-directory/territorialStructure/localities",
-            visible: context.$store.getters["permissions/allowReading"](
-              "Locality"
-            )
-          },
-          {
-            text: context.$t("translations.menu.currencies"),
-            icon: "isnotblank",
-            path: "/shared-directory/currencies",
-            visible: context.$store.getters["permissions/allowReading"](
-              "Currencies"
-            )
+            visible: context.$store.getters["permissions/allowReading"](EntityType.Locality)
           }
         ]
       },

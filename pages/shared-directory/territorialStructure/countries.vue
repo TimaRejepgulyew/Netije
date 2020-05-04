@@ -1,12 +1,12 @@
 <template>
-  <main class="container container--grid">
+  <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :errorRowEnabled="true"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
@@ -21,7 +21,6 @@
         :file-name="$t('translations.fields.countryId')"
       />
       <DxFilterRow :visible="true" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -61,6 +60,7 @@
   </main>
 </template>
 <script>
+import EntityType from '~/infrastructure/constants/entityTypes'
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import CustomStore from "devextreme/data/custom_store";
@@ -119,7 +119,7 @@ export default {
         updateUrl: dataApi.sharedDirectory.Country,
         removeUrl: dataApi.sharedDirectory.Country
       }),
-      entityType: "Country",
+      entityType: EntityType.Country,
       statusStores: this.$store.getters["status/status"],
 
       initNewRow: e => {
@@ -141,8 +141,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.container {
-  display: block;
-}
-</style>
