@@ -1,13 +1,12 @@
 <template>
-  <main >
+  <main>
     <h1>{{$t("translations.menu.counterPart")}}</h1>
   </main>
 </template>
 <script>
 export default {
-
   data() {
-    return { };
+    return {};
   },
   components: {},
   methods: {},
