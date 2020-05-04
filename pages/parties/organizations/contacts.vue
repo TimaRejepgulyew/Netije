@@ -46,7 +46,7 @@
         <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="getActiveCompanies"
+          :data-source="companiesDataSource"
           value-expr="id"
           display-expr="name"
         />
