@@ -50,7 +50,7 @@
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="GetActiveRegionsDataStore"
+          :data-source="getActiveRegionsDataStore"
           value-expr="id"
           display-expr="name"
         />
@@ -134,7 +134,7 @@ export default {
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
     },
-    GetActiveRegionsDataStore(options) {
+    getActiveRegionsDataStore(options) {
       return {
         store: this.$dxStore({
         key: "id",
