@@ -494,7 +494,8 @@ export default {
       forAcquaintance: "На ознакомление:",
       completeAssignment: "Выполните задание",
       acquaintanceDocument: "Ознакомтесь с документом(и)",
-      InProcess: "В процессе"
+      InProcess: "В процессе",
+      Unread:"Не прочитанно"
     },
     commentType: {
       0: "Задача",
