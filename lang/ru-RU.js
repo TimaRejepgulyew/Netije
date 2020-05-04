@@ -426,8 +426,8 @@ export default {
       attachmentSimpleTask: "Вложение к простой задаче",
       createDocument: "Создать документ",
       completed: "Завершенно",
-      regionAlreadyExists:"Такой регион уже существует",
-      localityAlreadyExists:"Такой населенный пункт уже существует"
+      regionAlreadyExists: "Такой регион уже существует",
+      localityAlreadyExists: "Такой населенный пункт уже существует"
     },
     headers: {
       addDocumentKind: "Добавление вида документа",
@@ -497,7 +497,8 @@ export default {
       completeAssignment: "Выполните задание",
       acquaintanceDocument: "Ознакомтесь с документом(и)",
       InProcess: "В процессе",
-      Unread:"Не прочитанно"
+      Unread: "Не прочитанно",
+      expired: "Просроченно"
     },
     commentType: {
       0: "Задача",

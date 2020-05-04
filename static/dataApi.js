@@ -95,7 +95,11 @@ export default {
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/GetTaskById/`
   },
-  recipient:{
-    list:`${url}/api/Recipient`
+  recipient: {
+    list: `${url}/api/Recipient`
+  },
+  attachment: {
+    AttachmentByTask: `${url}/api/Attachment/ByTask/`,
+    AttachmentByAssignment: `${url}/api/Attachment/ByAssignment/`
   }
 };

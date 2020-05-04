@@ -60,19 +60,9 @@ export default {
     DxButton,
     DxTagBox
   },
-  props: [, "readOnly"],
-  async created() {
-    if (!this.isCreated) {
-      const { data } = await this.$axios(
-        dataApi.attachment.AttachmentByTask + this.$route.params.id
-      );
-
-      this.attachments = data;
-    }
-  },
+  props: ["attachments", "readOnly"],
   data() {
     return {
-      attachments: [],
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -101,16 +91,9 @@ export default {
         } else {
           
         }
-        if (this.isCreated) {
-          this.$emit("updateAttachments", attachments);
-          this.selectedDocument = null;
-        }
+        this.$emit("updateAttachments", attachments);
+        this.selectedDocument = null;
       }
-    }
-  },
-  computed: {
-    isCreated() {
-      return !this.$route.params.id;
     }
   }
 };
