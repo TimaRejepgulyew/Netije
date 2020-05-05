@@ -1,18 +1,16 @@
 import { alert } from "devextreme/ui/dialog";
 
-export default function({ store, app: { $axios, i18n } }) {
-  $axios.onRequest(config => {
-    console.log("Making request to " + config.url);
-  });
-  let refreshing = false;
-  $axios.onError(error => {
-    const code = parseInt(error.response && error.response.status);
+export default function ({ store, app: { $axios, i18n } }) {
 
-    if (code === 400) {
+  $axios.onError(error => {
+    if (error.response.headers["content-type"] === "application/problem+json; charset=utf-8") {
+      var responseDetail = JSON.parse(error.response.data.detail);
       var errors = [];
-      for (const key in error.response.data) {
-        if (error.response.data.hasOwnProperty(key)) {
-          errors.push(error.response.data[key][0]);
+      for (const key in responseDetail) {
+        if (responseDetail.hasOwnProperty(key)) {
+          responseDetail[key].forEach(element => {
+            errors.push(element);
+          });
         }
       }
 
@@ -24,21 +22,16 @@ export default function({ store, app: { $axios, i18n } }) {
           .join(" ")}</ul>`,
         i18n.t("translations.shared.error")
       );
-      // redirect('/400')
     }
-    // else if (code === 401) {
-    //   app.store.dispatch("oidc/authenticateOidcSilent");
-    //   window.location.reload;
-    // }
   });
 
   $axios.interceptors.request.use(
-    function(config) {
+    function (config) {
       config.headers.Authorization =
         "Bearer " + store.getters["oidc/oidcAccessToken"];
       return config;
     },
-    function(error) {
+    function (error) {
       return Promise.reject(error);
     }
   );
