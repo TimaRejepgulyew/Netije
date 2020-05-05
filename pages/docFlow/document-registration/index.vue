@@ -1,5 +1,5 @@
 <template>
-  <main >
+  <main>
     <DxPopup
       :visible.sync="popupSetting"
       :drag-enabled="false"
@@ -47,7 +47,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @init-new-row="initNewRow"
+      @toolbar-preparing="onToolbarPreparing($event)"
       :ref="dataGridRefKey"
     >
       <DxGroupPanel :visible="true" />
@@ -102,7 +102,7 @@
         <DxButton
           icon="edit"
           :text="$t('translations.headers.editDocumentRegistry')"
-          :onClick="editingStart"
+          :onClick="editDocumentRegisterForm"
           :visible="$store.getters['permissions/allowUpdating'](entityType)"
         ></DxButton>
 
@@ -209,14 +209,6 @@ export default {
 
       statusStores: this.$store.getters["status/status"](this),
 
-      initNewRow: e => {
-        this.$router.push("/docflow/document-registration/upsert");
-      },
-      editingStart: e => {
-        this.$router.push(
-          "/docflow/document-registration/upsert/" + e.row.data.id
-        );
-      },
       popupCurrentNumber: false,
       currentNumberStart: e => {
         this.documentRegisterId = e.row.key;
@@ -248,6 +240,17 @@ export default {
     popupDisabled(popup) {
       this.dataGrid.refresh();
       this[popup] = false;
+    },
+    editDocumentRegisterForm(e) {
+      this.$router.push(
+        `/docflow/document-registration/upsert/${e.row.data.id}`
+      );
+    },
+    onToolbarPreparing(e) {
+      const addButtonIndex = 1;
+      e.toolbarOptions.items[addButtonIndex].options.onClick = () => {
+        this.$router.push("/docflow/document-registration/upsert/new");
+      };
     }
   }
 };
