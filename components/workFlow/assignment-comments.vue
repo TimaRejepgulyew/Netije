@@ -9,7 +9,7 @@
       >
         <template #item="item">
           <div class="list-container">
-            <div class="list-item mY-2" :class="{'current-message':item.data.isCurrent}">
+            <div class="comments__item mY-2" :class="{'current-message':item.data.isCurrent}">
               <div class="d-flex js-space-between">
                 <div>
                   <img class="icon--type" :src="parseIconType(item.data.type)" />
@@ -46,7 +46,7 @@
             </div>
 
             <div
-              class="list-item d-flex ml-4 mY-2"
+              class="comments__item d-flex ml-4 mY-2"
               :class="{'current-message':message.isCurrent}"
               v-for="(message,index) in item.data.children"
               :key="index"
@@ -86,27 +86,21 @@
         </template>
       </DxList>
     </div>
-    <div>
-      <DxTextArea :on-value-changed="addComment" :height="90" :value="comment" />
-    </div>
   </div>
 </template>
 <script>
 import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
-import { DxTextArea } from "devextreme-vue";
 import moment from "moment";
 export default {
   components: {
-    DxList,
-    DxTextArea
+    DxList
   },
   props: ["url"],
   data() {
     return {
       employees: [],
-      comments: [],
-      comment: ""
+      comments: []
     };
   },
   async created() {
@@ -131,6 +125,8 @@ export default {
           return "dx-icon-clock";
         case "Unread":
           return "dx-icon-close";
+        case "Read":
+          return "dx-icon-check";
       }
     },
     parseIconType(type) {
@@ -148,23 +144,6 @@ export default {
     },
     formatDate(date) {
       return moment(date).format("L");
-    },
-    addComment(e) {
-      this.$emit("addComment", e.value);
-      this.comment = e.value;
-    },
-    setAllAuthor() {
-      this.comments.data.map(async text => {
-        text.writtenById = this.setAuthor(text.writtenById);
-      });
-    },
-    setAuthor(id) {
-      if (id === 7) {
-        return { name: "Admin" };
-      }
-      return this.employees.data.data.find(user => {
-        return user.id === id;
-      });
     }
   }
 };
@@ -195,17 +174,21 @@ export default {
   margin-left: 40px;
 }
 .current-message {
-  background: $base-border-color;
+  background: lighten($base-border-color, 10);
 }
 .icon--type {
   display: flex;
   width: 30px;
   height: 100%;
 }
-.list-item {
+.comments__item {
   white-space: normal;
-  border-left: 3px solid green;
-  border-radius: 2px;
+  border: 1px solid $base-border-color;
+  border-left: 2px solid green;
+  padding: 5px 0;
+  border-radius: 4px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
   .subject {
     .text--bold {
       display: block;

@@ -17,7 +17,7 @@
         :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
         :onRowDblClick="toMoreAbout"
         :on-row-prepared="onRowPrepared"
-        @toolbar-preparing="onToolbarPreparing($event)"
+        @toolbar-preparing="addButtonToGrid($event)"
       >
         <DxGroupPanel :visible="true" />
         <DxGrouping :auto-expand-all="false" />
@@ -95,6 +95,7 @@
   </main>
 </template>
 <script>
+import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import { DxDropDownButton } from "devextreme-vue";
 import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -145,13 +146,13 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
-  created() {},
+
   data() {
     return {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.task.AllAssignments
+          loadUrl: dataApi.task.Assignments
         })
       }),
       isFilterOpen: false,
@@ -163,11 +164,11 @@ export default {
   },
   computed: {
     headerTitle() {
-      return this.$t(`translations.menu.allAssignments`);
+      return this.$t(`translations.menu.assignments`);
     }
   },
   methods: {
-    onToolbarPreparing(header) {
+    addButtonToGrid(header) {
       header.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
@@ -212,13 +213,14 @@ export default {
         sort: "isRead",
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.assignment.Assignments + 0
+          loadUrl: dataApi.assignment.Assignments
         }),
         filter
       });
     },
     toMoreAbout(e) {
-      this.$router.push(`/assignment/moreAbout/${e.key}`);
+    console.log(e);
+      // this.$router.push( RouteGenerator.generateAssignmentDetailRoute(e.key));
     },
     createTask(e) {
       this.$router.push(e.itemData.path);

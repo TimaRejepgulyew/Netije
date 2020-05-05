@@ -9,8 +9,8 @@
 </template>
 
 <script>
+import DocumentService from "~/infrastructure/services/documentService";
 import { DxDropDownButton } from "devextreme-vue";
-import { saveAs } from "file-saver";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
@@ -44,39 +44,26 @@ export default {
   },
   methods: {
     onItemClick(e) {
+      console.log(e);
       switch (e.itemData.type) {
         case "preview":
-          this.openVersion();
+          this.previewDocument();
           break;
         case "download":
-          this.download;
+          this.downloadDocument();
       }
     },
-    downloadVersion(version) {
-      this.$axios
-        .get(dataApi.paperWork.DownloadLastVersion + this.document.id, {
-          responseType: "blob"
-        })
-        .then(response => {
-          var blob = new Blob([response.data], {
-            type: `data:${response.data.type}`
-          });
-
-          saveAs(blob, `${this.name}.${version.extension}`);
-        });
+    downloadDocument() {
+      DocumentService.downloadDocument(
+        {
+          ...this.document,
+          extension: this.document.associatedApplication.extension
+        },
+        this
+      );
     },
-    openVersion(version) {
-      this.$axios
-        .get(dataApi.paperWork.PreviewLastVersion + this.document.id, {
-          responseType: "blob"
-        })
-        .then(response => {
-          var x = screen.width * 0.25;
-          var offset = screen.height * 0.2;
-          let params = `height=${screen.height - offset},width=${screen.width *
-            0.5},left=${x},top=${50}`;
-          window.open(URL.createObjectURL(response.data), "Preview", params);
-        });
+    previewDocument() {
+      DocumentService.previewDocument(this.document, this);
     },
     detachVersion() {
       // this.$axios.delete()

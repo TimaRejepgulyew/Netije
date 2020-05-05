@@ -438,7 +438,8 @@ export default {
       createDocument: "Создать документ",
       completed: "Завершенно",
       regionAlreadyExists: "Такой регион уже существует",
-      localityAlreadyExists: "Такой населенный пункт уже существует"
+      localityAlreadyExists: "Такой населенный пункт уже существует",
+      me: "Я"
     },
     headers: {
       addDocumentKind: "Добавление вида документа",
@@ -511,6 +512,7 @@ export default {
       acquaintanceDocument: "Ознакомтесь с документом(и)",
       InProcess: "В процессе",
       Unread: "Не прочитанно",
+      Read: "Прочитанно",
       expired: "Просроченно"
     },
     commentType: {

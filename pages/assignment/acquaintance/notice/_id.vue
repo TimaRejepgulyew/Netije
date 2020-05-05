@@ -18,7 +18,7 @@
         <div class="item f-grow-3">
           <DxForm
             :col-count="1"
-            :form-data.sync="store"
+            :form-data.sync="assignment"
             :read-only="true"
             :show-colon-after-label="true"
             :show-validation-summary="true"
@@ -109,9 +109,10 @@
 <script>
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import DxList from "devextreme-vue/list";
+
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
-import attachmentDetails from "~/components/assignment/attachment-details";
+import attachmentDetails from "~/components/task/attachment-details";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -137,20 +138,22 @@ export default {
     DxForm
   },
   async asyncData({ app, params }) {
-    let store = await app.$axios.get(dataApi.task.AssignmentId + params.id);
+    let assignment = await app.$axios.get(
+      dataApi.assignment.AssignmentId + params.id
+    );
     return {
-      store: store.data
+      assignment: assignment.data
     };
   },
   created() {
-    if (!this.store.isRead) {
+    if (!this.assignment.isRead) {
       this.markingRead();
     }
   },
   data() {
     return {
       headerTitle: this.$t("translations.headers.moreAbout"),
-      store: [],
+      assignment: [],
       dateTimeOptions: {
         type: "datetime"
       },
@@ -160,17 +163,19 @@ export default {
   },
   methods: {
     addComment(comment) {
-      this.store.comment = comment;
+      this.assignment.comment = comment;
     },
     handleSubmit() {
-      const store = {};
-      store.assignmentId = +this.$route.params.id;
-      store.attachmentDetails = this.store.attachmentDetails.map(({ id }) => {
-        return id;
-      });
-      store.comment = this.store.comment;
+      const assignment = {};
+      assignment.assignmentId = +this.$route.params.id;
+      assignment.attachmentDetails = this.assignment.attachmentDetails.map(
+        ({ id }) => {
+          return id;
+        }
+      );
+      assignment.comment = this.assignment.comment;
       this.$awn.asyncBlock(
-        this.$axios.post(dataApi.task.CompleteAssignment, store),
+        this.$axios.post(dataApi.Assignment.CompleteAssignment, assignment),
         e => {
           this.assignment.status = 2;
           this.$awn.success();
@@ -179,18 +184,18 @@ export default {
       );
     },
     async markingRead() {
-      let isread = await this.$axios.post(dataApi.task.MarkAsRead, {
+      let isread = await this.$axios.post(dataApi.assignment.MarkAsRead, {
         assignmentId: parseInt(this.$route.params.id)
       });
 
-      this.store.isRead = true;
+      this.assignment.isRead = true;
     },
     addAttachment(document) {
-      const hasDocument = this.store.attachmentDetails.some(el => {
+      const hasDocument = this.assignment.attachmentDetails.some(el => {
         return el.id === document.id;
       });
       if (!hasDocument) {
-        this.store.attachmentDetails.push(document);
+        this.assignment.attachmentDetails.push(document);
       } else {
         this.notify(
           this.$t("translations.taskMessage.documentAlreadyHasBeen"),
@@ -219,7 +224,7 @@ export default {
       const { data } = await this.$axios.get(
         dataApi.task.GetTaskById + this.$route.params.id
       );
-      this.store = await data;
+      this.assignment = await data;
       setTimeout(() => {
         this.isReload = false;
       }, 1000);
@@ -227,7 +232,7 @@ export default {
   },
   computed: {
     showCompletedBtn() {
-      switch (this.store.assignmentType) {
+      switch (this.assignment.assignmentType) {
         case 2:
         case 3:
         case 8:
@@ -239,10 +244,10 @@ export default {
       }
     },
     isCompleted() {
-      return this.store.status == 2;
+      return this.assignment.status == 2;
     },
     isImportance() {
-      return this.store.importance == 0;
+      return this.assignment.importance == 0;
     },
     completedButtonOptions() {
       return this.$store.getters["globalProperties/btnCompleted"](this);

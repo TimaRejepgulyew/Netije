@@ -2,9 +2,6 @@ import Vue from "vue";
 import VueAWN from "vue-awesome-notifications";
 export default ({ app }, inject) => {
   const options = {
-    icons: {
-      async: "~/static/icons/loading.gif"
-    },
     labels: {
       info: app.i18n.t("translations.notification.labels.info"),
       success: app.i18n.t("translations.notification.labels.success"),

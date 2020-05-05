@@ -1,5 +1,5 @@
 <template>
-  <i :class="'flaticon-'+ slicedExtension"></i>
+  <i :class="slicedExtension"></i>
 </template>
 
 <script>
@@ -8,12 +8,19 @@ export default {
   computed: {
     slicedExtension() {
       if (this.extension) {
-        return this.extension.slice(1);
+        return "flaticon-" + this.extension.slice(1);
+      } else {
+        return "dx-icon-file";
       }
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
+.dx-icon-file {
+  font-size: 30px;
+  font-style: normal;
+  margin: 0 7.5px;
+}
 </style>

@@ -10,7 +10,9 @@
                 class="d-flex"
                 @dblclick="()=>{openVersion(item.data.document.id,item.data.document.documentTypeGuid)}"
               >
-                <document-icon :extension="item.data.document.associatedApplication.extension"></document-icon>
+                <document-icon
+                  :extension="item.data.document.associatedApplication?item.data.document.associatedApplication.extension:null"
+                ></document-icon>
                 <div class="list__content">
                   {{item.data.document.name}}
                   <div class="text-sm">
@@ -120,13 +122,13 @@ export default {
         id: null,
         document: this.selectedDocument,
         canDetach: true,
-        attachedBy: "me"
+        attachedBy: this.$t("translations.fields.me")
       };
     },
     addAttachment() {
       let attachments = this.attachments;
       if (!this.compareAttachments()) {
-        const attachment = formatDocument();
+        const attachment = this.formatDocument();
         attachments.push(attachment);
         this.sendAttachments(attachments);
       }

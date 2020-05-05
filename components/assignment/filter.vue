@@ -93,7 +93,7 @@ export default {
       let filter;
       if (this.status == 1) {
         //если все и просроченные тоже убрать статус
-        filter = null;
+        filter = ["assignmentType", "=", this.assignmentType];
       } else {
         filter = [
           ["status", "=", this.status],

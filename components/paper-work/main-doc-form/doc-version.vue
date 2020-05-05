@@ -48,7 +48,7 @@ import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
 import notify from "devextreme/ui/notify";
-import { saveAs } from "file-saver";
+import DocumentService from "~/infrastructure/services/documentService";
 import { DxPopup } from "devextreme-vue/popup";
 export default {
   components: { DocumentIcon, DxFileUploader, DxList, DxButton, DxPopup },
@@ -109,31 +109,15 @@ export default {
       return associatedApplication.data.data;
     },
     openVersion(version) {
-      this.$axios
-        .get(dataApi.paperWork.PreviewVersion + version.id, {
-          responseType: "blob"
-        })
-        .then(response => {
-          var x = screen.width * 0.25;
-          var offset = screen.height * 0.2;
-          let params = `height=${screen.height - offset},width=${screen.width *
-            0.5},left=${x},top=${50}`;
-          window.open(URL.createObjectURL(response.data), "Preview", params);
-        });
+      DocumentService.previewVersion(version,this);
     },
 
     downloadVersion(version) {
-      this.$axios
-        .get(dataApi.paperWork.DownloadVersion + version.id, {
-          responseType: "blob"
-        })
-        .then(response => {
-          var blob = new Blob([response.data], {
-            type: `data:${response.data.type}`
-          });
-
-          saveAs(blob, `${this.name}.${version.extension}`);
-        });
+      DocumentService.downloadVersion({
+        id: version.id,
+        name: this.name,
+        extension: version.extension
+      },this);
     },
     deleteVersion() {
       // this.editVersionPopup = true;
@@ -155,25 +139,24 @@ export default {
       let formData = new FormData();
       formData.append("File", e.file);
       formData.append("documentId", parseInt(this.$route.params.id));
-      this.$axios
-        .post(dataApi.paperWork.DocumentVersion, formData, {
+      this.$awn.async(
+        this.$axios.post(dataApi.paperWork.DocumentVersion, formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
-        })
-        .then(version => {
-          this.notify(this.$t("translations.fields.uploadSuccess"), "success");
+        }),
+        version => {
           const associatedApplication = this.getThisAssociatedApp(
             version.data.binaryDataAssociatedApplicationId
           );
-          version.data.extension = associatedApplication.extension.slice(1);
+          version.data.extension = associatedApplication.extension;
           version.data.preview = associatedApplication.canBeOpenedWithPreview;
           this.versions.unshift(version.data);
           this.$refs["fileUploader"].instance.reset();
-        })
-        .catch(() => {
-          this.notify(this.$t("translations.fields.uploadError"), "error");
-        });
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
     }
   }
 };

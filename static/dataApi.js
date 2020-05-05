@@ -93,7 +93,7 @@ export default {
     GetTaskById: `${url}/api/Task/GetTaskById/`
   },
   assignment: {
-    Assignments: `${url}/api/Assignment/`,
+    Assignments: `${url}/api/Assignment`,
     GetAssignmentById: `${url}/api/Assignment/GetAssignmentById/`,
     CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
     MarkAsRead: `${url}/api/Assignment/MarkAsRead`,

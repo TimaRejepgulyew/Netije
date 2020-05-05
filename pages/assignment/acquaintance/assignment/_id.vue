@@ -126,8 +126,6 @@ import AssignmentComments from "~/components/workFlow/assignment-comments";
 export default {
   components: {
     DxLoadPanel,
-    NavBarObservers,
-    NavBarPerformers,
     DxList,
     AssignmentComments,
     attachmentDetails,
