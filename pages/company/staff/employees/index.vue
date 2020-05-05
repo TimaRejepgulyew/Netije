@@ -1,18 +1,16 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.employee')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @editing-start="editingStart"
-      @init-new-row="initNewRow"
+      @toolbar-preparing="onToolbarPreparing($event)"
     >
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -44,20 +42,23 @@
       <DxColumn data-field="userName" :caption="$t('translations.fields.userName')"></DxColumn>
 
       <DxColumn data-field="jobTitleId" :caption="$t('translations.fields.jobTitleId')">
-        <DxLookup :data-source="jobTitleStores" value-expr="id" display-expr="name" />
+        <DxLookup :data-source="jobTitleDataSource" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
 
       <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
-        <DxLookup :data-source="departmentsStores" value-expr="id" display-expr="name" />
+        <DxLookup :data-source="departmentsDataSource" value-expr="id" display-expr="name" />
       </DxColumn>
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" />
+      <DxColumn :width="110" :buttons="editButtons" type="buttons" />
     </DxDataGrid>
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
@@ -72,7 +73,6 @@ import {
   DxGrouping,
   DxGroupPanel,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -88,7 +88,6 @@ export default {
     DxDataGrid,
     DxColumn,
     DxEditing,
-    DxSelection,
     DxHeaderFilter,
     DxScrolling,
     DxExport,
@@ -104,39 +103,42 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.employee"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Employee,
         insertUrl: dataApi.company.Employee,
         updateUrl: dataApi.company.Employee,
         removeUrl: dataApi.company.Employee
       }),
-      entityType: "Employee",
-      statusStores: this.$store.getters["status/status"],
-      departmentsStores: this.$dxStore({
+      entityType: EntityType.Employee,
+      statusDataSource: this.$store.getters["status/status"](this),
+      departmentsDataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Department
       }),
-      jobTitleStores: this.$dxStore({
+      jobTitleDataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.JobTitle
       }),
-      initNewRow: e => {
-        this.$router.push("/company/staff/employees/create-employee");
-      },
-      editingStart: e => {
-        this.$router.push(
-          `/company/staff/employees/${e.data.id}`
-        );
-      }
+      editButtons: [
+        {
+          hint: "card",
+          icon: "card",
+          onClick: this.editEmployee
+        }
+      ]
     };
   },
-  methods: {}
+  methods: {
+    editEmployee(e) {
+      this.$router.push(`/company/staff/employees/${e.row.data.id}`);
+    },
+    onToolbarPreparing(e) {
+      const addButtonIndex = 1;
+      e.toolbarOptions.items[addButtonIndex].options.onClick = () => {
+        this.$router.push(`/company/staff/employees/create-employee`);
+      };
+    }
+  }
 };
 </script>
-<style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
-</style>

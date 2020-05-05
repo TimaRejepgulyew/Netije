@@ -479,7 +479,8 @@ export default {
       moreAbout: "Подробнее"
     },
     links: {
-      complete: "завершить",
+      changePassword:"Сменить пароль",
+      complete: "Завершить",
       save: "Сохранить",
       add: "Добавить",
       complete: "Завершить",

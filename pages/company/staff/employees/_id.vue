@@ -1,9 +1,10 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <Header :headerTitle="headerTitle"></Header>
+      <Header :headerTitle="$t('translations.menu.upgratingEmployee') + store.name"></Header>
+
       <DxPopup
-        :visible.sync="popupPasswordVisible"
+        :visible.sync="changePasswordPupupVisible"
         :drag-enabled="false"
         :close-on-outside-click="true"
         :show-title="true"
@@ -12,30 +13,18 @@
         :title="$t('translations.fields.passwordChange')"
       >
         <div>
-          <popup-change-password @popupDisabled="popupDisabled('popupPasswordVisible')" />
+          <popup-change-password @hidePopup="hidePopup('changePasswordPupupVisible')" />
         </div>
       </DxPopup>
-      <!-- <DxPopup
-        :visible.sync="popupRoleVisible"
-        :drag-enabled="false"
-        :close-on-outside-click="true"
-        :show-title="true"
-        :width="500"
-        :height="250"
-        :title="$t('translations.fields.addingRoles')"
-      >
-        <div>
-          <popup-user-role @popupDisabled="popupDisabled('popupRoleVisible')" />
-        </div>
-      </DxPopup>-->
       <form @submit="handleSubmit">
         <DxForm
+          :disabled="!$store.getters['permissions/allowUpdating'](entityType)"
           :col-count="12"
           :form-data.sync="store"
           :read-only="false"
           :show-colon-after-label="true"
           :show-validation-summary="true"
-          validation-group="upgrateEmployee"
+          validation-group="updateEmployee"
         >
           <DxGroupItem :col-span="4" :caption="$t('translations.fields.personalData')">
             <DxSimpleItem
@@ -44,15 +33,6 @@
               data-type="string"
             >
               <DxLabel location="top" :text="$t('translations.fields.userName')" />
-            </DxSimpleItem>
-            <DxSimpleItem data-field="email">
-              <DxLabel location="top" />
-              <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
-              <DxEmailRule :message="$t('translations.fields.emailRule')" />
-              <DxAsyncRule
-                :validation-callback="validateEntityExists"
-                :message="$t('translations.fields.emailAlreadyExists')"
-              />
             </DxSimpleItem>
             <DxSimpleItem data-field="name">
               <DxLabel location="top" :text="$t('translations.fields.fullName')" />
@@ -63,23 +43,23 @@
               />
             </DxSimpleItem>
             <DxSimpleItem
-              data-field="note"
-              :col-span="1"
-              :editor-options="{height: 90,labelLocation:'right',}"
-              editor-type="dxTextArea"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.note')" />
-            </DxSimpleItem>
-          </DxGroupItem>
-          <DxGroupItem :col-span="5" :caption="$t('translations.fields.APN')">
-            <DxSimpleItem
               data-field="jobTitleId"
               :editor-options="jobTitleOptions"
               editor-type="dxSelectBox"
             >
               <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
             </DxSimpleItem>
-
+            <DxSimpleItem data-field="email">
+              <DxLabel location="top" />
+              <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
+              <DxEmailRule :message="$t('translations.fields.emailRule')" />
+              <DxAsyncRule
+                :validation-callback="validateEntityExists"
+                :message="$t('translations.fields.emailAlreadyExists')"
+              />
+            </DxSimpleItem>
+          </DxGroupItem>
+          <DxGroupItem :col-span="5" :caption="$t('translations.fields.departmentId')">
             <DxSimpleItem
               data-field="departmentId"
               :editor-options="departmentOptions"
@@ -105,19 +85,21 @@
             :caption="$t('translations.fields.moreSettings')"
           >
             <DxButtonItem :button-options="popupPasswordOpt" horizontal-alignment="right" />
-            <!-- <DxButtonItem :button-options="popupRoleOpt" horizontal-alignment="right" /> -->
           </DxGroupItem>
           <DxGroupItem :col-count="12" :col-span="12">
-            <DxButtonItem
-              :col-span="11"
-              :button-options=" saveButtonOptions"
-              horizontal-alignment="right"
-            />
-            <DxButtonItem
-              :col-span="1"
-              :button-options="cancelButtonOptions"
-              horizontal-alignment="right"
-            />
+            <DxSimpleItem
+              data-field="note"
+              :col-span="12"
+              :editor-options="{height: 90}"
+              editor-type="dxTextArea"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.note')" />
+            </DxSimpleItem>
+          </DxGroupItem>
+
+          <DxGroupItem :col-count="12" :col-span="12">
+            <DxButtonItem :button-options="saveButtonOptions"  />
+            <DxButtonItem :button-options="cancelButtonOptions" />
           </DxGroupItem>
         </DxForm>
       </form>
@@ -125,8 +107,9 @@
   </div>
 </template>
 <script>
-import popupChangePassword from "~/components/employee/popup-changePassword";
-import popupUserRole from "~/components/employee/popup-change-userRole";
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
+import popupChangePassword from "~/components/employee/popup-change-password";
 import Header from "~/components/page/page__header";
 import "devextreme-vue/text-area";
 import { DxPopup } from "devextreme-vue/popup";
@@ -161,19 +144,22 @@ export default {
     DxForm,
     DxAsyncRule,
     DxPopup,
-    popupUserRole,
     popupChangePassword
   },
   async created() {
-    this.store = await this.getDataById(this.address);
-    this.headerTitle =
-      this.$t("translations.menu.upgratingEmployee") + this.store.name;
+    this.$awn.asyncBlock(
+      this.$axios.get(dataApi.company.Employee + "/" + this.$route.params.id),
+      res => (this.store = res.data),
+      err => {
+        this.goBack();
+        this.$awn.alert();
+      }
+    );
   },
 
   data() {
     return {
-      headerTitle: "",
-      address: dataApi.company.Employee + "/" + this.$route.params.id,
+      entityType: EntityType.Employee,
       store: {
         id: parseInt(this.$route.params.id),
         email: null,
@@ -187,41 +173,32 @@ export default {
         confirmPassword: null,
         status: 0
       },
-
       cancelButtonOptions: {
-        onClick: this.backTo,
+        onClick: this.goBack,
         width: 100,
-        height: 50,
+        height: 40,
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
       },
       statusOptions: {
-        dataSource: this.$store.getters["status/status"],
+        dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
         showClearButton: true
       },
       saveButtonOptions: {
-        height: 50,
+        height: 40,
         text: this.$t("translations.links.save"),
         useSubmitBehavior: true,
         type: "success"
       },
       popupPasswordOpt: {
         onClick: () => {
-          this.popupPasswordVisible = true;
+          this.changePasswordPupupVisible = true;
         },
-        height: 50,
+        height: 40,
         icon: "key",
-        text: "Сменить пароль"
-      },
-      popupRoleOpt: {
-        onClick: () => {
-          this.popupRoleVisible = true;
-        },
-        height: 50,
-        text: "Назначить роль",
-        icon: "user"
+        text: this.$t("translations.links.changePassword")
       },
       passwordOptions: {
         mode: "password"
@@ -236,18 +213,13 @@ export default {
         url: dataApi.company.Department,
         filter: ["status", "=", 0]
       }),
-      popupPasswordVisible: false,
-      popupRoleVisible: false,
+      changePasswordPupupVisible: false,
       namePattern: /^[^0-9]+$/
     };
   },
 
   methods: {
-    async getDataById(url) {
-      const res = await this.$axios.get(url);
-      return res.data;
-    },
-    popupDisabled(popup) {
+    hidePopup(popup) {
       this[popup] = false;
     },
     passwordComparison() {
@@ -263,39 +235,20 @@ export default {
         dataField
       );
     },
-    backTo() {
+    goBack() {
       this.$router.go(-1);
     },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-         
-          }
-        },
-        msgType,
-        3000
-      );
-    },
     handleSubmit(e) {
-      delete this.store.userName;
-      this.$axios
-        .put(this.address, this.store)
-        .then(res => {
-          this.backTo();
-          this.notify(
-            this.$t("translations.menu.upgradeEmployeeSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.menu.upgradeEmployeeError"),
-            "error"
-          );
-        });
-
+      this.$awn.asyncBlock(
+        this.$axios.put(
+          dataApi.company.Employee + "/" + this.$route.params.id,
+          this.store
+        ),
+        e => {
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
       e.preventDefault();
     }
   }
@@ -304,14 +257,6 @@ export default {
 <style  lang="scss" scoped>
 form {
   margin: 10px;
-}
-.grid__header {
-  background: #f0f3f5;
-}
-.grid__title {
-  font-size: 30px;
-  font-weight: normal;
-  padding: 30px 20px;
 }
 </style>
 

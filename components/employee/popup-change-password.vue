@@ -1,7 +1,7 @@
 <template>
   <form @submit="handleSubmit">
     <DxForm
-      :form-data="store"
+      :form-data="formData"
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
@@ -18,7 +18,6 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -42,17 +41,15 @@ export default {
 
   data() {
     return {
-      address: dataApi.company.Employee + "/ChangePassword",
-      store: {
+      formData: {
         id: parseInt(this.$route.params.id),
         newPassword: ""
       },
-
       saveButtonOptions: {
-        height: 50,
-        text: this.$t("translations.links.save"),
+        height: 40,
+        text: this.$t("translations.links.changePassword"),
         useSubmitBehavior: true,
-        type: "success"
+        type: "normal"
       },
       passwordOptions: {
         mode: "password"
@@ -60,38 +57,22 @@ export default {
     };
   },
   methods: {
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center bottom",
-            at: "center bottom"
-          }
-        },
-        msgType,
-        3000
-      );
-    },
     handleSubmit(e) {
-      this.$axios
-        .post(this.address, this.store)
-        .then(res => {
-          this.$emit("popupDisabled");
-          this.notify(
-            this.$t("translations.menu.addEmployeeSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(this.$t("translations.menu.addEmployeeError"), "error");
-        });
-
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.company.ChangeEmployeePassword, this.formData),
+        e => {
+          this.formData.newPassword = "";
+          this.$emit("hidePopup");
+          this.$awn.success();
+        },
+        e => {
+          this.formData.newPassword = "";
+          this.$awn.alert();
+        }
+      );
       e.preventDefault();
     }
   }
 };
 </script>
-<style  lang="scss" scoped>
-</style>
 

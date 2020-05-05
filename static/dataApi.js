@@ -19,6 +19,7 @@ export default {
     DepartmentMembers: `${url}/api/DepartmentMembers/`,
     BusinessUnit: `${url}/api/BusinessUnit`,
     Employee: `${url}/api/Employee`,
+    ChangeEmployeePassword: `${url}/api/Employee/ChangePassword`,
     JobTitle: `${url}/api/JobTitle`,
     ManagersAssistant: `${url}/api/ManagersAssistant`
   },
