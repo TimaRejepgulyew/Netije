@@ -8,9 +8,17 @@
             <div>
               <div
                 class="d-flex"
-                @dblclick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
+                @dblclick="()=>{openVersion(item.data.document.id,item.data.document.documentTypeGuid)}"
               >
-                <div class="list__content">{{item.data.name}}</div>
+                <document-icon :extension="item.data.document.associatedApplication.extension"></document-icon>
+                <div class="list__content">
+                  {{item.data.document.name}}
+                  <div class="text-sm">
+                    <i class="dx-icon dx-icon-user"></i>
+                    {{item.data.attachedBy}}
+                  </div>
+                </div>
+
                 <div class="list__btn-group">
                   <attachmentActionBtn
                     :document="item.data.document"
@@ -49,7 +57,8 @@
   </div>
 </template>
 <script>
-import attachmentActionBtn from "~/components/task/attachment-action-btn";
+import DocumentIcon from "~/components/page/document-icon";
+import attachmentActionBtn from "~/components/workFlow/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
@@ -59,18 +68,17 @@ import DxSelectBox from "devextreme-vue/select-box";
 import DxTagBox from "devextreme-vue/tag-box";
 export default {
   components: {
+    DocumentIcon,
     attachmentActionBtn,
     DxSelectBox,
     DxList,
     DxButton,
     DxTagBox
   },
-  props: [, "readOnly"],
+  props: ["url", "readOnly"],
   async created() {
     if (!this.isCreated) {
-      const { data } = await this.$axios(
-        dataApi.attachment.AttachmentByTask + this.$route.params.id
-      );
+      const { data } = await this.$axios(this.url + this.$route.params.id);
       this.attachments = data;
     }
   },
@@ -94,20 +102,33 @@ export default {
         ) + documentId
       );
     },
-    addAttachment() {
+    compareAttachments() {
       if (this.selectedDocument) {
-        const hasDocument = this.attachments.some(el => {
-          return el.id === this.selectedDocument.id;
+        return this.attachments.some(el => {
+          return el.document.id === this.selectedDocument.id;
         });
-        let attachments = this.attachments;
-        if (!hasDocument) {
-          attachments.push(this.selectedDocument);
-        } else {
-        }
-        if (this.isCreated) {
-          this.$emit("updateAttachments", attachments);
-          this.selectedDocument = null;
-        }
+      }
+    },
+    sendAttachments(attachments) {
+      if (this.isCreated) {
+        this.$emit("updateAttachments", attachments);
+        this.selectedDocument = null;
+      }
+    },
+    formatDocument() {
+      return {
+        id: null,
+        document: this.selectedDocument,
+        canDetach: true,
+        attachedBy: "me"
+      };
+    },
+    addAttachment() {
+      let attachments = this.attachments;
+      if (!this.compareAttachments()) {
+        const attachment = formatDocument();
+        attachments.push(attachment);
+        this.sendAttachments(attachments);
       }
     }
   },
@@ -131,7 +152,9 @@ export default {
     padding-bottom: 6px;
     border-bottom: 1px solid darken($base-bg, 15);
   }
-
+  .text-sm {
+    font-size: 12px;
+  }
   .list-container {
     padding: 35px 10px;
     height: auto;

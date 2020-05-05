@@ -3,7 +3,7 @@
     <div class="widget-container">
       <DxLoadPanel :visible.sync="isReload" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="$t('translations.headers.moreAbout')"></Header>
-      <status-message :importance="store.importance" :completed="store.status" />
+      <status-message :importance="taskProp.importance" :completed="taskProp.status" />
       <div class="navBar">
         <DxButton icon="refresh" :on-click="reload" />
       </div>
@@ -12,13 +12,13 @@
           <slot name="information"></slot>
           <DxForm
             :col-count="1"
-            :form-data.sync="store"
+            :form-data.sync="task"
             :read-only="true"
             :show-colon-after-label="true"
             :show-validation-summary="true"
             validation-group="task"
           >
-            <DxGroupItem :col-span="3" :caption="$t('translations.fields.main')">
+            <DxGroupItem :col-span="3">
               <DxGroupItem>
                 <DxSimpleItem data-field="id" template="comments">
                   <DxLabel location="top" :text="$t('translations.fields.comments')" />
@@ -26,31 +26,29 @@
               </DxGroupItem>
               <DxButtonItem :button-options="cancelButtonOptions" horizontal-alignment="left" />
             </DxGroupItem>
+            <template #comments>
+              <Assignment-comments v-if="!isReload" :url="commentsUrl"></Assignment-comments>
+            </template>
             <template #employee="employee">
               <employeeList :employee="employee.data.editorOptions.value"></employeeList>
-            </template>
-            <template #comments="taskId">
-              <Assignment-comments v-if="!isReload" :taskId="taskId.data.editorOptions.value"></Assignment-comments>
             </template>
           </DxForm>
         </div>
         <div class="item">
-          <attachmentDetails
-            v-if="!isReload"
-            :readOnly="true"
-          ></attachmentDetails>
+          <attachmentDetails v-if="!isReload" :url="attachmentsUrl" :readOnly="true"></attachmentDetails>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
+import dataApi from "~/static/dataApi";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Header from "~/components/page/page__header";
 import attachmentDetails from "~/components/task/attachment-details";
 import DxButton from "devextreme-vue/button";
-import AssignmentComments from "~/components/task/assignment-comments";
-import statusMessage from "~/components/task/status-message";
+import AssignmentComments from "~/components/workFlow/assignment-comments";
+import statusMessage from "~/components/workFlow/status-message";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -71,9 +69,12 @@ export default {
     DxForm,
     DxLoadPanel
   },
-  props: ["store"],
+  props: ["task"],
+
   data() {
     return {
+      attachmentsUrl: dataApi.attachment.AttachmentByTask,
+      commentsUrl: dataApi.task.TextsByTask,
       dateTimeOptions: {
         type: "datetime"
       },
@@ -93,6 +94,9 @@ export default {
     }
   },
   computed: {
+    taskProp() {
+      return this.task;
+    },
     cancelButtonOptions() {
       return this.$store.getters["globalProperties/btnCancel"](
         this,

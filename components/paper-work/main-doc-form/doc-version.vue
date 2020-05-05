@@ -7,8 +7,7 @@
           <template #item="item">
             <div>
               <div class="d-flex">
-                <i :class="'flaticon-'+ item.data.extension"></i>
-
+                <document-icon :extension="item.data.extension"></document-icon>
                 <div class="list__content">{{ item.data.note}}</div>
                 <div class="list__btn-group">
                   <DxButton
@@ -43,6 +42,7 @@
   </div>
 </template>
 <script>
+import DocumentIcon from "~/components/page/document-icon";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
@@ -51,12 +51,7 @@ import notify from "devextreme/ui/notify";
 import { saveAs } from "file-saver";
 import { DxPopup } from "devextreme-vue/popup";
 export default {
-  components: {
-    DxFileUploader,
-    DxList,
-    DxButton,
-    DxPopup
-  },
+  components: { DocumentIcon, DxFileUploader, DxList, DxButton, DxPopup },
   async created() {
     this.associatedApplication = await this.getData(
       dataApi.docFlow.AssociatedApplication
@@ -97,7 +92,7 @@ export default {
         const associatedApplication = this.getThisAssociatedApp(
           associatedApplicationId
         );
-        version.extension = associatedApplication.extension.slice(1);
+        version.extension = associatedApplication.extension;
         version.preview = associatedApplication.canBeOpenedWithPreview;
         return version;
       });

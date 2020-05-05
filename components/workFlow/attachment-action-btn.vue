@@ -1,10 +1,17 @@
 <template>
-  <DxDropDownButton :items="btnType" text="..." @item-click="onItemClick" />
+  <DxDropDownButton
+    :drop-down-options="{ width: 230 }"
+    :items="btnType"
+    display-expr="name"
+    text="..."
+    @item-click="onItemClick"
+  />
 </template>
 
 <script>
 import { DxDropDownButton } from "devextreme-vue";
 import { saveAs } from "file-saver";
+import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxDropDownButton
@@ -17,7 +24,7 @@ export default {
         {
           type: "preview",
           visible: canPreview,
-          icon: "preview",
+          icon: "search",
           name: this.$t("translations.links.preview")
         },
         {
@@ -28,8 +35,8 @@ export default {
         },
         {
           type: "detach",
-          visible: this.canDetach,
-          icon: "delete",
+          // visible: this.canDetach,
+          icon: "trash",
           name: this.$t("translations.links.delete")
         }
       ]

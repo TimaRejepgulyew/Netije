@@ -1,16 +1,8 @@
 <template>
-  <main >
+  <main>
     <Header :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
-      <DxDropDownButton
-        :use-select-mode="false"
-        :text="$t('translations.links.create')"
-        :drop-down-options="{ width: 230 }"
-        :items="assignmentsTypes"
-        icon="plus"
-        display-expr="name"
-        @item-click="createTask"
-      />
+      <CreateTaskDropDown />
       <DxButton icon="filter" :text="$t('translations.links.filter')" :on-click="showFilter" />
     </div>
     <div class="grid">
@@ -108,9 +100,9 @@ import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import TaskFilter from "~/components/task/filter";
+import TaskFilter from "~/components/assignment/filter";
 import DxButton from "devextreme-vue/button";
-
+import CreateTaskDropDown from "~/components/task/create-task-drop-down";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -131,6 +123,7 @@ import {
 
 export default {
   components: {
+    CreateTaskDropDown,
     TaskFilter,
     DxCheckBox,
     DxButton,
@@ -161,23 +154,6 @@ export default {
           loadUrl: dataApi.task.AllAssignments
         })
       }),
-      assignmentsTypes: [
-        {
-          id: 0,
-          path: "/task/createTask/2",
-          name: this.$t("translations.fields.createSimpleTask")
-        },
-        {
-          id: 2,
-          path: "/task/createTask/action-execution",
-          name: this.$t("translations.fields.createActionTask")
-        },
-        {
-          id: 1,
-          path: "/task/createTask/3",
-          name: this.$t("translations.fields.createAcquaintanceTask")
-        }
-      ],
       isFilterOpen: false,
       employeeStores: this.$dxStore({
         key: "id",
@@ -236,9 +212,9 @@ export default {
         sort: "isRead",
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.task.AllAssignments + assignmentType
+          loadUrl: dataApi.assignment.Assignments + 0
         }),
-        filter: filter
+        filter
       });
     },
     toMoreAbout(e) {

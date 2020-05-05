@@ -1,10 +1,10 @@
 <template>
   <div>
-    <main-form :store="store">
+    <main-form :task="task">
       <DxForm
         slot="information"
         :col-count="1"
-        :form-data.sync="store"
+        :form-data="task"
         :read-only="true"
         :show-colon-after-label="true"
         :show-validation-summary="true"
@@ -61,14 +61,15 @@ export default {
     DxLabel
   },
   async asyncData({ app, params }) {
-    let store = await app.$axios.get(dataApi.task.GetTaskById + params.id);
+    let task = await app.$axios.get(dataApi.task.GetTaskById + params.id);
     return {
-      store: store.data
+      task: task.data
     };
   },
+
   data() {
     return {
-      store: [],
+      task: [],
       dateTimeOptions: {
         type: "datetime"
       }

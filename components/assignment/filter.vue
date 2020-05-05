@@ -92,12 +92,16 @@ export default {
       }
       let filter;
       if (this.status == 1) {
+        //если все и просроченные тоже убрать статус
         filter = null;
       } else {
-        filter = ["status", "=", this.status];
+        filter = [
+          ["status", "=", this.status],
+          "and",
+          ["assignmentType", "=", this.assignmentType]
+        ];
       }
       this.$emit("changeFilter", {
-        assignmentType: this.assignmentType,
         filter
       });
     },

@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <Header :headerTitle="headerTitle[$route.params.type]"></Header>
+      <Header :headerTitle="$t('translations.fields.createAcquaintanceTask')"></Header>
       <importanceChanger @importanceChanged="importanceChanged"></importanceChanger>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
@@ -11,26 +11,13 @@
             :read-only="false"
             :show-colon-after-label="true"
             :show-validation-summary="true"
-            validation-group="OfficialDocument"
+            validation-group="simpleTaskValidationgroup"
           >
-            <DxGroupItem :col-count="3">
-              <DxGroupItem :col-span="2" :caption="$t('translations.fields.main')">
-                <DxGroupItem :col-count="5">
-                  <DxSimpleItem
-                    :editor-options="{disabled:!isSimpleTask,}"
-                    :col-span="4"
-                    data-field="subject"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-                  </DxSimpleItem>
-                  <DxSimpleItem
-                    :visible="isSimpleTask"
-                    data-field="needsReview"
-                    editor-type="dxCheckBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
-                  </DxSimpleItem>
-                </DxGroupItem>
+            <DxGroupItem :col-count="3" :caption="$t('translations.fields.main')">
+              <DxGroupItem :col-span="2">
+                <DxSimpleItem data-field="subject">
+                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+                </DxSimpleItem>
                 <DxGroupItem :col-count="2">
                   <DxSimpleItem
                     data-field="deadline"
@@ -41,14 +28,6 @@
                     <DxRangeRule :min="minDate" :message="$t('translations.fields.deadLineRule')" />
                   </DxSimpleItem>
 
-                  <DxSimpleItem
-                    :visible="isSimpleTask"
-                    data-field="routeType"
-                    editor-type="dxSelectBox"
-                    :editor-options="routeTypeOptions"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.start')" />
-                  </DxSimpleItem>
                   <DxSimpleItem
                     data-field="accessRights"
                     editor-type="dxSelectBox"
@@ -70,13 +49,12 @@
                   editor-type="dxTagBox"
                   data-field="performers"
                 >
-                  <DxRequiredRule :message="$t('translations.fields.performersRequired')" />
-                  <DxLabel location="top" :text="$t('translations.fields.performers')" />
+                  <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
+                  <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
                 </DxSimpleItem>
               </DxGroupItem>
               <DxGroupItem :caption="$t('translations.headers.attachment')">
                 <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
-                  <DxRequiredRule :message="$t('translations.fields.performersRequired1')" />
                   <DxLabel
                     :visible="false"
                     location="top"
@@ -84,15 +62,14 @@
                   />
                 </DxSimpleItem>
               </DxGroupItem>
-              <DxSimpleItem :col-span="3" data-field="comment" editor-type="dxTextArea">
-                <DxLabel :visible="false" location="top" :text="$t('translations.fields.comment')" />
-              </DxSimpleItem>
             </DxGroupItem>
-
+            <DxSimpleItem :col-span="3" data-field="comment" editor-type="dxTextArea">
+              <DxLabel location="top" :text="$t('translations.fields.comment')" />
+            </DxSimpleItem>
             <DxGroupItem :col-count="20" :col-span="1">
               <DxButtonItem
                 :col-span="1"
-                :button-options="saveButtonOptions"
+                :button-options="sendButtonOptions"
                 horizontal-alignment="right"
               />
               <DxButtonItem
@@ -101,20 +78,19 @@
                 horizontal-alignment="right"
               />
             </DxGroupItem>
-            <template #attachments="atachments">
-              <attachments :attachments="store.attachments" @addAttachment="addAttachment"></attachments>
+            <template #attachments="attachments">
+              <attachments
+                :attachments="attachments.data.editorOptions.value"
+                @updateAttachments="updateAttachments"
+              ></attachments>
             </template>
           </DxForm>
-          <div class="d-flex message--error" v-if="!validationAttachments">
-            <span>{{$t('translations.fields.importanceMessage')}}</span>
-          </div>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
-import moment from "moment";
 import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -132,13 +108,12 @@ import DxForm, {
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
     DxRangeRule,
     attachments,
-    navBar,
+    importanceChanger,
     DxButton,
     Header,
     DxGroupItem,
@@ -148,27 +123,17 @@ export default {
     DxRequiredRule,
     DxForm
   },
-  created() {
-    this.store.subject = this.defaultSubject;
-  },
   data() {
     return {
-      addressPost: [, , dataApi.task.SimpleTask, dataApi.task.Acquaintance],
-      headerTitle: [
-        ,
-        ,
-        this.$t("translations.fields.createSimpleTask"),
-        this.$t("translations.fields.createAcquaintanceTask")
-      ],
       store: {
-        subject: "",
+        subject: null,
         importance: 1,
         deadline: new Date(),
         observers: [],
         performers: [],
         accessRights: 60,
         attachments: [],
-        comment: ""
+        comment: null
       },
       dateTimeOptions: {
         type: "datetime"
@@ -188,20 +153,8 @@ export default {
         dataSource: [
           { value: 60, name: this.$t("translations.fields.reading") },
           {
-            value: 70,
-            name: this.$t("translations.fields.create")
-          },
-          {
             value: 80,
             name: this.$t("translations.fields.edit")
-          },
-          {
-            value: 90,
-            name: this.$t("translations.fields.fullAccess")
-          },
-          {
-            value: 100,
-            name: this.$t("translations.fields.accessDenied")
           }
         ],
         showClearButton: true,
@@ -217,53 +170,18 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         acceptCustomValue: true,
-        onCustomItemCreating: this.addNewRole
+        onCustomItemCreating: this.addNewMember
       },
-      addNewRole: args => {
+      addNewMember: args => {
         const newValue = args.text;
         args.customItem = newValue;
-        this.roles.unshift(newValue);
       },
       submit: false
     };
   },
   methods: {
-    generateName() {
-      if (this.$route.params.type == 3) {
-        const document = this.store.attachments[
-          this.store.attachments.length - 1
-        ];
-        this.store.subject = this.$t(
-          "translations.taskMessage.forAcquaintance"
-        );
-        this.store.attachments.forEach(el => {
-          this.store.subject += `${el.name}, `;
-        });
-      }
-    },
-    generateComment() {
-      switch (+this.$route.params.type) {
-        case 3:
-          this.store.comment = this.$t(
-            "translations.taskMessage.acquaintanceDocument"
-          );
-          break;
-      }
-    },
-    addAttachment(document) {
-      const hasDocument = this.store.attachments.some(el => {
-        return el.id === document.id;
-      });
-      if (!hasDocument) {
-        this.store.attachments.push(document);
-      } else {
-        this.notify(
-          this.$t("translations.taskMessage.documentAlreadyHasBeen"),
-          "error"
-        );
-      }
-      this.generateName();
-      this.generateComment();
+    updateAttachments(attachments) {
+      this.store.attachments = attachments;
     },
     importanceChanged(importanceType) {
       this.store.importance = importanceType;
@@ -271,67 +189,24 @@ export default {
     backTo() {
       this.$router.go(-1);
     },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
-    },
     handleSubmit() {
-      this.submit = true;
-      if (this.validationAttachments) {
-        if (this.store.attachments) {
-          this.store.attachments = this.store.attachments.map(({ id }) => {
-            return id;
-          });
-        }
-
-        this.$axios
-          .post(this.addressPost[this.$route.params.type], this.store)
-          .then(res => {
-            this.$router.push("/task/assignments");
-            this.notify(
-              this.$t("translations.headers.addDoctKindSucces"),
-              "success"
-            );
-          })
-          .catch(e => {
-            this.notify(
-              this.$t("translations.headers.addDoctKindError"),
-              "error"
-            );
-          });
-      }
+      const payload = { ...this.store };
+      payload.attachments = payload.attachments.map(el => {
+        return el.id;
+      });
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.task.CreateAcquaintanceTask, payload),
+        e => {
+          this.backTo();
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
     }
   },
   computed: {
-    validationAttachments() {
-      if (+this.$route.params.type == 2) {
-        return true;
-      }
-      if (this.store.attachments.length !== 0) {
-        return true;
-      }
-      return this.submit !== true;
-    },
-    defaultSubject() {
-      if (this.isSimpleTask) {
-        return "";
-      }
-      return this.$t("translations.taskMessage.autoGenerate");
-    },
-    isSimpleTask() {
-      return +this.$route.params.type === 2;
-    },
-    saveButtonOptions() {
-      return this.$store.getters["globalProperties/btnSave"](this);
+    sendButtonOptions() {
+      return this.$store.getters["globalProperties/btnSend"](this);
     },
     cancelButtonOptions() {
       return this.$store.getters["globalProperties/btnCancel"](
@@ -346,10 +221,7 @@ export default {
 form {
   margin: 10px;
 }
-.navBar {
-  display: flex;
-  justify-content: flex-start;
-}
+
 .mr-top-auto {
   margin-top: 40%;
   text-align: right;

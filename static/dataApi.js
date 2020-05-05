@@ -87,15 +87,17 @@ export default {
   },
   task: {
     CreateSimpleTask: `${url}/api/Task/CreateSimpleTask`,
-    AssignmentId: `${url}/api/Assignment/GetAssignmentById/`,
-    AllAssignments: `${url}/api/Assignment/GetAllAssignment/`,
-    CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
-    MarkAsRead: `${url}/api/Assignment/MarkAsRead`,
-    TextsByAssignment: `${url}/api/WorkflowEntityText/ByAssignment/`,
+    CreateAcquaintanceTask: `${url}/api/Task/CreateAcquaintanceTask`,
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
-    Acquaintance: `${url}/api/Acquaintance`,
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/GetTaskById/`
+  },
+  assignment: {
+    Assignments: `${url}/api/Assignment/`,
+    GetAssignmentById: `${url}/api/Assignment/GetAssignmentById/`,
+    CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
+    MarkAsRead: `${url}/api/Assignment/MarkAsRead`,
+    TextsByAssignment: `${url}/api/WorkflowEntityText/ByAssignment/`
   },
   recipient: {
     list: `${url}/api/Recipient`

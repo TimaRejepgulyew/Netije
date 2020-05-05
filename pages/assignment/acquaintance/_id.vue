@@ -122,7 +122,7 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
-import AssignmentComments from "~/components/task/assignment-comments";
+import AssignmentComments from "~/components/workFlow/assignment-comments";
 export default {
   components: {
     DxLoadPanel,
@@ -172,11 +172,14 @@ export default {
         return id;
       });
       store.comment = this.store.comment;
-
-      this.$axios
-        .post(dataApi.task.CompleteAssignment, store)
-        .then(() => (this.store.status = 2))
-        .catch(e => {});
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.task.CompleteAssignment, store),
+        e => {
+          this.assignment.status = 2;
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
     },
     async markingRead() {
       let isread = await this.$axios.post(dataApi.task.MarkAsRead, {

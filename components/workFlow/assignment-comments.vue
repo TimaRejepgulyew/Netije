@@ -25,7 +25,7 @@
                   </div>
                 </div>
                 <div class="task-state">
-                  <div>
+                  <div class="status">
                     <i :class="[parseIconStatus(item.data.status)]" class="dx-icon"></i>
                     {{converterStatus(item.data.status)}}
                   </div>
@@ -66,7 +66,7 @@
                   </div>
                 </div>
                 <div class="task-state">
-                  <div>
+                  <div class="status">
                     <i :class="[parseIconStatus(message.status)]" class="dx-icon"></i>
                     {{converterStatus(message.status)}}
                   </div>
@@ -101,7 +101,7 @@ export default {
     DxList,
     DxTextArea
   },
-  props: ["taskId"],
+  props: ["url"],
   data() {
     return {
       employees: [],
@@ -110,9 +110,7 @@ export default {
     };
   },
   async created() {
-    this.comments = await this.$axios.get(
-      dataApi.task.TextsByAssignment + this.$route.params.id
-    );
+    this.comments = await this.$axios.get(this.url + this.$route.params.id);
     this.employees = await this.$axios.get(dataApi.company.Employee);
   },
   methods: {
@@ -216,7 +214,15 @@ export default {
     font-size: 14px;
   }
 }
-
+.expired {
+  color: red;
+}
+.status {
+  color: green;
+  .dx-icon::before {
+    color: green;
+  }
+}
 .text--bold {
   font-weight: 500;
 }

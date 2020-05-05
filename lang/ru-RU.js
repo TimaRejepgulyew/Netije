@@ -10,7 +10,7 @@ export default {
   },
   translations: {
     menu: {
-      all:"Все",
+      all: "Все",
       allDocument: "Все документы",
       filesType: "Типы файлов",
       currencies: "Валюты",
@@ -91,7 +91,7 @@ export default {
       incomming: "Исходящие"
     },
     fields: {
-      contactName:"Имя контакта",
+      contactName: "Имя контакта",
       mailDeliveryMethod: "Способ доставки документа",
       whom: "Кому",
       fromWhom: "От кого",
@@ -419,6 +419,7 @@ export default {
       observers: "Наблюдатели",
       performers: "Исполнители",
       acquaintMembers: "Кого ознакомить",
+      acquaintMembersRequired: "Выберите кого нужно ознакомить",
       performerId: "Исполнитель",
       reading: "Просмотр",
       edit: "Изменение",
@@ -490,6 +491,8 @@ export default {
       create: "Создать",
       send: "Отправить",
       register: "Зарегистрировать",
+      preview: "Читать",
+      download: "Скачать",
       yes: "Да",
       no: "Нет"
     },
