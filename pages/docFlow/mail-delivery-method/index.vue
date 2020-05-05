@@ -119,7 +119,7 @@ export default {
         removeUrl: dataApi.docFlow.MailDeliveryMethod
       }),
       entityType: "MailDeliveryMethod",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;

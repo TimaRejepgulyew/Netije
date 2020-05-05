@@ -455,7 +455,7 @@ export default {
           value: "status",
           disabled: !this.isOwnerGroup
         }),
-        dataSource: this.$store.getters["status/status"]
+        dataSource: this.$store.getters["status/status"](this)
       };
     },
     numberOfDigitsInNumber() {

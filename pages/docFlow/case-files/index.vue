@@ -193,7 +193,7 @@ export default {
         removeUrl: dataApi.docFlow.CaseFile
       }),
       entityType: "CaseFile",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;

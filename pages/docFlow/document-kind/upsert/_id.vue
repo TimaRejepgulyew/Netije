@@ -167,6 +167,7 @@ export default {
     }
   },
   async created() {
+    let { data } = await app.$axios.get(address);
     this.documentType = await this.getData(dataApi.docFlow.DocumentType);
     this.availableActions = await this.getData(
       dataApi.docFlow.DocumentSendAction
@@ -295,7 +296,7 @@ export default {
           context: this,
           value: "status"
         }),
-        dataSource: this.$store.getters["status/status"]
+        dataSource: this.$store.getters["status/status"](this)
       };
     },
     numberingTypeOptions() {

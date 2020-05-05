@@ -207,7 +207,7 @@ export default {
       entityType: "DocumentRegister",
       entityType2: "RegistrationSetting",
 
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
 
       initNewRow: e => {
         this.$router.push("/docflow/document-registration/upsert");

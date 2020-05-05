@@ -141,7 +141,7 @@ export default {
         removeUrl: dataApi.docFlow.DocumentKind
       }),
       entityType: "DocumentKind",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
         { id: 1, name: this.$t("translations.fields.outcomingEnum") },
@@ -158,7 +158,7 @@ export default {
         this.$router.push("/docflow/document-kind/upsert");
       },
       editingStart: e => {
-        this.$router.push("/docflow/document-kind/" + e.data.id);
+        this.$router.push("/docflow/document-kind/upsert/" + e.data.id);
       }
     };
   },

@@ -121,7 +121,7 @@ export default {
         removeUrl: dataApi.docFlow.FileRetentionPeriod
       }),
       entityType: "FileRetentionPeriod",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
