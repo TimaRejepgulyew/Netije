@@ -122,7 +122,7 @@ export default {
         e.data.registrationGroupId = id;
       },
       dataGridRefKey: "dataGrid",
-      statusStores: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"]
     };
   },
   computed: {

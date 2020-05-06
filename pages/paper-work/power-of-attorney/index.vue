@@ -142,7 +142,7 @@ export default {
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
       entityType: "PowerOfAttorney",
-      statusStores: this.$store.getters["status/status"],
+      statusDataSource: this.$store.getters["status/status"],
       toMoreAbout: e => {
         this.$store.getters["globalProperties/toForm"](this, e.key);
       },

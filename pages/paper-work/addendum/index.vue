@@ -136,7 +136,7 @@ export default {
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
       entityType: "Addendum",
-      statusStores: this.$store.getters["status/status"],
+      statusDataSource: this.$store.getters["status/status"],
 
       toMoreAbout: e => {
         this.$router.push(RouteGenerator.generateDocumentDetailRoute(e.key));

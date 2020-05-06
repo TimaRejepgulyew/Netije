@@ -57,7 +57,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -136,11 +136,11 @@ export default {
         loadUrl: dataApi.admin.Recipient
       }),
       initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
+        e.data.status = this.statusDataSource[0].id;
         e.data.roleId = id;
       },
       dataGridRefKey: "dataGrid",
-      statusStores: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"]
     };
   },
   computed: {

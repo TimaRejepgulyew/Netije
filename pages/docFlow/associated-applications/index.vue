@@ -1,17 +1,17 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.associatedApp')"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :errorRowEnabled="true"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -21,7 +21,6 @@
         :file-name="$t('translations.menu.registrationGroup')"
       />
       <DxFilterRow :visible="true" />
-      <DxSelection mode="multiple" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -68,7 +67,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -87,6 +86,8 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import EmployeeTagBoxComponent from "~/components/docFlow/registration-group/index__tag-box-component";
 import dataApi from "~/static/dataApi";
 import CustomStore from "devextreme/data/custom_store";
@@ -104,7 +105,6 @@ import {
   DxGroupPanel,
   DxGrouping,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -129,7 +129,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -138,7 +137,12 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.associatedApp"),
+      extensionsPattern: /^\.[^\s]\w+$/,
+      extensionOptions: {
+        mask: ".cccccccccc",
+        useMaskedValue: true
+      },
+      entityType: EntityType.AssociatedApplications,
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.AssociatedApplication,
@@ -146,28 +150,23 @@ export default {
         updateUrl: dataApi.docFlow.AssociatedApplication,
         removeUrl: dataApi.docFlow.AssociatedApplication
       }),
-      entityType: "AssociatedApp",
-      statusStores: this.$store.getters["status/status"](this),
-      initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
-      },
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
-      filesTypeStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.docFlow.FilesType
-      }),
-
-      extensionsPattern: /^\.[^\s]\w+$/,
-
-      extensionOptions: {
-        mask: ".cccccccccc",
-        useMaskedValue: true
+      statusDataSource: this.$store.getters["status/status"](this),
+      filesTypeStores: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.docFlow.FilesType
+        }),
+        paginate: true
       }
     };
   },
   methods: {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.AssociatedApplicationDataFieldValueNotExists(
@@ -181,6 +180,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-
-</style>

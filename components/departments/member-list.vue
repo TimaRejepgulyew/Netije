@@ -125,7 +125,7 @@ export default {
         e.data.employeeId = null;
       },
       dataGridRefKey: "dataGrid",
-      statusStores: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"]
     };
   },
   computed: {

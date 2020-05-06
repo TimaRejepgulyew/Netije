@@ -76,7 +76,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -152,7 +152,7 @@ export default {
         removeUrl: dataApi.docFlow.DocumentKind
       }),
       entityType: "DocumentKind",
-      statusStores: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this),
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
         { id: 1, name: this.$t("translations.fields.outcomingEnum") },

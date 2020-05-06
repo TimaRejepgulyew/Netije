@@ -143,7 +143,7 @@ export default {
         filter: ["documentRegisterId", "=", id]
       }),
       dataGridRefKey: "dataGrid",
-      statusStores: this.$store.getters["status/status"],
+      statusDataSource: this.$store.getters["status/status"],
       documentRegisterId: id,
       bussinessUnitStores: this.$dxStore({
         key: "id",

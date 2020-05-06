@@ -208,7 +208,7 @@ export default {
         { id: 1, name: this.$t("translations.fields.notRegistered") }
       ],
       entityType: "OfficialDocument",
-      statusStores: this.$store.getters["status/status"],
+      statusDataSource: this.$store.getters["status/status"],
 
       toMoreAbout: e => {
         const address = this.urlByTypeGuid[e.data.documentTypeGuid] + e.key;

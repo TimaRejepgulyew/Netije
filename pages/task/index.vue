@@ -59,7 +59,7 @@
         <DxColumn data-field="status" :caption="$t('translations.fields.status')">
           <DxLookup
             :allow-clearing="true"
-            :data-source="statusStores"
+            :data-source="statusDataSource"
             value-expr="id"
             display-expr="name"
           />
@@ -126,7 +126,7 @@ export default {
         }),
         filter: null
       }),
-      statusStores: [
+      statusDataSource: [
         { id: 0, name: this.$t("translations.fields.inProccess") },
         { id: 3, name: this.$t("translations.fields.completed") }
       ]

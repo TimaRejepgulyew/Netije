@@ -163,10 +163,10 @@ export default {
         removeUrl: dataApi.docFlow.RegistrationGroup
       }),
       entityType: "RegistrationGroup",
-      statusStores: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this),
 
       initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
+        e.data.status = this.statusDataSource[0].id;
       },
       employeeStore: this.$dxStore({
         key: "id",

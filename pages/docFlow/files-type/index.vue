@@ -51,7 +51,7 @@
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="statusStores"
+          :data-source="statusDataSource"
           value-expr="id"
           display-expr="status"
         />
@@ -115,10 +115,10 @@ export default {
         removeUrl: dataApi.docFlow.FilesType
       }),
       entityType: "FilesType",
-      statusStores: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this),
 
       initNewRow: e => {
-        e.data.status = this.statusStores[0].id;
+        e.data.status = this.statusDataSource[0].id;
       },
 
       rowUpdating: e => {
