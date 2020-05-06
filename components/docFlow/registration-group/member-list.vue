@@ -13,7 +13,7 @@
       >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
+      
       <DxHeaderFilter :visible="true" />
       <DxEditing
         :allow-updating="false"

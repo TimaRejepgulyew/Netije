@@ -1,17 +1,17 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.mailDeliveryMethod')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :errorRowEnabled="true"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -21,7 +21,7 @@
         :file-name="$t('translations.fields.mailDeliveryMethod')"
       />
       <DxFilterRow :visible="true" />
-      <DxSelection mode="multiple" />
+
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -62,9 +62,10 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-import CustomStore from "devextreme/data/custom_store";
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
@@ -79,7 +80,6 @@ import {
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -101,7 +101,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -110,27 +109,24 @@ export default {
   mounted() {},
   data() {
     return {
-      headerTitle: this.$t("translations.menu.mailDeliveryMethod"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.MailDeliveryMethod,
         insertUrl: dataApi.docFlow.MailDeliveryMethod,
         updateUrl: dataApi.docFlow.MailDeliveryMethod,
         removeUrl: dataApi.docFlow.MailDeliveryMethod
       }),
-      entityType: "MailDeliveryMethod",
-      statusDataSource: this.$store.getters["status/status"](this),
-
-      initNewRow: e => {
-        e.data.status = this.statusDataSource[0].id;
-      },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      }
+      entityType: EntityType.MailDeliveryMethod,
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.MailDeliveryMethodDataFieldValueNotExists(

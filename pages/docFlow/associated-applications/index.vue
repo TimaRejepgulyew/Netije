@@ -3,7 +3,7 @@
     <Header :headerTitle="$t('translations.menu.associatedApp')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :errorRowEnabled="true"
       :allow-column-reordering="false"
@@ -63,16 +63,6 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="statusDataSource"
-          value-expr="id"
-          display-expr="status"
-        />
-      </DxColumn>
-
       <DxColumn data-field="filesTypeId" :caption="$t('translations.fields.filesTypeId')">
         <DxRequiredRule :message="$t('translations.fields.filesTypeIdRequired')" />
         <DxLookup
@@ -82,15 +72,21 @@
           display-expr="name"
         />
       </DxColumn>
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusDataSource"
+          value-expr="id"
+          display-expr="status"
+        />
+      </DxColumn>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import EmployeeTagBoxComponent from "~/components/docFlow/registration-group/index__tag-box-component";
 import dataApi from "~/static/dataApi";
-import CustomStore from "devextreme/data/custom_store";
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
@@ -109,7 +105,6 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxTagBox,
   DxPatternRule
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
@@ -143,7 +138,7 @@ export default {
         useMaskedValue: true
       },
       entityType: EntityType.AssociatedApplications,
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.AssociatedApplication,
         insertUrl: dataApi.docFlow.AssociatedApplication,

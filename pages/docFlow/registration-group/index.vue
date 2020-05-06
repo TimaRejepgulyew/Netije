@@ -22,7 +22,7 @@
         :file-name="$t('translations.menu.registrationGroup')"
       />
       <DxFilterRow :visible="true" />
-      <DxSelection mode="multiple" />
+      
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -104,7 +104,7 @@
 import TabRole from "~/components/member-list/tabRole.vue";
 
 import dataApi from "~/static/dataApi";
-import CustomStore from "devextreme/data/custom_store";
+
 import Header from "~/components/page/page__header";
 import {
   DxMasterDetail,

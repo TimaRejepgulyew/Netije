@@ -58,7 +58,7 @@
         :file-name="$t('translations.fields.documentRegistry')"
       />
       <DxFilterRow :visible="true" />
-      <DxSelection mode="multiple" />
+      
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -138,7 +138,7 @@ import popupCurrentNumber from "~/components/docFlow/document-registry/popup-cur
 import RegSettingDetail from "~/components/docFlow/document-registry/index__master-detail";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-import CustomStore from "devextreme/data/custom_store";
+
 import Header from "~/components/page/page__header";
 import { DxPopup } from "devextreme-vue/popup";
 import {

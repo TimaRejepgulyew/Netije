@@ -18,7 +18,7 @@
         :allow-export-selected-data="true"
         :file-name="$t('translations.menu.documentKind')"
       />
-      <DxSelection mode="multiple" />
+      
 
       <DxHeaderFilter :visible="true" />
       <DxFilterRow :visible="true" />

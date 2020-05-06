@@ -21,7 +21,7 @@
         :file-name="$t('translations.fields.caseFile')"
       />
       <DxFilterRow :visible="true" />
-      <DxSelection mode="multiple" />
+      
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -136,7 +136,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-import CustomStore from "devextreme/data/custom_store";
+
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,

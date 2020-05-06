@@ -32,7 +32,7 @@
       >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection mode="multiple" />
+      
       <DxHeaderFilter :visible="true" />
       <DxEditing :allow-updating="true" :allow-deleting="true" :useIcons="true" mode="form" />
       <DxColumnChooser :enabled="true" />
