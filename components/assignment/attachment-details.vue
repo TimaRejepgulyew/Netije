@@ -1,24 +1,38 @@
 <template>
   <div class="main-block">
     <div class="file-uploader-block">
-      <slot name="attachment__header"></slot>
+      <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
         <DxList :data-source="attachments" :search-enabled="true">
           <template #item="item">
             <div>
               <div
                 class="d-flex"
-                @dblclick="()=>{openVersion(item.data.id,item.data.documentTypeGuid)}"
+                @dblclick="()=>{openVersion(item.data.document.id,item.data.document.documentTypeGuid)}"
               >
-                <div class="list__content">{{item.data.name}}</div>
-                <div class="list__btn-group"></div>
+                <document-icon
+                  :extension="item.data.document.associatedApplication?item.data.document.associatedApplication.extension:null"
+                ></document-icon>
+                <div class="list__content">
+                  {{item.data.document.name}}
+                  <div class="text-sm">
+                    <i class="dx-icon dx-icon-user"></i>
+                    {{item.data.attachedBy}}
+                  </div>
+                </div>
+
+                <div class="list__btn-group">
+                  <attachmentActionBtn
+                    :document="item.data.document"
+                    :canDetach="item.data.canDetach"
+                  />
+                </div>
               </div>
             </div>
           </template>
         </DxList>
       </div>
-      <template v-if="!readOnly">
-        <span class>{{$t("translations.headers.attachment")}}</span>
+      <template>
         <DxSelectBox
           v-model="selectedDocument"
           :dataSource="documents"
@@ -44,25 +58,34 @@
   </div>
 </template>
 <script>
+import DocumentIcon from "~/components/page/document-icon";
+import attachmentActionBtn from "~/components/workFlow/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
-import notify from "devextreme/ui/notify";
-import { saveAs } from "file-saver";
 import moment from "moment";
 import DxSelectBox from "devextreme-vue/select-box";
 import DxTagBox from "devextreme-vue/tag-box";
 export default {
   components: {
+    DocumentIcon,
+    attachmentActionBtn,
     DxSelectBox,
     DxList,
     DxButton,
     DxTagBox
   },
-  props: ["attachments", "readOnly"],
+  props: ["url", "readOnly"],
+  async created() {
+    if (!this.isCreated) {
+      const { data } = await this.$axios(this.url + this.$route.params.id);
+      this.attachments = data;
+    }
+  },
   data() {
     return {
+      attachments: [],
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -80,20 +103,39 @@ export default {
         ) + documentId
       );
     },
-    addAttachment() {
+    compareAttachments() {
       if (this.selectedDocument) {
-        const hasDocument = this.attachments.some(el => {
-          return el.id === this.selectedDocument.id;
+        return this.attachments.some(el => {
+          return el.document.id === this.selectedDocument.id;
         });
-        let attachments = this.attachments;
-        if (!hasDocument) {
-          attachments.push(this.selectedDocument);
-        } else {
-          
-        }
+      }
+    },
+    sendAttachments(attachments) {
+      if (this.isCreated) {
         this.$emit("updateAttachments", attachments);
         this.selectedDocument = null;
       }
+    },
+    formatDocument() {
+      return {
+        id: null,
+        document: this.selectedDocument,
+        canDetach: true,
+        attachedBy: this.$t("translations.fields.me")
+      };
+    },
+    addAttachment() {
+      let attachments = this.attachments;
+      if (!this.compareAttachments()) {
+        const attachment = this.formatDocument();
+        attachments.push(attachment);
+        this.sendAttachments(attachments);
+      }
+    }
+  },
+  computed: {
+    isCreated() {
+      return !this.$route.params.id;
     }
   }
 };
@@ -111,7 +153,9 @@ export default {
     padding-bottom: 6px;
     border-bottom: 1px solid darken($base-bg, 15);
   }
-
+  .text-sm {
+    font-size: 12px;
+  }
   .list-container {
     padding: 35px 10px;
     height: auto;

@@ -92,7 +92,6 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxRequiredRule,
-  DxAsyncRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -112,7 +111,6 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxRequiredRule,
-    DxAsyncRule,
     DxStateStoring
   },
   props: {

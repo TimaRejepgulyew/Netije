@@ -3,20 +3,21 @@
     <div class="widget-container">
       <DxLoadPanel :visible.sync="isReload" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="$t('translations.headers.moreAbout')"></Header>
-      <status-message :importance="taskProp.importance" :completed="taskProp.status" />
+      <status-message :importance="assignmentProp.importance" :completed="assignmentProp.status" />
       <div class="navBar">
+        <slot name="navbarBtn"></slot>
         <DxButton icon="refresh" :on-click="reload" />
       </div>
-      <form class="d-flex" @submit.prevent="handleSubmit">
+      <form class="d-flex">
         <div class="item f-grow-3">
           <slot name="information"></slot>
           <DxForm
             :col-count="1"
-            :form-data.sync="task"
+            :form-data.sync="assignment"
             :read-only="true"
             :show-colon-after-label="true"
             :show-validation-summary="true"
-            validation-group="task"
+            validation-group="assignment"
           >
             <DxGroupItem :col-span="3">
               <DxGroupItem>
@@ -48,7 +49,7 @@
 import dataApi from "~/static/dataApi";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Header from "~/components/page/page__header";
-import attachmentDetails from "~/components/task/attachment-details";
+import attachmentDetails from "~/components/assignment/attachment-details";
 import DxButton from "devextreme-vue/button";
 import AssignmentComments from "~/components/workFlow/assignment-comments";
 import statusMessage from "~/components/workFlow/status-message";
@@ -72,7 +73,7 @@ export default {
     DxForm,
     DxLoadPanel
   },
-  props: ["task"],
+  props: ["assignment"],
 
   data() {
     return {
@@ -97,8 +98,8 @@ export default {
     }
   },
   computed: {
-    taskProp() {
-      return this.task;
+    assignmentProp() {
+      return this.assignment;
     },
     cancelButtonOptions() {
       return this.$store.getters["globalProperties/btnCancel"](

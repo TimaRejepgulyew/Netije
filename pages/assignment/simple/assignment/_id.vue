@@ -1,20 +1,27 @@
 <template>
   <div>
-    <main-form :task="task">
+    <main-form :assignment="assignment">
+      <template slot="navbarBtn">
+        <DxButton
+          icon="check"
+          :text="$t('translations.links.complete')"
+          :on-click="completeAssignment"
+        />
+      </template>
       <DxForm
         slot="information"
         :col-count="1"
-        :form-data.sync="task"
+        :form-data.sync="assignment"
         :read-only="true"
         :show-colon-after-label="true"
         :show-validation-summary="true"
-        validation-group="task"
+        validation-group="assignment"
       >
         <DxGroupItem :col-span="2" :caption="$t('translations.fields.main')">
           <DxSimpleItem :col-span="4" data-field="subject">
             <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
           </DxSimpleItem>
-          <DxGroupItem :col-count="3">
+          <DxGroupItem :col-count="2">
             <DxSimpleItem
               data-field="deadline"
               :editor-options="dateTimeOptions"
@@ -22,30 +29,28 @@
             >
               <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
             </DxSimpleItem>
-            <DxSimpleItem data-field="observers">
-              <DxLabel location="top" :text="$t('translations.fields.observers')" />
-            </DxSimpleItem>
-
-            <DxSimpleItem data-field="performers">
-              <DxLabel location="top" :text="$t('translations.fields.performers')" />
+            <DxSimpleItem
+              data-field="performerId"
+              :editor-options="employeeOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.performerId')" />
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
-        <template #employee="employee">
-          <employeeList :employee="employee.data.editorOptions.value"></employeeList>
-        </template>
       </DxForm>
 
       <div slot="comment">
-        <DxTextArea :on-value-changed="addComment" :height="90" :value="comment" />
+        <DxTextArea :height="90" :value="comment" />
       </div>
     </main-form>
   </div>
 </template>
 
 <script>
+import DxButton from "devextreme-vue/button";
 import { DxTextArea } from "devextreme-vue";
-import employeeList from "~/components/task/employeeList";
+
 import mainForm from "~/components/assignment/main-assignment-detail";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
@@ -58,29 +63,49 @@ import DxForm, {
 export default {
   components: {
     DxTextArea,
-    employeeList,
     mainForm,
     DxForm,
     DxGroupItem,
     DxSimpleItem,
     DxButtonItem,
-    DxLabel
+    DxLabel,
+    DxButton
   },
   async asyncData({ app, params }) {
-    let task = await app.$axios.get(
+    let assignment = await app.$axios.get(
       dataApi.assignment.GetAssignmentById + params.id
     );
     return {
-      task: task.data
+      assignment: assignment.data
     };
   },
   data() {
     return {
-      task: [],
+      assignment: [],
+      comment: "",
+      employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Employee
+      }),
       dateTimeOptions: {
         type: "datetime"
       }
     };
+  },
+  methods: {
+    completeAssignment() {
+      const assignment = {};
+      assignment.assignmentId = +this.$route.params.id;
+      assignment.comment = this.comment;
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.assignment.CompleteAssignment, assignment),
+        e => {
+          this.assignment.status = 2;
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
+    }
   }
 };
 </script>

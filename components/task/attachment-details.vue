@@ -1,7 +1,7 @@
 <template>
   <div class="main-block">
     <div class="file-uploader-block">
-      <slot name="attachment__header"></slot>
+      <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
         <DxList :data-source="attachments" :search-enabled="true">
           <template #item="item">
