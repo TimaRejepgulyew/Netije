@@ -3,7 +3,7 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
-        <DxList :data-source="attachments" :search-enabled="true">
+        <DxList :data-source="attachments" :search-enabled="true" search-expr="name">
           <template #item="item">
             <div>
               <div
@@ -14,7 +14,7 @@
                   :extension="item.data.document.associatedApplication?item.data.document.associatedApplication.extension:null"
                 ></document-icon>
                 <div class="list__content">
-                  {{item.data.document.name}}
+                  {{item.data.name}}
                   <div class="text-sm">
                     <i class="dx-icon dx-icon-user"></i>
                     {{item.data.attachedBy}}
@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="list__btn-group">
-                  <attachmentActionBtn :attachment="item.data" />
+                  <attachment-action-btn @reload="reload" :attachment="item.data" />
                 </div>
               </div>
             </div>
@@ -93,6 +93,9 @@ export default {
     };
   },
   methods: {
+    reload() {
+      this.attachments.reload();
+    },
     openVersion(documentId, documentTypeGuid) {
       window.open(
         this.$store.getters["globalProperties/documentTypeGuid"](
@@ -108,12 +111,12 @@ export default {
           attachment: [this.selectedDocument]
         }),
         e => {
-          this.attachments.reload();
+          this.reload();
           this.selectedDocument = null;
           this.$awn.success();
         },
         e => {
-          this.attachments.reload();
+          this.reload();
           this.$awn.alert();
         }
       );

@@ -107,9 +107,7 @@ export default {
 };
 </script>
 <style scoped>
-form {
-  margin: 10px;
-}
+
 .navBar {
   display: flex;
   justify-content: flex-end;

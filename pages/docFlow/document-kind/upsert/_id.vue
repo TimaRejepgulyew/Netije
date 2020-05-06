@@ -359,8 +359,6 @@ export default {
 };
 </script>
 <style>
-form {
-  margin: 10px;
-}
+
 </style>
 

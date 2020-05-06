@@ -91,7 +91,7 @@ export default {
   filters: {
     getFormat(value) {
       if (value) {
-        return moment(value).format("L");
+        return moment(value).format("MM.DD.YYYY");
       } else {
         return "";
       }

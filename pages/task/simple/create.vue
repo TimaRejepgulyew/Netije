@@ -65,7 +65,7 @@
                   <DxLabel location="top" :text="$t('translations.fields.performers')" />
                 </DxSimpleItem>
               </DxGroupItem>
-              <DxGroupItem :caption="$t('translations.headers.attachment')">
+              <DxGroupItem >
                 <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
                   <DxLabel
                     :visible="false"
@@ -230,9 +230,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-form {
-  margin: 10px;
-}
+
 
 .mr-top-auto {
   margin-top: 40%;

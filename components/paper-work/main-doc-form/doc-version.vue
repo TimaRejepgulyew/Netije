@@ -3,45 +3,41 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
       <div class="list-container">
-        <DxList  :data-source="versions" search-expr="name" :search-enabled="true">
+        <DxList :data-source="versions" search-expr="note" :search-enabled="true">
           <template #item="item">
             <div>
               <div class="d-flex">
                 <document-icon :extension="item.data.extension"></document-icon>
-                <div class="list__content">{{ item.data.note}}</div>
+                <div class="list__content">
+                  {{ item.data.note}}
+                  <small>{{item.data.created|formatDate}}</small>
+                </div>
                 <div class="list__btn-group">
-                  <DxButton
-                    icon="search"
-                    class="list__btn"
-                    v-if="item.data.preview"
-                    :onClick="()=>{openVersion(item.data)}"
-                  ></DxButton>
-                  <DxButton
-                    icon="download"
-                    class="list__btn"
-                    :on-click="()=>{downloadVersion(item.data)}"
-                  ></DxButton>
+                  <attachment-action-btn :version="item.data" />
                 </div>
               </div>
             </div>
           </template>
         </DxList>
       </div>
-      <DxFileUploader
-        uploadMode="useButtons"
-        ref="fileUploader"
-        :multiple="false"
-        :accept="acceptExtension"
-        :allowed-file-extensions="extension"
-        @progress="addVersion"
-        @value-changed="e => files = e.value"
-        :showFileList="true"
-        :invalid-fileextension-message="$t('translations.fields.invalidExeption')"
-      />
+      <div class="file-uploader">
+        <DxFileUploader
+          uploadMode="useButtons"
+          ref="fileUploader"
+          :multiple="false"
+          :accept="acceptExtension"
+          :allowed-file-extensions="extension"
+          @progress="uploadVersionFromFile"
+          @value-changed="e => files = e.value"
+          :showFileList="true"
+          :invalid-fileextension-message="$t('translations.fields.invalidExeption')"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script>
+import DataSource from "devextreme/data/data_source";
 import DocumentIcon from "~/components/page/document-icon";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
@@ -50,22 +46,31 @@ import { DxButton } from "devextreme-vue";
 import notify from "devextreme/ui/notify";
 import DocumentService from "~/infrastructure/services/documentService";
 import { DxPopup } from "devextreme-vue/popup";
+import AttachmentActionBtn from "~/components/paper-work/main-doc-form/attachment-action-btn";
+import moment from "moment";
 export default {
-  components: { DocumentIcon, DxFileUploader, DxList, DxButton, DxPopup },
+  components: {
+    AttachmentActionBtn,
+    DocumentIcon,
+    DxFileUploader,
+    DxList,
+    DxButton,
+    DxPopup
+  },
   async created() {
-    this.associatedApplication = await this.getData(
-      dataApi.docFlow.AssociatedApplication
-    );
-    if (this.$route.params.id != "add") {
-      this.versions = await this.getVersions();
-    }
+    this.associatedApplication = (
+      await this.$axios.get(dataApi.docFlow.AssociatedApplication)
+    ).data.data;
   },
   data() {
     return {
-      versions: [],
-      associatedApplication: [],
-      addresImg: "",
-      popupVersion: false
+      versions: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.paperWork.Version + this.$route.params.id
+        })
+      }),
+      associatedApplication: []
     };
   },
   computed: {
@@ -82,81 +87,28 @@ export default {
     }
   },
   methods: {
-    async getVersions() {
-      const data = await this.$axios.get(
-        dataApi.paperWork.Version + this.$route.params.id
-      );
-      return data.data.map(version => {
-        const associatedApplicationId =
-          version.binaryDataAssociatedApplicationId;
-        const associatedApplication = this.getThisAssociatedApp(
-          associatedApplicationId
-        );
-        version.extension = associatedApplication.extension;
-        version.preview = associatedApplication.canBeOpenedWithPreview;
-        return version;
-      });
-    },
-    getThisAssociatedApp(associatedApplicationId) {
-      return this.associatedApplication.find(associatedApp => {
-        if (associatedApplicationId == associatedApp.id) {
-          return associatedApp;
-        }
-      });
-    },
-    async getData(address) {
-      const associatedApplication = await this.$axios.get(address);
-      return associatedApplication.data.data;
-    },
-    openVersion(version) {
-      DocumentService.previewVersion(version,this);
-    },
-
-    downloadVersion(version) {
-      DocumentService.downloadVersion({
-        id: version.id,
-        name: this.name,
-        extension: version.extension
-      },this);
-    },
-    deleteVersion() {
-      // this.editVersionPopup = true;
-    },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
-    },
-    addVersion(e) {
+    uploadVersionFromFile(e) {
       let formData = new FormData();
       formData.append("File", e.file);
-      formData.append("documentId", parseInt(this.$route.params.id));
+      formData.append("documentId", +this.$route.params.id);
       this.$awn.async(
-        this.$axios.post(dataApi.paperWork.DocumentVersion, formData, {
+        this.$axios.post(dataApi.paperWork.CreateVersionFromFile, formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         }),
         version => {
-          const associatedApplication = this.getThisAssociatedApp(
-            version.data.binaryDataAssociatedApplicationId
-          );
-          version.data.extension = associatedApplication.extension;
-          version.data.preview = associatedApplication.canBeOpenedWithPreview;
-          this.versions.unshift(version.data);
           this.$refs["fileUploader"].instance.reset();
           this.$awn.success();
+          this.versions.reload();
         },
         e => this.$awn.alert()
       );
+    }
+  },
+  filters: {
+    formatDate(value) {
+      return moment(value).format("MM.DD.YYYY hh:mm");
     }
   }
 };
@@ -172,12 +124,9 @@ export default {
     display: block;
     width: 100%;
     padding-bottom: 7px;
-    border-bottom: 1px solid darken($base-bg, 15);
   }
 
   .list-container {
-    border: 0.1px solid darken($base-bg, 15);
-    padding: 35px 0;
     height: 50vh;
     overflow: auto;
     width: 100%;
@@ -189,7 +138,12 @@ export default {
     }
   }
 }
-
+.file-uploader {
+  margin-top: 20px;
+  padding: 10px 0;
+  border: 0.5px solid $base-border-color;
+  border-radius: 5px;
+}
 .popup__img {
   object-fit: contain;
   display: block;

@@ -4,7 +4,6 @@
     :drop-down-options="{ width: 230 }"
     :items="btnType"
     display-expr="name"
-    text="..."
     @item-click="onItemClick"
   />
 </template>
@@ -39,7 +38,7 @@ export default {
         },
         {
           type: "detach",
-          visible: true,
+          visible: this.attachment.canDetach,
           icon: "trash",
           name: this.$t("translations.links.delete")
         }
@@ -64,11 +63,10 @@ export default {
           break;
         case "download":
           this.downloadDocument();
-            break;
+          break;
         case "detach":
-          console.log("detach");
           this.detach();
-            break;
+          break;
       }
     },
     downloadDocument() {
@@ -84,19 +82,23 @@ export default {
       DocumentService.previewDocument(this.attachment.document, this);
     },
     detach() {
-      this.$awn.async(
-        this.$axios.post(dataApi.attachment.Detach, {
-          attachmentId: this.attachment.id
-        }),
-        e => {
-          this.$emit("reload");
-          this.$awn.success();
-        },
-        e => {
-          this.$emit("reload");
-          this.$awn.alert();
-        }
-      );
+      if (this.$route.params.id) {
+        // this.$awn.async(
+        //   this.$axios.post(dataApi.attachment.Detach, {
+        //     attachmentId: this.attachment.id
+        //   }),
+        //   e => {
+        //     this.$emit("reload");
+        //     this.$awn.success();
+        //   },
+        //   e => {
+        //     this.$emit("reload");
+        //     this.$awn.alert();
+        //   }
+        // );
+      } else {
+        this.$emit("detach", this.attachment.document.id);
+      }
     }
   }
 };

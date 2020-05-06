@@ -3,7 +3,7 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
-        <DxList :data-source="attachments" :search-enabled="true">
+        <DxList :data-source="attachments" :search-enabled="true" search-expr="name">
           <template #item="item">
             <div>
               <div
@@ -11,6 +11,7 @@
                 @dblclick="()=>{openVersion(item.data.document.id,item.data.document.documentTypeGuid)}"
               >
                 <document-icon
+                  v-if="item.data.document"
                   :extension="item.data.document.associatedApplication?item.data.document.associatedApplication.extension:null"
                 ></document-icon>
                 <div class="list__content">
@@ -22,9 +23,9 @@
                 </div>
 
                 <div class="list__btn-group">
-                  <attachmentActionBtn
-                    :document="item.data.document"
-                    :canDetach="item.data.canDetach"
+                  <attachment-action-btn
+                    @detach="detachAttachment($event)"
+                    :attachment="item.data"
                   />
                 </div>
               </div>
@@ -78,15 +79,19 @@ export default {
     DxTagBox
   },
   props: ["url", "readOnly"],
-  async created() {
-    if (!this.isCreated) {
-      const { data } = await this.$axios(this.url + this.$route.params.id);
-      this.attachments = data;
+  created() {
+    if (this.isCreated) {
+      this.attachments = [];
     }
   },
   data() {
     return {
-      attachments: [],
+      attachments: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: this.url + this.$route.params.id
+        })
+      }),
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -132,6 +137,12 @@ export default {
         attachments.push(attachment);
         this.sendAttachments(attachments);
       }
+    },
+    detachAttachment(id) {
+      console.log(this.attachments, id);
+      this.attachments = this.attachments.filter(attach => {
+        return attach.document.id != id;
+      });
     }
   },
   computed: {

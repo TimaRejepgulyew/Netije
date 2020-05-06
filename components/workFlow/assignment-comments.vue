@@ -154,7 +154,7 @@ export default {
       return " " + this.$t(`translations.commentType.${type}`);
     },
     formatDate(date) {
-      return moment(date).format("L");
+      return moment(date).format("MM.DD.YYYY hh:mm");
     }
   }
 };

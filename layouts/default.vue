@@ -124,7 +124,7 @@ body {
   display: flex;
   .item {
     flex-grow: 1;
-    padding-left: 30px;
+    padding: 0 15px;
     width: 20%;
   }
   .f-grow-3 {
@@ -154,6 +154,4 @@ body {
 .list__content {
   justify-self: flex-start;
 }
-
-
 </style>

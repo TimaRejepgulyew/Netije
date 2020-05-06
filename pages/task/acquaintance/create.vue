@@ -13,8 +13,8 @@
             :show-validation-summary="true"
             validation-group="simpleTaskValidationgroup"
           >
-            <DxGroupItem :col-count="3" :caption="$t('translations.fields.main')">
-              <DxGroupItem :col-span="2">
+            <DxGroupItem :col-count="3">
+              <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
                 <DxSimpleItem data-field="subject">
                   <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
                 </DxSimpleItem>
@@ -53,7 +53,7 @@
                   <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
                 </DxSimpleItem>
               </DxGroupItem>
-              <DxGroupItem :caption="$t('translations.headers.attachment')">
+              <DxGroupItem>
                 <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
                   <DxLabel
                     :visible="false"
@@ -85,6 +85,7 @@
               ></attachments>
             </template>
           </DxForm>
+          <span v-if="isRequired" class="error">dwadawddawdawd</span>
         </div>
       </form>
     </div>
@@ -167,8 +168,12 @@ export default {
           key: "id",
           loadUrl: dataApi.company.Employee
         }),
+        showSelectionControls: true,
+        maxDisplayedTags: 3,
         valueExpr: "id",
         displayExpr: "name",
+        paginate: true,
+        pageSize: 10,
         acceptCustomValue: true,
         onCustomItemCreating: this.addNewMember
       },
@@ -190,21 +195,28 @@ export default {
       this.$router.go(-1);
     },
     handleSubmit() {
-      const payload = { ...this.store };
-      payload.attachments = payload.attachments.map(el => {
-        return el.id;
-      });
-      this.$awn.asyncBlock(
-        this.$axios.post(dataApi.task.CreateAcquaintanceTask, payload),
-        e => {
-          this.backTo();
-          this.$awn.success();
-        },
-        e => this.$awn.alert()
-      );
+      this.submit = true;
+      if (!this.isRequired) {
+        console.log(this.isRequired);
+        // const payload = { ...this.store };
+        // payload.attachments = payload.attachments.map(el => {
+        //   return el.id;
+        // });
+        // this.$awn.asyncBlock(
+        //   this.$axios.post(dataApi.task.CreateAcquaintanceTask, payload),
+        //   e => {
+        //     this.backTo();
+        //     this.$awn.success();
+        //   },
+        //   e => this.$awn.alert()
+        // );
+      }
     }
   },
   computed: {
+    isRequired() {
+      return !this.store.attachments && this.submit;
+    },
     sendButtonOptions() {
       return this.$store.getters["globalProperties/btnSend"](this);
     },
@@ -218,10 +230,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-form {
-  margin: 10px;
-}
-
 .mr-top-auto {
   margin-top: 40%;
   text-align: right;

@@ -75,8 +75,13 @@ export default {
   },
   props: ["assignment"],
   async created() {
-    if (!this.assignment.isRead) {
-      await this.markAsRead();
+    try {
+      if (!this.assignment.isRead) {
+        await this.markAsRead();
+        this.reload();
+      }
+    } catch (e) {
+      throw "mark as read false";
     }
   },
   data() {
@@ -120,9 +125,6 @@ export default {
 };
 </script>
 <style scoped>
-form {
-  margin: 10px;
-}
 .navBar {
   display: flex;
   justify-content: flex-end;

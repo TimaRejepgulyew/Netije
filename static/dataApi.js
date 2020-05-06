@@ -60,7 +60,7 @@ export default {
     PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
 
     Relation: `${url}/api/OfficialDocument/Relations/`,
-    DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,
+    CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
     PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`,
     IncommingLetter: `${url}/api/OfficialDocument/1`,

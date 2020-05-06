@@ -266,9 +266,7 @@ export default {
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/themes/generated/variables.base.scss";
 
-form {
-  margin: 10px;
-}
+
 .navBar {
   display: flex;
   justify-content: flex-end;

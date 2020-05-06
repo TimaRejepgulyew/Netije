@@ -21,7 +21,7 @@
 <script>
 import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
-import moment from "moment";
+
 export default {
   components: {
     DxList

@@ -340,9 +340,7 @@ export default {
 };
 </script>
 <style>
-form {
-  margin: 10px;
-}
+
 .navBar {
   display: flex;
   justify-content: flex-end;
