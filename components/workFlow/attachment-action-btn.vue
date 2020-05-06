@@ -64,9 +64,11 @@ export default {
           break;
         case "download":
           this.downloadDocument();
+            break;
         case "detach":
           console.log("detach");
           this.detach();
+            break;
       }
     },
     downloadDocument() {

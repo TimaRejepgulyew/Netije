@@ -108,7 +108,7 @@ export default {
   attachment: {
     AttachmentByTask: `${url}/api/Attachment/ByTask/`,
     AttachmentByAssignment: `${url}/api/Attachment/ByAssignment/`,
-    Detach: `${url}​/api​/Attachment​/Detach`,
+    Detach: `${url}/api/Attachment/Detach`,
     Attach: `${url}/api/Attachment/Attach`
   }
 };
