@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     documentKindDetailForm(e) {
-      this.$router.push(`/docflow/document-kind/upsert/${e.row.data.id}`);
+      this.$router.push(`/docflow/document-kind/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
       const addButton = e.toolbarOptions.items.find(btn => {
@@ -165,7 +165,7 @@ export default {
       });
       if (addButton) {
         addButton.options.onClick = () => {
-          this.$router.push("/docflow/document-kind/upsert/new");
+          this.$router.push("/docflow/document-kind/create");
         };
       }
     }

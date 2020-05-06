@@ -1,17 +1,18 @@
+import NumberingType from "~/infrastructure/constants/numberingTypes";
+import Docflow from "~/infrastructure/constants/docflows";
 export const state = () => ({
     docflow: (context) => {
         return [
-            { id: 0, name: context.$t("translations.fields.incomingEnum") },
-            { id: 1, name: context.$t("translations.fields.outcomingEnum") },
-            { id: 2, name: context.$t("translations.fields.inner") },
-            { id: 3, name: context.$t("translations.fields.contracts") }
+            { id: Docflow.Incoming, name: context.$t("translations.fields.incomingEnum") },
+            { id: Docflow.Outgoing, name: context.$t("translations.fields.outcomingEnum") },
+            { id: Docflow.Internal, name: context.$t("translations.fields.inner") }
         ];
     },
     numberingType: (context) => {
         return [
-            { id: 1, name: context.$t("translations.fields.registrable") },
-            { id: 2, name: context.$t("translations.fields.numerable") },
-            { id: 3, name: context.$t("translations.fields.notNumerable") }
+            { id: NumberingType.Registrable, name: context.$t("translations.fields.registrable") },
+            { id: NumberingType.Numerable, name: context.$t("translations.fields.numerable") },
+            { id: NumberingType.NotNumerable, name: context.$t("translations.fields.notNumerable") }
         ];
     },
 })

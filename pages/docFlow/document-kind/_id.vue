@@ -1,15 +1,14 @@
 <template>
-  <div id="form-demo">
-    <div class="widget-container">
-      <Header :headerTitle="headerTitle"></Header>
+  <div>
+    <div>
+      <Header :headerTitle="$t('translations.headers.editDocumentKind')"></Header>
       <form @submit="handleSubmit">
         <DxForm
           :col-count="1"
-          :form-data.sync="store"
-          :read-only="false"
+          :form-data.sync="documentKind"
+          :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
           :show-colon-after-label="true"
           :show-validation-summary="true"
-          validation-group="customerData"
         >
           <DxGroupItem :col-count="1">
             <DxSimpleItem data-field="code" data-type="string">
@@ -46,6 +45,7 @@
             </DxSimpleItem>
 
             <DxSimpleItem
+              :disable="true"
               data-field="numberingType"
               :editor-options="numberingTypeOptions"
               editor-type="dxSelectBox"
@@ -56,7 +56,7 @@
 
             <DxSimpleItem
               data-field="documentTypeId"
-              :editor-options=" docTypeOptions"
+              :editor-options="docTypeOptions"
               editor-type="dxSelectBox"
             >
               <DxLabel location="top" :text="$t('translations.menu.documentType')" />
@@ -72,17 +72,28 @@
             </DxSimpleItem>
 
             <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
-              <DxLabel location="top" :text="$t('translations.fields.generateDocumentName')" />
+              <DxLabel
+                location="left"
+                alignment="left"
+                :text="$t('translations.fields.generateDocumentName')"
+              />
             </DxSimpleItem>
 
             <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
-              <DxLabel location="top" :text="$t('translations.fields.isDefault')" />
+              <DxLabel
+                location="left"
+                alignment="left"
+                :text="$t('translations.fields.isDefault')"
+              />
             </DxSimpleItem>
 
             <DxSimpleItem v-if="isNumerable" data-field="autoNumbering" editor-type="dxCheckBox">
-              <DxLabel location="top" :text="$t('translations.fields.autoNumbering')" />
+              <DxLabel
+                location="left"
+                alignment="left"
+                :text="$t('translations.fields.autoNumbering')"
+              />
             </DxSimpleItem>
-
             <DxSimpleItem
               data-field="note"
               :col-span="1"
@@ -94,7 +105,6 @@
 
             <DxSimpleItem
               data-field="status"
-              :visible="isUpdating"
               :editor-options="statusOptions"
               editor-type="dxSelectBox"
             >
@@ -102,7 +112,7 @@
             </DxSimpleItem>
             <DxGroupItem :col-span="1" :col-count="12">
               <DxButtonItem
-                :button-options="addButtonOptions"
+                :button-options="saveButtonOptions"
                 horizontal-alignment="left"
                 :col-span="1"
               />
@@ -120,6 +130,9 @@
 </template>
 <script>
 import "devextreme-vue/text-area";
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
+import NumberingType from "~/infrastructure/constants/numberingTypes";
 import { DxTagBox } from "devextreme-vue/tag-box";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
@@ -154,140 +167,59 @@ export default {
     notify
   },
   async asyncData({ app, params }) {
-    if (params.id != "new") {
-      let address = `${dataApi.docFlow.DocumentKind}/${params.id}`;
-      let { data } = await app.$axios.get(address);
-      return {
-        store: data,
-        address,
-        isUpdating: true
-      };
-    } else {
-      return {};
-    }
-  },
-  async created() {
-    this.documentType = await this.getData(dataApi.docFlow.DocumentType);
-    this.availableActions = await this.getData(
-      dataApi.docFlow.DocumentSendAction
+    var res = await app.$axios.get(
+      dataApi.docFlow.DocumentKind + "/" + params.id
     );
+    return {
+      documentKind: res.data
+    };
   },
   data() {
     return {
-      address: dataApi.docFlow.DocumentKind,
-      isUpdating: false,
-      headerTitle: this.$t("translations.headers.addDocumentKind"),
-      store: {
-        status: 0,
-        name: "",
-        documentFlow: null,
-        note: "",
-        shortName: "",
-        numberingType: null,
-        generateDocumentName: false,
-        autoNumbering: false,
-        isDefault: false,
-        documentTypeId: null,
-        code: "",
-        availableActions: []
-      },
-      documentType: [],
-      availableActions: [],
-      addButtonOptions: {
-        width: 100,
-        height: 50,
-        text: this.$t("translations.links.add"),
+      saveButtonOptions: {
+        height: 40,
+        text: this.$t("translations.links.save"),
         useSubmitBehavior: true,
-        type: "success"
+        type: "success",
+        disabled: !this.$store.getters["permissions/allowUpdating"](this.entityType)
       },
       cancelButtonOptions: {
-        onClick: this.backTo,
-        width: 100,
-        height: 50,
+        onClick: this.goBack,
+        height: 40,
         text: this.$t("translations.links.cancel"),
         useSubmitBehavior: false
       },
+      entityType: EntityType.DocumentKind,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
-    async getData(url) {
-      const res = await this.$axios.get(url);
-      return res.data.data;
-    },
-    backTo() {
+    goBack() {
       this.$router.go(-1);
-    },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
     },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
-      return this.$customValidator.DocumentKindtDataFieldValueNotExists(
+      return this.$customValidator.DocumentKindDataFieldValueNotExists(
         {
-          id: this.store.id,
+          id: this.documentKind.id,
           [dataField]: params.value
         },
         dataField
       );
     },
-    putRequest() {
-      const object = { id: parseInt(this.$route.params.id), ...this.store };
-      this.$axios
-        .put(this.address, object)
-        .then(res => {
-          this.backTo();
-          this.notify(
-            this.$t("translations.headers.updateDocKindSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.updateDocKindError"),
-            "error"
-          );
-        });
-    },
-    postRequest() {
-      this.$axios
-        .post(this.address, this.store)
-        .then(res => {
-          this.backTo();
-          this.notify(
-            this.$t("translations.headers.addDoctKindSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindError"),
-            "error"
-          );
-        });
-    },
     handleSubmit(e) {
-      if (this.isUpdating) {
-        this.putRequest();
-      } else {
-        this.postRequest();
-      }
+      const object = { id: +this.$route.params.id, ...this.documentKind };
+      this.$awn.asyncBlock(
+        this.$axios.put(`${dataApi.docFlow.DocumentKind}/${object.id}`, object),
+        res => this.$awn.success(),
+        err => this.$awn.alert()
+      );
       e.preventDefault();
     }
   },
   computed: {
-    accessRightHasDependies() {
-      return this.isUpdating ? this.store.hasDependencies : false;
+    hasDependencies() {
+      return this.documentKind.hasDependencies;
     },
     statusOptions() {
       return {
@@ -300,65 +232,62 @@ export default {
     },
     numberingTypeOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          disabled: this.accessRightHasDependies
-        }),
-        dataSource: [
-          { id: 1, name: this.$t("translations.fields.registrable") },
-          { id: 2, name: this.$t("translations.fields.numerable") },
-          { id: 3, name: this.$t("translations.fields.notNumerable") }
-        ]
+        dataSource: this.$store.getters["docflow/numberingType"](this),
+        valueExpr: "id",
+        displayExpr: "name",
+        disabled: this.hasDependencies
       };
     },
     documentFlowOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          disabled: this.accessRightHasDependies
-        }),
-        dataSource: [
-          { id: 0, name: this.$t("translations.fields.incomingEnum") },
-          { id: 1, name: this.$t("translations.fields.outcomingEnum") },
-          { id: 2, name: this.$t("translations.fields.inner") }
-        ],
+        dataSource: this.$store.getters["docflow/docflow"](this),
+        valueExpr: "id",
+        displayExpr: "name",
+        disabled: this.hasDependencies,
         onValueChanged: e => {
-          this.store.documentTypeId = null;
+          this.documentKind.documentTypeId = null;
         }
       };
     },
     tagboxOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
-        }),
-        dataSource: this.availableActions
+        dataSource: {
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.docFlow.DocumentSendAction
+          }),
+          filter: ["status", "=", Status.Active]
+        },
+        valueExpr: "id",
+        displayExpr: "name"
       };
     },
-
     docTypeOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          disabled: this.accessRightHasDependies
-        }),
-        dataSource: this.documentType.filter(element => {
-          return element.documentFlow == this.store.documentFlow;
-        })
+        dataSource: {
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.docFlow.DocumentType
+          }),
+          filter: [
+            ["status", "=", Status.Active],
+            "and",
+            ["documentFlow", "=", this.documentKind.documentFlow]
+          ]
+        },
+        valueExpr: "id",
+        displayExpr: "name",
+        disabled: this.hasDependencies
       };
     },
     isNumerable() {
-      if (this.store.numberingType != 2) {
+      if (this.documentKind.numberingType != NumberingType.NotNumerable) {
         return false;
       } else {
-        this.store.autoNumbering = false;
+        this.documentKind.autoNumbering = false;
         return true;
       }
     }
   }
 };
 </script>
-<style>
-
-</style>
-

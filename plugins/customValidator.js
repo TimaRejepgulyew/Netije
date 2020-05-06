@@ -99,7 +99,7 @@ export default ({ app }, inject) => {
     );
   }
 
-  async function DocumentKindtDataFieldValueNotExists(payload, propertyName) {
+  async function DocumentKindDataFieldValueNotExists(payload, propertyName) {
     return (
       (await isEntityExists(
         dataApi.docFlow.DocumentKind,
@@ -250,7 +250,7 @@ export default ({ app }, inject) => {
     BankDataFieldValueNotExists: BankDataFieldValueNotExists,
     PersonDataFieldValueNotExists: PersonDataFieldValueNotExists,
     BusinnesUnitDataFieldValueNotExists: BusinnesUnitDataFieldValueNotExists,
-    DocumentKindtDataFieldValueNotExists: DocumentKindtDataFieldValueNotExists,
+    DocumentKindDataFieldValueNotExists: DocumentKindDataFieldValueNotExists,
     EmployeeDataFieldValueNotExists: EmployeeDataFieldValueNotExists,
     DepartmentDataFieldValueNotExists: DepartmentDataFieldValueNotExists,
     JobTitleDataFieldValueNotExists: JobTitleDataFieldValueNotExists,
