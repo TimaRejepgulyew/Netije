@@ -30,5 +30,8 @@ export default {
       default:
         throw "unknown task type";
     }
+  },
+  generateDocumentDetailRoute(context, documentId) {
+    return `${context.$route.path}/form/${documentId}`;
   }
 };

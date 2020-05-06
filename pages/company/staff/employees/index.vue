@@ -134,10 +134,14 @@ export default {
       this.$router.push(`/company/staff/employees/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
-      const addButtonIndex = 1;
-      e.toolbarOptions.items[addButtonIndex].options.onClick = () => {
-        this.$router.push(`/company/staff/employees/create-employee`);
-      };
+      const addButton = e.toolbarOptions.items.find(btn => {
+        return btn.name == "addRowButton";
+      });
+      if (addButton) {
+        addButton.options.onClick = () => {
+          this.$router.push(`/company/staff/employees/create-employee`);
+        };
+      }
     }
   }
 };

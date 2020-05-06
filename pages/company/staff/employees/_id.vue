@@ -18,10 +18,9 @@
       </DxPopup>
       <form @submit="handleSubmit">
         <DxForm
-          :disabled="!$store.getters['permissions/allowUpdating'](entityType)"
           :col-count="12"
           :form-data.sync="store"
-          :read-only="false"
+          :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="updateEmployee"
@@ -98,7 +97,7 @@
           </DxGroupItem>
 
           <DxGroupItem :col-count="12" :col-span="12">
-            <DxButtonItem :button-options="saveButtonOptions"  />
+            <DxButtonItem :button-options="saveButtonOptions" />
             <DxButtonItem :button-options="cancelButtonOptions" />
           </DxGroupItem>
         </DxForm>
@@ -173,35 +172,11 @@ export default {
         confirmPassword: null,
         status: 0
       },
-      cancelButtonOptions: {
-        onClick: this.goBack,
-        width: 100,
-        height: 40,
-        text: this.$t("translations.links.cancel"),
-        useSubmitBehavior: false
-      },
       statusOptions: {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
         showClearButton: true
-      },
-      saveButtonOptions: {
-        height: 40,
-        text: this.$t("translations.links.save"),
-        useSubmitBehavior: true,
-        type: "success"
-      },
-      popupPasswordOpt: {
-        onClick: () => {
-          this.changePasswordPupupVisible = true;
-        },
-        height: 40,
-        icon: "key",
-        text: this.$t("translations.links.changePassword")
-      },
-      passwordOptions: {
-        mode: "password"
       },
       jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
@@ -217,7 +192,38 @@ export default {
       namePattern: /^[^0-9]+$/
     };
   },
-
+  computed: {
+    cancelButtonOptions() {
+      return this.$store.getters["globalProperties/btnCancel"](
+        this,
+        this.goBack
+      );
+    },
+    popupPasswordOpt() {
+      return {
+        disabled: !this.$store.getters["permissions/allowUpdating"](
+          this.entityType
+        ),
+        onClick: () => {
+          this.changePasswordPupupVisible = true;
+        },
+        height: 40,
+        icon: "key",
+        text: this.$t("translations.links.changePassword")
+      };
+    },
+    passwordOptions: {
+      mode: "password"
+    },
+    saveButtonOptions() {
+      return {
+        ...this.$store.getters["globalProperties/btnSave"](this),
+        disabled: !this.$store.getters["permissions/allowUpdating"](
+          this.entityType
+        )
+      };
+    }
+  },
   methods: {
     hidePopup(popup) {
       this[popup] = false;

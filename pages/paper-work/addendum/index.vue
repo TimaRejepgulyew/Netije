@@ -1,5 +1,5 @@
 <template>
-  <main >
+  <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
@@ -88,6 +88,7 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
+
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -138,7 +139,8 @@ export default {
       statusStores: this.$store.getters["status/status"],
 
       toMoreAbout: e => {
-        this.$store.getters["globalProperties/toForm"](this, e.key);
+        this.$router.push(RouteGenerator.generateDocumentDetailRoute(e.key))
+        // this.$store.getters["globalProperties/toForm"](this, e.key);
       },
       onToolbarPreparing(e) {
         e.toolbarOptions.items[1].options.onClick = () => {

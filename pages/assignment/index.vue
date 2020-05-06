@@ -219,8 +219,8 @@ export default {
       });
     },
     toMoreAbout(e) {
-    console.log(e);
-      // this.$router.push( RouteGenerator.generateAssignmentDetailRoute(e.key));
+   
+       this.$router.push( RouteGenerator.generateAssignmentDetailRoute(e.key));
     },
     createTask(e) {
       this.$router.push(e.itemData.path);
