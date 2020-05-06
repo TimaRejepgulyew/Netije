@@ -1,5 +1,5 @@
 <template>
-  <main >
+  <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
@@ -147,9 +147,14 @@ export default {
         this.$store.getters["globalProperties/toForm"](this, e.key);
       },
       onToolbarPreparing(e) {
-        e.toolbarOptions.items[1].options.onClick = () => {
-          this.$store.getters["globalProperties/toForm"](this);
-        };
+        const addButton = e.toolbarOptions.items.find(btn => {
+          return btn.name == "addRowButton";
+        });
+        if (addButton) {
+          addButton.options.onClick = () => {
+            this.$store.getters["globalProperties/toForm"](this);
+          };
+        }
       },
       businessUnitStores: this.$dxStore({
         key: "id",

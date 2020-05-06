@@ -173,16 +173,18 @@ export default {
   },
   methods: {
     editDocumentKindForm(e) {
-      this.$router.push(
-        `/docflow/document-kind/upsert/${e.row.data.id}`
-      );
+      this.$router.push(`/docflow/document-kind/upsert/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
-      const addButtonIndex = 1;
-      e.toolbarOptions.items[addButtonIndex].options.onClick = () => {
-        this.$router.push("/docflow/document-kind/upsert/new");
-      };
-    }
+      const addButton = e.toolbarOptions.items.find(btn => {
+        return btn.name == "addRowButton";
+      });
+      if (addButton) {
+        addButton.options.onClick = () => {
+          this.$router.push("/docflow/document-kind/upsert/new");
+        };
+      }
+    },
   }
 };
 </script>

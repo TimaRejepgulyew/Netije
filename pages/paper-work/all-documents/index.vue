@@ -1,5 +1,5 @@
 <template>
-  <main >
+  <main>
     <DxPopup
       :visible.sync="createDocumentPopup"
       :drag-enabled="false"
@@ -215,12 +215,16 @@ export default {
         this.$router.push(address);
       },
       onToolbarPreparing(e) {
-        if (e.toolbarOptions.items[1].options) {
-          e.toolbarOptions.items[1].options.onClick = () => {
+        const addButton = e.toolbarOptions.items.find(btn => {
+          return btn.name == "addRowButton";
+        });
+        if (addButton) {
+          addButton.options.onClick = () => {
             this.createDocumentPopup = true;
           };
         }
       },
+
       leadingDocumentStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.AllDocument

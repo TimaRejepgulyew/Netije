@@ -247,10 +247,14 @@ export default {
       );
     },
     onToolbarPreparing(e) {
-      const addButtonIndex = 1;
-      e.toolbarOptions.items[addButtonIndex].options.onClick = () => {
-        this.$router.push("/docflow/document-registration/upsert/new");
-      };
+      const addButton = e.toolbarOptions.items.find(btn => {
+        return btn.name == "addRowButton";
+      });
+      if (addButton) {
+        addButton.options.onClick = () => {
+          this.$router.push("/docflow/document-registration/upsert/new");
+        };
+      }
     }
   }
 };

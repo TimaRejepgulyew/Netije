@@ -139,13 +139,18 @@ export default {
       statusStores: this.$store.getters["status/status"],
 
       toMoreAbout: e => {
-        this.$router.push(RouteGenerator.generateDocumentDetailRoute(e.key))
+        this.$router.push(RouteGenerator.generateDocumentDetailRoute(e.key));
         // this.$store.getters["globalProperties/toForm"](this, e.key);
       },
       onToolbarPreparing(e) {
-        e.toolbarOptions.items[1].options.onClick = () => {
-          this.$store.getters["globalProperties/toForm"](this);
-        };
+        const addButton = e.toolbarOptions.items.find(btn => {
+          return btn.name == "addRowButton";
+        });
+        if (addButton) {
+          addButton.options.onClick = () => {
+            this.$store.getters["globalProperties/toForm"](this);
+          };
+        }
       },
       leadingDocumentStores: this.$dxStore({
         key: "id",
