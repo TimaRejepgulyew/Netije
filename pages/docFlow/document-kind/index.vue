@@ -1,5 +1,5 @@
 <template>
-  <main >
+  <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
@@ -8,9 +8,8 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @editing-start="editingStart"
-      @init-new-row="initNewRow"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -82,6 +81,16 @@
           display-expr="status"
         />
       </DxColumn>
+      <DxColumn type="buttons">
+        <DxButton
+          icon="edit"
+          :text="$t('translations.headers.editDocumentKind')"
+          :onClick="editDocumentKindForm"
+          :visible="$store.getters['permissions/allowUpdating'](entityType)"
+        ></DxButton>
+
+        <DxButton icon="trash" name="delete"></DxButton>
+      </DxColumn>
     </DxDataGrid>
   </main>
 </template>
@@ -104,7 +113,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxStateStoring,
-  DxFilterRow
+  DxFilterRow,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -124,7 +134,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxStateStoring,
-    DxFilterRow
+    DxFilterRow,
+    DxButton
   },
   async created() {
     let docType = await this.$axios.get(dataApi.docFlow.DocumentType);
@@ -141,7 +152,7 @@ export default {
         removeUrl: dataApi.docFlow.DocumentKind
       }),
       entityType: "DocumentKind",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
       documentFlow: [
         { id: 0, name: this.$t("translations.fields.incomingEnum") },
         { id: 1, name: this.$t("translations.fields.outcomingEnum") },
@@ -154,15 +165,25 @@ export default {
         { id: 3, name: this.$t("translations.fields.notNumerable") }
       ],
       documentType: [],
-      initNewRow: e => {
-        this.$router.push("/docflow/document-kind/upsert");
-      },
+
       editingStart: e => {
-        this.$router.push("/docflow/document-kind/" + e.data.id);
+        this.$router.push("/docflow/document-kind/upsert/" + e.data.id);
       }
     };
   },
-  methods: {}
+  methods: {
+    editDocumentKindForm(e) {
+      this.$router.push(
+        `/docflow/document-kind/upsert/${e.row.data.id}`
+      );
+    },
+    onToolbarPreparing(e) {
+      const addButtonIndex = 1;
+      e.toolbarOptions.items[addButtonIndex].options.onClick = () => {
+        this.$router.push("/docflow/document-kind/upsert/new");
+      };
+    }
+  }
 };
 </script>
 

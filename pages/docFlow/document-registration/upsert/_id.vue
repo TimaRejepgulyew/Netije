@@ -232,7 +232,7 @@ export default {
   },
 
   async asyncData({ app, params }) {
-    if (params.id) {
+    if (params.id != "new") {
       let store = await app.$axios.get(
         dataApi.docFlow.DocumentRegistry + params.id
       );
@@ -455,7 +455,7 @@ export default {
           value: "status",
           disabled: !this.isOwnerGroup
         }),
-        dataSource: this.$store.getters["status/status"]
+        dataSource: this.$store.getters["status/status"](this)
       };
     },
     numberOfDigitsInNumber() {

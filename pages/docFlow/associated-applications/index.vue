@@ -147,7 +147,7 @@ export default {
         removeUrl: dataApi.docFlow.AssociatedApplication
       }),
       entityType: "AssociatedApp",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
       },

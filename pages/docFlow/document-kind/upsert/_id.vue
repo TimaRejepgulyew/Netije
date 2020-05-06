@@ -154,7 +154,7 @@ export default {
     notify
   },
   async asyncData({ app, params }) {
-    if (params.id) {
+    if (params.id != "new") {
       let address = `${dataApi.docFlow.DocumentKind}/${params.id}`;
       let { data } = await app.$axios.get(address);
       return {
@@ -295,7 +295,7 @@ export default {
           context: this,
           value: "status"
         }),
-        dataSource: this.$store.getters["status/status"]
+        dataSource: this.$store.getters["status/status"](this)
       };
     },
     numberingTypeOptions() {

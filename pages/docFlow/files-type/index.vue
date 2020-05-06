@@ -115,7 +115,7 @@ export default {
         removeUrl: dataApi.docFlow.FilesType
       }),
       entityType: "FilesType",
-      statusStores: this.$store.getters["status/status"],
+      statusStores: this.$store.getters["status/status"](this),
 
       initNewRow: e => {
         e.data.status = this.statusStores[0].id;
