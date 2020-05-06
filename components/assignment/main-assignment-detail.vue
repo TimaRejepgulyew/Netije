@@ -74,7 +74,11 @@ export default {
     DxLoadPanel
   },
   props: ["assignment"],
-
+  async created() {
+    if (!this.assignment.isRead) {
+      await this.markAsRead();
+    }
+  },
   data() {
     return {
       attachmentsUrl: dataApi.attachment.AttachmentByAssignment,
@@ -95,6 +99,11 @@ export default {
     },
     backTo() {
       this.$router.go(-1);
+    },
+    async markAsRead() {
+      await this.$axios.post(dataApi.assignment.MarkAsRead, {
+        assignmentId: parseInt(this.$route.params.id)
+      });
     }
   },
   computed: {

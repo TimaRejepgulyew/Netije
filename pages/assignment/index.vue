@@ -219,8 +219,12 @@ export default {
       });
     },
     toMoreAbout(e) {
-   
-       this.$router.push( RouteGenerator.generateAssignmentDetailRoute(e.key));
+      this.$router.push(
+        RouteGenerator.generateAssignmentDetailRoute(
+          e.data.assignmentType,
+          e.key
+        )
+      );
     },
     createTask(e) {
       this.$router.push(e.itemData.path);
@@ -232,19 +236,19 @@ export default {
   filters: {
     typeIcon(value) {
       switch (value) {
+        case 0:
+        case 1:
         case 2:
-        case 3:
+        case 6:
+        case 7:
         case 8:
           return require("~/static/icons/iconAssignment/assignment.svg");
-          break;
-
+        case 3:
+        case 4:
         case 5:
           return require("~/static/icons/iconAssignment/notice.svg");
-          break;
-
         default:
           return require("~/static/icons/iconAssignment/inProccess1.svg");
-          break;
       }
     }
   }

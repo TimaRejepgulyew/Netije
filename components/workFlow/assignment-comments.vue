@@ -4,7 +4,7 @@
       <DxList
         :activeStateEnabled="false"
         :focusStateEnabled="false"
-        :data-source="comments.data"
+        :data-source="comments"
         :search-enabled="false"
       >
         <template #item="item">
@@ -94,6 +94,7 @@
   </div>
 </template>
 <script>
+import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
 import moment from "moment";
@@ -105,11 +106,16 @@ export default {
   data() {
     return {
       employees: [],
-      comments: []
+      comments: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: this.url + this.$route.params.id
+        })
+      })
     };
   },
   async created() {
-    this.comments = await this.$axios.get(this.url + this.$route.params.id);
+    // this.comments = await this.$axios.get(this.url + this.$route.params.id);
     this.employees = await this.$axios.get(dataApi.company.Employee);
   },
   methods: {

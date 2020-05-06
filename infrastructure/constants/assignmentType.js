@@ -1,8 +1,8 @@
 export default {
-  SimpleAssignment: 1,
-  AcquintanceAssignment: 2,
-  ActionItemExecutionAssignment: 3,
-  SimpleNotify: 4,
-  AcquintanceNotify: 5,
-  ActionItemExecutionNotify: 6
+  SimpleAssignment: 0,
+  AcquintanceAssignment: 1,
+  ActionItemExecutionAssignment: 2,
+  SimpleNotify: 3,
+  AcquintanceNotify: 4,
+  ActionItemExecutionNotify: 5
 };

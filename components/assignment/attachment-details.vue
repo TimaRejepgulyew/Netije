@@ -22,10 +22,7 @@
                 </div>
 
                 <div class="list__btn-group">
-                  <attachmentActionBtn
-                    :document="item.data.document"
-                    :canDetach="item.data.canDetach"
-                  />
+                  <attachmentActionBtn :attachment="item.data" />
                 </div>
               </div>
             </div>
@@ -37,6 +34,7 @@
           v-model="selectedDocument"
           :dataSource="documents"
           display-expr="name"
+          value-expr="id"
           searchExpr="name"
           :show-clear-button="true"
           :searchEnabled="true"
@@ -77,15 +75,14 @@ export default {
     DxTagBox
   },
   props: ["url", "readOnly"],
-  async created() {
-    if (!this.isCreated) {
-      const { data } = await this.$axios(this.url + this.$route.params.id);
-      this.attachments = data;
-    }
-  },
   data() {
     return {
-      attachments: [],
+      attachments: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: this.url + this.$route.params.id
+        })
+      }),
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -103,34 +100,23 @@ export default {
         ) + documentId
       );
     },
-    compareAttachments() {
-      if (this.selectedDocument) {
-        return this.attachments.some(el => {
-          return el.document.id === this.selectedDocument.id;
-        });
-      }
-    },
-    sendAttachments(attachments) {
-      if (this.isCreated) {
-        this.$emit("updateAttachments", attachments);
-        this.selectedDocument = null;
-      }
-    },
-    formatDocument() {
-      return {
-        id: null,
-        document: this.selectedDocument,
-        canDetach: true,
-        attachedBy: this.$t("translations.fields.me")
-      };
-    },
+
     addAttachment() {
-      let attachments = this.attachments;
-      if (!this.compareAttachments()) {
-        const attachment = this.formatDocument();
-        attachments.push(attachment);
-        this.sendAttachments(attachments);
-      }
+      this.$awn.async(
+        this.$axios.post(dataApi.attachment.Attach, {
+          assignmetId: +this.$route.params.id,
+          attachment: [this.selectedDocument]
+        }),
+        e => {
+          this.attachments.reload();
+          this.selectedDocument = null;
+          this.$awn.success();
+        },
+        e => {
+          this.attachments.reload();
+          this.$awn.alert();
+        }
+      );
     }
   },
   computed: {

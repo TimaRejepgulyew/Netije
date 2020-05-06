@@ -1,5 +1,6 @@
 <template>
   <DxDropDownButton
+    v-if="hasActions"
     :drop-down-options="{ width: 230 }"
     :items="btnType"
     display-expr="name"
@@ -16,9 +17,12 @@ export default {
   components: {
     DxDropDownButton
   },
-  props: ["document", "canDetach"],
+  props: ["attachment"],
   data() {
-    const canPreview = this.document.canPreview && this.canDetach;
+    const canPreview =
+      this.attachment.document.hasVersions &&
+      this.attachment.document.associatedApplication.canBeOpenedWithPreview;
+
     return {
       btnType: [
         {
@@ -29,44 +33,68 @@ export default {
         },
         {
           type: "download",
-          visible: this.document.hasVersion,
+          visible: this.attachment.document.hasVersions,
           icon: "download",
           name: this.$t("translations.links.download")
         },
         {
           type: "detach",
-          // visible: this.canDetach,
+          visible: true,
           icon: "trash",
           name: this.$t("translations.links.delete")
         }
       ]
     };
   },
+  computed: {
+    hasActions() {
+      return (
+        (this.attachment.document.hasVersions &&
+          this.attachment.document.associatedApplication
+            .canBeOpenedWithPreview) ||
+        this.attachment.canDetach
+      );
+    }
+  },
   methods: {
     onItemClick(e) {
-      console.log(e);
       switch (e.itemData.type) {
         case "preview":
           this.previewDocument();
           break;
         case "download":
           this.downloadDocument();
+        case "detach":
+          console.log("detach");
+          this.detach();
       }
     },
     downloadDocument() {
       DocumentService.downloadDocument(
         {
-          ...this.document,
-          extension: this.document.associatedApplication.extension
+          ...this.attachment.document,
+          extension: this.attachment.document.associatedApplication.extension
         },
         this
       );
     },
     previewDocument() {
-      DocumentService.previewDocument(this.document, this);
+      DocumentService.previewDocument(this.attachment.document, this);
     },
-    detachVersion() {
-      // this.$axios.delete()
+    detach() {
+      this.$awn.async(
+        this.$axios.post(dataApi.attachment.Detach, {
+          attachmentId: this.attachment.id
+        }),
+        e => {
+          this.$emit("reload");
+          this.$awn.success();
+        },
+        e => {
+          this.$emit("reload");
+          this.$awn.alert();
+        }
+      );
     }
   }
 };

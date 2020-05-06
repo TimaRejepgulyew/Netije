@@ -14,19 +14,20 @@ export default {
     }
   },
   generateAssignmentDetailRoute(assignmentType, assignmentId) {
+    console.log(assignmentType);
     switch (assignmentType) {
       case AssignmentType.SimpleAssignment:
-        return `/assignment/simple/assignment${assignmentId}`;
+        return `/assignment/simple/assignment/${assignmentId}`;
       case AssignmentType.AcquaintanceAssignment:
-        return `/assignment/acquaintance/assignment${assignmentId}`;
+        return `/assignment/acquaintance/assignment/${assignmentId}`;
       case AssignmentType.ActionItemExecutionAssignment:
-        return `/assignment/action-item-execution/assignment${assignmentId}`;
+        return `/assignment/action-item-execution/assignment/${assignmentId}`;
       case AssignmentType.SimpleNotify:
-        return `/assignment/simple/assignment${assignmentId}`;
+        return `/assignment/simple/notify/${assignmentId}`;
       case AssignmentType.AcquaintanceNotify:
-        return `/assignment/acquaintance/assignment${assignmentId}`;
+        return `/assignment/acquaintance/notify/${assignmentId}`;
       case AssignmentType.ActionItemExecutionNotify:
-        return `/assignment/action-item-execution/assignment${assignmentId}`;
+        return `/assignment/action-item-execution/notify/${assignmentId}`;
       default:
         throw "unknown task type";
     }

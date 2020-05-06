@@ -1,10 +1,15 @@
 import { alert } from "devextreme/ui/dialog";
 
-export default function ({ store, app: { $axios, i18n } }) {
-
+export default function({ store, app: { $axios, i18n } }) {
+  $axios.onRequest(config => {
+    console.log(config)
+  })
   $axios.onError(error => {
-    if (error.response.headers["content-type"] === "application/problem+json; charset=utf-8") {
-      try {
+    try {
+      if (
+        error.response.headers["content-type"] ===
+        "application/problem+json; charset=utf-8"
+      ) {
         var responseDetail = JSON.parse(error.response.data.detail);
         var errors = [];
         for (const key in responseDetail) {
@@ -26,20 +31,19 @@ export default function ({ store, app: { $axios, i18n } }) {
           );
         }
       }
-      catch (e) { 
-        alert(error.response.data.detail);
-        console.log(error.response.data)
-      }
+    } catch (e) {
+      console.log(error);
+      console.log(e);
     }
   });
 
   $axios.interceptors.request.use(
-    function (config) {
+    function(config) {
       config.headers.Authorization =
         "Bearer " + store.getters["oidc/oidcAccessToken"];
       return config;
     },
-    function (error) {
+    function(error) {
       return Promise.reject(error);
     }
   );

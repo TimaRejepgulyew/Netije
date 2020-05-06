@@ -46,6 +46,7 @@ export default {
     FilesType: `${url}/api/FilesType`,
     RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
   },
+
   paperWork: {
     RegisterDocument: `${url}/api/DocumentRegistration/Register`,
     UnregisterDocument: `${url}/api/DocumentRegistration/Unregister`,
@@ -55,8 +56,9 @@ export default {
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     DeleteDocument: `${url}/api/OfficialDocument`,
     Version: `${url}/api/OfficialDocument/Version/`,
-    DownloadLastVersion: `${url}/api/OfficialDocument/DownloadLastVersion/`,
-    PreviewLastVersion: `${url}/api/OfficialDocument/PreviewLastVersion/`,
+    DownloadLastVersion: `${url}/api/OfficialDocument/Version/DownloadLastVersion/`,
+    PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
+
     Relation: `${url}/api/OfficialDocument/Relations/`,
     DocumentVersion: `${url}/api/OfficialDocument/Version/CreateFromFile`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
@@ -105,6 +107,8 @@ export default {
   },
   attachment: {
     AttachmentByTask: `${url}/api/Attachment/ByTask/`,
-    AttachmentByAssignment: `${url}/api/Attachment/ByAssignment/`
+    AttachmentByAssignment: `${url}/api/Attachment/ByAssignment/`,
+    Detach: `${url}​/api​/Attachment​/Detach`,
+    Attach: `${url}/api/Attachment/Attach`
   }
 };
