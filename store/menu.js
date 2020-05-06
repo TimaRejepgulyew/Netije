@@ -235,38 +235,34 @@ export const state = () => ({
 });
 
 export const hasSharedDirectoryAccess = context => {
-  return 
-  context.$store.getters["permissions/allowReading"](EntityType.Country) ||
-  context.$store.getters["permissions/allowReading"](EntityType.Region) ||
-  context.$store.getters["permissions/allowReading"](EntityType.Locality)
+  return context.$store.getters["permissions/allowReading"](EntityType.Country) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Region) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Locality)
 }
 
 export const hasCounterPartyAccess = context => {
-  return 
-  context.$store.getters["permissions/allowReading"](EntityType.Counterparty) ||
-  context.$store.getters["permissions/allowReading"](EntityType.Contact)
+  return context.$store.getters["permissions/allowReading"](EntityType.Counterparty) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Contact)
 }
 
 export const hasCompanyAccess = context => {
-  return 
-  context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant) ||
-  context.$store.getters["permissions/allowReading"](EntityType.JobTitle) ||
-  context.$store.getters["permissions/allowReading"](EntityType.Employee) ||
-  context.$store.getters["permissions/allowReading"](EntityType.Department) ||
-  context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit);
+  return context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant) ||
+    context.$store.getters["permissions/allowReading"](EntityType.JobTitle) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Employee) ||
+    context.$store.getters["permissions/allowReading"](EntityType.Department) ||
+    context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit);
 }
 
 export const hasDocflowAccess = context => {
-  return 
-  context.$store.getters["permissions/allowReading"](EntityType.AssociatedApplications) ||
-  context.$store.getters["permissions/allowReading"](EntityType.FilesType) ||
-  context.$store.getters["permissions/allowReading"](EntityType.DocumentKind) ||
-  context.$store.getters["permissions/allowReading"](EntityType.CaseFile) ||
-  context.$store.getters["permissions/allowReading"](EntityType.FileRetentionPeriod) ||
-  context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister) ||
-  context.$store.getters["permissions/allowReading"](EntityType.MailDeliveryMethod) ||
-  context.$store.getters["permissions/allowReading"](EntityType.RegistrationGroup) ||
-  context.$store.getters["permissions/allowReading"](EntityType.RegistrationSetting)
+  return context.$store.getters["permissions/allowReading"](EntityType.AssociatedApplications) ||
+    context.$store.getters["permissions/allowReading"](EntityType.FilesType) ||
+    context.$store.getters["permissions/allowReading"](EntityType.DocumentKind) ||
+    context.$store.getters["permissions/allowReading"](EntityType.CaseFile) ||
+    context.$store.getters["permissions/allowReading"](EntityType.FileRetentionPeriod) ||
+    context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister) ||
+    context.$store.getters["permissions/allowReading"](EntityType.MailDeliveryMethod) ||
+    context.$store.getters["permissions/allowReading"](EntityType.RegistrationGroup) ||
+    context.$store.getters["permissions/allowReading"](EntityType.RegistrationSetting)
 }
 
 
