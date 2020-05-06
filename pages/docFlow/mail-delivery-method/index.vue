@@ -106,7 +106,7 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
-  mounted() {},
+
   data() {
     return {
       dataSource: this.$dxStore({

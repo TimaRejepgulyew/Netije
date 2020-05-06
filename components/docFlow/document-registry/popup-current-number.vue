@@ -17,7 +17,6 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
 import { DxButton } from "devextreme-vue";
 import notify from "devextreme/ui/notify";
 import DxForm, {

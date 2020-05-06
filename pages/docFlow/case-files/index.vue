@@ -181,7 +181,7 @@ export default {
     DxStateStoring,
     DxCustomRule
   },
-  mounted() {},
+
   data() {
     return {
       headerTitle: this.$t("translations.menu.caseFile"),

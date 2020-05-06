@@ -62,10 +62,7 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn
-        data-field="jobTitle"
-        :caption="$t('translations.fields.jobTitleId')"
-      ></DxColumn>
+      <DxColumn data-field="jobTitle" :caption="$t('translations.fields.jobTitleId')"></DxColumn>
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
 
@@ -108,7 +105,6 @@
 <script>
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import textArea from "~/components/page/textArea";
 import "devextreme-vue/text-area";
@@ -164,7 +160,7 @@ export default {
   data() {
     let { id } = this.company.data;
     return {
-      dataSource: new DataSource({
+      dataSource: {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.contragents.Contact,
@@ -173,9 +169,9 @@ export default {
           removeUrl: dataApi.contragents.Contact
         }),
         filter: ["companyId", "=", id]
-      }),
+      },
       entityType: EntityType.Contact,
-      statusDataSource: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
@@ -193,7 +189,16 @@ export default {
           loadUrl: dataApi.contragents.CounterPart
         }),
         paginate: true,
-        filter: options.data ? ["status", "=", Status.Active, "or", "id", "=", options.data.companyId]
+        filter: options.data
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.companyId
+            ]
           : []
       };
     },

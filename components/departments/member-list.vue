@@ -2,42 +2,16 @@
   <main>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      :ref="dataGridRefKey"
-      @init-new-row="initNewRow"
+      @init-new-row="onInitNewRow"
     >
-      >
-      <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false" />
-      
-      <DxHeaderFilter :visible="true" />
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
         :allow-deleting="allowDeleting"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="row"
-      />
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
-      <DxFilterRow :visible="true" />
-
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.registrationSetting')"
-      />
-
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="registration-setting-detail"
       />
 
       <DxSearchPanel position="after" :visible="true" />
@@ -46,7 +20,7 @@
       <DxColumn data-field="employeeId" :caption="$t('translations.fields.name')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredMembers"
+          :data-source="employeeDataSource"
           value-expr="id"
           display-expr="name"
         />
@@ -55,25 +29,16 @@
   </main>
 </template>
 <script>
-import DataSource from "devextreme/data/data_source";
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
   DxEditing,
-  DxHeaderFilter,
   DxScrolling,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  DxExport,
-  DxSelection,
-  DxColumnChooser,
-  DxColumnFixing,
-  DxFilterRow,
-  DxStateStoring,
-  DxButton
+  DxLookup
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -82,18 +47,8 @@ export default {
     DxDataGrid,
     DxColumn,
     DxEditing,
-    DxHeaderFilter,
     DxScrolling,
-    DxLookup,
-    DxGrouping,
-    DxGroupPanel,
-    DxExport,
-    DxSelection,
-    DxColumnChooser,
-    DxColumnFixing,
-    DxFilterRow,
-    DxStateStoring,
-    DxButton
+    DxLookup
   },
   props: {
     data: {
@@ -104,45 +59,32 @@ export default {
   data() {
     let { id } = this.data.data;
     return {
-      store: new DataSource({
+      departmentId: id,
+      entityType: EntityType.Department,
+      dataSource: {
         store: this.$dxStore({
           key: "employeeId",
           insertUrl: dataApi.company.DepartmentMembers,
           loadUrl: dataApi.company.DepartmentMembers + id,
           removeUrl: dataApi.company.DepartmentMembers + id
         })
-      }),
-      entityType: "Department",
-      getFilteredMembers: this.$dxStore({
-        loadUrl: dataApi.company.Employee
-      }),
-      members: [],
-      allowDeleting: e => {
-        return !e.row.data.isReadonly;
       },
-      initNewRow: e => {
-        e.data.departmentId = id;
-        e.data.employeeId = null;
-      },
-      dataGridRefKey: "dataGrid",
-      statusDataSource: this.$store.getters["status/status"]
+      employeeDataSource: {
+        store: this.$dxStore({
+          loadUrl: dataApi.company.Employee
+        }),
+        paginate: true
+      }
     };
   },
-  computed: {
-    dataGrid: function() {
-      return this.$refs[this.dataGridRefKey].instance;
-    }
-  },
   methods: {
-    async getDataById(address) {
-      const res = await this.$axios.get(address);
-      return res.data.data;
+    allowDeleting(e) {
+      return !e.row.data.isReadonly&& this.$store.getters['permissions/allowUpdating'](this.entityType);
+    },
+    onInitNewRow(e) {
+      e.data.departmentId = this.departmentId;
+      e.data.employeeId = null;
     }
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
-</style>

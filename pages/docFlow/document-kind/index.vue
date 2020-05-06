@@ -1,9 +1,9 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.documentKind')"></Header>
     <DxDataGrid
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
@@ -18,7 +18,6 @@
         :allow-export-selected-data="true"
         :file-name="$t('translations.menu.documentKind')"
       />
-      
 
       <DxHeaderFilter :visible="true" />
       <DxFilterRow :visible="true" />
@@ -29,7 +28,6 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="documentKind" />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
         :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
@@ -67,7 +65,7 @@
       <DxColumn data-field="documentTypeId" :caption="$t('translations.menu.documentType')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="documentType"
+          :data-source="documentTypeDataSource"
           value-expr="id"
           display-expr="name"
         />
@@ -83,10 +81,9 @@
       </DxColumn>
       <DxColumn type="buttons">
         <DxButton
-          icon="edit"
+          icon="card"
           :text="$t('translations.headers.editDocumentKind')"
-          :onClick="editDocumentKindForm"
-          :visible="$store.getters['permissions/allowUpdating'](entityType)"
+          :onClick="documentKindDetailForm"
         ></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
@@ -95,7 +92,8 @@
   </main>
 </template>
 <script>
-import DataSource from "devextreme/data/data_source";
+
+import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import {
@@ -109,7 +107,6 @@ import {
   DxGrouping,
   DxGroupPanel,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxStateStoring,
@@ -130,49 +127,36 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxStateStoring,
     DxFilterRow,
     DxButton
   },
-  async created() {
-    let docType = await this.$axios.get(dataApi.docFlow.DocumentType);
-    this.documentType = docType.data.data;
-  },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.documentKind"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.DocumentKind,
         insertUrl: dataApi.docFlow.DocumentKind,
         updateUrl: dataApi.docFlow.DocumentKind,
         removeUrl: dataApi.docFlow.DocumentKind
       }),
-      entityType: "DocumentKind",
+      entityType: EntityType.DocumentKind,
       statusDataSource: this.$store.getters["status/status"](this),
-      documentFlow: [
-        { id: 0, name: this.$t("translations.fields.incomingEnum") },
-        { id: 1, name: this.$t("translations.fields.outcomingEnum") },
-        { id: 2, name: this.$t("translations.fields.inner") },
-        { id: 3, name: this.$t("translations.fields.contracts") }
-      ],
-      numberingType: [
-        { id: 1, name: this.$t("translations.fields.registrable") },
-        { id: 2, name: this.$t("translations.fields.numerable") },
-        { id: 3, name: this.$t("translations.fields.notNumerable") }
-      ],
-      documentType: [],
-
-      editingStart: e => {
-        this.$router.push("/docflow/document-kind/upsert/" + e.data.id);
+      documentFlow: this.$store.getters["docflow/docflow"](this),
+      numberingType: this.$store.getters["docflow/numberingType"](this),
+      documentTypeDataSource: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.docFlow.DocumentType
+        }),
+        paginate: true
       }
     };
   },
   methods: {
-    editDocumentKindForm(e) {
+    documentKindDetailForm(e) {
       this.$router.push(`/docflow/document-kind/upsert/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
@@ -184,7 +168,7 @@ export default {
           this.$router.push("/docflow/document-kind/upsert/new");
         };
       }
-    },
+    }
   }
 };
 </script>

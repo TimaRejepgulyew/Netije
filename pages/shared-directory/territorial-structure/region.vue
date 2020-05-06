@@ -73,7 +73,6 @@
 <script>
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
-import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import {
