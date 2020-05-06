@@ -10,7 +10,14 @@
                 <document-icon :extension="item.data.extension"></document-icon>
                 <div class="list__content">
                   {{ item.data.note}}
-                  <small>{{item.data.created|formatDate}}</small>
+                  <div>
+                    <i class="dx-icon dx-icon-clock"></i>
+                    <small>{{item.data.created|formatDate}}</small>
+                  </div>
+                  <div>
+                    <i class="dx-icon dx-icon-user"></i>
+                    <small>{{item.data.author}}</small>
+                  </div>
                 </div>
                 <div class="list__btn-group">
                   <attachment-action-btn :version="item.data" />
@@ -68,7 +75,8 @@ export default {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.paperWork.Version + this.$route.params.id
-        })
+        }),
+        sort: [{ selector: "number", desc: true }]
       }),
       associatedApplication: []
     };
