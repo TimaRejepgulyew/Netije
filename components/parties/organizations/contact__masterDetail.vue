@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t(`translations.menu.contacts`)"></Header>
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"

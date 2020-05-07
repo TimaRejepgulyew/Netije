@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('translations.menu.mailDeliveryMethod')"></Header>
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :errorRowEnabled="true"

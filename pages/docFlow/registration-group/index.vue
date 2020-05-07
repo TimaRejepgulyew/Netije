@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :errorRowEnabled="true"

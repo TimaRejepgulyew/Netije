@@ -39,7 +39,7 @@
     <Header :headerTitle="headerTitle"></Header>
 
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :errorRowEnabled="true"
@@ -47,7 +47,8 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @toolbar-preparing="onToolbarPreparing($event)"
+     @toolbar-preparing="onToolbarPreparing($event)"
+      :focused-row-enabled="true"
       :ref="dataGridRefKey"
     >
       <DxGroupPanel :visible="true" />

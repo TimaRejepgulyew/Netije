@@ -140,22 +140,14 @@ export default {
 
 .content {
   flex-grow: 1;
-  min-height: 100vh;
+  height: 100%;
 }
 
 .main-content {
-  
   position: relative;
-  min-height: 93vh;
+  box-sizing: border-box;
+  min-height: 90vh;
   background: $base-bg;
-  margin: 1vw 0.5vw 0 1vw;
-  padding: 0.2vh 0.3vw;
-  -webkit-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
-  -moz-box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
-  box-shadow: 0px 0.1vw 1vw 0px rgba(104, 104, 104, 0.5);
-}
-.footer {
-  margin-top: auto;
-  min-height: 10vh;
+  padding: 1vh 1vw;
 }
 </style>

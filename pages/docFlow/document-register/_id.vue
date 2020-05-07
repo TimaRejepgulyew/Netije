@@ -13,7 +13,7 @@
           <template #avatar-template>
             <div>
               <DxDataGrid
-                :show-borders="true"
+      id="gridContainer"                :show-borders="true"
                 :data-source="store.numberFormatItems"
                 :errorRowEnabled="true"
                 :allow-column-reordering="true"
