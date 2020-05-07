@@ -2,15 +2,14 @@
   <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
-      :errorRowEnabled="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      :on-row-inserted="(e) => e.component.navigateToRow(e.key)"
       @row-updating="rowUpdating"
       @init-new-row="initNewRow"
     >

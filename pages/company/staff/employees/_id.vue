@@ -92,7 +92,7 @@
         </DxGroupItem>
 
         <DxGroupItem :col-count="12">
-          <DxButtonItem :button-options="saveButtonOptions" />
+          <DxButtonItem :visible="$store.getters['permissions/allowUpdating'](entityType)" :button-options="saveButtonOptions" />
           <DxButtonItem :button-options="cancelButtonOptions" />
         </DxGroupItem>
       </DxForm>
@@ -193,10 +193,7 @@ export default {
     },
     saveButtonOptions() {
       return {
-        ...this.$store.getters["globalProperties/btnSave"](this),
-        disabled: !this.$store.getters["permissions/allowUpdating"](
-          this.entityType
-        )
+        ...this.$store.getters["globalProperties/btnSave"](this)
       };
     }
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="widget-container">
+  <div>
     <Header :headerTitle="$t('translations.headers.addDocumentRegistry')"></Header>
     <form @submit="handleSubmit">
       <DxForm
@@ -164,8 +164,7 @@ import DxForm, {
   DxCompareRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule,
-  DxAsyncRule
+  DxPatternRule
 } from "devextreme-vue/form";
 
 import {
@@ -188,7 +187,6 @@ export default {
     DxPatternRule,
     DxRangeRule,
     DxForm,
-    DxAsyncRule,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -301,15 +299,6 @@ export default {
     }
   },
   methods: {
-    validateEntityExists(params) {
-      var dataField = params.formItem.dataField;
-      return this.$customValidator.EmployeeDataFieldValueNotExists(
-        {
-          [dataField]: params.value
-        },
-        dataField
-      );
-    },
     goBack() {
       this.$router.go(-1);
     },

@@ -106,16 +106,12 @@
 
             <DxGroupItem :col-span="1" :col-count="12">
               <DxButtonItem
+                :visible="$store.getters['permissions/allowUpdating'](this.entityType)"
                 :use-submit-behavior="true"
                 :button-options="saveButtonOptions"
                 horizontal-alignment="left"
-                :col-span="1"
               />
-              <DxButtonItem
-                :col-span="11"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="left"
-              />
+              <DxButtonItem :button-options="cancelButtonOptions" horizontal-alignment="left" />
             </DxGroupItem>
           </DxGroupItem>
         </DxForm>
@@ -171,10 +167,7 @@ export default {
         height: 40,
         text: this.$t("translations.links.save"),
         useSubmitBehavior: true,
-        type: "success",
-        disabled: !this.$store.getters["permissions/allowUpdating"](
-          this.entityType
-        )
+        type: "success"
       },
       cancelButtonOptions: {
         onClick: this.goBack,
