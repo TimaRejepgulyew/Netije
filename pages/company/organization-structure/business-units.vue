@@ -51,6 +51,7 @@
           :message="$t('translations.validation.valueMustNotContainsSpaces')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -64,6 +65,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"

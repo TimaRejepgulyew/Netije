@@ -37,6 +37,7 @@
       <DxColumn data-field="name" :caption="$t('translations.fields.contactName')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -64,6 +65,7 @@
         :visible="false"
       >
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.jobTitleIdAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>

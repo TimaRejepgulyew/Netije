@@ -13,6 +13,7 @@
             <DxLabel location="top" :text="$t('translations.fields.userName')" />
             <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
             <DxAsyncRule
+                :reevaluate="false"
               :validation-callback="validateEntityExists"
               :message="$t('translations.fields.userNameRule')"
             />
@@ -22,6 +23,7 @@
             <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
             <DxEmailRule :message="$t('translations.fields.emailRule')" />
             <DxAsyncRule
+                :reevaluate="false"
               :validation-callback="validateEntityExists"
               :message="$t('translations.fields.emailAlreadyExists')"
             />

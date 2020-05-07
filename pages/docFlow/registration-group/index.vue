@@ -44,6 +44,7 @@
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -63,6 +64,7 @@
       <DxColumn data-field="index" :caption="$t('translations.fields.index')">
         <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.indexAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>

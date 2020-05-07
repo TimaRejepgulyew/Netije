@@ -51,6 +51,7 @@
             <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
             <DxEmailRule :message="$t('translations.fields.emailRule')" />
             <DxAsyncRule
+                :reevaluate="false"
               :validation-callback="validateEntityExists"
               :message="$t('translations.fields.emailAlreadyExists')"
             />

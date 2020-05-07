@@ -48,6 +48,7 @@
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
 
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -79,6 +80,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -96,6 +98,7 @@
           :message="$t('translations.validation.valueMustNotContainsSpaces')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.codeAlreadyExists')"
           :validation-callback="validateEntityExists"

@@ -18,6 +18,7 @@
                 :message="$t('translations.validation.valueMustNotContainsSpaces')"
               />
               <DxAsyncRule
+                :reevaluate="false"
                 :ignore-empty-value="true"
                 :message="$t('translations.fields.codeAlreadyExists')"
                 :validation-callback="validateEntityExists"

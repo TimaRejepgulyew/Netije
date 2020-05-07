@@ -43,6 +43,7 @@
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.nameAlreadyExists')"
           :validation-callback="validateCountryName"
         ></DxAsyncRule>

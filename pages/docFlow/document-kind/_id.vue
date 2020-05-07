@@ -18,6 +18,7 @@
                 :message="$t('translations.validation.valueMustNotContainsSpaces')"
               />
               <DxAsyncRule
+                :reevaluate="false"
                 :ignore-empty-value="true"
                 :message="$t('translations.fields.codeAlreadyExists')"
                 :validation-callback="validateEntityExists"
@@ -110,6 +111,7 @@
 
             <DxGroupItem :col-span="1" :col-count="12">
               <DxButtonItem
+                :use-submit-behavior="true"
                 :button-options="saveButtonOptions"
                 horizontal-alignment="left"
                 :col-span="1"
@@ -198,6 +200,7 @@ export default {
       this.$router.go(-1);
     },
     validateEntityExists(params) {
+      console.log(params);
       var dataField = params.formItem.dataField;
       return this.$customValidator.DocumentKindDataFieldValueNotExists(
         {
@@ -208,7 +211,7 @@ export default {
       );
     },
     handleSubmit(e) {
-      const object = { id: +this.$route.params.id, ...this.documentKind };
+      const object = { ...this.documentKind };
       this.$awn.asyncBlock(
         this.$axios.put(`${dataApi.docFlow.DocumentKind}/${object.id}`, object),
         res => this.$awn.success(),

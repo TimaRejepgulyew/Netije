@@ -41,6 +41,7 @@
         <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.localityAlreadyExists')"
           :validation-callback="validateLocalityName"
         ></DxAsyncRule>
