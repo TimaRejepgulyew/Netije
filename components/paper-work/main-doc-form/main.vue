@@ -81,9 +81,9 @@
         <DxItem
           v-if="isUpdating"
           :title="$t('translations.menu.relation')"
-          template="access-right-list"
+          template="relations"
         />
-        <Relation slot="access-right-list"></Relation>
+        <Relation slot="relations"></Relation>
       </DxTabPanel>
     </div>
   </div>

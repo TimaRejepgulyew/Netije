@@ -180,7 +180,7 @@ export default {
       tinRule: "Инн должен быть без пробелов",
       account: "Номер счетa",
       accountRequired: "Введите номер счета",
-      accessRights: "Права доступа",
+      permissions: "Разрешения",
       nonresident: "Нерезидент",
       search: "Поиск",
       status: "Статус",

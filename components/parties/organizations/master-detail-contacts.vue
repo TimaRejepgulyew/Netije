@@ -2,7 +2,8 @@
   <main>
     <Header :headerTitle="$t(`translations.menu.contacts`)"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -119,7 +120,6 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
   DxRequiredRule,
   DxExport,
   DxColumnChooser,
@@ -143,7 +143,6 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxColumnChooser,
     DxColumnFixing,
@@ -201,15 +200,6 @@ export default {
             ]
           : []
       };
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.CompanyDataFieldValueNotExists(
-        {
-          [dataField]: params.value
-        },
-        dataField
-      );
     },
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);

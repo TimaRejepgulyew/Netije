@@ -79,7 +79,7 @@
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
-        <TabRole :data="data.data" memberList="RegistrationGroup" />
+        <member-list :data="data.data" />
       </template>
     </DxDataGrid>
   </main>
@@ -87,7 +87,7 @@
 <script>
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import TabRole from "~/components/member-list/tabRole.vue";
+import MemberList from "~/components/docFlow/registration-group/master-detail-member-list";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 
@@ -113,7 +113,7 @@ import {
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
-    TabRole,
+    MemberList,
     DxMasterDetail,
     Header,
     DxSearchPanel,

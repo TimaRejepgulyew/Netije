@@ -157,7 +157,7 @@
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="company" v-if="hasContactAccess">
-        <ContactMasterDetail :company="company.data" />
+        <master-detail-contacts :company="company.data" />
       </template>
 
       <template #textAreaEditor="cellInfo">
@@ -174,7 +174,7 @@ import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import ContactMasterDetail from "~/components/parties/organizations/contact__masterDetail";
+import MasterDetailContacts from "~/components/parties/organizations/master-detail-contacts";
 import textArea from "~/components/page/textArea";
 import {
   DxSearchPanel,
@@ -199,7 +199,7 @@ import {
 
 export default {
   components: {
-    ContactMasterDetail,
+    MasterDetailContacts,
     textArea,
     Header,
     DxSearchPanel,

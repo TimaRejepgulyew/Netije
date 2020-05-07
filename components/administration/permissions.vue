@@ -12,7 +12,6 @@
       :ref="dataGridRefKey"
       @init-new-row="initNewRow"
     >
-      >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
       
