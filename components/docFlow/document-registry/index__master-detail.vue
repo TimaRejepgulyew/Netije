@@ -26,6 +26,7 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      @toolbar-preparing="onToolbarPreparing($event)"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :ref="dataGridRefKey"
     >
@@ -34,7 +35,10 @@
       <DxGrouping :auto-expand-all="false" />
       
       <DxHeaderFilter :visible="true" />
-      <DxEditing :allow-updating="true" :allow-deleting="true" :useIcons="true" mode="form" />
+      <DxEditing 
+      :allow-adding="true"
+      :allow-updating="true" 
+      :allow-deleting="true" :useIcons="true" mode="form" />
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
@@ -165,12 +169,17 @@ export default {
     popupDisabled(popup) {
       this.dataGrid.refresh();
       this[popup] = false;
+    },
+    onToolbarPreparing(e) {
+      const addButton = e.toolbarOptions.items.find(btn => {
+        return btn.name == "addRowButton";
+      });
+      if (addButton) {
+        addButton.options.onClick = () => {
+          this.popupSetting = true;
+        };
+      }
     }
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
-</style>

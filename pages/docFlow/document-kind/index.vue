@@ -10,7 +10,6 @@
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
      @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="true"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
