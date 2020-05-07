@@ -188,16 +188,6 @@ export default {
     allowDeleting(e) {
       return this.canOperateWithDocumentRegister(e.row.data,"allowDeleting")
     },
-    hadDocumentRegisterAccess(e) {
-      const documentRegister = e.row.data;
-      const employeeId = this.$store.getters["permissions/employeeId"];
-      if (this.$store.getters["permissions/IsAdmin"]) return true;
-      if (!this.$store.getters[`permissions/allowDeleting}`](this.entityType))
-        return false;
-      if (documentRegister.documentRegisterResponsibleId == employeeId || !caseFile.documentRegisterResponsibleId)
-        return true;
-      return false;
-    },
     canOperateWithDocumentRegister(documentRegister,permission)
     {
       const employeeId = this.$store.getters["permissions/employeeId"];
