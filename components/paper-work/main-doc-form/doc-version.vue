@@ -97,7 +97,7 @@ export default {
   methods: {
     uploadVersionFromFile(e) {
       let formData = new FormData();
-      formData.append("File", e.file);
+      formData.append("file", e.file);
       formData.append("documentId", +this.$route.params.id);
       this.$awn.async(
         this.$axios.post(dataApi.paperWork.CreateVersionFromFile, formData, {

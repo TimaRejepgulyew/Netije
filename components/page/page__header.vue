@@ -13,10 +13,9 @@ export default {
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 
-
 .grid__title {
   font-weight: bold;
   font-size: 25px;
-  padding: 0px 40px;
+  margin: 1vh 0;
 }
 </style>

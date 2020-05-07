@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('translations.menu.region')"></Header>
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :repaint-changes-only="true"
       :highlight-changes="true"
       :data-source="dataSource"

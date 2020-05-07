@@ -1,7 +1,7 @@
 <template>
   <main>
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"

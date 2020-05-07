@@ -7,7 +7,7 @@
     </div>
     <div class="grid">
       <DxDataGrid
-        :show-borders="true"
+      id="gridContainer"        :show-borders="true"
         :data-source="store"
         :remote-operations="true"
         :allow-column-reordering="true"

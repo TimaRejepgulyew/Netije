@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('translations.menu.outgoingLetter')"></Header>
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -10,7 +10,8 @@
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :onRowDblClick="toMoreAbout"
-      @toolbar-preparing="onToolbarPreparing($event)"
+     @toolbar-preparing="onToolbarPreparing($event)"
+      :focused-row-enabled="true"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />

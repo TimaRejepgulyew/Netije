@@ -2,14 +2,15 @@
   <main>
     <Header :headerTitle="$t('translations.menu.documentKind')"></Header>
     <DxDataGrid
-      :show-borders="true"
+      id="gridContainer"      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @toolbar-preparing="onToolbarPreparing($event)"
+     @toolbar-preparing="onToolbarPreparing($event)"
+      :focused-row-enabled="true"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
