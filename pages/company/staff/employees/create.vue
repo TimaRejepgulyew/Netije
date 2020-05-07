@@ -5,7 +5,6 @@
       <DxForm
         :col-count="2"
         :form-data.sync="employee"
-        :read-only="false"
         :show-colon-after-label="true"
         :show-validation-summary="true"
       >
@@ -111,7 +110,6 @@ import DxForm, {
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
 import Header from "~/components/page/page__header";
 export default {
   components: {
@@ -126,12 +124,11 @@ export default {
     DxRangeRule,
     DxEmailRule,
     DxForm,
-    DxAsyncRule,
-    notify
+    DxAsyncRule
   },
   beforeCreate() {
     if (!this.$store.getters["permissions/allowCreating"](this.entityType)) {
-      this.$router.go(-1);
+      this.$router.push("/403");
     }
   },
   data() {
