@@ -11,18 +11,13 @@
         >
           <DxGroupItem :col-count="1">
             <DxSimpleItem data-field="code" data-type="string">
+               <DxRequiredRule :message="$t('translations.fields.codeRequired')" />
               <DxLabel location="top" :text="$t('translations.fields.code')" />
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
                 :message="$t('translations.validation.valueMustNotContainsSpaces')"
               />
-              <DxAsyncRule
-                :reevaluate="false"
-                :ignore-empty-value="true"
-                :message="$t('translations.fields.codeAlreadyExists')"
-                :validation-callback="validateEntityExists"
-              ></DxAsyncRule>
             </DxSimpleItem>
 
             <DxSimpleItem data-field="name">
@@ -144,7 +139,6 @@ import DxForm, {
   DxRangeRule,
   DxStringLengthRule,
   DxPatternRule,
-  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -159,8 +153,7 @@ export default {
     DxCompareRule,
     DxPatternRule,
     DxRangeRule,
-    DxForm,
-    DxAsyncRule
+    DxForm
   },
   data() {
     return {
@@ -198,16 +191,6 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1);
-    },
-    validateEntityExists(params) {
-      var dataField = params.formItem.dataField;
-      return this.$customValidator.DocumentKindDataFieldValueNotExists(
-        {
-          id: this.documentKind.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
     },
     handleSubmit(e) {
       this.$awn.asyncBlock(

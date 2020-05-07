@@ -62,6 +62,7 @@
         />
       </DxColumn>
       <DxColumn data-field="index" :caption="$t('translations.fields.index')">
+        <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
         <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
         <DxAsyncRule
                 :reevaluate="false"

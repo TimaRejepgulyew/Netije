@@ -45,6 +45,7 @@
       </DxColumn>
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
+         <DxRequiredRule :message="$t('translations.fields.codeRequired')" />
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
