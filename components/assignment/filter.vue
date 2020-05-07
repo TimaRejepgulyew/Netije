@@ -13,7 +13,7 @@
           valueExpr="id"
           displayExpr="name"
           :value="status"
-          :items="statusRadioItems"
+          :items="statusTypeRadioItems"
         />
       </div>
       <div class="option--group">
@@ -23,7 +23,7 @@
           valueExpr="id"
           displayExpr="name"
           :onValueChanged="(e)=>{this.filterChaged(e,'assignmentType')}"
-          :items="typeRadioItems"
+          :items="assignmentTypeRadioItems"
         />
       </div>
     </div>
@@ -31,6 +31,8 @@
 </template>
 <script>
 import { DxCheckBox, DxRadioGroup } from "devextreme-vue";
+import filterTypeItems from "~/infrastructure/constants/filterTypeItems";
+
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
@@ -43,67 +45,43 @@ export default {
   },
   data() {
     return {
-      statusRadioItems: [
-        {
-          id: 0,
-          name: this.$t("translations.fields.inProccess")
-        },
-        {
-          id: 1,
-          name: this.$t("translations.fields.all")
-        }
-      ],
-      typeRadioItems: [
-        {
-          id: 2,
-          name: this.$t("translations.menu.simpleAssignments")
-        },
-        {
-          id: 3,
-          name: this.$t("translations.menu.acquaintanceAssignments")
-        },
-        {
-          id: 4,
-          name: this.$t("translations.menu.actionAssignments")
-        },
-        {
-          id: 5,
-          name: this.$t("translations.menu.notices")
-        },
-        {
-          id: 1,
-          name: this.$t("translations.menu.allAssignments")
-        },
-        {
-          id: 0,
-          name: this.$t("translations.fields.all")
-        }
-      ],
-      status: parseInt(localStorage.getItem("status")) || 0,
-      assignmentType: parseInt(localStorage.getItem("assignmentType")) || 0
+      statusTypeRadioItems: filterTypeItems.statusType(this),
+      assignmentTypeRadioItems: filterTypeItems.assignmentType(this),
+      status: +localStorage.getItem("statusFilter") || null,
+      assignmentType: +localStorage.getItem("assignmentTypeFilter") || null
     };
   },
   methods: {
-    filterChaged(e, name) {
+    buildFilter(items) {
+      let filter = [];
+      for (let item in items) {
+        if (items[item] !== null) {
+          if (filter.length > 0) {
+            filter.push("and");
+          }
+          filter.push([item, "=", items[item]]);
+        }
+      }
+      return filter;
+    },
+    changeFilterProperty(e, name) {
       if (e) {
         this[name] = e.value;
-        localStorage.setItem("status", this.status);
-        localStorage.setItem("assignmentType", this.assignmentType);
+        localStorage.setItem(name + "Filter", e.value);
       }
-      let filter;
-      if (this.status == 1) {
-        //если все и просроченные тоже убрать статус
-        filter = ["assignmentType", "=", this.assignmentType];
-      } else {
-        filter = [
-          ["status", "=", this.status],
-          "and",
-          ["assignmentType", "=", this.assignmentType]
-        ];
-      }
+    },
+    emitFilter(filter) {
       this.$emit("changeFilter", {
         filter
       });
+    },
+    filterChaged(e, name) {
+      this.changeFilterProperty(e, name);
+      const filter = this.buildFilter({
+        status: this.status,
+        assignmentType: this.assignmentType
+      });
+      this.emitFilter(filter);
     },
     showFilter() {
       this.$emit("showFilter");

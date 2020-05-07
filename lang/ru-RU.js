@@ -81,8 +81,12 @@ export default {
       powerOfAttorney: "Доверенности",
       allAssignments: "Все задания",
       simpleAssignments: "Простые задания",
+
       acquaintanceAssignments: "Задания на рассмотрение",
-      actionAssignments: "Задания на исполнение",
+      actionItemsExicutionAssignments: "Задания на исполнение",
+      simpleNotices: "Простые уведомления",
+      acquaintanceNotices: "Уведомления на ознакомления",
+      actionItemsExicutionNotices: "Уведомления на поручения",
       allNotice: "Все уведомления",
       notices: "Уведомления",
       mainInfo: "Основная информация",
