@@ -1,8 +1,8 @@
 export default {
   greating: "Hello",
   status: {
-    active: "Активна",
-    closed: "Закрытая"
+    active: "Активный",
+    closed: "Закрытый"
   },
   sex: {
     male: "Мужской",
@@ -97,7 +97,8 @@ export default {
     validation: {
       caseFile: {
         endDateLessThanBegin: "Дата конца не может быть меньше даты начала",
-      }
+      },
+      valueMustNotContainsSpaces:"В значении не должны присутствовать пробелы"
     },
     fields: {
 

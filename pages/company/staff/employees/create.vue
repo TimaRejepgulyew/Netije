@@ -93,7 +93,6 @@
 </template>
 <script>
 import Status from "~/infrastructure/constants/status";
-import EntityType from "~/infrastructure/constants/entityTypes";
 import "devextreme-vue/text-area";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
@@ -126,14 +125,8 @@ export default {
     DxForm,
     DxAsyncRule
   },
-  beforeCreate() {
-    if (!this.$store.getters["permissions/allowCreating"](this.entityType)) {
-      this.$router.push("/403");
-    }
-  },
   data() {
     return {
-      entityType: EntityType.Employee,
       employee: {
         email: null,
         name: null,

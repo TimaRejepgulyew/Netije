@@ -152,7 +152,7 @@ export const state = () => ({
           },
           {
             text: context.$t("translations.menu.documentRegistry"),
-            path: "/docflow/document-registration",
+            path: "/docflow/document-register",
             visible: context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister)
           },
           {

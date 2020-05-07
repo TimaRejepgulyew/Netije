@@ -8,7 +8,6 @@
           :form-data.sync="documentKind"
           :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
           :show-colon-after-label="true"
-          :show-validation-summary="true"
         >
           <DxGroupItem :col-count="1">
             <DxSimpleItem data-field="code" data-type="string">
@@ -16,7 +15,7 @@
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
-                :message="$t('translations.fields.codeRule')"
+                :message="$t('translations.validation.valueMustNotContainsSpaces')"
               />
               <DxAsyncRule
                 :ignore-empty-value="true"

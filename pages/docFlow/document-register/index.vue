@@ -243,7 +243,7 @@ export default {
     },
     editDocumentRegisterForm(e) {
       this.$router.push(
-        `/docflow/document-registration/upsert/${e.row.data.id}`
+        `/docflow/document-register/${e.row.data.id}`
       );
     },
     onToolbarPreparing(e) {
@@ -252,7 +252,7 @@ export default {
       });
       if (addButton) {
         addButton.options.onClick = () => {
-          this.$router.push("/docflow/document-registration/upsert/new");
+          this.$router.push("/docflow/document-register/create");
         };
       }
     }

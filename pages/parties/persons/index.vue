@@ -100,7 +100,7 @@
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
-          :message="$t('translations.fields.codeRule')"
+          :message="$t('translations.validation.valueMustNotContainsSpaces')"
         />
         <DxAsyncRule
           :ignore-empty-value="true"
