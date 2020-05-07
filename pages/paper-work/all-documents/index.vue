@@ -24,6 +24,7 @@
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :onRowDblClick="toMoreAbout"
       @toolbar-preparing="onToolbarPreparing($event)"
+      :focused-row-enabled="true"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -48,8 +49,7 @@
       <DxEditing :allow-deleting="true" :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
-
+      <DxScrolling mode="infinite" />
       <DxColumn
         data-field="placedToCaseFileDate"
         :caption="$t('translations.fields.placedToCaseFileDate')"
@@ -236,8 +236,7 @@ export default {
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
     }
-  },
-  methods: {}
+  }
 };
 </script>
 
