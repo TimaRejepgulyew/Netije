@@ -70,7 +70,13 @@
             >
               <DxLabel location="top" :text="$t('translations.fields.availableActions')" />
             </DxSimpleItem>
-
+            <DxSimpleItem
+              data-field="status"
+              :editor-options="statusOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.status')" />
+            </DxSimpleItem>
             <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
               <DxLabel
                 location="left"
@@ -103,13 +109,6 @@
               <DxLabel location="top" :text="$t('translations.fields.note')" />
             </DxSimpleItem>
 
-            <DxSimpleItem
-              data-field="status"
-              :editor-options="statusOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.status')" />
-            </DxSimpleItem>
             <DxGroupItem :col-span="1" :col-count="12">
               <DxButtonItem
                 :button-options="saveButtonOptions"
@@ -181,7 +180,9 @@ export default {
         text: this.$t("translations.links.save"),
         useSubmitBehavior: true,
         type: "success",
-        disabled: !this.$store.getters["permissions/allowUpdating"](this.entityType)
+        disabled: !this.$store.getters["permissions/allowUpdating"](
+          this.entityType
+        )
       },
       cancelButtonOptions: {
         onClick: this.goBack,

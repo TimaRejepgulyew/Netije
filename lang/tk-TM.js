@@ -66,7 +66,7 @@ export default {
       "moreAbout":"Подробнее__TM",
       "sex": "Пол_TM",
       "sexRequired": "Выберите пол_TM",
-      "APN":"Должность, место проживания и номер телефона__Tm",
+      "APN":"Должность, место работы и номер телефона__Tm",
       "address": "Адрес_TM",
       "addressRequired": "Введите адрес_TM",
       "legalAddress": "Официальный адрес_TM",
