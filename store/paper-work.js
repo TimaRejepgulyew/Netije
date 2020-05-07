@@ -23,10 +23,18 @@ export const state = () => ({
     { id: null, name: "notRegistered" },
     { id: 0, name: "registered" },
     { id: 1, name: "notRegistered" }
-  ]
+  ],
+  filterBuilderPopupPosition: {
+    at: "top",
+    my: "top",
+    offset: { y: 10 }
+  }
 });
 
 export const getters = {
+  filterBuilderPopupPosition(state) {
+    return state.filterBuilderPopupPosition;
+  },
   regState({ regState }) {
     return regState;
   },

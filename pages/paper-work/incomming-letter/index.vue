@@ -18,7 +18,8 @@
 
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
-
+      <DxFilterPanel :visible="true" />
+      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
       <DxFilterRow :visible="true" />
 
       <DxExport
@@ -113,7 +114,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-
+import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
@@ -130,6 +131,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
+  DxFilterBuilderPopup,
+  DxFilterPanel,
   DxStateStoring
 } from "devextreme-vue/data-grid";
 
@@ -150,6 +153,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
+    DxFilterBuilderPopup,
+    DxFilterPanel,
     DxStateStoring
   },
   data() {
@@ -163,7 +168,9 @@ export default {
       entityType: "IncomingLetter",
       statusDataSource: this.$store.getters["status/status"],
       toMoreAbout: e => {
-        this.$store.getters["globalProperties/toForm"](this, e.key);
+        this.$router.push(
+          RouteGenerator.generateDocumentDetailRoute(this, e.key)
+        );
       },
       onToolbarPreparing(e) {
         const addButton = e.toolbarOptions.items.find(btn => {
@@ -175,6 +182,9 @@ export default {
           };
         }
       },
+      filterBuilderPopupPosition: this.$store.getters[
+        "papaer-work/filterBuilderPopupPosition"
+      ],
       correspondentStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.CounterPart
@@ -201,8 +211,7 @@ export default {
         { id: 1, name: this.$t("translations.fields.notRegistered") }
       ]
     };
-  },
-  methods: {}
+  }
 };
 </script>
 

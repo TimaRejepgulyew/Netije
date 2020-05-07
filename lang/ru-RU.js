@@ -476,10 +476,11 @@ export default {
       acquaintanceAssignment: "Задача на расмотрение",
       versions: "Версии",
       attachment: "Вложения",
+
       moreAbout: "Подробнее"
     },
     links: {
-      changePassword:"Сменить пароль",
+      changePassword: "Сменить пароль",
       complete: "Завершить",
       save: "Сохранить",
       add: "Добавить",
@@ -502,6 +503,7 @@ export default {
       error: "Произошла ошибка"
     },
     taskMessage: {
+      attachmentRequired: "Добавьте вложение",
       documentAlreadyHasBeen: "Такой документ уже существует",
       Completed: "Задание завершенно",
       from: "От сотрудника:",

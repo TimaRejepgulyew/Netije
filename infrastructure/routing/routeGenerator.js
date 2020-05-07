@@ -14,7 +14,6 @@ export default {
     }
   },
   generateAssignmentDetailRoute(assignmentType, assignmentId) {
-    console.log(assignmentType);
     switch (assignmentType) {
       case AssignmentType.SimpleAssignment:
         return `/assignment/simple/assignment/${assignmentId}`;

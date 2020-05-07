@@ -60,11 +60,8 @@ import DxForm, {
   DxSimpleItem,
   DxLabel,
   DxRequiredRule,
-  DxPatternRule,
-  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
 let unwatch;
 export default {
   components: {
@@ -75,8 +72,6 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    DxPatternRule,
-    DxAsyncRule
   },
   created() {
     this.eventIsModified();
@@ -96,7 +91,6 @@ export default {
   },
   data() {
     return {
-      addressPost: dataApi.paperWork.AddendumPost,
       isUpdating: false,
       isSaved: false,
       headerTitle: this.$t("translations.headers.addendum"),
@@ -121,7 +115,6 @@ export default {
     modified() {
       if (this.isUpdating) {
         unwatch();
-        console.log("watch is work ");
         this.isSaved = false;
       }
     },

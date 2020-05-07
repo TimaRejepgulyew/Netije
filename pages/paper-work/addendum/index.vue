@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.addendum')"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -18,9 +18,9 @@
 
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
-
       <DxFilterRow :visible="true" />
-
+      <DxFilterPanel :visible="true" />
+      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -88,7 +88,7 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
-
+import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -101,6 +101,8 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
+  DxFilterBuilderPopup,
+  DxFilterPanel,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -122,6 +124,8 @@ export default {
     DxLookup,
     DxGrouping,
     DxGroupPanel,
+    DxFilterBuilderPopup,
+    DxFilterPanel,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -129,7 +133,6 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.addendum"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.Addendum,
@@ -137,10 +140,13 @@ export default {
       }),
       entityType: "Addendum",
       statusDataSource: this.$store.getters["status/status"],
-
+      filterBuilderPopupPosition: this.$store.getters[
+        "papaer-work/filterBuilderPopupPosition"
+      ],
       toMoreAbout: e => {
-        this.$router.push(RouteGenerator.generateDocumentDetailRoute(e.key));
-        // this.$store.getters["globalProperties/toForm"](this, e.key);
+        this.$router.push(
+          RouteGenerator.generateDocumentDetailRoute(this, e.key)
+        );
       },
       onToolbarPreparing(e) {
         const addButton = e.toolbarOptions.items.find(btn => {
@@ -161,8 +167,7 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind
       })
     };
-  },
-  methods: {}
+  }
 };
 </script>
 

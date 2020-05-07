@@ -85,7 +85,10 @@
               ></attachments>
             </template>
           </DxForm>
-          <span v-if="isRequired" class="message--error">{{$t('translations.fields.comment')}}</span>
+          <span
+            v-if="isRequired"
+            class="message--error"
+          >{{$t('translations.taskMessage.attachmentRequired')}}</span>
         </div>
       </form>
     </div>
@@ -196,26 +199,26 @@ export default {
     },
     handleSubmit() {
       this.submit = true;
-      console.log(this.isRequired);
+
       if (!this.isRequired) {
-        // const payload = { ...this.store };
-        // payload.attachments = payload.attachments.map(el => {
-        //   return el.id;
-        // });
-        // this.$awn.asyncBlock(
-        //   this.$axios.post(dataApi.task.CreateAcquaintanceTask, payload),
-        //   e => {
-        //     this.backTo();
-        //     this.$awn.success();
-        //   },
-        //   e => this.$awn.alert()
-        // );
+        const payload = { ...this.store };
+        payload.attachments = payload.attachments.map(el => {
+          return el.id;
+        });
+        this.$awn.asyncBlock(
+          this.$axios.post(dataApi.task.CreateAcquaintanceTask, payload),
+          e => {
+            this.backTo();
+            this.$awn.success();
+          },
+          e => this.$awn.alert()
+        );
       }
     }
   },
   computed: {
     isRequired() {
-      console.log(!this.store.attachments && this.submit);
+      console.log(this.store.attachments && this.submit);
       return this.store.attachments && this.submit;
     },
     sendButtonOptions() {
