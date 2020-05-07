@@ -224,10 +224,8 @@ export default {
     },
     statusOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          value: "status"
-        }),
+        valueExpr: "id",
+        displayExpr: "status",
         dataSource: this.$store.getters["status/status"](this)
       };
     },
