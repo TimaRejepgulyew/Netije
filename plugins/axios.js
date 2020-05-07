@@ -1,9 +1,6 @@
 import { alert } from "devextreme/ui/dialog";
 
 export default function({ store, app: { $axios, i18n } }) {
-  $axios.onRequest(config => {
-    console.log(config)
-  })
   $axios.onError(error => {
     try {
       if (

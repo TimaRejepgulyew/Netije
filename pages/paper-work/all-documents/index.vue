@@ -178,12 +178,9 @@ export default {
   data() {
     return {
       createDocumentPopup: false,
-      filterBuilderPopupPosition: {
-        of: window,
-        at: "top",
-        my: "top",
-        offset: { y: 10 }
-      },
+      filterBuilderPopupPosition: this.$store.getters[
+        "papaer-work/filterBuilderPopupPosition"
+      ],
       headerTitle: this.$t("translations.menu.allDocument"),
       store: this.$dxStore({
         key: "id",

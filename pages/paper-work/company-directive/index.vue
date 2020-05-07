@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.companyDirectives')"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -20,7 +20,8 @@
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
-
+      <DxFilterPanel :visible="true" />
+      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -75,7 +76,7 @@
 <script>
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-
+import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
@@ -92,6 +93,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
+  DxFilterBuilderPopup,
+  DxFilterPanel,
   DxStateStoring
 } from "devextreme-vue/data-grid";
 
@@ -112,11 +115,12 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
+    DxFilterBuilderPopup,
+    DxFilterPanel,
     DxStateStoring
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.companyDirectives"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.CompanyDirective,
@@ -124,9 +128,10 @@ export default {
       }),
       entityType: "BaseOrder",
       statusDataSource: this.$store.getters["status/status"],
-
       toMoreAbout: e => {
-        this.$store.getters["globalProperties/toForm"](this, e.key);
+        this.$router.push(
+          RouteGenerator.generateDocumentDetailRoute(this, e.key)
+        );
       },
       onToolbarPreparing(e) {
         const addButton = e.toolbarOptions.items.find(btn => {
@@ -138,6 +143,9 @@ export default {
           };
         }
       },
+      filterBuilderPopupPosition: this.$store.getters[
+        "papaer-work/filterBuilderPopupPosition"
+      ],
       businessUnitStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.BusinessUnit
