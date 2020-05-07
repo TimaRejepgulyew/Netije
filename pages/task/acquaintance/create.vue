@@ -218,8 +218,7 @@ export default {
   },
   computed: {
     isRequired() {
-      console.log(this.store.attachments && this.submit);
-      return this.store.attachments && this.submit;
+      return !this.store.attachments && this.submit;
     },
     sendButtonOptions() {
       return this.$store.getters["globalProperties/btnSend"](this);

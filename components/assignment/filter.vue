@@ -31,6 +31,8 @@
 </template>
 <script>
 import { DxCheckBox, DxRadioGroup } from "devextreme-vue";
+import filterTypeItems from "~/infrastructure/constants/filterTypeItems";
+
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
@@ -53,57 +55,45 @@ export default {
           name: this.$t("translations.fields.all")
         }
       ],
-      typeRadioItems: [
-        {
-          id: 2,
-          name: this.$t("translations.menu.simpleAssignments")
-        },
-        {
-          id: 3,
-          name: this.$t("translations.menu.acquaintanceAssignments")
-        },
-        {
-          id: 4,
-          name: this.$t("translations.menu.actionAssignments")
-        },
-        {
-          id: 5,
-          name: this.$t("translations.menu.notices")
-        },
-        {
-          id: 1,
-          name: this.$t("translations.menu.allAssignments")
-        },
-        {
-          id: 0,
-          name: this.$t("translations.fields.all")
-        }
-      ],
-      status: parseInt(localStorage.getItem("status")) || 0,
-      assignmentType: parseInt(localStorage.getItem("assignmentType")) || 0
+      typeRadioItems: filterTypeItems.items(this),
+      status: +localStorage.getItem("status") || 100,
+      assignmentType: +localStorage.getItem("assignmentType") || 100
     };
   },
   methods: {
+    buildFilter(items) {
+      let filter = [];
+      for (let item in items) {
+        if (items[item] !== null) {
+          if (filter.length > 0) {
+            filter.push("and");
+          }
+
+          filter.push([item, "=", items[item]]);
+        }
+      }
+      return filter;
+    },
     filterChaged(e, name) {
       if (e) {
         this[name] = e.value;
-        localStorage.setItem("status", this.status);
-        localStorage.setItem("assignmentType", this.assignmentType);
       }
-      let filter;
-      if (this.status == 1) {
-        //если все и просроченные тоже убрать статус
-        filter = ["assignmentType", "=", this.assignmentType];
-      } else {
-        filter = [
-          ["status", "=", this.status],
-          "and",
-          ["assignmentType", "=", this.assignmentType]
-        ];
-      }
-      this.$emit("changeFilter", {
-        filter
+
+      // const byStatus = this.status !== 1 ? ["status", "=", this.status] : null;
+
+      // const byAssignmentType =
+      //   this.assignmentType !== 100
+      //     ? ["assignmentType", "=", this.assignmentType]
+      //     : null;
+      const filter = this.buildFilter({
+        status: this.status,
+        assignmentType: this.assignmentType
       });
+      // localStorage.setItem("filter", filter);
+      console.log(filter);
+      // this.$emit("changeFilter", {
+      //   filter
+      // });
     },
     showFilter() {
       this.$emit("showFilter");

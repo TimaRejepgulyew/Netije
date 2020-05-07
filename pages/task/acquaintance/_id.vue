@@ -4,7 +4,7 @@
       <DxForm
         slot="information"
         :col-count="1"
-        :form-data="task"
+        :form-data.sync="task"
         :read-only="true"
         :show-colon-after-label="true"
         :show-validation-summary="true"
@@ -27,7 +27,7 @@
             </DxSimpleItem>
 
             <DxSimpleItem template="employee" data-field="performers">
-              <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
+              <DxLabel location="top" :text="$t('translations.fields.performers')" />
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
@@ -66,7 +66,6 @@ export default {
       task: task.data
     };
   },
-
   data() {
     return {
       task: [],
@@ -77,6 +76,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>
