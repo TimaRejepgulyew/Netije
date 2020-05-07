@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.fields.jobTitleId')"></Header>
+    <Header :headerTitle="$t('translations.menu.jobTitle')"></Header>
     <DxDataGrid
       id="gridContainer"      :show-borders="true"
       :data-source="dataSource"

@@ -35,7 +35,7 @@ export default {
       companies: "Организации",
       banks: "Банки",
       person: "Физические лица",
-      post: "Должности",
+      jobTitle: "Должности",
       assignments: "Задания",
       task: "Задачи",
       simpleTask: "Простые задачи",

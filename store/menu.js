@@ -129,7 +129,7 @@ export const state = () => ({
             visible: context.$store.getters["permissions/allowReading"](EntityType.Employee)
           },
           {
-            text: context.$t("translations.menu.post"),
+            text: context.$t("translations.menu.jobTitle"),
             path: "/company/job-titles",
             visible: context.$store.getters["permissions/allowReading"](EntityType.JobTitle)
           },
@@ -211,10 +211,12 @@ export const state = () => ({
             visible: context.$store.getters["permissions/allowReading"](EntityType.Locality)
           },
           {
-            text: context.$t("translations.menu.Currencies"),
+            text: context.$t("translations.menu.currencies"),
             icon: "isnotblank",
             path: "/shared-directory/currencies",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Currencies)
+            //TODO: V2.0
+            //visible: context.$store.getters["permissions/allowReading"](EntityType.Currencies)
+            visible: false
           }
         ]
       },
