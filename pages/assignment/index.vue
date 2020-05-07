@@ -154,6 +154,7 @@ export default {
           key: "id",
           loadUrl: dataApi.task.Assignments
         })
+        // filter: JSON.parse(localStorage.getItem("filter")) || []
       }),
       isFilterOpen: false,
       employeeStores: this.$dxStore({
@@ -208,14 +209,15 @@ export default {
         e.rowElement.style.color = "#339966";
       }
     },
-    changeFilter({ assignmentType, filter }) {
+    changeFilter(filter) {
+      console.log(filter);
       this.store = new DataSource({
         sort: "isRead",
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.assignment.Assignments
         }),
-        filter
+        filter: filter.filter
       });
     },
     toMoreAbout(e) {

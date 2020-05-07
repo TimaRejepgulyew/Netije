@@ -13,7 +13,7 @@
           valueExpr="id"
           displayExpr="name"
           :value="status"
-          :items="statusRadioItems"
+          :items="statusTypeRadioItems"
         />
       </div>
       <div class="option--group">
@@ -23,7 +23,7 @@
           valueExpr="id"
           displayExpr="name"
           :onValueChanged="(e)=>{this.filterChaged(e,'assignmentType')}"
-          :items="typeRadioItems"
+          :items="assignmentTypeRadioItems"
         />
       </div>
     </div>
@@ -45,19 +45,10 @@ export default {
   },
   data() {
     return {
-      statusRadioItems: [
-        {
-          id: 0,
-          name: this.$t("translations.fields.inProccess")
-        },
-        {
-          id: 1,
-          name: this.$t("translations.fields.all")
-        }
-      ],
-      typeRadioItems: filterTypeItems.items(this),
-      status: +localStorage.getItem("status") || 100,
-      assignmentType: +localStorage.getItem("assignmentType") || 100
+      statusTypeRadioItems: filterTypeItems.statusType(this),
+      assignmentTypeRadioItems: filterTypeItems.assignmentType(this),
+      status: +localStorage.getItem("statusFilter") || null,
+      assignmentType: +localStorage.getItem("assignmentTypeFilter") || null
     };
   },
   methods: {
@@ -68,32 +59,29 @@ export default {
           if (filter.length > 0) {
             filter.push("and");
           }
-
           filter.push([item, "=", items[item]]);
         }
       }
       return filter;
     },
-    filterChaged(e, name) {
+    changeFilterProperty(e, name) {
       if (e) {
         this[name] = e.value;
+        localStorage.setItem(name + "Filter", e.value);
       }
-
-      // const byStatus = this.status !== 1 ? ["status", "=", this.status] : null;
-
-      // const byAssignmentType =
-      //   this.assignmentType !== 100
-      //     ? ["assignmentType", "=", this.assignmentType]
-      //     : null;
+    },
+    emitFilter(filter) {
+      this.$emit("changeFilter", {
+        filter
+      });
+    },
+    filterChaged(e, name) {
+      this.changeFilterProperty(e, name);
       const filter = this.buildFilter({
         status: this.status,
         assignmentType: this.assignmentType
       });
-      // localStorage.setItem("filter", filter);
-      console.log(filter);
-      // this.$emit("changeFilter", {
-      //   filter
-      // });
+      this.emitFilter(filter);
     },
     showFilter() {
       this.$emit("showFilter");

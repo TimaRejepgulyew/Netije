@@ -17,7 +17,7 @@ export default {
     switch (assignmentType) {
       case AssignmentType.SimpleAssignment:
         return `/assignment/simple/assignment/${assignmentId}`;
-      case AssignmentType.AcquaintanceAssignment:
+      case AssignmentType.AcquintanceAssignment:
         return `/assignment/acquaintance/assignment/${assignmentId}`;
       case AssignmentType.ActionItemExecutionAssignment:
         return `/assignment/action-item-execution/assignment/${assignmentId}`;
@@ -28,7 +28,8 @@ export default {
       case AssignmentType.ActionItemExecutionNotify:
         return `/assignment/action-item-execution/notify/${assignmentId}`;
       default:
-        throw "unknown task type";
+        console.log(assignmentType);
+        throw "unknown assignment type";
     }
   },
   generateDocumentDetailRoute(context, documentId) {
