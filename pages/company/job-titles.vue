@@ -2,7 +2,9 @@
   <main>
     <Header :headerTitle="$t('translations.menu.jobTitle')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :errorRowEnabled="false"
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="false"
@@ -42,11 +44,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :reevaluate="false"
-          :message="$t('translations.fields.jobTitlesNameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
@@ -75,7 +72,6 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
   DxRequiredRule,
   DxExport,
   DxColumnChooser,
@@ -97,7 +93,6 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxColumnChooser,
     DxColumnFixing,
@@ -123,16 +118,6 @@ export default {
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.JobTitleDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
     }
   }
 };

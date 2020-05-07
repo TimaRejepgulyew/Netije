@@ -2,9 +2,9 @@
   <main>
     <Header :headerTitle="$t('translations.menu.region')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
-      :repaint-changes-only="true"
-      :highlight-changes="true"
+      id="gridContainer"      
+      :show-borders="true"
+      :errorRowEnabled="false"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="false"

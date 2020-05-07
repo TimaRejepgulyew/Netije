@@ -4,6 +4,7 @@
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
+      :errorRowEnabled="false"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"

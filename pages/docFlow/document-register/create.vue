@@ -12,7 +12,7 @@
             <DxDataGrid
               :show-borders="true"
               :data-source="documentRegister.numberFormatItems"
-              :errorRowEnabled="true"
+              :errorRowEnabled="false"
               :allow-column-reordering="true"
               :allow-column-resizing="true"
               :column-auto-width="true"

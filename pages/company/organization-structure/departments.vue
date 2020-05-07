@@ -2,7 +2,9 @@
   <main >
     <Header :headerTitle="$t('translations.menu.department')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :errorRowEnabled="false"
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -42,11 +44,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
@@ -118,7 +115,7 @@
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
-        <TabRole :data="data.data" memberList="Departments" />
+        <member-list :data="data.data" />
       </template>
 
       <template #textAreaEditor="cellInfo">
@@ -135,7 +132,7 @@ import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import TabRole from "~/components/member-list/tabRole.vue";
+import MemberList from "~/components/department/master-detail-member-list";
 import textArea from "~/components/page/textArea";
 import {
   DxMasterDetail,
@@ -160,7 +157,7 @@ import {
 
 export default {
   components: {
-    TabRole,
+    MemberList,
     textArea,
     DxMasterDetail,
     Header,

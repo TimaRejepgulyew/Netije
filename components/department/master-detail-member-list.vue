@@ -14,7 +14,7 @@
         <DxEditing
           :allow-updating="false"
           :allow-deleting="allowDeleting"
-          :allow-adding="allowAdding"
+          :allow-adding="$store.getters['permissions/allowUpdating'](entityType)"
           :useIcons="true"
           mode="row"
         />
@@ -24,7 +24,7 @@
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
 
-        <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
+        <DxColumn data-field="employeeId" :caption="$t('translations.fields.name')">
           <DxLookup
             :allow-clearing="true"
             :data-source="getActiveEmployees"
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import permissions from "~/components/administration/permissions";
@@ -77,27 +78,18 @@ export default {
     }
   },
   data() {
-    let { id, responsibleEmployeeId } = this.data.data;
+    let { id } = this.data.data;
     return {
-      id,
-      responsibleEmployeeId,
+      entityType: EntityType.Department,
+      departmentId: id,
       store: this.$dxStore({
-        key: "memberId",
-        insertUrl: dataApi.docFlow.RegistrationGroupMembers,
-        loadUrl: dataApi.docFlow.RegistrationGroupMembers + id,
-        removeUrl: dataApi.docFlow.RegistrationGroupMembers + id
+        key: "employeeId",
+        insertUrl: dataApi.company.DepartmentMembers,
+        loadUrl: dataApi.company.DepartmentMembers + id,
+        removeUrl: dataApi.company.DepartmentMembers + id
       }),
       statusDataSource: this.$store.getters["status/status"]
     };
-  },
-  computed: {
-    allowAdding() {
-      return (
-        this.$store.getters["permissions/IsAdmin"] ||
-        this.$store.getters["permissions/employeeId"] ==
-          this.responsibleEmployeeId
-      );
-    }
   },
   methods: {
     getActiveEmployees(options) {
@@ -113,18 +105,17 @@ export default {
       };
     },
     onInitNewRow(e) {
-      e.data.registrationGroupId = this.id;
+      e.data.departmentId = this.departmentId;
+      e.data.employeeId = null;
     },
     allowDeleting(e) {
-      
       if (
-        !this.$store.getters["permissions/IsAdmin"] &&
-        !this.$store.getters["permissions/employeeId"] ==
-          this.responsibleEmployeeId
+        this.$store.getters["permissions/allowUpdating"](this.entityType) &&
+        !e.row.data.isReadonly
       ) {
-        return false;
+        return true;
       }
-      return e.row.key != this.responsibleEmployeeId;
+      return false;
     }
   }
 };

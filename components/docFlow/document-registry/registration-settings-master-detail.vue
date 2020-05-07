@@ -1,5 +1,6 @@
 <template>
   <main>
+    <Header :headerTitle="$t(`translations.menu.registrationSetting`)"></Header>
     <DxPopup
       :visible.sync="popupSetting"
       :drag-enabled="false"
@@ -20,7 +21,9 @@
     </DxPopup>
 
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :errorRowEnabled="false"
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -85,6 +88,7 @@
   </main>
 </template>
 <script>
+import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import popupRegSetting from "~/components/docFlow/document-registry/popup-reg-setting";
 import dataApi from "~/static/dataApi";
@@ -127,7 +131,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
+    Header
   },
   props: {
     documentRegistry: {

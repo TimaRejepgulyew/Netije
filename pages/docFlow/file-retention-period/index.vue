@@ -2,10 +2,11 @@
   <main>
     <Header :headerTitle="$t('translations.menu.fileRetentionPeriod')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
-      :errorRowEnabled="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -42,11 +43,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="retentionPeriod" :caption="$t('translations.fields.retentionPeriod')"></DxColumn>
@@ -80,7 +76,6 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
   DxRequiredRule,
   DxExport,
   DxColumnChooser,
@@ -102,7 +97,6 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxColumnChooser,
     DxColumnFixing,
@@ -128,16 +122,6 @@ export default {
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.FileRetentionPeriodDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
     }
   }
 };

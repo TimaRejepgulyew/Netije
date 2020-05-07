@@ -2,9 +2,11 @@
   <main>
     <Header :headerTitle="$t('translations.menu.currencies')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"

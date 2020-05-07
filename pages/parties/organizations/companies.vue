@@ -3,7 +3,9 @@
     <Header :headerTitle="$t('translations.menu.businessUnit')"></Header>
 
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :errorRowEnabled="false"
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -46,12 +48,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-
-        <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -80,7 +76,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -97,12 +93,6 @@
           :pattern="codePattern"
           :message="$t('translations.validation.valueMustNotContainsSpaces')"
         />
-        <DxAsyncRule
-                :reevaluate="false"
-          :ignore-empty-value="true"
-          :message="$t('translations.fields.codeAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn

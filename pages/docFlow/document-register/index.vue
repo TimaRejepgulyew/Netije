@@ -25,13 +25,12 @@
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
-      :errorRowEnabled="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       @toolbar-preparing="onToolbarPreparing($event)"
-      :ref="dataGridRefKey"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -111,7 +110,7 @@
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import popupCurrentNumber from "~/components/docFlow/document-registry/popup-current-number";
-import RegSettingDetail from "~/components/docFlow/document-registry/index__master-detail";
+import RegSettingDetail from "~/components/docFlow/document-registry/registration-settings-master-detail";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -168,17 +167,11 @@ export default {
         loadUrl: dataApi.docFlow.DocumentRegistry,
         removeUrl: dataApi.docFlow.DocumentRegistry
       }),
-      dataGridRefKey: "dataGrid",
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
       statusDataSource: this.$store.getters["status/status"](this),
       popupCurrentNumber: false,
       selectedDocumentRegisterId: null
     };
-  },
-  computed: {
-    dataGrid: function() {
-      return this.$refs[this.dataGridRefKey].instance;
-    }
   },
   methods: {
     canUpdate(e)

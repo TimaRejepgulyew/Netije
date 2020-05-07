@@ -511,7 +511,8 @@ export default {
       no: "Нет"
     },
     shared: {
-      error: "Произошла ошибка"
+      error: "Произошла ошибка",
+      errorOccured:"Произошла ошибка при выполнении операции. Обратитесь к администратору системы"
     },
     taskMessage: {
       attachmentRequired: "Добавьте вложение",

@@ -13,8 +13,8 @@
         <DxHeaderFilter :visible="true" />
         <DxEditing
           :allow-updating="false"
-          :allow-deleting="allowDeleting"
-          :allow-adding="allowAdding"
+          :allow-deleting="!immutable"
+          :allow-adding="!immutable"
           :useIcons="true"
           mode="row"
         />
@@ -27,7 +27,7 @@
         <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
           <DxLookup
             :allow-clearing="true"
-            :data-source="getActiveEmployees"
+            :data-source="getActiveRecipientLinks"
             value-expr="id"
             display-expr="name"
           />
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import permissions from "~/components/administration/permissions";
@@ -77,34 +78,26 @@ export default {
     }
   },
   data() {
-    let { id, responsibleEmployeeId } = this.data.data;
+    let { id,immutable } = this.data.data;
     return {
-      id,
-      responsibleEmployeeId,
+      entityType: EntityType.Department,
+      roleId: id,
+      immutable,
       store: this.$dxStore({
         key: "memberId",
-        insertUrl: dataApi.docFlow.RegistrationGroupMembers,
-        loadUrl: dataApi.docFlow.RegistrationGroupMembers + id,
-        removeUrl: dataApi.docFlow.RegistrationGroupMembers + id
+        insertUrl: dataApi.admin.RoleMembers,
+        loadUrl: dataApi.admin.RoleMembers + id,
+        removeUrl: dataApi.admin.RoleMembers + id
       }),
       statusDataSource: this.$store.getters["status/status"]
     };
   },
-  computed: {
-    allowAdding() {
-      return (
-        this.$store.getters["permissions/IsAdmin"] ||
-        this.$store.getters["permissions/employeeId"] ==
-          this.responsibleEmployeeId
-      );
-    }
-  },
   methods: {
-    getActiveEmployees(options) {
+    getActiveRecipientLinks(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.recipient.list
         }),
         paginate: true,
         filter: options.data
@@ -113,18 +106,16 @@ export default {
       };
     },
     onInitNewRow(e) {
-      e.data.registrationGroupId = this.id;
+      e.data.roleId = this.roleId;
     },
     allowDeleting(e) {
-      
       if (
-        !this.$store.getters["permissions/IsAdmin"] &&
-        !this.$store.getters["permissions/employeeId"] ==
-          this.responsibleEmployeeId
+        this.$store.getters["permissions/allowUpdating"](this.entityType) &&
+        !e.row.data.isReadonly
       ) {
-        return false;
+        return true;
       }
-      return e.row.key != this.responsibleEmployeeId;
+      return false;
     }
   }
 };

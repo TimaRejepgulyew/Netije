@@ -2,10 +2,11 @@
   <main>
     <Header :headerTitle="$t('translations.menu.countries')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"     
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
-      :errorRowEnabled="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
