@@ -1,6 +1,6 @@
 <template>
-  <main >
-    <Header :headerTitle="headerTitle"></Header>
+  <main>
+    <Header :headerTitle="$t('translations.menu.caseFile')"></Header>
     <DxDataGrid
       :show-borders="true"
       :data-source="store"
@@ -10,8 +10,8 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -21,7 +21,7 @@
         :file-name="$t('translations.fields.caseFile')"
       />
       <DxFilterRow :visible="true" />
-      
+
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -30,8 +30,8 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="CaseFile" />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="isAllowUpdating"
+        :allow-deleting="isAllowDeleting"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -60,7 +60,6 @@
         data-field="startDate"
         :caption="$t('translations.fields.startDate')"
         data-type="date"
-        :set-cell-value="editStartDate"
       >
         <DxRequiredRule :message="$t('translations.fields.startDateRequired')" />
       </DxColumn>
@@ -68,8 +67,8 @@
       <DxColumn data-field="endDate" :caption="$t('translations.fields.endDate')" data-type="date">
         <DxRequiredRule :message="$t('translations.fields.endDateRequired')" />
         <DxCustomRule
-          :message="$t('translations.fields.endDateAlreadyExists')"
-          :validation-callback="editEndDate"
+          :message="$t('translations.validation.caseFile.endDateLessThanBegin')"
+          :validation-callback="validEndDate"
           type="custom"
           :reevaluate="true"
         ></DxCustomRule>
@@ -89,7 +88,7 @@
         <DxRequiredRule :message="$t('translations.fields.retentionPeriodIdRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredRetentionPeriod"
+          :data-source="getAvailableRetentionPeriod"
           value-expr="id"
           display-expr="name"
         />
@@ -104,7 +103,7 @@
       <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="getFilteredDepartment"
+          :data-source="getAvailableDepartment"
           value-expr="id"
           display-expr="name"
         />
@@ -116,7 +115,7 @@
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="registrationGroupStore"
+          :data-source="getAvailableRegistrationGroups"
           value-expr="id"
           display-expr="name"
         />
@@ -134,9 +133,9 @@
   </main>
 </template>
 <script>
-import DataSource from "devextreme/data/data_source";
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
-
 import Header from "~/components/page/page__header";
 import {
   DxSearchPanel,
@@ -151,7 +150,6 @@ import {
   DxAsyncRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -174,7 +172,6 @@ export default {
     DxRequiredRule,
     DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -184,7 +181,7 @@ export default {
 
   data() {
     return {
-      headerTitle: this.$t("translations.menu.caseFile"),
+      entityType: EntityType.CaseFile,
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.CaseFile,
@@ -192,41 +189,39 @@ export default {
         updateUrl: dataApi.docFlow.CaseFile,
         removeUrl: dataApi.docFlow.CaseFile
       }),
-      entityType: "CaseFile",
-      statusDataSource: this.$store.getters["status/status"](this),
-
-      initNewRow: e => {
-        e.data.status = this.statusDataSource[0].id;
-      },
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
-      departmentStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Department
-      }),
-      retentionPeriodStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.docFlow.FileRetentionPeriod
-      }),
-      registrationGroupStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.docFlow.ResponsibleForGroupOnMe
-      }),
-      editStartDate(rowData, value) {
-        rowData.endDate = value;
-        this.defaultSetCellValue(rowData, value);
-      },
-      editEndDate: e => {
-        if (Date.parse(e.data.startDate) < Date.parse(e.value)) {
-          return true;
-        }
-        return false;
-      }
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
+    validEndDate(e){
+      if (Date.parse(e.data.startDate) < Date.parse(e.value)) {
+          return true;
+        }
+        return false;
+    },
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
+    isAllowUpdating(e) {
+      return this.canOperateWithCaseFile(e.row.data,"allowUpdating")
+    },
+    isAllowDeleting(e) {
+      return this.canOperateWithCaseFile(e.row.data,"allowDeleting")
+    },
+    canOperateWithCaseFile(caseFile,permission)
+    {
+      const employeeId = this.$store.getters["permissions/employeeId"];
+      if(this.$store.getters['permissions/IsAdmin'])
+          return true;
+       if (!this.$store.getters[`permissions/${permission}`](this.entityType))
+          return false;
+       if (caseFile.registrationGroupResponsibleId==employeeId || !caseFile.registrationGroupResponsibleId)
+          return true;
+      return false;
+    },
     validateEntityExists(params) {
       var dataField = params.column.dataField;
       return this.$customValidator.CaseFileDataFieldValueNotExists(
@@ -237,22 +232,50 @@ export default {
         dataField
       );
     },
-    getFilteredDepartment(options) {
+    getAvailableDepartment(options) {
       return {
-        store: this.departmentStore,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Department
+        }),
+        paginate:true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.departmentId]
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.departmentId]
           : null
       };
     },
-    getFilteredRetentionPeriod(options) {
+    getAvailableRetentionPeriod(options) {
       return {
-        store: this.retentionPeriodStore,
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.docFlow.FileRetentionPeriod
+        }),
+        paginate:true,
         filter: options.data
-          ? ["status", "=", 0, "or", "id", "=", options.data.retentionPeriodId]
+          ? ["status", "=", Status.Active, "or", "id", "=", options.data.retentionPeriodId]
           : null
-      };
+      }
+    },
+    getAvailableRegistrationGroups(options) {
+      let filter = [];
+      filter.push(["status", "=", Status.Active]);
+       if(!this.$store.getters['permissions/IsAdmin'])
+       {
+         filter.push("and");
+         filter.push(["responsibleEmployeeId", "=", +this.$store.getters["permissions/employeeId"]]);
+       }
+
+      return {
+        store: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.docFlow.RegistrationGroup
+      }),
+      paginate:true,
+      filter: options.data
+          ? filter
+          : []
+      }
     }
   }
-};
+}
 </script>

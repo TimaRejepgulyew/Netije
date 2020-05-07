@@ -1,5 +1,5 @@
 <template>
-  <main >
+  <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
       :show-borders="true"
@@ -22,7 +22,7 @@
         :file-name="$t('translations.menu.registrationGroup')"
       />
       <DxFilterRow :visible="true" />
-      
+
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -48,33 +48,9 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-
-      <DxColumn
-        data-field="canRegisterOutgoing"
-        :caption="$t('translations.fields.canRegisterOutgoing')"
-        data-type="boolean"
-        :visible="false"
-      ></DxColumn>
-
-      <DxColumn data-field="index" :caption="$t('translations.fields.index')">
-        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.indexAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
-      </DxColumn>
-
-      <DxColumn
-        data-field="canRegisterInternal"
-        :caption="$t('translations.fields.canRegisterInternal')"
-        data-type="boolean"
-        :visible="false"
-      ></DxColumn>
-
       <DxColumn
         data-field="responsibleEmployeeId"
         :caption="$t('translations.fields.responsibleId')"
-        :visible="false"
       >
         <DxRequiredRule :message="$t('translations.fields.responsibleIdRequired')" />
         <DxLookup
@@ -84,18 +60,34 @@
           display-expr="name"
         />
       </DxColumn>
+      <DxColumn data-field="index" :caption="$t('translations.fields.index')">
+        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
+        <DxAsyncRule
+          :message="$t('translations.fields.indexAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
+      </DxColumn>
 
+      <DxColumn
+        data-field="canRegisterOutgoing"
+        :caption="$t('translations.fields.canRegisterOutgoing')"
+        data-type="boolean"
+      ></DxColumn>
       <DxColumn
         data-field="canRegisterIncoming"
         :caption="$t('translations.fields.canRegisterIncoming')"
         data-type="boolean"
-        :visible="false"
+      ></DxColumn>
+      <DxColumn
+        data-field="canRegisterInternal"
+        :caption="$t('translations.fields.canRegisterInternal')"
+        data-type="boolean"
       ></DxColumn>
 
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
-          <TabRole :data="data.data" memberList="RegistrationGroup" />
+        <TabRole :data="data.data" memberList="RegistrationGroup" />
       </template>
     </DxDataGrid>
   </main>

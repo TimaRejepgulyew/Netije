@@ -90,7 +90,13 @@ export default {
       outgoing: "Входящие",
       incomming: "Исходящие"
     },
+    validation: {
+      caseFile: {
+        endDateLessThanBegin: "Дата конца не может быть меньше даты начала",
+      }
+    },
     fields: {
+
       contactName: "Имя контакта",
       mailDeliveryMethod: "Способ доставки документа",
       whom: "Кому",
