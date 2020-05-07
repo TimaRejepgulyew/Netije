@@ -69,7 +69,13 @@
             >
               <DxLabel location="top" :text="$t('translations.fields.availableActions')" />
             </DxSimpleItem>
-
+            <DxSimpleItem
+              data-field="status"
+              :editor-options="statusOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.status')" />
+            </DxSimpleItem>
             <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
               <DxLabel
                 location="left"
@@ -159,6 +165,7 @@ export default {
   data() {
     return {
       documentKind: {
+        status: Status.Active,
         name: "",
         documentFlow: null,
         note: "",
@@ -220,6 +227,15 @@ export default {
     }
   },
   computed: {
+    statusOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          value: "status"
+        }),
+        dataSource: this.$store.getters["status/status"](this)
+      };
+    },
     numberingTypeOptions() {
       return {
         dataSource: this.$store.getters["docflow/numberingType"](this),

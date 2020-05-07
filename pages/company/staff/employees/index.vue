@@ -139,7 +139,7 @@ export default {
       });
       if (addButton) {
         addButton.options.onClick = () => {
-          this.$router.push(`/company/staff/employees/create-employee`);
+          this.$router.push(`/company/staff/employees/create`);
         };
       }
     }
