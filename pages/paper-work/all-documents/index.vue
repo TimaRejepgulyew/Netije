@@ -15,6 +15,7 @@
     </DxPopup>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
+      id="gridContainer"
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"

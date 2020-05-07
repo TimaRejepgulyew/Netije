@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="$t('translations.menu.filesType')"></Header>
     <DxDataGrid
+      id="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
