@@ -36,7 +36,7 @@ export default {
     },
     handleSubmit(e) {
       this.$axios
-        .post(dataApi.paperWork.UnregisterDocument, {
+        .post(dataApi.documentRegistration.UnregisterDocument, {
           documentId: +this.$route.params.id
         })
         .then(res => {
