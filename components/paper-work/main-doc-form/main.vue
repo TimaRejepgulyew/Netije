@@ -1,6 +1,6 @@
 <template>
-  <div id="form-demo">
-    <div class="widget-container">
+  <div>
+    <div>
       <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
       <DxPopup
@@ -12,15 +12,13 @@
         :height="'auto'"
         :title="registrationState.isRegistered ? $t('translations.fields.cancelRegistration'):$t('translations.fields.registration')"
       >
-        <div v-if="popupRegistyDocument">
-          <popupCancelDocumentRegistry
-            v-if="
-          registrationState.isRegistered"
-            @popupDisabled="popupDisabled('popupRegistyDocument')"
+        <div>
+          <cancel-document-registration-popup
+            v-if="registrationState.isRegistered&&isDocumentRegistrationPopupOpen"
+            @popupDisabled="popupDisabled('isDocumentRegistrationPopupOpen')"
             @setPermissions="setPermissions($event)"
-          ></popupCancelDocumentRegistry>
-
-          <popup-registy-document
+          />
+          <document-registration-popup
             v-else
             :docType="docType"
             @setPermissions="setPermissions($event)"
@@ -28,8 +26,8 @@
           />
         </div>
       </DxPopup>
-      <navBar :registrationState="registrationState" @popupVisible="popupVisible('popupRegistyDocument')">
-      </navBar>
+      <navBar :registrationState="registrationState" @popupVisible="popupVisible('isDocumentRegistrationPopupOpen')"></navBar>
+      
       <DxTabPanel>
         <DxItem :title="$t('menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
@@ -97,8 +95,8 @@ import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
 import navBar from "~/components/paper-work/main-doc-form/nav-bar";
 import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
-import popupCancelDocumentRegistry from "~/components/paper-work/main-doc-form/popup-cancel-document-registry";
-import popupRegistyDocument from "~/components/paper-work/main-doc-form/popup-registy-document";
+import CancelDocumentRegistrationPopup from "~/components/paper-work/main-doc-form/cancel-document-registration-popup";
+import DocumentRegistrationPopup from "~/components/paper-work/main-doc-form/document-registration-popup";
 import mainFocForm from "~/components/paper-work/main-doc-form";
 import { DxPopup } from "devextreme-vue/popup";
 import "devextreme-vue/text-area";
@@ -149,8 +147,8 @@ export default {
     docVersion,
     navBar,
     docRegistration,
-    popupCancelDocumentRegistry,
-    popupRegistyDocument,
+    CancelDocumentRegistrationPopup,
+    DocumentRegistrationPopup,
     DxButton,
     mainFocForm,
     Header,
