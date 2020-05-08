@@ -22,6 +22,19 @@ export default {
     },
     valueMustNotContainsSpaces: "В значении не должны присутствовать пробелы"
   },
+  registrationPopup: {
+    preliminaryRegistrationNumberMessage: "*Точный регистрационный № будет назначен после регистрации",
+    preliminaryRegistrationNumber: "Предварительный регистрационный №",
+    isCustomNumber: "Назначить номер самому",
+    documentRegister: "Журнал регистрации",
+    regNumberDocument: "Регистрационный №",
+    registrationDate: "Дата регистрации",
+    validation: {
+      regNumberDocumentRequired: "Введите регистрационный № документа",
+      documentRegisterRequired: "Выберите журнал регистрации",
+      registrationDateRequired: "Введите дату регистрации документа",
+    }
+  },
   menu: {
     all: "Все",
     allDocument: "Все документы",
@@ -397,9 +410,8 @@ export default {
       placedToCaseFileDate: "Дата помещения в дело",
       outgoingDocumentId: "В ответ на...",
       dated: "Дата документа",
-      regNumberDocument: "Регистрационный № документа",
-      isCustomNumber: "Свой номер",
-      regNumberDocumentRequired: "Введите регистрационный № документа",
+      regNumberDocument: "Регистрационный №",
+
       files: "Файлы",
       documentKindId: "Вид документа",
       documentKindIdRequired: "Выберите вид документа",
@@ -407,7 +419,6 @@ export default {
       documentRegisterIdRequired: "Выберите журнал регитсрации",
       registrationNumber: "Рег. №",
       registrationDate: "Дата регистрации документа",
-      registrationDateRequired: "Введите дата регистрации документа",
       cancelDocRegistrySuccess: "Отмена регистрации прошла успешна",
       cancelDocRegistryError: "При отмене регистрации произошла ошибка",
       numerable: "Нумерумый",
@@ -536,7 +547,7 @@ export default {
 
       moreAbout: "Подробнее"
     },
-    
+
 
     taskMessage: {
       attachmentRequired: "Добавьте вложение",
@@ -560,6 +571,6 @@ export default {
       3: "Задание",
       4: "Уведомление"
     },
-   
+
   }
 };

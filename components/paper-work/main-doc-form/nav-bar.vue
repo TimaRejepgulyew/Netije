@@ -55,7 +55,7 @@ export default {
           return EntityType.InternalDocument;
           break;
         default:
-          throw "Unknown document type";
+          return EntityType.IncomingDocument;;
       }
     }
   }
