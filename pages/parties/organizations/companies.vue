@@ -32,7 +32,7 @@
         :file-name="$t('translations.fields.company')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Company" />
+      <DxStateStoring :enabled="$store.getters['permissions/allowReading'](contactEntityType)" type="localStorage" storage-key="Company" />
 
       <DxEditing
         :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
@@ -168,9 +168,9 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](contactEntityType)" template="masterDetailTemplate" />
 
-      <template #masterDetailTemplate="company"  v-if="hasContactAccess">
+      <template #masterDetailTemplate="company">
         <master-detail-contacts :company="company.data" />
       </template>
 
@@ -239,6 +239,8 @@ export default {
   },
   data() {
     return {
+      contactEntityType: EntityType.Contact,
+      entityType: EntityType.Counterparty,
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Company,
@@ -246,8 +248,6 @@ export default {
         updateUrl: dataApi.contragents.Company,
         removeUrl: dataApi.contragents.Company
       }),
-      entityType: EntityType.Counterparty,
-      hasContactAccess: this.$store.getters['permissions/allowReading'](EntityType.Contact),
       statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;

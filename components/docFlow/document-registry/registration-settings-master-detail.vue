@@ -1,86 +1,52 @@
 <template>
-  <main>
+  <main v-if="false">
     <Header :headerTitle="$t(`menu.registrationSetting`)"></Header>
     <DxPopup
-      :visible.sync="popupSetting"
+      :visible.sync="popupFormOpen"
       :drag-enabled="false"
       :close-on-outside-click="true"
       :show-title="true"
-      :width="800"
-      :height="600"
+      :width="600"
+      :height="480"
       :title="$t('menu.registrationSetting')"
     >
       <div>
         <popup-reg-setting
           :documentRegisterId="documentRegisterId"
           :id="regSettingId"
-          v-if="popupSetting"
-          @popupDisabled="popupDisabled('popupSetting')"
+          v-if="popupFormOpen"
+          @hidePopup="hidePopup"
         />
       </div>
     </DxPopup>
 
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
-      :data-source="store"
+      :data-source="dataSource"
       :remote-operations="true"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
+      :allow-column-reordering="false"
+      :allow-column-resizing="false"
       :column-auto-width="true"
       @toolbar-preparing="onToolbarPreparing($event)"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :ref="dataGridRefKey"
     >
-      >
-      <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false" />
-      
-      <DxHeaderFilter :visible="true" />
-      <DxEditing 
-      :allow-adding="true"
-      :allow-updating="true" 
-      :allow-deleting="true" :useIcons="true" mode="form" />
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
-      <DxFilterRow :visible="true" />
-
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('menu.registrationSetting')"
+      <DxEditing
+        :allow-adding="allowAdding"
+        :allow-updating="allowUpdating"
+        :allow-deleting="allowDeleting"
+        :useIcons="true"
+        mode="form"
       />
-
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="registration-setting-detail"
-      />
-
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
-
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
 
-      <DxColumn
-        data-field="businessUnitId"
-        :caption="$t('menu.businessUnit')"
-        :visible="true"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="bussinessUnitStores"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
       <DxColumn type="buttons">
         <DxButton
           icon="edit"
           :text="$t('translations.headers.editDocumentRegistry')"
-          :onClick="editingStart"
+          :onClick="showPopupForm"
         ></DxButton>
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -88,27 +54,15 @@
   </main>
 </template>
 <script>
+import EntityType from "~/infrastructure/constants/entityTypes";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import popupRegSetting from "~/components/docFlow/document-registry/popup-reg-setting";
 import dataApi from "~/static/dataApi";
 import { DxPopup } from "devextreme-vue/popup";
 import {
-  DxSearchPanel,
   DxDataGrid,
   DxColumn,
   DxEditing,
-  DxHeaderFilter,
-  DxScrolling,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  DxExport,
-  DxSelection,
-  DxColumnChooser,
-  DxColumnFixing,
-  DxFilterRow,
-  DxStateStoring,
   DxButton
 } from "devextreme-vue/data-grid";
 
@@ -116,21 +70,9 @@ export default {
   components: {
     popupRegSetting,
     DxPopup,
-    DxSearchPanel,
     DxDataGrid,
     DxColumn,
     DxEditing,
-    DxHeaderFilter,
-    DxScrolling,
-    DxLookup,
-    DxGrouping,
-    DxGroupPanel,
-    DxExport,
-    DxSelection,
-    DxColumnChooser,
-    DxColumnFixing,
-    DxFilterRow,
-    DxStateStoring,
     DxButton,
     Header
   },
@@ -141,39 +83,58 @@ export default {
     }
   },
   data() {
-    let { name, id } = this.documentRegistry.data;
+    let {
+      name,
+      id,
+      documentRegisterResponsibleId
+    } = this.documentRegistry.data;
     return {
-      store: new DataSource({
+      dataSource: {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.docFlow.RegistrationSetting,
           removeUrl: dataApi.docFlow.RegistrationSetting
         }),
         filter: ["documentRegisterId", "=", id]
-      }),
+      },
       dataGridRefKey: "dataGrid",
-      statusDataSource: this.$store.getters["status/status"],
       documentRegisterId: id,
-      bussinessUnitStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.BusinessUnit
-      }),
-      popupSetting: false,
-      editingStart: e => {
-        this.regSettingId = e.row.key;
-        this.popupSetting = true;
-      }
+      documentRegisterResponsibleId,
+      popupFormOpen: false
     };
   },
   computed: {
     dataGrid: function() {
       return this.$refs[this.dataGridRefKey].instance;
+    },
+    allowAdding(){
+      return this.canOperateWithRegistrationSettings("allowCreating");
+    },
+    allowUpdating() {
+      return this.canOperateWithRegistrationSettings("allowUpdating");
+    },
+    allowDeleting() {
+      return this.canOperateWithRegistrationSettings("allowDeleting");
     }
   },
   methods: {
-    popupDisabled(popup) {
+    canOperateWithRegistrationSettings(permission) {
+      const employeeId = this.$store.getters["permissions/employeeId"];
+      if (this.$store.getters["permissions/IsAdmin"]) return true;
+      if (!this.$store.getters[`permissions/${permission}`](EntityType.RegistrationSetting))
+        return false;
+      if (this.documentRegisterResponsibleId == employeeId || !this.documentRegisterResponsibleId
+      )
+        return true;
+      return false;
+    },
+    showPopupForm(e) {
+      this.regSettingId = e.row.key;
+      this.popupFormOpen = true;
+    },
+    hidePopup() {
       this.dataGrid.refresh();
-      this[popup] = false;
+      this.popupFormOpen = false;
     },
     onToolbarPreparing(e) {
       const addButton = e.toolbarOptions.items.find(btn => {
@@ -181,7 +142,7 @@ export default {
       });
       if (addButton) {
         addButton.options.onClick = () => {
-          this.popupSetting = true;
+          this.popupFormOpen = true;
         };
       }
     }

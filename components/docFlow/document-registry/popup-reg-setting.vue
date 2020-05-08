@@ -1,5 +1,5 @@
 <template>
-  <form @submit="handleSubmit">
+  <form  @submit="handleSubmit">
     <DxForm
       :form-data="store"
       :read-only="false"
@@ -36,15 +36,7 @@
         <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
         <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="status"
-        :visible="isUpdated"
-        :editor-options="statusOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.status')" />
-      </DxSimpleItem>
-      <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
+      <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="left" />
     </DxForm>
   </form>
 </template>
@@ -83,10 +75,10 @@ export default {
   props: ["documentRegisterId", "id"],
   async created() {
     if (this.id) {
-      let res = await this.getDataById(`${this.address}/${this.id}`);
+      let res =  await this.$axios.get(`${dataApi.docFlow.RegistrationSetting}/${this.id}`)
       this.isUpdated = true;
       res.status = 0;
-      this.store = res;
+      this.store = res.data;
     }
   },
   computed: {
@@ -148,72 +140,31 @@ export default {
       },
       isUpdated: false,
       saveButtonOptions: {
-        height: 50,
+        height: 40,
         text: this.$t("buttons.save"),
         useSubmitBehavior: true,
-        type: "success"
+        type: "normal"
       }
     };
   },
   methods: {
-    async getDataById(url) {
-      const res = await this.$axios.get(url);
-      return res.data;
-    },
-
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
-    },
     handleSubmit(e) {
+      let promise;
       if (this.isUpdated) {
-        delete this.store.businessUnitId;
-        this.$axios
-          .put(`${this.address}/${this.id}`, this.store)
-          .then(res => {
-            this.$emit("popupDisabled");
-            this.notify(
-              this.$t("translations.headers.updateDocRegistrySucces"),
-              "success"
-            );
-          })
-          .catch(e => {
-            this.notify(
-              this.$t("translations.headers.updateDocRegistrySucces"),
-              "error"
-            );
-          });
+        promise = this.$axios.put(`${dataApi.docFlow.RegistrationSetting}/${this.id}`,this.store)
       } else {
-        this.$axios
-          .post(this.address, this.store)
-          .then(res => {
-            this.$emit("popupDisabled");
-            this.notify(
-              this.$t("translations.headers.addDoctRegistrySucces"),
-              "success"
-            );
-          })
-          .catch(e => {
-            this.notify(
-              this.$t("translations.headers.addDoctRegistryError"),
-              "error"
-            );
-          });
+        promise = this.$axios.post(`${dataApi.docFlow.RegistrationSetting}`, this.store);
       }
-
+      this.$awn.asyncBlock(promise,
+        res => {
+          delete this.store.businessUnitId;
+          this.$emit("hidePopup");
+          this.$awn.success();
+        },
+        err => this.$awn.alert()
+      );
       e.preventDefault();
     }
   }
 };
 </script>
-<style  lang="scss" scoped>
-</style>
