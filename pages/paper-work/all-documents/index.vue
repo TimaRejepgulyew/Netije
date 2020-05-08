@@ -278,7 +278,7 @@ export default {
       return e.row.data.hasVersions;
     },
     downloadDocument(e) {
-      console.log(e);
+
       DocumentService.downloadDocument(
         {
           ...e.row.data,

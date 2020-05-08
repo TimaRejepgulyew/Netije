@@ -1,43 +1,38 @@
 <template>
   <form @submit="handleSubmit">
     <DxForm
-      :form-data="registrationData"
+      :form-data="store"
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
+      validation-group="changeRole"
     >
       <DxSimpleItem
         data-field="isCustomNumber"
         :editor-options="isCustomNumberOptions"
         editor-type="dxCheckBox"
       >
-        <DxLabel location="top" :text="$t('registrationPopup.isCustomNumber')" />
+        <DxLabel location="top" :text="$t('translations.fields.isCustomNumber')" />
       </DxSimpleItem>
 
-      <DxSimpleItem
-        :helpText="registrationData.isCustomNumber?'':$t('registrationPopup.preliminaryRegistrationNumberMessage')"
-        data-field="number"
-        :editor-options="numberOptions"
-      >
+      <DxSimpleItem data-field="number" :editor-options="numberOptions">
         <DxPatternRule :pattern="numberPattern" />
-        <DxLabel
-          location="top"
-          :text="registrationData.isCustomNumber?$t('registrationPopup.regNumberDocument'):$t('registrationPopup.preliminaryRegistrationNumber')"
-        />
-        <DxRequiredRule :message="$t('registrationPopup.validation.regNumberDocumentRequired')" />
+        <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
+        <DxRequiredRule :message="$t('translations.fields.regNumberDocumentRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem
         data-field="documentRegisterId"
         :editor-options="documentRegisterOptions"
-        editor-type="dxSelectBox">
-        <DxLabel location="top" :text="$t('registrationPopup.documentRegister')" />
-        <DxRequiredRule :message="$t('registrationPopup.validation.documentRegisterRequired')" />
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.documentRegisterId')" />
+        <DxRequiredRule :message="$t('translations.fields.documentRegisterRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="date" :editor-options="dateOptions" editor-type="dxDateBox">
-        <DxLabel location="top" :text="$t('registrationPopup.registrationDate')" />
-        <DxRequiredRule :message="$t('registrationPopup.validation.registrationDateRequired')" />
+        <DxLabel location="top" :text="$t('translations.fields.registrationDate')" />
+        <DxRequiredRule :message="$t('translations.fields.registrationDateRequired')" />
       </DxSimpleItem>
 
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
@@ -48,6 +43,8 @@
 import moment from "moment";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
+import notify from "devextreme/ui/notify";
+import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -56,7 +53,8 @@ import DxForm, {
   DxRequiredRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule
+  DxPatternRule,
+  DxAsyncRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -69,12 +67,13 @@ export default {
     DxRangeRule,
     DxStringLengthRule,
     DxForm,
+    DxAsyncRule,
     DxButton
   },
   props: ["doctype"],
   data() {
     return {
-      registrationData: {
+      store: {
         isCustomNumber: false,
         documentRegisterId: null,
         date: null,
@@ -90,9 +89,9 @@ export default {
   },
   computed: {
     filter() {
-      return `?documentRegisterId=${this.registrationData.documentRegisterId}&documentId=${
+      return `?documentRegisterId=${this.store.documentRegisterId}&documentId=${
         this.documentId
-      }&registrationDate=${moment(this.registrationData.date).format("L")}`;
+      }&registrationDate=${moment(this.store.date).format("L")}`;
     },
     isCustomNumberOptions() {
       const numberingType = this.$store.getters["paper-work/documentKind"](
@@ -104,7 +103,7 @@ export default {
           "autoNumbering"
         );
         if (autoNumbering) {
-          this.registrationData.isCustomNumber = false;
+          this.store.isCustomNumber = false;
 
           return {
             disabled: true
@@ -118,7 +117,7 @@ export default {
     },
     numberOptions() {
       return {
-        disabled: !this.registrationData.isCustomNumber
+        disabled: !this.store.isCustomNumber
       };
     },
     dateOptions() {
@@ -139,34 +138,58 @@ export default {
   },
   methods: {
     async getDataByFilter() {
-      if (this.registrationData.date && this.registrationData.documentRegisterId) {
+      if (this.store.date && this.store.documentRegisterId) {
         const res = await this.$axios.get(
           dataApi.documentRegistration.PreliminaryNumber + this.filter
         );
-        this.registrationData.number = res.data.preliminaryNumber;
+        this.store.number = res.data.preliminaryNumber;
         this.numberPattern = res.data.pattern;
       }
     },
-    handleSubmit(e) {
-      this.registrationData.documentId = +this.documentId;
-      this.$awn.asyncBlock(this.$axios.post(dataApi.documentRegistration.RegisterDocument, this.registrationData),
-        res => 
+    notify(msgTxt, msgType) {
+      notify(
         {
+          message: msgTxt,
+          position: {
+            my: "center top",
+            at: "center top"
+          }
+        },
+        msgType,
+        3000
+      );
+    },
+    handleSubmit(e) {
+      this.store.documentId = +this.documentId;
+      this.$axios
+        .post(dataApi.documentRegistration.RegisterDocument, this.store)
+        .then(res => {
           this.$store.commit("paper-work/SET_REG_PROPERTIES", res.data);
           this.$store.commit("paper-work/SET_IS_REGISTERED", {
             documentId: +this.$route.params.id,
             state: 0
           });
+
           this.$emit("setPermissions", true);
           this.$emit("popupDisabled");
-          this.$awn.success()
-        },
-        err => this.$awn.alert()
-      );
+          this.notify(
+            this.$t("translations.headers.registrationSucceded"),
+            "success"
+          );
+        })
+        .catch(e => {
+          //TODO вывести ошибку not notify to popup
+          this.notify(
+            this.$t("translations.fields.registrationError"),
+            "error"
+          );
+        });
 
       e.preventDefault();
     }
   }
 };
 </script>
+<style  lang="scss" scoped>
+</style>
 

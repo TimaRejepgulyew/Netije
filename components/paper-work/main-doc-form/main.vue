@@ -4,7 +4,7 @@
       <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
       <DxPopup
-        :visible.sync="isDocumentRegistrationPopupOpen"
+        :visible.sync="popupRegistyDocument"
         :drag-enabled="false"
         :close-on-outside-click="true"
         :show-title="true"
@@ -22,7 +22,7 @@
             v-else
             :docType="docType"
             @setPermissions="setPermissions($event)"
-            @popupDisabled="popupDisabled('isDocumentRegistrationPopupOpen')"
+            @popupDisabled="popupDisabled('popupRegistyDocument')"
           />
         </div>
       </DxPopup>
@@ -174,7 +174,7 @@ export default {
       addressPost: requests.post[this.docType],
       addressPut: requests.put[this.docType],
       isUpdating: false,
-      isDocumentRegistrationPopupOpen: false,
+      popupRegistyDocument: false,
       hasPermissions: true,
       isRegistered: false,
       loadingVisible: false,
