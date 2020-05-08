@@ -19,16 +19,12 @@ export default {
       },
       {
         id: 4,
-        name: context.$t("menu.acquaintanceNotices")
+        name: context.$t("menu.actionItemsExicutionNotices")
       },
       {
         id: 5,
-        name: context.$t("menu.actionItemsExicutionNotices")
+        name: context.$t("menu.acquaintanceNotices")
       },
-      // {
-      //   id: 99,
-      //   name: context.$t("menu.allAssignments")
-      // },
       {
         id: null,
         name: context.$t("translations.fields.all")
