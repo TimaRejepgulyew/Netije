@@ -35,7 +35,6 @@ export default {
       return this.registrationState;
     },
     canRegisterDocument() {
-      console.log(this.$store.getters["paper-work/documentKind"]("documentFlow"))
       return (
         this.registrationState.isRegistrable &&
         this.$store.getters["permissions/allowRegisterDocument"](
@@ -47,15 +46,11 @@ export default {
       switch (this.$store.getters["paper-work/documentKind"]("documentFlow")) {
         case Docflow.Incoming:
           return EntityType.IncomingDocument;
-          break;
         case Docflow.Outgoing:
           return EntityType.OutgoingDocument;
-          break;
+
         case Docflow.Internal:
           return EntityType.InternalDocument;
-          break;
-        default:
-          throw "Unknown document type";
       }
     }
   }
