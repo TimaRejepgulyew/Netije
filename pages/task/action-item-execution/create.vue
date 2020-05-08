@@ -165,7 +165,8 @@ export default {
         accessRights: 60,
         attachments: [],
         actionItem: null,
-        assignedById: null
+        assignedById: null,
+        coAssignees: []
       },
       dateTimeOptions: {
         type: "datetime"
@@ -213,7 +214,7 @@ export default {
     handleSubmit() {
       const payload = { ...this.store };
       payload.attachments = payload.attachments.map(el => {
-        return el.id;
+        return el.document.id;
       });
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.task.CreateActionItemTask, payload),

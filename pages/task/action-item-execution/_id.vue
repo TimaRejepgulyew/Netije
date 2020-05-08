@@ -14,6 +14,7 @@
           <DxSimpleItem :col-span="4" data-field="subject">
             <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
           </DxSimpleItem>
+
           <DxGroupItem :col-count="3">
             <DxSimpleItem
               data-field="deadline"
@@ -22,12 +23,33 @@
             >
               <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
             </DxSimpleItem>
-            <DxSimpleItem template="employee" data-field="observers">
+            <DxSimpleItem
+              :editor-options="employeeOptions"
+              editor-type="dxSelectBox"
+              data-field="assigneeId"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+            </DxSimpleItem>
+            <DxSimpleItem
+              :editor-options="employeeOptions"
+              editor-type="dxSelectBox"
+              data-field="authorId"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.authorId')" />
+            </DxSimpleItem>
+            <DxSimpleItem
+              :editor-options="employeeOptions"
+              editor-type="dxSelectBox"
+              data-field="assignedById"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.assignedById')" />
+            </DxSimpleItem>
+            <DxSimpleItem template="employee" data-field="actionItemObservers">
               <DxLabel location="top" :text="$t('translations.fields.observers')" />
             </DxSimpleItem>
 
-            <DxSimpleItem template="employee" data-field="performers">
-              <DxLabel location="top" :text="$t('translations.fields.performers')" />
+            <DxSimpleItem template="employee" data-field="coAssignees">
+              <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
@@ -73,6 +95,20 @@ export default {
         type: "datetime"
       }
     };
+  },
+  computed: {
+    employeeOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Employee
+        }),
+        showSelectionControls: true,
+        maxDisplayedTags: 3,
+        acceptCustomValue: true,
+        onCustomItemCreating: this.addNewMember
+      };
+    }
   }
 };
 </script>

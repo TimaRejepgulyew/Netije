@@ -96,14 +96,9 @@ export default {
     },
     validation: {
       caseFile: {
-<<<<<<< HEAD
         endDateLessThanBegin: "Дата конца не может быть меньше даты начала"
-      }
-=======
-        endDateLessThanBegin: "Дата конца не может быть меньше даты начала",
       },
-      valueMustNotContainsSpaces:"В значении не должны присутствовать пробелы"
->>>>>>> d51e03e33c059f5f0fb59586658fd35126a69e81
+      valueMustNotContainsSpaces: "В значении не должны присутствовать пробелы"
     },
     fields: {
       contactName: "Имя контакта",
@@ -523,7 +518,8 @@ export default {
     },
     shared: {
       error: "Произошла ошибка",
-      errorOccured:"Произошла ошибка при выполнении операции. Обратитесь к администратору системы"
+      errorOccured:
+        "Произошла ошибка при выполнении операции. Обратитесь к администратору системы"
     },
     taskMessage: {
       attachmentRequired: "Добавьте вложение",
