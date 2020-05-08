@@ -32,7 +32,7 @@ export default {
     DocumentType: `${url}/api/DocumentType`,
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentSendAction: `${url}/api/DocumentSendAction`,
-    AvailableCaseFiles: `${url}/api/CaseFile/AvailableCaseFiles`,
+
     CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
@@ -46,19 +46,20 @@ export default {
     FilesType: `${url}/api/FilesType`,
     RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
   },
-
-  paperWork: {
+  documentRegistration:{
     RegisterDocument: `${url}/api/DocumentRegistration/Register`,
     UnregisterDocument: `${url}/api/DocumentRegistration/Unregister`,
     PreliminaryNumber: `${url}/api/DocumentRegistration/PreliminaryNumber`,
-    AvailableRegistries: `${url}/api/DocumentRegistration/Registries/`,
+    CaseFiles: `${url}/api/DocumentRegistration/CaseFiles`,
+    Registries: `${url}/api/DocumentRegistration/Registries/`,
+  },
+  paperWork: {
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     DeleteDocument: `${url}/api/OfficialDocument`,
     Version: `${url}/api/OfficialDocument/Version/`,
     DownloadLastVersion: `${url}/api/OfficialDocument/Version/DownloadLastVersion/`,
     PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
-
     Relation: `${url}/api/OfficialDocument/Relations/`,
     CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
