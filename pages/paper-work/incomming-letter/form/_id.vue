@@ -2,7 +2,7 @@
   <div id="form-demo">
     <div class="widget-container">
       <MainForm
-        :isSaved="isSaved"
+        :isDataChanged="isDataChanged"
         @saved="saved"
         @modified="modified"
         :headerTitle="headerTitle"
@@ -12,7 +12,7 @@
         <DxForm
           :col-count="1"
           :form-data.sync="store"
-          :read-only="!hasPermission"
+          :read-only="!store.readOnly"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="OfficialDocument"
@@ -153,7 +153,7 @@ export default {
   data() {
     return {
       isUpdating: false,
-      isSaved: false,
+      isDataChanged: false,
       headerTitle: this.$t("translations.headers.incommingLetter"),
       store: {
         subject: "",
@@ -177,17 +177,17 @@ export default {
   },
   methods: {
     saved() {
-      this.isSaved = true;
+      this.isDataChanged = false;
     },
     modified() {
       if (this.isUpdating) {
         console.log("watch is work ");
-        this.isSaved = false;
+        this.isDataChanged = true;
       }
     },
     eventIsModified() {
       if (this.isUpdating) {
-        this.isSaved = true;
+        this.isDataChanged = false;
         this.$watch("store", this.modified, { deep: true });
       }
     }

@@ -67,7 +67,6 @@ export default {
     DxForm,
     DxButton
   },
-  props: ["doctype"],
   data() {
     return {
       registrationData: {
@@ -146,13 +145,7 @@ export default {
           this.registrationData
         ),
         res => {
-          this.$store.commit("paper-work/SET_REG_PROPERTIES", res.data);
-          this.$store.commit("paper-work/SET_IS_REGISTERED", {
-            documentId: +this.$route.params.id,
-            state: 0
-          });
-          this.$emit("setPermissions", true);
-          this.$emit("popupDisabled");
+          this.$router.go();
           this.$awn.success();
         },
         err => this.$awn.alert()

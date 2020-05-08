@@ -1,5 +1,5 @@
 class AccessOperation {
-  constructor() { }
+  constructor() {}
 }
 export const state = () => ({
   accessRights: {},
@@ -45,7 +45,8 @@ export const state = () => ({
         update: false
       }
     ],
-    [60,
+    [
+      60,
       {
         delete: false,
         has: true,
@@ -105,9 +106,6 @@ export const getters = {
     return accessRights.isAdmin;
   },
   allowRegisterDocument: ({ accessRights }) => entityType => {
-    if (accessRights.isAdmin) {
-      return true;
-    }
     return accessRights.operations.has(entityType);
   }
 };

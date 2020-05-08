@@ -3,38 +3,29 @@
     <div>
       <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
-      <DxPopup
-        :visible.sync="popupRegistyDocument"
-        :drag-enabled="false"
-        :close-on-outside-click="true"
-        :show-title="true"
-        :width="500"
-        :height="'auto'"
-        :title="registrationState.isRegistered ? $t('translations.fields.cancelRegistration'):$t('translations.fields.registration')"
+      <navBar
+        :canRegister="store.canRegister"
+        :registrationState="store.registrationState"
+        :isDataChanged="isDataChanged"
       >
-        <div>
-          <cancel-document-registration-popup
-            v-if="registrationState.isRegistered&&isDocumentRegistrationPopupOpen"
-            @popupDisabled="popupDisabled('isDocumentRegistrationPopupOpen')"
-            @setPermissions="setPermissions($event)"
-          />
-          <document-registration-popup
-            v-else
-            :docType="docType"
-            @setPermissions="setPermissions($event)"
-            @popupDisabled="popupDisabled('popupRegistyDocument')"
-          />
-        </div>
-      </DxPopup>
-      <navBar :registrationState="registrationState" @popupVisible="popupVisible('isDocumentRegistrationPopupOpen')"></navBar>
-      
+        <template>
+          <DxButton
+            :disabled="isDataChanged"
+            type="success"
+            :text="$t('buttons.save')"
+            :on-click="handleSubmit"
+            icon="arrowright"
+          ></DxButton>
+          <DxButton :text="$t('buttons.cancel')" :on-click="backTo"></DxButton>
+        </template>
+      </navBar>
       <DxTabPanel>
         <DxItem :title="$t('menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
             <mainFocForm
               @eventWatch="modified"
-              :isSaved="isSaved"
+              :isDataChanged="isDataChanged"
               :properties="store"
               :docType="docType"
             ></mainFocForm>
@@ -42,7 +33,7 @@
             <DxForm
               :col-count="1"
               :form-data.sync="store"
-              :read-only="!hasPermissions"
+              :read-only="!store.readOnly"
               :show-colon-after-label="true"
               :show-validation-summary="true"
               validation-group="OfficialDocument"
@@ -55,9 +46,8 @@
               >
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
-              <DxGroupItem :col-count="12" :col-span="2">
+              <!-- <DxGroupItem :col-count="12" :col-span="2">
                 <DxButtonItem
-                  :visible="hasPermissions"
                   :col-span="1"
                   :button-options="saveButtonOptions"
                   horizontal-alignment="right"
@@ -67,7 +57,7 @@
                   :button-options="cancelButtonOptions"
                   horizontal-alignment="right"
                 />
-              </DxGroupItem>
+              </DxGroupItem>-->
             </DxForm>
           </div>
           <div class="item">
@@ -77,11 +67,7 @@
             <docVersion></docVersion>
           </div>
         </form>
-        <DxItem
-          v-if="isUpdating"
-          :title="$t('menu.relation')"
-          template="relations"
-        />
+        <DxItem v-if="isUpdating" :title="$t('menu.relation')" template="relations" />
         <Relation slot="relations"></Relation>
       </DxTabPanel>
     </div>
@@ -95,10 +81,7 @@ import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
 import navBar from "~/components/paper-work/main-doc-form/nav-bar";
 import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
-import CancelDocumentRegistrationPopup from "~/components/paper-work/main-doc-form/cancel-document-registration-popup";
-import DocumentRegistrationPopup from "~/components/paper-work/main-doc-form/document-registration-popup";
 import mainFocForm from "~/components/paper-work/main-doc-form";
-import { DxPopup } from "devextreme-vue/popup";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
@@ -147,8 +130,6 @@ export default {
     docVersion,
     navBar,
     docRegistration,
-    CancelDocumentRegistrationPopup,
-    DocumentRegistrationPopup,
     DxButton,
     mainFocForm,
     Header,
@@ -157,16 +138,13 @@ export default {
     DxButtonItem,
     DxLabel,
     DxForm,
-    DxPopup,
     DxRequiredRule
   },
-  props: ["store", "isSaved", "headerTitle", "docType"],
+  props: ["store", "isDataChanged", "headerTitle", "docType"],
   created() {
     if (this.$route.params.id != "add") {
       this.isUpdating = true;
-      this.setIsRegistered();
     }
-    this.setPermissions();
   },
   data() {
     return {
@@ -174,45 +152,13 @@ export default {
       addressPost: requests.post[this.docType],
       addressPut: requests.put[this.docType],
       isUpdating: false,
-      popupRegistyDocument: false,
-      hasPermissions: true,
-      isRegistered: false,
       loadingVisible: false,
       icon: require("~/static/icons/loading.gif")
     };
   },
   methods: {
-    setIsRegistered() {
-      this.store.registrationState === 0
-        ? (this.isRegistered = true)
-        : (this.isRegistered = false);
-    },
-    setPermissions(isRegistered) {
-      if (isRegistered !== undefined) {
-        this.isRegistered = isRegistered;
-      }
-      if (!this.isUpdating) {
-        this.$store.commit("paper-work/SET_HAS_PERMISSIONS", true);
-      } else {
-        const factors = [!this.isRegistered];
-        this.$store.commit(
-          "paper-work/SET_HAS_PERMISSIONS",
-          undefined ==
-            factors.find(el => {
-              return el == false;
-            })
-        );
-        this.hasPermissions = this.$store.getters["paper-work/hasPermissions"];
-      }
-    },
     modified() {
       this.$emit("modified");
-    },
-    popupDisabled(popup) {
-      this[popup] = false;
-    },
-    popupVisible(popup) {
-      this[popup] = true;
     },
     backTo() {
       this.$router.go(-1);
@@ -272,7 +218,7 @@ export default {
           );
         });
     },
-    handleSubmit(e) {
+    handleSubmit() {
       this.loadingVisible = true;
       const store = Object.assign(
         this.store,
@@ -283,15 +229,13 @@ export default {
       } else {
         this.addRequest(store);
       }
-
-      e.preventDefault();
     }
   },
   computed: {
     saveButtonOptions() {
       return {
         ...this.$store.getters["globalProperties/btnSave"](this),
-        disabled: this.isSaved
+        disabled: this.isDataChanged
       };
     },
     cancelButtonOptions() {
@@ -299,13 +243,6 @@ export default {
         this,
         this.backTo
       );
-    },
-    registrationState() {
-      return {
-        isRegistered: this.isRegistered,
-        isRegistrable: this.$store.getters["paper-work/documentKind"]("numberingType") != NumberingType.NotNumerable,
-        documentSaved: this.isSaved
-      };
     },
     noteOptions() {
       return {

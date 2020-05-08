@@ -1,58 +1,23 @@
 <template>
-  <div v-if="canRegisterDocument" class="navBar">
-    <DxButton
-      v-if="state.isRegistered"
-      :text="$t('translations.fields.cancelRegistration')"
-      :onClick="this.popupVisible"
-      icon="clear"
-    ></DxButton>
-    <DxButton
-      v-else
-      :disabled=" !state.documentSaved"
-      :text="$t('translations.fields.registration')"
-      icon="bulletlist"
-      :onClick="this.popupVisible"
-    ></DxButton>
+  <div class="navBar">
+    <slot />
+    <document-registration-btn
+      :canRegister="canRegister"
+      :registrationState="registrationState"
+      :isDataChanged="isDataChanged"
+    />
   </div>
 </template>
 <script>
 import Docflow from "~/infrastructure/constants/docflows";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import { DxButton } from "devextreme-vue";
+import DocumentRegistrationBtn from "~/components/paper-work/main-doc-form/document-registration-btn";
 export default {
   components: {
-    DxButton
+    DxButton,
+    DocumentRegistrationBtn
   },
-  props: ["registrationState"],
-
-  methods: {
-    popupVisible() {
-      this.$emit("popupVisible");
-    }
-  },
-  computed: {
-    state() {
-      return this.registrationState;
-    },
-    canRegisterDocument() {
-      return (
-        this.registrationState.isRegistrable &&
-        this.$store.getters["permissions/allowRegisterDocument"](
-          this.entityType
-        )
-      );
-    },
-    entityType() {
-      switch (this.$store.getters["paper-work/documentKind"]("documentFlow")) {
-        case Docflow.Incoming:
-          return EntityType.IncomingDocument;
-        case Docflow.Outgoing:
-          return EntityType.OutgoingDocument;
-
-        case Docflow.Internal:
-          return EntityType.InternalDocument;
-      }
-    }
-  }
+  props: ["canRegister", "isDataChanged", "registrationState"]
 };
 </script>

@@ -2,7 +2,7 @@
   <DxForm
     :col-count="1"
     :form-data.sync="store"
-    :read-only="!hasPermission"
+    :read-only="!store.readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -56,7 +56,7 @@ export default {
       this.getDefaultDocKind();
     }
   },
-  props: ["docType", "properties", "isSaved"],
+  props: ["docType", "properties", "isDataChanged"],
   data(context) {
     let {
       name,
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     async getDefaultDocKind() {
-      if (!this.isSaved) {
+      if (!this.isDataChanged) {
         let docKindStores = await this.getData(
           dataApi.docFlow.DocumentKind +
             `?skip=0&take=20&filter=[["documentTypeId","=",${this.docType}],"and",["status","=",0]]`
@@ -174,7 +174,7 @@ export default {
           this.modified();
         }
       };
-      if (!this.isSaved) {
+      if (!this.isDataChanged) {
         options.value = this.defaultName;
         options.onValueChanged = e => {
           this.$store.dispatch("paper-work/setMainFormProperties", {

@@ -2,7 +2,7 @@
   <DxForm
     :col-count="1"
     :form-data.sync="store"
-    :read-only="!hasPermission"
+    :read-only="!store.readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -109,7 +109,7 @@ export default {
         registrationNumber
       },
       isDefaultName: false,
-      isSaved: false
+      isDataChanged: false
     };
   },
   methods: {
