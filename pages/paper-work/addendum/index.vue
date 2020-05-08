@@ -2,7 +2,8 @@
   <main>
     <Header :headerTitle="$t('menu.addendum')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -10,7 +11,7 @@
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :onRowDblClick="toMoreAbout"
-     @toolbar-preparing="onToolbarPreparing($event)"
+      @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
       <DxGroupPanel :visible="true" />
@@ -39,6 +40,15 @@
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
+
+      <DxColumn
+        data-field="associatedApplication"
+        :allow-filtering="false"
+        :width="60"
+        :caption="$t('translations.fields.extension')"
+        cell-template="cellTemplate"
+        :visible="true"
+      ></DxColumn>
 
       <DxColumn
         data-field="placedToCaseFileDate"
@@ -81,10 +91,24 @@
           display-expr="name"
         />
       </DxColumn>
+      <DxColumn data-field="associatedApplication" type="buttons">
+        <DxButton
+          :on-click="previewDocument"
+          :visible="canBeOpenWithPreview"
+          icon="search"
+          :text="$t('translations.fields.preview')"
+        ></DxButton>
+        <DxButton icon="download" :on-click="downloadDocument" :visible="hasVersion"></DxButton>
+        <DxButton icon="trash" name="delete"></DxButton>
+      </DxColumn>
+      <template #cellTemplate="cell">
+        <document-icon :extension="cell.data.value?cell.data.value.extension:null" />
+      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
+import documentIcon from "~/components/page/document-icon";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -168,6 +192,30 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind
       })
     };
+  },
+  methods: {
+    canBeOpenWithPreview(e) {
+      if (e.row.data.associatedApplication) {
+        return e.row.data.associatedApplication.canBeOpenedWithPreview;
+      } else {
+        false;
+      }
+    },
+    hasVersion(e) {
+      return e.row.data.hasVersions;
+    },
+    downloadDocument(e) {
+      DocumentService.downloadDocument(
+        {
+          ...e.row.data,
+          extension: e.row.data.associatedApplication.extension
+        },
+        this
+      );
+    },
+    previewDocument(e) {
+      DocumentService.previewDocument(e.row.data, this);
+    }
   }
 };
 </script>
