@@ -82,10 +82,7 @@
           :onClick="showCurrentNumberPopup"
         ></DxButton>
 
-        <DxButton
-          icon="card"
-          :onClick="showDocumentRegisterEditForm"
-        ></DxButton>
+        <DxButton icon="card" :onClick="showDocumentRegisterEditForm"></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -97,7 +94,14 @@
           display-expr="status"
         />
       </DxColumn>
-
+      <DxColumn data-field="registerType" :caption="$t('translations.fields.registerType')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="registerTypeDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template v-if="canUpdate" #masterDetailTemplate="documentRegistry">
@@ -168,28 +172,29 @@ export default {
         removeUrl: dataApi.docFlow.DocumentRegistry
       }),
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
+      registerTypeDataSource: this.$store.getters["docflow/registerType"](this),
       statusDataSource: this.$store.getters["status/status"](this),
       popupCurrentNumber: false,
       selectedDocumentRegisterId: null
     };
   },
   methods: {
-    canUpdate(e)
-    {
-      return this.canOperateWithDocumentRegister(e.row.data,"allowUpdating")
+    canUpdate(e) {
+      return this.canOperateWithDocumentRegister(e.row.data, "allowUpdating");
     },
     allowDeleting(e) {
-      return this.canOperateWithDocumentRegister(e.row.data,"allowDeleting")
+      return this.canOperateWithDocumentRegister(e.row.data, "allowDeleting");
     },
-    canOperateWithDocumentRegister(documentRegister,permission)
-    {
+    canOperateWithDocumentRegister(documentRegister, permission) {
       const employeeId = this.$store.getters["permissions/employeeId"];
-      if(this.$store.getters['permissions/IsAdmin'])
-          return true;
-       if (!this.$store.getters[`permissions/${permission}`](this.entityType))
-          return false;
-       if (documentRegister.documentRegisterResponsibleId == employeeId || !documentRegister.documentRegisterResponsibleId)
-          return true;
+      if (this.$store.getters["permissions/IsAdmin"]) return true;
+      if (!this.$store.getters[`permissions/${permission}`](this.entityType))
+        return false;
+      if (
+        documentRegister.documentRegisterResponsibleId == employeeId ||
+        !documentRegister.documentRegisterResponsibleId
+      )
+        return true;
       return false;
     },
     showCurrentNumberPopup(e) {
