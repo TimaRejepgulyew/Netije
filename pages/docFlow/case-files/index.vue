@@ -2,7 +2,8 @@
   <main>
     <Header :headerTitle="$t('menu.caseFile')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :errorRowEnabled="false"
@@ -46,6 +47,11 @@
 
       <DxColumn data-field="index" :caption="$t('translations.fields.index')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
+        <DxPatternRule
+          :ignore-empty-value="false"
+          :pattern="indexPattern"
+          :message="$t('validation.valueMustNotContainsSpaces')"
+        />
       </DxColumn>
 
       <DxColumn
@@ -65,13 +71,6 @@
           :reevaluate="true"
         ></DxCustomRule>
       </DxColumn>
-
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        data-type="string"
-        :visible="false"
-      ></DxColumn>
 
       <DxColumn
         data-field="retentionPeriodId"
@@ -112,7 +111,6 @@
           display-expr="name"
         />
       </DxColumn>
-
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
           :allow-clearing="true"
@@ -121,6 +119,12 @@
           display-expr="status"
         />
       </DxColumn>
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        data-type="string"
+        :visible="false"
+      ></DxColumn>
     </DxDataGrid>
   </main>
 </template>
@@ -145,7 +149,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxCustomRule
+  DxCustomRule,
+  DxPatternRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -166,7 +171,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxCustomRule
+    DxCustomRule,
+    DxPatternRule
   },
 
   data() {
@@ -179,15 +185,16 @@ export default {
         updateUrl: dataApi.docFlow.CaseFile,
         removeUrl: dataApi.docFlow.CaseFile
       }),
+      indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
       statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
-    validEndDate(e){
+    validEndDate(e) {
       if (Date.parse(e.data.startDate) < Date.parse(e.value)) {
-          return true;
-        }
-        return false;
+        return true;
+      }
+      return false;
     },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
@@ -196,20 +203,21 @@ export default {
       e.newData = Object.assign(e.oldData, e.newData);
     },
     isAllowUpdating(e) {
-      return this.canOperateWithCaseFile(e.row.data,"allowUpdating")
+      return this.canOperateWithCaseFile(e.row.data, "allowUpdating");
     },
     isAllowDeleting(e) {
-      return this.canOperateWithCaseFile(e.row.data,"allowDeleting")
+      return this.canOperateWithCaseFile(e.row.data, "allowDeleting");
     },
-    canOperateWithCaseFile(caseFile,permission)
-    {
+    canOperateWithCaseFile(caseFile, permission) {
       const employeeId = this.$store.getters["permissions/employeeId"];
-      if(this.$store.getters['permissions/IsAdmin'])
-          return true;
-       if (!this.$store.getters[`permissions/${permission}`](this.entityType))
-          return false;
-       if (caseFile.registrationGroupResponsibleId==employeeId || !caseFile.registrationGroupResponsibleId)
-          return true;
+      if (this.$store.getters["permissions/IsAdmin"]) return true;
+      if (!this.$store.getters[`permissions/${permission}`](this.entityType))
+        return false;
+      if (
+        caseFile.registrationGroupResponsibleId == employeeId ||
+        !caseFile.registrationGroupResponsibleId
+      )
+        return true;
       return false;
     },
     getAvailableDepartment(options) {
@@ -218,9 +226,17 @@ export default {
           key: "id",
           loadUrl: dataApi.company.Department
         }),
-        paginate:true,
+        paginate: true,
         filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.departmentId]
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.departmentId
+            ]
           : null
       };
     },
@@ -230,32 +246,41 @@ export default {
           key: "id",
           loadUrl: dataApi.docFlow.FileRetentionPeriod
         }),
-        paginate:true,
+        paginate: true,
         filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.retentionPeriodId]
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.retentionPeriodId
+            ]
           : null
-      }
+      };
     },
     getAvailableRegistrationGroups(options) {
       let filter = [];
       filter.push(["status", "=", Status.Active]);
-       if(!this.$store.getters['permissions/IsAdmin'])
-       {
-         filter.push("and");
-         filter.push(["responsibleEmployeeId", "=", +this.$store.getters["permissions/employeeId"]]);
-       }
+      if (!this.$store.getters["permissions/IsAdmin"]) {
+        filter.push("and");
+        filter.push([
+          "responsibleEmployeeId",
+          "=",
+          +this.$store.getters["permissions/employeeId"]
+        ]);
+      }
 
       return {
         store: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.docFlow.RegistrationGroup
-      }),
-      paginate:true,
-      filter: options.data
-          ? filter
-          : []
-      }
+          key: "id",
+          loadUrl: dataApi.docFlow.RegistrationGroup
+        }),
+        paginate: true,
+        filter: options.data ? filter : []
+      };
     }
   }
-}
+};
 </script>
