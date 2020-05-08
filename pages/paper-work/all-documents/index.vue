@@ -52,6 +52,14 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="infinite" />
       <DxColumn
+        data-field="associatedApplication"
+        :allow-filtering="false"
+        :width="60"
+        :caption="$t('translations.fields.extension')"
+        cell-template="cellTemplate"
+        :visible="true"
+      ></DxColumn>
+      <DxColumn
         data-field="placedToCaseFileDate"
         :caption="$t('translations.fields.placedToCaseFileDate')"
         data-type="date"
@@ -122,16 +130,33 @@
           display-expr="name"
         />
       </DxColumn>
+
+      <DxColumn data-field="associatedApplication" type="buttons">
+        <DxButton
+          :on-click="previewDocument"
+          :visible="canBeOpenWithPreview"
+          icon="search"
+          :text="$t('translations.fields.preview')"
+        ></DxButton>
+        <DxButton icon="download" :on-click="downloadDocument" :visible="hasVersion"></DxButton>
+        <DxButton icon="trash" name="delete"></DxButton>
+      </DxColumn>
+
+      <template #cellTemplate="cell">
+        <document-icon :extension="cell.data.value?cell.data.value.extension:null" />
+      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
+import documentIcon from "~/components/page/document-icon";
 import CreateDocument from "~/components/paper-work/createDocumentPopup";
 import { DxPopup } from "devextreme-vue/popup";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
+import DocumentService from "~/infrastructure/services/documentService";
 import {
   DxSearchPanel,
   DxFilterPanel,
@@ -149,11 +174,13 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
   components: {
+    documentIcon,
     CreateDocument,
     DxPopup,
     DxLoadPanel,
@@ -174,7 +201,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxButton
   },
   data() {
     return {
@@ -236,6 +264,31 @@ export default {
   computed: {
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
+    }
+  },
+  methods: {
+    canBeOpenWithPreview(e) {
+      if (e.row.data.associatedApplication) {
+        return e.row.data.associatedApplication.canBeOpenedWithPreview;
+      } else {
+        false;
+      }
+    },
+    hasVersion(e) {
+      return e.row.data.hasVersions;
+    },
+    downloadDocument(e) {
+      console.log(e);
+      DocumentService.downloadDocument(
+        {
+          ...e.row.data,
+          extension: e.row.data.associatedApplication.extension
+        },
+        this
+      );
+    },
+    previewDocument(e) {
+      DocumentService.previewDocument(e.row.data, this);
     }
   }
 };
