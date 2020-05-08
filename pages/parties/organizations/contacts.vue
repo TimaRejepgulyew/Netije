@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.contacts')"></Header>
+    <Header :headerTitle="$t('menu.contacts')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :show-borders="true"
@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.contacts')"
+        :file-name="$t('menu.contacts')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact" />
@@ -40,7 +40,7 @@
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxColumn>
 
-      <DxColumn data-field="companyId" :caption="$t('translations.menu.company')" :visible="true">
+      <DxColumn data-field="companyId" :caption="$t('menu.company')" :visible="true">
         <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
         <DxLookup
           :allow-clearing="true"

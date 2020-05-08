@@ -22,12 +22,12 @@ export default {
           type: "preview",
           visible: this.version.canBeOpenedWithPreview,
           icon: "search",
-          name: this.$t("translations.links.preview")
+          name: this.$t("buttons.preview")
         },
         {
           type: "download",
           icon: "download",
-          name: this.$t("translations.links.download")
+          name: this.$t("buttons.download")
         }
       ]
     };

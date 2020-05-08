@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.businessUnit')"></Header>
+    <Header :headerTitle="$t('menu.businessUnit')"></Header>
 
     <DxDataGrid
       id="gridContainer"      
@@ -91,7 +91,7 @@
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
-          :message="$t('translations.validation.valueMustNotContainsSpaces')"
+          :message="$t('validation.valueMustNotContainsSpaces')"
         />
       </DxColumn>
 

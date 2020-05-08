@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :headerTitle="this.$t('translations.menu.addingEmployee')"></Header>
+    <Header :headerTitle="this.$t('menu.addingEmployee')"></Header>
     <form @submit="handleSubmit">
       <DxForm
         :col-count="2"
@@ -142,14 +142,14 @@ export default {
       },
       addButtonOptions: {
         height: 40,
-        text: this.$t("translations.links.add"),
+        text: this.$t("buttons.add"),
         useSubmitBehavior: true,
         type: "success"
       },
       cancelButtonOptions: {
         onClick: this.goBack,
         height: 40,
-        text: this.$t("translations.links.cancel"),
+        text: this.$t("buttons.cancel"),
         useSubmitBehavior: false
       },
       passwordOptions: {

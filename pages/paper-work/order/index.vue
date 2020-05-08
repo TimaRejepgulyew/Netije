@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.order')"></Header>
+    <Header :headerTitle="$t('menu.order')"></Header>
     <DxDataGrid
       id="gridContainer"      :show-borders="true"
       :data-source="store"
@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.order')"
+        :file-name="$t('menu.order')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="order" />

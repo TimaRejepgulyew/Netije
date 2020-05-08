@@ -57,7 +57,7 @@ export default {
       },
       saveButtonOptions: {
         height: 40,
-        text: this.$t("translations.links.save"),
+        text: this.$t("buttons.save"),
         useSubmitBehavior: true,
         type: "success"
       },

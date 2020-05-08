@@ -31,7 +31,7 @@
       <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')">
       </navBar>
       <DxTabPanel>
-        <DxItem :title="$t('translations.menu.mainInfo')" template="members-list" />
+        <DxItem :title="$t('menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
             <mainFocForm
@@ -81,7 +81,7 @@
         </form>
         <DxItem
           v-if="isUpdating"
-          :title="$t('translations.menu.relation')"
+          :title="$t('menu.relation')"
           template="relations"
         />
         <Relation slot="relations"></Relation>

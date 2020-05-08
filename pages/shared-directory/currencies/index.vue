@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.currencies')"></Header>
+    <Header :headerTitle="$t('menu.currencies')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :show-borders="true"

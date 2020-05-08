@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.documentKind')"></Header>
+    <Header :headerTitle="$t('menu.documentKind')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :errorRowEnabled="false"
@@ -18,7 +18,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.documentKind')"
+        :file-name="$t('menu.documentKind')"
       />
 
       <DxHeaderFilter :visible="true" />
@@ -64,7 +64,7 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="documentTypeId" :caption="$t('translations.menu.documentType')">
+      <DxColumn data-field="documentTypeId" :caption="$t('menu.documentType')">
         <DxLookup
           :allow-clearing="true"
           :data-source="documentTypeDataSource"

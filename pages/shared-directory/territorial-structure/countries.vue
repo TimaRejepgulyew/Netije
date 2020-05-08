@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.countries')"></Header>
+    <Header :headerTitle="$t('menu.countries')"></Header>
     <DxDataGrid
       id="gridContainer"     
       :show-borders="true"

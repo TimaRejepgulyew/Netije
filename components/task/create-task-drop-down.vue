@@ -1,7 +1,7 @@
 <template>
   <DxDropDownButton
     :use-select-mode="false"
-    :text="$t('translations.links.create')"
+    :text="$t('buttons.create')"
     :drop-down-options="{ width: 230 }"
     :items="assignmentsTypes"
     icon="plus"

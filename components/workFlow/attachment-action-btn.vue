@@ -28,19 +28,19 @@ export default {
           type: "preview",
           visible: canPreview,
           icon: "search",
-          name: this.$t("translations.links.preview")
+          name: this.$t("buttons.preview")
         },
         {
           type: "download",
           visible: this.attachment.document.hasVersions,
           icon: "download",
-          name: this.$t("translations.links.download")
+          name: this.$t("buttons.download")
         },
         {
           type: "detach",
           visible: this.attachment.canDetach,
           icon: "trash",
-          name: this.$t("translations.links.delete")
+          name: this.$t("buttons.delete")
         }
       ]
     };

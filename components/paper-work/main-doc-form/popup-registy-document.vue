@@ -80,7 +80,7 @@ export default {
         number: null
       },
       saveButtonOptions: {
-        text: this.$t("translations.links.register"),
+        text: this.$t("buttons.register"),
         useSubmitBehavior: true,
         type: "success"
       },

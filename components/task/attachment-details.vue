@@ -51,7 +51,7 @@
             :disabled="!selectedDocument"
             icon="add"
             type="success"
-            :text="$t('translations.links.add')"
+            :text="$t('buttons.add')"
             :on-click="addAttachment"
           ></DxButton>
         </div>

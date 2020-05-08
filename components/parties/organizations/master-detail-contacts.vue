@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t(`translations.menu.contacts`)"></Header>
+    <Header :headerTitle="$t(`menu.contacts`)"></Header>
     <DxDataGrid
       id="gridContainer"      
       :show-borders="true"
@@ -25,7 +25,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.contacts')"
+        :file-name="$t('menu.contacts')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact-detail" />

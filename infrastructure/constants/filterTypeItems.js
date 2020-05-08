@@ -3,31 +3,31 @@ export default {
     return [
       {
         id: 0,
-        name: context.$t("translations.menu.simpleAssignments")
+        name: context.$t("menu.simpleAssignments")
       },
       {
         id: 1,
-        name: context.$t("translations.menu.acquaintanceAssignments")
+        name: context.$t("menu.acquaintanceAssignments")
       },
       {
         id: 2,
-        name: context.$t("translations.menu.actionItemsExicutionAssignments")
+        name: context.$t("menu.actionItemsExicutionAssignments")
       },
       {
         id: 3,
-        name: context.$t("translations.menu.simpleNotices")
+        name: context.$t("menu.simpleNotices")
       },
       {
         id: 4,
-        name: context.$t("translations.menu.acquaintanceNotices")
+        name: context.$t("menu.acquaintanceNotices")
       },
       {
         id: 5,
-        name: context.$t("translations.menu.actionItemsExicutionNotices")
+        name: context.$t("menu.actionItemsExicutionNotices")
       },
       // {
       //   id: 99,
-      //   name: context.$t("translations.menu.allAssignments")
+      //   name: context.$t("menu.allAssignments")
       // },
       {
         id: null,

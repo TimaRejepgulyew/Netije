@@ -18,7 +18,7 @@
       </div>
     </DxPopup>
 
-    <Header :headerTitle="$t('translations.menu.documentRegistry')"></Header>
+    <Header :headerTitle="$t('menu.documentRegistry')"></Header>
 
     <DxDataGrid
       id="gridContainer"

@@ -4,104 +4,104 @@ export const state = () => ({
   menuList(context) {
     return [
       {
-        text: context.$t("translations.menu.outgoing"),
+        text: context.$t("menu.outgoing"),
         icon: "clock",
 
         items: [
           {
-            text: context.$t("translations.menu.assignments"),
+            text: context.$t("menu.assignments"),
             path: "/assignment"
           }
         ]
       },
       {
-        text: context.$t("translations.menu.incomming"),
+        text: context.$t("menu.incomming"),
         icon: "selectall",
 
         items: [
           {
-            text: context.$t("translations.menu.task"),
+            text: context.$t("menu.task"),
             path: "/task"
           }
         ]
       },
       {
-        text: context.$t("translations.menu.paperwork"),
+        text: context.$t("menu.paperwork"),
         icon: "alignjustify",
         path: "/paper-work",
 
         items: [
           {
-            text: context.$t("translations.menu.allDocument"),
+            text: context.$t("menu.allDocument"),
             path: "/paper-work/all-documents"
           },
           {
-            text: context.$t("translations.menu.incommingLetter"),
+            text: context.$t("menu.incommingLetter"),
             path: "/paper-work/incomming-letter"
           },
           {
-            text: context.$t("translations.menu.outgoingLetter"),
+            text: context.$t("menu.outgoingLetter"),
             path: "/paper-work/outgoing-letter"
           },
 
           {
-            text: context.$t("translations.menu.order"),
+            text: context.$t("menu.order"),
             path: "/paper-work/order"
           },
           {
-            text: context.$t("translations.menu.companyDirectives"),
+            text: context.$t("menu.companyDirectives"),
             path: "/paper-work/company-directive"
           },
           {
-            text: context.$t("translations.menu.simpleDocument"),
+            text: context.$t("menu.simpleDocument"),
             path: "/paper-work/simple-document"
           },
           {
-            text: context.$t("translations.menu.addendum"),
+            text: context.$t("menu.addendum"),
             path: "/paper-work/addendum"
           },
           {
-            text: context.$t("translations.menu.memo"),
+            text: context.$t("menu.memo"),
             path: "/paper-work/memo"
           },
           {
-            text: context.$t("translations.menu.powerOfAttorney"),
+            text: context.$t("menu.powerOfAttorney"),
             path: "/paper-work/power-of-attorney"
           }
         ]
       },
       {
-        text: context.$t("translations.menu.contractors"),
+        text: context.$t("menu.contractors"),
         icon: "group",
         path: "/parties",
         visible: hasCounterPartyAccess(context),
         items: [
           {
-            text: context.$t("translations.menu.all"),
+            text: context.$t("menu.all"),
             icon: "fields",
             path: "/parties/",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("translations.menu.companies"),
+            text: context.$t("menu.companies"),
             icon: "fields",
             path: "/parties/organizations/companies",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("translations.menu.banks"),
+            text: context.$t("menu.banks"),
             icon: "fields",
             path: "/parties/organizations/banks",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("translations.menu.person"),
+            text: context.$t("menu.person"),
             icon: "fields",
             path: "/parties/persons/",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("translations.menu.contacts"),
+            text: context.$t("menu.contacts"),
             icon: "fields",
             path: "/parties/organizations/contacts",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Contact)
@@ -109,109 +109,109 @@ export const state = () => ({
         ]
       },
       {
-        text: context.$t("translations.menu.company-structure"),
+        text: context.$t("menu.company-structure"),
         icon: "detailslayout",
         visible: hasCompanyAccess(context),
         items: [
           {
-            text: context.$t("translations.menu.businessUnit"),
+            text: context.$t("menu.businessUnit"),
             path: "/company/organization-structure/business-units",
             visible: context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit)
           },
           {
-            text: context.$t("translations.menu.department"),
+            text: context.$t("menu.department"),
             path: "/company/organization-structure/departments",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Department)
           },
           {
-            text: context.$t("translations.menu.employee"),
+            text: context.$t("menu.employee"),
             path: "/company/staff/employees",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Employee)
           },
           {
-            text: context.$t("translations.menu.jobTitle"),
+            text: context.$t("menu.jobTitle"),
             path: "/company/job-titles",
             visible: context.$store.getters["permissions/allowReading"](EntityType.JobTitle)
           },
           {
-            text: context.$t("translations.menu.managersAssistant"),
+            text: context.$t("menu.managersAssistant"),
             path: "/company/staff/managers-assistants",
             visible: context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant)
           }
         ]
       },
       {
-        text: context.$t("translations.menu.docFlow"),
+        text: context.$t("menu.docFlow"),
         icon: "docfile",
         visible: hasDocflowAccess(context),
         items: [
           {
-            text: context.$t("translations.menu.documentKind"),
+            text: context.$t("menu.documentKind"),
             path: "/docflow/document-kind",
             visible: context.$store.getters["permissions/allowReading"](EntityType.DocumentKind)
           },
           {
-            text: context.$t("translations.menu.documentRegistry"),
+            text: context.$t("menu.documentRegistry"),
             path: "/docflow/document-register",
             visible: context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister)
           },
           {
-            text: context.$t("translations.menu.registrationGroup"),
+            text: context.$t("menu.registrationGroup"),
             path: "/docflow/registration-group",
             visible: context.$store.getters["permissions/allowReading"](EntityType.RegistrationGroup)
           },
           {
-            text: context.$t("translations.menu.caseFile"),
+            text: context.$t("menu.caseFile"),
             path: "/docflow/case-files",
             visible: context.$store.getters["permissions/allowReading"](EntityType.CaseFile)
           },
           {
-            text: context.$t("translations.menu.fileRetentionPeriod"),
+            text: context.$t("menu.fileRetentionPeriod"),
             path: "/docflow/file-retention-period/",
             visible: context.$store.getters["permissions/allowReading"](EntityType.FileRetentionPeriod)
           },
           {
-            text: context.$t("translations.menu.mailDeliveryMethod"),
+            text: context.$t("menu.mailDeliveryMethod"),
             path: "/docflow/mail-delivery-method/",
             visible: context.$store.getters["permissions/allowReading"](EntityType.MailDeliveryMethod)
           },
           {
-            text: context.$t("translations.menu.associatedApp"),
+            text: context.$t("menu.associatedApp"),
             path: "/docflow/associated-applications",
             visible: context.$store.getters["permissions/allowReading"](EntityType.AssociatedApplications)
           },
           {
-            text: context.$t("translations.menu.fileType"),
+            text: context.$t("menu.fileType"),
             path: "/docflow/files-type",
             visible: context.$store.getters["permissions/allowReading"](EntityType.FilesType)
           }
         ]
       },
       {
-        text: context.$t("translations.menu.shared-directory"),
+        text: context.$t("menu.shared-directory"),
         icon: "docfile",
         visible: hasSharedDirectoryAccess(context),
         items: [
           {
-            text: context.$t("translations.menu.countries"),
+            text: context.$t("menu.countries"),
             icon: "isnotblank",
             path: "/shared-directory/territorial-structure/countries",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Country)
           },
           {
-            text: context.$t("translations.menu.region"),
+            text: context.$t("menu.region"),
             icon: "isnotblank",
             path: "/shared-directory/territorial-structure/region",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Region)
           },
           {
-            text: context.$t("translations.menu.locality"),
+            text: context.$t("menu.locality"),
             icon: "isnotblank",
             path: "/shared-directory/territorial-structure/localities",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Locality)
           },
           {
-            text: context.$t("translations.menu.currencies"),
+            text: context.$t("menu.currencies"),
             icon: "isnotblank",
             path: "/shared-directory/currencies",
             //TODO: V2.0
@@ -221,12 +221,12 @@ export const state = () => ({
         ]
       },
       {
-        text: context.$t("translations.menu.administration"),
+        text: context.$t("menu.administration"),
         icon: "admin",
         visible: context.$store.getters["permissions/IsAdmin"],
         items: [
           {
-            text: context.$t("translations.menu.roles"),
+            text: context.$t("menu.roles"),
             path: "/admin/roles",
             icon: "user"
           }

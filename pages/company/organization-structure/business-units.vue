@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.businessUnit')"></Header>
+    <Header :headerTitle="$t('menu.businessUnit')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :errorRowEnabled="false"
@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.businessUnit')"
+        :file-name="$t('menu.businessUnit')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="BusinessUnit" />
@@ -51,7 +51,7 @@
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
-          :message="$t('translations.validation.valueMustNotContainsSpaces')"
+          :message="$t('validation.valueMustNotContainsSpaces')"
         />
         <DxAsyncRule
                 :reevaluate="false"

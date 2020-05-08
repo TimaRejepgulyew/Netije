@@ -1,6 +1,6 @@
 <template>
   <main >
-    <h1>{{$t("translations.menu.paperwork")}}</h1>
+    <h1>{{$t("menu.paperwork")}}</h1>
   </main>
 </template>
 <script>

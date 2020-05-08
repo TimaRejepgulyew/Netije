@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.powerOfAttorney')"></Header>
+    <Header :headerTitle="$t('menu.powerOfAttorney')"></Header>
     <DxDataGrid
       id="gridContainer"      :show-borders="true"
       :data-source="store"
@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.powerOfAttorney')"
+        :file-name="$t('menu.powerOfAttorney')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="powerOfAttorney" />

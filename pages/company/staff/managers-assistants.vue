@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.managersAssistant')"></Header>
+    <Header :headerTitle="$t('menu.managersAssistant')"></Header>
     <DxDataGrid
       id="gridContainer"      :show-borders="true"
       :data-source="dataSource"
@@ -24,7 +24,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.managersAssistant')"
+        :file-name="$t('menu.managersAssistant')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="managersAssistant" />

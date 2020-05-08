@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.counterPart')"></Header>
+    <Header :headerTitle="$t('menu.counterPart')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :show-borders="true"
@@ -24,7 +24,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.counterPartList')"
+        :file-name="$t('menu.counterPartList')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="CounterParts" />

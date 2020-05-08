@@ -2,9 +2,9 @@
   <form @submit="handleSubmit">
     <p class="text--warning">{{$t('translations.fields.areYouSure')}}</p>
     <div class="button-group mr-top-auto">
-      <DxButton type="success" :useSubmitBehavior="true" :text="$t('translations.links.yes')"></DxButton>
+      <DxButton type="success" :useSubmitBehavior="true" :text="$t('buttons.yes')"></DxButton>
       <DxButton
-        :text="$t('translations.links.no')"
+        :text="$t('buttons.no')"
         :onClick="()=>{
                   $emit('popupDisabled')}"
       ></DxButton>

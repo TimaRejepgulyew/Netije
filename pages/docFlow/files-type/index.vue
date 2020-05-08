@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.filesType')"></Header>
+    <Header :headerTitle="$t('menu.filesType')"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"

@@ -42,7 +42,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.incommingLetter')"
+        :file-name="$t('menu.incommingLetter')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
@@ -182,7 +182,7 @@ export default {
       filterBuilderPopupPosition: this.$store.getters[
         "papaer-work/filterBuilderPopupPosition"
       ],
-      headerTitle: this.$t("translations.menu.allDocument"),
+      headerTitle: this.$t("menu.allDocument"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.AllDocument,

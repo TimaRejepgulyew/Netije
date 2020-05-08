@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.jobTitle')"></Header>
+    <Header :headerTitle="$t('menu.jobTitle')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :errorRowEnabled="false"
@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.jobTitle')"
+        :file-name="$t('menu.jobTitle')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="JobTitle" />

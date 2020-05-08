@@ -4,7 +4,7 @@
       <template slot="navbarBtn">
         <DxButton
           icon="check"
-          :text="$t('translations.links.complete')"
+          :text="$t('buttons.complete')"
           :on-click="completeAssignment"
         />
       </template>

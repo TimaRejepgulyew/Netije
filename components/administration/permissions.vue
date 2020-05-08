@@ -31,7 +31,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.registrationSetting')"
+        :file-name="$t('menu.registrationSetting')"
       />
 
       <DxStateStoring

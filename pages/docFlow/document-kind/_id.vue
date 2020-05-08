@@ -16,7 +16,7 @@
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
-                :message="$t('translations.validation.valueMustNotContainsSpaces')"
+                :message="$t('validation.valueMustNotContainsSpaces')"
               />
             </DxSimpleItem>
 
@@ -54,7 +54,7 @@
               :editor-options="docTypeOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel location="top" :text="$t('translations.menu.documentType')" />
+              <DxLabel location="top" :text="$t('menu.documentType')" />
               <DxRequiredRule :message="$t('translations.fields.documentTypeIdRequired')" />
             </DxSimpleItem>
 
@@ -165,14 +165,14 @@ export default {
     return {
       saveButtonOptions: {
         height: 40,
-        text: this.$t("translations.links.save"),
+        text: this.$t("buttons.save"),
         useSubmitBehavior: true,
         type: "success"
       },
       cancelButtonOptions: {
         onClick: this.goBack,
         height: 40,
-        text: this.$t("translations.links.cancel"),
+        text: this.$t("buttons.cancel"),
         useSubmitBehavior: false
       },
       entityType: EntityType.DocumentKind,

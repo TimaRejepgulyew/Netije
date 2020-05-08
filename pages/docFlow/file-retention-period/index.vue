@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.fileRetentionPeriod')"></Header>
+    <Header :headerTitle="$t('menu.fileRetentionPeriod')"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"

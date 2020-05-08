@@ -42,12 +42,12 @@ export default {
       },
       menuItems: [
         {
-          text: this.$t("translations.menu.profile"),
+          text: this.$t("panel.profile"),
           icon: "user",
           onClick: this.onProfileClick
         },
         {
-          text: this.$t("translations.menu.logout"),
+          text: this.$t("panel.logout"),
           icon: "runner",
           onClick: this.onLogoutClick
         }

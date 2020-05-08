@@ -3,7 +3,7 @@
     <Header :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
       <CreateTaskDropDown />
-      <DxButton icon="filter" :text="$t('translations.links.filter')" :on-click="showFilter" />
+      <DxButton icon="filter" :text="$t('buttons.filter')" :on-click="showFilter" />
     </div>
     <div class="grid">
       <DxDataGrid
@@ -31,7 +31,7 @@
         <DxExport
           :enabled="true"
           :allow-export-selected-data="true"
-          :file-name="$t('translations.menu.simpleAssignment')"
+          :file-name="$t('menu.simpleAssignment')"
         />
 
         <DxStateStoring :enabled="true" type="localStorage" storage-key="assignment" />
@@ -165,7 +165,7 @@ export default {
   },
   computed: {
     headerTitle() {
-      return this.$t(`translations.menu.assignments`);
+      return this.$t(`menu.assignments`);
     }
   },
   methods: {

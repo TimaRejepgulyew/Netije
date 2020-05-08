@@ -43,7 +43,7 @@
                 <DxPatternRule
                   :ignore-empty-value="false"
                   :pattern="codePattern"
-                  :message="$t('translations.validation.valueMustNotContainsSpaces')"
+                  :message="$t('validation.valueMustNotContainsSpaces')"
                 />
               </DxColumn>
             </DxDataGrid>
@@ -60,7 +60,7 @@
             <DxPatternRule
               :ignore-empty-value="false"
               :pattern="codePattern"
-              :message="$t('translations.validation.valueMustNotContainsSpaces')"
+              :message="$t('validation.valueMustNotContainsSpaces')"
             />
           </DxSimpleItem>
 

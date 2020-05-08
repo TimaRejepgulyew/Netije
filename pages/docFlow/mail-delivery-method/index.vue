@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.mailDeliveryMethod')"></Header>
+    <Header :headerTitle="$t('menu.mailDeliveryMethod')"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"

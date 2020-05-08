@@ -185,7 +185,7 @@ export default {
         },
         height: 40,
         icon: "key",
-        text: this.$t("translations.links.changePassword")
+        text: this.$t("buttons.changePassword")
       };
     },
     passwordOptions: {

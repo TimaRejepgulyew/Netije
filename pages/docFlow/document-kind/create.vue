@@ -16,7 +16,7 @@
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
-                :message="$t('translations.validation.valueMustNotContainsSpaces')"
+                :message="$t('validation.valueMustNotContainsSpaces')"
               />
             </DxSimpleItem>
 
@@ -53,7 +53,7 @@
               :editor-options=" docTypeOptions"
               editor-type="dxSelectBox"
             >
-              <DxLabel location="top" :text="$t('translations.menu.documentType')" />
+              <DxLabel location="top" :text="$t('menu.documentType')" />
               <DxRequiredRule :message="$t('translations.fields.documentTypeIdRequired')" />
             </DxSimpleItem>
 
@@ -174,7 +174,7 @@ export default {
       addButtonOptions: {
         width: 100,
         height: 40,
-        text: this.$t("translations.links.add"),
+        text: this.$t("buttons.add"),
         useSubmitBehavior: true,
         type: "success"
       },
@@ -182,7 +182,7 @@ export default {
         onClick: this.goBack,
         width: 100,
         height: 40,
-        text: this.$t("translations.links.cancel"),
+        text: this.$t("buttons.cancel"),
         useSubmitBehavior: false
       },
       codePattern: this.$store.getters["globalProperties/whitespacePattern"]

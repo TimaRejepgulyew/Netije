@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.roles')"></Header>
+    <Header :headerTitle="$t('menu.roles')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :errorRowEnabled="false"
@@ -25,7 +25,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.roles')"
+        :file-name="$t('menu.roles')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="roles" />

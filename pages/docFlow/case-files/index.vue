@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.caseFile')"></Header>
+    <Header :headerTitle="$t('menu.caseFile')"></Header>
     <DxDataGrid
       id="gridContainer"      :show-borders="true"
       :data-source="store"
@@ -59,7 +59,7 @@
       <DxColumn data-field="endDate" :caption="$t('translations.fields.endDate')" data-type="date">
         <DxRequiredRule :message="$t('translations.fields.endDateRequired')" />
         <DxCustomRule
-          :message="$t('translations.validation.caseFile.endDateLessThanBegin')"
+          :message="$t('validation.caseFile.endDateLessThanBegin')"
           :validation-callback="validEndDate"
           type="custom"
           :reevaluate="true"

@@ -34,14 +34,14 @@ export const state = () => ({
   ],
   btnSave(context) {
     return {
-      text: context.$t("translations.links.save"),
+      text: context.$t("buttons.save"),
       useSubmitBehavior: true,
       type: "success"
     };
   },
   btnCompleted(context) {
     return {
-      text: context.$t("translations.links.complete"),
+      text: context.$t("buttons.complete"),
       useSubmitBehavior: true,
       type: "success"
     };
@@ -49,14 +49,14 @@ export const state = () => ({
   btnCancel(context, onClick) {
     return {
       onClick,
-      text: context.$t("translations.links.cancel"),
+      text: context.$t("buttons.cancel"),
       useSubmitBehavior: false
     };
   },
   btnSend(context) {
     return {
       icon: "arrowright",
-      text: context.$t("translations.links.send"),
+      text: context.$t("buttons.send"),
       useSubmitBehavior: true
     };
   },

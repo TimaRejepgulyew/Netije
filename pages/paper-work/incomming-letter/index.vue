@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.incommingLetter')"
+        :file-name="$t('menu.incommingLetter')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="incommingLetter" />
@@ -160,7 +160,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.incommingLetter"),
+      headerTitle: this.$t("menu.incommingLetter"),
       store: this.$dxStore({
         key: "id",
         loadUrl: dataApi.paperWork.IncommingLetter,

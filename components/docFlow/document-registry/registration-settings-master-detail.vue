@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t(`translations.menu.registrationSetting`)"></Header>
+    <Header :headerTitle="$t(`menu.registrationSetting`)"></Header>
     <DxPopup
       :visible.sync="popupSetting"
       :drag-enabled="false"
@@ -8,7 +8,7 @@
       :show-title="true"
       :width="800"
       :height="600"
-      :title="$t('translations.menu.registrationSetting')"
+      :title="$t('menu.registrationSetting')"
     >
       <div>
         <popup-reg-setting
@@ -50,7 +50,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.registrationSetting')"
+        :file-name="$t('menu.registrationSetting')"
       />
 
       <DxStateStoring
@@ -66,7 +66,7 @@
 
       <DxColumn
         data-field="businessUnitId"
-        :caption="$t('translations.menu.businessUnit')"
+        :caption="$t('menu.businessUnit')"
         :visible="true"
       >
         <DxLookup

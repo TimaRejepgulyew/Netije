@@ -47,7 +47,7 @@ export default {
       },
       saveButtonOptions: {
         height: 40,
-        text: this.$t("translations.links.changePassword"),
+        text: this.$t("buttons.changePassword"),
         useSubmitBehavior: true,
         type: "normal"
       },

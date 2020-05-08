@@ -3,19 +3,19 @@ import VueAWN from "vue-awesome-notifications";
 export default ({ app }, inject) => {
   const options = {
     labels: {
-      info: app.i18n.t("translations.notification.labels.info"),
-      success: app.i18n.t("translations.notification.labels.success"),
-      alert: app.i18n.t("translations.notification.labels.alert"),
-      warning: app.i18n.t("translations.notification.labels.warning"),
-      async: app.i18n.t("translations.notification.labels.async")
+      info: app.i18n.t("notification.labels.info"),
+      success: app.i18n.t("notification.labels.success"),
+      alert: app.i18n.t("notification.labels.alert"),
+      warning: app.i18n.t("notification.labels.warning"),
+      async: app.i18n.t("notification.labels.async")
     },
     messages: {
-      info: app.i18n.t("translations.notification.messages.info"),
-      success: app.i18n.t("translations.notification.messages.success"),
-      alert: app.i18n.t("translations.notification.messages.alert"),
-      warning: app.i18n.t("translations.notification.messages.warning"),
-      async: app.i18n.t("translations.notification.messages.async"),
-      "async-block": app.i18n.t("translations.notification.messages.asyncBlock")
+      info: app.i18n.t("notification.messages.info"),
+      success: app.i18n.t("notification.messages.success"),
+      alert: app.i18n.t("notification.messages.alert"),
+      warning: app.i18n.t("notification.messages.warning"),
+      async: app.i18n.t("notification.messages.async"),
+      "async-block": app.i18n.t("notification.messages.asyncBlock")
     },
     position: "bottom-right"
   };

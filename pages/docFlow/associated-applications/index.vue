@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('translations.menu.associatedApp')"></Header>
+    <Header :headerTitle="$t('menu.associatedApp')"></Header>
     <DxDataGrid
       id="gridContainer"      
       :show-borders="true"
@@ -19,7 +19,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.menu.registrationGroup')"
+        :file-name="$t('menu.registrationGroup')"
       />
       <DxFilterRow :visible="true" />
       <DxHeaderFilter :visible="true" />

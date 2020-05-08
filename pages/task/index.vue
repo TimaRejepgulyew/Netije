@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t(`translations.menu.task`)"></Header>
+    <Header :headerTitle="$t(`menu.task`)"></Header>
     <div class="nav-bar">
       <CreateTaskDropDown />
     </div>
@@ -31,7 +31,7 @@
         <DxExport
           :enabled="true"
           :allow-export-selected-data="true"
-          :file-name="$t('translations.menu.task')"
+          :file-name="$t('menu.task')"
         />
 
         <DxStateStoring :enabled="true" type="localStorage" storage-key="task" />
