@@ -78,31 +78,26 @@ export const state = () => ({
         items: [
           {
             text: context.$t("menu.all"),
-            icon: "fields",
             path: "/parties/",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
             text: context.$t("menu.companies"),
-            icon: "fields",
             path: "/parties/organizations/companies",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
             text: context.$t("menu.banks"),
-            icon: "fields",
             path: "/parties/organizations/banks",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
             text: context.$t("menu.person"),
-            icon: "fields",
             path: "/parties/persons/",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
             text: context.$t("menu.contacts"),
-            icon: "fields",
             path: "/parties/organizations/contacts",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Contact)
           }
@@ -110,7 +105,7 @@ export const state = () => ({
       },
       {
         text: context.$t("menu.company-structure"),
-        icon: "detailslayout",
+        icon: "hierarchy",
         visible: hasCompanyAccess(context),
         items: [
           {
@@ -189,30 +184,26 @@ export const state = () => ({
       },
       {
         text: context.$t("menu.shared-directory"),
-        icon: "docfile",
+        icon: "inactivefolder",
         visible: hasSharedDirectoryAccess(context),
         items: [
           {
             text: context.$t("menu.countries"),
-            icon: "isnotblank",
             path: "/shared-directory/territorial-structure/countries",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Country)
           },
           {
             text: context.$t("menu.region"),
-            icon: "isnotblank",
             path: "/shared-directory/territorial-structure/region",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Region)
           },
           {
             text: context.$t("menu.locality"),
-            icon: "isnotblank",
             path: "/shared-directory/territorial-structure/localities",
             visible: context.$store.getters["permissions/allowReading"](EntityType.Locality)
           },
           {
             text: context.$t("menu.currencies"),
-            icon: "isnotblank",
             path: "/shared-directory/currencies",
             //TODO: V2.0
             //visible: context.$store.getters["permissions/allowReading"](EntityType.Currencies)
