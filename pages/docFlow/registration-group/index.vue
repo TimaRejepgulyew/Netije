@@ -1,18 +1,18 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.registrationGroup')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
-      :data-source="store"
+      id="gridContainer"
+      :show-borders="true"
+      :errorRowEnabled="false"
+      :data-source="dataSource"
       :remote-operations="true"
-      :errorRowEnabled="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      :on-row-inserted="(e) => e.component.navigateToRow(e.key)"
-      @row-updating="rowUpdating"
-      @init-new-row="initNewRow"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -31,9 +31,9 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
-        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        :allow-updating="$store.getters['permissions/IsAdmin']"
+        :allow-deleting="$store.getters['permissions/IsAdmin']"
+        :allow-adding="$store.getters['permissions/IsAdmin']"
         :useIcons="true"
         mode="form"
       />
@@ -43,10 +43,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
       <DxColumn
         data-field="responsibleEmployeeId"
@@ -55,17 +51,14 @@
         <DxRequiredRule :message="$t('translations.fields.responsibleIdRequired')" />
         <DxLookup
           :allow-clearing="true"
-          :data-source="employeeStore"
+          :data-source="getActiveEmployees"
           value-expr="id"
           display-expr="name"
         />
       </DxColumn>
       <DxColumn data-field="index" :caption="$t('translations.fields.index')">
+        <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
         <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.indexAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -87,17 +80,18 @@
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
-        <TabRole :data="data.data" memberList="RegistrationGroup" />
+        <member-list :data="data.data" />
       </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
-import TabRole from "~/components/member-list/tabRole.vue";
-
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
+import MemberList from "~/components/docFlow/registration-group/master-detail-member-list";
 import dataApi from "~/static/dataApi";
-
 import Header from "~/components/page/page__header";
+
 import {
   DxMasterDetail,
   DxSearchPanel,
@@ -109,11 +103,9 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
   DxPatternRule,
   DxRequiredRule,
   DxExport,
-  DxSelection,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
@@ -122,7 +114,7 @@ import {
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
-    TabRole,
+    MemberList,
     DxMasterDetail,
     Header,
     DxSearchPanel,
@@ -136,9 +128,7 @@ export default {
     DxGroupPanel,
     DxRequiredRule,
     DxPatternRule,
-    DxAsyncRule,
     DxExport,
-    DxSelection,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -146,47 +136,36 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.registrationGroup"),
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.RegistrationGroup,
         insertUrl: dataApi.docFlow.RegistrationGroup,
         updateUrl: dataApi.docFlow.RegistrationGroup,
         removeUrl: dataApi.docFlow.RegistrationGroup
       }),
-      entityType: "RegistrationGroup",
+      entityType: EntityType.RegistrationGroup,
       statusDataSource: this.$store.getters["status/status"](this),
-
-      initNewRow: e => {
-        e.data.status = this.statusDataSource[0].id;
-      },
-      employeeStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee
-      }),
-
-      rowUpdating: e => {
-        e.newData = Object.assign(e.oldData, e.newData);
-      },
-      indexPattern: this.$store.getters["globalProperties/whitespacePattern"]
+      indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
-    getFilteredEmployee(options) {
-      return {
-        store: this.employeeStore,
-        filter: options.data ? ["id", "=", options.data.employeeId] : null
-      };
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
     },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.RegistrationGroupDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
+    onRowUpdating(e) {
+      e.newData = Object.assign(e.oldData, e.newData);
+    },
+    getActiveEmployees(options) {
+      return {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee
+        }),
+        paginate: true,
+        filter: options.data
+          ? ["status","=",Status.Active,"or","responsibleEmployeeId","=",options.data.responsibleEmployeeId]
+          : []
+      };
     }
   }
 };

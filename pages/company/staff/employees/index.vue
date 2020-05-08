@@ -2,7 +2,9 @@
   <main>
     <Header :headerTitle="$t('translations.menu.employee')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
+      :errorRowEnabled="false"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -10,7 +12,6 @@
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
      @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="true"
     >
       <DxHeaderFilter :visible="true" />
       <DxGroupPanel :visible="true" />

@@ -2,8 +2,10 @@
   <main>
     <Header :headerTitle="$t('translations.menu.banks')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
-      :data-source="store"
+      id="gridContainer"      
+      :errorRowEnabled="false"
+      :show-borders="true"
+      :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
@@ -41,10 +43,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
         <DxPatternRule
@@ -53,6 +51,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -81,6 +80,7 @@
 
       <DxColumn data-field="bic" :caption="$t('translations.fields.bic')" :visible="false">
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.bicAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -90,13 +90,8 @@
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
-          :message="$t('translations.fields.codeRule')"
+          :message="$t('translations.validation.valueMustNotContainsSpaces')"
         />
-        <DxAsyncRule
-          :ignore-empty-value="true"
-          :message="$t('translations.fields.codeAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -153,7 +148,7 @@
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="company" v-if="hasContactAccess">
-        <ContactMasterDetail :company="company.data" />
+        <master-detail-contacts :company="company.data" />
       </template>
 
       <template #textAreaEditor="cellInfo">
@@ -170,7 +165,7 @@ import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import ContactMasterDetail from "~/components/parties/organizations/contact__masterDetail";
+import MasterDetailContacts from "~/components/parties/organizations/master-detail-contacts";
 import textArea from "~/components/page/textArea";
 import {
   DxSearchPanel,
@@ -195,7 +190,7 @@ import {
 
 export default {
   components: {
-    ContactMasterDetail,
+    MasterDetailContacts,
     textArea,
     Header,
     DxSearchPanel,
@@ -219,7 +214,7 @@ export default {
   },
   data() {
     return {
-      store: this.$dxStore({
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Bank,
         insertUrl: dataApi.contragents.Bank,

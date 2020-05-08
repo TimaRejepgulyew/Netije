@@ -2,7 +2,9 @@
   <main>
     <Header :headerTitle="$t('translations.menu.person')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
+      :errorRowEnabled="false"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -90,6 +92,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -100,13 +103,8 @@
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
-          :message="$t('translations.fields.codeRule')"
+          :message="$t('translations.validation.valueMustNotContainsSpaces')"
         />
-        <DxAsyncRule
-          :ignore-empty-value="true"
-          :message="$t('translations.fields.codeAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn

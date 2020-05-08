@@ -1,8 +1,8 @@
 export default {
   greating: "Hello",
   status: {
-    active: "Активна",
-    closed: "Закрытая"
+    active: "Активный",
+    closed: "Закрытый"
   },
   sex: {
     male: "Мужской",
@@ -35,7 +35,7 @@ export default {
       companies: "Организации",
       banks: "Банки",
       person: "Физические лица",
-      post: "Должности",
+      jobTitle: "Должности",
       assignments: "Задания",
       task: "Задачи",
       simpleTask: "Простые задачи",
@@ -96,8 +96,14 @@ export default {
     },
     validation: {
       caseFile: {
+<<<<<<< HEAD
         endDateLessThanBegin: "Дата конца не может быть меньше даты начала"
       }
+=======
+        endDateLessThanBegin: "Дата конца не может быть меньше даты начала",
+      },
+      valueMustNotContainsSpaces:"В значении не должны присутствовать пробелы"
+>>>>>>> d51e03e33c059f5f0fb59586658fd35126a69e81
     },
     fields: {
       contactName: "Имя контакта",
@@ -179,7 +185,7 @@ export default {
       tinRule: "Инн должен быть без пробелов",
       account: "Номер счетa",
       accountRequired: "Введите номер счета",
-      accessRights: "Права доступа",
+      permissions: "Разрешения",
       nonresident: "Нерезидент",
       search: "Поиск",
       status: "Статус",
@@ -301,10 +307,10 @@ export default {
       inProccess: "В процессе",
       all: "Все",
       main: "Основное",
-      incomingEnum: "ВХ",
-      outcomingEnum: "ИСХ",
+      incomingEnum: "Входящий",
+      outcomingEnum: "Исходящий",
       inner: "Внутренний",
-      contracts: "Договора",
+      contracts: "Договоры",
       isRegistrationAllowed: "Разрешена ли регистрация",
       year: "Год",
       continuous: "Сквозной",
@@ -516,7 +522,8 @@ export default {
       no: "Нет"
     },
     shared: {
-      error: "Произошла ошибка"
+      error: "Произошла ошибка",
+      errorOccured:"Произошла ошибка при выполнении операции. Обратитесь к администратору системы"
     },
     taskMessage: {
       attachmentRequired: "Добавьте вложение",

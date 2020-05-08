@@ -2,10 +2,11 @@
   <main>
     <Header :headerTitle="$t('translations.menu.associatedApp')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
-      :errorRowEnabled="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -41,10 +42,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -59,6 +56,7 @@
           :message="$t('translations.fields.extensionPatternRule')"
         />
         <DxAsyncRule
+          :reevaluate="false"
           :message="$t('translations.fields.extensionAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>

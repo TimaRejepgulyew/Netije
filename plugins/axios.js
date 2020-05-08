@@ -1,7 +1,8 @@
 import { alert } from "devextreme/ui/dialog";
 
-export default function({ store, app: { $axios, i18n } }) {
+export default function ({ store, app: { $axios, i18n } }) {
   $axios.onError(error => {
+
     try {
       if (
         error.response.headers["content-type"] ===
@@ -27,20 +28,24 @@ export default function({ store, app: { $axios, i18n } }) {
             i18n.t("translations.shared.error")
           );
         }
+      } else {
+        console.log(error);
+        alert(i18n.t("translations.shared.errorOccured"), i18n.t("translations.shared.error"));
       }
     } catch (e) {
+      alert(i18n.t("translations.shared.errorOccured"), i18n.t("translations.shared.error"));
       console.log(error);
       console.log(e);
     }
   });
 
   $axios.interceptors.request.use(
-    function(config) {
+    function (config) {
       config.headers.Authorization =
         "Bearer " + store.getters["oidc/oidcAccessToken"];
       return config;
     },
-    function(error) {
+    function (error) {
       return Promise.reject(error);
     }
   );

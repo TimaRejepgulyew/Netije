@@ -2,7 +2,9 @@
   <main>
     <Header :headerTitle="$t('translations.menu.contacts')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
+      :errorRowEnabled="false"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -36,10 +38,6 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.contactName')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.nameAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="companyId" :caption="$t('translations.menu.company')" :visible="true">
@@ -63,10 +61,6 @@
         :caption="$t('translations.fields.jobTitleId')"
         :visible="false"
       >
-        <DxAsyncRule
-          :message="$t('translations.fields.jobTitleIdAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
@@ -122,7 +116,6 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
   DxRequiredRule,
   DxExport,
   DxColumnChooser,
@@ -146,7 +139,6 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxColumnChooser,
     DxColumnFixing,
@@ -176,16 +168,6 @@ export default {
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.CompanyDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
     },
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);

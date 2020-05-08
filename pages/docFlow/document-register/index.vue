@@ -1,24 +1,6 @@
 <template>
   <main>
     <DxPopup
-      :visible.sync="popupSetting"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="600"
-      :height="500"
-      :title="$t('translations.menu.registrationSetting')"
-    >
-      <div>
-        <popup-reg-setting
-          :documentRegisterId="documentRegisterId"
-          v-if="popupSetting"
-          @popupDisabled="popupDisabled('popupSetting')"
-        />
-      </div>
-    </DxPopup>
-
-    <DxPopup
       :visible.sync="popupCurrentNumber"
       :drag-enabled="false"
       :close-on-outside-click="true"
@@ -29,27 +11,26 @@
     >
       <div>
         <popup-current-number
-          :documentRegisterId="documentRegisterId"
+          :documentRegisterId="selectedDocumentRegisterId"
           v-if="popupCurrentNumber"
           @popupDisabled="popupDisabled('popupCurrentNumber')"
         />
       </div>
     </DxPopup>
 
-    <Header :headerTitle="headerTitle"></Header>
+    <Header :headerTitle="$t('translations.menu.documentRegistry')"></Header>
 
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
-      :data-source="store"
+      id="gridContainer"
+      :show-borders="true"
+      :data-source="dataSource"
       :remote-operations="true"
-      :errorRowEnabled="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-     @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="true"
-      :ref="dataGridRefKey"
+      @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -59,7 +40,7 @@
         :file-name="$t('translations.fields.documentRegistry')"
       />
       <DxFilterRow :visible="true" />
-      
+
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -68,7 +49,7 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegistry" />
 
       <DxEditing
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-deleting="allowDeleting"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -88,30 +69,22 @@
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="documentFlow"
+          :data-source="documentFlowDataSource"
           value-expr="id"
           display-expr="name"
         />
       </DxColumn>
       <DxColumn type="buttons">
         <DxButton
-          icon="tips"
+          icon="orderedlist"
           :text="$t('translations.fields.currentNumber')"
-          :onClick="currentNumberStart"
+          :visible="canUpdate"
+          :onClick="showCurrentNumberPopup"
         ></DxButton>
 
         <DxButton
-          icon="edit"
-          :text="$t('translations.headers.editDocumentRegistry')"
-          :onClick="editDocumentRegisterForm"
-          :visible="$store.getters['permissions/allowUpdating'](entityType)"
-        ></DxButton>
-
-        <DxButton
-          :visible="$store.getters['permissions/allowCreating'](entityType2)"
-          icon="plus"
-          :text="$t('translations.headers.addRegistrationSetting')"
-          :onClick="settingStart"
+          icon="card"
+          :onClick="showDocumentRegisterEditForm"
         ></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
@@ -127,19 +100,19 @@
 
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
-      <template #masterDetailTemplate="documentRegistry">
+      <template v-if="canUpdate" #masterDetailTemplate="documentRegistry">
         <RegSettingDetail :documentRegistry="documentRegistry.data" />
       </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
-import popupRegSetting from "~/components/docFlow/document-registry/popup-reg-setting";
+import Status from "~/infrastructure/constants/status";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import popupCurrentNumber from "~/components/docFlow/document-registry/popup-current-number";
-import RegSettingDetail from "~/components/docFlow/document-registry/index__master-detail";
+import RegSettingDetail from "~/components/docFlow/document-registry/registration-settings-master-detail";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-
 import Header from "~/components/page/page__header";
 import { DxPopup } from "devextreme-vue/popup";
 import {
@@ -184,68 +157,50 @@ export default {
     DxStateStoring,
     DxPopup,
     DxButton,
-
-    popupCurrentNumber,
-    popupRegSetting
+    popupCurrentNumber
   },
   data() {
     return {
-      headerTitle: this.$t("translations.menu.documentRegistry"),
-      store: this.$dxStore({
+      entityType: EntityType.DocumentRegister,
+      dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.DocumentRegistry,
-        insertUrl: dataApi.docFlow.DocumentRegistry,
-        updateUrl: dataApi.docFlow.DocumentRegistry,
         removeUrl: dataApi.docFlow.DocumentRegistry
       }),
-      dataGridRefKey: "dataGrid",
-      documentFlow: [
-        { id: 0, name: this.$t("translations.fields.incomingEnum") },
-        { id: 1, name: this.$t("translations.fields.outcomingEnum") },
-        { id: 2, name: this.$t("translations.fields.inner") },
-        { id: 3, name: this.$t("translations.fields.contracts") }
-      ],
-      entityType: "DocumentRegister",
-      entityType2: "RegistrationSetting",
-
+      documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
       statusDataSource: this.$store.getters["status/status"](this),
-
       popupCurrentNumber: false,
-      currentNumberStart: e => {
-        this.documentRegisterId = e.row.key;
-        this.popupCurrentNumber = true;
-      },
-      documentRegisterId: null,
-      popupSetting: false,
-      isRegistrationSetting: e => {
-        const status = e.row.data.status;
-        if (status == 0) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      regSettingFilter: null
+      selectedDocumentRegisterId: null
     };
   },
-  computed: {
-    dataGrid: function() {
-      return this.$refs[this.dataGridRefKey].instance;
-    }
-  },
   methods: {
-    settingStart(e) {
-      this.documentRegisterId = e.row.key;
-      this.popupSetting = true;
+    canUpdate(e)
+    {
+      return this.canOperateWithDocumentRegister(e.row.data,"allowUpdating")
+    },
+    allowDeleting(e) {
+      return this.canOperateWithDocumentRegister(e.row.data,"allowDeleting")
+    },
+    canOperateWithDocumentRegister(documentRegister,permission)
+    {
+      const employeeId = this.$store.getters["permissions/employeeId"];
+      if(this.$store.getters['permissions/IsAdmin'])
+          return true;
+       if (!this.$store.getters[`permissions/${permission}`](this.entityType))
+          return false;
+       if (documentRegister.documentRegisterResponsibleId == employeeId || !documentRegister.documentRegisterResponsibleId)
+          return true;
+      return false;
+    },
+    showCurrentNumberPopup(e) {
+      this.selectedDocumentRegisterId = e.row.key;
+      this.popupCurrentNumber = true;
     },
     popupDisabled(popup) {
-      this.dataGrid.refresh();
       this[popup] = false;
     },
-    editDocumentRegisterForm(e) {
-      this.$router.push(
-        `/docflow/document-registration/upsert/${e.row.data.id}`
-      );
+    showDocumentRegisterEditForm(e) {
+      this.$router.push(`/docflow/document-register/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
       const addButton = e.toolbarOptions.items.find(btn => {
@@ -253,7 +208,7 @@ export default {
       });
       if (addButton) {
         addButton.options.onClick = () => {
-          this.$router.push("/docflow/document-registration/upsert/new");
+          this.$router.push("/docflow/document-register/create");
         };
       }
     }

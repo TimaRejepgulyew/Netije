@@ -8,21 +8,16 @@
           :form-data.sync="documentKind"
           :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
           :show-colon-after-label="true"
-          :show-validation-summary="true"
         >
           <DxGroupItem :col-count="1">
             <DxSimpleItem data-field="code" data-type="string">
               <DxLabel location="top" :text="$t('translations.fields.code')" />
+              <DxRequiredRule :message="$t('translations.fields.codeRequired')" />
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
-                :message="$t('translations.fields.codeRule')"
+                :message="$t('translations.validation.valueMustNotContainsSpaces')"
               />
-              <DxAsyncRule
-                :ignore-empty-value="true"
-                :message="$t('translations.fields.codeAlreadyExists')"
-                :validation-callback="validateEntityExists"
-              ></DxAsyncRule>
             </DxSimpleItem>
 
             <DxSimpleItem data-field="name">
@@ -111,15 +106,12 @@
 
             <DxGroupItem :col-span="1" :col-count="12">
               <DxButtonItem
+                :visible="$store.getters['permissions/allowUpdating'](this.entityType)"
+                :use-submit-behavior="true"
                 :button-options="saveButtonOptions"
                 horizontal-alignment="left"
-                :col-span="1"
               />
-              <DxButtonItem
-                :col-span="11"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="left"
-              />
+              <DxButtonItem :button-options="cancelButtonOptions" horizontal-alignment="left" />
             </DxGroupItem>
           </DxGroupItem>
         </DxForm>
@@ -144,11 +136,9 @@ import DxForm, {
   DxCompareRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule,
-  DxAsyncRule
+  DxPatternRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
 
 export default {
   components: {
@@ -161,9 +151,7 @@ export default {
     DxCompareRule,
     DxPatternRule,
     DxRangeRule,
-    DxForm,
-    DxAsyncRule,
-    notify
+    DxForm
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(
@@ -179,10 +167,7 @@ export default {
         height: 40,
         text: this.$t("translations.links.save"),
         useSubmitBehavior: true,
-        type: "success",
-        disabled: !this.$store.getters["permissions/allowUpdating"](
-          this.entityType
-        )
+        type: "success"
       },
       cancelButtonOptions: {
         onClick: this.goBack,
@@ -198,18 +183,8 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    validateEntityExists(params) {
-      var dataField = params.formItem.dataField;
-      return this.$customValidator.DocumentKindDataFieldValueNotExists(
-        {
-          id: this.documentKind.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
-    },
     handleSubmit(e) {
-      const object = { id: +this.$route.params.id, ...this.documentKind };
+      const object = { ...this.documentKind };
       this.$awn.asyncBlock(
         this.$axios.put(`${dataApi.docFlow.DocumentKind}/${object.id}`, object),
         res => this.$awn.success(),
@@ -224,10 +199,8 @@ export default {
     },
     statusOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          value: "status"
-        }),
+        valueExpr: "id",
+        displayExpr: "status",
         dataSource: this.$store.getters["status/status"](this)
       };
     },

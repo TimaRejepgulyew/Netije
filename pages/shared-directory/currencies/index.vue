@@ -2,9 +2,11 @@
   <main>
     <Header :headerTitle="$t('translations.menu.currencies')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -48,6 +50,7 @@
         <DxRequiredRule :message="$t('translations.fields.currencyIdRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.currencyAlreadyExists')"
           :validation-callback="validateCurrencyName"
         ></DxAsyncRule>
@@ -57,6 +60,7 @@
         <DxRequiredRule :message="$t('translations.fields.alphaCodeRequired')" />
         <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.alphaCodeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -65,6 +69,7 @@
         <DxRequiredRule :message="$t('translations.fields.shortNameRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.maxLength')+' 60'" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.countryAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -73,6 +78,7 @@
         <DxRequiredRule :message="$t('translations.fields.fractionNameRequired')" />
         <DxStringLengthRule :max="20" :message="$t('translations.fields.maxLength')+' 20'" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.fractionNameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
@@ -86,6 +92,7 @@
         <DxRequiredRule :message="$t('translations.fields.numericCodeRequired')" />
         <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
         <DxAsyncRule
+                :reevaluate="false"
           :message="$t('translations.fields.numericCodeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>

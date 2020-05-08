@@ -5,7 +5,7 @@
       id="gridContainer"      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
-      :errorRowEnabled="true"
+      :errorRowEnabled="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -42,18 +42,10 @@
 
       <DxColumn data-field="title" :caption="$t('translations.fields.title')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.titleRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.titleAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="index" :caption="$t('translations.fields.index')" data-type="string">
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
-        <DxAsyncRule
-          :message="$t('translations.fields.indexAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn
@@ -147,7 +139,6 @@ import {
   DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
   DxRequiredRule,
   DxExport,
   DxColumnChooser,
@@ -170,7 +161,6 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxRequiredRule,
-    DxAsyncRule,
     DxExport,
     DxColumnChooser,
     DxColumnFixing,
@@ -221,16 +211,6 @@ export default {
        if (caseFile.registrationGroupResponsibleId==employeeId || !caseFile.registrationGroupResponsibleId)
           return true;
       return false;
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.CaseFileDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
     },
     getAvailableDepartment(options) {
       return {

@@ -34,7 +34,7 @@
                     editor-type="dxSelectBox"
                     :editor-options="accessRightsOptions"
                   >
-                    <DxLabel location="top" :text="$t('translations.fields.accessRights')" />
+                    <DxLabel location="top" :text="$t('translations.fields.permissions')" />
                   </DxSimpleItem>
                 </DxGroupItem>
                 <DxSimpleItem

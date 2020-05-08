@@ -1,5 +1,6 @@
 <template>
   <main>
+    <Header :headerTitle="$t(`translations.menu.registrationSetting`)"></Header>
     <DxPopup
       :visible.sync="popupSetting"
       :drag-enabled="false"
@@ -20,12 +21,15 @@
     </DxPopup>
 
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :errorRowEnabled="false"
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
+      @toolbar-preparing="onToolbarPreparing($event)"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :ref="dataGridRefKey"
     >
@@ -34,7 +38,10 @@
       <DxGrouping :auto-expand-all="false" />
       
       <DxHeaderFilter :visible="true" />
-      <DxEditing :allow-updating="true" :allow-deleting="true" :useIcons="true" mode="form" />
+      <DxEditing 
+      :allow-adding="true"
+      :allow-updating="true" 
+      :allow-deleting="true" :useIcons="true" mode="form" />
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
@@ -81,6 +88,7 @@
   </main>
 </template>
 <script>
+import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import popupRegSetting from "~/components/docFlow/document-registry/popup-reg-setting";
 import dataApi from "~/static/dataApi";
@@ -123,7 +131,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
+    Header
   },
   props: {
     documentRegistry: {
@@ -165,12 +174,17 @@ export default {
     popupDisabled(popup) {
       this.dataGrid.refresh();
       this[popup] = false;
+    },
+    onToolbarPreparing(e) {
+      const addButton = e.toolbarOptions.items.find(btn => {
+        return btn.name == "addRowButton";
+      });
+      if (addButton) {
+        addButton.options.onClick = () => {
+          this.popupSetting = true;
+        };
+      }
     }
   }
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
-</style>

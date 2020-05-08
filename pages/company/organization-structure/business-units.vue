@@ -2,7 +2,9 @@
   <main>
     <Header :headerTitle="$t('translations.menu.businessUnit')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :errorRowEnabled="false"
+      :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -45,12 +47,14 @@
       </DxColumn>
 
       <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
+         <DxRequiredRule :message="$t('translations.fields.codeRequired')" />
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
-          :message="$t('translations.fields.codeRule')"
+          :message="$t('translations.validation.valueMustNotContainsSpaces')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -64,6 +68,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
+                :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"

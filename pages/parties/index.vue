@@ -2,7 +2,9 @@
   <main>
     <Header :headerTitle="$t('translations.menu.counterPart')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"      
+      :show-borders="true"
+      :errorRowEnabled="false"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
