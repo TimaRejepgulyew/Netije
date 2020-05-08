@@ -23,7 +23,7 @@
       v-else
       :disabled="isDataChanged"
       :text="$t('translations.fields.registration')"
-      icon="bulletlist"
+      icon="check"
       :onClick="register"
     ></DxButton>
   </div>

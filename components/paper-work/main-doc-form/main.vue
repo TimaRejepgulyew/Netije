@@ -3,23 +3,13 @@
     <div>
       <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
-      <navBar
+      <toolbar
         :canRegister="store.canRegister"
         :registrationState="store.registrationState"
         :isDataChanged="isDataChanged"
-      >
-        <template>
-          <DxButton
-            :disabled="isDataChanged"
-            type="success"
-            :text="$t('buttons.save')"
-            :on-click="handleSubmit"
-            icon="arrowright"
-          ></DxButton>
-          <DxButton :text="$t('buttons.cancel')" :on-click="backTo"></DxButton>
-        </template>
-      </navBar>
-      <DxTabPanel>
+        :saveChanges="handleSubmit"
+      ></toolbar>
+      <DxTabPanel class="tab-bar">
         <DxItem :title="$t('menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
@@ -79,7 +69,7 @@ import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
-import navBar from "~/components/paper-work/main-doc-form/nav-bar";
+import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
 import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
 import mainFocForm from "~/components/paper-work/main-doc-form";
 import "devextreme-vue/text-area";
@@ -128,7 +118,7 @@ export default {
     DxTabPanel,
     DxItem,
     docVersion,
-    navBar,
+    Toolbar,
     docRegistration,
     DxButton,
     mainFocForm,
@@ -257,15 +247,14 @@ export default {
 };
 </script>
 <style>
-.navBar {
-  display: flex;
-  justify-content: flex-end;
-}
 .mr-top-auto {
   margin-top: 40%;
   text-align: right;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+}
+.tab-bar {
+  margin-top: 10px;
 }
 </style>
