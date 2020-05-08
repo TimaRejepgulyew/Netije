@@ -10,12 +10,12 @@
         :show-title="true"
         :width="500"
         :height="'auto'"
-        :title="registryState.isRegistered ? $t('translations.fields.cancelRegistration'):$t('translations.fields.registration')"
+        :title="registrationState.isRegistered ? $t('translations.fields.cancelRegistration'):$t('translations.fields.registration')"
       >
         <div v-if="popupRegistyDocument">
           <popupCancelDocumentRegistry
             v-if="
-          registryState.isRegistered"
+          registrationState.isRegistered"
             @popupDisabled="popupDisabled('popupRegistyDocument')"
             @setPermissions="setPermissions($event)"
           ></popupCancelDocumentRegistry>
@@ -28,7 +28,7 @@
           />
         </div>
       </DxPopup>
-      <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')">
+      <navBar :registrationState="registrationState" @popupVisible="popupVisible('popupRegistyDocument')">
       </navBar>
       <DxTabPanel>
         <DxItem :title="$t('menu.mainInfo')" template="members-list" />
@@ -90,6 +90,7 @@
   </div>
 </template>
 <script>
+import NumberingType from "~/infrastructure/constants/numberingTypes";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
@@ -301,34 +302,12 @@ export default {
         this.backTo
       );
     },
-    isRegsitrible() {
-      return this.$store.getters["paper-work/documentKind"]("numberingType") !=
-        3
-        ? true
-        : false;
-    },
-    registryState() {
-      const registryState = {
+    registrationState() {
+      return {
         isRegistered: this.isRegistered,
-        isRegsitrible: this.isRegsitrible,
-        registeryAllowed: this.isSaved
+        isRegistrable: this.$store.getters["paper-work/documentKind"]("numberingType") != NumberingType.NotNumerable,
+        documentSaved: this.isSaved
       };
-      console.log(registryState);
-      return registryState;
-    },
-    entityType() {
-      const entityTypes = [
-        ,
-        "IncomingLetter",
-        "OutgoingLetter",
-        "BaseOrder",
-        "BaseOrder",
-        "SimpleDocument",
-        "Addendum",
-        "Memo",
-        "PowerOfAttorney"
-      ];
-      return entityTypes[this.docType];
     },
     noteOptions() {
       return {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showNavBar" class="navBar">
+  <div v-if="canRegisterDocument" class="navBar">
     <DxButton
       v-if="state.isRegistered"
       :text="$t('translations.fields.cancelRegistration')"
@@ -8,7 +8,7 @@
     ></DxButton>
     <DxButton
       v-else
-      :disabled=" !state.registeryAllowed"
+      :disabled=" !state.documentSaved"
       :text="$t('translations.fields.registration')"
       icon="bulletlist"
       :onClick="this.popupVisible"
@@ -16,14 +16,14 @@
   </div>
 </template>
 <script>
-import dataApi from "~/static/dataApi";
+import Docflow from "~/infrastructure/constants/docflows";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import { DxButton } from "devextreme-vue";
-import notify from "devextreme/ui/notify";
 export default {
   components: {
     DxButton
   },
-  props: ["registryState"],
+  props: ["registrationState"],
 
   methods: {
     popupVisible() {
@@ -32,34 +32,32 @@ export default {
   },
   computed: {
     state() {
-      return this.registryState;
+      return this.registrationState;
     },
-    showNavBar() {
+    canRegisterDocument() {
+      console.log(this.$store.getters["paper-work/documentKind"]("documentFlow"))
       return (
-        this.registryState.isRegsitrible &&
+        this.registrationState.isRegistrable &&
         this.$store.getters["permissions/allowRegisterDocument"](
           this.entityType
         )
       );
     },
     entityType() {
-      switch (+this.$store.getters["paper-work/documentKind"]("id")) {
-        case 1:
-          return "IncomingDocument";
+      switch (this.$store.getters["paper-work/documentKind"]("documentFlow")) {
+        case Docflow.Incoming:
+          return EntityType.IncomingDocument;
           break;
-        case 2:
-          return "OutgoingDocument";
+        case Docflow.Outgoing:
+          return EntityType.OutgoingDocument;
+          break;
+        case Docflow.Internal:
+          return EntityType.InternalDocument;
           break;
         default:
-          return "InternalDocument";
-          break;
+          throw "Unknown document type";
       }
     }
   }
 };
 </script>
-<style  lang="scss" scoped>
-.text--warning {
-  color: crimson;
-}
-</style>
