@@ -62,9 +62,6 @@ export const getters = {
   documentKind: state => property => {
     return state.documentKind[property];
   },
-  documentKind1(state) {
-    return state;
-  },
   defaultName: state => (docType, context) => {
     let subject = "";
     if (state.subject) {
