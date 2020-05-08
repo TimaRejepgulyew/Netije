@@ -7,6 +7,7 @@ export default {
   props: ["extension"],
   computed: {
     slicedExtension() {
+    
       if (this.extension) {
         return "flaticon-" + this.extension.slice(1);
       } else {

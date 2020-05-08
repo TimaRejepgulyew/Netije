@@ -48,7 +48,6 @@ const download = (endpoint, obj, context) => {
         var blob = new Blob([response.data], {
           type: `data:${response.data.type}`
         });
-
         saveAs(blob, `${obj.name}${obj.extension}`);
       })
   );
