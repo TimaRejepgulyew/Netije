@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <Header :headerTitle="$t('translations.fields.createAcquaintanceTask')"></Header>
+      <Header :headerTitle="$t('translations.fields.createActionTask')"></Header>
       <importanceChanger @importanceChanged="importanceChanged"></importanceChanger>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
@@ -17,18 +17,24 @@
               <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
                 <DxSimpleItem data-field="subject">
                   <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+                  <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
                 </DxSimpleItem>
                 <DxGroupItem :col-count="2">
                   <DxSimpleItem
-                    data-field="deadline"
+                    data-field="maxDeadline"
                     :editor-options="dateTimeOptions"
                     editor-type="dxDateBox"
                   >
-                    <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+                    <DxLabel location="top" :text="$t('translations.fields.maxDeadline')" />
                     <DxRangeRule :min="minDate" :message="$t('translations.fields.deadLineRule')" />
-                    <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
                   </DxSimpleItem>
-
+                  <DxSimpleItem
+                    :editor-options="employeeOptions"
+                    editor-type="dxSelectBox"
+                    data-field="supervisorId"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
+                  </DxSimpleItem>
                   <DxSimpleItem
                     data-field="accessRights"
                     editor-type="dxSelectBox"
@@ -36,23 +42,40 @@
                   >
                     <DxLabel location="top" :text="$t('translations.fields.accessRights')" />
                   </DxSimpleItem>
-                </DxGroupItem>
-                <DxSimpleItem
-                  :editor-options="tagboxOptions"
-                  editor-type="dxTagBox"
-                  data-field="observers"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.observers')" />
-                </DxSimpleItem>
 
-                <DxSimpleItem
-                  :editor-options="tagboxOptions"
-                  editor-type="dxTagBox"
-                  data-field="performers"
-                >
-                  <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
-                  <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
-                </DxSimpleItem>
+                  <DxSimpleItem
+                    :editor-options="employeeOptions"
+                    editor-type="dxSelectBox"
+                    data-field="performerId"
+                  >
+                    <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
+                    <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+                  </DxSimpleItem>
+                  <DxSimpleItem
+                    :editor-options="employeeOptions"
+                    editor-type="dxSelectBox"
+                    data-field="assignedById"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.assignedById')" />
+                  </DxSimpleItem>
+                  <DxSimpleItem
+                    :col-span="2"
+                    :editor-options="employeeOptions"
+                    editor-type="dxTagBox"
+                    data-field="actionItemObservers"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.observers')" />
+                  </DxSimpleItem>
+
+                  <DxSimpleItem
+                    :col-span="2"
+                    :editor-options="employeeOptions"
+                    editor-type="dxTagBox"
+                    data-field="coAssignees"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
+                  </DxSimpleItem>
+                </DxGroupItem>
               </DxGroupItem>
               <DxGroupItem>
                 <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
@@ -64,8 +87,14 @@
                 </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
-            <DxSimpleItem :col-span="3" data-field="comment" editor-type="dxTextArea">
-              <DxLabel location="top" :text="$t('translations.fields.comment')" />
+            <DxSimpleItem
+              :col-span="3"
+              data-field="actionItem"
+              :editor-options="{height:300}"
+              editor-type="dxTextArea"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
+              <DxRequiredRule :message="$t('translations.fields.actionItemRequired')" />
             </DxSimpleItem>
             <DxGroupItem :col-count="20" :col-span="1">
               <DxButtonItem
@@ -86,10 +115,6 @@
               ></attachments>
             </template>
           </DxForm>
-          <span
-            v-if="isRequired"
-            class="message--error"
-          >{{$t('translations.taskMessage.attachmentRequired')}}</span>
         </div>
       </form>
     </div>
@@ -133,12 +158,14 @@ export default {
       store: {
         subject: null,
         importance: 1,
-        deadline: new Date(),
-        observers: [],
-        performers: [],
+        supervisorId: null,
+        maxDeadline: new Date(),
+        actionItemObservers: [],
+        performerId: null,
         accessRights: 60,
         attachments: [],
-        comment: null
+        actionItem: null,
+        assignedById: null
       },
       dateTimeOptions: {
         type: "datetime"
@@ -167,25 +194,10 @@ export default {
         displayExpr: "name"
       },
 
-      tagboxOptions: {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee
-        }),
-        showSelectionControls: true,
-        maxDisplayedTags: 3,
-        valueExpr: "id",
-        displayExpr: "name",
-        paginate: true,
-        pageSize: 10,
-        acceptCustomValue: true,
-        onCustomItemCreating: this.addNewMember
-      },
       addNewMember: args => {
         const newValue = args.text;
         args.customItem = newValue;
-      },
-      submit: false
+      }
     };
   },
   methods: {
@@ -199,27 +211,32 @@ export default {
       this.$router.go(-1);
     },
     handleSubmit() {
-      this.submit = true;
-
-      if (!this.isRequired) {
-        const payload = { ...this.store };
-        payload.attachments = payload.attachments.map(el => {
-          return el.id;
-        });
-        this.$awn.asyncBlock(
-          this.$axios.post(dataApi.task.CreateAcquaintanceTask, payload),
-          e => {
-            this.backTo();
-            this.$awn.success();
-          },
-          e => this.$awn.alert()
-        );
-      }
+      const payload = { ...this.store };
+      payload.attachments = payload.attachments.map(el => {
+        return el.id;
+      });
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.task.CreateActionItemTask, payload),
+        e => {
+          this.backTo();
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
     }
   },
   computed: {
-    isRequired() {
-      return !this.store.attachments && this.submit;
+    employeeOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Employee
+        }),
+        showSelectionControls: true,
+        maxDisplayedTags: 3,
+        acceptCustomValue: true,
+        onCustomItemCreating: this.addNewMember
+      };
     },
     sendButtonOptions() {
       return this.$store.getters["globalProperties/btnSend"](this);

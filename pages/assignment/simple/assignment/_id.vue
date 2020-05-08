@@ -40,8 +40,8 @@
         </DxGroupItem>
       </DxForm>
 
-      <div slot="comment">
-        <DxTextArea :height="90" :value="comment" />
+     <div slot="comment">
+        <DxTextArea :height="150" :value="comment" />
       </div>
     </main-form>
   </div>
@@ -110,5 +110,3 @@ export default {
 };
 </script>
 
-<style>
-</style>

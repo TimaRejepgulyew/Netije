@@ -91,6 +91,7 @@ export default {
   task: {
     CreateSimpleTask: `${url}/api/Task/CreateSimpleTask`,
     CreateAcquaintanceTask: `${url}/api/Task/CreateAcquaintanceTask`,
+    CreateActionItemTask: `${url}/api/Task/CreateActionItemTask`,
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/GetTaskById/`

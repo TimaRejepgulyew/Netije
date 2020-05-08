@@ -1,20 +1,20 @@
 <template>
   <div>
-    <main-form :assignment="assignment">
+    <main-form :task="task">
       <DxForm
         slot="information"
         :col-count="1"
-        :form-data.sync="assignment"
+        :form-data.sync="task"
         :read-only="true"
         :show-colon-after-label="true"
         :show-validation-summary="true"
-        validation-group="assignment"
+        validation-group="task"
       >
         <DxGroupItem :col-span="2" :caption="$t('translations.fields.main')">
           <DxSimpleItem :col-span="4" data-field="subject">
             <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
           </DxSimpleItem>
-          <DxGroupItem :col-count="2">
+          <DxGroupItem :col-count="3">
             <DxSimpleItem
               data-field="deadline"
               :editor-options="dateTimeOptions"
@@ -22,29 +22,26 @@
             >
               <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
             </DxSimpleItem>
-            <DxSimpleItem
-              data-field="performerId"
-              :editor-options="employeeOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
+            <DxSimpleItem template="employee" data-field="observers">
+              <DxLabel location="top" :text="$t('translations.fields.observers')" />
+            </DxSimpleItem>
+
+            <DxSimpleItem template="employee" data-field="performers">
+              <DxLabel location="top" :text="$t('translations.fields.performers')" />
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
+        <template #employee="employee">
+          <employeeList :employee="employee.data.editorOptions.value"></employeeList>
+        </template>
       </DxForm>
-
-     <div slot="comment">
-        <DxTextArea :height="150" :value="comment" />
-      </div>
     </main-form>
   </div>
 </template>
 
 <script>
-import DxButton from "devextreme-vue/button";
-import { DxTextArea } from "devextreme-vue";
-
-import mainForm from "~/components/assignment/main-assignment-detail";
+import employeeList from "~/components/task/employeeList";
+import mainForm from "~/components/task/main-task-detail";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
@@ -55,39 +52,27 @@ import DxForm, {
 } from "devextreme-vue/form";
 export default {
   components: {
-    DxTextArea,
+    employeeList,
     mainForm,
     DxForm,
     DxGroupItem,
     DxSimpleItem,
     DxButtonItem,
-    DxLabel,
-    DxButton
+    DxLabel
   },
   async asyncData({ app, params }) {
-    let assignment = await app.$axios.get(
-      dataApi.assignment.GetAssignmentById + params.id
-    );
+    let task = await app.$axios.get(dataApi.task.GetTaskById + params.id);
     return {
-      assignment: assignment.data
+      task: task.data
     };
   },
   data() {
     return {
-      assignment: [],
-      comment: "",
-      employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Employee
-      }),
+      task: [],
       dateTimeOptions: {
         type: "datetime"
       }
     };
-  },
+  }
 };
 </script>
-
-<style>
-</style>
-

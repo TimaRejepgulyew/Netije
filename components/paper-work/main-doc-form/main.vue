@@ -28,7 +28,8 @@
           />
         </div>
       </DxPopup>
-      <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')"></navBar>
+      <navBar :registryState="registryState" @popupVisible="popupVisible('popupRegistyDocument')">
+      </navBar>
       <DxTabPanel>
         <DxItem :title="$t('translations.menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
@@ -333,14 +334,15 @@ export default {
       return {
         onValueChanged: () => {
           this.modified();
-        }
+        },
+        height: 200,
+        autoResizeEnabled: false
       };
     }
   }
 };
 </script>
 <style>
-
 .navBar {
   display: flex;
   justify-content: flex-end;

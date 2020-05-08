@@ -96,11 +96,10 @@ export default {
     },
     validation: {
       caseFile: {
-        endDateLessThanBegin: "Дата конца не может быть меньше даты начала",
+        endDateLessThanBegin: "Дата конца не может быть меньше даты начала"
       }
     },
     fields: {
-
       contactName: "Имя контакта",
       mailDeliveryMethod: "Способ доставки документа",
       whom: "Кому",
@@ -110,6 +109,7 @@ export default {
       addresseeId: "Адресат",
       addresseeIdRequired: "Выберите адресата",
       assigneeId: "Исполнитель",
+      assigneeIdRequired: "Введите исполнителя",
       jobTitlesNameAlreadyExists: "Такая должность уже существует",
       extensionPatternRule: "Пожалуйста введите валидное расширение",
       filesType: "Типы файлов",
@@ -449,7 +449,13 @@ export default {
       completed: "Завершенно",
       regionAlreadyExists: "Такой регион уже существует",
       localityAlreadyExists: "Такой населенный пункт уже существует",
-      me: "Я"
+      me: "Я",
+      supervisorId: "Конролер",
+      maxDeadline: "Максимальный срок",
+      coAssignees: "Соисполнители",
+      actionItem: "Поручение",
+      actionItemRequired: "Введите поручение",
+      assignedById: "Постановщик"
     },
     headers: {
       addDocumentKind: "Добавление вида документа",
@@ -516,6 +522,7 @@ export default {
       attachmentRequired: "Добавьте вложение",
       documentAlreadyHasBeen: "Такой документ уже существует",
       Completed: "Задание завершенно",
+      UnderReview: "На приемке",
       from: "От сотрудника:",
       created: "Созданно:",
       message: "Сообщение: ",

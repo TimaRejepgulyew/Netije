@@ -28,7 +28,7 @@ export default {
           name: this.$t("translations.fields.createAcquaintanceTask")
         },
         {
-          path: "/task/action-execution/create",
+          path: "/task/action-item-execution/create",
           name: this.$t("translations.fields.createActionTask")
         }
       ]
