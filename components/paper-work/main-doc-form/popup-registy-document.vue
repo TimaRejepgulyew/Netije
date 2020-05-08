@@ -128,7 +128,7 @@ export default {
     documentRegisterOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: dataApi.paperWork.AvailableRegistries + this.documentId,
+        url: dataApi.documentRegistration.Registries + this.documentId,
         onValueChanged: this.getDataByFilter
       });
     },
@@ -140,7 +140,7 @@ export default {
     async getDataByFilter() {
       if (this.store.date && this.store.documentRegisterId) {
         const res = await this.$axios.get(
-          dataApi.paperWork.PreliminaryNumber + this.filter
+          dataApi.documentRegistration.PreliminaryNumber + this.filter
         );
         this.store.number = res.data.preliminaryNumber;
         this.numberPattern = res.data.pattern;
@@ -162,7 +162,7 @@ export default {
     handleSubmit(e) {
       this.store.documentId = +this.documentId;
       this.$axios
-        .post(dataApi.paperWork.RegisterDocument, this.store)
+        .post(dataApi.documentRegistration.RegisterDocument, this.store)
         .then(res => {
           this.$store.commit("paper-work/SET_REG_PROPERTIES", res.data);
           this.$store.commit("paper-work/SET_IS_REGISTERED", {
