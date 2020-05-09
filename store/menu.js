@@ -27,7 +27,7 @@ export const state = () => ({
       },
       {
         text: context.$t("menu.paperwork"),
-        icon: "alignjustify",
+        icon: "file",
         path: "/paper-work",
 
         items: [
@@ -137,7 +137,7 @@ export const state = () => ({
       },
       {
         text: context.$t("menu.docFlow"),
-        icon: "docfile",
+        icon: "repeat",
         visible: hasDocflowAccess(context),
         items: [
           {
@@ -213,7 +213,7 @@ export const state = () => ({
       },
       {
         text: context.$t("menu.administration"),
-        icon: "admin",
+        icon: "preferences",
         visible: context.$store.getters["permissions/IsAdmin"],
         items: [
           {
