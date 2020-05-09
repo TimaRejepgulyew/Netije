@@ -2,8 +2,9 @@
   <div>
     <div>
       <Header :headerTitle="$t('translations.headers.editDocumentKind')"></Header>
-      <form @submit="handleSubmit">
+      <toolbar @saveChanges="handleSubmit" :canSave="$store.getters['permissions/allowUpdating'](this.entityType)" />
         <DxForm
+          ref="form"
           :col-count="1"
           :form-data.sync="documentKind"
           :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
@@ -103,16 +104,6 @@
             >
               <DxLabel location="top" :text="$t('translations.fields.note')" />
             </DxSimpleItem>
-
-            <DxGroupItem :col-span="1" :col-count="12">
-              <DxButtonItem
-                :visible="$store.getters['permissions/allowUpdating'](this.entityType)"
-                :use-submit-behavior="true"
-                :button-options="saveButtonOptions"
-                horizontal-alignment="left"
-              />
-              <DxButtonItem :button-options="cancelButtonOptions" horizontal-alignment="left" />
-            </DxGroupItem>
           </DxGroupItem>
         </DxForm>
       </form>
@@ -120,6 +111,7 @@
   </div>
 </template>
 <script>
+import Toolbar from "~/components/shared/base-toolbar.vue";
 import "devextreme-vue/text-area";
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -151,7 +143,8 @@ export default {
     DxCompareRule,
     DxPatternRule,
     DxRangeRule,
-    DxForm
+    DxForm,
+    Toolbar
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(
@@ -163,18 +156,6 @@ export default {
   },
   data() {
     return {
-      saveButtonOptions: {
-        height: 40,
-        text: this.$t("buttons.save"),
-        useSubmitBehavior: true,
-        type: "success"
-      },
-      cancelButtonOptions: {
-        onClick: this.goBack,
-        height: 40,
-        text: this.$t("buttons.cancel"),
-        useSubmitBehavior: false
-      },
       entityType: EntityType.DocumentKind,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
@@ -183,14 +164,16 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    handleSubmit(e) {
+    handleSubmit() {
+      var res = this.$refs["form"].instance.validate();
+      if(!res.isValid)
+        return;
       const object = { ...this.documentKind };
       this.$awn.asyncBlock(
         this.$axios.put(`${dataApi.docFlow.DocumentKind}/${object.id}`, object),
         res => this.$awn.success(),
         err => this.$awn.alert()
       );
-      e.preventDefault();
     }
   },
   computed: {
