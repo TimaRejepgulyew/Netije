@@ -156,20 +156,6 @@ export default {
         code: "",
         availableActions: []
       },
-      addButtonOptions: {
-        width: 100,
-        height: 40,
-        text: this.$t("buttons.add"),
-        useSubmitBehavior: true,
-        type: "success"
-      },
-      cancelButtonOptions: {
-        onClick: this.goBack,
-        width: 100,
-        height: 40,
-        text: this.$t("buttons.cancel"),
-        useSubmitBehavior: false
-      },
       codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
@@ -189,11 +175,6 @@ export default {
         },
         err => this.$awn.alert()
       );
-    }
-  },
-  watch: {
-    "store.numberingType": function(val) {
-      this.isNumerable = val == NumberingType.NotNumerable;
     }
   },
   computed: {
