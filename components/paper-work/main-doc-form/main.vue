@@ -4,26 +4,20 @@
       <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
       <toolbar
-        :canRegister="store.canRegister"
-        :registrationState="store.registrationState"
-        :isDataChanged="isDataChanged"
+      
+       
         :saveChanges="handleSubmit"
       ></toolbar>
       <DxTabPanel class="tab-bar">
         <DxItem :title="$t('menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
-            <mainFocForm
-              @eventWatch="modified"
-              :isDataChanged="isDataChanged"
-              :properties="store"
-              :docType="docType"
-            ></mainFocForm>
+            <mainFocForm @eventWatch="modified" :properties="store" :docType="docType"></mainFocForm>
             <slot></slot>
             <DxForm
               :col-count="1"
               :form-data.sync="store"
-              :read-only="!store.readOnly"
+              :read-only="readOnly"
               :show-colon-after-label="true"
               :show-validation-summary="true"
               validation-group="OfficialDocument"
@@ -210,6 +204,12 @@ export default {
     }
   },
   computed: {
+    readOnly() {
+      return this.$store.getters["currentDocument/readOnly"];
+    },
+    isreadOnlyOrNotDataChanged() {
+      return this.$store.getters["currentDocument/isreadOnlyOrNotDataChanged"];
+    },
     saveButtonOptions() {
       return {
         ...this.$store.getters["globalProperties/btnSave"](this),

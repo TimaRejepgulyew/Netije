@@ -1,17 +1,11 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <MainForm
-        :isDataChanged="isDataChanged"
-        @modified="modified"
-        :headerTitle="headerTitle"
-        :docType="1"
-        :store="store"
-      >
+      <MainForm :headerTitle="headerTitle" :docType="1" :store="store">
         <DxForm
           :col-count="1"
           :form-data.sync="store"
-          :read-only="!readOnly"
+          :read-only="readOnly"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="OfficialDocument"
