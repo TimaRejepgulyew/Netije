@@ -147,13 +147,13 @@
   </main>
 </template>
 <script>
-import documentIcon from "~/components/page/document-icon";
 import CreateDocument from "~/components/paper-work/createDocumentPopup";
 import { DxPopup } from "devextreme-vue/popup";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
+import documentIcon from "~/components/page/document-icon";
 import DocumentService from "~/infrastructure/services/documentService";
 import {
   DxSearchPanel,
@@ -226,7 +226,6 @@ export default {
         loadUrl: dataApi.docFlow.CaseFile
       }),
       regStatedStores: [
-        { id: null, name: this.$t("translations.fields.notRegistered") },
         { id: 0, name: this.$t("translations.fields.registered") },
         { id: 1, name: this.$t("translations.fields.notRegistered") }
       ],
