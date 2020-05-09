@@ -1,5 +1,5 @@
 <template>
-  <main v-if="false">
+  <main>
     <Header :headerTitle="$t(`menu.registrationSetting`)"></Header>
     <DxPopup
       :visible.sync="popupFormOpen"

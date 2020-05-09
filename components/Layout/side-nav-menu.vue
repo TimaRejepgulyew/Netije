@@ -7,10 +7,13 @@
         width="100%"
         selection-mode="single"
         key-expr="path"
+        :animation-enabled="true"
         :select-nodes-recursive="true"
         :select-by-click="true"
+        :focus-state-enabled="true"
         :items="items"
         :ref="treeViewRef"
+        :search-enabled="true"
         @initialized="handleMenuInitialized"
         @item-click="handleItemClick"
         @selection-changed="handleSelectionChange"
@@ -124,6 +127,8 @@ export default {
   width: 250px !important;
 
   .menu-container {
+    margin-top:5px;
+    margin-left:5px;
     min-height: 100%;
     display: flex;
     flex: 1;
