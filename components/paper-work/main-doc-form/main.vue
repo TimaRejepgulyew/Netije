@@ -10,7 +10,7 @@
       >
         <template>
           <DxButton
-            :disabled="isDataChanged"
+            :disabled="!isDataChanged"
             type="success"
             :text="$t('buttons.save')"
             :on-click="handleSubmit"
@@ -46,18 +46,6 @@
               >
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
-              <!-- <DxGroupItem :col-count="12" :col-span="2">
-                <DxButtonItem
-                  :col-span="1"
-                  :button-options="saveButtonOptions"
-                  horizontal-alignment="right"
-                />
-                <DxButtonItem
-                  :col-span="1"
-                  :button-options="cancelButtonOptions"
-                  horizontal-alignment="right"
-                />
-              </DxGroupItem>-->
             </DxForm>
           </div>
           <div class="item">

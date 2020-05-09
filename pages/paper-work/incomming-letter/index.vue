@@ -2,7 +2,8 @@
   <main>
     <Header :headerTitle="headerTitle"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -10,7 +11,7 @@
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :onRowDblClick="toMoreAbout"
-     @toolbar-preparing="onToolbarPreparing($event)"
+      @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
       <DxGroupPanel :visible="true" />
@@ -109,6 +110,17 @@
           display-expr="name"
         />
       </DxColumn>
+
+      <DxColumn type="buttons">
+        <DxButton
+          :on-click="previewDocument"
+          :visible="canBeOpenWithPreview"
+          icon="search"
+          :text="$t('translations.fields.preview')"
+        ></DxButton>
+        <DxButton icon="download" :on-click="downloadDocument" :visible="hasVersion"></DxButton>
+        <DxButton icon="trash" name="delete"></DxButton>
+      </DxColumn>
     </DxDataGrid>
   </main>
 </template>
@@ -134,7 +146,8 @@ import {
   DxFilterRow,
   DxFilterBuilderPopup,
   DxFilterPanel,
-  DxStateStoring
+  DxStateStoring,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -156,7 +169,8 @@ export default {
     DxFilterRow,
     DxFilterBuilderPopup,
     DxFilterPanel,
-    DxStateStoring
+    DxStateStoring,
+    DxButton
   },
   data() {
     return {

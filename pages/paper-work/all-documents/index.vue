@@ -130,8 +130,7 @@
           display-expr="name"
         />
       </DxColumn>
-
-      <DxColumn data-field="associatedApplication" type="buttons">
+      <DxColumn type="buttons">
         <DxButton
           :on-click="previewDocument"
           :visible="canBeOpenWithPreview"
@@ -141,7 +140,6 @@
         <DxButton icon="download" :on-click="downloadDocument" :visible="hasVersion"></DxButton>
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
-
       <template #cellTemplate="cell">
         <document-icon :extension="cell.data.value?cell.data.value.extension:null" />
       </template>
@@ -177,7 +175,6 @@ import {
   DxStateStoring,
   DxButton
 } from "devextreme-vue/data-grid";
-
 export default {
   components: {
     documentIcon,
