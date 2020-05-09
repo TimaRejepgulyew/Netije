@@ -10,11 +10,13 @@ export default {
   },
   panel: {
     profile: "Профиль",
-    logout: "выйти",
+    logout: "выйти"
   },
   shared: {
     error: "Произошла ошибка",
-    errorOccured: "Произошла ошибка при выполнении операции. Обратитесь к администратору системы"
+    errorOccured:
+      "Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
+    more: "Подробнее"
   },
   validation: {
     caseFile: {
@@ -23,7 +25,8 @@ export default {
     valueMustNotContainsSpaces: "В значении не должны присутствовать пробелы"
   },
   registrationPopup: {
-    preliminaryRegistrationNumberMessage: "*Точный регистрационный № будет назначен после регистрации",
+    preliminaryRegistrationNumberMessage:
+      "*Точный регистрационный № будет назначен после регистрации",
     preliminaryRegistrationNumber: "Предварительный регистрационный №",
     isCustomNumber: "Назначить номер самому",
     documentRegister: "Журнал регистрации",
@@ -32,7 +35,7 @@ export default {
     validation: {
       regNumberDocumentRequired: "Введите регистрационный № документа",
       documentRegisterRequired: "Выберите журнал регистрации",
-      registrationDateRequired: "Введите дату регистрации документа",
+      registrationDateRequired: "Введите дату регистрации документа"
     }
   },
   menu: {
@@ -548,7 +551,6 @@ export default {
       moreAbout: "Подробнее"
     },
 
-
     taskMessage: {
       attachmentRequired: "Добавьте вложение",
       documentAlreadyHasBeen: "Такой документ уже существует",
@@ -570,7 +572,6 @@ export default {
       0: "Задача",
       3: "Задание",
       4: "Уведомление"
-    },
-
+    }
   }
 };

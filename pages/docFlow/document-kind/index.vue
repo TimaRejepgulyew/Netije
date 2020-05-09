@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.documentKind')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -11,7 +11,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-     @toolbar-preparing="onToolbarPreparing($event)"
+      @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -82,11 +82,7 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton
-          icon="card"
-          :text="$t('translations.headers.editDocumentKind')"
-          :onClick="documentKindDetailForm"
-        ></DxButton>
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="documentKindDetailForm"></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -94,7 +90,6 @@
   </main>
 </template>
 <script>
-
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";

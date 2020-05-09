@@ -75,14 +75,13 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="showDocumentRegisterEditForm"></DxButton>
         <DxButton
           icon="orderedlist"
           :text="$t('translations.fields.currentNumber')"
           :visible="canUpdate"
           :onClick="showCurrentNumberPopup"
         ></DxButton>
-
-        <DxButton icon="card" :onClick="showDocumentRegisterEditForm"></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -102,7 +101,10 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](registrationSettingsEntityType)" template="masterDetailTemplate" />
+      <DxMasterDetail
+        :enabled="$store.getters['permissions/allowReading'](registrationSettingsEntityType)"
+        template="masterDetailTemplate"
+      />
 
       <template v-if="canUpdate" #masterDetailTemplate="documentRegistry">
         <RegSettingDetail :documentRegistry="documentRegistry.data" />
@@ -203,7 +205,7 @@ export default {
       this.currentNuberPopupOpen = true;
     },
     hideCurrentNumberPopup() {
-      this.currentNuberPopupOpen= false;
+      this.currentNuberPopupOpen = false;
     },
     showDocumentRegisterEditForm(e) {
       this.$router.push(`/docflow/document-register/${e.row.data.id}`);
