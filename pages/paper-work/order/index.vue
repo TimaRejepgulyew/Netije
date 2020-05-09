@@ -13,7 +13,6 @@
       :focused-row-enabled="true"
       @editing-start="toMoreAbout"
     >
-      <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
 

@@ -27,7 +27,6 @@
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
-      <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
       <DxSelection />
       <DxHeaderFilter :visible="true" />

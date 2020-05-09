@@ -13,7 +13,6 @@
      @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
-      <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
 

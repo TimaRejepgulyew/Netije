@@ -14,10 +14,9 @@
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
-      <DxGroupPanel :visible="true" />
+    
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
-
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
       <DxFilterPanel :visible="true" />

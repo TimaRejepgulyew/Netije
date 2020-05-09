@@ -14,7 +14,6 @@
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
-      <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
 
@@ -109,6 +108,7 @@
 </template>
 <script>
 import documentIcon from "~/components/page/document-icon";
+import DocumentService from "~/infrastructure/services/documentService";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -125,7 +125,6 @@ import {
   DxSelection,
   DxLookup,
   DxGrouping,
-  DxGroupPanel,
   DxFilterBuilderPopup,
   DxFilterPanel,
   DxColumnChooser,
@@ -137,6 +136,7 @@ import {
 export default {
   components: {
     documentIcon,
+    CreateDocument,
     DxLoadPanel,
     Header,
     DxSearchPanel,
@@ -149,7 +149,6 @@ export default {
     DxSelection,
     DxLookup,
     DxGrouping,
-    DxGroupPanel,
     DxFilterBuilderPopup,
     DxFilterPanel,
     DxColumnChooser,
@@ -193,6 +192,30 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind
       })
     };
+  },
+  methods: {
+    canBeOpenWithPreview(e) {
+      if (e.row.data.associatedApplication) {
+        return e.row.data.associatedApplication.canBeOpenedWithPreview;
+      } else {
+        false;
+      }
+    },
+    hasVersion(e) {
+      return e.row.data.hasVersions;
+    },
+    downloadDocument(e) {
+      DocumentService.downloadDocument(
+        {
+          ...e.row.data,
+          extension: e.row.data.associatedApplication.extension
+        },
+        this
+      );
+    },
+    previewDocument(e) {
+      DocumentService.previewDocument(e.row.data, this);
+    }
   },
   methods: {
     canBeOpenWithPreview(e) {
