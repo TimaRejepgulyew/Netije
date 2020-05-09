@@ -116,7 +116,6 @@ import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel,
   DxRequiredRule,
   DxCompareRule,
@@ -131,7 +130,6 @@ export default {
     Header,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel,
     DxRequiredRule,
     DxCompareRule,
@@ -160,13 +158,9 @@ export default {
     };
   },
   methods: {
-    goBack() {
-      this.$router.go(-1);
-    },
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
-      if(!res.isValid)
-        return;
+      if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.docFlow.DocumentKind, this.documentKind),
         res => {

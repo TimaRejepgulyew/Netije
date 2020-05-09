@@ -1,106 +1,101 @@
 <template>
   <div>
     <Header :headerTitle="this.$t('menu.addingEmployee')"></Header>
-    <form @submit="handleSubmit">
-      <DxForm
-        :col-count="2"
-        :form-data.sync="employee"
-        :show-colon-after-label="true"
-        :show-validation-summary="true"
-      >
-        <DxGroupItem :caption="$t('translations.fields.personalData')">
-          <DxSimpleItem data-field="userName" data-type="string">
-            <DxLabel location="top" :text="$t('translations.fields.userName')" />
-            <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
-            <DxAsyncRule
-                :reevaluate="false"
-              :validation-callback="validateEntityExists"
-              :message="$t('translations.fields.userNameRule')"
-            />
-          </DxSimpleItem>
-          <DxSimpleItem data-field="email">
-            <DxLabel location="top" />
-            <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
-            <DxEmailRule :message="$t('translations.fields.emailRule')" />
-            <DxAsyncRule
-                :reevaluate="false"
-              :validation-callback="validateEntityExists"
-              :message="$t('translations.fields.emailAlreadyExists')"
-            />
-          </DxSimpleItem>
-          <DxSimpleItem :editor-options="passwordOptions" data-field="password">
-            <DxLabel location="top" :text="$t('translations.fields.password')" />
-            <DxPatternRule
-              :pattern="passwordPattern"
-              :message="$t('translations.fields.passwordRule')"
-            />
-            <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            :editor-options="passwordOptions"
-            editor-type="dxTextBox"
-            data-field="confirmPassword"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.confirmPassword')" />
-            <DxRequiredRule :message="$t('translations.fields.confirmPasswordRequired')" />
-            <DxCompareRule
-              :comparison-target="passwordComparison"
-              :message="$t('translations.fields.confirmPasswordRule')"
-            />
-          </DxSimpleItem>
-        </DxGroupItem>
-        <DxGroupItem :caption="$t('translations.fields.APN')">
-          <DxSimpleItem data-field="name">
-            <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-            <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
-            <DxPatternRule
-              :pattern="namePattern"
-              :message="$t('translations.fields.fullNameNoDigits')"
-            />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="jobTitleId"
-            :editor-options="jobTitleOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
-            <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
-          </DxSimpleItem>
+    <toolbar @saveChanges="handleSubmit" :canSave="true" />
+    <DxForm
+      ref="form"
+      :col-count="2"
+      :form-data.sync="employee"
+      :show-colon-after-label="true"
+      :show-validation-summary="true"
+    >
+      <DxGroupItem :caption="$t('translations.fields.personalData')">
+        <DxSimpleItem data-field="userName" data-type="string">
+          <DxLabel location="top" :text="$t('translations.fields.userName')" />
+          <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
+          <DxAsyncRule
+            :reevaluate="false"
+            :validation-callback="validateEntityExists"
+            :message="$t('translations.fields.userNameRule')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="name">
+          <DxLabel location="top" :text="$t('translations.fields.fullName')" />
+          <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+          <DxPatternRule
+            :pattern="namePattern"
+            :message="$t('translations.fields.fullNameNoDigits')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="jobTitleId"
+          :editor-options="jobTitleOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+          <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="email">
+          <DxLabel location="top" />
+          <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
+          <DxEmailRule :message="$t('translations.fields.emailRule')" />
+          <DxAsyncRule
+            :reevaluate="false"
+            :validation-callback="validateEntityExists"
+            :message="$t('translations.fields.emailAlreadyExists')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem :editor-options="passwordOptions" data-field="password">
+          <DxLabel location="top" :text="$t('translations.fields.password')" />
+          <DxPatternRule
+            :pattern="passwordPattern"
+            :message="$t('translations.fields.passwordRule')"
+          />
+          <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :editor-options="passwordOptions"
+          editor-type="dxTextBox"
+          data-field="confirmPassword"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.confirmPassword')" />
+          <DxRequiredRule :message="$t('translations.fields.confirmPasswordRequired')" />
+          <DxCompareRule
+            :comparison-target="passwordComparison"
+            :message="$t('translations.fields.confirmPasswordRule')"
+          />
+        </DxSimpleItem>
+      </DxGroupItem>
+      <DxGroupItem :caption="$t('translations.fields.APN')">
+        <DxSimpleItem
+          data-field="departmentId"
+          :editor-options="departmentOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+        </DxSimpleItem>
 
-          <DxSimpleItem
-            data-field="departmentId"
-            :editor-options="departmentOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-            <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-          </DxSimpleItem>
-
-          <DxSimpleItem data-field="phone">
-            <DxLabel location="top" :text="$t('translations.fields.phones')" />
-          </DxSimpleItem>
-        </DxGroupItem>
-        <DxGroupItem :col-span="2">
-          <DxSimpleItem data-field="note" :editor-options="{height: 90}" editor-type="dxTextArea">
-            <DxLabel location="top" :text="$t('translations.fields.note')" />
-          </DxSimpleItem>
-        </DxGroupItem>
-        <DxGroupItem :col-span="2" :col-count="12">
-          <DxButtonItem :button-options="addButtonOptions" horizontal-alignment="left" />
-          <DxButtonItem :button-options="cancelButtonOptions" horizontal-alignment="left" />
-        </DxGroupItem>
-      </DxForm>
-    </form>
+        <DxSimpleItem data-field="phone">
+          <DxLabel location="top" :text="$t('translations.fields.phones')" />
+        </DxSimpleItem>
+      </DxGroupItem>
+      <DxGroupItem :col-span="2">
+        <DxSimpleItem data-field="note" :editor-options="{height: 90}" editor-type="dxTextArea">
+          <DxLabel location="top" :text="$t('translations.fields.note')" />
+        </DxSimpleItem>
+      </DxGroupItem>
+    </DxForm>
   </div>
 </template>
 <script>
+import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import "devextreme-vue/text-area";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel,
   DxRequiredRule,
   DxCompareRule,
@@ -117,7 +112,6 @@ export default {
     Header,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel,
     DxRequiredRule,
     DxCompareRule,
@@ -125,7 +119,8 @@ export default {
     DxRangeRule,
     DxEmailRule,
     DxForm,
-    DxAsyncRule
+    DxAsyncRule,
+    Toolbar
   },
   data() {
     return {
@@ -139,18 +134,6 @@ export default {
         userName: null,
         password: null,
         confirmPassword: null
-      },
-      addButtonOptions: {
-        height: 40,
-        text: this.$t("buttons.add"),
-        useSubmitBehavior: true,
-        type: "success"
-      },
-      cancelButtonOptions: {
-        onClick: this.goBack,
-        height: 40,
-        text: this.$t("buttons.cancel"),
-        useSubmitBehavior: false
       },
       passwordOptions: {
         mode: "password"
@@ -182,10 +165,9 @@ export default {
         dataField
       );
     },
-    goBack() {
-      this.$router.go(-1);
-    },
-    handleSubmit(e) {
+    handleSubmit() {
+      var res = this.$refs["form"].instance.validate();
+      if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.company.Employee, this.employee),
         e => {
@@ -194,7 +176,6 @@ export default {
         },
         e => this.$awn.alert()
       );
-      e.preventDefault();
     }
   }
 };

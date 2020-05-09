@@ -1,171 +1,153 @@
 <template>
   <div>
     <Header :headerTitle="$t('translations.headers.editDocumentRegistry')"></Header>
-    <form @submit="handleSubmit">
-      <DxForm
-        :read-only="!canUpdate"
-        :form-data.sync="documentRegister"
-        :show-colon-after-label="true"
-        :show-validation-summary="false"
-      >
-        <template #number-format-items-template>
-          <div>
-            <DxDataGrid
-              :show-borders="true"
-              :data-source="documentRegister.numberFormatItems"
-              :errorRowEnabled="false"
-              :allow-column-reordering="true"
-              :allow-column-resizing="true"
-              :column-auto-width="true"
-            >
-              <DxEditing
-                :allow-updating="canUpdate"
-                :allow-deleting="canUpdate"
-                :allow-adding="canUpdate"
-                :useIcons="true"
-                mode="raw"
-              />
-
-              <DxColumn data-field="number" :caption="$t('translations.fields.number')">
-                <DxRequiredRule :message="$t('translations.fields.numberRequired')" />
-              </DxColumn>
-
-              <DxColumn data-field="element" :caption="$t('translations.fields.element')">
-                <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
-                <DxLookup
-                  :data-source="elements"
-                  :allowClearing="true"
-                  valueExpr="id"
-                  displayExpr="name"
-                />
-              </DxColumn>
-              <DxColumn data-field="separator" :caption="$t('translations.fields.separator')">
-                <DxPatternRule
-                  :ignore-empty-value="false"
-                  :pattern="codePattern"
-                  :message="$t('validation.valueMustNotContainsSpaces')"
-                />
-              </DxColumn>
-            </DxDataGrid>
-          </div>
-        </template>
-        <DxGroupItem>
-          <DxSimpleItem data-field="name">
-            <DxLabel location="top" :text="$t('translations.fields.name')" />
-            <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-          </DxSimpleItem>
-          <DxSimpleItem data-field="index">
-            <DxLabel location="top" :text="$t('translations.fields.index')" />
-            <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
-            <DxPatternRule
-              :ignore-empty-value="false"
-              :pattern="codePattern"
-              :message="$t('validation.valueMustNotContainsSpaces')"
-            />
-          </DxSimpleItem>
-
-          <DxSimpleItem
-            editor-type="dxNumberBox"
-            :editor-options="numberOfDigitsInNumber"
-            data-field="numberOfDigitsInNumber"
+    <toolbar @saveChanges="handleSubmit" :canSave="canUpdate" />
+    <DxForm
+      ref="form"
+      :read-only="!canUpdate"
+      :form-data.sync="documentRegister"
+      :show-colon-after-label="true"
+      :show-validation-summary="false"
+    >
+      <template #number-format-items-template>
+        <div>
+          <DxDataGrid
+            :show-borders="true"
+            :data-source="documentRegister.numberFormatItems"
+            :errorRowEnabled="false"
+            :allow-column-reordering="true"
+            :allow-column-resizing="true"
+            :column-auto-width="true"
           >
-            <DxLabel location="top" :text="$t('translations.fields.numberOfDigitsInNumber')" />
-            <DxRequiredRule
-              :message="
+            <DxEditing
+              :allow-updating="canUpdate"
+              :allow-deleting="canUpdate"
+              :allow-adding="canUpdate"
+              :useIcons="true"
+              mode="raw"
+            />
+
+            <DxColumn data-field="number" :caption="$t('translations.fields.number')">
+              <DxRequiredRule :message="$t('translations.fields.numberRequired')" />
+            </DxColumn>
+
+            <DxColumn data-field="element" :caption="$t('translations.fields.element')">
+              <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
+              <DxLookup
+                :data-source="elements"
+                :allowClearing="true"
+                valueExpr="id"
+                displayExpr="name"
+              />
+            </DxColumn>
+            <DxColumn data-field="separator" :caption="$t('translations.fields.separator')">
+              <DxPatternRule
+                :ignore-empty-value="false"
+                :pattern="codePattern"
+                :message="$t('validation.valueMustNotContainsSpaces')"
+              />
+            </DxColumn>
+          </DxDataGrid>
+        </div>
+      </template>
+      <DxGroupItem>
+        <DxSimpleItem data-field="name">
+          <DxLabel location="top" :text="$t('translations.fields.name')" />
+          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="index">
+          <DxLabel location="top" :text="$t('translations.fields.index')" />
+          <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
+          <DxPatternRule
+            :ignore-empty-value="false"
+            :pattern="codePattern"
+            :message="$t('validation.valueMustNotContainsSpaces')"
+          />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          editor-type="dxNumberBox"
+          :editor-options="numberOfDigitsInNumber"
+          data-field="numberOfDigitsInNumber"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.numberOfDigitsInNumber')" />
+          <DxRequiredRule
+            :message="
                   $t('translations.fields.numberOfDigitsInNumberRequired')
                 "
-            />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="documentFlow"
-            :editor-options="documentFlowOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.documentFlow')" />
-            <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
-          </DxSimpleItem>
-
-          <DxSimpleItem
-            :read-only="documentRegister.hasDependencies"
-            data-field="registerType"
-            :editor-options="registerTypeOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.registerType')" />
-            <DxRequiredRule :message="$t('translations.fields.registerTypeRequired')" />
-          </DxSimpleItem>
-
-          <DxSimpleItem
-            :read-only="documentRegister.hasDependencies"
-            :visible="isRegistrible"
-            data-field="registrationGroupId"
-            :editor-options="registrationGroupOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.registrationGroupId')" />
-            <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            :read-only="documentRegister.hasDependencies"
-            editor-type="dxSelectBox"
-            :editor-options="numberingSectionOptions"
-            data-field="numberingSection"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.numberingSection')" />
-            <DxRequiredRule :message="$t('translations.fields.numberingSectionRequired')" />
-          </DxSimpleItem>
-
-          <DxSimpleItem
-            :read-only="documentRegister.hasDependencies"
-            data-field="numberingPeriod"
-            :editor-options="numberingPeriodOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.numberingPeriod')" />
-            <DxRequiredRule
-              numberingPeriodOptions
-              :message="$t('translations.fields.numberingPeriodRequired')"
-            />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="status"
-            :editor-options="statusOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.status')" />
-          </DxSimpleItem>
-        </DxGroupItem>
-        <DxSimpleItem template="number-format-items-template" />
-
-        <DxGroupItem :col-count="24" :col-span="2">
-          <DxButtonItem
-            :visible="canUpdate"
-            :col-span="1"
-            :button-options="saveButtonOptions"
-            horizontal-alignment="right"
           />
-          <DxButtonItem
-            :col-span="1"
-            :button-options="cancelButtonOptions"
-            horizontal-alignment="right"
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="documentFlow"
+          :editor-options="documentFlowOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.documentFlow')" />
+          <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          :read-only="documentRegister.hasDependencies"
+          data-field="registerType"
+          :editor-options="registerTypeOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.registerType')" />
+          <DxRequiredRule :message="$t('translations.fields.registerTypeRequired')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          :read-only="documentRegister.hasDependencies"
+          :visible="isRegistrible"
+          data-field="registrationGroupId"
+          :editor-options="registrationGroupOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.registrationGroupId')" />
+          <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :read-only="documentRegister.hasDependencies"
+          editor-type="dxSelectBox"
+          :editor-options="numberingSectionOptions"
+          data-field="numberingSection"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.numberingSection')" />
+          <DxRequiredRule :message="$t('translations.fields.numberingSectionRequired')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          :read-only="documentRegister.hasDependencies"
+          data-field="numberingPeriod"
+          :editor-options="numberingPeriodOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.numberingPeriod')" />
+          <DxRequiredRule
+            numberingPeriodOptions
+            :message="$t('translations.fields.numberingPeriodRequired')"
           />
-        </DxGroupItem>
-      </DxForm>
-    </form>
+        </DxSimpleItem>
+        <DxSimpleItem data-field="status" :editor-options="statusOptions" editor-type="dxSelectBox">
+          <DxLabel location="top" :text="$t('translations.fields.status')" />
+        </DxSimpleItem>
+      </DxGroupItem>
+      <DxSimpleItem template="number-format-items-template" />
+    </DxForm>
   </div>
 </template>
 <script>
+import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import RegisterType from "~/infrastructure/constants/registerTypes";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Header from "~/components/page/page__header";
-import { DxButton } from "devextreme-vue";
+
 import dataApi from "~/static/dataApi";
 
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel,
   DxRequiredRule,
   DxCompareRule,
@@ -187,7 +169,6 @@ export default {
     Header,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel,
     DxRequiredRule,
     DxCompareRule,
@@ -199,9 +180,8 @@ export default {
     DxColumn,
     DxEditing,
     DxLookup,
-    DxButton
+    Toolbar
   },
-
   async asyncData({ app, params }) {
     let response = await app.$axios.get(
       dataApi.docFlow.DocumentRegistry + params.id
@@ -214,12 +194,7 @@ export default {
     return {
       entityType: EntityType.DocumentRegister,
       elements: this.$store.getters["docflow/numberFormatItems"](this),
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
-      saveButtonOptions: this.$store.getters["globalProperties/btnSave"](this),
-      cancelButtonOptions: this.$store.getters["globalProperties/btnCancel"](
-        this,
-        this.goBack
-      )
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   computed: {
@@ -314,10 +289,9 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      this.$router.go(-1);
-    },
-    handleSubmit(e) {
+    handleSubmit() {
+      var res = this.$refs["form"].instance.validate();
+      if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
           dataApi.docFlow.DocumentRegistry + this.documentRegister.id,
@@ -328,7 +302,6 @@ export default {
         },
         err => this.$awn.alert()
       );
-      e.preventDefault();
     }
   }
 };
