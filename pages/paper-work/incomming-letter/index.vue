@@ -163,6 +163,7 @@ import {
 
 export default {
   components: {
+    documentIcon,
     Header,
     DxSearchPanel,
     DxDataGrid,

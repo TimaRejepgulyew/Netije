@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!canRegister" class="navBar">
+  <div v-if="canRegister" class="navBar">
     <DxPopup
       :visible.sync="isDocumentRegistrationPopupOpen"
       :drag-enabled="false"
@@ -43,7 +43,7 @@ export default {
     DxPopup,
     DocumentRegistrationPopup
   },
-  props: ["canRegister", "isDataChanged", "registrationState"],
+
   data() {
     return {
       isDocumentRegistrationPopupOpen: false
@@ -77,9 +77,14 @@ export default {
     }
   },
   computed: {
+    canRegister() {
+      return this.$store.getters["currentDocument/canRegister"];
+    },
+    isDataChanged() {
+      return this.$store.getters["currentDocument/isDataChanged"];
+    },
     isRegistered() {
-      console.log(this.registrationState);
-      return this.registrationState === 0;
+      return this.$store.getters["currentDocument/isRegistered"];
     },
     entityType() {
       switch (this.$store.getters["paper-work/documentKind"]("documentFlow")) {

@@ -2,7 +2,7 @@
   <DxForm
     :col-count="1"
     :form-data.sync="store"
-    :read-only="!store.readOnly"
+    :read-only="readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -122,8 +122,8 @@ export default {
     }
   },
   computed: {
-    hasPermission() {
-      return this.$store.getters["paper-work/hasPermissions"];
+    readOnly() {
+      return this.$store.getters["currentDocument/readOnly"];
     },
     defaultName() {
       if (this.isDefaultName) {

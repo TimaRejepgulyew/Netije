@@ -5,11 +5,7 @@
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem location="before" template="registrationButton" />
       <template #registrationButton>
-        <document-registration-btn
-          :canRegister="canRegister"
-          :registrationState="registrationState"
-          :isDataChanged="isDataChanged"
-        />
+        <document-registration-btn />
       </template>
       <!-- <slot />
       <document-registration-btn
@@ -45,11 +41,14 @@ export default {
     };
   },
   computed: {
+    canUpdate() {
+      return !this.$store.getters["currentDocument/canUpdate"];
+    },
     saveButtonOptions() {
       return {
         icon: "save",
-        type:"success",
-        disabled: !this.isDataChanged,
+        type: "success",
+        disabled: this.canUpdate,
         onClick: () => {
           this.$emit("saveChanges");
         }

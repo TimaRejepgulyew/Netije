@@ -7,28 +7,24 @@ export const state = () => ({
 });
 
 export const getters = {
-  isreadOnlyOrNotDataChanged({ isDataChanged, readOnly }) {
-    console.log(readOnly || !isDataChanged, "isreadOnlyOrNotDataChanged");
-    return readOnly || !isDataChanged;
-  },
   canRegister({ canRegister }) {
     return canRegister;
   },
-  canUpdate({ canUpdate }) {
-    return canUpdate;
+  canUpdate({ canUpdate, isDataChanged }) {
+    return canUpdate && isDataChanged;
   },
   isRegistered({ isRegistered }) {
     return isRegistered;
   },
-  isReadOnly({ isReadOnly }) {
-    return isReadOnly;
+  readOnly({ readOnly }) {
+    return readOnly;
   }
 };
 export const mutations = {
   SET_DOCUMENT_STATE(state, payload) {
     for (let item in payload) {
       state[item] = payload[item];
-      console.log(state[item]);
+      console.log(state[item], item);
     }
   },
   DATA_CHANGED(state, payload) {

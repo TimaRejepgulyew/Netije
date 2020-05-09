@@ -145,6 +145,7 @@ export default {
         correspondent: ""
       });
     }
+
     this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
       readOnly: this.readOnly,
       canUpdate: this.canUpdate,
@@ -190,13 +191,12 @@ export default {
       if (this.isUpdating) {
         this.$store.commit("currentDocument/DATA_CHANGED", false);
         this.$watch("store", this.modified, { deep: true });
+      } else {
+        this.$store.commit("currentDocument/DATA_CHANGED", true);
       }
     }
   },
   computed: {
-    isreadOnlyOrNotDataChanged() {
-      return this.$store.getters["currentDocument/isreadOnlyOrNotDataChanged"];
-    },
     counterPartOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({

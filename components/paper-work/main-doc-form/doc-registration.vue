@@ -1,8 +1,8 @@
-<template>
+<template >
   <DxForm
     :col-count="1"
     :form-data.sync="store"
-    :read-only="!store.readOnly"
+    :read-only="readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -121,6 +121,12 @@ export default {
     }
   },
   computed: {
+    isUpdating() {
+      return this.$route.params.id !== "add";
+    },
+    readOnly() {
+      return this.$store.getters["currentDocument/readOnly"];
+    },
     hasPermission() {
       if (this.$route.params.id != "add") {
         this.store = {

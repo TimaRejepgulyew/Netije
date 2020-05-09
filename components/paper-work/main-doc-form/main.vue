@@ -3,12 +3,8 @@
     <div>
       <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
-      <toolbar
-      
-       
-        :saveChanges="handleSubmit"
-      ></toolbar>
-      <DxTabPanel class="tab-bar">
+      <toolbar :saveChanges="handleSubmit"></toolbar>
+      <DxTabPanel :focus-state-enabled="false" class="tab-bar">
         <DxItem :title="$t('menu.mainInfo')" template="members-list" />
         <form class="d-flex" @submit="handleSubmit" slot="members-list">
           <div class="item f-grow-3">
@@ -32,7 +28,7 @@
               </DxSimpleItem>
             </DxForm>
           </div>
-          <div class="item">
+          <div class="item" v-if="isUpdating">
             <docRegistration @eventWatch="modified" :properties="store" :docType="docType"></docRegistration>
           </div>
           <div v-if="isUpdating" class="item">
@@ -112,7 +108,7 @@ export default {
     DxForm,
     DxRequiredRule
   },
-  props: ["store", "isDataChanged", "headerTitle", "docType"],
+  props: ["store", "headerTitle", "docType"],
   created() {
     if (this.$route.params.id != "add") {
       this.isUpdating = true;
@@ -129,9 +125,7 @@ export default {
     };
   },
   methods: {
-    modified() {
-      this.$emit("modified");
-    },
+    modified() {},
     backTo() {
       this.$router.go(-1);
     },
@@ -207,9 +201,6 @@ export default {
     readOnly() {
       return this.$store.getters["currentDocument/readOnly"];
     },
-    isreadOnlyOrNotDataChanged() {
-      return this.$store.getters["currentDocument/isreadOnlyOrNotDataChanged"];
-    },
     saveButtonOptions() {
       return {
         ...this.$store.getters["globalProperties/btnSave"](this),
@@ -227,8 +218,9 @@ export default {
         onValueChanged: () => {
           this.modified();
         },
-        height: 200,
-        autoResizeEnabled: false
+
+        height: 70,
+        autoResizeEnabled: true
       };
     }
   }

@@ -27,7 +27,7 @@
           </template>
         </DxList>
       </div>
-      <div class="file-uploader">
+      <div class="file-uploader" v-if="!readOnly">
         <DxFileUploader
           uploadMode="useButtons"
           ref="fileUploader"
@@ -82,6 +82,9 @@ export default {
     };
   },
   computed: {
+    readOnly() {
+      return this.$store.getters["currentDocument/readOnly"];
+    },
     acceptExtension() {
       return this.extension.join(",");
     },
