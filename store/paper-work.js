@@ -57,6 +57,7 @@ export const getters = {
     };
   },
   name(state) {
+    console.log(state.name);
     return state.name;
   },
   documentKind: state => property => {

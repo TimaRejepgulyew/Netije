@@ -7,7 +7,8 @@
           :form-data.sync="store"
           :read-only="readOnly"
           :show-colon-after-label="true"
-          :show-validation-summary="true"
+          :show-validation-summary="false"
+          :on-field-data-changed="modified"
           validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
@@ -139,7 +140,6 @@ export default {
     }
   },
   created() {
-    this.eventIsModified();
     if (!this.isUpdating) {
       this.$store.dispatch("paper-work/setMainFormProperties", {
         correspondent: ""
@@ -182,18 +182,7 @@ export default {
   },
   methods: {
     modified() {
-      if (this.isUpdating) {
-        console.log("watch is work ");
-        this.$store.commit("currentDocument/DATA_CHANGED", true);
-      }
-    },
-    eventIsModified() {
-      if (this.isUpdating) {
-        this.$store.commit("currentDocument/DATA_CHANGED", false);
-        this.$watch("store", this.modified, { deep: true });
-      } else {
-        this.$store.commit("currentDocument/DATA_CHANGED", true);
-      }
+      this.$store.commit("currentDocument/DATA_CHANGED", true);
     }
   },
   computed: {

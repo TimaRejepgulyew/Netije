@@ -1,21 +1,22 @@
 <template>
   <div>
     <div>
-      <DxLoadPanel :visible.sync="loadingVisible" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="headerTitle"></Header>
-      <toolbar :saveChanges="handleSubmit"></toolbar>
+      <toolbar @saveChanges="handleSubmit"></toolbar>
       <DxTabPanel :focus-state-enabled="false" class="tab-bar">
-        <DxItem :title="$t('menu.mainInfo')" template="members-list" />
-        <form class="d-flex" @submit="handleSubmit" slot="members-list">
+        <DxItem :title="$t('menu.mainInfo')" template="document-form" />
+        <div class="d-flex" slot="document-form">
           <div class="item f-grow-3">
-            <mainFocForm @eventWatch="modified" :properties="store" :docType="docType"></mainFocForm>
+            <mainFocForm :properties="store" :docType="docType"></mainFocForm>
             <slot></slot>
             <DxForm
+              ref="form"
+              :on-field-data-changed="modified"
               :col-count="1"
               :form-data.sync="store"
               :read-only="readOnly"
               :show-colon-after-label="true"
-              :show-validation-summary="true"
+              :show-validation-summary="false"
               validation-group="OfficialDocument"
             >
               <DxSimpleItem
@@ -29,13 +30,14 @@
             </DxForm>
           </div>
           <div class="item" v-if="isUpdating">
-            <docRegistration @eventWatch="modified" :properties="store" :docType="docType"></docRegistration>
+            <docRegistration :properties="store" :docType="docType"></docRegistration>
           </div>
           <div v-if="isUpdating" class="item">
             <docVersion></docVersion>
           </div>
-        </form>
+        </div>
         <DxItem v-if="isUpdating" :title="$t('menu.relation')" template="relations" />
+
         <Relation slot="relations"></Relation>
       </DxTabPanel>
     </div>
@@ -43,7 +45,6 @@
 </template>
 <script>
 import NumberingType from "~/infrastructure/constants/numberingTypes";
-import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
@@ -61,7 +62,6 @@ import DxForm, {
   DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
 import DxButton from "devextreme-vue/button";
 const api = dataApi.paperWork;
 const requests = {
@@ -91,7 +91,6 @@ const requests = {
 
 export default {
   components: {
-    DxLoadPanel,
     Relation,
     DxTabPanel,
     DxItem,
@@ -111,80 +110,52 @@ export default {
   props: ["store", "headerTitle", "docType"],
   created() {
     if (this.$route.params.id != "add") {
+      this.$store.commit("currentDocument/DATA_CHANGED", false);
       this.isUpdating = true;
     }
   },
   data() {
     return {
-      addressGet: dataApi.paperWork.GetDocumentById,
-      addressPost: requests.post[this.docType],
-      addressPut: requests.put[this.docType],
       isUpdating: false,
-      loadingVisible: false,
-      icon: require("~/static/icons/loading.gif")
     };
   },
   methods: {
-    modified() {},
-    backTo() {
-      this.$router.go(-1);
-    },
-    notify(msgTxt, msgType) {
-      notify(
-        {
-          message: msgTxt,
-          position: {
-            my: "center top",
-            at: "center top"
-          }
-        },
-        msgType,
-        3000
-      );
+    modified() {
+      this.$store.commit("currentDocument/DATA_CHANGED", true);
     },
     updateRequest(store) {
-      store.id = +this.$route.params.id;
-      this.$axios
-        .put(this.addressPut + this.$route.params.id, store)
-        .then(res => {
-          this.loadingVisible = false;
-          this.$emit("saved");
-          this.notify(
-            this.$t("translations.headers.updateDocKindSucces"),
-            "success"
-          );
-        })
-        .catch(e => {
-          this.loadingVisible = false;
-          this.notify(
-            this.$t("translations.headers.updateDocKindError"),
-            "error"
-          );
-        });
+      this.$awn.asyncBlock(
+        this.$axios.put(
+          requests.put[this.docType] + this.$route.params.id,
+          store
+        ),
+        res => {
+          this.$awn.success();
+          this.$store.commit("currentDocument/DATA_CHANGED", false);
+        },
+        e => {
+          this.$awn.alert();
+        }
+      );
     },
     addRequest(store) {
-      this.$axios
-        .post(this.addressPost, store)
-        .then(res => {
-          this.notify(
-            this.$t("translations.headers.addDoctKindSucces"),
-            "success"
-          );
-          this.loadingVisible = false;
-          this.$router.push({
+      this.$awn.asyncBlock(
+        this.$axios.post(requests.post[this.docType], store),
+        res => {
+          this.$awn.success();
+          this.$router.replace({
             name: this.$route.name,
             params: { id: res.data }
           });
-        })
-        .catch(e => {
-          this.loadingVisible = false;
-          this.notify(
-            this.$t("translations.headers.addDoctKindError"),
-            "error"
-          );
-        });
+        },
+        e => {
+          this.$awn.alert();
+        }
+      );
     },
     handleSubmit() {
+      var res = this.$refs["form"].instance.validate();
+      if (!res.isValid) return;
       this.loadingVisible = true;
       const store = Object.assign(
         this.store,
@@ -201,24 +172,8 @@ export default {
     readOnly() {
       return this.$store.getters["currentDocument/readOnly"];
     },
-    saveButtonOptions() {
-      return {
-        ...this.$store.getters["globalProperties/btnSave"](this),
-        disabled: this.isDataChanged
-      };
-    },
-    cancelButtonOptions() {
-      return this.$store.getters["globalProperties/btnCancel"](
-        this,
-        this.backTo
-      );
-    },
     noteOptions() {
       return {
-        onValueChanged: () => {
-          this.modified();
-        },
-
         height: 70,
         autoResizeEnabled: true
       };
@@ -227,13 +182,6 @@ export default {
 };
 </script>
 <style>
-.mr-top-auto {
-  margin-top: 40%;
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
 .tab-bar {
   margin-top: 10px;
 }

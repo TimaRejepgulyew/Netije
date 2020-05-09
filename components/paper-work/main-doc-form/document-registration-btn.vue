@@ -1,5 +1,5 @@
 <template>
-  <div v-if="canRegister" class="navBar">
+  <div class="navBar">
     <DxPopup
       :visible.sync="isDocumentRegistrationPopupOpen"
       :drag-enabled="false"
@@ -77,9 +77,6 @@ export default {
     }
   },
   computed: {
-    canRegister() {
-      return this.$store.getters["currentDocument/canRegister"];
-    },
     isDataChanged() {
       return this.$store.getters["currentDocument/isDataChanged"];
     },

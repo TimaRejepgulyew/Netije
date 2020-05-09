@@ -3,16 +3,10 @@
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
-      <DxItem location="before" template="registrationButton" />
+      <DxItem :visible="canRegister" location="before" template="registrationButton" />
       <template #registrationButton>
         <document-registration-btn />
       </template>
-      <!-- <slot />
-      <document-registration-btn
-        :canRegister="canRegister"
-        :registrationState="registrationState"
-        :isDataChanged="isDataChanged"
-      />-->
     </DxToolbar>
   </div>
 </template>
@@ -29,7 +23,6 @@ export default {
     DxItem,
     DocumentRegistrationBtn
   },
-  props: ["canRegister", "isDataChanged", "registrationState"],
   data() {
     return {
       backButtonOptions: {
@@ -42,13 +35,19 @@ export default {
   },
   computed: {
     canUpdate() {
-      return !this.$store.getters["currentDocument/canUpdate"];
+      return (
+        this.$store.getters["currentDocument/canUpdate"] &&
+        this.$store.getters["currentDocument/isDataChanged"]
+      );
+    },
+    canRegister() {
+      return this.$store.getters["currentDocument/canRegister"];
     },
     saveButtonOptions() {
       return {
         icon: "save",
         type: "success",
-        disabled: this.canUpdate,
+        disabled: !this.canUpdate,
         onClick: () => {
           this.$emit("saveChanges");
         }

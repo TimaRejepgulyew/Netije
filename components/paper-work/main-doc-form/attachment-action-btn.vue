@@ -50,7 +50,7 @@ export default {
       DocumentService.downloadVersion(
         {
           id: this.version.id,
-          name: this.$store.getters["paperWork/name"],
+          name: this.$store.getters["paper-work/name"],
           extension: this.version.extension
         },
         this

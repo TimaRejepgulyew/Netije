@@ -167,10 +167,8 @@ export default {
       this.isDataChanged = true;
     },
     modified() {
-      if (this.isUpdating) {
-        unwatch();
-        console.log("watch is work ");
-        this.isDataChanged = false;
+      if (this.$route.params.id != "add") {
+        this.$store.commit("currentDocument/DATA_CHANGED", true);
       }
     },
     eventIsModified() {

@@ -5,6 +5,7 @@
     :read-only="readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
+    :on-field-data-changed="modified"
     validation-group="OfficialDocument"
   >
     <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
@@ -56,7 +57,7 @@ export default {
       this.getDefaultDocKind();
     }
   },
-  props: ["docType", "properties", "isDataChanged"],
+  props: ["docType", "properties"],
   data(context) {
     let {
       name,
@@ -75,7 +76,6 @@ export default {
       name
     });
     return {
-      isUpdating: false,
       store: {
         name,
         subject,
@@ -88,40 +88,39 @@ export default {
   },
   methods: {
     async getDefaultDocKind() {
-      if (!this.isDataChanged) {
-        let docKindStores = await this.getData(
-          dataApi.docFlow.DocumentKind +
-            `?skip=0&take=20&filter=[["documentTypeId","=",${this.docType}],"and",["status","=",0]]`
-        );
-        if (docKindStores.length == 1) {
-          this.store.documentKindId = docKindStores[0].id;
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            documentKind: docKindStores[0]
-          });
-        } else {
-          this.store.documentKindId = docKindStores.find(el => {
-            el.isDefault
-              ? this.$store.dispatch("paper-work/setMainFormProperties", {
-                  documentKind: el
-                })
-              : false;
-            return el.isDefault;
-          }).id;
-        }
+      let docKindStores = await this.getData(
+        dataApi.docFlow.DocumentKind +
+          `?skip=0&take=20&filter=[["documentTypeId","=",${this.docType}],"and",["status","=",0]]`
+      );
+
+      if (docKindStores.length == 1) {
+        this.store.documentKindId = docKindStores[0].id;
+        this.$store.dispatch("paper-work/setMainFormProperties", {
+          documentKind: docKindStores[0]
+        });
+      } else {
+        this.store.documentKindId = docKindStores.find(el => {
+          el.isDefault
+            ? this.$store.dispatch("paper-work/setMainFormProperties", {
+                documentKind: el
+              })
+            : false;
+          return el.isDefault;
+        }).id;
       }
     },
     async getData(url) {
       const res = await this.$axios.get(url);
       return res.data.data;
     },
-    modified() {
-      if (this.$route.params.id != "add") {
-        console.log("watch");
-        this.$emit("eventWatch");
-      }
+    modified(e) {
+      this.$store.commit("currentDocument/DATA_CHANGED", true);
     }
   },
   computed: {
+    isDataChanged() {
+      return this.$store.getters["currentDocument/isDataChanged"];
+    },
     readOnly() {
       return this.$store.getters["currentDocument/readOnly"];
     },
@@ -146,9 +145,7 @@ export default {
             ["status", "=", 0]
           ]
         }),
-        onValueChanged: () => {
-          this.modified();
-        },
+
         onSelectionChanged: e => {
           if (e.selectedItem) {
             this.isDefaultName = e.selectedItem.generateDocumentName;
@@ -171,16 +168,14 @@ export default {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
-          this.modified();
         }
       };
-      if (!this.isDataChanged) {
+      if (this.isDataChanged) {
         options.value = this.defaultName;
         options.onValueChanged = e => {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             name: e.value
           });
-          this.modified();
         };
       }
 
@@ -192,7 +187,6 @@ export default {
           this.$store.dispatch("paper-work/setMainFormProperties", {
             subject: e.value
           });
-          this.modified();
         }
       };
     }

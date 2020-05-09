@@ -1,7 +1,7 @@
 export const state = () => ({
-  isDataChanged: true,
+  isDataChanged: false,
   readOnly: false,
-  canUpdate: true,
+  canUpdate: false,
   canRegister: false,
   isRegistered: false
 });
@@ -10,14 +10,17 @@ export const getters = {
   canRegister({ canRegister }) {
     return canRegister;
   },
-  canUpdate({ canUpdate, isDataChanged }) {
-    return canUpdate && isDataChanged;
+  canUpdate({ canUpdate }) {
+    return canUpdate;
   },
   isRegistered({ isRegistered }) {
     return isRegistered;
   },
   readOnly({ readOnly }) {
     return readOnly;
+  },
+  isDataChanged({ isDataChanged }) {
+    return isDataChanged;
   }
 };
 export const mutations = {
@@ -28,6 +31,7 @@ export const mutations = {
     }
   },
   DATA_CHANGED(state, payload) {
+    console.log("data");
     state.isDataChanged = payload;
   }
 };

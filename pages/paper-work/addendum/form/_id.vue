@@ -59,7 +59,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 let unwatch;
@@ -71,7 +71,7 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule,
+    DxRequiredRule
   },
   created() {
     this.eventIsModified();
@@ -113,9 +113,8 @@ export default {
       this.isDataChanged = true;
     },
     modified() {
-      if (this.isUpdating) {
-        unwatch();
-        this.isDataChanged = false;
+      if (this.$route.params.id != "add") {
+        this.$store.commit("currentDocument/DATA_CHANGED", true);
       }
     },
     eventIsModified() {

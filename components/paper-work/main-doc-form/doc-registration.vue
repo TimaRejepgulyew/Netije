@@ -64,7 +64,7 @@ import DxForm, {
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-let unwatch;
+
 export default {
   components: {
     DxGroupItem,
@@ -107,17 +107,12 @@ export default {
         documentRegisterId,
         registrationDate,
         registrationNumber
-      },
-      isDefaultName: false,
-      isDataChanged: false
+      }
     };
   },
   methods: {
     modified() {
-      if (this.$route.params.id != "add") {
-        console.log("watch");
-        this.$emit("eventWatch");
-      }
+      this.$store.commit("currentDocument/DATA_CHANGED", true);
     }
   },
   computed: {
