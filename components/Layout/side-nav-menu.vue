@@ -119,7 +119,12 @@ export default {
 @import "~assets/dx-styles.scss";
 @import "~assets/themes/generated/variables.base.scss";
 
+.dx-swatch-additional .dx-texteditor.dx-editor-outlined
+{
+  margin:3px;
+}
 .side-navigation-menu {
+    margin-top: 5px;
   display: flex;
   flex-direction: column;
   min-height: 100%;

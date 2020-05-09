@@ -123,6 +123,7 @@ export default {
 @import "~assets/dx-styles.scss";
 
 .side-nav-outer-toolbar {
+
   flex-direction: column;
   display: flex;
   height: 100%;
@@ -141,9 +142,11 @@ export default {
 .content {
   flex-grow: 1;
   height: 100%;
+  box-sizing: border-box;
 }
 
 .main-content {
+  margin: 5px;
   position: relative;
   box-sizing: border-box;
   min-height: 90vh;
