@@ -145,9 +145,9 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](contactEntityType)" template="masterDetailTemplate" />
 
-      <template #masterDetailTemplate="company" v-if="hasContactAccess">
+      <template #masterDetailTemplate="company">
         <master-detail-contacts :company="company.data" />
       </template>
 
@@ -214,6 +214,8 @@ export default {
   },
   data() {
     return {
+      contactEntityType: EntityType.Contact,
+      entityType: EntityType.Counterparty,
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Bank,
@@ -221,8 +223,6 @@ export default {
         updateUrl: dataApi.contragents.Bank,
         removeUrl: dataApi.contragents.Bank
       }),
-      entityType: EntityType.Counterparty,
-      hasContactAccess: this.$store.getters['permissions/allowReading'](EntityType.Contact),
       statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;

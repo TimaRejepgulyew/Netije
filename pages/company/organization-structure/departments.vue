@@ -112,7 +112,7 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](employeeEntityType)" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
         <member-list :data="data.data" />
@@ -181,6 +181,8 @@ export default {
   },
   data() {
     return {
+      employeeEntityType: EntityType.Employee,
+      entityType: EntityType.Department,
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Department,
@@ -188,7 +190,6 @@ export default {
         updateUrl: dataApi.company.Department,
         removeUrl: dataApi.company.Department
       }),
-      entityType: EntityType.Department,
       statusDataSource: this.$store.getters["status/status"](this),
       onBusinessUnitIdChanged(rowData, value) {
         rowData.code = rowData.code;

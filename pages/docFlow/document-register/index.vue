@@ -1,7 +1,7 @@
 <template>
   <main>
     <DxPopup
-      :visible.sync="popupCurrentNumber"
+      :visible.sync="currentNuberPopupOpen"
       :drag-enabled="false"
       :close-on-outside-click="true"
       :show-title="true"
@@ -10,10 +10,10 @@
       :title="$t('translations.fields.currentNumber')"
     >
       <div>
-        <popup-current-number
+        <current-number-popup
           :documentRegisterId="selectedDocumentRegisterId"
-          v-if="popupCurrentNumber"
-          @popupDisabled="popupDisabled('popupCurrentNumber')"
+          v-if="currentNuberPopupOpen"
+          @hidePopup="hideCurrentNumberPopup"
         />
       </div>
     </DxPopup>
@@ -102,7 +102,7 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
+      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](registrationSettingsEntityType)" template="masterDetailTemplate" />
 
       <template v-if="canUpdate" #masterDetailTemplate="documentRegistry">
         <RegSettingDetail :documentRegistry="documentRegistry.data" />
@@ -113,7 +113,7 @@
 <script>
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import popupCurrentNumber from "~/components/docFlow/document-registry/popup-current-number";
+import CurrentNumberPopup from "~/components/docFlow/document-registry/current-number-popup";
 import RegSettingDetail from "~/components/docFlow/document-registry/registration-settings-master-detail";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -161,11 +161,12 @@ export default {
     DxStateStoring,
     DxPopup,
     DxButton,
-    popupCurrentNumber
+    CurrentNumberPopup
   },
   data() {
     return {
       entityType: EntityType.DocumentRegister,
+      registrationSettingsEntityType: EntityType.RegistrationSetting,
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.DocumentRegistry,
@@ -174,7 +175,7 @@ export default {
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
       registerTypeDataSource: this.$store.getters["docflow/registerType"](this),
       statusDataSource: this.$store.getters["status/status"](this),
-      popupCurrentNumber: false,
+      currentNuberPopupOpen: false,
       selectedDocumentRegisterId: null
     };
   },
@@ -199,10 +200,10 @@ export default {
     },
     showCurrentNumberPopup(e) {
       this.selectedDocumentRegisterId = e.row.key;
-      this.popupCurrentNumber = true;
+      this.currentNuberPopupOpen = true;
     },
-    popupDisabled(popup) {
-      this[popup] = false;
+    hideCurrentNumberPopup() {
+      this.currentNuberPopupOpen= false;
     },
     showDocumentRegisterEditForm(e) {
       this.$router.push(`/docflow/document-register/${e.row.data.id}`);
