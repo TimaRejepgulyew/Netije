@@ -1,12 +1,13 @@
 <template>
-  <div style="display:flex;justify-content:center;align-items:center;">
-    <img style="margin:0 auto;" src="~/static/icons/loading.gif" />
-  </div>
+  <assignment />
 </template>
 
 <script>
+import Assignment from "~/pages/assignment";
 export default {
-  components: {},
+  components: {
+    Assignment
+  },
   methods: {}
 };
 </script>

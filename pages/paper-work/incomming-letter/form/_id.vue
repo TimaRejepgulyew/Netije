@@ -3,7 +3,6 @@
     <div class="widget-container">
       <MainForm
         :isDataChanged="isDataChanged"
-        @saved="saved"
         @modified="modified"
         :headerTitle="headerTitle"
         :docType="1"
@@ -12,7 +11,7 @@
         <DxForm
           :col-count="1"
           :form-data.sync="store"
-          :read-only="!store.readOnly"
+          :read-only="!readOnly"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="OfficialDocument"
@@ -129,20 +128,15 @@ export default {
     DxPatternRule,
     DxAsyncRule
   },
-  created() {
-    this.eventIsModified();
-    if (!this.isUpdating) {
-      this.$store.dispatch("paper-work/setMainFormProperties", {
-        correspondent: ""
-      });
-    }
-  },
   async asyncData({ app, params }) {
     if (params.id != "add") {
       let store = await app.$axios.get(
         dataApi.paperWork.GetDocumentById + params.id
       );
       return {
+        readOnly: store.data.readOnly,
+        canUpdate: store.data.canUpdate,
+        canRegister: store.data.canRegister,
         store: store.data.document,
         isUpdating: true
       };
@@ -150,10 +144,26 @@ export default {
       return {};
     }
   },
+  created() {
+    this.eventIsModified();
+    if (!this.isUpdating) {
+      this.$store.dispatch("paper-work/setMainFormProperties", {
+        correspondent: ""
+      });
+    }
+    this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
+      readOnly: this.readOnly,
+      canUpdate: this.canUpdate,
+      canRegister: this.canRegister,
+      isRegistered: this.store.registrationState === 0
+    });
+  },
   data() {
     return {
+      readOnly: false,
+      canUpdate: true,
+      canRegister: false,
       isUpdating: false,
-      isDataChanged: false,
       headerTitle: this.$t("translations.headers.incommingLetter"),
       store: {
         subject: "",
@@ -176,25 +186,22 @@ export default {
     };
   },
   methods: {
-    saved() {
-      this.isDataChanged = false;
-    },
     modified() {
       if (this.isUpdating) {
         console.log("watch is work ");
-        this.isDataChanged = true;
+        this.$store.commit("currentDocument/DATA_CHANGED", true);
       }
     },
     eventIsModified() {
       if (this.isUpdating) {
-        this.isDataChanged = false;
+        this.$store.commit("currentDocument/DATA_CHANGED", false);
         this.$watch("store", this.modified, { deep: true });
       }
     }
   },
   computed: {
-    hasPermission() {
-      return this.$store.getters["paper-work/hasPermissions"];
+    isreadOnlyOrNotDataChanged() {
+      return this.$store.getters["currentDocument/isreadOnlyOrNotDataChanged"];
     },
     counterPartOptions() {
       return {

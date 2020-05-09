@@ -36,7 +36,14 @@
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
-
+      <DxColumn
+        data-field="associatedApplication"
+        :allow-filtering="false"
+        :width="60"
+        :caption="$t('translations.fields.extension')"
+        cell-template="cellTemplate"
+        :visible="true"
+      ></DxColumn>
       <DxColumn data-field="dated" :caption="$t('translations.fields.dated')" data-type="date" />
       <DxColumn
         data-field="created"
@@ -110,7 +117,9 @@
           display-expr="name"
         />
       </DxColumn>
-
+      <template #cellTemplate="cell">
+        <document-icon :extension="cell.data.value?cell.data.value.extension:null" />
+      </template>
       <DxColumn type="buttons">
         <DxButton
           :on-click="previewDocument"
@@ -129,6 +138,8 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import Header from "~/components/page/page__header";
+import documentIcon from "~/components/page/document-icon";
+import DocumentService from "~/infrastructure/services/documentService";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -226,6 +237,30 @@ export default {
         { id: 1, name: this.$t("translations.fields.notRegistered") }
       ]
     };
+  },
+  methods: {
+    canBeOpenWithPreview(e) {
+      if (e.row.data.associatedApplication) {
+        return e.row.data.associatedApplication.canBeOpenedWithPreview;
+      } else {
+        false;
+      }
+    },
+    hasVersion(e) {
+      return e.row.data.hasVersions;
+    },
+    downloadDocument(e) {
+      DocumentService.downloadDocument(
+        {
+          ...e.row.data,
+          extension: e.row.data.associatedApplication.extension
+        },
+        this
+      );
+    },
+    previewDocument(e) {
+      DocumentService.previewDocument(e.row.data, this);
+    }
   }
 };
 </script>

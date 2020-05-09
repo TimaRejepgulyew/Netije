@@ -114,7 +114,7 @@ export default {
 
 <style lang="scss">
 @import "~assets/dx-styles.scss";
-@import "~assets/themes/generated/variables.additional.scss";
+@import "~assets/themes/generated/variables.base.scss";
 
 .side-navigation-menu {
   display: flex;
@@ -189,6 +189,13 @@ export default {
           }
 
           &:not(.dx-state-focused) > .dx-treeview-item.dx-state-hover {
+            background-color: lighten($base-bg, 4);
+          }
+          &.dx-state-focused > .dx-treeview-item.dx-state-hover {
+            background-color: lighten($base-bg, 4);
+          }
+          &.dx-state-focused > .dx-treeview-item {
+            color: $base-accent;
             background-color: lighten($base-bg, 4);
           }
         }
