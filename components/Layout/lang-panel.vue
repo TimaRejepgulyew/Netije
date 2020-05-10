@@ -58,8 +58,5 @@ export default {
   display: flex;
   align-items: center;
 }
-.menu-icon {
-  width: 100px;
-  height: 25px;
-}
+
 </style>

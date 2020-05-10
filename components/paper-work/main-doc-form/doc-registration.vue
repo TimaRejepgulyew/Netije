@@ -1,5 +1,6 @@
 <template >
   <DxForm
+    :visible="$store.getters['currentDocument/isRegistrable']"
     :col-count="1"
     :form-data.sync="store"
     :read-only="readOnly"
@@ -9,7 +10,7 @@
   >
     <DxGroupItem :col-count="1">
       <DxGroupItem
-        :visible="this.$route.params.id !='add'"
+        :visible="isRegistrationInfoVisible"
         :caption="$t('translations.fields.registration')"
       >
         <DxSimpleItem data-field="registrationNumber" :editor-options="numberOptions">
@@ -116,6 +117,12 @@ export default {
     }
   },
   computed: {
+    isRegistrationInfoVisible() {
+      return (
+        this.$store.getters["currentDocument/isRegistrable"] &&
+        this.$route.params.id != "add"
+      );
+    },
     isUpdating() {
       return this.$route.params.id !== "add";
     },

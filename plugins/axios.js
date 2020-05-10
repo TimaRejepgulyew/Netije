@@ -30,10 +30,8 @@ export default function ({ store, app: { $axios, i18n } }) {
         }
       } else {
         console.log(error);
-        alert(i18n.t("translations.shared.errorOccured"), i18n.t("translations.shared.error"));
       }
     } catch (e) {
-      alert(i18n.t("translations.shared.errorOccured"), i18n.t("translations.shared.error"));
       console.log(error);
       console.log(e);
     }

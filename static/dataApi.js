@@ -1,5 +1,6 @@
 export const url = process.env.baseUrl;
 export default {
+  Metadata: `${url}/api/Metadata`,
   account: `${url}/Identity/Account/Manage`,
   sharedDirectory: {
     Country: `${url}/api/Country`,
@@ -46,7 +47,7 @@ export default {
     FilesType: `${url}/api/FilesType`,
     RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
   },
-  documentRegistration:{
+  documentRegistration: {
     RegisterDocument: `${url}/api/DocumentRegistration/Register`,
     UnregisterDocument: `${url}/api/DocumentRegistration/Unregister`,
     PreliminaryNumber: `${url}/api/DocumentRegistration/PreliminaryNumber`,
@@ -54,6 +55,7 @@ export default {
     Registries: `${url}/api/DocumentRegistration/Registries/`,
   },
   paperWork: {
+    Documents: `${url}/api/OfficialDocument/`,
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     DeleteDocument: `${url}/api/OfficialDocument`,

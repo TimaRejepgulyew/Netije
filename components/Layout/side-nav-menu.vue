@@ -52,7 +52,7 @@ export default {
         return;
       }
 
-      this.$router.push(e.itemData.path);
+      this.$router.push({ path: e.itemData.path,  params: { theNameYouGive: new Date() } });
 
       const pointerEvent = e.event;
       pointerEvent.stopPropagation();
@@ -119,12 +119,11 @@ export default {
 @import "~assets/dx-styles.scss";
 @import "~assets/themes/generated/variables.base.scss";
 
-.dx-swatch-additional .dx-texteditor.dx-editor-outlined
-{
-  margin:3px;
+.dx-swatch-additional .dx-texteditor.dx-editor-outlined {
+  margin: 3px;
 }
 .side-navigation-menu {
-    margin-top: 5px;
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -132,8 +131,8 @@ export default {
   width: 250px !important;
 
   .menu-container {
-    margin-top:5px;
-    margin-left:5px;
+    margin-top: 5px;
+    margin-left: 5px;
     min-height: 100%;
     display: flex;
     flex: 1;

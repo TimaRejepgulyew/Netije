@@ -4,7 +4,7 @@ export const oidcSettings = {
     client_id: "TTDoc.UI",
     redirect_uri: "http://localhost:3000/callback",
     response_type: "code",
-    scope: "TTDoc.UIAPI openid profile customprofile offline_access",
+    scope: "TTDoc.UIAPI openid profile offline_access",
     post_logout_redirect_uri: "http://localhost:3000/",
     automaticSilentRenew: true,
     silentRequestTimeout: 100,

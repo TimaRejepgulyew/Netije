@@ -9,7 +9,7 @@
 
       <dx-item v-if="title" location="before" css-class="header-title dx-toolbar-label">
         <!-- eslint-disable vue/no-unused-vars -->
-        <img class="menu-icon" src="~/static/icons/icon-TTDoc.png" slot-scope="_" />
+        <img class="menu-icon" src="~/static/icons/loading.gif" slot-scope="_" />
         <!-- eslint-enable -->
       </dx-item>
 
@@ -69,7 +69,7 @@ export default {
 .header-component {
   flex: 0 0 auto;
   z-index: 1;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
   .header-toolbar {
     box-sizing: border-box;
     height: 50px;
@@ -107,5 +107,9 @@ export default {
   .user-button > .dx-button-content {
     padding: 3px;
   }
+}
+
+.menu-icon {
+  height: 25px;
 }
 </style>

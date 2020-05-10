@@ -100,14 +100,15 @@ export default {
       dataGridRefKey: "dataGrid",
       documentRegisterId: id,
       documentRegisterResponsibleId,
-      popupFormOpen: false
+      popupFormOpen: false,
+      regSettingId: null
     };
   },
   computed: {
     dataGrid: function() {
       return this.$refs[this.dataGridRefKey].instance;
     },
-    allowAdding(){
+    allowAdding() {
       return this.canOperateWithRegistrationSettings("allowCreating");
     },
     allowUpdating() {
@@ -121,9 +122,15 @@ export default {
     canOperateWithRegistrationSettings(permission) {
       const employeeId = this.$store.getters["permissions/employeeId"];
       if (this.$store.getters["permissions/IsAdmin"]) return true;
-      if (!this.$store.getters[`permissions/${permission}`](EntityType.RegistrationSetting))
+      if (
+        !this.$store.getters[`permissions/${permission}`](
+          EntityType.RegistrationSetting
+        )
+      )
         return false;
-      if (this.documentRegisterResponsibleId == employeeId || !this.documentRegisterResponsibleId
+      if (
+        this.documentRegisterResponsibleId == employeeId ||
+        !this.documentRegisterResponsibleId
       )
         return true;
       return false;

@@ -63,12 +63,6 @@ export default {
     loadMessages(tkMessages);
     loadMessages(ruMessages);
     locale(this.$i18n.locale);
-    if (this.$store.getters["oidc/oidcUser"] != null) {
-      this.$store.dispatch(
-        "permissions/getPermissions",
-        this.$store.getters["oidc/oidcUser"].Metadata
-      );
-    }
   },
 
   created() {

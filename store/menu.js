@@ -1,267 +1,277 @@
 import EntityType from '~/infrastructure/constants/entityTypes'
 
+
 export const state = () => ({
-  menuList(context) {
-    return [
+  menuList: []
+});
+
+export const hasSharedDirectoryAccess = rootGetters => {
+  return rootGetters["permissions/allowReading"](EntityType.Country) ||
+    rootGetters["permissions/allowReading"](EntityType.Region) ||
+    rootGetters["permissions/allowReading"](EntityType.Locality)
+}
+
+export const hasCounterPartyAccess = rootGetters => {
+  return rootGetters["permissions/allowReading"](EntityType.Counterparty) ||
+    rootGetters["permissions/allowReading"](EntityType.Contact)
+}
+
+export const hasCompanyAccess = rootGetters => {
+  return rootGetters["permissions/allowReading"](EntityType.ManagersAssistant) ||
+    rootGetters["permissions/allowReading"](EntityType.JobTitle) ||
+    rootGetters["permissions/allowReading"](EntityType.Employee) ||
+    rootGetters["permissions/allowReading"](EntityType.Department) ||
+    rootGetters["permissions/allowReading"](EntityType.BusinessUnit);
+}
+
+export const hasDocflowAccess = rootGetters => {
+  return rootGetters["permissions/allowReading"](EntityType.AssociatedApplications) ||
+    rootGetters["permissions/allowReading"](EntityType.FilesType) ||
+    rootGetters["permissions/allowReading"](EntityType.DocumentKind) ||
+    rootGetters["permissions/allowReading"](EntityType.CaseFile) ||
+    rootGetters["permissions/allowReading"](EntityType.FileRetentionPeriod) ||
+    rootGetters["permissions/allowReading"](EntityType.DocumentRegister) ||
+    rootGetters["permissions/allowReading"](EntityType.MailDeliveryMethod) ||
+    rootGetters["permissions/allowReading"](EntityType.RegistrationGroup) ||
+    rootGetters["permissions/allowReading"](EntityType.RegistrationSetting)
+}
+
+export const getters = {
+  menuList({ menuList }) {
+    return menuList;
+  }
+};
+
+export const mutations = {
+  SET_MENU_ITEMS(state, payload) {
+    state.menuList = payload;
+  }
+};
+
+export const actions = {
+  initialize({ commit,rootGetters }) {
+    const data = [
       {
-        text: context.$t("menu.outgoing"),
+        text: this.$i18n.t("menu.outgoing"),
         icon: "clock",
 
         items: [
           {
-            text: context.$t("menu.assignments"),
+            text: this.$i18n.t("menu.assignments"),
             path: "/assignment"
           }
         ]
       },
       {
-        text: context.$t("menu.incomming"),
+        text: this.$i18n.t("menu.incomming"),
         icon: "selectall",
 
         items: [
           {
-            text: context.$t("menu.task"),
+            text: this.$i18n.t("menu.task"),
             path: "/task"
           }
         ]
       },
       {
-        text: context.$t("menu.paperwork"),
+        text: this.$i18n.t("menu.paperwork"),
         icon: "file",
         path: "/paper-work",
 
         items: [
           {
-            text: context.$t("menu.allDocument"),
+            text: this.$i18n.t("menu.allDocument"),
             path: "/paper-work/all-documents"
           },
           {
-            text: context.$t("menu.incommingLetter"),
+            text: this.$i18n.t("menu.incommingLetter"),
             path: "/paper-work/incomming-letter"
           },
           {
-            text: context.$t("menu.outgoingLetter"),
+            text: this.$i18n.t("menu.outgoingLetter"),
             path: "/paper-work/outgoing-letter"
           },
 
           {
-            text: context.$t("menu.order"),
+            text: this.$i18n.t("menu.order"),
             path: "/paper-work/order"
           },
           {
-            text: context.$t("menu.companyDirectives"),
+            text: this.$i18n.t("menu.companyDirectives"),
             path: "/paper-work/company-directive"
           },
           {
-            text: context.$t("menu.simpleDocument"),
+            text: this.$i18n.t("menu.simpleDocument"),
             path: "/paper-work/simple-document"
           },
           {
-            text: context.$t("menu.addendum"),
+            text: this.$i18n.t("menu.addendum"),
             path: "/paper-work/addendum"
           },
           {
-            text: context.$t("menu.memo"),
+            text: this.$i18n.t("menu.memo"),
             path: "/paper-work/memo"
           },
           {
-            text: context.$t("menu.powerOfAttorney"),
+            text: this.$i18n.t("menu.powerOfAttorney"),
             path: "/paper-work/power-of-attorney"
           }
         ]
       },
       {
-        text: context.$t("menu.contractors"),
+        text: this.$i18n.t("menu.contractors"),
         icon: "group",
         path: "/parties",
-        visible: hasCounterPartyAccess(context),
+        visible: hasCounterPartyAccess(rootGetters),
         items: [
           {
-            text: context.$t("menu.all"),
+            text: this.$i18n.t("menu.all"),
             path: "/parties/",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("menu.companies"),
+            text: this.$i18n.t("menu.companies"),
             path: "/parties/organizations/companies",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("menu.banks"),
+            text: this.$i18n.t("menu.banks"),
             path: "/parties/organizations/banks",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("menu.person"),
+            text: this.$i18n.t("menu.person"),
             path: "/parties/persons/",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
           },
           {
-            text: context.$t("menu.contacts"),
+            text: this.$i18n.t("menu.contacts"),
             path: "/parties/organizations/contacts",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Contact)
+            visible: rootGetters["permissions/allowReading"](EntityType.Contact)
           }
         ]
       },
       {
-        text: context.$t("menu.company-structure"),
+        text: this.$i18n.t("menu.company-structure"),
         icon: "hierarchy",
-        visible: hasCompanyAccess(context),
+        visible: hasCompanyAccess(rootGetters),
         items: [
           {
-            text: context.$t("menu.businessUnit"),
+            text: this.$i18n.t("menu.businessUnit"),
             path: "/company/organization-structure/business-units",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit)
+            visible: rootGetters["permissions/allowReading"](EntityType.BusinessUnit)
           },
           {
-            text: context.$t("menu.department"),
+            text: this.$i18n.t("menu.department"),
             path: "/company/organization-structure/departments",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Department)
+            visible: rootGetters["permissions/allowReading"](EntityType.Department)
           },
           {
-            text: context.$t("menu.employee"),
+            text: this.$i18n.t("menu.employee"),
             path: "/company/staff/employees",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Employee)
+            visible: rootGetters["permissions/allowReading"](EntityType.Employee)
           },
           {
-            text: context.$t("menu.jobTitle"),
+            text: this.$i18n.t("menu.jobTitle"),
             path: "/company/job-titles",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.JobTitle)
+            visible: rootGetters["permissions/allowReading"](EntityType.JobTitle)
           },
           {
-            text: context.$t("menu.managersAssistant"),
+            text: this.$i18n.t("menu.managersAssistant"),
             path: "/company/staff/managers-assistants",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant)
+            visible: rootGetters["permissions/allowReading"](EntityType.ManagersAssistant)
           }
         ]
       },
       {
-        text: context.$t("menu.docFlow"),
+        text: this.$i18n.t("menu.docFlow"),
         icon: "repeat",
-        visible: hasDocflowAccess(context),
+        visible: hasDocflowAccess(rootGetters),
         items: [
           {
-            text: context.$t("menu.documentKind"),
+            text: this.$i18n.t("menu.documentKind"),
             path: "/docflow/document-kind",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.DocumentKind)
+            visible: rootGetters["permissions/allowReading"](EntityType.DocumentKind)
           },
           {
-            text: context.$t("menu.documentRegistry"),
+            text: this.$i18n.t("menu.documentRegistry"),
             path: "/docflow/document-register",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister)
+            visible: rootGetters["permissions/allowReading"](EntityType.DocumentRegister)
           },
           {
-            text: context.$t("menu.registrationGroup"),
+            text: this.$i18n.t("menu.registrationGroup"),
             path: "/docflow/registration-group",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.RegistrationGroup)
+            visible: rootGetters["permissions/allowReading"](EntityType.RegistrationGroup)
           },
           {
-            text: context.$t("menu.caseFile"),
+            text: this.$i18n.t("menu.caseFile"),
             path: "/docflow/case-files",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.CaseFile)
+            visible: rootGetters["permissions/allowReading"](EntityType.CaseFile)
           },
           {
-            text: context.$t("menu.fileRetentionPeriod"),
+            text: this.$i18n.t("menu.fileRetentionPeriod"),
             path: "/docflow/file-retention-period/",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.FileRetentionPeriod)
+            visible: rootGetters["permissions/allowReading"](EntityType.FileRetentionPeriod)
           },
           {
-            text: context.$t("menu.mailDeliveryMethod"),
+            text: this.$i18n.t("menu.mailDeliveryMethod"),
             path: "/docflow/mail-delivery-method/",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.MailDeliveryMethod)
+            visible: rootGetters["permissions/allowReading"](EntityType.MailDeliveryMethod)
           },
           {
-            text: context.$t("menu.associatedApp"),
+            text: this.$i18n.t("menu.associatedApp"),
             path: "/docflow/associated-applications",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.AssociatedApplications)
+            visible: rootGetters["permissions/allowReading"](EntityType.AssociatedApplications)
           },
           {
-            text: context.$t("menu.fileType"),
+            text: this.$i18n.t("menu.fileType"),
             path: "/docflow/files-type",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.FilesType)
+            visible: rootGetters["permissions/allowReading"](EntityType.FilesType)
           }
         ]
       },
       {
-        text: context.$t("menu.shared-directory"),
+        text: this.$i18n.t("menu.shared-directory"),
         icon: "inactivefolder",
-        visible: hasSharedDirectoryAccess(context),
+        visible: hasSharedDirectoryAccess(rootGetters),
         items: [
           {
-            text: context.$t("menu.countries"),
+            text: this.$i18n.t("menu.countries"),
             path: "/shared-directory/territorial-structure/countries",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Country)
+            visible: rootGetters["permissions/allowReading"](EntityType.Country)
           },
           {
-            text: context.$t("menu.region"),
+            text: this.$i18n.t("menu.region"),
             path: "/shared-directory/territorial-structure/region",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Region)
+            visible: rootGetters["permissions/allowReading"](EntityType.Region)
           },
           {
-            text: context.$t("menu.locality"),
+            text: this.$i18n.t("menu.locality"),
             path: "/shared-directory/territorial-structure/localities",
-            visible: context.$store.getters["permissions/allowReading"](EntityType.Locality)
+            visible: rootGetters["permissions/allowReading"](EntityType.Locality)
           },
           {
-            text: context.$t("menu.currencies"),
+            text: this.$i18n.t("menu.currencies"),
             path: "/shared-directory/currencies",
             //TODO: V2.0
-            //visible: context.$store.getters["permissions/allowReading"](EntityType.Currencies)
+            //visible: rootGetters["permissions/allowReading"](EntityType.Currencies)
             visible: false
           }
         ]
       },
       {
-        text: context.$t("menu.administration"),
+        text: this.$i18n.t("menu.administration"),
         icon: "preferences",
-        visible: context.$store.getters["permissions/IsAdmin"],
+        visible: rootGetters["permissions/IsAdmin"],
         items: [
           {
-            text: context.$t("menu.roles"),
+            text: this.$i18n.t("menu.roles"),
             path: "/admin/roles",
             icon: "user"
           }
         ]
       }
     ];
+    commit("SET_MENU_ITEMS", data);
   }
-});
-
-export const hasSharedDirectoryAccess = context => {
-  return context.$store.getters["permissions/allowReading"](EntityType.Country) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Region) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Locality)
 }
-
-export const hasCounterPartyAccess = context => {
-  return context.$store.getters["permissions/allowReading"](EntityType.Counterparty) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Contact)
-}
-
-export const hasCompanyAccess = context => {
-  return context.$store.getters["permissions/allowReading"](EntityType.ManagersAssistant) ||
-    context.$store.getters["permissions/allowReading"](EntityType.JobTitle) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Employee) ||
-    context.$store.getters["permissions/allowReading"](EntityType.Department) ||
-    context.$store.getters["permissions/allowReading"](EntityType.BusinessUnit);
-}
-
-export const hasDocflowAccess = context => {
-  return context.$store.getters["permissions/allowReading"](EntityType.AssociatedApplications) ||
-    context.$store.getters["permissions/allowReading"](EntityType.FilesType) ||
-    context.$store.getters["permissions/allowReading"](EntityType.DocumentKind) ||
-    context.$store.getters["permissions/allowReading"](EntityType.CaseFile) ||
-    context.$store.getters["permissions/allowReading"](EntityType.FileRetentionPeriod) ||
-    context.$store.getters["permissions/allowReading"](EntityType.DocumentRegister) ||
-    context.$store.getters["permissions/allowReading"](EntityType.MailDeliveryMethod) ||
-    context.$store.getters["permissions/allowReading"](EntityType.RegistrationGroup) ||
-    context.$store.getters["permissions/allowReading"](EntityType.RegistrationSetting)
-}
-
-
-
-export const getters = {
-  menuList: ({ menuList }) => context => {
-    return menuList(context);
-  }
-};

@@ -19,11 +19,6 @@ export const state = () => ({
     "/paper-work/memo/form/",
     "/paper-work/power-of-attorney/form/"
   ],
-  regState: [
-    { id: null, name: "notRegistered" },
-    { id: 0, name: "registered" },
-    { id: 1, name: "notRegistered" }
-  ],
   filterBuilderPopupPosition: {
     at: "top",
     my: "top",
@@ -35,8 +30,9 @@ export const getters = {
   filterBuilderPopupPosition(state) {
     return state.filterBuilderPopupPosition;
   },
-  regState({ regState }) {
-    return regState;
+  registrationState: (state) => context => {
+    return [{ id: 0, name: context.$t("translations.fields.registered") },
+    { id: 1, name: context.$t("translations.fields.notRegistered") }]
   },
   urlByTypeGuid({ urlByTypeGuid }) {
     return urlByTypeGuid;
@@ -77,14 +73,14 @@ export const getters = {
       if (state.correspondent) {
         correspondent = ` ${context.$t("translations.fields.for")} ${
           state.correspondent
-        }`;
+          }`;
       }
       return `${documentKind} ${subject} ${correspondent}`;
     } else if (docType == 1) {
       if (state.correspondent) {
         correspondent = `${context.$t("translations.fields.from")} ${
           state.correspondent
-        }`;
+          }`;
       }
       return `${documentKind} ${correspondent} ${subject}`;
     } else {

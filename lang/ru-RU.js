@@ -14,9 +14,27 @@ export default {
   },
   shared: {
     error: "Произошла ошибка",
-    errorOccured:"Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
-    back:"Назад",
-    more: "Подробнее"
+    errorOccured: "Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
+    back: "Назад",
+    more: "Подробнее",
+    documents: "Документы"
+  },
+  document: {
+    preview: "Предпросмотр",
+    download: "Загрузка",
+    fields: {
+      name: "Имя",
+      created: "Создано",
+      modified: "Изменено",
+      authorId: "Автор",
+      registrationDate: "Дата Рег.",
+      registrationNumber: "Рег. №",
+      correspondentId: "Корреспондент",
+      subject: "Содержание",
+      documentKindId: "Вид документа",
+      documentRegisterId: "Журнал регистрации",
+      registrationState: "Регистрация"
+    }
   },
   validation: {
     caseFile: {

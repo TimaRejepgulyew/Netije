@@ -1,9 +1,10 @@
+import dataApi from "~/static/dataApi";
 class AccessOperation {
-  constructor() {}
+  constructor() { }
 }
 export const state = () => ({
   accessRights: {},
-
+  isLoaded: false,
   access: new Map([
     [
       100,
@@ -105,30 +106,35 @@ export const getters = {
   IsAdmin: ({ accessRights }) => {
     return accessRights.isAdmin;
   },
+  isPermissionsLoaded: ({ isLoaded }) => {
+    return isLoaded;
+  },
   allowRegisterDocument: ({ accessRights }) => entityType => {
     return accessRights.operations.has(entityType);
   }
 };
 export const mutations = {
   PERMISSIONS(state, payload) {
-    payload = JSON.parse(payload);
     const accessRights = {
-      employeeId: payload.EmployeeId,
-      isAdmin: payload.Roles.includes("Администраторы"),
-      isAuditor: payload.Roles.includes("Аудиторы"),
-      Roles: payload.Roles,
+      employeeId: payload.employeeId,
+      isAdmin: payload.roles.includes("Администраторы"),
+      isAuditor: payload.roles.includes("Аудиторы"),
+      Roles: payload.roles,
       operations: new Map(
-        payload.AccessRights.map(({ entityType, operation }) => {
+        payload.accessRights.map(({ entityType, operation }) => {
           let obj = { ...state.access.get(operation) };
           return [entityType, obj];
         })
       )
     };
     state.accessRights = accessRights;
+    state.isLoaded = true;
   }
 };
 export const actions = {
-  getPermissions({ commit }, payload) {
-    commit("PERMISSIONS", payload);
+  async load({ commit, dispatch }) {
+    var result = await this.$axios.get(dataApi.Metadata);
+    commit("PERMISSIONS", result.data);
+    dispatch("menu/initialize", {}, { root: true });
   }
 };

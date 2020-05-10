@@ -3,6 +3,7 @@
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
+      <DxItem :options="saveButtonOptions" location="after" widget="dxButton" />
       <DxItem :visible="canRegister" location="before" template="registrationButton" />
       <template #registrationButton>
         <document-registration-btn />
@@ -52,6 +53,16 @@ export default {
           this.$emit("saveChanges");
         }
       };
+    }
+  },
+  saveButtonOptions1() {
+    return {
+      icon: "save",
+      type: "success",
+      disabled: !this.canUpdate,
+      onClick: () => {
+        this.$emit("saveChanges");
+      }
     }
   }
 };

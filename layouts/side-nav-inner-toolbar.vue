@@ -71,11 +71,13 @@ export default {
   data() {
     return {
       menuOpened: this.isLarge,
-      menuTemporaryOpened: false,
-      menuItems: this.$store.getters["menu/menuList"](this)
+      menuTemporaryOpened: false
     };
   },
   computed: {
+    menuItems() {
+      return this.$store.getters["menu/menuList"];
+    },
     drawerOptions() {
       const shaderEnabled = !this.isLarge;
       return {
@@ -123,7 +125,6 @@ export default {
 @import "~assets/dx-styles.scss";
 
 .side-nav-outer-toolbar {
-
   flex-direction: column;
   display: flex;
   height: 100%;
@@ -151,6 +152,6 @@ export default {
   box-sizing: border-box;
   min-height: 90vh;
   background: $base-bg;
-  padding: 1vh 1vw;
+  padding: 0.5vh 0.5vw;
 }
 </style>

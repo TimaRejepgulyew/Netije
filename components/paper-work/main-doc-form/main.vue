@@ -29,7 +29,7 @@
               </DxSimpleItem>
             </DxForm>
           </div>
-          <div class="item" v-if="isUpdating">
+          <div class="item" v-show="isUpdating&&$store.getters['currentDocument/isRegistrable']">
             <docRegistration :properties="store" :docType="docType"></docRegistration>
           </div>
           <div v-if="isUpdating" class="item">
@@ -116,7 +116,7 @@ export default {
   },
   data() {
     return {
-      isUpdating: false,
+      isUpdating: false
     };
   },
   methods: {

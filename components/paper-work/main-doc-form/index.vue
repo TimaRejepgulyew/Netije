@@ -152,9 +152,15 @@ export default {
             this.$store.dispatch("paper-work/setMainFormProperties", {
               documentKind: e.selectedItem
             });
+            this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
+              selectedDocumentNumberingType: e.selectedItem.numberingType
+            });
           } else {
             this.$store.dispatch("paper-work/setMainFormProperties", {
               documentKind: { shortName: "" }
+            });
+            this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
+              selectedDocumentNumberingType: null
             });
             this.isDefaultName = false;
           }

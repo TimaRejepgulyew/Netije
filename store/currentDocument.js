@@ -1,14 +1,20 @@
+import NumberingType from "~/infrastructure/constants/numberingTypes";
+
 export const state = () => ({
   isDataChanged: false,
   readOnly: false,
   canUpdate: false,
   canRegister: false,
-  isRegistered: false
+  isRegistered: false,
+  selectedDocumentNumberingType: null
 });
 
 export const getters = {
-  canRegister({ canRegister }) {
-    return canRegister;
+  canRegister({ canRegister, selectedDocumentNumberingType }) {
+    return canRegister && selectedDocumentNumberingType != NumberingType.NotNumerable;
+  },
+  isRegistrable({ selectedDocumentNumberingType }) {
+    return selectedDocumentNumberingType != NumberingType.NotNumerable;
   },
   canUpdate({ canUpdate }) {
     return canUpdate;
@@ -31,7 +37,6 @@ export const mutations = {
     }
   },
   DATA_CHANGED(state, payload) {
-    console.log("data");
     state.isDataChanged = payload;
   }
 };
