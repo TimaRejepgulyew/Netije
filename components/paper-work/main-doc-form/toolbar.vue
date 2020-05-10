@@ -3,8 +3,15 @@
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
-      <DxItem :options="saveButtonOptions" location="after" widget="dxButton" />
       <DxItem :visible="canRegister" location="before" template="registrationButton" />
+      <DxItem
+        :visible="canRemove"
+        :options="removeDocumentButtonOptions"
+        location="after"
+        widget="dxButton"
+      />
+      <DxItem :options="documentAccessRightsButtonOptions" location="after" widget="dxButton" />
+
       <template #registrationButton>
         <document-registration-btn />
       </template>
@@ -44,6 +51,9 @@ export default {
     canRegister() {
       return this.$store.getters["currentDocument/canRegister"];
     },
+    canRemove() {
+      return this.$store.getters["currentDocument/canRemove"];
+    },
     saveButtonOptions() {
       return {
         icon: "save",
@@ -53,16 +63,22 @@ export default {
           this.$emit("saveChanges");
         }
       };
-    }
-  },
-  saveButtonOptions1() {
-    return {
-      icon: "save",
-      type: "success",
-      disabled: !this.canUpdate,
-      onClick: () => {
-        this.$emit("saveChanges");
-      }
+    },
+    removeDocumentButtonOptions() {
+      return {
+        icon: "trash",
+        type: "normal",
+        text: this.$t("document.remove"),
+        onClick: () => {}
+      };
+    },
+    documentAccessRightsButtonOptions() {
+      return {
+        icon: "key",
+        type: "normal",
+        text: this.$t("shared.access"),
+        onClick: () => {}
+      };
     }
   }
 };

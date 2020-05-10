@@ -136,7 +136,6 @@ import {
 export default {
   components: {
     documentIcon,
-    CreateDocument,
     DxLoadPanel,
     Header,
     DxSearchPanel,

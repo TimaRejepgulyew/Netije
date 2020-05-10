@@ -17,9 +17,11 @@ export default {
     errorOccured: "Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
     back: "Назад",
     more: "Подробнее",
-    documents: "Документы"
+    documents: "Документы",
+    access: "Доступ"
   },
   document: {
+    remove: "Удалить",
     preview: "Предпросмотр",
     download: "Загрузка",
     fields: {

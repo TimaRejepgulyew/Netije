@@ -31,7 +31,6 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="companyDirective" />
 
       <DxEditing
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="popup"

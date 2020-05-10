@@ -23,7 +23,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      :onRowDblClick="toMoreAbout"
+      :onRowDblClick="openDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
@@ -45,86 +45,44 @@
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
-
-      <DxEditing :allow-deleting="true" :allow-adding="true" :useIcons="true" mode="popup" />
+      <DxEditing :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="infinite" />
+      <DxScrolling mode="virtual" />
       <DxColumn
+        :fixed="true"
         data-field="associatedApplication"
         :allow-filtering="false"
+        :allow-sorting="false"
+        :allow-resizing="false"
+        :allow-reordering="false"
+        :allow-hiding="false"
+        :allow-grouping="false"
+        :allow-fixing="false"
+        :allow-exporting="false"
+        :allow-search="false"
         :width="60"
-        :caption="$t('translations.fields.extension')"
+        :caption="''"
         cell-template="cellTemplate"
         :visible="true"
       ></DxColumn>
+      <DxColumn data-field="name" :width="1000" :caption="$t('document.fields.name')"></DxColumn>
       <DxColumn
-        data-field="placedToCaseFileDate"
-        :caption="$t('translations.fields.placedToCaseFileDate')"
-        data-type="date"
-      />
-      <DxColumn data-field="caseFileId" :caption="$t('translations.fields.caseFileId')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="caseFileStores"
-          value-expr="id"
-          display-expr="title"
-        />
-      </DxColumn>
-      <DxColumn
-        :visible="false"
         data-field="created"
-        :caption="$t('translations.fields.createdDate')"
+        format="dd.MM.yyyy hh:mm"
         data-type="date"
-      />
-
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')"></DxColumn>
-
-      <DxColumn :visible="false" data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+        :caption="$t('document.fields.created')"
+      ></DxColumn>
       <DxColumn
-        :visible="false"
-        data-field="businessUnitId"
-        :caption="$t('translations.fields.businessUnitId')"
-      >
+        data-field="modified"
+        format="dd.MM.yyyy hh:mm"
+        data-type="date"
+        :caption="$t('document.fields.modified')"
+      ></DxColumn>
+      <DxColumn :visible="false" data-field="authorId" :caption="$t('document.fields.authorId')">
         <DxLookup
           :allow-clearing="true"
-          :data-source="businessUnitStores"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-      <DxColumn
-        :visible="false"
-        data-field="departmentId"
-        :caption="$t('translations.fields.departmentId')"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="departmentStores"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-      <DxColumn
-        data-field="documentKindId"
-        :caption="$t('translations.fields.documentKindId')"
-        data-type="selectbox"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="documentKindStores"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-      <DxColumn
-        data-field="registrationState"
-        :caption="$t('translations.fields.registrationState')"
-        data-type="selectbox"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="regStatedStores"
+          :data-source="employeeStores"
           value-expr="id"
           display-expr="name"
         />
@@ -148,7 +106,6 @@
 <script>
 import CreateDocument from "~/components/paper-work/createDocumentPopup";
 import { DxPopup } from "devextreme-vue/popup";
-import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -212,26 +169,16 @@ export default {
         loadUrl: dataApi.paperWork.AllDocument,
         removeUrl: dataApi.paperWork.DeleteDocument
       }),
-      businessUnitStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.BusinessUnit
-      }),
-      departmentStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Department
-      }),
-      caseFileStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.docFlow.CaseFile
-      }),
-      regStatedStores: [
-        { id: 0, name: this.$t("translations.fields.registered") },
-        { id: 1, name: this.$t("translations.fields.notRegistered") }
-      ],
-      entityType: "OfficialDocument",
-      statusDataSource: this.$store.getters["status/status"],
-
-      toMoreAbout: e => {
+      employeeStores: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee
+        }),
+        paginate: true,
+        valueExpr: "id",
+        displayExpr: "name"
+      },
+      openDocument: e => {
         const address = this.urlByTypeGuid[e.data.documentTypeGuid] + e.key;
         this.$router.push(address);
       },
@@ -244,16 +191,7 @@ export default {
             this.createDocumentPopup = true;
           };
         }
-      },
-
-      leadingDocumentStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.paperWork.AllDocument
-      }),
-      documentKindStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.docFlow.DocumentKind
-      })
+      }
     };
   },
   computed: {
