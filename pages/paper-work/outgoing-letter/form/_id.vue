@@ -1,20 +1,13 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <MainForm
-        :isDataChanged="isDataChanged"
-        @saved="saved"
-        @modified="modified"
-        :headerTitle="headerTitle"
-        :store="store"
-        :docType="2"
-      >
+      <MainForm :headerTitle="headerTitle" :store="store" :docType="docType">
         <DxForm
-          :col-count="1"
           :form-data.sync="store"
-          :read-only="!store.readOnly"
+          :read-only="readOnly"
           :show-colon-after-label="true"
           :show-validation-summary="false"
+          :on-field-data-changed="modified"
           validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
@@ -94,20 +87,17 @@
   </div>
 </template>
 <script>
+import DocumentType from "~/infrastructure/constants/documentType";
 import MainForm from "~/components/paper-work/main-doc-form/main";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
+import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
-  DxPatternRule,
-  DxAsyncRule
+  DxRequiredRule
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
-let unwatch;
 export default {
   components: {
     MainForm,
@@ -116,12 +106,9 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule,
-    DxPatternRule,
-    DxAsyncRule
+    DxRequiredRule
   },
   created() {
-    this.eventIsModified();
     this.$store.dispatch("paper-work/setMainFormProperties", {
       correspondent: ""
     });

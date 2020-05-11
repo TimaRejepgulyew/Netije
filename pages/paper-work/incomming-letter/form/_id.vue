@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <MainForm :headerTitle="headerTitle" :docType="1" :store="store">
+      <MainForm :headerTitle="headerTitle" :docType="docType" :store="store">
         <DxForm
           :col-count="1"
           :form-data.sync="store"
@@ -98,30 +98,24 @@
   </div>
 </template>
 <script>
+import DocumentType from "~/infrastructure/constants/documentType";
 import MainForm from "~/components/paper-work/main-doc-form/main";
-import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
+import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
-  DxPatternRule,
-  DxAsyncRule
+  DxRequiredRule
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
 export default {
   components: {
     MainForm,
-    Header,
     DxForm,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule,
-    DxPatternRule,
-    DxAsyncRule
+    DxRequiredRule
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
@@ -159,6 +153,7 @@ export default {
       canUpdate: true,
       canRegister: false,
       isUpdating: false,
+      docType: DocumentType.IncommingDocument,
       headerTitle: this.$t("translations.headers.incommingLetter"),
       store: {
         subject: "",
