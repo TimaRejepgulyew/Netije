@@ -95,7 +95,6 @@
   </main>
 </template>
 <script>
-import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import { DxDropDownButton } from "devextreme-vue";
 import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -221,12 +220,7 @@ export default {
       });
     },
     toMoreAbout(e) {
-      this.$router.push(
-        RouteGenerator.generateAssignmentDetailRoute(
-          e.data.assignmentType,
-          e.key
-        )
-      );
+      this.$router.push("/assignment/"+ e.key );
     },
     createTask(e) {
       this.$router.push(e.itemData.path);

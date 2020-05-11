@@ -19,7 +19,9 @@ export default {
     back: "Назад",
     more: "Подробнее",
     documents: "Документы",
-    access: "Доступ"
+    access: "Доступ",
+    from: "От",
+    whom: "Кому"
   },
   document: {
     remove: "Удалить",
@@ -143,12 +145,13 @@ export default {
     incomming: "Исходящие"
   },
   buttons: {
+    acquintance:"Ознакомлен",
     changePassword: "Сменить пароль",
-    complete: "Завершить",
     save: "Сохранить",
     add: "Добавить",
-    complete: "Завершить",
-    modification: "Отправить на дооработку",
+    completed: "Выполнено",
+    accept: "Принять",
+    rework: "На доработку",
     filter: "Фильтр",
     stop: "Прекратить",
     accept: "Принять",
@@ -159,6 +162,7 @@ export default {
     register: "Зарегистрировать",
     preview: "Читать",
     download: "Скачать",
+    back: "Назад",
     yes: "Да",
     no: "Нет"
   },

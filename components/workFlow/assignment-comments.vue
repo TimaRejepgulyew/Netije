@@ -2,6 +2,7 @@
   <div>
     <div class="list-container">
       <DxList
+        :hover-state-enabled="false"
         :activeStateEnabled="false"
         :focusStateEnabled="false"
         :data-source="comments"

@@ -3,7 +3,12 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
-        <DxList :data-source="attachments" :search-enabled="true" search-expr="name">
+        <DxList
+          :hover-state-enabled="false"
+          :data-source="attachments"
+          :search-enabled="true"
+          search-expr="name"
+        >
           <template #item="item">
             <div>
               <div
@@ -29,7 +34,7 @@
           </template>
         </DxList>
       </div>
-      <template>
+      <template v-if="inProccess">
         <DxSelectBox
           v-model="selectedDocument"
           :dataSource="documents"
@@ -74,7 +79,7 @@ export default {
     DxButton,
     DxTagBox
   },
-  props: ["url", "readOnly"],
+  props: ["url"],
   data() {
     return {
       attachments: new DataSource({
@@ -123,6 +128,9 @@ export default {
     }
   },
   computed: {
+    inProccess() {
+      return this.$store.getters["currentAssignment/canUpdate"];
+    },
     isCreated() {
       return !this.$route.params.id;
     }

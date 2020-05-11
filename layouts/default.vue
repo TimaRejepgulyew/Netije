@@ -118,7 +118,7 @@ body {
   display: flex;
   .item {
     flex-grow: 1;
-    padding: 0 15px;
+    padding-right: 15px;
     width: 20%;
   }
   .f-grow-3 {

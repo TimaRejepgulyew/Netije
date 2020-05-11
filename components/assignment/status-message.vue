@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex message" v-if="isImportance">
+    <div class="d-flex message" v-if="isImportant">
       <i class="dx-icon dx-icon-info"></i>
       <span>{{$t('translations.fields.importanceMessage')}}</span>
     </div>
@@ -12,10 +12,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("currentAssignment", ["isImportance", "isCompleted"])
+    isImportant() {
+      return this.$store.getters["currentAssignment/isImportant"];
+    },
+    isCompleted() {
+      return this.$store.getters["currentAssignment/isCompleted"];
+    }
   }
 };
 </script>
