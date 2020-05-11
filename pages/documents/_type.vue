@@ -1,0 +1,140 @@
+<template>
+  <main>
+    <Header :headerTitle="headerTitle"></Header>
+    <DxDataGrid
+      id="gridContainer"
+      :show-borders="true"
+      :data-source="store"
+      :remote-operations="true"
+      :columns="columns"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
+      :column-auto-width="true"
+      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :onRowDblClick="openDocument"
+      @toolbar-preparing="onToolbarPreparing($event)"
+      :focused-row-enabled="true"
+    >
+      <DxGrouping :auto-expand-all="false" />
+      <DxSelection />
+      <DxHeaderFilter :visible="true" />
+
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
+      <DxFilterRow :visible="true" />
+      <DxFilterPanel :visible="true" />
+      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
+
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        :file-name="$t('menu.incommingLetter')"
+      />
+
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
+      <DxEditing :allow-adding="true" :useIcons="true" mode="popup" />
+
+      <DxSearchPanel position="after" :visible="true" />
+      <DxScrolling mode="virtual" />
+
+      <template #cellTemplate="cell">
+        <document-icon :extension="cell.data.value?cell.data.value.extension:null" />
+      </template>
+    </DxDataGrid>
+  </main>
+</template>
+<script>
+import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
+import CreateDocument from "~/components/paper-work/createDocumentPopup";
+import { DxPopup } from "devextreme-vue/popup";
+import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
+import { DxLoadPanel } from "devextreme-vue/load-panel";
+import documentIcon from "~/components/page/document-icon";
+import DocumentService from "~/infrastructure/services/documentService";
+import {
+  DxSearchPanel,
+  DxFilterPanel,
+  DxFilterBuilderPopup,
+  DxDataGrid,
+  DxColumn,
+  DxEditing,
+  DxHeaderFilter,
+  DxScrolling,
+  DxExport,
+  DxSelection,
+  DxLookup,
+  DxGrouping,
+  DxGroupPanel,
+  DxColumnChooser,
+  DxColumnFixing,
+  DxFilterRow,
+  DxStateStoring,
+  DxButton
+} from "devextreme-vue/data-grid";
+export default {
+  components: {
+    documentIcon,
+    CreateDocument,
+    DxPopup,
+    DxLoadPanel,
+    DxFilterPanel,
+    DxFilterBuilderPopup,
+    Header,
+    DxSearchPanel,
+    DxDataGrid,
+    DxColumn,
+    DxEditing,
+    DxHeaderFilter,
+    DxScrolling,
+    DxExport,
+    DxSelection,
+    DxLookup,
+    DxGrouping,
+    DxGroupPanel,
+    DxColumnChooser,
+    DxColumnFixing,
+    DxFilterRow,
+    DxStateStoring,
+    DxButton
+  },
+  data() {
+    return {
+      type: this.$route.params.type,
+      createDocumentPopup: false,
+      filterBuilderPopupPosition: this.$store.getters[
+        "papaer-work/filterBuilderPopupPosition"
+      ],
+      store: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.paperWork.Documents + this.$route.params.type
+      }),
+      openDocument: e => {
+        const address = this.urlByTypeGuid[e.data.documentTypeGuid] + e.key;
+        this.$router.push(address);
+      },
+      onToolbarPreparing(e) {
+        const addButton = e.toolbarOptions.items.find(btn => {
+          return btn.name == "addRowButton";
+        });
+        if (addButton) {
+          addButton.options.onClick = () => {
+            this.createDocumentPopup = true;
+          };
+        }
+      }
+    };
+  },
+  computed: {
+    columns() {
+      console.log(this.type);
+      return ColumnFactory.CreateColumns(+this.type, this);
+    },
+    urlByTypeGuid() {
+      return this.$store.getters["paper-work/urlByTypeGuid"];
+    }
+  }
+};
+</script>
+

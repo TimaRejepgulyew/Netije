@@ -159,10 +159,7 @@ function CreateDocumentRegistryColumn(context) {
 }
 
 function CreateDocumentRegistrationStateColumn(context) {
-
     const registrationState = context.$store.getters["paper-work/registrationState"](context)
-
-    registrationState
     return CreateArrayLookupColumn("registrationState", context, registrationState);
 }
 
