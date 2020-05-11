@@ -34,8 +34,8 @@
         </DxColumn>
       </DxDataGrid>
     </template>
-    <DxItem :title="$t('translations.fields.permissions')" template="permissions" />
-    <permissions slot="permissions" :data="data.id" />
+    <!-- TODO:V2.0<DxItem :title="$t('translations.fields.permissions')" template="permissions" />
+    <permissions slot="permissions" :data="data.id" />-->
   </DxTabPanel>
 </template>
 
