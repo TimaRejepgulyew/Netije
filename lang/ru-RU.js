@@ -14,7 +14,8 @@ export default {
   },
   shared: {
     error: "Произошла ошибка",
-    errorOccured: "Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
+    errorOccured:
+      "Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
     back: "Назад",
     more: "Подробнее",
     documents: "Документы",
@@ -61,6 +62,9 @@ export default {
   menu: {
     all: "Все",
     allDocument: "Все документы",
+    internalDocuments: "Внутрение документы",
+    incommingDocuments: "Входящие документы",
+    outgoingDocuments: "Исходщие документы",
     filesType: "Типы файлов",
     currencies: "Валюты",
     "human-settlement": "Населенные пункты",

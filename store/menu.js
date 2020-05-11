@@ -1,31 +1,39 @@
-import EntityType from '~/infrastructure/constants/entityTypes'
-
+import EntityType from "~/infrastructure/constants/entityTypes";
 
 export const state = () => ({
   menuList: []
 });
 
 export const hasSharedDirectoryAccess = rootGetters => {
-  return rootGetters["permissions/allowReading"](EntityType.Country) ||
+  return (
+    rootGetters["permissions/allowReading"](EntityType.Country) ||
     rootGetters["permissions/allowReading"](EntityType.Region) ||
     rootGetters["permissions/allowReading"](EntityType.Locality)
-}
+  );
+};
 
 export const hasCounterPartyAccess = rootGetters => {
-  return rootGetters["permissions/allowReading"](EntityType.Counterparty) ||
+  return (
+    rootGetters["permissions/allowReading"](EntityType.Counterparty) ||
     rootGetters["permissions/allowReading"](EntityType.Contact)
-}
+  );
+};
 
 export const hasCompanyAccess = rootGetters => {
-  return rootGetters["permissions/allowReading"](EntityType.ManagersAssistant) ||
+  return (
+    rootGetters["permissions/allowReading"](EntityType.ManagersAssistant) ||
     rootGetters["permissions/allowReading"](EntityType.JobTitle) ||
     rootGetters["permissions/allowReading"](EntityType.Employee) ||
     rootGetters["permissions/allowReading"](EntityType.Department) ||
-    rootGetters["permissions/allowReading"](EntityType.BusinessUnit);
-}
+    rootGetters["permissions/allowReading"](EntityType.BusinessUnit)
+  );
+};
 
 export const hasDocflowAccess = rootGetters => {
-  return rootGetters["permissions/allowReading"](EntityType.AssociatedApplications) ||
+  return (
+    rootGetters["permissions/allowReading"](
+      EntityType.AssociatedApplications
+    ) ||
     rootGetters["permissions/allowReading"](EntityType.FilesType) ||
     rootGetters["permissions/allowReading"](EntityType.DocumentKind) ||
     rootGetters["permissions/allowReading"](EntityType.CaseFile) ||
@@ -34,7 +42,8 @@ export const hasDocflowAccess = rootGetters => {
     rootGetters["permissions/allowReading"](EntityType.MailDeliveryMethod) ||
     rootGetters["permissions/allowReading"](EntityType.RegistrationGroup) ||
     rootGetters["permissions/allowReading"](EntityType.RegistrationSetting)
-}
+  );
+};
 
 export const getters = {
   menuList({ menuList }) {
@@ -49,7 +58,7 @@ export const mutations = {
 };
 
 export const actions = {
-  initialize({ commit,rootGetters }) {
+  initialize({ commit, rootGetters }) {
     const data = [
       {
         text: this.$i18n.t("menu.outgoing"),
@@ -76,45 +85,46 @@ export const actions = {
       {
         text: this.$i18n.t("menu.paperwork"),
         icon: "file",
-        path: "/paper-work",
+        path: "/paper-work/all-documents",
 
         items: [
           {
-            text: this.$i18n.t("menu.allDocument"),
-            path: "/paper-work/all-documents"
-          },
-          {
-            text: this.$i18n.t("menu.incommingLetter"),
+            text: this.$i18n.t("menu.incommingDocuments"),
             path: "/paper-work/incomming-letter"
           },
           {
-            text: this.$i18n.t("menu.outgoingLetter"),
+            text: this.$i18n.t("menu.outgoingDocuments"),
             path: "/paper-work/outgoing-letter"
           },
-
           {
-            text: this.$i18n.t("menu.order"),
-            path: "/paper-work/order"
-          },
-          {
-            text: this.$i18n.t("menu.companyDirectives"),
-            path: "/paper-work/company-directive"
-          },
-          {
-            text: this.$i18n.t("menu.simpleDocument"),
-            path: "/paper-work/simple-document"
-          },
-          {
-            text: this.$i18n.t("menu.addendum"),
-            path: "/paper-work/addendum"
-          },
-          {
-            text: this.$i18n.t("menu.memo"),
-            path: "/paper-work/memo"
-          },
-          {
-            text: this.$i18n.t("menu.powerOfAttorney"),
-            path: "/paper-work/power-of-attorney"
+            text: this.$i18n.t("menu.internalDocuments"),
+            path: "/documents/103",
+            items: [
+              {
+                text: this.$i18n.t("menu.order"),
+                path: "/paper-work/order"
+              },
+              {
+                text: this.$i18n.t("menu.companyDirectives"),
+                path: "/paper-work/company-directive"
+              },
+              {
+                text: this.$i18n.t("menu.simpleDocument"),
+                path: "/paper-work/simple-document"
+              },
+              {
+                text: this.$i18n.t("menu.addendum"),
+                path: "/paper-work/addendum"
+              },
+              {
+                text: this.$i18n.t("menu.memo"),
+                path: "/paper-work/memo"
+              },
+              {
+                text: this.$i18n.t("menu.powerOfAttorney"),
+                path: "/paper-work/power-of-attorney"
+              }
+            ]
           }
         ]
       },
@@ -127,22 +137,30 @@ export const actions = {
           {
             text: this.$i18n.t("menu.all"),
             path: "/parties/",
-            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Counterparty
+            )
           },
           {
             text: this.$i18n.t("menu.companies"),
             path: "/parties/organizations/companies",
-            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Counterparty
+            )
           },
           {
             text: this.$i18n.t("menu.banks"),
             path: "/parties/organizations/banks",
-            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Counterparty
+            )
           },
           {
             text: this.$i18n.t("menu.person"),
             path: "/parties/persons/",
-            visible: rootGetters["permissions/allowReading"](EntityType.Counterparty)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Counterparty
+            )
           },
           {
             text: this.$i18n.t("menu.contacts"),
@@ -159,27 +177,37 @@ export const actions = {
           {
             text: this.$i18n.t("menu.businessUnit"),
             path: "/company/organization-structure/business-units",
-            visible: rootGetters["permissions/allowReading"](EntityType.BusinessUnit)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.BusinessUnit
+            )
           },
           {
             text: this.$i18n.t("menu.department"),
             path: "/company/organization-structure/departments",
-            visible: rootGetters["permissions/allowReading"](EntityType.Department)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Department
+            )
           },
           {
             text: this.$i18n.t("menu.employee"),
             path: "/company/staff/employees",
-            visible: rootGetters["permissions/allowReading"](EntityType.Employee)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Employee
+            )
           },
           {
             text: this.$i18n.t("menu.jobTitle"),
             path: "/company/job-titles",
-            visible: rootGetters["permissions/allowReading"](EntityType.JobTitle)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.JobTitle
+            )
           },
           {
             text: this.$i18n.t("menu.managersAssistant"),
             path: "/company/staff/managers-assistants",
-            visible: rootGetters["permissions/allowReading"](EntityType.ManagersAssistant)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.ManagersAssistant
+            )
           }
         ]
       },
@@ -191,42 +219,58 @@ export const actions = {
           {
             text: this.$i18n.t("menu.documentKind"),
             path: "/docflow/document-kind",
-            visible: rootGetters["permissions/allowReading"](EntityType.DocumentKind)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.DocumentKind
+            )
           },
           {
             text: this.$i18n.t("menu.documentRegistry"),
             path: "/docflow/document-register",
-            visible: rootGetters["permissions/allowReading"](EntityType.DocumentRegister)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.DocumentRegister
+            )
           },
           {
             text: this.$i18n.t("menu.registrationGroup"),
             path: "/docflow/registration-group",
-            visible: rootGetters["permissions/allowReading"](EntityType.RegistrationGroup)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.RegistrationGroup
+            )
           },
           {
             text: this.$i18n.t("menu.caseFile"),
             path: "/docflow/case-files",
-            visible: rootGetters["permissions/allowReading"](EntityType.CaseFile)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.CaseFile
+            )
           },
           {
             text: this.$i18n.t("menu.fileRetentionPeriod"),
             path: "/docflow/file-retention-period/",
-            visible: rootGetters["permissions/allowReading"](EntityType.FileRetentionPeriod)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.FileRetentionPeriod
+            )
           },
           {
             text: this.$i18n.t("menu.mailDeliveryMethod"),
             path: "/docflow/mail-delivery-method/",
-            visible: rootGetters["permissions/allowReading"](EntityType.MailDeliveryMethod)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.MailDeliveryMethod
+            )
           },
           {
             text: this.$i18n.t("menu.associatedApp"),
             path: "/docflow/associated-applications",
-            visible: rootGetters["permissions/allowReading"](EntityType.AssociatedApplications)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.AssociatedApplications
+            )
           },
           {
             text: this.$i18n.t("menu.fileType"),
             path: "/docflow/files-type",
-            visible: rootGetters["permissions/allowReading"](EntityType.FilesType)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.FilesType
+            )
           }
         ]
       },
@@ -248,7 +292,9 @@ export const actions = {
           {
             text: this.$i18n.t("menu.locality"),
             path: "/shared-directory/territorial-structure/localities",
-            visible: rootGetters["permissions/allowReading"](EntityType.Locality)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Locality
+            )
           },
           {
             text: this.$i18n.t("menu.currencies"),
@@ -274,4 +320,4 @@ export const actions = {
     ];
     commit("SET_MENU_ITEMS", data);
   }
-}
+};
