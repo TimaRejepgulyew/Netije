@@ -181,8 +181,13 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .tab-bar {
   margin-top: 10px;
+}
+.item {
+  flex-grow: 1;
+  padding: 0 15px;
+  width: 20%;
 }
 </style>

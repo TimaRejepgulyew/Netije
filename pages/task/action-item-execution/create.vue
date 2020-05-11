@@ -58,6 +58,7 @@
                   >
                     <DxLabel location="top" :text="$t('translations.fields.assignedById')" />
                   </DxSimpleItem>
+
                   <DxSimpleItem
                     :col-span="2"
                     :editor-options="employeeOptions"
@@ -213,7 +214,7 @@ export default {
     handleSubmit() {
       const payload = { ...this.store };
       payload.attachments = payload.attachments.map(el => {
-        return el.id;
+        return el.document.id;
       });
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.task.CreateActionItemTask, payload),
@@ -232,6 +233,7 @@ export default {
           context: this,
           url: dataApi.company.Employee
         }),
+      
         showSelectionControls: true,
         maxDisplayedTags: 3,
         acceptCustomValue: true,
