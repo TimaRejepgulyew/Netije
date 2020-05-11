@@ -1,20 +1,14 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <MainForm
-        :isDataChanged="isDataChanged"
-        @saved="saved"
-        @modified="modified"
-        :headerTitle="headerTitle"
-        :store="store"
-        :docType="3"
-      >
+      <MainForm :headerTitle="headerTitle" :store="store" :docType="docType">
         <DxForm
           :col-count="1"
           :form-data.sync="store"
-          :read-only="!store.readOnly"
+          :read-only="readOnly"
           :show-colon-after-label="true"
-          :show-validation-summary="true"
+          :show-validation-summary="false"
+          :on-field-data-changed="modified"
           validation-group="OfficialDocument"
         >
           <DxGroupItem :col-count="2">
@@ -70,34 +64,24 @@
   </div>
 </template>
 <script>
+import DocumentType from "~/infrastructure/constants/documentType";
 import MainForm from "~/components/paper-work/main-doc-form/main";
-import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
+import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
-  DxPatternRule,
-  DxAsyncRule
+  DxRequiredRule
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
-let unwatch;
 export default {
   components: {
     MainForm,
-    Header,
     DxForm,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule,
-    DxPatternRule,
-    DxAsyncRule
-  },
-  created() {
-    this.eventIsModified();
+    DxRequiredRule
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {
@@ -105,6 +89,9 @@ export default {
         dataApi.paperWork.GetDocumentById + params.id
       );
       return {
+        readOnly: store.data.readOnly,
+        canUpdate: store.data.canUpdate,
+        canRegister: store.data.canRegister,
         store: store.data.document,
         isUpdating: true
       };
@@ -112,10 +99,21 @@ export default {
       return {};
     }
   },
+  created() {
+    this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
+      readOnly: this.readOnly,
+      canUpdate: this.canUpdate,
+      canRegister: this.canRegister,
+      isRegistered: this.store.registrationState === 0
+    });
+  },
   data() {
     return {
+      readOnly: false,
+      canUpdate: true,
+      canRegister: false,
       isUpdating: false,
-      isDataChanged: false,
+      docType: DocumentType.Order,
       headerTitle: this.$t("translations.headers.order"),
       store: {
         ourSignatoryId: null,
@@ -134,25 +132,11 @@ export default {
     };
   },
   methods: {
-    saved() {
-      this.isDataChanged = true;
-    },
     modified() {
-      if (this.$route.params.id != "add") {
-        this.$store.commit("currentDocument/DATA_CHANGED", true);
-      }
+      this.$store.commit("currentDocument/DATA_CHANGED", true);
     },
-    eventIsModified() {
-      if (this.isUpdating) {
-        this.isDataChanged = true;
-        unwatch = this.$watch("store", this.modified, { deep: true });
-      }
-    }
   },
   computed: {
-    hasPermission() {
-      return this.$store.getters["paper-work/hasPermissions"];
-    },
     preparedOptions() {
       const departmentId = this.store.departmentId;
       return this.$store.getters["globalProperties/FormOptions"]({
