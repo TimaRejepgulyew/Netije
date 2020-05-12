@@ -34,8 +34,8 @@
         </DxColumn>
       </DxDataGrid>
     </template>
-    <DxItem :title="$t('translations.fields.permissions')" template="permissions" />
-    <permissions slot="permissions" :data="data.id" />
+    <!-- TODO:V2.0<DxItem :title="$t('translations.fields.permissions')" template="permissions" />
+    <permissions slot="permissions" :data="data.id" />-->
   </DxTabPanel>
 </template>
 
@@ -78,7 +78,7 @@ export default {
     }
   },
   data() {
-    let { id,immutable } = this.data.data;
+    let { id, immutable } = this.data.data;
     return {
       entityType: EntityType.Department,
       roleId: id,

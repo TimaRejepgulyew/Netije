@@ -62,7 +62,7 @@ export const actions = {
     const assignment = {
       assignmentId: state.assignment.id,
       comment: state.comment,
-      result
+      result: result
     };
 
     return await this.$axios.post(
