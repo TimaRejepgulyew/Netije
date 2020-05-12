@@ -7,7 +7,8 @@
     </div>
     <div class="grid">
       <DxDataGrid
-      id="gridContainer"        :show-borders="true"
+        id="gridContainer"
+        :show-borders="true"
         :data-source="store"
         :remote-operations="true"
         :allow-column-reordering="true"
@@ -47,10 +48,22 @@
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
         <DxColumn
-          data-type="string"
+          caption=""
+          :allow-filtering="false"
+          :allow-sorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          alignment="center"
+          :allowSearch="false"
+          :width="60"
+          cellTemplate="cellTemplate"
+          :visible="true"
           data-field="assignmentType"
-          :caption="$t('translations.fields.type')"
-          cell-template="cellTemplate"
         ></DxColumn>
 
         <DxColumn
@@ -220,7 +233,7 @@ export default {
       });
     },
     toMoreAbout(e) {
-      this.$router.push("/assignment/"+ e.key );
+      this.$router.push("/assignment/" + e.key);
     },
     createTask(e) {
       this.$router.push(e.itemData.path);
@@ -242,6 +255,8 @@ export default {
         case 3:
         case 4:
         case 5:
+        case 16:
+        case 17:
           return require("~/static/icons/iconAssignment/notice.svg");
         default:
           return require("~/static/icons/iconAssignment/inProccess1.svg");
