@@ -119,7 +119,7 @@ export default {
   },
   filters: {
     formatDate(value) {
-      return moment(value).format("MM.DD.YYYY hh:mm");
+      return moment(value).format("MM.DD.YYYY HH:mm");
     }
   }
 };

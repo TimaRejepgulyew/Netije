@@ -17,7 +17,7 @@
           </div>
           <div class="list__content">
             <i class="dx-icon dx-icon-event"></i>
-            {{formatDate(comment.created)}}
+            {{formatDate(comment.modificationDate)}}
           </div>
         </div>
 
@@ -77,7 +77,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format("MM.DD.YYYY hh:mm");
+      return moment(date).format("MM.DD.YYYY HH:mm");
     },
     displayDeadline(type) {
       switch (type) {

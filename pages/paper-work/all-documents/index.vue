@@ -69,13 +69,13 @@
       <DxColumn data-field="name" :width="1000" :caption="$t('document.fields.name')"></DxColumn>
       <DxColumn
         data-field="created"
-        format="dd.MM.yyyy hh:mm"
+        format="dd.MM.yyyy HH:mm"
         data-type="date"
         :caption="$t('document.fields.created')"
       ></DxColumn>
       <DxColumn
         data-field="modified"
-        format="dd.MM.yyyy hh:mm"
+        format="dd.MM.yyyy HH:mm"
         data-type="date"
         :caption="$t('document.fields.modified')"
       ></DxColumn>

@@ -102,7 +102,7 @@ function CreateDocumentCreatedColumn(context) {
         width: "auto",
         visible: true,
         dataType: "date",
-        format: "dd.MM.yyyy hh:mm"
+        format: "dd.MM.yyyy HH:mm"
     };
 }
 
@@ -113,7 +113,7 @@ function CreateDocumentModifiedColumn(context) {
         width: "auto",
         visible: true,
         dataType: "date",
-        format: "dd.MM.yyyy hh:mm"
+        format: "dd.MM.yyyy HH:mm"
     };
 }
 
@@ -128,7 +128,7 @@ function CreateDocumentRegistrationDateColumn(context) {
         width: "auto",
         visible: true,
         dataType: "date",
-        format: "dd.MM.yyyy hh:mm"
+        format: "dd.MM.yyyy HH:mm"
     };
 }
 
