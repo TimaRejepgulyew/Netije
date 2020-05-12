@@ -24,7 +24,7 @@
         <div class="task-state">
           <div
             class="task__item"
-            v-if="comment.entity.deadline"
+            v-if="comment.entity.deadline && displayDeadline(comment.type)"
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.deadline)}}</div>
           <div class="d-flex task__item item--status">
@@ -54,6 +54,7 @@
 
 <script>
 import Comment from "~/components/workFlow/comments-item.vue";
+import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
@@ -67,16 +68,24 @@ export default {
     },
     parseIconType(type) {
       switch (type) {
-        case 0:
+        case WorkflowEntityTextType.Task:
           return require("~/static/icons/iconAssignment/task.svg");
-        case 3:
+        case WorkflowEntityTextType.Notice:
           return require("~/static/icons/iconAssignment/notice.svg");
-        case 4:
+        case WorkflowEntityTextType.Assignment:
           return require("~/static/icons/iconAssignment/assignment.svg");
       }
     },
     formatDate(date) {
       return moment(date).format("MM.DD.YYYY hh:mm");
+    },
+    displayDeadline(type) {
+      switch (type) {
+        case WorkflowEntityTextType.Notice:
+          return false;
+        default:
+          return true;
+      }
     }
   },
   computed: {
