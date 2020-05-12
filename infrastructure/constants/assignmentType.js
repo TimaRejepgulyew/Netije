@@ -1,19 +1,21 @@
 const AssignmentType = {
   SimpleAssignment: 0,
-  AcquintanceAssignment: 1,
+  AcquaintanceAssignment: 1,
   ActionItemExecutionAssignment: 2,
   SimpleNotify: 3,
   ActionItemExecutionNotify: 4,
-  AcquintanceNotify: 5,
+  AcquaintanceNotify: 5,
   AcquaintanceFinishAssignment: 6,
   ActionItemSupervisorAssignment: 7,
-  ReviewAssignment: 8
+  ReviewAssignment: 8,
+  ActionItemObserversNotification: 16,
+  ActionItemSupervisorNotification: 17
 };
 export default AssignmentType;
 export function isAssignment(type) {
   switch (type) {
     case AssignmentType.SimpleAssignment:
-    case AssignmentType.AcquintanceAssignment:
+    case AssignmentType.AcquaintanceAssignment:
     case AssignmentType.ActionItemExecutionAssignment:
     case AssignmentType.AcquaintanceFinishAssignment:
     case AssignmentType.ActionItemSupervisorAssignment:
@@ -22,4 +24,7 @@ export function isAssignment(type) {
     default:
       return false;
   }
+}
+export function isActionItemExicutionAssignment(type) {
+  return type === AssignmentType.ActionItemExecutionAssignment;
 }

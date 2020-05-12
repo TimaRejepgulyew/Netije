@@ -122,6 +122,7 @@
   </div>
 </template>
 <script>
+import Important from "~/infrastructure/constants/assignmentImportance.js";
 import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -158,7 +159,7 @@ export default {
     return {
       store: {
         subject: null,
-        importance: 1,
+        importance: Important.Normal,
         supervisorId: null,
         maxDeadline: new Date(),
         actionItemObservers: [],
@@ -233,7 +234,7 @@ export default {
           context: this,
           url: dataApi.company.Employee
         }),
-      
+
         showSelectionControls: true,
         maxDisplayedTags: 3,
         acceptCustomValue: true,

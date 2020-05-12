@@ -1,5 +1,6 @@
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus";
 import { isAssignment } from "~/infrastructure/constants/assignmentType.js";
+import { isActionItemExicutionAssignment } from "~/infrastructure/constants/assignmentType.js";
 import dataApi from "~/static/dataApi";
 import Importance from "~/infrastructure/constants/assignmentImportance";
 export const state = () => ({
@@ -9,11 +10,13 @@ export const state = () => ({
 
 export const getters = {
   isCompleted({ assignment }) {
-    console.log(AssignmentStatus.Completed);
     return assignment.status === AssignmentStatus.Completed;
   },
   assignmentType({ assignment }) {
     return assignment.assignmentType;
+  },
+  isActionItemExicutionAssignment({ assignment }) {
+    return isActionItemExicutionAssignment(assignment.assignmentType);
   },
   canUpdate({ assignment }) {
     return (

@@ -57,7 +57,10 @@ export default {
       this.isDocumentRegistrationPopupOpen = true;
     },
     unRegister() {
-      let result = confirm(this.$t("translations.fields.areYouSure"));
+      let result = confirm(
+        this.$t("translations.fields.areYouSureCancelRegistration"),
+        this.$t("shared.confirm")
+      );
       result.then(dialogResult => {
         if (dialogResult) {
           this.$awn.asyncBlock(

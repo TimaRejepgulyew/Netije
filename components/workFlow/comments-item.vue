@@ -139,6 +139,7 @@ export default {
   height: 100%;
 }
 .item--status {
+  justify-content: flex-end;
   .icon--status {
     margin: 0 5px;
     display: flex;
@@ -155,9 +156,9 @@ export default {
   border: 1px solid $base-border-color;
   border-left: 2px solid $base-accent;
   padding: 5px 0;
-  border-radius: 4px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-radius: 2px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .expired {
   color: red;

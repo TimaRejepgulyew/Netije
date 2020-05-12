@@ -21,7 +21,9 @@ export default {
     documents: "Документы",
     access: "Доступ",
     from: "От",
-    whom: "Кому"
+    whom: "Кому",
+    areYouSure: "Вы уверены?",
+    confirm: "Подтверждение"
   },
   document: {
     remove: "Удалить",
@@ -132,7 +134,7 @@ export default {
     allAssignments: "Все задания",
     simpleAssignments: "Простые задания",
 
-    acquaintanceAssignments: "Задания на рассмотрение",
+    acquaintanceAssignments: "Задания на ознакомление",
     actionItemsExicutionAssignments: "Задания на исполнение",
     simpleNotices: "Простые уведомления",
     acquaintanceNotices: "Уведомления на ознакомления",
@@ -142,10 +144,14 @@ export default {
     mainInfo: "Основная информация",
     relation: "Связи",
     outgoing: "Входящие",
-    incomming: "Исходящие"
+    incomming: "Исходящие",
+
+    onExicution: "На исполнение",
+    onReview: "На приемку",
+    onAcquaintance: "На ознакомление"
   },
   buttons: {
-    acquintance:"Ознакомлен",
+    acquaintance: "Ознакомлен",
     changePassword: "Сменить пароль",
     save: "Сохранить",
     add: "Добавить",
@@ -497,7 +503,8 @@ export default {
       numericCodeRequired: "Введите цифровой код",
       currentNumber: "Текущий номер",
       currentNumberRequired: "Введите текущий номер",
-      areYouSure: "Вы уверены что хотите отменить регистрацию",
+      areYouSureCancelRegistration:
+        "Вы уверены что хотите отменить регистрацию",
       validTill: "Действителен по",
       validTillRequired: "Введите по какой срок действительна доверенность",
       issuedToId: "Кому выдана",
@@ -511,6 +518,7 @@ export default {
       fullAccess: "Полный доступ",
       observers: "Наблюдатели",
       performers: "Исполнители",
+      performersRequired: "Выберите исполнителя",
       acquaintMembers: "Кого ознакомить",
       acquaintMembersRequired: "Выберите кого нужно ознакомить",
       performerId: "Исполнитель",
@@ -526,7 +534,7 @@ export default {
       completedMessage: "Задание выполнено",
       createSimpleTask: "Создать простую задачу",
       createActionTask: "Создать задачу на поручение",
-      createAcquaintanceTask: "Создать задачу на расмотрение",
+      createAcquaintanceTask: "Создать задачу на ознакомление",
       attachmentSimpleTask: "Вложение к простой задаче",
       createDocument: "Создать документ",
       completed: "Завершенно",
@@ -572,7 +580,7 @@ export default {
       editRegistrationGroup: "Редактирование групп регистрации",
       simpleTask: "Простое задание",
       simpleAssignment: "Задача на расмотрение",
-      acquaintanceAssignment: "Задача на расмотрение",
+      acquaintanceAssignment: "Задача на ознакомление",
       versions: "Версии",
       attachment: "Вложения",
 

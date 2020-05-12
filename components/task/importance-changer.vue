@@ -1,37 +1,26 @@
 <template>
   <div class="navBar">
-    <DxButton
-      :text="$t('translations.fields.hightImportance')"
-      :height="40"
-      :onClick="(e)=>this.importanceChanged(1)"
-      icon="sortup"
-      :type="importance==1?'default':'normal'"
-    ></DxButton>
-    <DxButton
-      :text="$t('translations.fields.middleImportance')"
-      :height="40"
-      :type="importance==0?'default':'normal'"
-      :onClick="(e)=>this.importanceChanged(0)"
-    ></DxButton>
+    <DxCheckBox v-model="importance" :text="$t('translations.fields.hightImportance')" />
   </div>
 </template>
 <script>
-import dataApi from "~/static/dataApi";
-import { DxButton } from "devextreme-vue";
-import notify from "devextreme/ui/notify";
+import Important from "~/infrastructure/constants/assignmentImportance.js";
+import { DxCheckBox } from "devextreme-vue/check-box";
 export default {
   components: {
-    DxButton
+    DxCheckBox
   },
   data() {
     return {
-      importance: 0
+      importance: false
     };
   },
-  methods: {
-    importanceChanged(importanceType) {
-      this.importance = importanceType;
-      this.$emit("importanceChanged", this.importance);
+  watch: {
+    importance: function(value) {
+      this.$emit(
+        "importanceChanged",
+        value ? Important.Hight : Important.Normal
+      );
     }
   }
 };

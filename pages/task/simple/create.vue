@@ -49,7 +49,7 @@
                   </DxSimpleItem>
                 </DxGroupItem>
                 <DxSimpleItem
-                  :editor-options="tagboxOptions"
+                  :editor-options="employeeOptions"
                   editor-type="dxTagBox"
                   data-field="observers"
                 >
@@ -57,7 +57,7 @@
                 </DxSimpleItem>
 
                 <DxSimpleItem
-                  :editor-options="tagboxOptions"
+                  :editor-options="employeeOptions"
                   editor-type="dxTagBox"
                   data-field="performers"
                 >
@@ -65,7 +65,7 @@
                   <DxLabel location="top" :text="$t('translations.fields.performers')" />
                 </DxSimpleItem>
               </DxGroupItem>
-              <DxGroupItem >
+              <DxGroupItem>
                 <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
                   <DxLabel
                     :visible="false"
@@ -103,6 +103,7 @@
   </div>
 </template>
 <script>
+import Important from "~/infrastructure/constants/assignmentImportance.js";
 import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -139,7 +140,7 @@ export default {
     return {
       store: {
         subject: null,
-        importance: 1,
+        importance: Important.Normal,
         deadline: new Date(),
         observers: [],
         performers: [],
@@ -174,23 +175,13 @@ export default {
         displayExpr: "name"
       },
 
-      tagboxOptions: {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee
-        }),
-        valueExpr: "id",
-        displayExpr: "name",
-        acceptCustomValue: true,
-        onCustomItemCreating: this.addNewMember
-      },
       addNewMember: args => {
         const newValue = args.text;
         args.customItem = newValue;
       },
-      submit: false
     };
   },
+
   methods: {
     updateAttachments(attachments) {
       this.store.attachments = attachments;
@@ -217,6 +208,19 @@ export default {
     }
   },
   computed: {
+    employeeOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Employee
+        }),
+
+        showSelectionControls: true,
+        maxDisplayedTags: 3,
+        acceptCustomValue: true,
+        onCustomItemCreating: this.addNewMember
+      };
+    },
     sendButtonOptions() {
       return this.$store.getters["globalProperties/btnSend"](this);
     },
@@ -230,8 +234,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-
 .mr-top-auto {
   margin-top: 40%;
   text-align: right;

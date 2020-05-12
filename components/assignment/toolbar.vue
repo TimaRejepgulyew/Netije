@@ -18,6 +18,7 @@
   </div>
 </template>
 <script>
+import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
@@ -73,24 +74,39 @@ export default {
         }
       };
     },
-
+    checkisValid() {
+      if (
+        this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
+      ) {
+        var res = this.$parent.$refs["textArea"].instance.validate();
+        if (!res.isValid) return;
+      }
+    },
     completeButtonOptions() {
       return {
         text: this.getOptions().completeButtonText,
         icon: "check",
         type: "success",
-        onClick: async () => {
-          this.$awn.asyncBlock(
-            this.$store.dispatch(
-              "currentAssignment/complete",
-              ReviewResult.Accept
-            ),
-            e => {
-              this.$router.go(-1);
-              this.$awn.success();
-            },
-            e => this.$awn.alert()
+        onClick: () => {
+          this.checkisValid;
+          let result = confirm(
+            this.$t("shared.areYouSure"),
+            this.$t("shared.confirm")
           );
+          result.then(dialogResult => {
+            if (dialogResult)
+              this.$awn.asyncBlock(
+                this.$store.dispatch(
+                  "currentAssignment/complete",
+                  ReviewResult.Accept
+                ),
+                e => {
+                  this.$router.go(-1);
+                  this.$awn.success();
+                },
+                e => this.$awn.alert()
+              );
+          });
         }
       };
     }
@@ -112,11 +128,11 @@ export default {
             completeButtonText: this.$t("buttons.accept")
           };
 
-        case AssignmentType.AcquintanceAssignment:
+        case AssignmentType.AcquaintanceAssignment:
           return {
             completeButtonsVisible: true,
             reworkButtonVisible: false,
-            completeButtonText: this.$t("buttons.acquintance")
+            completeButtonText: this.$t("buttons.acquaintance")
           };
         // case AssignmentType.ActionItemExecutionAssignment:
         //   return {

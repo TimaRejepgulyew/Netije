@@ -56,23 +56,31 @@ export const mutations = {
     state.menuList = payload;
   }
 };
-
+import AssignmentTypeFilters from "~/infrastructure/constants/assignmentTypeFilters.js";
 export const actions = {
   initialize({ commit, rootGetters }) {
     const data = [
       {
-        text: this.$i18n.t("menu.outgoing"),
+        text: this.$i18n.t("menu.assignments"),
         icon: "clock",
-
+        path: `/assignment/${AssignmentTypeFilters.all}`,
         items: [
           {
-            text: this.$i18n.t("menu.assignments"),
-            path: "/assignment"
+            text: this.$i18n.t("menu.onExicution"),
+            path: `/assignment/${AssignmentTypeFilters.onExicution}`
+          },
+          {
+            text: this.$i18n.t("menu.onReview"),
+            path: `/assignment/${AssignmentTypeFilters.onReview}`
+          },
+          {
+            text: this.$i18n.t("menu.onAcquaintance"),
+            path: `/assignment/${AssignmentTypeFilters.onAcquaintance}`
           }
         ]
       },
       {
-        text: this.$i18n.t("menu.incomming"),
+        text: this.$i18n.t("menu.task"),
         icon: "selectall",
 
         items: [

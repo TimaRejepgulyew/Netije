@@ -3,7 +3,12 @@
     <Header :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
       <CreateTaskDropDown />
-      <DxButton icon="filter" :text="$t('buttons.filter')" :on-click="showFilter" />
+      <DxButton
+        icon="filter"
+        :text="$t('buttons.filter')"
+        v-if="withFilter"
+        :on-click="showFilter"
+      />
     </div>
     <div class="grid">
       <DxDataGrid
@@ -13,6 +18,7 @@
         :remote-operations="true"
         :allow-column-reordering="true"
         :allow-column-resizing="true"
+        :hover-state-enabled="true"
         :column-auto-width="false"
         :show-column-lines="false"
         :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
@@ -48,7 +54,7 @@
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
         <DxColumn
-          caption=""
+          caption
           :allow-filtering="false"
           :allow-sorting="false"
           :allowResizing="false"
@@ -61,11 +67,37 @@
           alignment="center"
           :allowSearch="false"
           :width="60"
-          cellTemplate="cellTemplate"
+          cellTemplate="typeIcon"
           :visible="true"
           data-field="assignmentType"
         ></DxColumn>
-
+        <DxColumn
+          caption
+          :allow-filtering="false"
+          :allow-sorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          alignment="center"
+          :allowSearch="false"
+          :width="40"
+          cellTemplate="isImportant"
+          :visible="true"
+          data-field="importance"
+        ></DxColumn>
+        <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+        <DxColumn data-field="authorId" :caption="$t('translations.fields.authorId')">
+          <DxLookup
+            :allow-clearing="true"
+            :data-source="employeeStores"
+            value-expr="id"
+            display-expr="name"
+          />
+        </DxColumn>
         <DxColumn
           data-field="deadline"
           :caption="$t('translations.fields.deadLine')"
@@ -77,25 +109,10 @@
           :caption="$t('translations.fields.createdDate')"
           data-type="date"
         />
-
-        <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
-
-        <DxColumn
-          :visible="false"
-          data-field="isRead"
-          sort-order="asc"
-          :caption="$t('translations.fields.subject')"
-        ></DxColumn>
-
-        <DxColumn data-field="authorId" :caption="$t('translations.fields.authorId')">
-          <DxLookup
-            :allow-clearing="true"
-            :data-source="employeeStores"
-            value-expr="id"
-            display-expr="name"
-          />
-        </DxColumn>
-        <template #cellTemplate="cell">
+        <template #isImportant="cell">
+          <img class="icon--type" :src="cell.data.value|isImportant" />
+        </template>
+        <template #typeIcon="cell">
           <img class="icon--type" :src="cell.data.value|typeIcon" />
         </template>
       </DxDataGrid>
@@ -108,6 +125,9 @@
   </main>
 </template>
 <script>
+import AssignmentType from "~/infrastructure/constants/assignmentType.js";
+import Important from "~/infrastructure/constants/assignmentImportance.js";
+import AssignmentTypeFilters from "~/infrastructure/constants/assignmentTypeFilters.js";
 import { DxDropDownButton } from "devextreme-vue";
 import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -164,9 +184,9 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.task.Assignments
-        })
-        // filter: JSON.parse(localStorage.getItem("filter")) || []
+          loadUrl: dataApi.assignment.Assignments + this.$route.params.type
+        }),
+        sort: [{ selector: "created", desc: true }]
       }),
       isFilterOpen: false,
       employeeStores: this.$dxStore({
@@ -178,6 +198,9 @@ export default {
   computed: {
     headerTitle() {
       return this.$t(`menu.assignments`);
+    },
+    withFilter() {
+      return +this.$route.params.type === AssignmentTypeFilters.all;
     }
   },
   methods: {
@@ -192,15 +215,9 @@ export default {
       this.store.reload();
     },
     onRowPrepared(e) {
-      this.showImportance(e);
       this.showNew(e);
       this.showStatus(e);
       this.showOfford(e);
-    },
-    showImportance(e) {
-      if (e.data != undefined && e.data.importance == 0) {
-        e.rowElement.bgColor = "lightBlue";
-      }
     },
     showOfford(e) {
       if (e.data != undefined && e.data.status != 2) {
@@ -222,18 +239,19 @@ export default {
       }
     },
     changeFilter(filter) {
-      console.log(filter);
-      this.store = new DataSource({
-        sort: "isRead",
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.assignment.Assignments
-        }),
-        filter: filter.filter
-      });
+      if (this.withFilter) {
+        this.store = new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.assignment.Assignments + this.$route.params.type
+          }),
+          sort: [{ selector: "created", desc: true }],
+          filter: filter.filter
+        });
+      }
     },
     toMoreAbout(e) {
-      this.$router.push("/assignment/" + e.key);
+      this.$router.push("/assignment/more/" + e.key);
     },
     createTask(e) {
       this.$router.push(e.itemData.path);
@@ -245,21 +263,28 @@ export default {
   filters: {
     typeIcon(value) {
       switch (value) {
-        case 0:
-        case 1:
-        case 2:
+        case AssignmentType.SimpleAssignment:
+        case AssignmentType.AcquaintanceAssignment:
+        case AssignmentType.ActionItemExecutionAssignment:
+          return require("~/static/icons/iconAssignment/clock.svg");
         case 6:
         case 7:
         case 8:
-          return require("~/static/icons/iconAssignment/assignment.svg");
-        case 3:
-        case 4:
-        case 5:
-        case 16:
-        case 17:
+          return require("~/static/icons/status/underreview.svg");
+        case AssignmentType.SimpleNotify:
+        case AssignmentType.ActionItemExecutionNotify:
+        case AssignmentType.AcquaintanceNotify:
+        case AssignmentType.ActionItemObserversNotification:
+        case AssignmentType.ActionItemSupervisorNotification:
           return require("~/static/icons/iconAssignment/notice.svg");
         default:
           return require("~/static/icons/iconAssignment/inProccess1.svg");
+      }
+    },
+    isImportant(value) {
+      switch (value) {
+        case Important.Hight:
+          return require("~/static/icons/iconAssignment/important.svg");
       }
     }
   }

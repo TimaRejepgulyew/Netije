@@ -38,7 +38,7 @@
                   </DxSimpleItem>
                 </DxGroupItem>
                 <DxSimpleItem
-                  :editor-options="tagboxOptions"
+                  :editor-options="employeeOptions"
                   editor-type="dxTagBox"
                   data-field="observers"
                 >
@@ -46,7 +46,7 @@
                 </DxSimpleItem>
 
                 <DxSimpleItem
-                  :editor-options="tagboxOptions"
+                  :editor-options="employeeOptions"
                   editor-type="dxTagBox"
                   data-field="performers"
                 >
@@ -96,6 +96,7 @@
   </div>
 </template>
 <script>
+import Important from "~/infrastructure/constants/assignmentImportance.js";
 import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -132,7 +133,7 @@ export default {
     return {
       store: {
         subject: null,
-        importance: 1,
+        importance: Important.Normal,
         deadline: new Date(),
         observers: [],
         performers: [],
@@ -167,20 +168,7 @@ export default {
         displayExpr: "name"
       },
 
-      tagboxOptions: {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee
-        }),
-        showSelectionControls: true,
-        maxDisplayedTags: 3,
-        valueExpr: "id",
-        displayExpr: "name",
-        paginate: true,
-        pageSize: 10,
-        acceptCustomValue: true,
-        onCustomItemCreating: this.addNewMember
-      },
+ 
       addNewMember: args => {
         const newValue = args.text;
         args.customItem = newValue;
@@ -189,6 +177,19 @@ export default {
     };
   },
   methods: {
+    employeeOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Employee
+        }),
+
+        showSelectionControls: true,
+        maxDisplayedTags: 3,
+        acceptCustomValue: true,
+        onCustomItemCreating: this.addNewMember
+      };
+    },
     updateAttachments(attachments) {
       this.store.attachments = attachments;
     },

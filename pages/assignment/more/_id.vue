@@ -58,7 +58,11 @@
                   :on-value-changed="setComment"
                   :height="150"
                   :value="comment"
-                />
+                >
+                  <DxValidator ref="textArea">
+                    <DxRequiredRule :message="$t('translations.fields.commentRequired')" />
+                  </DxValidator>
+                </DxTextArea>
                 <slot name="Test"></slot>
               </div>
             </template>
@@ -72,6 +76,7 @@
   </div>
 </template>
 <script>
+import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxTextArea } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import attachmentDetails from "~/components/assignment/attachment-details";
@@ -85,6 +90,8 @@ import DxForm, {
 } from "devextreme-vue/form";
 export default {
   components: {
+    DxValidator,
+    DxRequiredRule,
     DxTextArea,
     Toolbar,
     statusMessage,

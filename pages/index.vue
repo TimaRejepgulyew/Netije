@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Assignment from "~/pages/assignment";
+import Assignment from "~/pages/assignment/_type";
 export default {
   components: {
     Assignment
