@@ -13,9 +13,6 @@ export const getters = {
   taskType({ task }) {
     return task.taskType;
   },
-  isActionItemExicutionTask({ task }) {
-    // return isActionItemExicutionAssignment(task.taskType);
-  },
   reload({ reload }) {
     return reload;
   },

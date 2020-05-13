@@ -3,9 +3,9 @@
     <div class="widget-container">
       <Header :headerTitle="$t('translations.fields.createActionTask')"></Header>
       <importanceChanger @importanceChanged="importanceChanged"></importanceChanger>
-      <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
           <DxForm
+            ref="form"
             :col-count="1"
             :form-data.sync="store"
             :read-only="false"
@@ -117,7 +117,6 @@
             </template>
           </DxForm>
         </div>
-      </form>
     </div>
   </div>
 </template>

@@ -17,10 +17,7 @@ export default {
   },
   watch: {
     importance: function(value) {
-      this.$emit(
-        "importanceChanged",
-        value ? Important.High : Important.Normal
-      );
+      this.$emit("importantChanged", value ? Important.High : Important.Normal);
     }
   }
 };

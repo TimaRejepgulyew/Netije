@@ -4,13 +4,14 @@
       <DxList
         :data-source="store"
         :activeStateEnabled="false"
+        :hoverStateEnabled="false"
         :focusStateEnabled="false"
         :search-enabled="false"
       >
         <template :active-state-enabled="false" #item="item">
           <div>
             <div class="list__content">
-              <span class="text--bold">{{item.data.name}}</span>
+              {{item.data.name}}
             </div>
           </div>
         </template>
