@@ -22,7 +22,7 @@
         :column-auto-width="false"
         :show-column-lines="false"
         :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-        :onRowDblClick="toMoreAbout"
+        :onRowDblClick="showAssignment"
         :on-row-prepared="onRowPrepared"
         @toolbar-preparing="addButtonToGrid($event)"
       >
@@ -125,6 +125,7 @@
   </main>
 </template>
 <script>
+import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import AssignmentTypeFilters from "~/infrastructure/constants/assignmentTypeFilters.js";
@@ -216,30 +217,20 @@ export default {
       this.store.reload();
     },
     onRowPrepared(e) {
-      this.addStyleForNew(e);
-      this.addStatusStyle(e);
-      this.addStyleForCompleted(e);
-    },
-    addStyleForCompleted(e) {
-      if (e.data != undefined && e.data.status != 2) {
-        if (e.data != undefined) {
-          if (new Date(e.data.deadline) < new Date())
-            e.rowElement.style.color = "#d9534f";
+      if (e.data != undefined) {
+        if (!e.data.isRead) {
+          e.rowElement.style.fontWeight = "bolder";
+          e.rowElement.style.color = "#339966";
+        }
+        if (e.data.isExpired) {
+          console.log("expired")
+          e.rowElement.style.color = "red";
+        }
+        if (e.data.status == AssignmentStatus.Completed) {
+          e.rowElement.style.textDecoration = "line-through";
         }
       }
     },
-    addStatusStyle(e) {
-      if (e.data != undefined && e.data.status == 2) {
-        e.rowElement.style.textDecoration = "line-through";
-      }
-    },
-    addStyleForNew(e) {
-      if (e.data != undefined && !e.data.isRead) {
-        e.rowElement.style.fontWeight = "bolder";
-        e.rowElement.style.color = "#339966";
-      }
-    },
-
     changeFilter(filter) {
       if (this.withFilter) {
         this.store = new DataSource({
@@ -252,7 +243,7 @@ export default {
         });
       }
     },
-    toMoreAbout(e) {
+    showAssignment(e) {
       this.$router.push("/assignment/more/" + e.key);
     },
     createTask(e) {
