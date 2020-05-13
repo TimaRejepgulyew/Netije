@@ -2,6 +2,7 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="$t('translations.fields.createSimpleTask')"></Header>
+      <toolBar />
       <importanceChanger @importanceChanged="importanceChanged"></importanceChanger>
       <form class="d-flex" @submit.prevent="handleSubmit">
         <div class="item f-grow-3">
@@ -178,7 +179,7 @@ export default {
       addNewMember: args => {
         const newValue = args.text;
         args.customItem = newValue;
-      },
+      }
     };
   },
 

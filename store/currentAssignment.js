@@ -25,7 +25,7 @@ export const getters = {
     );
   },
   isImportant({ assignment }) {
-    return assignment.importance === Importance.Hight;
+    return assignment.importance === Importance.High;
   },
   assignment({ assignment }) {
     return assignment;

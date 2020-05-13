@@ -6,7 +6,8 @@
     </div>
     <div class="grid">
       <DxDataGrid
-      id="gridContainer"        :show-borders="true"
+        id="gridContainer"
+        :show-borders="true"
         :data-source="store"
         :remote-operations="true"
         :allow-column-reordering="true"
@@ -16,8 +17,8 @@
         :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
         :onRowDblClick="showTaskDetail"
         :on-row-prepared="onRowPrepared"
-       @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="true"
+        @toolbar-preparing="onToolbarPreparing($event)"
+        :focused-row-enabled="true"
       >
         <DxGroupPanel :visible="true" />
         <DxGrouping :auto-expand-all="false" />
@@ -28,11 +29,7 @@
 
         <DxFilterRow :visible="true" />
 
-        <DxExport
-          :enabled="true"
-          :allow-export-selected-data="true"
-          :file-name="$t('menu.task')"
-        />
+        <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('menu.task')" />
 
         <DxStateStoring :enabled="true" type="localStorage" storage-key="task" />
 
@@ -45,6 +42,43 @@
         />
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
+        <DxColumn
+          caption
+          :allow-filtering="false"
+          :allow-sorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          alignment="center"
+          :allowSearch="false"
+          :width="60"
+          cellTemplate="typeIcon"
+          :visible="true"
+          data-field="taskType"
+        ></DxColumn>
+        <DxColumn
+          caption
+          :allow-filtering="false"
+          :allow-sorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          alignment="center"
+          :allowSearch="false"
+          :width="40"
+          cellTemplate="isImportant"
+          :visible="true"
+          data-field="importance"
+        ></DxColumn>
+
         <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
         <DxColumn
           data-field="deadline"
@@ -65,11 +99,19 @@
             display-expr="name"
           />
         </DxColumn>
+        <template #isImportant="cell">
+          <img class="icon--type" :src="cell.data.value|isImportant" />
+        </template>
+        <template #typeIcon="cell">
+          <img class="icon--type" :src="cell.data.value|typeIcon" />
+        </template>
       </DxDataGrid>
     </div>
   </main>
 </template>
 <script>
+import Important from "~/infrastructure/constants/assignmentImportance.js";
+import TaskType from "~/infrastructure/constants/taskType.js";
 import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import CreateTaskDropDown from "~/components/task/create-task-drop-down";
 import { DxCheckBox } from "devextreme-vue";
@@ -151,20 +193,41 @@ export default {
       );
     },
     onRowPrepared(e) {
-      this.addImportanceStyle(e);
       this.addStatusStyle(e);
-    },
-    addImportanceStyle(e) {
-      if (e.data != undefined && e.data.importance == 0) {
-        e.rowElement.bgColor = "lightBlue";
-      }
     },
     addStatusStyle(e) {
       if (e.data != undefined && e.data.status == 3) {
         e.rowElement.style.textDecoration = "line-through";
       }
     }
+  },
+  filters: {
+    typeIcon(value) {
+      switch (value) {
+        case TaskType.AcquaintanceTask:
+          return require("~/static/icons/status/acquiantance.svg");
+        case TaskType.SimpleTask:
+          return require("~/static/icons/status/simple.svg");
+        case TaskType.ActionItemExecutionTask:
+          return require("~/static/icons/status/actionItemExicution.svg");
+        default:
+          return require("~/static/icons/iconAssignment/inProccess1.svg");
+      }
+    },
+    isImportant(value) {
+      switch (value) {
+        case Important.High:
+          return require("~/static/icons/iconAssignment/important.svg");
+      }
+    }
   }
 };
 </script>
+<style  scoped>
+.icon--type {
+  display: flex;
+  margin: 0 auto;
+  width: 25px;
+}
+</style>
 

@@ -1,15 +1,11 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <DxLoadPanel :visible.sync="isReload" id="large-indicator" :indicatorSrc="icon" />
       <Header :headerTitle="$t('translations.headers.moreAbout')"></Header>
-      <status-message :importance="taskProp.importance" :completed="taskProp.status" />
-      <div class="navBar">
-        <DxButton icon="refresh" :on-click="reload" />
-      </div>
-      <form class="d-flex" @submit.prevent="handleSubmit">
+
+      <simple-toolbar />
+      <form class="d-flex">
         <div class="item f-grow-3">
-          <slot name="information"></slot>
           <DxForm
             :col-count="1"
             :form-data.sync="task"
@@ -18,19 +14,42 @@
             :show-validation-summary="true"
             validation-group="task"
           >
-            <DxGroupItem :col-span="3">
-              <DxGroupItem>
-                <DxSimpleItem data-field="id" template="comments">
-                  <DxLabel location="top" :text="$t('translations.fields.comments')" />
+            <DxGroupItem :col-span="3" :caption="$t('translations.fields.main')">
+              <DxGroupItem :col-count="2">
+                <DxSimpleItem :col-span="2" data-field="subject">
+                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="authorId"
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.authorId')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="deadline"
+                  :editor-options="dateTimeOptions"
+                  editor-type="dxDateBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
                 </DxSimpleItem>
               </DxGroupItem>
-              <DxButtonItem :button-options="cancelButtonOptions" horizontal-alignment="left" />
+              <DxSimpleItem template="individual"></DxSimpleItem>
+              <DxSimpleItem data-field="id" template="comments">
+                <DxLabel location="top" :text="$t('translations.fields.comments')" />
+              </DxSimpleItem>
             </DxGroupItem>
             <template #comments>
-              <Assignment-comments v-if="!isReload" :url="commentsUrl"></Assignment-comments>
+              <div>
+                <status-message />
+                <Assignment-comments v-if="!isReload" :url="commentsUrl"></Assignment-comments>
+              </div>
             </template>
             <template #employee="employee">
               <employeeList :employee="employee.data.editorOptions.value"></employeeList>
+            </template>
+            <template #individual>
+              <slot name="information"></slot>
             </template>
           </DxForm>
         </div>
@@ -42,35 +61,29 @@
   </div>
 </template>
 <script>
+import simpleToolbar from "~/components/task/simpleToolbar.vue";
 import dataApi from "~/static/dataApi";
-import { DxLoadPanel } from "devextreme-vue/load-panel";
 import Header from "~/components/page/page__header";
 import attachmentDetails from "~/components/task/attachment-details";
-import DxButton from "devextreme-vue/button";
 import AssignmentComments from "~/components/workFlow/assignment-comments";
-import statusMessage from "~/components/workFlow/status-message";
+import statusMessage from "~/components/task/status-message";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel
 } from "devextreme-vue/form";
 export default {
   components: {
+    simpleToolbar,
     statusMessage,
     AssignmentComments,
     attachmentDetails,
-    DxButton,
     Header,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel,
-    DxForm,
-    DxLoadPanel
+    DxForm
   },
-  props: ["task"],
-
   data() {
     return {
       attachmentsUrl: dataApi.attachment.AttachmentByTask,
@@ -78,36 +91,23 @@ export default {
       dateTimeOptions: {
         type: "datetime"
       },
-      isReload: false,
-      icon: require("~/static/icons/loading.gif")
+      employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Employee
+      })
     };
   },
-  methods: {
-    async reload() {
-      this.isReload = true;
-      setTimeout(() => {
-        this.isReload = false;
-      }, 1000);
-    },
-    backTo() {
-      this.$router.go(-1);
-    }
-  },
   computed: {
-    taskProp() {
-      return this.task;
+    task() {
+      return this.$store.getters["currentTask/task"];
     },
-    cancelButtonOptions() {
-      return this.$store.getters["globalProperties/btnCancel"](
-        this,
-        this.backTo
-      );
+    isReload() {
+      return this.$store.getters["currentTask/reload"];
     }
   }
 };
 </script>
 <style scoped>
-
 .navBar {
   display: flex;
   justify-content: flex-end;

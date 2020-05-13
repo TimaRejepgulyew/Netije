@@ -1,6 +1,6 @@
 <template>
   <div>
-    <main-form :task="task">
+    <main-form>
       <DxForm
         slot="information"
         :col-count="1"
@@ -10,26 +10,14 @@
         :show-validation-summary="true"
         validation-group="task"
       >
-        <DxGroupItem :col-span="2" :caption="$t('translations.fields.main')">
-          <DxSimpleItem :col-span="4" data-field="subject">
-            <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+        <DxGroupItem :col-span="2" :col-count="2">
+          <DxSimpleItem template="employee" data-field="observers">
+            <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
-          <DxGroupItem :col-count="3">
-            <DxSimpleItem
-              data-field="deadline"
-              :editor-options="dateTimeOptions"
-              editor-type="dxDateBox"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
-            </DxSimpleItem>
-            <DxSimpleItem template="employee" data-field="observers">
-              <DxLabel location="top" :text="$t('translations.fields.observers')" />
-            </DxSimpleItem>
 
-            <DxSimpleItem template="employee" data-field="performers">
-              <DxLabel location="top" :text="$t('translations.fields.performers')" />
-            </DxSimpleItem>
-          </DxGroupItem>
+          <DxSimpleItem template="employee" data-field="performers">
+            <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
+          </DxSimpleItem>
         </DxGroupItem>
         <template #employee="employee">
           <employeeList :employee="employee.data.editorOptions.value"></employeeList>
@@ -42,12 +30,9 @@
 <script>
 import employeeList from "~/components/task/employeeList";
 import mainForm from "~/components/task/main-task-detail";
-import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel
 } from "devextreme-vue/form";
 export default {
@@ -57,18 +42,14 @@ export default {
     DxForm,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel
   },
   async asyncData({ app, params }) {
-    let task = await app.$axios.get(dataApi.task.GetTaskById + params.id);
-    return {
-      task: task.data
-    };
+    await app.store.dispatch("currentTask/load", params.id);
   },
   data() {
     return {
-      task: [],
+      task: this.$store.getters["currentTask/task"],
       dateTimeOptions: {
         type: "datetime"
       }

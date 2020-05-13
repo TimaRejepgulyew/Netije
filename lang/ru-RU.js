@@ -525,7 +525,7 @@ export default {
       reading: "Просмотр",
       edit: "Изменение",
       create: "создание",
-      hightImportance: "Высокая важность",
+      highImportance: "Высокая важность",
       middleImportance: "Средняя важность",
       lowImportance: "Низкая важность",
       subjectTask: "Тема",

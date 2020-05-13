@@ -1,6 +1,6 @@
 <template>
   <div class="navBar">
-    <DxCheckBox v-model="importance" :text="$t('translations.fields.hightImportance')" />
+    <DxCheckBox v-model="importance" :text="$t('translations.fields.highImportance')" />
   </div>
 </template>
 <script>
@@ -19,7 +19,7 @@ export default {
     importance: function(value) {
       this.$emit(
         "importanceChanged",
-        value ? Important.Hight : Important.Normal
+        value ? Important.High : Important.Normal
       );
     }
   }

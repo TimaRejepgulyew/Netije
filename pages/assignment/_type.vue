@@ -184,7 +184,8 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.assignment.Assignments + this.$route.params.type
+          loadUrl:
+            dataApi.assignment.Assignments + (this.$route.params.type || 0)
         }),
         sort: [{ selector: "created", desc: true }]
       }),
@@ -215,11 +216,11 @@ export default {
       this.store.reload();
     },
     onRowPrepared(e) {
-      this.showNew(e);
-      this.showStatus(e);
-      this.showOfford(e);
+      this.addStyleForNew(e);
+      this.addStatusStyle(e);
+      this.addStyleForCompleted(e);
     },
-    showOfford(e) {
+    addStyleForCompleted(e) {
       if (e.data != undefined && e.data.status != 2) {
         if (e.data != undefined) {
           if (new Date(e.data.deadline) < new Date())
@@ -227,17 +228,18 @@ export default {
         }
       }
     },
-    showStatus(e) {
+    addStatusStyle(e) {
       if (e.data != undefined && e.data.status == 2) {
         e.rowElement.style.textDecoration = "line-through";
       }
     },
-    showNew(e) {
+    addStyleForNew(e) {
       if (e.data != undefined && !e.data.isRead) {
         e.rowElement.style.fontWeight = "bolder";
         e.rowElement.style.color = "#339966";
       }
     },
+
     changeFilter(filter) {
       if (this.withFilter) {
         this.store = new DataSource({
@@ -263,8 +265,9 @@ export default {
   filters: {
     typeIcon(value) {
       switch (value) {
-        case AssignmentType.SimpleAssignment:
         case AssignmentType.AcquaintanceAssignment:
+          return require("~/static/icons/status/acquiantance.svg");
+        case AssignmentType.SimpleAssignment:
         case AssignmentType.ActionItemExecutionAssignment:
           return require("~/static/icons/iconAssignment/clock.svg");
         case 6:
@@ -283,7 +286,7 @@ export default {
     },
     isImportant(value) {
       switch (value) {
-        case Important.Hight:
+        case Important.High:
           return require("~/static/icons/iconAssignment/important.svg");
       }
     }
