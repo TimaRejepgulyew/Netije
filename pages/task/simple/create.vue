@@ -8,7 +8,7 @@
       :form-data.sync="store"
       :read-only="false"
       :show-colon-after-label="true"
-      :show-validation-summary="true"
+      :show-validation-summary="false"
       validation-group="simpleTaskValidationgroup"
     >
       <DxGroupItem :col-count="3">
@@ -89,7 +89,7 @@
 <script>
 import toolbar from "~/components/task/toolbar.vue";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
-
+import moment from "moment";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
@@ -121,12 +121,15 @@ export default {
     DxRequiredRule,
     DxForm
   },
+  created() {
+    console.log(this.store.deadline, this.minDate);
+  },
   data() {
     return {
       store: {
         subject: null,
         importance: Important.Normal,
-        deadline: new Date(),
+        deadline: null,
         observers: [],
         performers: [],
         accessRights: 60,
@@ -134,8 +137,7 @@ export default {
         comment: null
       },
       dateTimeOptions: {
-        type: "datetime",
-        dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss"
+        type: "datetime"
       },
       minDate: new Date(),
       routeTypeOptions: {
@@ -173,30 +175,41 @@ export default {
       this.store.attachments = attachments;
     },
     importantChanged(value) {
-      console.log(value);
       this.store.importance = value;
     },
     backTo() {
       this.$router.go(-1);
     },
-    handleSubmit() {
-      var res = this.$refs["form"].instance.validate();
-      if (!res.isValid) return;
-      const payload = { ...this.store };
-      payload.attachments = payload.attachments.map(el => {
+    formatDate(date) {
+      return moment(date).format("MM.DD.YYYY HH:mm");
+    },
+    formatAttachments(attachments) {
+      return attachments.attachments.map(el => {
         return el.document.id;
       });
-      this.$awn.asyncBlock(
-        this.$axios.post(dataApi.task.CreateSimpleTask, payload),
-        e => {
-          this.backTo();
-          this.$awn.success();
-        },
-        e => this.$awn.alert()
-      );
+    },
+
+    handleSubmit() {
+      if (this.formisValid) {
+        const payload = { ...this.store };
+        payload.attachments = this.formatAttachments(payload.attachments);
+        payload.deadline = this.formatDate(payload.deadline);
+        this.$awn.asyncBlock(
+          this.$axios.post(dataApi.task.CreateSimpleTask, payload),
+          e => {
+            this.backTo();
+            this.$awn.success();
+          },
+          e => this.$awn.alert()
+        );
+      }
     }
   },
   computed: {
+    formValidate() {
+      var res = this.$refs["form"].instance.validate();
+      return !res.isValid;
+    },
     employeeOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({

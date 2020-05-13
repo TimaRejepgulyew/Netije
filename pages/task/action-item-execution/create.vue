@@ -2,125 +2,126 @@
   <div id="form-demo">
     <div class="widget-container">
       <Header :headerTitle="$t('translations.fields.createActionTask')"></Header>
-      <importanceChanger @importanceChanged="importanceChanged"></importanceChanger>
-        <div class="item f-grow-3">
-          <DxForm
-            ref="form"
-            :col-count="1"
-            :form-data.sync="store"
-            :read-only="false"
-            :show-colon-after-label="true"
-            :show-validation-summary="true"
-            validation-group="simpleTaskValidationgroup"
+      <toolbar @importantChanged="importantChanged" />
+      <div class="item f-grow-3">
+        <DxForm
+          ref="form"
+          :col-count="1"
+          :form-data.sync="store"
+          :read-only="false"
+          :show-colon-after-label="true"
+          :show-validation-summary="false"
+          validation-group="simpleTaskValidationgroup"
+        >
+          <DxGroupItem :col-count="3">
+            <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
+              <DxSimpleItem data-field="subject">
+                <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+                <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+              </DxSimpleItem>
+              <DxGroupItem :col-count="2">
+                <DxSimpleItem
+                  data-field="maxDeadline"
+                  :editor-options="dateTimeOptions"
+                  editor-type="dxDateBox"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.maxDeadline')" />
+                  <DxRangeRule :min="minDate" :message="$t('translations.fields.deadLineRule')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                  data-field="supervisorId"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  data-field="accessRights"
+                  editor-type="dxSelectBox"
+                  :editor-options="accessRightsOptions"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.accessRights')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                  data-field="performerId"
+                >
+                  <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
+                  <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+                </DxSimpleItem>
+                <DxSimpleItem
+                  :editor-options="employeeOptions"
+                  editor-type="dxSelectBox"
+                  data-field="assignedById"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.assignedById')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  :col-span="2"
+                  :editor-options="employeeOptions"
+                  editor-type="dxTagBox"
+                  data-field="actionItemObservers"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.observers')" />
+                </DxSimpleItem>
+
+                <DxSimpleItem
+                  :col-span="2"
+                  :editor-options="employeeOptions"
+                  editor-type="dxTagBox"
+                  data-field="coAssignees"
+                >
+                  <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
+                </DxSimpleItem>
+              </DxGroupItem>
+            </DxGroupItem>
+            <DxGroupItem>
+              <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
+                <DxLabel
+                  :visible="false"
+                  location="top"
+                  :text="$t('translations.headers.attachment')"
+                />
+              </DxSimpleItem>
+            </DxGroupItem>
+          </DxGroupItem>
+          <DxSimpleItem
+            :col-span="3"
+            data-field="actionItem"
+            :editor-options="{height:300}"
+            editor-type="dxTextArea"
           >
-            <DxGroupItem :col-count="3">
-              <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
-                <DxSimpleItem data-field="subject">
-                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-                  <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-                </DxSimpleItem>
-                <DxGroupItem :col-count="2">
-                  <DxSimpleItem
-                    data-field="maxDeadline"
-                    :editor-options="dateTimeOptions"
-                    editor-type="dxDateBox"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.maxDeadline')" />
-                    <DxRangeRule :min="minDate" :message="$t('translations.fields.deadLineRule')" />
-                  </DxSimpleItem>
-                  <DxSimpleItem
-                    :editor-options="employeeOptions"
-                    editor-type="dxSelectBox"
-                    data-field="supervisorId"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
-                  </DxSimpleItem>
-                  <DxSimpleItem
-                    data-field="accessRights"
-                    editor-type="dxSelectBox"
-                    :editor-options="accessRightsOptions"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.accessRights')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    :editor-options="employeeOptions"
-                    editor-type="dxSelectBox"
-                    data-field="performerId"
-                  >
-                    <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
-                    <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
-                  </DxSimpleItem>
-                  <DxSimpleItem
-                    :editor-options="employeeOptions"
-                    editor-type="dxSelectBox"
-                    data-field="assignedById"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.assignedById')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    :col-span="2"
-                    :editor-options="employeeOptions"
-                    editor-type="dxTagBox"
-                    data-field="actionItemObservers"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.observers')" />
-                  </DxSimpleItem>
-
-                  <DxSimpleItem
-                    :col-span="2"
-                    :editor-options="employeeOptions"
-                    editor-type="dxTagBox"
-                    data-field="coAssignees"
-                  >
-                    <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
-                  </DxSimpleItem>
-                </DxGroupItem>
-              </DxGroupItem>
-              <DxGroupItem>
-                <DxSimpleItem :col-span="2" data-field="attachments" template="attachments">
-                  <DxLabel
-                    :visible="false"
-                    location="top"
-                    :text="$t('translations.headers.attachment')"
-                  />
-                </DxSimpleItem>
-              </DxGroupItem>
-            </DxGroupItem>
-            <DxSimpleItem
-              :col-span="3"
-              data-field="actionItem"
-              :editor-options="{height:300}"
-              editor-type="dxTextArea"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
-              <DxRequiredRule :message="$t('translations.fields.actionItemRequired')" />
-            </DxSimpleItem>
-            <DxGroupItem :col-count="20" :col-span="1">
-              <DxButtonItem
-                :col-span="1"
-                :button-options="sendButtonOptions"
-                horizontal-alignment="right"
-              />
-              <DxButtonItem
-                :col-span="1"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="right"
-              />
-            </DxGroupItem>
-            <template #attachments="attachments">
-              <attachments
-                :attachments="attachments.data.editorOptions.value"
-                @updateAttachments="updateAttachments"
-              ></attachments>
-            </template>
-          </DxForm>
-        </div>
+            <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
+            <DxRequiredRule :message="$t('translations.fields.actionItemRequired')" />
+          </DxSimpleItem>
+          <DxGroupItem :col-count="20" :col-span="1">
+            <DxButtonItem
+              :col-span="1"
+              :button-options="sendButtonOptions"
+              horizontal-alignment="right"
+            />
+            <DxButtonItem
+              :col-span="1"
+              :button-options="cancelButtonOptions"
+              horizontal-alignment="right"
+            />
+          </DxGroupItem>
+          <template #attachments="attachments">
+            <attachments
+              :attachments="attachments.data.editorOptions.value"
+              @updateAttachments="updateAttachments"
+            ></attachments>
+          </template>
+        </DxForm>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import toolbar from "~/components/task/toolbar.vue";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
@@ -142,6 +143,7 @@ import dataApi from "~/static/dataApi";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
+    toolbar,
     DxRangeRule,
     attachments,
     importanceChanger,
@@ -205,17 +207,24 @@ export default {
     updateAttachments(attachments) {
       this.store.attachments = attachments;
     },
-    importanceChanged(importanceType) {
-      this.store.importance = importanceType;
+    importantChanged(value) {
+      this.store.importance = value;
     },
     backTo() {
       this.$router.go(-1);
     },
-    handleSubmit() {
-      const payload = { ...this.store };
-      payload.attachments = payload.attachments.map(el => {
+    formatDate(date) {
+      return moment(date).format("MM.DD.YYYY HH:mm");
+    },
+    formatAttachments(attachments) {
+      return attachments.attachments.map(el => {
         return el.document.id;
       });
+    },
+    handleSubmit() {
+      const payload = { ...this.store };
+      payload.attachments = this.formatAttachments(payload.attachments);
+      payload.deadline = this.formatDate(payload.deadline);
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.task.CreateActionItemTask, payload),
         e => {
@@ -227,6 +236,10 @@ export default {
     }
   },
   computed: {
+    formValidate() {
+      var res = this.$refs["form"].instance.validate();
+      return !res.isValid;
+    },
     employeeOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
