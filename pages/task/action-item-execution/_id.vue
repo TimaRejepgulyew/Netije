@@ -9,12 +9,19 @@
         :show-colon-after-label="true"
         validation-group="task"
       >
-        <DxGroupItem :col-span="2" :col-count="2" >
-          <DxSimpleItem template="employee" data-field="observers">
+        <DxSimpleItem
+          data-field="authorId"
+          :editor-options="employeeOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.authorId')" />
+        </DxSimpleItem>
+        <DxGroupItem :col-span="2" :col-count="2">
+          <DxSimpleItem template="employee" data-field="actionItemObservers">
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
-          <DxSimpleItem template="employee" data-field="performers">
-            <DxLabel location="top" :text="$t('translations.fields.performers')" />
+          <DxSimpleItem template="employee" data-field="coAssignees">
+            <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
           </DxSimpleItem>
         </DxGroupItem>
         <template #employee="employee">
@@ -26,6 +33,7 @@
 </template>
 
 <script>
+import dataApi from "~/static/dataApi";
 import employeeList from "~/components/task/employeeList";
 import mainForm from "~/components/task/main-task-detail";
 import DxForm, {
@@ -50,7 +58,11 @@ export default {
       task: this.$store.getters["currentTask/task"],
       dateTimeOptions: {
         type: "datetime"
-      }
+      },
+      employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.company.Employee
+      })
     };
   }
 };

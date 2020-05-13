@@ -116,11 +116,13 @@ export default {
       switch (this.$store.getters["currentAssignment/assignmentType"]) {
         case AssignmentType.AcquaintanceFinishAssignment:
         case AssignmentType.SimpleAssignment:
+        case AssignmentType.ActionItemExecutionAssignment:
           return {
             completeButtonsVisible: true,
             reworkButtonVisible: false,
             completeButtonText: this.$t("buttons.completed")
           };
+        case AssignmentType.ActionItemSupervisorAssignment:
         case AssignmentType.ReviewAssignment:
           return {
             completeButtonsVisible: true,
@@ -134,12 +136,6 @@ export default {
             reworkButtonVisible: false,
             completeButtonText: this.$t("buttons.acquaintance")
           };
-        // case AssignmentType.ActionItemExecutionAssignment:
-        //   return {
-        //     completeButtonsVisible: true,
-        //     reworkButtonVisible: false,
-        //     completeButtonText: this.$t("links.complete")
-        //   };
         default:
           return { completeButtonsVisible: false, reworkButtonVisible: false };
       }

@@ -41,9 +41,7 @@ export default {
       return {
         ...this.$store.getters["globalProperties/btnSend"](this),
         onClick: () => {
-          var res = this.$parent.$refs["form"].instance.validate();
-          if (!res.isValid) return;
-          this.$parent.handleSubmit();
+          this.$emit("submit");
         }
       };
     }

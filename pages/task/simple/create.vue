@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
     <Header :headerTitle="$t('translations.fields.createSimpleTask')"></Header>
-    <toolbar @importantChanged="importantChanged" />
+    <toolbar @submit="handleSubmit" @importantChanged="importantChanged" />
     <DxForm
       ref="form"
       :col-count="1"
@@ -16,6 +16,7 @@
           <DxGroupItem :col-count="5">
             <DxSimpleItem :col-span="4" data-field="subject">
               <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+              <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="needsReview" editor-type="dxCheckBox">
               <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
@@ -28,7 +29,6 @@
               editor-type="dxDateBox"
             >
               <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
-              <DxRangeRule :min="minDate" :message="$t('translations.fields.deadLineRule')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -137,9 +137,9 @@ export default {
         comment: null
       },
       dateTimeOptions: {
-        type: "datetime"
+        type: "datetime",
+        dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss"
       },
-      minDate: new Date(),
       routeTypeOptions: {
         dataSource: [
           { id: 0, name: this.$t("translations.fields.gradually") },
@@ -180,36 +180,25 @@ export default {
     backTo() {
       this.$router.go(-1);
     },
-    formatDate(date) {
-      return moment(date).format("MM.DD.YYYY HH:mm");
-    },
-    formatAttachments(attachments) {
-      return attachments.attachments.map(el => {
-        return el.document.id;
-      });
-    },
 
     handleSubmit() {
-      if (this.formisValid) {
-        const payload = { ...this.store };
-        payload.attachments = this.formatAttachments(payload.attachments);
-        payload.deadline = this.formatDate(payload.deadline);
-        this.$awn.asyncBlock(
-          this.$axios.post(dataApi.task.CreateSimpleTask, payload),
-          e => {
-            this.backTo();
-            this.$awn.success();
-          },
-          e => this.$awn.alert()
-        );
-      }
+      var res = this.$refs["form"].instance.validate();
+      if (!res.isValid) return;
+      const payload = { ...this.store };
+      payload.attachments = payload.attachments.map(el => {
+        return el.document.id;
+      });
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.task.CreateSimpleTask, payload),
+        e => {
+          this.backTo();
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
     }
   },
   computed: {
-    formValidate() {
-      var res = this.$refs["form"].instance.validate();
-      return !res.isValid;
-    },
     employeeOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({

@@ -205,6 +205,7 @@ export default {
       extensionPatternRule: "Пожалуйста введите валидное расширение",
       filesType: "Типы файлов",
       fax: "Факс",
+      accessRights: "Права доступа",
       storing: "Хранение",
       code: "Код",
       codeRequired: "Введите код",

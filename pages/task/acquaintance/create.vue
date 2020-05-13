@@ -21,7 +21,6 @@
               editor-type="dxDateBox"
             >
               <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
-              <DxRangeRule :min="minDate" :message="$t('translations.fields.deadLineRule')" />
               <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
             </DxSimpleItem>
 
@@ -59,18 +58,6 @@
       <DxSimpleItem :col-span="3" data-field="comment" editor-type="dxTextArea">
         <DxLabel location="top" :text="$t('translations.fields.comment')" />
       </DxSimpleItem>
-      <DxGroupItem :col-count="20" :col-span="1">
-        <DxButtonItem
-          :col-span="1"
-          :button-options="sendButtonOptions"
-          horizontal-alignment="right"
-        />
-        <DxButtonItem
-          :col-span="1"
-          :button-options="cancelButtonOptions"
-          horizontal-alignment="right"
-        />
-      </DxGroupItem>
       <template #attachments="attachments">
         <attachments
           :attachments="attachments.data.editorOptions.value"
@@ -135,7 +122,6 @@ export default {
       dateTimeOptions: {
         type: "datetime"
       },
-      minDate: new Date(),
       routeTypeOptions: {
         dataSource: [
           { id: 0, name: this.$t("translations.fields.gradually") },
@@ -199,7 +185,6 @@ export default {
     },
     handleSubmit() {
       this.submit = true;
-
       if (!this.isRequired) {
         const payload = { ...this.store };
         payload.attachments = payload.attachments.map(el => {
