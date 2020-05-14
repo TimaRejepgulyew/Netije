@@ -41,7 +41,7 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn
-        data-field="associatedApplication"
+        data-field="extension"
         :allow-filtering="false"
         :width="60"
         :caption="$t('translations.fields.extension')"
@@ -90,7 +90,7 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn data-field="associatedApplication" type="buttons">
+      <DxColumn data-field="extension" type="buttons">
         <DxButton
           :on-click="previewDocument"
           :visible="canBeOpenWithPreview"
@@ -101,7 +101,7 @@
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
       <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value?cell.data.value.extension:null" />
+        <document-icon :extension="cell.data.value?cell.data.value:null" />
       </template>
     </DxDataGrid>
   </main>
@@ -195,7 +195,7 @@ export default {
   methods: {
     canBeOpenWithPreview(e) {
       if (e.row.data.associatedApplication) {
-        return e.row.data.associatedApplication.canBeOpenedWithPreview;
+        return e.row.data.canBeOpenedWithPreview;
       } else {
         false;
       }
@@ -207,7 +207,7 @@ export default {
       DocumentService.downloadDocument(
         {
           ...e.row.data,
-          extension: e.row.data.associatedApplication.extension
+          extension: e.row.data.extension
         },
         this
       );
@@ -219,7 +219,7 @@ export default {
   methods: {
     canBeOpenWithPreview(e) {
       if (e.row.data.associatedApplication) {
-        return e.row.data.associatedApplication.canBeOpenedWithPreview;
+        return e.row.data.canBeOpenedWithPreview;
       } else {
         false;
       }
@@ -231,7 +231,7 @@ export default {
       DocumentService.downloadDocument(
         {
           ...e.row.data,
-          extension: e.row.data.associatedApplication.extension
+          extension: e.row.data.extension
         },
         this
       );

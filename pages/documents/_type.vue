@@ -39,7 +39,7 @@
       <DxScrolling mode="virtual" />
 
       <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value?cell.data.value.extension:null" />
+        <document-icon :extension="cell.data.value?cell.data.value:null" />
       </template>
     </DxDataGrid>
   </main>

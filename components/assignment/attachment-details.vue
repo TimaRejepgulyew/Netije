@@ -16,7 +16,7 @@
                 @dblclick="()=>{openVersion(item.data.document.id,item.data.document.documentTypeGuid)}"
               >
                 <document-icon
-                  :extension="item.data.document.associatedApplication?item.data.document.associatedApplication.extension:null"
+                  :extension="item.data.document.extension?item.data.document.extension:null"
                 ></document-icon>
                 <div class="list__content">
                   {{item.data.name}}

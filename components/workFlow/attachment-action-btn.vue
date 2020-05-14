@@ -20,7 +20,7 @@ export default {
   data() {
     const canPreview =
       this.attachment.document.hasVersions &&
-      this.attachment.document.associatedApplication.canBeOpenedWithPreview;
+      this.attachment.document.canBeOpenedWithPreview;
 
     return {
       btnType: [
@@ -73,7 +73,7 @@ export default {
       DocumentService.downloadDocument(
         {
           ...this.attachment.document,
-          extension: this.attachment.document.associatedApplication.extension
+          extension: this.attachment.document.extension
         },
         this
       );

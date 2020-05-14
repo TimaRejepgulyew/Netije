@@ -23,7 +23,7 @@ export const getters = {
     return canUpdate;
   },
   canRemove({ canRemove }) {
-    return !canRemove;
+    return canRemove;
   },
   isRegistered({ isRegistered }) {
     return isRegistered;
