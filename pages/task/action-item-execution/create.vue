@@ -2,7 +2,6 @@
   <div id="form-demo">
     <Header :headerTitle="$t('translations.fields.createActionTask')"></Header>
     <toolbar @submit="handleSubmit" @importantChanged="importantChanged" />
-
     <DxForm
       ref="form"
       :col-count="1"
@@ -24,7 +23,7 @@
               :editor-options="dateTimeOptions"
               editor-type="dxDateBox"
             >
-              <DxLabel location="top" :text="$t('translations.fields.deadline')" />
+              <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
             </DxSimpleItem>
             <DxSimpleItem
               :editor-options="employeeOptions"
@@ -94,29 +93,23 @@
   </div>
 </template>
 <script>
-import moment from "moment";
 import toolbar from "~/components/task/toolbar.vue";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
-import importanceChanger from "~/components/task/importance-changer";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import attachments from "~/components/task/attachment-details";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
   DxRequiredRule,
-  DxRangeRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
 export default {
   components: {
     toolbar,
-    DxRangeRule,
     attachments,
-    importanceChanger,
     Header,
     DxGroupItem,
     DxSimpleItem,
@@ -206,13 +199,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.mr-top-auto {
-  margin-top: 40%;
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
 .message--error {
   display: inline;
   color: #d9534f;

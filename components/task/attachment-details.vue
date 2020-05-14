@@ -139,10 +139,10 @@ export default {
       }
     },
     detachAttachment(id) {
-      console.log(this.attachments, id);
       this.attachments = this.attachments.filter(attach => {
         return attach.document.id != id;
       });
+      this.sendAttachments(this.attachments);
     }
   },
   computed: {

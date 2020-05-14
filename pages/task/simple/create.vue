@@ -89,40 +89,26 @@
 <script>
 import toolbar from "~/components/task/toolbar.vue";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
-import moment from "moment";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import attachments from "~/components/task/attachment-details";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
   DxLabel,
   DxRequiredRule,
-  DxCompareRule,
-  DxRangeRule,
-  DxPatternRule,
-  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import DxButton from "devextreme-vue/button";
 export default {
   components: {
     toolbar,
-    DxRangeRule,
     attachments,
-    DxButton,
     Header,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
     DxLabel,
     DxRequiredRule,
     DxForm
-  },
-  created() {
-    console.log(this.store.deadline, this.minDate);
   },
   data() {
     return {
@@ -216,13 +202,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.mr-top-auto {
-  margin-top: 40%;
-  text-align: right;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
 .message--error {
   display: inline;
   color: #d9534f;
