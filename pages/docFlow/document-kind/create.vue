@@ -164,7 +164,7 @@ export default {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.docFlow.DocumentKind, this.documentKind),
         res => {
-          this.goBack();
+          this.$router.go(-1);
           this.$awn.success();
         },
         err => this.$awn.alert()

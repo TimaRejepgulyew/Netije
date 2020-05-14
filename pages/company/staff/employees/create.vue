@@ -171,7 +171,7 @@ export default {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.company.Employee, this.employee),
         e => {
-          this.goBack();
+          this.$router.go(-1);
           this.$awn.success();
         },
         e => this.$awn.alert()

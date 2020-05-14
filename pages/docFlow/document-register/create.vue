@@ -284,7 +284,7 @@ export default {
           this.documentRegister
         ),
         res => {
-          this.goBack();
+          this.$router.go(-1);
           this.$awn.success();
         },
         err => this.$awn.alert()
