@@ -58,7 +58,7 @@ export default {
     Documents: `${url}/api/OfficialDocument/`,
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
-    DeleteDocument: `${url}/api/OfficialDocument`,
+    DeleteDocument: `${url}/api/OfficialDocument/`,
     Version: `${url}/api/OfficialDocument/Version/`,
     DownloadLastVersion: `${url}/api/OfficialDocument/Version/DownloadLastVersion/`,
     PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
@@ -91,6 +91,7 @@ export default {
     PowerOfAttorneyPost: `${url}/api/OfficialDocument/CreatePowerOfAttorney`,
     PowerOfAttorneyPut: `${url}/api/OfficialDocument/PutPowerOfAttorney/`
   },
+
   task: {
     CreateSimpleTask: `${url}/api/Task/CreateSimpleTask`,
     CreateAcquaintanceTask: `${url}/api/Task/CreateAcquaintanceTask`,
@@ -98,6 +99,9 @@ export default {
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/GetTaskById/`
+  },
+  accessRights: {
+    forDocument: `${url}/api/AccessRights/`
   },
   assignment: {
     Assignments: `${url}/api/Assignment/`,

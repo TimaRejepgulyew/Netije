@@ -1,8 +1,7 @@
 import { alert } from "devextreme/ui/dialog";
 
-export default function ({ store, app: { $axios, i18n } }) {
+export default function({ store, app: { $axios, i18n } }) {
   $axios.onError(error => {
-
     try {
       if (
         error.response.headers["content-type"] ===
@@ -25,7 +24,7 @@ export default function ({ store, app: { $axios, i18n } }) {
                 return `<li class="text--error">${el}</li>`;
               })
               .join(" ")}</ul>`,
-            i18n.t("translations.shared.error")
+            i18n.t("shared.error")
           );
         }
       } else {
@@ -38,12 +37,12 @@ export default function ({ store, app: { $axios, i18n } }) {
   });
 
   $axios.interceptors.request.use(
-    function (config) {
+    function(config) {
       config.headers.Authorization =
         "Bearer " + store.getters["oidc/oidcAccessToken"];
       return config;
     },
-    function (error) {
+    function(error) {
       return Promise.reject(error);
     }
   );

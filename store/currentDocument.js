@@ -12,7 +12,9 @@ export const state = () => ({
 
 export const getters = {
   canRegister({ canRegister, selectedDocumentNumberingType }) {
-    return canRegister && selectedDocumentNumberingType != NumberingType.NotNumerable;
+    return (
+      canRegister && selectedDocumentNumberingType != NumberingType.NotNumerable
+    );
   },
   isRegistrable({ selectedDocumentNumberingType }) {
     return selectedDocumentNumberingType != NumberingType.NotNumerable;
@@ -21,7 +23,7 @@ export const getters = {
     return canUpdate;
   },
   canRemove({ canRemove }) {
-    return canRemove;
+    return !canRemove;
   },
   isRegistered({ isRegistered }) {
     return isRegistered;
@@ -37,7 +39,6 @@ export const mutations = {
   SET_DOCUMENT_STATE(state, payload) {
     for (let item in payload) {
       state[item] = payload[item];
-      console.log(state[item], item);
     }
   },
   DATA_CHANGED(state, payload) {

@@ -3,7 +3,13 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
       <div class="list-container">
-        <DxList :data-source="versions" search-expr="note" :search-enabled="true">
+        <DxList
+          :data-source="versions"
+          :activeStateEnabled="false"
+          :focusStateEnabled="false"
+          search-expr="note"
+          :search-enabled="true"
+        >
           <template #item="item">
             <div>
               <div class="d-flex">
@@ -50,7 +56,6 @@ import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
-import notify from "devextreme/ui/notify";
 import DocumentService from "~/infrastructure/services/documentService";
 import { DxPopup } from "devextreme-vue/popup";
 import AttachmentActionBtn from "~/components/paper-work/main-doc-form/attachment-action-btn";

@@ -9,7 +9,7 @@
 
       <dx-item v-if="title" location="before" css-class="header-title dx-toolbar-label">
         <!-- eslint-disable vue/no-unused-vars -->
-        <img class="menu-icon" src="~/static/icons/loading.gif" slot-scope="_" />
+        <img class="menu-icon" src="~/static/icons/main-logo.svg" slot-scope="_" />
         <!-- eslint-enable -->
       </dx-item>
 
@@ -110,6 +110,6 @@ export default {
 }
 
 .menu-icon {
-  height: 25px;
+  height: 40px;
 }
 </style>

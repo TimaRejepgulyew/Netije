@@ -9,14 +9,21 @@
         :show-colon-after-label="true"
         validation-group="task"
       >
-        <DxSimpleItem
-          data-field="authorId"
-          :editor-options="employeeOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.authorId')" />
-        </DxSimpleItem>
         <DxGroupItem :col-span="2" :col-count="2">
+          <DxSimpleItem
+            data-field="assigneeId"
+            :editor-options="employeeOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+          </DxSimpleItem>
+          <DxSimpleItem
+            data-field="supervisorId"
+            :editor-options="employeeOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
+          </DxSimpleItem>
           <DxSimpleItem template="employee" data-field="actionItemObservers">
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>

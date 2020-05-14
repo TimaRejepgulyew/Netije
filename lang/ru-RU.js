@@ -191,6 +191,9 @@ export default {
   },
   translations: {
     fields: {
+      recipient: "Субъект прав",
+
+      accessRightDocument: "Доступ к документу",
       contactName: "Имя контакта",
       mailDeliveryMethod: "Способ доставки документа",
       whom: "Кому",
@@ -205,6 +208,7 @@ export default {
       extensionPatternRule: "Пожалуйста введите валидное расширение",
       filesType: "Типы файлов",
       fax: "Факс",
+      accessRight: "Право доступа",
       accessRights: "Права доступа",
       storing: "Хранение",
       code: "Код",
@@ -550,6 +554,7 @@ export default {
       assignedById: "Постановщик"
     },
     headers: {
+      addNewRecipient: "Добавить субъект прав",
       addDocumentKind: "Добавление вида документа",
       addendum: "Приложение к документу",
       memo: "Служебная записка",
