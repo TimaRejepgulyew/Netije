@@ -4,7 +4,7 @@ export const state = () => ({
   isDataChanged: false,
   readOnly: false,
   canUpdate: false,
-  canRemove: false,
+  canDelete: false,
   canRegister: false,
   isRegistered: false,
   selectedDocumentNumberingType: null
@@ -22,8 +22,8 @@ export const getters = {
   canUpdate({ canUpdate }) {
     return canUpdate;
   },
-  canRemove({ canRemove }) {
-    return canRemove;
+  canDelete({ canDelete }) {
+    return canDelete;
   },
   isRegistered({ isRegistered }) {
     return isRegistered;
