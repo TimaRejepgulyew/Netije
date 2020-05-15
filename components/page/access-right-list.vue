@@ -15,16 +15,20 @@
                 <resipient-icon :type="item.data.recipient.recipientType"></resipient-icon>
                 {{ item.data.recipient.name}}
               </div>
-              <div class="list__btn-group">
+              <div class="list__btn-group d-flex">
                 <attachment-action-btn
                   :entryId="item.data.id"
                   :current-access-right="item.data.accessRightType"
-                  :can-update="item.data.canUpdate"
+                  :can-update="!item.data.canUpdate"
                   :accessRight="accessRight.accessRightTypes"
                 />
-              </div>
-              <div class="list__btn-group">
-                
+                <DxButton
+                  icon="trash"
+                  type="danger"
+                  styling-mode="text"
+                  :disabled="!item.data.canRemove"
+                  :on-click="deleteRecipient"
+                />
               </div>
             </div>
           </div>
@@ -132,6 +136,16 @@ export default {
           return this.$t("menu.employee");
       }
     },
+    async load() {
+      const { data } = await this.$axios.get(this.url);
+      this.accessRight = data;
+    },
+    nullify() {
+      this.newRecipient = {
+        recipientId: null,
+        accessRightTypeId: null
+      };
+    },
     addRecipient() {
       const recipient = {
         ...this.newRecipient,
@@ -140,12 +154,20 @@ export default {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.accessRights.AddRecipient, recipient),
         async () => {
-          this.newRecipient = {
-            recipientId: null,
-            accessRightTypeId: null
-          };
-          const { data } = await this.$axios.get(this.url);
-          this.accessRight = data;
+          this.nullify();
+          await this.load();
+          this.$awn.success();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    deleteRecipient() {
+      this.$awn.asyncBlock(
+        this.$axios.delete(dataApi.accessRights.RemoveRecipient),
+        async () => {
+          await this.load();
           this.$awn.success();
         },
         () => {

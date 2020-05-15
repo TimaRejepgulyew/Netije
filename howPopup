@@ -265,4 +265,269 @@ Date:   Sat May 9 01:02:36 2020 +0500
     added toolbar
 
 [33mcommit 194832a550f7e2439b08682f172dc126cf7d8e35[m
-Author: Timur <kl
+Author: Timur <klepersontimur@gmail.com>
+Date:   Sat May 9 01:02:20 2020 +0500
+
+    modified menu
+
+[33mcommit 2b5abc277774c42fade179ab26a1fb4efb3de9f9[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 8 23:39:04 2020 +0500
+
+    finished registration settings
+
+[33mcommit 2177c2994ea2f1f045303bea3713537ff2be21c2[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 17:16:08 2020 +0500
+
+    state in  main document form
+
+[33mcommit 81d9db63099f6afabeced6b79f3dc4fea1d61f57[m
+Merge: 19acee4 300877c
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 15:03:21 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 19acee425b493171c0a27126e4fde49d26f069d8[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 15:03:13 2020 +0500
+
+    changed localization
+
+[33mcommit 300877ced20b3e05dc9bdbe36c842267c006d955[m
+Merge: 34acbf8 495b2ee
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 14:57:44 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 34acbf816c32f0880791a68d9304dfc8959d2f95[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 14:57:32 2020 +0500
+
+    attendum button
+
+[33mcommit 495b2ee71449da2e3d8bebac6248fc468626132b[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 14:55:48 2020 +0500
+
+    Added document registration popup
+
+[33mcommit 91b45b0a4b35f0d41d827ef9f8b017ed9f0efada[m
+Merge: 28a7959 68b5e4e
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 14:54:46 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 28a79595463dce0f9c746e51c5f28bb4ebe2a66c[m
+Merge: 111c746 2d6dfdd
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 14:53:22 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 68b5e4ea9b8a0cb8b6fdaa7feb2906597eeac7b6[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 14:53:10 2020 +0500
+
+    document kind delete getters
+
+[33mcommit 111c7468a09aa3c3e84f940887a9610e0874ebd1[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 14:51:25 2020 +0500
+
+    Popup cancellation
+
+[33mcommit 2d6dfdd518fb7e378670b8aa2875f88c9500138a[m
+Merge: 5b13bdd b9e1539
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 14:49:18 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 5b13bdd88d80223e5f3547edfd5a1ea9fc9344d8[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 14:44:21 2020 +0500
+
+    nav bar  entity type
+
+[33mcommit b9e15397cf34361254832d1b0c29985b74fa48c9[m
+Merge: 26f181a 09d5d63
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 14:28:44 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 26f181a472f7ee5d8fb8ffca728f1809c3a679e8[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 14:28:34 2020 +0500
+
+    fixed document registration popup
+
+[33mcommit 09d5d63324b233e0ec6505815121efeaae63c8d8[m
+Merge: 21d25c0 7196aab
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 13:05:02 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 21d25c070d76ae40acf74217d90967388eb3b37d[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 13:04:47 2020 +0500
+
+    documentIcon in allDocument
+
+[33mcommit 7196aab8e440a4f5cff1c587bf9c748ac4189943[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 13:03:16 2020 +0500
+
+    changed main form
+
+[33mcommit eb90be11bf27ebc1ee7f452bb9046312ab54210b[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 13:00:57 2020 +0500
+
+    Replaces Document registration api
+
+[33mcommit 87f3d442a367c62f46ed058e4900c9e0d7565c84[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 13:00:35 2020 +0500
+
+    renamed data apis
+
+[33mcommit 96494ad89086da35a4f50dee0e4daef39ed61200[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 11:44:22 2020 +0500
+
+    fixed case files
+
+[33mcommit 1afac054e1cbe2c2210a6d11e9b8beb14e739e17[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 11:34:45 2020 +0500
+
+    fixed document register
+
+[33mcommit 2d35cfd3dcc697c6a78e744df668798f953b2ad0[m
+Merge: 511b9f3 908f03c
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 11:22:50 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 511b9f3e000e54d3a04837aef14502947cece3e1[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 11:17:37 2020 +0500
+
+    updated localization messages
+
+[33mcommit b9e3e6e4bf58f31d6abf195a958a444da61da7f1[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Fri May 8 11:06:53 2020 +0500
+
+    Fixed localize messages
+
+[33mcommit 908f03cd110a22e5821db95d003a7b6c504f35f7[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 10:51:33 2020 +0500
+
+    deatail task not complete
+
+[33mcommit ca7dab232b07989c91b2ece7f2ca90dd08bf14c1[m
+Merge: b5cc967 d51e03e
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 09:37:08 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit b5cc967c6a872114fe6affcadf378645ae16c2da[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Fri May 8 09:34:53 2020 +0500
+
+    create action item exicution
+
+[33mcommit d51e03e33c059f5f0fb59586658fd35126a69e81[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 8 03:03:30 2020 +0500
+
+    removed old member-list role
+
+[33mcommit f8ae9918709316f2f4a47b93e5f7620c00c54b86[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 8 03:02:55 2020 +0500
+
+    refactored grids
+
+[33mcommit b39811b9c88ad194dec5497e58abfad54921ab3d[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 8 01:47:29 2020 +0500
+
+    fixed master detail. registration group completed
+
+[33mcommit 07f10ad4eee01078e5671b209ddddaef337426ab[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 8 01:01:31 2020 +0500
+
+    Refactored registration group form
+
+[33mcommit 3bcc14e14bb227e5fecac3e9b6b38159890337c5[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 8 00:43:20 2020 +0500
+
+    fixed some locale strings
+
+[33mcommit 5c2005563cf3fcc1b572784e485f9c8fad65a703[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 8 00:15:59 2020 +0500
+
+    Document register refactored
+
+[33mcommit 39a7c1c94c69724bcd4631595ac0be4d67a98dd3[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Thu May 7 23:05:15 2020 +0500
+
+    fixed codes
+
+[33mcommit c5c66117fb02d083c1de2e3c216b509a094784e6[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Thu May 7 22:32:40 2020 +0500
+
+    fixed async rules
+
+[33mcommit bdd1a1894e2d93a38ae3d5a9dd596e12d32c1b80[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Thu May 7 17:55:46 2020 +0500
+
+    Fixed index
+
+[33mcommit 44e523700f167aaf3f1604e49342f47232d86b50[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Thu May 7 17:55:05 2020 +0500
+
+    document registry partialy completed
+
+[33mcommit 1a0af05a8317fd8448431eabf93f0e2d66c44498[m
+Merge: 8c859e0 9cb28ea
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Thu May 7 16:50:53 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 8c859e076d95de2e96e3cc6d794593afe0acdabe[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Thu May 7 16:50:37 2020 +0500
+
+    fixed document registers
+
+[33mcommit 9cb28eac238f9cfac271dc0567dce9c2b8940a39[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Thu May 7 16:16:38 2020 +0500
+
+    grid height to paging grid api
+
+[33mcommit 860e6a35621a0d5b24184ba2c5f2467aa8dca4f7[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Thu May 7 16:09:37 2020 +0500
+
+    fixed document kinds

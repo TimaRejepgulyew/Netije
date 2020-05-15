@@ -103,7 +103,8 @@ export default {
   accessRights: {
     ForDocument: `${url}/api/AccessRights/`,
     AddRecipient: `${url}/api/AccessRights`,
-    UpdateRecipient:`${url}/api/AccessRights/`
+    UpdateRecipient: `${url}/api/AccessRights/`,
+    RemoveRecipient: `${url}/api/AccessRights/`
   },
   assignment: {
     Assignments: `${url}/api/Assignment/`,
