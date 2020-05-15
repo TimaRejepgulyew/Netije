@@ -1,0 +1,268 @@
+[33mcommit 1b89d3894572657b8458a6f3a5cd79bd32b54a23[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Fri May 15 00:10:18 2020 +0500
+
+    changed document extension
+
+[33mcommit f00d55511e7867afad86fa021336db30590535ef[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Thu May 14 23:11:11 2020 +0500
+
+    Fixed go back unknown methods
+
+[33mcommit 917cb9646759e56307ccfa28fc4c1eb021d0995a[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Thu May 14 18:08:07 2020 +0500
+
+    access right
+
+[33mcommit be050e0151b1ec20323af9ec7b7a7cf1e08c8b76[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Thu May 14 10:16:27 2020 +0500
+
+    createTask finish
+
+[33mcommit 80670918068bea9ab9af7f252aa9e215f1476e02[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Wed May 13 17:59:16 2020 +0500
+
+    action item exicution id
+
+[33mcommit 88cd62f0c3b0b7b19fc76aebe8a9c5bbaa42c62f[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Wed May 13 16:27:36 2020 +0500
+
+    finish avtion atem create
+
+[33mcommit e1905f62c6269004754491a9ea4972a171f5384e[m
+Merge: 51ff978 4f86e2d
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Wed May 13 15:13:32 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 51ff978ec25c7c978146d5f944de53b7acd50bc4[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Wed May 13 15:13:00 2020 +0500
+
+    format date and simple task
+
+[33mcommit 4f86e2daf33e679aa1d415a38073e3cc6e5a4b6a[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Wed May 13 15:04:48 2020 +0500
+
+    modifie type
+
+[33mcommit ffd5f441c6ff7951c2eb9f45d888e77d6b9d9233[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Wed May 13 12:27:33 2020 +0500
+
+    more about task
+
+[33mcommit 71abbe4254497ae7a315cf3df9e848e16a5d00f3[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Tue May 12 21:43:38 2020 +0500
+
+    fixed date format
+
+[33mcommit c20c8bd4dcce2b4257f203f37488ed003dad4fec[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Tue May 12 17:55:20 2020 +0500
+
+    Task and assignment
+
+[33mcommit 00c1f9016e9ac2bbb27ae461d33590bfeb842867[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Tue May 12 12:23:33 2020 +0500
+
+    fixed
+
+[33mcommit e808a184330985b946105a2e8dd5c39d1e13a094[m
+Merge: 2880bf4 75a4790
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Tue May 12 12:08:09 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 2880bf4561b0dd25da93db7c4b5c13118603942b[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Tue May 12 12:07:55 2020 +0500
+
+    completed workflow texts
+
+[33mcommit 75a47900f20cf354e335a18cb42ebe9880cb6120[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Tue May 12 02:23:31 2020 +0500
+
+    removed permissions tab
+
+[33mcommit f559d3b6363a6443711e5ddbb6650bbd5bbe87f2[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Mon May 11 17:54:57 2020 +0500
+
+    correction action item exicution
+
+[33mcommit 43dcf410509be10215640eb7b60073ad62a7dd50[m[33m ([m[1;31morigin/Task-refactoring[m[33m, [m[1;32mTask-refactoring[m[33m)[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Mon May 11 16:55:32 2020 +0500
+
+    assignments
+
+[33mcommit 84fc28193753bc278f4bb12014d8aa4f89e57796[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Mon May 11 11:28:12 2020 +0500
+
+    menu documents changed
+
+[33mcommit 49847ceed703e81983165e849fa39efdfad98b1d[m
+Merge: 24ec76c dce56e0
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Mon May 11 11:10:52 2020 +0500
+
+    Merge branch 'develop' into task
+
+[33mcommit 24ec76cad44d0b32a34608b1e33c935945d8a563[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Mon May 11 11:08:03 2020 +0500
+
+    created document type datagrid
+
+[33mcommit dce56e041ac53214a3ddf3324b5d7550da342997[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Mon May 11 10:34:56 2020 +0500
+
+    document state
+
+[33mcommit b81e0c7f8a5e8596efc6cfed138fb29d2335ea43[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Mon May 11 01:02:11 2020 +0500
+
+    All documents fields completed
+
+[33mcommit 89f7e230fc2b0e854f6528c8ca8b3c3925d39246[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Sun May 10 23:47:04 2020 +0500
+
+    commited
+
+[33mcommit b5ec9b3ac2ad96ab6cbe4ed86d5f3bab273ebe60[m
+Merge: daba0a8 b01e9d9
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 16:12:23 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit daba0a86ba83e97a5b31e33c5fb52d392ab565fa[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 16:11:57 2020 +0500
+
+    add btn functional
+
+[33mcommit b01e9d9a355451494ec825597bea2c14bd18c749[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 15:55:29 2020 +0500
+
+    side nav changes
+
+[33mcommit 52acd95732e8b44acf69ddfa5187bac27e2a01f1[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 15:45:47 2020 +0500
+
+    fixed navs
+
+[33mcommit 14a11197ab8a263f620691f1e8401a184ae34d98[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 15:10:07 2020 +0500
+
+    document form completed
+
+[33mcommit 18b10a3a848c32d52e8f893c1b5971677318ed5f[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 13:14:41 2020 +0500
+
+    form document state
+
+[33mcommit 1457688b2e22fb96aab4849590ebb4407efb9d15[m
+Merge: 3379c8b 6cd1693
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 12:45:16 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 3379c8bfce824af77fcd783b30f9a738e6a7b2ec[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 12:44:53 2020 +0500
+
+    refactored. added toolbars to form
+
+[33mcommit 6cd1693fa4c7700f10ba70e97b3e51cfc8005361[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 12:22:48 2020 +0500
+
+    document state to vuex
+
+[33mcommit 0a28a4477025e75a1504e66c8d588d4dbe0ae00f[m
+Merge: 222c90a 6ed7ac9
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 12:02:20 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 222c90af98279ab6c3aaea49854d101be6876854[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 12:02:08 2020 +0500
+
+    updated document kind refactored
+
+[33mcommit 6ed7ac9f3b004937306359d36db2226fc86a9f32[m
+Merge: 5f64859 339cc16
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 12:01:16 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 5f64859b185bd1696b303b6d107fc0bc5d3a22a9[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 12:01:04 2020 +0500
+
+    nav menu and document form
+
+[33mcommit 339cc16ab1cb89a4c72bf24653b449ca4a93e349[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 12:00:07 2020 +0500
+
+    refactored create
+
+[33mcommit 7517e15b09166344458c74416cee53f9b1143a4d[m
+Author: Kleperson Timur <t.kleperson@turkmen-tranzit.com>
+Date:   Sat May 9 11:57:14 2020 +0500
+
+    create document kind refactored
+
+[33mcommit ff53ea413ab24c7b42359c5fff0dc3dde98f9238[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 10:23:51 2020 +0500
+
+    btn more in doc flow
+
+[33mcommit b036a80029a16f008a7a862b330347beb5d896f0[m
+Merge: 53bd342 3eb73e2
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 10:09:43 2020 +0500
+
+    Merge branch 'develop' of https://dev.azure.com/ttranz/TTDoc.SPA/_git/TTDoc.SPA into develop
+
+[33mcommit 53bd3421515c7e88be18886fa1a6d954e10a0d0a[m
+Author: Timur Rejepkuliew <test@gmail.com>
+Date:   Sat May 9 10:08:40 2020 +0500
+
+    incomming btn
+
+[33mcommit 3eb73e21c46648e0e7be46b406e3e8ccb85651bd[m
+Author: Timur <klepersontimur@gmail.com>
+Date:   Sat May 9 01:02:36 2020 +0500
+
+    added toolbar
+
+[33mcommit 194832a550f7e2439b08682f172dc126cf7d8e35[m
+Author: Timur <kl

@@ -240,7 +240,7 @@ export default {
   },
   methods: {
     canBeOpenWithPreview(e) {
-      if (e.row.data.associatedApplication) {
+      if (e.row.data) {
         return e.row.data.canBeOpenedWithPreview;
       } else {
         false;

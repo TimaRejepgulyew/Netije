@@ -101,7 +101,9 @@ export default {
     GetTaskById: `${url}/api/Task/GetTaskById/`
   },
   accessRights: {
-    forDocument: `${url}/api/AccessRights/`
+    ForDocument: `${url}/api/AccessRights/`,
+    AddRecipient: `${url}/api/AccessRights`,
+    UpdateRecipient:`${url}/api/AccessRights/`
   },
   assignment: {
     Assignments: `${url}/api/Assignment/`,

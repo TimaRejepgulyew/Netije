@@ -49,8 +49,7 @@ export default {
     hasActions() {
       return (
         (this.attachment.document.hasVersions &&
-          this.attachment.document.associatedApplication
-            .canBeOpenedWithPreview) ||
+          this.attachment.document.canBeOpenedWithPreview) ||
         this.attachment.canDetach
       );
     }
