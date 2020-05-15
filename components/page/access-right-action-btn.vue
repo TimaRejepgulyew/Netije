@@ -38,12 +38,18 @@ export default {
         accessRightEntryId: this.entryId,
         accessRightTypeId: e.itemData.id
       };
-      console.log(e);
       this.$awn.asyncBlock(
         this.$axios.put(
           dataApi.accessRights.UpdateRecipient + this.entryId,
           payload
-        )
+        ),
+        e => {
+          this.$emit("reload");
+          this.$awn.success();
+        },
+        e => {
+          this.$alert();
+        }
       );
     }
   }

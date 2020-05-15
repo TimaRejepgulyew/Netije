@@ -108,17 +108,16 @@ export default {
     DxLabel,
     DxRequiredRule
   },
-  created() {
-    this.$store.dispatch("paper-work/setMainFormProperties", {
-      correspondent: ""
-    });
-  },
   async asyncData({ app, params }) {
     if (params.id != "add") {
       let store = await app.$axios.get(
         dataApi.paperWork.GetDocumentById + params.id
       );
       return {
+        readOnly: store.data.readOnly,
+        canUpdate: store.data.canUpdate,
+        canRegister: store.data.canRegister,
+        canDelete: store.data.canDelete,
         store: store.data.document,
         isUpdating: true
       };
@@ -126,10 +125,26 @@ export default {
       return {};
     }
   },
+  created() {
+    this.$store.dispatch("paper-work/setMainFormProperties", {
+      correspondent: ""
+    });
+    this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
+      readOnly: this.readOnly,
+      canUpdate: this.canUpdate,
+      canRegister: this.canRegister,
+      canDelete: this.canDelete,
+      isRegistered: this.store.registrationState === 0
+    });
+  },
   data() {
     return {
+      readOnly: false,
+      canUpdate: true,
+      canRegister: false,
       isUpdating: false,
-      isDataChanged: false,
+      canDelete: false,
+      docType: DocumentType.OutgoingDocument,
       headerTitle: this.$t("translations.headers.outgoingLetter"),
       store: {
         subject: "",

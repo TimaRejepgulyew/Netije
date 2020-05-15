@@ -3,11 +3,18 @@
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
+      <DxItem :options="saveAndBackButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="canRegister" location="before" template="registrationButton" />
       <DxItem
         :visible="canDelete"
         :options="removeDocumentButtonOptions"
         location="after"
+        widget="dxButton"
+      />
+      <DxItem
+        :visible="isUpdating"
+        :options="createAddendumOptions"
+        location="before"
         widget="dxButton"
       />
       <DxItem template="accessRightButton" v-if="isUpdating" location="after" />
@@ -72,6 +79,30 @@ export default {
         disabled: !this.canUpdate,
         onClick: () => {
           this.$emit("saveChanges");
+        }
+      };
+    },
+    saveAndBackButtonOptions() {
+      return {
+        icon: "save",
+        type: "success",
+        text: this.$t("buttons.saveAndBack"),
+        disabled: !this.canUpdate,
+        onClick: () => {
+          this.$emit("saveChanges", true);
+        }
+      };
+    },
+    createAddendumOptions() {
+      return {
+        icon: "plus",
+        type: "normal",
+        text: this.$t("buttons.createAddendum"),
+        onClick: () => {
+          this.$router.push({
+            path: "/paper-work/addendum/form/add",
+            query: { leandingDocument: this.$route.params.id }
+          });
         }
       };
     },

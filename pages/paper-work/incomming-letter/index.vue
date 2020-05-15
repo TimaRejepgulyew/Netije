@@ -8,13 +8,12 @@
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
-      :column-auto-width="true"
+      :column-auto-width="false"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :onRowDblClick="toMoreAbout"
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
     >
-    
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
       <DxColumnChooser :enabled="true" />
@@ -34,11 +33,10 @@
       <DxEditing :allow-deleting="true" :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
+      <DxScrolling mode="virtual" columnRenderingMode="standart" />
       <DxColumn
         data-field="extension"
         :allow-filtering="false"
-        :width="60"
         :caption="$t('translations.fields.extension')"
         cell-template="cellTemplate"
         :visible="true"
@@ -238,6 +236,7 @@ export default {
       ]
     };
   },
+  computed: {},
   methods: {
     canBeOpenWithPreview(e) {
       if (e.row.data) {

@@ -123,7 +123,7 @@ export default {
     modified() {
       this.$store.commit("currentDocument/DATA_CHANGED", true);
     },
-    updateRequest(store) {
+    updateRequest(store, close) {
       this.$awn.asyncBlock(
         this.$axios.put(
           requests.put[this.docType] + this.$route.params.id,
@@ -132,28 +132,31 @@ export default {
         res => {
           this.$awn.success();
           this.$store.commit("currentDocument/DATA_CHANGED", false);
+          if (close) this.$router.go(-1);
         },
         e => {
           this.$awn.alert();
         }
       );
     },
-    addRequest(store) {
+    addRequest(store, close) {
       this.$awn.asyncBlock(
         this.$axios.post(requests.post[this.docType], store),
         res => {
           this.$awn.success();
-          this.$router.replace({
-            name: this.$route.name,
-            params: { id: res.data }
-          });
+          if (close) this.$router.go(-1);
+          else
+            this.$router.replace({
+              name: this.$route.name,
+              params: { id: res.data }
+            });
         },
         e => {
           this.$awn.alert();
         }
       );
     },
-    handleSubmit() {
+    handleSubmit(close) {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
       this.loadingVisible = true;
@@ -162,9 +165,9 @@ export default {
         this.$store.getters["paper-work/mainFormProperties"]
       );
       if (this.isUpdating) {
-        this.updateRequest(store);
+        this.updateRequest(store, close);
       } else {
-        this.addRequest(store);
+        this.addRequest(store, close);
       }
     }
   },

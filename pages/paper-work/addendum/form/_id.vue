@@ -76,6 +76,7 @@ export default {
         readOnly: store.data.readOnly,
         canUpdate: store.data.canUpdate,
         canRegister: store.data.canRegister,
+        canDelete: store.data.canDelete,
         store: store.data.document,
         isUpdating: true
       };
@@ -84,10 +85,12 @@ export default {
     }
   },
   created() {
+    console.log(this.$route.query, "created");
     this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
       readOnly: this.readOnly,
       canUpdate: this.canUpdate,
       canRegister: this.canRegister,
+      canDelete: this.canDelete,
       isRegistered: this.store.registrationState === 0
     });
   },
@@ -97,10 +100,11 @@ export default {
       canUpdate: true,
       canRegister: false,
       isUpdating: false,
+      canDelete: false,
       docType: DocumentType.Addendum,
       headerTitle: this.$t("translations.headers.addendum"),
       store: {
-        leadingDocumentId: null,
+        leadingDocumentId: +this.$route.query.leandingDocument || null,
         name: "",
         subject: "",
         note: "",
