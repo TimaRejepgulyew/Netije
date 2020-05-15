@@ -5,7 +5,7 @@
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="canRegister" location="before" template="registrationButton" />
       <DxItem
-        :visible="canRemove"
+        :visible="canDelete"
         :options="removeDocumentButtonOptions"
         location="after"
         widget="dxButton"
@@ -62,8 +62,8 @@ export default {
     canRegister() {
       return this.$store.getters["currentDocument/canRegister"];
     },
-    canRemove() {
-      return this.$store.getters["currentDocument/canRemove"];
+    canDelete() {
+      return this.$store.getters["currentDocument/canDelete"];
     },
     saveButtonOptions() {
       return {
