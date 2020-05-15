@@ -4,7 +4,7 @@ export const state = () => ({
   isDataChanged: false,
   readOnly: false,
   canUpdate: false,
-  canRemove: false,
+  canDelete: false,
   canRegister: false,
   isRegistered: false,
   selectedDocumentNumberingType: null
@@ -22,8 +22,9 @@ export const getters = {
   canUpdate({ canUpdate }) {
     return canUpdate;
   },
-  canRemove({ canRemove }) {
-    return canRemove;
+  canDelete({ canDelete }) {
+    console.log(canDelete)
+    return canDelete;
   },
   isRegistered({ isRegistered }) {
     return isRegistered;
@@ -37,6 +38,7 @@ export const getters = {
 };
 export const mutations = {
   SET_DOCUMENT_STATE(state, payload) {
+    console.log(payload)
     for (let item in payload) {
       state[item] = payload[item];
     }

@@ -240,8 +240,7 @@ export default {
   },
   methods: {
     canBeOpenWithPreview(e) {
-      console.log(e)
-      if (e.row.data.extension) {
+      if (e.row.data) {
         return e.row.data.canBeOpenedWithPreview;
       } else {
         false;

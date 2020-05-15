@@ -1,0 +1,231 @@
+<template>
+  <div>
+    <div class="list-container">
+      <DxList
+        :data-source="accessRight.entries"
+        :focusStateEnabled="false"
+        :activeStateEnabled="false"
+        search-expr="recipient.name"
+        :search-enabled="true"
+      >
+        <template #item="item">
+          <div>
+            <div class="d-flex js-center align-center">
+              <div class="list__content d-flex align-center">
+                <resipient-icon :type="item.data.recipient.recipientType"></resipient-icon>
+                {{ item.data.recipient.name}}
+              </div>
+              <div class="list__btn-group d-flex">
+                <attachment-action-btn
+                  :entryId="item.data.id"
+                  :current-access-right="item.data.accessRightType"
+                  :can-update="!item.data.canUpdate"
+                  :accessRight="accessRight.accessRightTypes"
+                />
+                <DxButton
+                  icon="trash"
+                  type="danger"
+                  styling-mode="text"
+                  :disabled="!item.data.canRemove"
+                  :on-click="deleteRecipient"
+                />
+              </div>
+            </div>
+          </div>
+        </template>
+      </DxList>
+    </div>
+    <div v-if="accessRight.canAdd">
+      <span class="dx-form-group-caption border-top">{{$t("translations.headers.addNewRecipient")}}</span>
+      <div class="d-flex mt-2">
+        <div class="dx-field-value pr-1">
+          <label>{{$t("translations.fields.recipient")}}</label>
+          <DxSelectBox
+            v-model="newRecipient.recipientId"
+            :data-source="recipientStore"
+            :grouped="true"
+            display-expr="name"
+            value-expr="id"
+            :showClearButton="true"
+            :searchEnabled="true"
+            searchExpr="name"
+          >
+            <template #group="{ data }">
+              <span class="d-flex align-center">
+                <resipient-icon class="selectbox--icon" :type="data.key"></resipient-icon>
+                {{showGroupCaption(data.key)}}
+              </span>
+            </template>
+          </DxSelectBox>
+        </div>
+        <div class="dx-field-value">
+          <label>{{$t("translations.fields.accessRight")}}</label>
+          <DxSelectBox
+            v-model="newRecipient.accessRightTypeId"
+            :items="accessRightsStore"
+            display-expr="name"
+            :showClearButton="true"
+            value-expr="id"
+            :searchEnabled="true"
+            searchExpr="name"
+          ></DxSelectBox>
+        </div>
+      </div>
+      <div class="dx-field-value mt-2">
+        <DxButton
+          type="success"
+          :disabled="isRequired"
+          :on-click="addRecipient"
+          :text="$t('buttons.add')"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { DxSelectBox } from "devextreme-vue/select-box";
+import ResipientType from "~/infrastructure/constants/resipientType.js";
+import resipientIcon from "~/components/paper-work/main-doc-form/resipient-icon.vue";
+import attachmentActionBtn from "~/components/paper-work/main-doc-form/access-right-action-btn";
+import DxList from "devextreme-vue/list";
+import dataApi from "~/static/dataApi";
+import DataSource from "devextreme/data/data_source";
+import { DxButton } from "devextreme-vue";
+export default {
+  components: {
+    DxSelectBox,
+    attachmentActionBtn,
+    resipientIcon,
+    DxList,
+    DxButton
+  },
+  props: ["url"],
+  async created() {
+    if (this.$route.params.id !== "add") {
+      this.$awn.asyncBlock(
+        this.$axios.get(this.url),
+        res => {
+          this.accessRight = res.data;
+        },
+        () => this.$awn.alert()
+      );
+    }
+  },
+  data() {
+    return {
+      accessRight: {},
+      newRecipient: {
+        recipientId: null,
+        accessRightTypeId: null
+      }
+    };
+  },
+  methods: {
+    showGroupCaption(recipientType) {
+      switch (recipientType) {
+        case ResipientType.BusinessUnit:
+          return this.$t("menu.businessUnit");
+        case ResipientType.Department:
+          return this.$t("menu.department");
+        case ResipientType.Role:
+          return this.$t("menu.role");
+        case ResipientType.Group:
+          return this.$t("menu.group");
+        case ResipientType.Employee:
+          return this.$t("menu.employee");
+      }
+    },
+    async load() {
+      const { data } = await this.$axios.get(this.url);
+      this.accessRight = data;
+    },
+    nullify() {
+      this.newRecipient = {
+        recipientId: null,
+        accessRightTypeId: null
+      };
+    },
+    addRecipient() {
+      const recipient = {
+        ...this.newRecipient,
+        documentId: +this.$route.params.id
+      };
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.accessRights.AddRecipient, recipient),
+        async () => {
+          this.nullify();
+          await this.load();
+          this.$awn.success();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    deleteRecipient() {
+      this.$awn.asyncBlock(
+        this.$axios.delete(dataApi.accessRights.RemoveRecipient),
+        async () => {
+          await this.load();
+          this.$awn.success();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    }
+  },
+  computed: {
+    recipientStore() {
+      return new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.recipient.list
+        }),
+        group: [{ selector: "recipientType" }]
+      });
+    },
+    accessRightsStore() {
+      return this.accessRight.accessRightTypes;
+    },
+    isRequired() {
+      const { recipientId, accessRightTypeId } = this.newRecipient;
+      return recipientId === null || accessRightTypeId == null;
+    },
+    btnSave() {
+      return this.$store.getters["globalProperties/btnSave"](this);
+    }
+  }
+};
+</script>
+
+<style lang="scss" >
+@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/dx-styles.scss";
+.border-top {
+  margin-top: 20px;
+  display: flex;
+  border-top: 1px solid $base-border-color;
+}
+.pr-1 {
+  padding-right: 10px;
+}
+.align-center {
+  align-items: center;
+}
+.js-center {
+  justify-content: space-between;
+}
+.list-container {
+  overflow: auto;
+  max-height: 60vh;
+}
+.selectbox--icon {
+  height: 20px;
+  width: 20px;
+}
+.mt-2 {
+  padding-top: 20px;
+}
+</style>

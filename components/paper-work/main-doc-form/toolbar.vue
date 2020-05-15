@@ -1,35 +1,19 @@
 <template>
   <div class="navBar">
-    <DxPopup
-      :visible.sync="accessRightPopup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="800"
-      :height="'auto'"
-      :title="$t('translations.fields.accessRightDocument')"
-    >
-      <div>
-        <access-right :url="accessRightUrl" />
-      </div>
-    </DxPopup>
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="canRegister" location="before" template="registrationButton" />
       <DxItem
-        :visible="canRemove"
+        :visible="canDelete"
         :options="removeDocumentButtonOptions"
         location="after"
         widget="dxButton"
       />
-      <DxItem
-        :options="documentAccessRightsButtonOptions"
-        v-if="isUpdating"
-        location="after"
-        widget="dxButton"
-      />
-
+      <DxItem template="accessRightButton" v-if="isUpdating" location="after" />
+      <template #accessRightButton>
+        <access-right :url="accessRightUrl" />
+      </template>
       <template #registrationButton>
         <document-registration-btn />
       </template>
@@ -39,8 +23,7 @@
 <script>
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
-import accessRight from "~/components/paper-work/main-doc-form/access-right.vue";
-import { DxPopup } from "devextreme-vue/popup";
+import accessRight from "~/components/page/access-right.vue";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import Docflow from "~/infrastructure/constants/docflows";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -49,7 +32,6 @@ import DocumentRegistrationBtn from "~/components/paper-work/main-doc-form/docum
 export default {
   components: {
     accessRight,
-    DxPopup,
     DxButton,
     DxToolbar,
     DxItem,
@@ -57,7 +39,7 @@ export default {
   },
   data() {
     return {
-      accessRightUrl: dataApi.accessRights.forDocument + this.$route.params.id,
+      accessRightUrl: dataApi.accessRights.ForDocument + this.$route.params.id,
       accessRightPopup: false,
       backButtonOptions: {
         type: "back",
@@ -80,8 +62,8 @@ export default {
     canRegister() {
       return this.$store.getters["currentDocument/canRegister"];
     },
-    canRemove() {
-      return this.$store.getters["currentDocument/canRemove"];
+    canDelete() {
+      return this.$store.getters["currentDocument/canDelete"];
     },
     saveButtonOptions() {
       return {

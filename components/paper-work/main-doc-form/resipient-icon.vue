@@ -29,6 +29,11 @@ export default {
 </script>
 
 <style scoped>
+.select--box.icon--type {
+  margin-right: 10px;
+  max-width: 20px;
+  height: 10px;
+}
 .icon--type {
   margin-right: 10px;
   width: 30px;
