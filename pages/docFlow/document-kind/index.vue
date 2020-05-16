@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.documentKind')"></Header>
     <DxDataGrid
+      width="inherit"
       id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"

@@ -102,9 +102,11 @@ body {
   margin: 0px;
   min-height: 100%;
   height: 100%;
+  overflow: auto;
 }
 
 #root {
+  width: 100%;
   height: 100%;
 }
 

@@ -2,16 +2,17 @@
   <main>
     <Header :headerTitle="$t('menu.order')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-     @toolbar-preparing="onToolbarPreparing($event)"
+      :onRowDblClick="toMoreAbout"
+      @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="true"
-      @editing-start="toMoreAbout"
     >
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
@@ -22,11 +23,7 @@
       <DxFilterRow :visible="true" />
       <DxFilterPanel :visible="true" />
       <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('menu.order')"
-      />
+      <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('menu.order')" />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="order" />
 

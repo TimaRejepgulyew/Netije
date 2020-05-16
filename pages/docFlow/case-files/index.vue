@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.caseFile')"></Header>
     <DxDataGrid
+      width="100%"
       id="gridContainer"
       :show-borders="true"
       :data-source="store"

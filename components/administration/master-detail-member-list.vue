@@ -3,6 +3,7 @@
     <DxItem :title="$t('translations.fields.members')" template="members-list" />
     <template #members-list>
       <DxDataGrid
+      
         id="gridContainer"
         :errorRowEnabled="false"
         :show-borders="true"

@@ -3,6 +3,7 @@
     <div class="widget-container">
       <MainForm :headerTitle="headerTitle" :store="store" :docType="docType">
         <DxForm
+          :form-data.sync="store"
           :show-colon-after-label="true"
           :read-only="readOnly"
           :show-validation-summary="false"
@@ -27,7 +28,6 @@
                 <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
                 <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
               </DxSimpleItem>
-
               <DxSimpleItem
                 data-field="assigneeId"
                 :editor-options="employeeOptions"
@@ -54,21 +54,6 @@
                 <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
               </DxSimpleItem>
             </DxGroupItem>
-            <DxSimpleItem :col-span="2" data-field="note" editor-type="dxTextArea">
-              <DxLabel location="top" :text="$t('translations.fields.note')" />
-            </DxSimpleItem>
-            <DxGroupItem :col-count="12" :col-span="2">
-              <DxButtonItem
-                :col-span="1"
-                :button-options="saveButtonOptions"
-                horizontal-alignment="right"
-              />
-              <DxButtonItem
-                :col-span="1"
-                :button-options="cancelButtonOptions"
-                horizontal-alignment="right"
-              />
-            </DxGroupItem>
           </DxGroupItem>
         </DxForm>
       </MainForm>
@@ -79,7 +64,6 @@
 import DocumentType from "~/infrastructure/constants/documentType";
 import MainForm from "~/components/paper-work/main-doc-form/main";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -87,7 +71,6 @@ import DxForm, {
   DxLabel,
   DxRequiredRule
 } from "devextreme-vue/form";
-let unwatch;
 export default {
   components: {
     MainForm,
@@ -120,7 +103,7 @@ export default {
       readOnly: this.readOnly,
       canUpdate: this.canUpdate,
       canRegister: this.canRegister,
-      canDelete:this.canDelete,
+      canDelete: this.canDelete,
       isRegistered: this.store.registrationState === 0
     });
   },
@@ -132,7 +115,7 @@ export default {
       isUpdating: false,
       canDelete: false,
       docType: DocumentType.CompanyDirective,
-      headerTitle: this.$t("translations.headers.addendum"),
+      headerTitle: this.$t("translations.headers.company-directive"),
       store: {
         ourSignatoryId: null,
         preparedById: null,
@@ -156,11 +139,14 @@ export default {
   },
   computed: {
     preparedOptions() {
-      const departmentId = this.store.departmentId;
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Employee,
-        filter: [["departmentId", "=", departmentId], "and", ["status", "=", 0]]
+        filter: [
+          ["departmentId", "=", this.store.departmentId],
+          "and",
+          ["status", "=", 0]
+        ]
       });
     },
     businessUnitOptions() {
@@ -171,6 +157,7 @@ export default {
           filter: ["status", "=", 0]
         }),
         onValueChanged: e => {
+          console.log(this.store);
           this.store.departmentId = null;
           this.store.ourSignatoryId = null;
           this.store.preparedById = null;
@@ -184,7 +171,6 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
-
           filter: [
             ["businessUnitId", "=", businessUnitId],
             "and",
@@ -197,12 +183,11 @@ export default {
       };
     },
     employeeOptions() {
-      let businessUnitId = this.store.businessUnitId;
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Employee,
         filter: [
-          ["businessUnitId", "=", businessUnitId],
+          ["businessUnitId", "=", this.store.businessUnitId],
           "and",
           ["status", "=", 0]
         ]
