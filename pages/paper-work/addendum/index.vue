@@ -115,6 +115,7 @@ import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import RouteGenerator from "~/infrastructure/routing/routeGenerator";
 import {
+  DxButton,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -135,6 +136,7 @@ import {
 
 export default {
   components: {
+    DxButton,
     documentIcon,
     DxLoadPanel,
     Header,

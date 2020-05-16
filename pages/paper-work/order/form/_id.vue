@@ -92,6 +92,7 @@ export default {
         readOnly: store.data.readOnly,
         canUpdate: store.data.canUpdate,
         canRegister: store.data.canRegister,
+        canDelete: store.data.canDelete,
         store: store.data.document,
         isUpdating: true
       };
@@ -114,6 +115,7 @@ export default {
       canUpdate: true,
       canRegister: false,
       isUpdating: false,
+      canDelete: false,
       docType: DocumentType.Order,
       headerTitle: this.$t("translations.headers.order"),
       store: {
@@ -135,7 +137,7 @@ export default {
   methods: {
     modified() {
       this.$store.commit("currentDocument/DATA_CHANGED", true);
-    },
+    }
   },
   computed: {
     preparedOptions() {

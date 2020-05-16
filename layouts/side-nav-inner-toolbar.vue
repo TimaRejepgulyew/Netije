@@ -152,6 +152,7 @@ export default {
   box-sizing: border-box;
   min-height: 90vh;
   background: $base-bg;
+  width: 100%;
   padding: 0.5vh 0.5vw;
 }
 </style>

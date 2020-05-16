@@ -17,6 +17,7 @@
               </div>
               <div class="list__btn-group d-flex">
                 <attachment-action-btn
+                  @reload="load"
                   :entryId="item.data.id"
                   :current-access-right="item.data.accessRightType"
                   :can-update="!item.data.canUpdate"
@@ -27,7 +28,7 @@
                   type="danger"
                   styling-mode="text"
                   :disabled="!item.data.canRemove"
-                  :on-click="deleteRecipient"
+                  :on-click="()=>deleteRecipient(item.data.id)"
                 />
               </div>
             </div>
@@ -87,7 +88,7 @@
 import { DxSelectBox } from "devextreme-vue/select-box";
 import ResipientType from "~/infrastructure/constants/resipientType.js";
 import resipientIcon from "~/components/paper-work/main-doc-form/resipient-icon.vue";
-import attachmentActionBtn from "~/components/paper-work/main-doc-form/access-right-action-btn";
+import attachmentActionBtn from "~/components/page/access-right-action-btn";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
@@ -163,9 +164,9 @@ export default {
         }
       );
     },
-    deleteRecipient() {
+    deleteRecipient(entryid) {
       this.$awn.asyncBlock(
-        this.$axios.delete(dataApi.accessRights.RemoveRecipient),
+        this.$axios.delete(dataApi.accessRights.RemoveRecipient + entryid),
         async () => {
           await this.load();
           this.$awn.success();

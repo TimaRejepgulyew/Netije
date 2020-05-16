@@ -64,6 +64,7 @@ export default {
     }
   },
   menu: {
+    group: "Группы",
     all: "Все",
     allDocument: "Все документы",
     internalDocuments: "Внутрение документы",
@@ -170,7 +171,9 @@ export default {
     download: "Скачать",
     back: "Назад",
     yes: "Да",
-    no: "Нет"
+    no: "Нет",
+    createAddendum: "Создать приложение",
+    saveAndBack: "Сохранить и выйти"
   },
   notification: {
     labels: {
