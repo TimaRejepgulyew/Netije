@@ -184,7 +184,7 @@ export default {
   },
   async asyncData({ app, params }) {
     let response = await app.$axios.get(
-      dataApi.docFlow.DocumentRegistry + params.id
+      dataApi.docFlow.DocumentRegistry + `/${params.id}`
     );
     return {
       documentRegister: response.data
@@ -294,7 +294,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
-          dataApi.docFlow.DocumentRegistry + this.documentRegister.id,
+          dataApi.docFlow.DocumentRegistry + `/${this.documentRegister.id}`,
           this.documentRegister
         ),
         res => {

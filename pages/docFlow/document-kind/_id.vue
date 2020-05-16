@@ -78,27 +78,27 @@
           </DxSimpleItem>
           <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
             <DxLabel
-              location="left"
+              location="top"
               alignment="left"
               :text="$t('translations.fields.generateDocumentName')"
             />
           </DxSimpleItem>
 
           <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
-            <DxLabel location="left" alignment="left" :text="$t('translations.fields.isDefault')" />
+            <DxLabel location="top" alignment="left" :text="$t('translations.fields.isDefault')" />
           </DxSimpleItem>
 
-          <DxSimpleItem v-if="isNumerable" data-field="autoNumbering" editor-type="dxCheckBox">
+          <DxSimpleItem :visible="isNumerable" data-field="autoNumbering" editor-type="dxCheckBox">
             <DxLabel
-              location="left"
+              location="top"
               alignment="left"
               :text="$t('translations.fields.autoNumbering')"
             />
           </DxSimpleItem>
+
           <DxSimpleItem
             data-field="note"
-            :col-span="1"
-            :editor-options="{height: 90}"
+            :col-span="2"
             editor-type="dxTextArea"
           >
             <DxLabel location="top" :text="$t('translations.fields.note')" />
@@ -230,11 +230,11 @@ export default {
       };
     },
     isNumerable() {
-      if (this.documentKind.numberingType != NumberingType.NotNumerable) {
-        return false;
+     if (this.documentKind.numberingType == NumberingType.Numerable) {
+        return true;
       } else {
         this.documentKind.autoNumbering = false;
-        return true;
+        return false;
       }
     }
   }
