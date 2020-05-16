@@ -75,7 +75,6 @@
 import DocumentType from "~/infrastructure/constants/documentType";
 import MainForm from "~/components/paper-work/main-doc-form/main";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -142,7 +141,6 @@ export default {
         businessUnitId: null,
         departmentId: null
       },
-      isCompany: false
     };
   },
   methods: {

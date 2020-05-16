@@ -115,7 +115,7 @@ export default {
       isUpdating: false,
       canDelete: false,
       docType: DocumentType.CompanyDirective,
-      headerTitle: this.$t("translations.headers.company-directive"),
+      headerTitle: this.$t("translations.headers.companyDirective"),
       store: {
         ourSignatoryId: null,
         preparedById: null,
@@ -129,7 +129,6 @@ export default {
         businessUnitId: null,
         departmentId: null
       },
-      isCompany: false
     };
   },
   methods: {
@@ -157,7 +156,6 @@ export default {
           filter: ["status", "=", 0]
         }),
         onValueChanged: e => {
-          console.log(this.store);
           this.store.departmentId = null;
           this.store.ourSignatoryId = null;
           this.store.preparedById = null;

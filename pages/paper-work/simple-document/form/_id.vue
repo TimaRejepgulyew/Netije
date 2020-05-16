@@ -1,18 +1,11 @@
 <template>
   <div id="form-demo">
     <div class="widget-container">
-      <MainForm
-        :isDataChanged="isDataChanged"
-        @saved="saved"
-        @modified="modified"
-        :headerTitle="headerTitle"
-        :store="store"
-        :docType="docType"
-      >
+      <MainForm :headerTitle="headerTitle" :store="store" :docType="docType">
         <DxForm
           :col-count="1"
           :form-data.sync="store"
-          :read-only="!store.readOnly"
+          :read-only="readOnly"
           :show-colon-after-label="true"
           :show-validation-summary="true"
           validation-group="OfficialDocument"
@@ -43,20 +36,16 @@
   </div>
 </template>
 <script>
+import DocumentType from "~/infrastructure/constants/documentType";
 import MainForm from "~/components/paper-work/main-doc-form/main";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
-  DxPatternRule,
-  DxAsyncRule
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
-let unwatch;
 export default {
   components: {
     MainForm,
@@ -65,9 +54,7 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule,
-    DxPatternRule,
-    DxAsyncRule
+    DxRequiredRule
   },
   async asyncData({ app, params }) {
     if (params.id != "add") {

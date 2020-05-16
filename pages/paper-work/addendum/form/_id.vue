@@ -85,7 +85,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.query, "created");
     this.$store.commit("currentDocument/SET_DOCUMENT_STATE", {
       readOnly: this.readOnly,
       canUpdate: this.canUpdate,
@@ -114,7 +113,6 @@ export default {
         businessUnitId: 0,
         departmentId: null
       },
-      isCompany: false
     };
   },
   methods: {
