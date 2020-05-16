@@ -71,7 +71,9 @@ export default {
   data() {
     return {
       menuOpened: this.isLarge,
-      menuTemporaryOpened: false
+      menuTemporaryOpened: false,
+      list: [],
+      property: []
     };
   },
   computed: {

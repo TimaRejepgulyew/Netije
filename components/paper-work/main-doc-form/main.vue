@@ -193,4 +193,8 @@ export default {
   padding: 0 15px;
   width: 20%;
 }
+.f-grow-3 {
+  flex-basis: 35%;
+  flex-grow: 5;
+}
 </style>
