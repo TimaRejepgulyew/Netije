@@ -320,8 +320,7 @@ export const actions = {
         items: [
           {
             text: this.$i18n.t("menu.roles"),
-            path: "/admin/roles",
-            icon: "user"
+            path: "/admin/roles"
           }
         ]
       }

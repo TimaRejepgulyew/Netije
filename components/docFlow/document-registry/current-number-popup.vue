@@ -35,7 +35,7 @@ export default {
   },
   async created() {
     var res = await this.$axios.get(
-      `${dataApi.docFlow.DocumentRegistry}CurrentNumber?documentRegisterId=${this.documentRegisterId}`
+      `${dataApi.docFlow.DocumentRegistry}/CurrentNumber?documentRegisterId=${this.documentRegisterId}`
     );
     this.currentNumberData.value = res.data;
   },
@@ -62,7 +62,7 @@ export default {
     handleSubmit(e) {
       this.$awn.asyncBlock(
         this.$axios.put(
-          `${dataApi.docFlow.DocumentRegistry}CurrentNumber/${this.documentRegisterId}`,
+          `${dataApi.docFlow.DocumentRegistry}/CurrentNumber/${this.documentRegisterId}`,
           this.currentNumberData
         ),
         res => {

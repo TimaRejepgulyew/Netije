@@ -155,8 +155,9 @@ export default {
       companiesDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Company
+          loadUrl: dataApi.contragents.CounterPart
         }),
+        filter:["type","<>","Person"],
         paginate: true
       },
       statusDataSource: this.$store.getters["status/status"](this)
