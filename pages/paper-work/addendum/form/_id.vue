@@ -90,7 +90,7 @@ export default {
       readOnly: this.readOnly,
       canUpdate: this.canUpdate,
       canRegister: this.canRegister,
-      canDelete: this.canDelete,
+      canDelete:this.canDelete,
       isRegistered: this.store.registrationState === 0
     });
   },

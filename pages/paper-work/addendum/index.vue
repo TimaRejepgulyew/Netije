@@ -196,7 +196,7 @@ export default {
   },
   methods: {
     canBeOpenWithPreview(e) {
-      if (e.row.data.associatedApplication) {
+      if (e.row.data.extension) {
         return e.row.data.canBeOpenedWithPreview;
       } else {
         false;
@@ -220,7 +220,7 @@ export default {
   },
   methods: {
     canBeOpenWithPreview(e) {
-      if (e.row.data.associatedApplication) {
+      if (e.row.data.extension) {
         return e.row.data.canBeOpenedWithPreview;
       } else {
         false;

@@ -23,6 +23,7 @@ export const getters = {
     return canUpdate;
   },
   canDelete({ canDelete }) {
+    console.log(canDelete)
     return canDelete;
   },
   isRegistered({ isRegistered }) {
@@ -37,6 +38,7 @@ export const getters = {
 };
 export const mutations = {
   SET_DOCUMENT_STATE(state, payload) {
+    console.log(payload)
     for (let item in payload) {
       state[item] = payload[item];
     }

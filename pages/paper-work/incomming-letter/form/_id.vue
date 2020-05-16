@@ -126,7 +126,11 @@ export default {
         readOnly: store.data.readOnly,
         canUpdate: store.data.canUpdate,
         canRegister: store.data.canRegister,
+<<<<<<< HEAD
         canDelete: store.data.canDelete,
+=======
+        canDelete:store.data.canDelete,
+>>>>>>> 5c7b3ef2fa06d173fce2a411d37284a6d9ac9a23
         store: store.data.document,
         isUpdating: true
       };
@@ -145,7 +149,11 @@ export default {
       readOnly: this.readOnly,
       canUpdate: this.canUpdate,
       canRegister: this.canRegister,
+<<<<<<< HEAD
       canDelete: this.canDelete,
+=======
+      canDelete:this.canDelete,
+>>>>>>> 5c7b3ef2fa06d173fce2a411d37284a6d9ac9a23
       isRegistered: this.store.registrationState === 0
     });
   },
