@@ -3,14 +3,13 @@ const AssignmentType = {
   AcquaintanceAssignment: 1,
   ActionItemExecutionAssignment: 2,
   SimpleNotify: 3,
-  ActionItemExecutionNotify: 4,
-  AcquaintanceNotify: 5,
+  ActionItemExecutionNotification: 4,
+  AcquaintanceNotification: 5,
   AcquaintanceFinishAssignment: 6,
   ActionItemSupervisorAssignment: 7,
   ReviewAssignment: 8,
   ActionItemObserversNotification: 16,
   ActionItemSupervisorNotification: 17
-  
 };
 export default AssignmentType;
 export function isAssignment(type) {

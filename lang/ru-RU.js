@@ -63,6 +63,17 @@ export default {
       registrationDateRequired: "Введите дату регистрации документа"
     }
   },
+  assignment: {
+    prefixes: {
+      actionItemSupervisorAssignment: "Примите работы: ",
+      actionItemExecutionAssignment: "Исполните: ",
+      actionItemExecutionNotification: "Приняты работы: ",
+      acquaintanceAssignment: "Ознакомьтесь: ",
+      acquaintanceNotification: "Ознакомление с документом: ",
+      acquaintanceFinishAssignment: "Завершите работы по ознакомлению: ",
+      actionItemObserversNotification: "Начаты работы: "
+    }
+  },
   menu: {
     group: "Группы",
     all: "Все",

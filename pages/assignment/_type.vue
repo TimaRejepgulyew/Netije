@@ -89,7 +89,11 @@
           :visible="true"
           data-field="importance"
         ></DxColumn>
-        <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+        <DxColumn
+          data-field="subject"
+          :calculate-cell-value="subjectText"
+          :caption="$t('translations.fields.subject')"
+        ></DxColumn>
         <DxColumn data-field="authorId" :caption="$t('translations.fields.authorId')">
           <DxLookup
             :allow-clearing="true"
@@ -206,6 +210,35 @@ export default {
     }
   },
   methods: {
+    subjectText(rowData) {
+      let prefix = "";
+      switch (rowData.assignmentType) {
+        case AssignmentType.ActionItemSupervisorAssignment:
+          prefix = this.$t("assignment.prefixes.actionItemSupervisorAssignment");
+          break;
+        case AssignmentType.ActionItemExecutionAssignment:
+          prefix = this.$t("assignment.prefixes.actionItemExecutionAssignment");
+          break;
+        case AssignmentType.ActionItemExecutionNotification:
+          prefix = this.$t("assignment.prefixes.actionItemExecutionNotification");
+          break;
+        case AssignmentType.AcquaintanceAssignment:
+          prefix = this.$t("assignment.prefixes.acquaintanceAssignment");
+          break;
+        case AssignmentType.AcquaintanceNotification:
+          prefix = this.$t("assignment.prefixes.acquaintanceNotification");
+          break;
+        case AssignmentType.AcquaintanceFinishAssignment:
+          prefix = this.$t("assignment.prefixes.acquaintanceFinishAssignment");
+          break;
+        case AssignmentType.ActionItemObserversNotification:
+          prefix = this.$t("assignment.prefixes.actionItemObserversNotification");
+          break;
+          default:
+            break;
+      }
+      return prefix + rowData.subject;
+    },
     addButtonToGrid(header) {
       header.toolbarOptions.items.unshift({
         widget: "button",
@@ -223,7 +256,7 @@ export default {
           e.rowElement.style.color = "#339966";
         }
         if (e.data.isExpired) {
-          console.log("expired")
+          console.log("expired");
           e.rowElement.style.color = "red";
         }
         if (e.data.status == AssignmentStatus.Completed) {
@@ -266,8 +299,8 @@ export default {
         case 8:
           return require("~/static/icons/status/underreview.svg");
         case AssignmentType.SimpleNotify:
-        case AssignmentType.ActionItemExecutionNotify:
-        case AssignmentType.AcquaintanceNotify:
+        case AssignmentType.ActionItemExecutionNotification:
+        case AssignmentType.AcquaintanceNotification:
         case AssignmentType.ActionItemObserversNotification:
         case AssignmentType.ActionItemSupervisorNotification:
           return require("~/static/icons/iconAssignment/notice.svg");
