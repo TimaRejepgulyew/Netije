@@ -272,7 +272,7 @@ export default {
             loadUrl: dataApi.assignment.Assignments + this.$route.params.type
           }),
           sort: [{ selector: "created", desc: true }],
-          filter: filter.filter
+          filter: filter.filter.length>0?filter.filter:null
         });
       }
     },
