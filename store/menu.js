@@ -82,13 +82,7 @@ export const actions = {
       {
         text: this.$i18n.t("menu.task"),
         icon: "selectall",
-
-        items: [
-          {
-            text: this.$i18n.t("menu.task"),
-            path: "/task"
-          }
-        ]
+        path: "/task"
       },
       {
         text: this.$i18n.t("menu.paperwork"),

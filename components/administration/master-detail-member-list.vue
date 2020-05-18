@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import RecipientType from "~/infrastructure/constants/resipientType.js";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
@@ -102,7 +103,7 @@ export default {
         }),
         paginate: true,
         filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.id]
+          ? [["status", "=", Status.Active, "or", "id", "=", options.data.id],"and",["recipientType","=",RecipientType.Employee]]
           : []
       };
     },
