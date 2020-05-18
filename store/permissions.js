@@ -136,5 +136,10 @@ export const actions = {
     var result = await this.$axios.get(dataApi.Metadata);
     commit("PERMISSIONS", result.data);
     dispatch("menu/initialize", {}, { root: true });
+    dispatch("user/initUser", {
+      employeeId: result.data.employeeId,
+      name: result.data.name
+    }, { root: true });
+
   }
 };
