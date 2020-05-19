@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <!-- <Header :headerTitle="headerTitle"></Header> -->
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -32,7 +32,7 @@
         :file-name="$t('menu.incommingLetter')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
+      <!-- <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" /> -->
       <DxEditing :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
@@ -101,7 +101,7 @@ export default {
   },
   data() {
     return {
-      type: this.$route.params.type,
+      type: +this.$route.params.type,
       createDocumentPopup: false,
       filterBuilderPopupPosition: this.$store.getters[
         "papaer-work/filterBuilderPopupPosition"
@@ -129,7 +129,7 @@ export default {
   computed: {
     columns() {
       console.log(this.type);
-      return ColumnFactory.CreateColumns(+this.type, this);
+      return ColumnFactory.CreateColumns(this.type, this);
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];

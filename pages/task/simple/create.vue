@@ -71,7 +71,7 @@
         <DxSimpleItem
           :col-span="3"
           data-field="comment"
-          :editor-options="{height:300}"
+          :editor-options="{height:250}"
           editor-type="dxTextArea"
         >
           <DxLabel location="top" :text="$t('translations.fields.comment')" />
@@ -96,7 +96,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {

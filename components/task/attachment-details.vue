@@ -3,7 +3,16 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
-        <DxList :data-source="attachments" :search-enabled="true" search-expr="name">
+        <DxList
+          :data-source="attachments"
+          :search-enabled="true"
+          search-expr="name"
+          :grouped="true"
+          :collapsible-groups="true"
+        >
+          <template #group="{ data: item }">
+            <div>Вложение: {{ item.document.name }}</div>
+          </template>
           <template #item="item">
             <div>
               <div

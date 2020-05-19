@@ -31,7 +31,14 @@ export default {
     download: "Загрузка",
     fields: {
       name: "Имя",
-      created: "Создано",
+      inResponseToId: "В ответ на",
+      index: "Индекс",
+      ourSignatoryId: "Подписал",
+      counterpartySignatoryId: "Подписал",
+      caseFileId: "Дело",
+      placedToCaseFileDate: "Дата помещение в дело",
+      contactId: "Контакт",
+      created: "Дата документа",
       modified: "Изменено",
       authorId: "Автор",
       registrationDate: "Дата Рег.",
@@ -40,7 +47,13 @@ export default {
       subject: "Содержание",
       documentKindId: "Вид документа",
       documentRegisterId: "Журнал регистрации",
-      registrationState: "Регистрация"
+      registrationState: "Регистрация",
+      deliveryMethodId: "Способ доставки",
+      addresseeId: "Адрессат",
+      businessUnitId: "Огранизация",
+      departmentId: "Отдел",
+      documentTypeGuid: "Тип документа",
+      regNumberDocument: " Пришедший Рег.  номер"
     }
   },
   validation: {
