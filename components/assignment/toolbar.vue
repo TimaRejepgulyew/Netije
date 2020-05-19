@@ -74,44 +74,48 @@ export default {
         }
       };
     },
-    checkisValid() {
-      if (
-        this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
-      ) {
-        var res = this.$parent.$refs["textArea"].instance.validate();
-        if (!res.isValid) return;
-      }
-    },
     completeButtonOptions() {
       return {
         text: this.getOptions().completeButtonText,
         icon: "check",
         type: "success",
         onClick: () => {
-          this.checkisValid;
-          let result = confirm(
-            this.$t("shared.areYouSure"),
-            this.$t("shared.confirm")
-          );
-          result.then(dialogResult => {
-            if (dialogResult)
-              this.$awn.asyncBlock(
-                this.$store.dispatch(
-                  "currentAssignment/complete",
-                  ReviewResult.Accept
-                ),
-                e => {
-                  this.$router.go(-1);
-                  this.$awn.success();
-                },
-                e => this.$awn.alert()
-              );
-          });
+          if (this.checkisValid()) {
+            let result = confirm(
+              this.$t("shared.areYouSure"),
+              this.$t("shared.confirm")
+            );
+            result.then(dialogResult => {
+              if (dialogResult)
+                this.$awn.asyncBlock(
+                  this.$store.dispatch(
+                    "currentAssignment/complete",
+                    ReviewResult.Accept
+                  ),
+                  e => {
+                    this.$router.go(-1);
+                    this.$awn.success();
+                  },
+                  e => this.$awn.alert()
+                );
+            });
+          }
         }
       };
     }
   },
   methods: {
+    checkisValid() {
+      if (
+        this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
+      ) {
+        var res = this.$parent.$refs["textArea"].instance.validate();
+        console.log(res);
+        return res.isValid;
+      } else {
+        return true;
+      }
+    },
     getOptions() {
       switch (this.$store.getters["currentAssignment/assignmentType"]) {
         case AssignmentType.AcquaintanceFinishAssignment:

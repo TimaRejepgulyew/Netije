@@ -14,6 +14,7 @@
         <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
           <DxSimpleItem data-field="subject">
             <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
           </DxSimpleItem>
           <DxGroupItem :col-count="2">
             <DxSimpleItem
@@ -181,7 +182,7 @@ export default {
         acceptCustomValue: true,
         onCustomItemCreating: this.addNewMember
       };
-    },
+    }
   }
 };
 </script>

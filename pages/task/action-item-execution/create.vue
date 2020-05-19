@@ -77,7 +77,7 @@
       <DxSimpleItem
         :col-span="3"
         data-field="actionItem"
-        :editor-options="{height:300}"
+        :editor-options="{height:250}"
         editor-type="dxTextArea"
       >
         <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
