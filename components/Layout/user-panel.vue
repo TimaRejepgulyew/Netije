@@ -1,14 +1,11 @@
 <template>
-  <dx-button class="user-button authorization" :height="40" :width="150" styling-mode="text">
+  <dx-button class="user-button authorization" :height="40" width="auto" styling-mode="text">
     <div class="user-panel">
       <div class="user-info">
-        <div class="image-container">
-          <div
-            :style="{'background-image': 'url(' + require('~/static/icons/user-panel--icon.png') + ')' }"
-            class="user-image"
-          />
+        <div>
+          <icon-by-name  />
         </div>
-        <div class="user-name">{{userName}}</div>
+        <div class="user-name">{{fullName}}</div>
       </div>
 
       <dx-context-menu
@@ -30,6 +27,7 @@ import DxContextMenu from "devextreme-vue/context-menu";
 import DxList from "devextreme-vue/list";
 import DxButton from "devextreme-vue/button";
 import dataApi from "~/static/dataApi";
+import iconByName from "~/components/Layout/iconByName.vue";
 export default {
   props: {
     menuMode: String
@@ -55,7 +53,7 @@ export default {
     };
   },
   computed: {
-    userName() {
+    fullName() {
       return this.$store.getters["user/name"];
     }
   },
@@ -70,7 +68,8 @@ export default {
   components: {
     DxContextMenu,
     DxList,
-    DxButton
+    DxButton,
+    iconByName
   }
 };
 </script>
@@ -87,28 +86,10 @@ export default {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 
-  .image-container {
-    overflow: hidden;
-    border-radius: 50%;
-    height: 30px;
-    width: 30px;
-    margin: 0 4px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-
-    .user-image {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background-repeat: no-repeat;
-      background-size: contain;
-    }
-  }
-
   .user-name {
-    font-size: 14px;
+    text-overflow: ellipsis;
+    font-size: 12px;
     color: $base-text-color;
-    margin: 0 9px;
   }
 }
 

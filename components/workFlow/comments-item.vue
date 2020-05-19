@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="comment__item mY-1" :class="{'current-comment':comment.isCurrent,...levelClass}">
+    <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent,}">
       <div class="d-flex js-space-between">
         <div class="list__content">
           <img class="icon--type" :src="parseIconType(comment.type)" />
@@ -43,8 +43,8 @@
     </div>
 
     <comment
+      class="ml-1"
       :v-if="comment.children && comment.children.length"
-      :level="level+1"
       v-for="(item,index) in comment.children"
       :comment="item"
       :key="index"
@@ -88,13 +88,6 @@ export default {
       }
     }
   },
-  computed: {
-    levelClass() {
-      let obj = {};
-      obj[`ml-${this.level}`] = true;
-      return obj;
-    }
-  }
 };
 </script>
 
@@ -123,12 +116,6 @@ export default {
 }
 .ml-1 {
   margin-left: 1.2em;
-}
-.ml-2 {
-  margin-left: 1.4em;
-}
-.ml-3 {
-  margin-left: 1.6em;
 }
 .current-comment {
   background: #ecfff46b;

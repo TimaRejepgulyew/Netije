@@ -10,7 +10,7 @@
       >
         <template #item="item">
           <div class="list-container">
-            <comment :comment="item.data" :level="0" />
+            <comment :comment="item.data" />
           </div>
         </template>
       </DxList>
