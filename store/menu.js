@@ -1,4 +1,5 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
+import DocumentFilterType from "~/infrastructure/constants/documentFilterType";
 
 export const state = () => ({
   menuList: []
@@ -87,44 +88,44 @@ export const actions = {
       {
         text: this.$i18n.t("menu.paperwork"),
         icon: "file",
-        path: "/paper-work/all-documents",
+        path: `/documents/${DocumentFilterType.All}`,
 
         items: [
           {
             text: this.$i18n.t("menu.incommingDocuments"),
-            path: "/paper-work/incomming-letter"
+            path: `/documents/${DocumentFilterType.IncomingLetter}`
           },
           {
             text: this.$i18n.t("menu.outgoingDocuments"),
-            path: "/paper-work/outgoing-letter"
+            path: `/documents/${DocumentFilterType.OutgoingDocument}`
           },
           {
             text: this.$i18n.t("menu.internalDocuments"),
-            path: "/documents/103",
+            path: `/documents/${DocumentFilterType.InternalDocument}`,
             items: [
               {
                 text: this.$i18n.t("menu.order"),
-                path: "/paper-work/order"
+                path: `/documents/${DocumentFilterType.Order}`
               },
               {
                 text: this.$i18n.t("menu.companyDirectives"),
-                path: "/paper-work/company-directive"
+                path: `/documents/${DocumentFilterType.CompanyDirective}`
               },
               {
                 text: this.$i18n.t("menu.simpleDocument"),
-                path: "/paper-work/simple-document"
+                path: `/documents/${DocumentFilterType.SimpleDocument}`
               },
               {
                 text: this.$i18n.t("menu.addendum"),
-                path: "/paper-work/addendum"
+                path: `/documents/${DocumentFilterType.Addendum}`
               },
               {
                 text: this.$i18n.t("menu.memo"),
-                path: "/paper-work/memo"
+                path: `/documents/${DocumentFilterType.Memo}`
               },
               {
                 text: this.$i18n.t("menu.powerOfAttorney"),
-                path: "/paper-work/power-of-attorney"
+                path: `/documents/${DocumentFilterType.PowerOfAttorney}`
               }
             ]
           }
