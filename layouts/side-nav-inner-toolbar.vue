@@ -156,6 +156,6 @@ export default {
   min-height: 90vh;
   background: $base-bg;
   padding: 0.5vh 0.5vw;
-  overflow: scroll;
+  overflow: auto;
 }
 </style>
