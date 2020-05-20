@@ -77,7 +77,7 @@
                 :editor-options="inResponseToIdOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel location="top" :text="$t('translations.fields.inResponseTold')" />
+                <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
               </DxSimpleItem>
             </DxGroupItem>
           </DxGroupItem>
