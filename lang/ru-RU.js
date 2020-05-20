@@ -1,5 +1,4 @@
 export default {
-  greating: "Hello",
   status: {
     active: "Активный",
     closed: "Закрытый"
@@ -38,6 +37,8 @@ export default {
       caseFileId: "Дело",
       placedToCaseFileDate: "Дата помещение в дело",
       contactId: "Контакт",
+      preparedById: "Подготовил",
+      assigneeId: "Исполнитель",
       created: "Дата документа",
       modified: "Изменено",
       authorId: "Автор",
@@ -52,8 +53,11 @@ export default {
       addresseeId: "Адрессат",
       businessUnitId: "Огранизация",
       departmentId: "Отдел",
+      leadingDocumentId: "Ведущий документ",
       documentTypeGuid: "Тип документа",
-      regNumberDocument: " Пришедший Рег.  номер"
+      regNumberDocument: " Пришедший Рег.  номер",
+      validTill: "Действителен по",
+      issuedToId: "Кому выдана"
     }
   },
   validation: {

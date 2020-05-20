@@ -67,7 +67,7 @@
 
       <DxColumn
         data-field="leadingDocumentId"
-        :caption="$t('translations.fields.leadingDocumentId')"
+        :caption="$t('documents.fields.leadingDocumentId')"
         data-type="selectbox"
       >
         <DxLookup

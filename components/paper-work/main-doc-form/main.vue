@@ -80,7 +80,7 @@ const requests = {
     ,
     api.IncommingLetterPut,
     api.OutgoingLetterPut,
-    api.OrderPost,
+    api.OrderPut,
     api.CompanyDirectivePut,
     api.SimpleDocumentPut,
     api.AddendumPut,

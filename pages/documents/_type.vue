@@ -1,6 +1,18 @@
 <template>
   <main>
-    <!-- <Header :headerTitle="headerTitle"></Header> -->
+    <DxPopup
+      :visible.sync="createDocumentPopup"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      :width="500"
+      height="auto"
+      :title="$t('translations.fields.createDocument')"
+    >
+      <div>
+        <CreateDocument></CreateDocument>
+      </div>
+    </DxPopup>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -101,6 +113,7 @@ export default {
   },
   data() {
     return {
+      createDocumentPopup: false,
       type: +this.$route.params.type,
       createDocumentPopup: false,
       filterBuilderPopupPosition: this.$store.getters[
@@ -115,6 +128,7 @@ export default {
         this.$router.push(address);
       },
       onToolbarPreparing(e) {
+        
         const addButton = e.toolbarOptions.items.find(btn => {
           return btn.name == "addRowButton";
         });
@@ -126,9 +140,20 @@ export default {
       }
     };
   },
+  methods: {
+    onToolbarPreparing(e) {
+      const addButton = e.toolbarOptions.items.find(btn => {
+        return btn.name == "addRowButton";
+      });
+      if (addButton) {
+        addButton.options.onClick = () => {
+          this.createDocumentPopup = true;
+        };
+      }
+    }
+  },
   computed: {
     columns() {
-      console.log(this.type);
       return ColumnFactory.CreateColumns(this.type, this);
     },
     urlByTypeGuid() {

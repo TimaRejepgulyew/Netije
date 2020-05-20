@@ -25,6 +25,16 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateInternalDocumentColumns(context);
     case DocumentFilterType.Addendum:
       return CreateAddendumColumns(context);
+    case DocumentFilterType.Order:
+      return CreateOrderColumns(context);
+    case DocumentFilterType.CompanyDirective:
+      return CreateCompanyDirectiveColumns(context);
+    case DocumentFilterType.SimpleDocument:
+      return CreateSimpleDocumentColumns(context);
+    case DocumentFilterType.Memo:
+      return CreateMemoColumns(context);
+    case DocumentFilterType.PowerOfAttorney:
+      return CreatePowerOfAttorneyColumns(context);
     default:
       return [];
   }
@@ -88,7 +98,7 @@ const CreateIncomingLetterColumns = context => {
     ...CreateBaseColumn(context),
     CreateIncomingDocumentCorrespondentColumn(context),
     CreateDeliveryMethodColumn(context),
-    CreateAddresseEmployee(context),
+    CreateAddresseColumn(context),
     CreateInNumberColumn(context),
     CreateInResponseToIdColumn(context),
     CreateIndexColumn(context),
@@ -99,6 +109,43 @@ const CreateInternalDocumentColumns = context => {
   return [...CreateBaseColumn(context)];
 };
 const CreateAddendumColumns = context => {
+  return [...CreateBaseColumn(context), CreateLeadingDocumentIdColumn(context)];
+};
+const CreateOrderColumns = context => {
+  return [
+    ...CreateBaseColumn(context),
+    CreatePreparedColumn(context),
+    CreateAssigneeIdColumn(context, true),
+    CreateOurSignatoryColumn(context)
+  ];
+};
+const CreateCompanyDirectiveColumns = context => {
+  return [
+    ...CreateBaseColumn(context),
+    CreatePreparedColumn(context),
+    CreateAssigneeIdColumn(context, true),
+    CreateOurSignatoryColumn(context)
+  ];
+};
+const CreateMemoColumns = context => {
+  return [
+    ...CreateBaseColumn(context),
+    CreatePreparedColumn(context),
+    CreateAssigneeIdColumn(context),
+    CreateOurSignatoryColumn(context),
+    CreateAddresseColumn(context, true)
+  ];
+};
+const CreatePowerOfAttorneyColumns = context => {
+  return [
+    ...CreateBaseColumn(context),
+    CreatePreparedColumn(context),
+    CreateOurSignatoryColumn(context),
+    CreateValidTillColumn(context),
+    CreateIssuedToIdColumn(context)
+  ];
+};
+const CreateSimpleDocumentColumns = context => {
   return [...CreateBaseColumn(context)];
 };
 
@@ -110,13 +157,14 @@ const CreateOutgoingLetterColumns = context => {
     CreateAddresseConterPartColumn(context),
     CreateInResponseToIdColumn(context),
     CreateContactColumn(context),
-    CreateOurSignatoryColumn(context)
+    CreateOurSignatoryColumn(context),
+    CreatePreparedColumn(context)
   ];
 };
 
 const GetDefaultColumn = () => {
   return {
-    dataField: "associatedApplication",
+    dataField: "extension",
     caption: "",
     allowFiltering: false,
     allowSorting: false,
@@ -130,17 +178,6 @@ const GetDefaultColumn = () => {
     alignment: "center",
     allowSearch: false,
     width: 60,
-    cellTemplate: "cellTemplate",
-    visible: true
-  };
-};
-
-const CreateColumn = ({ width = 60 } = {}) => {
-  return {
-    dataField: "associatedApplication",
-    caption: "",
-    allowFiltering: false,
-    width: width,
     cellTemplate: "cellTemplate",
     visible: true
   };
@@ -175,7 +212,15 @@ function CreateDocumentModifiedColumn(context) {
     format: "dd.MM.yyyy HH:mm"
   };
 }
-
+function CreateValidTillColumn(context) {
+  return {
+    dataField: "validTill",
+    caption: context.$t("document.fields.validTill"),
+    visible: true,
+    dataType: "date",
+    format: "dd.MM.yyyy HH:mm"
+  };
+}
 function CreateDocumentAuthorColumn(context, visible = false) {
   return CreateLookupColumn(
     "authorId",
@@ -291,7 +336,14 @@ function CreateAddresseConterPartColumn(context) {
     false
   );
 }
-
+function CreateAddresseColumn(context, visible = false) {
+  return CreateLookupColumn(
+    "addresseeId",
+    context,
+    dataApi.company.Employee,
+    visible
+  );
+}
 function CreateBusinessUnitColumn(context) {
   return CreateLookupColumn(
     "businessUnitId",
@@ -351,9 +403,37 @@ function CreateContactColumn(context, visible = false) {
     visible
   );
 }
-
-function CreateAddresseEmployee(context) {
-  return CreateLookupColumn("addresseeId", context, dataApi.company.Employee);
+function CreatePreparedColumn(context, visible = false) {
+  return CreateLookupColumn(
+    "preparedById",
+    context,
+    dataApi.company.Employee,
+    visible
+  );
+}
+function CreateAssigneeIdColumn(context, visible = false) {
+  return CreateLookupColumn(
+    "assigneeId",
+    context,
+    dataApi.company.Employee,
+    visible
+  );
+}
+function CreateIssuedToIdColumn(context, visible = true) {
+  return CreateLookupColumn(
+    "issuedToId",
+    context,
+    dataApi.company.Employee,
+    visible
+  );
+}
+function CreateLeadingDocumentIdColumn(context, visible = true) {
+  return CreateLookupColumn(
+    "leadingDocumentId",
+    context,
+    dataApi.paperWork.AllDocument,
+    visible
+  );
 }
 
 function CreateBaseColumn(context) {

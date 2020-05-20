@@ -97,7 +97,7 @@ export const actions = {
           },
           {
             text: this.$i18n.t("menu.outgoingDocuments"),
-            path: `/documents/${DocumentFilterType.OutgoingDocument}`
+            path: `/documents/${DocumentFilterType.OutgoingLetter}`
           },
           {
             text: this.$i18n.t("menu.internalDocuments"),
