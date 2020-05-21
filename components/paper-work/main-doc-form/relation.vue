@@ -10,7 +10,7 @@
             <div class="list__content">{{ item.data.name}}</div>
             <div
               class="list__content"
-            >{{ item.data.registrationDate}}{{item.data.authorId}} {{item.data.placedToCaseFileDate|getFormat}}</div>
+            >{{ item.data.registrationDate}}{{getUserById(item.data.authorId)}} {{item.data.placedToCaseFileDate|formatDate}}</div>
           </div>
         </div>
       </template>
@@ -18,31 +18,22 @@
   </div>
 </template>
 <script>
+import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
-import { saveAs } from "file-saver";
 import { DxButton } from "devextreme-vue";
 import moment from "moment";
-
 export default {
   components: {
     DxList,
     DxButton
   },
   async created() {
-    this.employee = await this.getData(dataApi.company.Employee);
+    const { data } = await this.getData(dataApi.company.Employee);
+    this.employee = data;
     this.store = await this.getData(
       dataApi.paperWork.Relation + this.$route.params.id
     );
-    this.store.map(document => {
-      document.authorId = this.employee.data.find(el => {
-        if (document.authorId == 7) {
-          return "Admin";
-        } else {
-          return el.id == document.authorId;
-        }
-      }).name;
-    });
   },
   data() {
     return {
@@ -52,28 +43,15 @@ export default {
   },
   methods: {
     toDocument(documentTypeGuidId, documentId) {
-      const docKindPath = [
-        ,
-        "incomming-letter",
-        "outgoing-letter",
-        ,
-        ,
-        ,
-        "addendum"
-      ];
       this.$router.push(
-        `/paper-work/${docKindPath[documentTypeGuidId]}/form/${documentId}`
+        `/paper-work/${routeGenerator.generateRouteByTypeGuid(
+          documentTypeGuidId
+        )}/${documentId}`
       );
     },
     async getData(address) {
       const store = await this.$axios.get(address);
-
       return store.data;
-    },
-    getEmployee(id) {
-      return this.employee.find(el => {
-        return el.id == id;
-      });
     },
     getIcon(value) {
       switch (value) {
@@ -86,10 +64,17 @@ export default {
         default:
           return "newfolder";
       }
+    },
+    getUserById(id) {
+      const author = this.employee.find(employeeId => {
+        return employeeId === id;
+      });
+      if (author) return author.name;
+      else return "";
     }
   },
   filters: {
-    getFormat(value) {
+    formatDate(value) {
       if (value) {
         return moment(value).format("MM.DD.YYYY");
       } else {

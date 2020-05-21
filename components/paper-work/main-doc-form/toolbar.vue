@@ -100,7 +100,7 @@ export default {
         text: this.$t("buttons.createAddendum"),
         onClick: () => {
           this.$router.push({
-            path: "/paper-work/addendum/form/add",
+            path: "/paper-work/addendum/add",
             query: { leandingDocument: this.$route.params.id }
           });
         }

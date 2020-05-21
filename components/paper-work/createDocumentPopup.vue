@@ -1,56 +1,34 @@
 <template>
   <div>
     <div class="filter__content">
-      <div class="option--group" v-for="(item,index) in documentKinds" :key="index">
-        <DxButton width="100%" align icon="plus" :text="item.text" :on-click="item.onClick" />
+      <div class="option--group" v-for="(item,index) in documentButtons" :key="index">
+        <DxButton
+          width="100%"
+          align
+          :icon="item.icon"
+          :text="item.text"
+          :on-click="()=>createDocument(item.path)"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { DocumentButtons } from "~/infrastructure/constants/creatingItems.js";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
     DxButton
   },
-  computed: {
-    urlByTypeGuid() {
-      return this.$store.getters["paper-work/urlByTypeGuid"];
-    },
-    nameBytypeGuid() {
-      return [
-        ,
-        this.$t("translations.headers.incommingLetter"),
-        this.$t("translations.headers.outgoingLetter"),
-        this.$t("translations.headers.order"),
-        this.$t("translations.headers.companyDirective"),
-        this.$t("translations.headers.simpleDocument"),
-        this.$t("translations.headers.addendum"),
-        this.$t("translations.headers.memo"),
-        this.$t("translations.headers.powerOfAttorney"),
-      ];
-    },
-    documentKinds() {
-      let obj = this.urlByTypeGuid.map((el, index) => {
-        if (el) {
-          return {
-            text: this.nameBytypeGuid[index],
-            onClick: () => {
-              this.createDocument(index);
-            }
-          };
-        }
-      });
-      obj.shift();
-
-      return obj;
-    }
+  data() {
+    return {
+      documentButtons: DocumentButtons(this)
+    };
   },
   methods: {
-    createDocument(type) {
-      const address = this.urlByTypeGuid[type] + "add";
-      this.$router.push(address);
+    createDocument(path) {
+      this.$router.push(path);
     }
   }
 };

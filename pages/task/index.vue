@@ -110,6 +110,7 @@
   </main>
 </template>
 <script>
+import TaskStatus from "~/infrastructure/constants/taskStatus.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import RouteGenerator from "~/infrastructure/routing/routeGenerator";
@@ -170,8 +171,22 @@ export default {
         filter: null
       }),
       statusDataSource: [
-        { id: 0, name: this.$t("translations.fields.inProccess") },
-        { id: 3, name: this.$t("translations.fields.completed") }
+        {
+          id: TaskStatus.InProcess,
+          name: this.$t("translations.fields.inProccess")
+        },
+        {
+          id: TaskStatus.Completed,
+          name: this.$t("translations.fields.completed")
+        },
+        {
+          id: TaskStatus.Aborted,
+          name: this.$t("translations.fields.aborted")
+        },
+        {
+          id: TaskStatus.UnderReview,
+          name: this.$t("translations.fields.underReview")
+        }
       ]
     };
   },

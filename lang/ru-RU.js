@@ -217,8 +217,8 @@ export default {
   },
   translations: {
     fields: {
+      underReview: "На приемке",
       recipient: "Субъект прав",
-
       accessRightDocument: "Доступ к документу",
       contactName: "Имя контакта",
       mailDeliveryMethod: "Способ доставки документа",
@@ -541,6 +541,7 @@ export default {
       issuedToId: "Кому выдана",
       issuedToIdRequired: "Введите кому выдана доверенность",
       deadLine: "Срок",
+      deadLineRequired: "Заполните срок",
       deadLineRule: "Дата и время не должны быть просроченны",
       parallel: "паралельно",
       gradually: "друг за другом",

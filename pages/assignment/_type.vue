@@ -72,7 +72,6 @@
           data-field="assignmentType"
         ></DxColumn>
         <DxColumn
-          caption
           :allow-filtering="false"
           :allow-sorting="false"
           :allowResizing="false"
@@ -133,8 +132,6 @@ import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import AssignmentTypeFilters from "~/infrastructure/constants/assignmentTypeFilters.js";
-import { DxDropDownButton } from "devextreme-vue";
-import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -163,9 +160,7 @@ export default {
   components: {
     CreateTaskDropDown,
     TaskFilter,
-    DxCheckBox,
     DxButton,
-    DxDropDownButton,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -256,7 +251,6 @@ export default {
           e.rowElement.style.color = "#339966";
         }
         if (e.data.isExpired) {
-          console.log("expired");
           e.rowElement.style.color = "red";
         }
         if (e.data.status == AssignmentStatus.Completed) {

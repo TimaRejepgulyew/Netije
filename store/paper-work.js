@@ -6,19 +6,7 @@ export const state = () => ({
   placedToCaseFileDate: null,
   caseFileId: null,
   correspondent: "",
-  hasPermissions: true,
   regProperties: {},
-  urlByTypeGuid: [
-    ,
-    "/paper-work/incomming-letter/form/",
-    "/paper-work/outgoing-letter/form/",
-    "/paper-work/order/form/",
-    "/paper-work/company-directive/form/",
-    "/paper-work/simple-document/form/",
-    "/paper-work/addendum/form/",
-    "/paper-work/memo/form/",
-    "/paper-work/power-of-attorney/form/"
-  ],
   filterBuilderPopupPosition: {
     at: "top",
     my: "top",
@@ -86,9 +74,6 @@ export const getters = {
     } else {
       return `${documentKind}  ${subject}`;
     }
-  },
-  hasPermissions({ hasPermissions }) {
-    return hasPermissions;
   },
   regProperties({ regProperties }) {
     return regProperties;

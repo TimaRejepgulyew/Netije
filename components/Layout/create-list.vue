@@ -1,6 +1,6 @@
 <template>
   <DxTreeView
-   :animation-enabled="true"
+    :animation-enabled="true"
     :items="creatingItems"
     expand-event="click"
     key-expr="path"
@@ -13,7 +13,7 @@
 
 <script>
 import { DxTreeView } from "devextreme-vue";
-import CreatingItems from "./CreatingItems";
+import CreatingItems from "~/infrastructure/constants/creatingItems.js";
 export default {
   components: {
     DxTreeView
@@ -30,7 +30,6 @@ export default {
         this.$router.push(e.itemData.path);
         this.$emit("hidePopup");
       }
-    
     }
   }
 };

@@ -123,7 +123,7 @@ export default {
         subject: null,
         importance: Important.Normal,
         supervisorId: null,
-        deadline: new Date(),
+        deadline: null,
         actionItemObservers: [],
         accessRights: 60,
         attachments: [],

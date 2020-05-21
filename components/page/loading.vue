@@ -1,7 +1,7 @@
 
 <template lang="html">
   <div class="loading-page" v-if="loading">
-    <p>Loading...</p>
+    <img :src="require('~/static/loading.gif')" />
   </div>
 </template>
 
@@ -15,7 +15,9 @@ export default {
       this.loading = true;
     },
     finish() {
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 2000);
     }
   }
 };

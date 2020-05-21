@@ -130,7 +130,7 @@ export default {
         case ResipientType.Department:
           return this.$t("menu.department");
         case ResipientType.Role:
-          return this.$t("menu.role");
+          return this.$t("menu.roles");
         case ResipientType.Group:
           return this.$t("menu.group");
         case ResipientType.Employee:

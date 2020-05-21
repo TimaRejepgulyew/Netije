@@ -218,6 +218,7 @@ export default {
 
   translations: {
     fields: {
+      underReview: "Kabul edişde",
       recipient: "Hukuklaryň subýekti",
       accessRightDocument: "Resminama elýeterlik",
       contactName: "Kontaktyň ady",
@@ -537,6 +538,7 @@ export default {
       issuedToId: "Kime berildi",
       issuedToIdRequired: "Ynanç hatynyň kime berlendigini giriziň",
       deadLine: "Möhleti",
+      deadLineRequired: "Möhleti giriziň",
       deadLineRule: "Senesi we wagty gijikdirilmeli däldir",
       parallel: "parallel",
       gradually: "biri-biriniň yzyndan",
