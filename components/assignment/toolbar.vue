@@ -60,17 +60,24 @@ export default {
         text: this.$t("buttons.rework"),
         icon: "undo",
         onClick: async () => {
-          this.$awn.asyncBlock(
-            this.$store.dispatch(
-              "currentAssignment/complete",
-              ReviewResult.ForRework
-            ),
-            e => {
-              this.$router.go(-1);
-              this.$awn.success();
-            },
-            e => this.$awn.alert()
+          let result = confirm(
+            this.$t("shared.areYouSure"),
+            this.$t("shared.confirm")
           );
+          result.then(dialogResult => {
+            if (dialogResult)
+              this.$awn.asyncBlock(
+                this.$store.dispatch(
+                  "currentAssignment/complete",
+                  ReviewResult.ForRework
+                ),
+                e => {
+                  this.$router.go(-1);
+                  this.$awn.success();
+                },
+                e => this.$awn.alert()
+              );
+          });
         }
       };
     },
@@ -110,7 +117,6 @@ export default {
         this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
       ) {
         var res = this.$parent.$refs["textArea"].instance.validate();
-        console.log(res);
         return res.isValid;
       } else {
         return true;

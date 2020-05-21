@@ -17,6 +17,7 @@ export default {
       "Amaly ýerine ýetirmekde ýalňyşlyk ýüze çykdy. Ulgam administratoryna ýüz tutuň",
     back: "Yza",
     more: "Has giňişleýin",
+    search: "Gözle...",
     documents: "Resminamalar",
     access: "Elýeterlik",
     from: "Kimden",

@@ -35,7 +35,6 @@ export default function({ store, app: { $axios, i18n } }) {
       console.log(e);
     }
   });
-
   $axios.interceptors.request.use(
     function(config) {
       config.headers.Authorization =
