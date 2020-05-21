@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+    netije-ui:
+      container_name: netije-ui
+      image: netije-ui
+      ports:
+        - 8080:80
+        - 443:443
+      volumes:
+        - ./nginx/:/etc/nginx/conf.d/:ro
+        - ./nginx/certificates:/etc/nginx/ssl/netije/258880/:ro
+      restart: always
