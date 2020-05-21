@@ -88,44 +88,44 @@ export const actions = {
       {
         text: this.$i18n.t("menu.paperwork"),
         icon: "file",
-        path: `/documents/${DocumentFilterType.All}`,
+        path: `/paper-work/${DocumentFilterType.All}`,
 
         items: [
           {
             text: this.$i18n.t("menu.incommingDocuments"),
-            path: `/documents/${DocumentFilterType.IncomingLetter}`
+            path: `/paper-work/${DocumentFilterType.IncomingLetter}`
           },
           {
             text: this.$i18n.t("menu.outgoingDocuments"),
-            path: `/documents/${DocumentFilterType.OutgoingLetter}`
+            path: `/paper-work/${DocumentFilterType.OutgoingLetter}`
           },
           {
             text: this.$i18n.t("menu.internalDocuments"),
-            path: `/documents/${DocumentFilterType.InternalDocument}`,
+            path: `/paper-work/${DocumentFilterType.InternalDocument}`,
             items: [
               {
                 text: this.$i18n.t("menu.order"),
-                path: `/documents/${DocumentFilterType.Order}`
+                path: `/paper-work/${DocumentFilterType.Order}`
               },
               {
                 text: this.$i18n.t("menu.companyDirectives"),
-                path: `/documents/${DocumentFilterType.CompanyDirective}`
+                path: `/paper-work/${DocumentFilterType.CompanyDirective}`
               },
               {
                 text: this.$i18n.t("menu.simpleDocument"),
-                path: `/documents/${DocumentFilterType.SimpleDocument}`
+                path: `/paper-work/${DocumentFilterType.SimpleDocument}`
               },
               {
                 text: this.$i18n.t("menu.addendum"),
-                path: `/documents/${DocumentFilterType.Addendum}`
+                path: `/paper-work/${DocumentFilterType.Addendum}`
               },
               {
                 text: this.$i18n.t("menu.memo"),
-                path: `/documents/${DocumentFilterType.Memo}`
+                path: `/paper-work/${DocumentFilterType.Memo}`
               },
               {
                 text: this.$i18n.t("menu.powerOfAttorney"),
-                path: `/documents/${DocumentFilterType.PowerOfAttorney}`
+                path: `/paper-work/${DocumentFilterType.PowerOfAttorney}`
               }
             ]
           }

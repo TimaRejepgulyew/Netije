@@ -57,6 +57,7 @@
   </main>
 </template>
 <script>
+import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
 import CreateDocument from "~/components/paper-work/createDocumentPopup";
 import { DxPopup } from "devextreme-vue/popup";
@@ -125,7 +126,11 @@ export default {
       }),
       openDocument: e => {
         const address = this.urlByTypeGuid[e.data.documentTypeGuid] + e.key;
-        this.$router.push(address);
+        this.$router.push(
+          `/paper-work/${routeGenerator.generateRouteByTypeGuid(
+            e.data.documentTypeGuid
+          )}/${e.key}`
+        );
       }
     };
   },

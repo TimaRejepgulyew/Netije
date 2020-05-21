@@ -107,7 +107,7 @@ export default {
       store: {
         subject: null,
         importance: Important.Normal,
-        deadline: new Date(),
+        deadline: null,
         observers: [],
         performers: [],
         accessRights: 60,

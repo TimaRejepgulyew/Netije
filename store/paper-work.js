@@ -10,14 +10,14 @@ export const state = () => ({
   regProperties: {},
   urlByTypeGuid: [
     ,
-    "/paper-work/incomming-letter/form/",
-    "/paper-work/outgoing-letter/form/",
-    "/paper-work/order/form/",
-    "/paper-work/company-directive/form/",
-    "/paper-work/simple-document/form/",
-    "/paper-work/addendum/form/",
-    "/paper-work/memo/form/",
-    "/paper-work/power-of-attorney/form/"
+    "/paper-work/incomming-letter/",
+    "/paper-work/outgoing-letter/",
+    "/paper-work/order/",
+    "/paper-work/company-directive/",
+    "/paper-work/simple-document/",
+    "/paper-work/addendum/",
+    "/paper-work/memo/",
+    "/paper-work/power-of-attorney/"
   ],
   filterBuilderPopupPosition: {
     at: "top",

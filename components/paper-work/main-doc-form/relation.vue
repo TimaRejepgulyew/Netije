@@ -46,7 +46,7 @@ export default {
       this.$router.push(
         `/paper-work/${routeGenerator.generateRouteByTypeGuid(
           documentTypeGuidId
-        )}/form/${documentId}`
+        )}/${documentId}`
       );
     },
     async getData(address) {
