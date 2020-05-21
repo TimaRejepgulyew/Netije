@@ -21,17 +21,6 @@ export const state = () => ({
       pageSize: 10
     };
   },
-  documentTypeGuid: [
-    "",
-    "incomming-letter",
-    "outgoing-letter",
-    "order",
-    "company-directive",
-    "simple-document",
-    "addendum",
-    "memo",
-    "power-of-attorney"
-  ],
   btnSave(context) {
     return {
       text: context.$t("buttons.save"),
@@ -60,14 +49,8 @@ export const state = () => ({
       useSubmitBehavior: true
     };
   },
-  toPath(context) {
-    return context.$router.push(`${context.$route.path}/form/add`);
-  }
 });
 export const getters = {
-  documentTypeGuid: ({ documentTypeGuid }) => index => {
-    return `/paper-work/${documentTypeGuid[index]}/form/`;
-  },
   whitespacePattern({ whitespacePattern }) {
     return whitespacePattern;
   },
