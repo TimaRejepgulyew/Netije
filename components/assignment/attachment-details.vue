@@ -8,12 +8,10 @@
           :data-source="attachments"
           :search-enabled="true"
           search-expr="name"
-          :grouped="true"
-          :collapsible-groups="true"
         >
-          <template #group="{ data: item }">
+          <!-- <template #group="{ data: item }">
             <div>Вложение: {{ item.key }}</div>
-          </template>
+          </template> -->
           <template #item="item">
             <div>
               <div
