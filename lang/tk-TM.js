@@ -201,14 +201,14 @@ export default {
   },
   notification: {
     labels: {
-      info: "Информация", //TODO TRANSLATE
+      info: "Informasiya", //TODO TRANSLATE COREСTLY
       success: "Üstünlikli",
       alert: "Ýalňyşlyk",
       warning: "Duýduryş",
       async: "Ýüklenýar"
     },
     messages: {
-      info: "Информация", //TODO TRANSLATE
+      info: "Informasiya", //TODO TRANSLATE COREСTLY
       success: "Amal üstünlikli ýerine ýetirildi",
       alert: "Amal ýerine ýetirilende ýalňyşlyk ýüze çykdy",
       async: "Garaşmagyňyzy soraýarys...",
@@ -530,10 +530,10 @@ export default {
       numericCodeRequired: "Sanly kody giriziň",
       currentNumber: "Häzirki belgi",
       currentNumberRequired: "Häzirki belgini giriziň",
-      areYouSureCancelRegistration:
-        "Bellige alyş ýatyrmak isleýärsiňizmi",
+      areYouSureCancelRegistration: "Bellige alyş ýatyrmak isleýärsiňizmi",
       validTill: "Çenli hereket edýär",
-      validTillRequired: "Ynanç hatyny haçana çenli hereket edýändigini anyklaň",
+      validTillRequired:
+        "Ynanç hatyny haçana çenli hereket edýändigini anyklaň",
       issuedToId: "Kime berildi",
       issuedToIdRequired: "Ynanç hatynyň kime berlendigini giriziň",
       deadLine: "Möhleti",
@@ -559,9 +559,9 @@ export default {
       authorId: "Awtory",
       importanceMessage: "Bu tabşyryk diýseň ähmiýetlidir",
       completedMessage: "Tabşyryk ýerine ýetirildi",
-      createSimpleTask: "Ýönekeý tabşyrygy döretmeli",
-      createActionTask: "Tabşyryk üçin wezipäni döretmeli",
-      createAcquaintanceTask: "Tanyşdyrmak üçin wezipäni döretmeli",
+      createSimpleTask: "Ýönekeý tabşyrygy",
+      createActionTask: "Tabşyryk üçin wezipäni",
+      createAcquaintanceTask: "Tanyşdyrmak üçin wezipäni",
       attachmentSimpleTask: "Ýönekeý wezipe üçin içlik sahypasy",
       createDocument: "Resminamany döretmek",
       completed: "Tamamlandy",

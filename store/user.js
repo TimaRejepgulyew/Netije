@@ -18,7 +18,6 @@ export const mutations = {
 
 export const actions = {
     initUser({ commit, dispatch }, payload) {
-        console.log(payload)
         commit("INIT_USER",payload)
     }
 }

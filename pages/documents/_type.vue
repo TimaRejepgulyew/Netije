@@ -44,7 +44,7 @@
         :file-name="$t('menu.incommingLetter')"
       />
 
-      <!-- <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" /> -->
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
       <DxEditing :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
@@ -126,17 +126,6 @@ export default {
       openDocument: e => {
         const address = this.urlByTypeGuid[e.data.documentTypeGuid] + e.key;
         this.$router.push(address);
-      },
-      onToolbarPreparing(e) {
-        
-        const addButton = e.toolbarOptions.items.find(btn => {
-          return btn.name == "addRowButton";
-        });
-        if (addButton) {
-          addButton.options.onClick = () => {
-            this.createDocumentPopup = true;
-          };
-        }
       }
     };
   },

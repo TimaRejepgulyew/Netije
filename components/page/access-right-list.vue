@@ -52,7 +52,7 @@
             searchExpr="name"
           >
             <template #group="{ data }">
-              <span class="d-flex align-center">
+              <span class="d-flex align-center js-flex-start">
                 <resipient-icon class="selectbox--icon" :type="data.key"></resipient-icon>
                 {{showGroupCaption(data.key)}}
               </span>
@@ -87,7 +87,7 @@
 <script>
 import { DxSelectBox } from "devextreme-vue/select-box";
 import ResipientType from "~/infrastructure/constants/resipientType.js";
-import resipientIcon from "~/components/paper-work/main-doc-form/resipient-icon.vue";
+import resipientIcon from "~/components/page/resipient-icon.vue";
 import attachmentActionBtn from "~/components/page/access-right-action-btn";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
@@ -222,9 +222,15 @@ export default {
   overflow: auto;
   max-height: 60vh;
 }
+.dx-list-group-header {
+  padding: 5px;
+}
 .selectbox--icon {
-  height: 20px;
+  display: flex;
   width: 20px;
+}
+.js-flex-start {
+  justify-content: flex-start;
 }
 .mt-2 {
   padding-top: 20px;

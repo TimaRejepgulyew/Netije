@@ -3,17 +3,26 @@
     <dx-toolbar class="header-toolbar">
       <dx-item :visible="menuToggleEnabled" location="before" css-class="menu-button">
         <!-- eslint-disable vue/no-unused-vars -->
+
         <dx-button icon="menu" styling-mode="text" @click="toggleMenuFunc" slot-scope="_" />
+
         <!-- eslint-enable -->
       </dx-item>
 
-      <dx-item v-if="title" location="before" css-class="header-title dx-toolbar-label">
+      <dx-item v-if="title" location="before">
         <!-- eslint-disable vue/no-unused-vars -->
         <img class="menu-icon" src="~/static/icons/main-logo.svg" slot-scope="_" />
         <!-- eslint-enable -->
       </dx-item>
+      <dx-item location="before">
+        <!-- eslint-disable vue/no-unused-vars -->
+        <div slot-scope="_">
+          <!-- eslint-enable -->
 
-      <dx-item location="after" locate-in-menu="auto" menu-item-template="menuUserItem">
+          <create-btn-panel menu-mode="context" />
+        </div>
+      </dx-item>
+      <dx-item location="after">
         <!-- eslint-disable vue/no-unused-vars -->
         <div slot-scope="_">
           <!-- eslint-enable -->
@@ -23,7 +32,7 @@
       <!-- eslint-disable vue/no-unused-vars -->
 
       <!-- eslint-enable -->
-      <dx-item location="after" locate-in-menu="auto" menu-item-template="menuUserItem">
+      <dx-item location="after">
         <!-- eslint-disable vue/no-unused-vars -->
         <div slot-scope="_">
           <!-- eslint-enable -->
@@ -41,6 +50,7 @@ import DxButton from "devextreme-vue/button";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import UserPanel from "./user-panel";
 import LangPanel from "./lang-panel.vue";
+import CreateBtnPanel from "./create-btn-panel.vue";
 export default {
   props: {
     menuToggleEnabled: Boolean,
@@ -57,7 +67,8 @@ export default {
     DxToolbar,
     DxItem,
     UserPanel,
-    LangPanel
+    LangPanel,
+    CreateBtnPanel
   }
 };
 </script>

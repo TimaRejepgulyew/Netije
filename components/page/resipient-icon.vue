@@ -20,7 +20,6 @@ export default {
         case ResipientType.Employee:
           return require("~/static/icons/recipient-type/business.svg");
         default:
-          console.log(this.type);
           throw "not this type icon resipient";
       }
     }
@@ -35,6 +34,7 @@ export default {
   height: 10px;
 }
 .icon--type {
+  
   margin-right: 10px;
   width: 30px;
   height: 100%;
