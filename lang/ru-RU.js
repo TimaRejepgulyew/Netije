@@ -541,6 +541,7 @@ export default {
       issuedToId: "Кому выдана",
       issuedToIdRequired: "Введите кому выдана доверенность",
       deadLine: "Срок",
+      deadLineRequired: "Заполните срок",
       deadLineRule: "Дата и время не должны быть просроченны",
       parallel: "паралельно",
       gradually: "друг за другом",

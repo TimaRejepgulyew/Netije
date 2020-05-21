@@ -537,6 +537,7 @@ export default {
       issuedToId: "Kime berildi",
       issuedToIdRequired: "Ynanç hatynyň kime berlendigini giriziň",
       deadLine: "Möhleti",
+      deadLineRequired: "Möhleti giriziň",
       deadLineRule: "Senesi we wagty gijikdirilmeli däldir",
       parallel: "parallel",
       gradually: "biri-biriniň yzyndan",
