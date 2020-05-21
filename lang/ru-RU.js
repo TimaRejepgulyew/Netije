@@ -217,8 +217,8 @@ export default {
   },
   translations: {
     fields: {
+      underReview: "На приемке",
       recipient: "Субъект прав",
-
       accessRightDocument: "Доступ к документу",
       contactName: "Имя контакта",
       mailDeliveryMethod: "Способ доставки документа",

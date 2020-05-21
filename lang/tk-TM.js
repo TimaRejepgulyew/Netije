@@ -218,6 +218,7 @@ export default {
 
   translations: {
     fields: {
+      underReview: "Kabul edişde",
       recipient: "Hukuklaryň subýekti",
       accessRightDocument: "Resminama elýeterlik",
       contactName: "Kontaktyň ady",
