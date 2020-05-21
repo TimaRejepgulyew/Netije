@@ -1,7 +1,7 @@
 
 <template lang="html">
   <div class="loading-page" v-if="loading">
-    <img :src="require('~/static/loading.gif')" />
+    <img :src="require('~/static/icons/loading.gif')" />
   </div>
 </template>
 

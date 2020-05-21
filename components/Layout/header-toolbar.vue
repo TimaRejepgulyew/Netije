@@ -11,7 +11,7 @@
 
       <dx-item v-if="title" location="before">
         <!-- eslint-disable vue/no-unused-vars -->
-        <img class="menu-icon" src="~/static/icons/main-logo.svg" slot-scope="_" />
+        <img class="menu-icon" :src="require('~/static/icons/main-logo.svg')" slot-scope="_" />
         <!-- eslint-enable -->
       </dx-item>
       <dx-item location="before">
@@ -20,6 +20,14 @@
           <!-- eslint-enable -->
 
           <create-btn-panel menu-mode="context" />
+        </div>
+      </dx-item>
+      <dx-item location="before">
+        <!-- eslint-disable vue/no-unused-vars -->
+        <div slot-scope="_">
+          <!-- eslint-enable -->
+
+          <search-panel menu-mode="context" />
         </div>
       </dx-item>
       <dx-item location="after">
@@ -46,6 +54,7 @@
 </template>
 
 <script>
+import searchPanel from "~/components/Layout/search-panel.vue";
 import DxButton from "devextreme-vue/button";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import UserPanel from "./user-panel";
@@ -63,6 +72,7 @@ export default {
   },
   computed: {},
   components: {
+    searchPanel,
     DxButton,
     DxToolbar,
     DxItem,

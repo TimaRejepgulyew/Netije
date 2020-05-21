@@ -47,13 +47,13 @@ const CreateButtons = context => {
       {
         visible: canBeOpenWithPreview,
         icon: "search",
-        text: context.$t("translations.fields.preview"),
+        text: context.$t("document.preview"),
         onClick: e => previewDocument(e, context)
       },
       {
         visible: hasVersion,
         icon: "download",
-        text: context.$t("translations.fields.download"),
+        text: context.$t("document.download"),
         onClick: e => downloadDocument(e, context)
       }
     ]

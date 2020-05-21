@@ -41,10 +41,10 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('menu.incommingLetter')"
+        :file-name="$t('shared.documents')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="allDocument" />
+      <DxStateStoring :enabled="true" type="localStorage" :storage-key="'allDocument'+type" />
       <DxEditing :allow-adding="true" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
@@ -125,7 +125,6 @@ export default {
         loadUrl: dataApi.paperWork.Documents + this.$route.params.type
       }),
       openDocument: e => {
-        const address = this.urlByTypeGuid[e.data.documentTypeGuid] + e.key;
         this.$router.push(
           `/paper-work/${routeGenerator.generateRouteByTypeGuid(
             e.data.documentTypeGuid
