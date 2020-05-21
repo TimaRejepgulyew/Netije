@@ -2,7 +2,13 @@
   <div>
     <div class="filter__content">
       <div class="option--group" v-for="(item,index) in documentButtons" :key="index">
-        <DxButton width="100%" align icon="plus" :text="item.text" :on-click="createDocument" />
+        <DxButton
+          width="100%"
+          align
+          :icon="item.icon"
+          :text="item.text"
+          :on-click="()=>createDocument(item.path)"
+        />
       </div>
     </div>
   </div>
@@ -21,9 +27,8 @@ export default {
     };
   },
   methods: {
-    createDocument(e) {
-      const address = `paper-work/${e.path}/add`;
-      this.$router.push(address);
+    createDocument(path) {
+      this.$router.push(path);
     }
   }
 };
