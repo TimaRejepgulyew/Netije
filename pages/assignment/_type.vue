@@ -240,6 +240,7 @@ export default {
         location: "after",
         options: { icon: "refresh", onClick: this.reload }
       });
+
     },
     reload() {
       this.store.reload();

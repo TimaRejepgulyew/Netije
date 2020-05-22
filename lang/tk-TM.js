@@ -34,6 +34,7 @@ export default {
     preview: "Öňünden görüp çykmak",
     download: "Ýüklemek",
     fields: {
+      dated: "Resminamanyň senesi",
       name: "Ady",
       inResponseToId: "Jogap hökmünde",
       index: "Indeksi",

@@ -9,7 +9,7 @@
       display-expr="name"
       value-expr="value"
       :width="150"
-      :height="40"
+      
     >
     
     </DxSelectBox>

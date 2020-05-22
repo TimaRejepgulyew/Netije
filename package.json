@@ -4,7 +4,7 @@
   "description": "Netije Nuxt SPA",
   "author": "Timur Kleperson",
   "private": true,
-  "url": "https://netijeapi.turkmen-tranzit.com",
+  "url": "https://192.168.4.57",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
