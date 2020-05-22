@@ -1,5 +1,5 @@
 <template>
-  <dx-button class="user-button authorization" :height="40" width="auto" styling-mode="text">
+  <dx-button class="user-button authorization"  width="auto" styling-mode="text">
     <div class="user-panel">
       <div class="user-info">
         <div>

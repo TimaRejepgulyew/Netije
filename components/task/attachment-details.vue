@@ -3,15 +3,10 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
-        <DxList
-          :data-source="attachments"
-          :search-enabled="true"
-          search-expr="name"
-         
-        >
+        <DxList :data-source="attachments" :search-enabled="true" search-expr="name">
           <!-- <template #group="{ data: item }">
             <div>Вложение: {{ item.document.name }}</div>
-          </template> -->
+          </template>-->
           <template #item="item">
             <div>
               <div
@@ -68,6 +63,7 @@
   </div>
 </template>
 <script>
+import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import DocumentIcon from "~/components/page/document-icon";
 import attachmentActionBtn from "~/components/workFlow/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
@@ -112,9 +108,7 @@ export default {
   methods: {
     openVersion(documentId, documentTypeGuid) {
       window.open(
-        this.$store.getters["globalProperties/documentTypeGuid"](
-          documentTypeGuid
-        ) + documentId
+        routeGenerator.generateDocumentDetailRoute(documentTypeGuid, documentId)
       );
     },
     compareAttachments() {

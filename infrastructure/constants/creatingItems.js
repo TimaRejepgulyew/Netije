@@ -16,7 +16,7 @@ export function TaskButtons(context) {
   return [
     {
       icon: "plus",
-      text: context.$t("translations.fields.createActionTask"),
+      text: context.$t("translations.fields.createSimpleTask"),
       path: "/task/simple/create"
     },
     {

@@ -86,6 +86,7 @@ import {
   DxStateStoring,
   DxButton
 } from "devextreme-vue/data-grid";
+import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     documentIcon,
@@ -120,9 +121,12 @@ export default {
       filterBuilderPopupPosition: this.$store.getters[
         "papaer-work/filterBuilderPopupPosition"
       ],
-      store: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.paperWork.Documents + this.$route.params.type
+      store: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.paperWork.Documents + this.$route.params.type
+        }),
+        paginate: true
       }),
       openDocument: e => {
         this.$router.push(
@@ -138,11 +142,22 @@ export default {
       const addButton = e.toolbarOptions.items.find(btn => {
         return btn.name == "addRowButton";
       });
+
       if (addButton) {
         addButton.options.onClick = () => {
           this.createDocumentPopup = true;
         };
       }
+      e.toolbarOptions.items.unshift({
+        widget: "button",
+        location: "after",
+        options: {
+          icon: "refresh",
+          onClick: () => {
+            this.store.reload();
+          }
+        }
+      });
     }
   },
   computed: {

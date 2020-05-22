@@ -1,6 +1,7 @@
 <template>
   <label for="search-panel">
     <DxAutocomplete
+     
       width="20vw"
       id="search-panel"
       :data-source="documents"
@@ -11,8 +12,7 @@
       value-expr="name"
       :placeholder="$t('shared.search')"
       @selectionChanged="openDocument"
-    >
-    </DxAutocomplete>
+    ></DxAutocomplete>
   </label>
 </template>
 
@@ -44,7 +44,6 @@ export default {
             e.selectedItem.documentTypeGuid
           )}/${e.selectedItem.id}`
         );
-        
       }
     }
   }
@@ -52,4 +51,5 @@ export default {
 </script>
 
 <style>
+
 </style>

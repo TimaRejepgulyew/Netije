@@ -89,6 +89,7 @@
         <DxColumn
           data-field="created"
           :caption="$t('translations.fields.createdDate')"
+          sort-order="desc"
           data-type="date"
         />
         <DxColumn data-field="status" :caption="$t('translations.fields.status')">
@@ -163,13 +164,12 @@ export default {
 
   data() {
     return {
-      store: new DataSource({
+      store: {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.task.Task
-        }),
-        filter: null
-      }),
+        })
+      },
       statusDataSource: [
         {
           id: TaskStatus.InProcess,

@@ -16,7 +16,7 @@
       </dx-item>
       <dx-item location="before">
         <!-- eslint-disable vue/no-unused-vars -->
-        <div slot-scope="_">
+        <div class="create-btn" slot-scope="_">
           <!-- eslint-enable -->
 
           <create-btn-panel menu-mode="context" />
@@ -24,7 +24,7 @@
       </dx-item>
       <dx-item location="before">
         <!-- eslint-disable vue/no-unused-vars -->
-        <div slot-scope="_">
+        <div class="search-btn" slot-scope="_">
           <!-- eslint-enable -->
 
           <search-panel menu-mode="context" />
@@ -132,5 +132,11 @@ export default {
 
 .menu-icon {
   height: 40px;
+}
+.create-btn {
+  margin-left: 3.5vw;
+}
+.search-btn {
+  margin-left: 1vw;
 }
 </style>

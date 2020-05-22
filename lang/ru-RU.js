@@ -30,6 +30,7 @@ export default {
     preview: "Предпросмотр",
     download: "Загрузка",
     fields: {
+      dated: "Дата документа",
       name: "Имя",
       inResponseToId: "В ответ на",
       index: "Индекс",
@@ -40,7 +41,7 @@ export default {
       contactId: "Контакт",
       preparedById: "Подготовил",
       assigneeId: "Исполнитель",
-      created: "Дата документа",
+      created: "Создан",
       modified: "Изменено",
       authorId: "Автор",
       registrationDate: "Дата Рег.",

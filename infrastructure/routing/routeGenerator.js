@@ -13,8 +13,10 @@ export default {
         throw "unknown task type";
     }
   },
-  generateDocumentDetailRoute(context, documentId) {
-    return `${context.$route.path}/form/${documentId}`;
+  generateDocumentDetailRoute(typeGuid, documentId) {
+    return `/paper-work/${this.generateRouteByTypeGuid(
+      typeGuid
+    )}/${documentId}`;
   },
   generateRouteByTypeGuid(typeGuid) {
     switch (typeGuid) {

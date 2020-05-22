@@ -100,6 +100,7 @@ const CreateIncomingLetterColumns = context => {
     CreateDeliveryMethodColumn(context),
     CreateAddresseColumn(context),
     CreateInNumberColumn(context),
+    CreateDatedColumn(context),
     CreateInResponseToIdColumn(context),
     CreateIndexColumn(context),
     CreateCounterpartySignatoryColumn(context)
@@ -194,6 +195,7 @@ function CreateDocumentNameColumn(context) {
 function CreateDocumentCreatedColumn(context) {
   return {
     dataField: "created",
+    sortOrder: "desc",
     caption: context.$t("document.fields.created"),
     width: "auto",
     visible: true,
@@ -201,7 +203,14 @@ function CreateDocumentCreatedColumn(context) {
     format: "dd.MM.yyyy HH:mm"
   };
 }
-
+function CreateDatedColumn(context) {
+  return {
+    dataField: "dated",
+    caption: context.$t("document.fields.dated"),
+    dataType: "date",
+    format: "dd.MM.yyyy"
+  };
+}
 function CreateDocumentModifiedColumn(context) {
   return {
     dataField: "modified",
@@ -318,7 +327,7 @@ function CreateInResponseToIdColumn(context) {
   return CreateLookupColumn(
     "inResponseToId",
     context,
-    dataApi.docFlow.Documents
+    dataApi.paperWork.AllDocument
   );
 }
 function CreateDeliveryMethodColumn(context) {

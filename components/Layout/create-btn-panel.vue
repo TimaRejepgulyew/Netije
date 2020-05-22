@@ -7,6 +7,7 @@
       :show-title="true"
       :width="500"
       :height="'auto'"
+      position="top"
       :title="$t('buttons.create')"
     >
       <div>

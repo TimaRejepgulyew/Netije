@@ -10,6 +10,7 @@
   >
     <DxGroupItem :col-count="1">
       <DxGroupItem
+
         :visible="isRegistrationInfoVisible"
         :caption="$t('translations.fields.registration')"
       >
@@ -119,7 +120,7 @@ export default {
   computed: {
     isRegistrationInfoVisible() {
       return (
-        this.$store.getters["currentDocument/isRegistrable"] &&
+        this.$store.getters["currentDocument/isRegistered"] &&
         this.$route.params.id != "add"
       );
     },
@@ -150,19 +151,19 @@ export default {
     },
     numberOptions() {
       return {
-        disabled: this.hasPermission
+        disabled: true
       };
     },
     dateOptions() {
       return {
-        disabled: this.hasPermission
+        disabled: true
       };
     },
     documentRegisterOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.docFlow.DocumentRegistry,
-        disabled: this.hasPermission
+        disabled: true
       });
     },
     caseFileOptions() {

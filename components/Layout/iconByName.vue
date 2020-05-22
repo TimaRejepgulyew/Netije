@@ -60,10 +60,12 @@ export default {
 
 <style  scoped>
 .user-info-avatar {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  font-size: 0.8em;
   border-radius: 15px;
   text-align: center;
   margin-right: 10px;
