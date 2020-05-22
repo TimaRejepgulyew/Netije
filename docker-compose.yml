@@ -4,18 +4,26 @@ services:
     netije-ui:
       container_name: netije-ui
       image: netije-ui
+      environment:
+        - HOST=0.0.0.0
+      networks:
+        - netije-ui-network
       restart: always
 
     netije-nginx:
       container_name: netije-nginx
       image: nginx:stable-alpine
       volumes:
-        - ./nginx/netije.conf:/etc/nginx/conf.d/:ro
+        - ./nginx:/etc/nginx/conf.d/:ro
         - ./nginx/certificates:/etc/nginx/ssl/netije/258880/:ro
       ports:
         - 443:443
         - 80:80
       depends_on:
         - netije-ui
+      networks:
+        - netije-ui-network
       restart: always
 
+networks:
+  netije-ui-network:
