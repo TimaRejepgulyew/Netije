@@ -1,6 +1,6 @@
 export default {
   env: {
-    baseUrl: process.env.npm_package_url
+     baseUrl: process.env.npm_package_url
   },
   mode: "spa",
   /*
