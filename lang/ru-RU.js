@@ -624,6 +624,8 @@ export default {
     },
 
     taskMessage: {
+      commentRequired:"Введите отчет о выполнении поручения",
+      sendComment: "Отправить отчет",
       attachmentRequired: "Добавьте вложение",
       documentAlreadyHasBeen: "Такой документ уже существует",
       Completed: "Задание завершенно",
