@@ -35,20 +35,6 @@ export default {
     };
   },
   methods: {
-    tooglePopup() {
-      this.$emit("tooglePopup");
-    },
-
-    sendRequest() {
-      if (this.checkisValid) {
-        this.$emit("sendRequest");
-      }
-    },
-    setComment(e) {
-      this.$store.commit("currentAssignment/SET_COMMENT", e.value);
-    }
-  },
-  computed: {
     checkisValid() {
       if (
         this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
@@ -59,6 +45,20 @@ export default {
         return true;
       }
     },
+    tooglePopup() {
+      this.$emit("tooglePopup");
+    },
+
+    sendRequest() {
+      if (this.checkisValid()) {
+        this.$emit("sendRequest");
+      }
+    },
+    setComment(e) {
+      this.$store.commit("currentAssignment/SET_COMMENT", e.value);
+    }
+  },
+  computed: {
     placeholder() {
       switch (this.$store.getters["currentAssignment/assignmentType"]) {
         case AssignmentType.AcquaintanceFinishAssignment:
