@@ -39,11 +39,16 @@
         <DxItem v-if="isUpdating" :title="$t('menu.relation')" template="relations" />
 
         <Relation slot="relations"></Relation>
+        <DxItem v-if="isUpdating" :title="$t('menu.history')" template="history" />
+
+        <History  :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
       </DxTabPanel>
     </div>
   </div>
 </template>
 <script>
+import History from "~/components/page/history.vue";
+import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import NumberingType from "~/infrastructure/constants/numberingTypes";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
@@ -91,6 +96,7 @@ const requests = {
 
 export default {
   components: {
+    History,
     Relation,
     DxTabPanel,
     DxItem,
@@ -99,7 +105,6 @@ export default {
     docRegistration,
     DxButton,
     mainFocForm,
-    Header,
     DxGroupItem,
     DxSimpleItem,
     DxButtonItem,
@@ -116,6 +121,7 @@ export default {
   },
   data() {
     return {
+      entityTypeGuid: EntityTypes.ElectroonicDocument,
       isUpdating: false
     };
   },

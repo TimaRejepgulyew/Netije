@@ -23,7 +23,7 @@ export default {
   RegistrationGroup: 307,
   RegistrationSetting: 308,
 
-  ElectronicDocument: 400,
+  ElectroonicDocument: 400,
   OfficialDocument: 401,
   IncomingDocument: 402,
   OutgoingDocument: 403,

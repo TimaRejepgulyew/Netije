@@ -48,7 +48,6 @@ export default {
     tooglePopup() {
       this.$emit("tooglePopup");
     },
-
     sendRequest() {
       if (this.checkisValid()) {
         this.$emit("sendRequest");

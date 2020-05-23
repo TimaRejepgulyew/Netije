@@ -100,6 +100,7 @@ export default {
     }
   }, //TODO TRANSLATE
   menu: {
+    history:"История",
     group: "Toparlar",
     all: "Hemmesi",
     allDocument: "Все докуменÄhli resminamalar",

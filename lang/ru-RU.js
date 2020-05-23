@@ -11,6 +11,14 @@ export default {
     profile: "Профиль",
     logout: "выйти"
   },
+  history:{
+    historyDate:"Дата",
+    userName:"Пользователь",
+    hostName:"Имя комьютера",
+    userAgent:"Браузер",
+    action:"Действие",
+    comment:"Комментарий",
+  },
   shared: {
     error: "Произошла ошибка",
     errorOccured:
@@ -96,6 +104,7 @@ export default {
     }
   },
   menu: {
+    history:"История",
     group: "Группы",
     all: "Все",
     allDocument: "Все документы",
