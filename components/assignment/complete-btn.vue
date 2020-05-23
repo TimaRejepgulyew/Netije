@@ -39,29 +39,15 @@ export default {
     tooglePopup() {
       this.showComment = !this.showComment;
     },
-    completeAssignment(isValid) {
-      if (this.checkisValid(isValid)) {
-        this.$awn.asyncBlock(
-          this.$store.dispatch(
-            "currentAssignment/complete",
-            ReviewResult.Accept
-          ),
-          e => {
-            this.$router.go(-1);
-            this.$awn.success();
-          },
-          e => this.$awn.alert()
-        );
-      }
-    },
-    checkisValid(isValid) {
-      if (
-        this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
-      ) {
-        return isValid;
-      } else {
-        return true;
-      }
+    completeAssignment() {
+      this.$awn.asyncBlock(
+        this.$store.dispatch("currentAssignment/complete", ReviewResult.Accept),
+        e => {
+          this.$router.go(-1);
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
     }
   },
   computed: {

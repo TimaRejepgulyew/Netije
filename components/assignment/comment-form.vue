@@ -38,15 +38,27 @@ export default {
     tooglePopup() {
       this.$emit("tooglePopup");
     },
+
     sendRequest() {
-      const res = this.$refs["textArea"].instance.validate();
-      this.$emit("sendRequest", res.isValid);
+      if (this.checkisValid) {
+        this.$emit("sendRequest");
+      }
     },
     setComment(e) {
       this.$store.commit("currentAssignment/SET_COMMENT", e.value);
     }
   },
   computed: {
+    checkisValid() {
+      if (
+        this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
+      ) {
+        const res = this.$refs["textArea"].instance.validate();
+        return res.isValid;
+      } else {
+        return true;
+      }
+    },
     placeholder() {
       switch (this.$store.getters["currentAssignment/assignmentType"]) {
         case AssignmentType.AcquaintanceFinishAssignment:
