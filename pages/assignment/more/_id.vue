@@ -53,16 +53,6 @@
               <div>
                 <status-message />
                 <Assignment-comments :url="commentsUrl"></Assignment-comments>
-                <DxTextArea
-                  :visible="commentVisible"
-                  :on-value-changed="setComment"
-                  :height="150"
-                  :value="comment"
-                >
-                  <DxValidator ref="textArea">
-                    <DxRequiredRule :message="$t('translations.fields.commentRequired')" />
-                  </DxValidator>
-                </DxTextArea>
                 <slot name="Test"></slot>
               </div>
             </template>
@@ -118,23 +108,12 @@ export default {
       dateTimeOptions: {
         type: "datetime"
       },
-      comment: null,
       employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Employee
       })
     };
   },
-  methods: {
-    setComment(e) {
-      this.$store.commit("currentAssignment/SET_COMMENT", e.value);
-    }
-  },
-  computed: {
-    commentVisible() {
-      return this.$store.getters["currentAssignment/canUpdate"];
-    }
-  }
 };
 </script>
 

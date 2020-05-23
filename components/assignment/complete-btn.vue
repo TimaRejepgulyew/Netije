@@ -9,17 +9,24 @@
       :width="500"
       :height="'auto'"
     >
-      <comment-form :request="completeAssignment" />
+      <div>
+        <comment-form @sendRequest="completeAssignment" @tooglePopup="tooglePopup" />
+      </div>
     </DxPopup>
-    <DxButton :text="this.completeButtonText" icon="check" type="success" :on-click="complete" />
+    <DxButton :text="this.completeButtonText" icon="check" type="success" :on-click="tooglePopup" />
   </div>
 </template>
 
 <script>
+import ReviewResult from "~/infrastructure/constants/reviewResult.js";
+import commentForm from "~/components/assignment/comment-form.vue";
+import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
+    ReviewResult,
+    commentForm,
     DxButton,
     DxPopup
   },
@@ -29,8 +36,11 @@ export default {
     };
   },
   methods: {
-    completeAssignment() {
-      if (this.checkisValid()) {
+    tooglePopup() {
+      this.showComment = !this.showComment;
+    },
+    completeAssignment(isValid) {
+      if (this.checkisValid(isValid)) {
         this.$awn.asyncBlock(
           this.$store.dispatch(
             "currentAssignment/complete",
@@ -44,36 +54,29 @@ export default {
         );
       }
     },
-    checkisValid() {
+    checkisValid(isValid) {
       if (
         this.$store.getters["currentAssignment/isActionItemExicutionAssignment"]
       ) {
-        var res = this.$refs["textArea"].instance.validate();
-        return res.isValid;
+        return isValid;
       } else {
         return true;
       }
     }
   },
   computed: {
-    getOptions() {
+    completeButtonText() {
       switch (this.$store.getters["currentAssignment/assignmentType"]) {
         case AssignmentType.AcquaintanceFinishAssignment:
         case AssignmentType.SimpleAssignment:
         case AssignmentType.ActionItemExecutionAssignment:
-          return {
-            completeButtonText: this.$t("buttons.completed")
-          };
+          return this.$t("buttons.completed");
         case AssignmentType.ActionItemSupervisorAssignment:
         case AssignmentType.ReviewAssignment:
-          return {
-            completeButtonText: this.$t("buttons.accept")
-          };
+          return this.$t("buttons.accept");
 
         case AssignmentType.AcquaintanceAssignment:
-          return {
-            completeButtonText: this.$t("buttons.acquaintance")
-          };
+          return this.$t("buttons.acquaintance");
       }
     }
   }

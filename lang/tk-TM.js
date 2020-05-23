@@ -87,6 +87,8 @@ export default {
     }
   },
   assignment: {
+    placeholderSimple: "Введите комментарий",
+    placeholderActionItemExicution: "Введите отчет",
     prefixes: {
       actionItemSupervisorAssignment: "Примите работы: ",
       actionItemExecutionAssignment: "Исполните: ",
