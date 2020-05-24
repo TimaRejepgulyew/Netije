@@ -36,7 +36,7 @@
         </template>
       </DxList>
     </div>
-    <div v-if="accessRight.canAdd">
+    <div>
       <span class="dx-form-group-caption border-top">{{$t("translations.headers.addNewRecipient")}}</span>
       <div class="d-flex mt-2">
         <div class="dx-field-value pr-1">
@@ -101,17 +101,15 @@ export default {
     DxList,
     DxButton
   },
-  props: ["url"],
+  props: ["entityType","entityId"],
   async created() {
-    if (this.$route.params.id !== "add") {
       this.$awn.asyncBlock(
-        this.$axios.get(this.url),
+        this.$axios.get(dataApi.accessRights.ForDocument + this.entityId),
         res => {
           this.accessRight = res.data;
         },
         () => this.$awn.alert()
       );
-    }
   },
   data() {
     return {
@@ -138,7 +136,7 @@ export default {
       }
     },
     async load() {
-      const { data } = await this.$axios.get(this.url);
+      const { data } = await this.$axios.get(dataApi.accessRights.ForDocument + this.entityId);
       this.accessRight = data;
     },
     nullify() {

@@ -19,7 +19,7 @@
       />
       <DxItem template="accessRightButton" v-if="isUpdating" location="after" />
       <template #accessRightButton>
-        <access-right :url="accessRightUrl" />
+        <access-right :entity-type="entityType" :entity-id="documentId" />
       </template>
       <template #registrationButton>
         <document-registration-btn />
@@ -46,8 +46,6 @@ export default {
   },
   data() {
     return {
-      accessRightUrl: dataApi.accessRights.ForDocument + this.$route.params.id,
-      accessRightPopup: false,
       backButtonOptions: {
         type: "back",
         onClick: () => {
@@ -57,6 +55,13 @@ export default {
     };
   },
   computed: {
+    documentId() {
+      //TODO:Fix this
+      return this.$route.params.id;
+    },
+    entityType() {
+      return EntityType.ElectroonicDocument;
+    },
     isUpdating() {
       return this.$route.params.id !== "add";
     },
@@ -132,16 +137,6 @@ export default {
               );
             }
           });
-        }
-      };
-    },
-    documentAccessRightsButtonOptions() {
-      return {
-        icon: "key",
-        type: "normal",
-        text: this.$t("shared.access"),
-        onClick: () => {
-          this.accessRightPopup = true;
         }
       };
     }
