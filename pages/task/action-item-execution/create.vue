@@ -13,33 +13,7 @@
     >
       <DxGroupItem :col-count="3">
         <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
-          <DxSimpleItem data-field="subject">
-            <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-          </DxSimpleItem>
           <DxGroupItem :col-count="2">
-            <DxSimpleItem
-              data-field="deadline"
-              :editor-options="dateTimeOptions"
-              editor-type="dxDateBox"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
-            </DxSimpleItem>
-            <DxSimpleItem
-              :editor-options="employeeOptions"
-              editor-type="dxSelectBox"
-              data-field="supervisorId"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
-            </DxSimpleItem>
-            <DxSimpleItem
-              data-field="accessRights"
-              editor-type="dxSelectBox"
-              :editor-options="accessRightsOptions"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.accessRights')" />
-            </DxSimpleItem>
-
             <DxSimpleItem
               :editor-options="employeeOptions"
               editor-type="dxSelectBox"
@@ -48,14 +22,21 @@
               <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
               <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
             </DxSimpleItem>
-
+            <DxSimpleItem
+              data-field="deadline"
+              :editor-options="dateTimeOptions"
+              editor-type="dxDateBox"
+            >
+            <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
+              <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+            </DxSimpleItem>
             <DxSimpleItem
               :col-span="2"
               :editor-options="employeeOptions"
-              editor-type="dxTagBox"
-              data-field="actionItemObservers"
+              editor-type="dxSelectBox"
+              data-field="supervisorId"
             >
-              <DxLabel location="top" :text="$t('translations.fields.observers')" />
+              <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -65,6 +46,15 @@
               data-field="coAssignees"
             >
               <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
+            </DxSimpleItem>
+
+            <DxSimpleItem
+              :col-span="2"
+              :editor-options="employeeOptions"
+              editor-type="dxTagBox"
+              data-field="actionItemObservers"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.observers')" />
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
@@ -77,7 +67,7 @@
       <DxSimpleItem
         :col-span="3"
         data-field="actionItem"
-        :editor-options="{height:250}"
+        :editor-options="{height:250,placeholder:$t('translations.fields.actionItemRequired')}"
         editor-type="dxTextArea"
       >
         <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
@@ -102,7 +92,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -120,12 +110,10 @@ export default {
   data() {
     return {
       store: {
-        subject: null,
         importance: Important.Normal,
         supervisorId: null,
         deadline: null,
         actionItemObservers: [],
-        accessRights: 60,
         attachments: [],
         actionItem: null,
         assigneeId: null
@@ -133,18 +121,6 @@ export default {
       dateTimeOptions: {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss"
-      },
-      accessRightsOptions: {
-        dataSource: [
-          { value: 60, name: this.$t("translations.fields.reading") },
-          {
-            value: 80,
-            name: this.$t("translations.fields.edit")
-          }
-        ],
-        showClearButton: true,
-        valueExpr: "value",
-        displayExpr: "name"
       },
 
       addNewMember: args => {
