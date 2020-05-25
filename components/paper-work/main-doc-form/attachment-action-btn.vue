@@ -1,5 +1,8 @@
 <template>
   <DxDropDownButton
+    styling-mode="text"
+    icon="overflow"
+    :showArrowIcon="false"
     :drop-down-options="{ width: 230 }"
     :items="btnType"
     display-expr="name"
@@ -21,7 +24,7 @@ export default {
         {
           type: "preview",
           visible: this.version.canBeOpenedWithPreview,
-          icon: "search",
+          icon: "pdffile",
           name: this.$t("buttons.preview")
         },
         {
