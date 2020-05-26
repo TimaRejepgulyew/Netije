@@ -36,6 +36,7 @@
             </div>
           </template>
         </DxList>
+        
       </div>
       <template v-if="inProccess">
         <DxSelectBox
