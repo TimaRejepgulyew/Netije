@@ -38,13 +38,6 @@
             >
               <DxLabel location="top" :text="$t('translations.fields.start')" />
             </DxSimpleItem>
-            <DxSimpleItem
-              data-field="accessRights"
-              editor-type="dxSelectBox"
-              :editor-options="accessRightsOptions"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.permissions')" />
-            </DxSimpleItem>
           </DxGroupItem>
           <DxSimpleItem
             :editor-options="employeeOptions"
@@ -136,19 +129,6 @@ export default {
         valueExpr: "id",
         displayExpr: "name"
       },
-      accessRightsOptions: {
-        dataSource: [
-          { value: 60, name: this.$t("translations.fields.reading") },
-          {
-            value: 80,
-            name: this.$t("translations.fields.edit")
-          }
-        ],
-        showClearButton: true,
-        valueExpr: "value",
-        displayExpr: "name"
-      },
-
       addNewMember: args => {
         const newValue = args.text;
         args.customItem = newValue;

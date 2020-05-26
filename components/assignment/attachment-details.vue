@@ -7,7 +7,7 @@
           :hover-state-enabled="false"
           :data-source="attachments"
           :search-enabled="true"
-          search-expr="name"
+          search-expr="document.name"
         >
           <!-- <template #group="{ data: item }">
             <div>Вложение: {{ item.key }}</div>
@@ -22,7 +22,7 @@
                   :extension="item.data.document.extension?item.data.document.extension:null"
                 ></document-icon>
                 <div class="list__content">
-                  {{item.data.name}}
+                  {{item.data.document.name}}
                   <div class="text-sm">
                     <i class="dx-icon dx-icon-user"></i>
                     {{item.data.attachedBy}}
@@ -115,8 +115,8 @@ export default {
     addAttachment() {
       this.$awn.async(
         this.$axios.post(dataApi.attachment.Attach, {
-          assignmetId: +this.$route.params.id,
-          attachment: [this.selectedDocument]
+          assignmentId: +this.$route.params.id,
+          attachment: this.selectedDocument
         }),
         e => {
           this.reload();

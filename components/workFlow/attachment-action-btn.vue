@@ -1,5 +1,8 @@
 <template>
   <DxDropDownButton
+    styling-mode="text"
+    icon="overflow"
+    :showArrowIcon="false"
     v-if="hasActions"
     :drop-down-options="{ width: 230 }"
     :items="btnType"
@@ -27,7 +30,7 @@ export default {
         {
           type: "preview",
           visible: canPreview,
-          icon: "search",
+          icon: "pdffile",
           name: this.$t("buttons.preview")
         },
         {
@@ -35,12 +38,6 @@ export default {
           visible: this.attachment.document.hasVersions,
           icon: "download",
           name: this.$t("buttons.download")
-        },
-        {
-          type: "detach",
-          visible: this.attachment.canDetach,
-          icon: "trash",
-          name: this.$t("buttons.delete")
         }
       ]
     };
@@ -63,9 +60,6 @@ export default {
         case "download":
           this.downloadDocument();
           break;
-        case "detach":
-          this.detach();
-          break;
       }
     },
     downloadDocument() {
@@ -79,25 +73,6 @@ export default {
     },
     previewDocument() {
       DocumentService.previewDocument(this.attachment.document, this);
-    },
-    detach() {
-      if (this.$route.params.id) {
-        // this.$awn.async(
-        //   this.$axios.post(dataApi.attachment.Detach, {
-        //     attachmentId: this.attachment.id
-        //   }),
-        //   e => {
-        //     this.$emit("reload");
-        //     this.$awn.success();
-        //   },
-        //   e => {
-        //     this.$emit("reload");
-        //     this.$awn.alert();
-        //   }
-        // );
-      } else {
-        this.$emit("detach", this.attachment.document.id);
-      }
     }
   }
 };

@@ -11,7 +11,7 @@
       :title="$t('translations.fields.accessRightDocument')"
     >
       <div>
-        <access-right-list v-if="popup" :url="url" />
+        <access-right-list v-if="popup" :entity-type="entityType" :entity-id="entityId" />
       </div>
     </DxPopup>
     <DxButton icon="key" :on-click="showPopup" :text="$t('shared.access')" />
@@ -28,7 +28,7 @@ export default {
     DxPopup,
     accessRightList
   },
-  props: ["url"],
+  props: ["entityType","entityId"],
   data() {
     return {
       popup: false

@@ -46,7 +46,7 @@ const CreateButtons = context => {
     buttons: [
       {
         visible: canBeOpenWithPreview,
-        icon: "search",
+        icon: "pdffile",
         text: context.$t("document.preview"),
         onClick: e => previewDocument(e, context)
       },
