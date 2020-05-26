@@ -172,8 +172,7 @@ export default {
         caseFileId: null,
         placedToCaseFileDate: null,
         businessUnitId: null,
-        departmentId: null,
-        version: null
+        departmentId: null
       },
       isCompany: false
     };

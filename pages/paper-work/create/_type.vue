@@ -1,158 +1,110 @@
 <template>
   <div>
-    <div>
-      <Header :headerTitle="headerTitle"></Header>
-      <toolbar @saveChanges="handleSubmit"></toolbar>
-      <DxTabPanel :focus-state-enabled="false" class="tab-bar">
-        <DxItem :title="$t('menu.mainInfo')" template="document-form" />
-        <div class="d-flex" slot="document-form">
-          <div class="item f-grow-3">
-            <mainFocForm :properties="store" :docType="docType"></mainFocForm>
-            <slot></slot>
-            <DxForm
-              ref="form"
-              :on-field-data-changed="modified"
-              :col-count="1"
-              :form-data.sync="store"
-              :read-only="readOnly"
-              :show-colon-after-label="true"
-              :show-validation-summary="false"
-              validation-group="OfficialDocument"
-            >
-              <DxGroupItem template="formByTypeGuid"></DxGroupItem>
-              <DxSimpleItem
-                :col-span="2"
-                data-field="note"
-                :editor-options="noteOptions"
-                editor-type="dxTextArea"
-              >
-                <DxLabel location="top" :text="$t('translations.fields.note')" />
-              </DxSimpleItem>
-              <template #formByTypeGuid>
-                <component :is="formByTypeGuid" />
-              </template>
-            </DxForm>
-          </div>
-          <div class="item" v-show="isUpdating&&$store.getters['currentDocument/isRegistrable']">
-            <docRegistration :properties="store" :docType="docType"></docRegistration>
-          </div>
-          <div v-if="isUpdating" class="item">
-            <docVersion></docVersion>
-          </div>
-        </div>
-        <DxItem v-if="isUpdating" :title="$t('menu.relation')" template="relations" />
+    <Header headerTitle="headerTitle"></Header>
+    <toolbar @saveChanges="handleSubmit"></toolbar>
+    <DxForm
+      ref="form"
+      :col-count="1"
+      :show-colon-after-label="true"
+      :show-validation-summary="false"
+      validation-group="OfficialDocument"
+    >
+      <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
+        <DxSimpleItem data-field="name" :editor-options="nameOptions">
+          <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
+          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="documentKindId"
+          :editor-options="documentKindOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
+          <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
+        </DxSimpleItem>
 
-        <Relation slot="relations"></Relation>
-        <DxItem v-if="isUpdating" :title="$t('menu.history')" template="history" />
-
-        <History :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
-      </DxTabPanel>
-    </div>
+        <DxSimpleItem
+          data-field="subject"
+          :editor-options="subjectOptions"
+          editor-type="dxTextArea"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.subject')" />
+          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+        </DxSimpleItem>
+      </DxGroupItem>
+      <DxGroupItem template="formByTypeGuid"></DxGroupItem>
+      <DxSimpleItem
+        :col-span="2"
+        data-field="note"
+        :editor-options="noteOptions"
+        editor-type="dxTextArea"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.note')" />
+      </DxSimpleItem>
+      <template #formByTypeGuid>
+        <component :is="formByTypeGuid" />
+      </template>
+    </DxForm>
   </div>
 </template>
 <script>
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
-import History from "~/components/page/history.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
-import NumberingType from "~/infrastructure/constants/numberingTypes";
-import Relation from "~/components/paper-work/main-doc-form/relation";
-import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
-import docVersion from "~/components/paper-work/main-doc-form/doc-version";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
-import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
-import mainFocForm from "~/components/paper-work/main-doc-form";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxButtonItem,
-  DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
+  DxLabel
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import DxButton from "devextreme-vue/button";
-const api = dataApi.paperWork;
-const requests = {
-  post: [
-    ,
-    api.IncommingLetterPost,
-    api.OutgoingLetterPost,
-    api.OrderPost,
-    api.CompanyDirectivePost,
-    api.SimpleDocumentPost,
-    api.AddendumPost,
-    api.MemoPost,
-    api.PowerOfAttorneyPost
-  ],
-  put: [
-    ,
-    api.IncommingLetterPut,
-    api.OutgoingLetterPut,
-    api.OrderPut,
-    api.CompanyDirectivePut,
-    api.SimpleDocumentPut,
-    api.AddendumPut,
-    api.MemoPut,
-    api.PowerOfAttorneyPut
-  ]
-};
-
 export default {
   components: {
-    History,
-    Relation,
-    DxTabPanel,
-    DxItem,
-    docVersion,
     Toolbar,
-    docRegistration,
-    DxButton,
-    mainFocForm,
     DxGroupItem,
     DxSimpleItem,
-    DxButtonItem,
+    DxRequiredRule,
     DxLabel,
-    DxForm,
-    DxRequiredRule
+    DxForm
   },
-  props: ["store", "headerTitle", "docType"],
-  created() {
-    if (this.$route.params.id != "add") {
-      this.$store.commit("currentDocument/DATA_CHANGED", false);
-      this.isUpdating = true;
-    }
+  async asyncData({ app, params }) {
+    await app.store.dispatch("currentDocument/initNewDocument", +params.type);
   },
   data() {
     return {
       entityTypeGuid: EntityTypes.ElectroonicDocument,
-      isUpdating: false
+      currentUrl: null,
+      documentKindOptions: {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.docFlow.DocumentKind,
+          filter: [
+            ["documentTypeId", "=", this.$route.params.type],
+            "and",
+            ["status", "=", 0]
+          ]
+        }),
+        value: this.$store.getters["currentDocument/document"].documentKind.id,
+        onSelectionChanged: e => {
+          this.$store.dispatch(
+            "currentDocument/setDocumentKind",
+            e.selectedItem
+          );
+        }
+      }
     };
   },
   methods: {
-    modified() {
-      this.$store.commit("currentDocument/DATA_CHANGED", true);
-    },
-    updateRequest(store, close) {
+    handleSubmit(close) {
+      var res = this.$refs["form"].instance.validate();
+      if (!res.isValid) return;
       this.$awn.asyncBlock(
-        this.$axios.put(
-          requests.put[this.docType] + this.$route.params.id,
-          store
+        this.$axios.post(
+          this.currentUrl, // TODO url
+          this.$store.getters["current-document/document"]
         ),
-        res => {
-          this.$awn.success();
-          this.$store.commit("currentDocument/DATA_CHANGED", false);
-          if (close) this.$router.go(-1);
-        },
-        e => {
-          this.$awn.alert();
-        }
-      );
-    },
-    addRequest(store, close) {
-      this.$awn.asyncBlock(
-        this.$axios.post(requests.post[this.docType], store),
         res => {
           this.$awn.success();
           if (close) this.$router.go(-1);
@@ -166,37 +118,64 @@ export default {
           this.$awn.alert();
         }
       );
-    },
-    handleSubmit(close) {
-      var res = this.$refs["form"].instance.validate();
-      if (!res.isValid) return;
-      this.loadingVisible = true;
-      const store = Object.assign(
-        this.store,
-        this.$store.getters["paper-work/mainFormProperties"]
-      );
-      if (this.isUpdating) {
-        this.updateRequest(store, close);
-      } else {
-        this.addRequest(store, close);
-      }
     }
   },
   computed: {
     formByTypeGuid() {
-      switch (this.$route.params.type) {
+      switch (+this.$route.params.type) {
         case DocumentTypeGuid.IncommingLetter:
+          this.currentUrl = dataApi.paperWork.IncommingLetterPost;
           return "incomming-letter";
         case DocumentTypeGuid.OutgoingLetter:
+          this.currentUrl = dataApi.paperWork.OutgoingLetterPost;
           return "outgoing-letter";
         case DocumentTypeGuid.Order:
+          this.currentUrl = dataApi.paperWork.OrderPost;
           return "Order";
+        case DocumentTypeGuid.CompanyDirective:
+          this.currentUrl = dataApi.paperWork.CompanyDirectivePost;
+          return "company-directive";
+        case DocumentTypeGuid.SimpleDocument:
+          this.currentUrl = dataApi.paperWork.SimpleDocumentPost;
+          return "simple-document";
+        case DocumentTypeGuid.Addendum:
+          this.currentUrl = dataApi.paperWork.AddendumPost;
+          return "addendum";
+        case DocumentTypeGuid.Memo:
+          this.currentUrl = dataApi.paperWork.MemoPost;
+          return "memo";
+        case DocumentTypeGuid.PowerOfAttorney:
+          this.currentUrl = dataApi.paperWork.PowerOfAttorneyPost;
+          return "power-of-attorney";
       }
+    },
+
+    nameOptions() {
+      return {
+        value: this.$store.getters["currentDocument/document"].name,
+        disabled: this.$store.getters["currentDocument/document"].documentKind
+          .generateDocumentName,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_NAME", e.value);
+        }
+      };
+    },
+    subjectOptions() {
+      return {
+        value: this.$store.getters["currentDocument/document"].subject,
+        onValueChanged: e => {
+          this.$store.dispatch("currentDocument/setSubject", e.value);
+        }
+      };
     },
     noteOptions() {
       return {
+        value: this.$store.getters["currentDocument/document"].note,
         height: 70,
-        autoResizeEnabled: true
+        autoResizeEnabled: true,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_NOTE", e.value);
+        }
       };
     }
   }

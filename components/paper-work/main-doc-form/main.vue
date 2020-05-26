@@ -41,7 +41,7 @@
         <Relation slot="relations"></Relation>
         <DxItem v-if="isUpdating" :title="$t('menu.history')" template="history" />
 
-        <History  :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
+        <History :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
       </DxTabPanel>
     </div>
   </div>

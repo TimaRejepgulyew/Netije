@@ -1,3 +1,4 @@
+import DocumentType from "~/infrastructure/constants/documentType.js";
 export default function(context) {
   return [
     {
@@ -37,42 +38,42 @@ export function DocumentButtons(context) {
     {
       icon: "plus",
       text: context.$t("translations.headers.incommingLetter"),
-      path: "/paper-work/incomming-letter/add"
+      path: `/paper-work/create/${DocumentType.IncommingDocument}`
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.outgoingLetter"),
-      path: "/paper-work/outgoing-letter/add"
+      path: `/paper-work/create/${DocumentType.OutgoingDocument}`
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.order"),
-      path: "/paper-work/order/add"
+      path: `/paper-work/create/${DocumentType.Order}`
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.companyDirective"),
-      path: "/paper-work/company-directive/add"
+      path: `/paper-work/create/${DocumentType.CompanyDirective}`
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.simpleDocument"),
-      path: "/paper-work/simple-document/add"
+      path: `/paper-work/create/${DocumentType.SimpleDocument}`
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.addendum"),
-      path: "/paper-work/addendum/add"
+      path: `/paper-work/create/${DocumentType.Addendum}`
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.memo"),
-      path: "/paper-work/memo/add"
+      path: `/paper-work/create/${DocumentType.Memo}`
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.powerOfAttorney"),
-      path: "/paper-work/power-of-attorney/add"
+      path: `/paper-work/create/${DocumentType.PowerOfAttorney}`
     }
   ];
 }

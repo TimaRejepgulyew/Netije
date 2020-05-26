@@ -1,0 +1,228 @@
+<template>
+  <DxForm
+    :col-count="1"
+    :form-data.sync="store"
+    :read-only="readOnly"
+    :show-colon-after-label="true"
+    :show-validation-summary="false"
+    :on-field-data-changed="modified"
+    validation-group="OfficialDocument"
+  >
+    <DxGroupItem :col-count="2">
+      <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+        <DxSimpleItem data-field="inNumber">
+          <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem data-field="dated" editor-type="dxDateBox">
+          <DxLabel location="top" :text="$t('translations.fields.dated')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          data-field="correspondentId"
+          :editor-options="counterPartOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+          <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          data-field="deliveryMethodId"
+          :editor-options="deliveryMethodOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.mailDeliveryMethod')" />
+        </DxSimpleItem>
+
+        <DxGroupItem :visible="isCompany">
+          <DxSimpleItem
+            data-field="contactId"
+            :editor-options="contactOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.contactId')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            data-field="counterpartySignatoryId"
+            :editor-options="contactOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+          </DxSimpleItem>
+        </DxGroupItem>
+      </DxGroupItem>
+
+      <DxGroupItem :caption="$t('translations.fields.whom')">
+        <DxSimpleItem
+          data-field="businessUnitId"
+          :editor-options="businessUnitOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+          <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="departmentId"
+          :editor-options="deparmentOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          data-field="addresseeId"
+          :editor-options="addresseeOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.whom')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          data-field="inResponseToId"
+          :editor-options="inResponseToIdOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+        </DxSimpleItem>
+      </DxGroupItem>
+    </DxGroupItem>
+  </DxForm>
+</template>
+<script>
+import DocumentType from "~/infrastructure/constants/documentType";
+import MainForm from "~/components/paper-work/main-doc-form/main";
+import DataSource from "devextreme/data/data_source";
+import dataApi from "~/static/dataApi";
+import DxForm, {
+  DxGroupItem,
+  DxSimpleItem,
+  DxLabel,
+  DxRequiredRule
+} from "devextreme-vue/form";
+export default {
+  components: {
+    MainForm,
+    DxForm,
+    DxGroupItem,
+    DxSimpleItem,
+    DxLabel,
+    DxRequiredRule
+  },
+
+  data() {
+    return {
+      isCompany: false,
+      counterPartOptions: {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.CounterPart
+        }),
+        value: this.$store.getters["currentDocument/document"].correspondent.id,
+        onSelectionChanged: e => {
+          this.isCompany = e.selectedItem.type != "Person";
+          this.$store.dispatch(
+            "currentDocument/setCorrespondent",
+            e.selectedItem
+          );
+          this.$store.commit("SET_CONTACT_ID", null);
+          this.$store.commit("SET_COUNTERPART_SIGNATORY_ID", null);
+        }
+      },
+      deliveryMethodOptions: {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.docFlow.MailDeliveryMethod
+        }),
+        value: this.$store.getters["currentDocument/document"].deliveryMethodId,
+        onValueChanged: e => {
+          this.$store.commit("SET_DELIVERY_METHOD_ID", e.value);
+        }
+      }
+    };
+  },
+  computed: {
+    contactOptions() {
+      const companyId = this.$store.getters["currentDocument/document"]
+        .correspondent.id;
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.Contact,
+          filter: [["companyId", "=", companyId], "and", ["status", "=", 0]]
+        }),
+        value: this.$store.getters["currentDocument/document"].correspondent.id,
+        onValueChanged: e => {
+          this.$store.commit("SET_CONTACT_ID", e.value);
+        }
+      };
+    },
+    businessUnitOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit,
+          filter: ["status", "=", 0]
+        }),
+        value: this.$store.getters["currentDocument/document"].businessUnitId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
+          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
+          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
+        }
+      };
+    },
+    deparmentOptions() {
+      let businessUnitId = this.store.businessUnitId;
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Department,
+          filter: [
+            ["businessUnitId", "=", businessUnitId],
+            "and",
+            ["status", "=", 0]
+          ]
+        }),
+        value: this.$store.getters["currentDocument/document"].deparmentId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
+          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
+        }
+      };
+    },
+    addresseeOptions() {
+      let departmentId = this.store.departmentId;
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Employee,
+          filter: [
+            ["departmentId", "=", departmentId],
+            "and",
+            ["status", "=", 0]
+          ]
+        }),
+        value: this.$store.getters["currentDocument/document"].addresseeId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_ADDRESSE_ID", e.value);
+        }
+      };
+    },
+    inResponseToIdOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.paperWork.OutgoingLetter
+        }),
+        value: this.$store.getters["currentDocument/document"].inResponseToId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", e.value);
+        }
+      };
+    }
+  }
+};
+</script>
