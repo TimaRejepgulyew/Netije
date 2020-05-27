@@ -7,7 +7,7 @@ export const state = () => ({
     name: null,
     subject: null
   },
-
+  currentUrl: null,
   isDataChanged: false,
   readOnly: false,
   canUpdate: false,
@@ -88,10 +88,22 @@ export const mutations = {
   SET_ADDRESSE_ID(state, payload) {
     state.currentDocument.addresseeId = payload;
   },
+  IN_NUMBER(state, payload) {
+    state.currentDocument.inNumber = payload;
+  },
+  DATED(state, payload) {
+    state.currentDocument.dated = payload;
+  },
+  CURRENT_URL(state, payload) {
+    state.currentUrl = payload;
+  },
   SET_DOCUMENT_STATE(state, payload) {
     for (let item in payload) {
       state[item] = payload[item];
     }
+  },
+  SET_DOCUMENT_ID(state, payload) {
+    state.currentDocument.id = payload;
   },
   SET_DOCUMENT_TYPE(state, payload) {
     state.currentDocument.documentType = payload;
@@ -101,6 +113,16 @@ export const mutations = {
   }
 };
 export const actions = {
+  async createDocument({ state, commit }) {
+    console.log(state.currentDocument);
+    const document = state.currentDocument;
+    document.documentKindId = document.documentKind.id;
+    if (document.correspondent) {
+      document.correspondentId = document.correspondent.id;
+    }
+    const res = await this.$axios.post(state.currentUrl, document);
+    commit("SET_DOCUMENT_ID", res.data);
+  },
   setDocumentKind({ commit, dispatch }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
     commit("SET_DOCUMENT_KIND", payload);
@@ -111,6 +133,7 @@ export const actions = {
     dispatch("reevaluateDocumentName");
   },
   setCorrespondent({ commit, dispatch }, payload) {
+    if (!payload) payload = { name: null, id: null };
     commit("SET_CORRESPONDENT", payload);
     dispatch("reevaluateDocumentName");
   },

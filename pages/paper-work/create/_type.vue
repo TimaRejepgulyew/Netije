@@ -42,15 +42,16 @@
         <DxLabel location="top" :text="$t('translations.fields.note')" />
       </DxSimpleItem>
       <template #formByTypeGuid>
-        <component :is="formByTypeGuid" />
+        <component :is="formByTypeGuid"></component>
       </template>
     </DxForm>
   </div>
 </template>
 <script>
+import incommingLetter from "~/components/paper-work/incomming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
-import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
+import Toolbar from "~/components/paper-work/main-doc-form/toolbar-creating";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DxForm, {
@@ -67,10 +68,14 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm
+    DxForm,
+    incommingLetter
   },
   async asyncData({ app, params }) {
     await app.store.dispatch("currentDocument/initNewDocument", +params.type);
+  },
+  created() {
+    console.log(this.formByTypeGuid);
   },
   data() {
     return {
@@ -100,19 +105,18 @@ export default {
     handleSubmit(close) {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
+
       this.$awn.asyncBlock(
-        this.$axios.post(
-          this.currentUrl, // TODO url
-          this.$store.getters["current-document/document"]
-        ),
+        this.$store.dispatch("currentDocument/createDocument"),
         res => {
           this.$awn.success();
           if (close) this.$router.go(-1);
           else
-            this.$router.replace({
-              name: this.$route.name,
-              params: { id: res.data }
-            });
+            this.$router.push(
+              `/paper-work/detail/${+this.$route.params.type}/${
+                this.$store.getters["currentDocument/document"].id
+              }`
+            );
         },
         e => {
           this.$awn.alert();
@@ -123,29 +127,53 @@ export default {
   computed: {
     formByTypeGuid() {
       switch (+this.$route.params.type) {
-        case DocumentTypeGuid.IncommingLetter:
-          this.currentUrl = dataApi.paperWork.IncommingLetterPost;
+        case DocumentTypeGuid.IncomingLetter:
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.IncommingLetterPost
+          );
           return "incomming-letter";
         case DocumentTypeGuid.OutgoingLetter:
-          this.currentUrl = dataApi.paperWork.OutgoingLetterPost;
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.OutgoingLetterPost
+          );
           return "outgoing-letter";
         case DocumentTypeGuid.Order:
-          this.currentUrl = dataApi.paperWork.OrderPost;
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.OrderPost
+          );
           return "Order";
         case DocumentTypeGuid.CompanyDirective:
-          this.currentUrl = dataApi.paperWork.CompanyDirectivePost;
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.CompanyDirectivePost
+          );
           return "company-directive";
         case DocumentTypeGuid.SimpleDocument:
-          this.currentUrl = dataApi.paperWork.SimpleDocumentPost;
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.SimpleDocumentPost
+          );
           return "simple-document";
         case DocumentTypeGuid.Addendum:
-          this.currentUrl = dataApi.paperWork.AddendumPost;
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.AddendumPost
+          );
           return "addendum";
         case DocumentTypeGuid.Memo:
-          this.currentUrl = dataApi.paperWork.MemoPost;
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.MemoPost
+          );
           return "memo";
         case DocumentTypeGuid.PowerOfAttorney:
-          this.currentUrl = dataApi.paperWork.PowerOfAttorneyPost;
+          this.$store.commit(
+            "currentDocument/CURRENT_URL",
+            dataApi.paperWork.PowerOfAttorneyPost
+          );
           return "power-of-attorney";
       }
     },
