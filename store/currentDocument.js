@@ -2,6 +2,7 @@ import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 import generateDocumentName from "~/infrastructure/services/documentNameGenerator";
 import documentFactory from "~/infrastructure/factory/documentFactory.js";
+import dataApi from "~/static/dataApi";
 export const state = () => ({
   currentDocument: {
     name: null,
@@ -54,6 +55,9 @@ export const getters = {
   }
 };
 export const mutations = {
+  SET_DOCUMENT(state, payload) {
+    state.currentDocument = payload;
+  },
   BIND_FIELDS(state, documentType) {
     state.currentDocument = documentFactory(documentType);
   },
@@ -169,6 +173,12 @@ export const actions = {
         commit("SET_NAME", name);
       }
     }
+  },
+  async getDocumentById({ dispatch, commit, state }, id) {
+    console.log(state.currentUrl);
+    const res = await this.$axios.get(dataApi.paperWork.GetDocumentById + id);
+    console.log(res.data);
+    commit("SET_DOCUMENT", res.data);
   },
   async initNewDocument({ dispatch, commit }, documentType) {
     commit("BIND_FIELDS", documentType);
