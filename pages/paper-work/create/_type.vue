@@ -48,6 +48,7 @@
   </div>
 </template>
 <script>
+import outgoingLetter from "~/components/paper-work/outgoing-letter.vue";
 import incommingLetter from "~/components/paper-work/incomming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
@@ -63,6 +64,7 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 export default {
   components: {
+    outgoingLetter,
     Toolbar,
     DxGroupItem,
     DxSimpleItem,
@@ -73,9 +75,6 @@ export default {
   },
   async asyncData({ app, params }) {
     await app.store.dispatch("currentDocument/initNewDocument", +params.type);
-  },
-  created() {
-    console.log(this.formByTypeGuid);
   },
   data() {
     return {
@@ -134,6 +133,7 @@ export default {
           );
           return "incomming-letter";
         case DocumentTypeGuid.OutgoingLetter:
+          console.log(DocumentTypeGuid.OutgoingLetter);
           this.$store.commit(
             "currentDocument/CURRENT_URL",
             dataApi.paperWork.OutgoingLetterPost

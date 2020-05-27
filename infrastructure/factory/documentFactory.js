@@ -79,6 +79,5 @@ export default function(type) {
       };
       break;
   }
-  console.log(document);
   return document;
 }

@@ -102,6 +102,12 @@ export const mutations = {
       state[item] = payload[item];
     }
   },
+  SET_OUR_SIGNATORY_ID(state, payload) {
+    state.currentDocument.ourSignatoryId = payload;
+  },
+  SET_PREPARED_BY_ID(state, payload) {
+    state.currentDocument.preparedById = payload;
+  },
   SET_DOCUMENT_ID(state, payload) {
     state.currentDocument.id = payload;
   },
@@ -114,7 +120,6 @@ export const mutations = {
 };
 export const actions = {
   async createDocument({ state, commit }) {
-    console.log(state.currentDocument);
     const document = state.currentDocument;
     document.documentKindId = document.documentKind.id;
     if (document.correspondent) {
