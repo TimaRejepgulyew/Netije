@@ -48,6 +48,11 @@
   </div>
 </template>
 <script>
+import powerOfAttorney from "~/components/paper-work/power-of-attorney.vue";
+import memo from "~/components/paper-work/memo.vue";
+import addendum from "~/components/paper-work/addendum.vue";
+import simpleDocument from "~/components/paper-work/simple-document.vue";
+import orderBase from "~/components/paper-work/order-base.vue";
 import outgoingLetter from "~/components/paper-work/outgoing-letter.vue";
 import incommingLetter from "~/components/paper-work/incomming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
@@ -64,6 +69,11 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 export default {
   components: {
+    powerOfAttorney,
+    memo,
+    addendum,
+    simpleDocument,
+    orderBase,
     outgoingLetter,
     Toolbar,
     DxGroupItem,
@@ -133,7 +143,6 @@ export default {
           );
           return "incomming-letter";
         case DocumentTypeGuid.OutgoingLetter:
-          console.log(DocumentTypeGuid.OutgoingLetter);
           this.$store.commit(
             "currentDocument/CURRENT_URL",
             dataApi.paperWork.OutgoingLetterPost
@@ -144,13 +153,13 @@ export default {
             "currentDocument/CURRENT_URL",
             dataApi.paperWork.OrderPost
           );
-          return "Order";
+          return "order-base";
         case DocumentTypeGuid.CompanyDirective:
           this.$store.commit(
             "currentDocument/CURRENT_URL",
             dataApi.paperWork.CompanyDirectivePost
           );
-          return "company-directive";
+          return "order-base";
         case DocumentTypeGuid.SimpleDocument:
           this.$store.commit(
             "currentDocument/CURRENT_URL",

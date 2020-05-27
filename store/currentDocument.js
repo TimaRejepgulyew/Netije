@@ -5,7 +5,15 @@ import documentFactory from "~/infrastructure/factory/documentFactory.js";
 export const state = () => ({
   currentDocument: {
     name: null,
-    subject: null
+    subject: null,
+    documentKind: {
+      autoNumbering: false,
+      id: null,
+      availableActions: [],
+      generateDocumentName: false,
+      isDefault: false,
+      numberingType: null
+    }
   },
   currentUrl: null,
   isDataChanged: false,
@@ -108,8 +116,20 @@ export const mutations = {
   SET_PREPARED_BY_ID(state, payload) {
     state.currentDocument.preparedById = payload;
   },
+  SET_ASSIGNEE_ID(state, payload) {
+    state.currentDocument.assigneeId = payload;
+  },
   SET_DOCUMENT_ID(state, payload) {
     state.currentDocument.id = payload;
+  },
+  SET_LEADING_DOCUMENT_ID(state, payload) {
+    state.currentDocument.leadingDocumentId = payload;
+  },
+  SET_ISSUED_TO_ID(state, payload) {
+    state.currentDocument.issuedToId = payload;
+  },
+  SET_VALID_TILL(state, payload) {
+    state.currentDocument.validTill = payload;
   },
   SET_DOCUMENT_TYPE(state, payload) {
     state.currentDocument.documentType = payload;

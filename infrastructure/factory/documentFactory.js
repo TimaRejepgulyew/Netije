@@ -4,7 +4,14 @@ export default function(type) {
     id: null,
     name: null,
     subject: null,
-    documentKind: null,
+    documentKind: {
+      autoNumbering: false,
+      id: null,
+      availableActions: [],
+      generateDocumentName: false,
+      isDefault: false,
+      numberingType: null
+    },
     businessUnitId: null,
     departmentId: null,
     note: null
