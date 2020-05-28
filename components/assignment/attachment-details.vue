@@ -6,8 +6,7 @@
         <DxList
           :hover-state-enabled="false"
           :data-source="attachments"
-          :search-enabled="true"
-          search-expr="document.name"
+          :search-enabled="false"
         >
           <!-- <template #group="{ data: item }">
             <div>Вложение: {{ item.key }}</div>
