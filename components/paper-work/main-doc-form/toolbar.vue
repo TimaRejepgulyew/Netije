@@ -11,15 +11,10 @@
         location="after"
         widget="dxButton"
       />
-      <DxItem
-        :visible="isUpdating"
-        :options="createAddendumOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem template="accessRightButton" v-if="isUpdating" location="after" />
+      <DxItem :options="createAddendumOptions" location="before" widget="dxButton" />
+      <DxItem template="accessRightButton" location="after" />
       <template #accessRightButton>
-        <access-right :entity-type="entityType" :entity-id="documentId" />
+        <access-right :entity-type="entityType" :entity-id="+$route.params.id" />
       </template>
       <template #registrationButton>
         <document-registration-btn />
@@ -28,6 +23,7 @@
   </div>
 </template>
 <script>
+import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
 import accessRight from "~/components/page/access-right.vue";
@@ -55,15 +51,8 @@ export default {
     };
   },
   computed: {
-    documentId() {
-      //TODO:Fix this
-      return this.$route.params.id;
-    },
     entityType() {
       return EntityType.ElectroonicDocument;
-    },
-    isUpdating() {
-      return this.$route.params.id !== "add";
     },
     canUpdate() {
       return (
@@ -81,9 +70,24 @@ export default {
       return {
         icon: "save",
         type: "success",
-        disabled: !this.canUpdate,
-        onClick: () => {
-          this.$emit("saveChanges");
+
+        onClick: async () => {
+          await this.$store.dispatch("currentDocument/save");
+          // this.$awn.asyncBlock(
+          //   res => {
+          //     this.$awn.success();
+          //     if (close) this.$router.go(-1);
+          //     else
+          //       this.$router.push(
+          //         `/paper-work/detail/${+this.$route.params.type}/${
+          //           this.$store.getters["currentDocument/document"].id
+          //         }`
+          //       );
+          //   },
+          //   e => {
+          //     this.$awn.alert();
+          //   }
+          // );
         }
       };
     },
@@ -105,8 +109,8 @@ export default {
         text: this.$t("buttons.createAddendum"),
         onClick: () => {
           this.$router.push({
-            path: "/paper-work/addendum/add",
-            query: { leandingDocument: this.$route.params.id }
+            path: `/paper-work/create/${DocumentTypeGuid.Addendum}`,
+            query: { leadingDocument: this.$route.params.id }
           });
         }
       };

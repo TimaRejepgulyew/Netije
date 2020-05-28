@@ -52,12 +52,10 @@ export default {
     DxRequiredRule
   },
   created() {
-    if (this.$route.query.leandingDocument) {
-      this.$store.commit(
-        "currentDocument/ SET_LEADING_DOCUMENT_ID",
-        +this.$route.query.leandingDocument
-      );
-    }
+    this.$store.commit(
+      "currentDocument/SET_LEADING_DOCUMENT_ID",
+      +this.$route.query.leadingDocument
+    );
   },
   computed: {
     store() {
@@ -73,7 +71,7 @@ export default {
           url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0]
         }),
-
+        value: this.businessUnitId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
@@ -103,6 +101,8 @@ export default {
           context: this,
           url: dataApi.paperWork.AllDocument
         }),
+        value: this.$store.getters["currentDocument/document"]
+          .leadingDocumentId,
         onValueChanged: e => {
           this.$store.commit(
             "currentDocument/SET_LEADING_DOCUMENT_ID",

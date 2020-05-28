@@ -2,52 +2,73 @@
   <div>
     <Header headerTitle="headerTitle"></Header>
     <toolbar @saveChanges="handleSubmit"></toolbar>
-    <DxForm
-      ref="form"
-      :col-count="1"
-      :show-colon-after-label="true"
-      :show-validation-summary="false"
-      validation-group="OfficialDocument"
-    >
-      <DxGroupItem :col-count="1" :caption="$t('translations.fields.main')">
-        <DxSimpleItem data-field="name" :editor-options="nameOptions">
-          <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
-          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          data-field="documentKindId"
-          :editor-options="documentKindOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
-          <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
-        </DxSimpleItem>
+    <DxTabPanel :focus-state-enabled="false" class="tab-bar">
+      <DxItem :title="$t('menu.mainInfo')" template="document-form" />
+      <DxForm
+        slot="document-form"
+        ref="form"
+        :col-count="5"
+        :show-colon-after-label="true"
+        :show-validation-summary="false"
+        validation-group="OfficialDocument"
+      >
+        <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.main')">
+          <DxSimpleItem data-field="name" :editor-options="nameOptions">
+            <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
+            <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+          </DxSimpleItem>
+          <DxSimpleItem
+            data-field="documentKindId"
+            :editor-options="documentKindOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
+            <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
+          </DxSimpleItem>
 
+          <DxSimpleItem
+            data-field="subject"
+            :editor-options="subjectOptions"
+            editor-type="dxTextArea"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.subject')" />
+            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+          </DxSimpleItem>
+          <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
+        </DxGroupItem>
+        <DxSimpleItem template="registrationBlock"></DxSimpleItem>
+        <DxSimpleItem template="attachmentBlock"></DxSimpleItem>
         <DxSimpleItem
-          data-field="subject"
-          :editor-options="subjectOptions"
+          :col-span="5"
+          data-field="note"
+          :editor-options="noteOptions"
           editor-type="dxTextArea"
         >
-          <DxLabel location="top" :text="$t('translations.fields.subject')" />
-          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
-      </DxGroupItem>
-      <DxGroupItem template="formByTypeGuid"></DxGroupItem>
-      <DxSimpleItem
-        :col-span="2"
-        data-field="note"
-        :editor-options="noteOptions"
-        editor-type="dxTextArea"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.note')" />
-      </DxSimpleItem>
-      <template #formByTypeGuid>
-        <component :is="formByTypeGuid"></component>
-      </template>
-    </DxForm>
+        <template #attachmentBlock>
+          <docVersion></docVersion>
+        </template>
+        <template #registrationBlock>
+          <docRegistration></docRegistration>
+        </template>
+        <template #formByTypeGuid>
+          <component :is="formByTypeGuid"></component>
+        </template>
+      </DxForm>
+      <DxItem :title="$t('menu.relation')" template="relations" />
+      <Relation slot="relations"></Relation>
+      <DxItem :title="$t('menu.history')" template="history" />
+      <History :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
+    </DxTabPanel>
   </div>
 </template>
 <script>
+import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
+import Relation from "~/components/paper-work/main-doc-form/relation";
+import History from "~/components/page/history.vue";
+import docVersion from "~/components/paper-work/main-doc-form/doc-version";
+import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
 import powerOfAttorney from "~/components/paper-work/power-of-attorney.vue";
 import memo from "~/components/paper-work/memo.vue";
 import addendum from "~/components/paper-work/addendum.vue";
@@ -57,7 +78,7 @@ import outgoingLetter from "~/components/paper-work/outgoing-letter.vue";
 import incommingLetter from "~/components/paper-work/incomming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
-import Toolbar from "~/components/paper-work/main-doc-form/toolbar-creating";
+import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DxForm, {
@@ -69,6 +90,12 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 export default {
   components: {
+    DxTabPanel,
+    DxItem,
+    Relation,
+    History,
+    docVersion,
+    docRegistration,
     powerOfAttorney,
     memo,
     addendum,
@@ -84,8 +111,13 @@ export default {
     incommingLetter
   },
   async asyncData({ app, params }) {
-    console.log(+params.id);
     await app.store.dispatch("currentDocument/getDocumentById", +params.id);
+  },
+  mounted() {
+    this.$store.commit(
+      "currentDocument/SET_FORM",
+      this.$refs["form"].instance.validate
+    );
   },
   data() {
     return {
@@ -113,9 +145,9 @@ export default {
   },
   methods: {
     handleSubmit(close) {
-      var res = this.$refs["form"].instance.validate();
-      if (!res.isValid) return;
-
+      // var res = this.$refs["form"].instance.validate();
+      // if (!res.isValid) return;
+      // this.$store.commit("SET_VALID", this.$refs["form"].instance);
       this.$awn.asyncBlock(
         this.$store.dispatch("currentDocument/createDocument"),
         res => {

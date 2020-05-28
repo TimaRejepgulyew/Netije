@@ -90,7 +90,7 @@ export default {
           url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0]
         }),
-
+        value: this.businessUnitId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
           this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);
@@ -111,7 +111,7 @@ export default {
             ["status", "=", 0]
           ]
         }),
-        value: this.$store.getters["currentDocument/document"].departmentId,
+        value: this.departmentId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
           this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);

@@ -4,7 +4,8 @@ import generateDocumentName from "~/infrastructure/services/documentNameGenerato
 import documentFactory from "~/infrastructure/factory/documentFactory.js";
 import dataApi from "~/static/dataApi";
 export const state = () => ({
-  currentDocument: {
+  form: null,
+  document: {
     name: null,
     subject: null,
     documentKind: {
@@ -27,8 +28,8 @@ export const state = () => ({
 });
 
 export const getters = {
-  document({ currentDocument }) {
-    return currentDocument;
+  document({ document }) {
+    return document;
   },
   canRegister({ canRegister, selectedDocumentNumberingType }) {
     return (
@@ -52,99 +53,135 @@ export const getters = {
   },
   isDataChanged({ isDataChanged }) {
     return isDataChanged;
+  },
+  registrationData({ document }) {
+    const regDate = {
+      documentId: document.id,
+      isCustomNumber: document.isCustomNumber,
+      registrationDate: document.registrationDate,
+      registrationNumber: document.registrationNumber,
+      documentRegisterId: document.documentRegisterId
+    };
+    console.log(regDate);
+    return regDate;
   }
 };
 export const mutations = {
-  SET_DOCUMENT(state, payload) {
-    state.currentDocument = payload;
-  },
   BIND_FIELDS(state, documentType) {
-    state.currentDocument = documentFactory(documentType);
+    state.document = documentFactory(documentType);
   },
   SET_DOCUMENT_KIND(state, payload) {
-    state.currentDocument.documentKind = payload;
+    state.document.documentKind = payload;
+    if (payload) state.document.documentKindId = payload.id;
+    else state.document.documentKindId = null;
   },
   SET_NAME(state, payload) {
-    state.currentDocument.name = payload;
+    state.document.name = payload;
   },
   SET_SUBJECT(state, payload) {
-    state.currentDocument.subject = payload;
+    state.document.subject = payload;
   },
   SET_NOTE(state, payload) {
-    state.currentDocument.note = payload;
+    state.document.note = payload;
   },
   SET_CORRESPONDENT(state, payload) {
-    state.currentDocument.correspondent = payload;
+    state.document.correspondent = payload;
   },
   SET_CONTACT_ID(state, payload) {
-    state.currentDocument.contactId = payload;
+    state.document.contactId = payload;
   },
   SET_COUNTERPART_SIGNATORY_ID(state, payload) {
-    state.currentDocument.counterpartySignatoryId = payload;
+    state.document.counterpartySignatoryId = payload;
   },
   SET_DELIVERY_METHOD_ID(state, payload) {
-    state.currentDocument.deliveryMethodId = payload;
+    state.document.deliveryMethodId = payload;
   },
   SET_BUSINESS_UNIT_ID(state, payload) {
-    state.currentDocument.businessUnitId = payload;
+    state.document.businessUnitId = payload;
   },
   SET_DEPARTMENT_ID(state, payload) {
-    state.currentDocument.departmentId = payload;
+    state.document.departmentId = payload;
   },
   SET_ADDRESSE_ID(state, payload) {
-    state.currentDocument.addresseeId = payload;
+    state.document.addresseeId = payload;
   },
   IN_RESPONSE_TO_ID(state, payload) {
-    state.currentDocument.inResponseToId = payload;
+    state.document.inResponseToId = payload;
   },
   SET_ADDRESSE_ID(state, payload) {
-    state.currentDocument.addresseeId = payload;
+    state.document.addresseeId = payload;
   },
   IN_NUMBER(state, payload) {
-    state.currentDocument.inNumber = payload;
+    state.document.inNumber = payload;
   },
   DATED(state, payload) {
-    state.currentDocument.dated = payload;
+    state.document.dated = payload;
   },
   CURRENT_URL(state, payload) {
     state.currentUrl = payload;
   },
-  SET_DOCUMENT_STATE(state, payload) {
+  SET_CASE_FILE_ID(state, payload) {
+    state.document.caseFileId = payload;
+  },
+  SET_PLACE_TO_CASE_FILE_DATE_ID(state, payload) {
+    state.document.placedToCaseFileDate = payload;
+  },
+  SET_DOCUMENT(state, payload) {
     for (let item in payload) {
       state[item] = payload[item];
     }
   },
   SET_OUR_SIGNATORY_ID(state, payload) {
-    state.currentDocument.ourSignatoryId = payload;
+    state.document.ourSignatoryId = payload;
+  },
+  SET_FORM(state, payload) {
+    state.form = payload;
   },
   SET_PREPARED_BY_ID(state, payload) {
-    state.currentDocument.preparedById = payload;
+    state.document.preparedById = payload;
   },
   SET_ASSIGNEE_ID(state, payload) {
-    state.currentDocument.assigneeId = payload;
+    state.document.assigneeId = payload;
   },
   SET_DOCUMENT_ID(state, payload) {
-    state.currentDocument.id = payload;
+    state.document.id = payload;
   },
   SET_LEADING_DOCUMENT_ID(state, payload) {
-    state.currentDocument.leadingDocumentId = payload;
+    state.document.leadingDocumentId = payload;
   },
   SET_ISSUED_TO_ID(state, payload) {
-    state.currentDocument.issuedToId = payload;
+    state.document.issuedToId = payload;
   },
   SET_VALID_TILL(state, payload) {
-    state.currentDocument.validTill = payload;
+    state.document.validTill = payload;
   },
   SET_DOCUMENT_TYPE(state, payload) {
-    state.currentDocument.documentType = payload;
+    state.document.documentType = payload;
+  },
+  SET_REGISTRATION_NUMBER(state, payload) {
+    state.document.registrationNumber = payload;
+  },
+  SET_REGISTRATION_DATE(state, payload) {
+    state.document.registrationDate = payload;
+  },
+  SET_DOCUMENT_REGISTER_ID(state, payload) {
+    state.document.documentRegisterId = payload;
   },
   DATA_CHANGED(state, payload) {
     state.isDataChanged = payload;
   }
 };
 export const actions = {
+  async save({ state }) {
+    console.log(state.form(),"dawdawd");
+    if (state.form().isValid)
+      await this.$axios.put(
+        state.currentUrl + state.document.id,
+        state.document
+      );
+  },
   async createDocument({ state, commit }) {
-    const document = state.currentDocument;
+    const document = state.document;
     document.documentKindId = document.documentKind.id;
     if (document.correspondent) {
       document.correspondentId = document.correspondent.id;
@@ -167,18 +204,35 @@ export const actions = {
     dispatch("reevaluateDocumentName");
   },
   reevaluateDocumentName({ state, commit }) {
-    if (state.currentDocument.documentKind) {
-      if (state.currentDocument.documentKind.generateDocumentName) {
-        const name = generateDocumentName(this, state.currentDocument);
+    if (state.document.documentKind) {
+      if (state.document.documentKind.generateDocumentName) {
+        const name = generateDocumentName(this, state.document);
         commit("SET_NAME", name);
       }
     }
   },
-  async getDocumentById({ dispatch, commit, state }, id) {
-    console.log(state.currentUrl);
-    const res = await this.$axios.get(dataApi.paperWork.GetDocumentById + id);
-    console.log(res.data);
-    commit("SET_DOCUMENT", res.data);
+  async getDocumentById({ commit, state }, id) {
+    const { data } = await this.$axios.get(
+      dataApi.paperWork.GetDocumentById + id
+    );
+    data.document.documentKind = {
+      id: data.document.documentKindId,
+      name: null
+    };
+
+    if (data.document.correspondentId) {
+      data.document.correspondent = {
+        id: data.document.correspondentId,
+        name: null
+      };
+    }
+    commit("SET_DOCUMENT", data);
+  },
+  async registration({ getters }, isCustomNumber) {
+    await this.$axios.post(
+      dataApi.documentRegistration.RegisterDocument,
+      getters["registrationData"]
+    );
   },
   async initNewDocument({ dispatch, commit }, documentType) {
     commit("BIND_FIELDS", documentType);
@@ -188,6 +242,5 @@ export const actions = {
     );
     commit("SET_DOCUMENT_KIND", defaultDocKind);
     commit("SET_DOCUMENT_TYPE", documentType);
-    dispatch("reevaluateDocumentName");
   }
 };

@@ -104,7 +104,8 @@ export default {
           context: this,
           url: dataApi.contragents.CounterPart
         }),
-
+        value: this.$store.getters["currentDocument/document"]
+          .counterpartySignatoryId,
         onSelectionChanged: e => {
           if (e.selectedItem) {
             this.isCompany = e.selectedItem.type != "Person";
@@ -127,7 +128,7 @@ export default {
           context: this,
           url: dataApi.docFlow.MailDeliveryMethod
         }),
-
+        value: this.$store.getters["currentDocument/document"].deliveryMethodId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_DELIVERY_METHOD_ID", e.value);
         }
@@ -139,7 +140,9 @@ export default {
       return this.$store.getters["currentDocument/document"];
     },
     correspondentId() {
-      return this.$store.getters["currentDocument/document"].correspondent.id;
+      return this.$store.getters["currentDocument/document"].correspondent
+        ? this.$store.getters["currentDocument/document"].correspondent.id
+        : null;
     },
     businessUnitId() {
       return this.$store.getters["currentDocument/document"].businessUnitId;
@@ -169,7 +172,7 @@ export default {
           url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0]
         }),
-
+        value: this.$store.getters["currentDocument/document"].businessUnitId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
           this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);
@@ -237,6 +240,7 @@ export default {
           context: this,
           url: dataApi.paperWork.IncommingLetter
         }),
+        value: this.$store.getters["currentDocument/document"].inResponseToId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", e.value);
         }

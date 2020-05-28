@@ -2,7 +2,6 @@
   <DxForm
     :visible="$store.getters['currentDocument/isRegistrable']"
     :col-count="1"
-    :form-data.sync="store"
     :read-only="readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
@@ -10,11 +9,10 @@
   >
     <DxGroupItem :col-count="1">
       <DxGroupItem
-
         :visible="isRegistrationInfoVisible"
         :caption="$t('translations.fields.registration')"
       >
-        <DxSimpleItem data-field="registrationNumber" :editor-options="numberOptions">
+        <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
           <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
         </DxSimpleItem>
 
@@ -28,7 +26,7 @@
 
         <DxSimpleItem
           data-field="registrationDate"
-          :editor-options="dateOptions"
+          :editor-options="registrationDateOptions"
           editor-type="dxDateBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.registrationDate')" />
@@ -55,63 +53,20 @@
   </DxForm>
 </template>
 <script>
-import "devextreme-vue/text-area";
-import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
-  DxRangeRule,
-  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-
 export default {
   components: {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule,
-    DxRangeRule,
     DxForm,
-    DxAsyncRule
   },
-  props: ["docType", "properties"],
-  created() {
-    this.$store.commit("paper-work/SET_REG_PROPERTIES", {
-      documentRegisterId: this.store.documentRegisterId,
-      registrationDate: this.store.registrationDate,
-      registrationNumber: this.store.registrationNumber
-    });
-  },
-  data(context) {
-    let {
-      name,
-      subject,
-      documentKindId,
-      note,
-      placedToCaseFileDate,
-      caseFileId,
-      documentRegisterId,
-      registrationDate,
-      registrationNumber
-    } = context.properties;
 
-    this.$store.dispatch("paper-work/setMainFormProperties", {
-      caseFileId,
-      placedToCaseFileDate
-    });
-    return {
-      store: {
-        placedToCaseFileDate,
-        caseFileId,
-        documentRegisterId,
-        registrationDate,
-        registrationNumber
-      }
-    };
-  },
   methods: {
     modified() {
       this.$store.commit("currentDocument/DATA_CHANGED", true);
@@ -119,52 +74,50 @@ export default {
   },
   computed: {
     isRegistrationInfoVisible() {
-      return (
-        this.$store.getters["currentDocument/isRegistered"] &&
-        this.$route.params.id != "add"
-      );
-    },
-    isUpdating() {
-      return this.$route.params.id !== "add";
+      return this.$store.getters["currentDocument/isRegistered"];
     },
     readOnly() {
       return this.$store.getters["currentDocument/readOnly"];
     },
-    hasPermission() {
-      if (this.$route.params.id != "add") {
-        this.store = {
-          ...this.store,
-          ...this.$store.getters["paper-work/regProperties"]
-        };
-      }
-      return this.$store.getters["paper-work/hasPermissions"];
-    },
     placedToCaseFileDateOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
+        value: this.$store.getters["currentDocument/document"]
+          .placedToCaseFileDate,
         onValueChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            placedToCaseFileDate: e.value
-          });
-          this.modified();
+          this.$store.commit(
+            "currentDocument/SET_PLACE_TO_CASE_FILE_DATE_ID",
+            e.value
+          );
         }
       };
     },
-    numberOptions() {
+    registrationNumberOptions() {
       return {
-        disabled: true
+        disabled: true,
+        value: this.$store.getters["currentDocument/document"]
+          .registrationNumberOptions
       };
     },
-    dateOptions() {
+    registrationDateOptions() {
       return {
-        disabled: true
+        disabled: true,
+        value: this.$store.getters["currentDocument/document"]
+          .registrationDateOptions
       };
     },
     documentRegisterOptions() {
-      return this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.docFlow.DocumentRegistry,
-        disabled: true
-      });
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.docFlow.DocumentRegistry,
+          disabled: true
+        }),
+        value: this.$store.getters["currentDocument/document"]
+          .documentRegisterId
+      };
     },
     caseFileOptions() {
       return {
@@ -174,11 +127,9 @@ export default {
           filter: ["status", "=", 0],
           value: "title"
         }),
+        value: this.$store.getters["currentDocument/document"].caseFileId,
         onValueChanged: e => {
-          this.$store.dispatch("paper-work/setMainFormProperties", {
-            caseFileId: e.value
-          });
-          this.modified();
+          this.$store.commit("currentDocument/SET_CASE_FILE_ID", e.value);
         }
       };
     }
