@@ -14,7 +14,10 @@
       <DxItem :options="createAddendumOptions" location="before" widget="dxButton" />
       <DxItem template="accessRightButton" location="after" />
       <template #accessRightButton>
-        <access-right :entity-type="entityType" :entity-id="+$route.params.id" />
+        <access-right
+          :entity-type="entityType"
+          :entity-id="$store.getters['currentDocument/document'].id"
+        />
       </template>
       <template #registrationButton>
         <document-registration-btn />
@@ -130,7 +133,8 @@ export default {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$axios.delete(
-                  dataApi.paperWork.DeleteDocument + this.$route.params.id
+                  dataApi.paperWork.DeleteDocument +
+                    this.$store.getters["currentDocument/document"].id
                 ),
                 e => {
                   this.$router.go(-1);

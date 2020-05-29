@@ -79,7 +79,9 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.paperWork.Version + this.$route.params.id
+          loadUrl:
+            dataApi.paperWork.Version +
+            this.$store.getters["currentDocument/document"].id
         }),
         sort: [{ selector: "number", desc: true }]
       }),
@@ -106,7 +108,10 @@ export default {
     uploadVersionFromFile(e) {
       let formData = new FormData();
       formData.append("file", e.file);
-      formData.append("documentId", +this.$route.params.id);
+      formData.append(
+        "documentId",
+        +this.$store.getters["currentDocument/document"].id
+      );
       this.$awn.async(
         this.$axios.post(dataApi.paperWork.CreateVersionFromFile, formData, {
           headers: {

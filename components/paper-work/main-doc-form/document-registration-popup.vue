@@ -102,7 +102,7 @@ export default {
         disabled: false,
         onValueChanged: e => {
           this.isCustomNumber = e.value;
-          this.getDataByFilter;
+          this.getDataByFilter();
         }
       };
     },
@@ -129,7 +129,6 @@ export default {
       return {
         value: this.registrationDate,
         onValueChanged: e => {
-          
           this.$store.commit("currentDocument/SET_REGISTRATION_DATE", e.value);
           this.getDataByFilter();
         }
@@ -161,12 +160,16 @@ export default {
       };
     },
     documentId() {
-      return +this.$route.params.id;
+      return this.$store.getters["currentDocument/document"].id;
     }
   },
   methods: {
     async getDataByFilter() {
-      if (this.registrationDate && this.documentRegisterId) {
+      if (
+        this.registrationDate &&
+        this.documentRegisterId &&
+        !this.isCustomNumber
+      ) {
         const res = await this.$axios.get(
           dataApi.documentRegistration.PreliminaryNumber + this.filter
         );
@@ -186,7 +189,7 @@ export default {
           this.isCustomNumber
         ),
         res => {
-          // this.$router.go();
+          this.$emit("hidePopup");
           this.$awn.success();
         },
         err => this.$awn.alert()

@@ -32,7 +32,8 @@ export default {
     const { data } = await this.getData(dataApi.company.Employee);
     this.employee = data;
     this.store = await this.getData(
-      dataApi.paperWork.Relation + this.$route.params.id
+      dataApi.paperWork.Relation +
+        this.$store.getters["currentDocument/document"].id
     );
   },
   data() {

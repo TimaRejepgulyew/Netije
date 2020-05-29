@@ -110,8 +110,22 @@ export default {
     DxForm,
     incommingLetter
   },
-  async asyncData({ app, params }) {
-    await app.store.dispatch("currentDocument/getDocumentById", +params.id);
+  async asyncData({ app, params, query, router }) {
+    if (params.id == "create") {
+      await app.store.dispatch("currentDocument/initNewDocument", +params.type);
+      app.router.replace(
+        `/paper-work/detail/${+params.type}/${
+          app.store.getters["currentDocument/document"].id
+        }?created=true`
+      );
+    } else {
+      if (!query.created) {
+        await app.store.dispatch("currentDocument/getDocumentById", {
+          type: +params.type,
+          id: +params.id
+        });
+      }
+    }
   },
   data() {
     return {
@@ -141,52 +155,19 @@ export default {
     formByTypeGuid() {
       switch (+this.$route.params.type) {
         case DocumentTypeGuid.IncomingLetter:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.IncommingLetterPut
-          );
           return "incomming-letter";
         case DocumentTypeGuid.OutgoingLetter:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.OutgoingLetterPut
-          );
           return "outgoing-letter";
         case DocumentTypeGuid.Order:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.OrderPut
-          );
-          return "order-base";
         case DocumentTypeGuid.CompanyDirective:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.CompanyDirectivePut
-          );
           return "order-base";
         case DocumentTypeGuid.SimpleDocument:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.SimpleDocumentPut
-          );
           return "simple-document";
         case DocumentTypeGuid.Addendum:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.AddendumPut
-          );
           return "addendum";
         case DocumentTypeGuid.Memo:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.MemoPut
-          );
           return "memo";
         case DocumentTypeGuid.PowerOfAttorney:
-          this.$store.commit(
-            "currentDocument/CURRENT_URL",
-            dataApi.paperWork.PowerOfAttorneyPut
-          );
           return "power-of-attorney";
       }
     },

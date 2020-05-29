@@ -34,46 +34,50 @@ export function TaskButtons(context) {
 }
 
 export function DocumentButtons(context) {
+  function generateUrl(typeGuid) {
+    return `/paper-work/detail/${typeGuid}/create`;
+  }
+
   return [
     {
       icon: "plus",
       text: context.$t("translations.headers.incommingLetter"),
-      path: `/paper-work/create/${DocumentType.IncommingDocument}`
+      path: generateUrl(DocumentType.IncommingDocument)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.outgoingLetter"),
-      path: `/paper-work/create/${DocumentType.OutgoingDocument}`
+      path: generateUrl(DocumentType.OutgoingDocument)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.order"),
-      path: `/paper-work/create/${DocumentType.Order}`
+      path: generateUrl(DocumentType.Order)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.companyDirective"),
-      path: `/paper-work/create/${DocumentType.CompanyDirective}`
+      path: generateUrl(DocumentType.CompanyDirective)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.simpleDocument"),
-      path: `/paper-work/create/${DocumentType.SimpleDocument}`
+      path: generateUrl(DocumentType.SimpleDocument)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.addendum"),
-      path: `/paper-work/create/${DocumentType.Addendum}`
+      path: generateUrl(DocumentType.Addendum)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.memo"),
-      path: `/paper-work/create/${DocumentType.Memo}`
+      path: generateUrl(DocumentType.Memo)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.powerOfAttorney"),
-      path: `/paper-work/create/${DocumentType.PowerOfAttorney}`
+      path: generateUrl(DocumentType.PowerOfAttorney)
     }
   ];
 }

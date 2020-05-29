@@ -8,6 +8,7 @@ export const state = () => ({
   document: {
     name: null,
     subject: null,
+    documentKindId: null,
     documentKind: {
       autoNumbering: false,
       id: null,
@@ -17,7 +18,6 @@ export const state = () => ({
       numberingType: null
     }
   },
-  currentUrl: null,
   isDataChanged: false,
   readOnly: false,
   canUpdate: false,
@@ -60,14 +60,17 @@ export const getters = {
       isCustomNumber: document.isCustomNumber,
       registrationDate: document.registrationDate,
       registrationNumber: document.registrationNumber,
-      documentRegisterId: document.documentRegisterId
+      documentRegisterId: document.documentRegisterId,
+      documentTypeGuid: document.documentTypeGuid
     };
     return regDate;
   }
 };
 export const mutations = {
-  BIND_FIELDS(state, documentType) {
-    state.document = documentFactory(documentType);
+  CLAER_REGISTRATION_DATA(state) {
+    state.documentRegisterId = null;
+    state.document.registrationData = null;
+    state.document.registrationNumber = null;
   },
   SET_DOCUMENT_KIND(state, payload) {
     state.document.documentKind = payload;
@@ -85,6 +88,7 @@ export const mutations = {
   },
   SET_CORRESPONDENT(state, payload) {
     state.document.correspondent = payload;
+    state.document.correspondentId = payload.id;
   },
   SET_CONTACT_ID(state, payload) {
     state.document.contactId = payload;
@@ -116,9 +120,7 @@ export const mutations = {
   DATED(state, payload) {
     state.document.dated = payload;
   },
-  CURRENT_URL(state, payload) {
-    state.currentUrl = payload;
-  },
+
   SET_CASE_FILE_ID(state, payload) {
     state.document.caseFileId = payload;
   },
@@ -139,9 +141,6 @@ export const mutations = {
   SET_ASSIGNEE_ID(state, payload) {
     state.document.assigneeId = payload;
   },
-  SET_DOCUMENT_ID(state, payload) {
-    state.document.id = payload;
-  },
   SET_LEADING_DOCUMENT_ID(state, payload) {
     state.document.leadingDocumentId = payload;
   },
@@ -150,9 +149,6 @@ export const mutations = {
   },
   SET_VALID_TILL(state, payload) {
     state.document.validTill = payload;
-  },
-  SET_DOCUMENT_TYPE(state, payload) {
-    state.document.documentType = payload;
   },
   SET_REGISTRATION_NUMBER(state, payload) {
     state.document.registrationNumber = payload;
@@ -172,16 +168,11 @@ export const mutations = {
 };
 export const actions = {
   async save({ state }) {
-    await this.$axios.put(state.currentUrl + state.document.id, state.document);
-  },
-  async createDocument({ state, commit }) {
-    const document = state.document;
-    document.documentKindId = document.documentKind.id;
-    if (document.correspondent) {
-      document.correspondentId = document.correspondent.id;
-    }
-    const res = await this.$axios.post(state.currentUrl, document);
-    commit("SET_DOCUMENT_ID", res.data);
+    const document = JSON.stringify(state.document);
+    await this.$axios.put(dataApi.paperWork.Documents + state.document.id, {
+      documentJson: document,
+      documentTypeGuid: state.document.documentTypeGuid
+    });
   },
   setDocumentKind({ commit, dispatch }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
@@ -193,6 +184,7 @@ export const actions = {
     dispatch("reevaluateDocumentName");
   },
   setCorrespondent({ commit, dispatch }, payload) {
+   
     if (!payload) payload = { name: null, id: null };
     commit("SET_CORRESPONDENT", payload);
     dispatch("reevaluateDocumentName");
@@ -205,9 +197,9 @@ export const actions = {
       }
     }
   },
-  async getDocumentById({ commit, state }, id) {
+  async getDocumentById({ commit, state }, { type, id }) {
     const { data } = await this.$axios.get(
-      dataApi.paperWork.GetDocumentById + id
+      dataApi.paperWork.Documents + `${type}/${id}`
     );
     data.document.documentKind = {
       id: data.document.documentKindId,
@@ -223,19 +215,34 @@ export const actions = {
     commit("IS_REGISTERED", data.document.registrationState);
     commit("SET_DOCUMENT", data);
   },
-  async registration({ getters }, isCustomNumber) {
-    await this.$axios.post(
+  async registration({ state, getters, dispatch, commit }, isCustomNumber) {
+    const res = await this.$axios.post(
       dataApi.documentRegistration.RegisterDocument,
       getters["registrationData"]
     );
+    await dispatch("getDocumentById", state.document.id);
+  },
+  async unRegister({ dispatch, state }) {
+    await this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
+      documentId: state.document.id
+    });
+    await dispatch("getDocumentById", state.document.id);
   },
   async initNewDocument({ dispatch, commit }, documentType) {
-    commit("BIND_FIELDS", documentType);
-    const defaultDocKind = await docmentKindService.getDefaultDocumentKind(
-      this,
+    const { data } = await this.$axios.post(dataApi.paperWork.Documents, {
       documentType
-    );
-    commit("SET_DOCUMENT_KIND", defaultDocKind);
-    commit("SET_DOCUMENT_TYPE", documentType);
+    });
+    console.log(data);
+    data.document.documentKind = {
+      id: data.document.documentKindId,
+      name: null
+    };
+
+    data.document.correspondent = {
+      id: data.document.correspondentId,
+      name: null
+    };
+
+    commit("SET_DOCUMENT", data);
   }
 };

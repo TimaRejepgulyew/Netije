@@ -101,15 +101,15 @@ export default {
     DxList,
     DxButton
   },
-  props: ["entityType","entityId"],
+  props: ["entityType", "entityId"],
   async created() {
-      this.$awn.asyncBlock(
-        this.$axios.get(dataApi.accessRights.ForDocument + this.entityId),
-        res => {
-          this.accessRight = res.data;
-        },
-        () => this.$awn.alert()
-      );
+    this.$awn.asyncBlock(
+      this.$axios.get(dataApi.accessRights.ForDocument + this.entityId),
+      res => {
+        this.accessRight = res.data;
+      },
+      () => this.$awn.alert()
+    );
   },
   data() {
     return {
@@ -136,7 +136,9 @@ export default {
       }
     },
     async load() {
-      const { data } = await this.$axios.get(dataApi.accessRights.ForDocument + this.entityId);
+      const { data } = await this.$axios.get(
+        dataApi.accessRights.ForDocument + this.entityId
+      );
       this.accessRight = data;
     },
     nullify() {
@@ -148,7 +150,7 @@ export default {
     addRecipient() {
       const recipient = {
         ...this.newRecipient,
-        documentId: +this.$route.params.id
+        documentId: +this.entityId
       };
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.accessRights.AddRecipient, recipient),
