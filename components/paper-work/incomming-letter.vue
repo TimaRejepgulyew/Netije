@@ -149,9 +149,7 @@ export default {
       };
     },
     correspondentId() {
-      return this.$store.getters["currentDocument/document"].correspondent
-        ? this.$store.getters["currentDocument/document"].correspondent.id
-        : null;
+      return this.$store.getters["currentDocument/document"].correspondentId;
     },
     departmentId() {
       return this.$store.getters["currentDocument/document"].departmentId;

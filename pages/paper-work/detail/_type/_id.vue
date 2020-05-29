@@ -111,21 +111,17 @@ export default {
     incommingLetter
   },
   async asyncData({ app, params, query, router }) {
-    if (params.id == "create") {
-      await app.store.dispatch("currentDocument/initNewDocument", +params.type);
-      app.router.replace(
-        `/paper-work/detail/${+params.type}/${
-          app.store.getters["currentDocument/document"].id
-        }?created=true`
-      );
+    if (query.id != "null") {
+      await app.store.dispatch("currentDocument/getDocumentById", {
+        type: +params.type,
+        id: +query.id
+      });
     } else {
-      if (!query.created) {
-        await app.store.dispatch("currentDocument/getDocumentById", {
-          type: +params.type,
-          id: +params.id
-        });
-      }
+      await app.store.dispatch("currentDocument/initNewDocument", +params.type);
     }
+  },
+  created() {
+   
   },
   data() {
     return {

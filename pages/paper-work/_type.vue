@@ -130,7 +130,7 @@ export default {
       }),
       openDocument: e => {
         this.$router.push(
-          `/paper-work/detail/${e.data.documentTypeGuid}/${e.key}`
+          `/paper-work/detail/${e.data.documentTypeGuid}?id=${e.key}`
         );
       }
     };

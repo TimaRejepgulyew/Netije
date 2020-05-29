@@ -81,7 +81,7 @@ export default {
           key: "id",
           loadUrl:
             dataApi.paperWork.Version +
-            this.$store.getters["currentDocument/document"].id
+            `${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`
         }),
         sort: [{ selector: "number", desc: true }]
       }),
@@ -113,11 +113,16 @@ export default {
         +this.$store.getters["currentDocument/document"].id
       );
       this.$awn.async(
-        this.$axios.post(dataApi.paperWork.CreateVersionFromFile, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
+        this.$axios.post(
+          dataApi.paperWork.CreateVersionFromFile +
+            this.$store.getters["currentDocument/document"].documentTypeGuid,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
           }
-        }),
+        ),
         version => {
           this.$refs["fileUploader"].instance.reset();
           this.$awn.success();

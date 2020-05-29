@@ -76,6 +76,7 @@ export default {
             this.$awn.asyncBlock(
               this.$store.dispatch("currentDocument/save"),
               res => {
+                
                 this.$awn.success();
               },
               e => {

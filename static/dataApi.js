@@ -62,10 +62,9 @@ export default {
     DownloadLastVersion: `${url}/api/OfficialDocument/Version/DownloadLastVersion/`,
     PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
     Relation: `${url}/api/OfficialDocument/Relations/`,
-    CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile`,
+    CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile/`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
-    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`,
-    
+    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`
   },
 
   task: {

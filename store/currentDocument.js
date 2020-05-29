@@ -151,7 +151,7 @@ export const mutations = {
     state.document.validTill = payload;
   },
   SET_REGISTRATION_NUMBER(state, payload) {
-    state.document.registrationNumber = payload;
+    state.document.registrationNumber = "" + payload;
   },
   SET_REGISTRATION_DATE(state, payload) {
     state.document.registrationDate = payload;
@@ -167,7 +167,7 @@ export const mutations = {
   }
 };
 export const actions = {
-  async save({ state }) {
+  async save({ getters, state }) {
     const document = JSON.stringify(state.document);
     await this.$axios.put(dataApi.paperWork.Documents + state.document.id, {
       documentJson: document,
@@ -184,7 +184,6 @@ export const actions = {
     dispatch("reevaluateDocumentName");
   },
   setCorrespondent({ commit, dispatch }, payload) {
-   
     if (!payload) payload = { name: null, id: null };
     commit("SET_CORRESPONDENT", payload);
     dispatch("reevaluateDocumentName");
@@ -220,13 +219,20 @@ export const actions = {
       dataApi.documentRegistration.RegisterDocument,
       getters["registrationData"]
     );
-    await dispatch("getDocumentById", state.document.id);
+    await dispatch("getDocumentById", {
+      type: state.document.documentTypeGuid,
+      id: state.document.id
+    });
   },
   async unRegister({ dispatch, state }) {
     await this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
+      documentTypeGuid: state.document.documentTypeGuid,
       documentId: state.document.id
     });
-    await dispatch("getDocumentById", state.document.id);
+    await dispatch("getDocumentById", {
+      type: state.document.documentTypeGuid,
+      id: state.document.id
+    });
   },
   async initNewDocument({ dispatch, commit }, documentType) {
     const { data } = await this.$axios.post(dataApi.paperWork.Documents, {

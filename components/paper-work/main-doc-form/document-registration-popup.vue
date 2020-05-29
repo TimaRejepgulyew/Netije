@@ -175,14 +175,12 @@ export default {
         );
         this.$store.commit(
           "currentDocument/SET_REGISTRATION_NUMBER",
-          +res.data.preliminaryNumber
+          res.data.preliminaryNumber
         );
         this.registrationNumberPattern = res.data.pattern;
       }
     },
     handleSubmit() {
-      this.documentId = +this.documentId;
-
       this.$awn.asyncBlock(
         this.$store.dispatch(
           "currentDocument/registration",
