@@ -1,7 +1,6 @@
 <template>
   <label for="search-panel">
     <DxAutocomplete
-     
       width="20vw"
       id="search-panel"
       :data-source="documents"
@@ -40,9 +39,7 @@ export default {
     openDocument(e) {
       if (e.selectedItem !== null && typeof e.selectedItem !== "string") {
         this.$router.push(
-          `/paper-work/${routegenerator.generateRouteByTypeGuid(
-            e.selectedItem.documentTypeGuid
-          )}/${e.selectedItem.id}`
+          `/paper-work/detail/${e.selectedItem.documentTypeGuid}/${e.selectedItem.id}`
         );
       }
     }
@@ -51,5 +48,4 @@ export default {
 </script>
 
 <style>
-
 </style>

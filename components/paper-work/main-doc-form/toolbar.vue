@@ -11,15 +11,13 @@
         location="after"
         widget="dxButton"
       />
-      <DxItem
-        :visible="isUpdating"
-        :options="createAddendumOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem template="accessRightButton" v-if="isUpdating" location="after" />
+      <DxItem :options="createAddendumOptions" location="before" widget="dxButton" />
+      <DxItem template="accessRightButton" location="after" />
       <template #accessRightButton>
-        <access-right :entity-type="entityType" :entity-id="documentId" />
+        <access-right
+          :entity-type="entityType"
+          :entity-id="$store.getters['currentDocument/document'].id"
+        />
       </template>
       <template #registrationButton>
         <document-registration-btn />
@@ -28,6 +26,7 @@
   </div>
 </template>
 <script>
+import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
 import accessRight from "~/components/page/access-right.vue";
@@ -55,21 +54,11 @@ export default {
     };
   },
   computed: {
-    documentId() {
-      //TODO:Fix this
-      return this.$route.params.id;
-    },
     entityType() {
       return EntityType.ElectroonicDocument;
     },
-    isUpdating() {
-      return this.$route.params.id !== "add";
-    },
     canUpdate() {
-      return (
-        this.$store.getters["currentDocument/canUpdate"] &&
-        this.$store.getters["currentDocument/isDataChanged"]
-      );
+      return this.$store.getters["currentDocument/canUpdate"];
     },
     canRegister() {
       return this.$store.getters["currentDocument/canRegister"];
@@ -81,9 +70,19 @@ export default {
       return {
         icon: "save",
         type: "success",
-        disabled: !this.canUpdate,
+
         onClick: () => {
-          this.$emit("saveChanges");
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentDocument/save"),
+              res => {
+                
+                this.$awn.success();
+              },
+              e => {
+                this.$awn.alert();
+              }
+            );
         }
       };
     },
@@ -94,7 +93,17 @@ export default {
         text: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate,
         onClick: () => {
-          this.$emit("saveChanges", true);
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentDocument/save"),
+              res => {
+                this.$awn.success();
+                this.$router.go(-1);
+              },
+              e => {
+                this.$awn.alert();
+              }
+            );
         }
       };
     },
@@ -105,8 +114,8 @@ export default {
         text: this.$t("buttons.createAddendum"),
         onClick: () => {
           this.$router.push({
-            path: "/paper-work/addendum/add",
-            query: { leandingDocument: this.$route.params.id }
+            path: `/paper-work/create/${DocumentTypeGuid.Addendum}`,
+            query: { leadingDocument: this.$route.params.id }
           });
         }
       };
@@ -125,7 +134,8 @@ export default {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$axios.delete(
-                  dataApi.paperWork.DeleteDocument + this.$route.params.id
+                  dataApi.paperWork.DeleteDocument +
+                    this.$store.getters["currentDocument/document"].id
                 ),
                 e => {
                   this.$router.go(-1);

@@ -21,7 +21,6 @@
     ></DxButton>
     <DxButton
       v-else
-      :disabled="isDataChanged"
       :text="$t('translations.fields.registration')"
       icon="check"
       :onClick="register"
@@ -52,9 +51,27 @@ export default {
   methods: {
     hidePopup() {
       this.isDocumentRegistrationPopupOpen = false;
+      this.$store.commit("currentDocument/CLAER_REGISTRATION_DATA");
     },
     register() {
-      this.isDocumentRegistrationPopupOpen = true;
+      if (!this.isDataChanged) {
+        if (
+          this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate()
+            .isValid
+        )
+          this.$awn.asyncBlock(
+            this.$store.dispatch("currentDocument/save"),
+            res => {
+              this.$awn.success();
+              this.isDocumentRegistrationPopupOpen = true;
+            },
+            e => {
+              this.$awn.alert();
+            }
+          );
+      } else {
+        this.isDocumentRegistrationPopupOpen = true;
+      }
     },
     unRegister() {
       let result = confirm(
@@ -64,11 +81,8 @@ export default {
       result.then(dialogResult => {
         if (dialogResult) {
           this.$awn.asyncBlock(
-            this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
-              documentId: +this.$route.params.id
-            }),
+            this.$store.dispatch("currentDocument/unRegister"),
             res => {
-              this.$router.go();
               this.$awn.success();
             },
             err => {
@@ -95,6 +109,13 @@ export default {
 
         case Docflow.Internal:
           return EntityType.InternalDocument;
+      }
+    }
+  },
+  watch: {
+    isDocumentRegistrationPopupOpen: function(value) {
+      if (!value) {
+        this.hidePopup();
       }
     }
   }

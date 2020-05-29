@@ -10,13 +10,17 @@ export default {
   },
   downloadDocument(document, context) {
     download(
-      dataApi.paperWork.DownloadLastVersion + document.id,
+      `${dataApi.paperWork.DownloadLastVersion}${document.documentTypeGuid}/${document.id}`,
       document,
       context
     );
   },
-  downloadVersion(version, context) {
-    download(dataApi.paperWork.DownloadVersion + version.id, version, context);
+  downloadVersion(document,version, context) {
+    download(
+      `${dataApi.paperWork.DownloadLastVersion}${document.documentTypeGuid}/${document.id}/${version.id}`,
+      version,
+      context
+    );
   }
 };
 

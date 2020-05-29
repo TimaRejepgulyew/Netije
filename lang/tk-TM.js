@@ -100,7 +100,7 @@ export default {
     }
   }, //TODO TRANSLATE
   menu: {
-    history:"История",
+    history: "История",
     group: "Toparlar",
     all: "Hemmesi",
     allDocument: "Все докуменÄhli resminamalar",
@@ -113,7 +113,7 @@ export default {
     "shared-directory": "Umumy gollanmalar",
     "document-circulation": "Resminama dolanyşygy",
     "company-structure": "Kompaniýanyň gurluşy",
-    contractors: "Kompaniýanyň gurluşy",
+    contractors: "Kontragentler",
     paperwork: "Iş dolandyryş",
     docFlow: "Resminama dolanyşygy",
     inbox: "Giriş",
@@ -126,7 +126,7 @@ export default {
     banks: "Banklar",
     person: "Fiziki şahslar",
     jobTitle: "Wezipeler",
-    assignments: "Ýönekeý wezipeler",
+    assignments: "Tabşyryklar",
     task: "Wezipeler",
     simpleTask: "Ýönekeý wezipeler",
     businessUnit: "Guramalar",

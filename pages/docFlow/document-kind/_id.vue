@@ -76,7 +76,11 @@
           >
             <DxLabel location="top" :text="$t('translations.fields.status')" />
           </DxSimpleItem>
-          <DxSimpleItem data-field="generateDocumentName" editor-type="dxCheckBox">
+          <DxSimpleItem
+            data-field="generateDocumentName"
+            :editor-options="generateDocumentNameOptions"
+            editor-type="dxCheckBox"
+          >
             <DxLabel
               location="top"
               alignment="left"
@@ -96,11 +100,7 @@
             />
           </DxSimpleItem>
 
-          <DxSimpleItem
-            data-field="note"
-            :col-span="2"
-            editor-type="dxTextArea"
-          >
+          <DxSimpleItem data-field="note" :col-span="2" editor-type="dxTextArea">
             <DxLabel location="top" :text="$t('translations.fields.note')" />
           </DxSimpleItem>
         </DxGroupItem>
@@ -179,6 +179,11 @@ export default {
         dataSource: this.$store.getters["status/status"](this)
       };
     },
+    generateDocumentNameOptions() {
+      return {
+        disabled: this.documentKind.hasDocuments
+      };
+    },
     numberingTypeOptions() {
       return {
         dataSource: this.$store.getters["docflow/numberingType"](this),
@@ -230,7 +235,7 @@ export default {
       };
     },
     isNumerable() {
-     if (this.documentKind.numberingType == NumberingType.Numerable) {
+      if (this.documentKind.numberingType == NumberingType.Numerable) {
         return true;
       } else {
         this.documentKind.autoNumbering = false;
