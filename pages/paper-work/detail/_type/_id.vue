@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header headerTitle="headerTitle"></Header>
-    <toolbar @saveChanges="handleSubmit"></toolbar>
+    <toolbar></toolbar>
     <DxTabPanel :focus-state-enabled="false" class="tab-bar">
       <DxItem :title="$t('menu.mainInfo')" template="document-form" />
       <DxForm
@@ -113,12 +113,6 @@ export default {
   async asyncData({ app, params }) {
     await app.store.dispatch("currentDocument/getDocumentById", +params.id);
   },
-  mounted() {
-    this.$store.commit(
-      "currentDocument/SET_FORM",
-      this.$refs["form"].instance.validate
-    );
-  },
   data() {
     return {
       entityTypeGuid: EntityTypes.ElectroonicDocument,
@@ -142,29 +136,6 @@ export default {
         }
       }
     };
-  },
-  methods: {
-    handleSubmit(close) {
-      // var res = this.$refs["form"].instance.validate();
-      // if (!res.isValid) return;
-      // this.$store.commit("SET_VALID", this.$refs["form"].instance);
-      this.$awn.asyncBlock(
-        this.$store.dispatch("currentDocument/createDocument"),
-        res => {
-          this.$awn.success();
-          if (close) this.$router.go(-1);
-          else
-            this.$router.push(
-              `/paper-work/detail/${+this.$route.params.type}/${
-                this.$store.getters["currentDocument/document"].id
-              }`
-            );
-        },
-        e => {
-          this.$awn.alert();
-        }
-      );
-    }
   },
   computed: {
     formByTypeGuid() {

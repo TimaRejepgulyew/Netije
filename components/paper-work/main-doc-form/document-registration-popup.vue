@@ -1,5 +1,5 @@
 <template>
-  <form @submit="handleSubmit">
+  <form @submit.prevent="handleSubmit">
     <DxForm :read-only="false" :show-colon-after-label="true" :show-validation-summary="true">
       <DxSimpleItem
         data-field="isCustomNumber"
@@ -129,6 +129,7 @@ export default {
       return {
         value: this.registrationDate,
         onValueChanged: e => {
+          
           this.$store.commit("currentDocument/SET_REGISTRATION_DATE", e.value);
           this.getDataByFilter();
         }
@@ -176,20 +177,20 @@ export default {
         this.registrationNumberPattern = res.data.pattern;
       }
     },
-    handleSubmit(e) {
+    handleSubmit() {
       this.documentId = +this.documentId;
+
       this.$awn.asyncBlock(
         this.$store.dispatch(
           "currentDocument/registration",
           this.isCustomNumber
         ),
         res => {
-          this.$router.go();
+          // this.$router.go();
           this.$awn.success();
         },
         err => this.$awn.alert()
       );
-      e.preventDefault();
     }
   }
 };

@@ -3,8 +3,8 @@ import docmentKindService from "~/infrastructure/services/documentKind.js";
 import generateDocumentName from "~/infrastructure/services/documentNameGenerator";
 import documentFactory from "~/infrastructure/factory/documentFactory.js";
 import dataApi from "~/static/dataApi";
+import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 export const state = () => ({
-  form: null,
   document: {
     name: null,
     subject: null,
@@ -62,7 +62,6 @@ export const getters = {
       registrationNumber: document.registrationNumber,
       documentRegisterId: document.documentRegisterId
     };
-    console.log(regDate);
     return regDate;
   }
 };
@@ -134,9 +133,6 @@ export const mutations = {
   SET_OUR_SIGNATORY_ID(state, payload) {
     state.document.ourSignatoryId = payload;
   },
-  SET_FORM(state, payload) {
-    state.form = payload;
-  },
   SET_PREPARED_BY_ID(state, payload) {
     state.document.preparedById = payload;
   },
@@ -167,18 +163,16 @@ export const mutations = {
   SET_DOCUMENT_REGISTER_ID(state, payload) {
     state.document.documentRegisterId = payload;
   },
+  IS_REGISTERED(state, payload) {
+    state.isRegistered = payload === RegistrationState.Registered;
+  },
   DATA_CHANGED(state, payload) {
     state.isDataChanged = payload;
   }
 };
 export const actions = {
   async save({ state }) {
-    console.log(state.form(),"dawdawd");
-    if (state.form().isValid)
-      await this.$axios.put(
-        state.currentUrl + state.document.id,
-        state.document
-      );
+    await this.$axios.put(state.currentUrl + state.document.id, state.document);
   },
   async createDocument({ state, commit }) {
     const document = state.document;
@@ -226,6 +220,7 @@ export const actions = {
         name: null
       };
     }
+    commit("IS_REGISTERED", data.document.registrationState);
     commit("SET_DOCUMENT", data);
   },
   async registration({ getters }, isCustomNumber) {

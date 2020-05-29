@@ -55,10 +55,7 @@ export default {
       return EntityType.ElectroonicDocument;
     },
     canUpdate() {
-      return (
-        this.$store.getters["currentDocument/canUpdate"] &&
-        this.$store.getters["currentDocument/isDataChanged"]
-      );
+      return this.$store.getters["currentDocument/canUpdate"];
     },
     canRegister() {
       return this.$store.getters["currentDocument/canRegister"];
@@ -71,23 +68,17 @@ export default {
         icon: "save",
         type: "success",
 
-        onClick: async () => {
-          await this.$store.dispatch("currentDocument/save");
-          // this.$awn.asyncBlock(
-          //   res => {
-          //     this.$awn.success();
-          //     if (close) this.$router.go(-1);
-          //     else
-          //       this.$router.push(
-          //         `/paper-work/detail/${+this.$route.params.type}/${
-          //           this.$store.getters["currentDocument/document"].id
-          //         }`
-          //       );
-          //   },
-          //   e => {
-          //     this.$awn.alert();
-          //   }
-          // );
+        onClick: () => {
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentDocument/save"),
+              res => {
+                this.$awn.success();
+              },
+              e => {
+                this.$awn.alert();
+              }
+            );
         }
       };
     },
@@ -98,7 +89,17 @@ export default {
         text: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate,
         onClick: () => {
-          this.$emit("saveChanges", true);
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentDocument/save"),
+              res => {
+                this.$awn.success();
+                this.$router.go(-1);
+              },
+              e => {
+                this.$awn.alert();
+              }
+            );
         }
       };
     },

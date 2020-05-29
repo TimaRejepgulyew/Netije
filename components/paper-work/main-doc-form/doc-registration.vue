@@ -98,14 +98,14 @@ export default {
       return {
         disabled: true,
         value: this.$store.getters["currentDocument/document"]
-          .registrationNumberOptions
+          .registrationNumber
       };
     },
     registrationDateOptions() {
       return {
         disabled: true,
         value: this.$store.getters["currentDocument/document"]
-          .registrationDateOptions
+          .registrationDate
       };
     },
     documentRegisterOptions() {
