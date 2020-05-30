@@ -42,10 +42,11 @@ export default {
       return color;
     },
     nameToWord() {
-      return this.fullName
-        .split(" ")[0]
-        .toUpperCase()
-        .substr(0, 1);
+      if (fullName)
+        return this.fullName
+          .split(" ")[0]
+          .toUpperCase()
+          .substr(0, 1);
     },
     lastNameToWord() {
       if (this.fullName.split(" ").length > 1)

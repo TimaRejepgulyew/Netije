@@ -47,16 +47,25 @@ export default {
       }
     },
     previewVersion() {
-      DocumentService.previewVersion(this.version, this);
+      DocumentService.previewVersion(
+        this.version.id,
+        {
+          id: this.$store.getters["currentDocument/document"].id,
+          documentTypeGuid: this.$store.getters["currentDocument/document"]
+            .documentTypeGuid
+        },
+        this
+      );
     },
     downloadVersion() {
       DocumentService.downloadVersion(
         {
-          document: {
-            id: this.$store.getters["currentDocument/document"].id,
-            documentTypeGuid: this.$store.getters["currentDocument/document"]
-              .documentTypeGuid
-          },
+          id: this.$store.getters["currentDocument/document"].id,
+          documentTypeGuid: this.$store.getters["currentDocument/document"]
+            .documentTypeGuid
+        },
+        {
+          id: this.version.id,
           name: this.$store.getters["currentDocument/document"].name,
           extension: this.version.extension
         },

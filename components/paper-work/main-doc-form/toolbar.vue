@@ -58,7 +58,12 @@ export default {
       return EntityType.ElectroonicDocument;
     },
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return (
+        this.isDataChanged && this.$store.getters["currentDocument/canUpdate"]
+      );
+    },
+    isDataChanged() {
+      return this.$store.getters["currentDocument/isDataChanged"];
     },
     canRegister() {
       return this.$store.getters["currentDocument/canRegister"];
@@ -70,13 +75,12 @@ export default {
       return {
         icon: "save",
         type: "success",
-
+        disabled: !this.canUpdate,
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
               this.$store.dispatch("currentDocument/save"),
               res => {
-                
                 this.$awn.success();
               },
               e => {

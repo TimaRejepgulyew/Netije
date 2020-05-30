@@ -1,9 +1,12 @@
 import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 import generateDocumentName from "~/infrastructure/services/documentNameGenerator";
-import documentFactory from "~/infrastructure/factory/documentFactory.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
+function checkDataChanged(oldValue, newValue) {
+  if (oldValue !== newValue) console.log(oldValue, newValue);
+  return oldValue !== newValue;
+}
 export const state = () => ({
   document: {
     name: null,
@@ -73,58 +76,112 @@ export const mutations = {
     state.document.registrationNumber = null;
   },
   SET_DOCUMENT_KIND(state, payload) {
+    if (checkDataChanged(state.document.documentKindId, payload.id)) {
+      state.isDataChanged = true;
+    }
     state.document.documentKind = payload;
     if (payload) state.document.documentKindId = payload.id;
     else state.document.documentKindId = null;
   },
   SET_NAME(state, payload) {
+    if (checkDataChanged(state.document.name, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.name = payload;
+  },
+  SET_DEFAULT_NAME(state, payload) {
     state.document.name = payload;
   },
   SET_SUBJECT(state, payload) {
+    if (checkDataChanged(state.document.subject, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.subject = payload;
   },
   SET_NOTE(state, payload) {
+    if (checkDataChanged(state.document.note, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.note = payload;
   },
   SET_CORRESPONDENT(state, payload) {
+    if (checkDataChanged(state.document.correspondentId, payload.id)) {
+      state.isDataChanged = true;
+    }
     state.document.correspondent = payload;
     state.document.correspondentId = payload.id;
   },
   SET_CONTACT_ID(state, payload) {
+    if (checkDataChanged(state.document.contactId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.contactId = payload;
   },
   SET_COUNTERPART_SIGNATORY_ID(state, payload) {
+    if (checkDataChanged(state.document.counterpartySignatoryId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.counterpartySignatoryId = payload;
   },
   SET_DELIVERY_METHOD_ID(state, payload) {
+    if (checkDataChanged(state.document.deliveryMethodId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.deliveryMethodId = payload;
   },
   SET_BUSINESS_UNIT_ID(state, payload) {
+    if (checkDataChanged(state.document.businessUnitId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.businessUnitId = payload;
   },
   SET_DEPARTMENT_ID(state, payload) {
+    if (checkDataChanged(state.document.departmentId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.departmentId = payload;
   },
   SET_ADDRESSE_ID(state, payload) {
+    if (checkDataChanged(state.document.addresseeId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.addresseeId = payload;
   },
   IN_RESPONSE_TO_ID(state, payload) {
+    if (checkDataChanged(state.document.inResponseToId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.inResponseToId = payload;
   },
   SET_ADDRESSE_ID(state, payload) {
+    if (checkDataChanged(state.document.addresseeId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.addresseeId = payload;
   },
   IN_NUMBER(state, payload) {
+    if (checkDataChanged(state.document.inNumber, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.inNumber = payload;
   },
   DATED(state, payload) {
+    if (checkDataChanged(state.document.dated, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.dated = payload;
   },
 
   SET_CASE_FILE_ID(state, payload) {
+    if (checkDataChanged(state.document.caseFileId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.caseFileId = payload;
   },
   SET_PLACE_TO_CASE_FILE_DATE_ID(state, payload) {
+    if (checkDataChanged(state.document.placedToCaseFileDate, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.placedToCaseFileDate = payload;
   },
   SET_DOCUMENT(state, payload) {
@@ -133,21 +190,39 @@ export const mutations = {
     }
   },
   SET_OUR_SIGNATORY_ID(state, payload) {
+    if (checkDataChanged(state.document.ourSignatoryId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.ourSignatoryId = payload;
   },
   SET_PREPARED_BY_ID(state, payload) {
+    if (checkDataChanged(state.document.preparedById, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.preparedById = payload;
   },
   SET_ASSIGNEE_ID(state, payload) {
+    if (checkDataChanged(state.document.assigneeId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.assigneeId = payload;
   },
   SET_LEADING_DOCUMENT_ID(state, payload) {
+    if (checkDataChanged(state.document.leadingDocumentId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.leadingDocumentId = payload;
   },
   SET_ISSUED_TO_ID(state, payload) {
+    if (checkDataChanged(state.document.issuedToId, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.issuedToId = payload;
   },
   SET_VALID_TILL(state, payload) {
+    if (checkDataChanged(state.document.validTill, payload)) {
+      state.isDataChanged = true;
+    }
     state.document.validTill = payload;
   },
   SET_REGISTRATION_NUMBER(state, payload) {
@@ -167,12 +242,17 @@ export const mutations = {
   }
 };
 export const actions = {
-  async save({ getters, state }) {
+  async save({ getters, commit, state }) {
     const document = JSON.stringify(state.document);
     await this.$axios.put(dataApi.paperWork.Documents + state.document.id, {
       documentJson: document,
       documentTypeGuid: state.document.documentTypeGuid
     });
+    console.log(this.$route.query.id);
+    if (this.$route.query.id == null) {
+      this.$router.replace({ query: { id: state.document.id } });
+    }
+    commit("DATA_CHANGED", false);
   },
   setDocumentKind({ commit, dispatch }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
@@ -192,7 +272,7 @@ export const actions = {
     if (state.document.documentKind) {
       if (state.document.documentKind.generateDocumentName) {
         const name = generateDocumentName(this, state.document);
-        commit("SET_NAME", name);
+        commit("SET_DEFAULT_NAME", name);
       }
     }
   },
@@ -238,7 +318,6 @@ export const actions = {
     const { data } = await this.$axios.post(dataApi.paperWork.Documents, {
       documentType
     });
-    console.log(data);
     data.document.documentKind = {
       id: data.document.documentKindId,
       name: null
@@ -248,7 +327,8 @@ export const actions = {
       id: data.document.correspondentId,
       name: null
     };
-
+    commit("DATA_CHANGED", true);
     commit("SET_DOCUMENT", data);
+    commit("IS_REGISTERED", data.document.registrationState);
   }
 };

@@ -2,11 +2,17 @@ import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 
 export default {
-  previewVersion(version, context) {
-    preview(dataApi.paperWork.PreviewVersion + version.id, context);
+  previewVersion(versionId, document, context) {
+    preview(
+      `${dataApi.paperWork.PreviewVersion}${document.documentTypeGuid}/${document.id}/${versionId}`,
+      context
+    );
   },
   previewDocument(document, context) {
-    preview(dataApi.paperWork.PreviewLastVersion + document.id, context);
+    preview(
+      `${dataApi.paperWork.PreviewLastVersion}${document.documentTypeGuid}/${document.id}`,
+      context
+    );
   },
   downloadDocument(document, context) {
     download(
@@ -15,9 +21,9 @@ export default {
       context
     );
   },
-  downloadVersion(document,version, context) {
+  downloadVersion(document, version, context) {
     download(
-      `${dataApi.paperWork.DownloadLastVersion}${document.documentTypeGuid}/${document.id}/${version.id}`,
+      `${dataApi.paperWork.DownloadVersion}${document.documentTypeGuid}/${document.id}/${version.id}`,
       version,
       context
     );

@@ -11,13 +11,13 @@ export default {
     profile: "Профиль",
     logout: "выйти"
   },
-  history:{
-    historyDate:"Дата",
-    userName:"Пользователь",
-    hostName:"Имя комьютера",
-    userAgent:"Браузер",
-    action:"Действие",
-    comment:"Комментарий",
+  history: {
+    historyDate: "Дата",
+    userName: "Пользователь",
+    hostName: "Имя комьютера",
+    userAgent: "Браузер",
+    action: "Действие",
+    comment: "Комментарий"
   },
   shared: {
     error: "Произошла ошибка",
@@ -37,6 +37,7 @@ export default {
     remove: "Удалить",
     preview: "Предпросмотр",
     download: "Загрузка",
+    saved: "Документ сохранен",
     fields: {
       dated: "Дата документа",
       name: "Имя",
@@ -91,8 +92,8 @@ export default {
     }
   },
   assignment: {
-    placeholderSimple:"Введите комментарий",
-    placeholderActionItemExicution:"Введите отчет",
+    placeholderSimple: "Введите комментарий",
+    placeholderActionItemExicution: "Введите отчет",
     prefixes: {
       actionItemSupervisorAssignment: "Примите работы: ",
       actionItemExecutionAssignment: "Исполните: ",
@@ -104,7 +105,7 @@ export default {
     }
   },
   menu: {
-    history:"История",
+    history: "История",
     group: "Группы",
     all: "Все",
     allDocument: "Все документы",
@@ -635,7 +636,7 @@ export default {
     },
 
     taskMessage: {
-      commentRequired:"Введите отчет о выполнении поручения",
+      commentRequired: "Введите отчет о выполнении поручения",
       sendComment: "Отправить отчет",
       attachmentRequired: "Добавьте вложение",
       documentAlreadyHasBeen: "Такой документ уже существует",

@@ -32,8 +32,7 @@ export default {
     const { data } = await this.getData(dataApi.company.Employee);
     this.employee = data;
     this.store = await this.getData(
-      dataApi.paperWork.Relation +
-        this.$store.getters["currentDocument/document"].id
+      `${dataApi.paperWork.Relation}${this.$store.getters["currentDocument/document"].documentTypeGuidId}/${this.$store.getters["currentDocument/document"].id}`
     );
   },
   data() {
@@ -44,6 +43,7 @@ export default {
   },
   methods: {
     toDocument(documentTypeGuidId, documentId) {
+      
       this.$router.push(
         `/paper-work/detail/${documentTypeGuidId}/${documentId}`
       );

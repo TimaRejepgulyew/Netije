@@ -87,6 +87,7 @@
   </DxForm>
 </template>
 <script>
+import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -137,7 +138,6 @@ export default {
             "currentDocument/setCorrespondent",
             e.selectedItem
           );
-          console.log("adwad");
         },
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_CONTACT_ID", null);
@@ -248,7 +248,7 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.paperWork.OutgoingLetter
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingLetter}`
         }),
         value: this.$store.getters["currentDocument/document"].inResponseToId,
         onValueChanged: e => {

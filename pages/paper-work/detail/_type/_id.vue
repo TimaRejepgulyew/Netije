@@ -56,9 +56,9 @@
           <component :is="formByTypeGuid"></component>
         </template>
       </DxForm>
-      <DxItem :title="$t('menu.relation')" template="relations" />
+      <DxItem :title="$t('menu.relation')" v-if="$route.query.id==null" template="relations" />
       <Relation slot="relations"></Relation>
-      <DxItem :title="$t('menu.history')" template="history" />
+      <DxItem :title="$t('menu.history')" v-if="$route.query.id==null" template="history" />
       <History :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
     </DxTabPanel>
   </div>
@@ -120,9 +120,7 @@ export default {
       await app.store.dispatch("currentDocument/initNewDocument", +params.type);
     }
   },
-  created() {
-   
-  },
+
   data() {
     return {
       entityTypeGuid: EntityTypes.ElectroonicDocument,

@@ -56,7 +56,7 @@
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -64,7 +64,7 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxForm,
+    DxForm
   },
 
   methods: {
@@ -104,8 +104,7 @@ export default {
     registrationDateOptions() {
       return {
         disabled: true,
-        value: this.$store.getters["currentDocument/document"]
-          .registrationDate
+        value: this.$store.getters["currentDocument/document"].registrationDate
       };
     },
     documentRegisterOptions() {
@@ -130,6 +129,15 @@ export default {
         value: this.$store.getters["currentDocument/document"].caseFileId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_CASE_FILE_ID", e.value);
+          if (
+            !this.$store.getters["currentDocument/document"]
+              .placedToCaseFileDate &&
+            this.$store.getters["currentDocument/document"].caseFileId
+          )
+            this.$store.commit(
+              "currentDocument/SET_PLACE_TO_CASE_FILE_DATE_ID",
+              new Date()
+            );
         }
       };
     }

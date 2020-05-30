@@ -80,6 +80,7 @@
   </DxForm>
 </template>
 <script>
+import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -98,31 +99,6 @@ export default {
   data() {
     return {
       isCompany: false,
-
-      correspondentOptions: {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.contragents.CounterPart
-        }),
-        value: this.$store.getters["currentDocument/document"]
-          .counterpartySignatoryId,
-        onSelectionChanged: e => {
-          if (e.selectedItem) {
-            this.isCompany = e.selectedItem.type != "Person";
-          }
-          this.$store.dispatch(
-            "currentDocument/setCorrespondent",
-            e.selectedItem
-          );
-        },
-        onValueChanged: () => {
-          this.$store.commit("currentDocument/SET_CONTACT_ID", null);
-          this.$store.commit(
-            "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
-            null
-          );
-        }
-      },
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
@@ -161,6 +137,31 @@ export default {
         value: this.$store.getters["currentDocument/document"].contactId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_CONTACT_ID", e.value);
+        }
+      };
+    },
+    correspondentOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.CounterPart
+        }),
+        value: this.$store.getters["currentDocument/document"].correspondentId,
+        onSelectionChanged: e => {
+          if (e.selectedItem) {
+            this.isCompany = e.selectedItem.type != "Person";
+          }
+          this.$store.dispatch(
+            "currentDocument/setCorrespondent",
+            e.selectedItem
+          );
+        },
+        onValueChanged: () => {
+          this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+          this.$store.commit(
+            "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
+            null
+          );
         }
       };
     },
@@ -238,7 +239,7 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.paperWork.IncommingLetter
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.IncomingLetter}`
         }),
         value: this.$store.getters["currentDocument/document"].inResponseToId,
         onValueChanged: e => {

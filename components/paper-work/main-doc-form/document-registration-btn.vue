@@ -54,7 +54,7 @@ export default {
       this.$store.commit("currentDocument/CLAER_REGISTRATION_DATA");
     },
     register() {
-      if (!this.isDataChanged) {
+      if (this.isDataChanged) {
         if (
           this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate()
             .isValid
@@ -62,7 +62,7 @@ export default {
           this.$awn.asyncBlock(
             this.$store.dispatch("currentDocument/save"),
             res => {
-              this.$awn.success();
+              this.$awn.success(this.$t("document.saved"));
               this.isDocumentRegistrationPopupOpen = true;
             },
             e => {
