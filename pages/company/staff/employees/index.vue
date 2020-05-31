@@ -40,9 +40,6 @@
       />
 
       <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
-
-      <DxColumn data-field="userName" :caption="$t('translations.fields.userName')"></DxColumn>
-
       <DxColumn data-field="jobTitleId" :caption="$t('translations.fields.jobTitleId')">
         <DxLookup :data-source="jobTitleDataSource" value-expr="id" display-expr="name" />
       </DxColumn>
