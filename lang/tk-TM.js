@@ -29,6 +29,34 @@ export default {
     download: "Ýüklemek",
     error: "Ýalňyşlyk ýüze çykdy"
   },
+  history: {
+    historyDate: "Дата",
+    userName: "Пользователь",
+    hostName: "Имя комьютера",
+    userAgent: "Браузер",
+    action: "Действие",
+    comment: "Комментарий",
+    //TODO перевести
+    create: "Döretmek",
+    read: "Просмотр",
+    update: "Изменение",
+    createVersion: "Создание версии",
+    delete: "Pozmak",
+    manage: "Настройка прав",
+    registration: "Bellige alyş",
+    deregistration: "Отмена регистрации",
+    downloadVersion: "Скачивание версии",
+    previevVersion: "Предпросмотр версии",
+    login: "Вход",
+    loginFailed: "Неудачный вход",
+    logout: "Çykmak",
+    version: "Wersiýa"
+  },
+  workFlow: {
+    isElectronicAcquaintance: "Ознакомление в электронном виде",
+    excludedPerformers: "Кроме",
+    needsReview: "Kabul ediş üçin"
+  },
   document: {
     remove: "Pozmak",
     preview: "Öňünden görüp çykmak",
@@ -600,7 +628,6 @@ export default {
       acquaintanceAssignment: "Tanyşdyrmak üçin wezipe",
       versions: "Wersiýalar",
       attachment: "Içlik sahypalar",
-
       moreAbout: "Has giňişleýin"
     },
 

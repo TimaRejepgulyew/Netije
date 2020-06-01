@@ -13,11 +13,6 @@
         <DxSimpleItem data-field="userName" data-type="string">
           <DxLabel location="top" :text="$t('translations.fields.userName')" />
           <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
-          <DxAsyncRule
-            :reevaluate="false"
-            :validation-callback="validateEntityExists"
-            :message="$t('translations.fields.userNameRule')"
-          />
         </DxSimpleItem>
         <DxSimpleItem data-field="name">
           <DxLabel location="top" :text="$t('translations.fields.fullName')" />

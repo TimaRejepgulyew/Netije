@@ -2,6 +2,7 @@ export const url = process.env.baseUrl;
 export default {
   Metadata: `${url}/api/Metadata`,
   account: `${url}/Identity/Account/Manage`,
+  History: `${url}/api/History/`,
   sharedDirectory: {
     Country: `${url}/api/Country`,
     Region: `${url}/api/Region`,
@@ -61,7 +62,7 @@ export default {
     Version: `${url}/api/OfficialDocument/Version/`,
     DownloadLastVersion: `${url}/api/OfficialDocument/Version/DownloadLastVersion/`,
     PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
-    Relation: `${url}/api/OfficialDocument/Relations/`,
+    Relation: `${url}/api/Documentrelations/Relations/`,
     CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile/`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
     PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`

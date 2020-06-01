@@ -10,7 +10,6 @@ export const state = () => ({
         }),
         filter
       }),
-
       disabled,
       showClearButton: true,
       valueExpr: "id",
@@ -48,7 +47,7 @@ export const state = () => ({
       text: context.$t("buttons.send"),
       useSubmitBehavior: true
     };
-  },
+  }
 });
 export const getters = {
   whitespacePattern({ whitespacePattern }) {

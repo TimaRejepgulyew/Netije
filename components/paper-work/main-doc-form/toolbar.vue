@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     entityType() {
-      return EntityType.ElectroonicDocument;
+      return EntityType.ElectronicDocument;
     },
     canUpdate() {
       return (

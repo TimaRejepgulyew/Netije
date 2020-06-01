@@ -17,7 +17,21 @@ export default {
     hostName: "Имя комьютера",
     userAgent: "Браузер",
     action: "Действие",
-    comment: "Комментарий"
+    comment: "Комментарий",
+    create: "Создание",
+    read: "Просмотр",
+    update: "Изменение",
+    createVersion: "Создание версии",
+    delete: "Удаление",
+    manage: "Настройка прав",
+    registration: "Регистрация",
+    deregistration: "Отмена регистрации",
+    downloadVersion: "Скачивание версии",
+    previewVersion: "Предпросмотр версии",
+    login: "Вход",
+    loginFailed: "Неудачный вход",
+    logout: "Выход",
+    version: "Версии"
   },
   shared: {
     error: "Произошла ошибка",
@@ -33,6 +47,11 @@ export default {
     areYouSure: "Вы уверены?",
     confirm: "Подтверждение"
   },
+  workFlow: {
+    isElectronicAcquaintance:"Ознакомление в электронном виде",
+    excludedPerformers:"Кроме",
+    needsReview: "На приемку",
+  },
   document: {
     remove: "Удалить",
     preview: "Предпросмотр",
@@ -40,7 +59,7 @@ export default {
     saved: "Документ сохранен",
     fields: {
       areYouSureCancelDocument:
-        "Вы уверенны что хотите выйти некоторые данные  будут утеренны ",
+        "Вы уверенны что хотите выйти? Не сохраненные данные будут утеряны",
       dated: "Дата документа",
       name: "Имя",
       inResponseToId: "В ответ на",

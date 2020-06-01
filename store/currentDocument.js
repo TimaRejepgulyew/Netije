@@ -58,6 +58,10 @@ export const getters = {
   isDataChanged({ isDataChanged }) {
     return isDataChanged;
   },
+  isNew({ isNew }) {
+    console.log(isNew);
+    return isNew;
+  },
   registrationData({ document }) {
     const regDate = {
       documentId: document.id,
@@ -246,7 +250,7 @@ export const mutations = {
   }
 };
 export const actions = {
-  async save({ getters, commit, state }) {
+  async save({ dispatch, getters, commit, state }) {
     const document = JSON.stringify(state.document);
     const res = await this.$axios.put(
       dataApi.paperWork.Documents + state.document.id,
@@ -256,7 +260,7 @@ export const actions = {
       }
     );
     console.log(res);
-    commit("SET_DOCUMENT", res.data);
+    dispatch("loadDocument", res.data);
     commit("DATA_CHANGED", false);
     commit("SET_IS_NEW", false);
   },
@@ -282,24 +286,26 @@ export const actions = {
       }
     }
   },
-  async getDocumentById({ commit, state }, { type, id }) {
+  loadDocument({ commit }, payload) {
+    payload.document.documentKind = {
+      id: payload.document.documentKindId,
+      name: null
+    };
+
+    payload.document.correspondent = {
+      id: payload.document.correspondentId,
+      name: null
+    };
+
+    commit("IS_REGISTERED", payload.document.registrationState);
+    commit("SET_DOCUMENT", payload);
+  },
+  async getDocumentById({ dispatch, commit, state }, { type, id }) {
     if (state.isNew) return;
     const { data } = await this.$axios.get(
       dataApi.paperWork.Documents + `${type}/${id}`
     );
-    data.document.documentKind = {
-      id: data.document.documentKindId,
-      name: null
-    };
-
-    if (data.document.correspondentId) {
-      data.document.correspondent = {
-        id: data.document.correspondentId,
-        name: null
-      };
-    }
-    commit("IS_REGISTERED", data.document.registrationState);
-    commit("SET_DOCUMENT", data);
+    dispatch("loadDocument", data);
   },
   async registration({ state, getters, dispatch, commit }, isCustomNumber) {
     const res = await this.$axios.post(
@@ -325,18 +331,9 @@ export const actions = {
     const { data } = await this.$axios.post(dataApi.paperWork.Documents, {
       documentType
     });
-    data.document.documentKind = {
-      id: data.document.documentKindId,
-      name: null
-    };
-
-    data.document.correspondent = {
-      id: data.document.correspondentId,
-      name: null
-    };
+    console.log(data);
+    dispatch("loadDocument", data);
     commit("DATA_CHANGED", true);
-    commit("SET_DOCUMENT", data);
     commit("SET_IS_NEW", true);
-    commit("IS_REGISTERED", data.document.registrationState);
   }
 };

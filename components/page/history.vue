@@ -13,9 +13,22 @@
       <DxColumnFixing :enabled="true" />
       <DxFilterRow :visible="true" />
       <DxScrolling mode="virtual" />
-      <DxColumn data-field="historyDate" data-type="date" :caption="$t('history.historyDate')"></DxColumn>
-      <DxColumn data-field="userName" :caption="$t('history.userName')"></DxColumn>
-      <DxColumn data-field="action" :caption="$t('history.action')"></DxColumn>
+      <DxColumn
+        sort-order="desc"
+        data-field="historyDate"
+        data-type="datetime"
+        :caption="$t('history.historyDate')"
+      ></DxColumn>
+      <DxColumn data-field="user" :caption="$t('history.userName')"></DxColumn>
+      <DxColumn data-field="action" :caption="$t('history.action')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="actions"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+      <DxColumn data-field="version" :caption="$t('history.version')"></DxColumn>
       <DxColumn data-field="hostName" :caption="$t('history.hostName')"></DxColumn>
       <DxColumn data-field="userAgent" :caption="$t('history.userAgent')"></DxColumn>
       <DxColumn data-field="comment" :caption="$t('history.comment')"></DxColumn>
@@ -23,6 +36,8 @@
   </main>
 </template>
 <script>
+import Actions from "~/infrastructure/constants/historyActions.js";
+import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -35,11 +50,13 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxLookup
 } from "devextreme-vue/data-grid";
 
 export default {
   components: {
+    DxLookup,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -56,33 +73,13 @@ export default {
   props: ["entityTypeGuid", "id"],
   data() {
     return {
-      dataSource: [
-        {
-          id: 1,
-          historyDate: "16.02.2018",
-          userName: "igor",
-          hostName: "Pushok",
-          userAgent: "Google",
-          action: "created",
-          comment: "hello world"
-        },
-        {
-          id: 1,
-          historyDate: "16.02.2018",
-          userName: "igor",
-          hostName: "Pushok",
-          userAgent: "Google",
-          action: "created",
-          comment: "hello world"
-        }
-      ]
-      // dataSource: {
-      //   store: this.$dxStore({
-      //     key: "id",
-      //     loadUrl: dataApi.History.GetHistoryById,
-
-      //   }),
-      // },
+      dataSource: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${dataApi.History}${this.entityTypeGuid}/${this.id}`
+        })
+      },
+      actions: Actions(this)
     };
   }
 };

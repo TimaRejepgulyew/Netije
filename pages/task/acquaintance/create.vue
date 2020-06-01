@@ -16,7 +16,8 @@
             <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
             <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
           </DxSimpleItem>
-          <DxGroupItem :col-count="2">
+
+          <DxGroupItem :col-count="3">
             <DxSimpleItem
               data-field="deadline"
               :editor-options="dateTimeOptions"
@@ -25,8 +26,12 @@
               <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
               <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
             </DxSimpleItem>
-
-         
+            <DxSimpleItem data-field="isElectronicAcquaintance" editor-type="dxCheckBox">
+              <DxLabel location="top" :text="$t('workFlow.isElectronicAcquaintance')" />
+            </DxSimpleItem>
+            <DxSimpleItem data-field="needsReview" editor-type="dxCheckBox">
+              <DxLabel location="top" :text="$t('workFlow.needsReview')" />
+            </DxSimpleItem>
           </DxGroupItem>
           <DxSimpleItem
             :editor-options="employeeOptions"
@@ -35,14 +40,16 @@
           >
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
-
+          <DxSimpleItem data-field="performers" template="recipient">
+            <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
+            <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
+          </DxSimpleItem>
           <DxSimpleItem
             :editor-options="employeeOptions"
             editor-type="dxTagBox"
-            data-field="performers"
+            data-field="excludedPerformers"
           >
-            <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
-            <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
+            <DxLabel location="top" :text="$t('workFlow.excludedPerformers')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxGroupItem>
@@ -65,6 +72,9 @@
           @updateAttachments="updateAttachments"
         ></attachments>
       </template>
+      <template #recipient="recipients">
+        <recipient-tag-box :recipients="recipients.data.editorOptions.value" />
+      </template>
     </DxForm>
     <span
       v-if="errorMessage"
@@ -73,6 +83,7 @@
   </div>
 </template>
 <script>
+import recipientTagBox from "~/components/page/recipient-tag-box.vue";
 import toolbar from "~/components/task/toolbar.vue";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import "devextreme-vue/text-area";
@@ -94,7 +105,8 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    DxForm
+    DxForm,
+    recipientTagBox
   },
   data() {
     return {
@@ -106,7 +118,10 @@ export default {
         performers: [],
         accessRights: 60,
         attachments: [],
-        comment: null
+        comment: null,
+        needsReview: false,
+        isElectronicAcquaintance: true,
+        excludedPerformers: false
       },
       errorMessage: false,
       dateTimeOptions: {
@@ -152,11 +167,12 @@ export default {
       this.errorMessage = this.store.attachments == false;
       return this.store.attachments == false;
     },
+
     employeeOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.company.Employee
+          url: dataApi.recipient.list
         }),
         showSelectionControls: true,
         maxDisplayedTags: 3,

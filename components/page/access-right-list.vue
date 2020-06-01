@@ -52,10 +52,7 @@
             searchExpr="name"
           >
             <template #group="{ data }">
-              <span class="d-flex align-center js-flex-start">
-                <resipient-icon class="selectbox--icon" :type="data.key"></resipient-icon>
-                {{showGroupCaption(data.key)}}
-              </span>
+              <recipient-list :data="data" />
             </template>
           </DxSelectBox>
         </div>
@@ -85,9 +82,8 @@
 </template>
 
 <script>
+import recipientList from "~/components/page/recipient-list.vue";
 import { DxSelectBox } from "devextreme-vue/select-box";
-import ResipientType from "~/infrastructure/constants/resipientType.js";
-import resipientIcon from "~/components/page/resipient-icon.vue";
 import attachmentActionBtn from "~/components/page/access-right-action-btn";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
@@ -97,9 +93,9 @@ export default {
   components: {
     DxSelectBox,
     attachmentActionBtn,
-    resipientIcon,
     DxList,
-    DxButton
+    DxButton,
+    recipientList
   },
   props: ["entityType", "entityId"],
   async created() {
@@ -121,20 +117,6 @@ export default {
     };
   },
   methods: {
-    showGroupCaption(recipientType) {
-      switch (recipientType) {
-        case ResipientType.BusinessUnit:
-          return this.$t("menu.businessUnit");
-        case ResipientType.Department:
-          return this.$t("menu.department");
-        case ResipientType.Role:
-          return this.$t("menu.roles");
-        case ResipientType.Group:
-          return this.$t("menu.group");
-        case ResipientType.Employee:
-          return this.$t("menu.employee");
-      }
-    },
     async load() {
       const { data } = await this.$axios.get(
         dataApi.accessRights.ForDocument + this.entityId

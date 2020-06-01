@@ -5,6 +5,7 @@
     <DxTabPanel :focus-state-enabled="false" class="tab-bar">
       <DxItem :title="$t('menu.mainInfo')" template="document-form" />
       <DxForm
+        class="pd-2"
         slot="document-form"
         ref="form"
         :col-count="5"
@@ -56,10 +57,14 @@
           <component :is="formByTypeGuid"></component>
         </template>
       </DxForm>
-      <DxItem :title="$t('menu.relation')" :visible="!isDataChanged" template="relations" />
+      <DxItem :title="$t('menu.relation')" :disabled="isDataChanged" template="relations" />
       <Relation slot="relations"></Relation>
-      <DxItem :title="$t('menu.history')" v-if="$route.query.id==null" template="history" />
-      <History :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
+      <DxItem :title="$t('menu.history')" :disabled="isNew" template="history" />
+      <History
+        :entityTypeGuid="entityTypeGuid"
+        :id="$store.getters['currentDocument/document'].id"
+        slot="history"
+      ></History>
     </DxTabPanel>
   </div>
 </template>
@@ -129,13 +134,13 @@ export default {
     if (res) {
       this.$store.commit("currentDocument/SET_IS_NEW", false);
       this.$store.commit("currentDocument/DATA_CHANGED", false);
-    } 
+    }
 
     next(res);
   },
   data() {
     return {
-      entityTypeGuid: EntityTypes.ElectroonicDocument,
+      entityTypeGuid: EntityTypes.ElectronicDocument,
       currentUrl: null,
       documentKindOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -160,6 +165,9 @@ export default {
   computed: {
     isDataChanged() {
       return this.$store.getters["currentDocument/isDataChanged"];
+    },
+    isNew() {
+      return this.$store.getters["currentDocument/isNew"];
     },
     formByTypeGuid() {
       switch (+this.$route.params.type) {
@@ -212,7 +220,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style >
 .tab-bar {
   margin-top: 10px;
 }
@@ -224,5 +232,11 @@ export default {
 .f-grow-3 {
   flex-basis: 35%;
   flex-grow: 5;
+}
+.dx-form-group-with-caption .dx-form-group.dx-form-group-with-caption {
+  padding-left: 0px;
+}
+.pd-2 {
+  padding: 10px;
 }
 </style>
