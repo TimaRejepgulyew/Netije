@@ -21,6 +21,7 @@ export const state = () => ({
       numberingType: null
     }
   },
+  isNew: false,
   isDataChanged: false,
   readOnly: false,
   canUpdate: false,
@@ -71,8 +72,8 @@ export const getters = {
 };
 export const mutations = {
   CLAER_REGISTRATION_DATA(state) {
-    state.documentRegisterId = null;
-    state.document.registrationData = null;
+    state.document.documentRegisterId = null;
+    state.document.registrationDate = null;
     state.document.registrationNumber = null;
   },
   SET_DOCUMENT_KIND(state, payload) {
@@ -91,6 +92,9 @@ export const mutations = {
   },
   SET_DEFAULT_NAME(state, payload) {
     state.document.name = payload;
+  },
+  SET_IS_NEW(state, payload) {
+    state.isNew = payload;
   },
   SET_SUBJECT(state, payload) {
     if (checkDataChanged(state.document.subject, payload)) {
@@ -244,15 +248,17 @@ export const mutations = {
 export const actions = {
   async save({ getters, commit, state }) {
     const document = JSON.stringify(state.document);
-    await this.$axios.put(dataApi.paperWork.Documents + state.document.id, {
-      documentJson: document,
-      documentTypeGuid: state.document.documentTypeGuid
-    });
-    console.log(this.$route.query.id);
-    if (this.$route.query.id == null) {
-      this.$router.replace({ query: { id: state.document.id } });
-    }
+    const res = await this.$axios.put(
+      dataApi.paperWork.Documents + state.document.id,
+      {
+        documentJson: document,
+        documentTypeGuid: state.document.documentTypeGuid
+      }
+    );
+    console.log(res);
+    commit("SET_DOCUMENT", res.data);
     commit("DATA_CHANGED", false);
+    commit("SET_IS_NEW", false);
   },
   setDocumentKind({ commit, dispatch }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
@@ -277,6 +283,7 @@ export const actions = {
     }
   },
   async getDocumentById({ commit, state }, { type, id }) {
+    if (state.isNew) return;
     const { data } = await this.$axios.get(
       dataApi.paperWork.Documents + `${type}/${id}`
     );
@@ -329,6 +336,7 @@ export const actions = {
     };
     commit("DATA_CHANGED", true);
     commit("SET_DOCUMENT", data);
+    commit("SET_IS_NEW", true);
     commit("IS_REGISTERED", data.document.registrationState);
   }
 };

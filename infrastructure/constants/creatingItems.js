@@ -35,7 +35,7 @@ export function TaskButtons(context) {
 
 export function DocumentButtons(context) {
   function generateUrl(typeGuid) {
-    return `/paper-work/detail/${typeGuid}?id=null`;
+    return `/paper-work/create/${typeGuid}`;
   }
 
   return [

@@ -42,7 +42,7 @@ export default {
       return color;
     },
     nameToWord() {
-      if (fullName)
+      if (this.fullName)
         return this.fullName
           .split(" ")[0]
           .toUpperCase()

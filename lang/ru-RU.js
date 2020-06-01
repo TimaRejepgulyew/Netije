@@ -39,6 +39,8 @@ export default {
     download: "Загрузка",
     saved: "Документ сохранен",
     fields: {
+      areYouSureCancelDocument:
+        "Вы уверенны что хотите выйти некоторые данные  будут утеренны ",
       dated: "Дата документа",
       name: "Имя",
       inResponseToId: "В ответ на",

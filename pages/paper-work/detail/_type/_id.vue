@@ -56,7 +56,7 @@
           <component :is="formByTypeGuid"></component>
         </template>
       </DxForm>
-      <DxItem :title="$t('menu.relation')" v-if="$route.query.id==null" template="relations" />
+      <DxItem :title="$t('menu.relation')" :visible="!isDataChanged" template="relations" />
       <Relation slot="relations"></Relation>
       <DxItem :title="$t('menu.history')" v-if="$route.query.id==null" template="history" />
       <History :entityTypeGuid="entityTypeGuid" :id="$route.params.id" slot="history"></History>
@@ -79,6 +79,7 @@ import incommingLetter from "~/components/paper-work/incomming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
+import { confirm } from "devextreme/ui/dialog";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DxForm, {
@@ -111,16 +112,27 @@ export default {
     incommingLetter
   },
   async asyncData({ app, params, query, router }) {
-    if (query.id != "null") {
-      await app.store.dispatch("currentDocument/getDocumentById", {
-        type: +params.type,
-        id: +query.id
-      });
-    } else {
-      await app.store.dispatch("currentDocument/initNewDocument", +params.type);
-    }
+    await app.store.dispatch("currentDocument/getDocumentById", {
+      type: +params.type,
+      id: +params.id
+    });
   },
+  async beforeRouteLeave(to, from, next) {
+    let res = true;
+    if (this.isDataChanged) {
+      res = await confirm(
+        this.$t("document.fields.areYouSureCancelDocument"),
+        this.$t("shared.confirm")
+      );
+    }
 
+    if (res) {
+      this.$store.commit("currentDocument/SET_IS_NEW", false);
+      this.$store.commit("currentDocument/DATA_CHANGED", false);
+    } 
+
+    next(res);
+  },
   data() {
     return {
       entityTypeGuid: EntityTypes.ElectroonicDocument,
@@ -146,6 +158,9 @@ export default {
     };
   },
   computed: {
+    isDataChanged() {
+      return this.$store.getters["currentDocument/isDataChanged"];
+    },
     formByTypeGuid() {
       switch (+this.$route.params.type) {
         case DocumentTypeGuid.IncomingLetter:

@@ -195,7 +195,6 @@ export default {
         }),
         value: this.$store.getters["currentDocument/document"].departmentId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);
           this.$store.commit("currentDocument/SET_PREPARED_BY_ID", null);
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
         }
@@ -224,7 +223,11 @@ export default {
           context: this,
           url: dataApi.company.Employee,
           filter: [
-            ["businessUnitId", "=", this.businessUnitId],
+            [
+              "departmentId",
+              "=",
+              this.$store.getters["currentDocument/document"].departmentId
+            ],
             "and",
             ["status", "=", 0]
           ]

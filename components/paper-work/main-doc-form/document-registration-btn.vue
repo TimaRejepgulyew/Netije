@@ -9,7 +9,7 @@
       :height="'auto'"
       :title="$t('translations.fields.registration')"
     >
-      <div>
+      <div v-if="isDocumentRegistrationPopupOpen">
         <document-registration-popup @hidePopup="hidePopup" />
       </div>
     </DxPopup>
@@ -42,7 +42,6 @@ export default {
     DxPopup,
     DocumentRegistrationPopup
   },
-
   data() {
     return {
       isDocumentRegistrationPopupOpen: false
