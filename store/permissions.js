@@ -117,8 +117,8 @@ export const mutations = {
   PERMISSIONS(state, payload) {
     const accessRights = {
       employeeId: payload.employeeId,
-      isAdmin: payload.roles.includes("Администраторы"),
-      isAuditor: payload.roles.includes("Аудиторы"),
+      isAdmin: payload.roles.includes("Admin"),
+      isAuditor: payload.roles.includes("Auditor"),
       Roles: payload.roles,
       operations: new Map(
         payload.accessRights.map(({ entityType, operation }) => {

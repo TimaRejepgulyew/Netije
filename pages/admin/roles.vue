@@ -11,6 +11,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      @init-new-row="onInitNewRow"
       @row-updating="onRowUpdating"
     >
       <DxGroupPanel :visible="true" />
@@ -33,7 +34,7 @@
       <DxEditing
         :allow-updating="isCustom"
         :allow-deleting="isCustom"
-        :allow-adding="false"
+        :allow-adding="true"
         :useIcons="true"
         mode="form"
       />
@@ -65,6 +66,12 @@
 
       <template #master-detail="data">
         <member-list :data="data.data" />
+      </template>
+       <template #textAreaEditor="cellInfo">
+        <textArea
+          :value="cellInfo.data.value"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+        ></textArea>
       </template>
     </DxDataGrid>
   </main>
@@ -130,11 +137,18 @@ export default {
     };
   },
   methods: {
+    onInitNewRow(e) {
+      e.data.status = this.statusDataSource[Status.Active].id;
+    },
     isCustom(e) {
       return !e.row.data.isSystem;
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
+    },
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
     }
   }
 };
