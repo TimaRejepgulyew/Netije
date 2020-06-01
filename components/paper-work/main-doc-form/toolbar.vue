@@ -138,9 +138,7 @@ export default {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$axios.delete(
-                  dataApi.paperWork.DeleteDocument +
-                    this.$store.getters["currentDocument/document"].id
-                ),
+                  `${dataApi.paperWork.DeleteDocument}${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`),
                 e => {
                   this.$router.go(-1);
                   this.$awn.success();
