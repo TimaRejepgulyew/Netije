@@ -1,4 +1,5 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
+import TaskType from"~/infrastructure/constants/taskType.js"
 export default function(context) {
   return [
     {
@@ -13,7 +14,9 @@ export default function(context) {
     }
   ];
 }
+
 export function TaskButtons(context) {
+
   return [
     {
       icon: "plus",

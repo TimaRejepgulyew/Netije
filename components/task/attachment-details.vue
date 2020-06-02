@@ -63,7 +63,7 @@
   </div>
 </template>
 <script>
-import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
+
 import DocumentIcon from "~/components/page/document-icon";
 import attachmentActionBtn from "~/components/workFlow/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
@@ -107,8 +107,7 @@ export default {
   },
   methods: {
     openVersion(documentId, documentTypeGuid) {
-      this.$router.push(routeGenerator.generateDocumentDetailRoute(documentTypeGuid, documentId))
-      
+      this.$router.push(`/paper-work/detail/${documentTypeGuid}/${documentId}`);
     },
     compareAttachments() {
       if (this.selectedDocument) {

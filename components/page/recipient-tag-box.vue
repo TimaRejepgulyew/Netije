@@ -14,7 +14,10 @@
     :page-size="10"
   >
     <DxValidator validation-group="taskValidationgroup">
-      <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
+      <DxRequiredRule
+        v-if="isRequired"
+        :message="$t('translations.fields.acquaintMembersRequired')"
+      />
     </DxValidator>
     <template #group="{ data }">
       <recipient-list :data="data" />
@@ -35,7 +38,7 @@ export default {
     DxTagBox,
     recipientList
   },
-  props: ["recipients", "property"],
+  props: ["recipients", "property", "isRequired"],
   created() {
     console.log(this.recipients);
   },

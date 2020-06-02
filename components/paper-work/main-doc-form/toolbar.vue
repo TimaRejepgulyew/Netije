@@ -12,6 +12,10 @@
         widget="dxButton"
       />
       <DxItem :options="createAddendumOptions" location="before" widget="dxButton" />
+      <DxItem template="createTaskForDocument" :visible="!isDataChanged" location="after" />
+      <template #createTaskForDocument>
+        <available-actions />
+      </template>
       <DxItem template="accessRightButton" location="after" />
       <template #accessRightButton>
         <access-right
@@ -26,6 +30,7 @@
   </div>
 </template>
 <script>
+import availableActions from "~/components/paper-work/main-doc-form/available-actions.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
@@ -41,7 +46,8 @@ export default {
     DxButton,
     DxToolbar,
     DxItem,
-    DocumentRegistrationBtn
+    DocumentRegistrationBtn,
+    availableActions
   },
   data() {
     return {
@@ -138,7 +144,8 @@ export default {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$axios.delete(
-                  `${dataApi.paperWork.DeleteDocument}${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`),
+                  `${dataApi.paperWork.DeleteDocument}${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`
+                ),
                 e => {
                   this.$router.go(-1);
                   this.$awn.success();

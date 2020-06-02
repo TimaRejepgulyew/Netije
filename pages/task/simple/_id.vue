@@ -9,17 +9,17 @@
         :show-validation-summary="true"
         validation-group="task"
       >
-        <DxGroupItem :col-span="2" :col-count="2" >
-          <DxSimpleItem template="employee" data-field="observers">
+        <DxGroupItem :col-span="2" :col-count="2">
+          <DxSimpleItem template="recipient" data-field="observers">
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
 
-          <DxSimpleItem template="employee" data-field="performers">
+          <DxSimpleItem template="recipient" data-field="performers">
             <DxLabel location="top" :text="$t('translations.fields.performers')" />
           </DxSimpleItem>
         </DxGroupItem>
-        <template #employee="employee">
-          <employeeList :employee="employee.data.editorOptions.value"></employeeList>
+        <template #recipient="recipient">
+          <recipientList :recipient="recipient.data.editorOptions.value"></recipientList>
         </template>
       </DxForm>
     </main-form>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import employeeList from "~/components/task/employeeList";
+import recipientList from "~/components/task/recipientList";
 import mainForm from "~/components/task/main-task-detail";
 import DxForm, {
   DxGroupItem,
@@ -36,7 +36,7 @@ import DxForm, {
 } from "devextreme-vue/form";
 export default {
   components: {
-    employeeList,
+    recipientList,
     mainForm,
     DxForm,
     DxGroupItem,

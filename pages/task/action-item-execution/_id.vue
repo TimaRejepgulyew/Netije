@@ -12,27 +12,27 @@
         <DxGroupItem :col-span="2" :col-count="2">
           <DxSimpleItem
             data-field="assigneeId"
-            :editor-options="employeeOptions"
+            :editor-options="recipientOptions"
             editor-type="dxSelectBox"
           >
             <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="supervisorId"
-            :editor-options="employeeOptions"
+            :editor-options="recipientOptions"
             editor-type="dxSelectBox"
           >
             <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
           </DxSimpleItem>
-          <DxSimpleItem template="employee" data-field="actionItemObservers">
+          <DxSimpleItem template="recipient" data-field="actionItemObservers">
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
-          <DxSimpleItem template="employee" data-field="coAssignees">
+          <DxSimpleItem template="recipient" data-field="coAssignees">
             <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
           </DxSimpleItem>
         </DxGroupItem>
-        <template #employee="employee">
-          <employeeList :employee="employee.data.editorOptions.value"></employeeList>
+        <template #recipient="recipient">
+          <recipientList :recipient="recipient.data.editorOptions.value"></recipientList>
         </template>
       </DxForm>
     </main-form>
@@ -41,7 +41,7 @@
 
 <script>
 import dataApi from "~/static/dataApi";
-import employeeList from "~/components/task/employeeList";
+import recipientList from "~/components/task/recipientList";
 import mainForm from "~/components/task/main-task-detail";
 import DxForm, {
   DxGroupItem,
@@ -50,7 +50,7 @@ import DxForm, {
 } from "devextreme-vue/form";
 export default {
   components: {
-    employeeList,
+    recipientList,
     mainForm,
     DxForm,
     DxGroupItem,
@@ -66,7 +66,7 @@ export default {
       dateTimeOptions: {
         type: "datetime"
       },
-      employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
+      recipientOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Employee
       })

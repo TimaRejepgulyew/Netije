@@ -3,11 +3,7 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
-        <DxList
-          :hover-state-enabled="false"
-          :data-source="attachments"
-          :search-enabled="false"
-        >
+        <DxList :hover-state-enabled="false" :data-source="attachments" :search-enabled="false">
           <!-- <template #group="{ data: item }">
             <div>Вложение: {{ item.key }}</div>
           </template>-->
@@ -35,7 +31,6 @@
             </div>
           </template>
         </DxList>
-        
       </div>
       <template v-if="inProccess">
         <DxSelectBox
@@ -64,7 +59,6 @@
   </div>
 </template>
 <script>
-import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import DocumentIcon from "~/components/page/document-icon";
 import attachmentActionBtn from "~/components/workFlow/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
@@ -106,9 +100,7 @@ export default {
       this.attachments.reload();
     },
     openVersion(documentId, documentTypeGuid) {
-      this.$router.push(
-        routeGenerator.generateDocumentDetailRoute(documentTypeGuid, documentId)
-      );
+      this.$router.push(`/paper-work/detail/${documentTypeGuid}/${documentId}`);
     },
 
     addAttachment() {

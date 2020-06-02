@@ -10,9 +10,7 @@
       >
         <template :active-state-enabled="false" #item="item">
           <div>
-            <div class="list__content">
-              {{item.data.name}}
-            </div>
+            <div class="list__content">{{item.data.name}}</div>
           </div>
         </template>
       </DxList>
@@ -27,23 +25,15 @@ export default {
   components: {
     DxList
   },
-  props: ["employee"],
+  props: ["recipient"],
   async created() {
     this.dataSource = await this.$axios.get(dataApi.company.Employee);
     this.store = await this.dataSource.data.data.filter(el => {
-      return this.employee.find(id => {
+      return this.recipient.find(id => {
         return id == el.id;
       });
     });
   },
-  data() {
-    return {
-      store: [],
-      dataSource: []
-    };
-  },
-
-  methods: {}
 };
 </script>
 <style lang="scss"  scoped>
