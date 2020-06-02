@@ -3,11 +3,9 @@
     :data-source="resipientStore"
     :grouped="true"
     :show-selection-controls="true"
-    :accept-custom-value="true"
-    :on-custom-item-creating="addNewMember"
+    @valueChanged="setRecipient"
     :showClearButton="true"
     :value="recipients"
-    
     valueExpr="id"
     displayExpr="name"
     :searchEnabled="true"
@@ -15,6 +13,9 @@
     :paginate="true"
     :page-size="10"
   >
+    <DxValidator validation-group="taskValidationgroup">
+      <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
+    </DxValidator>
     <template #group="{ data }">
       <recipient-list :data="data" />
     </template>
@@ -22,29 +23,36 @@
 </template>
 
 <script>
+import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
+import recipientList from "~/components/page/recipient-list.vue";
 import dataApi from "~/static/dataApi";
 import { DxTagBox } from "devextreme-vue";
+import DataSource from "devextreme/data/data_source";
 export default {
   components: {
-    DxTagBox
+    DxValidator,
+    DxRequiredRule,
+    DxTagBox,
+    recipientList
   },
+  props: ["recipients", "property"],
   created() {
-    console.log(this.resipientStore);
+    console.log(this.recipients);
   },
-  props: ["recipients"],
   data() {
     return {
-      resipientStore: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.recipient.list
+      resipientStore: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.recipient.list
+        }),
+        group: [{ selector: "recipientType" }]
       })
     };
   },
   methods: {
-    addNewMember(args) {
-      const newValue = args.text;
-      args.customItem = newValue;
-      console.log(args);
+    setRecipient(e) {
+      this.$emit("setRecipients", [this.property, e.value]);
     }
   }
 };

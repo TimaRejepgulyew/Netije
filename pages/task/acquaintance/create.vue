@@ -8,7 +8,7 @@
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
-      validation-group="simpleTaskValidationgroup"
+      validation-group="taskValidationgroup"
     >
       <DxGroupItem :col-count="3">
         <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
@@ -33,22 +33,14 @@
               <DxLabel location="top" :text="$t('workFlow.needsReview')" />
             </DxSimpleItem>
           </DxGroupItem>
-          <DxSimpleItem
-            :editor-options="employeeOptions"
-            editor-type="dxTagBox"
-            data-field="observers"
-          >
+          <DxSimpleItem template="recipient" data-field="observers">
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
           <DxSimpleItem data-field="performers" template="recipient">
             <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
             <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
           </DxSimpleItem>
-          <DxSimpleItem
-            :editor-options="employeeOptions"
-            editor-type="dxTagBox"
-            data-field="excludedPerformers"
-          >
+          <DxSimpleItem template="recipient" data-field="excludedPerformers">
             <DxLabel location="top" :text="$t('workFlow.excludedPerformers')" />
           </DxSimpleItem>
         </DxGroupItem>
@@ -73,7 +65,11 @@
         ></attachments>
       </template>
       <template #recipient="recipients">
-        <recipient-tag-box :recipients="recipients.data.editorOptions.value" />
+        <recipient-tag-box
+          :property="recipients.data.dataField"
+          :recipients="recipients.data.editorOptions.value"
+          @setRecipients="setRecipients"
+        />
       </template>
     </DxForm>
     <span
@@ -121,19 +117,18 @@ export default {
         comment: null,
         needsReview: false,
         isElectronicAcquaintance: true,
-        excludedPerformers: false
+        excludedPerformers: []
       },
       errorMessage: false,
       dateTimeOptions: {
         type: "datetime"
-      },
-      addNewMember: args => {
-        const newValue = args.text;
-        args.customItem = newValue;
       }
     };
   },
   methods: {
+    setRecipients([property, value]) {
+      this.store[property] = value;
+    },
     updateAttachments(attachments) {
       this.store.attachments = attachments;
     },

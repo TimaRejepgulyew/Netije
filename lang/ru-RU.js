@@ -50,7 +50,7 @@ export default {
   workFlow: {
     isElectronicAcquaintance:"Ознакомление в электронном виде",
     excludedPerformers:"Кроме",
-    needsReview: "На приемку",
+    needsReview: "На контроле",
   },
   document: {
     remove: "Удалить",
