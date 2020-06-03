@@ -1,5 +1,5 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
-import TaskType from"~/infrastructure/constants/taskType.js"
+import TaskType from "~/infrastructure/constants/taskType.js";
 export default function(context) {
   return [
     {
@@ -16,22 +16,25 @@ export default function(context) {
 }
 
 export function TaskButtons(context) {
+  function generateUrl(typeGuid) {
+    return `/task/create/${typeGuid}`;
+  }
 
   return [
     {
       icon: "plus",
       text: context.$t("translations.fields.createSimpleTask"),
-      path: "/task/simple/create"
+      path: generateUrl(TaskType.SimpleTask)
     },
     {
       icon: "plus",
       text: context.$t("translations.fields.createAcquaintanceTask"),
-      path: "/task/acquaintance/create"
+      path: generateUrl(TaskType.AcquaintanceTask)
     },
     {
       icon: "plus",
       text: context.$t("translations.fields.createActionTask"),
-      path: "/task/action-item-execution/create"
+      path: generateUrl(TaskType.ActionItemExecutionTask)
     }
   ];
 }

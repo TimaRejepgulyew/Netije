@@ -2,10 +2,10 @@
   <div class="toolbar">
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
-      <DxItem :options="sendButtonOptions" location="before" widget="dxButton" />
+      <DxItem :options="startButtonOptions" location="before" widget="dxButton" />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
-        <importanceChanger @importantChanged="importantChanged"></importanceChanger>
+        <importanceChanger ></importanceChanger>
       </template>
     </DxToolbar>
   </div>
@@ -31,22 +31,33 @@ export default {
         icon: "back",
         text: this.$t("buttons.back"),
         onClick: () => {
-          this.$router.go(-1);
+          this.backTo();
         }
       }
     };
   },
   computed: {
-    sendButtonOptions() {
+    startButtonOptions() {
       return {
-        ...this.$store.getters["globalProperties/btnSend"](this),
+        ...this.$store.getters["globalProperties/btnStart"](this),
         onClick: () => {
-          this.$emit("submit");
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentTask/start"),
+              e => {
+                this.backTo();
+                this.$awn.success();
+              },
+              e => this.$awn.alert()
+            );
         }
       };
     }
   },
   methods: {
+    backTo() {
+      this.$router.go(-1);
+    },
     importantChanged(value) {
       this.$emit("importantChanged", value);
     }

@@ -15,9 +15,12 @@ export default {
         hid: "description",
         name: "description",
         content: process.env.npm_package_description || ""
-      }
+      },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "static/main-logo.svg" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+     
+    ]
   },
   router: {
     middleware: ["authorization", "authorization-callback", "metadata"]

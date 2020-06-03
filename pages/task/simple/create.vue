@@ -130,8 +130,9 @@ export default {
         displayExpr: "name"
       },
       addNewMember: args => {
-        const newValue = args.text;
-        args.customItem = newValue;
+        console.log("DAWDAW", args);
+        // const newValue = args.text;
+        // args.customItem = newValue;
       }
     };
   },
@@ -171,7 +172,9 @@ export default {
           context: this,
           url: dataApi.company.Employee
         }),
-
+        onValueChanged: e => {
+         
+        },
         showSelectionControls: true,
         maxDisplayedTags: 3,
         acceptCustomValue: true,

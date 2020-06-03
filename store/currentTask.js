@@ -1,9 +1,8 @@
 import dataApi from "~/static/dataApi";
-import Importance from "~/infrastructure/constants/assignmentImportance";
 import TaskStatus from "~/infrastructure/constants/taskStatus";
 export const state = () => ({
-  task: null,
-  reload: false
+  task: {},
+  isNew: null
 });
 
 export const getters = {
@@ -13,40 +12,81 @@ export const getters = {
   taskType({ task }) {
     return task.taskType;
   },
-  reload({ reload }) {
-    return reload;
+  isNew({ isNEw }) {
+    return isNEw;
   },
-  isImportant({ task }) {
-    return task.importance === Importance.High;
+  isDraft({ task }) {
+    return task.status === TaskStatus.Draft;
   },
   task({ task }) {
     return task;
   }
 };
 export const mutations = {
-  RESET_FIELDS(state) {
-    state.task = null;
-  },
   SET_TASK(state, payload) {
     console.log(payload);
     state.task = payload;
   },
-  RELOAD(state, payload) {
-    state.reload = payload;
+  SET_SUBJECT(state, payload) {
+    console.log(payload);
+    state.task.subject = payload;
+  },
+  SET_DEADLINE(state, payload) {
+    console.log(payload);
+    state.task.deadline = payload;
+  },
+  SET_COMMENT(state, payload) {
+    console.log(payload);
+    state.task.comment;
+  },
+  SET_ROUTE_TYPE(state, payload) {
+    console.log(payload);
+    state.task.routeType = payload;
+  },
+  SET_NEEDS_REVIEW(state, payload) {
+    console.log(payload);
+    state.task.needsReview = payload;
+  },
+  SET_PERFORMER(state, payload) {
+    console.log(payload);
+    state.task.performers = payload;
+  },
+  SET_OBSERVERS(state, payload) {
+    console.log(payload);
+    state.task.observers = payload;
+  },
+  IS_NEW(state, payload) {
+    console.log(payload);
+    state.isNew = payload;
   }
 };
 
 export const actions = {
-  async reload({ commit }, id) {
-    commit("RELOAD", true);
-    const { data } = await this.$axios.get(dataApi.task.GetTaskById + id);
-    commit("RELOAD", false);
-    commit("SET_TASK", data);
+  async initTask({ commit }, type) {
+    // const { data } = this.$axios.get(dataApi.task.createTask + type);
+
+    commit("SER_TASK", {
+      taskType: 1,
+      status: 1,
+      subject: null,
+      importance: 0,
+      needsReview: false,
+      routeType: 0,
+      deadline: null,
+      observers: [],
+      performers: [],
+      attachments: [],
+      comment: null
+    });
+    commit("IS_NEW", true);
   },
-  async load({ commit }, id) {
-    commit("RESET_FIELDS");
-    const { data } = await this.$axios.get(dataApi.task.GetTaskById + id);
-    console.log(data);
-    commit("SET_TASK", data);
+  async load({ getters, commit }, { type, id }) {
+    if (!getters["isNew"]) {
+      const { data } = await this.$axios.get(
+        `${dataApi.task.GetTaskById}${type}/${id}`
+      );
+      commit("SET_TASK", data);
+      commit("IS_NEW", false);
+    }
   }
 };
