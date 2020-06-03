@@ -3,8 +3,8 @@
     @button-click="createSimpleTask"
     :use-select-mode="false"
     :split-button="true"
-    :text="$t('buttons.create')"
-    :drop-down-options="{ width: 230 }"
+    :text="$t('buttons.createTaskByDocument')"
+    :drop-down-options="{ width: 330 }"
     :items="items"
     display-expr="name"
     @item-click="createTask"
@@ -20,12 +20,14 @@ export default {
   computed: {
     items() {
       const allActionGuid = ActionGuid(this);
-      let availableActions = this.$store.getters["currentDocument/document"]
+      const availableActions = this.$store.getters["currentDocument/document"]
         .documentKind.availableActions;
       return allActionGuid.filter(el => {
-        // return availableActions.find(id => {
-        //   el.id === id;
-        // });
+        let isSimilar = false;
+        for (let id in availableActions) {
+          if (availableActions[id] === el.id) isSimilar = true;
+        }
+        return isSimilar;
       });
     }
   },
@@ -34,7 +36,12 @@ export default {
       this.$router.push(e.itemData.path);
     },
     createSimpleTask() {
-      this.$router.push("/task/simple/create");
+      this.$router.push({
+        path: "/task/simple/create",
+        query: {
+          documentId: this.$store.getters["currentDocument/document"].id
+        }
+      });
     }
   }
 };

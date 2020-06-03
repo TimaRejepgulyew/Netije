@@ -48,9 +48,14 @@ export default {
     confirm: "Подтверждение"
   },
   workFlow: {
-    isElectronicAcquaintance:"Ознакомление в электронном виде",
-    excludedPerformers:"Кроме",
+    isElectronicAcquaintance: "Ознакомление в электронном виде",
+    excludedPerformers: "Кроме",
     needsReview: "На контроле",
+    actionItemExecution: "Задача на исполнение поручения",
+    acquaintance: "Задача на ознакомление",
+    reviewManager: "Задача на рассмотрение руководителем",
+    freeApproval: "Свободное согласование",
+    approval: "Согласование по регламенту"
   },
   document: {
     remove: "Удалить",
@@ -223,6 +228,7 @@ export default {
     cancel: "Назад",
     delete: "Удалить",
     create: "Создать",
+    createTaskByDocument: "Создать задачу на основе документа",
     send: "Отправить",
     register: "Зарегистрировать",
     preview: "Читать",

@@ -3,12 +3,12 @@ export default function(context) {
     {
       id: 1,
       name: context.$t("workFlow.actionItemExecution"),
-      path: "/task/action-item-execution"
+      path: "/task/action-item-execution/create"
     },
     {
       id: 2,
       name: context.$t("workFlow.acquaintance"),
-      path: "/task/acquaintance"
+      path: "/task/acquaintance/create"
     },
     {
       id: 3,

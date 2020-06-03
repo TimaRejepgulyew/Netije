@@ -1,6 +1,6 @@
 export default {
   env: {
-     baseUrl: process.env.npm_package_url
+    baseUrl: process.env.npm_package_url
   },
   mode: "spa",
   /*
@@ -17,7 +17,7 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "static/main-logo.svg" }]
   },
   router: {
     middleware: ["authorization", "authorization-callback", "metadata"]
@@ -26,7 +26,6 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: "~/components/page/loading",
   /*
    ** Global CSS
    */
@@ -105,6 +104,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { }
+    extend(config, ctx) {}
   }
 };
