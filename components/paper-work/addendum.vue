@@ -8,23 +8,6 @@
   >
     <DxGroupItem>
       <DxSimpleItem
-        data-field="businessUnitId"
-        :editor-options="businessUnitOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-        <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-      </DxSimpleItem>
-
-      <DxSimpleItem
         data-field="leadingDocumentId"
         :editor-options="leadingDocumentOptions"
         editor-type="dxSelectBox"
@@ -60,40 +43,6 @@ export default {
   computed: {
     store() {
       return this.$store.getters["currentDocument/document"];
-    },
-    businessUnitId() {
-      return this.$store.getters["currentDocument/document"].businessUnitId;
-    },
-    businessUnitOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
-        }),
-        value: this.businessUnitId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
-        }
-      };
-    },
-    deparmentOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", this.businessUnitId],
-            "and",
-            ["status", "=", 0]
-          ]
-        }),
-        value: this.$store.getters["currentDocument/document"].departmentId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
-        }
-      };
     },
     leadingDocumentOptions() {
       return {
