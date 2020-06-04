@@ -10,7 +10,7 @@
       :title="$t('translations.fields.registration')"
     >
       <div>
-        <document-registration-popup v-if="isDocumentRegistrationPopupOpen"  @hidePopup="hidePopup" />
+        <document-registration-popup v-if="isDocumentRegistrationPopupOpen" @hidePopup="hidePopup" />
       </div>
     </DxPopup>
     <DxButton
@@ -50,11 +50,13 @@ export default {
   methods: {
     hidePopup() {
       this.isDocumentRegistrationPopupOpen = false;
-      this.$store.commit("currentDocument/CLAER_REGISTRATION_DATA");
     },
     register() {
       if (this.isDataChanged) {
-        if (this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate().isValid)
+        if (
+          this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate()
+            .isValid
+        )
           this.$awn.asyncBlock(
             this.$store.dispatch("currentDocument/save"),
             res => {
@@ -66,7 +68,7 @@ export default {
             }
           );
       } else {
-        console.log("showd")
+        console.log("showd");
         this.isDocumentRegistrationPopupOpen = true;
       }
     },
