@@ -9,8 +9,8 @@
       :height="'auto'"
       :title="$t('translations.fields.registration')"
     >
-      <div v-if="isDocumentRegistrationPopupOpen">
-        <document-registration-popup @hidePopup="hidePopup" />
+      <div>
+        <document-registration-popup v-if="isDocumentRegistrationPopupOpen"  @hidePopup="hidePopup" />
       </div>
     </DxPopup>
     <DxButton
@@ -54,10 +54,7 @@ export default {
     },
     register() {
       if (this.isDataChanged) {
-        if (
-          this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate()
-            .isValid
-        )
+        if (this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate().isValid)
           this.$awn.asyncBlock(
             this.$store.dispatch("currentDocument/save"),
             res => {
@@ -69,6 +66,7 @@ export default {
             }
           );
       } else {
+        console.log("showd")
         this.isDocumentRegistrationPopupOpen = true;
       }
     },
