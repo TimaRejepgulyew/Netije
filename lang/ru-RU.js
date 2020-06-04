@@ -65,7 +65,7 @@ export default {
     fields: {
       areYouSureCancelDocument:
         "Вы уверенны что хотите выйти? Не сохраненные данные будут утеряны",
-      dated: "Дата документа",
+      dated: "Дата от",
       name: "Имя",
       inResponseToId: "В ответ на",
       index: "Индекс",
@@ -81,7 +81,7 @@ export default {
       authorId: "Автор",
       registrationDate: "Дата Рег.",
       registrationNumber: "Рег. №",
-      correspondentId: "Корреспондент",
+      correspondentId: "Контрагент",
       subject: "Содержание",
       documentKindId: "Вид документа",
       documentRegisterId: "Журнал регистрации",
@@ -92,7 +92,7 @@ export default {
       departmentId: "Отдел",
       leadingDocumentId: "Ведущий документ",
       documentTypeGuid: "Тип документа",
-      regNumberDocument: " Пришедший Рег.  номер",
+      regNumberDocument: "Вх. Рег. номер",
       validTill: "Действителен по",
       issuedToId: "Кому выдана"
     }
@@ -518,7 +518,7 @@ export default {
       caseFileIdRequired: "Выберите дело",
       placedToCaseFileDate: "Дата помещения в дело",
       outgoingDocumentId: "В ответ на...",
-      dated: "Дата документа",
+      dated: "Дата от",
       regNumberDocument: "Регистрационный №",
 
       files: "Файлы",

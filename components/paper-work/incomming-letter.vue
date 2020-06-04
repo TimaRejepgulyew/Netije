@@ -14,13 +14,13 @@
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
-        <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
-      </DxSimpleItem>
-
       <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
         <DxLabel location="top" :text="$t('translations.fields.dated')" />
       </DxSimpleItem>
+      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
+        <DxLabel location="top" text="№" />
+      </DxSimpleItem>
+
       <DxSimpleItem
         data-field="inResponseToId"
         :editor-options="inResponseToIdOptions"
@@ -33,24 +33,23 @@
         :editor-options="deliveryMethodOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.mailDeliveryMethod')" />
+        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
       </DxSimpleItem>
 
       <DxGroupItem :visible="isCompany">
-        <DxSimpleItem
-          data-field="contactId"
-          :editor-options="contactOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
-        </DxSimpleItem>
-
         <DxSimpleItem
           data-field="counterpartySignatoryId"
           :editor-options="counterpartySignatoryOptions"
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="contactId"
+          :editor-options="contactOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
@@ -78,7 +77,7 @@
         :editor-options="addresseeOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.whom')" />
+        <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="assigneeId"
