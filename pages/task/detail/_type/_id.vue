@@ -26,10 +26,10 @@
         <component :is="taskType"></component>
       </template>
       <template #attachments>
-        <attachments></attachments>
+        <!-- <attachments></attachments> -->
       </template>
       <template #comments>
-        <comments :url="commentsUrl"></comments>
+        <!-- <comments :url="commentsUrl"></comments> -->
       </template>
     </DxForm>
   </div>
@@ -65,8 +65,8 @@ export default {
     DxRequiredRule,
     DxForm
   },
-  async asyncData({ app, params }) {
-    await app.store.dispatch("currentTask/load", {
+  asyncData({ app, params }) {
+    app.store.dispatch("currentTask/load", {
       type: +params.type,
       id: +params.id
     });
@@ -77,6 +77,9 @@ export default {
     };
   },
   computed: {
+    isDraft() {
+      return this.$store.getters["currentTask/isDraft"];
+    },
     taskType() {
       switch (+this.$route.params.type) {
         case TaskType.SimpleTask:

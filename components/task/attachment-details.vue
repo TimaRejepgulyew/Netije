@@ -36,7 +36,7 @@
           </template>
         </DxList>
       </div>
-      <template v-if="!readOnly">
+      <template>
         <span class>{{$t("translations.headers.attachment")}}</span>
         <DxSelectBox
           v-model="selectedDocument"
@@ -63,7 +63,6 @@
   </div>
 </template>
 <script>
-
 import DocumentIcon from "~/components/page/document-icon";
 import attachmentActionBtn from "~/components/workFlow/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
@@ -82,20 +81,9 @@ export default {
     DxButton,
     DxTagBox
   },
-  props: ["url", "readOnly"],
-  created() {
-    if (this.isCreated) {
-      this.attachments = [];
-    }
-  },
+  props: ["url", ],
   data() {
     return {
-      attachments: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: this.url + this.$route.params.id
-        })
-      }),
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -104,6 +92,16 @@ export default {
       }),
       selectedDocument: null
     };
+  },
+  computed: {
+    attachments() {
+      return new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: this.url + this.$route.params.id
+        })
+      });
+    }
   },
   methods: {
     openVersion(documentId, documentTypeGuid) {
@@ -143,11 +141,6 @@ export default {
         return attach.document.id != id;
       });
       this.sendAttachments(this.attachments);
-    }
-  },
-  computed: {
-    isCreated() {
-      return !this.$route.params.id;
     }
   }
 };

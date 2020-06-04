@@ -1,0 +1,185 @@
+<template>
+  <div id="form-demo">
+    <DxForm
+      ref="form"
+      :form-data.sync="store"
+      :read-only="false"
+      :show-colon-after-label="true"
+      :show-validation-summary="true"
+      :validation-group="validatorGroup"
+    >
+      <DxGroupItem :caption="$t('translations.fields.main')">
+        <DxGroupItem :col-count="10">
+          <DxSimpleItem :col-span="9" data-field="subject">
+            <DxLabel
+              location="top"
+              :editor-options="subjectOptions"
+              :text="$t('translations.fields.subjectTask')"
+            />
+            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+          </DxSimpleItem>
+          <DxSimpleItem
+            data-field="needsReview"
+            :editor-options="needsReviewOptions"
+            editor-type="dxCheckBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
+          </DxSimpleItem>
+        </DxGroupItem>
+        <DxGroupItem :col-count="2">
+          <DxSimpleItem
+           
+            data-field="deadline"
+            :editor-options="deadlineOptions"
+            editor-type="dxDateBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+          </DxSimpleItem>
+          <DxSimpleItem
+            data-field="isElectronicAcquaintance"
+            :editor-options="isElectronicAcquaintanceOptions"
+            editor-type="dxCheckBox"
+          >
+            <DxLabel location="top" :text="$t('workFlow.isElectronicAcquaintance')" />
+          </DxSimpleItem>
+        </DxGroupItem>
+        <DxSimpleItem template="observers" data-field="observers">
+          <DxLabel location="top" :text="$t('translations.fields.observers')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="performers" template="performers">
+          <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
+        </DxSimpleItem>
+        <DxSimpleItem template="excludedPerformers" data-field="excludedPerformers">
+          <DxLabel location="top" :text="$t('workFlow.excludedPerformers')" />
+        </DxSimpleItem>
+
+        <DxSimpleItem
+          v-if="isDraft"
+          data-field="comment"
+          :editor-options="commentOptions"
+          editor-type="dxTextArea"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.comment')" />
+        </DxSimpleItem>
+      </DxGroupItem>
+      <template #performers="performers">
+        <recipient-tag-box
+          :messageRequired="$t('translations.fields.acquaintMembersRequired')"
+          :validator-group="validatorGroup"
+          :recipients="performers.data.editorOptions.value"
+          @setEmployee="setPerformers"
+        />
+      </template>
+      <template #observers="observers">
+        <recipient-tag-box
+          :recipients="observers.data.editorOptions.value"
+          @setEmployee="setObservers"
+        />
+      </template>
+      <template #excludedPerformers="excludedPerformers">
+        <recipient-tag-box
+          :recipients="excludedPerformers.data.editorOptions.value"
+          @setEmployee="setExcludedPerformers"
+        />
+      </template>
+    </DxForm>
+  </div>
+</template>
+<script>
+import recipientTagBox from "~/components/page/recipient-tag-box.vue";
+import "devextreme-vue/text-area";
+import DxForm, {
+  DxGroupItem,
+  DxSimpleItem,
+  DxLabel,
+  DxRequiredRule
+} from "devextreme-vue/form";
+import dataApi from "~/static/dataApi";
+export default {
+  components: {
+    DxGroupItem,
+    DxSimpleItem,
+    DxLabel,
+    DxRequiredRule,
+    DxForm,
+    recipientTagBox
+  },
+  data() {
+    return {
+      validatorGroup: "task"
+    };
+  },
+  methods: {
+    setObservers(value) {
+      this.$store.commit("currentTask/SET_OBSERVERS", value);
+    },
+    setPerformers(value) {
+      this.$store.commit("currentTask/SET_PERFORMERS", value);
+    },
+    setExcludedPerformers() {
+      this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", value);
+    }
+  },
+  computed: {
+    isNew() {
+      return this.$store.getters["currentTask/isNew"];
+    },
+    isDraft() {
+      return this.$store.getters["currentTask/isDraft"];
+    },
+    subjectOptions() {
+      return {
+        value: this.$store.getters["currentTask/task"].subject,
+        onValueChanged: e => {
+          this.$store.commit("currentTask/SET_SUBJECT", e.value);
+        }
+      };
+    },
+    commentOptions() {
+      return {
+        height: 250,
+        value: this.$store.getters["currentTask/task"].comment,
+        onValueChanged: e => {
+          this.$store.commit("currentTask/SET_COMMENT", e.value);
+        }
+      };
+    },
+    deadlineOptions() {
+      return {
+        type: "datetime",
+        dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
+        value: this.$store.getters["currentTask/task"].deadline,
+        onValueChanged: e => {
+          this.$store.commit("currentTask/SET_DEADLINE", e.value);
+        }
+      };
+    },
+    needsReviewOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
+        value: this.$store.getters["currentTask/task"].needsReview,
+        onValueChanged: e => {
+          this.$store.commit("currentTask/SET_NEEDS_REVIEW", e.value);
+        }
+      };
+    },
+    isElectronicAcquaintanceOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
+        value: this.$store.getters["currentTask/task"].isElectronicAcquaintance,
+        onValueChanged: e => {
+          this.$store.commit(
+            "currentTask/SET_IS_ELECTRONIC_ACQUAINTANCE",
+            e.value
+          );
+        }
+      };
+    }
+  }
+};
+</script>

@@ -215,6 +215,7 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   buttons: {
+    start :"Запустить",
     acquaintance: "Ознакомлен",
     changePassword: "Сменить пароль",
     save: "Сохранить",

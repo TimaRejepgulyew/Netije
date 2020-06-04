@@ -8,7 +8,7 @@
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
-      validation-group="taskValidationgroup"
+      :validation-group="validatorGroup"
     >
       <DxGroupItem :col-count="3">
         <DxGroupItem :caption="$t('translations.fields.main')" :col-span="2">
@@ -66,6 +66,7 @@
       </template>
       <template #recipient="recipients">
         <recipient-tag-box
+          :validator-group="validatorGroup"
           :property="recipients.data.dataField"
           :recipients="recipients.data.editorOptions.value"
           @setRecipients="setRecipients"
@@ -106,6 +107,7 @@ export default {
   },
   data() {
     return {
+      validatorGroup: "task",
       store: {
         subject: null,
         importance: Important.Normal,

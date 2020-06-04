@@ -12,14 +12,18 @@ export const getters = {
   taskType({ task }) {
     return task.taskType;
   },
-  isNew({ isNEw }) {
-    return isNEw;
+  isNew({ isNew }) {
+    return isNew;
   },
   isDraft({ task }) {
     return task.status === TaskStatus.Draft;
   },
   task({ task }) {
+    console.log(task);
     return task;
+  },
+  taskTypeAndId({ task }) {
+    return { type: task.type, id: task.id };
   }
 };
 export const mutations = {
@@ -47,9 +51,13 @@ export const mutations = {
     console.log(payload);
     state.task.needsReview = payload;
   },
-  SET_PERFORMER(state, payload) {
+  SET_PERFORMERS(state, payload) {
     console.log(payload);
     state.task.performers = payload;
+  },
+  SET_EXCLUDED_PERFORMERS(state, payload) {
+    console.log(payload);
+    state.task.excludePerformers = payload;
   },
   SET_OBSERVERS(state, payload) {
     console.log(payload);
@@ -58,14 +66,19 @@ export const mutations = {
   IS_NEW(state, payload) {
     console.log(payload);
     state.isNew = payload;
-  }
+  },
+  SET_IS_ELECTRONIC_ACQUAINTANCE(state, payload) {
+    console.log(payload);
+    state.task.isElectronicAcquaintance = payload;
+  },
 };
 
 export const actions = {
-  async initTask({ commit }, type) {
+  initTask({ commit }, type) {
     // const { data } = this.$axios.get(dataApi.task.createTask + type);
-
-    commit("SER_TASK", {
+    commit("IS_NEW", true);
+    commit("SET_TASK", {
+      id: 1,
       taskType: 1,
       status: 1,
       subject: null,
@@ -78,15 +91,42 @@ export const actions = {
       attachments: [],
       comment: null
     });
-    commit("IS_NEW", true);
   },
   async load({ getters, commit }, { type, id }) {
-    if (!getters["isNew"]) {
-      const { data } = await this.$axios.get(
-        `${dataApi.task.GetTaskById}${type}/${id}`
-      );
-      commit("SET_TASK", data);
+    console.log(getters["isNew"]);
+    // if (!getters["isNew"]) {
+    //   const { data } = await this.$axios.get(
+    //     `${dataApi.task.GetTaskById}${type}/${id}`
+    //   );
+    //   commit("SET_TASK", data);
+    //   commit("IS_NEW", false);
+    // }
+  },
+  async save({ commit }) {
+    try {
       commit("IS_NEW", false);
+      await this.$axios.put(dataApi.task.Save);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async saveAndLoad({ dispatch, getters }) {
+    try {
+      await dispatch("save");
+      await dispatch("load", getters("taskTypeAndId"));
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async startAndLoad({ dispatch, getters }) {
+    try {
+      if (getters["isNew"]) {
+        await dispatch("save");
+      }
+      await this.$axios.put(dataApi.task.Start);
+      await dispatch("load", getters("taskTypeAndId"));
+    } catch (e) {
+      console.log(e);
     }
   }
 };

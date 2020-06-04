@@ -2,10 +2,11 @@
   <div class="toolbar">
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
-      <DxItem :options="startButtonOptions" location="before" widget="dxButton" />
+      <DxItem :visible="isDraft" :options="startButtonOptions" location="before" widget="dxButton" />
+      <DxItem :visible="isDraft" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
-        <importanceChanger ></importanceChanger>
+        <importanceChanger></importanceChanger>
       </template>
     </DxToolbar>
   </div>
@@ -37,6 +38,25 @@ export default {
     };
   },
   computed: {
+    isDraft() {
+      return this.$store.getters["currentTask/isDraft"];
+    },
+    saveButtonOptions() {
+      return {
+        ...this.$store.getters["globalProperties/btnSave"](this),
+        onClick: () => {
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentTask/start"),
+              e => {
+                this.backTo();
+                this.$awn.success();
+              },
+              e => this.$awn.alert()
+            );
+        }
+      };
+    },
     startButtonOptions() {
       return {
         ...this.$store.getters["globalProperties/btnStart"](this),

@@ -1,7 +1,7 @@
 <script>
 export default {
   async asyncData({ app, params }) {
-    await app.store.dispatch("currentDocument/initTask", +params.type);
+    await app.store.dispatch("currentTask/initTask", +params.type);
     app.router.push(
       `/task/detail/${params.type}/${app.store.getters["currentTask/task"].id}`
     );

@@ -210,6 +210,7 @@ export default {
     onAcquaintance: "Tanyşdyrmak üçin"
   },
   buttons: {
+    start: "Başlamak",
     acquaintance: "Tanyşdym",
     changePassword: "Açarsözi çalyşmak",
     save: "Ýatda saklamak",

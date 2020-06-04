@@ -4,24 +4,26 @@
     :read-only="false"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="task"
+    :validation-group="validatorGroup"
   >
     <DxGroupItem :caption="$t('translations.fields.main')">
-      <DxSimpleItem data-field="subject">
-        <DxLabel
-          location="top"
-          :editor-options="subjectOptions"
-          :text="$t('translations.fields.subjectTask')"
-        />
-        <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="needsReview"
-        :editor-options="needsReviewOptions"
-        editor-type="dxCheckBox"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
-      </DxSimpleItem>
+      <DxGroupItem :col-count="10">
+        <DxSimpleItem :col-span="9" data-field="subject">
+          <DxLabel
+            location="top"
+            :editor-options="subjectOptions"
+            :text="$t('translations.fields.subjectTask')"
+          />
+          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="needsReview"
+          :editor-options="needsReviewOptions"
+          editor-type="dxCheckBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
+        </DxSimpleItem>
+      </DxGroupItem>
       <DxGroupItem :col-count="2">
         <DxSimpleItem
           data-field="deadline"
@@ -39,19 +41,11 @@
           <DxLabel location="top" :text="$t('translations.fields.start')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxSimpleItem
-        :editor-options="observersOptions"
-        editor-type="dxTagBox"
-        data-field="observers"
-      >
+      <DxSimpleItem template="observers" data-field="observers">
         <DxLabel location="top" :text="$t('translations.fields.observers')" />
       </DxSimpleItem>
 
-      <DxSimpleItem
-        :editor-options="performersOptions"
-        editor-type="dxTagBox"
-        data-field="performers"
-      >
+      <DxSimpleItem template="performers" data-field="performers">
         <DxRequiredRule :message="$t('translations.fields.performersRequired')" />
         <DxLabel location="top" :text="$t('translations.fields.performers')" />
       </DxSimpleItem>
@@ -65,9 +59,24 @@
         <DxLabel location="top" :text="$t('translations.fields.comment')" />
       </DxSimpleItem>
     </DxGroupItem>
+    <template #performers="performers">
+      <employee-tag-box
+        :messageRequired="$t('translations.fields.performersRequired')"
+        :validator-group="validatorGroup"
+        :employees="performers.data.editorOptions.value"
+        @setEmployee="setPerformers"
+      />
+    </template>
+    <template #observers="observers">
+      <employee-tag-box
+        :employees="observers.data.editorOptions.value"
+        @setEmployee="setObservers"
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import employeeTagBox from "~/components/page/employee-tag-box.vue";
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,
@@ -78,6 +87,7 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 export default {
   components: {
+    employeeTagBox,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
@@ -86,31 +96,64 @@ export default {
   },
   data() {
     return {
-      commentOptions: {
+      validatorGroup: "task"
+    };
+  },
+  methods: {
+    setObservers(value) {
+      this.$store.commit("currentTask/SET_OBSERVERS", value);
+    },
+    setPerformers(value) {
+      this.$store.commit("currentTask/SET_PERFORMERS", value);
+    }
+  },
+  computed: {
+    isNew() {
+      return this.$store.getters["currentTask/isNew"];
+    },
+    isDraft() {
+      return this.$store.getters["currentTask/isDraft"];
+    },
+    subjectOptions() {
+      return {
+        value: this.$store.getters["currentTask/task"].subject,
+        onValueChanged: e => {
+          this.$store.commit("currentTask/SET_SUBJECT", e.value);
+        }
+      };
+    },
+    commentOptions() {
+      return {
         height: 250,
-        value: this.$store["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"].comment,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_COMMENT", e.value);
         }
-      },
-      deadlineOptions: {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
-        }),
+      };
+    },
+    deadlineOptions() {
+      return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"].deadline,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_DEADLINE", e.value);
         }
-      },
-      needsReviewOptions: {
-        value: this.$store["currentTask/task"].needsReview,
+      };
+    },
+    needsReviewOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
+        value: this.$store.getters["currentTask/task"].needsReview,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_NEEDS_REVIEW", e.value);
         }
-      },
-      routeTypeOptions: {
+      };
+    },
+    routeTypeOptions() {
+      return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
@@ -118,67 +161,14 @@ export default {
           { id: 0, name: this.$t("translations.fields.gradually") },
           { id: 1, name: this.$t("translations.fields.parallel") }
         ],
-        value: this.$store["currentTask/task"].routeType,
+        value: this.$store.getters["currentTask/task"].routeType,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_ROUTE_TYPE", e.value);
-        }
-      }
-    };
-  },
-
-  computed: {
-    isNew() {
-      return this.$store.getters["currentTask/"];
-    },
-    subjectOptions() {
-      return {
-        value: this.$store["currentTask/task"].subject,
-        onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", e.value);
-        }
-      };
-    },
-    performersOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Employee
-        }),
-        value: this.$store["currentTask/task"].performers,
-        showSelectionControls: true,
-        maxDisplayedTags: 5,
-        acceptCustomValue: true,
-        onValueChanged: e => {
-          this.$store.commit("currentTask/SET_PERFORMERS", e.value);
-        }
-      };
-    },
-    observersOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Employee
-        }),
-        value: this.$store["currentTask/task"].observers,
-        showSelectionControls: true,
-        maxDisplayedTags: 5,
-        acceptCustomValue: true,
-        onValueChanged: e => {
-          this.$store.commit("currentTask/SET_OBSERVERS", e.value);
         }
       };
     }
   }
 };
 </script>
-<style lang="scss" scoped>
-.message--error {
-  display: inline;
-  color: #d9534f;
-  border-bottom: 1px dashed #d9534f;
-  i {
-    font-size: 25px;
-  }
-}
-</style>
+
 

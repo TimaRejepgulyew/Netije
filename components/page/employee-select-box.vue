@@ -1,55 +1,54 @@
 <template>
-  <DxTagBox
-    :data-source="resipientStore"
-    :grouped="true"
-    :show-selection-controls="true"
-    @valueChanged="setRecipient"
+  <DxSelectBox
+    :data-source="employeeStore"
+    @valueChanged="setEmployee"
     :showClearButton="true"
-    :value="recipients"
+    :value="employee"
     valueExpr="id"
     displayExpr="name"
     :searchEnabled="true"
     searchExpr="name"
     :paginate="true"
     :page-size="10"
+    field-template="field"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #group="{ data }">
-      <recipient-grouped :data="data" />
+    <template #field="{data}">
+      <field :field-data="data" />
     </template>
-  </DxTagBox>
+  </DxSelectBox>
 </template>
 
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import recipientGrouped from "~/components/page/recipient-grouped.vue";
+import field from "~/components/page/employee-field.vue";
 import dataApi from "~/static/dataApi";
-import { DxTagBox } from "devextreme-vue";
+import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
     DxTagBox,
-    recipientGrouped
+    field
   },
-  props: ["recipients", "messageRequired", "validatorGroup"],
+  props: ["employee", "messageRequired", "validatorGroup"],
   data() {
     return {
-      resipientStore: new DataSource({
+      employeeStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
-        }),
-        group: [{ selector: "recipientType" }]
+          loadUrl: dataApi.company.Employee
+        })
       })
     };
   },
   methods: {
-    setRecipient(e) {
-      this.$emit("setRecipients", e.value);
+    setEmployee(e) {
+      console.log(this.property);
+      this.$emit("setEmployee", e.value);
     }
   }
 };
