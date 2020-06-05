@@ -596,7 +596,7 @@ export default {
       importanceMessage: "Bu tabşyryk diýseň ähmiýetlidir",
       completedMessage: "Tabşyryk ýerine ýetirildi",
       createSimpleTask: "Ýönekeý tabşyrygy",
-      createActionTask: "Tabşyryk üçin wezipäni",
+      createActionItemExecutionTask: "Tabşyryk üçin wezipäni",
       createAcquaintanceTask: "Tanyşdyrmak üçin wezipäni",
       attachmentSimpleTask: "Ýönekeý wezipe üçin içlik sahypasy",
       createDocument: "Resminamany döretmek",

@@ -2,7 +2,6 @@
   <div id="form-demo">
     <DxForm
       ref="form"
-      :form-data.sync="store"
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
@@ -26,9 +25,9 @@
             <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
           </DxSimpleItem>
         </DxGroupItem>
-        <DxGroupItem :col-count="2">
+        <DxGroupItem :col-count="3">
           <DxSimpleItem
-           
+            :col-span="2"
             data-field="deadline"
             :editor-options="deadlineOptions"
             editor-type="dxDateBox"

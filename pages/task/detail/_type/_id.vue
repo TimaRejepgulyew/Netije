@@ -1,22 +1,22 @@
 <template>
   <div id="form-demo">
-    <Header :headerTitle="$t('translations.fields.createSimpleTask')"></Header>
+    <Header :headerTitle="header"></Header>
     <toolbar />
     <DxForm
       ref="form"
-      :col-count="3"
+      :col-count="10"
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="false"
       validation-group="task"
     >
-      <DxGroupItem :col-span="2">
+      <DxGroupItem :col-span="7">
         <DxGroupItem template="mainForm"></DxGroupItem>
         <DxSimpleItem v-if="!isDraft" template="comments">
           <DxLabel :visible="false" location="top" :text="$t('translations.headers.attachment')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem>
+      <DxGroupItem :col-span="3">
         <DxSimpleItem template="attachments">
           <DxLabel :visible="false" location="top" :text="$t('translations.headers.attachment')" />
         </DxSimpleItem>
@@ -26,10 +26,10 @@
         <component :is="taskType"></component>
       </template>
       <template #attachments>
-        <!-- <attachments></attachments> -->
+        <attachments></attachments>
       </template>
       <template #comments>
-        <!-- <comments :url="commentsUrl"></comments> -->
+        <comments :url="commentsUrl"></comments>
       </template>
     </DxForm>
   </div>
@@ -73,7 +73,8 @@ export default {
   },
   data() {
     return {
-      commentsUrl: dataApi.task.TextsByTask
+      commentsUrl: dataApi.task.TextsByTask,
+      header: ""
     };
   },
   computed: {
@@ -83,10 +84,15 @@ export default {
     taskType() {
       switch (+this.$route.params.type) {
         case TaskType.SimpleTask:
+          this.header = this.$t("translations.fields.createSimpleTask");
           return "simple-task";
         case TaskType.AcquaintanceTask:
+          this.header = this.$t("translations.fields.createAcquaintanceTask");
           return "acquaintance-task";
         case TaskType.ActionItemExecutionTask:
+          this.header = this.$t(
+            "translations.fields.createActionItemExecutionTask"
+          );
           return "action-item-execution-task";
       }
     }

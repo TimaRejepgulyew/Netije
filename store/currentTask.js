@@ -6,9 +6,6 @@ export const state = () => ({
 });
 
 export const getters = {
-  isCompleted({ task }) {
-    return task.status === TaskStatus.Completed;
-  },
   taskType({ task }) {
     return task.taskType;
   },
@@ -18,8 +15,16 @@ export const getters = {
   isDraft({ task }) {
     return task.status === TaskStatus.Draft;
   },
+  isCompleted({ task }) {
+    return task.status === TaskStatus.Completed;
+  },
+  inProccess({ task }) {
+    return task.status === TaskStatus.InProccess;
+  },
+  isAborted({ task }) {
+    return task.status === TaskStatus.Aborted;
+  },
   task({ task }) {
-    console.log(task);
     return task;
   },
   taskTypeAndId({ task }) {
@@ -71,6 +76,30 @@ export const mutations = {
     console.log(payload);
     state.task.isElectronicAcquaintance = payload;
   },
+  SET_ACTION_ITEM_OBSERVERS(state, payload) {
+    console.log(payload);
+    state.task.actionItemObservers = payload;
+  },
+  SET_CO_ASSIGNEESS(state, payload) {
+    console.log(payload);
+    state.task.coAssigneess = payload;
+  },
+  SET_ASSIGNEE(state, payload) {
+    console.log(payload);
+    state.task.assigneeId = payload;
+  },
+  SET_SUPERVISOR(state, payload) {
+    console.log(payload);
+    state.task.supervisorId = payload;
+  },
+  SET_ACTION_ITEM(state, payload) {
+    console.log(payload);
+    state.task.actionItem = payload;
+  },
+  SET_IMPORTANCE(state, payload) {
+    console.log(payload);
+    state.task.importance = payload;
+  }
 };
 
 export const actions = {
@@ -124,6 +153,22 @@ export const actions = {
         await dispatch("save");
       }
       await this.$axios.put(dataApi.task.Start);
+      await dispatch("load", getters("taskTypeAndId"));
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async abort({ dispatch, getters }) {
+    try {
+      await this.$axios.put(dataApi.task.Abort);
+      await dispatch("load", getters("taskTypeAndId"));
+    } catch (e) {
+      console.log(e);
+    }
+  },
+  async restart({ dispatch, getters }) {
+    try {
+      await this.$axios.put(dataApi.task.Restart);
       await dispatch("load", getters("taskTypeAndId"));
     } catch (e) {
       console.log(e);

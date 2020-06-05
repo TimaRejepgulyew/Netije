@@ -10,7 +10,7 @@
     searchExpr="name"
     :paginate="true"
     :page-size="10"
-    field-template="field"
+    item-template="field"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
@@ -31,7 +31,7 @@ export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    DxTagBox,
+    DxSelectBox,
     field
   },
   props: ["employee", "messageRequired", "validatorGroup"],

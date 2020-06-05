@@ -4,6 +4,18 @@
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="isDraft" :options="startButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="isDraft" :options="saveButtonOptions" location="before" widget="dxButton" />
+      <DxItem
+        :visible="inProccess"
+        :options="abortButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
+        :visible="isCompleted||isAborted"
+        :options="restartButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
         <importanceChanger></importanceChanger>
@@ -41,6 +53,15 @@ export default {
     isDraft() {
       return this.$store.getters["currentTask/isDraft"];
     },
+    inProccess() {
+      return this.$store.getters["currentTask/inProccess"];
+    },
+    isCompleted() {
+      return this.$store.getters["currentTask/completed"];
+    },
+    isAborted() {
+      return this.$store.getters["currentTask/isAborted"];
+    },
     saveButtonOptions() {
       return {
         ...this.$store.getters["globalProperties/btnSave"](this),
@@ -72,14 +93,44 @@ export default {
             );
         }
       };
+    },
+    abortButtonOptions() {
+      return {
+        text: this.$t("buttons.abort"),
+        type: "danger",
+        onClick: () => {
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentTask/abort"),
+              e => {
+                this.backTo();
+                this.$awn.success();
+              },
+              e => this.$awn.alert()
+            );
+        }
+      };
+    },
+    restartButtonOptions() {
+      return {
+        text: this.$t("buttons.restart"),
+        onClick: () => {
+          if (this.$parent.$refs["form"].instance.validate().isValid)
+            this.$awn.asyncBlock(
+              this.$store.dispatch("currentTask/restart"),
+              e => {
+                this.backTo();
+                this.$awn.success();
+              },
+              e => this.$awn.alert()
+            );
+        }
+      };
     }
   },
   methods: {
     backTo() {
       this.$router.go(-1);
-    },
-    importantChanged(value) {
-      this.$emit("importantChanged", value);
     }
   }
 };

@@ -215,6 +215,8 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   buttons: {
+    restart:"Рестартовать",
+    abort:"Прекратить",
     start :"Запустить",
     acquaintance: "Ознакомлен",
     changePassword: "Сменить пароль",
@@ -607,7 +609,7 @@ export default {
       importanceMessage: "Это задание имеет высокую важность",
       completedMessage: "Задание выполнено",
       createSimpleTask: "Простая задача",
-      createActionTask: "Задача на исполнение поручения",
+      createActionItemExecutionTask: "Задача на исполнение поручения",
       createAcquaintanceTask: "Задача на ознакомление с документом",
       attachmentSimpleTask: "Вложение к простой задаче",
       createDocument: "Создать документ",
