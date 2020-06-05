@@ -33,7 +33,7 @@ export function TaskButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.fields.createActionTask"),
+      text: context.$t("translations.fields.createActionItemExecutionTask"),
       path: generateUrl(TaskType.ActionItemExecutionTask)
     }
   ];

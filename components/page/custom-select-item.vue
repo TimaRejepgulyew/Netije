@@ -1,7 +1,7 @@
 <template>
   <div class="custom-item">
-    <div>{{$t()}}{{fieldData && fieldData.name}}</div>
-    <div class="small grey">{{fieldData && fieldData.jobTitle}}</div>
+    <div>{{$t()}}{{itemData && itemData.name}}</div>
+    <div class="small grey">{{itemData && itemData.jobTitle}}</div>
   </div>
 </template>
 <script>
@@ -12,7 +12,7 @@ export default {
     DxTextBox
   },
   props: {
-    fieldData: {
+    itemData: {
       default: () => {}
     }
   }

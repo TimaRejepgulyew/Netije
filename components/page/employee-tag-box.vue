@@ -10,20 +10,20 @@
     searchExpr="name"
     :paginate="true"
     :page-size="10"
-    item-template="field"
+    item-template="customSelectItem"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #field="{data}">
-      <field :field-data="data" />
+    <template #customSelectItem="{data}">
+      <customSelectItem :item-data="data" />
     </template>
   </DxTagBox>
 </template>
 
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import field from "~/components/page/employee-field.vue";
+import customSelectItem from "~/components/page/custom-select-item.vue";
 import dataApi from "~/static/dataApi";
 import { DxTagBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -32,7 +32,7 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxTagBox,
-    field
+    customSelectItem
   },
   props: ["employees", "messageRequired", "validatorGroup"],
   data() {
