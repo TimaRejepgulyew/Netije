@@ -1,6 +1,7 @@
 export default {
   env: {
-     baseUrl: process.env.npm_package_url
+     baseUrl: "https://netijeapi.turkmen-tranzit.com",
+     uiAddr:"https://netije.turkmen-tranzit.com"
   },
   mode: "spa",
   /*

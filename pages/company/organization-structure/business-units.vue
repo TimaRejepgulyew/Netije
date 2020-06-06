@@ -252,7 +252,7 @@ export default {
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
     },
-    allowDeleting: e => {
+    allowDeleting(e){
       if (!e.row.data.isSystem) {
         return this.$store.getters["permissions/allowDeleting"](
           this.entityType
