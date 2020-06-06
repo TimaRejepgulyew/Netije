@@ -1,20 +1,22 @@
 <template>
-  <form @submit="handleSubmit">
-    <DxForm
-      :form-data="formData"
-      :read-only="false"
-      :show-colon-after-label="true"
-      :show-validation-summary="true"
-      validation-group="changePassword"
-    >
-      <DxSimpleItem :editor-options="passwordOptions" data-field="newPassword">
-        <DxLabel location="top" :text="$t('translations.fields.password')" />
+  <div>
+    <form @submit="handleSubmit">
+      <DxForm
+        :form-data="formData"
+        :read-only="false"
+        :show-colon-after-label="true"
+        :show-validation-summary="true"
+        validation-group="changePassword"
+      >
+        <DxSimpleItem :editor-options="passwordOptions" data-field="newPassword">
+          <DxLabel location="top" :text="$t('translations.fields.password')" />
 
-        <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
-      </DxSimpleItem>
-      <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
-    </DxForm>
-  </form>
+          <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
+        </DxSimpleItem>
+        <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
+      </DxForm>
+    </form>
+  </div>
 </template>
 <script>
 import dataApi from "~/static/dataApi";

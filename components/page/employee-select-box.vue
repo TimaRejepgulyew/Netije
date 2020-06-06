@@ -4,6 +4,8 @@
     @valueChanged="setEmployee"
     :showClearButton="true"
     :value="employee"
+    :openOnFieldClick="false"
+    :focusStateEnabled="false"
     valueExpr="id"
     displayExpr="name"
     :searchEnabled="true"
