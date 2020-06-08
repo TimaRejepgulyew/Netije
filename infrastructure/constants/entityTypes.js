@@ -22,7 +22,9 @@ export default {
   MailDeliveryMethod: 306,
   RegistrationGroup: 307,
   RegistrationSetting: 308,
-
+  PersonalSettings: 309,
+  DocumentGroupBase: 310,
+  
   ElectronicDocument: 400,
   OfficialDocument: 401,
   IncomingDocument: 402,
@@ -37,13 +39,26 @@ export default {
   Order: 411,
   CompanyDirective: 412,
   Memo: 413,
+  AccountingDocumentBase: 414,
+  IncomingInvoice: 415,
+  ContractStatement: 416,
+  IncomingTaxInvoice: 417,
+  OutgoingTaxInvoice: 418,
+  UniversalTransferDocument: 419,
+  Waybill: 420,
+  ContractualDocumentBase: 421,
+  ContractBase: 422,
+  Contract: 423,
+  SupAgreement: 424,
 
   Roles: 500,
 
-  SimpleTak: 600,
-  ActionExecutionAssignment: 601,
-  Review: 602,
-  AcquaintanceAssignment: 603,
-  FreeApproval: 604,
-  Approval: 605
+  Task: 600,
+  SimpleTak: 601,
+  ActionItemExecutionTask: 602,
+  AcquaintanceTask: 603,
+  DocumentReviewTask: 604,
+  CheckReturnTask: 605,
+  ApprovalTask: 606,
+  FreeApprovalTask: 607
 };

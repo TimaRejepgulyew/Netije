@@ -77,7 +77,7 @@ export default {
     GetTaskById: `${url}/api/Task/GetTaskById/`
   },
   accessRights: {
-    ForDocument: `${url}/api/AccessRights/`,
+    List: `${url}/api/AccessRights/`,
     AddRecipient: `${url}/api/AccessRights`,
     UpdateRecipient: `${url}/api/AccessRights/`,
     RemoveRecipient: `${url}/api/AccessRights/`

@@ -44,13 +44,13 @@ export function DocumentButtons(context) {
   return [
     {
       icon: "plus",
-      text: context.$t("translations.headers.incommingLetter"),
-      path: generateUrl(DocumentType.IncommingDocument)
+      text: context.$t("translations.headers.IncomingLetter"),
+      path: generateUrl(DocumentType.IncomingLetter)
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.outgoingLetter"),
-      path: generateUrl(DocumentType.OutgoingDocument)
+      path: generateUrl(DocumentType.OutgoingLetter)
     },
     {
       icon: "plus",
