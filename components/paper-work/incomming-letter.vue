@@ -6,14 +6,6 @@
     validation-group="OfficialDocument"
   >
     <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
-        <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
-      </DxSimpleItem>
-
-      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
-        <DxLabel location="top" :text="$t('translations.fields.dated')" />
-      </DxSimpleItem>
-
       <DxSimpleItem
         data-field="correspondentId"
         template="correspondent"
@@ -23,30 +15,42 @@
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
+      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
+        <DxLabel location="top" :text="$t('translations.fields.dated')" />
+      </DxSimpleItem>
+      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
+        <DxLabel location="top" text="№" />
+      </DxSimpleItem>
 
+      <DxSimpleItem
+        data-field="inResponseToId"
+        :editor-options="inResponseToIdOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+      </DxSimpleItem>
       <DxSimpleItem
         data-field="deliveryMethodId"
         :editor-options="deliveryMethodOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.mailDeliveryMethod')" />
+        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
       </DxSimpleItem>
 
       <DxGroupItem :visible="isCompany">
-        <DxSimpleItem
-          data-field="contactId"
-          :editor-options="contactOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
-        </DxSimpleItem>
-
         <DxSimpleItem
           data-field="counterpartySignatoryId"
           :editor-options="counterpartySignatoryOptions"
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="contactId"
+          :editor-options="contactOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
@@ -74,15 +78,14 @@
         :editor-options="addresseeOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.whom')" />
+        <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
       </DxSimpleItem>
-
       <DxSimpleItem
-        data-field="inResponseToId"
-        :editor-options="inResponseToIdOptions"
+        data-field="assigneeId"
+        :editor-options="assigneeOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+        <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #correspondent="{data}">
@@ -129,8 +132,12 @@ export default {
     store() {
       return this.$store.getters["currentDocument/document"];
     },
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
+    },
     correspondentOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.contragents.CounterPart
@@ -200,6 +207,7 @@ export default {
     },
     businessUnitOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
@@ -217,6 +225,7 @@ export default {
       let businessUnitId = this.$store.getters["currentDocument/document"]
         .businessUnitId;
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
@@ -250,6 +259,23 @@ export default {
         }
       };
     },
+    assigneeOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Employee,
+          filter: [
+            ["departmentId", "=", this.departmentId],
+            "and",
+            ["status", "=", 0]
+          ]
+        }),
+        value: this.$store.getters["currentDocument/document"].assigneeId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_ASSIGNEE_ID", e.value);
+        }
+      };
+    },
     inResponseToIdOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -264,6 +290,7 @@ export default {
     },
     inNumberOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
@@ -275,6 +302,7 @@ export default {
     },
     datedOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),

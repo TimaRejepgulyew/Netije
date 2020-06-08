@@ -1,6 +1,7 @@
 export default {
   env: {
-    baseUrl: process.env.npm_package_url
+     baseUrl: "https://192.168.4.57",
+     uiAddr:"http://localhost:3000"
   },
   mode: "spa",
   /*

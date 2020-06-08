@@ -68,7 +68,10 @@ export default {
     DxForm,
     DxButton
   },
-   
+  destroyed() {
+    if (!this.isRegistered)
+      this.$store.commit("currentDocument/CLEAR_REGISTRATION_DATA");
+  },
   data() {
     return {
       isCustomNumber: false,
@@ -82,6 +85,9 @@ export default {
     };
   },
   computed: {
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
+    },
     filter() {
       return `?documentRegisterId=${this.documentRegisterId}&documentId=${
         this.documentId
