@@ -76,7 +76,7 @@
   </DxForm>
 </template>
 <script>
-import employeeTagBox from "~/components/page/employee-tag-box.vue";
+import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,

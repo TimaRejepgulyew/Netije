@@ -87,8 +87,8 @@
   </div>
 </template>
 <script>
-import employeeSelectBox from "~/components/page/employee-select-box.vue";
-import employeeTagBox from "~/components/page/employee-tag-box.vue";
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,

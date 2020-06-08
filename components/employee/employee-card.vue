@@ -14,7 +14,9 @@
       height="auto"
       :title="$t('translations.fields.passwordChange')"
     >
-      <change-password-popup @hidePopup="hidePopup('changePasswordPupupVisible')" />
+      <div>
+        <change-password-popup @hidePopup="hidePopup('changePasswordPupupVisible')" />
+      </div>
     </DxPopup>
     <DxForm
       ref="form"

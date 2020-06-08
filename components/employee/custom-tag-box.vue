@@ -1,11 +1,9 @@
 <template>
-  <DxSelectBox
+  <DxTagBox
     :data-source="employeeStore"
     @valueChanged="setEmployee"
     :showClearButton="true"
-    :value="employee"
-    :openOnFieldClick="false"
-    :focusStateEnabled="false"
+    :value="employees"
     valueExpr="id"
     displayExpr="name"
     :searchEnabled="true"
@@ -13,36 +11,30 @@
     :paginate="true"
     :page-size="10"
     item-template="customSelectItem"
-    field-template="customfield"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #customSelectItem="{data}">
-      <custom-select-item :item-data="data" />
+      <customSelectItem :item-data="data" />
     </template>
-    <template #customfield="{data}">
-      <custom-field :field-data="data" />
-    </template>
-  </DxSelectBox>
+  </DxTagBox>
 </template>
 
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import customSelectItem from "~/components/page/custom-select-item.vue";
-import customField from "~/components/page/field";
+import customSelectItem from "~/components/employee/custom-select-box-item.vue";
 import dataApi from "~/static/dataApi";
-import { DxSelectBox } from "devextreme-vue";
+import { DxTagBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    DxSelectBox,
-    customSelectItem,
-    customField
+    DxTagBox,
+    customSelectItem
   },
-  props: ["employee", "messageRequired", "validatorGroup"],
+  props: ["employees", "messageRequired", "validatorGroup"],
   data() {
     return {
       employeeStore: new DataSource({
@@ -55,7 +47,6 @@ export default {
   },
   methods: {
     setEmployee(e) {
-      console.log(this.property);
       this.$emit("setEmployee", e.value);
     }
   }

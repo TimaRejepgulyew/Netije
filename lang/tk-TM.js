@@ -12,6 +12,7 @@ export default {
     logout: "Çykmak"
   },
   shared: {
+    select:"Saýlamak...",
     error: "Ýalňyşlyk ýüze çykdy",
     errorOccured:
       "Amaly ýerine ýetirmekde ýalňyşlyk ýüze çykdy. Ulgam administratoryna ýüz tutuň",

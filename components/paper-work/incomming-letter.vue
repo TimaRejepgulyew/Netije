@@ -16,6 +16,7 @@
 
       <DxSimpleItem
         data-field="correspondentId"
+        template="correspondent"
         :editor-options="correspondentOptions"
         editor-type="dxSelectBox"
       >
@@ -84,9 +85,13 @@
         <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
       </DxSimpleItem>
     </DxGroupItem>
+    <template #correspondent="{data}">
+      <customSelectBox :counterPart="data" />
+    </template>
   </DxForm>
 </template>
 <script>
+import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
@@ -101,7 +106,8 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule
+    DxRequiredRule,
+    customSelectBox
   },
 
   data() {

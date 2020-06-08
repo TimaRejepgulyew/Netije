@@ -118,7 +118,9 @@ export default {
     Toolbar
   },
   props: ["isCard"],
-  created() {},
+  created() {
+    console.log(this.$parent.$parent);
+  },
   data() {
     return {
       employee: {
@@ -171,7 +173,7 @@ export default {
           if (!this.isCard) {
             this.$router.go(-1);
           } else {
-            this.$parent.$parent.isOpencard = false;
+            this.$parent.$parent.openCard();
           }
           this.$awn.success();
         },
