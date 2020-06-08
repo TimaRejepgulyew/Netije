@@ -89,11 +89,16 @@ export default {
   },
   methods: {
     setCounterPart(data) {
+    
       this.$emit("setCounterPart", data);
     },
     openCard() {
       this.activeCard = this.type.toLowerCase();
       this.isOpenCardUpdate = !this.isOpenCardUpdate;
+    },
+    closeCard() {
+      this.isOpenCardUpdate = false;
+      this.isOpenCardCreate = false;
     },
     createCounterPart({ itemData }) {
       this.activeCard = itemData.type;

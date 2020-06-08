@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     setCounterPart(data) {
+        console.log(data,"filed");
       this.$emit("setCounterPart", { selectedItem: data });
     }
   }

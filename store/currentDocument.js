@@ -21,8 +21,6 @@ export const state = () => ({
       numberingType: null
     }
   },
-  correspondent: {},
-  correspondentId: {},
   isNew: false,
   isDataChanged: false,
   readOnly: false,

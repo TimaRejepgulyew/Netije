@@ -50,13 +50,8 @@
 
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
-          <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
+
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
-          <DxAsyncRule
-            :reevaluate="false"
-            :validation-callback="validateEntityExists"
-            :message="$t('translations.fields.emailAlreadyExists')"
-          />
         </DxSimpleItem>
         <DxSimpleItem data-field="code">
           <DxPatternRule
@@ -74,14 +69,6 @@
           data-field="regionId"
         >
           <DxLabel location="top" :text="$t('translations.fields.regionId')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="code">
-          <DxPatternRule
-            :ignore-empty-value="false"
-            :pattern="codePattern"
-            :message="$t('validation.valueMustNotContainsSpaces')"
-          />
-          <DxLabel location="top" :text="$t('translations.fields.code')" />
         </DxSimpleItem>
         <DxSimpleItem
           :editor-options="localityOptions"
@@ -221,7 +208,6 @@ export default {
   },
   methods: {
     validateEntityExists(params) {
-      console.log(params);
       var dataField = params.formItem.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
@@ -230,35 +216,26 @@ export default {
         dataField
       );
     },
-    async postRequest() {
-      const { data } = await this.$axios.post(
-        dataApi.contragents.Company,
-        this.company
-      );
-    },
-    async putRequest() {
-      const { data } = await this.$axios.put(
-        `${dataApi.contragents.Company}/${this.counterPartId}`
-      );
-      this.$emit("setCounterPart", data);
-    },
-    handleSubmit() {
+    async post() {
       if (!this.counterpartId) {
-        const request = this.postRequest;
-      } else request = this.putRequest;
+        const { data } = await this.$axios.post(
+          dataApi.contragents.Company,
+          this.company
+        );
+      } else {
+        const { data } = await this.$axios.put(
+          `${dataApi.contragents.Company}/${this.counterpartId}`,
+          this.company
+        );
+      }
+    },
 
+    handleSubmit() {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
-      this.$awn.asyncBlock(
-        request(),
-
-        e => {
-          this.$awn.success();
-          if (!this.isCard) this.$router.go(-1);
-          else this.$parent.$parent.isOpencard();
-        },
-        e => this.$awn.alert()
-      );
+      if (!this.counterpartId) {
+          this.$awn.asyncBlock
+      }
     }
   }
 };

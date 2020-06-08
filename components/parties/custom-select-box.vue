@@ -22,7 +22,7 @@
       <custom-select-item :item-data="data" />
     </template>
     <template #customfield="{data}">
-      <custom-field :field-data="data" />
+      <custom-field @setCounterPart="setCounterPart" :field-data="data" />
     </template>
   </DxSelectBox>
 </template>
@@ -54,8 +54,7 @@ export default {
   },
   methods: {
     setCounterPart(data) {
-      console.log(data);
-
+      this.counterPartStore.reload();
       this.$emit("setСounterPart", data.selectedItem);
     }
   }
