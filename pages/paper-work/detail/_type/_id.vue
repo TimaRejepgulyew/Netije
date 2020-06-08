@@ -76,7 +76,7 @@ import addendum from "~/components/paper-work/addendum.vue";
 import simpleDocument from "~/components/paper-work/simple-document.vue";
 import orderBase from "~/components/paper-work/order-base.vue";
 import outgoingLetter from "~/components/paper-work/outgoing-letter.vue";
-import incommingLetter from "~/components/paper-work/incomming-letter.vue";
+import IncomingLetter from "~/components/paper-work/incoming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
@@ -110,7 +110,7 @@ export default {
     DxRequiredRule,
     DxLabel,
     DxForm,
-    incommingLetter
+    IncomingLetter
   },
   async asyncData({ app, params, query, router }) {
     await app.store.dispatch("currentDocument/getDocumentById", {
@@ -173,7 +173,7 @@ export default {
     formByTypeGuid() {
       switch (+this.$route.params.type) {
         case DocumentTypeGuid.IncomingLetter:
-          return "incomming-letter";
+          return "incoming-letter";
         case DocumentTypeGuid.OutgoingLetter:
           return "outgoing-letter";
         case DocumentTypeGuid.Order:

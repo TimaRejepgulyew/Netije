@@ -17,7 +17,7 @@ export default function(type) {
     note: null
   };
   switch (type) {
-    case DocumentType.IncommingDocument:
+    case DocumentType.IncomingLetter:
       document = {
         ...document,
         counterpartySignatoryId: null,
@@ -33,7 +33,7 @@ export default function(type) {
         deliveryMethodId: null
       };
       break;
-    case DocumentType.OutgoingDocument:
+    case DocumentType.OutgoingLetter:
       document = {
         ...document,
         ourSignatoryId: null,
