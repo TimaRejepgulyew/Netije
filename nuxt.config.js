@@ -1,6 +1,6 @@
 export default {
   env: {
-     baseUrl: "https://192.168.4.57",
+     baseUrl: "http://192.168.4.57",
      uiAddr:"http://localhost:3000"
   },
   mode: "spa",

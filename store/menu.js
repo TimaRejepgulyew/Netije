@@ -301,7 +301,8 @@ export const actions = {
           {
             text: this.$i18n.t("menu.currencies"),
             path: "/shared-directory/currencies",
-            visible: rootGetters["permissions/allowReading"](EntityType.Currencies),
+            //TODO: V2.0
+            //visible: rootGetters["permissions/allowReading"](EntityType.Currencies)
             visible: false
           }
         ]
