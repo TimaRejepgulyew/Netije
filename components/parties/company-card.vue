@@ -10,8 +10,8 @@
     >
       <DxGroupItem :caption="$t('translations.fields.personalData')">
         <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-          <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.name')" />
+          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
           <DxPatternRule
             :pattern="namePattern"
             :message="$t('translations.fields.fullNameNoDigits')"
@@ -150,12 +150,10 @@ export default {
   },
   props: ["isCard", "counterpartId"],
   async created() {
-    console.log(this.counterpartId);
     if (this.counterpartId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Company}/${this.counterpartId}`
       );
-      console.log(data);
       this.company = data;
     }
   },
@@ -223,33 +221,41 @@ export default {
   },
   methods: {
     validateEntityExists(params) {
-      var dataField = params.column.dataField;
+      console.log(params);
+      var dataField = params.formItem.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
-          id: params.data.id,
           [dataField]: params.value
         },
         dataField
       );
     },
-    postRequest() {
-      this.$axios.post(dataApi.contragents.Company, this.company);
+    async postRequest() {
+      const { data } = await this.$axios.post(
+        dataApi.contragents.Company,
+        this.company
+      );
     },
-    postRequest() {
-      this.$axios.put(`${dataApi.contragents.Company}/${this.counterPartId}`);
+    async putRequest() {
+      const { data } = await this.$axios.put(
+        `${dataApi.contragents.Company}/${this.counterPartId}`
+      );
+      this.$emit("setCounterPart", data);
     },
     handleSubmit() {
+      if (!this.counterpartId) {
+        const request = this.postRequest;
+      } else request = this.putRequest;
+
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
       this.$awn.asyncBlock(
-        () => {
-          if (this.counterPartId) this.postRequest();
-          else this.putRequest();
-        },
+        request(),
+
         e => {
+          this.$awn.success();
           if (!this.isCard) this.$router.go(-1);
           else this.$parent.$parent.isOpencard();
-          this.$awn.success();
         },
         e => this.$awn.alert()
       );

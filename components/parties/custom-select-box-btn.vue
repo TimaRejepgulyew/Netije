@@ -9,7 +9,14 @@
       :close-on-outside-click="true"
     >
       <div>
-        <component :isCard="true" :is="activeCard" :counterpartId="counterpartId" />
+        <component
+          @setCounterPart="setCounterPart"
+          v-if="isOpenCardUpdate"
+          :counterpartId="counterpartId"
+          :isCard="true"
+          :is="activeCard"
+          key="update"
+        />
       </div>
     </DxPopup>
     <DxPopup
@@ -21,7 +28,14 @@
       :close-on-outside-click="true"
     >
       <div>
-        <component :isCard="true" :is="activeCard" />
+        <component
+          @setCounterPart="setCounterPart"
+          v-if="isOpenCardCreate"
+          :isCard="true"
+          :is="activeCard"
+          :counterpartId="false"
+          key="create"
+        />
       </div>
     </DxPopup>
     <DxButton
@@ -71,13 +85,15 @@ export default {
   computed: {
     showBtn() {
       return this.counterpartId ? true : false;
-    },
+    }
   },
   methods: {
+    setCounterPart(data) {
+      this.$emit("setCounterPart", data);
+    },
     openCard() {
       this.activeCard = this.type.toLowerCase();
       this.isOpenCardUpdate = !this.isOpenCardUpdate;
-      console.log(this.counterpartId);
     },
     createCounterPart({ itemData }) {
       this.activeCard = itemData.type;

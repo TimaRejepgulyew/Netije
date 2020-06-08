@@ -2,6 +2,7 @@
   <div class="d-flex">
     <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
     <parties-btn
+      @setCounterPart="setCounterPart"
       :type="fieldData ? fieldData.type:null"
       :counterpartId="fieldData ? fieldData.id:null"
     />
@@ -21,6 +22,11 @@ export default {
     fieldData: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods: {
+    setCounterPart(data) {
+      this.$emit("setCounterPart", { selectedItem: data });
     }
   }
 };

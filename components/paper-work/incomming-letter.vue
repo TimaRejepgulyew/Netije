@@ -89,7 +89,7 @@
       </DxSimpleItem>
     </DxGroupItem>
     <template #correspondent="{data}">
-      <customSelectBox :counterPart="data" />
+      <customSelectBox @setСounterPart="setCorrenspondent" :counterPart="correspondentId" />
     </template>
   </DxForm>
 </template>
@@ -127,6 +127,17 @@ export default {
         }
       }
     };
+  },
+  methods: {
+    setCorrenspondent(data) {
+      if (data) {
+        this.isCompany = data.type != "Person";
+      }
+      this.$store.dispatch("currentDocument/setCorrespondent", data);
+      // this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+      // this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
+      console.log(data);
+    }
   },
   computed: {
     store() {

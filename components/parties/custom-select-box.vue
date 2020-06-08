@@ -1,7 +1,7 @@
 <template>
   <DxSelectBox
     :data-source="counterPartStore"
-    @valueChanged="setCounterPart"
+    @selectionChanged="setCounterPart"
     :showClearButton="true"
     :value="counterPart"
     :openOnFieldClick="false"
@@ -53,8 +53,10 @@ export default {
     };
   },
   methods: {
-    setCounterPart(e) {
-      this.$emit("setEmployee", e.value);
+    setCounterPart(data) {
+      console.log(data);
+
+      this.$emit("setСounterPart", data.selectedItem);
     }
   }
 };

@@ -11,7 +11,7 @@
         location="after"
         widget="dxButton"
       />
-      <DxItem :options="createAddendumOptions" location="before" widget="dxButton" />
+      <DxItem :options="createAddendumOptions" v-if="!isNew" location="before" widget="dxButton" />
       <DxItem template="createTaskForDocument" :visible="!isDataChanged" location="after" />
       <template #createTaskForDocument>
         <available-actions />
@@ -60,6 +60,9 @@ export default {
     };
   },
   computed: {
+    isNew() {
+      return this.$store.getters["currentDocument/isNew"];
+    },
     entityType() {
       return EntityType.ElectronicDocument;
     },
