@@ -25,7 +25,7 @@
           <DxLabel location="top" :text="$t('translations.fields.headCompanyId')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalName">
-          <DxLabel location="top" :message="$t('translations.fields.legalName')" />
+          <DxLabel location="top" :text="$t('translations.fields.legalName')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="tin">
           <DxPatternRule
@@ -165,7 +165,7 @@ export default {
         bankId: null,
         type: "",
         id: null,
-        status: null
+        status: this.$store.getters["status/status"](this)[0].id
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
@@ -179,12 +179,9 @@ export default {
         url: dataApi.contragents.Bank,
         filter: ["status", "=", Status.Active]
       }),
-      localityOptions: this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.sharedDirectory.Locality,
-        filter: ["status", "=", Status.Active]
-      }),
+
       statusOptions: {
+        value: this.$store.getters["status/status"](this)[0].id,
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
@@ -204,6 +201,16 @@ export default {
           this.company.localityId = null;
         }
       };
+    },
+    localityOptions() {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.sharedDirectory.Locality,
+        filter: [
+          ["status", "=", Status.Active],
+          ["regionId", "=", this.company.regionId]
+        ]
+      });
     }
   },
   methods: {

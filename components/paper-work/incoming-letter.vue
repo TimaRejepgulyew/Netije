@@ -3,15 +3,10 @@
     :col-count="2"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="OfficialDocument"
+    :validation-group="validatorGroup"
   >
     <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-      <DxSimpleItem
-        data-field="correspondentId"
-        template="correspondent"
-        :editor-options="correspondentOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="correspondentId" template="correspondent">
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
@@ -37,7 +32,7 @@
         <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
       </DxSimpleItem>
 
-      <DxGroupItem :visible="isCompany">
+      <DxGroupItem :visible="isOrganization">
         <DxSimpleItem
           data-field="counterpartySignatoryId"
           :editor-options="counterpartySignatoryOptions"
@@ -88,8 +83,13 @@
         <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <template #correspondent="{data}">
-      <customSelectBox @setСounterPart="setCorrenspondent" :counterPart="correspondentId" />
+    <template #correspondent>
+      <custom-select-box
+        validatorGroup="OfficialDocument"
+        @setСounterPart="setCorrenspondent"
+        messageRequired="translations.fields.counterPartRequired"
+        :counterPart="correspondentId"
+      />
     </template>
   </DxForm>
 </template>
@@ -115,7 +115,8 @@ export default {
 
   data() {
     return {
-      isCompany: false,
+      validatorGroup: "OfficialDocument",
+
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
@@ -130,47 +131,23 @@ export default {
   },
   methods: {
     setCorrenspondent(data) {
-      if (data) {
-        this.isCompany = data.type != "Person";
-      }
       this.$store.dispatch("currentDocument/setCorrespondent", data);
-      // this.$store.commit("currentDocument/SET_CONTACT_ID", null);
-      // this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
-      console.log(data);
     }
   },
   computed: {
+    isOrganization() {
+      if (this.$store.getters["currentDocument/document"].correspondent.id)
+        return (
+          this.$store.getters["currentDocument/document"].correspondent.type !==
+          "Person"
+        );
+      else return false;
+    },
     store() {
       return this.$store.getters["currentDocument/document"];
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
-    },
-    correspondentOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.contragents.CounterPart
-        }),
-        value: this.$store.getters["currentDocument/document"].correspondentId,
-        onSelectionChanged: e => {
-          if (e.selectedItem) {
-            this.isCompany = e.selectedItem.type != "Person";
-          }
-          this.$store.dispatch(
-            "currentDocument/setCorrespondent",
-            e.selectedItem
-          );
-        },
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_CONTACT_ID", null);
-          this.$store.commit(
-            "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
-            null
-          );
-        }
-      };
     },
     correspondentId() {
       return this.$store.getters["currentDocument/document"].correspondentId;
@@ -326,3 +303,4 @@ export default {
   }
 };
 </script>
+

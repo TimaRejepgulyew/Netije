@@ -79,7 +79,11 @@ export default {
       activeCard: null,
       isOpenCardUpdate: false,
       isOpenCardCreate: false,
-      items: [{ name: "company", type: "company" }]
+      items: [
+        { name: "company", type: "company" },
+        { name: "bank", type: "bank" },
+        { name: "person", type: "person" }
+      ]
     };
   },
   computed: {
@@ -89,7 +93,6 @@ export default {
   },
   methods: {
     setCounterPart(data) {
-      console.log(data, "select box");
       this.$emit("setCounterPart", data);
     },
     openCard() {

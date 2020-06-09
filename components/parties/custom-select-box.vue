@@ -1,5 +1,6 @@
 <template>
   <DxSelectBox
+    ref="counterPart"
     :data-source="counterPartStore"
     @selectionChanged="setCounterPart"
     :showClearButton="true"
@@ -41,16 +42,7 @@ export default {
     customSelectItem,
     customField
   },
-
-  created() {
-    console.log(
-      this,
-      this.messageRequired,
-      this.validatorGroup,
-      this.counterPart
-    );
-  },
-  props: ["validatorGroup", "messageRequired", "counterPart", ],
+  props: ["validatorGroup", "messageRequired", "counterPart"],
   data() {
     return {
       counterPartStore: new DataSource({
@@ -64,7 +56,7 @@ export default {
   methods: {
     setCounterPart(data) {
       this.$emit("setСounterPart", data.selectedItem);
-      this.counterPartStore.reload();
+      
     }
   }
 };

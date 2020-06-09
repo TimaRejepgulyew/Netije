@@ -65,7 +65,6 @@ export default {
       return this.$store.getters["currentDocument/isNew"];
     },
     entityType() {
-      console.log(mapToEntityType)
       return mapToEntityType(
         this.$store.getters["currentDocument/document"].documentTypeGuid
       );
