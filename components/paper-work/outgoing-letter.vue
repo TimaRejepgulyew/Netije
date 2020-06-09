@@ -43,11 +43,7 @@
       </DxGroupItem>
 
       <DxGroupItem :caption="$t('translations.fields.whom')">
-        <DxSimpleItem
-          data-field="correspondentId"
-          :editor-options="correspondentOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="correspondentId" template="correspondent">
           <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
           <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
         </DxSimpleItem>
@@ -76,9 +72,18 @@
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
+    <template #correspondent>
+      <custom-select-box
+        validatorGroup="OfficialDocument"
+        @setСounterPart="setCorrenspondent"
+        messageRequired="translations.fields.counterPartRequired"
+        :counterPart="correspondentId"
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
@@ -89,6 +94,7 @@ import DxForm, {
 } from "devextreme-vue/form";
 export default {
   components: {
+    customSelectBox,
     DxForm,
     DxGroupItem,
     DxSimpleItem,
@@ -97,7 +103,6 @@ export default {
   },
   data() {
     return {
-      isCompany: false,
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
@@ -110,7 +115,21 @@ export default {
       }
     };
   },
+  methods: {
+    setCorrenspondent(data) {
+      this.$store.dispatch("currentDocument/setCorrespondent", data);
+      this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+    }
+  },
   computed: {
+    isCompany() {
+      if (this.$store.getters["currentDocument/document"].correspondent.id)
+        return (
+          this.$store.getters["currentDocument/document"].correspondent.type !==
+          "Person"
+        );
+      else return false;
+    },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
     },
@@ -151,7 +170,6 @@ export default {
         value: this.$store.getters["currentDocument/document"].correspondentId,
         onSelectionChanged: e => {
           if (e.selectedItem) {
-            this.isCompany = e.selectedItem.type != "Person";
           }
           this.$store.dispatch(
             "currentDocument/setCorrespondent",

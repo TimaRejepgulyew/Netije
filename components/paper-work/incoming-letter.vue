@@ -132,6 +132,8 @@ export default {
   methods: {
     setCorrenspondent(data) {
       this.$store.dispatch("currentDocument/setCorrespondent", data);
+      this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
+      this.$store.commit("currentDocument/SET_CONTACT_ID", null);
     }
   },
   computed: {
