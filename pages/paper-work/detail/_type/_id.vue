@@ -36,17 +36,13 @@
             <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
           </DxSimpleItem>
           <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
+          <DxSimpleItem data-field="note" :editor-options="noteOptions" editor-type="dxTextArea">
+            <DxLabel location="top" :text="$t('translations.fields.note')" />
+          </DxSimpleItem>
         </DxGroupItem>
         <DxSimpleItem template="registrationBlock"></DxSimpleItem>
         <DxSimpleItem template="attachmentBlock"></DxSimpleItem>
-        <DxSimpleItem
-          :col-span="5"
-          data-field="note"
-          :editor-options="noteOptions"
-          editor-type="dxTextArea"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.note')" />
-        </DxSimpleItem>
+
         <template #attachmentBlock>
           <docVersion></docVersion>
         </template>
@@ -80,7 +76,7 @@ import addendum from "~/components/paper-work/addendum.vue";
 import simpleDocument from "~/components/paper-work/simple-document.vue";
 import orderBase from "~/components/paper-work/order-base.vue";
 import outgoingLetter from "~/components/paper-work/outgoing-letter.vue";
-import incommingLetter from "~/components/paper-work/incomming-letter.vue";
+import IncomingLetter from "~/components/paper-work/incoming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
@@ -114,7 +110,7 @@ export default {
     DxRequiredRule,
     DxLabel,
     DxForm,
-    incommingLetter
+    IncomingLetter
   },
   async asyncData({ app, params, query, router }) {
     await app.store.dispatch("currentDocument/getDocumentById", {
@@ -140,9 +136,13 @@ export default {
   },
   data() {
     return {
-      entityTypeGuid: EntityTypes.ElectronicDocument,
-      currentUrl: null,
-      documentKindOptions: {
+      entityTypeGuid: EntityTypes.ElectronicDocument
+    };
+  },
+  computed: {
+    documentKindOptions() {
+      return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentKind,
@@ -159,10 +159,11 @@ export default {
             e.selectedItem
           );
         }
-      }
-    };
-  },
-  computed: {
+      };
+    },
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
+    },
     isDataChanged() {
       return this.$store.getters["currentDocument/isDataChanged"];
     },
@@ -172,7 +173,7 @@ export default {
     formByTypeGuid() {
       switch (+this.$route.params.type) {
         case DocumentTypeGuid.IncomingLetter:
-          return "incomming-letter";
+          return "incoming-letter";
         case DocumentTypeGuid.OutgoingLetter:
           return "outgoing-letter";
         case DocumentTypeGuid.Order:
@@ -192,8 +193,9 @@ export default {
     nameOptions() {
       return {
         value: this.$store.getters["currentDocument/document"].name,
-        disabled: this.$store.getters["currentDocument/document"].documentKind
-          .generateDocumentName,
+        disabled:
+          this.$store.getters["currentDocument/document"].documentKind
+            .generateDocumentName || this.isRegistered,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_NAME", e.value);
         }
@@ -201,6 +203,7 @@ export default {
     },
     subjectOptions() {
       return {
+        readOnly: this.isRegistered,
         value: this.$store.getters["currentDocument/document"].subject,
         onValueChanged: e => {
           this.$store.dispatch("currentDocument/setSubject", e.value);

@@ -58,15 +58,7 @@
           :editor-options="contactOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
-        </DxSimpleItem>
-
-        <DxSimpleItem
-          data-field="deliveryMethodId"
-          :editor-options="deliveryMethodOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.mailDeliveryMethod')" />
+          <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="inResponseToId"
@@ -74,6 +66,13 @@
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="deliveryMethodId"
+          :editor-options="deliveryMethodOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
@@ -112,19 +111,21 @@ export default {
     };
   },
   computed: {
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
+    },
     store() {
       return this.$store.getters["currentDocument/document"];
     },
     correspondentId() {
-      return this.$store.getters["currentDocument/document"].correspondent
-        ? this.$store.getters["currentDocument/document"].correspondent.id
-        : null;
+      return this.$store.getters["currentDocument/document"].correspondentId;
     },
     businessUnitId() {
       return this.$store.getters["currentDocument/document"].businessUnitId;
     },
     contactOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.contragents.Contact,
@@ -142,6 +143,7 @@ export default {
     },
     correspondentOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.contragents.CounterPart
@@ -168,6 +170,7 @@ export default {
 
     businessUnitOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
@@ -184,6 +187,7 @@ export default {
     },
     deparmentOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,

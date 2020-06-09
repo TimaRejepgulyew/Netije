@@ -80,6 +80,7 @@
 
       <DxColumn data-field="bic" :caption="$t('translations.fields.bic')" :visible="false">
         <DxAsyncRule
+         :ignore-empty-value="true"
                 :reevaluate="false"
           :message="$t('translations.fields.bicAlreadyExists')"
           :validation-callback="validateEntityExists"

@@ -66,7 +66,7 @@ export default {
     fields: {
       areYouSureCancelDocument:
         "Вы уверенны что хотите выйти? Не сохраненные данные будут утеряны",
-      dated: "Дата документа",
+      dated: "Дата от",
       name: "Имя",
       inResponseToId: "В ответ на",
       index: "Индекс",
@@ -82,7 +82,7 @@ export default {
       authorId: "Автор",
       registrationDate: "Дата Рег.",
       registrationNumber: "Рег. №",
-      correspondentId: "Корреспондент",
+      correspondentId: "Контрагент",
       subject: "Содержание",
       documentKindId: "Вид документа",
       documentRegisterId: "Журнал регистрации",
@@ -93,7 +93,7 @@ export default {
       departmentId: "Отдел",
       leadingDocumentId: "Ведущий документ",
       documentTypeGuid: "Тип документа",
-      regNumberDocument: " Пришедший Рег.  номер",
+      regNumberDocument: "Вх. Рег. номер",
       validTill: "Действителен по",
       issuedToId: "Кому выдана"
     }
@@ -188,7 +188,7 @@ export default {
     associatedApp: "Обработчики приложений",
     fileType: "Типы файлов",
     invalidFileExtention: "Неверное расширение файла",
-    incommingLetter: "Входящие письма",
+    IncomingLetter: "Входящие письма",
     outgoingLetter: "Исходящие письма",
     order: "Приказы",
     companyDirectives: "Распоряжения",
@@ -522,7 +522,7 @@ export default {
       caseFileIdRequired: "Выберите дело",
       placedToCaseFileDate: "Дата помещения в дело",
       outgoingDocumentId: "В ответ на...",
-      dated: "Дата документа",
+      dated: "Дата от",
       regNumberDocument: "Регистрационный №",
 
       files: "Файлы",
@@ -633,7 +633,7 @@ export default {
       order: "Приказ",
       powerOfAttorney: "Доверенность",
       outgoingLetter: "Исходящие письмо",
-      incommingLetter: "Входящие письмо",
+      IncomingLetter: "Входящие письмо",
       companyDirective: "Распоряжение",
       simpleDocument: "Простой документ",
       addDoctKindSucces: "Добавление вида документа прошло успешно",

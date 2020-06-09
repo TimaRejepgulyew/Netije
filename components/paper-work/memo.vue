@@ -84,7 +84,9 @@ export default {
     store() {
       return this.$store.getters["currentDocument/document"];
     },
-
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
+    },
     businessUnitId() {
       return this.$store.getters["currentDocument/document"].businessUnitId;
     },
@@ -93,6 +95,7 @@ export default {
     },
     businessUnitOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
@@ -111,6 +114,7 @@ export default {
     },
     deparmentOptions() {
       return {
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,

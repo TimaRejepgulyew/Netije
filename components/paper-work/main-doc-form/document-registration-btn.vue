@@ -9,8 +9,8 @@
       :height="'auto'"
       :title="$t('translations.fields.registration')"
     >
-      <div v-if="isDocumentRegistrationPopupOpen">
-        <document-registration-popup @hidePopup="hidePopup" />
+      <div>
+        <document-registration-popup v-if="isDocumentRegistrationPopupOpen" @hidePopup="hidePopup" />
       </div>
     </DxPopup>
     <DxButton
@@ -50,7 +50,6 @@ export default {
   methods: {
     hidePopup() {
       this.isDocumentRegistrationPopupOpen = false;
-      this.$store.commit("currentDocument/CLAER_REGISTRATION_DATA");
     },
     register() {
       if (this.isDataChanged) {
@@ -69,6 +68,7 @@ export default {
             }
           );
       } else {
+        console.log("showd");
         this.isDocumentRegistrationPopupOpen = true;
       }
     },

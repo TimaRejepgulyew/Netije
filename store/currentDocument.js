@@ -49,8 +49,8 @@ export const getters = {
   canDelete({ canDelete }) {
     return canDelete;
   },
-  isRegistered({ isRegistered }) {
-    return isRegistered;
+  isRegistered({ document }) {
+    return document.registrationState == RegistrationState.Registered;
   },
   readOnly({ readOnly }) {
     return readOnly;
@@ -59,7 +59,6 @@ export const getters = {
     return isDataChanged;
   },
   isNew({ isNew }) {
-    console.log(isNew);
     return isNew;
   },
   registrationData({ document }) {
@@ -75,7 +74,7 @@ export const getters = {
   }
 };
 export const mutations = {
-  CLAER_REGISTRATION_DATA(state) {
+  CLEAR_REGISTRATION_DATA(state) {
     state.document.documentRegisterId = null;
     state.document.registrationDate = null;
     state.document.registrationNumber = null;

@@ -6,7 +6,12 @@
     validation-group="OfficialDocument"
   >
     <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-      <DxSimpleItem data-field="correspondentId" template="correspondent">
+      <DxSimpleItem
+        data-field="correspondentId"
+        template="correspondent"
+        :editor-options="correspondentOptions"
+        editor-type="dxSelectBox"
+      >
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
@@ -83,7 +88,7 @@
         <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <template #correspondent>
+    <template #correspondent="{data}">
       <customSelectBox @setСounterPart="setCorrenspondent" :counterPart="correspondentId" />
     </template>
   </DxForm>
@@ -125,7 +130,13 @@ export default {
   },
   methods: {
     setCorrenspondent(data) {
+      if (data) {
+        this.isCompany = data.type != "Person";
+      }
       this.$store.dispatch("currentDocument/setCorrespondent", data);
+      // this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+      // this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
+      console.log(data);
     }
   },
   computed: {
@@ -134,6 +145,32 @@ export default {
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
+    },
+    correspondentOptions() {
+      return {
+        readOnly: this.isRegistered,
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.CounterPart
+        }),
+        value: this.$store.getters["currentDocument/document"].correspondentId,
+        onSelectionChanged: e => {
+          if (e.selectedItem) {
+            this.isCompany = e.selectedItem.type != "Person";
+          }
+          this.$store.dispatch(
+            "currentDocument/setCorrespondent",
+            e.selectedItem
+          );
+        },
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+          this.$store.commit(
+            "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
+            null
+          );
+        }
+      };
     },
     correspondentId() {
       return this.$store.getters["currentDocument/document"].correspondentId;

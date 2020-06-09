@@ -11,7 +11,7 @@
         location="after"
         widget="dxButton"
       />
-      <DxItem :options="createAddendumOptions" location="before" widget="dxButton" />
+      <DxItem :options="createAddendumOptions" v-if="!isNew" location="before" widget="dxButton" />
       <DxItem template="createTaskForDocument" :visible="!isDataChanged" location="after" />
       <template #createTaskForDocument>
         <available-actions />
@@ -31,7 +31,8 @@
 </template>
 <script>
 import availableActions from "~/components/paper-work/main-doc-form/available-actions.vue";
-import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
 import accessRight from "~/components/page/access-right.vue";
@@ -60,8 +61,14 @@ export default {
     };
   },
   computed: {
+    isNew() {
+      return this.$store.getters["currentDocument/isNew"];
+    },
     entityType() {
-      return EntityType.ElectronicDocument;
+      console.log(mapToEntityType)
+      return mapToEntityType(
+        this.$store.getters["currentDocument/document"].documentTypeGuid
+      );
     },
     canUpdate() {
       return (

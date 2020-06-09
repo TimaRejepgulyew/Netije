@@ -10,8 +10,8 @@
     >
       <DxGroupItem :caption="$t('translations.fields.personalData')">
         <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-          <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.name')" />
+          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
           <DxPatternRule
             :pattern="namePattern"
             :message="$t('translations.fields.fullNameNoDigits')"
@@ -50,13 +50,8 @@
 
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
-          <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
+
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
-          <DxAsyncRule
-            :reevaluate="false"
-            :validation-callback="validateEntityExists"
-            :message="$t('translations.fields.emailAlreadyExists')"
-          />
         </DxSimpleItem>
         <DxSimpleItem data-field="code">
           <DxPatternRule
@@ -74,14 +69,6 @@
           data-field="regionId"
         >
           <DxLabel location="top" :text="$t('translations.fields.regionId')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="code">
-          <DxPatternRule
-            :ignore-empty-value="false"
-            :pattern="codePattern"
-            :message="$t('validation.valueMustNotContainsSpaces')"
-          />
-          <DxLabel location="top" :text="$t('translations.fields.code')" />
         </DxSimpleItem>
         <DxSimpleItem
           :editor-options="localityOptions"
@@ -150,12 +137,10 @@ export default {
   },
   props: ["isCard", "counterpartId"],
   async created() {
-    console.log(this.counterpartId);
     if (this.counterpartId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Company}/${this.counterpartId}`
       );
-      console.log(data);
       this.company = data;
     }
   },
@@ -223,36 +208,34 @@ export default {
   },
   methods: {
     validateEntityExists(params) {
-      var dataField = params.column.dataField;
+      var dataField = params.formItem.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
-          id: params.data.id,
           [dataField]: params.value
         },
         dataField
       );
     },
-    postRequest() {
-      this.$axios.post(dataApi.contragents.Company, this.company);
+    async post() {
+      if (!this.counterpartId) {
+        const { data } = await this.$axios.post(
+          dataApi.contragents.Company,
+          this.company
+        );
+      } else {
+        const { data } = await this.$axios.put(
+          `${dataApi.contragents.Company}/${this.counterpartId}`,
+          this.company
+        );
+      }
     },
-    postRequest() {
-      this.$axios.put(`${dataApi.contragents.Company}/${this.counterPartId}`);
-    },
+
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
-      this.$awn.asyncBlock(
-        () => {
-          if (this.counterPartId) this.postRequest();
-          else this.putRequest();
-        },
-        e => {
-          if (!this.isCard) this.$router.go(-1);
-          else this.$parent.$parent.isOpencard();
-          this.$awn.success();
-        },
-        e => this.$awn.alert()
-      );
+      if (!this.counterpartId) {
+          this.$awn.asyncBlock
+      }
     }
   }
 };

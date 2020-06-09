@@ -1,7 +1,7 @@
 <template>
   <DxSelectBox
     :data-source="counterPartStore"
-    @valueChanged="setCounterPart"
+    @selectionChanged="setCounterPart"
     :showClearButton="true"
     :value="counterPart"
     :openOnFieldClick="false"
@@ -22,7 +22,7 @@
       <custom-select-item :item-data="data" />
     </template>
     <template #customfield="{data}">
-      <custom-field :field-data="data" />
+      <custom-field @setCounterPart="setCounterPart" :field-data="data" />
     </template>
   </DxSelectBox>
 </template>
@@ -53,8 +53,9 @@ export default {
     };
   },
   methods: {
-    setCounterPart(e) {
-      this.$emit("setEmployee", e.value);
+    setCounterPart(data) {
+      this.counterPartStore.reload();
+      this.$emit("setСounterPart", data.selectedItem);
     }
   }
 };
