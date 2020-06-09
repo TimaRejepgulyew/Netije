@@ -74,7 +74,8 @@ export default {
     CreateActionItemTask: `${url}/api/Task/CreateActionItemTask`,
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,
-    GetTaskById: `${url}/api/Task/GetTaskById/`
+    GetTaskById: `${url}/api/Task/GetTaskById/`,
+    CreateTask: `${url}/api/Task/`,
   },
   accessRights: {
     List: `${url}/api/AccessRights/`,

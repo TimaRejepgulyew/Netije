@@ -103,23 +103,12 @@ export const mutations = {
 };
 
 export const actions = {
-  initTask({ commit }, type) {
-    // const { data } = this.$axios.get(dataApi.task.createTask + type);
+  async initTask({ commit }, type) {
+    console.log(dataApi.task.createTask)
+    const { data } = await this.$axios.post(dataApi.task.CreateTask, { taskType: + type });
+    console.log(data)
     commit("IS_NEW", true);
-    commit("SET_TASK", {
-      id: 1,
-      taskType: 1,
-      status: 1,
-      subject: null,
-      importance: 0,
-      needsReview: false,
-      routeType: 0,
-      deadline: null,
-      observers: [],
-      performers: [],
-      attachments: [],
-      comment: null
-    });
+    commit("SET_TASK", data.task);
   },
   async load({ getters, commit }, { type, id }) {
     console.log(getters["isNew"]);
