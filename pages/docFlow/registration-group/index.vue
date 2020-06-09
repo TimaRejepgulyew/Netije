@@ -41,26 +41,6 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-      </DxColumn>
-      <DxColumn
-        data-field="responsibleEmployeeId"
-        :caption="$t('translations.fields.responsibleId')"
-      >
-        <DxRequiredRule :message="$t('translations.fields.responsibleIdRequired')" />
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getActiveEmployees"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-      <DxColumn data-field="index" :caption="$t('translations.fields.index')">
-        <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
-        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
-      </DxColumn>
-
       <DxColumn
         data-field="canRegisterOutgoing"
         :caption="$t('translations.fields.canRegisterOutgoing')"
@@ -76,7 +56,32 @@
         :caption="$t('translations.fields.canRegisterInternal')"
         data-type="boolean"
       ></DxColumn>
+      <DxColumn
+        data-field="canRegisterContractual"
+        :caption="$t('translations.fields.canRegisterContractual')"
+        data-type="boolean"
+      ></DxColumn>
 
+      <DxColumn visible-index="0" data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      </DxColumn>
+      <DxColumn
+      visible-index="1"
+        data-field="responsibleEmployeeId"
+        :caption="$t('translations.fields.responsibleId')"
+      >
+        <DxRequiredRule :message="$t('translations.fields.responsibleIdRequired')" />
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="getActiveEmployees"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+      <DxColumn visible-index="2" data-field="index" :caption="$t('translations.fields.index')">
+        <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
+        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
+      </DxColumn>
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
@@ -145,7 +150,7 @@ export default {
       }),
       entityType: EntityType.RegistrationGroup,
       statusDataSource: this.$store.getters["status/status"](this),
-      indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
+      indexPattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -163,7 +168,15 @@ export default {
         }),
         paginate: true,
         filter: options.data
-          ? ["status","=",Status.Active,"or","responsibleEmployeeId","=",options.data.responsibleEmployeeId]
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "responsibleEmployeeId",
+              "=",
+              options.data.responsibleEmployeeId
+            ]
           : []
       };
     }
