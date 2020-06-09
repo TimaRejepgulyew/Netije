@@ -41,7 +41,16 @@ export default {
     customSelectItem,
     customField
   },
-  props: ["counterPart", "messageRequired", "validatorGroup"],
+
+  created() {
+    console.log(
+      this,
+      this.messageRequired,
+      this.validatorGroup,
+      this.counterPart
+    );
+  },
+  props: ["validatorGroup", "messageRequired", "counterPart", ],
   data() {
     return {
       counterPartStore: new DataSource({
@@ -54,8 +63,8 @@ export default {
   },
   methods: {
     setCounterPart(data) {
-      this.counterPartStore.reload();
       this.$emit("setСounterPart", data.selectedItem);
+      this.counterPartStore.reload();
     }
   }
 };

@@ -3,7 +3,7 @@
     :col-count="2"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="OfficialDocument"
+    :validation-group="validatorGroup"
   >
     <DxGroupItem :caption="$t('translations.fields.fromWhom')">
       <DxSimpleItem data-field="correspondentId" template="correspondent">
@@ -84,7 +84,12 @@
       </DxSimpleItem>
     </DxGroupItem>
     <template #correspondent>
-      <customSelectBox @setСounterPart="setCorrenspondent" :counterPart="correspondentId" />
+      <custom-select-box
+        validatorGroup="OfficialDocument"
+        @setСounterPart="setCorrenspondent"
+        messageRequired="translations.fields.counterPartRequired"
+        :counterPart="correspondentId"
+      />
     </template>
   </DxForm>
 </template>
@@ -110,6 +115,7 @@ export default {
 
   data() {
     return {
+      validatorGroup: "OfficialDocument",
       isCompany: false,
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({

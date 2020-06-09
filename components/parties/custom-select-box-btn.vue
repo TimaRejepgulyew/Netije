@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     setCounterPart(data) {
-    
+      console.log(data, "select box");
       this.$emit("setCounterPart", data);
     },
     openCard() {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <toolbar :isCard="isCard" @saveChanges="handleSubmit" :canSave="true" />
+    <toolbar :isCard="isCard" @saveChanges="submit" :canSave="true" />
     <DxForm
       ref="form"
       :col-count="2"
@@ -216,26 +216,41 @@ export default {
         dataField
       );
     },
-    async post() {
-      if (!this.counterpartId) {
-        const { data } = await this.$axios.post(
-          dataApi.contragents.Company,
-          this.company
-        );
-      } else {
-        const { data } = await this.$axios.put(
-          `${dataApi.contragents.Company}/${this.counterpartId}`,
-          this.company
-        );
-      }
+    submit() {
+      return this.counterpartId ? this.putRequest() : this.postRequest();
     },
-
-    handleSubmit() {
+    postRequest() {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
-      if (!this.counterpartId) {
-          this.$awn.asyncBlock
-      }
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.contragents.Company, this.company),
+        ({ data }) => {
+          this.$emit("setCounterPart", data);
+          this.$awn.success();
+          this.$parent.$parent.closeCard();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    putRequest() {
+      var res = this.$refs["form"].instance.validate();
+      if (!res.isValid) return;
+      this.$awn.asyncBlock(
+        this.$axios.put(
+          `${dataApi.contragents.Company}/${this.counterpartId}`,
+          this.company
+        ),
+        ({ data }) => {
+          this.$emit("setCounterPart", data);
+          this.$awn.success();
+          this.$parent.$parent.closeCard();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
     }
   }
 };
