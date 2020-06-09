@@ -1,7 +1,7 @@
 <template>
   <div class="custom-item">
     <div>{{itemData && itemData.name}}</div>
-    <div class="small grey">{{itemData && itemData.type}}</div>
+    <div class="small grey">{{itemData && $t("counterPart."+itemData.type)}}</div>
   </div>
 </template>
 <script>

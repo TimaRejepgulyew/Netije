@@ -48,7 +48,7 @@
     ></DxButton>
     <DxDropDownButton
       icon="plus"
-      :drop-down-options="{ width: 100 }"
+      :drop-down-options="{ width: 150 }"
       :items="items"
       display-expr="name"
       :hint="$t('buttons.add')"
@@ -80,9 +80,9 @@ export default {
       isOpenCardUpdate: false,
       isOpenCardCreate: false,
       items: [
-        { name: "company", type: "company" },
-        { name: "bank", type: "bank" },
-        { name: "person", type: "person" }
+        { name: this.$t("counterPart.Company"), type: "company" },
+        { name: this.$t("counterPart.Bank"), type: "bank" },
+        { name: this.$t("counterPart.Person"), type: "person" }
       ]
     };
   },

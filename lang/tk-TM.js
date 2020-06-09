@@ -11,8 +11,14 @@ export default {
     profile: "Profil",
     logout: "Çykmak"
   },
+  counterPart: {
+    Company: "Kompaniýa",
+    Bank: "Banklar",
+    Person: "Fiziki şahs",
+    Contact: "Kontakt şahs"
+  },
   shared: {
-    select:"Saýlamak...",
+    select: "Saýlamak...",
     error: "Ýalňyşlyk ýüze çykdy",
     errorOccured:
       "Amaly ýerine ýetirmekde ýalňyşlyk ýüze çykdy. Ulgam administratoryna ýüz tutuň",

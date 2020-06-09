@@ -11,6 +11,12 @@ export default {
     profile: "Профиль",
     logout: "выйти"
   },
+  counterPart: {
+    Company: "Компания",
+    Bank: "Банк",
+    Person: "Физическое лицо",
+    Contact:"Контактное лицо"
+  },
   history: {
     historyDate: "Дата",
     userName: "Пользователь",
@@ -34,7 +40,7 @@ export default {
     version: "Версии"
   },
   shared: {
-    select:"Выбрать...",
+    select: "Выбрать...",
     error: "Произошла ошибка",
     errorOccured:
       "Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
@@ -216,9 +222,9 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   buttons: {
-    restart:"Рестартовать",
-    abort:"Прекратить",
-    start :"Запустить",
+    restart: "Рестартовать",
+    abort: "Прекратить",
+    start: "Запустить",
     acquaintance: "Ознакомлен",
     changePassword: "Сменить пароль",
     save: "Сохранить",
