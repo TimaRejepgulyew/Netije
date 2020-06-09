@@ -7,7 +7,8 @@ export const state = () => ({
         return [
             { id: Docflow.Incoming, name: context.$t("translations.fields.incomingEnum") },
             { id: Docflow.Outgoing, name: context.$t("translations.fields.outcomingEnum") },
-            { id: Docflow.Internal, name: context.$t("translations.fields.inner") }
+            { id: Docflow.Internal, name: context.$t("translations.fields.inner") },
+            { id: Docflow.Contracts, name: context.$t("translations.fields.contracts") }
         ];
     },
     numberingType: (context) => {
