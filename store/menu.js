@@ -220,6 +220,13 @@ export const actions = {
         visible: hasDocflowAccess(rootGetters),
         items: [
           {
+            text: this.$i18n.t("menu.personalSettings"),
+            path: "/docflow/personal-settings",
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.PersonalSettings
+            )
+          },
+          {
             text: this.$i18n.t("menu.documentKind"),
             path: "/docflow/document-kind",
             visible: rootGetters["permissions/allowReading"](

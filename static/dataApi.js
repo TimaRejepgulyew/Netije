@@ -30,6 +30,7 @@ export default {
     RoleMembers: `${url}/api/RoleMembers/`
   },
   docFlow: {
+    PersonalSettings:`${url}/api/PersonalSettings`,
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
     DocumentKind: `${url}/api/DocumentKind`,
