@@ -50,12 +50,12 @@
           </DxSimpleItem>
 
           <DxSimpleItem
-            data-field="documentTypeId"
+            data-field="documentTypeGuid"
             :editor-options=" docTypeOptions"
             editor-type="dxSelectBox"
           >
             <DxLabel location="top" :text="$t('menu.documentType')" />
-            <DxRequiredRule :message="$t('translations.fields.documentTypeIdRequired')" />
+            <DxRequiredRule :message="$t('translations.fields.documentTypeGuidRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -149,7 +149,7 @@ export default {
         generateDocumentName: false,
         autoNumbering: false,
         isDefault: false,
-        documentTypeId: null,
+        documentTypeGuid: null,
         code: "",
         availableActions: []
       },
@@ -191,7 +191,7 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         onValueChanged: e => {
-          this.documentKind.documentTypeId = null;
+          this.documentKind.documentTypeGuid = null;
         }
       };
     },
@@ -212,7 +212,7 @@ export default {
       return {
         dataSource: {
           store: this.$dxStore({
-            key: "id",
+            key: "documentTypeGuid",
             loadUrl: dataApi.docFlow.DocumentType
           }),
           filter: [
@@ -221,7 +221,7 @@ export default {
             ["documentFlow", "=", this.documentKind.documentFlow]
           ]
         },
-        valueExpr: "id",
+        valueExpr: "documentTypeGuid",
         displayExpr: "name"
       };
     },

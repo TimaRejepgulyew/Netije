@@ -65,11 +65,11 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="documentTypeId" :caption="$t('menu.documentType')">
+      <DxColumn data-field="documentTypeGuid" :caption="$t('menu.documentType')">
         <DxLookup
           :allow-clearing="true"
           :data-source="documentTypeDataSource"
-          value-expr="id"
+          value-expr="documentTypeGuid"
           display-expr="name"
         />
       </DxColumn>
@@ -146,7 +146,7 @@ export default {
       numberingType: this.$store.getters["docflow/numberingType"](this),
       documentTypeDataSource: {
         store: this.$dxStore({
-          key: "id",
+          key: "documentTypeGuid",
           loadUrl: dataApi.docFlow.DocumentType
         }),
         paginate: true

@@ -147,7 +147,7 @@ export default {
           context: this,
           url: dataApi.docFlow.DocumentKind,
           filter: [
-            ["documentTypeId", "=", this.$route.params.type],
+            ["documentTypeGuid", "=", this.$route.params.type],
             "and",
             ["status", "=", 0]
           ]
