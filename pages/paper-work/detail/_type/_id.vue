@@ -134,6 +134,12 @@ export default {
 
     next(res);
   },
+  head () {
+    return {
+      title: this.$store.getters["currentDocument/document"].name,
+     
+    }
+  },
   data() {
     return {
       entityTypeGuid: EntityTypes.ElectronicDocument
