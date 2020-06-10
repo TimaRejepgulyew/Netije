@@ -13,7 +13,7 @@
           <DxLabel location="top" :text="$t('translations.fields.contactName')" />
           <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="companyId" template="counterPart">
+        <DxSimpleItem data-field="correspondent">
           <DxLabel location="top" :text="$t('translations.fields.company')" />
           <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
         </DxSimpleItem>
@@ -91,11 +91,12 @@ export default {
     Toolbar,
     customSelectBox
   },
-  props: ["isCard", "counterpartId"],
+  props: ["isCard", "contactId", "correspondent"],
   async created() {
-    if (this.counterpartId) {
+    console.log(this.correspondent);
+    if (this.contactId) {
       const { data } = await this.$axios.get(
-        `${dataApi.contragents.Contact}/${this.counterpartId}`
+        `${dataApi.contragents.Contact}/${this.contactId}`
       );
       this.contact = data;
     }
@@ -104,7 +105,8 @@ export default {
     return {
       contact: {
         name: "",
-        companyId: 0,
+        correspondent: this.correspondent.name,
+        companyId: this.correspondent.id,
         department: "",
         jobTitle: "",
         phone: "",

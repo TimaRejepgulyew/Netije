@@ -10,9 +10,10 @@
     >
       <div class="scrool-auto">
         <contact
+          :correspondent="correspondent"
           @setContact="setContact"
           v-if="isOpenCardUpdate"
-          :counterpartId="counterpartId"
+          :contactId="contactId"
           :isCard="true"
           key="update"
         />
@@ -28,10 +29,11 @@
     >
       <div class="scrool-auto">
         <contact
+          :correspondent="correspondent"
           @setContact="setContact"
           v-if="isOpenCardCreate"
           :isCard="true"
-          :counterpartId="false"
+          :contactId="false"
           key="create"
         />
       </div>
@@ -73,7 +75,7 @@ export default {
   },
   computed: {
     showBtn() {
-      return this.counterpartId ? true : false;
+      return this.contactId ? true : false;
     }
   },
   methods: {
@@ -91,7 +93,7 @@ export default {
       this.isOpenCardCreate = !this.isOpenCardCreate;
     }
   },
-  props: ["counterpartId", "type","filter"]
+  props: ["contactId", "type", "correspondent"]
 };
 </script>
 <style lang="scss">

@@ -2,10 +2,10 @@
   <div class="d-flex">
     <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
     <contact-btn
-
+      :correspondent="correspondent"
       @setContact="setContact"
       :type="fieldData ? fieldData.type:null"
-      :counterpartId="fieldData ? fieldData.id:null"
+      :contactId="fieldData ? fieldData.id:null"
     />
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
     contactBtn
   },
   props: {
-    corres
+    correspondent: {},
     fieldData: {
       type: Object,
       default: () => {}
