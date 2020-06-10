@@ -32,6 +32,9 @@
             :message="$t('translations.fields.tinAlreadyExists')"
             :validation-callback="validateEntityExists"
           ></DxAsyncRule>
+          <DxSimpleItem data-field="middleName">
+            <DxLabel location="top" :text="$t('translations.fields.middleName')" />
+          </DxSimpleItem>
           <DxLabel location="top" :text="$t('translations.fields.tin')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
@@ -72,6 +75,13 @@
         >
           <DxLabel location="top" :text="$t('translations.fields.localityId')" />
         </DxSimpleItem>
+        <DxSimpleItem
+          :editor-options="localityOptions"
+          editor-type="dxDateBox"
+          data-field="dateOfBirth"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.dateOfBirth')" />
+        </DxSimpleItem>
         <DxSimpleItem data-field="postAddress">
           <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
         </DxSimpleItem>
@@ -80,6 +90,9 @@
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
           <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="webSite">
+          <DxLabel location="top" :text="$t('translations.fields.webSite')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="account">
           <DxLabel location="top" :text="$t('translations.fields.account')" />
@@ -142,10 +155,13 @@ export default {
   data() {
     return {
       company: {
-        headCompanyId: null,
-        legalName: "",
-        tin: "",
-        name: "",
+        firstName: "",
+        lastName: "",
+        middleName: "",
+        account: "",
+        bankId: null,
+        dateOfBirth: "",
+        sex: null,
         code: "",
         regionId: null,
         localityId: null,
@@ -154,12 +170,10 @@ export default {
         phones: "",
         email: "",
         webSite: "",
+        tin: "",
         note: "",
         nonresident: true,
-        account: "",
-        bankId: null,
-        type: "",
-        id: null,
+        name: "",
         status: this.$store.getters["status/status"](this)[0].id
       },
       sexOptions: {
@@ -219,7 +233,7 @@ export default {
   methods: {
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
-      return this.$customValidator.CompanyDataFieldValueNotExists(
+      return this.$customValidator.PersonDataFieldValueNotExists(
         {
           [dataField]: params.value
         },

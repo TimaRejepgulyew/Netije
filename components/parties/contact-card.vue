@@ -3,79 +3,38 @@
     <toolbar :isCard="isCard" @saveChanges="submit" :canSave="true" />
     <DxForm
       ref="form"
-      :col-count="2"
-      :form-data.sync="company"
+      :form-data.sync="contact"
       :show-colon-after-label="true"
       :show-validation-summary="true"
+      validation-group="contact"
     >
-      <DxGroupItem>
+      <DxGroupItem :col-count="2">
         <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.name')" />
+          <DxLabel location="top" :text="$t('translations.fields.contactName')" />
           <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-          <DxPatternRule
-            :pattern="namePattern"
-            :message="$t('translations.fields.fullNameNoDigits')"
-          />
         </DxSimpleItem>
-        <DxSimpleItem data-field="legalName">
-          <DxLabel location="top" :text="$t('translations.fields.legalName')" />
+        <DxSimpleItem data-field="companyId" template="counterPart">
+          <DxLabel location="top" :text="$t('translations.fields.company')" />
+          <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="bic">
-          <DxAsyncRule
-            :ignore-empty-value="true"
-            :reevaluate="false"
-            :message="$t('translations.fields.bicAlreadyExists')"
-            :validation-callback="validateEntityExists"
-          ></DxAsyncRule>
-          <DxLabel location="top" :text="$t('translations.fields.bic')" />
+        <DxSimpleItem data-field="department">
+          <DxLabel location="top" :text="$t('translations.fields.department')" />
+        </DxSimpleItem>
+        <DxSimpleItem editor-type="dxTextBox" data-field="jobTitle">
+          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+        </DxSimpleItem>
+        <DxSimpleItem editor-type="dxTextBox" data-field="homepage">
+          <DxLabel location="top" :text="$t('translations.fields.homepage')" />
+        </DxSimpleItem>
+        <DxSimpleItem editor-type="dxTextBox" data-field="fax">
+          <DxLabel location="top" :text="$t('translations.fields.fax')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
-
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="code">
-          <DxPatternRule
-            :ignore-empty-value="false"
-            :pattern="codePattern"
-            :message="$t('validation.valueMustNotContainsSpaces')"
-          />
-          <DxLabel location="top" :text="$t('translations.fields.code')" />
-        </DxSimpleItem>
-      </DxGroupItem>
-      <DxGroupItem>
-        <DxSimpleItem
-          :editor-options="regionOptions"
-          editor-type="dxSelectBox"
-          data-field="regionId"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.regionId')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          :editor-options="localityOptions"
-          editor-type="dxSelectBox"
-          data-field="localityId"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.localityId')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="postAddress">
-          <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="legalAddress">
-          <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
-          <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="webSite">
-          <DxLabel location="top" :text="$t('translations.fields.webSite')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="correspondentAccount">
-          <DxLabel location="top" :text="$t('translations.fields.account')" />
         </DxSimpleItem>
         <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
           <DxLabel location="top" :text="$t('translations.fields.status')" />
@@ -86,10 +45,20 @@
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
+      <template #counterPart>
+        <custom-select-box
+          validatorGroup="contact"
+          @setСounterPart="setCorrenspondent"
+          messageRequired="translations.fields.companyRequired"
+          :counterPart="contact.companyId"
+          :notPerson="true"
+        />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import customSelectBox from "~/components/parties/custom-select-box.vue";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import "devextreme-vue/text-area";
@@ -107,10 +76,8 @@ import DxForm, {
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
 export default {
   components: {
-    Header,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
@@ -121,40 +88,54 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar
+    Toolbar,
+    customSelectBox
   },
   props: ["isCard", "counterpartId"],
   async created() {
     if (this.counterpartId) {
       const { data } = await this.$axios.get(
-        `${dataApi.contragents.Bank}/${this.counterpartId}`
+        `${dataApi.contragents.Contact}/${this.counterpartId}`
       );
-      this.company = data;
+      this.contact = data;
     }
   },
   data() {
     return {
-      company: {
-        legalName: "string",
-        bic: "",
-        correspondentAccount: "",
-        code: "",
-        regionId: 0,
-        localityId: 0,
-        legalAddress: "",
-        postAddress: "",
-        phones: "",
-        email: "",
-        webSite: "",
-        tin: "",
-        note: "",
-        nonresident: true,
+      contact: {
         name: "",
+        companyId: 0,
+        department: "",
+        jobTitle: "",
+        phone: "",
+        fax: "",
+        email: "",
+        note: "",
+        homepage: "",
         id: null,
         status: this.$store.getters["status/status"](this)[0].id
       },
+      sexOptions: {
+        dataSource: [
+          { id: 0, name: this.$t("sex.male") },
+          { id: 1, name: this.$t("sex.female") }
+        ],
+        displayExpr: "name",
+        valueExpr: "id"
+      },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      headCompanyOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.contragents.Company,
+        filter: ["status", "=", Status.Active]
+      }),
+      bankOptions: this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.contragents.Bank,
+        filter: ["status", "=", Status.Active]
+      }),
+
       statusOptions: {
         value: this.$store.getters["status/status"](this)[0].id,
         dataSource: this.$store.getters["status/status"](this),
@@ -173,7 +154,7 @@ export default {
           filter: ["status", "=", Status.Active]
         }),
         onValueChanged: () => {
-          this.company.localityId = null;
+          this.contact.localityId = null;
         }
       };
     },
@@ -183,20 +164,14 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.company.regionId]
+          ["regionId", "=", this.contact.regionId]
         ]
       });
     }
   },
   methods: {
-    validateEntityExists(params) {
-      var dataField = params.formItem.dataField;
-      return this.$customValidator.BankDataFieldValueNotExists(
-        {
-          [dataField]: params.value
-        },
-        dataField
-      );
+    setCorrenspondent(data) {
+      this.$set(this.contact, "companyId", data.id);
     },
     submit() {
       return this.counterpartId ? this.putRequest() : this.postRequest();
@@ -205,9 +180,9 @@ export default {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
       this.$awn.asyncBlock(
-        this.$axios.post(dataApi.contragents.Bank, this.company),
+        this.$axios.post(dataApi.contragents.Contact, this.contact),
         ({ data }) => {
-          this.$emit("setCounterPart", data);
+          this.$emit("setContact", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },
@@ -221,11 +196,11 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
-          `${dataApi.contragents.Bank}/${this.counterpartId}`,
-          this.company
+          `${dataApi.contragents.Contact}/${this.counterpartId}`,
+          this.contact
         ),
         ({ data }) => {
-          this.$emit("setCounterPart", data);
+          this.$emit("setContact", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },

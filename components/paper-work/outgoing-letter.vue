@@ -48,12 +48,7 @@
           <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
         </DxSimpleItem>
 
-        <DxSimpleItem
-          data-field="contactId"
-          :visible="isCompany"
-          :editor-options="contactOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="contactId" :visible="isCompany" template="contact">
           <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -80,9 +75,13 @@
         :counterPart="correspondentId"
       />
     </template>
+    <template #contact>
+      <custom-select-box-contact @setСounterPart="setContact" :counterPart="contactId" />
+    </template>
   </DxForm>
 </template>
 <script>
+import customSelectBoxContact from "~/components/parties/custom-select-box-contact.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
@@ -99,7 +98,8 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule
+    DxRequiredRule,
+    customSelectBoxContact
   },
   data() {
     return {
@@ -119,9 +119,15 @@ export default {
     setCorrenspondent(data) {
       this.$store.dispatch("currentDocument/setCorrespondent", data);
       this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+    },
+    setContact(data) {
+      this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
     }
   },
   computed: {
+    contactId() {
+      return this.$store.getters["currentDocument/document"].contactId;
+    },
     isCompany() {
       if (this.$store.getters["currentDocument/document"].correspondent.id)
         return (

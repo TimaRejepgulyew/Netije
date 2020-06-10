@@ -2,37 +2,35 @@
   <div>
     <DxPopup
       width="90%"
-      height="auto"
-      :showTitle="false"
+      height="90%"
+      :showTitle="true"
       :visible.sync="isOpenCardUpdate"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div class="scrool-auto">
-        <component
-          @setCounterPart="setCounterPart"
+        <contact
+          @setContact="setContact"
           v-if="isOpenCardUpdate"
           :counterpartId="counterpartId"
           :isCard="true"
-          :is="activeCard"
           key="update"
         />
       </div>
     </DxPopup>
     <DxPopup
       width="90%"
-      height="auto"
-      :showTitle="false"
+      height="90%"
+      :showTitle="true"
       :visible.sync="isOpenCardCreate"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div class="scrool-auto">
-        <component
-          @setCounterPart="setCounterPart"
+        <contact
+          @setContact="setContact"
           v-if="isOpenCardCreate"
           :isCard="true"
-          :is="activeCard"
           :counterpartId="false"
           key="create"
         />
@@ -40,55 +38,37 @@
     </DxPopup>
     <DxButton
       :visible="showBtn"
-      :on-click="this.openCard"
+      :on-click="this.openUpdateCard"
       icon="info"
+      type="default"
       stylingMode="text"
       :hint="$t('translations.fields.moreAbout')"
-      :useSubmitBehavior="true"
+      :useSubmitBehavior="false"
     ></DxButton>
-    <DxDropDownButton
+    <DxButton
+      :on-click="this.openCreateCard"
       icon="plus"
-      :drop-down-options="{ width: 150 }"
-      :items="items"
-      display-expr="name"
-      :hint="$t('buttons.add')"
+      type="default"
       stylingMode="text"
-      :style="{position:'relative',color:'green'}"
-      @item-click="createCounterPart"
-    />
+      :hint="$t('buttons.add')"
+      :useSubmitBehavior="false"
+    ></DxButton>
   </div>
 </template>
 <script>
-import { DxDropDownButton } from "devextreme-vue";
-import company from "~/components/parties/company-card.vue";
-import bank from "~/components/parties/bank-card.vue";
-import person from "~/components/parties/person-card.vue";
+import contact from "~/components/parties/contact-card.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    DxDropDownButton,
     DxButton,
     DxPopup,
-    company,
-    bank,
-    person
+    contact
   },
   data() {
     return {
-      activeCard: null,
       isOpenCardUpdate: false,
-      isOpenCardCreate: false,
-      items: [
-        { name: this.$t("counterPart.Company"), type: "company" },
-        { name: this.$t("counterPart.Bank"), type: "bank" },
-
-        {
-          name: this.$t("counterPart.Person"),
-          type: "person",
-          visible: !this.notPerson
-        }
-      ]
+      isOpenCardCreate: false
     };
   },
   computed: {
@@ -97,28 +77,26 @@ export default {
     }
   },
   methods: {
-    setCounterPart(data) {
-      this.$emit("setCounterPart", data);
+    setContact(data) {
+      this.$emit("setContact", data);
     },
-    openCard() {
-      this.activeCard = this.type.toLowerCase();
+    openUpdateCard() {
       this.isOpenCardUpdate = !this.isOpenCardUpdate;
     },
     closeCard() {
       this.isOpenCardUpdate = false;
       this.isOpenCardCreate = false;
     },
-    createCounterPart({ itemData }) {
-      this.activeCard = itemData.type;
+    openCreateCard() {
       this.isOpenCardCreate = !this.isOpenCardCreate;
     }
   },
-  props: ["counterpartId", "type", "notPerson"]
+  props: ["counterpartId", "type","filter"]
 };
 </script>
-<style >
+<style lang="scss">
 .scrool-auto {
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
 </style>

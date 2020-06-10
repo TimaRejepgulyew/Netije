@@ -2,6 +2,7 @@
   <div>
     <Header :headerTitle="employee.name"></Header>
     <toolbar
+      :isCard="isCard"
       @saveChanges="handleSubmit"
       :canSave="$store.getters['permissions/allowUpdating'](entityType)"
     />
@@ -135,7 +136,7 @@ export default {
     ChangePasswordPopup,
     Toolbar
   },
-  props: ["employeeId"],
+  props: ["employeeId", "isCard"],
   async created() {
     var res = await this.$axios.get(
       dataApi.company.Employee + "/" + this.employeeId
