@@ -129,7 +129,7 @@
         data-type="boolean"
       ></DxColumn>
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
+      <DxColumn data-field="correspondentAccount" :caption="$t('translations.fields.correspondentAccount')" :visible="false"></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
