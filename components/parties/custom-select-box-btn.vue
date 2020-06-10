@@ -2,13 +2,13 @@
   <div>
     <DxPopup
       width="90%"
-      height="90%"
-      :showTitle="true"
+      height="auto"
+      :showTitle="false"
       :visible.sync="isOpenCardUpdate"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div>
+      <div class="scrool-auto">
         <component
           @setCounterPart="setCounterPart"
           v-if="isOpenCardUpdate"
@@ -21,13 +21,13 @@
     </DxPopup>
     <DxPopup
       width="90%"
-      height="90%"
-      :showTitle="true"
+      height="auto"
+      :showTitle="false"
       :visible.sync="isOpenCardCreate"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div>
+      <div class="scrool-auto">
         <component
           @setCounterPart="setCounterPart"
           v-if="isOpenCardCreate"
@@ -82,7 +82,12 @@ export default {
       items: [
         { name: this.$t("counterPart.Company"), type: "company" },
         { name: this.$t("counterPart.Bank"), type: "bank" },
-        { name: this.$t("counterPart.Person"), type: "person" }
+
+        {
+          name: this.$t("counterPart.Person"),
+          type: "person",
+          visible: !this.notPerson
+        }
       ]
     };
   },
@@ -108,8 +113,12 @@ export default {
       this.isOpenCardCreate = !this.isOpenCardCreate;
     }
   },
-  props: ["counterpartId", "type"]
+  props: ["counterpartId", "type", "notPerson"]
 };
 </script>
-<style lang="scss">
+<style >
+.scrool-auto {
+  width: 100%;
+  overflow: scroll;
+}
 </style>

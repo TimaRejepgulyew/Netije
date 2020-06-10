@@ -1,7 +1,7 @@
 <template>
   <DxSelectBox
-    ref="counterPart"
-    :data-source="counterPartStore"
+    ref="contact"
+    :data-source="contactStore"
     @valueChanged="valueChanged"
     :showClearButton="true"
     :value="value"
@@ -23,14 +23,18 @@
       <custom-select-item :item-data="data" />
     </template>
     <template #customfield="{data}">
-      <custom-field @setCounterPart="setCounterPart" :notPerson="notPerson" :field-data="data" />
+      <custom-field
+        @setContact="setContact"
+        :correspondent="correspondent"
+        :field-data="data"
+      />
     </template>
   </DxSelectBox>
 </template>
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import customSelectItem from "~/components/parties/custom-select-box-item.vue";
-import customField from "~/components/parties/custom-select-box-field";
+import customSelectItem from "~/components/parties/custom-select-box-item-contact.vue";
+import customField from "~/components/parties/custom-select-box-field-contact";
 import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -42,28 +46,39 @@ export default {
     customSelectItem,
     customField
   },
-  props: ["validatorGroup", "messageRequired", "value", "notPerson"],
+  props: [
+    "validatorGroup",
+    "messageRequired",
+    "value",
+    "filter",
+    "correspondent"
+  ],
   data() {
-    return {
-      counterPartStore: new DataSource({
+    return {};
+  },
+  computed: {
+    contactStore() {
+      return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.CounterPart
+          loadUrl: dataApi.contragents.Contact
         }),
-        filter: this.notPerson ? ["type", "<>", "Person"] : null
-      })
-    };
+        filter: ["companyId", "=", this.correspondent.id]
+      });
+    }
   },
   methods: {
     valueChanged(e) {
-      if(e.event)
-      {
-        this.$emit("setСounterPart",this.$refs["counterPart"].instance.option("selectedItem"));
+      if (e.event) {
+        this.$emit(
+          "setContact",
+          this.$refs["contact"].instance.option("selectedItem")
+        );
       }
     },
-    setCounterPart(data) {
-      this.$emit("setСounterPart", data.selectedItem);
-      this.$refs["counterPart"].instance.repaint();
+    setContact(data) {
+      this.$emit("setContact", data.selectedItem);
+      this.$refs["contact"].instance.repaint();
     }
   }
 };
