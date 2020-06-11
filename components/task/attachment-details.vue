@@ -3,7 +3,7 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
-        <DxList :data-source="attachments" :search-enabled="false">
+        <DxList  :search-enabled="false">
           <!-- <template #group="{ data: item }">
             <div>Вложение: {{ item.document.name }}</div>
           </template>-->
@@ -36,7 +36,7 @@
           </template>
         </DxList>
       </div>
-      <template v-if="!readOnly">
+      <template>
         <span class>{{$t("translations.headers.attachment")}}</span>
         <DxSelectBox
           v-model="selectedDocument"
@@ -63,7 +63,6 @@
   </div>
 </template>
 <script>
-
 import DocumentIcon from "~/components/page/document-icon";
 import attachmentActionBtn from "~/components/workFlow/attachment-action-btn";
 import DataSource from "devextreme/data/data_source";
@@ -82,20 +81,9 @@ export default {
     DxButton,
     DxTagBox
   },
-  props: ["url", "readOnly"],
-  created() {
-    if (this.isCreated) {
-      this.attachments = [];
-    }
-  },
+  props: ["url"],
   data() {
     return {
-      attachments: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: this.url + this.$route.params.id
-        })
-      }),
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -105,49 +93,36 @@ export default {
       selectedDocument: null
     };
   },
+  computed: {
+    attachments() {
+      return new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: this.url + this.$route.params.id
+        })
+      });
+    }
+  },
   methods: {
     openVersion(documentId, documentTypeGuid) {
       this.$router.push(`/paper-work/detail/${documentTypeGuid}/${documentId}`);
     },
-    compareAttachments() {
-      if (this.selectedDocument) {
-        return this.attachments.some(el => {
-          return el.document.id === this.selectedDocument.id;
-        });
+    async addAttachment() {
+      try {
+        await this.$axios.put(
+          dataApi.task.AddAttachment,
+          this.selectedDocument
+        );
+        await this.documents.reload();
+      } catch (e) {}
+    },
+    async detachAttachment(id) {
+      try {
+        await this.$axios.delete(`${dataApi.Task.DetachAttacment}`);
+        await this.documents.reload();
+      } catch (e) {
+        console.log(e);
       }
-    },
-    sendAttachments(attachments) {
-      if (this.isCreated) {
-        this.$emit("updateAttachments", attachments);
-        this.selectedDocument = null;
-      }
-    },
-    formatDocument() {
-      return {
-        id: null,
-        document: this.selectedDocument,
-        canDetach: true,
-        attachedBy: this.$t("translations.fields.me")
-      };
-    },
-    addAttachment() {
-      let attachments = this.attachments;
-      if (!this.compareAttachments()) {
-        const attachment = this.formatDocument();
-        attachments.push(attachment);
-        this.sendAttachments(attachments);
-      }
-    },
-    detachAttachment(id) {
-      this.attachments = this.attachments.filter(attach => {
-        return attach.document.id != id;
-      });
-      this.sendAttachments(this.attachments);
-    }
-  },
-  computed: {
-    isCreated() {
-      return !this.$route.params.id;
     }
   }
 };

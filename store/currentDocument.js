@@ -160,12 +160,6 @@ export const mutations = {
     }
     state.document.inResponseToId = payload;
   },
-  SET_ADDRESSE_ID(state, payload) {
-    if (checkDataChanged(state.document.addresseeId, payload)) {
-      state.isDataChanged = true;
-    }
-    state.document.addresseeId = payload;
-  },
   IN_NUMBER(state, payload) {
     if (checkDataChanged(state.document.inNumber, payload)) {
       state.isDataChanged = true;

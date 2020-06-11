@@ -9,7 +9,6 @@
     >
       <DxSimpleItem :editor-options="passwordOptions" data-field="newPassword">
         <DxLabel location="top" :text="$t('translations.fields.password')" />
-
         <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />

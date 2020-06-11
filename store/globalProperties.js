@@ -41,6 +41,11 @@ export const state = () => ({
       useSubmitBehavior: false
     };
   },
+  btnStart(context) {
+    return {
+      text: context.$t("buttons.start")
+    };
+  },
   btnSend(context) {
     return {
       icon: "arrowright",
@@ -61,6 +66,9 @@ export const getters = {
   },
   btnSave: ({ btnSave }) => context => {
     return btnSave(context);
+  },
+  btnStart: ({ btnStart }) => context => {
+    return btnStart(context);
   },
   btnCompleted: ({ btnCompleted }) => context => {
     return btnCompleted(context);

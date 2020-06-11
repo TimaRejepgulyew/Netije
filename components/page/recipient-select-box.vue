@@ -1,8 +1,7 @@
 <template>
-  <DxTagBox
+  <DxSelectBox
     :data-source="resipientStore"
     :grouped="true"
-    :show-selection-controls="true"
     @valueChanged="setRecipient"
     :showClearButton="true"
     :value="recipients"
@@ -13,29 +12,30 @@
     :paginate="true"
     :page-size="10"
   >
-    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
-      <DxRequiredRule :message="$t(messageRequired)" />
+    <DxValidator :validation-group="validatorGroup">
+      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
     </DxValidator>
     <template #group="{ data }">
       <recipient-grouped :data="data" />
     </template>
-  </DxTagBox>
+  </DxSelectBox>
 </template>
 
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import recipientGrouped from "~/components/page/recipient-grouped.vue";
 import dataApi from "~/static/dataApi";
-import { DxTagBox } from "devextreme-vue";
+import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    DxTagBox,
+    DxSelectBox,
     recipientGrouped
   },
-  props: ["recipients", "messageRequired", "validatorGroup"],
+  props: ["recipients", "property", "isRequired", "validatorGroup"],
+  created() {},
   data() {
     return {
       resipientStore: new DataSource({
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     setRecipient(e) {
-      this.$emit("setRecipients", e.value);
+      this.$emit("setRecipients", [this.property, e.value]);
     }
   }
 };

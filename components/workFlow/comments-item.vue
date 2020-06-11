@@ -61,7 +61,7 @@ export default {
     Comment
   },
   name: "comment",
-  props: ["comment", "level"],
+  props: ["comment"],
   methods: {
     parseIconStatus(icon) {
       return require(`~/static/icons/status/${icon}.svg`);

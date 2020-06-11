@@ -5,19 +5,18 @@
   </DxToolbar>
 </template>
 <script>
-import  {
-  DxButtonItem,
-} from "devextreme-vue/form";
+import { DxButtonItem } from "devextreme-vue/form";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
     DxItem
   },
-  props: ["canSave"],
+  props: ["canSave", "isCard"],
   data() {
     return {
       backButtonOptions: {
+        visible: !this.isCard,
         type: "normal",
         icon: "back",
         text: this.$t("shared.back"),

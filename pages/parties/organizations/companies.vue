@@ -216,7 +216,6 @@ export default {
   components: {
     MasterDetailContacts,
     textArea,
-    DxPatternRule,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -228,6 +227,7 @@ export default {
     DxGrouping,
     DxGroupPanel,
     DxRequiredRule,
+    DxPatternRule,
     DxAsyncRule,
     DxExport,
     DxColumnChooser,

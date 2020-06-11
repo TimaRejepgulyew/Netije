@@ -7,21 +7,20 @@ export default ({ app }, inject) => {
       store: app.$dxStore({ key: "id", loadUrl: url }),
       requireTotalCount: true
     });
-      var filter = [[propertyName, "=", payload[propertyName]]];
-      if (payload.businessUnitId) {
-        filter.push("and");
-        filter.push(["businessUnitId", "=", payload.businessUnitId]);
-      }
+    var filter = [[propertyName, "=", payload[propertyName]]];
+    if (payload.businessUnitId) {
+      filter.push("and");
+      filter.push(["businessUnitId", "=", payload.businessUnitId]);
+    }
+    if (payload.id) {
+      filter.push("and");
+      filter.push(["id", "<>", payload.id]);
+    }
+    ds.filter(filter);
 
-      if (payload.id) {
-        filter.push("and");
-        filter.push(["id", "<>", payload.id]);
-      }
-      ds.filter(filter);
+    await ds.load();
 
-      await ds.load();
-
-      return ds.totalCount() > 0;
+    return ds.totalCount() > 0;
   }
 
   async function isNameExists(url, payload) {

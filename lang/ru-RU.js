@@ -5,11 +5,17 @@ export default {
   },
   sex: {
     male: "Мужской",
-    female: "Женский"
+    female: "Женский",
   },
   panel: {
     profile: "Профиль",
     logout: "выйти"
+  },
+  counterPart: {
+    Company: "Компания",
+    Bank: "Банк",
+    Person: "Физическое лицо",
+    Contact: "Контактное лицо"
   },
   history: {
     historyDate: "Дата",
@@ -34,6 +40,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    select: "Выбрать...",
     error: "Произошла ошибка",
     errorOccured:
       "Произошла ошибка при выполнении операции. Обратитесь к администратору системы",
@@ -45,7 +52,8 @@ export default {
     from: "От",
     whom: "Кому",
     areYouSure: "Вы уверены?",
-    confirm: "Подтверждение"
+    confirm: "Подтверждение",
+    required:"Заполните это поле"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",
@@ -215,6 +223,9 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   buttons: {
+    restart: "Рестартовать",
+    abort: "Прекратить",
+    start: "Запустить",
     acquaintance: "Ознакомлен",
     changePassword: "Сменить пароль",
     save: "Сохранить",
@@ -370,7 +381,7 @@ export default {
       preparedRequired: "Введите того кто подготовил",
       signatory: "Подписал",
       signatoryRequired: "Введите того кто подписал",
-      correspondentAccount: "Корреспондентский счет",
+      correspondentAccount: "Корр. счет",
       bic: "Уникальный идентификатор банка",
       bicRequired: "Введите уникальный идентификатор банка",
       bicAlreadyExists: "Такой идентификатор уже существует",
@@ -606,7 +617,7 @@ export default {
       importanceMessage: "Это задание имеет высокую важность",
       completedMessage: "Задание выполнено",
       createSimpleTask: "Простая задача",
-      createActionTask: "Задача на исполнение поручения",
+      createActionItemExecutionTask: "Задача на исполнение поручения",
       createAcquaintanceTask: "Задача на ознакомление с документом",
       attachmentSimpleTask: "Вложение к простой задаче",
       createDocument: "Создать документ",

@@ -52,7 +52,7 @@
             searchExpr="name"
           >
             <template #group="{ data }">
-              <recipient-list :data="data" />
+              <recipient-grouped :data="data" />
             </template>
           </DxSelectBox>
         </div>
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import recipientList from "~/components/page/recipient-list.vue";
+import recipientGrouped from "~/components/page/recipient-grouped.vue";
 import { DxSelectBox } from "devextreme-vue/select-box";
 import attachmentActionBtn from "~/components/page/access-right-action-btn";
 import DxList from "devextreme-vue/list";
@@ -95,7 +95,7 @@ export default {
     attachmentActionBtn,
     DxList,
     DxButton,
-    recipientList
+    recipientGrouped
   },
   props: ["entityType", "entityId"],
   async created() {

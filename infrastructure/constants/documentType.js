@@ -1,4 +1,4 @@
-import entityTypes from "./entityTypes"
+import entityTypes from "./entityTypes";
 
 const DocumentTypeGuid = {
   IncomingLetter: 1,
@@ -17,14 +17,14 @@ const DocumentTypeGuid = {
   Waybill: 14,
   Contract: 15,
   SupAgreement: 16
-}
+};
 
-export const mapToEntityType = (documentTypeGuid) => {
+export const mapToEntityType = documentTypeGuid => {
   switch (documentTypeGuid) {
     case DocumentTypeGuid.IncomingLetter:
       return entityTypes.IncomingLetter;
-    case DocumentTypeGuid.IncommingDocument:
-      return entityTypes.IncomingLetter;
+    case DocumentTypeGuid.OutgoingLetter:
+      return entityTypes.OutgoingLetter;
     case DocumentTypeGuid.Order:
       return entityTypes.Order;
     case DocumentTypeGuid.CompanyDirective:
@@ -56,6 +56,6 @@ export const mapToEntityType = (documentTypeGuid) => {
     default:
       throw "Unsupported document type";
   }
-}
+};
 
 export default DocumentTypeGuid;

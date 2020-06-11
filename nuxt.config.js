@@ -1,6 +1,6 @@
 export default {
   env: {
-     baseUrl: "https://192.168.4.57",
+     baseUrl: "https://192.168.4.69",
      uiAddr:"http://localhost:3000"
   },
   mode: "spa",
@@ -16,9 +16,12 @@ export default {
         hid: "description",
         name: "description",
         content: process.env.npm_package_description || ""
-      }
+      },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "static/main-logo.svg" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+     
+    ]
   },
   router: {
     middleware: ["authorization", "authorization-callback", "metadata"]

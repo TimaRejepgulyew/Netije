@@ -1,6 +1,10 @@
 <template>
   <div class="navBar">
-    <DxCheckBox v-model="importance" :text="$t('translations.fields.highImportance')" />
+    <DxCheckBox
+      :onValueChanged="setImportance"
+      :value="importance"
+      :text="$t('translations.fields.highImportance')"
+    />
   </div>
 </template>
 <script>
@@ -10,14 +14,21 @@ export default {
   components: {
     DxCheckBox
   },
-  data() {
-    return {
-      importance: false
-    };
+
+  computed: {
+    importance() {
+      return this.$store.getters["currentTask/task"].importance ===
+        Important.Normal
+        ? false
+        : true;
+    }
   },
-  watch: {
-    importance: function(value) {
-      this.$emit("importantChanged", value ? Important.High : Important.Normal);
+  methods: {
+    setImportance(e) {
+      this.$store.commit(
+        "currentTask/SET_IMPORTANCE",
+        e.value ? Important.High : Important.Normal
+      );
     }
   }
 };

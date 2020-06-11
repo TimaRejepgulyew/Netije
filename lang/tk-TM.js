@@ -11,7 +11,14 @@ export default {
     profile: "Profil",
     logout: "Çykmak"
   },
+  counterPart: {
+    Company: "Kompaniýa",
+    Bank: "Banklar",
+    Person: "Fiziki şahs",
+    Contact: "Kontakt şahs"
+  },
   shared: {
+    select: "Saýlamak...",
     error: "Ýalňyşlyk ýüze çykdy",
     errorOccured:
       "Amaly ýerine ýetirmekde ýalňyşlyk ýüze çykdy. Ulgam administratoryna ýüz tutuň",
@@ -210,6 +217,7 @@ export default {
     onAcquaintance: "Tanyşdyrmak üçin"
   },
   buttons: {
+    start: "Başlamak",
     acquaintance: "Tanyşdym",
     changePassword: "Açarsözi çalyşmak",
     save: "Ýatda saklamak",
@@ -595,7 +603,7 @@ export default {
       importanceMessage: "Bu tabşyryk diýseň ähmiýetlidir",
       completedMessage: "Tabşyryk ýerine ýetirildi",
       createSimpleTask: "Ýönekeý tabşyrygy",
-      createActionTask: "Tabşyryk üçin wezipäni",
+      createActionItemExecutionTask: "Tabşyryk üçin wezipäni",
       createAcquaintanceTask: "Tanyşdyrmak üçin wezipäni",
       attachmentSimpleTask: "Ýönekeý wezipe üçin içlik sahypasy",
       createDocument: "Resminamany döretmek",

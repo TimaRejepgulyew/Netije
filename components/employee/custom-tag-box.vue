@@ -1,30 +1,29 @@
 <template>
   <DxTagBox
-    :data-source="resipientStore"
-    :grouped="true"
-    :show-selection-controls="true"
-    @valueChanged="setRecipient"
+    :data-source="employeeStore"
+    @valueChanged="setEmployee"
     :showClearButton="true"
-    :value="recipients"
+    :value="employees"
     valueExpr="id"
     displayExpr="name"
     :searchEnabled="true"
     searchExpr="name"
     :paginate="true"
     :page-size="10"
+    item-template="customSelectItem"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #group="{ data }">
-      <recipient-grouped :data="data" />
+    <template #customSelectItem="{data}">
+      <customSelectItem :item-data="data" />
     </template>
   </DxTagBox>
 </template>
 
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import recipientGrouped from "~/components/page/recipient-grouped.vue";
+import customSelectItem from "~/components/employee/custom-select-box-item.vue";
 import dataApi from "~/static/dataApi";
 import { DxTagBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -33,23 +32,22 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxTagBox,
-    recipientGrouped
+    customSelectItem
   },
-  props: ["recipients", "messageRequired", "validatorGroup"],
+  props: ["employees", "messageRequired", "validatorGroup"],
   data() {
     return {
-      resipientStore: new DataSource({
+      employeeStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
-        }),
-        group: [{ selector: "recipientType" }]
+          loadUrl: dataApi.company.Employee
+        })
       })
     };
   },
   methods: {
-    setRecipient(e) {
-      this.$emit("setRecipients", e.value);
+    setEmployee(e) {
+      this.$emit("setEmployee", e.value);
     }
   }
 };

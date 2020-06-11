@@ -10,7 +10,7 @@ export default function(context, document) {
   }
   let correspondent = "";
   if (document.documentTypeGuid == DocumentType.OutgoingLetter) {
-    if (document.correspondent) {
+    if (document.correspondent.name) {
       correspondent = `${context.$i18n.t("translations.fields.from")} ${
         document.correspondent.name
       }`;
