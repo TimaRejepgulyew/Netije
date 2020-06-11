@@ -12,7 +12,6 @@ export default ({ app }, inject) => {
       filter.push("and");
       filter.push(["businessUnitId", "=", payload.businessUnitId]);
     }
-    console.log(payload.id, "dwaaw");
     if (payload.id) {
       filter.push("and");
       filter.push(["id", "<>", payload.id]);

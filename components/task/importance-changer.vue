@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     setImportance(e) {
-      console.log(e.value);
       this.$store.commit(
         "currentTask/SET_IMPORTANCE",
         e.value ? Important.High : Important.Normal

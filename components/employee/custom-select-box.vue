@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     setEmployee(e) {
-      console.log(this.property);
       this.$emit("setEmployee", e.value);
     }
   }

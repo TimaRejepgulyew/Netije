@@ -68,7 +68,7 @@ export default {
             }
           );
       } else {
-        console.log("showd");
+      
         this.isDocumentRegistrationPopupOpen = true;
       }
     },

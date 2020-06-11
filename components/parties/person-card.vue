@@ -6,9 +6,9 @@
       :col-count="2"
       :form-data.sync="company"
       :show-colon-after-label="true"
-      :show-validation-summary="true"
+      :show-validation-summary="false"
     >
-      <DxGroupItem :caption="$t('translations.fields.personalData')">
+      <DxGroupItem>
         <DxSimpleItem data-field="firstName">
           <DxLabel location="top" :text="$t('translations.fields.firstName')" />
           <DxRequiredRule :message="$t('translations.fields.firstNameRequired')" />
@@ -45,6 +45,7 @@
         </DxSimpleItem>
         <DxSimpleItem data-field="sex" :editor-options="sexOptions" editor-type="dxSelectBox">
           <DxLabel location="top" :text="$t('translations.fields.sex')" />
+          <DxRequiredRule />
         </DxSimpleItem>
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
@@ -60,7 +61,7 @@
           <DxLabel location="top" :text="$t('translations.fields.code')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :caption="$t('translations.fields.APN')">
+      <DxGroupItem>
         <DxSimpleItem
           :editor-options="regionOptions"
           editor-type="dxSelectBox"
@@ -160,7 +161,7 @@ export default {
         middleName: "",
         account: "",
         bankId: null,
-        dateOfBirth: "",
+        dateOfBirth: null,
         sex: null,
         code: "",
         regionId: null,
@@ -173,7 +174,6 @@ export default {
         tin: "",
         note: "",
         nonresident: true,
-        name: "",
         status: this.$store.getters["status/status"](this)[0].id
       },
       sexOptions: {

@@ -13,7 +13,11 @@
           <DxLabel location="top" :text="$t('translations.fields.contactName')" />
           <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="correspondent">
+        <DxSimpleItem
+          editor-type="dxTextBox"
+          :editor-options="{readOnly:true,value:correspondent.name}"
+          data-field="correspondent"
+        >
           <DxLabel location="top" :text="$t('translations.fields.company')" />
           <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
         </DxSimpleItem>
@@ -93,7 +97,6 @@ export default {
   },
   props: ["isCard", "contactId", "correspondent"],
   async created() {
-    console.log(this.correspondent);
     if (this.contactId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Contact}/${this.contactId}`

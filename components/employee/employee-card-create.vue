@@ -118,9 +118,7 @@ export default {
     Toolbar
   },
   props: ["isCard"],
-  created() {
-    console.log(this.$parent.$parent);
-  },
+
   data() {
     return {
       employee: {

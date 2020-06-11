@@ -5,7 +5,7 @@ export default {
   },
   sex: {
     male: "Мужской",
-    female: "Женский"
+    female: "Женский",
   },
   panel: {
     profile: "Профиль",
@@ -15,7 +15,7 @@ export default {
     Company: "Компания",
     Bank: "Банк",
     Person: "Физическое лицо",
-    Contact:"Контактное лицо"
+    Contact: "Контактное лицо"
   },
   history: {
     historyDate: "Дата",
@@ -52,7 +52,8 @@ export default {
     from: "От",
     whom: "Кому",
     areYouSure: "Вы уверены?",
-    confirm: "Подтверждение"
+    confirm: "Подтверждение",
+    required:"Заполните это поле"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",

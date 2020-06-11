@@ -151,10 +151,10 @@ export default {
       );
     },
     setAddresseeId(data) {
-      this.$store.commit("currentDocument/SET_ADDRESSE_ID", data && data.id);
+      this.$store.commit("currentDocument/SET_ADDRESSE_ID", data);
     },
     setAssigneeId(data) {
-      this.$store.commit("currentDocument/SET_ADDRESSEE_ID", data && data.id);
+      this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
     }
   },
   computed: {
@@ -176,10 +176,6 @@ export default {
       return this.$store.getters["currentDocument/document"].correspondentId;
     },
     correspondent() {
-      console.log(
-        this.$store.getters["currentDocument/document"].correspondent,
-        this.$store.getters["currentDocument/document"]
-      );
       return this.$store.getters["currentDocument/document"].correspondent;
     },
     departmentId() {
