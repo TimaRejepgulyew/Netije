@@ -381,7 +381,7 @@ export default {
       preparedRequired: "Введите того кто подготовил",
       signatory: "Подписал",
       signatoryRequired: "Введите того кто подписал",
-      correspondentAccount: "Корреспондентский счет",
+      correspondentAccount: "Корр. счет",
       bic: "Уникальный идентификатор банка",
       bicRequired: "Введите уникальный идентификатор банка",
       bicAlreadyExists: "Такой идентификатор уже существует",
