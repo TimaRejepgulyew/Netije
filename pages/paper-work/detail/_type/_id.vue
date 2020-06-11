@@ -1,67 +1,76 @@
 <template>
   <div>
     <Header headerTitle="headerTitle"></Header>
-    <toolbar></toolbar>
-    <DxTabPanel :focus-state-enabled="false" class="tab-bar">
-      <DxItem :title="$t('menu.mainInfo')" template="document-form" />
-      <DxForm
-        class="pd-2"
-        slot="document-form"
-        ref="form"
-        :col-count="5"
-        :show-colon-after-label="true"
-        :show-validation-summary="false"
-        validation-group="OfficialDocument"
-      >
-        <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.main')">
-          <DxSimpleItem data-field="name" :editor-options="nameOptions">
-            <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
-            <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="documentKindId"
-            :editor-options="documentKindOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
-            <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
-          </DxSimpleItem>
+    <toolbar @openVersion="openVersion"></toolbar>
+    <DxDrawer
+      :animation-enabled="false"
+      ref="version"
+      opened-state-mode="overlap"
+      position="right"
+      reveal-mode="slide"
+      :opened.sync="versionOpenState"
+      template="attachmentBlock"
+    >
+      <template #attachmentBlock>
+        <docVersion></docVersion>
+      </template>
 
-          <DxSimpleItem
-            data-field="subject"
-            :editor-options="subjectOptions"
-            editor-type="dxTextArea"
-          >
-            <DxLabel location="top" :text="$t('translations.fields.subject')" />
-            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-          </DxSimpleItem>
-          <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
-          <DxSimpleItem data-field="note" :editor-options="noteOptions" editor-type="dxTextArea">
-            <DxLabel location="top" :text="$t('translations.fields.note')" />
-          </DxSimpleItem>
-        </DxGroupItem>
-        <DxSimpleItem template="registrationBlock"></DxSimpleItem>
-        <DxSimpleItem template="attachmentBlock"></DxSimpleItem>
+      <DxTabPanel :focus-state-enabled="false" class="tab-bar">
+        <DxItem :title="$t('menu.mainInfo')" template="document-form" />
+        <DxForm
+          class="pd-2"
+          slot="document-form"
+          ref="form"
+          :col-count="8"
+          :show-colon-after-label="true"
+          :show-validation-summary="false"
+          validation-group="OfficialDocument"
+        >
+          <DxGroupItem :col-span="6" :col-count="1" :caption="$t('translations.fields.main')">
+            <DxSimpleItem data-field="name" :editor-options="nameOptions">
+              <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
+              <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+            </DxSimpleItem>
+            <DxSimpleItem
+              data-field="documentKindId"
+              :editor-options="documentKindOptions"
+              editor-type="dxSelectBox"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
+              <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
+            </DxSimpleItem>
 
-        <template #attachmentBlock>
-          <docVersion></docVersion>
-        </template>
-        <template #registrationBlock>
-          <docRegistration></docRegistration>
-        </template>
-        <template #formByTypeGuid>
-          <component :is="formByTypeGuid"></component>
-        </template>
-      </DxForm>
-      <DxItem :title="$t('menu.relation')" :disabled="isDataChanged" template="relations" />
-      <Relation slot="relations"></Relation>
-      <DxItem :title="$t('menu.history')" :disabled="isNew" template="history" />
-      <History
-        :entityTypeGuid="entityTypeGuid"
-        :id="$store.getters['currentDocument/document'].id"
-        slot="history"
-      ></History>
-    </DxTabPanel>
+            <DxSimpleItem
+              data-field="subject"
+              :editor-options="subjectOptions"
+              editor-type="dxTextArea"
+            >
+              <DxLabel location="top" :text="$t('translations.fields.subject')" />
+              <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+            </DxSimpleItem>
+            <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
+            <DxSimpleItem data-field="note" :editor-options="noteOptions" editor-type="dxTextArea">
+              <DxLabel location="top" :text="$t('translations.fields.note')" />
+            </DxSimpleItem>
+          </DxGroupItem>
+          <DxSimpleItem :col-span="2" template="registrationBlock"></DxSimpleItem>
+          <template #registrationBlock>
+            <docRegistration></docRegistration>
+          </template>
+          <template #formByTypeGuid>
+            <component :is="formByTypeGuid"></component>
+          </template>
+        </DxForm>
+        <DxItem :title="$t('menu.relation')" :disabled="isDataChanged" template="relations" />
+        <Relation slot="relations"></Relation>
+        <DxItem :title="$t('menu.history')" :disabled="isNew" template="history" />
+        <History
+          :entityTypeGuid="entityTypeGuid"
+          :id="$store.getters['currentDocument/document'].id"
+          slot="history"
+        ></History>
+      </DxTabPanel>
+    </DxDrawer>
   </div>
 </template>
 <script>
@@ -89,9 +98,11 @@ import DxForm, {
   DxRequiredRule,
   DxLabel
 } from "devextreme-vue/form";
+import { DxDrawer } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
+    DxDrawer,
     DxTabPanel,
     DxItem,
     Relation,
@@ -134,10 +145,19 @@ export default {
 
     next(res);
   },
+  mounted() {
+    this.versionOpenState = false;
+  },
   data() {
     return {
+      versionOpenState: true,
       entityTypeGuid: EntityTypes.ElectronicDocument
     };
+  },
+  methods: {
+    openVersion() {
+      this.versionOpenState = !this.versionOpenState;
+    }
   },
   computed: {
     documentKindOptions() {
@@ -226,6 +246,7 @@ export default {
 <style >
 .tab-bar {
   margin-top: 10px;
+  height: 100%;
 }
 .item {
   flex-grow: 1;
@@ -241,5 +262,9 @@ export default {
 }
 .pd-2 {
   padding: 10px;
+}
+.bg-white {
+  width: 20%;
+  background: white;
 }
 </style>

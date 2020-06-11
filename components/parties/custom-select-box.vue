@@ -23,7 +23,7 @@
       <custom-select-item :item-data="data" />
     </template>
     <template #customfield="{data}">
-      <custom-field @setCounterPart="setCounterPart" :notPerson="notPerson" :field-data="data" />
+      <custom-field @valueChanged="setCounterPart" :notPerson="notPerson" :field-data="data" />
     </template>
   </DxSelectBox>
 </template>
@@ -56,13 +56,15 @@ export default {
   },
   methods: {
     valueChanged(e) {
-      if(e.event)
-      {
-        this.$emit("setСounterPart",this.$refs["counterPart"].instance.option("selectedItem"));
+      if (e.event) {
+        this.$emit(
+          "valueChanged",
+          this.$refs["counterPart"].instance.option("selectedItem")
+        );
       }
     },
     setCounterPart(data) {
-      this.$emit("setСounterPart", data.selectedItem);
+      this.$emit("valueChanged", data);
       this.$refs["counterPart"].instance.repaint();
     }
   }

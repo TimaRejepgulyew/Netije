@@ -27,12 +27,14 @@
 
         <DxSimpleItem
           data-field="ourSignatoryId"
+          template="ourSignatory"
           :editor-options="ourSignatoryOptions"
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem
+          template="prepared"
           data-field="preparedById"
           :editor-options="preparedByOptions"
           editor-type="dxSelectBox"
@@ -70,18 +72,30 @@
     <template #correspondent>
       <custom-select-box
         validatorGroup="OfficialDocument"
-        @setСounterPart="setCorrenspondent"
+        @valueChanged="setCorrenspondent"
         messageRequired="translations.fields.counterPartRequired"
-        :counterPart="correspondentId"
+        :value="correspondentId"
       />
     </template>
     <template #contact>
-      <custom-select-box-contact @setСounterPart="setContact" :counterPart="contactId" />
+      <custom-select-box-contact
+        :correspondentId="correspondentId"
+        @valueChanged="setContact"
+        :value="contactId"
+      />
+    </template>
+
+    <template #prepared>
+      <employee-select-box :value="preparedId" @valueChanged="setPreparedId" />
+    </template>
+    <template #ourSignatory>
+      <employee-select-box :value="ourSignatory" @valueChanged="setOurSignatoryId" />
     </template>
   </DxForm>
 </template>
 <script>
-import customSelectBoxContact from "~/components/parties/custom-select-box-contact.vue";
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
@@ -99,7 +113,8 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    customSelectBoxContact
+    customSelectBoxContact,
+    employeeSelectBox
   },
   data() {
     return {
@@ -129,7 +144,7 @@ export default {
       return this.$store.getters["currentDocument/document"].contactId;
     },
     isCompany() {
-      if (this.$store.getters["currentDocument/document"].correspondent.id)
+      if (this.$store.getters["currentDocument/document"].correspondentId)
         return (
           this.$store.getters["currentDocument/document"].correspondent.type !==
           "Person"

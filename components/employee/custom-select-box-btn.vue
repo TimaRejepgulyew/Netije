@@ -7,7 +7,12 @@
       :close-on-outside-click="true"
     >
       <div>
-        <updateCard v-if="isOpenCard" :isCard="true" :employeeId="employeeId" />
+        <updateCard
+          @valueChanged="valueChanged"
+          v-if="isOpenCard"
+          :isCard="true"
+          :employeeId="employeeId"
+        />
       </div>
     </DxPopup>
     <DxButton
@@ -42,6 +47,9 @@ export default {
     }
   },
   methods: {
+    valueChanged(data) {
+      this.$emit("valueChanged", data);
+    },
     openCard(cardType) {
       this.isOpenCard = !this.isOpenCard;
     }

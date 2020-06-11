@@ -10,7 +10,7 @@
     >
       <div class="scrool-auto">
         <component
-          @setCounterPart="setCounterPart"
+          @valueChanged="valueChanged"
           v-if="isOpenCardUpdate"
           :counterpartId="counterpartId"
           :isCard="true"
@@ -29,7 +29,7 @@
     >
       <div class="scrool-auto">
         <component
-          @setCounterPart="setCounterPart"
+          @valueChanged="valueChanged"
           v-if="isOpenCardCreate"
           :isCard="true"
           :is="activeCard"
@@ -97,8 +97,8 @@ export default {
     }
   },
   methods: {
-    setCounterPart(data) {
-      this.$emit("setCounterPart", data);
+    valueChanged(data) {
+      this.$emit("valueChanged", data);
     },
     openCard() {
       this.activeCard = this.type.toLowerCase();

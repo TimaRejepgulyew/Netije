@@ -1,9 +1,9 @@
 <template>
   <DxTagBox
     :data-source="employeeStore"
-    @valueChanged="setEmployee"
+    @valueChanged="valueChanged"
     :showClearButton="true"
-    :value="employees"
+    :value="value"
     valueExpr="id"
     displayExpr="name"
     :searchEnabled="true"
@@ -34,7 +34,8 @@ export default {
     DxTagBox,
     customSelectItem
   },
-  props: ["employees", "messageRequired", "validatorGroup"],
+  props: ["value", "messageRequired", "validatorGroup"],
+  created() {},
   data() {
     return {
       employeeStore: new DataSource({
@@ -46,8 +47,8 @@ export default {
     };
   },
   methods: {
-    setEmployee(e) {
-      this.$emit("setEmployee", e.value);
+    valueChanged(e) {
+      this.$emit("valueChanged", e.value);
     }
   }
 };

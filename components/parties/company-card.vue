@@ -1,8 +1,13 @@
 <template>
   <div>
-    <toolbar :isCard="isCard" @saveChanges="submit" :canSave="true" />
+    <toolbar
+      :isCard="isCard"
+      @saveChanges="submit"
+      :canSave="$store.getters['permissions/allowReading'](EntityType.Counterparty)"
+    />
     <DxForm
       ref="form"
+      :read-only="!$store.getters['permissions/allowReading'](EntityType.Counterparty)"
       :col-count="2"
       :form-data.sync="company"
       :show-colon-after-label="true"
@@ -119,6 +124,7 @@ import DxForm, {
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import Header from "~/components/page/page__header";
 export default {
   components: {
@@ -146,6 +152,7 @@ export default {
   },
   data() {
     return {
+      EntityType,
       company: {
         headCompanyId: null,
         legalName: "",
@@ -232,7 +239,7 @@ export default {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.contragents.Company, this.company),
         ({ data }) => {
-          this.$emit("setCounterPart", data);
+          this.$emit("valueChanged", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },
@@ -250,7 +257,7 @@ export default {
           this.company
         ),
         ({ data }) => {
-          this.$emit("setCounterPart", data);
+          this.$emit("valueChanged", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },

@@ -3,19 +3,26 @@
     @button-click="createSimpleTask"
     :use-select-mode="false"
     :split-button="true"
-    :text="$t('buttons.createTaskByDocument')"
+    :hint="$t('buttons.createTaskByDocument')"
     :drop-down-options="{ width: 330 }"
     :items="items"
+    :icon="sendIcon"
     display-expr="name"
     @item-click="createTask"
   />
 </template>
 <script>
+import sendIcon from "~/static/icons/send.svg";
 import ActionGuid from "~/infrastructure/constants/actionGuid.js";
 import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
     DxDropDownButton
+  },
+  data() {
+    return {
+      sendIcon
+    };
   },
   computed: {
     items() {

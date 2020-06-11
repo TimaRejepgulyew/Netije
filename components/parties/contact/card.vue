@@ -1,8 +1,13 @@
 <template>
   <div>
-    <toolbar :isCard="isCard" @saveChanges="submit" :canSave="true" />
+    <toolbar
+      :isCard="isCard"
+      @saveChanges="submit"
+      :canSave="$store.getters['permissions/allowReading'](EntityType.Contact)"
+    />
     <DxForm
       ref="form"
+      :read-only="!$store.getters['permissions/allowReading'](EntityType.Contact)"
       :form-data.sync="contact"
       :show-colon-after-label="true"
       :show-validation-summary="true"
@@ -14,9 +19,9 @@
           <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
-          editor-type="dxTextBox"
-          :editor-options="{readOnly:true,value:correspondent.name}"
-          data-field="correspondent"
+          editor-type="dxSelectBox"
+          :editor-options="correspondentOptions"
+          data-field="companyId"
         >
           <DxLabel location="top" :text="$t('translations.fields.company')" />
           <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
@@ -79,6 +84,7 @@ import DxForm, {
   DxEmailRule,
   DxAsyncRule
 } from "devextreme-vue/form";
+import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
@@ -95,7 +101,7 @@ export default {
     Toolbar,
     customSelectBox
   },
-  props: ["isCard", "contactId", "correspondent"],
+  props: ["isCard", "contactId", "correspondentId"],
   async created() {
     if (this.contactId) {
       const { data } = await this.$axios.get(
@@ -106,10 +112,10 @@ export default {
   },
   data() {
     return {
+      EntityType,
       contact: {
         name: "",
-        correspondent: this.correspondent.name,
-        companyId: this.correspondent.id,
+        companyId: this.correspondentId,
         department: "",
         jobTitle: "",
         phone: "",
@@ -119,6 +125,18 @@ export default {
         homepage: "",
         id: null,
         status: this.$store.getters["status/status"](this)[0].id
+      },
+      correspondentOptions: {
+        dataSource: new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.contragents.CounterPart
+          })
+        }),
+        valueExpr: "id",
+        displayExpr: "name",
+        value: this.correspondentId,
+        readOnly: true
       },
       sexOptions: {
         dataSource: [
@@ -187,7 +205,7 @@ export default {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.contragents.Contact, this.contact),
         ({ data }) => {
-          this.$emit("setContact", data);
+          this.$emit("valueChanged", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },
@@ -205,7 +223,7 @@ export default {
           this.contact
         ),
         ({ data }) => {
-          this.$emit("setContact", data);
+          this.$emit("valueChanged", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },

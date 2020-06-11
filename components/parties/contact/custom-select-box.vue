@@ -24,8 +24,8 @@
     </template>
     <template #customfield="{data}">
       <custom-field
-        @setContact="setContact"
-        :correspondent="correspondent"
+        @valueChanged="setContact"
+        :correspondentId="correspondentId"
         :field-data="data"
       />
     </template>
@@ -33,8 +33,8 @@
 </template>
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import customSelectItem from "~/components/parties/custom-select-box-item-contact.vue";
-import customField from "~/components/parties/custom-select-box-field-contact";
+import customSelectItem from "~/components/parties/contact/custom-select-box-item.vue";
+import customField from "~/components/parties/contact/custom-select-box-field";
 import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -51,7 +51,7 @@ export default {
     "messageRequired",
     "value",
     "filter",
-    "correspondent"
+    "correspondentId"
   ],
   data() {
     return {};
@@ -63,7 +63,7 @@ export default {
           key: "id",
           loadUrl: dataApi.contragents.Contact
         }),
-        filter: ["companyId", "=", this.correspondent.id]
+        filter: ["companyId", "=", this.correspondentId]
       });
     }
   },
@@ -71,13 +71,13 @@ export default {
     valueChanged(e) {
       if (e.event) {
         this.$emit(
-          "setContact",
+          "valueChanged",
           this.$refs["contact"].instance.option("selectedItem")
         );
       }
     },
     setContact(data) {
-      this.$emit("setContact", data.selectedItem);
+      this.$emit("valueChanged", data);
       this.$refs["contact"].instance.repaint();
     }
   }
