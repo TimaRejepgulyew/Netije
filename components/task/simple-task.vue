@@ -63,15 +63,12 @@
       <employee-tag-box
         :messageRequired="$t('translations.fields.performersRequired')"
         :validator-group="validatorGroup"
-        :employees="performers.data.editorOptions.value"
-        @setEmployee="setPerformers"
+        :value="performers.data.editorOptions.value"
+        @valueChanged="setPerformers"
       />
     </template>
     <template #observers="observers">
-      <employee-tag-box
-        :employees="observers.data.editorOptions.value"
-        @setEmployee="setObservers"
-      />
+      <employee-tag-box :value="observers.data.editorOptions.value" @valueChanged="setObservers" />
     </template>
   </DxForm>
 </template>

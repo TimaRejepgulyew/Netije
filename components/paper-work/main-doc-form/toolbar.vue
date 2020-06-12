@@ -5,17 +5,12 @@
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="saveAndBackButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="canRegister" location="before" template="registrationButton" />
-      <DxItem
-        :visible="canDelete"
-        :options="removeDocumentButtonOptions"
-        location="after"
-        widget="dxButton"
-      />
       <DxItem :options="createAddendumOptions" v-if="!isNew" location="before" widget="dxButton" />
-      <DxItem template="createTaskForDocument" :visible="!isDataChanged" location="after" />
+      <DxItem template="createTaskForDocument" :visible="!isDataChanged" location="before" />
       <template #createTaskForDocument>
         <available-actions />
       </template>
+      <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="accessRightButton" location="after" />
       <template #accessRightButton>
         <access-right
@@ -26,10 +21,17 @@
       <template #registrationButton>
         <document-registration-btn />
       </template>
+      <DxItem
+        :visible="canDelete"
+        :options="removeDocumentButtonOptions"
+        location="after"
+        widget="dxButton"
+      />
     </DxToolbar>
   </div>
 </template>
 <script>
+import addendumIcon from "~/static/icons/addendum.svg";
 import availableActions from "~/components/paper-work/main-doc-form/available-actions.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
@@ -52,6 +54,7 @@ export default {
   },
   data() {
     return {
+      addendumIcon,
       backButtonOptions: {
         type: "back",
         onClick: () => {
@@ -102,6 +105,16 @@ export default {
         }
       };
     },
+    versionOptions() {
+      return {
+        icon: "unselectall",
+        hint: this.$t("buttons.versions"),
+        text: this.$t("buttons.versions"),
+        onClick: () => {
+          this.$emit("openVersion");
+        }
+      };
+    },
     saveAndBackButtonOptions() {
       return {
         icon: "save",
@@ -125,9 +138,9 @@ export default {
     },
     createAddendumOptions() {
       return {
-        icon: "plus",
+        icon: this.addendumIcon,
         type: "normal",
-        text: this.$t("buttons.createAddendum"),
+        hint: this.$t("buttons.createAddendum"),
         onClick: () => {
           this.$router.push({
             path: `/paper-work/create/${DocumentTypeGuid.Addendum}`,
@@ -140,7 +153,7 @@ export default {
       return {
         icon: "trash",
         type: "normal",
-        text: this.$t("document.remove"),
+        hint: this.$t("document.remove"),
         onClick: () => {
           let result = confirm(
             this.$t("shared.areYouSure"),

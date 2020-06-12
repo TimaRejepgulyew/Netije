@@ -1,9 +1,10 @@
 <template>
   <DxSelectBox
+    ref="employee"
     :data-source="employeeStore"
-    @valueChanged="setEmployee"
+    @valueChanged="valueChanged"
     :showClearButton="true"
-    :value="employee"
+    :value="value"
     :openOnFieldClick="false"
     :focusStateEnabled="false"
     valueExpr="id"
@@ -22,7 +23,7 @@
       <custom-select-item :item-data="data" />
     </template>
     <template #customfield="{data}">
-      <custom-field :field-data="data" />
+      <custom-field @valueChanged="updateEmployee" :field-data="data" />
     </template>
   </DxSelectBox>
 </template>
@@ -42,7 +43,7 @@ export default {
     customSelectItem,
     customField
   },
-  props: ["employee", "messageRequired", "validatorGroup"],
+  props: ["value", "messageRequired", "validatorGroup"],
   data() {
     return {
       employeeStore: new DataSource({
@@ -54,8 +55,12 @@ export default {
     };
   },
   methods: {
-    setEmployee(e) {
-      this.$emit("setEmployee", e.value);
+    valueChanged(e) {
+      this.$emit("valueChanged", e.value);
+    },
+    updateEmployee(data) {
+      this.$emit("valueChanged", data.id);
+      this.employeeStore.reload();
     }
   }
 };

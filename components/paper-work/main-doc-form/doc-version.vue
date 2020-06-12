@@ -1,5 +1,5 @@
 <template>
-  <div class="main-block">
+  <div>
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
       <div class="list-container">
@@ -143,9 +143,14 @@ export default {
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/themes/generated/variables.base.scss";
 .file-uploader-block {
+  background: $base-bg;
   display: block;
-  padding: 0;
+  padding: 20px;
   margin: 0;
+  border: 0.5px solid $base-border-color;
+  border-radius: 5px;
+  width: 350px;
+  min-height: 100%;
   .border-b {
     display: block;
     width: 100%;
@@ -153,7 +158,7 @@ export default {
   }
 
   .list-container {
-    height: 50vh;
+    min-height: 50vh;
     overflow: auto;
     width: 100%;
     i {

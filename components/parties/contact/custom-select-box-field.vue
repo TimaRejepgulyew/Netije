@@ -2,15 +2,17 @@
   <div class="d-flex">
     <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
     <contact-btn
-      :correspondent="correspondent"
-      @setContact="setContact"
+      v-if="$store.getters['permissions/allowReading'](EntityType.Contact)"
+      :correspondentId="correspondentId"
+      @valueChanged="valueChanged"
       :type="fieldData ? fieldData.type:null"
-      :contactId="fieldData ? fieldData.id:null"
+      :id="fieldData ? fieldData.id:null"
     />
   </div>
 </template>
 <script>
-import contactBtn from "~/components/parties/custom-select-box-btn-cantact.vue";
+import EntityType from "~/infrastructure/constants/entityTypes";
+import contactBtn from "~/components/parties/contact/custom-select-box-btn.vue";
 import { DxButton } from "devextreme-vue";
 import { DxTextBox } from "devextreme-vue";
 export default {
@@ -20,15 +22,20 @@ export default {
     contactBtn
   },
   props: {
-    correspondent: {},
+    correspondentId: {},
     fieldData: {
       type: Object,
       default: () => {}
     }
   },
+  data() {
+    return {
+      EntityType
+    };
+  },
   methods: {
-    setContact(data) {
-      this.$emit("setContact", { selectedItem: data });
+    valueChanged(data) {
+      this.$emit("valueChanged", data);
     }
   }
 };

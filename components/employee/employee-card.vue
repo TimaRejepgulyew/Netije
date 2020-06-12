@@ -211,6 +211,7 @@ export default {
           this.employee
         ),
         e => {
+          this.$emit("valueChanged", this.employee);
           this.$awn.success();
         },
         e => this.$awn.alert()

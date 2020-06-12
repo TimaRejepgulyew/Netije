@@ -70,36 +70,36 @@
     <template #correspondent>
       <custom-select-box
         validatorGroup="OfficialDocument"
-        @setСounterPart="setCorrenspondent"
+        @valueChanged="setCorrenspondent"
         messageRequired="translations.fields.counterPartRequired"
         :value="correspondentId"
       />
     </template>
     <template #contact>
       <custom-select-box-contact
-        :correspondent="correspondent"
-        @setContact="setContact"
+        :correspondentId="correspondentId"
+        @valueChanged="setContact"
         :value="contactId"
       />
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
-        :correspondent="correspondent"
-        @setContact="setCounterpartySignatoryId"
+        :correspondentId="correspondentId"
+        @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"
       />
     </template>
     <template #addressee>
-      <employee-select-box :employees="addresseeId" @setEmployee="setAddresseeId" />
+      <employee-select-box :value="addresseeId" @valueChanged="setAddresseeId" />
     </template>
     <template #assignee>
-      <employee-select-box :employees="assigneeId" @setEmployee="setAssigneeId" />
+      <employee-select-box :value="assigneeId" @valueChanged="setAssigneeId" />
     </template>
   </DxForm>
 </template>
 <script>
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import customSelectBoxContact from "~/components/parties/custom-select-box-contact.vue";
+import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
@@ -175,9 +175,7 @@ export default {
     correspondentId() {
       return this.$store.getters["currentDocument/document"].correspondentId;
     },
-    correspondent() {
-      return this.$store.getters["currentDocument/document"].correspondent;
-    },
+
     departmentId() {
       return this.$store.getters["currentDocument/document"].departmentId;
     },

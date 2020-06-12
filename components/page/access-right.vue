@@ -14,7 +14,7 @@
         <access-right-list v-if="popup" :entity-type="entityType" :entity-id="entityId" />
       </div>
     </DxPopup>
-    <DxButton icon="key" :on-click="showPopup" :text="$t('shared.access')" />
+    <DxButton :icon="icon" :on-click="showPopup" :hint="$t('shared.access')" />
   </div>
 </template>
 
@@ -22,15 +22,17 @@
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 import accessRightList from "~/components/page/access-right-list.vue";
+import icon from "~/static/icons/access-right.svg";
 export default {
   components: {
     DxButton,
     DxPopup,
     accessRightList
   },
-  props: ["entityType","entityId"],
+  props: ["entityType", "entityId"],
   data() {
     return {
+      icon,
       popup: false
     };
   },

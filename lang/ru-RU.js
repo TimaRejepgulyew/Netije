@@ -223,6 +223,7 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   buttons: {
+    versions: "Версии",
     restart: "Рестартовать",
     abort: "Прекратить",
     start: "Запустить",

@@ -22,13 +22,15 @@
     <DxButton
       v-else
       :text="$t('translations.fields.registration')"
-      icon="check"
+      :hint="$t('translations.fields.registration')"
+      :icon="registerIcon"
       :onClick="register"
     ></DxButton>
   </div>
 </template>
 
 <script>
+import registerIcon from "~/static/icons/stamp.svg";
 import dataApi from "~/static/dataApi";
 import { confirm } from "devextreme/ui/dialog";
 import { DxPopup } from "devextreme-vue/popup";
@@ -44,6 +46,7 @@ export default {
   },
   data() {
     return {
+      registerIcon,
       isDocumentRegistrationPopupOpen: false
     };
   },
@@ -68,7 +71,6 @@ export default {
             }
           );
       } else {
-      
         this.isDocumentRegistrationPopupOpen = true;
       }
     },

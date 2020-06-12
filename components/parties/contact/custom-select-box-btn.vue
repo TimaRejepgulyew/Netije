@@ -2,18 +2,18 @@
   <div>
     <DxPopup
       width="90%"
-      height="90%"
-      :showTitle="true"
+      height="auto"
+      :showTitle="false"
       :visible.sync="isOpenCardUpdate"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div class="scrool-auto">
         <contact
-          :correspondent="correspondent"
-          @setContact="setContact"
+          :correspondentId="correspondentId"
+          @valueChanged="valueChanged"
           v-if="isOpenCardUpdate"
-          :contactId="contactId"
+          :contactId="id"
           :isCard="true"
           key="update"
         />
@@ -21,16 +21,16 @@
     </DxPopup>
     <DxPopup
       width="90%"
-      height="90%"
-      :showTitle="true"
+      height="auto"
+      :showTitle="false"
       :visible.sync="isOpenCardCreate"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div class="scrool-auto">
         <contact
-          :correspondent="correspondent"
-          @setContact="setContact"
+          :correspondentId="correspondentId"
+          @valueChanged="valueChanged"
           v-if="isOpenCardCreate"
           :isCard="true"
           :contactId="false"
@@ -58,7 +58,7 @@
   </div>
 </template>
 <script>
-import contact from "~/components/parties/contact-card.vue";
+import contact from "~/components/parties/contact/card.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 export default {
@@ -75,12 +75,12 @@ export default {
   },
   computed: {
     showBtn() {
-      return this.contactId ? true : false;
+      return this.id ? true : false;
     }
   },
   methods: {
-    setContact(data) {
-      this.$emit("setContact", data);
+    valueChanged(data) {
+      this.$emit("valueChanged", data);
     },
     openUpdateCard() {
       this.isOpenCardUpdate = !this.isOpenCardUpdate;
@@ -93,7 +93,7 @@ export default {
       this.isOpenCardCreate = !this.isOpenCardCreate;
     }
   },
-  props: ["contactId", "type", "correspondent"]
+  props: ["id", "type", "correspondentId"]
 };
 </script>
 <style lang="scss">

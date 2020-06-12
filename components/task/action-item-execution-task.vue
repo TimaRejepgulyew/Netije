@@ -59,28 +59,28 @@
       </DxSimpleItem>
       <template #actionItemObservers="actionItemObservers">
         <employee-tag-box
-          :employees="actionItemObservers.data.editorOptions.value"
-          @setEmployee="setActionItemObservers"
+          :value="actionItemObservers.data.editorOptions.value"
+          @valueChanged="setActionItemObservers"
         />
       </template>
       <template #coAssignees="coAssignees">
         <employee-tag-box
-          :employees="coAssignees.data.editorOptions.value"
-          @setEmployee="setCoAssigneess"
+          :value="coAssignees.data.editorOptions.value"
+          @valueChanged="setCoAssigneess"
         />
       </template>
       <template #supervisor="supervisor">
         <employee-select-box
-          :employees="supervisor.data.editorOptions.value"
-          @setEmployee="setSupervisor"
+          :value="supervisor.data.editorOptions.value"
+          @valueChanged="setSupervisor"
         />
       </template>
       <template #assignee="assignee">
         <employee-select-box
           :messageRequired="$t('translations.fields.assigneeIdRequired')"
           :validator-group="validatorGroup"
-          :employees="assignee.data.editorOptions.value"
-          @setEmployee="setAssignee"
+          :value="assignee.data.editorOptions.value"
+          @valueChanged="setAssignee"
         />
       </template>
     </DxForm>

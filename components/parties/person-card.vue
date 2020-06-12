@@ -1,10 +1,15 @@
 <template>
   <div>
-    <toolbar :isCard="isCard" @saveChanges="submit" :canSave="true" />
+    <toolbar
+      :isCard="isCard"
+      @saveChanges="submit"
+      :canSave="$store.getters['permissions/allowReading'](EntityType.Counterparty)"
+    />
     <DxForm
       ref="form"
+      :read-only="!$store.getters['permissions/allowReading'](EntityType.Counterparty)"
       :col-count="2"
-      :form-data.sync="company"
+      :form-data.sync="person"
       :show-colon-after-label="true"
       :show-validation-summary="false"
     >
@@ -18,6 +23,7 @@
           />
         </DxSimpleItem>
         <DxSimpleItem data-field="lastName">
+          <DxRequiredRule :message="$t('translations.fields.lastNameRequired')" />
           <DxLabel location="top" :text="$t('translations.fields.lastName')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="tin">
@@ -128,10 +134,9 @@ import DxForm, {
   DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
+import EntityType from "~/infrastructure/constants/entityTypes";
 export default {
   components: {
-    Header,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
@@ -150,12 +155,13 @@ export default {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Person}/${this.counterpartId}`
       );
-      this.company = data;
+      this.person = data;
     }
   },
   data() {
     return {
-      company: {
+      EntityType,
+      person: {
         firstName: "",
         lastName: "",
         middleName: "",
@@ -186,11 +192,6 @@ export default {
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
-      headCompanyOptions: this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.contragents.Company,
-        filter: ["status", "=", Status.Active]
-      }),
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
@@ -215,7 +216,7 @@ export default {
           filter: ["status", "=", Status.Active]
         }),
         onValueChanged: () => {
-          this.company.localityId = null;
+          this.person.localityId = null;
         }
       };
     },
@@ -225,7 +226,7 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.company.regionId]
+          ["regionId", "=", this.person?.regionId]
         ]
       });
     }
@@ -247,9 +248,9 @@ export default {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
       this.$awn.asyncBlock(
-        this.$axios.post(dataApi.contragents.Person, this.company),
+        this.$axios.post(dataApi.contragents.Person, this.person),
         ({ data }) => {
-          this.$emit("setCounterPart", data);
+          this.$emit("valueChanged", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },
@@ -264,10 +265,10 @@ export default {
       this.$awn.asyncBlock(
         this.$axios.put(
           `${dataApi.contragents.Person}/${this.counterpartId}`,
-          this.company
+          this.person
         ),
         ({ data }) => {
-          this.$emit("setCounterPart", data);
+          this.$emit("valueChanged", data);
           this.$awn.success();
           this.$parent.$parent.closeCard();
         },
