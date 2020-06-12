@@ -1,5 +1,9 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
+import {
+  createDocument,
+  createTask
+} from "~/infrastructure/services/create.js";
 export default function(context) {
   return [
     {
@@ -16,8 +20,9 @@ export default function(context) {
 }
 
 export function TaskButtons(context) {
-  function generateUrl(typeGuid) {
-    return `/task/create/${typeGuid}`;
+  async function generateUrl(documentType) {
+    context.$store.getters["currentdocument"];
+    return `/task/create/${documentType}`;
   }
 
   return [
@@ -40,50 +45,70 @@ export function TaskButtons(context) {
 }
 
 export function DocumentButtons(context) {
-  function generateUrl(typeGuid) {
-    return `/paper-work/create/${typeGuid}`;
-  }
-
   return [
     {
       icon: "plus",
       text: context.$t("translations.headers.IncomingLetter"),
-      path: generateUrl(DocumentType.IncomingLetter)
+      async create() {
+        createDocument(context, { documentType: DocumentType.IncomingLetter });
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.outgoingLetter"),
-      path: generateUrl(DocumentType.OutgoingLetter)
+      async create() {
+        await createDocument(context, {
+          documentType: DocumentType.OutgoingLetter
+        });
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.order"),
-      path: generateUrl(DocumentType.Order)
+      async create() {
+        await createDocument(context, { documentType: DocumentType.Order });
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.companyDirective"),
-      path: generateUrl(DocumentType.CompanyDirective)
+      async create() {
+        await createDocument(context, {
+          documentType: DocumentType.CompanyDirective
+        });
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.simpleDocument"),
-      path: generateUrl(DocumentType.SimpleDocument)
+      async create() {
+        await createDocument(context, {
+          documentType: DocumentType.SimpleDocument
+        });
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.addendum"),
-      path: generateUrl(DocumentType.Addendum)
+      async create() {
+        await createDocument(context, { documentType: DocumentType.Addendum });
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.memo"),
-      path: generateUrl(DocumentType.Memo)
+      async create() {
+        await createDocument(context, { documentType: DocumentType.Memo });
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.powerOfAttorney"),
-      path: generateUrl(DocumentType.PowerOfAttorney)
+      async create() {
+        await createDocument(context, {
+          documentType: DocumentType.PowerOfAttorney
+        });
+      }
     }
   ];
 }

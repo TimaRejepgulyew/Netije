@@ -5,7 +5,11 @@
       <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="saveAndBackButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="canRegister" location="before" template="registrationButton" />
-      <DxItem :options="createAddendumOptions" v-if="!isNew" location="before" widget="dxButton" />
+
+      <DxItem template="createRelation" v-if="!isNew" location="before" widget="dxButton" />
+      <template #createRelation>
+        <create-relation />
+      </template>
       <DxItem template="createTaskForDocument" :visible="!isDataChanged" location="before" />
       <template #createTaskForDocument>
         <available-actions />
@@ -31,6 +35,7 @@
   </div>
 </template>
 <script>
+import createRelation from "~/components/paper-work/main-doc-form/create-relation.vue";
 import addendumIcon from "~/static/icons/addendum.svg";
 import availableActions from "~/components/paper-work/main-doc-form/available-actions.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
@@ -50,7 +55,8 @@ export default {
     DxToolbar,
     DxItem,
     DocumentRegistrationBtn,
-    availableActions
+    availableActions,
+    createRelation
   },
   data() {
     return {

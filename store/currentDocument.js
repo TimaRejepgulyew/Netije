@@ -320,9 +320,13 @@ export const actions = {
       id: state.document.id
     });
   },
-  async initNewDocument({ dispatch, commit }, documentType) {
+  async initNewDocument(
+    { dispatch, commit },
+    { documentType, leadingDocumentId = null }
+  ) {
     const { data } = await this.$axios.post(dataApi.paperWork.Documents, {
-      documentType
+      documentType,
+      leadingDocumentId
     });
     console.log(data);
     dispatch("loadDocument", data);

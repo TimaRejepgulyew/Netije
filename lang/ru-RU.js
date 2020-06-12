@@ -249,6 +249,7 @@ export default {
     yes: "Да",
     no: "Нет",
     createAddendum: "Создать приложение",
+    createRelation:"Создать связь",
     saveAndBack: "Сохранить и выйти"
   },
   notification: {

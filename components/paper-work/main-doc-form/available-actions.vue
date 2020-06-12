@@ -3,6 +3,7 @@
     @button-click="createSimpleTask"
     :use-select-mode="false"
     :split-button="true"
+    :text="$t('buttons.send')"
     :hint="$t('buttons.createTaskByDocument')"
     :drop-down-options="{ width: 330 }"
     :items="items"
@@ -40,7 +41,7 @@ export default {
   },
   methods: {
     createTask(e) {
-      this.$router.push(e.itemData.path);
+      e.itemData.create();
     },
     createSimpleTask() {
       this.$router.push({
