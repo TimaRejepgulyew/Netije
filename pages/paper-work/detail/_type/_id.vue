@@ -9,6 +9,7 @@
       position="right"
       reveal-mode="slide"
       :opened.sync="versionOpenState"
+      :readOnly="!$store.getters['currentDocument/canUpdate']"
       template="attachmentBlock"
     >
       <template #attachmentBlock>

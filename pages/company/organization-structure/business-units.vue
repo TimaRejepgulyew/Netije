@@ -34,7 +34,7 @@
       <DxEditing
         :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
         :allow-deleting="allowDeleting"
-        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        :allow-adding="false"
         :useIcons="true"
         mode="form"
       />
