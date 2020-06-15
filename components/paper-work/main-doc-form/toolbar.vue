@@ -37,6 +37,11 @@
       </template>
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="accessRightButton" location="after" />
+      <DxItem template="uploadVersion" :visible="!hasVersion" location="after" />
+      <template #uploadVersion>
+        <upload-version-button />
+      </template>
+      <DxItem template="previevVersion" :visible="hasVersion" location="after" />
       <template #accessRightButton>
         <access-right
           :entity-type="entityType"
@@ -56,6 +61,7 @@
   </div>
 </template>
 <script>
+import uploadVersionButton from "~/components/paper-work/main-doc-form/upload-version-button.vue";
 import createRelation from "~/components/paper-work/main-doc-form/create-relation.vue";
 import addendumIcon from "~/static/icons/addendum.svg";
 import availableActions from "~/components/paper-work/main-doc-form/available-actions.vue";
@@ -71,6 +77,7 @@ import { DxButton } from "devextreme-vue";
 import DocumentRegistrationBtn from "~/components/paper-work/main-doc-form/document-registration-btn";
 export default {
   components: {
+    uploadVersionButton,
     accessRight,
     DxButton,
     DxToolbar,
@@ -92,6 +99,9 @@ export default {
     };
   },
   computed: {
+    hasVersion() {
+      return this.$store.getters["currentDocument/document"].hasVersion;
+    },
     isNew() {
       return this.$store.getters["currentDocument/isNew"];
     },

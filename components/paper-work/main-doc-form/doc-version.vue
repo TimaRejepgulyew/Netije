@@ -55,9 +55,7 @@ import DocumentIcon from "~/components/page/document-icon";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
-import { DxButton } from "devextreme-vue";
 import DocumentService from "~/infrastructure/services/documentService";
-import { DxPopup } from "devextreme-vue/popup";
 import AttachmentActionBtn from "~/components/paper-work/main-doc-form/attachment-action-btn";
 import moment from "moment";
 export default {
@@ -66,8 +64,7 @@ export default {
     DocumentIcon,
     DxFileUploader,
     DxList,
-    DxButton,
-    DxPopup
+
   },
   async created() {
     this.associatedApplication = (
@@ -100,9 +97,6 @@ export default {
         return el.extension;
       });
     },
-    name() {
-      return this.$store.getters["paper-work/name"];
-    }
   },
   methods: {
     uploadVersionFromFile(e) {
