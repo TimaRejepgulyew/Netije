@@ -13,6 +13,8 @@
   />
 </template>
 <script>
+import { createTask } from "~/infrastructure/services/create.js";
+import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
 import ActionGuid from "~/infrastructure/constants/actionGuid.js";
 import { DxDropDownButton } from "devextreme-vue";
@@ -40,16 +42,17 @@ export default {
     }
   },
   methods: {
-    createTask(e) {
-      e.itemData.create();
+    async createTask(e) {
+      const documentId = this.$store.getters["currentDocument/document"].id;
+      await e.itemData.create(documentId);
     },
-    createSimpleTask() {
-      this.$router.push({
-        path: "/task/simple/create",
-        query: {
-          documentId: this.$store.getters["currentDocument/document"].id
-        }
+    async createSimpleTask() {
+      const documentId = this.$store.getters["currentDocument/document"].id;
+      await createTask(this, {
+        taskType: TaskType.SimpleTask,
+        leadingDocumentId: documentId
       });
+      this.$router.push(`/task/detail/${TaskType.SimpleTask}`);
     }
   }
 };

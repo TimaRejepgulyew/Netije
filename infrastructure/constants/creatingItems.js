@@ -20,37 +20,59 @@ export default function(context) {
 }
 
 export function TaskButtons(context) {
-  async function generateUrl(documentType) {
-    context.$store.getters["currentdocument"];
-    return `/task/create/${documentType}`;
+  async function routeGenerator(taskType) {
+    return `/task/detail/${taskType}`;
   }
 
   return [
     {
       icon: "plus",
       text: context.$t("translations.fields.createSimpleTask"),
-      path: generateUrl(TaskType.SimpleTask)
+      async create() {
+        await createTask(context, {
+          taskType: TaskType.SimpleTask
+        });
+        context.$router.push(`/task/detail/${TaskType.SimpleTask}`);
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.fields.createAcquaintanceTask"),
-      path: generateUrl(TaskType.AcquaintanceTask)
+      async create() {
+        await createTask(context, {
+          taskType: TaskType.AcquaintanceTask
+        });
+        context.$router.push(`/task/detail/${TaskType.AcquaintanceTask}`);
+      }
     },
     {
       icon: "plus",
       text: context.$t("translations.fields.createActionItemExecutionTask"),
-      path: generateUrl(TaskType.ActionItemExecutionTask)
+      async create() {
+        await createTask(context, {
+          taskType: TaskType.AcquaintanceTask
+        });
+        context.$router.push(
+          `/task/detail/${TaskType.ActionItemExecutionTask}`
+        );
+      }
     }
   ];
 }
 
 export function DocumentButtons(context) {
+  function routeGenerator(typeGuid) {
+    return `/paper-work/detail/${typeGuid}`;
+  }
   return [
     {
       icon: "plus",
       text: context.$t("translations.headers.IncomingLetter"),
       async create() {
-        createDocument(context, { documentType: DocumentType.IncomingLetter });
+        await createDocument(context, {
+          documentType: DocumentType.IncomingLetter
+        });
+        context.$router.push(routeGenerator(DocumentType.IncomingLetter));
       }
     },
     {
@@ -60,6 +82,7 @@ export function DocumentButtons(context) {
         await createDocument(context, {
           documentType: DocumentType.OutgoingLetter
         });
+        context.$router.push(routeGenerator(DocumentType.OutgoingLetter));
       }
     },
     {
@@ -67,6 +90,7 @@ export function DocumentButtons(context) {
       text: context.$t("translations.headers.order"),
       async create() {
         await createDocument(context, { documentType: DocumentType.Order });
+        context.$router.push(routeGenerator(DocumentType.Order));
       }
     },
     {
@@ -76,6 +100,7 @@ export function DocumentButtons(context) {
         await createDocument(context, {
           documentType: DocumentType.CompanyDirective
         });
+        context.$router.push(routeGenerator(DocumentType.CompanyDirective));
       }
     },
     {
@@ -85,6 +110,7 @@ export function DocumentButtons(context) {
         await createDocument(context, {
           documentType: DocumentType.SimpleDocument
         });
+        context.$router.push(routeGenerator(DocumentType.SimpleDocument));
       }
     },
     {
@@ -92,6 +118,7 @@ export function DocumentButtons(context) {
       text: context.$t("translations.headers.addendum"),
       async create() {
         await createDocument(context, { documentType: DocumentType.Addendum });
+        context.$router.push(routeGenerator(DocumentType.Addendum));
       }
     },
     {
@@ -108,6 +135,7 @@ export function DocumentButtons(context) {
         await createDocument(context, {
           documentType: DocumentType.PowerOfAttorney
         });
+        context.$router.push(routeGenerator(DocumentType.PowerOfAttorney));
       }
     }
   ];

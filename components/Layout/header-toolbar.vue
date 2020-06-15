@@ -14,7 +14,7 @@
         <img class="menu-icon" :src="require('~/static/icons/main-logo.svg')" slot-scope="_" />
         <!-- eslint-enable -->
       </dx-item>
-      <dx-item location="before">
+      <dx-item locateInMenu="auto" location="before">
         <!-- eslint-disable vue/no-unused-vars -->
         <div class="create-btn" slot-scope="_">
           <!-- eslint-enable -->
@@ -22,7 +22,7 @@
           <create-btn-panel menu-mode="context" />
         </div>
       </dx-item>
-      <dx-item location="before">
+      <dx-item locateInMenu="auto" location="before">
         <!-- eslint-disable vue/no-unused-vars -->
         <div class="search-btn" slot-scope="_">
           <!-- eslint-enable -->

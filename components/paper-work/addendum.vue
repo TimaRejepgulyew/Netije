@@ -34,12 +34,6 @@ export default {
     DxLabel,
     DxRequiredRule
   },
-  created() {
-    this.$store.commit(
-      "currentDocument/SET_LEADING_DOCUMENT_ID",
-      +this.$route.query.leadingDocument
-    );
-  },
   computed: {
     store() {
       return this.$store.getters["currentDocument/document"];

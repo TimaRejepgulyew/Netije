@@ -1,14 +1,30 @@
+import { createTask } from "~/infrastructure/services/create.js";
+import TaskType from "~/infrastructure/constants/taskType.js";
 export default function(context) {
   return [
     {
       id: 1,
       name: context.$t("workFlow.actionItemExecution"),
-      path: "/task/action-item-execution/create"
+      create: async leadingDocumentId => {
+        await createTask(context, {
+          taskType: TaskType.ActionItemExecutionTask,
+          leadingDocumentId
+        });
+        context.$router.push(
+          `/task/detail/${TaskType.ActionItemExecutionTask}`
+        );
+      }
     },
     {
       id: 2,
       name: context.$t("workFlow.acquaintance"),
-      path: "/task/acquaintance/create"
+      create: async leadingDocumentId => {
+        await createTask(context, {
+          taskType: TaskType.AcquaintanceTask,
+          leadingDocumentId
+        });
+        context.$router.push(`/task/detail/${TaskType.AcquaintanceTask}`);
+      }
     },
     {
       id: 3,

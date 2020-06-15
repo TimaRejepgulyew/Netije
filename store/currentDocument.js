@@ -212,6 +212,7 @@ export const mutations = {
     if (checkDataChanged(state.document.leadingDocumentId, payload)) {
       state.isDataChanged = true;
     }
+    console.log(payload);
     state.document.leadingDocumentId = payload;
   },
   SET_ISSUED_TO_ID(state, payload) {
@@ -252,7 +253,6 @@ export const actions = {
         documentTypeGuid: state.document.documentTypeGuid
       }
     );
-    console.log(res);
     dispatch("loadDocument", res.data);
     commit("DATA_CHANGED", false);
     commit("SET_IS_NEW", false);
@@ -320,17 +320,14 @@ export const actions = {
       id: state.document.id
     });
   },
-  async initNewDocument(
-    { dispatch, commit },
-    { documentType, leadingDocumentId = null }
-  ) {
-    const { data } = await this.$axios.post(dataApi.paperWork.Documents, {
-      documentType,
-      leadingDocumentId
-    });
+  async initNewDocument({ dispatch, commit }, params) {
+    const { data } = await this.$axios.post(
+      dataApi.paperWork.Documents,
+      params
+    );
     console.log(data);
+    commit("SET_IS_NEW", true);
     dispatch("loadDocument", data);
     commit("DATA_CHANGED", true);
-    commit("SET_IS_NEW", true);
   }
 };

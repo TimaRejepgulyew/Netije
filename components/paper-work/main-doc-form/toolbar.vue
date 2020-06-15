@@ -2,15 +2,36 @@
   <div class="navBar">
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
-      <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
-      <DxItem :options="saveAndBackButtonOptions" location="before" widget="dxButton" />
-      <DxItem :visible="canRegister" location="before" template="registrationButton" />
+      <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
+      <DxItem
+        locateInMenu="auto"
+        :options="saveAndBackButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
+        locateInMenu="auto"
+        :visible="canRegister"
+        location="before"
+        template="registrationButton"
+      />
 
-      <DxItem template="createRelation" v-if="!isNew" location="before" widget="dxButton" />
+      <DxItem
+        locateInMenu="auto"
+        template="createRelation"
+        v-if="!isNew"
+        location="before"
+        widget="dxButton"
+      />
       <template #createRelation>
         <create-relation />
       </template>
-      <DxItem template="createTaskForDocument" :visible="!isDataChanged" location="before" />
+      <DxItem
+        locateInMenu="auto"
+        template="createTaskForDocument"
+        :visible="!isDataChanged"
+        location="before"
+      />
       <template #createTaskForDocument>
         <available-actions />
       </template>
@@ -58,6 +79,7 @@ export default {
     availableActions,
     createRelation
   },
+
   data() {
     return {
       addendumIcon,

@@ -1,10 +1,6 @@
-export default function() {
-  return {
-    async createDocument(context, params) {
-      await context.$store.dispatch("currentDocument/initDocument", params);
-    },
-    async createTask(context, params) {
-      await context.$store.dispatch("currenttask/initTask", params);
-    }
-  };
+export async function createDocument(context, params) {
+  await context.$store.dispatch("currentDocument/initNewDocument", params);
+}
+export async function createTask(context, params) {
+  await context.$store.dispatch("currentTask/initTask", params);
 }

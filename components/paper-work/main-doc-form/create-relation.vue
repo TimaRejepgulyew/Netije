@@ -39,19 +39,26 @@ export default {
           icon: "plus",
           visible: documentTypeGuid === DocumentType.OutgoingLetter,
           text: this.$t("translations.headers.IncomingLetter"),
-          async create() {
-            await createDocument(context, {
-              documentType: DocumentType.IncomingLetter
+          create: async () => {
+            await createDocument(this, {
+              documentType: DocumentType.IncomingLetter,
+              leadingDocumentId: this.$store.getters["currentDocument/document"]
+                .id
             });
+            this.$router.push(
+              `/paper-work/detail/${DocumentType.IncomingLetter}`
+            );
           }
         },
         {
           icon: "plus",
           visible: documentTypeGuid === DocumentType.IncomingLetter,
           text: this.$t("translations.headers.outgoingLetter"),
-          async create() {
-            await createDocument(context, {
-              documentType: DocumentType.OutgoingLetter
+          create: async () => {
+            await createDocument(this, {
+              documentType: DocumentType.OutgoingLetter,
+              leadingDocumentId: this.$store.getters["currentDocument/document"]
+                .id
             });
           }
         },
@@ -59,19 +66,22 @@ export default {
         {
           icon: "plus",
           text: this.$t("translations.headers.addendum"),
-          async create() {
-            await createDocument(context, {
-              documentType: DocumentType.Addendum
+          create: async () => {
+            await createDocument(this, {
+              documentType: DocumentType.Addendum,
+              leadingDocumentId: this.$store.getters["currentDocument/document"]
+                .id
             });
+
+            this.$router.push(`/paper-work/detail/${DocumentType.Addendum}`);
           }
         }
       ];
     }
   },
   methods: {
-    createRelation(e) {
-      console.log(e.itemData.path);
-      this.$router.push(e.itemData.path);
+    async createRelation(e) {
+      await e.itemData.create();
     }
   }
 };

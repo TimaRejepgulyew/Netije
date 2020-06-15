@@ -13,22 +13,22 @@
 
 <script>
 import { DxTreeView } from "devextreme-vue";
-import CreatingItems from "~/infrastructure/constants/creatingItems.js";
+import createItems from "~/infrastructure/constants/creatingItems.js";
 export default {
   components: {
     DxTreeView
   },
   data() {
     return {
-      creatingItems: CreatingItems(this),
+      creatingItems: createItems(this),
       treeView: this.$refs["treeViewRef"] && this.$refs["treeViewRef"].instance
     };
   },
   methods: {
-    handleItemClick(e) {
-      if (e.itemData.path) {
-        this.$router.push(e.itemData.path);
-        this.$emit("hidePopup");
+    async handleItemClick(e) {
+      if (e.itemData.create) {
+        await e.itemData.create();
+        this.$parent.$parent.hidePopup();
       }
     }
   }
