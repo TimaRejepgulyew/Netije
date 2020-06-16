@@ -1,7 +1,6 @@
 <template>
   <DxForm
     :col-count="1"
-    :store.sync="store"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -33,38 +32,44 @@
           <DxRequiredRule :message="$t('translations.fields.validTillRequired')" />
         </DxSimpleItem>
 
-        <DxSimpleItem
-          data-field="issuedToId"
-          :editor-options="issuedToIdOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="issuedToId" template="issuedToId">
           <DxLabel location="top" :text="$t('translations.fields.issuedToId')" />
           <DxRequiredRule :message="$t('translations.fields.issuedToIdRequired')" />
         </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
-        <DxSimpleItem
-          data-field="ourSignatoryId"
-          :editor-options="ourSignatoryOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-          <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="preparedById"
-          :editor-options="preparedByOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+        <DxSimpleItem template="prepared" data-field="preparedById">
           <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
+    <template #ourSignatory>
+      <employee-select-box
+        validatorGroup="OfficialDocument"
+        :storeApi="signatoryApi"
+        :value="ourSignatoryId"
+        @valueChanged="setOurSignatoryId"
+      />
+    </template>
+    <template #issuedToId>
+      <employee-select-box
+        validatorGroup="OfficialDocument"
+        :value="issuedToId"
+        @valueChanged="setIssuedToId"
+      />
+    </template>
+    <template #prepared>
+      <employee-select-box :value="preparedById" @valueChanged="setPreparedById" />
+    </template>
   </DxForm>
 </template>
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -78,12 +83,34 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule
+    DxRequiredRule,
+    employeeSelectBox
   },
-
+  data() {
+    return {
+      signatoryApi: dataApi.signatureSettings.Members
+    };
+  },
+  methods: {
+    setPreparedById(data) {
+      this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
+    },
+    setOurSignatoryId(data) {
+      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+    },
+    setIssuedToId(data) {
+      this.$store.commit("currentDocument/SET_ISSUED_TO_ID", data);
+    }
+  },
   computed: {
-    store() {
-      return this.$store.getters["currentDocument/document"];
+    issuedToId() {
+      return this.$store.getters["currentDocument/document"].issuedToId;
+    },
+    preparedById() {
+      return this.$store.getters["currentDocument/document"].preparedById;
+    },
+    ourSignatoryId() {
+      return this.$store.getters["currentDocument/document"].ourSignatoryId;
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];

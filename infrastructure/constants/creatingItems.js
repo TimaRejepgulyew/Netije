@@ -126,6 +126,7 @@ export function DocumentButtons(context) {
       text: context.$t("translations.headers.memo"),
       async create() {
         await createDocument(context, { documentType: DocumentType.Memo });
+        context.$router.push(routeGenerator(DocumentType.Memo));
       }
     },
     {

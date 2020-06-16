@@ -1,8 +1,7 @@
 <template>
   <DxDropDownButton
-    @button-click="createSimpleTask"
     :use-select-mode="false"
-    :split-button="true"
+    :split-button="false"
     :text="$t('buttons.send')"
     :hint="$t('buttons.createTaskByDocument')"
     :drop-down-options="{ width: 330 }"

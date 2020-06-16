@@ -223,6 +223,7 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   buttons: {
+    downloadFile:"Загрузить файл",
     versions: "Версии",
     restart: "Рестартовать",
     abort: "Прекратить",
@@ -249,7 +250,7 @@ export default {
     yes: "Да",
     no: "Нет",
     createAddendum: "Создать приложение",
-    createRelation:"Создать связь",
+    createRelation:"Cвязь",
     saveAndBack: "Сохранить и выйти"
   },
   notification: {

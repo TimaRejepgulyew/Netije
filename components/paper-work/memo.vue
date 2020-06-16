@@ -1,7 +1,6 @@
 <template>
   <DxForm
     :col-count="1"
-    :store.sync="store"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -27,43 +26,46 @@
       </DxGroupItem>
 
       <DxGroupItem>
-        <DxSimpleItem
-          data-field="ourSignatoryId"
-          :editor-options="ourSignatoryOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-          <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="assigneeId"
-          :editor-options="assigneeOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem template="prepared" data-field="preparedById">
+          <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="assigneeId" template="assignee">
           <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
         </DxSimpleItem>
-
-        <DxSimpleItem
-          data-field="preparedById"
-          :editor-options="preparedByOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-          <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          data-field="addresseeId"
-          :editor-options="addresseeOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+        <DxSimpleItem template="addressee" data-field="addresseeId">
           <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
+    <template #assignee>
+      <employee-select-box
+        :value="assigneeId"
+        validatorGroup="OfficialDocument"
+        @valueChanged="setAssigneeId"
+      />
+    </template>
+    <template #ourSignatory>
+      <employee-select-box :value="ourSignatoryId" @valueChanged="setOurSignatoryId" />
+    </template>
+    <template #prepared>
+      <employee-select-box :value="preparedById" @valueChanged="setPreparedById" />
+    </template>
+    <template #addressee>
+      <employee-select-box
+        :value="addresseeId"
+        validatorGroup="OfficialDocument"
+        @valueChanged="setAddresseeId"
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -73,16 +75,39 @@ import DxForm, {
 } from "devextreme-vue/form";
 export default {
   components: {
+    employeeSelectBox,
     DxForm,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
     DxRequiredRule
   },
-
+  methods: {
+    setPreparedById(data) {
+      this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
+    },
+    setOurSignatoryId(data) {
+      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+    },
+    setAddresseeId(data) {
+      this.$store.commit("currentDocument/SET_ADDRESSE_ID", data);
+    },
+    setAssigneeId(data) {
+      this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
+    }
+  },
   computed: {
-    store() {
-      return this.$store.getters["currentDocument/document"];
+    preparedById() {
+      return this.$store.getters["currentDocument/document"].preparedById;
+    },
+    ourSignatoryId() {
+      return this.$store.getters["currentDocument/document"].ourSignatoryId;
+    },
+    assigneeId() {
+      return this.$store.getters["currentDocument/document"].assigneeId;
+    },
+    addresseeId() {
+      return this.$store.getters["currentDocument/document"].addresseeId;
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];

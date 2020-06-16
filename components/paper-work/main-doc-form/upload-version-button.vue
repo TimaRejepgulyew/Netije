@@ -1,15 +1,10 @@
 <template>
   <div>
-    <DxButton icon="download" :text="$t('buttons.add')" :on-click="openPopup" />
-
     <DxFileUploader
-      :visible="false"
+      class="uploadButton"
       ref="fileUploader"
-      :width="170"
-      height="auto"
-      selectButtonText="Загрузить"
-      icon="plus"
-      label-text
+      :selectButtonText="$t('buttons.downloadFile')"
+      label-text=" "
       :multiple="false"
       :accept="acceptExtension"
       :allowed-file-extensions="extension"
@@ -21,16 +16,12 @@
 </template>
 
 <script>
+import documentService from "~/infrastructure/services/documentService.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
 export default {
-  async created() {
-    this.associatedApplication = (
-      await this.$axios.get(dataApi.docFlow.AssociatedApplication)
-    ).data.data;
-  },
   components: {
     DxFileUploader,
     DxButton,
@@ -43,42 +34,54 @@ export default {
     };
   },
   computed: {
-    extension() {
-      return this.associatedApplication.map(el => {
-        return el.extension;
-      });
-    },
     acceptExtension() {
-      return this.extension.join(",");
+      return this.$store.getters["cache/acceptExtension"];
+    },
+    extension() {
+      return this.$store.getters["cache/extension"];
     }
   },
   methods: {
-    openPopup() {
-      this.$refs["fileUploader"].click();
-    },
     uploadVersionFromFile(e) {
-      let formData = new FormData();
-      formData.append("file", e.file);
-      formData.append(
-        "documentId",
-        +this.$store.getters["currentDocument/document"].id
-      );
+      const document = this.$store.getters["currentDocument/document"];
       this.$awn.async(
-        this.$axios.post(
-          dataApi.paperWork.CreateVersionFromFile +
-            this.$store.getters["currentDocument/document"].documentTypeGuid,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          }
-        )
+        documentService.uploadVersion(document, e.file, this),
+        () => {
+          this.$store.commit("currentDocument/SET_HAS_VERSIONS");
+          this.$awn.success();
+        },
+        () => {
+          this.$awn.alert();
+        }
       );
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+.uploadButton {
+  padding: 0;
+  margin: 0;
+  .dx-fileuploader-input-wrapper {
+    width: auto;
+    padding: 5px 0;
+    margin: 0;
+  }
+  .dx-fileuploader-files-container {
+    display: none;
+  }
+  .dx-fileuploader-wrapper {
+    max-width: 150px;
+    width: auto;
+    padding: 0;
+    border: none;
+  }
+  .file-upload-button {
+    display: none;
+  }
+  .dx-fileuploader-input-container {
+    display: none;
+  }
+}
 </style>

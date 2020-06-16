@@ -37,17 +37,29 @@
       </template>
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="accessRightButton" location="after" />
-      <DxItem template="uploadVersion" :visible="!hasVersion" location="after" />
-      <template #uploadVersion>
-        <upload-version-button />
-      </template>
-      <DxItem template="previevVersion" :visible="hasVersion" location="after" />
       <template #accessRightButton>
         <access-right
           :entity-type="entityType"
           :entity-id="$store.getters['currentDocument/document'].id"
         />
       </template>
+      <DxItem
+        template="uploadVersion"
+        locateInMenu="auto"
+        :visible="!hasVersions"
+        location="before"
+      />
+      <template #uploadVersion>
+        <upload-version-button />
+      </template>
+      <DxItem
+        :options="previewButtonOptions"
+        locateInMenu="auto"
+        :visible="hasVersions"
+        location="before"
+        widget="dxButton"
+      />
+
       <template #registrationButton>
         <document-registration-btn />
       </template>
@@ -61,6 +73,7 @@
   </div>
 </template>
 <script>
+import documentService from "~/infrastructure/services/documentService.js";
 import uploadVersionButton from "~/components/paper-work/main-doc-form/upload-version-button.vue";
 import createRelation from "~/components/paper-work/main-doc-form/create-relation.vue";
 import addendumIcon from "~/static/icons/addendum.svg";
@@ -99,8 +112,8 @@ export default {
     };
   },
   computed: {
-    hasVersion() {
-      return this.$store.getters["currentDocument/document"].hasVersion;
+    hasVersions() {
+      return this.$store.getters["currentDocument/document"].hasVersions;
     },
     isNew() {
       return this.$store.getters["currentDocument/isNew"];
@@ -123,6 +136,16 @@ export default {
     },
     canDelete() {
       return this.$store.getters["currentDocument/canDelete"];
+    },
+    previewButtonOptions() {
+      return {
+        icon: "pdffile",
+        onClick: () => {
+          const document = this.$store.getters["currentDocument/document"];
+
+          documentService.previewDocument(document, this);
+        }
+      };
     },
     saveButtonOptions() {
       return {

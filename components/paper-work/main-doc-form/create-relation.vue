@@ -1,7 +1,7 @@
 <template>
   <DxDropDownButton
     :use-select-mode="false"
-    :split-button="true"
+    :split-button="false"
     :text="$t('buttons.createRelation')"
     :hint="$t('buttons.createRelation')"
     :drop-down-options="{ width: 330 }"

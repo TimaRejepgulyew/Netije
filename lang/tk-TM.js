@@ -217,6 +217,7 @@ export default {
     onAcquaintance: "Tanyşdyrmak üçin"
   },
   buttons: {
+    downloadFile: "Faýly ýüklemek",
     versions: "Wersiýalar",
     start: "Başlamak",
     acquaintance: "Tanyşdym",
@@ -235,6 +236,7 @@ export default {
     register: "Bellige almaly",
     preview: "Okamaly",
     download: "Ýükläp almaly",
+    createRelation: "Aragatnaşyk",
     back: "Yza",
     yes: "Hawa",
     no: "Ýok",

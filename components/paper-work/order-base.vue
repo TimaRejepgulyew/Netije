@@ -1,7 +1,6 @@
 <template>
   <DxForm
     :col-count="1"
-    :store.sync="store"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -27,35 +26,41 @@
       </DxGroupItem>
 
       <DxGroupItem>
-        <DxSimpleItem
-          data-field="ourSignatoryId"
-          :editor-options="ourSignatoryOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
           <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="assigneeId"
-          :editor-options="assigneeOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
-        </DxSimpleItem>
-
-        <DxSimpleItem
-          data-field="preparedById"
-          :editor-options="preparedByOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+        <DxSimpleItem template="prepared" data-field="preparedById">
           <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="assigneeId" template="assignee">
+          <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
+    <template #assignee>
+      <employee-select-box :value="assigneeId" @valueChanged="setAssigneeId" />
+    </template>
+    <template #ourSignatory>
+      <employee-select-box
+        validatorGroup="OfficialDocument"
+        :storeApi="signatoryApi"
+        :value="ourSignatoryId"
+        @valueChanged="setOurSignatoryId"
+      />
+    </template>
+    <template #prepared>
+      <employee-select-box
+        validatorGroup="OfficialDocument"
+        :value="preparedById"
+        @valueChanged="setPreparedById"
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -69,12 +74,34 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule
+    DxRequiredRule,
+    employeeSelectBox
   },
-
+  data() {
+    return {
+      signatoryApi: dataApi.signatureSettings.Members
+    };
+  },
+  methods: {
+    setPreparedById(data) {
+      this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
+    },
+    setOurSignatoryId(data) {
+      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+    },
+    setAssigneeId(data) {
+      this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
+    }
+  },
   computed: {
-    store() {
-      return this.$store.getters["currentDocument/document"];
+     preparedById() {
+      return this.$store.getters["currentDocument/document"].preparedById;
+    },
+    ourSignatoryId() {
+      return this.$store.getters["currentDocument/document"].ourSignatoryId;
+    },
+    assigneeId() {
+      return this.$store.getters["currentDocument/document"].assigneeId;
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
@@ -87,7 +114,7 @@ export default {
     },
     businessUnitOptions() {
       return {
-         readOnly: this.isRegistered,
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
@@ -105,7 +132,7 @@ export default {
     },
     deparmentOptions() {
       return {
-         readOnly: this.isRegistered,
+        readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,

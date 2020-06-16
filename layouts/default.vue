@@ -16,11 +16,7 @@
     </div>
   </transition>
 </template>
-        </app-content>
-      </div>
-    </div>
-  </transition>
-</template>
+       
 
 <script>
 import AppContent from "./side-nav-inner-toolbar";
@@ -43,6 +39,7 @@ function getScreenSizeInfo() {
 
 export default {
   name: "app",
+  middleware: ["cache"],
   data() {
     return {
       title: "TTDoc",
@@ -59,6 +56,7 @@ export default {
       this.screen = getScreenSizeInfo();
     }
   },
+
   beforeCreate() {
     loadMessages(tkMessages);
     loadMessages(ruMessages);
@@ -78,8 +76,7 @@ export default {
       setTimeout(() => this.$nuxt.$loading.finish(), 50000);
     });
   },
-  beforeRouteEnter(to, from, next) {
-  },
+  beforeRouteEnter(to, from, next) {},
   beforeDestroy() {
     unsubscribe(this.screenSizeChanged);
     window.removeEventListener("vuexoidc:userSignedOut");

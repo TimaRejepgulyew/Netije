@@ -43,13 +43,13 @@ export default {
     customSelectItem,
     customField
   },
-  props: ["value", "messageRequired", "validatorGroup"],
+  props: ["value", "storeApi", "messageRequired", "validatorGroup"],
   data() {
     return {
       employeeStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: this.storeApi || dataApi.company.Employee
         })
       })
     };

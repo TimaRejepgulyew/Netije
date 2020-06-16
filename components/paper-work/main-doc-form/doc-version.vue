@@ -3,13 +3,8 @@
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
       <div class="list-container">
-        <DxList
-          :data-source="versions"
-          :activeStateEnabled="false"
-          :focusStateEnabled="false"
-          search-expr="note"
-          :search-enabled="true"
-        >
+        <DxButton :hint="$t('buttons.refresh')" icon="refresh" :onClick="refresh"></DxButton>
+        <DxList :data-source="versions" :activeStateEnabled="false" :focusStateEnabled="false">
           <template #item="item">
             <div>
               <div class="d-flex">
@@ -55,22 +50,19 @@ import DocumentIcon from "~/components/page/document-icon";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
-import DocumentService from "~/infrastructure/services/documentService";
+import documentService from "~/infrastructure/services/documentService.js";
 import AttachmentActionBtn from "~/components/paper-work/main-doc-form/attachment-action-btn";
 import moment from "moment";
+import { DxButton } from "devextreme-vue";
 export default {
   components: {
     AttachmentActionBtn,
     DocumentIcon,
     DxFileUploader,
     DxList,
+    DxButton
+  },
 
-  },
-  async created() {
-    this.associatedApplication = (
-      await this.$axios.get(dataApi.docFlow.AssociatedApplication)
-    ).data.data;
-  },
   data() {
     return {
       versions: new DataSource({
@@ -81,8 +73,7 @@ export default {
             `${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`
         }),
         sort: [{ selector: "number", desc: true }]
-      }),
-      associatedApplication: []
+      })
     };
   },
   computed: {
@@ -90,37 +81,25 @@ export default {
       return this.$store.getters["currentDocument/canUpdate"];
     },
     acceptExtension() {
-      return this.extension.join(",");
+      return this.$store.getters["cache/acceptExtension"];
     },
     extension() {
-      return this.associatedApplication.map(el => {
-        return el.extension;
-      });
-    },
+      return this.$store.getters["cache/extension"];
+    }
   },
   methods: {
+    refresh() {
+      this.versions.reload();
+    },
     uploadVersionFromFile(e) {
-      let formData = new FormData();
-      formData.append("file", e.file);
-      formData.append(
-        "documentId",
-        +this.$store.getters["currentDocument/document"].id
-      );
+      const document = this.$store.getters["currentDocument/document"];
       this.$awn.async(
-        this.$axios.post(
-          dataApi.paperWork.CreateVersionFromFile +
-            this.$store.getters["currentDocument/document"].documentTypeGuid,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          }
-        ),
+        documentService.uploadVersion(document, e.file, this),
         version => {
           this.$refs["fileUploader"].instance.reset();
+          this.$store.commit("currentDocument/SET_HAS_VERSIONS");
           this.$awn.success();
-          this.versions.reload();
+          this.refresh();
         },
         e => this.$awn.alert()
       );

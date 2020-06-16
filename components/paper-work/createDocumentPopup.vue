@@ -7,7 +7,7 @@
           align
           :icon="item.icon"
           :text="item.text"
-          :on-click="()=>createDocument(item.path)"
+          :on-click="()=>item.create()"
         />
       </div>
     </div>
@@ -25,11 +25,6 @@ export default {
     return {
       documentButtons: DocumentButtons(this)
     };
-  },
-  methods: {
-    createDocument(path) {
-      this.$router.push(path);
-    }
   }
 };
 </script>

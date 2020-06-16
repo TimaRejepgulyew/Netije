@@ -113,6 +113,7 @@ export default {
     DxStateStoring,
     DxButton
   },
+
   data() {
     return {
       createDocumentPopup: false,

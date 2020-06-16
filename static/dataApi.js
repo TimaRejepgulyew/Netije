@@ -94,6 +94,9 @@ export default {
   recipient: {
     list: `${url}/api/Recipient`
   },
+  signatureSettings:{
+    Members: `${url}/api/SignatureSettings/Members`
+  },
   attachment: {
     AttachmentByTask: `${url}/api/Attachment/ByTask/`,
     AttachmentByAssignment: `${url}/api/Attachment/ByAssignment/`,

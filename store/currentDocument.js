@@ -74,8 +74,8 @@ export const getters = {
   }
 };
 export const mutations = {
-  SET_HAS_VERSION(state) {
-    state.document.hasVersion = payload;
+  SET_HAS_VERSIONS(state) {
+    state.document.hasVersions = true;
   },
   CLEAR_REGISTRATION_DATA(state) {
     state.document.documentRegisterId = null;

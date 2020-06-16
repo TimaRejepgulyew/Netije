@@ -2,6 +2,9 @@ import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 
 export default {
+  async uploadVersion(document, file, context) {
+    return await upload(document, file, context);
+  },
   previewVersion(versionId, document, context) {
     preview(
       `${dataApi.paperWork.PreviewVersion}${document.documentTypeGuid}/${document.id}/${versionId}`,
@@ -47,7 +50,21 @@ const preview = (endpoint, context) => {
     e => context.$awn.alert()
   );
 };
+const upload = async (document, file, context) => {
+  let formData = new FormData();
+  formData.append("file", file);
+  formData.append("documentId", document.id);
 
+  return await context.$axios.post(
+    dataApi.paperWork.CreateVersionFromFile + document.documentTypeGuid,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+  );
+};
 const download = (endpoint, obj, context) => {
   context.$awn.async(
     context.$axios

@@ -79,7 +79,11 @@
       <employee-select-box :value="preparedId" @valueChanged="setPreparedId" />
     </template>
     <template #ourSignatory>
-      <employee-select-box :value="ourSignatoryId" @valueChanged="setOurSignatoryId" />
+      <employee-select-box
+        :value="ourSignatoryId"
+        :storeApi="signatoryApi"
+        @valueChanged="setOurSignatoryId"
+      />
     </template>
   </DxForm>
 </template>
@@ -108,6 +112,7 @@ export default {
   },
   data() {
     return {
+      signatoryApi: dataApi.signatureSettings.Members,
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
