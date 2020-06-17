@@ -207,7 +207,7 @@ export default {
         }),
         value: this.$store.getters["currentDocument/document"].issuedToId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_ISSUED_TO_ID", e.value);
+          this.$store.dispatch("currentDocument/setIssuedToId", e.value);
         }
       };
     },

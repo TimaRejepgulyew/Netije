@@ -47,10 +47,7 @@ export default {
         value: this.$store.getters["currentDocument/document"]
           .leadingDocumentId,
         onValueChanged: e => {
-          this.$store.commit(
-            "currentDocument/SET_LEADING_DOCUMENT_ID",
-            e.value
-          );
+          this.$store.dispatch("currentDocument/setLeadingDocumentId",e.value);
         }
       };
     }

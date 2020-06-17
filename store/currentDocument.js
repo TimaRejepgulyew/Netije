@@ -284,6 +284,16 @@ export const actions = {
     commit("SET_SUBJECT", payload);
     dispatch("reevaluateDocumentName");
   },
+  setLeadingDocumentId({ commit, dispatch }, payload)
+  {
+    commit("SET_LEADING_DOCUMENT_ID", payload);
+    dispatch("reevaluateDocumentName");
+  },
+  setIssuedToId({ commit, dispatch }, payload)
+  {
+    commit("SET_ISSUED_TO_ID", payload);
+    dispatch("reevaluateDocumentName");
+  },
   setCorrespondent({ commit, dispatch }, payload) {
     if (!payload) payload = { name: null, id: null };
     commit("SET_CORRESPONDENT", payload);
