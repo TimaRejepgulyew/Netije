@@ -30,7 +30,7 @@ export default {
     RoleMembers: `${url}/api/RoleMembers/`
   },
   docFlow: {
-    PersonalSettings:`${url}/api/PersonalSettings`,
+    PersonalSettings: `${url}/api/PersonalSettings`,
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
     DocumentKind: `${url}/api/DocumentKind`,
@@ -67,17 +67,16 @@ export default {
     Relation: `${url}/api/Documentrelations/Relations/`,
     CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile/`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
-    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`,
+    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`
   },
 
   task: {
-    CreateSimpleTask: `${url}/api/Task/CreateSimpleTask`,
-    CreateAcquaintanceTask: `${url}/api/Task/CreateAcquaintanceTask`,
-    CreateActionItemTask: `${url}/api/Task/CreateActionItemTask`,
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/GetTaskById/`,
+    UpdateTask: `${url}/api/Task/`,
     CreateTask: `${url}/api/Task/`,
+    Start: `${url}/api/Task/Start`
   },
   accessRights: {
     List: `${url}/api/AccessRights/`,
@@ -95,7 +94,7 @@ export default {
   recipient: {
     list: `${url}/api/Recipient`
   },
-  signatureSettings:{
+  signatureSettings: {
     Members: `${url}/api/SignatureSettings/Members`
   },
   attachment: {

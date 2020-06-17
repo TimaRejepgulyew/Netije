@@ -1,4 +1,5 @@
 import DataSource from "devextreme/data/data_source";
+import iconStart from "~/static/icons/start.svg";
 export const state = () => ({
   whitespacePattern: /^[^\s]*$/,
   FormOptions({ context, url, filter, disabled, value = "name" }) {
@@ -43,6 +44,7 @@ export const state = () => ({
   },
   btnStart(context) {
     return {
+      icon: iconStart,
       text: context.$t("buttons.start")
     };
   },

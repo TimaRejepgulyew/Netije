@@ -124,12 +124,17 @@ export const actions = {
     //   commit("IS_NEW", false);
     // }
   },
-  async save({ commit }) {
+  async save({ state, commit }) {
     try {
       commit("IS_NEW", false);
-      await this.$axios.put(dataApi.task.Save);
+      const task = JSON.stringify(state.task);
+      await this.$axios.put(dataApi.task.UpdateTask + state.task.id, {
+        taskJson: task,
+        taskType: state.task.taskType
+      });
     } catch (e) {
       console.log(e);
+      commit("IS_NEW", true);
     }
   },
   async saveAndLoad({ dispatch, getters }) {
@@ -140,12 +145,15 @@ export const actions = {
       console.log(e);
     }
   },
-  async startAndLoad({ dispatch, getters }) {
+  async startAndLoad({ state, dispatch, getters }) {
     try {
       if (getters["isNew"]) {
         await dispatch("save");
       }
-      await this.$axios.put(dataApi.task.Start);
+      await this.$axios.post(dataApi.task.Start, {
+        id: state.task.id,
+        type: state.task.taskType
+      });
       await dispatch("load", getters("taskTypeAndId"));
     } catch (e) {
       console.log(e);

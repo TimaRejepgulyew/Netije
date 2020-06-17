@@ -2,7 +2,7 @@
   <div class="toolbar">
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
-      <DxItem :visible="isDraft" :options="startButtonOptions" location="before" widget="dxButton" />
+      <DxItem :options="startButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="isDraft" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
         :visible="inProccess"
@@ -42,7 +42,7 @@ export default {
       backButtonOptions: {
         type: "normal",
         icon: "back",
-        text: this.$t("buttons.back"),
+        hint: this.$t("buttons.back"),
         onClick: () => {
           this.backTo();
         }
@@ -84,7 +84,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/start"),
+              this.$store.dispatch("currentTask/startAndLoad"),
               e => {
                 this.backTo();
                 this.$awn.success();

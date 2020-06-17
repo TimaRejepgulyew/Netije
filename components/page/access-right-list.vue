@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import resipientIcon from "~/components/page/resipient-icon.vue";
 import recipientGrouped from "~/components/page/recipient-grouped.vue";
 import { DxSelectBox } from "devextreme-vue/select-box";
 import attachmentActionBtn from "~/components/page/access-right-action-btn";
@@ -95,12 +96,15 @@ export default {
     attachmentActionBtn,
     DxList,
     DxButton,
-    recipientGrouped
+    recipientGrouped,
+    resipientIcon
   },
   props: ["entityType", "entityId"],
   async created() {
     this.$awn.asyncBlock(
-     this.$axios.get(`${dataApi.accessRights.List}${this.entityType}/${this.entityId}`),
+      this.$axios.get(
+        `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
+      ),
       res => {
         this.accessRight = res.data;
       },
@@ -118,21 +122,23 @@ export default {
   },
   methods: {
     async load() {
-      const { data } = await this.$axios.get(`${dataApi.accessRights.List}${this.entityType}/${this.entityId}`);
+      const { data } = await this.$axios.get(
+        `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
+      );
       this.accessRight = data;
     },
     nullify() {
       this.newRecipient = {
         recipientId: null,
         accessRightTypeId: null,
-        entityType:+this.entityType
+        entityType: +this.entityType
       };
     },
     addRecipient() {
       const recipient = {
         ...this.newRecipient,
         entityId: +this.entityId,
-        entityType:+this.entityType
+        entityType: +this.entityType
       };
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.accessRights.AddRecipient, recipient),

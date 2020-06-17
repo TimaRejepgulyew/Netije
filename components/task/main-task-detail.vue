@@ -16,7 +16,7 @@
           >
             <DxGroupItem :col-span="3" :caption="$t('translations.fields.main')">
               <DxGroupItem :col-count="2">
-                <DxSimpleItem :col-span="2" data-field="subject">
+                <DxSimpleItem :editor-options="subjectOptions" :col-span="2" data-field="subject">
                   <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
                 </DxSimpleItem>
                 <DxSimpleItem
@@ -98,6 +98,13 @@ export default {
     };
   },
   computed: {
+    subjectOptions() {
+      return {
+        onClick: e => {
+          this.$store.commit("currentTask/SET_SUBJECT", e.value);
+        }
+      };
+    },
     task() {
       return this.$store.getters["currentTask/task"];
     },
