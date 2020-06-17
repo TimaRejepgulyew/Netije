@@ -5,7 +5,7 @@ import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 function checkDataChanged(oldValue, newValue) {
   if (oldValue !== newValue)
-  return oldValue !== newValue;
+    return oldValue !== newValue;
 }
 export const state = () => ({
   document: {},
@@ -71,8 +71,10 @@ export const getters = {
   }
 };
 export const mutations = {
-  SET_HAS_VERSIONS(state) {
+  SET_VERSION(state, payload) {
     state.document.hasVersions = true;
+    state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
+    state.document.extension = payload.extension;
   },
   CLEAR_REGISTRATION_DATA(state) {
     state.document.documentRegisterId = null;

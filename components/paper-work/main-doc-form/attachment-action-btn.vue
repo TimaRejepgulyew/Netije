@@ -1,13 +1,15 @@
 <template>
-  <DxDropDownButton
-    styling-mode="text"
-    icon="overflow"
-    :showArrowIcon="false"
-    :drop-down-options="{ width: 230 }"
-    :items="btnType"
-    display-expr="name"
-    @item-click="onItemClick"
-  />
+  <div class="attachment-btn">
+    <DxDropDownButton
+      styling-mode="text"
+      icon="overflow"
+      :showArrowIcon="false"
+      :drop-down-options="{ width: 230 }"
+      :items="btnType"
+      display-expr="name"
+      @item-click="onItemClick"
+    />
+  </div>
 </template>
 
 <script>
@@ -76,5 +78,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.attachment-btn {
+  .dx-overlay {
+    z-index: 9999;
+  }
+}
 </style>

@@ -55,13 +55,10 @@ export default {
       }
       this.$awn.async(
         documentService.uploadVersion(document, e.file, this),
-        () => {
-          this.$store.commit("currentDocument/SET_HAS_VERSIONS");
-          this.$awn.success();
+        e => {
+          this.$store.commit("currentDocument/SET_VERSION", e.data);
         },
-        () => {
-          this.$awn.alert();
-        }
+        () => {}
       );
     }
   }

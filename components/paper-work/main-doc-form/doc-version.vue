@@ -2,8 +2,8 @@
   <div>
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
+       <DxButton :hint="$t('buttons.refresh')" class="refresh-btn" icon="refresh" :onClick="refresh"></DxButton>
       <div class="list-container">
-        <DxButton :hint="$t('buttons.refresh')" icon="refresh" :onClick="refresh"></DxButton>
         <DxList :data-source="versions" :activeStateEnabled="false" :focusStateEnabled="false">
           <template #item="item">
             <div>
@@ -97,11 +97,10 @@ export default {
         documentService.uploadVersion(document, e.file, this),
         version => {
           this.$refs["fileUploader"].instance.reset();
-          this.$store.commit("currentDocument/SET_HAS_VERSIONS");
-          this.$awn.success();
+          this.$store.commit("currentDocument/SET_VERSION", version.data);
           this.refresh();
         },
-        e => this.$awn.alert()
+        e => {}
       );
     }
   },
@@ -154,6 +153,9 @@ export default {
   position: relative;
   width: 80%;
   height: 100%;
+}
+.refresh-btn{
+  margin-bottom: 10px;
 }
 </style>
 
