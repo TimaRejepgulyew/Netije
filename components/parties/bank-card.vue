@@ -141,7 +141,7 @@ export default {
       EntityType,
       company: {
         legalName: "",
-        bic: "",
+        bic: null,
         correspondentAccount: "",
         code: "",
         regionId: null,
@@ -151,7 +151,7 @@ export default {
         phones: "",
         email: "",
         webSite: "",
-        tin: "",
+        tin: null,
         note: "",
         nonresident: true,
         name: "",

@@ -156,7 +156,7 @@ export default {
       company: {
         headCompanyId: null,
         legalName: "",
-        tin: "",
+        tin: null,
         name: "",
         code: "",
         regionId: null,

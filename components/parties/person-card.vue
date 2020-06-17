@@ -177,7 +177,7 @@ export default {
         phones: "",
         email: "",
         webSite: "",
-        tin: "",
+        tin: null,
         note: "",
         nonresident: true,
         status: this.$store.getters["status/status"](this)[0].id
