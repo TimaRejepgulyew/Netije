@@ -1,6 +1,5 @@
 import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
-import generateDocumentName from "~/infrastructure/services/documentNameGenerator";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 function checkDataChanged(oldValue, newValue) {
@@ -292,14 +291,7 @@ export const actions = {
   },
   async reevaluateDocumentName({ state, commit }) {
     if (state.document.documentKind.generateDocumentName) {
-      const document = JSON.stringify(state.document);
-      const { data } = await this.$axios.post(dataApi.paperWork.ReevaluateDocumentName,
-        {
-          id: state.document.id,
-          documentJson: document,
-          documentTypeGuid: state.document.documentTypeGuid
-        }
-      );
+      const { data } = await this.$axios.post(dataApi.paperWork.ReevaluateDocumentName, state.document);
       commit("SET_NAME", data);
     }
   },
