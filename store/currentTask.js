@@ -13,6 +13,7 @@ export const getters = {
     return isNew;
   },
   isDraft({ task }) {
+    console.log(task);
     return task.status === TaskStatus.Draft;
   },
   isCompleted({ task }) {

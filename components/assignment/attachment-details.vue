@@ -1,6 +1,6 @@
 <template>
   <div class="main-block">
-    <div class="file-uploader-block">
+    <div class="attachment-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.attachment")}}</span>
       <div class="list-container">
         <DxList :hover-state-enabled="false" :data-source="attachments" :search-enabled="false">
@@ -134,7 +134,7 @@ export default {
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/themes/generated/variables.base.scss";
-.file-uploader-block {
+.attachment-block {
   display: block;
   padding: 0;
   margin: 0;
