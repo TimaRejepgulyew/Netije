@@ -133,7 +133,6 @@ export default {
     IncomingLetter,
     lifeCycle
   },
-
   head() {
     return {
       title: this.$store.getters["currentDocument/document"].name
@@ -141,6 +140,16 @@ export default {
   },
   mounted() {
     this.versionOpenState = false;
+  },
+  created() {
+    if (this.$store.getters["currentDocument/isNew"]) {
+      this.$store.commit("currentDocument/DATA_CHANGED", true);
+    }
+    this.$store.commit("currentDocument/SKIP_ROUTE_HANDLING", false);
+    this.$store.commit("currentDocument/SKIP_DESTROY", false);
+  },
+  beforeDestroy() {
+    this.$store.dispatch("currentDocument/destroyDocument");
   },
   data() {
     return {
@@ -205,13 +214,12 @@ export default {
           return "power-of-attorney";
       }
     },
-
     nameOptions() {
       return {
         value: this.$store.getters["currentDocument/document"].name,
         disabled:
           this.$store.getters["currentDocument/document"].documentKind
-            .generateDocumentName || this.isRegistered,
+            ?.generateDocumentName || this.isRegistered,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_NAME", e.value);
         }

@@ -1,10 +1,11 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
+import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
 import {
   createDocument,
   createTask
 } from "~/infrastructure/services/create.js";
-export default function(context) {
+export default function (context) {
   return [
     {
       text: context.$t("shared.documents"),
@@ -60,83 +61,86 @@ export function TaskButtons(context) {
   ];
 }
 
-export function DocumentButtons(context) {
-  function routeGenerator(typeGuid) {
-    return `/paper-work/detail/${typeGuid}`;
+const createDocumentRequest = async function (context, typeGuid) {
+  var result = await documentChangeTracker.handleConfirm(context);
+  if (!result)
+    return;
+  const replaceOldRoute = context.$store.getters["currentDocument/isNew"];
+  await context.$store.dispatch("currentDocument/initNewDocument", { documentType: typeGuid })
+  context.$store.commit("currentDocument/SKIP_DESTROY", true);
+  context.$store.commit("currentDocument/SKIP_ROUTE_HANDLING", true);
+  context.$store.commit("currentDocument/LOADED_FROM_URL", false);
+  var documentId = context.$store.getters["currentDocument/document"].id;
+  var route = `/paper-work/detail/${typeGuid}/${documentId}`;
+  if (replaceOldRoute) {
+    context.$router.replace(route);
+  } else {
+    context.$router.push(route);
   }
+}
+
+
+export function DocumentButtons(context) {
   return [
     {
       icon: "plus",
       text: context.$t("translations.headers.IncomingLetter"),
       async create() {
-        await createDocument(context, {
-          documentType: DocumentType.IncomingLetter
-        });
-        context.$router.push(routeGenerator(DocumentType.IncomingLetter));
+        await createDocumentRequest(context, DocumentType.IncomingLetter)
       }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.outgoingLetter"),
       async create() {
-        await createDocument(context, {
-          documentType: DocumentType.OutgoingLetter
-        });
-        context.$router.push(routeGenerator(DocumentType.OutgoingLetter));
+        await createDocumentRequest(context, DocumentType.OutgoingLetter)
       }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.order"),
       async create() {
-        await createDocument(context, { documentType: DocumentType.Order });
-        context.$router.push(routeGenerator(DocumentType.Order));
+        await createDocumentRequest(context, DocumentType.Order)
       }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.companyDirective"),
       async create() {
-        await createDocument(context, {
-          documentType: DocumentType.CompanyDirective
-        });
-        context.$router.push(routeGenerator(DocumentType.CompanyDirective));
+        await createDocumentRequest(context, DocumentType.CompanyDirective)
+
       }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.simpleDocument"),
       async create() {
-        await createDocument(context, {
-          documentType: DocumentType.SimpleDocument
-        });
-        context.$router.push(routeGenerator(DocumentType.SimpleDocument));
+        await createDocumentRequest(context, DocumentType.SimpleDocument)
+
       }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.addendum"),
       async create() {
-        await createDocument(context, { documentType: DocumentType.Addendum });
-        context.$router.push(routeGenerator(DocumentType.Addendum));
+        await createDocumentRequest(context, DocumentType.Addendum)
+
       }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.memo"),
       async create() {
-        await createDocument(context, { documentType: DocumentType.Memo });
-        context.$router.push(routeGenerator(DocumentType.Memo));
+        await createDocumentRequest(context, DocumentType.Memo)
+
       }
     },
     {
       icon: "plus",
       text: context.$t("translations.headers.powerOfAttorney"),
       async create() {
-        await createDocument(context, {
-          documentType: DocumentType.PowerOfAttorney
-        });
-        context.$router.push(routeGenerator(DocumentType.PowerOfAttorney));
+        await createDocumentRequest(context, DocumentType.PowerOfAttorney)
+
       }
     }
   ];
