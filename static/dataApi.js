@@ -60,13 +60,14 @@ export default {
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
     DeleteDocument: `${url}/api/OfficialDocument/`,
+    ReevaluateDocumentName: `${url}/api/OfficialDocument/ReevaluateDocumentName`,
     Version: `${url}/api/OfficialDocument/Version/`,
     DownloadLastVersion: `${url}/api/OfficialDocument/Version/DownloadLastVersion/`,
     PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
     Relation: `${url}/api/Documentrelations/Relations/`,
     CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile/`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
-    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`
+    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`,
   },
 
   task: {

@@ -4,7 +4,7 @@ import generateDocumentName from "~/infrastructure/services/documentNameGenerato
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 function checkDataChanged(oldValue, newValue) {
-  if (oldValue !== newValue) console.log(oldValue, newValue);
+  if (oldValue !== newValue)
   return oldValue !== newValue;
 }
 export const state = () => ({
@@ -278,7 +278,6 @@ export const actions = {
   setDocumentKind({ commit, dispatch }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
     commit("SET_DOCUMENT_KIND", payload);
-    dispatch("reevaluateDocumentName");
   },
   setSubject({ commit, dispatch }, payload) {
     commit("SET_SUBJECT", payload);
@@ -289,19 +288,21 @@ export const actions = {
     commit("SET_CORRESPONDENT", payload);
     dispatch("reevaluateDocumentName");
   },
-  reevaluateDocumentName({ state, commit }) {
-    // if (state.document.documentKind) {
-    //   if (state.document.documentKind.generateDocumentName) {
-    //     const name = generateDocumentName(this, state.document);
-    //     commit("SET_DEFAULT_NAME", name);
-    //   }
-    // }
+  async reevaluateDocumentName({ state, commit }) {
+    if (state.document.documentKind.generateDocumentName) {
+      const document = JSON.stringify(state.document);
+      const { data } = await this.$axios.post(dataApi.paperWork.ReevaluateDocumentName,
+        {
+          id: state.document.id,
+          documentJson: document,
+          documentTypeGuid: state.document.documentTypeGuid
+        }
+      );
+      commit("SET_NAME", data);
+    }
   },
   loadDocument({ commit }, payload) {
-    payload.document.documentKind = {
-      id: payload.document.documentKindId,
-      name: null
-    };
+    payload.document.documentKind = docmentKindService.emptyDocumentKind();
     commit("IS_REGISTERED", payload.document.registrationState);
     commit("SET_DOCUMENT", payload);
   },

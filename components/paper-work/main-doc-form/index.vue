@@ -178,6 +178,9 @@ export default {
           ]
         }),
         value: this.$store.getters["currentDocument/document"].documentKindId,
+        onValueChanged: e => {
+          this.$store.dispatch("currentDocument/reevaluateDocumentName");
+        },
         onSelectionChanged: e => {
           this.$store.dispatch(
             "currentDocument/setDocumentKind",
