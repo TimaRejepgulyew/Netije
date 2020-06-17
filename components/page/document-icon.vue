@@ -8,7 +8,6 @@ export default {
   computed: {
     slicedExtension() {
       if (this.extension) {
-        console.log("flaticon-" + this.extension.slice(1));
         return "flaticon-" + this.extension.slice(1);
       } else {
         return "dx-icon-file";

@@ -11,6 +11,13 @@
       />
       <DxItem
         locateInMenu="auto"
+        :options="refreshButtonOptions"
+        :visible="!isDataChanged"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
+        locateInMenu="auto"
         :visible="canRegister"
         location="before"
         template="registrationButton"
@@ -55,7 +62,7 @@
       <DxItem
         :options="previewButtonOptions"
         locateInMenu="auto"
-        :visible="hasVersions"
+        :visible="canBeOpenedWithPreview"
         location="before"
         widget="dxButton"
       />
@@ -88,6 +95,8 @@ import Docflow from "~/infrastructure/constants/docflows";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import { DxButton } from "devextreme-vue";
 import DocumentRegistrationBtn from "~/components/paper-work/main-doc-form/document-registration-btn";
+import saveIcon from "~/static/icons/save.svg";
+import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
 export default {
   components: {
     uploadVersionButton,
@@ -103,6 +112,8 @@ export default {
   data() {
     return {
       addendumIcon,
+      saveIcon,
+      saveAndCloseIcon,
       backButtonOptions: {
         type: "back",
         onClick: () => {
@@ -112,6 +123,10 @@ export default {
     };
   },
   computed: {
+    canBeOpenedWithPreview() {
+      return this.$store.getters["currentDocument/document"]
+        .canBeOpenedWithPreview;
+    },
     hasVersions() {
       return this.$store.getters["currentDocument/document"].hasVersions;
     },
@@ -149,8 +164,7 @@ export default {
     },
     saveButtonOptions() {
       return {
-        icon: "save",
-        type: "success",
+        icon: saveIcon,
         disabled: !this.canUpdate,
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
@@ -178,9 +192,9 @@ export default {
     },
     saveAndBackButtonOptions() {
       return {
-        icon: "save",
-        type: "success",
-        text: this.$t("buttons.saveAndBack"),
+        icon: saveAndCloseIcon,
+
+        hint: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate,
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
@@ -235,6 +249,22 @@ export default {
                 }
               );
             }
+          });
+        }
+      };
+    },
+    refreshButtonOptions() {
+      return {
+        icon: "refresh",
+        onClick: () => {
+          console.log("refresh");
+          const { documentTypeGuid: type, id } = this.$store.getters[
+            "currentDocument/document"
+          ];
+
+          this.$store.dispatch("currentDocument/getDocumentById", {
+            type,
+            id
           });
         }
       };

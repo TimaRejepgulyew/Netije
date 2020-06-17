@@ -5,7 +5,7 @@ export default {
   },
   sex: {
     male: "Мужской",
-    female: "Женский",
+    female: "Женский"
   },
   panel: {
     profile: "Профиль",
@@ -53,7 +53,7 @@ export default {
     whom: "Кому",
     areYouSure: "Вы уверены?",
     confirm: "Подтверждение",
-    required:"Заполните это поле"
+    required: "Заполните это поле"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",
@@ -70,6 +70,7 @@ export default {
     preview: "Предпросмотр",
     download: "Загрузка",
     saved: "Документ сохранен",
+    lifeCycle: "Жизненый цикл",
     fields: {
       areYouSureCancelDocument:
         "Вы уверенны что хотите выйти? Не сохраненные данные будут утеряны",
@@ -223,7 +224,7 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   buttons: {
-    downloadFile:"Загрузить файл",
+    downloadFile: "Загрузить файл",
     versions: "Версии",
     restart: "Рестартовать",
     abort: "Прекратить",
@@ -250,7 +251,7 @@ export default {
     yes: "Да",
     no: "Нет",
     createAddendum: "Создать приложение",
-    createRelation:"Cвязь",
+    createRelation: "Cвязь",
     saveAndBack: "Сохранить и выйти"
   },
   notification: {

@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
-
+import lifeCycleStore from "~/infrastructure/constants/lifeCycleStore.js";
 export default {
   async uploadVersion(document, file, context) {
     return await upload(document, file, context);
@@ -32,6 +32,11 @@ export default {
     );
   }
 };
+export function genereteLifeCycleItem(context, documentTypeGuid) {
+  const store = lifeCycleStore(context);
+  console.log(documentTypeGuid);
+  return store.get(documentTypeGuid);
+}
 
 const preview = (endpoint, context) => {
   context.$awn.async(
@@ -75,7 +80,7 @@ const download = (endpoint, obj, context) => {
         var blob = new Blob([response.data], {
           type: `data:${response.data.type}`
         });
-        saveAs(blob, `${obj.name}${obj.extension}`);
+        saveAs(blob, `${obj.name}${obj.extension.toLowerCase()}`);
       })
   );
 };

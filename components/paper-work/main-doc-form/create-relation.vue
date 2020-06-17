@@ -6,25 +6,19 @@
     :hint="$t('buttons.createRelation')"
     :drop-down-options="{ width: 330 }"
     :items="items"
-    :icon="addendumIcon"
+    icon="link"
     display-expr="text"
     @item-click="createRelation"
   />
 </template>
 <script>
 import DocumentType from "~/infrastructure/constants/documentType.js";
-import addendumIcon from "~/static/icons/addendum.svg";
 import ActionGuid from "~/infrastructure/constants/actionGuid.js";
 import { DxDropDownButton } from "devextreme-vue";
 import { createDocument } from "~/infrastructure/services/create.js";
 export default {
   components: {
     DxDropDownButton
-  },
-  data() {
-    return {
-      addendumIcon
-    };
   },
   computed: {
     items() {

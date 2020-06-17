@@ -53,9 +53,17 @@
               <DxLabel location="top" :text="$t('translations.fields.note')" />
             </DxSimpleItem>
           </DxGroupItem>
-          <DxSimpleItem :col-span="2" template="registrationBlock"></DxSimpleItem>
+          <DxGroupItem :col-span="2">
+            <DxSimpleItem template="registrationBlock"></DxSimpleItem>
+            <DxGroupItem :caption="$t('document.lifeCycle')">
+              <DxSimpleItem template="lifeCycle"></DxSimpleItem>
+            </DxGroupItem>
+          </DxGroupItem>
+          <template #lifeCycle>
+            <life-cycle />
+          </template>
           <template #registrationBlock>
-            <docRegistration></docRegistration>
+            <doc-registration></doc-registration>
           </template>
           <template #formByTypeGuid>
             <component :is="formByTypeGuid"></component>
@@ -74,6 +82,7 @@
   </div>
 </template>
 <script>
+import lifeCycle from "~/components/paper-work/main-doc-form/life-cycle.vue";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import History from "~/components/page/history.vue";
@@ -121,9 +130,9 @@ export default {
     DxRequiredRule,
     DxLabel,
     DxForm,
-    IncomingLetter
+    IncomingLetter,
+    lifeCycle
   },
-
 
   head() {
     return {

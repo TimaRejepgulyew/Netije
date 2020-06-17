@@ -85,7 +85,7 @@ export default {
       return {
         menuMode: this.isLarge ? "shrink" : "overlap",
         menuRevealMode: this.isXSmall ? "slide" : "expand",
-        minMenuSize: this.isXSmall ? 0 : 60,
+        minMenuSize:  0 ,
         menuOpened: this.isLarge,
         closeOnOutsideClick: shaderEnabled,
         shaderEnabled
