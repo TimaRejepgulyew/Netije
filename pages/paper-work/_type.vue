@@ -130,6 +130,7 @@ export default {
         paginate: true
       }),
       openDocument: e => {
+        this.$store.commit("currentDocument/LOADED_FROM_URL", false);
         this.$router.push(
           `/paper-work/detail/${e.data.documentTypeGuid}/${e.key}`
         );

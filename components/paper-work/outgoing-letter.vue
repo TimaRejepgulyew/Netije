@@ -153,7 +153,7 @@ export default {
     isCompany() {
       if (this.$store.getters["currentDocument/document"].correspondentId)
         return (
-          this.$store.getters["currentDocument/document"].correspondent.type !==
+          this.$store.getters["currentDocument/document"].correspondent?.type !==
           "Person"
         );
       else return false;

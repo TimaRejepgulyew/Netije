@@ -29,8 +29,9 @@ export default {
   computed: {
     items() {
       const allActionGuid = ActionGuid(this);
-      const availableActions = this.$store.getters["currentDocument/document"]
-        .documentKind.availableActions;
+      const availableActions =
+        this.$store.getters["currentDocument/document"].documentKind
+          ?.availableActions || [];
       return allActionGuid.filter(el => {
         let isSimilar = false;
         for (let id in availableActions) {

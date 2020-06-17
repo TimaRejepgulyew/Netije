@@ -159,10 +159,10 @@ export default {
   },
   computed: {
     isOrganization() {
-      if (this.$store.getters["currentDocument/document"].correspondent.id)
+      if (this.$store.getters["currentDocument/document"].correspondentId)
         return (
-          this.$store.getters["currentDocument/document"].correspondent.type !==
-          "Person"
+          this.$store.getters["currentDocument/document"].correspondent
+            ?.type !== "Person"
         );
       else return false;
     },

@@ -8,19 +8,7 @@ function checkDataChanged(oldValue, newValue) {
   return oldValue !== newValue;
 }
 export const state = () => ({
-  document: {
-    name: null,
-    subject: null,
-    documentKindId: null,
-    documentKind: {
-      autoNumbering: false,
-      id: null,
-      availableActions: [],
-      generateDocumentName: false,
-      isDefault: false,
-      numberingType: null
-    }
-  },
+  document: {},
   isNew: false,
   isDataChanged: false,
   readOnly: false,
@@ -28,12 +16,21 @@ export const state = () => ({
   canDelete: false,
   canRegister: false,
   isRegistered: false,
-  selectedDocumentNumberingType: null
+  selectedDocumentNumberingType: null,
+  skipRouteHandling: false,
+  skipDestroy: false,
+  loadedFromUrl: true
 });
 
 export const getters = {
   document({ document }) {
     return document;
+  },
+  loadedFromUrl({ loadedFromUrl }) {
+    return loadedFromUrl;
+  },
+  skipRouteHandling({ skipRouteHandling }) {
+    return skipRouteHandling;
   },
   canRegister({ canRegister, selectedDocumentNumberingType }) {
     return (
@@ -244,6 +241,24 @@ export const mutations = {
   },
   DATA_CHANGED(state, payload) {
     state.isDataChanged = payload;
+  },
+  SKIP_DESTROY(state, payload) {
+    state.skipDestroy = payload;
+  },
+  SKIP_ROUTE_HANDLING(state, payload) {
+    state.skipRouteHandling = payload;
+  },
+  START_DATA_TRACKING(state) {
+    state.trackDataChange = true;
+  },
+  STOP_DATA_TRACKING(state) {
+    state.trackDataChange = false;
+  },
+  LOADED_FROM_URL(state, payload) {
+    state.loadedFromUrl = payload;
+  },
+  CLEAR_DOCUMENT(state) {
+    state.document = {};
   }
 };
 export const actions = {
@@ -275,32 +290,27 @@ export const actions = {
     dispatch("reevaluateDocumentName");
   },
   reevaluateDocumentName({ state, commit }) {
-    if (state.document.documentKind) {
-      if (state.document.documentKind.generateDocumentName) {
-        const name = generateDocumentName(this, state.document);
-        commit("SET_DEFAULT_NAME", name);
-      }
-    }
+    // if (state.document.documentKind) {
+    //   if (state.document.documentKind.generateDocumentName) {
+    //     const name = generateDocumentName(this, state.document);
+    //     commit("SET_DEFAULT_NAME", name);
+    //   }
+    // }
   },
   loadDocument({ commit }, payload) {
     payload.document.documentKind = {
       id: payload.document.documentKindId,
       name: null
     };
-
-    payload.document.correspondent = {
-      id: payload.document.correspondentId,
-      name: null
-    };
-
     commit("IS_REGISTERED", payload.document.registrationState);
     commit("SET_DOCUMENT", payload);
   },
-  async getDocumentById({ dispatch, commit, state }, { type, id }) {
-    if (state.isNew) return;
+  async getDocumentById({ dispatch, commit }, { type, id }) {
     const { data } = await this.$axios.get(
       dataApi.paperWork.Documents + `${type}/${id}`
     );
+    commit("SET_IS_NEW", false);
+    commit("DATA_CHANGED", false);
     dispatch("loadDocument", data);
   },
   async registration({ state, getters, dispatch, commit }, isCustomNumber) {
@@ -324,13 +334,15 @@ export const actions = {
     });
   },
   async initNewDocument({ dispatch, commit }, params) {
-    const { data } = await this.$axios.post(
-      dataApi.paperWork.Documents,
-      params
-    );
-    console.log(data);
-    commit("SET_IS_NEW", true);
+    const { data } = await this.$axios.post(dataApi.paperWork.Documents, params);
     dispatch("loadDocument", data);
+    commit("SET_IS_NEW", true);
     commit("DATA_CHANGED", true);
+  },
+  destroyDocument({ state, commit }) {
+    if (!state.skipDestroy) {
+      commit("SET_IS_NEW", false);
+    }
+    commit("DATA_CHANGED", false);
   }
 };
