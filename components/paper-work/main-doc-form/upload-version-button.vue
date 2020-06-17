@@ -44,6 +44,15 @@ export default {
   methods: {
     uploadVersionFromFile(e) {
       const document = this.$store.getters["currentDocument/document"];
+      if (!this.$store.getters["currentDocument/document"].subject) {
+        this.$store.dispatch(
+          "currentDocument/setSubject",
+          e.file.name
+            .split(".")
+            .slice(0, -1)
+            .join(".")
+        );
+      }
       this.$awn.async(
         documentService.uploadVersion(document, e.file, this),
         () => {
