@@ -2,7 +2,7 @@
   <DxDropDownButton
     :use-select-mode="false"
     :text="$t('buttons.create')"
-    :drop-down-options="{ width: 230 }"
+    :drop-down-options="{ width: 330 }"
     :items="creaTaskItems"
     display-expr="text"
     @item-click="createTask"
@@ -22,8 +22,8 @@ export default {
     };
   },
   methods: {
-    createTask(e) {
-      this.$router.push(e.itemData.path);
+    async createTask(e) {
+      await e.itemData.create();
     }
   }
 };

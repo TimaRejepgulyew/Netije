@@ -70,7 +70,6 @@ export default {
             this.$awn.asyncBlock(
               this.$store.dispatch("currentTask/start"),
               e => {
-                this.backTo();
                 this.$awn.success();
               },
               e => this.$awn.alert()

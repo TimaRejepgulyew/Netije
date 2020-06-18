@@ -15,7 +15,7 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
 import ActionGuid from "~/infrastructure/constants/actionGuid.js";
 import { DxDropDownButton } from "devextreme-vue";
-import { createDocument } from "~/infrastructure/services/create.js";
+import { createDocumentRequest } from "~/infrastructure/constants/creatingItems.js";
 export default {
   components: {
     DxDropDownButton
@@ -34,14 +34,11 @@ export default {
           visible: documentTypeGuid === DocumentType.OutgoingLetter,
           text: this.$t("translations.headers.IncomingLetter"),
           create: async () => {
-            await createDocument(this, {
+            await createDocumentRequest(this, {
               documentType: DocumentType.IncomingLetter,
               leadingDocumentId: this.$store.getters["currentDocument/document"]
                 .id
             });
-            this.$router.push(
-              `/paper-work/detail/${DocumentType.IncomingLetter}`
-            );
           }
         },
         {
@@ -49,7 +46,7 @@ export default {
           visible: documentTypeGuid === DocumentType.IncomingLetter,
           text: this.$t("translations.headers.outgoingLetter"),
           create: async () => {
-            await createDocument(this, {
+            await createDocumentRequest(this, {
               documentType: DocumentType.OutgoingLetter,
               leadingDocumentId: this.$store.getters["currentDocument/document"]
                 .id
@@ -61,13 +58,11 @@ export default {
           icon: "plus",
           text: this.$t("translations.headers.addendum"),
           create: async () => {
-            await createDocument(this, {
+            await createDocumentRequest(this, {
               documentType: DocumentType.Addendum,
               leadingDocumentId: this.$store.getters["currentDocument/document"]
                 .id
             });
-
-            this.$router.push(`/paper-work/detail/${DocumentType.Addendum}`);
           }
         }
       ];

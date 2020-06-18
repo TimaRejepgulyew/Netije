@@ -1,4 +1,4 @@
-import { createTask } from "~/infrastructure/services/create.js";
+import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
 export default function(context) {
   return [
@@ -6,24 +6,20 @@ export default function(context) {
       id: 1,
       name: context.$t("workFlow.actionItemExecution"),
       create: async leadingDocumentId => {
-        await createTask(context, {
+        await createTaskRequest(context, {
           taskType: TaskType.ActionItemExecutionTask,
           leadingDocumentId
         });
-        context.$router.push(
-          `/task/detail/${TaskType.ActionItemExecutionTask}`
-        );
       }
     },
     {
       id: 2,
       name: context.$t("workFlow.acquaintance"),
       create: async leadingDocumentId => {
-        await createTask(context, {
+        await createTaskRequest(context, {
           taskType: TaskType.AcquaintanceTask,
           leadingDocumentId
         });
-        context.$router.push(`/task/detail/${TaskType.AcquaintanceTask}`);
       }
     },
     {

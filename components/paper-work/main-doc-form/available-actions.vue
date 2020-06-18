@@ -12,7 +12,8 @@
   />
 </template>
 <script>
-import { createTask } from "~/infrastructure/services/create.js";
+// TODO Добавить по дефолту простую задачу
+import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
 import ActionGuid from "~/infrastructure/constants/actionGuid.js";
@@ -44,15 +45,7 @@ export default {
   methods: {
     async createTask(e) {
       const documentId = this.$store.getters["currentDocument/document"].id;
-      await e.itemData.create(documentId);
-    },
-    async createSimpleTask() {
-      const documentId = this.$store.getters["currentDocument/document"].id;
-      await createTask(this, {
-        taskType: TaskType.SimpleTask,
-        leadingDocumentId: documentId
-      });
-      this.$router.push(`/task/detail/${TaskType.SimpleTask}`);
+      await e.itemData.create({ documentId });
     }
   }
 };

@@ -5,10 +5,11 @@
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="validatorGroup"
+    @optionChanged="changeTracker"
   >
     <DxGroupItem :caption="$t('translations.fields.main')">
       <DxGroupItem :col-count="10">
-        <DxSimpleItem :col-span="9" data-field="subject">
+        <DxSimpleItem :col-span="8" data-field="subject">
           <DxLabel
             location="top"
             :editor-options="subjectOptions"
@@ -97,6 +98,9 @@ export default {
     };
   },
   methods: {
+    changeTracker() {
+      console.log("change tracker");
+    },
     setObservers(value) {
       this.$store.commit("currentTask/SET_OBSERVERS", value);
     },
