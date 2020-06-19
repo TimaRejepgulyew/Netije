@@ -237,11 +237,9 @@ export default {
           result.then(dialogResult => {
             if (dialogResult) {
               this.$awn.asyncBlock(
-                this.$axios.delete(
-                  `${dataApi.paperWork.DeleteDocument}${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`
-                ),
+                this.$store.dispach("currentDocument/delete"),
                 e => {
-                  this.$router.go(-1);
+                  this.$emit("backTo");
                   this.$awn.success();
                 },
                 e => {

@@ -3,8 +3,7 @@ import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 function checkDataChanged(oldValue, newValue) {
-  if (oldValue !== newValue)
-    return oldValue !== newValue;
+  if (oldValue !== newValue) return oldValue !== newValue;
 }
 export const state = () => ({
   document: {},
@@ -263,6 +262,11 @@ export const mutations = {
   }
 };
 export const actions = {
+  async delete({ state }) {
+    await this.$axios.delete(
+      `${dataApi.paperWork.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
+    );
+  },
   async save({ dispatch, getters, commit, state }) {
     const document = JSON.stringify(state.document);
     const res = await this.$axios.put(
@@ -284,13 +288,11 @@ export const actions = {
     commit("SET_SUBJECT", payload);
     dispatch("reevaluateDocumentName");
   },
-  setLeadingDocumentId({ commit, dispatch }, payload)
-  {
+  setLeadingDocumentId({ commit, dispatch }, payload) {
     commit("SET_LEADING_DOCUMENT_ID", payload);
     dispatch("reevaluateDocumentName");
   },
-  setIssuedToId({ commit, dispatch }, payload)
-  {
+  setIssuedToId({ commit, dispatch }, payload) {
     commit("SET_ISSUED_TO_ID", payload);
     dispatch("reevaluateDocumentName");
   },
@@ -301,7 +303,10 @@ export const actions = {
   },
   async reevaluateDocumentName({ state, commit }) {
     if (state.document.documentKind.generateDocumentName) {
-      const { data } = await this.$axios.post(dataApi.paperWork.ReevaluateDocumentName, state.document);
+      const { data } = await this.$axios.post(
+        dataApi.paperWork.ReevaluateDocumentName,
+        state.document
+      );
       commit("SET_NAME", data);
     }
   },
@@ -314,6 +319,7 @@ export const actions = {
     const { data } = await this.$axios.get(
       dataApi.paperWork.Documents + `${type}/${id}`
     );
+
     commit("SET_IS_NEW", false);
     commit("DATA_CHANGED", false);
     dispatch("loadDocument", data);
@@ -339,7 +345,10 @@ export const actions = {
     });
   },
   async initNewDocument({ dispatch, commit }, params) {
-    const { data } = await this.$axios.post(dataApi.paperWork.Documents, params);
+    const { data } = await this.$axios.post(
+      dataApi.paperWork.Documents,
+      params
+    );
     dispatch("loadDocument", data);
     commit("SET_IS_NEW", true);
     commit("DATA_CHANGED", true);

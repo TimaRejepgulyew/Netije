@@ -21,13 +21,7 @@ export const state = () => ({
       pageSize: 10
     };
   },
-  btnSave(context) {
-    return {
-      text: context.$t("buttons.save"),
-      useSubmitBehavior: true,
-      type: "success"
-    };
-  },
+
   btnCompleted(context) {
     return {
       text: context.$t("buttons.complete"),
@@ -45,7 +39,7 @@ export const state = () => ({
   btnStart(context) {
     return {
       icon: iconStart,
-      text: context.$t("buttons.start")
+      hint: context.$t("buttons.start")
     };
   },
   btnSend(context) {

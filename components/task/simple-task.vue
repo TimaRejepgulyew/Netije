@@ -9,12 +9,8 @@
   >
     <DxGroupItem :caption="$t('translations.fields.main')">
       <DxGroupItem :col-count="10">
-        <DxSimpleItem :col-span="8" data-field="subject">
-          <DxLabel
-            location="top"
-            :editor-options="subjectOptions"
-            :text="$t('translations.fields.subjectTask')"
-          />
+        <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
+          <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
           <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -98,14 +94,16 @@ export default {
     };
   },
   methods: {
-    changeTracker() {
-      console.log("change tracker");
+    changeTracker(e) {
+      this.$store.commit("currentTask/SET_IS_DATA_CHANGED", true);
     },
     setObservers(value) {
       this.$store.commit("currentTask/SET_OBSERVERS", value);
+      this.$store.commit("currentTask/SET_IS_DATA_CHANGED", true);
     },
     setPerformers(value) {
       this.$store.commit("currentTask/SET_PERFORMERS", value);
+      this.$store.commit("currentTask/SET_IS_DATA_CHANGED", true);
     }
   },
   computed: {
@@ -155,9 +153,8 @@ export default {
     },
     routeTypeOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
-        }),
+        displayExpr: "name",
+        valueExpr: "id",
         dataSource: [
           { id: 0, name: this.$t("translations.fields.gradually") },
           { id: 1, name: this.$t("translations.fields.parallel") }

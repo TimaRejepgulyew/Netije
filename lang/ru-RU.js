@@ -40,6 +40,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    toMainPage:"На главную",
     select: "Выбрать...",
     error: "Произошла ошибка",
     errorOccured:

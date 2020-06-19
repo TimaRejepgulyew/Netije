@@ -1,9 +1,11 @@
 import { alert } from "devextreme/ui/dialog";
 
-export default function({ store, app: { $axios, i18n } }) {
+export default function({ store, app: { router, $axios, i18n } }) {
   $axios.onError(error => {
     try {
-      if (
+      if (error.response.status === 404) {
+        router.push("/error/404");
+      } else if (
         error.response.headers["content-type"] ===
         "application/problem+json; charset=utf-8"
       ) {
@@ -16,7 +18,6 @@ export default function({ store, app: { $axios, i18n } }) {
             });
           }
         }
-
         if (errors) {
           alert(
             `<ul>${errors

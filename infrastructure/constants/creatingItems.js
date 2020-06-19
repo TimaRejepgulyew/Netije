@@ -53,7 +53,7 @@ export function TaskButtons(context) {
       text: context.$t("translations.fields.createActionItemExecutionTask"),
       async create(params) {
         await createTaskRequest(context, {
-          taskType: TaskType.AcquaintanceTask,
+          taskType: TaskType.ActionItemExecutionTask,
           ...params
         });
       }

@@ -5,20 +5,20 @@ export default function(context) {
     {
       id: 1,
       name: context.$t("workFlow.actionItemExecution"),
-      create: async leadingDocumentId => {
+      async create(params) {
         await createTaskRequest(context, {
           taskType: TaskType.ActionItemExecutionTask,
-          leadingDocumentId
+          ...params
         });
       }
     },
     {
       id: 2,
       name: context.$t("workFlow.acquaintance"),
-      create: async leadingDocumentId => {
+      async create(params) {
         await createTaskRequest(context, {
           taskType: TaskType.AcquaintanceTask,
-          leadingDocumentId
+          ...params
         });
       }
     },

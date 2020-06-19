@@ -3,19 +3,19 @@
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :options="startButtonOptions" location="before" widget="dxButton" />
-      <DxItem :visible="isDraft" :options="saveButtonOptions" location="before" widget="dxButton" />
+      <DxItem
+        :disabled="isDataChanged"
+        :options="saveButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
       <DxItem
         :visible="inProccess"
         :options="abortButtonOptions"
         location="before"
         widget="dxButton"
       />
-      <DxItem
-        :visible="isCompleted||isAborted"
-        :options="restartButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
+      <DxItem :options="restartButtonOptions" location="before" widget="dxButton" />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
         <importanceChanger></importanceChanger>
@@ -30,6 +30,9 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import ReviewResult from "~/infrastructure/constants/reviewResult.js";
+import saveIcon from "~/static/icons/save.svg";
+import abortIcon from "~/static/icons/stop.svg";
+import restartIcon from "~/static/icons/restart.svg";
 export default {
   components: {
     importanceChanger,
@@ -43,6 +46,9 @@ export default {
         type: "normal",
         icon: "back",
         hint: this.$t("buttons.back"),
+        saveIcon,
+        abortIcon,
+        restartIcon,
         onClick: () => {
           this.backTo();
         }
@@ -50,6 +56,9 @@ export default {
     };
   },
   computed: {
+    isDataChanged() {
+      return this.$store.getters["currentTask/task"].isDataChanged;
+    },
     isDraft() {
       return this.$store.getters["currentTask/isDraft"];
     },
@@ -64,7 +73,8 @@ export default {
     },
     saveButtonOptions() {
       return {
-        ...this.$store.getters["globalProperties/btnSave"](this),
+        icon: saveIcon,
+        hint: this.$t("buttons.save"),
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
@@ -95,8 +105,8 @@ export default {
     },
     abortButtonOptions() {
       return {
-        text: this.$t("buttons.abort"),
-        type: "danger",
+        icon: abortIcon,
+        hint: this.$t("buttons.abort"),
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
@@ -112,7 +122,8 @@ export default {
     },
     restartButtonOptions() {
       return {
-        text: this.$t("buttons.restart"),
+        icon: restartIcon,
+        hint: this.$t("buttons.restart"),
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(

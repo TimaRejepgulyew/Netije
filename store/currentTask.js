@@ -2,10 +2,14 @@ import dataApi from "~/static/dataApi";
 import TaskStatus from "~/infrastructure/constants/taskStatus";
 export const state = () => ({
   task: {},
-  isNew: null
+  isDataChanged: false,
+  isNew: false
 });
 
 export const getters = {
+  isDataChanged({ isDataChanged }) {
+    return isDataChanged;
+  },
   taskType({ task }) {
     return task.taskType;
   },
@@ -29,10 +33,14 @@ export const getters = {
     return task;
   },
   taskTypeAndId({ task }) {
-    return { type: task.type, id: task.id };
+    return { taskType: task.type, id: task.id };
   }
 };
 export const mutations = {
+  SET_IS_DATA_CHANGED(state, payload) {
+    console.log("change");
+    state.isDataChanged = payload;
+  },
   SET_TASK(state, payload) {
     console.log(payload);
     state.task = payload;
@@ -107,22 +115,23 @@ export const actions = {
   async initTask({ commit }, params) {
     const { data } = await this.$axios.post(dataApi.task.CreateTask, params);
     console.log(data);
+    commit("SET_IS_DATA_CHANGED", true);
     commit("IS_NEW", true);
     commit("SET_TASK", data.task);
   },
-  async load({ getters, commit }, { type, id }) {
-    console.log(getters["isNew"]);
-    // if (!getters["isNew"]) {
-    //   const { data } = await this.$axios.get(
-    //     `${dataApi.task.GetTaskById}${type}/${id}`
-    //   );
-    //   commit("SET_TASK", data);
-    //   commit("IS_NEW", false);
-    // }
+  async load({ getters, commit }, { taskType, id }) {
+    if (!getters["isNew"]) {
+      const { data } = await this.$axios.get(
+        `${dataApi.task.GetTaskById}${taskType}/${id}`
+      );
+      commit("SET_TASK", data);
+      commit("IS_NEW", false);
+    }
   },
   async save({ state, commit }) {
     try {
-      commit("IS_NEW", false);
+      if (state.isNew) commit("IS_NEW", false);
+      commit("SET_IS_DATA_CHANGED", true);
       const task = JSON.stringify(state.task);
       await this.$axios.put(dataApi.task.UpdateTask + state.task.id, {
         taskJson: task,
@@ -132,6 +141,9 @@ export const actions = {
       console.log(e);
       commit("IS_NEW", true);
     }
+  },
+  async delete({ state }) {
+    await this.$axios.delete(dataApi.task.Delete + state.task.id);
   },
   async saveAndLoad({ dispatch, getters }) {
     try {
@@ -157,7 +169,7 @@ export const actions = {
   },
   async abort({ dispatch, getters }) {
     try {
-      await this.$axios.put(dataApi.task.Abort);
+      await this.$axios.post(dataApi.task.Abort, getters("taskTypeAndId"));
       await dispatch("load", getters("taskTypeAndId"));
     } catch (e) {
       console.log(e);
@@ -165,7 +177,7 @@ export const actions = {
   },
   async restart({ dispatch, getters }) {
     try {
-      await this.$axios.put(dataApi.task.Restart);
+      await this.$axios.post(dataApi.task.Restart, getters("taskTypeAndId"));
       await dispatch("load", getters("taskTypeAndId"));
     } catch (e) {
       console.log(e);

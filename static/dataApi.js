@@ -74,9 +74,12 @@ export default {
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/GetTaskById/`,
+    Delete: `${url}/api/Task/`,
     UpdateTask: `${url}/api/Task/`,
-    CreateTask: `${url}/api/Task/`,
-    Start: `${url}/api/Task/Start`
+    CreateTask: `${url}/api/Task`,
+    Abort: `${url}/api/Task/Abort`,
+    Start: `${url}/api/Task/Start`,
+    Restart: `${url}/api/Task/`
   },
   accessRights: {
     List: `${url}/api/AccessRights/`,
