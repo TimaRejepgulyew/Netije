@@ -63,7 +63,7 @@ export const mutations = {
   },
   SET_EXCLUDED_PERFORMERS(state, payload) {
     console.log(payload);
-    state.task.excludePerformers = payload;
+    state.task.excludedPerformers = payload;
   },
   SET_OBSERVERS(state, payload) {
     console.log(payload);
@@ -123,6 +123,7 @@ export const actions = {
   async save({ state, commit }) {
     try {
       commit("IS_NEW", false);
+      console.log(state.task)
       const task = JSON.stringify(state.task);
       await this.$axios.put(dataApi.task.UpdateTask + state.task.id, {
         taskJson: task,
