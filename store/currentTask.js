@@ -71,7 +71,7 @@ export const mutations = {
   },
   SET_EXCLUDED_PERFORMERS(state, payload) {
     console.log(payload);
-    state.task.excludePerformers = payload;
+    state.task.excludedPerformers = payload;
   },
   SET_OBSERVERS(state, payload) {
     console.log(payload);

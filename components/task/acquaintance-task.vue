@@ -67,19 +67,19 @@
           :messageRequired="$t('translations.fields.acquaintMembersRequired')"
           :validator-group="validatorGroup"
           :recipients="performers.data.editorOptions.value"
-          @setEmployee="setPerformers"
+          @setRecipients="setPerformers"
         />
       </template>
       <template #observers="observers">
         <recipient-tag-box
           :recipients="observers.data.editorOptions.value"
-          @setEmployee="setObservers"
+          @setRecipients="setObservers"
         />
       </template>
       <template #excludedPerformers="excludedPerformers">
         <recipient-tag-box
           :recipients="excludedPerformers.data.editorOptions.value"
-          @setEmployee="setExcludedPerformers"
+          @setRecipients="setExcludedPerformers"
         />
       </template>
     </DxForm>
@@ -116,7 +116,7 @@ export default {
     setPerformers(value) {
       this.$store.commit("currentTask/SET_PERFORMERS", value);
     },
-    setExcludedPerformers() {
+    setExcludedPerformers(value) {
       this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", value);
     }
   },
