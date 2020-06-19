@@ -239,7 +239,7 @@ export default {
               this.$awn.asyncBlock(
                 this.$store.dispach("currentDocument/delete"),
                 e => {
-                  this.$emit("backTo");
+                  this.$router.go(-1);
                   this.$awn.success();
                 },
                 e => {

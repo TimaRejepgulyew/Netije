@@ -114,7 +114,6 @@ export const mutations = {
 export const actions = {
   async initTask({ commit }, params) {
     const { data } = await this.$axios.post(dataApi.task.CreateTask, params);
-    console.log(data);
     commit("SET_IS_DATA_CHANGED", true);
     commit("IS_NEW", true);
     commit("SET_TASK", data.task);

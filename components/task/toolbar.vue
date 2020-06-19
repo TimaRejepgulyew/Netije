@@ -78,7 +78,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/start"),
+              this.$store.dispatch("currentTask/saveAndLoad"),
               e => {
                 this.$awn.success();
               },
