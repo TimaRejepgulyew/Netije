@@ -36,8 +36,8 @@ export default {
           create: async () => {
             await createDocumentRequest(this, {
               documentType: DocumentType.IncomingLetter,
-              leadingDocumentId: this.$store.getters["currentDocument/document"]
-                .id
+              leadingDocumentId: this.$store.getters["currentDocument/document"].id,
+              leadingDocumentType: this.$store.getters["currentDocument/document"].documentTypeGuid,
             });
           }
         },
@@ -49,7 +49,8 @@ export default {
             await createDocumentRequest(this, {
               documentType: DocumentType.OutgoingLetter,
               leadingDocumentId: this.$store.getters["currentDocument/document"]
-                .id
+                .id,
+                leadingDocumentType: this.$store.getters["currentDocument/document"].documentTypeGuid,
             });
           }
         },
@@ -61,7 +62,8 @@ export default {
             await createDocumentRequest(this, {
               documentType: DocumentType.Addendum,
               leadingDocumentId: this.$store.getters["currentDocument/document"]
-                .id
+                .id,
+                leadingDocumentType: this.$store.getters["currentDocument/document"].documentTypeGuid,
             });
           }
         }
