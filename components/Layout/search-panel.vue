@@ -1,7 +1,6 @@
 <template>
   <label for="search-panel">
     <DxAutocomplete
-      :dropDownButtonTemplate="{'icon':plus}"
       width="20vw"
       id="search-panel"
       :data-source="documents"

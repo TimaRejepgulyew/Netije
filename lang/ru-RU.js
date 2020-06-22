@@ -275,6 +275,8 @@ export default {
   },
   translations: {
     fields: {
+      "financial-archive":"Финансовый архив",
+      
       supervisorIdRequired: "Введите контролера",
       isUnderControl:"На контроль",
       draft: "Черновик",

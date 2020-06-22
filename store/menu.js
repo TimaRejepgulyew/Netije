@@ -86,6 +86,10 @@ export const actions = {
         path: "/task"
       },
       {
+        text: this.$i18n.t("menu.financial-archive"),
+        icon: "file"
+      },
+      {
         text: this.$i18n.t("menu.paperwork"),
         icon: "file",
         path: `/paper-work/${DocumentFilterType.All}`,
@@ -309,7 +313,9 @@ export const actions = {
           {
             text: this.$i18n.t("menu.currencies"),
             path: "/shared-directory/currencies",
-            visible: rootGetters["permissions/allowReading"](EntityType.Currencies)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Currencies
+            )
           }
         ]
       },
