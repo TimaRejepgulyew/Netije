@@ -1,4 +1,4 @@
-import TaskStatus from "~/infrastructure/constants/taskStatus.js";
+import AssigmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 export default {
   assignmentType(context) {
     return [
@@ -36,13 +36,18 @@ export default {
   statusType(context) {
     return [
       {
-        id: TaskStatus.InProcess,
+        id: AssigmentStatus.InProccess,
         name: context.$t("translations.fields.inProccess")
       },
       {
-        id: 1,
-        name: context.$t("translations.fields.inProccess")
+        id: AssigmentStatus.Completed,
+        name: context.$t("translations.fields.completed")
       },
+      {
+        id: AssigmentStatus.Aborted,
+        name: context.$t("translations.fields.aborted")
+      },
+
       {
         id: null,
         name: context.$t("translations.fields.all")

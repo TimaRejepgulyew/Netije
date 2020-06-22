@@ -141,7 +141,7 @@ export default {
     }
   },
   menu: {
-    personalSettings:"Персональные настройки",
+    personalSettings: "Персональные настройки",
     history: "История",
     group: "Группы",
     all: "Все",
@@ -275,6 +275,8 @@ export default {
   },
   translations: {
     fields: {
+      supervisorIdRequired: "Введите контролера",
+      isUnderControl:"На контроль",
       draft: "Черновик",
       underReview: "На приемке",
       recipient: "Субъект прав",

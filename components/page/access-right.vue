@@ -6,7 +6,7 @@
       :close-on-outside-click="true"
       :position="{ my: 'top', at: 'top' }"
       :show-title="true"
-      :width="800"
+      width="60%"
       :height="'auto'"
       :title="$t('translations.fields.accessRightDocument')"
     >

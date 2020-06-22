@@ -48,6 +48,11 @@ export const mutations = {
       state.isDataChanged = true;
     state.task.subject = payload;
   },
+  SET_IS_UNDER_CONTROL(state, payload) {
+    if (checkDataChanged(state.task.isUnderControl, payload))
+      state.isDataChanged = true;
+    state.task.isUnderControl = payload;
+  },
   SET_MAX_DEADLINE(state, payload) {
     if (checkDataChanged(state.task.maxDeadline, payload))
       state.isDataChanged = true;

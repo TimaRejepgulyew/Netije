@@ -13,6 +13,25 @@
           <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
           <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
         </DxSimpleItem>
+        <DxGroupItem :col-count="5">
+          <DxSimpleItem
+            :col-span="2"
+            data-field="isUnderControl"
+            :editor-options="isUnderControlOptions"
+            editor-type="dxCheckBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.isUnderControl')" />
+          </DxSimpleItem>
+          <DxSimpleItem
+            :col-span="3"
+            :visible="isUnderControl"
+            template="supervisor"
+            data-field="supervisorId"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
+            <DxRequiredRule :message="$t('translations.fields.supervisorIdRequired')" />
+          </DxSimpleItem>
+        </DxGroupItem>
         <DxGroupItem :col-count="2">
           <DxSimpleItem template="assignee" data-field="assigneeId">
             <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
@@ -26,15 +45,16 @@
             <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
             <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
           </DxSimpleItem>
-          <DxSimpleItem template="supervisor" editor-type="dxSelectBox" data-field="supervisorId">
-            <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
-          </DxSimpleItem>
 
-          <DxSimpleItem template="coAssignees" editor-type="dxTagBox" data-field="coAssignees">
+          <DxSimpleItem :col-span="2" template="coAssignees" data-field="coAssignees">
             <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
           </DxSimpleItem>
 
-          <DxSimpleItem template="actionItemObservers" data-field="actionItemObservers">
+          <DxSimpleItem
+            :col-span="2"
+            template="actionItemObservers"
+            data-field="actionItemObservers"
+          >
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
         </DxGroupItem>
@@ -66,6 +86,7 @@
       <template #supervisor>
         <employee-select-box
           :read-only="inProcess"
+          :validator-group="validatorGroup"
           :value="supervisorId"
           @valueChanged="setSupervisor"
         />
@@ -120,10 +141,14 @@ export default {
       this.$store.commit("currentTask/SET_ASSIGNEE", value);
     },
     setSupervisor(value) {
+      console.log(value);
       this.$store.commit("currentTask/SET_SUPERVISOR", value);
     }
   },
   computed: {
+    isUnderControl() {
+      return this.$store.getters["currentTask/task"].isUnderControl;
+    },
     actionItemObservers() {
       return this.$store.getters["currentTask/task"].actionItemObservers;
     },
@@ -150,6 +175,14 @@ export default {
         value: this.$store.getters["currentTask/task"].subject,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_SUBJECT", e.value);
+        }
+      };
+    },
+    isUnderControlOptions() {
+      return {
+        value: this.$store.getters["currentTask/task"].isUnderControl,
+        onValueChanged: e => {
+          this.$store.commit("currentTask/SET_IS_UNDER_CONTROL", e.value);
         }
       };
     },
