@@ -133,6 +133,7 @@ export default {
     IncomingLetter,
     lifeCycle
   },
+  
   head() {
     return {
       title: this.$store.getters["currentDocument/document"].name

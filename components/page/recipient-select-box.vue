@@ -1,5 +1,6 @@
 <template>
   <DxSelectBox
+    :read-only="readOnly"
     :data-source="resipientStore"
     :grouped="true"
     @valueChanged="setRecipient"
@@ -34,7 +35,7 @@ export default {
     DxSelectBox,
     recipientGrouped
   },
-  props: ["recipients", "property", "isRequired", "validatorGroup"],
+  props: ["recipients", "property", "isRequired", "validatorGroup", "readOnly"],
   created() {},
   data() {
     return {

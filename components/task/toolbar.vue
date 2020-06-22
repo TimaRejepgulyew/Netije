@@ -2,23 +2,29 @@
   <div class="toolbar">
     <DxToolbar>
       <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
-      <DxItem :options="startButtonOptions" location="before" widget="dxButton" />
+      <DxItem :visible="isDraft" :options="startButtonOptions" location="before" widget="dxButton" />
       <DxItem
-        :disabled="isDataChanged"
+        :visible="isDraft"
+        :disabled="!isDataChanged"
         :options="saveButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
-        :visible="inProccess"
+        :visible="inProcess"
         :options="abortButtonOptions"
         location="before"
         widget="dxButton"
       />
-      <DxItem :options="restartButtonOptions" location="before" widget="dxButton" />
+      <DxItem
+        :visible="isCompleted||isAborted"
+        :options="restartButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
-        <importanceChanger></importanceChanger>
+        <importanceChanger :read-only="inProcess"></importanceChanger>
       </template>
     </DxToolbar>
   </div>
@@ -57,20 +63,21 @@ export default {
   },
   computed: {
     isDataChanged() {
-      return this.$store.getters["currentTask/task"].isDataChanged;
+      return this.$store.getters["currentTask/isDataChanged"];
     },
     isDraft() {
       return this.$store.getters["currentTask/isDraft"];
     },
-    inProccess() {
-      return this.$store.getters["currentTask/inProccess"];
+    inProcess() {
+      return this.$store.getters["currentTask/inProcess"];
     },
     isCompleted() {
-      return this.$store.getters["currentTask/completed"];
+      return this.$store.getters["currentTask/isCompleted"];
     },
     isAborted() {
       return this.$store.getters["currentTask/isAborted"];
     },
+
     saveButtonOptions() {
       return {
         icon: saveIcon,

@@ -172,6 +172,10 @@ export default {
       },
       statusDataSource: [
         {
+          id: TaskStatus.Draft,
+          name: this.$t("translations.fields.draft")
+        },
+        {
           id: TaskStatus.InProcess,
           name: this.$t("translations.fields.inProccess")
         },
@@ -203,9 +207,9 @@ export default {
       this.store.reload();
     },
     showTaskDetail({ data }) {
-      this.$router.push(
-        RouteGenerator.generateTaskDetailRoute(data.taskType, data.id)
-      );
+      console.log(data);
+      this.$store.commit("currentTask/IS_NEW", false);
+      this.$router.push(`task/detail/${data.taskType}/${data.id}`);
     },
     onRowPrepared(e) {
       this.addStatusStyle(e);

@@ -8,9 +8,9 @@ export default {
   components: {
     cardTask
   },
-  asyncData({ app, params }) {
-    app.store.dispatch("currentTask/load", {
-      type: +params.type,
+  async asyncData({ app, params }) {
+    await app.store.dispatch("currentTask/load", {
+      taskType: +params.type,
       id: +params.id
     });
   }

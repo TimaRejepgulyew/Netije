@@ -32,7 +32,7 @@
           </template>
         </DxList>
       </div>
-      <template v-if="inProccess">
+      <template v-if="inProcess">
         <DxSelectBox
           v-model="selectedDocument"
           :dataSource="documents"
@@ -122,7 +122,7 @@ export default {
     }
   },
   computed: {
-    inProccess() {
+    inProcess() {
       return this.$store.getters["currentAssignment/canUpdate"];
     },
     isCreated() {

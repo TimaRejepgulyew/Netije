@@ -73,7 +73,7 @@ export default {
   task: {
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,
-    GetTaskById: `${url}/api/Task/GetTaskById/`,
+    GetTaskById: `${url}/api/Task/`,
     Delete: `${url}/api/Task/`,
     UpdateTask: `${url}/api/Task/`,
     CreateTask: `${url}/api/Task`,

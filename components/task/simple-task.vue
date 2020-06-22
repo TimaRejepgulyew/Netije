@@ -1,11 +1,10 @@
 <template>
   <DxForm
-    :col-count="1"
-    :read-only="false"
+    ref="form"
+    :read-only="inProcess"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="validatorGroup"
-    @optionChanged="changeTracker"
   >
     <DxGroupItem :caption="$t('translations.fields.main')">
       <DxGroupItem :col-count="10">
@@ -23,8 +22,8 @@
       </DxGroupItem>
       <DxGroupItem :col-count="2">
         <DxSimpleItem
-          data-field="deadline"
-          :editor-options="deadlineOptions"
+          data-field="maxDeadline"
+          :editor-options="maxDeadlineOptions"
           editor-type="dxDateBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
@@ -38,7 +37,7 @@
           <DxLabel location="top" :text="$t('translations.fields.start')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxSimpleItem template="observers" data-field="observers">
+      <DxSimpleItem :disabled="true" template="observers" data-field="observers">
         <DxLabel location="top" :text="$t('translations.fields.observers')" />
       </DxSimpleItem>
 
@@ -56,16 +55,17 @@
         <DxLabel location="top" :text="$t('translations.fields.comment')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <template #performers="performers">
+    <template #performers>
       <employee-tag-box
+        :read-only="inProcess"
         :messageRequired="$t('translations.fields.performersRequired')"
         :validator-group="validatorGroup"
-        :value="performers.data.editorOptions.value"
+        :value="performers"
         @valueChanged="setPerformers"
       />
     </template>
-    <template #observers="observers">
-      <employee-tag-box :value="observers.data.editorOptions.value" @valueChanged="setObservers" />
+    <template #observers>
+      <employee-tag-box :read-only="inProcess" :value="observers" @valueChanged="setObservers" />
     </template>
   </DxForm>
 </template>
@@ -94,19 +94,23 @@ export default {
     };
   },
   methods: {
-    changeTracker(e) {
-      this.$store.commit("currentTask/SET_IS_DATA_CHANGED", true);
-    },
     setObservers(value) {
       this.$store.commit("currentTask/SET_OBSERVERS", value);
-      this.$store.commit("currentTask/SET_IS_DATA_CHANGED", true);
     },
     setPerformers(value) {
       this.$store.commit("currentTask/SET_PERFORMERS", value);
-      this.$store.commit("currentTask/SET_IS_DATA_CHANGED", true);
     }
   },
   computed: {
+    observers() {
+      return this.$store.getters["currentTask/task"].observers;
+    },
+    performers() {
+      return this.$store.getters["currentTask/task"].performers;
+    },
+    inProcess() {
+      return this.$store.getters["currentTask/inProcess"];
+    },
     isNew() {
       return this.$store.getters["currentTask/isNew"];
     },
@@ -130,13 +134,13 @@ export default {
         }
       };
     },
-    deadlineOptions() {
+    maxDeadlineOptions() {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"].maxDeadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_MAX_DEADLINE", e.value);
         }
       };
     },

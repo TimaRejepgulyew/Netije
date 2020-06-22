@@ -29,7 +29,7 @@
         <attachments></attachments>
       </template>
       <template #comments>
-        <comments :url="commentsUrl"></comments>
+        <comments v-if="!isDraft" :url="commentsUrl"></comments>
       </template>
     </DxForm>
   </div>
@@ -89,7 +89,6 @@ export default {
             "translations.fields.createActionItemExecutionTask"
           );
           return "action-item-execution-task";
-        
       }
     }
   }

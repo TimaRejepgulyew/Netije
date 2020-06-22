@@ -40,7 +40,7 @@ export default {
     version: "Версии"
   },
   shared: {
-    toMainPage:"На главную",
+    toMainPage: "На главную",
     select: "Выбрать...",
     error: "Произошла ошибка",
     errorOccured:
@@ -141,6 +141,7 @@ export default {
     }
   },
   menu: {
+    personalSettings:"Персональные настройки",
     history: "История",
     group: "Группы",
     all: "Все",
@@ -274,6 +275,7 @@ export default {
   },
   translations: {
     fields: {
+      draft: "Черновик",
       underReview: "На приемке",
       recipient: "Субъект прав",
       accessRightDocument: "Доступ к документу",

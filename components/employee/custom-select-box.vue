@@ -43,7 +43,7 @@ export default {
     customSelectItem,
     customField
   },
-  props: ["value", "storeApi", "messageRequired", "validatorGroup"],
+  props: ["value", "storeApi", "messageRequired", "validatorGroup", "readOnly"],
   data() {
     return {
       employeeStore: new DataSource({

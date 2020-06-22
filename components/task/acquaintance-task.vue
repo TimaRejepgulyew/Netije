@@ -2,22 +2,19 @@
   <div id="form-demo">
     <DxForm
       ref="form"
-      :read-only="false"
+      :read-only="inProcess"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       :validation-group="validatorGroup"
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
-        <DxGroupItem :col-count="10">
-          <DxSimpleItem :col-span="9" data-field="subject">
-            <DxLabel
-              location="top"
-              :editor-options="subjectOptions"
-              :text="$t('translations.fields.subjectTask')"
-            />
+        <DxGroupItem :editor-options="subjectOptions" :col-count="10">
+          <DxSimpleItem :col-span="8" data-field="subject">
+            <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
             <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
           </DxSimpleItem>
           <DxSimpleItem
+            :col-span="2"
             data-field="needsReview"
             :editor-options="needsReviewOptions"
             editor-type="dxCheckBox"
@@ -29,7 +26,7 @@
           <DxSimpleItem
             :col-span="2"
             data-field="deadline"
-            :editor-options="deadlineOptions"
+            :editor-options="maxDeadlineOptions"
             editor-type="dxDateBox"
           >
             <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
@@ -62,23 +59,26 @@
           <DxLabel location="top" :text="$t('translations.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <template #performers="performers">
+      <template #performers>
         <recipient-tag-box
+          :read-only="inProcess"
           :messageRequired="$t('translations.fields.acquaintMembersRequired')"
           :validator-group="validatorGroup"
-          :recipients="performers.data.editorOptions.value"
+          :recipients="performers"
           @setRecipients="setPerformers"
         />
       </template>
-      <template #observers="observers">
+      <template #observers>
         <recipient-tag-box
-          :recipients="observers.data.editorOptions.value"
+          :read-only="inProcess"
+          :recipients="observers"
           @setRecipients="setObservers"
         />
       </template>
-      <template #excludedPerformers="excludedPerformers">
+      <template #excludedPerformers>
         <recipient-tag-box
-          :recipients="excludedPerformers.data.editorOptions.value"
+          :read-only="inProcess"
+          :recipients="excludedPerformers"
           @setRecipients="setExcludedPerformers"
         />
       </template>
@@ -121,6 +121,18 @@ export default {
     }
   },
   computed: {
+    observers() {
+      return this.$store.getters["currentTask/task"].observers;
+    },
+    performers() {
+      return this.$store.getters["currentTask/task"].performers;
+    },
+    excludedPerformers(value) {
+      return this.$store.getters["currentTask/task"].excludedPerformers;
+    },
+    inProcess() {
+      return this.$store.getters["currentTask/inProcess"];
+    },
     isNew() {
       return this.$store.getters["currentTask/isNew"];
     },
@@ -144,13 +156,13 @@ export default {
         }
       };
     },
-    deadlineOptions() {
+    maxDeadlineOptions() {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"].maxDeadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_MAX_DEADLINE", e.value);
         }
       };
     },

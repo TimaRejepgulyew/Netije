@@ -3,18 +3,14 @@
     <DxForm
       ref="form"
       :col-count="1"
-      :read-only="false"
+      :read-only="inProcess"
       :show-colon-after-label="true"
       :show-validation-summary="false"
       :validation-group="validatorGroup"
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
-        <DxSimpleItem :col-span="9" data-field="subject">
-          <DxLabel
-            location="top"
-            :editor-options="subjectOptions"
-            :text="$t('translations.fields.subjectTask')"
-          />
+        <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
+          <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
           <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
         </DxSimpleItem>
         <DxGroupItem :col-count="2">
@@ -23,8 +19,8 @@
             <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
           </DxSimpleItem>
           <DxSimpleItem
-            data-field="deadline"
-            :editor-options="deadlineOptions"
+            data-field="maxDeadline"
+            :editor-options="maxDeadlineOptions"
             editor-type="dxDateBox"
           >
             <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
@@ -38,11 +34,7 @@
             <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
           </DxSimpleItem>
 
-          <DxSimpleItem
-            template="actionItemObservers"
-            editor-type="dxTagBox"
-            data-field="actionItemObservers"
-          >
+          <DxSimpleItem template="actionItemObservers" data-field="actionItemObservers">
             <DxLabel location="top" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
         </DxGroupItem>
@@ -57,29 +49,33 @@
         <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
         <DxRequiredRule :message="$t('translations.fields.actionItemRequired')" />
       </DxSimpleItem>
-      <template #actionItemObservers="actionItemObservers">
+      <template #actionItemObservers>
         <employee-tag-box
-          :value="actionItemObservers.data.editorOptions.value"
+          :read-only="inProcess"
+          :value="actionItemObservers"
           @valueChanged="setActionItemObservers"
         />
       </template>
-      <template #coAssignees="coAssignees">
+      <template #coAssignees>
         <employee-tag-box
-          :value="coAssignees.data.editorOptions.value"
-          @valueChanged="setCoAssigneess"
+          :read-only="inProcess"
+          :value="coAssignees"
+          @valueChanged="setCoAssignees"
         />
       </template>
-      <template #supervisor="supervisor">
+      <template #supervisor>
         <employee-select-box
-          :value="supervisor.data.editorOptions.value"
+          :read-only="inProcess"
+          :value="supervisorId"
           @valueChanged="setSupervisor"
         />
       </template>
-      <template #assignee="assignee">
+      <template #assignee>
         <employee-select-box
+          :read-only="inProcess"
           :messageRequired="$t('translations.fields.assigneeIdRequired')"
           :validator-group="validatorGroup"
-          :value="assignee.data.editorOptions.value"
+          :value="assigneeId"
           @valueChanged="setAssignee"
         />
       </template>
@@ -117,8 +113,8 @@ export default {
     setActionItemObservers(value) {
       this.$store.commit("currentTask/SET_ACTION_ITEM_OBSERVERS", value);
     },
-    setCoAssigneess(value) {
-      this.$store.commit("currentTask/SET_CO_ASSIGNEESS", value);
+    setCoAssignees(value) {
+      this.$store.commit("currentTask/SET_CO_ASSIGNEES", value);
     },
     setAssignee(value) {
       this.$store.commit("currentTask/SET_ASSIGNEE", value);
@@ -128,6 +124,21 @@ export default {
     }
   },
   computed: {
+    actionItemObservers() {
+      return this.$store.getters["currentTask/task"].actionItemObservers;
+    },
+    coAssignees() {
+      return this.$store.getters["currentTask/task"].coAssignees;
+    },
+    supervisorId() {
+      return this.$store.getters["currentTask/task"].supervisorId;
+    },
+    assigneeId() {
+      return this.$store.getters["currentTask/task"].assigneeId;
+    },
+    inProcess() {
+      return this.$store.getters["currentTask/inProcess"];
+    },
     isNew() {
       return this.$store.getters["currentTask/isNew"];
     },
@@ -152,13 +163,13 @@ export default {
         }
       };
     },
-    deadlineOptions() {
+    maxDeadlineOptions() {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"].maxDeadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_MAX_DEADLINE", e.value);
         }
       };
     }

@@ -1,5 +1,6 @@
 <template>
   <DxTagBox
+    :readOnly="readOnly"
     :data-source="employeeStore"
     @valueChanged="valueChanged"
     :showClearButton="true"
@@ -34,7 +35,7 @@ export default {
     DxTagBox,
     customSelectItem
   },
-  props: ["value", "messageRequired", "validatorGroup"],
+  props: ["value", "messageRequired", "validatorGroup", "readOnly"],
   created() {},
   data() {
     return {

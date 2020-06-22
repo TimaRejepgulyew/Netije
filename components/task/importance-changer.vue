@@ -1,6 +1,7 @@
 <template>
   <div class="navBar">
     <DxCheckBox
+      :read-only="readOnly"
       :onValueChanged="setImportance"
       :value="importance"
       :text="$t('translations.fields.highImportance')"
@@ -14,7 +15,10 @@ export default {
   components: {
     DxCheckBox
   },
-
+  props: ["readOnly"],
+  created() {
+    console.log(this.readOnly);
+  },
   computed: {
     importance() {
       return this.$store.getters["currentTask/task"].importance ===

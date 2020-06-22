@@ -1,5 +1,6 @@
 <template>
   <DxTagBox
+    :read-only="readOnly"
     :data-source="resipientStore"
     :grouped="true"
     :show-selection-controls="true"
@@ -35,7 +36,7 @@ export default {
     DxTagBox,
     recipientGrouped
   },
-  props: ["recipients", "messageRequired", "validatorGroup"],
+  props: ["recipients", "messageRequired", "validatorGroup", "readOnly"],
   data() {
     return {
       resipientStore: new DataSource({

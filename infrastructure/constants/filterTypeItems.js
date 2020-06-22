@@ -1,3 +1,4 @@
+import TaskStatus from "~/infrastructure/constants/taskStatus.js";
 export default {
   assignmentType(context) {
     return [
@@ -31,10 +32,15 @@ export default {
       }
     ];
   },
+
   statusType(context) {
     return [
       {
-        id: 0,
+        id: TaskStatus.InProcess,
+        name: context.$t("translations.fields.inProccess")
+      },
+      {
+        id: 1,
         name: context.$t("translations.fields.inProccess")
       },
       {

@@ -4,6 +4,7 @@
       :placeholder="$t('shared.select')"
       :value="fieldData && fieldData.name"
       class="product-name"
+      :read-only="readOnly"
     />
     <employee-btn
       v-if="$store.getters['permissions/allowReading'](EntityType.Employee)"
@@ -23,13 +24,8 @@ export default {
     DxButton,
     employeeBtn
   },
-  props: {
-    fieldData: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  
+  props: ["fieldData", "readOnly"],
+
   data() {
     return {
       EntityType
