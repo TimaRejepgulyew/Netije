@@ -85,13 +85,7 @@ export const actions = {
         icon: "selectall",
         path: "/task"
       },
-      {
-        text: this.$i18n.t("menu.paperwork"),
-        icon: "file",
-        path: `/paper-work/${DocumentFilterType.All}`,
 
-        items: []
-      },
       {
         text: this.$i18n.t("menu.paperwork"),
         icon: "file",
