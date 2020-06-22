@@ -1,7 +1,10 @@
+import path from 'path'
+import fs from 'fs'
+const conf = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'configuration/config.json')));
 export default {
   env: {
-     baseUrl: "https://192.168.4.159",
-     uiAddr:"http://localhost:3000"
+     baseUrl: conf.baseUrl,
+     uiAddr:conf.uiAddr
   },
   mode: "spa",
   /*
