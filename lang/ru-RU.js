@@ -141,6 +141,16 @@ export default {
     }
   },
   menu: {
+    supAgreement: "Дополнительное соглашение",
+    "financial-archive": "Финансовый архив",
+    financialDocument: "Финансовый документы",
+    incomingInvoice: "Входящий счет на оплату",
+    сontractStatement: "Акт выполненных работ",
+    incomingTaxInvoice: "Счет-фактура полученный",
+    outgoingTaxInvoice: "Счет-фактура выставленный",
+    universalTransferDocument: "Универсальный передаточный документ",
+    waybill: "Товарная Накладная соглашения",
+    contract: "Договор",
     personalSettings: "Персональные настройки",
     history: "История",
     group: "Группы",
@@ -275,10 +285,8 @@ export default {
   },
   translations: {
     fields: {
-      "financial-archive":"Финансовый архив",
-      
       supervisorIdRequired: "Введите контролера",
-      isUnderControl:"На контроль",
+      isUnderControl: "На контроль",
       draft: "Черновик",
       underReview: "На приемке",
       recipient: "Субъект прав",

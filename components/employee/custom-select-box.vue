@@ -1,6 +1,7 @@
 <template>
   <DxSelectBox
     ref="employee"
+    :readOnly="readOnly"
     :data-source="employeeStore"
     @valueChanged="valueChanged"
     :showClearButton="true"

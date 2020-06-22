@@ -1,6 +1,15 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
+import financialArchiveIcon from "~/static/icons/financial-archive.svg";
+import contractIcon from "~/static/icons/contract.svg";
+import contractStatementIcon from "~/static/icons/contactState.svg";
+import incomingInvoiceIcon from "~/static/icons/incomingInvoice.svg";
+import incommingTaxInvoiceIcon from "~/static/icons/incommingTaxInvoice.svg";
+import outgoingTaxInvoiceIcon from "~/static/icons/outgoingTaxInvoice.svg";
+import universaltransferdocumentIcon from "~/static/icons/universaltransferdocument.svg";
+import waybillIcon from "~/static/icons/waybill.svg";
+import supAgreementIcon from "~/static/icons/supAgreement.svg";
 export default function(context) {
   return [
     {
@@ -12,6 +21,17 @@ export default function(context) {
       text: context.$t("menu.task"),
       icon: "selectall",
       items: TaskButtons(context)
+    },
+
+    {
+      text: context.$t("menu.financialDocument"),
+      icon: financialArchiveIcon,
+      items: FinancialArchiveButtons(context)
+    },
+    {
+      text: context.$t("menu.contract"),
+      icon: contractIcon,
+      items: ContractButtons(context)
     }
   ];
 }
@@ -78,6 +98,95 @@ export const createDocumentRequest = async function(context, params) {
   }
 };
 
+export function ContractButtons(context) {
+  return [
+    {
+      icon: incomingInvoiceIcon,
+      text: context.$t("menu.incomingTaxInvoice"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.IncomingInvoice,
+          ...params
+        });
+      }
+    },
+    {
+      icon: contractStatementIcon,
+      text: context.$t("menu.сontractStatement"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.ContractStatement,
+          ...params
+        });
+      }
+    },
+    {
+      icon: contractIcon,
+      text: context.$t("menu.contract"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.Contract,
+          ...params
+        });
+      }
+    },
+    {
+      icon: supAgreementIcon,
+      text: context.$t("menu.supAgreement"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.SupAgreement,
+          ...params
+        });
+      }
+    }
+  ];
+}
+
+export function FinancialArchiveButtons(context) {
+  return [
+    {
+      icon: incommingTaxInvoiceIcon,
+      text: context.$t("menu.incomingTaxInvoice"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.IncomingTaxInvoice,
+          ...params
+        });
+      }
+    },
+    {
+      icon: outgoingTaxInvoiceIcon,
+      text: context.$t("menu.outgoingTaxInvoice"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.OutgoingTaxInvoice,
+          ...params
+        });
+      }
+    },
+    {
+      icon: universaltransferdocumentIcon,
+      text: context.$t("menu.universalTransferDocument"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.Universaltransferdocument,
+          ...params
+        });
+      }
+    },
+    {
+      icon: waybillIcon,
+      text: context.$t("menu.waybill"),
+      async create(params) {
+        await createDocumentRequest(context, {
+          documentType: DocumentType.Waybill,
+          ...params
+        });
+      }
+    }
+  ];
+}
 export function DocumentButtons(context) {
   return [
     {

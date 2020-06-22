@@ -142,7 +142,6 @@ export default {
       this.$store.commit("currentTask/SET_ASSIGNEE", value);
     },
     setSupervisor(value) {
-      console.log(value);
       this.$store.commit("currentTask/SET_SUPERVISOR", value);
     }
   },

@@ -1,6 +1,12 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
 import DocumentFilterType from "~/infrastructure/constants/documentFilterType";
-
+import financialArchiveIcon from "~/static/icons/financial-archive.svg";
+import contractIcon from "~/static/icons/contract.svg";
+import contactStatementIcon from "~/static/icons/contactState.svg";
+import incommingTaxInvoiceIcon from "~/static/icons/incommingTaxInvoice.svg";
+import outgoingTaxInvoiceIcon from "~/static/icons/outgoingTaxInvoice.svg";
+import universaltransferdocumentIcon from "~/static/icons/universaltransferdocument.svg";
+import waybillIcon from "~/static/icons/waybill.svg";
 export const state = () => ({
   menuList: []
 });
@@ -88,7 +94,49 @@ export const actions = {
 
       {
         text: this.$i18n.t("menu.financial-archive"),
-        icon: "file"
+        icon: financialArchiveIcon,
+        path: `/paper-work/${DocumentFilterType.AccountingDocuments}`,
+        items: [
+          // {
+          //   text: this.$i18n.t("menu.incomingTaxInvoice"),
+          //   path: `/paper-work/${DocumentFilterType.IncomingTaxInvoice}`
+          // },
+          // {
+          //   text: this.$i18n.t("menu.outgoingTaxInvoice"),
+          //   path: `/paper-work/${DocumentFilterType.OutgoingTaxInvoice}`
+          // },
+          // {
+          //   text: this.$i18n.t("menu.universalTransferDocument"),
+          //   path: `/paper-work/${DocumentFilterType.Universaltransferdocument}`
+          // },
+          // {
+          //   text: this.$i18n.t("menu.waybill"),
+          //   path: `/paper-work/${DocumentFilterType.Waybill}`
+          // }
+        ]
+      },
+      {
+        text: this.$i18n.t("menu.contract"),
+        icon: contractIcon,
+        path: `/paper-work/${DocumentFilterType.ContractualDocuments}`,
+        items: [
+          // {
+          //   text: this.$i18n.t("menu.contract"),
+          //   path: `/paper-work/${DocumentFilterType.Contract}`
+          // },
+          // {
+          //   text: this.$i18n.t("menu.contractStatement"),
+          //   path: `/paper-work/${DocumentFilterType.ContractStatement}`
+          // },
+          // {
+          //   text: this.$i18n.t("menu.supAgreement"),
+          //   path: `/paper-work/${DocumentFilterType.SupAgreement}`
+          // },
+          // {
+          //   text: this.$i18n.t("menu.incomingInvoice"),
+          //   path: `/paper-work/${DocumentFilterType.IncomingInvoice}`
+          // }
+        ]
       },
       {
         text: this.$i18n.t("menu.paperwork"),
