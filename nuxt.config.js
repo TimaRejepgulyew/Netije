@@ -1,7 +1,10 @@
+import path from 'path'
+import fs from 'fs'
+const conf = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'configuration/config.json')));
 export default {
   env: {
-     baseUrl: "https://netijeapi.turkmen-tranzit.com",
-     uiAddr:"https://netije.turkmen-tranzit.com"
+     baseUrl: conf.baseUrl,
+     uiAddr:conf.uiAddr
   },
   mode: "spa",
   /*
