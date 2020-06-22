@@ -179,7 +179,7 @@ export const actions = {
       }
       await this.$axios.post(dataApi.task.Start, {
         id: state.task.id,
-        type: state.task.taskType
+        taskType: state.task.taskType
       });
       commit("SET_STATUS", TaskStatus.InProcess);
     } catch (e) {

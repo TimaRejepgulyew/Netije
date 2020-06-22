@@ -85,6 +85,7 @@ export const actions = {
         icon: "selectall",
         path: "/task"
       },
+
       {
         text: this.$i18n.t("menu.financial-archive"),
         icon: "file"

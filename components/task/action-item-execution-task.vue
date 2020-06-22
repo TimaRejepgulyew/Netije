@@ -61,6 +61,7 @@
       </DxGroupItem>
 
       <DxSimpleItem
+        :visible="isDraft"
         :col-span="3"
         data-field="actionItem"
         :editor-options="actionItemOptions"
