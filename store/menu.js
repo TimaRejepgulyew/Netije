@@ -90,6 +90,13 @@ export const actions = {
         icon: "file",
         path: `/paper-work/${DocumentFilterType.All}`,
 
+        items: []
+      },
+      {
+        text: this.$i18n.t("menu.paperwork"),
+        icon: "file",
+        path: `/paper-work/${DocumentFilterType.All}`,
+
         items: [
           {
             text: this.$i18n.t("menu.incommingDocuments"),
@@ -309,7 +316,9 @@ export const actions = {
           {
             text: this.$i18n.t("menu.currencies"),
             path: "/shared-directory/currencies",
-            visible: rootGetters["permissions/allowReading"](EntityType.Currencies)
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.Currencies
+            )
           }
         ]
       },
