@@ -40,6 +40,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    ourSide:"Наша сторона",
     toMainPage: "На главную",
     select: "Выбрать...",
     error: "Произошла ошибка",
@@ -285,6 +286,7 @@ export default {
   },
   translations: {
     fields: {
+      responsibleEmployeeId:"Ответственный",
       supervisorIdRequired: "Введите контролера",
       isUnderControl: "На контроль",
       draft: "Черновик",
@@ -420,6 +422,8 @@ export default {
       countryAlreadyExists: "Такая страна уже существует",
       counterPart: "Контрагент",
       counterPartRequired: "выберите контрагента",
+      documentGroupId:"Категория",
+      documentGroupIdRequired:"Выберите категорию",
       contactId: "Контактное лицо",
       regionId: "Регион",
       regionIdRequired: "Выберите регион",

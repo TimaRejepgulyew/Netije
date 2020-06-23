@@ -76,7 +76,11 @@
     </template>
 
     <template #prepared>
-      <employee-select-box :value="preparedId" @valueChanged="setPreparedId" />
+      <employee-select-box
+        validatorGroup="OfficialDocument"
+        :value="preparedId"
+        @valueChanged="setPreparedId"
+      />
     </template>
     <template #ourSignatory>
       <employee-select-box
@@ -151,10 +155,11 @@ export default {
       return this.$store.getters["currentDocument/document"].contactId;
     },
     isCompany() {
+      console.log(`ho `);
       if (this.$store.getters["currentDocument/document"].correspondentId)
         return (
-          this.$store.getters["currentDocument/document"].correspondent?.type !==
-          "Person"
+          this.$store.getters["currentDocument/document"].correspondent
+            ?.type !== "Person"
         );
       else return false;
     },

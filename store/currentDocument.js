@@ -79,6 +79,12 @@ export const mutations = {
     state.document.registrationDate = null;
     state.document.registrationNumber = null;
   },
+  SET_DOCUMENT_GROUP_ID(state, payload) {
+    if (checkDataChanged(state.document.documentGroupId, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.documentGroupId = payload;
+  },
   SET_DOCUMENT_KIND(state, payload) {
     if (checkDataChanged(state.document.documentKindId, payload.id)) {
       state.isDataChanged = true;
@@ -117,6 +123,13 @@ export const mutations = {
     }
     state.document.correspondent = payload;
     state.document.correspondentId = payload.id;
+  },
+  SET_COUNTERPARTY(state, payload) {
+    if (checkDataChanged(state.document.counterpartyId, payload.id)) {
+      state.isDataChanged = true;
+    }
+    state.document.counterparty = payload;
+    state.document.counterpartyId = payload.id;
   },
   SET_CONTACT_ID(state, payload) {
     if (checkDataChanged(state.document.contactId, payload)) {
@@ -227,6 +240,12 @@ export const mutations = {
     }
     state.document.validTill = payload;
   },
+  SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
+    if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.responsibleEmployeeId = payload;
+  },
   SET_REGISTRATION_NUMBER(state, payload) {
     state.document.registrationNumber = "" + payload;
   },
@@ -301,6 +320,11 @@ export const actions = {
     commit("SET_CORRESPONDENT", payload);
     dispatch("reevaluateDocumentName");
   },
+  setCounterparty({ commit, dispatch }, payload) {
+    if (!payload) payload = { name: null, id: null };
+    commit("SET_COUNTERPARTY", payload);
+    dispatch("reevaluateDocumentName");
+  },
   async reevaluateDocumentName({ state, commit }) {
     if (state.document.documentKind.generateDocumentName) {
       const { data } = await this.$axios.post(
@@ -327,7 +351,7 @@ export const actions = {
   async registration({ state, getters, dispatch, commit }, isCustomNumber) {
     const res = await this.$axios.post(
       dataApi.documentRegistration.RegisterDocument,
-      getters["registrationData"]
+      { ...getters["registrationData"], isCustomNumber }
     );
     await dispatch("getDocumentById", {
       type: state.document.documentTypeGuid,

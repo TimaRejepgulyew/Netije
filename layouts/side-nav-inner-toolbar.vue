@@ -85,7 +85,7 @@ export default {
       return {
         menuMode: this.isLarge ? "shrink" : "overlap",
         menuRevealMode: this.isXSmall ? "slide" : "expand",
-        minMenuSize:  0 ,
+        minMenuSize: 0,
         menuOpened: this.isLarge,
         closeOnOutsideClick: shaderEnabled,
         shaderEnabled
@@ -154,6 +154,7 @@ export default {
   position: relative;
   box-sizing: border-box;
   min-height: 90vh;
+  height: auto;
   background: $base-bg;
   padding: 0.5vh 0.5vw;
   overflow: auto;
