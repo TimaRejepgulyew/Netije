@@ -61,9 +61,29 @@
         <DxLabel location="top" :text="$t('translations.fields.responsibleEmployeeId')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
-      <DxLabel location="top" :text="$t('translations.fields.dated')" />
-    </DxSimpleItem>
+    <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.conditions')">
+      <DxSimpleItem
+        data-field="validFrom"
+        :editor-options="validFromOptions"
+        editor-type="dxDateBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.validFrom')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="validTill"
+        :editor-options="validTillOptions"
+        editor-type="dxDateBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.validTill')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="daysToFinishWorks"
+        :editor-options="daysToFinishWorksOptions"
+        editor-type="dxNumberBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.daysToFinishWorks')" />
+      </DxSimpleItem>
+    </DxGroupItem>
     <template #counterparty>
       <custom-select-box
         validatorGroup="OfficialDocument"
@@ -99,6 +119,14 @@
   </DxForm>
 </template>
 <script>
+function checkValidDaysToFinishWorks(validTill, daysToFinishWorks) {
+  console.log(validTill > now);
+  validTill = new Date(validTill);
+  const now = new Date();
+  if (validTill > now) validTill -= now;
+  else return false;
+  return true;
+}
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -189,10 +217,14 @@ export default {
       return this.$store.getters["currentDocument/document"]
         .responsibleEmployeeId;
     },
-    isStandardOptions(){
+    isStandardOptions() {
       return {
         readOnly: this.isRegistered,
-      }
+        value: this.$store.getters["currentDocument/document"].isStandard,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_IS_STANDARD", e.value);
+        }
+      };
     },
     documentGroupIdOptions() {
       return {
@@ -207,6 +239,23 @@ export default {
           this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
           this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
+        }
+      };
+    },
+    daysToFinishWorksOptions() {
+      return {
+        readOnly: this.isRegistered,
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
+        value: this.$store.getters["currentDocument/document"]
+          .daysToFinishWorks,
+        onValueChanged: e => {
+          this.$store.commit(
+            "currentDocument/SET_DAYS_TO_FINISH_WORKS",
+            e.value
+          );
+          checkValidDaysToFinishWorks()
         }
       };
     },

@@ -40,7 +40,8 @@ export default {
     version: "Версии"
   },
   shared: {
-    ourSide:"Наша сторона",
+    conditions: "Условия",
+    ourSide: "Наша сторона",
     toMainPage: "На главную",
     select: "Выбрать...",
     error: "Произошла ошибка",
@@ -104,6 +105,7 @@ export default {
       leadingDocumentId: "Ведущий документ",
       documentTypeGuid: "Тип документа",
       regNumberDocument: "Вх. Рег. номер",
+      validFrom: "Действителен c",
       validTill: "Действителен по",
       issuedToId: "Кому выдана"
     }
@@ -286,7 +288,8 @@ export default {
   },
   translations: {
     fields: {
-      responsibleEmployeeId:"Ответственный",
+      IsStandard: "Стандартный",
+      responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",
       isUnderControl: "На контроль",
       draft: "Черновик",
@@ -422,8 +425,8 @@ export default {
       countryAlreadyExists: "Такая страна уже существует",
       counterPart: "Контрагент",
       counterPartRequired: "выберите контрагента",
-      documentGroupId:"Категория",
-      documentGroupIdRequired:"Выберите категорию",
+      documentGroupId: "Категория",
+      documentGroupIdRequired: "Выберите категорию",
       contactId: "Контактное лицо",
       regionId: "Регион",
       regionIdRequired: "Выберите регион",
@@ -611,7 +614,9 @@ export default {
       currentNumberRequired: "Введите текущий номер",
       areYouSureCancelRegistration:
         "Вы уверены что хотите отменить регистрацию",
+      validFrom: "Действителен c",
       validTill: "Действителен по",
+      daysToFinishWorks:"Дней для завершения",
       validTillRequired: "Введите по какой срок действительна доверенность",
       issuedToId: "Кому выдана",
       issuedToIdRequired: "Введите кому выдана доверенность",

@@ -246,6 +246,18 @@ export const mutations = {
     }
     state.document.responsibleEmployeeId = payload;
   },
+  SET_IS_STANDARD(state, payload) {
+    if (checkDataChanged(state.document.isStandard, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.isStandard = payload;
+  },
+  SET_DAYS_TO_FINISH_WORKS(state, payload) {
+    if (checkDataChanged(state.document.daysToFinishWorks, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.daysToFinishWorks = payload;
+  },
   SET_REGISTRATION_NUMBER(state, payload) {
     state.document.registrationNumber = "" + payload;
   },
