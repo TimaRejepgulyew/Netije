@@ -50,8 +50,8 @@ export default {
     RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
   },
   documentRegistration: {
-    RegisterDocument: `${url}/api/DocumentRegistration/Register`,
-    UnregisterDocument: `${url}/api/DocumentRegistration/Unregister`,
+    RegisterDocument: `${url}/api/OfficialDocument/Register`,
+    UnregisterDocument: `${url}/api/OfficialDocument/Unregister`,
     PreliminaryNumber: `${url}/api/DocumentRegistration/PreliminaryNumber`,
     CaseFiles: `${url}/api/DocumentRegistration/CaseFiles`,
     Registries: `${url}/api/DocumentRegistration/Registries/`

@@ -3,6 +3,7 @@
     ref="counterPart"
     :data-source="counterPartStore"
     @valueChanged="valueChanged"
+    @selectionChanged="selectionChanged"
     :showClearButton="true"
     :value="value"
     :openOnFieldClick="false"
@@ -57,14 +58,14 @@ export default {
   methods: {
     valueChanged(e) {
       if (e.event) {
-        this.$emit(
-          "valueChanged",
-          this.$refs["counterPart"].instance.option("selectedItem")
-        );
+        this.$emit("valueChanged", e.value);
       }
     },
+    selectionChanged(e) {
+      this.$emit("selectionChanged", e.selectedItem);
+    },
     setCounterPart(data) {
-      this.$emit("valueChanged", data);
+      this.$emit("valueChanged", data.id);
       this.$refs["counterPart"].instance.repaint();
     }
   }

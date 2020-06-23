@@ -8,11 +8,11 @@
       :validation-group="validatorGroup"
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
-        <DxGroupItem :editor-options="subjectOptions" :col-count="10">
-          <DxSimpleItem :col-span="8" data-field="subject">
-            <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-          </DxSimpleItem>
+        <DxGroupItem  :col-count="10">
+          <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
+          <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+        </DxSimpleItem>
           <DxSimpleItem
             :col-span="2"
             data-field="needsReview"
@@ -26,7 +26,7 @@
           <DxSimpleItem
             :col-span="2"
             data-field="deadline"
-            :editor-options="maxDeadlineOptions"
+            :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
             <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
@@ -156,13 +156,13 @@ export default {
         }
       };
     },
-    maxDeadlineOptions() {
+    deadlineOptions() {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].maxDeadline,
+        value: this.$store.getters["currentTask/task"].deadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_MAX_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_DEADLINE", e.value);
         }
       };
     },
