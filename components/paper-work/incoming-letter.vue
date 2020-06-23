@@ -71,6 +71,7 @@
       <custom-select-box
         validatorGroup="OfficialDocument"
         @valueChanged="setCorrenspondent"
+        @selectionChanged="handlerCorrespondentSelectionChanged"
         messageRequired="translations.fields.counterPartRequired"
         :value="correspondentId"
       />
@@ -122,6 +123,7 @@ export default {
   },
   data() {
     return {
+      selectedCorrespondentType: null,
       validatorGroup: "OfficialDocument",
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -137,6 +139,11 @@ export default {
   },
   methods: {
     setCorrenspondent(data) {
+      if (data == null) {
+        if (this.selectedCorrespondentType)
+          this.selectedCorrespondentType.type = null;
+      }
+      console.log(data)
       this.$store.dispatch("currentDocument/setCorrespondent", data);
       this.setContact(null);
       this.setCounterpartySignatoryId(null);
@@ -155,16 +162,17 @@ export default {
     },
     setAssigneeId(data) {
       this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
+    },
+    handlerCorrespondentSelectionChanged(data) {
+      this.selectedCorrespondentType = data;
     }
   },
   computed: {
     isOrganization() {
-      if (this.$store.getters["currentDocument/document"].correspondentId)
-        return (
-          this.$store.getters["currentDocument/document"].correspondent
-            ?.type !== "Person"
-        );
-      else return false;
+      return (
+        this.selectedCorrespondentType != null &&
+        this.selectedCorrespondentType?.type !== "Person"
+      );
     },
     store() {
       return this.$store.getters["currentDocument/document"];

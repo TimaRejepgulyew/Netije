@@ -40,7 +40,7 @@
           <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
         </DxSimpleItem>
 
-        <DxSimpleItem data-field="contactId" :visible="isCompany" template="contact">
+        <DxSimpleItem data-field="addresseeId" :visible="isCompany" template="contact">
           <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -63,6 +63,7 @@
       <custom-select-box
         validatorGroup="OfficialDocument"
         @valueChanged="setCorrenspondent"
+        @selectionChanged="handlerCorrespondentSelectionChanged"
         messageRequired="translations.fields.counterPartRequired"
         :value="correspondentId"
       />
@@ -70,8 +71,8 @@
     <template #contact>
       <custom-select-box-contact
         :correspondentId="correspondentId"
-        @valueChanged="setContact"
-        :value="contactId"
+        @valueChanged="setAddressee"
+        :value="addresseeId"
       />
     </template>
 
@@ -112,6 +113,7 @@ export default {
   },
   data() {
     return {
+      selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -127,17 +129,24 @@ export default {
   },
   methods: {
     setCorrenspondent(data) {
+      if (data == null) {
+        if (this.selectedCorrespondentType)
+          this.selectedCorrespondentType.type = null;
+      }
       this.$store.dispatch("currentDocument/setCorrespondent", data);
-      this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+      this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
     },
-    setContact(data) {
-      this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
+    setAddressee(data) {
+      this.$store.commit("currentDocument/SET_ADDRESSE_ID", data && data.id);
     },
     setPreparedId(data) {
       this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
     },
     setOurSignatoryId(data) {
       this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+    },
+    handlerCorrespondentSelectionChanged(data) {
+      this.selectedCorrespondentType = data;
     }
   },
   computed: {
@@ -147,16 +156,14 @@ export default {
     ourSignatoryId() {
       return this.$store.getters["currentDocument/document"].ourSignatoryId;
     },
-    contactId() {
-      return this.$store.getters["currentDocument/document"].contactId;
+    addresseeId() {
+      return this.$store.getters["currentDocument/document"].addresseeId;
     },
     isCompany() {
-      if (this.$store.getters["currentDocument/document"].correspondentId)
-        return (
-          this.$store.getters["currentDocument/document"].correspondent?.type !==
-          "Person"
-        );
-      else return false;
+      return (
+        this.selectedCorrespondentType != null &&
+        this.selectedCorrespondentType?.type !== "Person"
+      );
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
