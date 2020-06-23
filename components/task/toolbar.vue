@@ -87,7 +87,6 @@ export default {
             this.$awn.asyncBlock(
               this.$store.dispatch("currentTask/saveAndLoad"),
               e => {
-                this.$awn.success();
               },
               e => this.$awn.alert()
             );
@@ -103,7 +102,6 @@ export default {
               this.$store.dispatch("currentTask/startAndLoad"),
               e => {
                 this.backTo();
-                this.$awn.success();
               },
               e => this.$awn.alert()
             );
@@ -120,7 +118,6 @@ export default {
               this.$store.dispatch("currentTask/abort"),
               e => {
                 this.backTo();
-                this.$awn.success();
               },
               e => this.$awn.alert()
             );
@@ -137,7 +134,6 @@ export default {
               this.$store.dispatch("currentTask/restart"),
               e => {
                 this.backTo();
-                this.$awn.success();
               },
               e => this.$awn.alert()
             );

@@ -325,24 +325,18 @@ export const actions = {
     dispatch("loadDocument", data);
   },
   async registration({ state, getters, dispatch, commit }, isCustomNumber) {
-    const res = await this.$axios.post(
+    const { data } = await this.$axios.post(
       dataApi.documentRegistration.RegisterDocument,
       getters["registrationData"]
     );
-    await dispatch("getDocumentById", {
-      type: state.document.documentTypeGuid,
-      id: state.document.id
-    });
+    dispatch("loadDocument", data);
   },
   async unRegister({ dispatch, state }) {
-    await this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
+    var { data } = await this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
       documentTypeGuid: state.document.documentTypeGuid,
       documentId: state.document.id
     });
-    await dispatch("getDocumentById", {
-      type: state.document.documentTypeGuid,
-      id: state.document.id
-    });
+    dispatch("loadDocument", data);
   },
   async initNewDocument({ dispatch, commit }, params) {
     const { data } = await this.$axios.post(
