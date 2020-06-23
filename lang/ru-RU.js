@@ -288,7 +288,7 @@ export default {
   },
   translations: {
     fields: {
-      IsStandard: "Стандартный",
+      IsStandard: "Типовой",
       responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",
       isUnderControl: "На контроль",

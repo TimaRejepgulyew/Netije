@@ -13,7 +13,7 @@
       :show-colon-after-label="true"
       :show-validation-summary="true"
     >
-      <DxGroupItem :caption="$t('translations.fields.personalData')">
+      <DxGroupItem>
         <DxSimpleItem data-field="name">
           <DxLabel location="top" :text="$t('translations.fields.name')" />
           <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
@@ -67,7 +67,7 @@
           <DxLabel location="top" :text="$t('translations.fields.code')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :caption="$t('translations.fields.APN')">
+      <DxGroupItem>
         <DxSimpleItem
           :editor-options="regionOptions"
           editor-type="dxSelectBox"

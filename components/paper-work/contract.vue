@@ -75,6 +75,10 @@
         editor-type="dxDateBox"
       >
         <DxLabel location="top" :text="$t('translations.fields.validTill')" />
+        <DxRequiredRule
+          v-if="isvalidTillRequired"
+          :message="$t('translations.fields.validTillRequired')"
+        />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="daysToFinishWorks"
@@ -86,6 +90,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        @selectionChanged="handlerCorrespondentSelectionChanged"
         validatorGroup="OfficialDocument"
         @valueChanged="setCounterparty"
         messageRequired="translations.fields.counterPartRequired"
@@ -114,19 +119,11 @@
       />
     </template>
     <template #responsibleEmployee>
-      <employee-select-box :value="responsibleEmployeeId" @valueChanged="setPreparedId" />
+      <employee-select-box :value="responsibleEmployeeId" @valueChanged="setResponsibleEmployeeId" />
     </template>
   </DxForm>
 </template>
 <script>
-function checkValidDaysToFinishWorks(validTill, daysToFinishWorks) {
-  console.log(validTill > now);
-  validTill = new Date(validTill);
-  const now = new Date();
-  if (validTill > now) validTill -= now;
-  else return false;
-  return true;
-}
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -151,6 +148,7 @@ export default {
   },
   data() {
     return {
+      selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
       validatorGroup: "OfficialDocument",
       deliveryMethodOptions: {
@@ -166,7 +164,14 @@ export default {
     };
   },
   methods: {
+    handlerCorrespondentSelectionChanged(data) {
+      this.selectedCorrespondentType = data;
+    },
     setCounterparty(data) {
+      if (data == null) {
+        if (this.selectedCorrespondentType)
+          this.selectedCorrespondentType.type = null;
+      }
       this.$store.dispatch("currentDocument/setCounterparty", data);
       this.$store.commit("currentDocument/SET_CONTACT_ID", null);
     },
@@ -191,6 +196,9 @@ export default {
   },
 
   computed: {
+    isvalidTillRequired() {
+      return;
+    },
     store() {
       return this.$store.getters["currentDocument/document"];
     },
@@ -212,6 +220,12 @@ export default {
     },
     ourSignatoryId() {
       return this.$store.getters["currentDocument/document"].ourSignatoryId;
+    },
+    validTill() {
+      return this.$store.getters["currentDocument/document"].validTill;
+    },
+    daysToFinishWorks() {
+      return this.$store.getters["currentDocument/document"].daysToFinishWorks;
     },
     responsibleEmployeeId() {
       return this.$store.getters["currentDocument/document"]
@@ -242,20 +256,43 @@ export default {
         }
       };
     },
-    daysToFinishWorksOptions() {
+    validFromOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentDocument/document"]
-          .daysToFinishWorks,
+        value: this.$store.getters["currentDocument/document"].validFrom,
         onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_VALID_FROM", null);
+        }
+      };
+    },
+    validTillOptions() {
+      return {
+        readOnly: this.isRegistered,
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
+        value: this.validTill,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_VALID_TILL", e.value);
+        }
+      };
+    },
+    daysToFinishWorksOptions() {
+      return {
+        readOnly: this.isRegistered,
+        value: this.daysToFinishWorks,
+        onValueChanged: e => {
+          checkValidDaysToFinishWorks(
+            this.$store.getters["currentDocument/document"].validTill,
+            e.value
+          );
           this.$store.commit(
             "currentDocument/SET_DAYS_TO_FINISH_WORKS",
             e.value
           );
-          checkValidDaysToFinishWorks()
         }
       };
     },
@@ -296,24 +333,11 @@ export default {
         }
       };
     },
-    datedOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
-        }),
-        value: this.$store.getters["currentDocument/document"].dated,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/DATED", e.value);
-        }
-      };
-    },
     isCompany() {
-      if (this.$store.getters["currentDocument/document"].counterpartyId) {
-        const counterPartType = this.$store.getters["currentDocument/document"]
-          .counterparty?.type;
-        return counterPartType === "Company" || counterPartType === "Bank";
-      } else return false;
+      return (
+        this.selectedCorrespondentType != null &&
+        this.selectedCorrespondentType?.type !== "Person"
+      );
     }
   }
 };

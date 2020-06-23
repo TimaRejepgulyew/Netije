@@ -124,11 +124,11 @@ export const mutations = {
     state.document.correspondentId = payload;
   },
   SET_COUNTERPARTY(state, payload) {
-    if (checkDataChanged(state.document.counterpartyId, payload.id)) {
+    if (checkDataChanged(state.document.counterpartyId, payload)) {
       state.isDataChanged = true;
     }
-    state.document.counterparty = payload;
-    state.document.counterpartyId = payload.id;
+
+    state.document.counterpartyId = payload;
   },
   SET_CONTACT_ID(state, payload) {
     if (checkDataChanged(state.document.contactId, payload)) {
@@ -257,6 +257,12 @@ export const mutations = {
     }
     state.document.daysToFinishWorks = payload;
   },
+  SET_VALID_TILL(state, payload) {
+    if (checkDataChanged(state.document.validTill, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.validTill = payload;
+  },
   SET_REGISTRATION_NUMBER(state, payload) {
     state.document.registrationNumber = "" + payload;
   },
@@ -331,7 +337,6 @@ export const actions = {
     dispatch("reevaluateDocumentName");
   },
   setCounterparty({ commit, dispatch }, payload) {
-    if (!payload) payload = { name: null, id: null };
     commit("SET_COUNTERPARTY", payload);
     dispatch("reevaluateDocumentName");
   },
@@ -366,10 +371,13 @@ export const actions = {
     dispatch("loadDocument", data);
   },
   async unRegister({ dispatch, state }) {
-    var { data } = await this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
-      documentTypeGuid: state.document.documentTypeGuid,
-      documentId: state.document.id
-    });
+    var { data } = await this.$axios.post(
+      dataApi.documentRegistration.UnregisterDocument,
+      {
+        documentTypeGuid: state.document.documentTypeGuid,
+        documentId: state.document.id
+      }
+    );
     dispatch("loadDocument", data);
   },
   async initNewDocument({ dispatch, commit }, params) {
