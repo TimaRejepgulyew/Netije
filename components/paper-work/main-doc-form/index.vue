@@ -15,7 +15,7 @@
         <docVersion></docVersion>
       </template>
 
-      <DxTabPanel :scroll-by-content="false" :focus-state-enabled="false" class="tab-bar">
+      <DxTabPanel :focus-state-enabled="false" class="tab-bar">
         <DxItem :title="$t('menu.mainInfo')" template="document-form" />
         <DxForm
           class="pd-2"
@@ -97,6 +97,7 @@ import outgoingLetter from "~/components/paper-work/outgoing-letter.vue";
 import IncomingLetter from "~/components/paper-work/incoming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import contract from "~/components/paper-work/contract.vue";
+import incomingInvoice from "~/components/paper-work/incoming-invoice.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
 import { confirm } from "devextreme/ui/dialog";
@@ -133,7 +134,8 @@ export default {
     DxForm,
     IncomingLetter,
     lifeCycle,
-    contract
+    contract,
+    incomingInvoice
   },
 
   head() {
@@ -220,6 +222,8 @@ export default {
           return "power-of-attorney";
         case DocumentTypeGuid.Contract:
           return "contract";
+        case DocumentTypeGuid.IncomingInvoice:
+          return "incoming-invoice";
       }
     },
     nameOptions() {
@@ -261,7 +265,6 @@ export default {
 }
 .tab-bar {
   margin-top: 10px;
-  height: 100%;
 }
 .item {
   flex-grow: 1;

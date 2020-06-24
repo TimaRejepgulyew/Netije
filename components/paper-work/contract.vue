@@ -173,16 +173,6 @@ export default {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
       validatorGroup: "OfficialDocument",
-      deliveryMethodOptions: {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.MailDeliveryMethod
-        }),
-        value: this.$store.getters["currentDocument/document"].deliveryMethodId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DELIVERY_METHOD_ID", e.value);
-        }
-      }
     };
   },
   methods: {
@@ -224,9 +214,6 @@ export default {
     },
     validFromRequired() {
       return this.isAutomaticRenewal;
-    },
-    store() {
-      return this.$store.getters["currentDocument/document"];
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
@@ -303,14 +290,12 @@ export default {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.ContractCategory,
+          url: dataApi.docFlow.ContractCategories,
           filter: ["status", "=", 0]
         }),
         value: this.$store.getters["currentDocument/document"].documentGroupId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
+          this.$store.commit("currentDocument/SET_DOCUMENT_GROUP_ID", e.value);
         }
       };
     },
@@ -393,12 +378,6 @@ export default {
         }
       };
     },
-    isCompany() {
-      return (
-        this.selectedCorrespondentType != null &&
-        this.selectedCorrespondentType?.type !== "Person"
-      );
-    }
   }
 };
 </script>

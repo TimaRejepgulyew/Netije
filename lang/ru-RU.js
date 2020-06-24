@@ -40,6 +40,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    account:"Счет",
     conditions: "Условия",
     ourSide: "Наша сторона",
     toMainPage: "На главную",
@@ -293,6 +294,8 @@ export default {
   },
   translations: {
     fields: {
+      accountNumber:"Номер счета",
+      accountDate:"Дата счета",
       isAutomaticRenewal:"С автопролонгацией",
       totalAmount:"Сумма",
       currencyId:"Валюта",

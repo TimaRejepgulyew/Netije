@@ -102,7 +102,7 @@ export function ContractButtons(context) {
   return [
     {
       icon: incomingInvoiceIcon,
-      text: context.$t("menu.incomingTaxInvoice"),
+      text: context.$t("menu.incomingInvoice"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.IncomingInvoice,

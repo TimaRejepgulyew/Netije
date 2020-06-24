@@ -141,6 +141,12 @@ export const mutations = {
     }
     state.document.currencyId = payload;
   },
+  SET_DOCUMENT_GROUP_ID(state, payload) {
+    if (checkDataChanged(state.document.documentGroupId, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.documentGroupId = payload;
+  },
   SET_AUTOMATIC_RENEWAL(state, payload) {
     if (checkDataChanged(state.document.isAutomaticRenewal, payload)) {
       state.isDataChanged = true;
@@ -195,13 +201,24 @@ export const mutations = {
     }
     state.document.inNumber = payload;
   },
+  NUMBER(state, payload) {
+    if (checkDataChanged(state.document.number, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.number = payload;
+  },
   DATED(state, payload) {
     if (checkDataChanged(state.document.dated, payload)) {
       state.isDataChanged = true;
     }
     state.document.dated = payload;
   },
-
+  DATE(state, payload) {
+    if (checkDataChanged(state.document.date, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.date = payload;
+  },
   SET_CASE_FILE_ID(state, payload) {
     if (checkDataChanged(state.document.caseFileId, payload)) {
       state.isDataChanged = true;
