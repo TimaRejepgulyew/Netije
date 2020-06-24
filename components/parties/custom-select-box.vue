@@ -10,6 +10,7 @@
     :focusStateEnabled="false"
     valueExpr="id"
     displayExpr="name"
+    :disabled="disabled"
     :searchEnabled="true"
     searchExpr="name"
     :paginate="true"
@@ -43,7 +44,13 @@ export default {
     customSelectItem,
     customField
   },
-  props: ["validatorGroup", "messageRequired", "value", "notPerson"],
+  props: [
+    "validatorGroup",
+    "messageRequired",
+    "value",
+    "notPerson",
+    "disabled"
+  ],
   data() {
     return {
       counterPartStore: new DataSource({

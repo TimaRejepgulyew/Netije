@@ -29,10 +29,7 @@
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
-      <DxGroupItem :visible="isCompany" :col-count="2">
-        <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-        </DxSimpleItem>
+      <DxGroupItem :visible="isCompany" :col-count="1">
         <DxSimpleItem data-field="contactId" template="contact">
           <DxLabel location="top" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
@@ -91,6 +88,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        :disabled="counterpartyIdRequired"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         validatorGroup="OfficialDocument"
         @valueChanged="setCounterparty"
@@ -103,13 +101,6 @@
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
         :value="contactId"
-      />
-    </template>
-    <template #counterPartSignatury>
-      <custom-select-box-contact
-        :correspondentId="counterpartyId"
-        @valueChanged="setCounterpartySignatoryId"
-        :value="counterpartySignatoryId"
       />
     </template>
     <template #ourSignatory>
@@ -151,7 +142,8 @@ export default {
     return {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
-      validatorGroup: "OfficialDocument"
+      validatorGroup: "OfficialDocument",
+      counterpartyIdRequired: false,
     };
   },
   methods: {
@@ -165,7 +157,6 @@ export default {
       }
       this.$store.dispatch("currentDocument/setCounterparty", data);
       this.$store.commit("currentDocument/SET_CONTACT_ID", null);
-      this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
     },
     setContact(data) {
       this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
@@ -200,10 +191,6 @@ export default {
     contactId() {
       return this.$store.getters["currentDocument/document"].contactId;
     },
-    counterpartySignatoryId() {
-      return this.$store.getters["currentDocument/document"]
-        .counterpartySignatoryId;
-    },
     ourSignatoryId() {
       return this.$store.getters["currentDocument/document"].ourSignatoryId;
     },
@@ -220,6 +207,7 @@ export default {
         value: this.isAdjustment,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_IS_ADJUSTMENT", e.value);
+          this.$store.commit("currentDocument/SET_CORRECTED_ID", null);
         }
       };
     },
@@ -232,6 +220,17 @@ export default {
         value: this.$store.getters["currentDocument/document"].correctedId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_CORRECTED_ID", e.value);
+        },
+        onSelectionChanged: e => {
+          if (e.selectedItem) {
+            this.$store.dispatch(
+              "currentDocument/setCounterparty",
+              e.selectedItem.counterpartyId
+            );
+            this.counterpartyIdRequired = true;
+          } else {
+            this.counterpartyIdRequired = false;
+          }
         }
       };
     },

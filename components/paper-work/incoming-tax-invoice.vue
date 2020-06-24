@@ -91,6 +91,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        :disabled="counterpartyIdRequired"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         validatorGroup="OfficialDocument"
         @valueChanged="setCounterparty"
@@ -151,7 +152,8 @@ export default {
     return {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
-      validatorGroup: "OfficialDocument"
+      validatorGroup: "OfficialDocument",
+      counterpartyIdRequired: false
     };
   },
   methods: {
@@ -220,6 +222,7 @@ export default {
         value: this.isAdjustment,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_IS_ADJUSTMENT", e.value);
+          this.$store.commit("currentDocument/SET_CORRECTED_ID", null);
         }
       };
     },
@@ -232,6 +235,17 @@ export default {
         value: this.$store.getters["currentDocument/document"].correctedId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_CORRECTED_ID", e.value);
+        },
+        onSelectionChanged: e => {
+          if (e.selectedItem) {
+            this.$store.dispatch(
+              "currentDocument/setCounterparty",
+              e.selectedItem.counterpartyId
+            );
+            this.counterpartyIdRequired = true;
+          } else {
+            this.counterpartyIdRequired = false;
+          }
         }
       };
     },

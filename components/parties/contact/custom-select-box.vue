@@ -7,6 +7,7 @@
     :value="value"
     :openOnFieldClick="false"
     :focusStateEnabled="false"
+    :disabled="disabled"
     valueExpr="id"
     displayExpr="name"
     :searchEnabled="true"
@@ -51,7 +52,8 @@ export default {
     "messageRequired",
     "value",
     "filter",
-    "correspondentId"
+    "correspondentId",
+    "disabled"
   ],
   data() {
     return {};
