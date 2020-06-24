@@ -111,6 +111,10 @@ export const state = () => ({
             {
                 id: 13,
                 name: context.$t("translations.fields.customString")
+            },
+            {
+                id: 14,
+                name: context.$t("translations.fields.registrPlace")
             }
         ]
     }

@@ -276,7 +276,7 @@ export default {
   translations: {
     fields: {
       supervisorIdRequired: "Введите контролера",
-      isUnderControl:"На контроль",
+      isUnderControl: "На контроль",
       draft: "Черновик",
       underReview: "На приемке",
       recipient: "Субъект прав",
@@ -509,6 +509,7 @@ export default {
       buCode: "Наша организация (код)",
       cPartyCode: "Контрагент (код)",
       customString: "Произвольная строка",
+      registrPlace: "Группа регистрации (индекс)",
       separator: "Разделитель",
       numberOfDigitsInNumber: "Количество цифр в номере",
       numberOfDigitsInNumberRequired: "Введите количество цифр в номере",
