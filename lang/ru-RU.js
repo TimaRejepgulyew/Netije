@@ -56,7 +56,8 @@ export default {
     whom: "Кому",
     areYouSure: "Вы уверены?",
     confirm: "Подтверждение",
-    required: "Заполните это поле"
+    required: "Заполните это поле",
+    newRecord:"Новая запись"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",
@@ -67,6 +68,10 @@ export default {
     reviewManager: "Задача на рассмотрение руководителем",
     freeApproval: "Свободное согласование",
     approval: "Согласование по регламенту"
+  },
+  contractCategories: {
+    title: "Категории договоров",
+    documentKinds: "Виды документов"
   },
   document: {
     remove: "Удалить",

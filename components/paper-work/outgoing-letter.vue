@@ -138,7 +138,6 @@ export default {
           this.selectedCorrespondentType.type = null;
       }
       this.$store.dispatch("currentDocument/setCorrespondent", data);
-      this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
     },
     setAddressee(data) {
       this.$store.commit("currentDocument/SET_ADDRESSE_ID", data && data.id);
@@ -151,6 +150,8 @@ export default {
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
+      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
+      this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
     }
   },
   computed: {
@@ -223,7 +224,12 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.IncomingLetter}`
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.IncomingLetter}`,
+          filter: [
+            "correspondentId",
+            "=",
+            this.$store.getters["currentDocument/document"].correspondentId
+          ]
         }),
         value: this.$store.getters["currentDocument/document"].inResponseToId,
         onValueChanged: e => {
