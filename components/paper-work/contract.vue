@@ -61,8 +61,9 @@
         <DxLabel location="top" :text="$t('translations.fields.responsibleEmployeeId')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.conditions')">
+    <DxGroupItem :col-span="2" :col-count="3" :caption="$t('shared.conditions')">
       <DxSimpleItem
+        :isRequired="validFromRequired"
         data-field="validFrom"
         :editor-options="validFromOptions"
         editor-type="dxDateBox"
@@ -70,15 +71,12 @@
         <DxLabel location="top" :text="$t('translations.fields.validFrom')" />
       </DxSimpleItem>
       <DxSimpleItem
+        :isRequired="validTillRequired"
         data-field="validTill"
         :editor-options="validTillOptions"
         editor-type="dxDateBox"
       >
         <DxLabel location="top" :text="$t('translations.fields.validTill')" />
-        <DxRequiredRule
-          v-if="isvalidTillRequired"
-          :message="$t('translations.fields.validTillRequired')"
-        />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="daysToFinishWorks"
@@ -86,6 +84,30 @@
         editor-type="dxNumberBox"
       >
         <DxLabel location="top" :text="$t('translations.fields.daysToFinishWorks')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="totalAmount"
+        :editor-options="totalAmountOptions"
+        editor-type="dxNumberBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.totalAmount')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        :col-span="1"
+        data-field="currencyId"
+        editor-type="dxSelectBox"
+        :editor-options="currencyIdOptions"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.currencyId')" />
+      </DxSimpleItem>
+
+      <DxSimpleItem
+        :col-span="1"
+        data-field="isAutomaticRenewal"
+        editor-type="dxCheckBox"
+        :editor-options="isAutomaticRenewalOptions"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.isAutomaticRenewal')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #counterparty>
@@ -174,6 +196,7 @@ export default {
       }
       this.$store.dispatch("currentDocument/setCounterparty", data);
       this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+      this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
     },
     setContact(data) {
       this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
@@ -196,8 +219,11 @@ export default {
   },
 
   computed: {
-    isvalidTillRequired() {
-      return;
+    validTillRequired() {
+      return this.isAutomaticRenewal || Boolean(this.daysToFinishWorks);
+    },
+    validFromRequired() {
+      return this.isAutomaticRenewal;
     },
     store() {
       return this.$store.getters["currentDocument/document"];
@@ -224,9 +250,6 @@ export default {
     validTill() {
       return this.$store.getters["currentDocument/document"].validTill;
     },
-    daysToFinishWorks() {
-      return this.$store.getters["currentDocument/document"].daysToFinishWorks;
-    },
     responsibleEmployeeId() {
       return this.$store.getters["currentDocument/document"]
         .responsibleEmployeeId;
@@ -237,6 +260,41 @@ export default {
         value: this.$store.getters["currentDocument/document"].isStandard,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_IS_STANDARD", e.value);
+        }
+      };
+    },
+    currencyIdOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.sharedDirectory.Currency,
+          filter: ["status", "=", 0]
+        }),
+        readOnly: this.isRegistered,
+        value: this.$store.getters["currentDocument/document"].currencyId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_CURRENCY_ID", e.value);
+        }
+      };
+    },
+    totalAmountOptions() {
+      return {
+        format: "#,##0.00",
+        readOnly: this.isRegistered,
+        value: this.$store.getters["currentDocument/document"].totalAmount,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_TOTAL_AMOUNT", e.value);
+        }
+      };
+    },
+    isAutomaticRenewal() {
+      return this.$store.getters["currentDocument/document"].isAutomaticRenewal;
+    },
+    isAutomaticRenewalOptions() {
+      return {
+        value: this.isAutomaticRenewal,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_AUTOMATIC_RENEWAL", e.value);
         }
       };
     },
@@ -268,6 +326,9 @@ export default {
         }
       };
     },
+    validTill() {
+      return this.$store.getters["currentDocument/document"].validTill;
+    },
     validTillOptions() {
       return {
         readOnly: this.isRegistered,
@@ -280,15 +341,14 @@ export default {
         }
       };
     },
+    daysToFinishWorks() {
+      return this.$store.getters["currentDocument/document"].daysToFinishWorks;
+    },
     daysToFinishWorksOptions() {
       return {
         readOnly: this.isRegistered,
         value: this.daysToFinishWorks,
         onValueChanged: e => {
-          checkValidDaysToFinishWorks(
-            this.$store.getters["currentDocument/document"].validTill,
-            e.value
-          );
           this.$store.commit(
             "currentDocument/SET_DAYS_TO_FINISH_WORKS",
             e.value

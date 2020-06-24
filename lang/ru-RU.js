@@ -288,6 +288,9 @@ export default {
   },
   translations: {
     fields: {
+      isAutomaticRenewal:"С автопролонгацией",
+      totalAmount:"Сумма",
+      currencyId:"Валюта",
       IsStandard: "Типовой",
       responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",

@@ -127,8 +127,25 @@ export const mutations = {
     if (checkDataChanged(state.document.counterpartyId, payload)) {
       state.isDataChanged = true;
     }
-
     state.document.counterpartyId = payload;
+  },
+  SET_TOTAL_AMOUNT(state, payload) {
+    if (checkDataChanged(state.document.totalAmount, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.totalAmount = payload;
+  },
+  SET_CURRENCY_ID(state, payload) {
+    if (checkDataChanged(state.document.currencyId, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.currencyId = payload;
+  },
+  SET_AUTOMATIC_RENEWAL(state, payload) {
+    if (checkDataChanged(state.document.isAutomaticRenewal, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.isAutomaticRenewal = payload;
   },
   SET_CONTACT_ID(state, payload) {
     if (checkDataChanged(state.document.contactId, payload)) {

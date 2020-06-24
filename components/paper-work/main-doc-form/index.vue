@@ -15,7 +15,7 @@
         <docVersion></docVersion>
       </template>
 
-      <DxTabPanel :focus-state-enabled="false" class="tab-bar">
+      <DxTabPanel :scroll-by-content="false" :focus-state-enabled="false" class="tab-bar">
         <DxItem :title="$t('menu.mainInfo')" template="document-form" />
         <DxForm
           class="pd-2"
