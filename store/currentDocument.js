@@ -219,6 +219,18 @@ export const mutations = {
     }
     state.document.date = payload;
   },
+  SET_IS_ADJUSTMENT(state, payload) {
+    if (checkDataChanged(state.document.isAdjustment, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.isAdjustment = payload;
+  },
+  SET_CORRECTED_ID(state, payload) {
+    if (checkDataChanged(state.document.correctedId, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.correctedId = payload;
+  },
   SET_CASE_FILE_ID(state, payload) {
     if (checkDataChanged(state.document.caseFileId, payload)) {
       state.isDataChanged = true;

@@ -5,6 +5,25 @@
     :show-validation-summary="false"
     :validation-group="validatorGroup"
   >
+    <DxGroupItem :col-span="2" :col-count="2">
+      <DxSimpleItem
+        :col-span="1"
+        data-field="isAdjustment"
+        editor-type="dxCheckBox"
+        :editor-options="isAdjustmentOptions"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.isAdjustment')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        :visible="isAdjustment"
+        data-field="correctedId"
+        :editor-options="correctedIdOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.correctedId')" />
+        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+      </DxSimpleItem>
+    </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="1" :caption="$t('translations.fields.counterPart')">
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
@@ -192,7 +211,30 @@ export default {
       return this.$store.getters["currentDocument/document"]
         .responsibleEmployeeId;
     },
-  
+    isAdjustment() {
+      return this.$store.getters["currentDocument/document"].isAdjustment;
+    },
+    isAdjustmentOptions() {
+      return {
+        readOnly: this.isRegistered,
+        value: this.isAdjustment,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_IS_ADJUSTMENT", e.value);
+        }
+      };
+    },
+    correctedIdOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingTaxInvoice}`
+        }),
+        value: this.$store.getters["currentDocument/document"].correctedId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_CORRECTED_ID", e.value);
+        }
+      };
+    },
     leadingDocumentOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({

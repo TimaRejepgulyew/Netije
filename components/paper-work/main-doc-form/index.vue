@@ -100,6 +100,8 @@ import contract from "~/components/paper-work/contract.vue";
 import incomingInvoice from "~/components/paper-work/incoming-invoice.vue";
 import supAgreement from "~/components/paper-work/sup-agreement.vue";
 import contractStatement from "~/components/paper-work/contract-statement.vue";
+import incomingTaxInvoice from "~/components/paper-work/incoming-tax-invoice.vue";
+import outgoingTaxInvoice from "~/components/paper-work/outgoing-tax-invoice.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
 import { confirm } from "devextreme/ui/dialog";
@@ -139,7 +141,9 @@ export default {
     contract,
     incomingInvoice,
     supAgreement,
-    contractStatement
+    contractStatement,
+    incomingTaxInvoice,
+    outgoingTaxInvoice
   },
 
   head() {
@@ -232,6 +236,10 @@ export default {
           return "sup-agreement";
         case DocumentTypeGuid.ContractStatement:
           return "contract-statement";
+        case DocumentTypeGuid.IncomingTaxInvoice:
+          return "incoming-taxInvoice";
+        case DocumentTypeGuid.OutgoingTaxInvoice:
+          return "outgoing-tax-invoice";
       }
     },
     nameOptions() {

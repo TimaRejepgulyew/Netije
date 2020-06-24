@@ -40,7 +40,7 @@ export default {
     version: "Версии"
   },
   shared: {
-    account:"Счет",
+    account: "Счет",
     conditions: "Условия",
     ourSide: "Наша сторона",
     toMainPage: "На главную",
@@ -58,7 +58,7 @@ export default {
     areYouSure: "Вы уверены?",
     confirm: "Подтверждение",
     required: "Заполните это поле",
-    newRecord:"Новая запись"
+    newRecord: "Новая запись"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",
@@ -294,11 +294,13 @@ export default {
   },
   translations: {
     fields: {
-      accountNumber:"Номер счета",
-      accountDate:"Дата счета",
-      isAutomaticRenewal:"С автопролонгацией",
-      totalAmount:"Сумма",
-      currencyId:"Валюта",
+      correctedId: "Корректирует",
+      isAdjustment: "Корректировочный",
+      accountNumber: "Номер счета",
+      accountDate: "Дата счета",
+      isAutomaticRenewal: "С автопролонгацией",
+      totalAmount: "Сумма",
+      currencyId: "Валюта",
       IsStandard: "Типовой",
       responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",
@@ -627,7 +629,7 @@ export default {
         "Вы уверены что хотите отменить регистрацию",
       validFrom: "Действителен c",
       validTill: "Действителен по",
-      daysToFinishWorks:"Дней для завершения",
+      daysToFinishWorks: "Дней для завершения",
       validTillRequired: "Введите по какой срок действительна доверенность",
       issuedToId: "Кому выдана",
       issuedToIdRequired: "Введите кому выдана доверенность",
