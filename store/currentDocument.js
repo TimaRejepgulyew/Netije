@@ -111,12 +111,11 @@ export const mutations = {
     }
     state.document.note = payload;
   },
-  SET_CORRESPONDENT(state, payload) {
-    if (checkDataChanged(state.document.correspondentId, payload.id)) {
+  SET_CORRESPONDENT_ID(state, payload) {
+    if (checkDataChanged(state.document.correspondentId, payload)) {
       state.isDataChanged = true;
     }
-    state.document.correspondent = payload;
-    state.document.correspondentId = payload.id;
+    state.document.correspondentId = payload;
   },
   SET_CONTACT_ID(state, payload) {
     if (checkDataChanged(state.document.contactId, payload)) {
@@ -297,8 +296,7 @@ export const actions = {
     dispatch("reevaluateDocumentName");
   },
   setCorrespondent({ commit, dispatch }, payload) {
-    if (!payload) payload = { name: null, id: null };
-    commit("SET_CORRESPONDENT", payload);
+    commit("SET_CORRESPONDENT_ID", payload);
     dispatch("reevaluateDocumentName");
   },
   async reevaluateDocumentName({ state, commit }) {
@@ -325,24 +323,18 @@ export const actions = {
     dispatch("loadDocument", data);
   },
   async registration({ state, getters, dispatch, commit }, isCustomNumber) {
-    const res = await this.$axios.post(
+    const { data } = await this.$axios.post(
       dataApi.documentRegistration.RegisterDocument,
       getters["registrationData"]
     );
-    await dispatch("getDocumentById", {
-      type: state.document.documentTypeGuid,
-      id: state.document.id
-    });
+    dispatch("loadDocument", data);
   },
   async unRegister({ dispatch, state }) {
-    await this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
+    var { data } = await this.$axios.post(dataApi.documentRegistration.UnregisterDocument, {
       documentTypeGuid: state.document.documentTypeGuid,
       documentId: state.document.id
     });
-    await dispatch("getDocumentById", {
-      type: state.document.documentTypeGuid,
-      id: state.document.id
-    });
+    dispatch("loadDocument", data);
   },
   async initNewDocument({ dispatch, commit }, params) {
     const { data } = await this.$axios.post(

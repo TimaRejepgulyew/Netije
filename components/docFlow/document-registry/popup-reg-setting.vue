@@ -25,7 +25,6 @@
         data-field="departments"
       >
         <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-        <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem

@@ -24,7 +24,8 @@ export default {
   RegistrationSetting: 308,
   PersonalSettings: 309,
   DocumentGroupBase: 310,
-  
+  AccessRightsRule: 311,
+
   ElectronicDocument: 400,
   OfficialDocument: 401,
   IncomingDocument: 402,

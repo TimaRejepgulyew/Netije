@@ -71,6 +71,7 @@
       <custom-select-box
         validatorGroup="OfficialDocument"
         @valueChanged="setCorrenspondent"
+        @selectionChanged="handlerCorrespondentSelectionChanged"
         messageRequired="translations.fields.counterPartRequired"
         :value="correspondentId"
       />
@@ -122,6 +123,7 @@ export default {
   },
   data() {
     return {
+      selectedCorrespondentType: null,
       validatorGroup: "OfficialDocument",
       deliveryMethodOptions: {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -137,9 +139,11 @@ export default {
   },
   methods: {
     setCorrenspondent(data) {
+      if (data == null) {
+        if (this.selectedCorrespondentType)
+          this.selectedCorrespondentType.type = null;
+      }
       this.$store.dispatch("currentDocument/setCorrespondent", data);
-      this.setContact(null);
-      this.setCounterpartySignatoryId(null);
     },
     setContact(data) {
       this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
@@ -155,16 +159,20 @@ export default {
     },
     setAssigneeId(data) {
       this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
+    },
+    handlerCorrespondentSelectionChanged(data) {
+      this.selectedCorrespondentType = data;
+      this.setContact(null);
+      this.setCounterpartySignatoryId(null);
+      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
     }
   },
   computed: {
     isOrganization() {
-      if (this.$store.getters["currentDocument/document"].correspondentId)
-        return (
-          this.$store.getters["currentDocument/document"].correspondent
-            ?.type !== "Person"
-        );
-      else return false;
+      return (
+        this.selectedCorrespondentType != null &&
+        this.selectedCorrespondentType?.type !== "Person"
+      );
     },
     store() {
       return this.$store.getters["currentDocument/document"];
@@ -233,7 +241,12 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingLetter}`
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingLetter}`,
+          filter: [
+            "correspondentId",
+            "=",
+            this.$store.getters["currentDocument/document"].correspondentId
+          ]
         }),
         value: this.$store.getters["currentDocument/document"].inResponseToId,
         onValueChanged: e => {
