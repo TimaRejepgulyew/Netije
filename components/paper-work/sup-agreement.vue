@@ -5,23 +5,6 @@
     :show-validation-summary="false"
     :validation-group="validatorGroup"
   >
-    <DxSimpleItem
-      :col-span="1"
-      data-field="documentGroupId"
-      editor-type="dxSelectBox"
-      :editor-options="documentGroupIdOptions"
-    >
-      <DxLabel location="top" :text="$t('translations.fields.documentGroupId')" />
-      <DxRequiredRule :message="$t('translations.fields.documentGroupIdRequired')" />
-    </DxSimpleItem>
-    <DxSimpleItem
-      :col-span="1"
-      data-field="isStandard"
-      editor-type="dxCheckBox"
-      :editor-options="isStandardOptions"
-    >
-      <DxLabel location="top" :text="$t('translations.fields.IsStandard')" />
-    </DxSimpleItem>
     <DxGroupItem :col-span="2" :col-count="1" :caption="$t('translations.fields.counterPart')">
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
@@ -35,6 +18,24 @@
           <DxLabel location="top" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
       </DxGroupItem>
+    </DxGroupItem>
+    <DxGroupItem :col-span="2" :col-count="5" :caption="$t('menu.contract')">
+      <DxSimpleItem
+        :col-span="4"
+        data-field="leadingDocumentId"
+        editor-type="dxSelectBox"
+        :editor-options="leadingDocumentOptions"
+      >
+        <DxLabel location="top" :text="$t('menu.contract')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        :col-span="1"
+        data-field="isStandard"
+        editor-type="dxCheckBox"
+        :editor-options="isStandardOptions"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.IsStandard')" />
+      </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
       <DxSimpleItem
@@ -61,9 +62,8 @@
         <DxLabel location="top" :text="$t('translations.fields.responsibleEmployeeId')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-span="2" :col-count="3" :caption="$t('shared.conditions')">
+    <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.conditions')">
       <DxSimpleItem
-        :isRequired="validFromRequired"
         data-field="validFrom"
         :editor-options="validFromOptions"
         editor-type="dxDateBox"
@@ -71,19 +71,11 @@
         <DxLabel location="top" :text="$t('translations.fields.validFrom')" />
       </DxSimpleItem>
       <DxSimpleItem
-        :isRequired="validTillRequired"
         data-field="validTill"
         :editor-options="validTillOptions"
         editor-type="dxDateBox"
       >
         <DxLabel location="top" :text="$t('translations.fields.validTill')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="daysToFinishWorks"
-        :editor-options="daysToFinishWorksOptions"
-        editor-type="dxNumberBox"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.daysToFinishWorks')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="totalAmount"
@@ -99,15 +91,6 @@
         :editor-options="currencyIdOptions"
       >
         <DxLabel location="top" :text="$t('translations.fields.currencyId')" />
-      </DxSimpleItem>
-
-      <DxSimpleItem
-        :col-span="1"
-        data-field="isAutomaticRenewal"
-        editor-type="dxCheckBox"
-        :editor-options="isAutomaticRenewalOptions"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.isAutomaticRenewal')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #counterparty>
@@ -209,12 +192,6 @@ export default {
   },
 
   computed: {
-    validTillRequired() {
-      return this.isAutomaticRenewal || Boolean(this.daysToFinishWorks);
-    },
-    validFromRequired() {
-      return this.isAutomaticRenewal;
-    },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
     },
@@ -234,7 +211,6 @@ export default {
     ourSignatoryId() {
       return this.$store.getters["currentDocument/document"].ourSignatoryId;
     },
-
     responsibleEmployeeId() {
       return this.$store.getters["currentDocument/document"]
         .responsibleEmployeeId;
@@ -245,6 +221,20 @@ export default {
         value: this.$store.getters["currentDocument/document"].isStandard,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_IS_STANDARD", e.value);
+        }
+      };
+    },
+    leadingDocumentOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
+          filter: ["counterpartyId", "=", this.counterpartyId]
+        }),
+        value: this.$store.getters["currentDocument/document"]
+          .leadingDocumentId,
+        onValueChanged: e => {
+          this.$store.dispatch("currentDocument/setLeadingDocumentId", e.value);
         }
       };
     },
@@ -272,31 +262,6 @@ export default {
         }
       };
     },
-    isAutomaticRenewal() {
-      return this.$store.getters["currentDocument/document"].isAutomaticRenewal;
-    },
-    isAutomaticRenewalOptions() {
-      return {
-        value: this.isAutomaticRenewal,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_AUTOMATIC_RENEWAL", e.value);
-        }
-      };
-    },
-    documentGroupIdOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.ContractCategories,
-          filter: ["status", "=", 0]
-        }),
-        value: this.$store.getters["currentDocument/document"].documentGroupId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DOCUMENT_GROUP_ID", e.value);
-        }
-      };
-    },
     validFromOptions() {
       return {
         readOnly: this.isRegistered,
@@ -321,21 +286,6 @@ export default {
         value: this.validTill,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_VALID_TILL", e.value);
-        }
-      };
-    },
-    daysToFinishWorks() {
-      return this.$store.getters["currentDocument/document"].daysToFinishWorks;
-    },
-    daysToFinishWorksOptions() {
-      return {
-        readOnly: this.isRegistered,
-        value: this.daysToFinishWorks,
-        onValueChanged: e => {
-          this.$store.commit(
-            "currentDocument/SET_DAYS_TO_FINISH_WORKS",
-            e.value
-          );
         }
       };
     },
