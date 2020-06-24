@@ -228,6 +228,13 @@ export const actions = {
             )
           },
           {
+            text: this.$i18n.t("menu.contractCategories"),
+            path: "/docflow/contract-categories",
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.DocumentGroupBase
+            )
+          },
+          {
             text: this.$i18n.t("menu.documentKind"),
             path: "/docflow/document-kind",
             visible: rootGetters["permissions/allowReading"](
