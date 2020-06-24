@@ -154,7 +154,8 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
+          filter: ["counterpartyId", "=", this.counterpartyId]
         }),
         value: this.$store.getters["currentDocument/document"]
           .leadingDocumentId,

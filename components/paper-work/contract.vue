@@ -172,7 +172,7 @@ export default {
     return {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
-      validatorGroup: "OfficialDocument",
+      validatorGroup: "OfficialDocument"
     };
   },
   methods: {
@@ -378,6 +378,12 @@ export default {
         }
       };
     },
+    isCompany() {
+      return (
+        this.selectedCorrespondentType != null &&
+        this.selectedCorrespondentType?.type !== "Person"
+      );
+    }
   }
 };
 </script>
