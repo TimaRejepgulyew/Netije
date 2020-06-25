@@ -493,6 +493,7 @@ export default {
       buCode: "Biziň guramamyz (kody)",
       cPartyCode: "Kontragent (kody)",
       customString: "Erkin setir",
+      registrPlace: "Группа регистрации (индекс)",
       separator: "Bölüji",
       numberOfDigitsInNumber: "Belgide sanlaryň sany",
       numberOfDigitsInNumberRequired: "Belgide sanlaryň sanyny giriziň",
