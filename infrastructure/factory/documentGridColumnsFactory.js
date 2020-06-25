@@ -1,7 +1,7 @@
 import DocumentFilterType from "~/infrastructure/constants/documentFilterType";
 import DocumentService from "~/infrastructure/services/documentService";
 import dataApi from "~/static/dataApi";
-
+import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
 export default {
   CreateColumns: (type, context) => {
     const columns = [GetDefaultColumn()];
@@ -35,6 +35,11 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateMemoColumns(context);
     case DocumentFilterType.PowerOfAttorney:
       return CreatePowerOfAttorneyColumns(context);
+    case DocumentFilterType.ContractualDocuments:
+      return CreateContractColumns(context);
+    case DocumentFilterType.AccountingDocuments:
+      return CreateAccountingDocumentsColumns(context);
+
     default:
       return [];
   }
@@ -162,6 +167,34 @@ const CreateOutgoingLetterColumns = context => {
     CreatePreparedColumn(context)
   ];
 };
+const CreateContractColumns = context => {
+  return [
+    ...CreateBaseColumn(context),
+    CreateOurSignatoryColumn(context),
+    CreateValidTillColumn(context),
+    CreateValidFromColumn(context),
+    CreateCounterpartySignatoryColumn(context),
+    CreateLeadingDocumentIdColumn(context, true, "contract"),
+    CreateNumberColumn(context),
+    CreateDateColumn(context),
+    CreateTotalAmountColumn(context, true),
+    CreateCurrencyColumn(context)
+  ];
+};
+const CreateAccountingDocumentsColumns = context => {
+  return [
+    ...CreateBaseColumn(context),
+    CreateOurSignatoryColumn(context),
+    CreateValidTillColumn(context),
+    CreateValidFromColumn(context),
+    CreateCounterpartySignatoryColumn(context),
+    CreateLeadingDocumentIdColumn(context, true, "contract"),
+    CreateNumberColumn(context),
+    CreateDateColumn(context),
+    CreateTotalAmountColumn(context, true),
+    CreateCurrencyColumn(context)
+  ];
+};
 
 const GetDefaultColumn = () => {
   return {
@@ -191,14 +224,20 @@ function CreateDocumentNameColumn(context) {
     visible: true
   };
 }
-
+function CreateInNumberColumn(context) {
+  return {
+    dataField: "inNumber",
+    caption: context.$t("document.fields.regNumberDocument"),
+    visible: false
+  };
+}
 function CreateDocumentCreatedColumn(context) {
   return {
     dataField: "created",
     sortOrder: "desc",
     caption: context.$t("document.fields.created"),
     width: "auto",
-    visible: true,
+    visible: false,
     dataType: "date",
     format: "dd.MM.yyyy HH:mm"
   };
@@ -209,6 +248,15 @@ function CreateDatedColumn(context) {
     caption: context.$t("document.fields.dated"),
     dataType: "date",
     format: "dd.MM.yyyy"
+  };
+}
+function CreateDateColumn(context) {
+  return {
+    dataField: "dated",
+    caption: context.$t("document.fields.accountDate"),
+    dataType: "date",
+    format: "dd.MM.yyyy",
+    visible: false
   };
 }
 function CreateDocumentModifiedColumn(context) {
@@ -225,7 +273,16 @@ function CreateValidTillColumn(context) {
   return {
     dataField: "validTill",
     caption: context.$t("document.fields.validTill"),
-    visible: true,
+    visible: false,
+    dataType: "date",
+    format: "dd.MM.yyyy HH:mm"
+  };
+}
+function CreateValidFromColumn(context) {
+  return {
+    dataField: "validFrom",
+    caption: context.$t("document.fields.validFrom"),
+    visible: false,
     dataType: "date",
     format: "dd.MM.yyyy HH:mm"
   };
@@ -238,11 +295,31 @@ function CreateDocumentAuthorColumn(context, visible = false) {
     visible
   );
 }
-function CreateInNumberColumn(context) {
+function CreateCurrencyColumn(context, visible = false) {
+  return CreateLookupColumn(
+    "currencyId",
+    context,
+    dataApi.sharedDirectory.Currency,
+    visible,
+    "alphaCode"
+  );
+}
+
+function CreateNumberColumn(context) {
   return {
-    dataField: "inNumber",
-    caption: context.$t("document.fields.regNumberDocument"),
+    dataField: "number",
+    dataType: "dxNumberBox",
+    caption: context.$t("document.fields.accountNumber"),
     visible: false
+  };
+}
+function CreateTotalAmountColumn(context, visible) {
+  return {
+    dataField: "totalAmount",
+    dataType: "dxNumberBox",
+    format: "#,##0.00",
+    caption: context.$t("document.fields.totalAmount"),
+    visible
   };
 }
 function CreateIndexColumn(context) {
@@ -300,18 +377,15 @@ function CreateDocumentRegistryColumn(context) {
     "documentRegisterId",
     context,
     dataApi.docFlow.DocumentRegistry,
-    true
+    false
   );
 }
 
 function CreateDocumentRegistrationStateColumn(context) {
-  const registrationState = context.$store.getters[
-    "paper-work/registrationState"
-  ](context);
   return CreateArrayLookupColumn(
     "registrationState",
     context,
-    registrationState
+    RegistrationStateStore(context)
   );
 }
 
@@ -438,12 +512,15 @@ function CreateIssuedToIdColumn(context, visible = true) {
     visible
   );
 }
-function CreateLeadingDocumentIdColumn(context, visible = true) {
+function CreateLeadingDocumentIdColumn(context, visible = true, caption) {
   return CreateLookupColumn(
     "leadingDocumentId",
     context,
     dataApi.paperWork.AllDocument,
-    visible
+    visible,
+    "name",
+    "id",
+    "contract"
   );
 }
 
@@ -472,11 +549,12 @@ function CreateLookupColumn(
   api,
   visible = false,
   displayExpr = "name",
-  valueExpr = "id"
+  valueExpr = "id",
+  caption
 ) {
   return {
     dataField: dataField,
-    caption: context.$t(`document.fields.${dataField}`),
+    caption: context.$t(`document.fields.${caption || dataField}`),
     visible,
     lookup: {
       dataSource: {

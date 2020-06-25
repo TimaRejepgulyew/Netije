@@ -81,6 +81,10 @@ export default {
     saved: "Документ сохранен",
     lifeCycle: "Жизненый цикл",
     fields: {
+      accountNumber: "Номер счета",
+      accountDate: "Дата счета",
+      totalAmount: "Сумма",
+      contract: "Договор",
       areYouSureCancelDocument:
         "Вы уверенны что хотите выйти? Не сохраненные данные будут утеряны",
       dated: "Дата от",
@@ -517,6 +521,7 @@ export default {
       incomingEnum: "Входящий",
       outcomingEnum: "Исходящий",
       inner: "Внутренний",
+      contract: "Договор",
       contracts: "Договоры",
       isRegistrationAllowed: "Разрешена ли регистрация",
       year: "Год",
@@ -549,6 +554,7 @@ export default {
       registrationStateRequired: "Выберите регистрацию",
       registered: "Зарегистрирован",
       notRegistered: "Не зарегистрирован",
+      reserved: "Зарезервирован",
       executionState: "Состояние исполнения документа",
       executionStateRequired: "Выберите cостояние исполнения документа",
       onReview: "На рассмотрении",
