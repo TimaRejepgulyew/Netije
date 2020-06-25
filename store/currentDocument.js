@@ -279,6 +279,12 @@ export const mutations = {
     }
     state.document.issuedToId = payload;
   },
+  SET_VALID_FROM(state, payload) {
+    if (checkDataChanged(state.document.validFrom, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.validFrom = payload;
+  },
   SET_VALID_TILL(state, payload) {
     if (checkDataChanged(state.document.validTill, payload)) {
       state.isDataChanged = true;

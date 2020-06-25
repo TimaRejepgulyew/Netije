@@ -143,7 +143,7 @@ export default {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
       validatorGroup: "OfficialDocument",
-      counterpartyIdRequired: false,
+      counterpartyIdRequired: false
     };
   },
   methods: {
@@ -212,10 +212,15 @@ export default {
       };
     },
     correctedIdOptions() {
+      const filter = () => {
+        if (this.counterpartyId)
+          return ["counterpartyId", "=", this.counterpartyId];
+      };
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingTaxInvoice}`
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingTaxInvoice}`,
+          filter: filter()
         }),
         value: this.$store.getters["currentDocument/document"].correctedId,
         onValueChanged: e => {
@@ -227,6 +232,7 @@ export default {
               "currentDocument/setCounterparty",
               e.selectedItem.counterpartyId
             );
+            this.$store.commit("currentDocument/SET_CONTACT_ID", null);
             this.counterpartyIdRequired = true;
           } else {
             this.counterpartyIdRequired = false;

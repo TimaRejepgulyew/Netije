@@ -227,10 +227,15 @@ export default {
       };
     },
     correctedIdOptions() {
+      const filter = () => {
+        if (this.counterpartyId)
+          return ["counterpartyId", "=", this.counterpartyId];
+      };
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.IncomingTaxInvoice}`
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.IncomingTaxInvoice}`,
+          filter: filter()
         }),
         value: this.$store.getters["currentDocument/document"].correctedId,
         onValueChanged: e => {
@@ -241,6 +246,11 @@ export default {
             this.$store.dispatch(
               "currentDocument/setCounterparty",
               e.selectedItem.counterpartyId
+            );
+            this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+            this.$store.commit(
+              "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
+              null
             );
             this.counterpartyIdRequired = true;
           } else {

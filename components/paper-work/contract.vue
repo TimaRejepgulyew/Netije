@@ -305,7 +305,7 @@ export default {
         }),
         value: this.$store.getters["currentDocument/document"].validFrom,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_VALID_FROM", null);
+          this.$store.commit("currentDocument/SET_VALID_FROM", e.value);
         }
       };
     },
