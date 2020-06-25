@@ -375,7 +375,9 @@ function CreateDocumentTypeGuidColumn(context, visible = false) {
     "documentTypeGuid",
     context,
     dataApi.docFlow.DocumentType,
-    visible
+    visible,
+    "name",
+    "documentTypeGuid"
   );
 }
 function CreateCounterpartySignatoryColumn(context, visible = false) {
@@ -469,7 +471,8 @@ function CreateLookupColumn(
   context,
   api,
   visible = false,
-  displayExpr = "name"
+  displayExpr = "name",
+  valueExpr = "id"
 ) {
   return {
     dataField: dataField,
@@ -483,7 +486,7 @@ function CreateLookupColumn(
         }),
         paginate: true
       },
-      valueExpr: "id",
+      valueExpr,
       displayExpr
     }
   };

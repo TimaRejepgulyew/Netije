@@ -437,7 +437,7 @@ export default {
       countryIdRequired: "Выберите страну",
       countryAlreadyExists: "Такая страна уже существует",
       counterPart: "Контрагент",
-      counterPartRequired: "выберите контрагента",
+      counterPartRequired: "Выберите контрагента",
       documentGroupId: "Категория",
       documentGroupIdRequired: "Выберите категорию",
       contactId: "Контактное лицо",

@@ -102,6 +102,8 @@ import supAgreement from "~/components/paper-work/sup-agreement.vue";
 import contractStatement from "~/components/paper-work/contract-statement.vue";
 import incomingTaxInvoice from "~/components/paper-work/incoming-tax-invoice.vue";
 import outgoingTaxInvoice from "~/components/paper-work/outgoing-tax-invoice.vue";
+import universalTransferDocument from "~/components/paper-work/universal-transfer-document.vue";
+import waybill from "~/components/paper-work/waybill.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
 import { confirm } from "devextreme/ui/dialog";
@@ -143,7 +145,9 @@ export default {
     supAgreement,
     contractStatement,
     incomingTaxInvoice,
-    outgoingTaxInvoice
+    outgoingTaxInvoice,
+    universalTransferDocument,
+    waybill
   },
 
   head() {
@@ -240,6 +244,10 @@ export default {
           return "incoming-taxInvoice";
         case DocumentTypeGuid.OutgoingTaxInvoice:
           return "outgoing-tax-invoice";
+        case DocumentTypeGuid.UniversalTransferDocument:
+          return "universal-transfer-document";
+        case DocumentTypeGuid.Waybill:
+          return "waybill";
       }
     },
     nameOptions() {

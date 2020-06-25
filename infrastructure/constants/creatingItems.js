@@ -170,7 +170,7 @@ export function FinancialArchiveButtons(context) {
       text: context.$t("menu.universalTransferDocument"),
       async create(params) {
         await createDocumentRequest(context, {
-          documentType: DocumentType.Universaltransferdocument,
+          documentType: DocumentType.UniversalTransferDocument,
           ...params
         });
       }

@@ -137,6 +137,8 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
+      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
+      this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
       this.$store.dispatch("currentDocument/setCorrespondent", data);
     },
     setAddressee(data) {
@@ -150,8 +152,6 @@ export default {
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
-      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
-      this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
     }
   },
   computed: {

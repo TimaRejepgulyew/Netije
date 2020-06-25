@@ -21,6 +21,7 @@
         data-field="inResponseToId"
         :editor-options="inResponseToIdOptions"
         editor-type="dxSelectBox"
+        :help-text="$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
       </DxSimpleItem>
@@ -144,6 +145,9 @@ export default {
           this.selectedCorrespondentType.type = null;
       }
       this.$store.dispatch("currentDocument/setCorrespondent", data);
+      this.setContact(null);
+      this.setCounterpartySignatoryId(null);
+      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
     },
     setContact(data) {
       this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
@@ -162,9 +166,6 @@ export default {
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
-      this.setContact(null);
-      this.setCounterpartySignatoryId(null);
-      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
     }
   },
   computed: {
@@ -239,14 +240,14 @@ export default {
     },
     inResponseToIdOptions() {
       return {
+        readOnly: !this.correspondentId,
+        deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingLetter}`,
-          filter: [
-            "correspondentId",
-            "=",
-            this.$store.getters["currentDocument/document"].correspondentId
-          ]
+          filter: this.correspondentId
+            ? ["correspondentId", "=", this.correspondentId]
+            : []
         }),
         value: this.$store.getters["currentDocument/document"].inResponseToId,
         onValueChanged: e => {

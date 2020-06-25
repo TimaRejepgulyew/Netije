@@ -19,6 +19,7 @@
         data-field="correctedId"
         :editor-options="correctedIdOptions"
         editor-type="dxSelectBox"
+        :help-text="$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('translations.fields.correctedId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
@@ -43,6 +44,7 @@
         data-field="leadingDocumentId"
         editor-type="dxSelectBox"
         :editor-options="leadingDocumentOptions"
+        :help-text="$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('menu.contract')" />
       </DxSimpleItem>
@@ -64,13 +66,6 @@
         <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
-
-      <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-        <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-      </DxSimpleItem>
-      <DxSimpleItem template="responsibleEmployee" data-field="responsibleEmployeeId">
-        <DxLabel location="top" :text="$t('translations.fields.responsibleEmployeeId')" />
-      </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.conditions')">
       <DxSimpleItem
@@ -91,7 +86,6 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
-        :disabled="counterpartyIdRequired"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         validatorGroup="OfficialDocument"
         @valueChanged="setCounterparty"
@@ -112,16 +106,6 @@
         @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"
       />
-    </template>
-    <template #ourSignatory>
-      <employee-select-box
-        :value="ourSignatoryId"
-        :storeApi="signatoryApi"
-        @valueChanged="setOurSignatoryId"
-      />
-    </template>
-    <template #responsibleEmployee>
-      <employee-select-box :value="responsibleEmployeeId" @valueChanged="setResponsibleEmployeeId" />
     </template>
   </DxForm>
 </template>
@@ -152,8 +136,7 @@ export default {
     return {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
-      validatorGroup: "OfficialDocument",
-      counterpartyIdRequired: false
+      validatorGroup: "OfficialDocument"
     };
   },
   methods: {
@@ -165,6 +148,8 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
+      this.$store.commit("currentDocument/SET_CORRECTED_ID", null);
+      this.$store.dispatch("currentDocument/setLeadingDocumentId", null);
       this.$store.dispatch("currentDocument/setCounterparty", data);
       this.$store.commit("currentDocument/SET_CONTACT_ID", null);
       this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
@@ -176,15 +161,6 @@ export default {
       this.$store.commit(
         "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
         data && data.id
-      );
-    },
-    setOurSignatoryId(data) {
-      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
-    },
-    setResponsibleEmployeeId(data) {
-      return this.$store.commit(
-        "currentDocument/SET_RESPONSIBLE_EMPLOYEE_ID",
-        data
       );
     }
   },
@@ -227,44 +203,32 @@ export default {
       };
     },
     correctedIdOptions() {
-      const filter = () => {
-        if (this.counterpartyId)
-          return ["counterpartyId", "=", this.counterpartyId];
-      };
       return {
+        readOnly: !this.counterpartyId,
+        deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.IncomingTaxInvoice}`,
-          filter: filter()
+          filter: this.counterpartyId
+            ? ["counterpartyId", "=", this.counterpartyId]
+            : []
         }),
         value: this.$store.getters["currentDocument/document"].correctedId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_CORRECTED_ID", e.value);
-        },
-        onSelectionChanged: e => {
-          if (e.selectedItem) {
-            this.$store.dispatch(
-              "currentDocument/setCounterparty",
-              e.selectedItem.counterpartyId
-            );
-            this.$store.commit("currentDocument/SET_CONTACT_ID", null);
-            this.$store.commit(
-              "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
-              null
-            );
-            this.counterpartyIdRequired = true;
-          } else {
-            this.counterpartyIdRequired = false;
-          }
         }
       };
     },
     leadingDocumentOptions() {
       return {
+        readOnly: !this.counterpartyId,
+        deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
-          filter: ["counterpartyId", "=", this.counterpartyId]
+          filter: this.counterpartyId
+            ? ["counterpartyId", "=", this.counterpartyId]
+            : []
         }),
         value: this.$store.getters["currentDocument/document"]
           .leadingDocumentId,
@@ -289,6 +253,9 @@ export default {
     },
     totalAmountOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
         format: "#,##0.00",
         readOnly: this.isRegistered,
         value: this.$store.getters["currentDocument/document"].totalAmount,

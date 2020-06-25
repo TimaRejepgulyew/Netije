@@ -24,6 +24,7 @@
         data-field="leadingDocumentId"
         editor-type="dxSelectBox"
         :editor-options="leadingDocumentOptions"
+        :help-text="$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('menu.contract')" />
       </DxSimpleItem>
@@ -144,6 +145,7 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
+      this.$store.dispatch("currentDocument/setLeadingDocumentId", null);
       this.$store.dispatch("currentDocument/setCounterparty", data);
       this.$store.commit("currentDocument/SET_CONTACT_ID", null);
       this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
@@ -192,13 +194,17 @@ export default {
       return this.$store.getters["currentDocument/document"]
         .responsibleEmployeeId;
     },
-  
+
     leadingDocumentOptions() {
       return {
+        readOnly: !this.counterpartyId,
+        deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
-          filter: ["counterpartyId", "=", this.counterpartyId]
+          filter: this.counterpartyId
+            ? ["counterpartyId", "=", this.counterpartyId]
+            : []
         }),
         value: this.$store.getters["currentDocument/document"]
           .leadingDocumentId,
@@ -223,6 +229,9 @@ export default {
     },
     totalAmountOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
         format: "#,##0.00",
         readOnly: this.isRegistered,
         value: this.$store.getters["currentDocument/document"].totalAmount,

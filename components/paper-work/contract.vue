@@ -264,6 +264,9 @@ export default {
     },
     totalAmountOptions() {
       return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
         format: "#,##0.00",
         readOnly: this.isRegistered,
         value: this.$store.getters["currentDocument/document"].totalAmount,

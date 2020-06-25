@@ -54,6 +54,7 @@
       data-field="leadingDocumentId"
       editor-type="dxSelectBox"
       :editor-options="leadingDocumentOptions"
+      :help-text="$t('translations.fields.counterPartRequired')"
     >
       <DxLabel location="top" :text="$t('menu.contract')" />
     </DxSimpleItem>
@@ -113,6 +114,7 @@ export default {
   methods: {
     setCounterparty(data) {
       this.$store.dispatch("currentDocument/setCounterparty", data);
+      this.$store.dispatch("currentDocument/setLeadingDocumentId", null);
     }
   },
 
@@ -152,10 +154,14 @@ export default {
     },
     leadingDocumentOptions() {
       return {
+        readOnly: !this.counterpartyId,
+        deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
-          filter: ["counterpartyId", "=", this.counterpartyId]
+          filter: this.counterpartyId
+            ? ["counterpartyId", "=", this.counterpartyId]
+            : []
         }),
         value: this.$store.getters["currentDocument/document"]
           .leadingDocumentId,

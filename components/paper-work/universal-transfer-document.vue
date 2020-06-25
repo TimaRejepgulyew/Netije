@@ -30,7 +30,10 @@
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
-      <DxGroupItem :visible="isCompany" :col-count="1">
+      <DxGroupItem :visible="isCompany" :col-count="2">
+        <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
+          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+        </DxSimpleItem>
         <DxSimpleItem data-field="contactId" template="contact">
           <DxLabel location="top" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
@@ -104,6 +107,13 @@
         :value="contactId"
       />
     </template>
+    <template #counterPartSignatury>
+      <custom-select-box-contact
+        :correspondentId="counterpartyId"
+        @valueChanged="setCounterpartySignatoryId"
+        :value="counterpartySignatoryId"
+      />
+    </template>
     <template #ourSignatory>
       <employee-select-box
         :value="ourSignatoryId"
@@ -155,11 +165,11 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-
-      this.$store.dispatch("currentDocument/setCounterparty", data);
       this.$store.commit("currentDocument/SET_CORRECTED_ID", null);
       this.$store.dispatch("currentDocument/setLeadingDocumentId", null);
+      this.$store.dispatch("currentDocument/setCounterparty", data);
       this.$store.commit("currentDocument/SET_CONTACT_ID", null);
+      this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
     },
     setContact(data) {
       this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
@@ -194,6 +204,10 @@ export default {
     contactId() {
       return this.$store.getters["currentDocument/document"].contactId;
     },
+    counterpartySignatoryId() {
+      return this.$store.getters["currentDocument/document"]
+        .counterpartySignatoryId;
+    },
     ourSignatoryId() {
       return this.$store.getters["currentDocument/document"].ourSignatoryId;
     },
@@ -216,11 +230,11 @@ export default {
     },
     correctedIdOptions() {
       return {
-        deferRendering: false,
         readOnly: !this.counterpartyId,
+        deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingTaxInvoice}`,
+          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.AccountingDocuments}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : []
@@ -233,8 +247,8 @@ export default {
     },
     leadingDocumentOptions() {
       return {
-        deferRendering: false,
         readOnly: !this.counterpartyId,
+        deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
