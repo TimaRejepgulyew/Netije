@@ -103,7 +103,7 @@ export default {
         }),
         paginate: true,
         filter: options.data
-          ? [["status", "=", Status.Active, "or", "id", "=", options.data.id],"and",["recipientType","=",RecipientType.Employee]]
+          ? [["status", "=", Status.Active]]
           : []
       };
     },
