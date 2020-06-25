@@ -104,6 +104,7 @@ import incomingTaxInvoice from "~/components/paper-work/incoming-tax-invoice.vue
 import outgoingTaxInvoice from "~/components/paper-work/outgoing-tax-invoice.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
+import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import { confirm } from "devextreme/ui/dialog";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
@@ -169,7 +170,7 @@ export default {
       documentType: this.$store.getters["currentDocument/document"]
         .documentTypeGuid,
       versionOpenState: true,
-      entityTypeGuid: EntityTypes.ElectronicDocument
+      entityTypeGuid: mapToEntityType(this.$store.getters["currentDocument/document"].documentTypeGuid)
     };
   },
   methods: {
