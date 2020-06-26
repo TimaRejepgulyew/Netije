@@ -5,7 +5,6 @@
     :show-validation-summary="false"
     :validation-group="validatorGroup"
   >
-  
     <DxGroupItem :col-span="2" :col-count="1" :caption="$t('translations.fields.counterPart')">
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
@@ -25,7 +24,7 @@
         data-field="leadingDocumentId"
         editor-type="dxSelectBox"
         :editor-options="leadingDocumentOptions"
-        :help-text="$t('translations.fields.counterPartRequired')"
+        :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('menu.contract')" />
       </DxSimpleItem>

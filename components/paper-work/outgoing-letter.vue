@@ -47,6 +47,7 @@
           data-field="inResponseToId"
           :editor-options="inResponseToIdOptions"
           editor-type="dxSelectBox"
+          :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
         >
           <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
         </DxSimpleItem>
@@ -222,6 +223,7 @@ export default {
 
     inResponseToIdOptions() {
       return {
+        readOnly: !this.correspondentId,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.IncomingLetter}`,

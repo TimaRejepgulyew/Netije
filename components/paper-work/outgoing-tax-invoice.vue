@@ -19,7 +19,7 @@
         data-field="correctedId"
         :editor-options="correctedIdOptions"
         editor-type="dxSelectBox"
-        :help-text="$t('translations.fields.counterPartRequired')"
+        :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('translations.fields.correctedId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
@@ -41,7 +41,7 @@
         data-field="leadingDocumentId"
         editor-type="dxSelectBox"
         :editor-options="leadingDocumentOptions"
-        :help-text="$t('translations.fields.counterPartRequired')"
+        :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('menu.contract')" />
       </DxSimpleItem>

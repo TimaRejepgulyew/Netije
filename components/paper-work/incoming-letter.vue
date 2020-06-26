@@ -21,7 +21,7 @@
         data-field="inResponseToId"
         :editor-options="inResponseToIdOptions"
         editor-type="dxSelectBox"
-        :help-text="$t('translations.fields.counterPartRequired')"
+        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
       </DxSimpleItem>

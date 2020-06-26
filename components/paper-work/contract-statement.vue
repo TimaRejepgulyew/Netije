@@ -24,7 +24,7 @@
         data-field="leadingDocumentId"
         editor-type="dxSelectBox"
         :editor-options="leadingDocumentOptions"
-        :help-text="$t('translations.fields.counterPartRequired')"
+        :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
       >
         <DxLabel location="top" :text="$t('menu.contract')" />
       </DxSimpleItem>

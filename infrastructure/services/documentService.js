@@ -1,6 +1,12 @@
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
-import lifeCycleStore from "~/infrastructure/constants/lifeCycleStore.js";
+import DocumentType from "~/infrastructure/constants/documentType.js";
+import {
+  lifeCycleStateStoreType1,
+  lifeCycleStateStoreType2,
+  lifeCycleStateStoreContract,
+  lifeCycleStateStoreIncomingInvoice
+} from "~/infrastructure/constants/lifeCycleState.js";
 export default {
   async uploadVersion(document, file, context) {
     return await upload(document, file, context);
@@ -32,10 +38,30 @@ export default {
     );
   }
 };
-export function genereteLifeCycleItem(context, documentTypeGuid) {
-  const store = lifeCycleStore(context);
+export function generateLifeCycleItemState(context, documentTypeGuid) {
+  switch (documentTypeGuid) {
+    case DocumentType.IncomingLetter:
+    case DocumentType.OutgoingLetter:
+      return lifeCycleStateStoreType1(context);
+    case DocumentType.Order:
+    case DocumentType.CompanyDirective:
+    case DocumentType.SimpleDocument:
+    case DocumentType.Addendum:
+    case DocumentType.Memo:
+    case DocumentType.PowerOfAttorney:
+    case DocumentType.ContractStatement:
+    case DocumentType.Waybill:
+    case DocumentType.IncomingTaxInvoice:
+    case DocumentType.OutgoingTaxInvoice:
+    case DocumentType.UniversalTransferDocument:
+      return lifeCycleStateStoreType2(context);
+    case DocumentType.Contract:
+    case DocumentType.SupAgreement:
+      return lifeCycleStateStoreContract(context);
+    case DocumentType.IncomingInvoice:
+      return lifeCycleStateStoreIncomingInvoice(context);
+  }
   console.log(documentTypeGuid);
-  return store.get(documentTypeGuid);
 }
 
 const preview = (endpoint, context) => {

@@ -93,10 +93,37 @@ export const mutations = {
     if (payload) state.document.documentKindId = payload.id;
     else state.document.documentKindId = null;
   },
-  SET_NAME(state, payload) {
-    if (checkDataChanged(state.document.name, payload)) {
+  SET_LIFE_CYCLE_STATE(state, payload) {
+    if (checkDataChanged(state.document.lifeCycleState, payload)) {
       state.isDataChanged = true;
     }
+    state.document.lifeCycleState = payload;
+  },
+  SET_INTERNAL_APPROVAL_STATE(state, payload) {
+    if (checkDataChanged(state.document.internalApprovalState, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.internalApprovalState = payload;
+  },
+  SET_EXTERNAL_APPROVAL_STATE(state, payload) {
+    if (checkDataChanged(state.document.externalApprovalState, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.externalApprovalState = payload;
+  },
+  SET_EXECUTION_STATE(state, payload) {
+    if (checkDataChanged(state.document.executionState, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.executionState = payload;
+  },
+  SET_CONTROL_EXECUTION_STATE(state, payload) {
+    if (checkDataChanged(state.document.controlExecutionState, payload)) {
+      state.isDataChanged = true;
+    }
+    state.document.controlExecutionState = payload;
+  },
+  SET_NAME(state, payload) {
     state.document.name = payload;
   },
   SET_DEFAULT_NAME(state, payload) {

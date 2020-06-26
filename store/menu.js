@@ -141,7 +141,6 @@ export const actions = {
       {
         text: this.$i18n.t("menu.paperwork"),
         icon: "file",
-        path: `/paper-work/${DocumentFilterType.All}`,
 
         items: [
           {
