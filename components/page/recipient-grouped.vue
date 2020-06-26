@@ -24,6 +24,8 @@ export default {
           return this.$t("menu.roles");
         case ResipientType.Group:
           return this.$t("menu.group");
+           case ResipientType.User:
+          return this.$t("menu.user");
         case ResipientType.Employee:
           return this.$t("menu.employee");
       }

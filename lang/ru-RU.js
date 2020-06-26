@@ -246,7 +246,8 @@ export default {
 
     onExicution: "На исполнение",
     onReview: "На приемку",
-    onAcquaintance: "На ознакомление"
+    onAcquaintance: "На ознакомление",
+    user: "Пользователи"
   },
   buttons: {
     downloadFile: "Загрузить файл",
