@@ -77,6 +77,7 @@
   </main>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import MemberList from "~/components/administration/master-detail-member-list";
 import textArea from "~/components/page/textArea";
