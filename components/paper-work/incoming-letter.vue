@@ -100,6 +100,7 @@
   </DxForm>
 </template>
 <script>
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -202,13 +203,11 @@ export default {
       return this.$store.getters["currentDocument/document"].assigneeId;
     },
     businessUnitOptions() {
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder.withUrl(dataApi.company.BusinessUnit).filter(["status", "=", 0]).build(this);
       return {
         readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
-        }),
+        ...options,
         value: this.$store.getters["currentDocument/document"].businessUnitId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
@@ -239,19 +238,28 @@ export default {
       };
     },
     inResponseToIdOptions() {
-      return {
-        readOnly: !this.correspondentId,
-        deferRendering: false,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingLetter}`,
-          filter: this.correspondentId
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(
+          `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingLetter}`
+        )
+        .filter(
+          this.correspondentId
             ? ["correspondentId", "=", this.correspondentId]
             : []
-        }),
-        value: this.$store.getters["currentDocument/document"].inResponseToId,
+        )
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .build(this);
+      return {
+        readOnly: !this.correspondentId,
+        ...options,
+        value: this.$store.getters["currentDocument/document"].inResponseTo,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", e.value);
+          this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", e.value?.id);
         }
       };
     },

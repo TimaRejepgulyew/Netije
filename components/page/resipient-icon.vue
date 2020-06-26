@@ -19,6 +19,8 @@ export default {
           return require("~/static/icons/recipient-type/x-men.svg");
         case ResipientType.Employee:
           return require("~/static/icons/recipient-type/business.svg");
+          case ResipientType.User:
+          return require("~/static/icons/recipient-type/business.svg");
         default:
           throw "not this type icon resipient";
       }

@@ -3,5 +3,6 @@ export default {
   Department: 1,
   Role: 2,
   Group: 3,
-  Employee: 4
+  User: 4,
+  Employee: 5
 };
