@@ -253,6 +253,7 @@ export default {
         })
         .withoutDeferRendering()
         .focusStateDisabled()
+        .clearValueExpr()
         .build(this);
       return {
         readOnly: !this.correspondentId,

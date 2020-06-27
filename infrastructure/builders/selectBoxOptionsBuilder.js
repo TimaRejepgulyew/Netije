@@ -41,6 +41,11 @@ export default class SelectBoxOptionBuilder {
         return this;
     }
 
+    clearValueExpr(){
+        delete this.valueExpr;
+        return this;
+    }
+
     build(context) {
         const obj = {
             dataSource: new DataSource({
