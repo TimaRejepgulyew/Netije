@@ -1,39 +1,16 @@
 <template>
   <DxForm
-    :col-count="2"
+    :col-count="1"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="validatorGroup"
   >
-    <DxGroupItem :caption="$t('translations.fields.fromWhom')">
+    <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
       <DxSimpleItem data-field="correspondentId" template="correspondent">
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
-        <DxLabel location="top" :text="$t('translations.fields.dated')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
-        <DxLabel location="top" text="№" />
-      </DxSimpleItem>
-
-      <DxSimpleItem
-        data-field="inResponseToId"
-        :editor-options="inResponseToIdOptions"
-        editor-type="dxSelectBox"
-        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="deliveryMethodId"
-        :editor-options="deliveryMethodOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
-      </DxSimpleItem>
-
-      <DxGroupItem :visible="isOrganization">
+      <DxGroupItem>
         <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
@@ -42,8 +19,7 @@
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
-
-    <DxGroupItem :caption="$t('translations.fields.whom')">
+    <DxGroupItem :col-count="2" :caption="$t('translations.fields.whom')">
       <DxSimpleItem
         data-field="businessUnitId"
         :editor-options="businessUnitOptions"
@@ -68,6 +44,30 @@
         <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
+    <DxGroupItem :col-count="2" :caption="$t('shared.conditions')">
+      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
+        <DxLabel location="top" :text="$t('translations.fields.dated')" />
+      </DxSimpleItem>
+      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
+        <DxLabel location="top" text="№" />
+      </DxSimpleItem>
+
+      <DxSimpleItem
+        data-field="inResponseToId"
+        :editor-options="inResponseToIdOptions"
+        editor-type="dxSelectBox"
+        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="deliveryMethodId"
+        :editor-options="deliveryMethodOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
+      </DxSimpleItem>
+    </DxGroupItem>
     <template #correspondent>
       <custom-select-box
         validatorGroup="OfficialDocument"
@@ -79,6 +79,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        :disabled="!isOrganization"
         :correspondentId="correspondentId"
         @valueChanged="setContact"
         :value="contactId"
@@ -86,6 +87,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        :disabled="!isOrganization"
         :correspondentId="correspondentId"
         @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"
@@ -204,7 +206,10 @@ export default {
     },
     businessUnitOptions() {
       const builder = new SelectBoxOptionsBuilder();
-      const options = builder.withUrl(dataApi.company.BusinessUnit).filter(["status", "=", 0]).build(this);
+      const options = builder
+        .withUrl(dataApi.company.BusinessUnit)
+        .filter(["status", "=", 0])
+        .build(this);
       return {
         readOnly: this.isRegistered,
         ...options,

@@ -1,64 +1,62 @@
 <template>
   <DxForm
-    :col-count="1"
     :store.sync="store"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
   >
-    <DxGroupItem :col-count="2">
-      <DxGroupItem :caption="$t('translations.fields.fromWhom')">
-        <DxSimpleItem
-          data-field="businessUnitId"
-          :editor-options="businessUnitOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-          <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          data-field="departmentId"
-          :editor-options="deparmentOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
-        </DxSimpleItem>
+    <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
+      <DxSimpleItem
+        data-field="businessUnitId"
+        :editor-options="businessUnitOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="departmentId"
+        :editor-options="deparmentOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+        <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+      </DxSimpleItem>
 
-        <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-        </DxSimpleItem>
-        <DxSimpleItem template="prepared" data-field="preparedById">
-          <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
-        </DxSimpleItem>
-      </DxGroupItem>
+      <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
+        <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+      </DxSimpleItem>
+      <DxSimpleItem template="prepared" data-field="preparedById">
+        <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
+        <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+      </DxSimpleItem>
+    </DxGroupItem>
+    <DxGroupItem :col-count="2" :caption="$t('shared.conditions')">
+      <DxSimpleItem
+        data-field="inResponseToId"
+        :editor-options="inResponseToIdOptions"
+        editor-type="dxSelectBox"
+        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="deliveryMethodId"
+        :editor-options="deliveryMethodOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
+      </DxSimpleItem>
+    </DxGroupItem>
+    <DxGroupItem :caption="$t('translations.fields.whom')">
+      <DxSimpleItem data-field="correspondentId" template="correspondent">
+        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+        <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
+      </DxSimpleItem>
 
-      <DxGroupItem :caption="$t('translations.fields.whom')">
-        <DxSimpleItem data-field="correspondentId" template="correspondent">
-          <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
-          <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
-        </DxSimpleItem>
-
-        <DxSimpleItem data-field="addresseeId" :visible="isCompany" template="contact">
-          <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          data-field="inResponseToId"
-          :editor-options="inResponseToIdOptions"
-          editor-type="dxSelectBox"
-          :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          data-field="deliveryMethodId"
-          :editor-options="deliveryMethodOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
-        </DxSimpleItem>
-      </DxGroupItem>
+      <DxSimpleItem data-field="addresseeId" template="contact">
+        <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+      </DxSimpleItem>
     </DxGroupItem>
     <template #correspondent>
       <custom-select-box
@@ -71,6 +69,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        :disabled="!isCompany"
         :correspondentId="correspondentId"
         @valueChanged="setAddressee"
         :value="addresseeId"
@@ -80,8 +79,8 @@
     <template #prepared>
       <employee-select-box
         validatorGroup="OfficialDocument"
-        :value="preparedId"
-        @valueChanged="setPreparedId"
+        :value="preparedById"
+        @valueChanged="setPreparedById"
       />
     </template>
     <template #ourSignatory>
@@ -145,7 +144,7 @@ export default {
     setAddressee(data) {
       this.$store.commit("currentDocument/SET_ADDRESSE_ID", data && data.id);
     },
-    setPreparedId(data) {
+    setPreparedById(data) {
       this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
     },
     setOurSignatoryId(data) {
@@ -156,8 +155,8 @@ export default {
     }
   },
   computed: {
-    preparedId() {
-      return this.$store.getters["currentDocument/document"].preparedId;
+    preparedById() {
+      return this.$store.getters["currentDocument/document"].preparedById;
     },
     ourSignatoryId() {
       return this.$store.getters["currentDocument/document"].ourSignatoryId;

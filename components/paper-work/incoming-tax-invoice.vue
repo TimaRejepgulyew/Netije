@@ -30,7 +30,7 @@
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
-      <DxGroupItem :visible="isCompany" :col-count="2">
+      <DxGroupItem :col-count="2">
         <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
@@ -95,6 +95,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
         :value="contactId"
@@ -102,6 +103,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"

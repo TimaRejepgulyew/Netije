@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 class AccessOperation {
-  constructor() { }
+  constructor() {}
 }
 export const state = () => ({
   accessRights: {},
@@ -109,6 +109,12 @@ export const getters = {
   isPermissionsLoaded: ({ isLoaded }) => {
     return isLoaded;
   },
+  isResponsibleFinansicalArchive({ accessRights }) {
+    return accessRights.isResponsibleForTheFinancialArchive;
+  },
+  isResponsibleForContracts({ accessRights }) {
+    return accessRights.isResponsibleForContracts;
+  },
   allowRegisterDocument: ({ accessRights }) => entityType => {
     return accessRights.operations.has(entityType);
   }
@@ -119,6 +125,12 @@ export const mutations = {
       employeeId: payload.employeeId,
       isAdmin: payload.roles.includes("Admin"),
       isAuditor: payload.roles.includes("Auditor"),
+      isResponsibleForTheFinancialArchive: payload.roles.includes(
+        "ResponsibleForTheFinancialArchive"
+      ),
+      isResponsibleForContracts:payload.roles.includes(
+        "ResponsibleForContracts"
+      ),
       Roles: payload.roles,
       operations: new Map(
         payload.accessRights.map(({ entityType, operation }) => {
@@ -134,12 +146,16 @@ export const mutations = {
 export const actions = {
   async load({ commit, dispatch }) {
     var result = await this.$axios.get(dataApi.Metadata);
+    console.log(result);
     commit("PERMISSIONS", result.data);
     dispatch("menu/initialize", {}, { root: true });
-    dispatch("user/initUser", {
-      employeeId: result.data.employeeId,
-      name: result.data.name
-    }, { root: true });
-
+    dispatch(
+      "user/initUser",
+      {
+        employeeId: result.data.employeeId,
+        name: result.data.name
+      },
+      { root: true }
+    );
   }
 };

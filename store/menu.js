@@ -2,15 +2,15 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import DocumentFilterType from "~/infrastructure/constants/documentFilterType";
 import financialArchiveIcon from "~/static/icons/financial-archive.svg";
 import contractIcon from "~/static/icons/contract.svg";
-import contactStatementIcon from "~/static/icons/contactState.svg";
-import incommingTaxInvoiceIcon from "~/static/icons/incommingTaxInvoice.svg";
-import outgoingTaxInvoiceIcon from "~/static/icons/outgoingTaxInvoice.svg";
-import universaltransferdocumentIcon from "~/static/icons/universaltransferdocument.svg";
-import waybillIcon from "~/static/icons/waybill.svg";
 export const state = () => ({
   menuList: []
 });
-
+export const hasContractAccess = rootGetters => {
+  return rootGetters["permissions/isResponsibleForContracts"];
+};
+export const hasAccountingDocumentBaseAccess = rootGetters => {
+  return rootGetters["permissions/isResponsibleFinansicalArchive"];
+};
 export const hasSharedDirectoryAccess = rootGetters => {
   return (
     rootGetters["permissions/allowReading"](EntityType.Country) ||
@@ -96,6 +96,7 @@ export const actions = {
         text: this.$i18n.t("menu.financial-archive"),
         icon: financialArchiveIcon,
         path: `/paper-work/${DocumentFilterType.AccountingDocuments}`,
+        visible: hasAccountingDocumentBaseAccess(rootGetters),
         items: [
           // {
           //   text: this.$i18n.t("menu.incomingTaxInvoice"),
@@ -119,6 +120,7 @@ export const actions = {
         text: this.$i18n.t("menu.contract"),
         icon: contractIcon,
         path: `/paper-work/${DocumentFilterType.ContractualDocuments}`,
+        visible: hasContractAccess(rootGetters),
         items: [
           // {
           //   text: this.$i18n.t("menu.contract"),

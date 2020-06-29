@@ -10,10 +10,11 @@ import outgoingTaxInvoiceIcon from "~/static/icons/outgoingTaxInvoice.svg";
 import universaltransferdocumentIcon from "~/static/icons/universaltransferdocument.svg";
 import waybillIcon from "~/static/icons/waybill.svg";
 import supAgreementIcon from "~/static/icons/supAgreement.svg";
+
 export default function(context) {
   return [
     {
-      text: context.$t("shared.documents"),
+      text: context.$t("menu.paperwork"),
       icon: "file",
       items: DocumentButtons(context)
     },
@@ -26,12 +27,15 @@ export default function(context) {
     {
       text: context.$t("menu.financialDocument"),
       icon: financialArchiveIcon,
-      items: FinancialArchiveButtons(context)
+      items: FinancialArchiveButtons(context),
+      visible:
+        context.$store.getters["permissions/isResponsibleFinansicalArchive"]
     },
     {
       text: context.$t("menu.contract"),
       icon: contractIcon,
-      items: ContractButtons(context)
+      items: ContractButtons(context),
+      visible: context.$store.getters["permissions/isResponsibleForContracts"]
     }
   ];
 }

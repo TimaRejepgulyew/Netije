@@ -196,7 +196,7 @@ export default {
     outgoingTaxInvoice: "Счет-фактура выставленный",
     universalTransferDocument: "Универсальный передаточный документ",
     waybill: "Товарная Накладная соглашения",
-    contract: "Договор",
+    contract: "Договора",
     personalSettings: "Персональные настройки",
     history: "История",
     group: "Группы",

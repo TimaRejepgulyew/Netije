@@ -88,7 +88,6 @@ export default {
   },
   created() {
     this.showLifeCycleItemByTypeGuid();
-    console.log(this.documentTypeGuid);
   },
   methods: {
     showLifeCycleItemByTypeGuid() {
