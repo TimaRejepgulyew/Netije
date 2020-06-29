@@ -26,7 +26,7 @@
         <component :is="taskType"></component>
       </template>
       <template #attachments>
-        <attachments></attachments>
+        <attachment :attachmentDetails="attachmentDetails" :attachmentGroups="attachmentGroups" />
       </template>
       <template #comments>
         <comments v-if="!isDraft" :url="commentsUrl"></comments>
@@ -42,7 +42,7 @@ import TaskType from "~/infrastructure/constants/taskType.js";
 import toolbar from "~/components/task/toolbar.vue";
 import comments from "~/components/workFlow/assignment-comments.vue";
 import Header from "~/components/page/page__header";
-import attachments from "~/components/task/attachment-details";
+import attachment from "~/components/workFlow/attachment.vue";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -57,7 +57,7 @@ export default {
     actionItemExecutionTask,
     comments,
     toolbar,
-    attachments,
+    attachment,
     Header,
     DxGroupItem,
     DxSimpleItem,
@@ -73,6 +73,12 @@ export default {
     };
   },
   computed: {
+    attachmentDetails() {
+      return this.$store.getters["currentTask/task"].attachmentDetails;
+    },
+    attachmentGroups() {
+      return this.$store.getters["currentTask/task"].attachmentGroups;
+    },
     isDraft() {
       return this.$store.getters["currentTask/isDraft"];
     },

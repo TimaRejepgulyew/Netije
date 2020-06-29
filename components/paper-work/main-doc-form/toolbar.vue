@@ -124,8 +124,7 @@ export default {
   },
   computed: {
     canBeOpenedWithPreview() {
-      return this.$store.getters["currentDocument/document"]
-        .canBeOpenedWithPreview;
+      return this.$store.getters["currentDocument/document"].canBeOpenedWithPreview;
     },
     hasVersions() {
       return this.$store.getters["currentDocument/document"].hasVersions;

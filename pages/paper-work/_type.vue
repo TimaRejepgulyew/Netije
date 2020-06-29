@@ -1,171 +1,21 @@
 <template>
-  <main>
-    <DxPopup
-      :visible.sync="createDocumentPopup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="500"
-      height="auto"
-      :title="$t('translations.fields.createDocument')"
-    >
-      <div>
-        <CreateDocument></CreateDocument>
-      </div>
-    </DxPopup>
-    <DxDataGrid
-      id="gridContainer"
-      :show-borders="true"
-      :data-source="store"
-      :remote-operations="true"
-      :columns="columns"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      :onRowDblClick="openDocument"
-      @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="true"
-    >
-      <DxGrouping :auto-expand-all="false" />
-      <DxSelection />
-      <DxHeaderFilter :visible="true" />
-
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
-      <DxFilterRow :visible="true" />
-      <DxFilterPanel :visible="true" />
-      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
-
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('shared.documents')"
-      />
-
-      <DxStateStoring :enabled="true" type="localStorage" :storage-key="'allDocument'+type" />
-      <DxEditing :allow-adding="true" :useIcons="true" mode="popup" />
-
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
-
-      <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value?cell.data.value:null" />
-      </template>
-    </DxDataGrid>
-  </main>
+  <documentGrid :documentTypeGuid="documentTypeGuid" @selectedDocument="toDetail" />
 </template>
 <script>
-import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
-import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
-import CreateDocument from "~/components/paper-work/createDocumentPopup";
-import { DxPopup } from "devextreme-vue/popup";
-import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
-import { DxLoadPanel } from "devextreme-vue/load-panel";
-import documentIcon from "~/components/page/document-icon";
-import DocumentService from "~/infrastructure/services/documentService";
-import {
-  DxSearchPanel,
-  DxFilterPanel,
-  DxFilterBuilderPopup,
-  DxDataGrid,
-  DxColumn,
-  DxEditing,
-  DxHeaderFilter,
-  DxScrolling,
-  DxExport,
-  DxSelection,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  DxColumnChooser,
-  DxColumnFixing,
-  DxFilterRow,
-  DxStateStoring,
-  DxButton
-} from "devextreme-vue/data-grid";
-import DataSource from "devextreme/data/data_source";
+import documentGrid from "~/components/paper-work/document-grid.vue";
 export default {
   components: {
-    documentIcon,
-    CreateDocument,
-    DxPopup,
-    DxLoadPanel,
-    DxFilterPanel,
-    DxFilterBuilderPopup,
-    Header,
-    DxSearchPanel,
-    DxDataGrid,
-    DxColumn,
-    DxEditing,
-    DxHeaderFilter,
-    DxScrolling,
-    DxExport,
-    DxSelection,
-    DxLookup,
-    DxGrouping,
-    DxGroupPanel,
-    DxColumnChooser,
-    DxColumnFixing,
-    DxFilterRow,
-    DxStateStoring,
-    DxButton
+    documentGrid
   },
-
   data() {
     return {
-      createDocumentPopup: false,
-      type: +this.$route.params.type,
-      createDocumentPopup: false,
-      filterBuilderPopupPosition: this.$store.getters[
-        "papaer-work/filterBuilderPopupPosition"
-      ],
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.paperWork.Documents + this.$route.params.type
-        }),
-        paginate: true
-      }),
-      openDocument: e => {
-        this.$store.commit("currentDocument/LOADED_FROM_URL", false);
-        this.$router.push(
-          `/paper-work/detail/${e.data.documentTypeGuid}/${e.key}`
-        );
-      }
+      documentTypeGuid: +this.$route.params.type
     };
   },
   methods: {
-    onToolbarPreparing(e) {
-      const addButton = e.toolbarOptions.items.find(btn => {
-        return btn.name == "addRowButton";
-      });
-
-      if (addButton) {
-        addButton.options.onClick = () => {
-          this.createDocumentPopup = true;
-        };
-      }
-      e.toolbarOptions.items.unshift({
-        widget: "button",
-        location: "after",
-        options: {
-          icon: "refresh",
-          onClick: () => {
-            this.store.reload();
-          }
-        }
-      });
-    }
-  },
-  computed: {
-    columns() {
-      return ColumnFactory.CreateColumns(this.type, this);
-    },
-    urlByTypeGuid() {
-      return this.$store.getters["paper-work/urlByTypeGuid"];
+    toDetail({ id, documentTypeGuid }) {
+      this.$store.commit("currentDocument/LOADED_FROM_URL", false);
+      this.$router.push(`/paper-work/detail/${documentTypeGuid}/${id}`);
     }
   }
 };

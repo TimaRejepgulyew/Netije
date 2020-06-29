@@ -16,9 +16,6 @@ export default {
     DxCheckBox
   },
   props: ["readOnly"],
-  created() {
-    console.log(this.readOnly);
-  },
   computed: {
     importance() {
       return this.$store.getters["currentTask/task"].importance ===
