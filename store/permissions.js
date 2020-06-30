@@ -110,9 +110,15 @@ export const getters = {
     return isLoaded;
   },
   isResponsibleFinansicalArchive({ accessRights }) {
+    if (accessRights.isAdmin) {
+      return true;
+    }
     return accessRights.isResponsibleForTheFinancialArchive;
   },
   isResponsibleForContracts({ accessRights }) {
+    if (accessRights.isAdmin) {
+      return true;
+    }
     return accessRights.isResponsibleForContracts;
   },
   allowRegisterDocument: ({ accessRights }) => entityType => {
