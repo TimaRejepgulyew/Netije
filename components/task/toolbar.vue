@@ -31,7 +31,7 @@
 </template>
 <script>
 import importanceChanger from "~/components/task/importance-changer";
-import { confirm } from "devextreme/ui/dialog";
+import { alert } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
@@ -39,6 +39,7 @@ import ReviewResult from "~/infrastructure/constants/reviewResult.js";
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
+import attachmentVue from "../workFlow/attachment.vue";
 export default {
   components: {
     importanceChanger,
@@ -83,13 +84,7 @@ export default {
         icon: saveIcon,
         hint: this.$t("buttons.save"),
         onClick: () => {
-          if (this.$parent.$refs["form"].instance.validate().isValid)
-            this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/saveAndLoad"),
-              e => {
-              },
-              e => this.$awn.alert()
-            );
+          this.save();
         }
       };
     },
@@ -97,7 +92,10 @@ export default {
       return {
         ...this.$store.getters["globalProperties/btnStart"](this),
         onClick: () => {
-          if (this.$parent.$refs["form"].instance.validate().isValid)
+          if (
+            this.validateAttachment() &&
+            this.$parent.$refs["form"].instance.validate().isValid
+          )
             this.$awn.asyncBlock(
               this.$store.dispatch("currentTask/startAndLoad"),
               e => {
@@ -144,12 +142,51 @@ export default {
   methods: {
     backTo() {
       this.$router.go(-1);
+    },
+    generateHtmlError(attachments) {
+      return attachments.map(attachment => {
+        if (!attachment.entities) {
+          return `<li class="red">Вложите ${attachment.groupTitle.toLowerCase()}</li>`;
+        }
+      });
+    },
+    validateAttachment() {
+      let isValid = true;
+      let attachments = this.$store.getters[
+        "currentTask/task"
+      ].attachmentGroups.filter(attachment => attachment.isRequired);
+      attachments.forEach(attachment => {
+        if (!attachment.entities) isValid = false;
+      });
+      if (!isValid) {
+        alert(this.generateHtmlError(attachments), this.$t("shared.error"));
+      }
+      return isValid;
+    },
+    save() {
+      if (
+        this.validateAttachment() &&
+        this.$parent.$refs["form"].instance.validate().isValid
+      )
+        this.$awn.asyncBlock(
+          this.$store.dispatch("currentTask/saveAndLoad"),
+          e => {},
+          e => this.$awn.alert()
+        );
     }
   }
 };
 </script>
-<style scoped>
+<style >
 .toolbar {
   margin-bottom: 10px;
+}
+li {
+  list-style-type: none;
+  list-style: none;
+}
+li.red {
+  font-size: 14px;
+  text-decoration: underline;
 }
 </style>

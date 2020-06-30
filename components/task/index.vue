@@ -27,8 +27,8 @@
       </template>
       <template #attachments>
         <attachment
+          @detachLink="detachLink"
           @pasteAttachment="pasteAttachment"
-          :attachmentDetails="attachmentDetails"
           :attachmentGroups="attachmentGroups"
         />
       </template>
@@ -81,12 +81,14 @@ export default {
       this.$awn.async(
         this.$store.dispatch("currentTask/pasteAttachment", options)
       );
+    },
+    detachLink(options) {
+      this.$awn.async(
+        this.$store.dispatch("currentTask/detachAttachment", options)
+      );
     }
   },
   computed: {
-    attachmentDetails() {
-      return this.$store.getters["currentTask/task"].attachmentDetails;
-    },
     attachmentGroups() {
       return this.$store.getters["currentTask/task"].attachmentGroups;
     },

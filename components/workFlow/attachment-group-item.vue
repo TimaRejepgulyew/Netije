@@ -14,6 +14,7 @@
     </DxPopup>
     <div class="d-flex align-center">
       <span class="dx-form-group-caption border-b">{{group.groupTitle}}</span>
+      <sup v-if="group.isRequired" class="red">*</sup>
       <DxButton
         :id="'addAttachment'+group.groupId"
         class="btn--green"
@@ -26,7 +27,7 @@
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <documentListItem :item="groupItem" />
+        <documentListItem @detachLink="detachLink" :item="groupItem" />
         <!-- <component is="componentByAttachmentType" :item="groupItem" /> -->
       </li>
     </ul>
@@ -78,47 +79,57 @@ export default {
         attachmentId: id,
         groupId: this.group.groupId
       });
+    },
+    detachLink(options) {
+      this.$emit("detachLink", { ...options, groupId: this.group.groupId });
     }
   },
   computed: {
     componentByAttachmentType() {
       switch (this.group.type) {
+
       }
     },
     // groupDemo() {
     //   let groupDemo = { ...this.group };
     //   groupDemo.entities = groupDemo.entities = [
     //     {
-    //       name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-    //       note: "adwdawd",
-    //       ourSignatoryId: null,
-    //       placedToCaseFileDate: null,
-    //       preparedById: 16,
-    //       registrationDate: null,
-    //       registrationNumber: null,
-    //       registrationState: 1,
-    //       responsibleForReturnEmployeeId: null,
-    //       returnDate: null,
-    //       returnDeadline: null,
-    //       scheduledReturnDateFromCounterparty: null,
-    //       subject: "dwadaw",
-    //       extension: ".pdf"
+    //       entity: {
+    //         name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
+    //         note: "adwdawd",
+    //         ourSignatoryId: null,
+    //         placedToCaseFileDate: null,
+    //         preparedById: 16,
+    //         registrationDate: null,
+    //         registrationNumber: null,
+    //         registrationState: 1,
+    //         responsibleForReturnEmployeeId: null,
+    //         returnDate: null,
+    //         returnDeadline: null,
+    //         scheduledReturnDateFromCounterparty: null,
+    //         subject: "dwadaw",
+    //         extension: ".pdf"
+    //       },
+    //       canDetach: true
     //     },
     //     {
-    //       name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-    //       note: "adwdawd",
-    //       ourSignatoryId: null,
-    //       placedToCaseFileDate: null,
-    //       preparedById: 16,
-    //       registrationDate: null,
-    //       registrationNumber: null,
-    //       registrationState: 1,
-    //       responsibleForReturnEmployeeId: null,
-    //       returnDate: null,
-    //       returnDeadline: null,
-    //       scheduledReturnDateFromCounterparty: null,
-    //       subject: "dwadaw",
-    //       extension: ".docx"
+    //       entity: {
+    //         name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
+    //         note: "adwdawd",
+    //         ourSignatoryId: null,
+    //         placedToCaseFileDate: null,
+    //         preparedById: 16,
+    //         registrationDate: null,
+    //         registrationNumber: null,
+    //         registrationState: 1,
+    //         responsibleForReturnEmployeeId: null,
+    //         returnDate: null,
+    //         returnDeadline: null,
+    //         scheduledReturnDateFromCounterparty: null,
+    //         subject: "dwadaw",
+    //         extension: ".pdf"
+    //       },
+    //       canDetach: true
     //     }
     //   ];
     //   return groupDemo;
@@ -133,6 +144,10 @@ export default {
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
+.red {
+  color: red;
+  font-size: 17px;
+}
 .f-grow-1 {
   flex-grow: 1;
 }

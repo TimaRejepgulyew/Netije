@@ -135,8 +135,8 @@ export const mutations = {
   SET_STATUS(state, payload) {
     state.task.status = payload;
   },
-  SET_ATTACHMENT_GROUP(state, payload) {
-    state.task.attachmentsGroup = payload;
+  SET_ATTACHMENT_GROUPS(state, payload) {
+    state.task.attachmentGroups = payload;
   }
 };
 
@@ -205,9 +205,18 @@ export const actions = {
     } catch (e) {}
   },
   async pasteAttachment({ state, commit }, payload) {
-    const options = { ...payload, id: state.task.id, };
-    console.log(options);
-    const attachmentsGroup = await this.$axios.post(dataApi.task.Paste, options);
-    commit("SET_ATTACHMENT_GROUP", attachmentsGroup);
+    const options = { ...payload, id: state.task.id };
+    const { data } = await this.$axios.post(dataApi.attachment.Paste, options);
+    console.log(data, "data");
+    commit("SET_ATTACHMENT_GROUPS", data);
+  },
+  async detachAttachment({ state, commit }, payload) {
+    const options = { ...payload, id: state.task.id };
+    const { data } = await this.$axios.delete(
+      dataApi.attachment.Detach,
+      options
+    );
+    console.log(data, "data");
+    commit("SET_ATTACHMENT_GROUPS", data);
   }
 };

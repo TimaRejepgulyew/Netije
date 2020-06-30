@@ -1,10 +1,10 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
     <nuxt-link class="link d-flex" :to="toDetailPath">
-      <documentIcon :extension="item.extension" />
-      <div>{{item.name}}</div>
+      <documentIcon :extension="item.entity.extension" />
+      <div>{{item.entity.name}}</div>
     </nuxt-link>
-    <actionBtn :attachment="item" />
+    <actionBtn :attachment="item" @detachLink="detachLink" />
   </div>
 </template>
 
@@ -19,7 +19,12 @@ export default {
   props: ["item"],
   computed: {
     toDetailPath() {
-      return `/paper-work/detail/${this.item.documentTypeGuid}/${this.item.id}`;
+      return `/paper-work/detail/${this.item.entity.documentTypeGuid}/${this.item.entity.id}`;
+    }
+  },
+  methods: {
+    detachLink(options) {
+      this.$emit("detachLink", options);
     }
   }
 };

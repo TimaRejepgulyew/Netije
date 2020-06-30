@@ -22,7 +22,8 @@ export default {
   props: ["attachment"],
   data() {
     const canPreview =
-      this.attachment?.hasVersions && this.attachment?.canBeOpenedWithPreview;
+      this.attachment.entity.hasVersions &&
+      this.attachment.entity.canBeOpenedWithPreview;
 
     return {
       btnType: [
@@ -34,9 +35,15 @@ export default {
         },
         {
           type: "download",
-          visible: this.attachment?.hasVersions,
+          visible: this.attachment.entity.hasVersions,
           icon: "download",
           name: this.$t("buttons.download")
+        },
+        {
+          type: "detach",
+          visible: this.attachment.canDetach,
+          icon: "trash",
+          name: this.$t("buttons.deleteLink")
         }
       ]
     };
@@ -60,19 +67,25 @@ export default {
         case "download":
           this.downloadDocument();
           break;
+        case "detach":
+          this.detachLink();
       }
+    },
+    detachLink() {
+      const { entity = { id, documentTypeGuid } } = this.attachmenty;
+      this.$emit("detachLink", { attachmentId: id });
     },
     downloadDocument() {
       DocumentService.downloadDocument(
         {
-          ...this.attachment,
-          extension: this.attachment?.extension
+          ...this.attachment.entity,
+          extension: this.attachment.entity.extension
         },
         this
       );
     },
     previewDocument() {
-      DocumentService.previewDocument(this.attachment, this);
+      DocumentService.previewDocument(this.attachment.entity, this);
     }
   }
 };

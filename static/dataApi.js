@@ -30,8 +30,8 @@ export default {
     RoleMembers: `${url}/api/RoleMembers/`
   },
   docFlow: {
-    ContractCategories:`${url}/api/ContractCategory`,
-    PersonalSettings:`${url}/api/PersonalSettings`,
+    ContractCategories: `${url}/api/ContractCategory`,
+    PersonalSettings: `${url}/api/PersonalSettings`,
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
     DocumentKind: `${url}/api/DocumentKind`,
@@ -80,8 +80,7 @@ export default {
     CreateTask: `${url}/api/Task`,
     Abort: `${url}/api/Task/Abort`,
     Start: `${url}/api/Task/Start`,
-    Restart: `${url}/api/Task/`,
-    Paste:`${url}/api/Task/Paste`
+    Restart: `${url}/api/Task/`
   },
   accessRights: {
     List: `${url}/api/AccessRights/`,
@@ -103,9 +102,7 @@ export default {
     Members: `${url}/api/SignatureSettings/Members`
   },
   attachment: {
-    AttachmentByTask: `${url}/api/Attachment/ByTask/`,
-    AttachmentByAssignment: `${url}/api/Attachment/ByAssignment/`,
     Detach: `${url}/api/Attachment/Detach`,
-    Attach: `${url}/api/Attachment/Attach`
+    Paste: `${url}/api/Task/Paste`
   }
 };

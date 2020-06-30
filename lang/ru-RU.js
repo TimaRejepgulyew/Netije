@@ -300,6 +300,7 @@ export default {
     accept: "Принять",
     cancel: "Назад",
     delete: "Удалить",
+    deleteLink: "Удалить ссылку",
     create: "Создать",
     createTaskByDocument: "Создать задачу на основе документа",
     send: "Отправить",
