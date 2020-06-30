@@ -1,14 +1,15 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <nuxt-link class="link d-flex" :to="toDetailPath">
+    <div class="link d-flex" @dblclick="showAttachment">
       <documentIcon :extension="item.entity.extension" />
       <div>{{item.entity.name}}</div>
-    </nuxt-link>
+    </div>
     <actionBtn :attachment="item" @detachLink="detachLink" />
   </div>
 </template>
 
 <script>
+import DocumentService from "~/infrastructure/services/documentService";
 import actionBtn from "~/components/workFlow/attachment-action-btn.vue";
 import documentIcon from "~/components/page/document-icon.vue";
 export default {
@@ -17,12 +18,25 @@ export default {
     actionBtn
   },
   props: ["item"],
-  computed: {
-    toDetailPath() {
-      return `/paper-work/detail/${this.item.entity.documentTypeGuid}/${this.item.entity.id}`;
-    }
-  },
+  computed: {},
   methods: {
+    showAttachment() {
+      const canPreview =
+        this.item.entity.hasVersions && this.item.entity.canBeOpenedWithPreview;
+      if (canPreview) DocumentService.previewDocument(this.item.entity, this);
+      else if (this.item.entity.hasVersions)
+        DocumentService.downloadDocument(
+          {
+            ...this.item.entity,
+            extension: this.item.entity.extension
+          },
+          this
+        );
+      else
+        this.$router.push(
+          `/paper-work/detail/${this.item.entity.documentTypeGuid}/${this.item.entity.id}`
+        );
+    },
     detachLink(options) {
       this.$emit("detachLink", options);
     }
@@ -38,6 +52,7 @@ export default {
 }
 
 .link {
+  cursor: pointer;
   color: inherit;
   display: flex;
   align-items: center;

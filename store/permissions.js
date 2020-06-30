@@ -152,7 +152,6 @@ export const mutations = {
 export const actions = {
   async load({ commit, dispatch }) {
     var result = await this.$axios.get(dataApi.Metadata);
-    console.log(result);
     commit("PERMISSIONS", result.data);
     dispatch("menu/initialize", {}, { root: true });
     dispatch(

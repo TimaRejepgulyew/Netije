@@ -254,7 +254,6 @@ export default {
       return {
         icon: "refresh",
         onClick: () => {
-          console.log("refresh");
           const { documentTypeGuid: type, id } = this.$store.getters[
             "currentDocument/document"
           ];

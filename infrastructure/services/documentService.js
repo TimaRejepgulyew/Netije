@@ -61,7 +61,6 @@ export function generateLifeCycleItemState(context, documentTypeGuid) {
     case DocumentType.IncomingInvoice:
       return lifeCycleStateStoreIncomingInvoice(context);
   }
-  console.log(documentTypeGuid);
 }
 
 const preview = (endpoint, context) => {

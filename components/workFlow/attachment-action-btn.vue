@@ -72,8 +72,14 @@ export default {
       }
     },
     detachLink() {
-      const { entity = { id, documentTypeGuid } } = this.attachmenty;
-      this.$emit("detachLink", { attachmentId: id });
+      const { entity } = this.attachment;
+      this.$awn.async(
+        this.$store.dispatch(
+          "currentTask/detachAttachment",
+          this.attachment.attachmentId
+        )
+      );
+      // this.$emit("detachLink", { attachmentId: this.attachment.attachmentId });
     },
     downloadDocument() {
       DocumentService.downloadDocument(

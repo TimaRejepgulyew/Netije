@@ -118,7 +118,6 @@ export default {
         await this.$axios.delete(`${dataApi.Task.DetachAttacment}`);
         await this.documents.reload();
       } catch (e) {
-        console.log(e);
       }
     }
   }

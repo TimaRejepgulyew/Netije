@@ -27,8 +27,7 @@
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <documentListItem @detachLink="detachLink" :item="groupItem" />
-        <!-- <component is="componentByAttachmentType" :item="groupItem" /> -->
+        <component :is="componentByAttachmentType" @detachLink="detachLink" :item="groupItem" />
       </li>
     </ul>
     <div
@@ -44,20 +43,21 @@
 
 <script>
 import documentGrid from "~/components/paper-work/document-grid.vue";
-import documentListItem from "~/components/workFlow/attachmentEntityTypedocument.vue";
+import documentField from "~/components/workFlow/attachmentEntityTypedocument.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import DxSelectBox from "devextreme-vue/select-box";
 import { DxPopup } from "devextreme-vue/popup";
+import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.js";
 export default {
   components: {
     DxSelectBox,
     DxButton,
     documentGrid,
     DxPopup,
-    documentListItem
+    documentField
   },
   data() {
     return {
@@ -86,54 +86,57 @@ export default {
   },
   computed: {
     componentByAttachmentType() {
-      switch (this.group.type) {
-
+      switch (this.group.attachmentGroupType) {
+        case GroupAttachmentType.Document:
+          return "documentField";
+        case GroupAttachmentType.Task:
+          return "taskField";
       }
     },
-    // groupDemo() {
-    //   let groupDemo = { ...this.group };
-    //   groupDemo.entities = groupDemo.entities = [
-    //     {
-    //       entity: {
-    //         name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-    //         note: "adwdawd",
-    //         ourSignatoryId: null,
-    //         placedToCaseFileDate: null,
-    //         preparedById: 16,
-    //         registrationDate: null,
-    //         registrationNumber: null,
-    //         registrationState: 1,
-    //         responsibleForReturnEmployeeId: null,
-    //         returnDate: null,
-    //         returnDeadline: null,
-    //         scheduledReturnDateFromCounterparty: null,
-    //         subject: "dwadaw",
-    //         extension: ".pdf"
-    //       },
-    //       canDetach: true
-    //     },
-    //     {
-    //       entity: {
-    //         name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-    //         note: "adwdawd",
-    //         ourSignatoryId: null,
-    //         placedToCaseFileDate: null,
-    //         preparedById: 16,
-    //         registrationDate: null,
-    //         registrationNumber: null,
-    //         registrationState: 1,
-    //         responsibleForReturnEmployeeId: null,
-    //         returnDate: null,
-    //         returnDeadline: null,
-    //         scheduledReturnDateFromCounterparty: null,
-    //         subject: "dwadaw",
-    //         extension: ".pdf"
-    //       },
-    //       canDetach: true
-    //     }
-    //   ];
-    //   return groupDemo;
-    // },
+    groupDemo() {
+      let groupDemo = { ...this.group };
+      groupDemo.entities = groupDemo.entities = [
+        {
+          entity: {
+            name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
+            note: "adwdawd",
+            ourSignatoryId: null,
+            placedToCaseFileDate: null,
+            preparedById: 16,
+            registrationDate: null,
+            registrationNumber: null,
+            registrationState: 1,
+            responsibleForReturnEmployeeId: null,
+            returnDate: null,
+            returnDeadline: null,
+            scheduledReturnDateFromCounterparty: null,
+            subject: "dwadaw",
+            extension: ".pdf"
+          },
+          canDetach: true
+        },
+        {
+          entity: {
+            name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
+            note: "adwdawd",
+            ourSignatoryId: null,
+            placedToCaseFileDate: null,
+            preparedById: 16,
+            registrationDate: null,
+            registrationNumber: null,
+            registrationState: 1,
+            responsibleForReturnEmployeeId: null,
+            returnDate: null,
+            returnDeadline: null,
+            scheduledReturnDateFromCounterparty: null,
+            subject: "dwadaw",
+            extension: ".pdf"
+          },
+          canDetach: true
+        }
+      ];
+      return groupDemo;
+    },
     hasGroupItem() {
       return this.group.entities;
     }

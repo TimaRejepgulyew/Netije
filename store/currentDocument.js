@@ -297,7 +297,7 @@ export const mutations = {
     if (checkDataChanged(state.document.leadingDocumentId, payload)) {
       state.isDataChanged = true;
     }
-    console.log(payload);
+  
     state.document.leadingDocumentId = payload;
   },
   SET_ISSUED_TO_ID(state, payload) {

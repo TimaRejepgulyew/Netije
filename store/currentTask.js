@@ -110,7 +110,6 @@ export const mutations = {
     if (checkDataChanged(state.task.coAssignees, payload))
       state.isDataChanged = true;
     state.task.coAssignees = payload;
-    console.log(state.task.coAssignees, payload);
   },
   SET_ASSIGNEE(state, payload) {
     if (checkDataChanged(state.task.assigneeId, payload))
@@ -152,13 +151,14 @@ export const actions = {
       const { data } = await this.$axios.get(
         `${dataApi.task.GetTaskById}${taskType}/${id}`
       );
-      console.log(data, "load");
       commit("SET_TASK", data);
     }
   },
   async saveAndLoad({ state, commit }) {
     try {
-      const task = JSON.stringify(state.task);
+      const obj = { ...state.task };
+      delete obj.attachmentGroups;
+      const task = JSON.stringify(obj);
       const { data } = await this.$axios.put(
         dataApi.task.UpdateTask + state.task.id,
         {
@@ -168,9 +168,7 @@ export const actions = {
       );
       commit("SET_TASK", data.task);
       commit("SET_IS_DATA_CHANGED", false);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
   async delete({ state }) {
     await this.$axios.delete(dataApi.task.Delete + state.task.id);
@@ -185,9 +183,7 @@ export const actions = {
         taskType: state.task.taskType
       });
       commit("SET_STATUS", TaskStatus.InProcess);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
   async abort({ dispatch, getters }) {
     try {
@@ -207,16 +203,13 @@ export const actions = {
   async pasteAttachment({ state, commit }, payload) {
     const options = { ...payload, id: state.task.id };
     const { data } = await this.$axios.post(dataApi.attachment.Paste, options);
-    console.log(data, "data");
     commit("SET_ATTACHMENT_GROUPS", data);
   },
-  async detachAttachment({ state, commit }, payload) {
-    const options = { ...payload, id: state.task.id };
+  async detachAttachment({ state, commit }, attachmentId) {
     const { data } = await this.$axios.delete(
-      dataApi.attachment.Detach,
-      options
+      `${dataApi.task.Remove}/${attachmentId}`
     );
-    console.log(data, "data");
+    // TODO   dataApi.attachment.Detach,
     commit("SET_ATTACHMENT_GROUPS", data);
   }
 };

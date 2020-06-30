@@ -207,7 +207,6 @@ export default {
       this.store.reload();
     },
     showTaskDetail({ data }) {
-      console.log(data);
       this.$store.commit("currentTask/IS_NEW", false);
       this.$router.push(`task/detail/${data.taskType}/${data.id}`);
     },

@@ -80,7 +80,8 @@ export default {
     CreateTask: `${url}/api/Task`,
     Abort: `${url}/api/Task/Abort`,
     Start: `${url}/api/Task/Start`,
-    Restart: `${url}/api/Task/`
+    Restart: `${url}/api/Task/`,
+    Remove :`${url}/api/Task/RemoveAttachment`
   },
   accessRights: {
     List: `${url}/api/AccessRights/`,
