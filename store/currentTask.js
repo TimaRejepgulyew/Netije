@@ -207,7 +207,7 @@ export const actions = {
   async pasteAttachment({ state, commit }, payload) {
     const options = { ...payload, id: state.task.id, workflowEntityType: 0 };
     console.log(options);
-    const attachmentsGroup = await this.$axios(dataApi.task.Paste, options);
+    const attachmentsGroup = await this.$axios.post(dataApi.task.Paste, options);
     commit("SET_ATTACHMENT_GROUP", attachmentsGroup);
   }
 };
