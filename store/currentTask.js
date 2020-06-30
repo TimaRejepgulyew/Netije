@@ -134,6 +134,9 @@ export const mutations = {
   },
   SET_STATUS(state, payload) {
     state.task.status = payload;
+  },
+  SET_ATTACHMENT_GROUP(state, payload) {
+    state.task.attachmentsGroup = payload;
   }
 };
 
@@ -203,10 +206,8 @@ export const actions = {
   },
   async pasteAttachment({ state, commit }, payload) {
     const options = { ...payload, id: state.task.id, workflowEntityType: 0 };
-    const attachmentsGroup = await this.$axios(
-      dataApi.attachments.Paste,
-      options
-    );
-    commit("SET_ATTACHMENT_GROUP",)
+    console.log(options);
+    const attachmentsGroup = await this.$axios(dataApi.task.Paste, options);
+    commit("SET_ATTACHMENT_GROUP", attachmentsGroup);
   }
 };

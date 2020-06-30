@@ -19,7 +19,7 @@ export default {
   props: ["item"],
   computed: {
     toDetailPath() {
-      return `paper-work/detail/${this.item.documentTypeGuid}/${this.item.id}`;
+      return `/paper-work/detail/${this.item.documentTypeGuid}/${this.item.id}`;
     }
   }
 };

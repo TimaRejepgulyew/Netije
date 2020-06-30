@@ -25,12 +25,16 @@
       ></DxButton>
     </div>
     <ul v-if="hasGroupItem">
-      <li v-for="groupItem in groupDemo.entities" :key="groupItem.entityId">
+      <li v-for="groupItem in group.entities" :key="groupItem.entityId">
         <documentListItem :item="groupItem" />
-        <!-- <component is="documentListItem" :item="groupItem" /> -->
+        <!-- <component is="componentByAttachmentType" :item="groupItem" /> -->
       </li>
     </ul>
-    <div class="d-flex group__description cursor-pointer" @click="pasteAttachment" v-else>
+    <div
+      class="d-flex group__description cursor-pointer"
+      @click="()=>{isOpenCard =!isOpenCard}"
+      v-else
+    >
       <i class="dx-icon dx-icon-link"></i>
       <label :for="'addAttachment'+group.groupId" class="f-grow-1">{{group.description}}</label>
     </div>
@@ -77,46 +81,50 @@ export default {
     }
   },
   computed: {
-    groupDemo() {
-      let groupDemo = { ...this.group };
-      groupDemo.entities = groupDemo.entities = [
-        {
-          name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-          note: "adwdawd",
-          ourSignatoryId: null,
-          placedToCaseFileDate: null,
-          preparedById: 16,
-          registrationDate: null,
-          registrationNumber: null,
-          registrationState: 1,
-          responsibleForReturnEmployeeId: null,
-          returnDate: null,
-          returnDeadline: null,
-          scheduledReturnDateFromCounterparty: null,
-          subject: "dwadaw",
-          extension: ".pdf"
-        },
-        {
-          name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-          note: "adwdawd",
-          ourSignatoryId: null,
-          placedToCaseFileDate: null,
-          preparedById: 16,
-          registrationDate: null,
-          registrationNumber: null,
-          registrationState: 1,
-          responsibleForReturnEmployeeId: null,
-          returnDate: null,
-          returnDeadline: null,
-          scheduledReturnDateFromCounterparty: null,
-          subject: "dwadaw",
-          extension: ".docx"
-        }
-      ];
-      return groupDemo;
+    componentByAttachmentType() {
+      switch (this.group.type) {
+      }
     },
+    // groupDemo() {
+    //   let groupDemo = { ...this.group };
+    //   groupDemo.entities = groupDemo.entities = [
+    //     {
+    //       name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
+    //       note: "adwdawd",
+    //       ourSignatoryId: null,
+    //       placedToCaseFileDate: null,
+    //       preparedById: 16,
+    //       registrationDate: null,
+    //       registrationNumber: null,
+    //       registrationState: 1,
+    //       responsibleForReturnEmployeeId: null,
+    //       returnDate: null,
+    //       returnDeadline: null,
+    //       scheduledReturnDateFromCounterparty: null,
+    //       subject: "dwadaw",
+    //       extension: ".pdf"
+    //     },
+    //     {
+    //       name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
+    //       note: "adwdawd",
+    //       ourSignatoryId: null,
+    //       placedToCaseFileDate: null,
+    //       preparedById: 16,
+    //       registrationDate: null,
+    //       registrationNumber: null,
+    //       registrationState: 1,
+    //       responsibleForReturnEmployeeId: null,
+    //       returnDate: null,
+    //       returnDeadline: null,
+    //       scheduledReturnDateFromCounterparty: null,
+    //       subject: "dwadaw",
+    //       extension: ".docx"
+    //     }
+    //   ];
+    //   return groupDemo;
+    // },
     hasGroupItem() {
-      return this.groupDemo.entities;
+      return this.group.entities;
     }
   }
 };

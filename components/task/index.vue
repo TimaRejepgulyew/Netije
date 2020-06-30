@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     pasteAttachment(options) {
-      this.$awm.async(
+      this.$awn.async(
         this.$store.dispatch("currentTask/pasteAttachment", options)
       );
     }
