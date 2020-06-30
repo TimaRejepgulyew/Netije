@@ -151,7 +151,7 @@ export const actions = {
       const { data } = await this.$axios.get(
         `${dataApi.task.GetTaskById}${taskType}/${id}`
       );
-      commit("SET_TASK", data);
+      commit("SET_TASK", data.task);
     }
   },
   async saveAndLoad({ state, commit }) {
