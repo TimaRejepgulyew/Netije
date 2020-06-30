@@ -193,18 +193,20 @@ export const actions = {
         getters["taskTypeAndId"]
       );
       commit("SET_STATUS", TaskStatus.Abort);
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
   async restart({ dispatch, getters }) {
     try {
-      console.log(getters["taskTypeAndId"]);
       await this.$axios.post(dataApi.task.Restart, getters["taskTypeAndId"]);
       commit("SET_STATUS", TaskStatus.Draft);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
+  },
+  async pasteAttachment({ state, commit }, payload) {
+    const options = { ...payload, id: state.task.id, workflowEntityType: 0 };
+    const attachmentsGroup = await this.$axios(
+      dataApi.attachments.Paste,
+      options
+    );
+    commit("SET_ATTACHMENT_GROUP",)
   }
 };

@@ -30,7 +30,7 @@
         <!-- <component is="documentListItem" :item="groupItem" /> -->
       </li>
     </ul>
-    <div class="d-flex group__description" v-else>
+    <div class="d-flex group__description cursor-pointer" @click="pasteAttachment" v-else>
       <i class="dx-icon dx-icon-link"></i>
       <label :for="'addAttachment'+group.groupId" class="f-grow-1">{{group.description}}</label>
     </div>
@@ -68,8 +68,12 @@ export default {
   },
   props: ["group"],
   methods: {
-    pasteAttachment() {
+    pasteAttachment({ documentTypeguid, id }) {
       this.isOpenCard = !this.isOpenCard;
+      this.$emit("pasteAttachment", {
+        entityId: id,
+        groupId: this.group.groupId
+      });
     }
   },
   computed: {
@@ -89,13 +93,30 @@ export default {
           returnDate: null,
           returnDeadline: null,
           scheduledReturnDateFromCounterparty: null,
-          subject: "dwadaw"
+          subject: "dwadaw",
+          extension: ".pdf"
+        },
+        {
+          name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
+          note: "adwdawd",
+          ourSignatoryId: null,
+          placedToCaseFileDate: null,
+          preparedById: 16,
+          registrationDate: null,
+          registrationNumber: null,
+          registrationState: 1,
+          responsibleForReturnEmployeeId: null,
+          returnDate: null,
+          returnDeadline: null,
+          scheduledReturnDateFromCounterparty: null,
+          subject: "dwadaw",
+          extension: ".docx"
         }
       ];
       return groupDemo;
     },
     hasGroupItem() {
-      return true;
+      return this.groupDemo.entities;
     }
   }
 };
@@ -119,6 +140,9 @@ export default {
     padding-right: 10px;
   }
 }
+.cursor-pointer label {
+  cursor: pointer;
+}
 .align-center {
   align-items: center;
 }
@@ -139,5 +163,11 @@ export default {
 .scrool-auto {
   width: 100%;
   overflow: auto;
+}
+ul {
+  padding: 0;
+  li {
+    list-style: none;
+  }
 }
 </style>

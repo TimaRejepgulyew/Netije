@@ -26,7 +26,11 @@
         <component :is="taskType"></component>
       </template>
       <template #attachments>
-        <attachment :attachmentDetails="attachmentDetails" :attachmentGroups="attachmentGroups" />
+        <attachment
+          @pasteAttachment="pasteAttachment"
+          :attachmentDetails="attachmentDetails"
+          :attachmentGroups="attachmentGroups"
+        />
       </template>
       <template #comments>
         <comments v-if="!isDraft" :url="commentsUrl"></comments>
@@ -71,6 +75,13 @@ export default {
       commentsUrl: dataApi.task.TextsByTask,
       header: ""
     };
+  },
+  methods: {
+    pasteAttachment(options) {
+      this.$awm.async(
+        this.$store.dispatch("currentTask/pasteAttachment", options)
+      );
+    }
   },
   computed: {
     attachmentDetails() {

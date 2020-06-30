@@ -1,6 +1,7 @@
 <template>
   <div>
     <attachmentGroupItem
+      @pasteAttachment="pasteAttachment"
       :group="groupItem"
       v-for="groupItem in attachmentGroups.filter(el=>el.isVisible)"
       :key="groupItem.groupId"
@@ -15,9 +16,13 @@ export default {
   components: {
     attachmentGroupItem
   },
-  props: ["attachmentDetails", "attachmentGroups"]
+  props: ["attachmentDetails", "attachmentGroups"],
+  methods: {
+    pasteAttachment(options) {
+      this.$emit("pasteAttachment", options);
+    }
+  }
 };
-
 </script>
 
 <style>
