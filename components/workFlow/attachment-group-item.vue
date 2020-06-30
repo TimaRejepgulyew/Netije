@@ -75,7 +75,7 @@ export default {
     pasteAttachment({ documentTypeguid, id }) {
       this.isOpenCard = !this.isOpenCard;
       this.$emit("pasteAttachment", {
-        entityId: id,
+        attachmentId: id,
         groupId: this.group.groupId
       });
     }
