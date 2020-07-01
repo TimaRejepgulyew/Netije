@@ -28,7 +28,7 @@
         >
           <DxGroupItem :col-span="6" :col-count="1" :caption="$t('translations.fields.main')">
             <DxSimpleItem data-field="name" :editor-options="nameOptions">
-              <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
+              <DxLabel location="top" :text="$t('translations.fields.name')" />
               <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem

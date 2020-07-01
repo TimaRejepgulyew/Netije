@@ -6,18 +6,31 @@
     :validation-group="validatorGroup"
   >
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
-      <DxSimpleItem data-field="correspondentId" template="correspondent">
+      <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
-      <DxGroupItem>
-        <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
+       <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
+        <DxLabel location="top" :text="$t('translations.fields.dated')" />
+      </DxSimpleItem>
+      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
+        <DxLabel location="top" text="№" />
+      </DxSimpleItem>
+       <DxSimpleItem
+       :col-span="2"
+        data-field="inResponseToId"
+        :editor-options="inResponseToIdOptions"
+        editor-type="dxSelectBox"
+        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+      </DxSimpleItem>
+       <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="contactId" template="contact">
           <DxLabel location="top" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
-      </DxGroupItem>
     </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.whom')">
       <DxSimpleItem
@@ -42,30 +55,6 @@
       </DxSimpleItem>
       <DxSimpleItem data-field="assigneeId" template="assignee">
         <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
-      </DxSimpleItem>
-    </DxGroupItem>
-    <DxGroupItem :col-count="2" :caption="$t('shared.conditions')">
-      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
-        <DxLabel location="top" :text="$t('translations.fields.dated')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
-        <DxLabel location="top" text="№" />
-      </DxSimpleItem>
-
-      <DxSimpleItem
-        data-field="inResponseToId"
-        :editor-options="inResponseToIdOptions"
-        editor-type="dxSelectBox"
-        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="deliveryMethodId"
-        :editor-options="deliveryMethodOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #correspondent>

@@ -127,7 +127,7 @@ export default {
       ourSignatoryId: "Подписал",
       counterpartySignatoryId: "Подписал",
       caseFileId: "Дело",
-      placedToCaseFileDate: "Дата помещение в дело",
+      placedToCaseFileDate: "Дата помещения",
       contactId: "Контакт",
       preparedById: "Подготовил",
       assigneeId: "Исполнитель",

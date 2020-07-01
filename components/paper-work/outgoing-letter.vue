@@ -5,6 +5,31 @@
     :show-validation-summary="false"
     validation-group="OfficialDocument"
   >
+    <DxGroupItem :caption="$t('translations.fields.whom')">
+      <DxSimpleItem data-field="correspondentId" template="correspondent">
+        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+        <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
+      </DxSimpleItem>
+
+      <DxSimpleItem data-field="addresseeId" template="contact">
+        <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="inResponseToId"
+        :editor-options="inResponseToIdOptions"
+        editor-type="dxSelectBox"
+        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
+      >
+        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="deliveryMethodId"
+        :editor-options="deliveryMethodOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
+      </DxSimpleItem>
+    </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
       <DxSimpleItem
         data-field="businessUnitId"
@@ -31,33 +56,7 @@
         <DxLabel location="top" :text="$t('translations.fields.prepared')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-count="2" :caption="$t('shared.conditions')">
-      <DxSimpleItem
-        data-field="inResponseToId"
-        :editor-options="inResponseToIdOptions"
-        editor-type="dxSelectBox"
-        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="deliveryMethodId"
-        :editor-options="deliveryMethodOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
-      </DxSimpleItem>
-    </DxGroupItem>
-    <DxGroupItem :caption="$t('translations.fields.whom')">
-      <DxSimpleItem data-field="correspondentId" template="correspondent">
-        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
-        <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
-      </DxSimpleItem>
 
-      <DxSimpleItem data-field="addresseeId" template="contact">
-        <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
-      </DxSimpleItem>
-    </DxGroupItem>
     <template #correspondent>
       <custom-select-box
         validatorGroup="OfficialDocument"
