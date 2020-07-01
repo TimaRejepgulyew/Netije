@@ -2,7 +2,7 @@
   <DxForm
     :visible="$store.getters['currentDocument/isRegistrable']"
     :col-count="1"
-    :read-only="readOnly"
+    :read-only="!canUpdate"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -75,6 +75,9 @@ export default {
   computed: {
     isRegistrationInfoVisible() {
       return this.$store.getters["currentDocument/isRegistered"];
+    },
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
     },
     readOnly() {
       return this.$store.getters["currentDocument/readOnly"];

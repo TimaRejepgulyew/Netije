@@ -9,7 +9,6 @@ export const state = () => ({
   document: {},
   isNew: false,
   isDataChanged: false,
-  readOnly: false,
   canUpdate: false,
   canDelete: false,
   canRegister: false,
@@ -47,8 +46,8 @@ export const getters = {
   isRegistered({ document }) {
     return document.registrationState == RegistrationState.Registered;
   },
-  readOnly({ readOnly }) {
-    return readOnly;
+  readOnly({ canUpdate,isRegistered }) {
+    return !canUpdate || isRegistered;
   },
   isDataChanged({ isDataChanged }) {
     return isDataChanged;

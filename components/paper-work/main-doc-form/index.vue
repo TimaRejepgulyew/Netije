@@ -7,6 +7,7 @@
         :scrolling-enabled="true"
         class="mt-1"
         ref="form"
+        :read-only="!canUpdate"
         :show-colon-after-label="true"
         :show-validation-summary="false"
         validation-group="OfficialDocument"
@@ -187,7 +188,6 @@ export default {
   },
   methods: {
     openVersion() {
-      console.log("opened");
       this.versionOpenState = !this.versionOpenState;
     }
   },
@@ -218,6 +218,9 @@ export default {
     },
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
+    },
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
     },
     isDataChanged() {
       return this.$store.getters["currentDocument/isDataChanged"];
@@ -282,6 +285,7 @@ export default {
     },
     noteOptions() {
       return {
+        readOnly: this.isRegistered,
         value: this.$store.getters["currentDocument/document"].note,
         height: 70,
         autoResizeEnabled: true,

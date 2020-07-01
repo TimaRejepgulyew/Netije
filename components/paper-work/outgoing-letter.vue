@@ -3,6 +3,7 @@
     :store.sync="store"
     :show-colon-after-label="true"
     :show-validation-summary="false"
+    :readOnly="!canUpdate"
     validation-group="OfficialDocument"
   >
     <DxGroupItem :caption="$t('translations.fields.whom')">
@@ -59,6 +60,7 @@
 
     <template #correspondent>
       <custom-select-box
+        :disabled="readOnly"
         validatorGroup="OfficialDocument"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
@@ -68,7 +70,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
-        :disabled="!isCompany"
+        :disabled="!isCompany||readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setAddressee"
         :value="addresseeId"
@@ -77,6 +79,7 @@
 
     <template #prepared>
       <employee-select-box
+        :read-only="!canUpdate"
         validatorGroup="OfficialDocument"
         :value="preparedById"
         @valueChanged="setPreparedById"
@@ -84,6 +87,7 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
+        :read-only="!canUpdate"
         :value="ourSignatoryId"
         :storeApi="signatoryApi"
         @valueChanged="setOurSignatoryId"
@@ -172,6 +176,12 @@ export default {
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
     },
+    readOnly() {
+      return this.$store.getters["currentDocument/readOnly"];
+    },
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
+    },
     store() {
       return this.$store.getters["currentDocument/document"];
     },
@@ -184,7 +194,7 @@ export default {
 
     businessUnitOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
@@ -193,15 +203,13 @@ export default {
         value: this.$store.getters["currentDocument/document"].businessUnitId,
         onValueChanged: e => {
           this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);
-          this.$store.commit("currentDocument/SET_PREPARED_BY_ID", null);
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
         }
       };
     },
     deparmentOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
@@ -213,7 +221,6 @@ export default {
         }),
         value: this.$store.getters["currentDocument/document"].departmentId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_PREPARED_BY_ID", null);
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
         }
       };
