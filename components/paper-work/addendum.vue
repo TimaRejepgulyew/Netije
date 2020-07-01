@@ -40,6 +40,7 @@ export default {
     },
     leadingDocumentOptions() {
       return {
+        readOnly: this.$store.getters["currentDocument/readOnly"],
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.paperWork.AllDocument
@@ -47,7 +48,7 @@ export default {
         value: this.$store.getters["currentDocument/document"]
           .leadingDocumentId,
         onValueChanged: e => {
-          this.$store.dispatch("currentDocument/setLeadingDocumentId",e.value);
+          this.$store.dispatch("currentDocument/setLeadingDocumentId", e.value);
         }
       };
     }
