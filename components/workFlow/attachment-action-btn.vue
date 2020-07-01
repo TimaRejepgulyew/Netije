@@ -3,7 +3,6 @@
     styling-mode="text"
     icon="overflow"
     :showArrowIcon="false"
-    v-if="hasActions"
     :drop-down-options="{ width: 230 }"
     :items="btnType"
     display-expr="name"
@@ -12,6 +11,7 @@
 </template>
 
 <script>
+import cardIcon from "~/static/icons/card.svg";
 import DocumentService from "~/infrastructure/services/documentService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
@@ -44,21 +44,20 @@ export default {
           visible: this.attachment.canDetach,
           icon: "trash",
           name: this.$t("buttons.deleteLink")
+        },
+        {
+          type: "card",
+          icon: cardIcon,
+          name: this.$t("buttons.showCard")
         }
       ]
     };
   },
-  computed: {
-    hasActions() {
-      return true;
-      // return (
-      //   (this.attachment?.hasVersions &&
-      //     this.attachment?.canBeOpenedWithPreview) ||
-      //   this.attachment.canDetach
-      // );
-    }
-  },
+  computed: {},
   methods: {
+    showCard() {
+      this.$emit("showCard");
+    },
     onItemClick(e) {
       switch (e.itemData.type) {
         case "preview":
@@ -69,6 +68,8 @@ export default {
           break;
         case "detach":
           this.detachLink();
+        case "card":
+          this.showCard();
       }
     },
     detachLink() {
@@ -77,9 +78,10 @@ export default {
         this.$store.dispatch(
           "currentTask/detachAttachment",
           this.attachment.attachmentId
-        )
+        ),
+        () => {},
+        () => {}
       );
-      // this.$emit("detachLink", { attachmentId: this.attachment.attachmentId });
     },
     downloadDocument() {
       DocumentService.downloadDocument(

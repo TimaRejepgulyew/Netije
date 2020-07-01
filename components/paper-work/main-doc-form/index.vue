@@ -1,84 +1,85 @@
 <template>
-  <div class="wrapper-document">
+  <div>
     <Header headerTitle="headerTitle"></Header>
     <toolbar @openVersion="openVersion"></toolbar>
-    <DxDrawer
-      :animation-enabled="false"
-      ref="version"
-      opened-state-mode="overlap"
-      position="right"
-      reveal-mode="slide"
-      :opened.sync="versionOpenState"
-      template="attachmentBlock"
-    >
-      <template #attachmentBlock>
-        <docVersion></docVersion>
-      </template>
+    <div class="wrapper--relative">
+      <DxForm
+        :scrolling-enabled="true"
+        class="mt-1"
+        ref="form"
+        :show-colon-after-label="true"
+        :show-validation-summary="false"
+        validation-group="OfficialDocument"
+      >
+        <DxTabbedItem :tab-panel-options="tabPanelOptions">
+          <DxTab :col-count="8" :title="$t('menu.mainInfo')">
+            <DxGroupItem :col-span="6" :col-count="1" :caption="$t('translations.fields.main')">
+              <DxSimpleItem data-field="name" :editor-options="nameOptions">
+                <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
+                <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+              </DxSimpleItem>
+              <DxSimpleItem
+                data-field="documentKindId"
+                :editor-options="documentKindOptions"
+                editor-type="dxSelectBox"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
+                <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
+              </DxSimpleItem>
 
-      <DxTabPanel :focus-state-enabled="false" class="tab-bar">
-        <DxItem :title="$t('menu.mainInfo')" template="document-form" />
-        <DxForm
-          class="pd-2"
-          slot="document-form"
-          ref="form"
-          :col-count="8"
-          :show-colon-after-label="true"
-          :show-validation-summary="false"
-          validation-group="OfficialDocument"
-        >
-          <DxGroupItem :col-span="6" :col-count="1" :caption="$t('translations.fields.main')">
-            <DxSimpleItem data-field="name" :editor-options="nameOptions">
-              <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
-              <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-            </DxSimpleItem>
-            <DxSimpleItem
-              data-field="documentKindId"
-              :editor-options="documentKindOptions"
-              editor-type="dxSelectBox"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
-              <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
-            </DxSimpleItem>
-
-            <DxSimpleItem
-              data-field="subject"
-              :editor-options="subjectOptions"
-              editor-type="dxTextArea"
-            >
-              <DxLabel location="top" :text="$t('translations.fields.subject')" />
-              <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-            </DxSimpleItem>
-            <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
-            <DxSimpleItem data-field="note" :editor-options="noteOptions" editor-type="dxTextArea">
-              <DxLabel location="top" :text="$t('translations.fields.note')" />
-            </DxSimpleItem>
-          </DxGroupItem>
-          <DxGroupItem :col-span="2">
-            <DxSimpleItem template="registrationBlock"></DxSimpleItem>
-            <DxGroupItem :caption="$t('document.lifeCycle')">
-              <DxSimpleItem template="lifeCycle"></DxSimpleItem>
+              <DxSimpleItem
+                data-field="subject"
+                :editor-options="subjectOptions"
+                editor-type="dxTextArea"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.subject')" />
+                <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+              </DxSimpleItem>
+              <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
+              <DxSimpleItem
+                data-field="note"
+                :editor-options="noteOptions"
+                editor-type="dxTextArea"
+              >
+                <DxLabel location="top" :text="$t('translations.fields.note')" />
+              </DxSimpleItem>
             </DxGroupItem>
-          </DxGroupItem>
-          <template #lifeCycle>
-            <life-cycle />
-          </template>
-          <template #registrationBlock>
-            <doc-registration></doc-registration>
-          </template>
-          <template #formByTypeGuid>
-            <component :is="formByTypeGuid"></component>
-          </template>
-        </DxForm>
-        <DxItem :title="$t('menu.relation')" :disabled="isDataChanged" template="relations" />
-        <Relation slot="relations"></Relation>
-        <DxItem :title="$t('menu.history')" :disabled="isNew" template="history" />
-        <History
-          :entityTypeGuid="entityTypeGuid"
-          :id="$store.getters['currentDocument/document'].id"
-          slot="history"
-        ></History>
-      </DxTabPanel>
-    </DxDrawer>
+            <DxGroupItem :col-span="2">
+              <DxSimpleItem template="registrationBlock"></DxSimpleItem>
+              <DxGroupItem :caption="$t('document.lifeCycle')">
+                <DxSimpleItem template="lifeCycle"></DxSimpleItem>
+              </DxGroupItem>
+            </DxGroupItem>
+          </DxTab>
+          <DxTab :col-count="8" :title="$t('menu.relation')" :disabled="isDataChanged">
+            <DxSimpleItem :col-span="8" template="relation"></DxSimpleItem>
+          </DxTab>
+          <DxTab :col-count="8" :title="$t('menu.history')" :disabled="isNew">
+            <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
+          </DxTab>
+        </DxTabbedItem>
+        <template #history>
+          <History
+            :entityTypeGuid="entityTypeGuid"
+            :id="$store.getters['currentDocument/document'].id"
+            slot="history"
+          ></History>
+        </template>
+        <template #relation>
+          <Relation></Relation>
+        </template>
+        <template #lifeCycle>
+          <life-cycle />
+        </template>
+        <template #registrationBlock>
+          <doc-registration></doc-registration>
+        </template>
+        <template #formByTypeGuid>
+          <component :is="formByTypeGuid"></component>
+        </template>
+      </DxForm>
+      <docVersion class="item--drawer" v-if="versionOpenState"></docVersion>
+    </div>
   </div>
 </template>
 <script>
@@ -111,6 +112,8 @@ import { confirm } from "devextreme/ui/dialog";
 import "devextreme-vue/text-area";
 import Header from "~/components/page/page__header";
 import DxForm, {
+  DxTabbedItem,
+  DxTab,
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
@@ -122,6 +125,8 @@ export default {
   components: {
     DxDrawer,
     DxTabPanel,
+    DxTabbedItem,
+    DxTab,
     DxItem,
     Relation,
     History,
@@ -174,11 +179,15 @@ export default {
       documentType: this.$store.getters["currentDocument/document"]
         .documentTypeGuid,
       versionOpenState: true,
-      entityTypeGuid: mapToEntityType(this.$store.getters["currentDocument/document"].documentTypeGuid)
+      entityTypeGuid: mapToEntityType(
+        this.$store.getters["currentDocument/document"].documentTypeGuid
+      ),
+      tabPanelOptions: { focusStateEnabled: false }
     };
   },
   methods: {
     openVersion() {
+      console.log("opened");
       this.versionOpenState = !this.versionOpenState;
     }
   },
@@ -284,27 +293,22 @@ export default {
   }
 };
 </script>
-<style >
-.wrapper-document {
-  min-height: 100vh;
+<style lang="scss" >
+.wrapper--relative {
+  position: relative;
+  height: 100%;
+  .item--drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
-.tab-bar {
-  margin-top: 10px;
-}
-.item {
-  flex-grow: 1;
-  padding: 0 15px;
-  width: 20%;
-}
-.f-grow-3 {
-  flex-basis: 35%;
-  flex-grow: 5;
-}
+
 .dx-form-group-with-caption .dx-form-group.dx-form-group-with-caption {
   padding-left: 0px;
 }
-.pd-2 {
-  padding: 10px;
+.mt-1 {
+  margin-top: 10px;
 }
 .bg-white {
   width: 20%;

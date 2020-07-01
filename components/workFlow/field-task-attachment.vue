@@ -1,24 +1,24 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <div class="link d-flex" @dblclick="showAttachment">
-      <documentIcon :extension="item.entity.extension" />
+    <div class="link d-flex f-grow-1" @dblclick="showAttachment">
+      <taskTypeIcon class="icon" :taskTypeGuid="item.entity.type" />
       <div>{{item.entity.name}}</div>
     </div>
-    <actionBtn :attachment="item" @detachLink="detachLink" />
+    <actionBtn :attachment="item" />
   </div>
 </template>
 
 <script>
+import taskTypeIcon from "~/components/page/task-icon.vue";
 import DocumentService from "~/infrastructure/services/documentService";
 import actionBtn from "~/components/workFlow/attachment-action-btn.vue";
-import documentIcon from "~/components/page/document-icon.vue";
+
 export default {
   components: {
-    documentIcon,
-    actionBtn
+    actionBtn,
+    taskTypeIcon
   },
   props: ["item"],
-  computed: {},
   methods: {
     showAttachment() {
       const canPreview =
@@ -36,9 +36,6 @@ export default {
         this.$router.push(
           `/paper-work/detail/${this.item.entity.documentTypeGuid}/${this.item.entity.id}`
         );
-    },
-    detachLink(options) {
-      this.$emit("detachLink", options);
     }
   }
 };
@@ -64,5 +61,9 @@ export default {
     background: darken($base-bg, 5%);
     width: auto;
   }
+}
+.icon {
+  margin: 0;
+  margin-right: 5px;
 }
 </style>

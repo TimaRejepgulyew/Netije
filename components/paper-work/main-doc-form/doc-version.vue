@@ -2,7 +2,7 @@
   <div>
     <div class="file-uploader-block">
       <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
-       <DxButton :hint="$t('buttons.refresh')" class="refresh-btn" icon="refresh" :onClick="refresh"></DxButton>
+      <DxButton :hint="$t('buttons.refresh')" class="refresh-btn" icon="refresh" :onClick="refresh"></DxButton>
       <div class="list-container">
         <DxList :data-source="versions" :activeStateEnabled="false" :focusStateEnabled="false">
           <template #item="item">
@@ -154,7 +154,7 @@ export default {
   width: 80%;
   height: 100%;
 }
-.refresh-btn{
+.refresh-btn {
   margin-bottom: 10px;
 }
 </style>

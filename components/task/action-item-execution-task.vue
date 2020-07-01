@@ -183,6 +183,7 @@ export default {
         value: this.$store.getters["currentTask/task"].isUnderControl,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_IS_UNDER_CONTROL", e.value);
+          this.$store.commit("currentTask/SET_SUPERVISOR", null);
         }
       };
     },

@@ -13,7 +13,7 @@
       </div>
     </DxPopup>
     <div class="d-flex align-center">
-      <span class="dx-form-group-caption border-b">{{group.groupTitle}}</span>
+      <span class="dx-form-group-caption">{{group.groupTitle}}</span>
       <sup v-if="group.isRequired" class="red">*</sup>
       <DxButton
         :id="'addAttachment'+group.groupId"
@@ -27,12 +27,13 @@
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <component :is="componentByAttachmentType" @detachLink="detachLink" :item="groupItem" />
+        <component :is="componentByAttachmentType" :item="groupItem" />
       </li>
     </ul>
     <div
-      class="d-flex group__description cursor-pointer"
-      @click="()=>{isOpenCard =!isOpenCard}"
+      class="d-flex group__description"
+      :class="{'cursor-pointer':group.canAddAttachments}"
+      @click="()=>{if(group.canAddAttachments)isOpenCard =!isOpenCard}"
       v-else
     >
       <i class="dx-icon dx-icon-link"></i>
@@ -43,7 +44,8 @@
 
 <script>
 import documentGrid from "~/components/paper-work/document-grid.vue";
-import documentField from "~/components/workFlow/attachmentEntityTypedocument.vue";
+import taskField from "~/components/workFlow/field-task-attachment.vue";
+import documentField from "~/components/workFlow/field-document-attachment.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
@@ -57,7 +59,8 @@ export default {
     DxButton,
     documentGrid,
     DxPopup,
-    documentField
+    documentField,
+    taskField
   },
   data() {
     return {
@@ -79,9 +82,6 @@ export default {
         attachmentId: id,
         groupId: this.group.groupId
       });
-    },
-    detachLink(options) {
-      this.$emit("detachLink", { ...options, groupId: this.group.groupId });
     }
   },
   computed: {
@@ -98,6 +98,7 @@ export default {
       groupDemo.entities = groupDemo.entities = [
         {
           entity: {
+            type: 0,
             name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
             note: "adwdawd",
             ourSignatoryId: null,
@@ -117,6 +118,7 @@ export default {
         },
         {
           entity: {
+            type: 1,
             name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
             note: "adwdawd",
             ourSignatoryId: null,
@@ -166,6 +168,7 @@ export default {
     padding-right: 10px;
   }
 }
+.cursor-pointer,
 .cursor-pointer label {
   cursor: pointer;
 }

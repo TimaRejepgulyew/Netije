@@ -1,7 +1,6 @@
 <template>
   <div>
     <attachmentGroupItem
-      @detachLink="detachLink"
       @pasteAttachment="pasteAttachment"
       :group="groupItem"
       v-for="groupItem in attachmentGroups.filter(el=>el.isVisible)"
@@ -19,9 +18,6 @@ export default {
   },
   props: ["attachmentGroups"],
   methods: {
-    detachLink(options) {
-      this.$emit("detachLink", options);
-    },
     pasteAttachment(options) {
       this.$emit("pasteAttachment", options);
     }
