@@ -188,19 +188,23 @@ export const actions = {
       {
         text: this.$i18n.t("menu.contractors"),
         icon: "group",
-        path: "/parties",
         visible: hasCounterPartyAccess(rootGetters),
         items: [
           {
-            text: this.$i18n.t("menu.all"),
-            path: "/parties/",
+            text: this.$i18n.t("menu.companies"),
+            path: "/parties/organizations/companies",
             visible: rootGetters["permissions/allowReading"](
               EntityType.Counterparty
             )
           },
           {
-            text: this.$i18n.t("menu.companies"),
-            path: "/parties/organizations/companies",
+            text: this.$i18n.t("menu.contacts"),
+            path: "/parties/organizations/contacts",
+            visible: rootGetters["permissions/allowReading"](EntityType.Contact)
+          },
+          {
+            text: this.$i18n.t("menu.person"),
+            path: "/parties/persons/",
             visible: rootGetters["permissions/allowReading"](
               EntityType.Counterparty
             )
@@ -211,18 +215,6 @@ export const actions = {
             visible: rootGetters["permissions/allowReading"](
               EntityType.Counterparty
             )
-          },
-          {
-            text: this.$i18n.t("menu.person"),
-            path: "/parties/persons/",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.Counterparty
-            )
-          },
-          {
-            text: this.$i18n.t("menu.contacts"),
-            path: "/parties/organizations/contacts",
-            visible: rootGetters["permissions/allowReading"](EntityType.Contact)
           }
         ]
       },
@@ -232,10 +224,10 @@ export const actions = {
         visible: hasCompanyAccess(rootGetters),
         items: [
           {
-            text: this.$i18n.t("menu.businessUnit"),
-            path: "/company/organization-structure/business-units",
+            text: this.$i18n.t("menu.employee"),
+            path: "/company/staff/employees",
             visible: rootGetters["permissions/allowReading"](
-              EntityType.BusinessUnit
+              EntityType.Employee
             )
           },
           {
@@ -246,17 +238,17 @@ export const actions = {
             )
           },
           {
-            text: this.$i18n.t("menu.employee"),
-            path: "/company/staff/employees",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.Employee
-            )
-          },
-          {
             text: this.$i18n.t("menu.jobTitle"),
             path: "/company/job-titles",
             visible: rootGetters["permissions/allowReading"](
               EntityType.JobTitle
+            )
+          },
+          {
+            text: this.$i18n.t("menu.businessUnit"),
+            path: "/company/organization-structure/business-units",
+            visible: rootGetters["permissions/allowReading"](
+              EntityType.BusinessUnit
             )
           },
           {
@@ -271,6 +263,7 @@ export const actions = {
       {
         text: this.$i18n.t("menu.docFlow"),
         icon: "repeat",
+        path: "/docflow",
         visible: hasDocflowAccess(rootGetters),
         items: [
           {

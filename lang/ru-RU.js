@@ -210,7 +210,7 @@ export default {
     "human-settlement": "Населенные пункты",
     "shared-directory": "Общие справочники",
     "document-circulation": "Документооборот",
-    "company-structure": "Структура компании",
+    "company-structure": "Компания",
     contractors: "Контрагенты",
     paperwork: "Делопроизводство",
     docFlow: "Документооборот",
@@ -227,7 +227,7 @@ export default {
     assignments: "Задания",
     task: "Задачи",
     simpleTask: "Простые задачи",
-    businessUnit: "Организации",
+    businessUnit: "Наши организации",
     businessUnitRequired:
       "Поле наименование организации не должно быть пустым__TM",
     businessUnitAlreadyExists: "Такая организация уже существует__TM",

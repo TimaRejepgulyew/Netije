@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.contacts')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -31,12 +31,22 @@
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Contact" />
 
-      <DxEditing :useIcons="true" mode="form" />
+      <DxEditing
+        :useIcons="true"
+        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        mode="form"
+      />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.contactName')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('translations.fields.contactName')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxColumn>
 
@@ -60,8 +70,7 @@
         data-field="jobTitle"
         :caption="$t('translations.fields.jobTitleId')"
         :visible="false"
-      >
-      </DxColumn>
+      ></DxColumn>
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
 
@@ -102,6 +111,7 @@
   </main>
 </template>
 <script>
+import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -148,16 +158,20 @@ export default {
   },
   data() {
     return {
+      entityType: EntityType.Contact,
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.Contact
+        loadUrl: dataApi.contragents.Contact,
+        insertUrl: dataApi.contragents.Contact,
+        updateUrl: dataApi.contragents.Contact,
+        removeUrl: dataApi.contragents.Contact
       }),
       companiesDataSource: {
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.contragents.CounterPart
         }),
-        filter:["type","<>","Person"],
+        filter: ["type", "<>", "Person"],
         paginate: true
       },
       statusDataSource: this.$store.getters["status/status"](this)
