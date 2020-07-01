@@ -285,7 +285,7 @@ export default {
     },
     noteOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: !this.canUpdate,
         value: this.$store.getters["currentDocument/document"].note,
         height: 70,
         autoResizeEnabled: true,
