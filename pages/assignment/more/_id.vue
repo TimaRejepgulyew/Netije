@@ -6,49 +6,53 @@
         <div class="item f-grow-3">
           <slot name="information"></slot>
           <DxForm
-            :col-count="1"
+            :col-count="10"
             :form-data.sync="assignment"
             :read-only="true"
             :show-colon-after-label="true"
             :show-validation-summary="true"
             validation-group="assignment"
           >
-            <DxGroupItem :col-span="2" :caption="$t('translations.headers.moreAbout')">
-              <DxSimpleItem :col-span="4" data-field="subject">
-                <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-              </DxSimpleItem>
-              <DxGroupItem :col-count="3">
-                <DxSimpleItem
-                  data-field="deadline"
-                  :editor-options="dateTimeOptions"
-                  editor-type="dxDateBox"
-                >
-                  <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+            <DxGroupItem :col-span="7">
+              <DxGroupItem :col-span="2" :caption="$t('translations.headers.moreAbout')">
+                <DxSimpleItem :col-span="4" data-field="subject">
+                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
                 </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="performerId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('shared.from')" />
-                </DxSimpleItem>
-                <DxSimpleItem
-                  data-field="performerId"
-                  :editor-options="employeeOptions"
-                  editor-type="dxSelectBox"
-                >
-                  <DxLabel location="top" :text="$t('shared.whom')" />
-                </DxSimpleItem>
+                <DxGroupItem :col-count="3">
+                  <DxSimpleItem
+                    data-field="deadline"
+                    :editor-options="dateTimeOptions"
+                    editor-type="dxDateBox"
+                  >
+                    <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+                  </DxSimpleItem>
+                  <DxSimpleItem
+                    data-field="performerId"
+                    :editor-options="employeeOptions"
+                    editor-type="dxSelectBox"
+                  >
+                    <DxLabel location="top" :text="$t('shared.from')" />
+                  </DxSimpleItem>
+                  <DxSimpleItem
+                    data-field="performerId"
+                    :editor-options="employeeOptions"
+                    editor-type="dxSelectBox"
+                  >
+                    <DxLabel location="top" :text="$t('shared.whom')" />
+                  </DxSimpleItem>
+                </DxGroupItem>
               </DxGroupItem>
-            </DxGroupItem>
 
-            <DxGroupItem :col-span="3">
-              <DxGroupItem>
-                <DxSimpleItem template="comments">
-                  <DxLabel location="top" :visible="false" />
-                </DxSimpleItem>
+              <DxGroupItem :col-span="3">
+                <DxGroupItem>
+                  <DxSimpleItem template="comments">
+                    <DxLabel location="top" :visible="false" />
+                  </DxSimpleItem>
+                </DxGroupItem>
               </DxGroupItem>
             </DxGroupItem>
+            <DxGroupItem template="attachments" :col-span="3"></DxGroupItem>
+
             <template #comments>
               <div>
                 <status-message />
@@ -56,16 +60,22 @@
                 <slot name="Test"></slot>
               </div>
             </template>
+            <template #attachments>
+              <div>
+                <attachment
+                  @pasteAttachment="pasteAttachment"
+                  :attachmentGroups="attachmentGroups"
+                />
+              </div>
+            </template>
           </DxForm>
-        </div>
-        <div class="item">
-          <attachmentDetails :url="attachmentsUrl" :readOnly="true"></attachmentDetails>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
+import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxTextArea } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
@@ -90,7 +100,8 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxForm
+    DxForm,
+    attachment
   },
   async asyncData({ app, params }) {
     await app.store.dispatch("currentAssignment/load", params.id);
@@ -114,6 +125,21 @@ export default {
       })
     };
   },
+  computed: {
+    attachmentGroups() {
+      return this.$store.getters["currentAssignment/assignment"]
+        .attachmentGroups;
+    }
+  },
+  methods: {
+    pasteAttachment(options) {
+      this.$awn.async(
+        this.$store.dispatch("currentTask/pasteAttachment", options),
+        () => {},
+        () => {}
+      );
+    }
+  }
 };
 </script>
 
