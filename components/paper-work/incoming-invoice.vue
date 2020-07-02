@@ -47,17 +47,16 @@
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
+      <DxSimpleItem
+        :col-span="2"
+        data-field="leadingDocumentId"
+        editor-type="dxSelectBox"
+        :editor-options="leadingDocumentOptions"
+        :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
+      >
+        <DxLabel location="top" :text="$t('document.fields.contract')" />
+      </DxSimpleItem>
     </DxGroupItem>
-
-    <DxSimpleItem
-      :col-span="2"
-      data-field="leadingDocumentId"
-      editor-type="dxSelectBox"
-      :editor-options="leadingDocumentOptions"
-      :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
-    >
-      <DxLabel location="top" :text="$t('menu.contract')" />
-    </DxSimpleItem>
 
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
       <DxSimpleItem

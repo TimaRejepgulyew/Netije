@@ -5,7 +5,7 @@
       data-field="lifeCycleState"
       :editor-options="lifeCycleStateOptions"
     >
-      <DxLabel location="top" :text="$t('document.lifeCycle')" />
+      <DxLabel location="top" :text="$t('document.state')" />
     </DxSimpleItem>
 
     <DxSimpleItem
@@ -139,11 +139,15 @@ export default {
     }
   },
   computed: {
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
+    },
     documentTypeGuid() {
       return this.$store.getters["currentDocument/document"].documentTypeGuid;
     },
     lifeCycleStateOptions() {
       return {
+        readOnly:!this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
@@ -168,6 +172,7 @@ export default {
     },
     internalApprovalStateOptions() {
       return {
+        readOnly:!this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
@@ -184,6 +189,7 @@ export default {
     },
     externalApprovalStateOptions() {
       return {
+        readOnly:!this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
@@ -200,10 +206,11 @@ export default {
     },
     executionStateOptions() {
       return {
+        readOnly:!this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        onValueChanged: e => {         
+        onValueChanged: e => {
           this.$store.commit("currentDocument/SET_EXECUTION_STATE", e.value);
         },
         value: this.$store.getters["currentDocument/document"].executionState,
@@ -212,6 +219,7 @@ export default {
     },
     controlExecutionStateOptions() {
       return {
+        readOnly:!this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),

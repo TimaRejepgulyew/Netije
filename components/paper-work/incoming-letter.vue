@@ -1,6 +1,7 @@
 <template>
   <DxForm
     :col-count="1"
+    :read-only="!canUpdate"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="validatorGroup"
@@ -10,14 +11,14 @@
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
-       <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
+      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
         <DxLabel location="top" :text="$t('translations.fields.dated')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
         <DxLabel location="top" text="№" />
       </DxSimpleItem>
-       <DxSimpleItem
-       :col-span="2"
+      <DxSimpleItem
+        :col-span="2"
         data-field="inResponseToId"
         :editor-options="inResponseToIdOptions"
         editor-type="dxSelectBox"
@@ -25,12 +26,12 @@
       >
         <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
       </DxSimpleItem>
-       <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="contactId" template="contact">
-          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
-        </DxSimpleItem>
+      <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
+        <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+      </DxSimpleItem>
+      <DxSimpleItem data-field="contactId" template="contact">
+        <DxLabel location="top" :text="$t('translations.fields.contactId')" />
+      </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.whom')">
       <DxSimpleItem
@@ -59,6 +60,7 @@
     </DxGroupItem>
     <template #correspondent>
       <custom-select-box
+        :disabled="readOnly"
         validatorGroup="OfficialDocument"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
@@ -68,7 +70,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
-        :disabled="!isOrganization"
+        :disabled="!isOrganization||readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setContact"
         :value="contactId"
@@ -76,17 +78,17 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
-        :disabled="!isOrganization"
+        :disabled="!isOrganization||readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"
       />
     </template>
     <template #addressee>
-      <employee-select-box :value="addresseeId" @valueChanged="setAddresseeId" />
+      <employee-select-box :read-only="!canUpdate" :value="addresseeId" @valueChanged="setAddresseeId" />
     </template>
     <template #assignee>
-      <employee-select-box :value="assigneeId" @valueChanged="setAssigneeId" />
+      <employee-select-box :read-only="!canUpdate" :value="assigneeId" @valueChanged="setAssigneeId" />
     </template>
   </DxForm>
 </template>
@@ -176,7 +178,12 @@ export default {
     correspondentId() {
       return this.$store.getters["currentDocument/document"].correspondentId;
     },
-
+    readOnly() {
+      return this.$store.getters["currentDocument/readOnly"];
+    },
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
+    },
     departmentId() {
       return this.$store.getters["currentDocument/document"].departmentId;
     },
