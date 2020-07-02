@@ -34,6 +34,7 @@
       </DxGroupItem>
       <DxGroupItem :caption="$t('translations.fields.storing')">
         <DxSimpleItem
+        :isRequired="caseFileRequired"
           data-field="caseFileId"
           :editor-options="caseFileOptions"
           editor-type="dxSelectBox"
@@ -73,6 +74,9 @@ export default {
     }
   },
   computed: {
+    caseFileRequired(){
+      return Boolean(this.$store.getters["currentDocument/document"].placedToCaseFileDate);
+    },
     isRegistrationInfoVisible() {
       return this.$store.getters["currentDocument/isRegistered"];
     },
