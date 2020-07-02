@@ -1,9 +1,9 @@
 <template>
-  <dx-button class="user-button authorization"  width="auto" styling-mode="text">
+  <dx-button class="user-button authorization" width="auto" styling-mode="text">
     <div class="user-panel">
       <div class="user-info">
         <div>
-          <icon-by-name  />
+          <icon-by-name :fullName="fullName" />
         </div>
         <div class="user-name">{{fullName}}</div>
       </div>

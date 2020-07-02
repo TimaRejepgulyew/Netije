@@ -51,10 +51,11 @@ export function generateLifeCycleItemState(context, documentTypeGuid) {
     case DocumentType.PowerOfAttorney:
     case DocumentType.ContractStatement:
     case DocumentType.Waybill:
-    case DocumentType.IncomingTaxInvoice:
-    case DocumentType.OutgoingTaxInvoice:
     case DocumentType.UniversalTransferDocument:
       return lifeCycleStateStoreType2(context);
+    case DocumentType.IncomingTaxInvoice:
+    case DocumentType.OutgoingTaxInvoice:
+      return lifeCycleStateStoreType3(context);
     case DocumentType.Contract:
     case DocumentType.SupAgreement:
       return lifeCycleStateStoreContract(context);

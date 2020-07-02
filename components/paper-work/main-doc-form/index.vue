@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header headerTitle="headerTitle"></Header>
     <toolbar @openVersion="openVersion"></toolbar>
     <div class="wrapper--relative">
       <DxForm
@@ -79,13 +78,14 @@
           <component :is="formByTypeGuid"></component>
         </template>
       </DxForm>
-      <docVersion class="item--drawer" v-if="versionOpenState"></docVersion>
+      <transition name="fade">
+        <docVersion class="item--drawer" v-if="versionOpenState"></docVersion>
+      </transition>
     </div>
   </div>
 </template>
 <script>
 import lifeCycle from "~/components/paper-work/main-doc-form/life-cycle.vue";
-import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import History from "~/components/page/history.vue";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
@@ -109,9 +109,7 @@ import waybill from "~/components/paper-work/waybill.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import { confirm } from "devextreme/ui/dialog";
 import "devextreme-vue/text-area";
-import Header from "~/components/page/page__header";
 import DxForm, {
   DxTabbedItem,
   DxTab,
@@ -124,11 +122,8 @@ import { DxDrawer } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    DxDrawer,
-    DxTabPanel,
     DxTabbedItem,
     DxTab,
-    DxItem,
     Relation,
     History,
     docVersion,
@@ -162,9 +157,7 @@ export default {
       title: this.$store.getters["currentDocument/document"].name
     };
   },
-  mounted() {
-    this.versionOpenState = false;
-  },
+
   created() {
     if (this.$store.getters["currentDocument/isNew"]) {
       this.$store.commit("currentDocument/DATA_CHANGED", true);
@@ -179,7 +172,7 @@ export default {
     return {
       documentType: this.$store.getters["currentDocument/document"]
         .documentTypeGuid,
-      versionOpenState: true,
+      versionOpenState: false,
       entityTypeGuid: mapToEntityType(
         this.$store.getters["currentDocument/document"].documentTypeGuid
       ),
@@ -317,5 +310,20 @@ export default {
 .bg-white {
   width: 20%;
   background: white;
+}
+.fade-enter,
+.fade-leave-to {
+  transform: translateX(40vw);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 0.5s;
+}
+.right {
+  display: flex;
+  justify-content: space-between;
+  .filter__header {
+    justify-self: flex-start;
+  }
 }
 </style>

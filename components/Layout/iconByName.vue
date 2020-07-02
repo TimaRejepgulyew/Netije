@@ -13,10 +13,8 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["fullName"],
   computed: {
-    fullName() {
-      return this.$store.getters["user/name"];
-    },
     stringToColor() {
       let hash = 0;
       let color = "#";

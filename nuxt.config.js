@@ -1,10 +1,15 @@
-import path from 'path'
-import fs from 'fs'
-const conf = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'configuration/config.json')));
+import path from "path";
+import fs from "fs";
+const conf = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, "configuration/config.json"))
+);
 export default {
   env: {
-     baseUrl: conf.baseUrl,
-     uiAddr:conf.uiAddr
+    baseUrl: conf.baseUrl,
+    uiAddr: conf.uiAddr
+  },
+  loading: {
+    color: "white"
   },
   mode: "spa",
   /*
@@ -19,12 +24,9 @@ export default {
         hid: "description",
         name: "description",
         content: process.env.npm_package_description || ""
-      },
+      }
     ],
-    link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-     
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   router: {
     middleware: ["authorization", "authorization-callback", "metadata"]

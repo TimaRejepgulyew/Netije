@@ -73,6 +73,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        :readOnly="isRegistered"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         validatorGroup="OfficialDocument"
         @valueChanged="setCounterparty"

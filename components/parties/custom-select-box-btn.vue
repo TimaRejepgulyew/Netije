@@ -38,13 +38,41 @@
         />
       </div>
     </DxPopup>
+     <DxPopup
+      width="90%"
+      height="auto"
+      :showTitle="false"
+      :visible.sync="isOpenCardGrid"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+    >
+      <div class="scrool-auto">
+        <component
+          @valueChanged="valueChanged"
+          v-if="isOpenCardGrid"
+          :isCard="true"
+          :is="activeCard"
+          :counterpartId="false"
+          key="create"
+        />
+      </div>
+    </DxPopup>
+    
     <DxButton
       :visible="showBtn"
+      :on-click="this.openCard"
+      icon="card"
+      stylingMode="text"
+      :hint="$t('translations.fields.moreAbout')"
+      :useSubmitBehavior="false"
+    ></DxButton>
+     <DxButton
+      
       :on-click="this.openCard"
       icon="info"
       stylingMode="text"
       :hint="$t('translations.fields.moreAbout')"
-      :useSubmitBehavior="true"
+      :useSubmitBehavior="false"
     ></DxButton>
     <DxDropDownButton
       icon="plus"

@@ -60,7 +60,7 @@
     </DxGroupItem>
     <template #correspondent>
       <custom-select-box
-        :disabled="readOnly"
+        :readOnly="readOnly"
         validatorGroup="OfficialDocument"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"

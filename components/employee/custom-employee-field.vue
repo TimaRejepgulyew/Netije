@@ -4,34 +4,39 @@
       :placeholder="$t('shared.select')"
       :value="fieldData && fieldData.name"
       class="product-name"
-      :read-only="readOnly"
     />
-    <employee-btn
-      v-if="$store.getters['permissions/allowReading'](EntityType.Employee)"
-      @valueChanged="valueChanged"
-      :employeeId="fieldData ? fieldData.id:null"
-    />
+    <DxButton
+      :visible="showBtn"
+      :on-click="this.openCard"
+      icon="info"
+      stylingMode="text"
+      :hint="$t('translations.fields.moreAbout')"
+      :useSubmitBehavior="false"
+      type="default"
+    ></DxButton>
   </div>
 </template>
 <script>
 import EntityType from "~/infrastructure/constants/entityTypes";
-import employeeBtn from "~/components/employee/custom-select-box-btn.vue";
 import { DxButton } from "devextreme-vue";
 import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton,
-    employeeBtn
+    DxButton
   },
-  props: ["fieldData", "readOnly"],
-
-  data() {
-    return {
-      EntityType
-    };
+  props: ["fieldData"],
+  computed: {
+    showBtn() {
+      return this.fieldData?.id
+        ? this.$store.getters["permissions/allowReading"](EntityType.Employee)
+        : false;
+    }
   },
   methods: {
+    openCard() {
+      this.$emit("openCard");
+    },
     valueChanged(data) {
       this.$emit("valueChanged", data);
     }

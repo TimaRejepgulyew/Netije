@@ -1,6 +1,7 @@
 <template>
   <DxSelectBox
     ref="counterPart"
+    :read-only="readOnly"
     :data-source="counterPartStore"
     @valueChanged="valueChanged"
     @selectionChanged="selectionChanged"
@@ -25,7 +26,11 @@
       <custom-select-item :item-data="data" />
     </template>
     <template #customfield="{data}">
-      <custom-field @valueChanged="setCounterPart" :notPerson="notPerson" :field-data="data" />
+      <custom-field
+        @valueChanged="setCounterPart"
+        :notPerson="notPerson"
+        :field-data="data"
+      />
     </template>
   </DxSelectBox>
 </template>
@@ -49,7 +54,8 @@ export default {
     "messageRequired",
     "value",
     "notPerson",
-    "disabled"
+    "disabled",
+    "readOnly"
   ],
   data() {
     return {

@@ -78,6 +78,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        :readOnly="isRegistered"
         validatorGroup="OfficialDocument"
         @valueChanged="setCounterparty"
         messageRequired="translations.fields.counterPartRequired"

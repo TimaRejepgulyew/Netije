@@ -30,7 +30,7 @@ export default {
   padding: 8px;
 }
 .title {
-  padding: 10px 0;
+  padding: 10px;
 }
 .align-center {
   align-items: center;
@@ -40,7 +40,7 @@ export default {
   padding-left: 40px;
   .typeItem {
     width: auto;
-    padding: 5px 0;
+    padding: 10px;
   }
   .typeItem:hover {
     background: lighten($base-border-color, 10%);
@@ -49,5 +49,8 @@ export default {
 .link {
   text-decoration: none;
   color: $base-accent;
+}
+.link:hover {
+  color: #f90;
 }
 </style>

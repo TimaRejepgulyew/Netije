@@ -1,15 +1,19 @@
 <template>
-  <div class="custom-item">
-    <div>{{$t()}}{{itemData && itemData.name}}</div>
-    <div class="small grey">{{itemData && itemData.jobTitle}}</div>
+  <div class="custom-item d-flex align-center">
+    <iconByName :fullName="itemData && itemData.name" />
+    <div>
+      <div>{{$t()}}{{itemData && itemData.name}}</div>
+      <div class="grey">{{itemData && itemData.jobTitle}}</div>
+    </div>
   </div>
 </template>
 <script>
 import { DxTextBox } from "devextreme-vue";
-
+import iconByName from "~/components/Layout/iconByName.vue";
 export default {
   components: {
-    DxTextBox
+    DxTextBox,
+    iconByName
   },
   props: {
     itemData: {
@@ -20,12 +24,13 @@ export default {
 </script>
 <style lang="scss">
 .small {
-  font-size: 0.6em;
+  font-size: 20px;
 }
 .custom-item {
   padding: 7px;
 }
 .grey {
   color: gray;
+  font-size: 14px;
 }
 </style>

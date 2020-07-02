@@ -24,12 +24,16 @@ export function lifeCycleStateStoreType2(context) {
     {
       id: LifeCycleState.Obsolete,
       name: context.$t("lifeCycleState.old")
-    },
+    }
+  ];
+}
+export function lifeCycleStateStoreType3(context) {
+  return [
+    { id: LifeCycleState.Active, name: context.$t("lifeCycleState.active") },
     {
-      id: LifeCycleState.Terminated,
-      name: context.$t("lifeCycleState.terminated")
-    },
-    { id: LifeCycleState.Closed, name: context.$t("lifeCycleState.closed") }
+      id: LifeCycleState.Obsolete,
+      name: context.$t("lifeCycleState.old")
+    }
   ];
 }
 export function lifeCycleStateStoreContract(context) {
