@@ -40,12 +40,16 @@ export default {
     };
   },
   methods: {
-    async showCard(document) {
-      await this.$store.dispatch("currentDocument/getDocumentById", {
-        id: document.id,
-        type: document.documentTypeGuid
-      });
-      this.isOpenCard = true;
+    showCard(document) {
+      this.$awn.asyncBlock(
+        this.$store.dispatch("currentDocument/getDocumentById", {
+          id: document.id,
+          type: document.documentTypeGuid
+        }),
+        () => {
+          this.isOpenCard = true;
+        }
+      );
     },
     downloadVersion() {
       DocumentService.downloadDocument(

@@ -134,7 +134,7 @@ export default {
   methods: {
     pasteAttachment(options) {
       this.$awn.async(
-        this.$store.dispatch("currentTask/pasteAttachment", options),
+        this.$store.dispatch("currentAssignment/pasteAttachment", options),
         () => {},
         () => {}
       );

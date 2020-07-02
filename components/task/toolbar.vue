@@ -24,7 +24,7 @@
       />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
-        <importanceChanger :read-only="inProcess"></importanceChanger>
+        <importanceChanger :read-only="!isDraft"></importanceChanger>
       </template>
     </DxToolbar>
   </div>

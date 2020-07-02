@@ -41,6 +41,9 @@ export const mutations = {
   },
   SET_COMMENT(state, payload) {
     state.comment = payload;
+  },
+  SET_ATTACHMENT_GROUPS(state, payload) {
+    state.assignment.attachmentGroups = payload;
   }
 };
 
@@ -72,5 +75,17 @@ export const actions = {
       dataApi.assignment.CompleteAssignment,
       assignment
     );
+  },
+  async pasteAttachment({ state, commit }, payload) {
+    const options = { ...payload, id: state.task.id };
+    const { data } = await this.$axios.post(dataApi.attachment.Paste, options);
+    commit("SET_ATTACHMENT_GROUPS", data);
+  },
+  async detachAttachment({ state, commit }, attachmentId) {
+    const { data } = await this.$axios.delete(
+      `${dataApi.task.Remove}/${attachmentId}`
+    );
+    // TODO   dataApi.attachment.Detach,
+    commit("SET_ATTACHMENT_GROUPS", data);
   }
 };

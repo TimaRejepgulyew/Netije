@@ -2,17 +2,17 @@
   <div id="form-demo">
     <DxForm
       ref="form"
-      :read-only="inProcess"
+      :read-only="!isDraft"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       :validation-group="validatorGroup"
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
-        <DxGroupItem  :col-count="10">
+        <DxGroupItem :col-count="10">
           <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
-          <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
-          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
-        </DxSimpleItem>
+            <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+          </DxSimpleItem>
           <DxSimpleItem
             :col-span="2"
             data-field="needsReview"
@@ -61,7 +61,7 @@
       </DxGroupItem>
       <template #performers>
         <recipient-tag-box
-          :read-only="inProcess"
+          :read-only="!isDraft"
           :messageRequired="$t('translations.fields.acquaintMembersRequired')"
           :validator-group="validatorGroup"
           :recipients="performers"
@@ -70,14 +70,14 @@
       </template>
       <template #observers>
         <recipient-tag-box
-          :read-only="inProcess"
+          :read-only="!isDraft"
           :recipients="observers"
           @setRecipients="setObservers"
         />
       </template>
       <template #excludedPerformers>
         <recipient-tag-box
-          :read-only="inProcess"
+          :read-only="!isDraft"
           :recipients="excludedPerformers"
           @setRecipients="setExcludedPerformers"
         />

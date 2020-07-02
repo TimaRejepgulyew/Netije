@@ -297,7 +297,7 @@ export const mutations = {
     if (checkDataChanged(state.document.leadingDocumentId, payload)) {
       state.isDataChanged = true;
     }
-  
+
     state.document.leadingDocumentId = payload;
   },
   SET_ISSUED_TO_ID(state, payload) {
@@ -473,5 +473,6 @@ export const actions = {
       commit("SET_IS_NEW", false);
     }
     commit("DATA_CHANGED", false);
-  }
+  },
+ 
 };
