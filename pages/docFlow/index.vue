@@ -2,7 +2,11 @@
   <main class="doc-flow">
     <div class="container--grid">
       <div class="item">
-        <doc-flow-item :data="item" v-for="item in docFlowItemsRightSide" :key="item.name" />
+        <doc-flow-item
+          :data="item"
+          v-for="item in docFlowItemsRightSide.filter(el=>el.visible)"
+          :key="item.name"
+        />
       </div>
       <div class="item">
         <doc-flow-item :data="item" v-for="item in docFlowItemsLeftSide" :key="item.name" />

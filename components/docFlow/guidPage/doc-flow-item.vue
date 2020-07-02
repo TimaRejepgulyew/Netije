@@ -5,7 +5,7 @@
       <div class="title">{{data.title}}</div>
     </div>
     <div class="item--content">
-      <div class="typeItem" v-for="item in data.items" :key="item.name">
+      <div class="typeItem" v-for="item in data.items.filter(el=>el.visible)" :key="item.name">
         <nuxt-link :to="item.path" class="name link">{{item.name}}</nuxt-link>
         <div class="description">{{item.description}}</div>
       </div>
@@ -43,7 +43,7 @@ export default {
     padding: 5px 0;
   }
   .typeItem:hover {
-    background: lighten($base-border-color, 10%) ;
+    background: lighten($base-border-color, 10%);
   }
 }
 .link {

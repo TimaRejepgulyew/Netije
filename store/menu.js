@@ -267,20 +267,6 @@ export const actions = {
         visible: hasDocflowAccess(rootGetters),
         items: [
           {
-            text: this.$i18n.t("menu.personalSettings"),
-            path: "/docflow/personal-settings",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.PersonalSettings
-            )
-          },
-          {
-            text: this.$i18n.t("menu.contractCategories"),
-            path: "/docflow/contract-categories",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.DocumentGroupBase
-            )
-          },
-          {
             text: this.$i18n.t("menu.documentKind"),
             path: "/docflow/document-kind",
             visible: rootGetters["permissions/allowReading"](
@@ -306,34 +292,6 @@ export const actions = {
             path: "/docflow/case-files",
             visible: rootGetters["permissions/allowReading"](
               EntityType.CaseFile
-            )
-          },
-          {
-            text: this.$i18n.t("menu.fileRetentionPeriod"),
-            path: "/docflow/file-retention-period/",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.FileRetentionPeriod
-            )
-          },
-          {
-            text: this.$i18n.t("menu.mailDeliveryMethod"),
-            path: "/docflow/mail-delivery-method/",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.MailDeliveryMethod
-            )
-          },
-          {
-            text: this.$i18n.t("menu.associatedApp"),
-            path: "/docflow/associated-applications",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.AssociatedApplications
-            )
-          },
-          {
-            text: this.$i18n.t("menu.fileType"),
-            path: "/docflow/files-type",
-            visible: rootGetters["permissions/allowReading"](
-              EntityType.FilesType
             )
           }
         ]
