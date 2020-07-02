@@ -68,20 +68,15 @@ export default {
           break;
         case "detach":
           this.detachLink();
+          break;
         case "card":
           this.showCard();
+          break;
       }
     },
     detachLink() {
-      const { entity } = this.attachment;
-      this.$awn.async(
-        this.$store.dispatch(
-          "currentTask/detachAttachment",
-          this.attachment.attachmentId
-        ),
-        () => {},
-        () => {}
-      );
+      console.log(this.attachment.attachmentId);
+      this.$emit("detach", this.attachment.attachmentId);
     },
     downloadDocument() {
       DocumentService.downloadDocument(

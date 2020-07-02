@@ -27,7 +27,7 @@
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <component :is="componentByAttachmentType" :item="groupItem" />
+        <component @detach="detach" :is="componentByAttachmentType" :item="groupItem" />
       </li>
     </ul>
     <div
@@ -76,6 +76,9 @@ export default {
   },
   props: ["group"],
   methods: {
+    detach(attachmentId) {
+      this.$emit("detach", attachmentId);
+    },
     pasteAttachment({ documentTypeguid, id }) {
       this.isOpenCard = !this.isOpenCard;
       this.$emit("pasteAttachment", {

@@ -28,6 +28,7 @@
       <template #attachments>
         <attachment
           @pasteAttachment="pasteAttachment"
+          @detach="detach"
           :attachmentGroups="attachmentGroups"
         />
       </template>
@@ -76,13 +77,20 @@ export default {
     };
   },
   methods: {
+    detach(attachmentId) {
+      this.$awn.async(
+        this.$store.dispatch("currentTask/detachAttachment", attachmentId),
+        () => {},
+        () => {}
+      );
+    },
     pasteAttachment(options) {
       this.$awn.async(
         this.$store.dispatch("currentTask/pasteAttachment", options),
         () => {},
         () => {}
       );
-    },
+    }
   },
   computed: {
     attachmentGroups() {

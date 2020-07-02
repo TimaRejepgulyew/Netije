@@ -77,15 +77,18 @@ export const actions = {
     );
   },
   async pasteAttachment({ state, commit }, payload) {
-    const options = { ...payload, id: state.task.id };
-    const { data } = await this.$axios.post(dataApi.attachment.Paste, options);
+    const options = { ...payload, id: state.assignment.id };
+    const { data } = await this.$axios.post(
+      dataApi.attachment.PasteByAssignment,
+      options
+    );
+    console.log(data);
     commit("SET_ATTACHMENT_GROUPS", data);
   },
-  async detachAttachment({ state, commit }, attachmentId) {
+  async detachAttachment({ commit }, attachmentId) {
     const { data } = await this.$axios.delete(
-      `${dataApi.task.Remove}/${attachmentId}`
+      `${dataApi.attachment.Detach}/${attachmentId}`
     );
-    // TODO   dataApi.attachment.Detach,
     commit("SET_ATTACHMENT_GROUPS", data);
   }
 };

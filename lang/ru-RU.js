@@ -236,6 +236,7 @@ export default {
     }
   },
   menu: {
+    contractCategories: "Категории договоров",
     supAgreement: "Дополнительное соглашение",
     "financial-archive": "Финансовый архив",
     financialDocument: "Финансовый документы",

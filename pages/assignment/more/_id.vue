@@ -63,6 +63,7 @@
             <template #attachments>
               <div>
                 <attachment
+                  @detach="detach"
                   @pasteAttachment="pasteAttachment"
                   :attachmentGroups="attachmentGroups"
                 />
@@ -132,6 +133,16 @@ export default {
     }
   },
   methods: {
+    detach(attachmentId) {
+      this.$awn.async(
+        this.$store.dispatch(
+          "currentAssignment/detachAttachment",
+          attachmentId
+        ),
+        () => {},
+        () => {}
+      );
+    },
     pasteAttachment(options) {
       this.$awn.async(
         this.$store.dispatch("currentAssignment/pasteAttachment", options),

@@ -16,7 +16,7 @@
       <documentIcon :extension="item.entity.extension" />
       <div>{{item.entity.name}}</div>
     </div>
-    <actionBtn @showCard="()=>showCard(item.entity)" :attachment="item" />
+    <actionBtn @detach="detach" @showCard="()=>showCard(item.entity)" :attachment="item" />
   </div>
 </template>
 
@@ -40,6 +40,9 @@ export default {
     };
   },
   methods: {
+    detach(attachmentId) {
+      this.$emit("detach", attachmentId);
+    },
     showCard(document) {
       this.$awn.asyncBlock(
         this.$store.dispatch("currentDocument/getDocumentById", {

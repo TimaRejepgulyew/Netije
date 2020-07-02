@@ -81,7 +81,7 @@ export default {
     Abort: `${url}/api/Task/Abort`,
     Start: `${url}/api/Task/Start`,
     Restart: `${url}/api/Task/`,
-    Remove :`${url}/api/Task/RemoveAttachment`
+    Remove: `${url}/api/Task/RemoveAttachment`
   },
   accessRights: {
     List: `${url}/api/AccessRights/`,
@@ -104,6 +104,7 @@ export default {
   },
   attachment: {
     Detach: `${url}/api/Attachment/Detach`,
-    Paste: `${url}/api/Task/Paste`
+    PasteByTask: `${url}/api/Attachment/Task/Paste`,
+    PasteByAssignment: `${url}/api/Attachment/Assignment/Paste`
   }
 };
