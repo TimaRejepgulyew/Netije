@@ -5,6 +5,7 @@ export default {
   InternalDocument: 103,
   ContractualDocuments: 104,
   AccountingDocuments: 105,
+  ContractsAndSupAgreements:106,
   IncomingLetter: 1,
   OutgoingLetter: 2,
   Order: 3,

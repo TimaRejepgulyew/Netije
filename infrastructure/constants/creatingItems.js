@@ -14,25 +14,25 @@ import supAgreementIcon from "~/static/icons/supAgreement.svg";
 export default function(context) {
   return [
     {
-      text: context.$t("menu.paperwork"),
+      text: context.$t("createItemDialog.recordManagementGroup"),
       icon: "file",
       items: DocumentButtons(context)
     },
     {
-      text: context.$t("menu.task"),
+      text: context.$t("createItemDialog.taskGroup"),
       icon: "selectall",
       items: TaskButtons(context)
     },
 
     {
-      text: context.$t("menu.financialDocument"),
+      text: context.$t("createItemDialog.accountingDocumentsGroup"),
       icon: financialArchiveIcon,
       items: FinancialArchiveButtons(context),
       visible:
         context.$store.getters["permissions/isResponsibleFinansicalArchive"]
     },
     {
-      text: context.$t("menu.contract"),
+      text: context.$t("createItemDialog.contractualDocumentsGroup"),
       icon: contractIcon,
       items: ContractButtons(context),
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
@@ -54,7 +54,7 @@ export function TaskButtons(context) {
   return [
     {
       icon: "plus",
-      text: context.$t("translations.fields.createSimpleTask"),
+      text: context.$t("createItemDialog.simpleTask"),
       async create(params) {
         await createTaskRequest(context, {
           taskType: TaskType.SimpleTask,
@@ -64,7 +64,7 @@ export function TaskButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.fields.createAcquaintanceTask"),
+      text: context.$t("createItemDialog.acquaintanceTask"),
       async create(params) {
         await createTaskRequest(context, {
           taskType: TaskType.AcquaintanceTask,
@@ -74,7 +74,7 @@ export function TaskButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.fields.createActionItemExecutionTask"),
+      text: context.$t("createItemDialog.actionItemExecutionTask"),
       async create(params) {
         await createTaskRequest(context, {
           taskType: TaskType.ActionItemExecutionTask,
@@ -106,7 +106,7 @@ export function ContractButtons(context) {
   return [
     {
       icon: incomingInvoiceIcon,
-      text: context.$t("menu.incomingInvoice"),
+      text: context.$t("createItemDialog.incomingInvoice"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.IncomingInvoice,
@@ -116,7 +116,7 @@ export function ContractButtons(context) {
     },
     {
       icon: contractStatementIcon,
-      text: context.$t("menu.сontractStatement"),
+      text: context.$t("createItemDialog.сontractStatement"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.ContractStatement,
@@ -126,7 +126,7 @@ export function ContractButtons(context) {
     },
     {
       icon: contractIcon,
-      text: context.$t("menu.contract"),
+      text: context.$t("createItemDialog.contract"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.Contract,
@@ -136,7 +136,7 @@ export function ContractButtons(context) {
     },
     {
       icon: supAgreementIcon,
-      text: context.$t("menu.supAgreement"),
+      text: context.$t("createItemDialog.supAgreement"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.SupAgreement,
@@ -151,7 +151,7 @@ export function FinancialArchiveButtons(context) {
   return [
     {
       icon: incommingTaxInvoiceIcon,
-      text: context.$t("menu.incomingTaxInvoice"),
+      text: context.$t("createItemDialog.incomingTaxInvoice"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.IncomingTaxInvoice,
@@ -161,7 +161,7 @@ export function FinancialArchiveButtons(context) {
     },
     {
       icon: outgoingTaxInvoiceIcon,
-      text: context.$t("menu.outgoingTaxInvoice"),
+      text: context.$t("createItemDialog.outgoingTaxInvoice"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.OutgoingTaxInvoice,
@@ -171,7 +171,7 @@ export function FinancialArchiveButtons(context) {
     },
     {
       icon: universaltransferdocumentIcon,
-      text: context.$t("menu.universalTransferDocument"),
+      text: context.$t("createItemDialog.universalTransferDocument"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.UniversalTransferDocument,
@@ -181,7 +181,7 @@ export function FinancialArchiveButtons(context) {
     },
     {
       icon: waybillIcon,
-      text: context.$t("menu.waybill"),
+      text: context.$t("createItemDialog.waybill"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.Waybill,
@@ -195,7 +195,7 @@ export function DocumentButtons(context) {
   return [
     {
       icon: "plus",
-      text: context.$t("translations.headers.IncomingLetter"),
+      text: context.$t("createItemDialog.IncomingLetter"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.IncomingLetter,
@@ -205,7 +205,7 @@ export function DocumentButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.headers.outgoingLetter"),
+      text: context.$t("createItemDialog.outgoingLetter"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.OutgoingLetter,
@@ -215,7 +215,7 @@ export function DocumentButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.headers.order"),
+      text: context.$t("createItemDialog.order"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.Order,
@@ -225,7 +225,7 @@ export function DocumentButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.headers.companyDirective"),
+      text: context.$t("createItemDialog.companyDirective"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.CompanyDirective,
@@ -235,7 +235,7 @@ export function DocumentButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.headers.simpleDocument"),
+      text: context.$t("createItemDialog.simpleDocument"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.SimpleDocument,
@@ -245,7 +245,7 @@ export function DocumentButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.headers.addendum"),
+      text: context.$t("createItemDialog.addendum"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.Addendum,
@@ -255,7 +255,7 @@ export function DocumentButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.headers.memo"),
+      text: context.$t("createItemDialog.memo"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.Memo,
@@ -265,7 +265,7 @@ export function DocumentButtons(context) {
     },
     {
       icon: "plus",
-      text: context.$t("translations.headers.powerOfAttorney"),
+      text: context.$t("createItemDialog.powerOfAttorney"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.PowerOfAttorney,

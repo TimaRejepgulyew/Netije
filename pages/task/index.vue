@@ -1,9 +1,6 @@
 <template>
   <main>
     <Header :headerTitle="$t(`menu.task`)"></Header>
-    <div class="nav-bar">
-      <CreateTaskDropDown />
-    </div>
     <div class="grid">
       <DxDataGrid
         id="gridContainer"
@@ -115,7 +112,6 @@ import taskImportant from "~/components/page/task-important.vue";
 import taskIcon from "~/components/page/task-icon.vue";
 import TaskStatus from "~/infrastructure/constants/taskStatus.js";
 import RouteGenerator from "~/infrastructure/routing/routeGenerator";
-import CreateTaskDropDown from "~/components/task/create-task-drop-down";
 import { DxCheckBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -142,7 +138,6 @@ import {
 
 export default {
   components: {
-    CreateTaskDropDown,
     DxCheckBox,
     DxButton,
     Header,

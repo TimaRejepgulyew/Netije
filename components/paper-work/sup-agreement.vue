@@ -19,7 +19,7 @@
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
-    <DxGroupItem :col-span="2" :col-count="5" :caption="$t('menu.contract')">
+    <DxGroupItem :col-span="2" :col-count="5" :caption="$t('documentType.contract')">
       <DxSimpleItem
         :col-span="4"
         data-field="leadingDocumentId"
@@ -27,7 +27,7 @@
         :editor-options="leadingDocumentOptions"
         :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
       >
-        <DxLabel location="top" :text="$t('menu.contract')" />
+        <DxLabel location="top" :text="$t('documentType.contract')" />
       </DxSimpleItem>
       <DxSimpleItem
         :col-span="1"
