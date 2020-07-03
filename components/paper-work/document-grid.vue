@@ -13,6 +13,7 @@
         <CreateDocument></CreateDocument>
       </div>
     </DxPopup>
+    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -65,6 +66,7 @@ import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
 import CreateDocument from "~/components/paper-work/createDocumentPopup";
 import { DxPopup } from "devextreme-vue/popup";
+import { generateNameByDocFilter } from "~/infrastructure/constants/documentFilterType.js";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -99,7 +101,6 @@ export default {
     DxLoadPanel,
     DxFilterPanel,
     DxFilterBuilderPopup,
-    Header,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -115,7 +116,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
+    Header
   },
   props: ["documentTypeGuid", "isCard"],
   data() {
@@ -164,6 +166,9 @@ export default {
     }
   },
   computed: {
+    generateHeaderTitle() {
+      return generateNameByDocFilter(this.documentTypeGuid, this);
+    },
     columns() {
       return ColumnFactory.CreateColumns(this.documentTypeGuid, this);
     },

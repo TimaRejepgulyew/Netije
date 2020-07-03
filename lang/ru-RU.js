@@ -78,6 +78,9 @@ export default {
     pendingReview: "На рассмотрении",
     reviewed: "Рассмотрен"
   },
+  documentTypeFilter:{
+    
+  },
   createItemDialog: {
     recordManagementGroup: "Делопроизводственные документы",
     taskGroup: "Задачи",

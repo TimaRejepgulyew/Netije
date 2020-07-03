@@ -1,11 +1,11 @@
-export default {
+const DocumentTypeFilter = {
   All: 100,
   IncomingDocument: 101,
   OutgoingDocument: 102,
   InternalDocument: 103,
   ContractualDocuments: 104,
   AccountingDocuments: 105,
-  ContractsAndSupAgreements:106,
+  ContractsAndSupAgreements: 106,
   IncomingLetter: 1,
   OutgoingLetter: 2,
   Order: 3,
@@ -23,3 +23,14 @@ export default {
   Contract: 15,
   SupAgreement: 16
 };
+export default DocumentTypeFilter;
+export function generateNameByDocFilter(key, context) {
+  const documentTypeGuidName = new Map();
+  for (let el in DocumentTypeFilter) {
+    documentTypeGuidName.set(
+      DocumentTypeFilter[el],
+      context.$t(`createItemDialog.${el[0].toLowerCase() + el.slice(1)}`)
+    );
+  }
+  return documentTypeGuidName.get(key);
+}
