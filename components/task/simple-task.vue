@@ -1,7 +1,7 @@
 <template>
   <DxForm
     ref="form"
-    :read-only="inProcess"
+    :read-only="!isDraft"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="validatorGroup"
@@ -57,7 +57,7 @@
     </DxGroupItem>
     <template #performers>
       <employee-tag-box
-        :read-only="inProcess"
+        :read-only="!isDraft"
         :messageRequired="$t('translations.fields.performersRequired')"
         :validator-group="validatorGroup"
         :value="performers"

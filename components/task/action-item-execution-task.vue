@@ -3,7 +3,7 @@
     <DxForm
       ref="form"
       :col-count="1"
-      :read-only="inProcess"
+      :read-only="!isDraft"
       :show-colon-after-label="true"
       :show-validation-summary="false"
       :validation-group="validatorGroup"
@@ -72,21 +72,21 @@
       </DxSimpleItem>
       <template #actionItemObservers>
         <employee-tag-box
-          :read-only="inProcess"
+          :read-only="!isDraft"
           :value="actionItemObservers"
           @valueChanged="setActionItemObservers"
         />
       </template>
       <template #coAssignees>
         <employee-tag-box
-          :read-only="inProcess"
+          :read-only="!isDraft"
           :value="coAssignees"
           @valueChanged="setCoAssignees"
         />
       </template>
       <template #supervisor>
         <employee-select-box
-          :read-only="inProcess"
+          :read-only="!isDraft"
           :validator-group="validatorGroup"
           :value="supervisorId"
           @valueChanged="setSupervisor"
@@ -94,7 +94,7 @@
       </template>
       <template #assignee>
         <employee-select-box
-          :read-only="inProcess"
+          :read-only="!isDraft"
           :messageRequired="$t('translations.fields.assigneeIdRequired')"
           :validator-group="validatorGroup"
           :value="assigneeId"
