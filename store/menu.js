@@ -91,59 +91,9 @@ export const actions = {
         icon: "selectall",
         path: "/task"
       },
-
-      {
-        text: this.$i18n.t("menu.financial-archive"),
-        icon: financialArchiveIcon,
-        path: `/paper-work/${DocumentFilterType.AccountingDocuments}`,
-        visible: hasAccountingDocumentBaseAccess(rootGetters),
-        items: [
-          // {
-          //   text: this.$i18n.t("menu.incomingTaxInvoice"),
-          //   path: `/paper-work/${DocumentFilterType.IncomingTaxInvoice}`
-          // },
-          // {
-          //   text: this.$i18n.t("menu.outgoingTaxInvoice"),
-          //   path: `/paper-work/${DocumentFilterType.OutgoingTaxInvoice}`
-          // },
-          // {
-          //   text: this.$i18n.t("menu.universalTransferDocument"),
-          //   path: `/paper-work/${DocumentFilterType.Universaltransferdocument}`
-          // },
-          // {
-          //   text: this.$i18n.t("menu.waybill"),
-          //   path: `/paper-work/${DocumentFilterType.Waybill}`
-          // }
-        ]
-      },
-      {
-        text: this.$i18n.t("menu.contract"),
-        icon: contractIcon,
-        path: `/paper-work/${DocumentFilterType.ContractualDocuments}`,
-        visible: hasContractAccess(rootGetters),
-        items: [
-          // {
-          //   text: this.$i18n.t("menu.contract"),
-          //   path: `/paper-work/${DocumentFilterType.Contract}`
-          // },
-          // {
-          //   text: this.$i18n.t("menu.contractStatement"),
-          //   path: `/paper-work/${DocumentFilterType.ContractStatement}`
-          // },
-          // {
-          //   text: this.$i18n.t("menu.supAgreement"),
-          //   path: `/paper-work/${DocumentFilterType.SupAgreement}`
-          // },
-          // {
-          //   text: this.$i18n.t("menu.incomingInvoice"),
-          //   path: `/paper-work/${DocumentFilterType.IncomingInvoice}`
-          // }
-        ]
-      },
       {
         text: this.$i18n.t("menu.paperwork"),
         icon: "file",
-
         items: [
           {
             text: this.$i18n.t("menu.incommingDocuments"),
@@ -184,6 +134,38 @@ export const actions = {
             ]
           }
         ]
+      },
+      {
+        text: this.$i18n.t("menu.contracts"),
+        icon: contractIcon,
+        path: `/paper-work/${DocumentFilterType.ContractualDocuments}`,
+        visible: hasContractAccess(rootGetters),
+        items: [
+          // {
+          //   text: this.$i18n.t("documentType.contract"),
+          //   path: `/paper-work/${DocumentFilterType.Contract}`
+          // },
+          // {
+          //   text: this.$i18n.t("documentType.contractStatement"),
+          //   path: `/paper-work/${DocumentFilterType.ContractStatement}`
+          // },
+        ]
+      },
+      {
+        text: this.$i18n.t("menu.financial-archive"),
+        icon: financialArchiveIcon,
+        path: `/paper-work/${DocumentFilterType.AccountingDocuments}`,
+        visible: hasAccountingDocumentBaseAccess(rootGetters),
+        // items: [
+        //   {
+        //     text: this.$i18n.t("menu.accountingDocuments"),
+        //     path: `/paper-work/${DocumentFilterType.AccountingDocuments}`
+        //   },
+        //   {
+        //     text: this.$i18n.t("menu.сontractsAndSupAgreements"),
+        //     path: `/paper-work/${DocumentFilterType.ContractsAndSupAgreements}`
+        //   },
+        // ]
       },
       {
         text: this.$i18n.t("menu.contractors"),

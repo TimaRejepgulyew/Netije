@@ -2,7 +2,6 @@
   <main>
     <Header :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
-      <CreateTaskDropDown />
       <DxButton
         icon="filter"
         :text="$t('buttons.filter')"
@@ -137,7 +136,6 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import TaskFilter from "~/components/assignment/filter";
 import DxButton from "devextreme-vue/button";
-import CreateTaskDropDown from "~/components/task/create-task-drop-down";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -158,7 +156,6 @@ import {
 
 export default {
   components: {
-    CreateTaskDropDown,
     TaskFilter,
     DxButton,
     Header,
