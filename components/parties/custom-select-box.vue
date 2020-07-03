@@ -27,6 +27,7 @@
     </template>
     <template #customfield="{data}">
       <custom-field
+        :read-only="readOnly"
         @valueChanged="setCounterPart"
         :notPerson="notPerson"
         :field-data="data"

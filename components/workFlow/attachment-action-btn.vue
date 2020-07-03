@@ -75,7 +75,6 @@ export default {
       }
     },
     detachLink() {
-      console.log(this.attachment.attachmentId);
       this.$emit("detach", this.attachment.attachmentId);
     },
     downloadDocument() {

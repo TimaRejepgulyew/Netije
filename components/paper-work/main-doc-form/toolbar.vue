@@ -1,7 +1,7 @@
 <template>
   <div class="navBar">
     <DxToolbar>
-      <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
+      <DxItem :visible="!isCard" :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
         locateInMenu="auto"
@@ -108,7 +108,7 @@ export default {
     availableActions,
     createRelation
   },
-
+  props: ["isCard"],
   data() {
     return {
       addendumIcon,
@@ -124,7 +124,8 @@ export default {
   },
   computed: {
     canBeOpenedWithPreview() {
-      return this.$store.getters["currentDocument/document"].canBeOpenedWithPreview;
+      return this.$store.getters["currentDocument/document"]
+        .canBeOpenedWithPreview;
     },
     hasVersions() {
       return this.$store.getters["currentDocument/document"].hasVersions;

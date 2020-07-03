@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <DxPopup
       width="90%"
       height="auto"
@@ -27,7 +28,7 @@
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div class="scrool-auto">
+      <div>
         <component
           @valueChanged="valueChanged"
           v-if="isOpenCardCreate"
@@ -38,37 +39,21 @@
         />
       </div>
     </DxPopup>
-     <DxPopup
+    <DxPopup
       width="90%"
-      height="auto"
+      height="95%"
       :showTitle="false"
       :visible.sync="isOpenCardGrid"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div class="scrool-auto">
-        <component
-          @valueChanged="valueChanged"
-          v-if="isOpenCardGrid"
-          :isCard="true"
-          :is="activeCard"
-          :counterpartId="false"
-          key="create"
-        />
+        <counter-part-grid @valueChanged="valueChanged" v-if="isOpenCardGrid" :isCard="true" />
       </div>
     </DxPopup>
-    
+
     <DxButton
-      :visible="showBtn"
-      :on-click="this.openCard"
-      icon="card"
-      stylingMode="text"
-      :hint="$t('translations.fields.moreAbout')"
-      :useSubmitBehavior="false"
-    ></DxButton>
-     <DxButton
-      
-      :on-click="this.openCard"
+      :on-click="openCard"
       icon="info"
       stylingMode="text"
       :hint="$t('translations.fields.moreAbout')"
@@ -84,9 +69,18 @@
       :style="{position:'relative',color:'green'}"
       @item-click="createCounterPart"
     />
+    <DxButton
+      :visible="showBtn"
+      :on-click="openCardgrid"
+      icon="more"
+      stylingMode="text"
+      :hint="$t('translations.fields.moreAbout')"
+      :useSubmitBehavior="false"
+    ></DxButton>
   </div>
 </template>
 <script>
+import counterPartGrid from "~/components/parties/counter-part-grid.vue";
 import { DxDropDownButton } from "devextreme-vue";
 import company from "~/components/parties/company-card.vue";
 import bank from "~/components/parties/bank-card.vue";
@@ -100,13 +94,15 @@ export default {
     DxPopup,
     company,
     bank,
-    person
+    person,
+    counterPartGrid
   },
   data() {
     return {
       activeCard: null,
       isOpenCardUpdate: false,
       isOpenCardCreate: false,
+      isOpenCardGrid: false,
       items: [
         { name: this.$t("counterPart.Company"), type: "company" },
         { name: this.$t("counterPart.Bank"), type: "bank" },
@@ -136,6 +132,9 @@ export default {
       this.isOpenCardUpdate = false;
       this.isOpenCardCreate = false;
     },
+    openCardgrid() {
+      this.isOpenCardGrid = true;
+    },
     createCounterPart({ itemData }) {
       this.activeCard = itemData.type;
       this.isOpenCardCreate = !this.isOpenCardCreate;
@@ -147,6 +146,6 @@ export default {
 <style >
 .scrool-auto {
   width: 100%;
-  overflow: scroll;
+  height: 100%;
 }
 </style>

@@ -353,6 +353,7 @@ export default {
     user: "Пользователи"
   },
   buttons: {
+    
     showCard: "Карточка",
     downloadFile: "Загрузить файл",
     versions: "Версии",

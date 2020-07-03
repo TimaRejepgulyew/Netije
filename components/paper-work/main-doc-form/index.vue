@@ -1,6 +1,6 @@
 <template>
   <div>
-    <toolbar @openVersion="openVersion"></toolbar>
+    <toolbar :isCard="isCard" @openVersion="openVersion"></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -151,7 +151,7 @@ export default {
     universalTransferDocument,
     waybill
   },
-
+  props: ["isCard"],
   head() {
     return {
       title: this.$store.getters["currentDocument/document"].name
