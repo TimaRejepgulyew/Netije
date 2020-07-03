@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <Header :headerTitle="$t('translations.headers.editDocumentKind')"></Header>
+      <Header :isNew="false" :isbackButton="true" :headerTitle=" documentKind.name"></Header>
       <toolbar
         @saveChanges="handleSubmit"
         :canSave="$store.getters['permissions/allowUpdating'](this.entityType)"

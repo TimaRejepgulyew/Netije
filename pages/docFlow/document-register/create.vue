@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Header :headerTitle="$t('translations.headers.addDocumentRegistry')"></Header>
+    <Header
+      :isNew="true"
+      :isbackButton="true"
+      :headerTitle="$t('translations.headers.addDocumentRegistry')"
+    ></Header>
     <toolbar @saveChanges="handleSubmit" :canSave="true" />
     <DxForm
       ref="form"

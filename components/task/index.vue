@@ -1,6 +1,6 @@
 <template>
   <div id="form-demo">
-    <Header :headerTitle="header"></Header>
+    <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
     <toolbar />
     <DxForm
       ref="form"
@@ -69,12 +69,27 @@ export default {
     DxRequiredRule,
     DxForm
   },
+  props: {
+    isCard: {
+      default: false
+    }
+  },
   data() {
     return {
+      taskTypeNames: null,
       taskTypeGuid: this.$store.getters["currentTask/task"].taskType,
-      commentsUrl: dataApi.task.TextsByTask,
-      header: ""
+      commentsUrl: dataApi.task.TextsByTask
     };
+  },
+  created() {
+    const taskTypeNames = new Map();
+    for (let item in TaskType) {
+      taskTypeNames.set(
+        TaskType[item],
+        this.$t(`createItemDialog.${item[0].toLowerCase() + item.slice(1)}`)
+      );
+    }
+    this.taskTypeNames = taskTypeNames;
   },
   methods: {
     detach(attachmentId) {
@@ -93,24 +108,27 @@ export default {
     }
   },
   computed: {
+    headerTitle() {
+      return this.isNew
+        ? this.taskTypeNames.get(this.taskTypeGuid)
+        : this.$store.getters["currentTask/task"].subject;
+    },
     attachmentGroups() {
       return this.$store.getters["currentTask/task"].attachmentGroups;
     },
     isDraft() {
       return this.$store.getters["currentTask/isDraft"];
     },
+    isNew() {
+      return this.$store.getters["currentTask/isNew"];
+    },
     taskType() {
       switch (this.taskTypeGuid) {
         case TaskType.SimpleTask:
-          this.header = this.$t("translations.fields.createSimpleTask");
           return "simple-task";
         case TaskType.AcquaintanceTask:
-          this.header = this.$t("translations.fields.createAcquaintanceTask");
           return "acquaintance-task";
         case TaskType.ActionItemExecutionTask:
-          this.header = this.$t(
-            "translations.fields.createActionItemExecutionTask"
-          );
           return "action-item-execution-task";
       }
     }

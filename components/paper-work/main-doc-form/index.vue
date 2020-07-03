@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :headerTitle="generateHeaderTitle"></Header>
+    <Header  :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
     <toolbar @openVersion="openVersion"></toolbar>
     <div class="wrapper--relative">
       <DxForm
@@ -191,13 +191,12 @@ export default {
   },
   computed: {
     generateHeaderTitle() {
-      const key = this.$store.getters["currentDocument/document"]
-        .documentTypeGuid;
-      console.log(
-        generateNameByDocTypeGuid(key, this),
-        this.$store.getters["currentDocument/document"].documentTypeGuid
-      );
-      return generateNameByDocTypeGuid(key, this);
+      if (this.$store.getters["currentDocument/isNew"]) {
+        const key = this.$store.getters["currentDocument/document"]
+          .documentTypeGuid;
+        return generateNameByDocTypeGuid(key, this);
+      }
+      return this.$store.getters["currentDocument/document"].name;
     },
     documentKindOptions() {
       return {

@@ -1,6 +1,5 @@
 <template>
   <DxToolbar class="toolbar">
-    <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
     <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
   </DxToolbar>
 </template>
@@ -13,19 +12,6 @@ export default {
     DxItem
   },
   props: ["canSave", "isCard"],
-  data() {
-    return {
-      backButtonOptions: {
-        visible: !this.isCard,
-        type: "normal",
-        icon: "back",
-        text: this.$t("shared.back"),
-        onClick: () => {
-          this.$router.go(-1);
-        }
-      }
-    };
-  },
   computed: {
     saveButtonOptions() {
       return {

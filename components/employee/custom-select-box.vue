@@ -2,7 +2,6 @@
   <div>
     <DxPopup
       :show-title="false"
-      
       :visible.sync="isCardOpened"
       ref="popup"
       :drag-enabled="false"
@@ -11,6 +10,7 @@
       <div>
         <updateCard
           v-if="isCardOpened"
+  
           @valueChanged="valueChanged"
           :isCard="true"
           :employeeId="value"

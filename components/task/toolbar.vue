@@ -1,7 +1,6 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-      <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="isDraft" :options="startButtonOptions" location="before" widget="dxButton" />
       <DxItem
         :visible="isDraft"
@@ -47,21 +46,7 @@ export default {
     DxToolbar,
     DxItem
   },
-  data() {
-    return {
-      backButtonOptions: {
-        type: "normal",
-        icon: "back",
-        hint: this.$t("buttons.back"),
-        saveIcon,
-        abortIcon,
-        restartIcon,
-        onClick: () => {
-          this.backTo();
-        }
-      }
-    };
-  },
+
   computed: {
     isDataChanged() {
       return this.$store.getters["currentTask/isDataChanged"];

@@ -1,8 +1,12 @@
 <template>
   <div>
-    <Header :headerTitle="employee.name"></Header>
+    <Header
+     
+      :isbackButton="!isCard"
+      :isNew="false"
+      :headerTitle="employee.name"
+    ></Header>
     <toolbar
-      :isCard="isCard"
       @saveChanges="handleSubmit"
       :canSave="$store.getters['permissions/allowUpdating'](entityType)"
     />
@@ -183,9 +187,13 @@ export default {
         icon: "key",
         text: this.$t("buttons.changePassword")
       };
-    }
+    },
   },
   methods: {
+    goBack() {
+      if (!this.isCard) this.$router.go(-1);
+      else this.$emit("closePopup");
+    },
     hidePopup(popup) {
       this[popup] = false;
     },

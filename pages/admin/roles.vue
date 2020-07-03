@@ -1,8 +1,8 @@
 <template>
   <main>
-    <Header :headerTitle="$t('menu.roles')"></Header>
+    <Header :isNew="false" :isbackButton="true" :headerTitle="$t('menu.roles')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -23,11 +23,7 @@
 
       <DxFilterRow :visible="true" />
 
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('menu.roles')"
-      />
+      <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('menu.roles')" />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="roles" />
 
@@ -67,7 +63,7 @@
       <template #master-detail="data">
         <member-list :data="data.data" />
       </template>
-       <template #textAreaEditor="cellInfo">
+      <template #textAreaEditor="cellInfo">
         <textArea
           :value="cellInfo.data.value"
           :on-value-changed="value => onValueChanged(value, cellInfo.data)"

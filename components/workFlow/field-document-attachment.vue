@@ -9,12 +9,12 @@
       :close-on-outside-click="true"
     >
       <div>
-        <document-card class="card" v-if="isOpenCard" :isCard="true" />
+        <document-card class="card" v-if="isOpenCard"  :isCard="true" />
       </div>
     </DxPopup>
     <div class="link d-flex f-grow-1" @dblclick="showAttachment">
       <documentIcon :extension="item.entity.extension" />
-      <div>{{item.entity.name}}</div>
+      <div class="max-width-5vw">{{item.entity.name}}</div>
     </div>
     <actionBtn @detach="detach" @showCard="()=>showCard(item.entity)" :attachment="item" />
   </div>
@@ -98,7 +98,13 @@ export default {
     width: auto;
   }
 }
-
+.max-width-5vw {
+  max-width: 20vw;
+  min-width: 300px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .card {
   height: 85vh;
 }

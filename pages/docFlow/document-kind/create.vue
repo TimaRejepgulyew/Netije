@@ -1,7 +1,11 @@
 <template>
   <div>
     <div>
-      <Header :headerTitle="$t('translations.headers.addDocumentKind')"></Header>
+      <Header
+        :isNew="true"
+        :isbackButton="true"
+        :headerTitle="$t('translations.headers.addDocumentKind')"
+      ></Header>
       <toolbar @saveChanges="handleSubmit" :canSave="true" />
       <DxForm
         ref="form"
@@ -92,11 +96,7 @@
             />
           </DxSimpleItem>
 
-          <DxSimpleItem
-            data-field="note"
-            :col-span="2"
-            editor-type="dxTextArea"
-          >
+          <DxSimpleItem data-field="note" :col-span="2" editor-type="dxTextArea">
             <DxLabel location="top" :text="$t('translations.fields.note')" />
           </DxSimpleItem>
         </DxGroupItem>
@@ -157,6 +157,7 @@ export default {
     };
   },
   methods: {
+   
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;

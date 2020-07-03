@@ -1,11 +1,21 @@
 <template>
-  <header class="grid__header">
-    <h3 class="grid__title">{{headerTitle}}</h3>
+  <header class="grid__header d-flex">
+    <DxButton icon="back" styling-mode="text" :visible="isbackButton" :on-click="goBack" />
+    <h3 class="grid__title">{{headerTitle}} {{isNew?$t("shared.newRecord"):""}}</h3>
   </header>
 </template>
 <script>
+import { DxButton } from "devextreme-vue";
 export default {
-  props: ["headerTitle"]
+  components: {
+    DxButton
+  },
+  props: ["headerTitle", "isNew", "isbackButton"],
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    }
+  }
 };
 </script>
 
@@ -14,8 +24,11 @@ export default {
 @import "~assets/dx-styles.scss";
 
 .grid__title {
-  font-weight: bold;
-  font-size: 25px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 400;
+  font-size: 20px;
   margin: 1vh 0;
 }
 </style>

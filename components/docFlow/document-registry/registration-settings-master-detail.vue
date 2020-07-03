@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t(`menu.registrationSetting`)"></Header>
+    <Header  :headerTitle="$t(`menu.registrationSetting`)"></Header>
     <DxPopup
       :visible.sync="popupFormOpen"
       :drag-enabled="false"

@@ -195,7 +195,7 @@ export function DocumentButtons(context) {
   return [
     {
       icon: "plus",
-      text: context.$t("createItemDialog.IncomingLetter"),
+      text: context.$t("createItemDialog.incomingLetter"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.IncomingLetter,

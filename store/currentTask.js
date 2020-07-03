@@ -166,6 +166,7 @@ export const actions = {
           taskType: state.task.taskType
         }
       );
+      commit("IS_NEW", false);
       commit("SET_TASK", data.task);
       commit("SET_IS_DATA_CHANGED", false);
     } catch (e) {}

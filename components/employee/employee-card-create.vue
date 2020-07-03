@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header :headerTitle="this.$t('menu.addingEmployee')"></Header>
-    <toolbar :isCard="isCard" @saveChanges="handleSubmit" :canSave="true" />
+    <Header :headerTitle="this.$t('menu.addingEmployee')" :isbackButton="!isCard" :isNew="true"></Header>
+    <toolbar @saveChanges="handleSubmit" :canSave="true" />
     <DxForm
       ref="form"
       :col-count="2"

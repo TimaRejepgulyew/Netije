@@ -1,6 +1,11 @@
 <template>
   <main>
-    <Header :headerTitle="$t('menu.counterPart')"></Header>
+    <Header
+      
+      :headerTitle="$t('menu.counterPart')"
+      :isbackButton="false"
+      :isNew="false"
+    ></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -185,6 +190,7 @@ export default {
     };
   },
   methods: {
+
     selectDocument(e) {
       this.$emit("valueChanged", e.data);
     }

@@ -79,10 +79,10 @@ export default {
     reviewed: "Рассмотрен"
   },
   createItemDialog: {
-    recordManagementGroup:"Делопроизводственные документы",
-    taskGroup:"Задачи",
-    accountingDocumentsGroup:"Финансовые документы",
-    contractualDocumentsGroup:"Договорные документы",
+    recordManagementGroup: "Делопроизводственные документы",
+    taskGroup: "Задачи",
+    accountingDocumentsGroup: "Финансовые документы",
+    contractualDocumentsGroup: "Договорные документы",
     supAgreement: "Дополнительное соглашение",
     incomingInvoice: "Входящий счет на оплату",
     сontractStatement: "Акт выполненных работ",
@@ -96,12 +96,12 @@ export default {
     order: "Приказ",
     powerOfAttorney: "Доверенность",
     outgoingLetter: "Исходящее письмо",
-    IncomingLetter: "Входящее письмо",
+    incomingLetter: "Входящее письмо",
     companyDirective: "Распоряжение",
     simpleDocument: "Простой документ",
     simpleTask: "Задача",
     actionItemExecutionTask: "Задача на исполнение поручения",
-    acquaintanceTask: "Задача на ознакомление с документом",
+    acquaintanceTask: "Задача на ознакомление с документом"
   },
   sex: {
     male: "Мужской",
@@ -158,7 +158,7 @@ export default {
     areYouSure: "Вы уверены?",
     confirm: "Подтверждение",
     required: "Заполните это поле",
-    newRecord: "Новая запись"
+    newRecord: "(Новая запись)"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",
@@ -265,7 +265,7 @@ export default {
     supAgreement: "Дополнительное соглашение",
     "financial-archive": "Финансовый архив",
     accountingDocuments: "Финансовые документы",
-    сontractsAndSupAgreements:"Договоры и доп.соглашения",
+    сontractsAndSupAgreements: "Договоры и доп.соглашения",
     contracts: "Договоры",
     personalSettings: "Персональные настройки",
     history: "История",
