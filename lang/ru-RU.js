@@ -333,7 +333,6 @@ export default {
     user: "Пользователи"
   },
   buttons: {
-    
     showCard: "Карточка",
     downloadFile: "Загрузить файл",
     versions: "Версии",
@@ -776,6 +775,7 @@ export default {
       powerOfAttorney: "Доверенность",
       outgoingLetter: "Исходящие письмо",
       IncomingLetter: "Входящие письмо",
+      OutgoingLetter: "Исходящие письмо",
       companyDirective: "Распоряжение",
       simpleDocument: "Простой документ",
       addDoctKindSucces: "Добавление вида документа прошло успешно",

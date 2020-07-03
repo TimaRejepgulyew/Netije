@@ -1,7 +1,7 @@
 <template>
   <div class="navBar">
     <DxToolbar>
-      <DxItem :visible="!isCard" :options="backButtonOptions" location="before" widget="dxButton" />
+      <!-- <DxItem :visible="!isCard" :options="backButtonOptions" location="before" widget="dxButton" /> -->
       <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
         locateInMenu="auto"

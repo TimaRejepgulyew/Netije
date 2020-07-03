@@ -58,4 +58,12 @@ export const mapToEntityType = documentTypeGuid => {
   }
 };
 
+export function generateNameByDocTypeGuid(key, context) {
+  const documentTypeGuidName = new Map();
+  for (let el in DocumentTypeGuid) {
+    
+    documentTypeGuidName.set(DocumentTypeGuid[el], context.$t(`translations.headers.${el}`));
+    return documentTypeGuidName.get(key);
+  }
+}
 export default DocumentTypeGuid;

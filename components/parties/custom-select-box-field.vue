@@ -52,7 +52,6 @@ import bank from "~/components/parties/bank-card.vue";
 import person from "~/components/parties/person-card.vue";
 import additionalBtn from "~/components/shared/additional-btn-select-box.vue";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import partiesBtn from "~/components/parties/custom-select-box-btn.vue";
 import { DxButton } from "devextreme-vue";
 import { DxTextBox } from "devextreme-vue";
 import counterPartGrid from "~/components/parties/counter-part-grid.vue";
@@ -62,7 +61,6 @@ export default {
     DxButton,
     DxPopup,
     DxDropDownButton,
-    partiesBtn,
     additionalBtn,
     counterPartGrid,
     company,

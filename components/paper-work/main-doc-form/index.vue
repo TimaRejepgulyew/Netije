@@ -1,6 +1,7 @@
 <template>
   <div>
-    <toolbar :isCard="isCard" @openVersion="openVersion"></toolbar>
+    <Header :headerTitle="generateHeaderTitle"></Header>
+    <toolbar @openVersion="openVersion"></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -85,6 +86,8 @@
   </div>
 </template>
 <script>
+import { generateNameByDocTypeGuid } from "~/infrastructure/constants/documentType.js";
+import Header from "~/components/page/page__header";
 import lifeCycle from "~/components/paper-work/main-doc-form/life-cycle.vue";
 import Relation from "~/components/paper-work/main-doc-form/relation";
 import History from "~/components/page/history.vue";
@@ -149,7 +152,9 @@ export default {
     incomingTaxInvoice,
     outgoingTaxInvoice,
     universalTransferDocument,
-    waybill
+    waybill,
+    Header,
+    generateNameByDocTypeGuid
   },
   props: ["isCard"],
   head() {
@@ -185,6 +190,15 @@ export default {
     }
   },
   computed: {
+    generateHeaderTitle() {
+      const key = this.$store.getters["currentDocument/document"]
+        .documentTypeGuid;
+      console.log(
+        generateNameByDocTypeGuid(key, this),
+        this.$store.getters["currentDocument/document"].documentTypeGuid
+      );
+      return generateNameByDocTypeGuid(key, this);
+    },
     documentKindOptions() {
       return {
         readOnly: this.isRegistered,
