@@ -1,5 +1,7 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DocumentFilterType from "~/infrastructure/constants/documentFilterType";
+import DocumentFilterType, {
+  generateNameByDocFilter
+} from "~/infrastructure/constants/documentFilterType";
 import financialArchiveIcon from "~/static/icons/financial-archive.svg";
 import contractIcon from "~/static/icons/contract.svg";
 export const state = () => ({
@@ -92,43 +94,43 @@ export const actions = {
         path: "/task"
       },
       {
-        text: this.$i18n.t("menu.paperwork"),
+        text: this.$i18n.t("documentTypeFilter.recordManagementGroup"),
         icon: "file",
         items: [
           {
-            text: this.$i18n.t("menu.incommingDocuments"),
+            text: this.$i18n.t("documentTypeFilter.incomingLetter"),
             path: `/paper-work/${DocumentFilterType.IncomingLetter}`
           },
           {
-            text: this.$i18n.t("menu.outgoingDocuments"),
+            text: this.$i18n.t("documentTypeFilter.outgoingLetter"),
             path: `/paper-work/${DocumentFilterType.OutgoingLetter}`
           },
           {
-            text: this.$i18n.t("menu.internalDocuments"),
+            text: this.$i18n.t("documentTypeFilter.internalDocument"),
             path: `/paper-work/${DocumentFilterType.InternalDocument}`,
             items: [
               {
-                text: this.$i18n.t("menu.order"),
+                text: this.$i18n.t("documentTypeFilter.order"),
                 path: `/paper-work/${DocumentFilterType.Order}`
               },
               {
-                text: this.$i18n.t("menu.companyDirectives"),
+                text: this.$i18n.t("documentTypeFilter.companyDirective"),
                 path: `/paper-work/${DocumentFilterType.CompanyDirective}`
               },
               {
-                text: this.$i18n.t("menu.simpleDocument"),
+                text: this.$i18n.t("documentTypeFilter.simpleDocument"),
                 path: `/paper-work/${DocumentFilterType.SimpleDocument}`
               },
               {
-                text: this.$i18n.t("menu.addendum"),
+                text: this.$i18n.t("documentTypeFilter.addendum"),
                 path: `/paper-work/${DocumentFilterType.Addendum}`
               },
               {
-                text: this.$i18n.t("menu.memo"),
+                text: this.$i18n.t("documentTypeFilter.memo"),
                 path: `/paper-work/${DocumentFilterType.Memo}`
               },
               {
-                text: this.$i18n.t("menu.powerOfAttorney"),
+                text: this.$i18n.t("documentTypeFilter.powerOfAttorney"),
                 path: `/paper-work/${DocumentFilterType.PowerOfAttorney}`
               }
             ]
@@ -136,7 +138,7 @@ export const actions = {
         ]
       },
       {
-        text: this.$i18n.t("menu.contracts"),
+        text: this.$i18n.t("documentTypeFilter.contractualDocumentsGroup"),
         icon: contractIcon,
         path: `/paper-work/${DocumentFilterType.ContractualDocuments}`,
         visible: hasContractAccess(rootGetters),
@@ -152,10 +154,10 @@ export const actions = {
         ]
       },
       {
-        text: this.$i18n.t("menu.financial-archive"),
+        text: this.$i18n.t("documentTypeFilter.accountingDocumentsGroup"),
         icon: financialArchiveIcon,
         path: `/paper-work/${DocumentFilterType.AccountingDocuments}`,
-        visible: hasAccountingDocumentBaseAccess(rootGetters),
+        visible: hasAccountingDocumentBaseAccess(rootGetters)
         // items: [
         //   {
         //     text: this.$i18n.t("menu.accountingDocuments"),

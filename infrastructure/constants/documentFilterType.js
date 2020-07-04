@@ -29,8 +29,9 @@ export function generateNameByDocFilter(key, context) {
   for (let el in DocumentTypeFilter) {
     documentTypeGuidName.set(
       DocumentTypeFilter[el],
-      context.$t(`createItemDialog.${el[0].toLowerCase() + el.slice(1)}`)
+      context.$t(`documentTypeFilter.${el[0].toLowerCase() + el.slice(1)}`)
     );
   }
-  return documentTypeGuidName.get(key);
+  if (key) return documentTypeGuidName.get(key);
+  documentTypeGuidName;
 }

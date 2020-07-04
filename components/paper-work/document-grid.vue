@@ -22,7 +22,7 @@
       :columns="columns"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
-      :column-auto-width="true"
+      :column-auto-width="false"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"

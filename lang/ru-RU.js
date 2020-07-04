@@ -78,8 +78,27 @@ export default {
     pendingReview: "На рассмотрении",
     reviewed: "Рассмотрен"
   },
-  documentTypeFilter:{
-    
+  documentTypeFilter: {
+    recordManagementGroup: "Делопроизводство",
+    accountingDocumentsGroup: "Финансовые документы",
+    contractualDocumentsGroup: "Договорные документы",
+    internalDocument: "Внутрение документы",
+    supAgreement: "Дополнительные соглашения",
+    incomingInvoice: "Входящие счета на оплату",
+    сontractStatement: "Акты выполненных работ",
+    incomingTaxInvoice: "Счет-фактуры полученные",
+    outgoingTaxInvoice: "Счет-фактуры выставленные",
+    universalTransferDocument: "Универсальные передаточный документы",
+    waybill: "Накладные",
+    contract: "Договоры",
+    addendum: "Приложения к документу",
+    memo: "Служебные записки",
+    order: "Приказы",
+    powerOfAttorney: "Доверенности",
+    outgoingLetter: "Исходящие письма",
+    incomingLetter: "Входящие письма",
+    companyDirective: "Распоряжения",
+    simpleDocument: "Простые документы"
   },
   createItemDialog: {
     recordManagementGroup: "Делопроизводственные документы",
