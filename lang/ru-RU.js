@@ -80,8 +80,8 @@ export default {
   },
   documentTypeFilter: {
     recordManagementGroup: "Делопроизводство",
-    accountingDocumentsGroup: "Финансовые документы",
-    contractualDocumentsGroup: "Договорные документы",
+    accountingDocuments: "Финансовые документы",
+    contractualDocuments: "Договорные документы",
     internalDocument: "Внутрение документы",
     supAgreement: "Дополнительные соглашения",
     incomingInvoice: "Входящие счета на оплату",

@@ -1,18 +1,5 @@
 <template>
   <main>
-    <DxPopup
-      :visible.sync="createDocumentPopup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="500"
-      height="auto"
-      :title="$t('translations.fields.createDocument')"
-    >
-      <div>
-        <CreateDocument></CreateDocument>
-      </div>
-    </DxPopup>
     <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
     <DxDataGrid
       id="gridContainer"
@@ -48,9 +35,9 @@
       <DxStateStoring
         :enabled="true"
         type="localStorage"
-        :storage-key="'allDocument'+documentTypeGuid"
+        :storage-key="'allDocument'+documentQuery"
       />
-      <DxEditing :allow-adding="true" :useIcons="true" mode="popup" />
+      <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
@@ -64,9 +51,7 @@
 <script>
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
-import CreateDocument from "~/components/paper-work/createDocumentPopup";
-import { DxPopup } from "devextreme-vue/popup";
-import { generateNameByDocFilter } from "~/infrastructure/constants/documentFilterType.js";
+import { generateNameByDocQuery } from "~/infrastructure/constants/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -96,8 +81,6 @@ import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     documentIcon,
-    CreateDocument,
-    DxPopup,
     DxLoadPanel,
     DxFilterPanel,
     DxFilterBuilderPopup,
@@ -119,18 +102,16 @@ export default {
     DxButton,
     Header
   },
-  props: ["documentTypeGuid", "isCard"],
+  props: ["documentQuery", "isCard"],
   data() {
     return {
-      createDocumentPopup: false,
-      createDocumentPopup: false,
       filterBuilderPopupPosition: this.$store.getters[
         "papaer-work/filterBuilderPopupPosition"
       ],
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.paperWork.Documents + this.documentTypeGuid
+          loadUrl: dataApi.paperWork.Documents + this.documentQuery
         }),
         paginate: true
       }),
@@ -144,15 +125,6 @@ export default {
   },
   methods: {
     onToolbarPreparing(e) {
-      const addButton = e.toolbarOptions.items.find(btn => {
-        return btn.name == "addRowButton";
-      });
-
-      if (addButton) {
-        addButton.options.onClick = () => {
-          this.createDocumentPopup = true;
-        };
-      }
       e.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
@@ -167,10 +139,10 @@ export default {
   },
   computed: {
     generateHeaderTitle() {
-      return generateNameByDocFilter(this.documentTypeGuid, this);
+      return generateNameByDocQuery(this.documentQuery, this);
     },
     columns() {
-      return ColumnFactory.CreateColumns(this.documentTypeGuid, this);
+      return ColumnFactory.CreateColumns(this.documentQuery, this);
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];

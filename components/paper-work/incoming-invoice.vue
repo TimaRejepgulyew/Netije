@@ -89,7 +89,7 @@
 </template>
 <script>
 import customSelectBox from "~/components/parties/custom-select-box.vue";
-import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
+import DocumentQuery from "~/infrastructure/constants/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -158,7 +158,7 @@ export default {
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
+          url: `${dataApi.paperWork.Documents}${DocumentQuery.Contract}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : []

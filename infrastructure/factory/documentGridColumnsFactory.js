@@ -1,4 +1,4 @@
-import DocumentFilterType from "~/infrastructure/constants/documentFilterType";
+import DocumentQuery from "~/infrastructure/constants/documentQuery";
 import DocumentService from "~/infrastructure/services/documentService";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
@@ -15,29 +15,29 @@ export default {
 
 const GetColumnsByDocumentType = (type, context) => {
   switch (type) {
-    case DocumentFilterType.All:
+    case DocumentQuery.All:
       return CreateElectronicDocumentColumns(context);
-    case DocumentFilterType.IncomingLetter:
+    case DocumentQuery.IncomingLetter:
       return CreateIncomingLetterColumns(context);
-    case DocumentFilterType.OutgoingLetter:
+    case DocumentQuery.OutgoingLetter:
       return CreateOutgoingLetterColumns(context);
-    case DocumentFilterType.InternalDocument:
+    case DocumentQuery.InternalDocument:
       return CreateInternalDocumentColumns(context);
-    case DocumentFilterType.Addendum:
+    case DocumentQuery.Addendum:
       return CreateAddendumColumns(context);
-    case DocumentFilterType.Order:
+    case DocumentQuery.Order:
       return CreateOrderColumns(context);
-    case DocumentFilterType.CompanyDirective:
+    case DocumentQuery.CompanyDirective:
       return CreateCompanyDirectiveColumns(context);
-    case DocumentFilterType.SimpleDocument:
+    case DocumentQuery.SimpleDocument:
       return CreateSimpleDocumentColumns(context);
-    case DocumentFilterType.Memo:
+    case DocumentQuery.Memo:
       return CreateMemoColumns(context);
-    case DocumentFilterType.PowerOfAttorney:
+    case DocumentQuery.PowerOfAttorney:
       return CreatePowerOfAttorneyColumns(context);
-    case DocumentFilterType.ContractualDocuments:
+    case DocumentQuery.ContractualDocuments:
       return CreateContractColumns(context);
-    case DocumentFilterType.AccountingDocuments:
+    case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
 
     default:

@@ -120,7 +120,7 @@
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
-import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
+import DocumentQuery from "~/infrastructure/constants/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -220,7 +220,7 @@ export default {
         readOnly: !this.counterpartyId,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingTaxInvoice}`,
+          url: `${dataApi.paperWork.Documents}${DocumentQuery.OutgoingTaxInvoice}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : []
@@ -237,7 +237,7 @@ export default {
         readOnly: !this.counterpartyId,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentTypeGuid.Contract}`,
+          url: `${dataApi.paperWork.Documents}${DocumentQuery.Contract}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : []

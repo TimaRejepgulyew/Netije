@@ -1,7 +1,7 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DocumentFilterType, {
-  generateNameByDocFilter
-} from "~/infrastructure/constants/documentFilterType";
+import DocumentQuery, {
+  generateNameByDocQuery
+} from "~/infrastructure/constants/documentQuery";
 import financialArchiveIcon from "~/static/icons/financial-archive.svg";
 import contractIcon from "~/static/icons/contract.svg";
 export const state = () => ({
@@ -99,73 +99,73 @@ export const actions = {
         items: [
           {
             text: this.$i18n.t("documentTypeFilter.incomingLetter"),
-            path: `/paper-work/${DocumentFilterType.IncomingLetter}`
+            path: `/paper-work/${DocumentQuery.IncomingLetter}`
           },
           {
             text: this.$i18n.t("documentTypeFilter.outgoingLetter"),
-            path: `/paper-work/${DocumentFilterType.OutgoingLetter}`
+            path: `/paper-work/${DocumentQuery.OutgoingLetter}`
           },
           {
             text: this.$i18n.t("documentTypeFilter.internalDocument"),
-            path: `/paper-work/${DocumentFilterType.InternalDocument}`,
+            path: `/paper-work/${DocumentQuery.InternalDocument}`,
             items: [
               {
                 text: this.$i18n.t("documentTypeFilter.order"),
-                path: `/paper-work/${DocumentFilterType.Order}`
+                path: `/paper-work/${DocumentQuery.Order}`
               },
               {
                 text: this.$i18n.t("documentTypeFilter.companyDirective"),
-                path: `/paper-work/${DocumentFilterType.CompanyDirective}`
+                path: `/paper-work/${DocumentQuery.CompanyDirective}`
               },
               {
                 text: this.$i18n.t("documentTypeFilter.simpleDocument"),
-                path: `/paper-work/${DocumentFilterType.SimpleDocument}`
+                path: `/paper-work/${DocumentQuery.SimpleDocument}`
               },
               {
                 text: this.$i18n.t("documentTypeFilter.addendum"),
-                path: `/paper-work/${DocumentFilterType.Addendum}`
+                path: `/paper-work/${DocumentQuery.Addendum}`
               },
               {
                 text: this.$i18n.t("documentTypeFilter.memo"),
-                path: `/paper-work/${DocumentFilterType.Memo}`
+                path: `/paper-work/${DocumentQuery.Memo}`
               },
               {
                 text: this.$i18n.t("documentTypeFilter.powerOfAttorney"),
-                path: `/paper-work/${DocumentFilterType.PowerOfAttorney}`
+                path: `/paper-work/${DocumentQuery.PowerOfAttorney}`
               }
             ]
           }
         ]
       },
       {
-        text: this.$i18n.t("documentTypeFilter.contractualDocumentsGroup"),
+        text: this.$i18n.t("documentTypeFilter.contractualDocuments"),
         icon: contractIcon,
-        path: `/paper-work/${DocumentFilterType.ContractualDocuments}`,
+        path: `/paper-work/${DocumentQuery.ContractualDocuments}`,
         visible: hasContractAccess(rootGetters),
         items: [
           // {
           //   text: this.$i18n.t("documentType.contract"),
-          //   path: `/paper-work/${DocumentFilterType.Contract}`
+          //   path: `/paper-work/${DocumentQuery.Contract}`
           // },
           // {
           //   text: this.$i18n.t("documentType.contractStatement"),
-          //   path: `/paper-work/${DocumentFilterType.ContractStatement}`
+          //   path: `/paper-work/${DocumentQuery.ContractStatement}`
           // },
         ]
       },
       {
-        text: this.$i18n.t("documentTypeFilter.accountingDocumentsGroup"),
+        text: this.$i18n.t("documentTypeFilter.accountingDocuments"),
         icon: financialArchiveIcon,
-        path: `/paper-work/${DocumentFilterType.AccountingDocuments}`,
+        path: `/paper-work/${DocumentQuery.AccountingDocuments}`,
         visible: hasAccountingDocumentBaseAccess(rootGetters)
         // items: [
         //   {
         //     text: this.$i18n.t("menu.accountingDocuments"),
-        //     path: `/paper-work/${DocumentFilterType.AccountingDocuments}`
+        //     path: `/paper-work/${DocumentQuery.AccountingDocuments}`
         //   },
         //   {
         //     text: this.$i18n.t("menu.сontractsAndSupAgreements"),
-        //     path: `/paper-work/${DocumentFilterType.ContractsAndSupAgreements}`
+        //     path: `/paper-work/${DocumentQuery.ContractsAndSupAgreements}`
         //   },
         // ]
       },

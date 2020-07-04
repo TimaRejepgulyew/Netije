@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="headerTitle"></Header>
+    <Header isB :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
       <DxButton
         icon="filter"

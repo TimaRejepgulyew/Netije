@@ -24,7 +24,7 @@ const DocumentTypeFilter = {
   SupAgreement: 16
 };
 export default DocumentTypeFilter;
-export function generateNameByDocFilter(key, context) {
+export function generateNameByDocQuery(key, context) {
   const documentTypeGuidName = new Map();
   for (let el in DocumentTypeFilter) {
     documentTypeGuidName.set(

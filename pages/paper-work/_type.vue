@@ -1,5 +1,5 @@
 <template>
-  <documentGrid :documentTypeGuid="documentTypeGuid" @selectedDocument="toDetail" />
+  <documentGrid :documentQuery="documentQuery" @selectedDocument="showDocumentDetails" />
 </template>
 <script>
 import documentGrid from "~/components/paper-work/document-grid.vue";
@@ -9,11 +9,11 @@ export default {
   },
   data() {
     return {
-      documentTypeGuid: +this.$route.params.type
+      documentQuery: +this.$route.params.type
     };
   },
   methods: {
-    toDetail({ id, documentTypeGuid }) {
+    showDocumentDetails({ id, documentTypeGuid }) {
       this.$store.commit("currentDocument/LOADED_FROM_URL", false);
       this.$router.push(`/paper-work/detail/${documentTypeGuid}/${id}`);
     }

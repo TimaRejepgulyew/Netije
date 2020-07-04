@@ -97,7 +97,7 @@ import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsB
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
-import DocumentTypeGuid from "~/infrastructure/constants/documentFilterType.js";
+import DocumentQuery from "~/infrastructure/constants/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -242,7 +242,7 @@ export default {
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(
-          `${dataApi.paperWork.Documents}${DocumentTypeGuid.OutgoingLetter}`
+          `${dataApi.paperWork.Documents}${DocumentQuery.OutgoingLetter}`
         )
         .filter(
           this.correspondentId
