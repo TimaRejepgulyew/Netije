@@ -78,7 +78,7 @@ export default {
     pendingReview: "На рассмотрении",
     reviewed: "Рассмотрен"
   },
-  documentTypeFilter: {
+  DocumentQuery: {
     recordManagementGroup: "Делопроизводство",
     accountingDocuments: "Финансовые документы",
     contractualDocuments: "Договорные документы",
