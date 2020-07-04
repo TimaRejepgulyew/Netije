@@ -78,8 +78,13 @@ export default {
     pendingReview: "На рассмотрении",
     reviewed: "Рассмотрен"
   },
+  AssignmentQuery: {
+    all: "Все задания и уведомления",
+    onExicution: "На исполнение",
+    onReview: "На приемку",
+    onAcquaintance: "На ознакомление"
+  },
   DocumentQuery: {
-    recordManagementGroup: "Делопроизводство",
     accountingDocuments: "Финансовые документы",
     contractualDocuments: "Договорные документы",
     internalDocument: "Внутрение документы",
@@ -283,6 +288,9 @@ export default {
     }
   },
   menu: {
+    recordManagementGroup: "Делопроизводство",
+    accountingDocuments: "Финансовые документы",
+    contractualDocuments: "Договорные документы",
     contractCategories: "Категории договоров",
     supAgreement: "Дополнительное соглашение",
     "financial-archive": "Финансовый архив",
@@ -369,9 +377,6 @@ export default {
     outgoing: "Входящие",
     incomming: "Исходящие",
 
-    onExicution: "На исполнение",
-    onReview: "На приемку",
-    onAcquaintance: "На ознакомление",
     user: "Пользователи"
   },
   buttons: {

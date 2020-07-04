@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('contractCategories.title')"></Header>
+    <Header :isbackButton="true" :headerTitle="$t('contractCategories.title')"></Header>
     <DxDataGrid
       width="inherit"
       id="gridContainer"
@@ -114,7 +114,7 @@ export default {
         removeUrl: dataApi.docFlow.ContractCategories
       }),
       entityType: EntityType.DocumentGroupBase,
-      statusDataSource: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {

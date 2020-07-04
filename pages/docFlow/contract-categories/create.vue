@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <Header :headerTitle="$t('contractCategories.title')"></Header>
+      <Header :isbackButton="true" :isNew="true" :headerTitle="$t('contractCategories.title')"></Header>
       <toolbar @saveChanges="handleSubmit" :canSave="true" />
       <DxForm
         ref="form"
@@ -46,13 +46,13 @@ import "devextreme-vue/text-area";
 import Status from "~/infrastructure/constants/status";
 import Docflow from "~/infrastructure/constants/docflows";
 import { DxTagBox } from "devextreme-vue/tag-box";
-import Header from "~/components/page/new-record-header";
+import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -82,7 +82,10 @@ export default {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
       this.$awn.asyncBlock(
-        this.$axios.post(dataApi.docFlow.ContractCategories, this.contractCategory),
+        this.$axios.post(
+          dataApi.docFlow.ContractCategories,
+          this.contractCategory
+        ),
         res => {
           this.$router.go(-1);
           this.$awn.success();

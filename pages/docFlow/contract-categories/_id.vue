@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <Header :headerTitle="contractCategoryName"></Header>
+      <Header :isbackButton="true" :headerTitle="contractCategoryName"></Header>
       <toolbar
         @saveChanges="handleSubmit"
         :canSave="$store.getters['permissions/allowUpdating'](this.entityType)"
@@ -56,7 +56,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 

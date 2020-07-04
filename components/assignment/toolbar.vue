@@ -1,7 +1,6 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-      <DxItem :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem :visible="completeButtonsVisible" location="before" template="completeButton" />
       <template #completeButton>
         <complete-btn v-if="completeButtonsVisible" />
@@ -26,18 +25,6 @@ export default {
     completeBtn,
     DxToolbar,
     DxItem
-  },
-  data() {
-    return {
-      backButtonOptions: {
-        type: "normal",
-        icon: "back",
-        text: this.$t("buttons.back"),
-        onClick: () => {
-          this.$router.go(-1);
-        }
-      },
-    };
   },
   computed: {
     completeButtonsVisible() {

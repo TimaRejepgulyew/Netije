@@ -1,6 +1,7 @@
 <template>
   <div id>
     <div class>
+      <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
       <toolbar />
       <form class="d-flex">
         <div class="item f-grow-3">
@@ -14,7 +15,7 @@
             validation-group="assignment"
           >
             <DxGroupItem :col-span="7">
-              <DxGroupItem :col-span="2" :caption="$t('translations.headers.moreAbout')">
+              <DxGroupItem :col-span="2">
                 <DxSimpleItem :col-span="4" data-field="subject">
                   <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
                 </DxSimpleItem>
@@ -76,6 +77,7 @@
   </div>
 </template>
 <script>
+import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxTextArea } from "devextreme-vue";
@@ -102,7 +104,8 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxForm,
-    attachment
+    attachment,
+    Header
   },
   async asyncData({ app, params }) {
     await app.store.dispatch("currentAssignment/load", params.id);
@@ -127,6 +130,9 @@ export default {
     };
   },
   computed: {
+    headerTitle() {
+      return this.$store.getters["currentAssignment/assignment"].subject;
+    },
     attachmentGroups() {
       return this.$store.getters["currentAssignment/assignment"]
         .attachmentGroups;

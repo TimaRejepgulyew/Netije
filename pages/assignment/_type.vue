@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header isB :headerTitle="headerTitle"></Header>
+    <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
       <DxButton
         icon="filter"
@@ -130,7 +130,9 @@
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
-import AssignmentTypeFilters from "~/infrastructure/constants/assignmentTypeFilters.js";
+import AssignmentQuery, {
+  generateAssignmentQueryName
+} from "~/infrastructure/constants/assignmentQuery.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -195,10 +197,10 @@ export default {
   },
   computed: {
     headerTitle() {
-      return this.$t(`menu.assignments`);
+      return generateAssignmentQueryName(+this.$route.params.type, this);
     },
     withFilter() {
-      return +this.$route.params.type === AssignmentTypeFilters.all;
+      return +this.$route.params.type === AssignmentQuery.All;
     }
   },
   methods: {
@@ -206,13 +208,17 @@ export default {
       let prefix = "";
       switch (rowData.assignmentType) {
         case AssignmentType.ActionItemSupervisorAssignment:
-          prefix = this.$t("assignment.prefixes.actionItemSupervisorAssignment");
+          prefix = this.$t(
+            "assignment.prefixes.actionItemSupervisorAssignment"
+          );
           break;
         case AssignmentType.ActionItemExecutionAssignment:
           prefix = this.$t("assignment.prefixes.actionItemExecutionAssignment");
           break;
         case AssignmentType.ActionItemExecutionNotification:
-          prefix = this.$t("assignment.prefixes.actionItemExecutionNotification");
+          prefix = this.$t(
+            "assignment.prefixes.actionItemExecutionNotification"
+          );
           break;
         case AssignmentType.AcquaintanceAssignment:
           prefix = this.$t("assignment.prefixes.acquaintanceAssignment");
@@ -224,10 +230,12 @@ export default {
           prefix = this.$t("assignment.prefixes.acquaintanceFinishAssignment");
           break;
         case AssignmentType.ActionItemObserversNotification:
-          prefix = this.$t("assignment.prefixes.actionItemObserversNotification");
+          prefix = this.$t(
+            "assignment.prefixes.actionItemObserversNotification"
+          );
           break;
-          default:
-            break;
+        default:
+          break;
       }
       return prefix + rowData.subject;
     },
@@ -237,7 +245,6 @@ export default {
         location: "after",
         options: { icon: "refresh", onClick: this.reload }
       });
-
     },
     reload() {
       this.store.reload();
@@ -264,7 +271,7 @@ export default {
             loadUrl: dataApi.assignment.Assignments + this.$route.params.type
           }),
           sort: [{ selector: "created", desc: true }],
-          filter: filter.filter.length>0?filter.filter:null
+          filter: filter.filter.length > 0 ? filter.filter : null
         });
       }
     },

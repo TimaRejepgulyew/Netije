@@ -65,26 +65,26 @@ export const mutations = {
     state.menuList = payload;
   }
 };
-import AssignmentTypeFilters from "~/infrastructure/constants/assignmentTypeFilters.js";
+import AssignmentQuery from "~/infrastructure/constants/assignmentQuery.js";
 export const actions = {
   initialize({ commit, rootGetters }) {
     const data = [
       {
         text: this.$i18n.t("menu.assignments"),
         icon: "clock",
-        path: `/assignment/${AssignmentTypeFilters.all}`,
+        path: `/assignment/${AssignmentQuery.All}`,
         items: [
           {
-            text: this.$i18n.t("menu.onExicution"),
-            path: `/assignment/${AssignmentTypeFilters.onExicution}`
+            text: this.$i18n.t("AssignmentQuery.onExicution"),
+            path: `/assignment/${AssignmentQuery.OnExicution}`
           },
           {
-            text: this.$i18n.t("menu.onReview"),
-            path: `/assignment/${AssignmentTypeFilters.onReview}`
+            text: this.$i18n.t("AssignmentQuery.onReview"),
+            path: `/assignment/${AssignmentQuery.OnReview}`
           },
           {
-            text: this.$i18n.t("menu.onAcquaintance"),
-            path: `/assignment/${AssignmentTypeFilters.onAcquaintance}`
+            text: this.$i18n.t("AssignmentQuery.onAcquaintance"),
+            path: `/assignment/${AssignmentQuery.OnAcquaintance}`
           }
         ]
       },
@@ -94,43 +94,43 @@ export const actions = {
         path: "/task"
       },
       {
-        text: this.$i18n.t("documentTypeFilter.recordManagementGroup"),
+        text: this.$i18n.t("menu.recordManagementGroup"),
         icon: "file",
         items: [
           {
-            text: this.$i18n.t("documentTypeFilter.incomingLetter"),
+            text: this.$i18n.t("DocumentQuery.incomingLetter"),
             path: `/paper-work/${DocumentQuery.IncomingLetter}`
           },
           {
-            text: this.$i18n.t("documentTypeFilter.outgoingLetter"),
+            text: this.$i18n.t("DocumentQuery.outgoingLetter"),
             path: `/paper-work/${DocumentQuery.OutgoingLetter}`
           },
           {
-            text: this.$i18n.t("documentTypeFilter.internalDocument"),
+            text: this.$i18n.t("DocumentQuery.internalDocument"),
             path: `/paper-work/${DocumentQuery.InternalDocument}`,
             items: [
               {
-                text: this.$i18n.t("documentTypeFilter.order"),
+                text: this.$i18n.t("DocumentQuery.order"),
                 path: `/paper-work/${DocumentQuery.Order}`
               },
               {
-                text: this.$i18n.t("documentTypeFilter.companyDirective"),
+                text: this.$i18n.t("DocumentQuery.companyDirective"),
                 path: `/paper-work/${DocumentQuery.CompanyDirective}`
               },
               {
-                text: this.$i18n.t("documentTypeFilter.simpleDocument"),
+                text: this.$i18n.t("DocumentQuery.simpleDocument"),
                 path: `/paper-work/${DocumentQuery.SimpleDocument}`
               },
               {
-                text: this.$i18n.t("documentTypeFilter.addendum"),
+                text: this.$i18n.t("DocumentQuery.addendum"),
                 path: `/paper-work/${DocumentQuery.Addendum}`
               },
               {
-                text: this.$i18n.t("documentTypeFilter.memo"),
+                text: this.$i18n.t("DocumentQuery.memo"),
                 path: `/paper-work/${DocumentQuery.Memo}`
               },
               {
-                text: this.$i18n.t("documentTypeFilter.powerOfAttorney"),
+                text: this.$i18n.t("DocumentQuery.powerOfAttorney"),
                 path: `/paper-work/${DocumentQuery.PowerOfAttorney}`
               }
             ]
@@ -138,7 +138,7 @@ export const actions = {
         ]
       },
       {
-        text: this.$i18n.t("documentTypeFilter.contractualDocuments"),
+        text: this.$i18n.t("menu.contractualDocuments"),
         icon: contractIcon,
         path: `/paper-work/${DocumentQuery.ContractualDocuments}`,
         visible: hasContractAccess(rootGetters),
@@ -154,7 +154,7 @@ export const actions = {
         ]
       },
       {
-        text: this.$i18n.t("documentTypeFilter.accountingDocuments"),
+        text: this.$i18n.t("menu.accountingDocuments"),
         icon: financialArchiveIcon,
         path: `/paper-work/${DocumentQuery.AccountingDocuments}`,
         visible: hasAccountingDocumentBaseAccess(rootGetters)

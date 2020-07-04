@@ -25,6 +25,7 @@ export function isAssignment(type) {
       return false;
   }
 }
+
 export function isActionItemExicutionAssignment(type) {
   return type === AssignmentType.ActionItemExecutionAssignment;
 }

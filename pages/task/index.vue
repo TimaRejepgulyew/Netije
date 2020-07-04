@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t(`menu.task`)"></Header>
+    <Header  :isbackButton="true" :headerTitle="$t(`menu.task`)"></Header>
     <div class="grid">
       <DxDataGrid
         id="gridContainer"
