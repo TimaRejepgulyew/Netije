@@ -1,4 +1,4 @@
-const DocumentTypeFilter = {
+const DocumentQuery = {
   All: 100,
   IncomingDocument: 101,
   OutgoingDocument: 102,
@@ -23,15 +23,15 @@ const DocumentTypeFilter = {
   Contract: 15,
   SupAgreement: 16
 };
-export default DocumentTypeFilter;
+export default DocumentQuery;
 export function generateNameByDocQuery(key, context) {
-  const documentTypeGuidName = new Map();
-  for (let el in DocumentTypeFilter) {
-    documentTypeGuidName.set(
-      DocumentTypeFilter[el],
-      context.$t(`documentTypeFilter.${el[0].toLowerCase() + el.slice(1)}`)
+  const documentQueryName = new Map();
+  for (let el in DocumentQuery) {
+    documentQueryName.set(
+      DocumentQuery[el],
+      context.$t(`DocumentQuery.${el[0].toLowerCase() + el.slice(1)}`)
     );
   }
-  if (key) return documentTypeGuidName.get(key);
-  documentTypeGuidName;
+  if (key) return documentQueryName.get(key);
+  documentQueryName;
 }
