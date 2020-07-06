@@ -3,11 +3,11 @@
     <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard">
       <DxButtonGroup
         slot="toolbar"
-        :items="quikFilterOptions"
-        :selected-item-keys="[activeQuikFilter]"
+        :items="quickFilterOptions"
+        :selected-item-keys="[activequickFilter]"
         key-expr="filterKey"
         styling-mode="text"
-        @item-click="selectActiveQuikFilter"
+        @item-click="selectActivequickFilter"
       />
     </Header>
     <DxDataGrid
@@ -59,7 +59,7 @@
 </template>
 <script>
 import { DxButtonGroup } from "devextreme-vue";
-import QuikFilter from "~/infrastructure/constants/documentQuikFilter.js";
+import QuickFilter from "~/infrastructure/constants/documentquickFilter.js";
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
 import { generateNameByDocQuery } from "~/infrastructure/constants/documentQuery.js";
@@ -117,22 +117,22 @@ export default {
   props: ["documentQuery", "isCard"],
   data() {
     return {
-      activeQuikFilter: QuikFilter.All,
-      quikFilterOptions: [
+      activequickFilter: QuickFilter.All,
+      quickFilterOptions: [
         {
           text: "Все",
-          filterKey: QuikFilter.All,
+          filterKey: QuickFilter.All,
           hint: "Align left"
         },
         {
           text: "Новые",
-          filterKey: QuikFilter.New,
+          filterKey: QuickFilter.New,
           hint: "Новые"
         },
 
         {
           text: "Архив",
-          filterKey: QuikFilter.Obsolete,
+          filterKey: QuickFilter.Obsolete,
           hint: "Архив"
         }
       ],
@@ -148,9 +148,9 @@ export default {
     };
   },
   methods: {
-    selectActiveQuikFilter(e) {
-      this.activeQuikFilter = e.itemIndex;
-      this.store.reload();
+    selectActivequickFilter(e) {
+      this.activequickFilter = e.itemIndex;
+    
     },
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
@@ -170,7 +170,7 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quikFilter=${this.activeQuikFilter}`
+          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quickFilter=${this.activequickFilter}`
         }),
         paginate: true
       });
