@@ -441,6 +441,7 @@ export default {
       totalAmount: "Сумма",
       currencyId: "Валюта",
       IsStandard: "Типовой",
+      IsStandardSupAgreement:"Типовое",
       responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",
       isUnderControl: "На контроль",
