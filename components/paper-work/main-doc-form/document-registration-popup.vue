@@ -1,6 +1,11 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <DxForm :read-only="false" :show-colon-after-label="true" :show-validation-summary="true">
+    <DxForm
+      :form-data.sync="regData"
+      :read-only="false"
+      :show-colon-after-label="true"
+      :show-validation-summary="true"
+    >
       <DxSimpleItem
         data-field="isCustomNumber"
         :editor-options="isCustomNumberOptions"
@@ -74,12 +79,19 @@ export default {
   },
   data() {
     return {
-      isCustomNumber: false,
-
       saveButtonOptions: {
         text: this.$t("buttons.register"),
         useSubmitBehavior: true,
         type: "success"
+      },
+      regData: {
+        documentId: this.$store.getters["currentDocument/document"].id,
+        documentTypeGuid: this.$store.getters["currentDocument/document"]
+          .documentTypeGuid,
+        isCustomNumber: false,
+        registrationNumber: null,
+        registrationDate: null,
+        documentRegisterId: null
       },
       registrationNumberPattern: ""
     };
@@ -89,9 +101,11 @@ export default {
       return this.$store.getters["currentDocument/isRegistered"];
     },
     filter() {
-      return `?documentRegisterId=${this.documentRegisterId}&documentId=${
-        this.documentId
-      }&registrationDate=${moment(this.registrationDate).format("L")}`;
+      return `?documentRegisterId=${
+        this.regData.documentRegisterId
+      }&documentId=${this.regData.documentId}&registrationDate=${moment(
+        this.regData.registrationDate
+      ).format("L")}`;
     },
     isCustomNumberOptions() {
       const numberingType = this.$store.getters["currentDocument/document"]
@@ -101,99 +115,64 @@ export default {
         autoNumbering = this.$store.getters["currentDocument/document"]
           .documentKind.autoNumbering;
         if (autoNumbering) {
-          this.isCustomNumber = false;
+          this.regData.isCustomNumber = false;
           return { disabled: true };
         }
       }
       return {
         disabled: false,
         onValueChanged: e => {
-          
-          this.isCustomNumber = e.value;
           this.getDataByFilter();
         }
       };
-    },
-    registrationNumber() {
-      return this.$store.getters["currentDocument/document"].registrationNumber;
     },
     registrationNumberOptions() {
       return {
-        disabled: !this.isCustomNumber,
-        value: this.registrationNumber,
+        disabled: !this.regData.isCustomNumber,
         onValueChanged: e => {
-          this.$store.commit(
-            "currentDocument/SET_REGISTRATION_NUMBER",
-            e.value
-          );
           this.getDataByFilter();
         }
       };
-    },
-    registrationDate() {
-      return this.$store.getters["currentDocument/document"].registrationDate;
     },
     registrationDateOptions() {
       return {
-        value: this.registrationDate,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_REGISTRATION_DATE", e.value);
           this.getDataByFilter();
         }
       };
-    },
-    documentRegisterId() {
-      return this.$store.getters["currentDocument/document"].documentRegisterId;
     },
     documentRegisterOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.documentRegistration.Registries + this.documentId
+          url: dataApi.documentRegistration.Registries + this.regData.documentId
         }),
-        value: this.documentRegisterId,
         onValueChanged: e => {
-          this.$store.commit(
-            "currentDocument/SET_DOCUMENT_REGISTER_ID",
-            e.value
-          );
-          if (this.documentRegisterId && !this.registrationDate) {
-            this.$store.commit(
-              "currentDocument/SET_REGISTRATION_DATE",
-              new Date()
-            );
-          }
-          this.getDataByFilter();
+          if (!this.regData.registrationDate)
+            this.regData.registrationDate = new Date();
+          else this.getDataByFilter();
         }
       };
-    },
-    documentId() {
-      return this.$store.getters["currentDocument/document"].id;
     }
   },
   methods: {
     async getDataByFilter() {
       if (
-        this.registrationDate &&
-        this.documentRegisterId &&
-        !this.isCustomNumber
+        this.regData.registrationDate &&
+        this.regData.documentRegisterId &&
+        !this.regData.isCustomNumber
       ) {
         const res = await this.$axios.get(
           dataApi.documentRegistration.PreliminaryNumber + this.filter
         );
-        this.$store.commit(
-          "currentDocument/SET_REGISTRATION_NUMBER",
-          res.data.preliminaryNumber
-        );
+        this.regData.registrationNumber = res.data.preliminaryNumber;
+
         this.registrationNumberPattern = res.data.pattern;
       }
     },
     handleSubmit() {
       this.$awn.asyncBlock(
-        this.$store.dispatch(
-          "currentDocument/registration",
-          this.isCustomNumber
-        ),
+        this.$store.dispatch("currentDocument/registration", this.regData),
         res => {
           this.$emit("hidePopup");
           this.$awn.success();

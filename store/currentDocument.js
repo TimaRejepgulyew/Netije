@@ -46,7 +46,7 @@ export const getters = {
   isRegistered({ document }) {
     return document.registrationState == RegistrationState.Registered;
   },
-  readOnly({ canUpdate,isRegistered }) {
+  readOnly({ canUpdate, isRegistered }) {
     return !canUpdate || isRegistered;
   },
   isDataChanged({ isDataChanged }) {
@@ -441,10 +441,10 @@ export const actions = {
     commit("DATA_CHANGED", false);
     dispatch("loadDocument", data);
   },
-  async registration({ state, getters, dispatch, commit }, isCustomNumber) {
+  async registration({ dispatch }, payload) {
     const { data } = await this.$axios.post(
       dataApi.documentRegistration.RegisterDocument,
-      { ...getters["registrationData"], isCustomNumber }
+      payload
     );
     dispatch("loadDocument", data);
   },
@@ -472,6 +472,5 @@ export const actions = {
       commit("SET_IS_NEW", false);
     }
     commit("DATA_CHANGED", false);
-  },
- 
+  }
 };
