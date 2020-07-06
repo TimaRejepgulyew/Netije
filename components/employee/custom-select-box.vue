@@ -33,7 +33,6 @@
       :page-size="10"
       item-template="customSelectItem"
       field-template="customfield"
-      
       :deferRendering="true"
     >
       <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">

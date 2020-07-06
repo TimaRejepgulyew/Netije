@@ -1,7 +1,14 @@
 <template>
   <main>
-    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew">
-    too
+    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard">
+      <DxButtonGroup
+        slot="toolbar"
+        :items="quikFilterOptions"
+        :selected-item-keys="[activeQuikFilter]"
+        key-expr="filterKey"
+        styling-mode="text"
+        @item-click="selectActiveQuikFilter"
+      />
     </Header>
     <DxDataGrid
       id="gridContainer"
@@ -51,6 +58,8 @@
   </main>
 </template>
 <script>
+import { DxButtonGroup } from "devextreme-vue";
+import QuikFilter from "~/infrastructure/constants/documentQuikFilter.js";
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
 import { generateNameByDocQuery } from "~/infrastructure/constants/documentQuery.js";
@@ -102,21 +111,34 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxButton,
-    Header
+    Header,
+    DxButtonGroup
   },
   props: ["documentQuery", "isCard"],
   data() {
     return {
+      activeQuikFilter: QuikFilter.All,
+      quikFilterOptions: [
+        {
+          text: "Все",
+          filterKey: QuikFilter.All,
+          hint: "Align left"
+        },
+        {
+          text: "Новые",
+          filterKey: QuikFilter.New,
+          hint: "Новые"
+        },
+
+        {
+          text: "Архив",
+          filterKey: QuikFilter.Obsolete,
+          hint: "Архив"
+        }
+      ],
       filterBuilderPopupPosition: this.$store.getters[
         "papaer-work/filterBuilderPopupPosition"
       ],
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.paperWork.Documents + this.documentQuery
-        }),
-        paginate: true
-      }),
       selectDocument: e => {
         this.$emit("selectedDocument", {
           id: e.key,
@@ -126,6 +148,10 @@ export default {
     };
   },
   methods: {
+    selectActiveQuikFilter(e) {
+      this.activeQuikFilter = e.itemIndex;
+      this.store.reload();
+    },
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
         widget: "button",
@@ -140,6 +166,15 @@ export default {
     }
   },
   computed: {
+    store() {
+      return new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quikFilter=${this.activeQuikFilter}`
+        }),
+        paginate: true
+      });
+    },
     generateHeaderTitle() {
       return generateNameByDocQuery(this.documentQuery, this);
     },

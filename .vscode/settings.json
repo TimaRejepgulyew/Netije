@@ -3,6 +3,10 @@
         {
             "name": "feature/feature/document-kinds",
             "base": "develop"
+        },
+        {
+            "name": "feature/filter-document",
+            "base": "global-refactoring"
         }
     ],
     "i18n-ally.localesPaths": "lang"
