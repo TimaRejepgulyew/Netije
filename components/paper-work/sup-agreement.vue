@@ -15,6 +15,7 @@
     </DxSimpleItem>
 
     <DxSimpleItem
+    :isRequired="true"
       :col-span="2"
       data-field="leadingDocumentId"
       editor-type="dxSelectBox"
