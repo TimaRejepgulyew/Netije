@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('menu.businessUnit')"></Header>
+    <Header :headerTitle="$t('menu.companies')"></Header>
 
     <DxDataGrid
       id="gridContainer"      

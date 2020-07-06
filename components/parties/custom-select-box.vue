@@ -71,16 +71,19 @@ export default {
   },
   methods: {
     valueChanged(e) {
+      console.log(e, "value changed");
       if (e.event) {
         this.$emit("valueChanged", e.value);
       }
     },
     selectionChanged(e) {
+      console.log(e, "selectionChanged");
       this.$emit("selectionChanged", e.selectedItem);
     },
-    setCounterPart(data) {
+    setCounterPart({ data, updated }) {
+      console.log(data, "setCounterPart");
       this.$emit("valueChanged", data.id);
-      this.$refs["counterPart"].instance.repaint();
+      if (updated) this.$refs["counterPart"].instance.repaint();
     }
   }
 };
