@@ -35,7 +35,7 @@
         slot="card"
         :counterpartId="fieldData && fieldData.id"
         :is="showCardByType"
-        @valueChanged="valueChanged"
+        @valueChanged="valueUpdated"
         :isCard="true"
       />
     </additional-btn>
@@ -118,13 +118,15 @@ export default {
     }
   },
   methods: {
-    createCounterPart({ itemData }) {
-      console.log(itemData);
+    createCounterPart(e) {
       this.activeCard = itemData.type;
       this.isOpenCardCreate = !this.isOpenCardCreate;
     },
     valueChanged(data) {
-      this.$emit("valueChanged", data);
+      this.$emit("valueChanged", { data });
+    },
+    valueUpdated(data) {
+      this.$emit("valueChanged", { data, updated: true });
     }
   }
 };

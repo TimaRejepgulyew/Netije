@@ -17,10 +17,6 @@
         <DxSimpleItem data-field="name">
           <DxLabel location="top" :text="$t('translations.fields.name')" />
           <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-          <DxPatternRule
-            :pattern="namePattern"
-            :message="$t('translations.fields.fullNameNoDigits')"
-          />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalName">
           <DxLabel location="top" :text="$t('translations.fields.legalName')" />

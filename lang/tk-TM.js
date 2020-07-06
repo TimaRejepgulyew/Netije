@@ -297,7 +297,6 @@ export default {
       personalData: "Şahsy maglumatlar",
       fullName: "F.A.A.a",
       fullNameRequired: "F.A.A.a boş bolmaly däldir",
-      fullNameNoDigits: "F.A.A.a san bolmaly däldir",
       fullNameAlreadyExists: "Şular ýaly AT öňden bar",
       firstName: "Ady",
       firstNameRequired: "Adyny giriziň",
