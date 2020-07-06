@@ -5,6 +5,25 @@
     :show-validation-summary="false"
     :validation-group="validatorGroup"
   >
+    <DxSimpleItem
+      :col-span="2"
+      data-field="isStandard"
+      editor-type="dxCheckBox"
+      :editor-options="isStandardOptions"
+    >
+      <DxLabel location="top" :text="$t('translations.fields.IsStandard')" />
+    </DxSimpleItem>
+
+    <DxSimpleItem
+      :col-span="2"
+      data-field="leadingDocumentId"
+      editor-type="dxSelectBox"
+      :editor-options="leadingDocumentOptions"
+      :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
+    >
+      <DxLabel location="top" :text="$t('document.fields.contract')" />
+    </DxSimpleItem>
+
     <DxGroupItem :col-span="2" :col-count="1" :caption="$t('translations.fields.counterPart')">
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
         <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
@@ -19,25 +38,7 @@
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
-    <DxGroupItem :col-span="2" :col-count="5" :caption="$t('documentType.contract')">
-      <DxSimpleItem
-        :col-span="4"
-        data-field="leadingDocumentId"
-        editor-type="dxSelectBox"
-        :editor-options="leadingDocumentOptions"
-        :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
-      >
-        <DxLabel location="top" :text="$t('documentType.contract')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        :col-span="1"
-        data-field="isStandard"
-        editor-type="dxCheckBox"
-        :editor-options="isStandardOptions"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.IsStandard')" />
-      </DxSimpleItem>
-    </DxGroupItem>
+
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
       <DxSimpleItem
         data-field="businessUnitId"

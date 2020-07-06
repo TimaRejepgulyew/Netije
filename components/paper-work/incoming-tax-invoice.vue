@@ -5,6 +5,15 @@
     :show-validation-summary="false"
     :validation-group="validatorGroup"
   >
+    <DxSimpleItem
+      :col-span="2"
+      data-field="leadingDocumentId"
+      editor-type="dxSelectBox"
+      :editor-options="leadingDocumentOptions"
+      :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
+    >
+      <DxLabel location="top" :text="$t('document.fields.contract')" />
+    </DxSimpleItem>
     <DxGroupItem :col-span="2" :col-count="2">
       <DxSimpleItem
         :col-span="1"
@@ -38,16 +47,6 @@
           <DxLabel location="top" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
       </DxGroupItem>
-    </DxGroupItem>
-    <DxGroupItem :col-span="2" :caption="$t('documentType.contract')">
-      <DxSimpleItem
-        data-field="leadingDocumentId"
-        editor-type="dxSelectBox"
-        :editor-options="leadingDocumentOptions"
-        :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
-      >
-        <DxLabel location="top" :text="$t('documentType.contract')" />
-      </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
       <DxSimpleItem

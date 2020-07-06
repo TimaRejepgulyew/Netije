@@ -116,7 +116,7 @@ export function ContractButtons(context) {
     },
     {
       icon: contractStatementIcon,
-      text: context.$t("createItemDialog.сontractStatement"),
+      text: context.$t("createItemDialog.contractStatement"),
       async create(params) {
         await createDocumentRequest(context, {
           documentType: DocumentType.ContractStatement,
