@@ -183,15 +183,6 @@ export default {
     }
   },
   computed: {
-    // store() {
-    //   return new DataSource({
-    //     store: this.$dxStore({
-    //       key: "id",
-    //       loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quickFilter=${this.activeQuiсkFilter}&`
-    //     }),
-    //     paginate: true
-    //   });
-    // },
     generateHeaderTitle() {
       return generateNameByDocQuery(this.documentQuery, this);
     },

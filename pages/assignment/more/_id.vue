@@ -5,7 +5,6 @@
       <toolbar />
       <form class="d-flex">
         <div class="item f-grow-3">
-          <slot name="information"></slot>
           <DxForm
             :col-count="10"
             :form-data.sync="assignment"
@@ -43,7 +42,7 @@
                   </DxSimpleItem>
                 </DxGroupItem>
               </DxGroupItem>
-
+              <DxGroupItem :col-span="3" template="description"></DxGroupItem>
               <DxGroupItem :col-span="3">
                 <DxGroupItem>
                   <DxSimpleItem template="comments">
@@ -58,7 +57,11 @@
               <div>
                 <status-message />
                 <Assignment-comments :url="commentsUrl"></Assignment-comments>
-                <slot name="Test"></slot>
+              </div>
+            </template>
+            <template #description>
+              <div>
+                <component :is="descriptionByAssignmentType"></component>
               </div>
             </template>
             <template #attachments>
@@ -130,6 +133,11 @@ export default {
     };
   },
   computed: {
+    descriptionByAssignmentType() {
+      // switch (this.$store.getters["currentAssignment/assignment"]) {
+     
+      // }
+    },
     headerTitle() {
       return this.$store.getters["currentAssignment/assignment"].subject;
     },

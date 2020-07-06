@@ -24,7 +24,13 @@ export default function(context) {
     },
     {
       id: 3,
-      name: context.$t("workFlow.reviewManager")
+      name: context.$t("workFlow.reviewManager"),
+      async create(params) {
+        await createTaskRequest(context, {
+          taskType: TaskType.DocumentReviewTask,
+          ...params
+        });
+      }
     },
     {
       id: 4,

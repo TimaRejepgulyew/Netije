@@ -81,6 +81,16 @@ export function TaskButtons(context) {
           ...params
         });
       }
+    },
+    {
+      icon: "plus",
+      text: context.$t("createItemDialog.documentReviewTask"),
+      async create(params) {
+        await createTaskRequest(context, {
+          taskType: TaskType.DocumentReviewTask,
+          ...params
+        });
+      }
     }
   ];
 }

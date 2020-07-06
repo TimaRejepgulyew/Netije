@@ -9,7 +9,7 @@
       :close-on-outside-click="true"
     >
       <div class="scrool-auto">
-        <documentGrid :documentQuery="100" @selectedDocument="pasteAttachment" />
+        <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">

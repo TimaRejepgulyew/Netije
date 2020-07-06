@@ -1,6 +1,6 @@
 <template>
   <div id="form-demo">
-    <Header  :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
+    <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
     <toolbar />
     <DxForm
       ref="form"
@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import documentReviewTask from "~/components/task/document-review-task.vue";
 import simpleTask from "~/components/task/simple-task.vue";
 import acquaintanceTask from "~/components/task/acquaintance-task.vue";
 import actionItemExecutionTask from "~/components/task/action-item-execution-task.vue";
@@ -67,7 +68,8 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    DxForm
+    DxForm,
+    documentReviewTask
   },
   props: {
     isCard: {
@@ -130,6 +132,8 @@ export default {
           return "acquaintance-task";
         case TaskType.ActionItemExecutionTask:
           return "action-item-execution-task";
+        case TaskType.DocumentReviewTask:
+          return "document-review-task";
       }
     }
   }

@@ -8,6 +8,13 @@ const AssignmentType = {
   AcquaintanceFinishAssignment: 6,
   ActionItemSupervisorAssignment: 7,
   ReviewAssignment: 8,
+  PreparingDraftResolutionAssignment: 9,
+  ReviewDraftResolutionAssignment: 10,
+  ReviewManagerAssignment: 11,
+  ReviewResolutionAssignment: 12,
+  ReviewObserverNotification: 13,
+  ReviewObserversNotification: 14,
+  ReviewClerkNotification: 15,
   ActionItemObserversNotification: 16,
   ActionItemSupervisorNotification: 17
 };

@@ -85,6 +85,7 @@ export default {
     onAcquaintance: "На ознакомление"
   },
   DocumentQuery: {
+    all: "Все документы",
     accountingDocuments: "Финансовые документы",
     contractualDocuments: "Договоры",
     internalDocument: "Внутрение документы",
@@ -106,6 +107,7 @@ export default {
     simpleDocument: "Простые документы"
   },
   createItemDialog: {
+    documentReviewTask: "Задача на рассмотрение документа",
     recordManagementGroup: "Делопроизводственные документы",
     taskGroup: "Задачи",
     accountingDocumentsGroup: "Финансовые документы",

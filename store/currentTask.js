@@ -136,6 +136,16 @@ export const mutations = {
   },
   SET_ATTACHMENT_GROUPS(state, payload) {
     state.task.attachmentGroups = payload;
+  },
+  SET_RESOLUTION_OBSERVERS(state, payload) {
+    if (checkDataChanged(state.task.coAssignees, payload))
+      state.isDataChanged = true;
+    state.task.resolutionObservers = payload;
+  },
+  SET_ADDRESSEE_ID(state, payload) {
+    if (checkDataChanged(state.task.addresseeId, payload))
+      state.isDataChanged = true;
+    state.task.addresseeId = payload;
   }
 };
 

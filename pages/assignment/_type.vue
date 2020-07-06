@@ -289,13 +289,17 @@ export default {
     typeIcon(value) {
       switch (value) {
         case AssignmentType.AcquaintanceAssignment:
+        case AssignmentType.ReviewDraftResolutionAssignment:
+        case AssignmentType.ReviewManagerAssignment:
+        case AssignmentType.ReviewResolutionAssignment:
           return require("~/static/icons/status/acquiantance.svg");
         case AssignmentType.SimpleAssignment:
         case AssignmentType.ActionItemExecutionAssignment:
+        case AssignmentType.PreparingDraftResolutionAssignment:
           return require("~/static/icons/iconAssignment/clock.svg");
-        case 6:
-        case 7:
-        case 8:
+        case AssignmentType.AcquaintanceFinishAssignment:
+        case AssignmentType.ActionItemSupervisorAssignment:
+        case AssignmentType.ReviewAssignment:
           return require("~/static/icons/status/underreview.svg");
         case AssignmentType.SimpleNotify:
         case AssignmentType.ActionItemExecutionNotification:
