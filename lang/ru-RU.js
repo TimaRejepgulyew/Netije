@@ -86,7 +86,7 @@ export default {
   },
   DocumentQuery: {
     accountingDocuments: "Финансовые документы",
-    contractualDocuments: "Договорные документы",
+    contractualDocuments: "Договоры",
     internalDocument: "Внутрение документы",
     supAgreement: "Дополнительные соглашения",
     incomingInvoice: "Входящие счета на оплату",
@@ -290,7 +290,7 @@ export default {
   menu: {
     recordManagementGroup: "Делопроизводство",
     accountingDocuments: "Финансовые документы",
-    contractualDocuments: "Договорные документы",
+    contractualDocuments: "Договоры",
     contractCategories: "Категории договоров",
     supAgreement: "Дополнительное соглашение",
     "financial-archive": "Финансовый архив",

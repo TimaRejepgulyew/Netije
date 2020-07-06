@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <Header :headerTitle="$t('translations.headers.personalSettings')"></Header>
+      <Header :headerTitle="$t('docFlow.personalSetting.mySetting')"></Header>
       <toolbar
         @saveChanges="handleSubmit"
         :canSave="$store.getters['permissions/allowUpdating'](this.entityType)"
