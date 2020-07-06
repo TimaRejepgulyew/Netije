@@ -380,6 +380,9 @@ export default {
     user: "Пользователи"
   },
   buttons: {
+    new: "Новые",
+    obsolete: "Архив",
+    all: "Все",
     showCard: "Карточка",
     downloadFile: "Загрузить файл",
     versions: "Версии",

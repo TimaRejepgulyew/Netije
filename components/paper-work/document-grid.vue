@@ -3,11 +3,11 @@
     <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard">
       <DxButtonGroup
         slot="toolbar"
+        :selected-item-keys="[activeFilter]"
         :items="QuiсkFilterOptions"
-        :selected-item-keys="[activeQuiсkFilter]"
         key-expr="filterKey"
         styling-mode="text"
-        @item-click="selectactiveQuiсkFilter"
+        @item-click="itemClick"
       />
     </Header>
     <DxDataGrid
@@ -116,25 +116,31 @@ export default {
   },
   props: ["documentQuery", "isCard"],
   data() {
-    console.log(this.documentQuery)
     return {
-      activeQuiсkFilter: QuiсkFilter.All,
+      activeFilter: QuiсkFilter.All,
+      store: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}`
+        }),
+        paginate: true
+      }),
       QuiсkFilterOptions: [
         {
-          text: "Все",
+          text: this.$t("buttons.all"),
           filterKey: QuiсkFilter.All,
-          hint: "Align left"
+          hint: this.$t("buttons.all")
         },
         {
-          text: "Новые",
+          text: this.$t("buttons.new"),
           filterKey: QuiсkFilter.New,
-          hint: "Новые"
+          hint: this.$t("buttons.new")
         },
 
         {
-          text: "Архив",
+          text: this.$t("buttons.obsolete"),
           filterKey: QuiсkFilter.Obsolete,
-          hint: "Архив"
+          hint: this.$t("buttons.obsolete")
         }
       ],
       filterBuilderPopupPosition: this.$store.getters[
@@ -149,10 +155,20 @@ export default {
     };
   },
   methods: {
-    selectactiveQuiсkFilter(e) {
-      this.activeQuiсkFilter = e.itemIndex;
-      this.store.reload();
+    itemClick(e) {
+      this.activeFilter = e.itemIndex;
+      this.setStore(this.activeFilter);
     },
+    setStore(filter) {
+      this.store = new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quickFilter=${filter}&`
+        }),
+        paginate: true
+      });
+    },
+
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
         widget: "button",
@@ -167,15 +183,15 @@ export default {
     }
   },
   computed: {
-    store() {
-      return new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quickFilter=${this.activeQuiсkFilter}&`
-        }),
-        paginate: true
-      });
-    },
+    // store() {
+    //   return new DataSource({
+    //     store: this.$dxStore({
+    //       key: "id",
+    //       loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quickFilter=${this.activeQuiсkFilter}&`
+    //     }),
+    //     paginate: true
+    //   });
+    // },
     generateHeaderTitle() {
       return generateNameByDocQuery(this.documentQuery, this);
     },
