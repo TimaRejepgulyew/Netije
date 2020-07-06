@@ -17,24 +17,13 @@
         <DxSimpleItem data-field="name">
           <DxLabel location="top" :text="$t('translations.fields.fullName')" />
           <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
-          <DxPatternRule
-            :pattern="namePattern"
-            :message="$t('translations.fields.fullNameNoDigits')"
-          />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="jobTitleId"
-          :editor-options="jobTitleOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
-          <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
-        </DxSimpleItem>
+      
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
-          <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
           <DxAsyncRule
+            :ignore-empty-value="true"
             :reevaluate="false"
             :validation-callback="validateEntityExists"
             :message="$t('translations.fields.emailAlreadyExists')"
@@ -62,6 +51,14 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :caption="$t('translations.fields.APN')">
+          <DxSimpleItem
+          data-field="jobTitleId"
+          :editor-options="jobTitleOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+          <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
+        </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="departmentOptions"

@@ -478,7 +478,6 @@ export default {
       personalData: "Персональные данные",
       fullName: "ФИО",
       fullNameRequired: "ФИО не должно быть пустым",
-      fullNameNoDigits: "ФИО не должно быть цифр",
       fullNameAlreadyExists: "Такое Имя уже существует",
       firstName: "Имя",
       firstNameRequired: "Введите имя",

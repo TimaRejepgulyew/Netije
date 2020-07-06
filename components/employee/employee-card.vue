@@ -39,23 +39,13 @@
         <DxSimpleItem data-field="name">
           <DxLabel location="top" :text="$t('translations.fields.fullName')" />
           <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
-          <DxPatternRule
-            :pattern="namePattern"
-            :message="$t('translations.fields.fullNameNoDigits')"
-          />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="jobTitleId"
-          :editor-options="jobTitleOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
-        </DxSimpleItem>
+       
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
-          <DxRequiredRule :message="$t('translations.fields.emailRequired')" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
           <DxAsyncRule
+            :ignore-empty-value="true"
             :reevaluate="false"
             :validation-callback="validateEntityExists"
             :message="$t('translations.fields.emailAlreadyExists')"
@@ -63,6 +53,13 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="5" :caption="$t('translations.fields.departmentId')">
+         <DxSimpleItem
+          data-field="jobTitleId"
+          :editor-options="jobTitleOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+        </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="departmentOptions"
@@ -74,20 +71,23 @@
         <DxSimpleItem data-field="phone">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
+        
+      </DxGroupItem>
+      <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.moreSettings')">
         <DxSimpleItem
+         :col-span="3"
           data-field="status"
           :editor-options=" statusOptions"
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
-      </DxGroupItem>
-      <DxGroupItem :col-span="3" :col-count="2" :caption="$t('translations.fields.moreSettings')">
-        <DxButtonItem :button-options="popupPasswordOpt" horizontal-alignment="right" />
+         <DxButtonItem :col-span="3" :button-options="popupPasswordOpt" horizontal-alignment="left" />
       </DxGroupItem>
       <DxGroupItem :col-count="12" :col-span="12">
         <DxSimpleItem
           data-field="note"
+          
           :col-span="12"
           :editor-options="{height: 90}"
           editor-type="dxTextArea"
