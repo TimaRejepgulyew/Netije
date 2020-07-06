@@ -11,7 +11,7 @@
       editor-type="dxCheckBox"
       :editor-options="isStandardOptions"
     >
-      <DxLabel location="top" :text="$t('translations.fields.IsStandardSupAgreement')" />
+      <DxLabel location="left" :text="$t('translations.fields.IsStandardSupAgreement')" />
     </DxSimpleItem>
 
     <DxSimpleItem
