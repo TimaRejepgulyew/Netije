@@ -10,7 +10,6 @@
       <div>
         <updateCard
           v-if="isCardOpened"
-  
           @valueChanged="valueChanged"
           :isCard="true"
           :employeeId="value"
@@ -34,6 +33,8 @@
       :page-size="10"
       item-template="customSelectItem"
       field-template="customfield"
+      
+      :deferRendering="true"
     >
       <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
         <DxRequiredRule :message="$t(messageRequired)" />

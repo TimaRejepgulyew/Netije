@@ -1,6 +1,8 @@
 <template>
   <main>
-    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
+    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew">
+    too
+    </Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"

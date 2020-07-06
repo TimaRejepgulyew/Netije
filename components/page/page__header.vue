@@ -2,6 +2,7 @@
   <header class="grid__header d-flex">
     <DxButton icon="back" styling-mode="text" :visible="isbackButton" :on-click="goBack" />
     <h3 class="grid__title">{{headerTitle}} {{isNew?$t("shared.newRecord"):""}}</h3>
+    <div class="header--toolbar" slot="toolbar"></div>
   </header>
 </template>
 <script>
@@ -10,7 +11,13 @@ export default {
   components: {
     DxButton
   },
-  props: ["headerTitle", "isNew", "isbackButton"],
+  props: {
+    headerTitle: {},
+    isNew: {},
+    isbackButton: {
+      default: true
+    }
+  },
   methods: {
     goBack() {
       this.$router.go(-1);
