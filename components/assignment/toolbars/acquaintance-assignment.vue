@@ -1,9 +1,7 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-     
-
-      <!-- <DxItem :visible="completeButtonsVisible" location="before" template="completeButton" />
+      <DxItem :visible="completeButtonsVisible" location="before" template="completeButton" />
       <template #completeButton>
         <complete-btn v-if="completeButtonsVisible" />
       </template>
@@ -11,7 +9,7 @@
       <DxItem :visible="reworkButtonVisible" location="before" template="reworkButton" />
       <template #reworkButton>
         <rework-btn v-if="reworkButtonVisible" />
-      </template>-->
+      </template>
     </DxToolbar>
   </div>
 </template>

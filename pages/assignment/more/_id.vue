@@ -2,7 +2,8 @@
   <div id>
     <div class>
       <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
-      <toolbar />
+      <component :is="componentByType('toolbar')" />
+
       <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm
@@ -61,7 +62,7 @@
             </template>
             <template #addition>
               <div>
-                <component :is="addition"></component>
+                <component :is="componentByType('additional')"></component>
               </div>
             </template>
             <template #attachments>
@@ -80,9 +81,13 @@
   </div>
 </template>
 <script>
+import * as toolbars from "~/components/assignment/toolbars/index.js";
+import * as additional from "~/components/assignment/additional/index.js";
+import { ComponentsByAssignmentType } from "~/infrastructure/services/generatorComponentByType.js";
+import AssignmentType from "~/infrastructure/constants/assignmentType.js";
+
 import acquaintanceAssignmentDescription from "~/components/assignment/additional/acquaintance-assignment-description.vue";
 import Header from "~/components/page/page__header";
-import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxTextArea } from "devextreme-vue";
@@ -95,6 +100,7 @@ import DxForm, {
   DxSimpleItem,
   DxLabel
 } from "devextreme-vue/form";
+// console.log("oh work ,", addd);
 export default {
   components: {
     DxValidator,
@@ -109,8 +115,10 @@ export default {
     DxForm,
     attachment,
     Header,
-    acquaintanceAssignmentDescription
+    acquaintanceAssignmentDescription,
+    ...toolbars
   },
+
   async asyncData({ app, params }) {
     await app.store.dispatch("currentAssignment/load", params.id);
     return {
@@ -134,14 +142,6 @@ export default {
     };
   },
   computed: {
-    addition() {
-      switch (
-        this.$store.getters["currentAssignment/assignment"].assignmentType
-      ) {
-        case AssignmentType.AcquaintanceAssignment:
-          return "acquaintance-assignment-description";
-      }
-    },
     headerTitle() {
       return this.$store.getters["currentAssignment/assignment"].subject;
     },
@@ -151,6 +151,12 @@ export default {
     }
   },
   methods: {
+    componentByType(componentName) {
+      const assignmentType = this.$store.getters["currentAssignment/assignment"]
+        .assignmentType;
+      if (ComponentsByAssignmentType.has(assignmentType))
+        return ComponentsByAssignmentType.get(assignmentType)[componentName];
+    },
     detach(attachmentId) {
       this.$awn.async(
         this.$store.dispatch(
