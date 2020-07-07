@@ -59,6 +59,8 @@ export default {
           return this.$t("buttons.completed");
         case AssignmentType.ActionItemSupervisorAssignment:
         case AssignmentType.ReviewAssignment:
+        case AssignmentType.ReviewManagerAssignment:
+        case AssignmentType.ReviewResolutionAssignment:
           return this.$t("buttons.accept");
 
         case AssignmentType.AcquaintanceAssignment:

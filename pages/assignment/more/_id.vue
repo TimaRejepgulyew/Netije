@@ -42,7 +42,7 @@
                   </DxSimpleItem>
                 </DxGroupItem>
               </DxGroupItem>
-              <DxGroupItem :col-span="3" template="description"></DxGroupItem>
+              <DxGroupItem :col-span="3" template="addition" />
               <DxGroupItem :col-span="3">
                 <DxGroupItem>
                   <DxSimpleItem template="comments">
@@ -59,9 +59,9 @@
                 <Assignment-comments :url="commentsUrl"></Assignment-comments>
               </div>
             </template>
-            <template #description>
+            <template #addition>
               <div>
-                <component :is="descriptionByAssignmentType"></component>
+                <component :is="addition"></component>
               </div>
             </template>
             <template #attachments>
@@ -81,11 +81,11 @@
 </template>
 <script>
 import Header from "~/components/page/page__header";
+import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxTextArea } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
-import attachmentDetails from "~/components/assignment/attachment-details";
 import AssignmentComments from "~/components/workFlow/assignment-comments";
 import Toolbar from "~/components/assignment/toolbar.vue";
 import statusMessage from "~/components/assignment/status-message";
@@ -102,7 +102,6 @@ export default {
     Toolbar,
     statusMessage,
     AssignmentComments,
-    attachmentDetails,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
@@ -133,10 +132,13 @@ export default {
     };
   },
   computed: {
-    descriptionByAssignmentType() {
-      // switch (this.$store.getters["currentAssignment/assignment"]) {
-     
-      // }
+    addition() {
+      switch (
+        this.$store.getters["currentAssignment/assignment"].assignmentType
+      ) {
+        case AssignmentType.AcquaintanceAssignment:
+          return "acquaintance-assignment-description";
+      }
     },
     headerTitle() {
       return this.$store.getters["currentAssignment/assignment"].subject;

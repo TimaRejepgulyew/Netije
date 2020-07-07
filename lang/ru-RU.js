@@ -169,6 +169,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    explanation: "Пояснение",
     account: "Счет",
     conditions: "Условия",
     ourSide: "Наша сторона",
