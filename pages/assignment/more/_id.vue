@@ -80,6 +80,7 @@
   </div>
 </template>
 <script>
+import acquaintanceAssignmentDescription from "~/components/assignment/additional/acquaintance-assignment-description.vue";
 import Header from "~/components/page/page__header";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import attachment from "~/components/workFlow/attachment.vue";
@@ -107,7 +108,8 @@ export default {
     DxLabel,
     DxForm,
     attachment,
-    Header
+    Header,
+    acquaintanceAssignmentDescription
   },
   async asyncData({ app, params }) {
     await app.store.dispatch("currentAssignment/load", params.id);
