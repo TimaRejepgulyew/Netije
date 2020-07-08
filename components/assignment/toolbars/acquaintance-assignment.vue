@@ -1,70 +1,66 @@
 <template>
   <div class="toolbar">
+    <DxPopup
+      :showTitle="false"
+      :visible.sync="showComment"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      :width="500"
+      :height="'auto'"
+    >
+      <div>
+        <comment-form @sendRequest="completeAssignment" @tooglePopup="tooglePopup" />
+      </div>
+    </DxPopup>
     <DxToolbar>
-      <DxItem :visible="completeButtonsVisible" location="before" template="completeButton" />
-      <template #completeButton>
-        <complete-btn v-if="completeButtonsVisible" />
-      </template>
-
-      <DxItem :visible="reworkButtonVisible" location="before" template="reworkButton" />
-      <template #reworkButton>
-        <rework-btn v-if="reworkButtonVisible" />
-      </template>
+      <DxItem :visible="inProccess" :options="btnOptions" location="before" widget="dxButton" />
     </DxToolbar>
   </div>
 </template>
 <script>
-import reworkBtn from "~/components/assignment/rework-btn.vue";
-import completeBtn from "~/components/assignment/complete-btn.vue";
-import { confirm } from "devextreme/ui/dialog";
+import ReviewResult from "~/infrastructure/constants/reviewResult.js";
+import commentForm from "~/components/assignment/comment-form.vue";
+import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 export default {
   components: {
-    reworkBtn,
-    completeBtn,
     DxToolbar,
-    DxItem
+    DxItem,
+    DxPopup,
+    commentForm
+  },
+  data() {
+    return {
+      showComment: false
+    };
   },
   computed: {
-    completeButtonsVisible() {
-      return (
-        this.getOptions().completeButtonsVisible &&
-        !this.$store.getters["currentAssignment/isCompleted"]
-      );
+    inProccess() {
+      return this.$store.getters["currentAssignment/inProccess"];
     },
-    reworkButtonVisible() {
-      return (
-        this.getOptions().reworkButtonVisible &&
-        !this.$store.getters["currentAssignment/isCompleted"]
-      );
+    btnOptions() {
+      return {
+        icon: "check",
+        text: this.$t("buttons.acquaintance"),
+        onClick: this.tooglePopup
+      };
     }
   },
   methods: {
-    getOptions() {
-      switch (this.$store.getters["currentAssignment/assignmentType"]) {
-        case AssignmentType.AcquaintanceFinishAssignment:
-        case AssignmentType.SimpleAssignment:
-        case AssignmentType.ActionItemExecutionAssignment:
-          return {
-            completeButtonsVisible: true,
-            reworkButtonVisible: false
-          };
-        case AssignmentType.ActionItemSupervisorAssignment:
-        case AssignmentType.ReviewAssignment:
-          return {
-            completeButtonsVisible: true,
-            reworkButtonVisible: true
-          };
-
-        case AssignmentType.AcquaintanceAssignment:
-          return {
-            completeButtonsVisible: true,
-            reworkButtonVisible: false
-          };
-        default:
-          return { completeButtonsVisible: false, reworkButtonVisible: false };
-      }
+    tooglePopup() {
+      this.showComment = !this.showComment;
+    },
+    completeAssignment() {
+      this.$awn.asyncBlock(
+        this.$store.dispatch("currentAssignment/complete", ReviewResult.Accept),
+        e => {
+          this.$router.go(-1);
+          this.$awn.success();
+        },
+        e => this.$awn.alert()
+      );
     }
   }
 };

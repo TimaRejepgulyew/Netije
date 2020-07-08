@@ -20,7 +20,7 @@
 
 <script>
 import dataApi from "~/static/dataApi";
-import { confirm } from "devextreme/ui/dialog";
+
 import { DxPopup } from "devextreme-vue/popup";
 import CreateList from "~/components/Layout/create-list.vue";
 import Docflow from "~/infrastructure/constants/docflows";

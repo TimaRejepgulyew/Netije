@@ -25,7 +25,6 @@ import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    ReviewResult,
     commentForm,
     DxButton,
     DxPopup

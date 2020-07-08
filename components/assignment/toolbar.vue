@@ -18,7 +18,7 @@
 <script>
 import reworkBtn from "~/components/assignment/rework-btn.vue";
 import completeBtn from "~/components/assignment/complete-btn.vue";
-import { confirm } from "devextreme/ui/dialog";
+
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 export default {

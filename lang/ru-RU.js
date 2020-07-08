@@ -280,6 +280,7 @@ export default {
   assignment: {
     placeholderSimple: "Введите комментарий",
     placeholderActionItemExicution: "Введите отчет",
+    takeIntoMessage:"После принятия к сведению задание завершится без исполнения",
     prefixes: {
       actionItemSupervisorAssignment: "Примите работы: ",
       actionItemExecutionAssignment: "Исполните: ",
@@ -383,6 +384,11 @@ export default {
     user: "Пользователи"
   },
   buttons: {
+    sendToResolution:"Отправить на резалюцию",
+    sendToAssignee:"Отправить на исполнение",
+    takeInto:"Принять к сведению",
+    readdress:"Переадресовать",
+    createExecution:"Создать поручение",
     new: "Новые",
     obsolete: "Архив",
     all: "Все",
@@ -392,11 +398,11 @@ export default {
     restart: "Рестартовать",
     abort: "Прекратить",
     start: "Запустить",
-    acquaintance: "Ознакомлен",
+    acquaintance: "Ознакомиться",
     changePassword: "Сменить пароль",
     save: "Сохранить",
     add: "Добавить",
-    completed: "Выполнено",
+    complete: "Выполнить",
     accept: "Принять",
     rework: "На доработку",
     filter: "Фильтр",

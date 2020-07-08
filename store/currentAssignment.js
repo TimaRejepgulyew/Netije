@@ -12,6 +12,9 @@ export const getters = {
   isCompleted({ assignment }) {
     return assignment.status === AssignmentStatus.Completed;
   },
+  inProccess({ assignment }) {
+    return assignment.status === AssignmentStatus.InProccess;
+  },
   assignmentType({ assignment }) {
     return assignment.assignmentType;
   },
@@ -69,6 +72,17 @@ export const actions = {
       assignmentId: state.assignment.id,
       comment: state.comment,
       result: result
+    };
+
+    return await this.$axios.post(
+      dataApi.assignment.CompleteAssignment,
+      assignment
+    );
+  },
+  async readdress({ state, commit }, params) {
+    const assignment = {
+      assignmentId: state.assignment.id,
+      ...params
     };
 
     return await this.$axios.post(

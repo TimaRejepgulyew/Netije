@@ -43,7 +43,7 @@
                   </DxSimpleItem>
                 </DxGroupItem>
               </DxGroupItem>
-              <DxGroupItem :col-span="3" template="addition" />
+              <DxGroupItem :col-span="3" template="additional" />
               <DxGroupItem :col-span="3">
                 <DxGroupItem>
                   <DxSimpleItem template="comments">
@@ -60,7 +60,7 @@
                 <Assignment-comments :url="commentsUrl"></Assignment-comments>
               </div>
             </template>
-            <template #addition>
+            <template #additional>
               <div>
                 <component :is="componentByType('additional')"></component>
               </div>
@@ -85,7 +85,6 @@ import * as toolbars from "~/components/assignment/toolbars/index.js";
 import * as additional from "~/components/assignment/additional/index.js";
 import { ComponentsByAssignmentType } from "~/infrastructure/services/generatorComponentByType.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
-
 import acquaintanceAssignmentDescription from "~/components/assignment/additional/acquaintance-assignment-description.vue";
 import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
@@ -116,7 +115,8 @@ export default {
     attachment,
     Header,
     acquaintanceAssignmentDescription,
-    ...toolbars
+    ...toolbars,
+    ...additional
   },
 
   async asyncData({ app, params }) {
@@ -155,7 +155,7 @@ export default {
       const assignmentType = this.$store.getters["currentAssignment/assignment"]
         .assignmentType;
       if (ComponentsByAssignmentType.has(assignmentType))
-        return ComponentsByAssignmentType.get(assignmentType)[componentName];
+      return ComponentsByAssignmentType.get(assignmentType)[componentName];
     },
     detach(attachmentId) {
       this.$awn.async(
