@@ -386,6 +386,7 @@ export default {
     user: "Пользователи"
   },
   buttons: {
+    sendToResolution: "Отправить на резалюцию",
     sendToReview: "Отправить на расмотрение",
     sendToAssignee: "Отправить на исполнение",
     takeInto: "Принять к сведению",

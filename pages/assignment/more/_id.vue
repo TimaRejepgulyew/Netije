@@ -3,7 +3,6 @@
     <div class>
       <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
       <component :is="componentByType('toolbar')" />
-
       <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm
@@ -92,20 +91,17 @@ import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxTextArea } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import AssignmentComments from "~/components/workFlow/assignment-comments";
-import Toolbar from "~/components/assignment/toolbar.vue";
 import statusMessage from "~/components/assignment/status-message";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel
 } from "devextreme-vue/form";
-console.log("oh work ,", additional);
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
     DxTextArea,
-    Toolbar,
     statusMessage,
     AssignmentComments,
     DxGroupItem,
@@ -154,9 +150,7 @@ export default {
     componentByType(componentName) {
       const assignmentType = this.$store.getters["currentAssignment/assignment"]
         .assignmentType;
-      console.log(
-        ComponentsByAssignmentType.get(assignmentType)[componentName]
-      );
+
       if (ComponentsByAssignmentType.has(assignmentType))
         return ComponentsByAssignmentType.get(assignmentType)[componentName];
     },

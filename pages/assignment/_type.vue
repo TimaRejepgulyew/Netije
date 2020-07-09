@@ -112,7 +112,11 @@
           data-type="date"
         />
         <template #isImportant="cell">
-          <img class="icon--type" :src="cell.data.value|isImportant" />
+          <img
+            v-if="cell.data.value|isImportant"
+            class="icon--type"
+            :src="cell.data.value|isImportant"
+          />
         </template>
         <template #typeIcon="cell">
           <icon-by-assignment-type class="icon--type" :assignmentType="cell.data.value" />
@@ -269,7 +273,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 
@@ -291,6 +295,7 @@ export default {
 .icon--type {
   display: flex;
   margin: 0 auto;
-  width: 25px;
+  height: 20px;
+  width: 100%;
 }
 </style>

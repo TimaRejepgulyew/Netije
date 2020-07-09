@@ -34,7 +34,6 @@ import { alert } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
-import ReviewResult from "~/infrastructure/constants/reviewResult.js";
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";

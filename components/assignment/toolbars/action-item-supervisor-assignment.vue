@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import ReviewResult from "~/infrastructure/constants/reviewResult.js";
+import ReviewResult from "~/infrastructure/constants/revievResult/baseResult.js";
 import commentForm from "~/components/assignment/comment-form.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";

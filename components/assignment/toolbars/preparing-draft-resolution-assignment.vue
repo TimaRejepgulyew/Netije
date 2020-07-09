@@ -2,21 +2,6 @@
   <div>
     <DxPopup
       :showTitle="false"
-      :visible.sync="showEmployeeList"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      position="top"
-      width="90%"
-      :height="'auto'"
-    >
-      <div>
-        <employee-list @selected="readdress" :isCard="true" />
-      </div>
-    </DxPopup>
-
-    <DxPopup
-      :showTitle="false"
       :visible.sync="showItemExecutionTask"
       :drag-enabled="false"
       :close-on-outside-click="true"
@@ -47,7 +32,7 @@
         <DxItem
           locateInMenu="auto"
           :visible="tollbarItemVisible"
-          :options="btnSendToResolutionOptions"
+          :options="btnSendToReviewOptions"
           location="before"
           widget="dxButton"
         />
@@ -92,10 +77,12 @@
 <script>
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
-import employeeList from "~/components/employee/employee-list.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
-import resolutionIcon from "~/static/icons/resolution.svg";
-import PrepareDraftResolutionResult from "~/infrastructure/constants/PrepareDraftResolutionResult.js";
+import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import forwardIcon from "~/static/icons/status/forward.svg";
+import exploredIcon from "~/static/icons/status/explored.svg";
+import resolutionIcon from "~/static/icons/addResolution.svg";
+import PrepareDraftResolutionResult from "~/infrastructure/constants/revievResult/prepareDraftResolutionResult.js";
 import commentForm from "~/components/assignment/comment-form.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -107,13 +94,11 @@ export default {
     DxItem,
     DxPopup,
     commentForm,
-    employeeList,
     taskCard
   },
   data() {
     return {
       showComment: false,
-      showEmployeeList: false,
       showItemExecutionTask: false,
       result: null
     };
@@ -132,7 +117,7 @@ export default {
         return this.$store.getters["currentAssignment/assignment"].isRework;
       else return true;
     },
-    btnSendToResolutionOptions() {
+    btnSendToReviewOptions() {
       return {
         icon: resolutionIcon,
         text: this.$t("buttons.sendToReview"),
@@ -167,16 +152,17 @@ export default {
     },
     btnReaddressOptions() {
       return {
+        icon: forwardIcon,
         text: this.$t("buttons.readdress"),
         onClick: () => {
-          this.showEmployeeList = true;
           this.result = PrepareDraftResolutionResult.Forward;
-          this.readdress();
+          this.sendResult();
         }
       };
     },
     btnAddExecutionOptions() {
       return {
+        icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
         onClick: async () => {
           await this.$store.dispatch("currentTask/initTask", {
@@ -197,25 +183,13 @@ export default {
         // TODO function create task resolution
       }
     },
-    readdress() {
-      this.showEmployeeList = false;
-      this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/readdress", {
-          result: this.result
-        }),
-        e => {
-          this.$router.go(-1);
-          this.$awn.success();
-        },
-        e => this.$awn.alert()
-      );
-    },
+
     toogleCommentPopup() {
       this.showComment = !this.showComment;
     },
     sendResult() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete", this.result),
+        this.$store.dispatch("currentAssignment/complete"),
         e => {
           this.$router.go(-1);
           this.$awn.success();

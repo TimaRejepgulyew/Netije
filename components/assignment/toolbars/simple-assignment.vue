@@ -19,18 +19,14 @@
   </div>
 </template>
 <script>
-import ReviewResult from "~/infrastructure/constants/reviewResult.js";
+import ReviewResult from "~/infrastructure/constants/revievResult/baseResult.js";
 import commentForm from "~/components/assignment/comment-form.vue";
 import { DxPopup } from "devextreme-vue/popup";
-import reworkBtn from "~/components/assignment/rework-btn.vue";
-import completeBtn from "~/components/assignment/complete-btn.vue";
 
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 export default {
   components: {
-    reworkBtn,
-    completeBtn,
     DxToolbar,
     DxItem,
     DxPopup,

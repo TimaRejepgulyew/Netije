@@ -49,8 +49,10 @@ export const mutations = {
     state.assignment.attachmentGroups = payload;
   },
   SET_ADDRESSEE_ID(state, payload) {
-    console.log(state, payload);
     state.assignment.addresseeId = payload;
+  },
+  SET_RESULT(state, payload) {
+    state.assignment.result = payload;
   }
 };
 
@@ -71,30 +73,17 @@ export const actions = {
     }
     commit("SET_ASSIGNMENT", data);
   },
-  async complete({ state, commit }, result) {
-    const assignment = {
-      assignmentId: state.assignment.id,
-      comment: state.comment,
-      result: result
-    };
+  async complete({ state, commit }, params) {
+    const assignmentJson = JSON.stringify(state.assignment);
 
-    return await this.$axios.post(
-      dataApi.assignment.CompleteAssignment,
-      assignment
-    );
-  },
-  async readdress({ state, commit }, params) {
-    const assignment = {
+    return await this.$axios.post(dataApi.assignment.CompleteAssignment, {
       assignmentId: state.assignment.id,
-      addresseeId: state.assignment.addresseeId,
+      assignmentType: state.assignment.assignmentType,
+      assignmentJson,
       ...params
-    };
-
-    return await this.$axios.post(
-      dataApi.assignment.CompleteAssignment,
-      assignment
-    );
+    });
   },
+
   async pasteAttachment({ state, commit }, payload) {
     const options = { ...payload, id: state.assignment.id };
     const { data } = await this.$axios.post(

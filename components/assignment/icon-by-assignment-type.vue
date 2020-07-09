@@ -11,12 +11,14 @@ export default {
       switch (this.assignmentType) {
         case AssignmentType.AcquaintanceAssignment:
         case AssignmentType.ReviewDraftResolutionAssignment:
-        case AssignmentType.ReviewManagerAssignment:
-        case AssignmentType.ReviewResolutionAssignment:
+       
           return require("~/static/icons/status/acquiantance.svg");
         case AssignmentType.SimpleAssignment:
         case AssignmentType.ActionItemExecutionAssignment:
         case AssignmentType.PreparingDraftResolutionAssignment:
+        case AssignmentType.ReviewDraftResolutionAssignment:
+        case AssignmentType.ReviewManagerAssignment:
+        case AssignmentType.ReviewResolutionAssignment:
           return require("~/static/icons/iconAssignment/clock.svg");
         case AssignmentType.AcquaintanceFinishAssignment:
         case AssignmentType.ActionItemSupervisorAssignment:
@@ -25,6 +27,11 @@ export default {
         case AssignmentType.SimpleNotify:
         case AssignmentType.ActionItemExecutionNotification:
         case AssignmentType.AcquaintanceNotification:
+        case AssignmentType.ActionItemObserversNotification:
+        case AssignmentType.ActionItemSupervisorNotification:
+        case AssignmentType.ReviewObserverNotification:
+        case AssignmentType.ReviewObserversNotification:
+        case AssignmentType.ReviewClerkNotification:
         case AssignmentType.ActionItemObserversNotification:
         case AssignmentType.ActionItemSupervisorNotification:
           return require("~/static/icons/iconAssignment/notice.svg");
