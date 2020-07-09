@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
     <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
-    <toolbar />
+    <toolbar @backTo="backTo" />
     <DxForm
       ref="form"
       :col-count="10"
@@ -94,6 +94,12 @@ export default {
     this.taskTypeNames = taskTypeNames;
   },
   methods: {
+    backTo() {
+      if (this.isCard) {
+        const taskId = this.$store.getters["currentTask/task"].id;
+        this.$emit("closeTask", taskId);
+      } else this.$router.go(-1);
+    },
     detach(attachmentId) {
       this.$awn.async(
         this.$store.dispatch("currentTask/detachAttachment", attachmentId),

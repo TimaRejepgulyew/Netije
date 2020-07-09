@@ -47,6 +47,10 @@ export const mutations = {
   },
   SET_ATTACHMENT_GROUPS(state, payload) {
     state.assignment.attachmentGroups = payload;
+  },
+  SET_ADDRESSEE_ID(state, payload) {
+    console.log(state, payload);
+    state.assignment.addresseeId = payload;
   }
 };
 
@@ -82,6 +86,7 @@ export const actions = {
   async readdress({ state, commit }, params) {
     const assignment = {
       assignmentId: state.assignment.id,
+      addresseeId: state.assignment.addresseeId,
       ...params
     };
 

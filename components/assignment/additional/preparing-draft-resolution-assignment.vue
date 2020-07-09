@@ -1,59 +1,18 @@
 <template>
-  <div>
-    <DxPopup
-      :show-title="false"
-      :visible.sync="isCardOpened"
-      ref="popup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <updateCard
-          v-if="isCardOpened"
-          @valueChanged="valueChanged"
-          :isCard="true"
-          :employeeId="value"
-        />
-      </div>
-    </DxPopup>
-    <DxSelectBox
-      ref="employee"
-      :read-only="readOnly"
-      :data-source="employeeStore"
-      @valueChanged="valueChanged"
-      :showClearButton="true"
-      :value="value"
-      :openOnFieldClick="false"
-      :focusStateEnabled="false"
-      valueExpr="id"
-      displayExpr="name"
-      :searchEnabled="true"
-      searchExpr="name"
-      :paginate="true"
-      :page-size="10"
-      item-template="customSelectItem"
-      field-template="customfield"
-      :deferRendering="true"
-    >
-      <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
-        <DxRequiredRule :message="$t(messageRequired)" />
-      </DxValidator>
-      <template #customSelectItem="{data}">
-        <custom-select-item :item-data="data" />
-      </template>
-      <template #customfield="{data}">
-        <custom-field
-          @openCard="showPopup"
-          :read-only="readOnly"
-          @valueChanged="updateEmployee"
-          :field-data="data"
-        />
-      </template>
-    </DxSelectBox>
+  <div class="d-flex align-center">
+    <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
+    <div class="f-grow-1">
+      <employee-select-box
+        :read-only="!inProccess"
+        :value="addresseeId"
+        @valueChanged="valueChanged"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import updateCard from "~/components/employee/employee-card.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
@@ -72,9 +31,9 @@ export default {
     customField,
     updateCard,
     DxPopup,
-    DxButton
+    DxButton,
+    employeeSelectBox
   },
-  props: ["value", "storeApi", "messageRequired", "validatorGroup", "readOnly"],
   data() {
     return {
       employeeStore: new DataSource({
@@ -87,22 +46,26 @@ export default {
     };
   },
   methods: {
-    showPopup() {
-      this.$refs["popup"].instance.toggle();
-    },
-    valueChanged(e) {
-      console.log(e);
-      this.$emit("valueChanged", e.value);
-    },
-    updateEmployee(data) {
-      console.log("updateEmployee");
-      this.$emit("valueChanged", data.id);
-      this.employeeStore.reload();
+    valueChanged(id) {
+      this.$store.commit("currentAssignment/SET_ADDRESSEE_ID", id);
+      console.log(
+        this.$store.getters["currentAssignment/assignment"].addresseeId
+      );
     }
   },
-  computed: {}
+  computed: {
+    addresseeId() {
+      return this.$store.getters["currentAssignment/assignment"].addresseeId;
+    },
+    inProccess() {
+      return this.$store.getters["currentAssignment/inProccess"];
+    }
+  }
 };
 </script>
 
 <style>
+.pr-2 {
+  padding-right: 20px;
+}
 </style>

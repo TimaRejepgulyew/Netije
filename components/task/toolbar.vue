@@ -126,7 +126,7 @@ export default {
   },
   methods: {
     backTo() {
-      this.$router.go(-1);
+      this.$emit("backTo")
     },
     generateHtmlError(attachments) {
       return attachments.map(attachment => {

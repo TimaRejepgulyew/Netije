@@ -99,7 +99,7 @@ import DxForm, {
   DxSimpleItem,
   DxLabel
 } from "devextreme-vue/form";
-// console.log("oh work ,", addd);
+console.log("oh work ,", additional);
 export default {
   components: {
     DxValidator,
@@ -154,8 +154,11 @@ export default {
     componentByType(componentName) {
       const assignmentType = this.$store.getters["currentAssignment/assignment"]
         .assignmentType;
+      console.log(
+        ComponentsByAssignmentType.get(assignmentType)[componentName]
+      );
       if (ComponentsByAssignmentType.has(assignmentType))
-      return ComponentsByAssignmentType.get(assignmentType)[componentName];
+        return ComponentsByAssignmentType.get(assignmentType)[componentName];
     },
     detach(attachmentId) {
       this.$awn.async(

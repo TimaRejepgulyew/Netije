@@ -25,7 +25,7 @@
       :height="'auto'"
     >
       <div>
-        <task-card v-if="showItemExecutionTask" :isCard="true" />
+        <task-card @closeTask="closeTask" v-if="showItemExecutionTask" :isCard="true" />
       </div>
     </DxPopup>
 
@@ -46,7 +46,7 @@
       <DxToolbar>
         <DxItem
           locateInMenu="auto"
-          :visible="inProccess"
+          :visible="tollbarItemVisible"
           :options="btnSendToResolutionOptions"
           location="before"
           widget="dxButton"
@@ -54,7 +54,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :visible="inProccess"
+          :visible="tollbarItemVisible"
           :options="btnSendToAssigneeOptions"
           location="before"
           widget="dxButton"
@@ -62,7 +62,9 @@
 
         <DxItem
           locateInMenu="auto"
-          :visible="isRework"
+          :disabled="!$store.getters['currentAssignment/assignment']
+        .addresseeId"
+          :visible="!isRework"
           :options="btnReaddressOptions"
           location="before"
           widget="dxButton"
@@ -70,7 +72,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :visible="inProccess"
+          :visible="tollbarItemVisible"
           :options="btnAcceptOptions"
           location="before"
           widget="dxButton"
@@ -78,7 +80,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :visible="inProccess"
+          :visible="tollbarItemVisible"
           :options="btnAddExecutionOptions"
           location="after"
           widget="dxButton"
@@ -117,18 +119,23 @@ export default {
     };
   },
   computed: {
-    inProccess() {
-      return this.$store.getters["currentAssignment/inProccess"];
+    tollbarItemVisible() {
+      const addresseeId = this.$store.getters["currentAssignment/assignment"]
+        .addresseeId;
+
+      return addresseeId
+        ? false
+        : this.$store.getters["currentAssignment/inProccess"];
     },
     isRework() {
-      if (this.inProccess)
-        return !this.$store.getters["currentAssignment/assignment"].isRework;
-      else return false;
+      if (this.$store.getters["currentAssignment/inProccess"])
+        return this.$store.getters["currentAssignment/assignment"].isRework;
+      else return true;
     },
     btnSendToResolutionOptions() {
       return {
         icon: resolutionIcon,
-        text: this.$t("buttons.sendToResolution"),
+        text: this.$t("buttons.sendToReview"),
         onClick: () => {
           this.result = PrepareDraftResolutionResult.SendForReview;
           this.toogleCommentPopup();
@@ -164,6 +171,7 @@ export default {
         onClick: () => {
           this.showEmployeeList = true;
           this.result = PrepareDraftResolutionResult.Forward;
+          this.readdress();
         }
       };
     },
@@ -183,12 +191,17 @@ export default {
     }
   },
   methods: {
-    readdress(addresseId) {
+    closeTask(taskId) {
+      this.showItemExecutionTask = false;
+      if (taskId) {
+        // TODO function create task resolution
+      }
+    },
+    readdress() {
       this.showEmployeeList = false;
       this.$awn.asyncBlock(
         this.$store.dispatch("currentAssignment/readdress", {
-          result: this.result,
-          addresseId
+          result: this.result
         }),
         e => {
           this.$router.go(-1);

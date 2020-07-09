@@ -138,7 +138,7 @@ export const mutations = {
     state.task.attachmentGroups = payload;
   },
   SET_RESOLUTION_OBSERVERS(state, payload) {
-    if (checkDataChanged(state.task.coAssignees, payload))
+    if (checkDataChanged(state.task.resolutionObservers, payload))
       state.isDataChanged = true;
     state.task.resolutionObservers = payload;
   },

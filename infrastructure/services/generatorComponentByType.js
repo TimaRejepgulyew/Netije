@@ -1,43 +1,44 @@
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
-export default function(context) {
-  
-}
+export default function(context) {}
 export const ComponentsByAssignmentType = new Map([
-  [AssignmentType.SimpleAssignment, { toolbar: "simple-assignment" }],
+  [AssignmentType.SimpleAssignment, { toolbar: "toolbar-simple-assignment" }],
   [
     AssignmentType.AcquaintanceAssignment,
     {
-      toolbar: "acquaintance-assignment",
-      additional: "acquaintance-assignment-description"
+      toolbar: "toolbar-acquaintance-assignment",
+      additional: "additional-acquaintance-assignment-description"
     }
   ],
   [
     AssignmentType.ActionItemExecutionAssignment,
-    { toolbar: "action-item-execution-assignment" }
+    { toolbar: "toolbar-action-item-execution-assignment" }
   ],
   [
     AssignmentType.AcquaintanceFinishAssignment,
-    { toolbar: "acquaintance-finish-assignment" }
+    { toolbar: "toolbar-acquaintance-finish-assignment" }
   ],
   [
     AssignmentType.ActionItemSupervisorAssignment,
-    { toolbar: "action-item-supervisor-assignment" }
+    { toolbar: "toolbar-action-item-supervisor-assignment" }
   ],
-  [AssignmentType.ReviewAssignment, { toolbar: "review-assignment" }],
+  [AssignmentType.ReviewAssignment, { toolbar: "toolbar-review-assignment" }],
   [
     AssignmentType.PreparingDraftResolutionAssignment,
-    { toolbar: "preparing-draft-resolution-assignment" }
+    {
+      toolbar: "toolbar-preparing-draft-resolution-assignment",
+      additional: "additional-preparing-draft-resolution-assignment"
+    }
   ],
   [
     AssignmentType.ReviewDraftResolutionAssignment,
-    { toolbar: "review-draft-resolutionA-assignment" }
+    { toolbar: "toolbar-review-draft-resolutionA-assignment" }
   ],
   [
     AssignmentType.ReviewManagerAssignment,
-    { toolbar: "review-manager-assignment" }
+    { toolbar: "toolbar-review-manager-assignment" }
   ],
   [
     AssignmentType.ReviewResolutionAssignment,
-    { toolbar: "review-resolution-assignment" }
+    { toolbar: "toolbar-review-resolution-assignment" }
   ]
 ]);
