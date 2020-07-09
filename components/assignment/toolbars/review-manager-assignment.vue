@@ -140,7 +140,8 @@ export default {
         text: this.$t("buttons.sendToResolution"),
         onClick: () => {
           this.setResult(ReviewManagerAssignment.AddResolution);
-          this.toogleCommentPopup();
+          this.completeAssignment();
+          // this.toogleCommentPopup();
         }
       };
     },
@@ -151,6 +152,7 @@ export default {
         onClick: () => {
           this.setResult(ReviewManagerAssignment.AddAssignment);
           this.completeAssignment();
+
           // this.toogleCommentPopup();
         }
       };

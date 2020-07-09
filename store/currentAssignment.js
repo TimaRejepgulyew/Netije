@@ -74,7 +74,9 @@ export const actions = {
     commit("SET_ASSIGNMENT", data);
   },
   async complete({ state, commit }, params) {
-    const assignmentJson = JSON.stringify(state.assignment);
+    const assignment = { ...state.assignment };
+    delete assignment.attachmentGroups;
+    const assignmentJson = JSON.stringify(assignment);
 
     return await this.$axios.post(dataApi.assignment.CompleteAssignment, {
       assignmentId: state.assignment.id,
