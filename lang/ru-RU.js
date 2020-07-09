@@ -376,7 +376,8 @@ export default {
     outgoing: "Входящие",
     incomming: "Исходящие",
 
-    user: "Пользователи"
+    user: "Пользователи",
+    logs:"Логи"
   },
   buttons: {
     new: "Новые",
