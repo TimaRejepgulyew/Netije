@@ -1,6 +1,7 @@
 <template>
   <DxForm
     :col-count="1"
+    :read-only="!canUpdate"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -44,20 +45,21 @@
     </DxGroupItem>
     <template #assignee>
       <employee-select-box
+        :read-only="!canUpdate"
         :value="assigneeId"
-        validatorGroup="OfficialDocument"
         @valueChanged="setAssigneeId"
       />
     </template>
     <template #ourSignatory>
-      <employee-select-box :value="ourSignatoryId" @valueChanged="setOurSignatoryId" />
+      <employee-select-box :read-only="!canUpdate" :value="ourSignatoryId" @valueChanged="setOurSignatoryId" />
     </template>
     <template #prepared>
-      <employee-select-box :value="preparedById" @valueChanged="setPreparedById" />
+      <employee-select-box validatorGroup="OfficialDocument" :read-only="!canUpdate" :value="preparedById" @valueChanged="setPreparedById" />
     </template>
     <template #addressee>
       <employee-select-box
         :value="addresseeId"
+        :read-only="!canUpdate"
         validatorGroup="OfficialDocument"
         @valueChanged="setAddresseeId"
       />
@@ -97,6 +99,12 @@ export default {
     }
   },
   computed: {
+    readOnly() {
+      return this.$store.getters["currentDocument/readOnly"];
+    },
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
+    },
     preparedById() {
       return this.$store.getters["currentDocument/document"].preparedById;
     },

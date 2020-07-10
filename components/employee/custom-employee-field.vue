@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex">
     <DxTextBox
+      :read-only="readOnly"
       :placeholder="$t('shared.select')"
       :value="fieldData && fieldData.name"
       class="product-name"
@@ -25,7 +26,7 @@ export default {
     DxTextBox,
     DxButton
   },
-  props: ["fieldData"],
+  props: ["fieldData","readOnly"],
   computed: {
     showBtn() {
       return this.fieldData?.id
