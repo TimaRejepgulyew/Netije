@@ -1,5 +1,6 @@
 <template>
   <DxForm
+    :read-only="!canUpdate"
     :col-count="1"
     :show-colon-after-label="true"
     :show-validation-summary="false"
@@ -28,7 +29,6 @@
       <DxGroupItem>
         <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
-          <DxRequiredRule :message="$t('translations.fields.signatoryRequired')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
           <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
@@ -40,11 +40,11 @@
       </DxGroupItem>
     </DxGroupItem>
     <template #assignee>
-      <employee-select-box :value="assigneeId" @valueChanged="setAssigneeId" />
+      <employee-select-box :read-only="!canUpdate" :value="assigneeId" @valueChanged="setAssigneeId" />
     </template>
     <template #ourSignatory>
       <employee-select-box
-        validatorGroup="OfficialDocument"
+        :read-only="!canUpdate"
         :storeApi="signatoryApi"
         :value="ourSignatoryId"
         @valueChanged="setOurSignatoryId"
@@ -52,6 +52,7 @@
     </template>
     <template #prepared>
       <employee-select-box
+        :read-only="!canUpdate"
         validatorGroup="OfficialDocument"
         :value="preparedById"
         @valueChanged="setPreparedById"
@@ -94,6 +95,12 @@ export default {
     }
   },
   computed: {
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
+    },
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
+    },
      preparedById() {
       return this.$store.getters["currentDocument/document"].preparedById;
     },
@@ -102,9 +109,6 @@ export default {
     },
     assigneeId() {
       return this.$store.getters["currentDocument/document"].assigneeId;
-    },
-    isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
     },
     businessUnitId() {
       return this.$store.getters["currentDocument/document"].businessUnitId;

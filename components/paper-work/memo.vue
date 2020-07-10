@@ -99,11 +99,11 @@ export default {
     }
   },
   computed: {
-    readOnly() {
-      return this.$store.getters["currentDocument/readOnly"];
-    },
     canUpdate() {
       return this.$store.getters["currentDocument/canUpdate"];
+    },
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
     },
     preparedById() {
       return this.$store.getters["currentDocument/document"].preparedById;
@@ -116,9 +116,6 @@ export default {
     },
     addresseeId() {
       return this.$store.getters["currentDocument/document"].addresseeId;
-    },
-    isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
     },
     businessUnitId() {
       return this.$store.getters["currentDocument/document"].businessUnitId;
