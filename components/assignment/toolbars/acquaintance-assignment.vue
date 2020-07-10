@@ -35,6 +35,9 @@ export default {
     }
   },
   methods: {
+      setResult(result) {
+      this.$store.commit("currentAssignment/SET_RESULT", result);
+    },
     completeAssignment() {
       this.$awn.asyncBlock(
         this.$store.dispatch("currentAssignment/complete"),

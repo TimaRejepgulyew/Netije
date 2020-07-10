@@ -1,7 +1,9 @@
 <template>
   <div id>
     <div class>
-      <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
+      <Header :isbackButton="true" :headerTitle="headerTitle">
+        <important-indicator slot="indicator"></important-indicator>
+      </Header>
       <component :is="componentByType('toolbar')" />
       <form class="d-flex">
         <div class="item f-grow-3">
@@ -55,7 +57,7 @@
 
             <template #comments>
               <div>
-                <status-message />
+                <!-- <status-message /> -->
                 <Assignment-comments :url="commentsUrl"></Assignment-comments>
               </div>
             </template>
@@ -80,6 +82,7 @@
   </div>
 </template>
 <script>
+import importantIndicator from "~/components/assignment/impartant-indicator.vue";
 import * as toolbars from "~/components/assignment/toolbars/index.js";
 import * as additional from "~/components/assignment/additional/index.js";
 import { ComponentsByAssignmentType } from "~/infrastructure/services/generatorComponentByType.js";
@@ -111,6 +114,7 @@ export default {
     attachment,
     Header,
     acquaintanceAssignmentDescription,
+    importantIndicator,
     ...toolbars,
     ...additional
   },

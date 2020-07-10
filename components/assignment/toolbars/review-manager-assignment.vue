@@ -28,25 +28,11 @@
         <task-card @closeTask="closeTask" v-if="showItemExecutionTask" :isCard="true" />
       </div>
     </DxPopup>
-
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showComment"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="500"
-      :height="'auto'"
-    >
-      <div>
-        <comment-form @sendRequest="completeAssignment" @toogleCommentPopup="toogleCommentPopup" />
-      </div>
-    </DxPopup>
     <div class="toolbar">
       <DxToolbar>
         <DxItem
           locateInMenu="auto"
-          :visible="tollbarItemVisible"
+          :visible="toolbarItemVisible"
           :options="btnSendToResolutionOptions"
           location="before"
           widget="dxButton"
@@ -54,7 +40,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :visible="tollbarItemVisible"
+          :visible="toolbarItemVisible"
           :options="btnSendToAssigneeOptions"
           location="before"
           widget="dxButton"
@@ -72,7 +58,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :visible="tollbarItemVisible"
+          :visible="toolbarItemVisible"
           :options="btnAcceptOptions"
           location="before"
           widget="dxButton"
@@ -80,7 +66,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :visible="tollbarItemVisible"
+          :visible="toolbarItemVisible"
           :options="btnAddExecutionOptions"
           location="after"
           widget="dxButton"
@@ -99,17 +85,15 @@ import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
 import ReviewManagerAssignment from "~/infrastructure/constants/revievResult/reviewManagerResult.js";
-import commentForm from "~/components/assignment/comment-form.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import TaskType from "~/infrastructure/constants/TaskType.js";
 export default {
   components: {
     DxToolbar,
     DxItem,
     DxPopup,
-    commentForm,
+
     employeeList,
     taskCard
   },
@@ -121,7 +105,8 @@ export default {
     };
   },
   computed: {
-    tollbarItemVisible() {
+    toolbarItemVisible() {
+      return true;
       const addresseeId = this.$store.getters["currentAssignment/assignment"]
         .addresseeId;
 
@@ -141,7 +126,6 @@ export default {
         onClick: () => {
           this.setResult(ReviewManagerAssignment.AddResolution);
           this.completeAssignment();
-          // this.toogleCommentPopup();
         }
       };
     },
@@ -152,8 +136,6 @@ export default {
         onClick: () => {
           this.setResult(ReviewManagerAssignment.AddAssignment);
           this.completeAssignment();
-
-          // this.toogleCommentPopup();
         }
       };
     },
@@ -206,10 +188,6 @@ export default {
       if (taskId) {
         // TODO function create task resolution
       }
-    },
-
-    toogleCommentPopup() {
-      this.showComment = !this.showComment;
     },
     completeAssignment() {
       this.$awn.asyncBlock(

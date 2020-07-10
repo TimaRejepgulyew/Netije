@@ -282,8 +282,13 @@ export default {
     placeholderActionItemExicution: "Введите отчет",
     sureCompleteMessage: "Вы действительно выполнили задачу",
     sureAcquaintanceMessage: "Вы действительно ознакомились с документом",
+    sureCompleteAcquaintanceMessage:
+      "Вы уверенны что хотите завершить ознакомление",
+    sureCompleteSupervisor: "Потвердите что бы завершить задачу",
+    sureReworkMessage: "Вы уверенны что хотите отправить на доработку",
     takeIntoMessage:
       "После принятия к сведению задание завершится без исполнения",
+    acceptAssignmentMessage: "Вы действительно приняли задачу",
     readdressToEmployee: "Переадресовать сотруднику",
     prefixes: {
       actionItemSupervisorAssignment: "Примите работы: ",

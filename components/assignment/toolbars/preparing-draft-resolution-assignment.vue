@@ -105,6 +105,7 @@ export default {
   },
   computed: {
     tollbarItemVisible() {
+      return true;
       const addresseeId = this.$store.getters["currentAssignment/assignment"]
         .addresseeId;
 
@@ -139,6 +140,7 @@ export default {
     },
     btnAcceptOptions() {
       return {
+        icon: exploredIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
           this.sendResult(PrepareDraftResolutionResult.Explored);
