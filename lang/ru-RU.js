@@ -280,6 +280,8 @@ export default {
   assignment: {
     placeholderSimple: "Введите комментарий",
     placeholderActionItemExicution: "Введите отчет",
+    sureCompleteMessage: "Вы действительно выполнили задачу",
+    sureAcquaintanceMessage: "Вы действительно ознакомились с документом",
     takeIntoMessage:
       "После принятия к сведению задание завершится без исполнения",
     readdressToEmployee: "Переадресовать сотруднику",

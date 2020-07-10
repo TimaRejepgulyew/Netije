@@ -122,8 +122,8 @@ export default {
         icon: resolutionIcon,
         text: this.$t("buttons.sendToReview"),
         onClick: () => {
-          this.result = PrepareDraftResolutionResult.SendForReview;
-          this.toogleCommentPopup();
+          this.sendResult(PrepareDraftResolutionResult.SendForReview);
+          this.completeAssignment();
         }
       };
     },
@@ -132,8 +132,8 @@ export default {
         icon: sendToAssigneeIcon,
         text: this.$t("buttons.sendToAssignee"),
         onClick: () => {
-          this.result = PrepareDraftResolutionResult.AddAssignment;
-          this.toogleCommentPopup();
+          this.sendResult(PrepareDraftResolutionResult.AddAssignment);
+          this.completeAssignment();
         }
       };
     },
@@ -141,12 +141,12 @@ export default {
       return {
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          this.result = PrepareDraftResolutionResult.Explored;
+          this.sendResult(PrepareDraftResolutionResult.Explored);
           let response = await confirm(
             this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
           );
-          if (response) this.sendResult();
+          if (response) this.completeAssignment();
         }
       };
     },
@@ -155,8 +155,8 @@ export default {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
         onClick: () => {
-          this.result = PrepareDraftResolutionResult.Forward;
-          this.sendResult();
+          this.sendResult(PrepareDraftResolutionResult.Forward);
+          this.completeAssignment();
         }
       };
     },
@@ -183,11 +183,13 @@ export default {
         // TODO function create task resolution
       }
     },
-
+    sendResult(result) {
+      this.$store.commit("currentAssignment/SET_RESULT", result);
+    },
     toogleCommentPopup() {
       this.showComment = !this.showComment;
     },
-    sendResult() {
+    completeAssignment() {
       this.$awn.asyncBlock(
         this.$store.dispatch("currentAssignment/complete"),
         e => {

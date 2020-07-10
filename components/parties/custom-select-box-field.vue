@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     createCounterPart(e) {
-      this.activeCard = itemData.type;
+      this.activeCard = e.itemData.type;
       this.isOpenCardCreate = !this.isOpenCardCreate;
     },
     valueChanged(data) {

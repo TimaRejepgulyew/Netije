@@ -162,11 +162,11 @@ export default {
         icon: exploredIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          this.setResult(ReviewManagerAssignment.Explored);
           let response = await confirm(
             this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
           );
+          this.setResult(ReviewManagerAssignment.Explored);
           if (response) this.completeAssignment();
         }
       };
