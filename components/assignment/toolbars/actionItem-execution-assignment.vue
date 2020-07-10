@@ -21,7 +21,7 @@ export default {
     btnOptions() {
       return {
         icon: "check",
-        text: this.$t("buttons.accept"),
+        text: this.$t("buttons.complete"),
         onClick: async () => {
           let response = await confirm(
             this.$t("assignment.sureCompleteMessage"),

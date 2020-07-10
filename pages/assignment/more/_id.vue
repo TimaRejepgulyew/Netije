@@ -2,7 +2,7 @@
   <div id>
     <div class>
       <Header :isbackButton="true" :headerTitle="headerTitle">
-        <important-indicator slot="indicator"></important-indicator>
+        <important-indicator :isImportant="isImportant" slot="indicator"></important-indicator>
       </Header>
       <component :is="componentByType('toolbar')" />
       <form class="d-flex">
@@ -57,8 +57,14 @@
 
             <template #comments>
               <div>
-                <!-- <status-message /> -->
-                <Assignment-comments :url="commentsUrl"></Assignment-comments>
+                <Assignment-comments class="comments" :url="commentsUrl"></Assignment-comments>
+                <DxTextArea
+                  :visible="inProccess"
+                  :placeholder="placeholder"
+                  :on-value-changed="setComment"
+                  :height="100"
+                  :value="comment"
+                />
               </div>
             </template>
             <template #additional>
@@ -83,6 +89,7 @@
 </template>
 <script>
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
+import Importance from "~/infrastructure/constants/assignmentImportance.js";
 import * as toolbars from "~/components/assignment/toolbars/index.js";
 import * as additional from "~/components/assignment/additional/index.js";
 import { ComponentsByAssignmentType } from "~/infrastructure/services/generatorComponentByType.js";
@@ -94,7 +101,7 @@ import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxTextArea } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import AssignmentComments from "~/components/workFlow/assignment-comments";
-import statusMessage from "~/components/assignment/status-message";
+
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -105,7 +112,6 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxTextArea,
-    statusMessage,
     AssignmentComments,
     DxGroupItem,
     DxSimpleItem,
@@ -142,6 +148,32 @@ export default {
     };
   },
   computed: {
+    inProccess() {
+      return this.$store.getters["currentAssignment/inProccess"];
+    },
+    placeholder() {
+      switch (this.$store.getters["currentAssignment/assignmentType"]) {
+        case AssignmentType.AcquaintanceFinishAssignment:
+        case AssignmentType.SimpleAssignment:
+        case AssignmentType.ActionItemSupervisorAssignment:
+        case AssignmentType.ReviewAssignment:
+        case AssignmentType.AcquaintanceAssignment:
+          return this.$t("assignment.placeholderSimple");
+        case AssignmentType.ActionItemExecutionAssignment:
+          return this.$t("assignment.placeholderActionItemExicution");
+        default:
+          return this.$t("assignment.placeholderSimple");
+      }
+    },
+    comment() {
+      return this.$store.getters["currentAssignment/comment"];
+    },
+    isImportant() {
+      return (
+        this.$store.getters["currentAssignment/assignment"].importance ===
+        Importance.High
+      );
+    },
     headerTitle() {
       return this.$store.getters["currentAssignment/assignment"].subject;
     },
@@ -151,6 +183,9 @@ export default {
     }
   },
   methods: {
+    setComment(e) {
+      this.$store.getters[("currentAssignment/SET_COMMENT", e.value)];
+    },
     componentByType(componentName) {
       const assignmentType = this.$store.getters["currentAssignment/assignment"]
         .assignmentType;
@@ -178,6 +213,12 @@ export default {
   }
 };
 </script>
+<style  scoped>
+.comments {
+  overflow: auto;
+  max-height: 47vh;
+}
+</style>
 
 
 

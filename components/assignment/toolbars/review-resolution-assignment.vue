@@ -14,7 +14,6 @@
       </div>
     </DxPopup>
 
-  
     <div class="toolbar">
       <DxToolbar>
         <DxItem
@@ -28,7 +27,7 @@
           locateInMenu="auto"
           :visible="toolbarItemVisible"
           :options="btnAddExecutionOptions"
-          location="after"
+          location="before"
           widget="dxButton"
         />
       </DxToolbar>
@@ -41,8 +40,6 @@ import taskCard from "~/components/task/index.vue";
 
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
-
-
 
 import ReviewResolution from "~/infrastructure/constants/revievResult/reviewResolution.js";
 
@@ -63,12 +60,12 @@ export default {
   },
   computed: {
     toolbarItemVisible() {
-      return  this.$store.getters["currentAssignment/inProccess"];
+      return this.$store.getters["currentAssignment/inProccess"];
     },
     btnSendToAssigneeOptions() {
       return {
         icon: sendToAssigneeIcon,
-        text: this.$t("buttons.sendToAssignee"),
+        text: this.$t("buttons.complete"),
         onClick: () => {
           this.setResult(ReviewResolution.AddAssignment);
           this.completeAssignment();
@@ -84,7 +81,7 @@ export default {
         onClick: async () => {
           await this.$store.dispatch("currentTask/initTask", {
             taskType: TaskType.ActionItemExecutionTask,
-            parentAssignment: this.$store.getters[
+            parentAssignmentId: this.$store.getters[
               "currentAssignment/assignment"
             ].id
           });

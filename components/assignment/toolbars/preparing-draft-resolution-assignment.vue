@@ -105,7 +105,6 @@ export default {
   },
   computed: {
     tollbarItemVisible() {
-      return true;
       const addresseeId = this.$store.getters["currentAssignment/assignment"]
         .addresseeId;
 

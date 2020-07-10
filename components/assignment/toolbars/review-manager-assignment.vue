@@ -106,7 +106,6 @@ export default {
   },
   computed: {
     toolbarItemVisible() {
-      return true;
       const addresseeId = this.$store.getters["currentAssignment/assignment"]
         .addresseeId;
 

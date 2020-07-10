@@ -13,25 +13,11 @@
 
 <script>
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import updateCard from "~/components/employee/employee-card.vue";
-import { DxPopup } from "devextreme-vue/popup";
-import { DxButton } from "devextreme-vue";
-import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import customSelectItem from "~/components/employee/custom-select-box-item.vue";
-import customField from "~/components/employee/custom-employee-field";
 import dataApi from "~/static/dataApi";
-import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
-    DxValidator,
-    DxRequiredRule,
-    DxSelectBox,
-    customSelectItem,
-    customField,
-    updateCard,
-    DxPopup,
-    DxButton,
+  
     employeeSelectBox
   },
   data() {

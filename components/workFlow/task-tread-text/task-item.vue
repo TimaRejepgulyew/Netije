@@ -1,26 +1,35 @@
 <template>
   <div>
+    <DxPopup
+      :showTitle="false"
+      :visible.sync="showTaskCard"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="90%"
+      :height="'auto'"
+    >
+      <div>
+        <task-card @closeTask="closeTask" v-if="showTaskCard" :isCard="true" />
+      </div>
+    </DxPopup>
     <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent,}">
       <div class="d-flex js-space-between">
         <div class="list__content">
-          <img class="icon--type" :src="parseIconType(comment.type)" />
+          <icon-by-name :fullName="comment.author"></icon-by-name>
         </div>
-
         <div>
-          <div>
+          <div @click="()=>toDetail(comment.entity)" class="link">
             <span class="text-italic">{{comment.subject}}</span>
           </div>
 
           <div class="list__content">
             <i class="dx-icon dx-icon-user"></i>
             {{ comment.author}}
-          </div>
-          <div class="list__content">
             <i class="dx-icon dx-icon-event"></i>
             {{formatDate(comment.modificationDate)}}
           </div>
         </div>
-
         <div class="task-state">
           <div
             class="task__item"
@@ -51,35 +60,35 @@
     />
   </div>
 </template>
-
 <script>
+import { DxPopup } from "devextreme-vue/popup";
+import iconByName from "~/components/Layout/iconByName.vue";
 import Comment from "~/components/workFlow/comments-item.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
-import { taskStatusLocalization } from "~/infrastructure/constants/taskStatus.js";
 export default {
   components: {
-    Comment
-  },
-  created() {
-    console.log(taskStatusLocalization(this));
+    Comment,
+    iconByName,
+    DxPopup
   },
   name: "comment",
   props: ["comment"],
+  data() {
+    return {
+      showTaskCard: false
+    };
+  },
   methods: {
-    
+    tooglePopup() {
+      this.showTaskCard = !this.showTaskCard;
+    },
+    async toDetail({ id, taskType }) {
+      await this.$store.dispatch("currentTask/load", { taskType, id });
+      this.tooglePopup();
+    },
     parseIconStatus(icon) {
       return require(`~/static/icons/status/${icon}.svg`);
-    },
-    parseIconType(type) {
-      switch (type) {
-        case WorkflowEntityTextType.Task:
-          return require("~/static/icons/iconAssignment/task.svg");
-        case WorkflowEntityTextType.Notice:
-          return require("~/static/icons/iconAssignment/notice.svg");
-        case WorkflowEntityTextType.Assignment:
-          return require("~/static/icons/iconAssignment/assignment.svg");
-      }
     },
     formatDate(date) {
       return moment(date).format("MM.DD.YYYY HH:mm");
@@ -107,7 +116,7 @@ export default {
   text-align: right;
   margin-left: auto;
   padding: 0 5px;
-  font-size: 16px;
+  font-size: 14px;
   i {
     font-size: 16px;
     margin: 0 5px;
@@ -124,11 +133,6 @@ export default {
 }
 .current-comment {
   background: #ecfff46b;
-}
-.icon--type {
-  display: flex;
-  width: 30px;
-  height: 100%;
 }
 .item--status {
   justify-content: flex-end;
@@ -160,5 +164,8 @@ export default {
 }
 .text-italic {
   font-style: italic;
+}
+.link:hover {
+  text-decoration: underline;
 }
 </style>
