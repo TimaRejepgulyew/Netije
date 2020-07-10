@@ -1,5 +1,6 @@
 <template>
   <DxForm
+    :read-only="!canUpdate"
     :col-count="1"
     :show-colon-after-label="true"
     :show-validation-summary="false"
@@ -41,9 +42,9 @@
       <DxGroupItem>
         <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
           <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+          <DxRequiredRule :message="$t('translations.fields.ourSignatoryRequired')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
-          <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
           <DxLabel location="top" :text="$t('translations.fields.prepared')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -58,6 +59,7 @@
     </template>
     <template #issuedToId>
       <employee-select-box
+        :read-only="!canUpdate || isRegistered"
         validatorGroup="OfficialDocument"
         :value="issuedToId"
         @valueChanged="setIssuedToId"
@@ -103,6 +105,12 @@ export default {
     }
   },
   computed: {
+    canUpdate() {
+      return this.$store.getters["currentDocument/canUpdate"];
+    },
+    isRegistered() {
+      return this.$store.getters["currentDocument/isRegistered"];
+    },
     issuedToId() {
       return this.$store.getters["currentDocument/document"].issuedToId;
     },
@@ -111,9 +119,6 @@ export default {
     },
     ourSignatoryId() {
       return this.$store.getters["currentDocument/document"].ourSignatoryId;
-    },
-    isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
     },
     businessUnitId() {
       return this.$store.getters["currentDocument/document"].businessUnitId;
