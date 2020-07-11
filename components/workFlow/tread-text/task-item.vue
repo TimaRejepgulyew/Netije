@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DxPopup
+    <!-- <DxPopup
       :showTitle="false"
       :visible.sync="showTaskCard"
       :drag-enabled="false"
@@ -12,22 +12,26 @@
       <div>
         <task-card @closeTask="closeTask" v-if="showTaskCard" :isCard="true" />
       </div>
-    </DxPopup>
-    <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent,}">
+    </DxPopup>-->
+    <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent}">
       <div class="d-flex js-space-between">
-        <div class="list__content">
-          <icon-by-name :fullName="comment.author"></icon-by-name>
+        <div>
+          <icon-by-name class="f-size-30" :fullName="comment.author.name"></icon-by-name>
         </div>
         <div>
           <div @click="()=>toDetail(comment.entity)" class="link">
-            <span class="text-italic">{{comment.subject}}</span>
+            <span class="text-italic">{{parseSubject(comment.entity.taskType)}}</span>
           </div>
 
-          <div class="list__content">
-            <i class="dx-icon dx-icon-user"></i>
-            {{ comment.author}}
-            <i class="dx-icon dx-icon-event"></i>
-            {{formatDate(comment.modificationDate)}}
+          <div class="list__content d-flex">
+            <div class="link" @click="()=>toDetailAuthor(comment.author.id)">
+              <i class="dx-icon dx-icon-user"></i>
+              {{ comment.author.name}}
+            </div>
+            <div>
+              <i class="dx-icon dx-icon-event"></i>
+              {{formatDate(comment.modificationDate)}}
+            </div>
           </div>
         </div>
         <div class="task-state">
@@ -37,30 +41,32 @@
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.deadline)}}</div>
           <div class="d-flex task__item item--status">
-            <img class="icon--status" :src="[parseIconStatus(comment.icon)]" />
-            {{comment.status}}
+            <img class="icon--status" :src="parseIconStatus(comment.entity.status)" />
+            {{parseTextStatus(comment.entity.status)}}
           </div>
         </div>
       </div>
-      <div v-if="comment.body" class="list__content message-body">{{comment.body}}</div>
-      <div v-if="comment.result" class="list__content message-body">
+      <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
+      <!-- <div v-if="comment.result" class="list__content message-body">
         <span class="text--bold">
           <i class="dx-icon dx-icon-info"></i>
           {{comment.result}}
         </span>
-      </div>
+      </div>-->
     </div>
 
-    <comment
+    <!-- <comment
       class="ml-1"
       :v-if="comment.children && comment.children.length"
       v-for="(item,index) in comment.children"
       :comment="item"
       :key="index"
-    />
+    />-->
   </div>
 </template>
 <script>
+import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
+import { commentTextByTaskType } from "~/infrastructure/constants/taskType.js";
 import { DxPopup } from "devextreme-vue/popup";
 import iconByName from "~/components/Layout/iconByName.vue";
 import Comment from "~/components/workFlow/comments-item.vue";
@@ -80,6 +86,7 @@ export default {
     };
   },
   methods: {
+    toDetailAuthor() {},
     tooglePopup() {
       this.showTaskCard = !this.showTaskCard;
     },
@@ -87,8 +94,14 @@ export default {
       await this.$store.dispatch("currentTask/load", { taskType, id });
       this.tooglePopup();
     },
-    parseIconStatus(icon) {
-      return require(`~/static/icons/status/${icon}.svg`);
+    parseIconStatus(status) {
+      return taskStatusGeneratorObj(this)[status].icon;
+    },
+    parseTextStatus(status) {
+      return taskStatusGeneratorObj(this)[status].text;
+    },
+    parseSubject(value) {
+      return commentTextByTaskType(this)[value]?.text;
     },
     formatDate(date) {
       return moment(date).format("MM.DD.YYYY HH:mm");
@@ -101,14 +114,23 @@ export default {
           return true;
       }
     }
-  }
+  },
+  filters: {}
 };
 </script>
 
 <style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
-
+.list__content {
+  div {
+    padding-right: 5px;
+  }
+}
+.f-size-30 {
+  margin: 5px;
+  font-size: 20px;
+}
 .js-space-between {
   align-items: center;
 }

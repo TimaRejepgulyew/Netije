@@ -10,7 +10,7 @@
       >
         <template #item="item">
           <div class="list-container">
-            <comment :comment="item.data" />
+            <taskTreadText :comment="item.data" />
           </div>
         </template>
       </DxList>
@@ -18,6 +18,7 @@
   </div>
 </template>
 <script>
+import taskTreadText from "~/components/workFlow/tread-text/task-item.vue";
 import Comment from "~/components/workFlow/comments-item.vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -26,7 +27,8 @@ import moment from "moment";
 export default {
   components: {
     DxList,
-    Comment
+    Comment,
+    taskTreadText
   },
   props: ["url"],
   data() {

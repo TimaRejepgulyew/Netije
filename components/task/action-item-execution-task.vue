@@ -63,8 +63,8 @@
       <DxSimpleItem
         :visible="isDraft"
         :col-span="3"
-        data-field="actionItem"
-        :editor-options="actionItemOptions"
+        data-field="body"
+        :editor-options="bodyOptions"
         editor-type="dxTextArea"
       >
         <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
@@ -187,13 +187,13 @@ export default {
         }
       };
     },
-    actionItemOptions() {
+    bodyOptions() {
       return {
         placeholder: this.$t("translations.fields.actionItemRequired"),
         height: 250,
-        value: this.$store.getters["currentTask/task"].actionItem,
+        value: this.$store.getters["currentTask/task"].body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_ACTION_ITEM", e.value);
+          this.$store.commit("currentTask/SET_BODY", e.value);
         }
       };
     },

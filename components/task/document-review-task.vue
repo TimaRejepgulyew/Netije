@@ -32,8 +32,8 @@
 
         <DxSimpleItem
           v-if="isDraft"
-          data-field="comment"
-          :editor-options="commentOptions"
+          data-field="body"
+          :editor-options="bodyOptions"
           editor-type="dxTextArea"
         >
           <DxLabel location="top" :text="$t('translations.fields.comment')" />
@@ -110,12 +110,12 @@ export default {
         }
       };
     },
-    commentOptions() {
+    bodyOptions() {
       return {
         height: 250,
-        value: this.$store.getters["currentTask/task"].comment,
+        value: this.$store.getters["currentTask/task"].body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_COMMENT", e.value);
+          this.$store.commit("currentTask/SET_BODY", e.value);;
         }
       };
     },

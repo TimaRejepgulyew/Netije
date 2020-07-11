@@ -47,6 +47,13 @@
               <DxGroupItem :col-span="3" template="additional" />
               <DxGroupItem :col-span="3">
                 <DxGroupItem>
+                  <DxSimpleItem
+                    data-field="body"
+                    :editor-options="bodyOptions"
+                    editor-type="dxTextArea"
+                  >
+                    <DxLabel location="top" :visible="false" />
+                  </DxSimpleItem>
                   <DxSimpleItem template="comments">
                     <DxLabel location="top" :visible="false" />
                   </DxSimpleItem>
@@ -98,7 +105,7 @@ import acquaintanceAssignmentDescription from "~/components/assignment/additiona
 import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import { DxTextArea } from "devextreme-vue";
+import "devextreme-vue/text-area";
 import dataApi from "~/static/dataApi";
 import AssignmentComments from "~/components/workFlow/assignment-comments";
 
@@ -111,7 +118,6 @@ export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    DxTextArea,
     AssignmentComments,
     DxGroupItem,
     DxSimpleItem,
@@ -148,6 +154,11 @@ export default {
     };
   },
   computed: {
+    bodyOptions(){
+      return {
+        placeholder:this.placeholder,
+      }
+    },
     inProccess() {
       return this.$store.getters["currentAssignment/inProccess"];
     },

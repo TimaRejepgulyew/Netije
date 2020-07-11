@@ -63,10 +63,10 @@ export const mutations = {
       state.isDataChanged = true;
     state.task.deadline = payload;
   },
-  SET_COMMENT(state, payload) {
-    if (checkDataChanged(state.task.comment, payload))
+  SET_BODY(state, payload) {
+    if (checkDataChanged(state.task.body, payload))
       state.isDataChanged = true;
-    state.task.comment = payload;
+    state.task.body = payload;
   },
   SET_ROUTE_TYPE(state, payload) {
     if (checkDataChanged(state.task.routeType, payload))
@@ -120,11 +120,6 @@ export const mutations = {
     if (checkDataChanged(state.task.supervisorId, payload))
       state.isDataChanged = true;
     state.task.supervisorId = payload;
-  },
-  SET_ACTION_ITEM(state, payload) {
-    if (checkDataChanged(state.task.actionItem, payload))
-      state.isDataChanged = true;
-    state.task.actionItem = payload;
   },
   SET_IMPORTANCE(state, payload) {
     if (checkDataChanged(state.task.importance, payload))

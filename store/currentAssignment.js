@@ -42,8 +42,8 @@ export const mutations = {
   SET_ASSIGNMENT(state, payload) {
     state.assignment = payload;
   },
-  SET_COMMENT(state, payload) {
-    state.comment = payload;
+  SET_BODY(state, payload) {
+    state.body = payload;
   },
   SET_ATTACHMENT_GROUPS(state, payload) {
     state.assignment.attachmentGroups = payload;
