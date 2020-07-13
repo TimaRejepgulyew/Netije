@@ -78,6 +78,7 @@ export default {
     employeeSelectBox,
     employeeTagBox
   },
+  props: ["taskId"],
   data() {
     return {
       validatorGroup: "task"

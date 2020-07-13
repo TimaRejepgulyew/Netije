@@ -2,6 +2,7 @@ import dataApi from "~/static/dataApi";
 import TaskStatus from "~/infrastructure/constants/taskStatus";
 
 export const state = () => ({
+  tasks: {},
   guids: {},
   task: {},
   isDataChanged: false,
@@ -10,33 +11,34 @@ export const state = () => ({
 
 export const getters = {
   isDataChanged: state => key => {
-    return state[key].isDataChanged;
+
+    return state.tasks[key].isDataChanged;
   },
   isNew: state => key => {
-    return state[key].isNew;
+    return state.tasks[key].isNew;
   },
   isDraft: state => key => {
-    return state[key].task.status === TaskStatus.Draft;
+    return state.tasks[key].task.status === TaskStatus.Draft;
   },
   isCompleted: state => key => {
-    return state[key].task.status === TaskStatus.Completed;
+    return state.tasks[key].task.status === TaskStatus.Completed;
   },
   inProcess: state => key => {
-    return state[key].task.status === TaskStatus.InProcess;
+    return state.tasks[key].task.status === TaskStatus.InProcess;
   },
   isAborted: state => key => {
-    return state[key].task.status === TaskStatus.Aborted;
+    return state.tasks[key].task.status === TaskStatus.Aborted;
   },
   task: state => key => {
-    return state[key].task;
+    return state.tasks[key].task;
   },
   taskIdByGuid: state => key => {
     return state.guids[key].taskId;
   },
   taskTypeAndId: state => key => {
     return {
-      taskType: state[key].task.taskType,
-      id: state[key].task.id
+      taskType: state.tasks[key].task.taskType,
+      id: state.tasks[key].task.id
     };
   }
 };
@@ -45,7 +47,7 @@ function checkDataChanged(oldValue, newValue) {
 }
 export const mutations = {
   SET_IS_DATA_CHANGED(state, { key, payload }) {
-    state[key].isDataChanged = payload;
+    state.tasks[key].isDataChanged = payload;
   },
   SET_TASK(state, { key, payload }) {
     const obj = {
@@ -54,109 +56,112 @@ export const mutations = {
       isNew: false
     };
 
-    state[key] = Object.assign({}, state[key], obj);
+    var newObj = { ...state.tasks };
+    newObj[key] = obj;
+    state.tasks = Object.assign({}, state.tasks, newObj);
+    
   },
   DISPOSE(state, { key }) {
-    delete state[key];
+    delete state.tasks[key];
   },
   SET_SUBJECT(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.subject, payload))
-      state[key].isDataChanged = true;
-    state[key].task.subject = payload;
+    if (checkDataChanged(state.tasks[key].task.subject, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.subject = payload;
   },
   SET_IS_UNDER_CONTROL(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.isUnderControl, payload))
-      state[key].isDataChanged = true;
-    state[key].task.isUnderControl = payload;
+    if (checkDataChanged(state.tasks[key].task.isUnderControl, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.isUnderControl = payload;
   },
   SET_MAX_DEADLINE(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.maxDeadline, payload))
-      state[key].isDataChanged = true;
-    state[key].task.maxDeadline = payload;
+    if (checkDataChanged(state.tasks[key].task.maxDeadline, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.maxDeadline = payload;
   },
   SET_DEADLINE(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.deadline, payload))
-      state[key].isDataChanged = true;
-    state[key].task.deadline = payload;
+    if (checkDataChanged(state.tasks[key].task.deadline, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.deadline = payload;
   },
   SET_BODY(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.body, payload))
-      state[key].isDataChanged = true;
-    state[key].task.body = payload;
+    if (checkDataChanged(state.tasks[key].task.body, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.body = payload;
   },
   SET_ROUTE_TYPE(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.routeType, payload))
-      state[key].isDataChanged = true;
-    state[key].task.routeType = payload;
+    if (checkDataChanged(state.tasks[key].task.routeType, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.routeType = payload;
   },
   SET_NEEDS_REVIEW(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.needsReview, payload))
-      state[key].isDataChanged = true;
-    state[key].task.needsReview = payload;
+    if (checkDataChanged(state.tasks[key].task.needsReview, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.needsReview = payload;
   },
   SET_PERFORMERS(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.performers, payload))
-      state[key].isDataChanged = true;
-    state[key].task.performers = payload;
+    if (checkDataChanged(state.tasks[key].task.performers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.performers = payload;
   },
   SET_EXCLUDED_PERFORMERS(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.excludedPerformers, payload))
-      state[key].isDataChanged = true;
-    state[key].task.excludedPerformers = payload;
+    if (checkDataChanged(state.tasks[key].task.excludedPerformers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.excludedPerformers = payload;
   },
   SET_OBSERVERS(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.observers, payload))
-      state[key].isDataChanged = true;
-    state[key].task.observers = payload;
+    if (checkDataChanged(state.tasks[key].task.observers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.observers = payload;
   },
   IS_NEW(state, { key, payload }) {
-    state[key].isNew = payload;
+    state.tasks[key].isNew = payload;
   },
   SET_IS_ELECTRONIC_ACQUAINTANCE(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.isElectronicAcquaintance, payload))
-      state[key].isDataChanged = true;
-    state[key].task.isElectronicAcquaintance = payload;
+    if (checkDataChanged(state.tasks[key].task.isElectronicAcquaintance, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.isElectronicAcquaintance = payload;
   },
   SET_ACTION_ITEM_OBSERVERS(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.actionItemObservers, payload))
-      state[key].isDataChanged = true;
-    state[key].task.actionItemObservers = payload;
+    if (checkDataChanged(state.tasks[key].task.actionItemObservers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.actionItemObservers = payload;
   },
   SET_CO_ASSIGNEES(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.coAssignees, payload))
-      state[key].isDataChanged = true;
-    state[key].task.coAssignees = payload;
+    if (checkDataChanged(state.tasks[key].task.coAssignees, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.coAssignees = payload;
   },
   SET_ASSIGNEE(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.assigneeId, payload))
-      state[key].isDataChanged = true;
-    state[key].task.assigneeId = payload;
+    if (checkDataChanged(state.tasks[key].task.assigneeId, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.assigneeId = payload;
   },
   SET_SUPERVISOR(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.supervisorId, payload))
-      state[key].isDataChanged = true;
-    state[key].task.supervisorId = payload;
+    if (checkDataChanged(state.tasks[key].task.supervisorId, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.supervisorId = payload;
   },
   SET_IMPORTANCE(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.importance, payload))
-      state[key].isDataChanged = true;
-    state[key].task.importance = payload;
+    if (checkDataChanged(state.tasks[key].task.importance, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.importance = payload;
   },
   SET_STATUS(state, { key, payload }) {
-    state[key].task.status = payload;
+    state.tasks[key].task.status = payload;
   },
   SET_ATTACHMENT_GROUPS(state, { key, payload }) {
-    state[key].task.attachmentGroups = payload;
+    state.tasks[key].task.attachmentGroups = payload;
   },
   SET_RESOLUTION_OBSERVERS(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.resolutionObservers, payload))
-      state[key].isDataChanged = true;
-    state[key].task.resolutionObservers = payload;
+    if (checkDataChanged(state.tasks[key].task.resolutionObservers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.resolutionObservers = payload;
   },
   SET_ADDRESSEE_ID(state, { key, payload }) {
-    if (checkDataChanged(state[key].task.addresseeId, payload))
-      state[key].isDataChanged = true;
-    state[key].task.addresseeId = payload;
+    if (checkDataChanged(state.tasks[key].task.addresseeId, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.addresseeId = payload;
   },
   ASSING_GUID(state, { key, taskId }) {
     state.guids[key] = { taskId };
@@ -180,8 +185,8 @@ export const actions = {
       commit("SET_TASK", { key, payload: data });
     }
   },
-  async saveAndLoad({ state, commit }, key) {
-    const obj = { ...state[key].task };
+  async saveAndLoad({ state, commit }, { key }) {
+    const obj = { ...state.tasks[key].task };
     delete obj.attachmentGroups;
     const task = JSON.stringify(obj);
     const { data } = await this.$axios.put(dataApi.task.UpdateTask + obj.id, {
@@ -200,20 +205,20 @@ export const actions = {
     }
     await this.$axios.post(dataApi.task.Start, {
       id: key,
-      taskType: state[key].task.taskType
+      taskType: state.tasks[key].task.taskType
     });
   },
   async abort({ state }, { key }) {
     const res = await this.$axios.post(dataApi.task.Abort, {
-      id: state[key].task.id,
-      taskType: state[key].task.taskType
+      id: state.tasks[key].task.id,
+      taskType: state.tasks[key].task.taskType
     });
     commit("SET_STATUS", { key, payload: TaskStatus.Abort });
   },
   async restart({ state }, { key }) {
     await this.$axios.post(dataApi.task.Restart, {
-      id: state[key].task.id,
-      taskType: state[key].task.taskType
+      id: state.tasks[key].task.id,
+      taskType: state.tasks[key].task.taskType
     });
     commit("SET_STATUS", { key, payload: TaskStatus.Draft });
   },

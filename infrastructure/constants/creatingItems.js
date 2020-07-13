@@ -47,7 +47,6 @@ export const createTaskRequest = async function(context, params) {
   const guid = +new Date();
   await context.$store.dispatch("currentTask/initTask", { ...params, guid });
   const taskId = context.$store.getters["currentTask/taskIdByGuid"](guid);
-  
   const replaceOldRoute = context.$store.getters["currentTask/isNew"](taskId);
 
   const route = `/task/detail/${params.taskType}/${taskId}`;

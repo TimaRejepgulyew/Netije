@@ -104,58 +104,58 @@ export default {
     DxForm,
     recipientTagBox
   },
+  props: ["taskId"],
   data() {
     return {
-      key: this.$parent.key,
       validatorGroup: "task"
     };
   },
   methods: {
     setObservers(value) {
       this.$store.commit("currentTask/SET_OBSERVERS", {
-        key: this.key,
+        key: this.taskId,
         payload: value
       });
     },
     setPerformers(value) {
       this.$store.commit("currentTask/SET_PERFORMERS", {
-        key: this.key,
+        key: this.taskId,
         payload: value
       });
     },
     setExcludedPerformers(value) {
       this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", {
-        key: this.key,
+        key: this.taskId,
         payload: value
       });
     }
   },
   computed: {
     observers() {
-      return this.$store.getters["currentTask/task"](this.key).observers;
+      return this.$store.getters["currentTask/task"](this.taskId).observers;
     },
     performers() {
-      return this.$store.getters["currentTask/task"](this.key).performers;
+      return this.$store.getters["currentTask/task"](this.taskId).performers;
     },
     excludedPerformers(value) {
-      return this.$store.getters["currentTask/task"](this.key)
+      return this.$store.getters["currentTask/task"](this.taskId)
         .excludedPerformers;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"](this.key);
+      return this.$store.getters["currentTask/inProcess"](this.taskId);
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"](this.key);
+      return this.$store.getters["currentTask/isNew"](this.taskId);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.key);
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"](this.key).subject,
+        value: this.$store.getters["currentTask/task"](this.taskId).subject,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_SUBJECT", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }
@@ -164,10 +164,10 @@ export default {
     bodyOptions() {
       return {
         height: 250,
-        value: this.$store.getters["currentTask/task"](this.key).body,
+        value: this.$store.getters["currentTask/task"](this.taskId).body,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_BODY", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }
@@ -177,10 +177,10 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"](this.key).deadline,
+        value: this.$store.getters["currentTask/task"](this.taskId).deadline,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_DEADLINE", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }
@@ -191,10 +191,10 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"](this.key).needsReview,
+        value: this.$store.getters["currentTask/task"](this.taskId).needsReview,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_NEEDS_REVIEW", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }
@@ -205,11 +205,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"](this.key)
+        value: this.$store.getters["currentTask/task"](this.taskId)
           .isElectronicAcquaintance,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_IS_ELECTRONIC_ACQUAINTANCE", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }

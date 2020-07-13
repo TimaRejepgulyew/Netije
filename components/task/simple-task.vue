@@ -88,6 +88,7 @@ export default {
     DxRequiredRule,
     DxForm
   },
+  props: ["taskId"],
   data() {
     return {
       validatorGroup: "task"

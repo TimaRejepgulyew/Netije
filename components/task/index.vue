@@ -23,7 +23,7 @@
       </DxGroupItem>
 
       <template #mainForm>
-        <component :is="taskType"></component>
+        <component :taskId="taskId" :is="taskType"></component>
       </template>
       <template #attachments>
         <attachment
@@ -33,7 +33,7 @@
         />
       </template>
       <template #comments>
-        <thread-texts v-if="!isDraft" entityType="task" :id="$store.getters['currentTask/task'].id"></thread-texts>
+        <thread-texts v-if="!isDraft" entityType="task" :id="taskId"></thread-texts>
       </template>
     </DxForm>
   </div>
@@ -72,7 +72,7 @@ export default {
     documentReviewTask
   },
   props: {
-    key: {
+    taskId: {
       type: Number
     },
     isCard: {
@@ -82,7 +82,8 @@ export default {
   data() {
     return {
       taskTypeNames: null,
-      taskTypeGuid: this.$store.getters["currentTask/task"].taskType,
+      taskTypeGuid: this.$store.getters["currentTask/task"](this.taskId)
+        .taskType,
       commentsUrl: dataApi.task.TextsByTask
     };
   },
@@ -99,20 +100,26 @@ export default {
   methods: {
     backTo() {
       if (this.isCard) {
-        const taskId = this.$store.getters["currentTask/task"].id;
+        const taskId = this.$store.getters["currentTask/task"](this.taskId).id;
         this.$emit("closeTask", taskId);
       } else this.$router.go(-1);
     },
     detach(attachmentId) {
       this.$awn.async(
-        this.$store.dispatch("currentTask/detachAttachment", attachmentId),
+        this.$store.dispatch("currentTask/detachAttachment", {
+          key: this.taskId,
+          payload: attachmentId
+        }),
         () => {},
         () => {}
       );
     },
     pasteAttachment(options) {
       this.$awn.async(
-        this.$store.dispatch("currentTask/pasteAttachment", options),
+        this.$store.dispatch("currentTask/pasteAttachment", {
+          key: this.taskId,
+          payload: options
+        }),
         () => {},
         () => {}
       );
@@ -122,16 +129,17 @@ export default {
     headerTitle() {
       return this.isNew
         ? this.taskTypeNames.get(this.taskTypeGuid)
-        : this.$store.getters["currentTask/task"].subject;
+        : this.$store.getters["currentTask/task"](this.taskId).subject;
     },
     attachmentGroups() {
-      return this.$store.getters["currentTask/task"].attachmentGroups;
+      return this.$store.getters["currentTask/task"](this.taskId)
+        .attachmentGroups;
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"];
+      return this.$store.getters["currentTask/isNew"](this.taskId);
     },
     taskType() {
       switch (this.taskTypeGuid) {

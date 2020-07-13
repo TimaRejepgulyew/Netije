@@ -126,70 +126,70 @@ export default {
     DxLabel,
     DxForm
   },
+  props: ["taskId"],
   data() {
     return {
-      key: this.$parent.key,
       validatorGroup: "task"
     };
   },
   methods: {
     setActionItemObservers(value) {
       this.$store.commit("currentTask/SET_ACTION_ITEM_OBSERVERS", {
-        key: this.key,
+        key: this.taskId,
         payload: value
       });
     },
     setCoAssignees(value) {
       this.$store.commit("currentTask/SET_CO_ASSIGNEES", {
-        key: this.key,
+        key: this.taskId,
         payload: value
       });
     },
     setAssignee(value) {
       this.$store.commit("currentTask/SET_ASSIGNEE", {
-        key: this.key,
+        key: this.taskId,
         payload: value
       });
     },
     setSupervisor(value) {
       this.$store.commit("currentTask/SET_SUPERVISOR", {
-        key: this.key,
+        key: this.taskId,
         payload: value
       });
     }
   },
   computed: {
     isUnderControl() {
-      return this.$store.getters["currentTask/task"](this.key).isUnderControl;
+      return this.$store.getters["currentTask/task"](this.taskId).isUnderControl;
     },
     actionItemObservers() {
-      return this.$store.getters["currentTask/task"](this.key)
+      return this.$store.getters["currentTask/task"](this.taskId)
         .actionItemObservers;
     },
     coAssignees() {
-      return this.$store.getters["currentTask/task"](this.key).coAssignees;
+      return this.$store.getters["currentTask/task"](this.taskId).coAssignees;
     },
     supervisorId() {
-      return this.$store.getters["currentTask/task"](this.key).supervisorId;
+      return this.$store.getters["currentTask/task"](this.taskId).supervisorId;
     },
     assigneeId() {
-      return this.$store.getters["currentTask/task"](this.key).assigneeId;
+      return this.$store.getters["currentTask/task"](this.taskId).assigneeId;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"](this.key);
+      return this.$store.getters["currentTask/inProcess"](this.taskId);
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"](this.key);
+      return this.$store.getters["currentTask/isNew"](this.taskId);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.key);
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"](this.key).subject,
+        value: this.$store.getters["currentTask/task"](this.taskId).subject,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_SUBJECT", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }
@@ -197,14 +197,14 @@ export default {
     },
     isUnderControlOptions() {
       return {
-        value: this.$store.getters["currentTask/task"](this.key).isUnderControl,
+        value: this.$store.getters["currentTask/task"](this.taskId).isUnderControl,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_IS_UNDER_CONTROL", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
           this.$store.commit("currentTask/SET_SUPERVISOR", {
-            key: this.key,
+            key: this.taskId,
             payload: null
           });
         }
@@ -214,10 +214,10 @@ export default {
       return {
         placeholder: this.$t("translations.fields.actionItemRequired"),
         height: 250,
-        value: this.$store.getters["currentTask/task"](this.key).body,
+        value: this.$store.getters["currentTask/task"](this.taskId).body,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_BODY", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }
@@ -227,10 +227,10 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"](this.key).maxDeadline,
+        value: this.$store.getters["currentTask/task"](this.taskId).maxDeadline,
         onValueChanged: e => {
           this.$store.commit("currentTask/SET_MAX_DEADLINE", {
-            key: this.key,
+            key: this.taskId,
             payload: e.value
           });
         }

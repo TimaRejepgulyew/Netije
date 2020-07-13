@@ -1,6 +1,5 @@
 <template>
-
-  <card-task />
+  <card-task :taskId="taskId" />
 </template>
 <script>
 import dataApi from "~/static/dataApi";
@@ -12,8 +11,11 @@ export default {
   async asyncData({ app, params }) {
     await app.store.dispatch("currentTask/load", {
       taskType: +params.type,
-      id: +params.id
+      key: +params.id
     });
+    return {
+      taskId: +params.id
+    };
   }
 };
 </script>

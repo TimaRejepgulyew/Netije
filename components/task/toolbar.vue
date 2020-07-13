@@ -47,24 +47,24 @@ export default {
   },
   data() {
     return {
-      key: this.$parent.key
+      taskId: this.$parent.taskId
     };
   },
   computed: {
     isDataChanged() {
-      return this.$store.getters["currentTask/isDataChanged"](this.key);
+      return this.$store.getters["currentTask/isDataChanged"](this.taskId);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.key);
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"](this.key);
+      return this.$store.getters["currentTask/inProcess"](this.taskId);
     },
     isCompleted() {
-      return this.$store.getters["currentTask/isCompleted"](this.key);
+      return this.$store.getters["currentTask/isCompleted"](this.taskId);
     },
     isAborted() {
-      return this.$store.getters["currentTask/isAborted"](this.key);
+      return this.$store.getters["currentTask/isAborted"](this.taskId);
     },
 
     saveButtonOptions() {
@@ -86,7 +86,7 @@ export default {
           )
             this.$awn.asyncBlock(
               this.$store.dispatch("currentTask/startAndLoad", {
-                key: this.key
+                key: this.taskId
               }),
               e => {
                 this.backTo();
@@ -103,7 +103,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/abort", { key: this.key }),
+              this.$store.dispatch("currentTask/abort", { key: this.taskId }),
               e => {
                 this.backTo();
               },
@@ -119,7 +119,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/restart", { key: this.key }),
+              this.$store.dispatch("currentTask/restart", { key: this.taskId }),
               e => {
                 this.backTo();
               },
@@ -143,7 +143,7 @@ export default {
     validateAttachment() {
       let isValid = true;
       let attachments = this.$store.getters["currentTask/task"](
-        this.key
+        this.taskId
       ).attachmentGroups.filter(attachment => attachment.isRequired);
       attachments.forEach(attachment => {
         if (!attachment.entities) isValid = false;
@@ -154,12 +154,15 @@ export default {
       return isValid;
     },
     save() {
+      console.log("save befor")
       if (
         this.validateAttachment() &&
         this.$parent.$refs["form"].instance.validate().isValid
       )
+        console.log("form valid")
+        console.log(this.taskId)
         this.$awn.asyncBlock(
-          this.$store.dispatch("currentTask/saveAndLoad", { key: this.key }),
+          this.$store.dispatch("currentTask/saveAndLoad", { key: this.taskId }),
           e => {},
           e => this.$awn.alert()
         );
