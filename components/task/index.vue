@@ -33,7 +33,7 @@
         />
       </template>
       <template #comments>
-        <comments v-if="!isDraft" :url="commentsUrl"></comments>
+        <thread-texts v-if="!isDraft" entityType="task" :id="$store.getters['currentTask/task'].id"></thread-texts>
       </template>
     </DxForm>
   </div>
@@ -45,7 +45,7 @@ import acquaintanceTask from "~/components/task/acquaintance-task.vue";
 import actionItemExecutionTask from "~/components/task/action-item-execution-task.vue";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import toolbar from "~/components/task/toolbar.vue";
-import comments from "~/components/workFlow/assignment-comments.vue";
+import threadTexts from "~/components/workFlow/thread-text/thread-texts.vue";
 import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
 import DxForm, {
@@ -60,7 +60,7 @@ export default {
     simpleTask,
     acquaintanceTask,
     actionItemExecutionTask,
-    comments,
+    threadTexts,
     toolbar,
     attachment,
     Header,

@@ -10,7 +10,7 @@
       >
         <template #item="item">
           <div class="list-container">
-            <taskTreadText :comment="item.data" />
+            <task-thread-text :comment="item.data" />
           </div>
         </template>
       </DxList>
@@ -18,8 +18,8 @@
   </div>
 </template>
 <script>
-import taskTreadText from "~/components/workFlow/tread-text/task-item.vue";
-import Comment from "~/components/workFlow/comments-item.vue";
+import taskThreadText from "~/components/workFlow/thread-text/task-item.vue";
+
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
@@ -27,16 +27,19 @@ import moment from "moment";
 export default {
   components: {
     DxList,
-    Comment,
-    taskTreadText
+    taskThreadText
   },
-  props: ["url"],
+  props: ["id", "entityType"],
   data() {
+    const url =
+      this.entityType === "task"
+        ? dataApi.task.TextsByTask
+        : dataApi.assignment.TextsByAssignment;
     return {
       comments: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.url + this.$route.params.id
+          loadUrl: url + this.$route.params.id
         })
       })
     };

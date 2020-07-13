@@ -64,7 +64,11 @@
 
             <template #comments>
               <div>
-                <Assignment-comments class="comments" :url="commentsUrl"></Assignment-comments>
+                <thread-texts
+                  class="comments"
+                  :id="$store.getters['currentAssignment/assignment'].id"
+                  entityType="assignment"
+                ></thread-texts>
                 <DxTextArea
                   :visible="inProccess"
                   :placeholder="placeholder"
@@ -107,7 +111,7 @@ import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import "devextreme-vue/text-area";
 import dataApi from "~/static/dataApi";
-import AssignmentComments from "~/components/workFlow/assignment-comments";
+import threadTexts from "~/components/workFlow/thread-text/thread-texts.vue";
 
 import DxForm, {
   DxGroupItem,
@@ -118,7 +122,7 @@ export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    AssignmentComments,
+    threadTexts,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
@@ -154,10 +158,10 @@ export default {
     };
   },
   computed: {
-    bodyOptions(){
+    bodyOptions() {
       return {
-        placeholder:this.placeholder,
-      }
+        placeholder: this.placeholder
+      };
     },
     inProccess() {
       return this.$store.getters["currentAssignment/inProccess"];

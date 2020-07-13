@@ -4,7 +4,6 @@ export default function({
   iconStores = false,
   context
 }) {
-  console.log(context);
   let obj = {};
   for (let item in Constant) {
     obj[Constant[item]] = {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <DxPopup
+    <DxPopup
       :showTitle="false"
       :visible.sync="showTaskCard"
       :drag-enabled="false"
@@ -10,21 +10,34 @@
       :height="'auto'"
     >
       <div>
-        <task-card @closeTask="closeTask" v-if="showTaskCard" :isCard="true" />
+        <task-card v-if="showTaskCard" @closeTask="closeTask" :isCard="true" />
       </div>
-    </DxPopup>-->
+    </DxPopup>
+    <DxPopup
+      :showTitle="false"
+      :visible.sync="showAuthorCard"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="90%"
+      :height="'auto'"
+    >
+      <div>
+        <employee-card v-if="showAuthorCard" :employeeId="comment.author.id" :isCard="true" />
+      </div>
+    </DxPopup>
     <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent}">
       <div class="d-flex js-space-between">
         <div>
           <icon-by-name class="f-size-30" :fullName="comment.author.name"></icon-by-name>
         </div>
         <div>
-          <div @click="()=>toDetail(comment.entity)" class="link">
+          <div @click="()=>toDetailTask(comment.entity)" class="link">
             <span class="text-italic">{{parseSubject(comment.entity.taskType)}}</span>
           </div>
 
           <div class="list__content d-flex">
-            <div class="link" @click="()=>toDetailAuthor(comment.author.id)">
+            <div class="link" @click="toDetailAuthor">
               <i class="dx-icon dx-icon-user"></i>
               {{ comment.author.name}}
             </div>
@@ -54,48 +67,50 @@
         </span>
       </div>-->
     </div>
-
-    <!-- <comment
-      class="ml-1"
-      :v-if="comment.children && comment.children.length"
-      v-for="(item,index) in comment.children"
-      :comment="item"
-      :key="index"
-    />-->
   </div>
 </template>
 <script>
+import taskCard from "~/components/task/index.vue";
+import employeeCard from "~/components/employee/employee-card.vue";
 import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
 import { commentTextByTaskType } from "~/infrastructure/constants/taskType.js";
 import { DxPopup } from "devextreme-vue/popup";
 import iconByName from "~/components/Layout/iconByName.vue";
-import Comment from "~/components/workFlow/comments-item.vue";
+
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
-    Comment,
     iconByName,
-    DxPopup
+    DxPopup,
+    employeeCard,
+    taskCard
   },
-  name: "comment",
+  name: 'task-item',
   props: ["comment"],
   data() {
     return {
-      showTaskCard: false
+      showTaskCard: false,
+      showAuthorCard: false
     };
   },
   methods: {
-    toDetailAuthor() {},
-    tooglePopup() {
-      this.showTaskCard = !this.showTaskCard;
+    closeTask() {},
+    tooglePopup(popupName) {
+      this[popupName] = !this[popupName];
     },
-    async toDetail({ id, taskType }) {
+    toDetailAuthor() {
+      this.tooglePopup("showAuthorCard");
+    },
+    async toDetailTask({ id, taskType }) {
+      console.log(taskType, id);
+      this.$store.commit("currentTask/IS_NEW", false);
       await this.$store.dispatch("currentTask/load", { taskType, id });
-      this.tooglePopup();
+
+      this.tooglePopup("showTaskCard");
     },
     parseIconStatus(status) {
-      return taskStatusGeneratorObj(this)[status].icon;
+      return taskStatusGeneratorObj(this)[status]?.icon;
     },
     parseTextStatus(status) {
       return taskStatusGeneratorObj(this)[status].text;
@@ -189,5 +204,6 @@ export default {
 }
 .link:hover {
   text-decoration: underline;
+  color: #f90;
 }
 </style>
