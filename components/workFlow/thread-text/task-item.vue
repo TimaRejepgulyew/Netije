@@ -34,12 +34,6 @@
         </div>
       </div>
       <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
-      <!-- <div v-if="comment.result" class="list__content message-body">
-        <span class="text--bold">
-          <i class="dx-icon dx-icon-info"></i>
-          {{comment.result}}
-        </span>
-      </div>-->
     </div>
   </div>
 </template>

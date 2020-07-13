@@ -154,13 +154,10 @@ export default {
       return isValid;
     },
     save() {
-      console.log("save befor")
       if (
         this.validateAttachment() &&
         this.$parent.$refs["form"].instance.validate().isValid
       )
-        console.log("form valid")
-        console.log(this.taskId)
         this.$awn.asyncBlock(
           this.$store.dispatch("currentTask/saveAndLoad", { key: this.taskId }),
           e => {},

@@ -33,10 +33,16 @@
         />
       </template>
       <template #comments>
-        <thread-texts v-if="!isDraft" entityType="task" :id="taskId"></thread-texts>
+        <thread-texts
+          v-if="!isDraft"
+          entityType="task"
+          :id="taskId"
+        ></thread-texts>
       </template>
     </DxForm>
   </div>
+
+
 </template>
 <script>
 import documentReviewTask from "~/components/task/document-review-task.vue";
@@ -45,7 +51,6 @@ import acquaintanceTask from "~/components/task/acquaintance-task.vue";
 import actionItemExecutionTask from "~/components/task/action-item-execution-task.vue";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import toolbar from "~/components/task/toolbar.vue";
-import threadTexts from "~/components/workFlow/thread-text/thread-texts.vue";
 import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
 import DxForm, {
@@ -56,11 +61,12 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
+  name: "index",
   components: {
     simpleTask,
     acquaintanceTask,
     actionItemExecutionTask,
-    threadTexts,
+    threadTexts:()=>import("~/components/workFlow/thread-text/thread-texts.vue"),
     toolbar,
     attachment,
     Header,
@@ -92,6 +98,7 @@ export default {
     };
   },
   created() {
+    console.log("created");
     const taskTypeNames = new Map();
     for (let item in TaskType) {
       taskTypeNames.set(

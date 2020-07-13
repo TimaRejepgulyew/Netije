@@ -7,6 +7,9 @@ export const state = () => ({
 });
 
 export const getters = {
+  overlays: state => key => {
+    return state.tasks[key]?.overlays;
+  },
   isDataChanged: state => key => {
     return state.tasks[key].isDataChanged;
   },

@@ -11,7 +11,7 @@
         :height="'auto'"
       >
         <div>
-          <task-card
+          <card-task
             v-if="showTaskCard"
             :taskId="currentTaskCardId"
             @closeTask="closeTask"
@@ -54,7 +54,7 @@
 </template>
 <script>
 import taskThreadText from "~/components/workFlow/thread-text/task-item.vue";
-import taskCard from "~/components/task/index.vue";
+import cardTask from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import employeeCard from "~/components/employee/employee-card.vue";
 import DataSource from "devextreme/data/data_source";
@@ -63,12 +63,12 @@ import DxList from "devextreme-vue/list";
 import moment from "moment";
 export default {
   components: {
-    taskCard,
-    employeeCard,
+    cardTask,
     DxPopup,
     DxList,
     taskThreadText
   },
+  name: "thread-texts",
   props: ["id", "entityType"],
   data() {
     const url =
@@ -79,7 +79,7 @@ export default {
       comments: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: url + this.$route.params.id
+          loadUrl: url + this.id
         })
       }),
       showTaskCard: false,
@@ -99,9 +99,13 @@ export default {
     },
     async toDetailTask({ id, taskType }) {
       this.currentTaskCardId = id;
-      await this.$store.dispatch("currentTask/load", { taskType, key: id });
-
-      this.tooglePopup("showTaskCard");
+      this.$awn.asyncBlock(
+        this.$store.dispatch("currentTask/load", { taskType, key: id }),
+        () => {
+          this.tooglePopup("showTaskCard");
+        },
+        () => {}
+      );
     }
   }
 };

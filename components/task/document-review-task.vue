@@ -86,37 +86,50 @@ export default {
   },
   methods: {
     setResolutionObservers(value) {
-      this.$store.commit("currentTask/SET_RESOLUTION_OBSERVERS", value);
+      this.$store.commit("currentTask/SET_RESOLUTION_OBSERVERS", {
+        key: this.taskId,
+        payload: value
+      });
     },
     setAddresseeId(value) {
-      this.$store.commit("currentTask/SET_ADDRESSEE_ID", value);
+      this.$store.commit("currentTask/SET_ADDRESSEE_ID", {
+        key: this.taskId,
+        payload: value
+      });
     }
   },
   computed: {
     resolutionObservers() {
-      return this.$store.getters["currentTask/task"].resolutionObservers;
+      return this.$store.getters["currentTask/task"](this.taskId)
+        .resolutionObservers;
     },
     addresseeId() {
-      return this.$store.getters["currentTask/task"].addresseeId;
+      return this.$store.getters["currentTask/task"](this.taskId).addresseeId;
     },
 
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"].subject,
+        value: this.$store.getters["currentTask/task"](this.taskId).subject,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", e.value);
+          this.$store.commit("currentTask/SET_SUBJECT", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
     bodyOptions() {
       return {
         height: 250,
-        value: this.$store.getters["currentTask/task"].body,
+        value: this.$store.getters["currentTask/task"](this.taskId).body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_BODY", e.value);;
+          this.$store.commit("currentTask/SET_BODY", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
@@ -124,9 +137,12 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"](this.taskId).deadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_DEADLINE", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     }
