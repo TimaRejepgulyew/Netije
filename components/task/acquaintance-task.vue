@@ -106,53 +106,70 @@ export default {
   },
   data() {
     return {
+      key: this.$parent.key,
       validatorGroup: "task"
     };
   },
   methods: {
     setObservers(value) {
-      this.$store.commit("currentTask/SET_OBSERVERS", value);
+      this.$store.commit("currentTask/SET_OBSERVERS", {
+        key: this.key,
+        payload: value
+      });
     },
     setPerformers(value) {
-      this.$store.commit("currentTask/SET_PERFORMERS", value);
+      this.$store.commit("currentTask/SET_PERFORMERS", {
+        key: this.key,
+        payload: value
+      });
     },
     setExcludedPerformers(value) {
-      this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", value);
+      this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", {
+        key: this.key,
+        payload: value
+      });
     }
   },
   computed: {
     observers() {
-      return this.$store.getters["currentTask/task"].observers;
+      return this.$store.getters["currentTask/task"](this.key).observers;
     },
     performers() {
-      return this.$store.getters["currentTask/task"].performers;
+      return this.$store.getters["currentTask/task"](this.key).performers;
     },
     excludedPerformers(value) {
-      return this.$store.getters["currentTask/task"].excludedPerformers;
+      return this.$store.getters["currentTask/task"](this.key)
+        .excludedPerformers;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"];
+      return this.$store.getters["currentTask/inProcess"](this.key);
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"];
+      return this.$store.getters["currentTask/isNew"](this.key);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.key);
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"].subject,
+        value: this.$store.getters["currentTask/task"](this.key).subject,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", e.value);
+          this.$store.commit("currentTask/SET_SUBJECT", {
+            key: this.key,
+            payload: e.value
+          });
         }
       };
     },
     bodyOptions() {
       return {
         height: 250,
-        value: this.$store.getters["currentTask/task"].body,
+        value: this.$store.getters["currentTask/task"](this.key).body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_BODY", e.value);
+          this.$store.commit("currentTask/SET_BODY", {
+            key: this.key,
+            payload: e.value
+          });
         }
       };
     },
@@ -160,9 +177,12 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"](this.key).deadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_DEADLINE", {
+            key: this.key,
+            payload: e.value
+          });
         }
       };
     },
@@ -171,9 +191,12 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"].needsReview,
+        value: this.$store.getters["currentTask/task"](this.key).needsReview,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_NEEDS_REVIEW", e.value);
+          this.$store.commit("currentTask/SET_NEEDS_REVIEW", {
+            key: this.key,
+            payload: e.value
+          });
         }
       };
     },
@@ -182,12 +205,13 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"].isElectronicAcquaintance,
+        value: this.$store.getters["currentTask/task"](this.key)
+          .isElectronicAcquaintance,
         onValueChanged: e => {
-          this.$store.commit(
-            "currentTask/SET_IS_ELECTRONIC_ACQUAINTANCE",
-            e.value
-          );
+          this.$store.commit("currentTask/SET_IS_ELECTRONIC_ACQUAINTANCE", {
+            key: this.key,
+            payload: e.value
+          });
         }
       };
     }

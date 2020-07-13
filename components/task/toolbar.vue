@@ -45,22 +45,26 @@ export default {
     DxToolbar,
     DxItem
   },
-
+  data() {
+    return {
+      key: this.$parent.key
+    };
+  },
   computed: {
     isDataChanged() {
-      return this.$store.getters["currentTask/isDataChanged"];
+      return this.$store.getters["currentTask/isDataChanged"](this.key);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.key);
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"];
+      return this.$store.getters["currentTask/inProcess"](this.key);
     },
     isCompleted() {
-      return this.$store.getters["currentTask/isCompleted"];
+      return this.$store.getters["currentTask/isCompleted"](this.key);
     },
     isAborted() {
-      return this.$store.getters["currentTask/isAborted"];
+      return this.$store.getters["currentTask/isAborted"](this.key);
     },
 
     saveButtonOptions() {
@@ -81,7 +85,9 @@ export default {
             this.$parent.$refs["form"].instance.validate().isValid
           )
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/startAndLoad"),
+              this.$store.dispatch("currentTask/startAndLoad", {
+                key: this.key
+              }),
               e => {
                 this.backTo();
               },
@@ -97,7 +103,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/abort"),
+              this.$store.dispatch("currentTask/abort", { key: this.key }),
               e => {
                 this.backTo();
               },
@@ -113,7 +119,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/restart"),
+              this.$store.dispatch("currentTask/restart", { key: this.key }),
               e => {
                 this.backTo();
               },
@@ -125,7 +131,7 @@ export default {
   },
   methods: {
     backTo() {
-      this.$emit("backTo")
+      this.$emit("backTo");
     },
     generateHtmlError(attachments) {
       return attachments.map(attachment => {
@@ -136,9 +142,9 @@ export default {
     },
     validateAttachment() {
       let isValid = true;
-      let attachments = this.$store.getters[
-        "currentTask/task"
-      ].attachmentGroups.filter(attachment => attachment.isRequired);
+      let attachments = this.$store.getters["currentTask/task"](
+        this.key
+      ).attachmentGroups.filter(attachment => attachment.isRequired);
       attachments.forEach(attachment => {
         if (!attachment.entities) isValid = false;
       });
@@ -153,7 +159,7 @@ export default {
         this.$parent.$refs["form"].instance.validate().isValid
       )
         this.$awn.asyncBlock(
-          this.$store.dispatch("currentTask/saveAndLoad"),
+          this.$store.dispatch("currentTask/saveAndLoad", { key: this.key }),
           e => {},
           e => this.$awn.alert()
         );

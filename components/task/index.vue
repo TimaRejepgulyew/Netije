@@ -72,6 +72,9 @@ export default {
     documentReviewTask
   },
   props: {
+    key: {
+      type: Number
+    },
     isCard: {
       default: false
     }

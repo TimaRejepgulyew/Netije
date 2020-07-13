@@ -44,9 +44,12 @@ export default function(context) {
   ];
 }
 export const createTaskRequest = async function(context, params) {
-  const replaceOldRoute = context.$store.getters["currentTask/isNew"];
-  await context.$store.dispatch("currentTask/initTask", params);
-  const taskId = context.$store.getters["currentTask/task"].id;
+  const guid = +new Date();
+  await context.$store.dispatch("currentTask/initTask", { ...params, guid });
+  const taskId = context.$store.getters["currentTask/taskIdByGuid"](guid);
+  
+  const replaceOldRoute = context.$store.getters["currentTask/isNew"](taskId);
+
   const route = `/task/detail/${params.taskType}/${taskId}`;
   if (replaceOldRoute) {
     context.$router.replace(route);
@@ -228,7 +231,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon:  documentTypeIcon.orderIcon,
+      icon: documentTypeIcon.orderIcon,
       text: context.$t("createItemDialog.order"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -238,7 +241,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon:  documentTypeIcon.companyDirectiveIcon,
+      icon: documentTypeIcon.companyDirectiveIcon,
       text: context.$t("createItemDialog.companyDirective"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -248,7 +251,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon:  documentTypeIcon.simpleDocumentIcon,
+      icon: documentTypeIcon.simpleDocumentIcon,
       text: context.$t("createItemDialog.simpleDocument"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -258,7 +261,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon:  documentTypeIcon.addendumIcon,
+      icon: documentTypeIcon.addendumIcon,
       text: context.$t("createItemDialog.addendum"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -268,7 +271,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon:  documentTypeIcon.memoIcon,
+      icon: documentTypeIcon.memoIcon,
       text: context.$t("createItemDialog.memo"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -278,7 +281,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon:  documentTypeIcon.powerOfAttorneyIcon,
+      icon: documentTypeIcon.powerOfAttorneyIcon,
       text: context.$t("createItemDialog.powerOfAttorney"),
       async create(params) {
         await createDocumentRequest(context, {
