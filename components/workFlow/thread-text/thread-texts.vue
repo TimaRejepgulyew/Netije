@@ -1,6 +1,37 @@
 <template>
   <div>
     <div>
+      <DxPopup
+        :showTitle="false"
+        :visible.sync="showTaskCard"
+        :drag-enabled="false"
+        :close-on-outside-click="true"
+        :show-title="true"
+        width="90%"
+        :height="'auto'"
+      >
+        <div>
+          <task-card
+            v-if="showTaskCard"
+            :taskId="currentTaskCardId"
+            @closeTask="closeTask"
+            :isCard="true"
+          />
+        </div>
+      </DxPopup>
+      <DxPopup
+        :showTitle="false"
+        :visible.sync="showAuthorCard"
+        :drag-enabled="false"
+        :close-on-outside-click="true"
+        :show-title="true"
+        width="90%"
+        :height="'auto'"
+      >
+        <div>
+          <employee-card v-if="showAuthorCard" :employeeId="currentAuthorId" :isCard="true" />
+        </div>
+      </DxPopup>
       <DxList
         :hover-state-enabled="false"
         :activeStateEnabled="false"
@@ -10,7 +41,11 @@
       >
         <template #item="item">
           <div class="list-container">
-            <task-thread-text :comment="item.data" />
+            <task-thread-text
+              @toDetailAuthor="toDetailAuthor"
+              @toDetailTask="toDetailTask"
+              :comment="item.data"
+            />
           </div>
         </template>
       </DxList>
@@ -19,13 +54,18 @@
 </template>
 <script>
 import taskThreadText from "~/components/workFlow/thread-text/task-item.vue";
-
+import taskCard from "~/components/task/index.vue";
+import { DxPopup } from "devextreme-vue/popup";
+import employeeCard from "~/components/employee/employee-card.vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
 import moment from "moment";
 export default {
   components: {
+    taskCard,
+    employeeCard,
+    DxPopup,
     DxList,
     taskThreadText
   },
@@ -41,8 +81,28 @@ export default {
           key: "id",
           loadUrl: url + this.$route.params.id
         })
-      })
+      }),
+      showTaskCard: false,
+      showAuthorCard: false,
+      currentAuthorId: null,
+      currentTaskCardId: null
     };
+  },
+  methods: {
+    closeTask() {},
+    tooglePopup(popupName) {
+      this[popupName] = !this[popupName];
+    },
+    toDetailAuthor(id) {
+      this.currentAuthorId = id;
+      this.tooglePopup("showAuthorCard");
+    },
+    async toDetailTask({ id, taskType }) {
+      this.currentTaskCardId = id;
+      await this.$store.dispatch("currentTask/load", { taskType, key: id });
+
+      this.tooglePopup("showTaskCard");
+    }
   }
 };
 </script>

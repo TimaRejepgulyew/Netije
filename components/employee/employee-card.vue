@@ -1,11 +1,6 @@
 <template>
   <div>
-    <Header
-     
-      :isbackButton="!isCard"
-      :isNew="false"
-      :headerTitle="employee.name"
-    ></Header>
+    <Header :isbackButton="!isCard" :isNew="false" :headerTitle="employee.name"></Header>
     <toolbar
       @saveChanges="handleSubmit"
       :canSave="$store.getters['permissions/allowUpdating'](entityType)"
@@ -40,7 +35,7 @@
           <DxLabel location="top" :text="$t('translations.fields.fullName')" />
           <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
         </DxSimpleItem>
-       
+
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
@@ -53,7 +48,7 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="5" :caption="$t('translations.fields.departmentId')">
-         <DxSimpleItem
+        <DxSimpleItem
           data-field="jobTitleId"
           :editor-options="jobTitleOptions"
           editor-type="dxSelectBox"
@@ -71,23 +66,21 @@
         <DxSimpleItem data-field="phone">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-        
       </DxGroupItem>
       <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.moreSettings')">
         <DxSimpleItem
-         :col-span="3"
+          :col-span="3"
           data-field="status"
           :editor-options=" statusOptions"
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
-         <DxButtonItem :col-span="3" :button-options="popupPasswordOpt" horizontal-alignment="left" />
+        <DxButtonItem :col-span="3" :button-options="popupPasswordOpt" horizontal-alignment="left" />
       </DxGroupItem>
       <DxGroupItem :col-count="12" :col-span="12">
         <DxSimpleItem
           data-field="note"
-          
           :col-span="12"
           :editor-options="{height: 90}"
           editor-type="dxTextArea"
@@ -187,7 +180,7 @@ export default {
         icon: "key",
         text: this.$t("buttons.changePassword")
       };
-    },
+    }
   },
   methods: {
     goBack() {

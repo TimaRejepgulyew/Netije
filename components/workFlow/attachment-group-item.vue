@@ -96,52 +96,6 @@ export default {
           return "taskField";
       }
     },
-    groupDemo() {
-      let groupDemo = { ...this.group };
-      groupDemo.entities = groupDemo.entities = [
-        {
-          entity: {
-            type: 0,
-            name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-            note: "adwdawd",
-            ourSignatoryId: null,
-            placedToCaseFileDate: null,
-            preparedById: 16,
-            registrationDate: null,
-            registrationNumber: null,
-            registrationState: 1,
-            responsibleForReturnEmployeeId: null,
-            returnDate: null,
-            returnDeadline: null,
-            scheduledReturnDateFromCounterparty: null,
-            subject: "dwadaw",
-            extension: ".pdf"
-          },
-          canDetach: true
-        },
-        {
-          entity: {
-            type: 1,
-            name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-            note: "adwdawd",
-            ourSignatoryId: null,
-            placedToCaseFileDate: null,
-            preparedById: 16,
-            registrationDate: null,
-            registrationNumber: null,
-            registrationState: 1,
-            responsibleForReturnEmployeeId: null,
-            returnDate: null,
-            returnDeadline: null,
-            scheduledReturnDateFromCounterparty: null,
-            subject: "dwadaw",
-            extension: ".pdf"
-          },
-          canDetach: true
-        }
-      ];
-      return groupDemo;
-    },
     hasGroupItem() {
       return this.group.entities;
     }

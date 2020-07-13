@@ -159,7 +159,6 @@ export default {
     taskIcon,
     taskImportant
   },
-
   data() {
     return {
       store: {
@@ -205,7 +204,7 @@ export default {
       this.store.reload();
     },
     showTaskDetail({ data }) {
-      this.$store.commit("currentTask/IS_NEW", false);
+      // this.$store.commit("currentTask/IS_NEW",{key:data.id,payload:false} );
       this.$router.push(`task/detail/${data.taskType}/${data.id}`);
     },
     onRowPrepared(e) {

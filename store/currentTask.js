@@ -3,19 +3,16 @@ import TaskStatus from "~/infrastructure/constants/taskStatus";
 
 export const state = () => ({
   tasks: {},
-  guids: {},
-  task: {},
-  isDataChanged: false,
-  isNew: false
+  guids: {}
 });
 
 export const getters = {
   isDataChanged: state => key => {
-
     return state.tasks[key].isDataChanged;
   },
   isNew: state => key => {
-    return state.tasks[key].isNew;
+    if (state.tasks[key]) return state.tasks[key].isNew;
+    else return false;
   },
   isDraft: state => key => {
     return state.tasks[key].task.status === TaskStatus.Draft;
@@ -50,19 +47,24 @@ export const mutations = {
     state.tasks[key].isDataChanged = payload;
   },
   SET_TASK(state, { key, payload }) {
+    let overlays =
+      state.tasks[key]?.overlays >= 0 ? state.tasks[key].overlays : 0;
     const obj = {
       ...payload,
       isDataChanged: false,
-      isNew: false
+      isNew: false,
+      overlays: overlays
     };
 
     var newObj = { ...state.tasks };
     newObj[key] = obj;
     state.tasks = Object.assign({}, state.tasks, newObj);
-    
   },
   DISPOSE(state, { key }) {
     delete state.tasks[key];
+  },
+  DROP_GUID(state, { key }) {
+    delete state.guids[key];
   },
   SET_SUBJECT(state, { key, payload }) {
     if (checkDataChanged(state.tasks[key].task.subject, payload))
@@ -118,7 +120,9 @@ export const mutations = {
     state.tasks[key].isNew = payload;
   },
   SET_IS_ELECTRONIC_ACQUAINTANCE(state, { key, payload }) {
-    if (checkDataChanged(state.tasks[key].task.isElectronicAcquaintance, payload))
+    if (
+      checkDataChanged(state.tasks[key].task.isElectronicAcquaintance, payload)
+    )
       state.tasks[key].isDataChanged = true;
     state.tasks[key].task.isElectronicAcquaintance = payload;
   },
@@ -165,6 +169,12 @@ export const mutations = {
   },
   ASSING_GUID(state, { key, taskId }) {
     state.guids[key] = { taskId };
+  },
+  INCREMENT_OVERLAY(state, { key }) {
+    state.tasks[key].overlays++;
+  },
+  DECREMENT_OVERLAY(state, { key }) {
+    state.tasks[key].overlays--;
   }
 };
 
@@ -177,7 +187,12 @@ export const actions = {
     commit("SET_IS_DATA_CHANGED", { key: data.task.id, payload: true });
     commit("IS_NEW", { key: data.task.id, payload: true });
   },
-  async load({ getters, commit }, { key, taskType }) {
+  async load({ getters, state, commit }, { key, taskType }) {
+    if (state.tasks[key]?.overlays >= 0) {
+      commit("INCREMENT_OVERLAY", { key });
+      return;
+    }
+
     if (!getters["isNew"](key)) {
       const { data } = await this.$axios.get(
         `${dataApi.task.GetTaskById}${taskType}/${key}`
@@ -201,7 +216,7 @@ export const actions = {
   },
   async startAndLoad({ state, dispatch, getters }, { key }) {
     if (getters["isDataChanged"](key)) {
-      await dispatch("saveAndLoad");
+      await dispatch("saveAndLoad", { key });
     }
     await this.$axios.post(dataApi.task.Start, {
       id: key,
@@ -230,10 +245,14 @@ export const actions = {
     );
     commit("SET_ATTACHMENT_GROUPS", { key, payload: data });
   },
-  async detachAttachment({ commit }, { key, attachmentId }) {
+  async detachAttachment({ commit }, { key, payload }) {
     const { data } = await this.$axios.delete(
-      `${dataApi.attachment.Detach}/${attachmentId}`
+      `${dataApi.attachment.Detach}/${payload}`
     );
     commit("SET_ATTACHMENT_GROUPS", { key, payload: data });
+  },
+  dispose({ state, commit }, { key }) {
+    commit("DECREMENT_OVERLAY", { key });
+    if (state.tasks[key].overlays < 0) commit("DISPOSE", { key });
   }
 };

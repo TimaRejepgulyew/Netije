@@ -79,6 +79,10 @@ export default {
       default: false
     }
   },
+  destroyed() {
+    console.log("delete");
+    this.$store.dispatch("currentTask/dispose", { key: this.taskId });
+  },
   data() {
     return {
       taskTypeNames: null,

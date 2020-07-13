@@ -1,31 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showTaskCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      width="90%"
-      :height="'auto'"
-    >
-      <div>
-        <task-card v-if="showTaskCard" @closeTask="closeTask" :isCard="true" />
-      </div>
-    </DxPopup>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showAuthorCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      width="90%"
-      :height="'auto'"
-    >
-      <div>
-        <employee-card v-if="showAuthorCard" :employeeId="comment.author.id" :isCard="true" />
-      </div>
-    </DxPopup>
     <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent}">
       <div class="d-flex js-space-between">
         <div>
@@ -37,7 +11,7 @@
           </div>
 
           <div class="list__content d-flex">
-            <div class="link" @click="toDetailAuthor">
+            <div class="link" @click="()=>toDetailAuthor(comment.author.id)">
               <i class="dx-icon dx-icon-user"></i>
               {{ comment.author.name}}
             </div>
@@ -70,44 +44,24 @@
   </div>
 </template>
 <script>
-import taskCard from "~/components/task/index.vue";
-import employeeCard from "~/components/employee/employee-card.vue";
 import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
 import { commentTextByTaskType } from "~/infrastructure/constants/taskType.js";
-import { DxPopup } from "devextreme-vue/popup";
 import iconByName from "~/components/Layout/iconByName.vue";
-
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
-    iconByName,
-    DxPopup,
-    employeeCard,
-    taskCard
+    iconByName
   },
-  name: 'task-item',
+  name: "task-item",
   props: ["comment"],
-  data() {
-    return {
-      showTaskCard: false,
-      showAuthorCard: false
-    };
-  },
-  methods: {
-    closeTask() {},
-    tooglePopup(popupName) {
-      this[popupName] = !this[popupName];
-    },
-    toDetailAuthor() {
-      this.tooglePopup("showAuthorCard");
-    },
-    async toDetailTask({ id, taskType }) {
-      console.log(taskType, id);
-      this.$store.commit("currentTask/IS_NEW", false);
-      await this.$store.dispatch("currentTask/load", { taskType, id });
 
-      this.tooglePopup("showTaskCard");
+  methods: {
+    toDetailTask(params) {
+      this.$emit("toDetailTask", params);
+    },
+    toDetailAuthor(id) {
+      this.$emit("toDetailAuthor", id);
     },
     parseIconStatus(status) {
       return taskStatusGeneratorObj(this)[status]?.icon;
