@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import ReviewResult from "~/infrastructure/constants/revievResult/baseResult.js";
+import ReviewResult from "~/infrastructure/constants/assignmentResult/baseResult.js";
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 

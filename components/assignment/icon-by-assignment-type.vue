@@ -12,7 +12,7 @@ export default {
         case AssignmentType.AcquaintanceAssignment:
         case AssignmentType.ReviewDraftResolutionAssignment:
        
-          return require("~/static/icons/status/acquiantance.svg");
+          return require("~/static/icons/acquintanceTask.svg");
         case AssignmentType.SimpleAssignment:
         case AssignmentType.ActionItemExecutionAssignment:
         case AssignmentType.PreparingDraftResolutionAssignment:

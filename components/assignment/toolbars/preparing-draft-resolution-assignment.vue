@@ -82,7 +82,7 @@ import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
-import PrepareDraftResolutionResult from "~/infrastructure/constants/revievResult/prepareDraftResolutionResult.js";
+import PrepareDraftResolutionResult from "~/infrastructure/constants/assignmentResult/prepareDraftResolution.js";
 import commentForm from "~/components/assignment/comment-form.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";

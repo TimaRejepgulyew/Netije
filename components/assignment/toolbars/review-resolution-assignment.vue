@@ -41,7 +41,7 @@ import taskCard from "~/components/task/index.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 
-import ReviewResolution from "~/infrastructure/constants/revievResult/reviewResolution.js";
+import ReviewResolution from "~/infrastructure/constants/assignmentResult/reviewResolution.js";
 
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
