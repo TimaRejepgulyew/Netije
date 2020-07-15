@@ -60,7 +60,6 @@ export default function(context) {
           path: pathGenerate("document-register"),
           visible: isVisible(EntityType.DocumentRegister)
         },
-
         {
           name: context.$t("docFlow.regSetting.regGroup"),
           description: context.$t("docFlow.regSetting.regGroupDescr"),
@@ -68,9 +67,15 @@ export default function(context) {
           visible: isVisible(EntityType.RegistrationGroup)
         },
         {
-          name: context.$t("docFlow.documentSetting.deliveriMethods"),
+          name: context.$t("docFlow.regSetting.registrationSettings"),
+          description: context.$t("docFlow.regSetting.registrationSettingsDescr"),
+          path: pathGenerate("registration-settings"),
+          visible: isVisible(EntityType.RegistrationSetting)
+        },
+        {
+          name: context.$t("docFlow.regSetting.deliveriMethods"),
           description: context.$t(
-            "docFlow.documentSetting.deliveriMethodsDescr"
+            "docFlow.regSetting.deliveriMethodsDescr"
           ),
           path: pathGenerate("mail-delivery-method"),
           visible: isVisible(EntityType.MailDeliveryMethod)

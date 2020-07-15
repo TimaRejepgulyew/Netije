@@ -17,8 +17,6 @@ export default {
       docKind: "Виды документов",
       docKindDescr:
         "Классификация документов, определяющая документопоток, тип нумерации документа.",
-      deliveriMethods: "Способ доставки документов",
-      deliveriMethodsDescr: "Настройте способ доставки документов",
       categories: "Категории договоров",
       categoriesDescr:
         "Дополнительная классификация договоров в рамках видов документов."
@@ -30,7 +28,11 @@ export default {
         "Перечень журналов, используемых для учета, нумерации и регистрации документов.",
       regGroup: "Группы регистрации",
       regGroupDescr:
-        "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации."
+        "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации.",
+      registrationSettings: "Настройки регистрации",
+      registrationSettingsDescr: "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
+      deliveriMethods: "Способ доставки документов",
+      deliveriMethodsDescr: "Настройте способ доставки документов"
     },
     caseFileSetting: {
       title: "Номенклатура дел",
@@ -213,6 +215,19 @@ export default {
     externalApprovalState: "Согл. с контрагентом",
     executionState: "Исполнение",
     controlExecutionState: "Контроль исполнения",
+    tabs: {
+      main: "Свойства",
+      relations: "Связи",
+      history: "История"
+    },
+    groups: {
+      captions: {
+        main: "ОСНОВНОЕ",
+        numberAndDate: "ДАТА И НОМЕР",
+        storing: "ХРАНЕНИЕ",
+        lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ"
+      }
+    },
     fields: {
       accountNumber: "Номер счета",
       accountDate: "Дата счета",
@@ -234,8 +249,9 @@ export default {
       created: "Создан",
       modified: "Изменено",
       authorId: "Автор",
-      registrationDate: "Дата Рег.",
+      registrationDate: "Дата документа",
       registrationNumber: "Рег. №",
+      documentNumber:"Номер документа",
       correspondentId: "Контрагент",
       subject: "Содержание",
       documentKindId: "Вид документа",
@@ -377,7 +393,7 @@ export default {
     incomming: "Исходящие",
 
     user: "Пользователи",
-    logs:"Логи"
+    logs: "Логи"
   },
   buttons: {
     new: "Новые",
@@ -442,7 +458,7 @@ export default {
       totalAmount: "Сумма",
       currencyId: "Валюта",
       IsStandard: "Типовой",
-      IsStandardSupAgreement:"Типовое",
+      IsStandardSupAgreement: "Типовое",
       responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",
       isUnderControl: "На контроль",
@@ -718,11 +734,6 @@ export default {
       documentKindId: "Вид документа",
       documentKindIdRequired: "Выберите вид документа",
       documentRegisterId: "Журнал регистрации",
-      documentRegisterIdRequired: "Выберите журнал регитсрации",
-      registrationNumber: "Рег. №",
-      registrationDate: "Дата регистрации документа",
-      cancelDocRegistrySuccess: "Отмена регистрации прошла успешна",
-      cancelDocRegistryError: "При отмене регистрации произошла ошибка",
       numerable: "Нумерумый",
       notNumerable: "Не нумеруемый",
       registrable: "Регистрируемый",
@@ -739,7 +750,6 @@ export default {
       moreSettings: "Дополнительные настройки",
       moreAbout: "Подробнее",
       settingType: "Тип настройки регистрации документов",
-      settingTypeRequired: "Выберите тип настройки регистрации документов",
       availableActions: "Действие по отправке",
       availableActions: "Действие по отправке",
       numberingSection: "Разрез нумерации",
@@ -840,8 +850,6 @@ export default {
       registrationError: "При регистрации документа произошла ошибка",
       updateDocRegistryError:
         "При редактирование журнала регистрации  произошла ошибка",
-      addRegistrationSetting: "Добавление настройки регистрации",
-      editRegistrationSetting: "Редактирование настройки регистрации",
       addRegistrationGroup: "Добавление групп регистрации",
       editRegistrationGroup: "Редактирование групп регистрации",
       simpleTask: "Простая задача",

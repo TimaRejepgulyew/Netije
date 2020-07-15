@@ -8,20 +8,21 @@
     validation-group="OfficialDocument"
   >
     <DxGroupItem :col-count="1">
-      <DxGroupItem
-        :visible="isRegistrationInfoVisible"
-        :caption="$t('translations.fields.registration')"
-      >
+      <DxGroupItem :caption="$t('document.groups.captions.numberAndDate')">
         <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
-          <DxLabel location="top" :text="$t('translations.fields.regNumberDocument')" />
+          <DxLabel
+            location="top"
+            :text="isRegistrable?$t('document.fields.registrationNumber'):$t('document.fields.documentNumber')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
+          :visible="isRegistrable"
           data-field="documentRegisterId"
           :editor-options="documentRegisterOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.documentRegisterId')" />
+          <DxLabel location="top" :text="$t('document.fields.documentRegisterId')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -29,17 +30,25 @@
           :editor-options="registrationDateOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.registrationDate')" />
+          <DxLabel location="top" :text="$t('document.fields.registrationDate')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :visible="deliveryMethodVisible"
+          data-field="deliveryMethodId"
+          :editor-options="deliveryMethodOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :caption="$t('translations.fields.storing')">
+      <DxGroupItem :caption="$t('document.groups.captions.storing')">
         <DxSimpleItem
-        :isRequired="caseFileRequired"
+          :isRequired="caseFileRequired"
           data-field="caseFileId"
           :editor-options="caseFileOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.caseFileId')" />
+          <DxLabel location="top" :text="$t('document.fields.caseFileId')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -47,13 +56,15 @@
           :editor-options="placedToCaseFileDateOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.placedToCaseFileDate')" />
+          <DxLabel location="top" :text="$t('document.fields.placedToCaseFileDate')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
   </DxForm>
 </template>
 <script>
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import NumberingType from "~/infrastructure/constants/numberingTypes.js";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -74,10 +85,29 @@ export default {
     }
   },
   computed: {
-    caseFileRequired(){
-      return Boolean(this.$store.getters["currentDocument/document"].placedToCaseFileDate);
+    deliveryMethodVisible() {
+      var documentTypeGuid = this.$store.getters["currentDocument/document"]
+        .documentTypeGuid;
+      return (
+        documentTypeGuid == DocumentTypeGuid.IncomingLetter ||
+        documentTypeGuid == DocumentTypeGuid.OutgoingLetter
+      );
     },
-    isRegistrationInfoVisible() {
+    isRegistrable() {
+      return (
+        this.$store.getters["currentDocument/document"].documentKind
+          .numberingType == NumberingType.Registrable
+      );
+    },
+    canRegister() {
+      return this.$store.getters["currentDocument/canRegister"];
+    },
+    caseFileRequired() {
+      return Boolean(
+        this.$store.getters["currentDocument/document"].placedToCaseFileDate
+      );
+    },
+    isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
     },
     canUpdate() {
@@ -88,6 +118,7 @@ export default {
     },
     placedToCaseFileDateOptions() {
       return {
+        readOnly: !this.canRegister,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
@@ -114,6 +145,18 @@ export default {
         value: this.$store.getters["currentDocument/document"].registrationDate
       };
     },
+    deliveryMethodOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.docFlow.MailDeliveryMethod
+        }),
+        value: this.$store.getters["currentDocument/document"].deliveryMethodId,
+        onValueChanged: e => {
+          this.$store.commit("currentDocument/SET_DELIVERY_METHOD_ID", e.value);
+        }
+      };
+    },
     documentRegisterOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -127,6 +170,7 @@ export default {
     },
     caseFileOptions() {
       return {
+        readOnly: !this.canRegister,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.documentRegistration.CaseFiles,

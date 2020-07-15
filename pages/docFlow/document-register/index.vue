@@ -101,7 +101,6 @@
           display-expr="name"
         />
       </DxColumn>
-      
     </DxDataGrid>
   </main>
 </template>
@@ -180,14 +179,8 @@ export default {
     canOperateWithDocumentRegister(documentRegister, permission) {
       const employeeId = this.$store.getters["permissions/employeeId"];
       if (this.$store.getters["permissions/IsAdmin"]) return true;
-      if (!this.$store.getters[`permissions/${permission}`](this.entityType))
-        return false;
-      if (
-        documentRegister.documentRegisterResponsibleId == employeeId ||
-        !documentRegister.documentRegisterResponsibleId
-      )
-        return true;
-      return false;
+
+      return this.$store.getters[`permissions/${permission}`](this.entityType);
     },
     showCurrentNumberPopup(e) {
       this.selectedDocumentRegisterId = e.row.key;
