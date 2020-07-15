@@ -43,11 +43,9 @@ export default {
     RegistrationGroupMembers: `${url}/api/RegistrationGroupMembers/`,
     MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
     DocumentRegistry: `${url}/api/DocumentRegistry`,
-    RegSettingAvailableBusinessUnits: `${url}/api/RegistrationSetting/AvailableBusinessUnits`,
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
-    FilesType: `${url}/api/FilesType`,
-    RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
+    FilesType: `${url}/api/FilesType`
   },
   documentRegistration: {
     RegisterDocument: `${url}/api/OfficialDocument/Register`,

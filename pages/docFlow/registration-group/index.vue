@@ -82,6 +82,14 @@
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
         <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
       </DxColumn>
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusDataSource"
+          value-expr="id"
+          display-expr="status"
+        />
+      </DxColumn>
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">

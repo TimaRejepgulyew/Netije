@@ -40,6 +40,7 @@
   </form>
 </template>
 <script>
+import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
 import { DxTagBox } from "devextreme-vue/tag-box";
@@ -85,18 +86,9 @@ export default {
       return `${dataApi.docFlow.RegistrationSetting}`;
     },
     businessUnitOptions() {
-      let address;
-      let dataSource;
-      if (this.isUpdated) {
-        address = dataApi.company.BusinessUnit;
-      } else {
-        address = `${dataApi.docFlow.RegSettingAvailableBusinessUnits}/ 
-            ${this.documentRegisterId}`;
-      }
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: address,
-        disabled: this.isUpdated
+        url: dataApi.company.BusinessUnit,
       });
     },
     departmentOptions() {
@@ -107,7 +99,7 @@ export default {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.Department,
-        filter: [["businessUnitId", "=", id], "and", ["status", "=", 0]]
+        filter: [["businessUnitId", "=", id], "and", ["status", "=", Status.Active]]
       });
     },
 

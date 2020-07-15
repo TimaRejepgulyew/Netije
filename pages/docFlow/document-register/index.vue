@@ -101,14 +101,7 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxMasterDetail
-        :enabled="$store.getters['permissions/allowReading'](registrationSettingsEntityType)"
-        template="masterDetailTemplate"
-      />
-
-      <template v-if="canUpdate" #masterDetailTemplate="documentRegistry">
-        <RegSettingDetail :documentRegistry="documentRegistry.data" />
-      </template>
+      
     </DxDataGrid>
   </main>
 </template>
@@ -116,13 +109,11 @@
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import CurrentNumberPopup from "~/components/docFlow/document-registry/current-number-popup";
-import RegSettingDetail from "~/components/docFlow/document-registry/registration-settings-master-detail";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxPopup } from "devextreme-vue/popup";
 import {
-  DxMasterDetail,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -143,8 +134,6 @@ import {
 
 export default {
   components: {
-    DxMasterDetail,
-    RegSettingDetail,
     Header,
     DxSearchPanel,
     DxDataGrid,
