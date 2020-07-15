@@ -1,6 +1,6 @@
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 const AssignmentStatus = {
-  InProccess: 0,
+  InProcess: 0,
   Suspended: 1,
   Completed: 2,
   Aborted: 3

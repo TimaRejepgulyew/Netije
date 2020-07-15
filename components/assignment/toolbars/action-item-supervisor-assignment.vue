@@ -1,9 +1,9 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-      <DxItem :visible="inProccess" :options="btnOptions" location="before" widget="dxButton" />
+      <DxItem :visible="InProcess" :options="btnOptions" location="before" widget="dxButton" />
       <DxItem
-        :visible="inProccess"
+        :visible="InProcess"
         :options="reworkBtnOptions"
         location="before"
         widget="dxButton"
@@ -21,8 +21,8 @@ export default {
     DxItem
   },
   computed: {
-    inProccess() {
-      return this.$store.getters["currentAssignment/inProccess"];
+    InProcess() {
+      return this.$store.getters["currentAssignment/InProcess"];
     },
     btnOptions() {
       return {

@@ -70,7 +70,7 @@
                   entityType="assignment"
                 ></thread-texts>
                 <DxTextArea
-                  :visible="inProccess"
+                  :visible="InProcess"
                   :placeholder="placeholder"
                   :on-value-changed="setComment"
                   :height="100"
@@ -163,8 +163,8 @@ export default {
         placeholder: this.placeholder
       };
     },
-    inProccess() {
-      return this.$store.getters["currentAssignment/inProccess"];
+    InProcess() {
+      return this.$store.getters["currentAssignment/InProcess"];
     },
     placeholder() {
       switch (this.$store.getters["currentAssignment/assignmentType"]) {

@@ -17,7 +17,8 @@ const AssignmentType = {
   ReviewObserversNotification: 14,
   ReviewClerkNotification: 15,
   ActionItemObserversNotification: 16,
-  ActionItemSupervisorNotification: 17
+  ActionItemSupervisorNotification: 17,
+
 };
 export default AssignmentType;
 export function isAssignment(type) {

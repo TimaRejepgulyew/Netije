@@ -16,7 +16,7 @@ export default {
         case TaskType.ActionItemExecutionTask:
           return require("~/static/icons/actionItemExecution.svg");
         default:
-          return require("~/static/icons/iconAssignment/inProccess1.svg");
+          return require("~/static/icons/iconAssignment/InProccess1.svg");
       }
     }
   }

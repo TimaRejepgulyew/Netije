@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     toolbarItemVisible() {
-      return this.$store.getters["currentAssignment/inProccess"];
+      return this.$store.getters["currentAssignment/InProcess"];
     },
     btnSendToAssigneeOptions() {
       return {

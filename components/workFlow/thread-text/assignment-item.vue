@@ -36,8 +36,8 @@
             {{parseTextResult(comment.entity.result)}}
           </div>
           <div v-else class="d-flex task__item item--status">
-            <img class="icon--status" :src="parseIconStatus(comment.entity.result)" />
-            {{parseTextStatus(comment.entity.result)}}
+            <img class="icon--status" :src="parseIconStatus(comment.entity.status)" />
+            {{parseTextStatus(comment.entity.status)}}
           </div>
         </div>
       </div>
@@ -89,6 +89,7 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseIconStatus(status) {
+      console.log(assignmentStatusLocalization(this)[status]);
       return assignmentStatusLocalization(this)[status]?.icon;
     },
     parseTextStatus(status) {

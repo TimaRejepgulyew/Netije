@@ -28,7 +28,7 @@
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.deadline)}}</div>
           <div class="d-flex task__item item--status">
-            <img class="icon--status" :src="()=>isReadStatusIcon(comment.entity.isRead)" />
+            <img class="icon--status" :src="isReadStatusIcon(comment.entity.isRead)" />
             {{isReadStatusText(comment.entity.isRead)}}
           </div>
         </div>
@@ -49,7 +49,7 @@
 </template>
 <script>
 import unreadIcon from "~/static/icons/status/unread.svg";
-import read from "~/static/icons/status/read.svg";
+import readIcon from "~/static/icons/status/read.svg";
 import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
@@ -62,12 +62,18 @@ export default {
   },
   name: "task-item",
   props: ["comment"],
+  data() {
+    return {
+      readIcon,
+      unreadIcon
+    };
+  },
   methods: {
     isReadStatusText(isRead) {
       return isRead ? this.$t("shared.read") : this.$t("shared.unread");
     },
     isReadStatusIcon(isRead) {
-      return isRead ? readIcon : unreadIcon;
+      return isRead ? this.readIcon : this.unreadIcon;
     },
     toDetail(emitName, params) {
       this.$emit(emitName, params);
@@ -79,6 +85,7 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseSubject(value) {
+      console.log(value);
       return assignmentTypeName(this)[value]?.text;
     },
     formatDate(date) {

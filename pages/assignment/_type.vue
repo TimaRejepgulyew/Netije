@@ -112,11 +112,7 @@
           data-type="date"
         />
         <template #isImportant="cell">
-          <img
-            v-if="cell.data.value|isImportant"
-            class="icon--type"
-            :src="cell.data.value|isImportant"
-          />
+          <is-important-icon v-if="cell.data.value" :state="cell.data.value" />
         </template>
         <template #typeIcon="cell">
           <icon-by-assignment-type class="icon--type" :assignmentType="cell.data.value" />
@@ -131,6 +127,7 @@
   </main>
 </template>
 <script>
+import isImportantIcon from "~/components/page/task-important.vue";
 import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
@@ -182,7 +179,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    iconByAssignmentType
+    iconByAssignmentType,
+    isImportantIcon
   },
 
   data() {
@@ -256,12 +254,10 @@ export default {
     showAssignment(e) {
       this.$router.push("/assignment/more/" + e.key);
     },
-  
+
     showFilter() {
       this.isFilterOpen = !this.isFilterOpen;
-    }
-  },
-  filters: {
+    },
     isImportant(value) {
       switch (value) {
         case Important.High:

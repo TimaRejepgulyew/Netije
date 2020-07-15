@@ -9,7 +9,7 @@ import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 export function commentTextByTaskType(context) {
   return generatorMapObj({
     Constant: TaskType,
-    translateName: "task.subject",
+    translateName: "task.type",
     context: context
   });
 }

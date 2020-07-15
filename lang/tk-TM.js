@@ -464,7 +464,7 @@ export default {
       documentFlowRequired: "Resminama dolanyşygyny saýlaň",
       responsibleId: "Bellige alyş topary üçin jogapkär",
       responsibleIdRequired: "Bellige alyş topary üçin jogapkäri saýlaň",
-      inProccess: "Işlenýär",
+      InProcess: "Işlenýär",
       all: "Hemmesi",
       main: "Esasy",
       incomingEnum: "Giriş",

@@ -111,10 +111,10 @@ export default {
 
       return addresseeId
         ? false
-        : this.$store.getters["currentAssignment/inProccess"];
+        : this.$store.getters["currentAssignment/InProcess"];
     },
     isRework() {
-      if (this.$store.getters["currentAssignment/inProccess"])
+      if (this.$store.getters["currentAssignment/InProcess"])
         return this.$store.getters["currentAssignment/assignment"].isRework;
       else return true;
     },

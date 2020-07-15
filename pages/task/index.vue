@@ -174,7 +174,7 @@ export default {
         },
         {
           id: TaskStatus.InProcess,
-          name: this.$t("translations.fields.inProccess")
+          name: this.$t("translations.fields.InProcess")
         },
         {
           id: TaskStatus.Completed,

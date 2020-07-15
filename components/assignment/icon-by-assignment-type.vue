@@ -36,7 +36,7 @@ export default {
         case AssignmentType.ActionItemSupervisorNotification:
           return require("~/static/icons/iconAssignment/notice.svg");
         default:
-          return require("~/static/icons/iconAssignment/inProccess1.svg");
+          return require("~/static/icons/iconAssignment/InProccess1.svg");
       }
     }
   }

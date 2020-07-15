@@ -12,8 +12,8 @@ export const getters = {
   isCompleted({ assignment }) {
     return assignment.status === AssignmentStatus.Completed;
   },
-  inProccess({ assignment }) {
-    return assignment.status === AssignmentStatus.InProccess;
+  InProcess({ assignment }) {
+    return assignment.status === AssignmentStatus.InProcess;
   },
   assignmentType({ assignment }) {
     return assignment.assignmentType;

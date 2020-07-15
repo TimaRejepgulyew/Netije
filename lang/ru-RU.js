@@ -3,6 +3,22 @@ export default {
     active: "Активный",
     closed: "Закрытый"
   },
+  task: {
+    status: {
+      InProcess: "В процессе",
+      Draft: "Черновик",
+      Suspended: "Приостановленный",
+      Completed: "Завершено",
+      Aborted: "Прекращено",
+      UnderReview: "На приемке"
+    },
+    type: {
+      SimpleTask: "Задача",
+      AcquaintanceTask: "Задача на ознакомление",
+      ActionItemExecutionTask: "Задача на исполнение поручения",
+      DocumentReviewTask: "Задача на рассмотрение"
+    }
+  },
   docFlow: {
     headerTitle: "Документооборот",
     headerDescription:
@@ -169,8 +185,8 @@ export default {
     version: "Версии"
   },
   shared: {
-    read:"Прочитано",
-    unread:"Не прочитано",
+    read: "Прочитано",
+    unread: "Не прочитано",
     explanation: "Пояснение",
     account: "Счет",
     conditions: "Условия",
@@ -292,6 +308,52 @@ export default {
       "После принятия к сведению задание завершится без исполнения",
     acceptAssignmentMessage: "Вы действительно приняли задачу",
     readdressToEmployee: "Переадресовать сотруднику",
+    result: {
+      AddAssignment: "Отправлено на исполнение",
+      AddResolution: "Вынесена резолюция",
+      Explored: "Принято к сведению",
+      Forward: "Вынесена резолюция"
+    },
+    status: {
+      InProcess: "В процессе",
+      Draft: "Черновик",
+      Suspended: "Приостановленный",
+      Completed: "Завершено",
+      Aborted: "Прекращено",
+      UnderReview: "На приемке"
+    },
+    type: {
+      SimpleAssignment: "Простое задание",
+      AcquaintanceAssignment: "Задание на ознакомление",
+      ActionItemExecutionAssignment: "Задание на исполнение поручений",
+      Notice: "Уведомление",
+      ActionItemExecutionNotification:
+        "Уведомление задания на исполнение поручений",
+      AcquaintanceFinishAssignment:
+        "Уведомление о завершение задания на ознакомление",
+      ActionItemSupervisorAssignment:
+        "Задание на контроль исполнение поручений",
+      ReviewAssignment: "Задание на приемку",
+      PreparingDraftResolutionAssignment:
+        "Подготовка проекта резолюции для рассмотрения документа руководителем",
+      ReviewDraftResolutionAssignment:
+        " Рассмотрение руководителем документа с проектом резолюции",
+      ReviewManagerAssignment:
+        "Задание на рассмотрение документа .Рассмотрение руководителем",
+      ReviewResolutionAssignment: "Обработка резолюции",
+      ReviewObserverNotification: "Уведомление наблюдателю",
+      ReviewObserversNotification: "Уведомление о рассмотрении",
+      ReviewClerkNotification: "Уведомление автору задачи на рассмотрение",
+      FreeApprovalAssignment: "Задание на согласование документа",
+      FreeApprovalFinishAssignment:
+        "Задание на завершение согласование документа",
+      FreeApprovalReworkAssignmen: " Доработка документа на согласование",
+      ActionItemObserversNotification:
+        " Уведомление наблюдателей в Задание на исполнение поручений",
+      ActionItemSupervisorNotification:
+        "Уведомление контроллеров в задание на исполнение поручений",
+      FreeApprovalNotification: "Уведомление"
+    },
     prefixes: {
       actionItemSupervisorAssignment: "Примите работы: ",
       actionItemExecutionAssignment: "Исполните: ",
@@ -671,7 +733,7 @@ export default {
       documentFlowRequired: "Выберите документопоток",
       responsibleId: "Ответственный за группу регистрации",
       responsibleIdRequired: "Введите ответственного за группу регистрации",
-      inProccess: "В процессе",
+      InProcess: "В процессе",
       all: "Все",
       main: "Основное",
       incomingEnum: "Входящий",

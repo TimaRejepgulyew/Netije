@@ -41,8 +41,8 @@ export default {
   statusType(context) {
     return [
       {
-        id: AssigmentStatus.InProccess,
-        name: context.$t("translations.fields.inProccess")
+        id: AssigmentStatus.InProcess,
+        name: context.$t("translations.fields.InProcess")
       },
       {
         id: AssigmentStatus.Completed,

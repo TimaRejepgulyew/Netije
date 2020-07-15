@@ -3,7 +3,7 @@
     <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
     <div class="f-grow-1">
       <employee-select-box
-        :read-only="!inProccess"
+        :read-only="!InProcess"
         :value="addresseeId"
         @valueChanged="valueChanged"
       />
@@ -39,8 +39,8 @@ export default {
     addresseeId() {
       return this.$store.getters["currentAssignment/assignment"].addresseeId;
     },
-    inProccess() {
-      return this.$store.getters["currentAssignment/inProccess"];
+    InProcess() {
+      return this.$store.getters["currentAssignment/InProcess"];
     }
   }
 };
