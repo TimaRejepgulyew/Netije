@@ -11,7 +11,7 @@
       <DxGroupItem :caption="$t('document.groups.captions.numberAndDate')">
         <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
           <DxLabel
-            location="top"
+            location="left"
             :text="isRegistrable?$t('document.fields.registrationNumber'):$t('document.fields.documentNumber')"
           />
         </DxSimpleItem>
@@ -22,7 +22,7 @@
           :editor-options="documentRegisterOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('document.fields.documentRegisterId')" />
+          <DxLabel location="left" :text="$t('document.fields.documentRegisterId')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -30,7 +30,7 @@
           :editor-options="registrationDateOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="top" :text="$t('document.fields.registrationDate')" />
+          <DxLabel location="left" :text="$t('document.fields.registrationDate')" />
         </DxSimpleItem>
         <DxSimpleItem
           :visible="deliveryMethodVisible"
@@ -38,7 +38,7 @@
           :editor-options="deliveryMethodOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
+          <DxLabel location="left" :text="$t('document.fields.deliveryMethodId')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :caption="$t('document.groups.captions.storing')">
@@ -48,7 +48,7 @@
           :editor-options="caseFileOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('document.fields.caseFileId')" />
+          <DxLabel location="left" :text="$t('document.fields.caseFileId')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -56,7 +56,7 @@
           :editor-options="placedToCaseFileDateOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="top" :text="$t('document.fields.placedToCaseFileDate')" />
+          <DxLabel location="left" :text="$t('document.fields.placedToCaseFileDate')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
