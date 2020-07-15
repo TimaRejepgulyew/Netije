@@ -41,9 +41,10 @@
       >
         <template #item="item">
           <div class="list-container">
-            <task-thread-text
+            <tread-text-mediator
               @toDetailAuthor="toDetailAuthor"
               @toDetailTask="toDetailTask"
+              @toDetailAssignment="toDetailAssignment"
               :comment="item.data"
             />
           </div>
@@ -53,7 +54,6 @@
   </div>
 </template>
 <script>
-import taskThreadText from "~/components/workFlow/thread-text/task-item.vue";
 import cardTask from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import employeeCard from "~/components/employee/employee-card.vue";
@@ -64,9 +64,11 @@ import moment from "moment";
 export default {
   components: {
     cardTask,
+    employeeCard,
     DxPopup,
     DxList,
-    taskThreadText
+    treadTextMediator: () =>
+      import("~/components/workFlow/thread-text/text-mediator.vue")
   },
   name: "thread-texts",
   props: ["id", "entityType"],
@@ -97,6 +99,7 @@ export default {
       this.currentAuthorId = id;
       this.tooglePopup("showAuthorCard");
     },
+    async toDetailAssignment({ id, assignmentType }) {},
     async toDetailTask({ id, taskType }) {
       this.currentTaskCardId = id;
       this.$awn.asyncBlock(

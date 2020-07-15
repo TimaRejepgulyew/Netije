@@ -1,4 +1,4 @@
-import resultIcon from "~/static/icons/status/assignmentResult.js";
+import * as resultIcon from "~/static/icons/status/assignmentResult.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 const BaseResult = {

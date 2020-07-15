@@ -7,7 +7,7 @@
         </div>
         <div>
           <div @click="()=>toDetailAssignment(comment.entity)" class="link">
-            <span class="text-italic">{{parseSubject(comment.entity.taskType)}}</span>
+            <span class="text-italic">{{parseSubject(comment.entity.assignmentType)}}</span>
           </div>
 
           <div class="list__content d-flex">
@@ -38,8 +38,8 @@
   </div>
 </template>
 <script>
-import { getElementsResultByAssignmentType } from "~/infrastructure/constants/assignmentResult.js";
-
+import { generateElementsResult } from "~/infrastructure/constants/assignmentResult.js";
+import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
 import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
 import { commentTextByTaskType } from "~/infrastructure/constants/taskType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
@@ -51,11 +51,12 @@ export default {
   },
   name: "task-item",
   props: ["comment"],
-data(){
-  return {
-    icon
-  }
-},
+  data() {
+    return {
+      resultStore: generateElementsResult(this.comment.entity.assignmentType)
+    };
+  },
+
   methods: {
     toDetailAssignment(params) {
       this.$emit("toDetailAssignment", params);
@@ -63,14 +64,15 @@ data(){
     toDetailAuthor(id) {
       this.$emit("toDetailAuthor", id);
     },
-    parseIconStatus(status) {
-      return taskStatusGeneratorObj(this)[status]?.icon;
+    parseIconStatus(result) {
+      console.log(this.resultStore(this), result);
+      return this.resultStore(this)[result]?.icon;
     },
-    parseTextStatus(status) {
-      return taskStatusGeneratorObj(this)[status].text;
+    parseTextStatus(result) {
+      return this.resultStore(this)[result]?.text;
     },
     parseSubject(value) {
-      return commentTextByTaskType(this)[value]?.text;
+       return assignmentTypeName(this)[value]?.text;
     },
     formatDate(date) {
       return moment(date).format("MM.DD.YYYY HH:mm");

@@ -35,6 +35,13 @@
       </div>
       <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
     </div>
+    <tread-text-mediator
+      class="ml-1"
+      :v-if="comment.children && comment.children.length"
+      v-for="(item,index) in comment.children"
+      :comment="item"
+      :key="index"
+    />
   </div>
 </template>
 <script>
@@ -45,7 +52,9 @@ import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTex
 import moment from "moment";
 export default {
   components: {
-    iconByName
+    iconByName,
+    treadTextMediator: () =>
+      import("~/components/workFlow/thread-text/text-mediator.vue")
   },
   name: "task-item",
   props: ["comment"],

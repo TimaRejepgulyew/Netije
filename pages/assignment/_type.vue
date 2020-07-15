@@ -256,9 +256,7 @@ export default {
     showAssignment(e) {
       this.$router.push("/assignment/more/" + e.key);
     },
-    createTask(e) {
-      this.$router.push(e.itemData.path);
-    },
+  
     showFilter() {
       this.isFilterOpen = !this.isFilterOpen;
     }
