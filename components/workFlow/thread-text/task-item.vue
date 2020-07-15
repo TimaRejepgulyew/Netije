@@ -37,6 +37,9 @@
     </div>
     <tread-text-mediator
       class="ml-1"
+      @toDetailAuthor="(id)=>toDetail('toDetailAuthor',id)"
+      @toDetailTask="(params)=>toDetail('toDetailTask',params)"
+      @toDetailAssignment="(params)=>toDetail('toDetailAssignment',params)"
       :v-if="comment.children && comment.children.length"
       v-for="(item,index) in comment.children"
       :comment="item"
@@ -60,6 +63,9 @@ export default {
   props: ["comment"],
 
   methods: {
+    toDetail(emitName, params) {
+      this.$emit(emitName, params);
+    },
     toDetailTask(params) {
       this.$emit("toDetailTask", params);
     },
@@ -92,75 +98,5 @@ export default {
 </script>
 
 <style lang="scss" scoped >
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.list__content {
-  div {
-    padding-right: 5px;
-  }
-}
-.f-size-30 {
-  margin: 5px;
-  font-size: 20px;
-}
-.js-space-between {
-  align-items: center;
-}
-.task-state {
-  text-align: right;
-  margin-left: auto;
-  padding: 0 5px;
-  font-size: 14px;
-  i {
-    font-size: 16px;
-  
-  }
-}
-.task__item {
-  padding: 5px 0;
-}
-.mY-1 {
-  margin: 10px 0;
-}
-.ml-1 {
-  margin-left: 1.2em;
-}
-.current-comment {
-  background: #ecfff46b;
-}
-.item--status {
-  justify-content: flex-end;
-  .icon--status {
-    margin: 0 5px;
-    display: flex;
-    width: 20px;
-    height: 100%;
-  }
-}
-.message-body {
-  margin-left: 30px;
-}
-.comment__item {
-  box-sizing: border-box;
-  white-space: normal;
-  border: 1px solid $base-border-color;
-  border-left: 2px solid $base-accent;
-  padding: 5px 0;
-  border-radius: 2px;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.expired {
-  color: red;
-}
-.text--bold {
-  font-weight: 500;
-}
-.text-italic {
-  font-style: italic;
-}
-.link:hover {
-  text-decoration: underline;
-  color: #f90;
-}
+
 </style>

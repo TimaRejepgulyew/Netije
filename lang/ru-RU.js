@@ -169,6 +169,8 @@ export default {
     version: "Версии"
   },
   shared: {
+    read:"Прочитано",
+    unread:"Не прочитано",
     explanation: "Пояснение",
     account: "Счет",
     conditions: "Условия",

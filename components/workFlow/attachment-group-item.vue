@@ -2,13 +2,13 @@
   <div>
     <DxPopup
       width="90%"
-      height="90%"
+      height="100%"
       :showTitle="false"
       :visible.sync="isOpenCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div class="scrool-auto">
+      <div >
         <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
       </div>
     </DxPopup>
@@ -146,10 +146,7 @@ export default {
 .pb-1 {
   padding-bottom: 10px;
 }
-.scrool-auto {
-  width: 100%;
-  overflow: auto;
-}
+
 ul {
   padding: 0;
   li {

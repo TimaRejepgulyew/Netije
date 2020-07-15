@@ -40,7 +40,7 @@ export const generateElementsResult = assignmentType => {
 function baseResult(context) {
   return generatorMapObj({
     Constant: BaseResult,
-    translateName: "assignment.assignmentResult",
+    translateName: "assignment.result",
     context: context,
     iconStores: resultIcon
   });
@@ -48,7 +48,7 @@ function baseResult(context) {
 function reviewResolution(context) {
   return generatorMapObj({
     Constant: ReviewResolution,
-    translateName: "assignment.assignmentResult",
+    translateName: "assignment.result",
     context: context,
     iconStores: resultIcon
   });
@@ -56,7 +56,7 @@ function reviewResolution(context) {
 function reviewManager(context) {
   return generatorMapObj({
     Constant: ReviewManager,
-    translateName: "assignment.assignmentResult",
+    translateName: "assignment.result",
     context: context,
     iconStores: resultIcon
   });
@@ -64,7 +64,7 @@ function reviewManager(context) {
 function prepareDraftResolution(context) {
   return generatorMapObj({
     Constant: PrepareDraftResolution,
-    translateName: "assignment.assignmentResult",
+    translateName: "assignment.result",
     context: context,
     iconStores: resultIcon
   });

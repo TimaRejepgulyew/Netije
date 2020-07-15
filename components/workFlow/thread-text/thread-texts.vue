@@ -8,9 +8,9 @@
         :close-on-outside-click="true"
         :show-title="true"
         width="90%"
-        :height="'auto'"
+        :height="'95%'"
       >
-        <div>
+        <div class="scrool-auto">
           <card-task
             v-if="showTaskCard"
             :taskId="currentTaskCardId"
@@ -117,5 +117,9 @@ export default {
 .list-container {
   box-sizing: border-box;
   width: 100%;
+}
+
+.dx-list-item-content {
+  padding: 0px;
 }
 </style>

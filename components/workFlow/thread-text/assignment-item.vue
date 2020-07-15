@@ -27,7 +27,15 @@
             v-if="comment.entity.deadline && displayDeadline(comment.type)"
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.deadline)}}</div>
-          <div class="d-flex task__item item--status">
+          <div v-if="!comment.entity.isRead" class="d-flex task__item item--status">
+            <img class="icon--status" :src="unreadIcon" />
+            {{$t('shared.unread')}}
+          </div>
+          <div v-else-if="comment.entity.result !==null" class="d-flex task__item item--status">
+            <img class="icon--status" :src="parseIconResult(comment.entity.result)" />
+            {{parseTextResult(comment.entity.result)}}
+          </div>
+          <div v-else class="d-flex task__item item--status">
             <img class="icon--status" :src="parseIconStatus(comment.entity.result)" />
             {{parseTextStatus(comment.entity.result)}}
           </div>
@@ -37,6 +45,9 @@
     </div>
     <tread-text-mediator
       class="ml-1"
+      @toDetailAuthor="(id)=>toDetail('toDetailAuthor',id)"
+      @toDetailTask="(params)=>toDetail('toDetailTask',params)"
+      @toDetailAssignment="(params)=>toDetail('toDetailAssignment',params)"
       :v-if="comment.children && comment.children.length"
       v-for="(item,index) in comment.children"
       :comment="item"
@@ -45,10 +56,10 @@
   </div>
 </template>
 <script>
+import unreadIcon from "~/static/icons/status/unread.svg";
+import { assignmentStatusLocalization } from "~/infrastructure/constants/assignmentStatus.js";
 import { generateElementsResult } from "~/infrastructure/constants/assignmentResult.js";
 import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
-import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
-import { commentTextByTaskType } from "~/infrastructure/constants/taskType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
@@ -62,21 +73,31 @@ export default {
   props: ["comment"],
   data() {
     return {
+      unreadIcon,
       resultStore: generateElementsResult(this.comment.entity.assignmentType)
     };
   },
 
   methods: {
+    toDetail(emitName, params) {
+      this.$emit(emitName, params);
+    },
     toDetailAssignment(params) {
       this.$emit("toDetailAssignment", params);
     },
     toDetailAuthor(id) {
       this.$emit("toDetailAuthor", id);
     },
-    parseIconStatus(result) {
+    parseIconStatus(status) {
+      return assignmentStatusLocalization(this)[status]?.icon;
+    },
+    parseTextStatus(status) {
+      return assignmentStatusLocalization(this)[status]?.text;
+    },
+    parseIconResult(result) {
       return this.resultStore(this)[result]?.icon;
     },
-    parseTextStatus(result) {
+    parseTextResult(result) {
       return this.resultStore(this)[result]?.text;
     },
     parseSubject(value) {
@@ -97,75 +118,3 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped >
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.list__content {
-  div {
-    padding-right: 5px;
-  }
-}
-.f-size-30 {
-  margin: 5px;
-  font-size: 20px;
-}
-.js-space-between {
-  align-items: center;
-}
-.task-state {
-  text-align: right;
-  margin-left: auto;
-  padding: 0 5px;
-  font-size: 14px;
-  i {
-    font-size: 16px;
-    margin: 0 5px;
-  }
-}
-.task__item {
-  padding: 5px 0;
-}
-.mY-1 {
-  margin: 10px 0;
-}
-.ml-1 {
-  margin-left: 1.2em;
-}
-.current-comment {
-  background: #ecfff46b;
-}
-.item--status {
-  justify-content: flex-end;
-  .icon--status {
-    margin: 0 5px;
-    display: flex;
-    width: 20px;
-    height: 100%;
-  }
-}
-.message-body {
-  margin-left: 30px;
-}
-.comment__item {
-  box-sizing: border-box;
-  white-space: normal;
-  border: 1px solid $base-border-color;
-  border-left: 2px solid $base-accent;
-  border-radius: 2px;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.expired {
-  color: red;
-}
-.text--bold {
-  font-weight: 500;
-}
-.text-italic {
-  font-style: italic;
-}
-.link:hover {
-  text-decoration: underline;
-  color: #f90;
-}
-</style>

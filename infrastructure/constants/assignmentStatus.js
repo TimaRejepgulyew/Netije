@@ -1,3 +1,4 @@
+import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 const AssignmentStatus = {
   InProccess: 0,
   Suspended: 1,
@@ -6,15 +7,12 @@ const AssignmentStatus = {
 };
 
 export default AssignmentStatus;
-
-import statusIcon from "~/static/icons/status/taskStatus.js";
-export function taskStatusLocalization(context) {
-  let obj = {};
-  for (let status in AssignmentStatus) {
-    obj[TaskStatus[status]] = {
-      icon: statusIcon[status],
-      text: context.$t(`task.status.${status}`)
-    };
-  }
-  return obj;
+import statusIcon from "~/static/icons/status/assignmentStatus.js";
+export function assignmentStatusLocalization(context) {
+  return generatorMapObj({
+    Constant: AssignmentStatus,
+    translateName: "assignment.status",
+    context: context,
+    iconStores: statusIcon
+  });
 }
