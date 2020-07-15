@@ -82,8 +82,7 @@ import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
-import PrepareDraftResolutionResult from "~/infrastructure/constants/assignmentResult/prepareDraftResolution.js";
-import commentForm from "~/components/assignment/comment-form.vue";
+import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
@@ -93,7 +92,6 @@ export default {
     DxToolbar,
     DxItem,
     DxPopup,
-    commentForm,
     taskCard
   },
   data() {
@@ -122,7 +120,7 @@ export default {
         icon: resolutionIcon,
         text: this.$t("buttons.sendToReview"),
         onClick: () => {
-          this.sendResult(PrepareDraftResolutionResult.SendForReview);
+          this.sendResult(ReviewResult.PrepareDraftResolution.SendForReview);
           this.completeAssignment();
         }
       };
@@ -132,7 +130,7 @@ export default {
         icon: sendToAssigneeIcon,
         text: this.$t("buttons.sendToAssignee"),
         onClick: () => {
-          this.sendResult(PrepareDraftResolutionResult.AddAssignment);
+          this.sendResult(ReviewResult.PrepareDraftResolution.AddAssignment);
           this.completeAssignment();
         }
       };
@@ -142,7 +140,7 @@ export default {
         icon: exploredIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          this.sendResult(PrepareDraftResolutionResult.Explored);
+          this.sendResult(ReviewResult.PrepareDraftResolution.Explored);
           let response = await confirm(
             this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
@@ -156,7 +154,7 @@ export default {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
         onClick: () => {
-          this.sendResult(PrepareDraftResolutionResult.Forward);
+          this.sendResult(ReviewResult.PrepareDraftResolution.Forward);
           this.completeAssignment();
         }
       };

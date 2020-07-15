@@ -84,7 +84,7 @@ import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
-import ReviewManagerAssignment from "~/infrastructure/constants/assignmentResult/reviewManager.js";
+import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import TaskType from "~/infrastructure/constants/TaskType.js";
@@ -123,7 +123,7 @@ export default {
         icon: resolutionIcon,
         text: this.$t("buttons.resolution"),
         onClick: () => {
-          this.setResult(ReviewManagerAssignment.AddResolution);
+          this.setResult(ReviewResult.ReviewManager.AddResolution);
           this.completeAssignment();
         }
       };
@@ -133,7 +133,7 @@ export default {
         icon: sendToAssigneeIcon,
         text: this.$t("buttons.sendToAssignee"),
         onClick: () => {
-          this.setResult(ReviewManagerAssignment.AddAssignment);
+          this.setResult(ReviewResult.ReviewManager.AddAssignment);
           this.completeAssignment();
         }
       };
@@ -147,7 +147,7 @@ export default {
             this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewManagerAssignment.Explored);
+          this.setResult(ReviewResult.ReviewManager.Explored);
           if (response) this.completeAssignment();
         }
       };
@@ -157,7 +157,7 @@ export default {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
         onClick: () => {
-          this.setResult(ReviewManagerAssignment.Forward);
+          this.setResult(ReviewResult.ReviewManager.Forward);
           this.completeAssignment();
         }
       };

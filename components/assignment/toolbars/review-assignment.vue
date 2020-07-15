@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import ReviewResult from "~/infrastructure/constants/assignmentResult/baseResult.js";
+import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 
@@ -48,7 +48,7 @@ export default {
             this.$t("assignment.acceptAssignmentMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.Accept);
+          this.setResult(ReviewResult.BaseResult.Accept);
           if (response) this.completeAssignment();
         }
       };
@@ -62,7 +62,7 @@ export default {
             this.$t("assignment.sureReworkMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.ForRework);
+          this.setResult(ReviewResult.BaseResult.ForRework);
           if (response) this.completeAssignment();
         }
       };

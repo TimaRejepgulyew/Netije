@@ -12,7 +12,6 @@
 
 <script>
 import attachmentGroupItem from "~/components/workFlow/attachment-group-item.vue";
-import attachmentDetailsVue from "../assignment/attachment-details.vue";
 export default {
   components: {
     attachmentGroupItem

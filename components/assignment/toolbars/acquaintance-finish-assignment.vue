@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import ReviewResult from "~/infrastructure/constants/assignmentResult/baseResult.js";
+import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
@@ -27,7 +27,7 @@ export default {
             this.$t("assignment.sureCompleteAcquaintanceMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.Accept);
+          this.setResult(ReviewResult.BaseResult.Accept);
           if (response) this.completeAssignment();
         }
       };

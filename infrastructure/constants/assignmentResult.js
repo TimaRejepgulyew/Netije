@@ -27,12 +27,14 @@ export default {
   BaseResult
 };
 
-export const getElementsResultByAssignmentType = assignmentType => {
+export const generateElementsResult = assignmentType => {
   const resultByType = {};
   for (let type in AssignmentType) {
-    if (resultElements[type]) resultByType[type] = resultElements[type];
-    else resultByType[type] = resultElements["baseResult"];
+    if (resultElements[type])
+      resultByType[AssignmentType[type]] = resultElements[type];
+    else resultByType[AssignmentType[type]] = resultElements["baseResult"];
   }
+  return resultByType[assignmentType];
 };
 
 function baseResult(context) {

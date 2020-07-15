@@ -38,6 +38,8 @@
   </div>
 </template>
 <script>
+import { getElementsResultByAssignmentType } from "~/infrastructure/constants/assignmentResult.js";
+
 import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
 import { commentTextByTaskType } from "~/infrastructure/constants/taskType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
@@ -49,7 +51,11 @@ export default {
   },
   name: "task-item",
   props: ["comment"],
-
+data(){
+  return {
+    icon
+  }
+},
   methods: {
     toDetailAssignment(params) {
       this.$emit("toDetailAssignment", params);
@@ -77,7 +83,7 @@ export default {
           return true;
       }
     }
-  },
+  }
 };
 </script>
 
