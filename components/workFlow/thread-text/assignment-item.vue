@@ -35,6 +35,13 @@
       </div>
       <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
     </div>
+    <tread-text-mediator
+      class="ml-1"
+      :v-if="comment.children && comment.children.length"
+      v-for="(item,index) in comment.children"
+      :comment="item"
+      :key="index"
+    />
   </div>
 </template>
 <script>
@@ -47,7 +54,9 @@ import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTex
 import moment from "moment";
 export default {
   components: {
-    iconByName
+    iconByName,
+    treadTextMediator: () =>
+      import("~/components/workFlow/thread-text/text-mediator.vue")
   },
   name: "task-item",
   props: ["comment"],
@@ -65,14 +74,13 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseIconStatus(result) {
-      console.log(this.resultStore(this), result);
       return this.resultStore(this)[result]?.icon;
     },
     parseTextStatus(result) {
       return this.resultStore(this)[result]?.text;
     },
     parseSubject(value) {
-       return assignmentTypeName(this)[value]?.text;
+      return assignmentTypeName(this)[value]?.text;
     },
     formatDate(date) {
       return moment(date).format("MM.DD.YYYY HH:mm");
@@ -143,7 +151,6 @@ export default {
   white-space: normal;
   border: 1px solid $base-border-color;
   border-left: 2px solid $base-accent;
-  padding: 5px 0;
   border-radius: 2px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;

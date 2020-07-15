@@ -113,7 +113,7 @@ export default {
   font-size: 14px;
   i {
     font-size: 16px;
-    margin: 0 5px;
+  
   }
 }
 .task__item {
