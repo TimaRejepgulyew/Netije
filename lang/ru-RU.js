@@ -308,6 +308,7 @@ export default {
     acceptAssignmentMessage: "Вы действительно приняли задачу",
     readdressToEmployee: "Переадресовать сотруднику",
     result: {
+      Acquainted:"Ознакомлен",
       SendForReview: "Отправлено на рассмотрение",
       Complete: "Завершено",
       Accept: "Принято",

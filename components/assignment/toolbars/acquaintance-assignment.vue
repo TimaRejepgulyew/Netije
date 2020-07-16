@@ -28,14 +28,14 @@ export default {
             this.$t("assignment.sureAcquaintanceMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(assignmentResult.Acquaintance.Accept);
+          this.setResult(assignmentResult.Acquaintance.Acquainted);
           if (response) this.completeAssignment();
         }
       };
     }
   },
   methods: {
-      setResult(result) {
+    setResult(result) {
       this.$store.commit("currentAssignment/SET_RESULT", result);
     },
     completeAssignment() {

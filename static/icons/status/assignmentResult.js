@@ -1,3 +1,4 @@
+import Acquainted from "~/static/icons/status/acquiantance.svg";
 import Accept from "~/static/icons/status/accept.svg";
 import ForRework from "~/static/icons/status/forrework.svg";
 import Forward from "~/static/icons/status/forward.svg";
@@ -14,5 +15,6 @@ export {
   AddAssignment,
   AddResolution,
   SendToReview,
-  Complete
+  Complete,
+  Acquainted
 };
