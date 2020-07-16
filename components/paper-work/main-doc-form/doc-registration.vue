@@ -8,7 +8,7 @@
     validation-group="OfficialDocument"
   >
     <DxGroupItem :col-count="1">
-      <DxGroupItem :caption="$t('document.groups.captions.numberAndDate')">
+      <DxGroupItem :visible="numberingAndDateVisible" :caption="$t('document.groups.captions.numberAndDate')">
         <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
           <DxLabel
             location="left"
@@ -92,6 +92,9 @@ export default {
         documentTypeGuid == DocumentTypeGuid.IncomingLetter ||
         documentTypeGuid == DocumentTypeGuid.OutgoingLetter
       );
+    },
+    numberingAndDateVisible(){
+      return this.$store.getters["currentDocument/document"].documentKind.numberingType != NumberingType.NotNumberable;
     },
     isRegistrable() {
       return (
