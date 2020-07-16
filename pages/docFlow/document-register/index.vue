@@ -74,6 +74,33 @@
           display-expr="name"
         />
       </DxColumn>
+      <DxColumn data-field="registerType" :caption="$t('translations.fields.registerType')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="registerTypeDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+      <DxColumn
+        data-field="registrationGroupId"
+        :caption="$t('translations.fields.registrationGroupId')"
+      >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="registrationGroupDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="statusDataSource"
+          value-expr="id"
+          display-expr="status"
+        />
+      </DxColumn>
       <DxColumn type="buttons">
         <DxButton icon="more" :text="$t('shared.more')" :onClick="showDocumentRegisterEditForm"></DxButton>
         <DxButton
@@ -84,22 +111,6 @@
         ></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
-      </DxColumn>
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="statusDataSource"
-          value-expr="id"
-          display-expr="status"
-        />
-      </DxColumn>
-      <DxColumn data-field="registerType" :caption="$t('translations.fields.registerType')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="registerTypeDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
     </DxDataGrid>
   </main>
@@ -165,7 +176,14 @@ export default {
       registerTypeDataSource: this.$store.getters["docflow/registerType"](this),
       statusDataSource: this.$store.getters["status/status"](this),
       currentNuberPopupOpen: false,
-      selectedDocumentRegisterId: null
+      selectedDocumentRegisterId: null,
+      registrationGroupDataSource: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.docFlow.RegistrationGroup
+        }),
+        paginate: true
+      }
     };
   },
   methods: {
@@ -175,11 +193,20 @@ export default {
     allowDeleting(e) {
       return this.canOperateWithDocumentRegister(e.row.data, "allowDeleting");
     },
+
     canOperateWithDocumentRegister(documentRegister, permission) {
       const employeeId = this.$store.getters["permissions/employeeId"];
       if (this.$store.getters["permissions/IsAdmin"]) return true;
+      if (!this.$store.getters[`permissions/${permission}`](this.entityType))
+        return false;
 
-      return this.$store.getters[`permissions/${permission}`](this.entityType);
+      if (
+        documentRegister.registrationGroup?.responsibleEmployeeId ==
+          employeeId ||
+        !documentRegister.registrationGroupId
+      )
+        return true;
+      return false;
     },
     showCurrentNumberPopup(e) {
       this.selectedDocumentRegisterId = e.row.key;

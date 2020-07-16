@@ -205,8 +205,9 @@ export default {
       if (!this.$store.getters[`permissions/allowUpdating`](this.entityType))
         return false;
       if (
-        documentRegister.documentRegisterResponsibleId == employeeId ||
-        !documentRegister.documentRegisterResponsibleId
+        documentRegister.registrationGroup?.responsibleEmployeeId ==
+          employeeId ||
+        !documentRegister.registrationGroupId
       )
         return true;
       return false;
