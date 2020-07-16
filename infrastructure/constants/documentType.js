@@ -63,7 +63,7 @@ export function generateNameByDocTypeGuid(key, context) {
   for (let el in DocumentTypeGuid) {
     documentTypeGuidName.set(
       DocumentTypeGuid[el],
-      context.$t(`createItemDialog.${el[0].toLowerCase() + el.slice(1)}`)
+      context.$t(`createItemDialog.${el[0].toLowerCase() + el.slice(1)}`.trim())
     );
   }
   return documentTypeGuidName.get(key);

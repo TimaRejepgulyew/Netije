@@ -4,6 +4,7 @@ import DocumentType from "~/infrastructure/constants/documentType.js";
 import {
   lifeCycleStateStoreType1,
   lifeCycleStateStoreType2,
+  lifeCycleStateStoreType3,
   lifeCycleStateStoreContract,
   lifeCycleStateStoreIncomingInvoice
 } from "~/infrastructure/constants/lifeCycleState.js";

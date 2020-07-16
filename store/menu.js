@@ -319,6 +319,10 @@ export const actions = {
           {
             text: this.$i18n.t("menu.roles"),
             path: "/admin/roles"
+          },
+          {
+            text: this.$i18n.t("menu.logs"),
+            path: "/admin/logs"
           }
         ]
       }

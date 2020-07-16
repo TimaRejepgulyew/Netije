@@ -32,7 +32,7 @@ export default {
       title: "Настройки документов",
       docKind: "Виды документов",
       docKindDescr:
-        "Классификация документов, определяющая документопоток, тип нумерации и порядок обработки документа.",
+        "Классификация документов, определяющая документопоток, тип нумерации документа.",
       deliveriMethods: "Способ доставки документов",
       deliveriMethodsDescr: "Настройте способ доставки документов",
       categories: "Категории договоров",
@@ -44,9 +44,9 @@ export default {
       registration: "Журналы регистрации",
       registrationDescr:
         "Перечень журналов, используемых для учета, нумерации и регистрации документов.",
-      regGroup: "Группа регистрации",
+      regGroup: "Группы регистрации",
       regGroupDescr:
-        "Перечень журналов, используемых для учета, нумерации и регистрации документов."
+        "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации."
     },
     caseFileSetting: {
       title: "Номенклатура дел",
@@ -130,7 +130,7 @@ export default {
     contractualDocumentsGroup: "Договорные документы",
     supAgreement: "Дополнительное соглашение",
     incomingInvoice: "Входящий счет на оплату",
-    сontractStatement: "Акт выполненных работ",
+    contractStatement: "Акт выполненных работ",
     incomingTaxInvoice: "Счет-фактура полученный",
     outgoingTaxInvoice: "Счет-фактура выставленный",
     universalTransferDocument: "Универсальный передаточный документ",
@@ -259,7 +259,6 @@ export default {
       registrationNumber: "Рег. №",
       correspondentId: "Контрагент",
       subject: "Содержание",
-      contract: "Договор",
       documentKindId: "Вид документа",
       documentRegisterId: "Журнал регистрации",
       registrationState: "Регистрация",
@@ -458,7 +457,8 @@ export default {
     outgoing: "Входящие",
     incomming: "Исходящие",
 
-    user: "Пользователи"
+    user: "Пользователи",
+    logs:"Логи"
   },
   buttons: {
     addResolution: "Вынести резалюцию",
@@ -530,6 +530,7 @@ export default {
       totalAmount: "Сумма",
       currencyId: "Валюта",
       IsStandard: "Типовой",
+      IsStandardSupAgreement:"Типовое",
       responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",
       isUnderControl: "На контроль",
