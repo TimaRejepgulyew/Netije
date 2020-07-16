@@ -18,7 +18,7 @@
       </div>
     </DxPopup>
 
-    <Header :headerTitle="$t('menu.documentRegistry')"></Header>
+    <Header :headerTitle="$t('docFlow.regSetting.registrationSettings')"></Header>
 
     <DxDataGrid
       id="gridContainer"
@@ -58,15 +58,15 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
-
-      <DxColumn data-field="index" :caption="$t('translations.fields.index')"></DxColumn>
-
       <DxColumn
-        data-field="documentFlow"
-        :caption="$t('translations.fields.documentFlow')"
+        data-field="name"
+        :caption="$t('registrationSettings.fields.name')"
         data-type="string"
-      >
+      ></DxColumn>
+
+      <DxColumn data-field="priority" :caption="$t('registrationSettings.fields.priority')"></DxColumn>
+
+      <DxColumn data-field="documentFlow" :caption="$t('shared.documentFlow')" data-type="string">
         <DxLookup
           :allow-clearing="true"
           :data-source="documentFlowDataSource"
@@ -74,18 +74,27 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn type="buttons">
-        <DxButton icon="more" :text="$t('shared.more')" :onClick="showDocumentRegisterEditForm"></DxButton>
-        <DxButton
-          icon="orderedlist"
-          :text="$t('translations.fields.currentNumber')"
-          :visible="canUpdate"
-          :onClick="showCurrentNumberPopup"
-        ></DxButton>
-
-        <DxButton icon="trash" name="delete"></DxButton>
+      <DxColumn
+        data-field="documentRegisterId"
+        :caption="$t('registrationSettings.fields.documentRegister')"
+      >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="documentRegisterDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+
+      <DxColumn data-field="settingType" :caption="$t('registrationSettings.fields.settingType')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="settingTypeDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+      <DxColumn data-field="status" :caption="$t('shared.status')">
         <DxLookup
           :allow-clearing="true"
           :data-source="statusDataSource"
@@ -93,19 +102,16 @@
           display-expr="status"
         />
       </DxColumn>
-      <DxColumn data-field="registerType" :caption="$t('translations.fields.registerType')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="registerTypeDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn type="buttons">
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="showDocumentRegisterEditForm"></DxButton>
+        <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import Status from "~/infrastructure/constants/status";
+import SettingTypes from "~/infrastructure/stores/settingTypes.js"
 import EntityType from "~/infrastructure/constants/entityTypes";
 import CurrentNumberPopup from "~/components/docFlow/document-registry/current-number-popup";
 import DataSource from "devextreme/data/data_source";
@@ -155,17 +161,22 @@ export default {
   },
   data() {
     return {
-      entityType: EntityType.DocumentRegister,
+      entityType: EntityType.RegistrationSetting,
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.DocumentRegistry,
-        removeUrl: dataApi.docFlow.DocumentRegistry
+        loadUrl: dataApi.docFlow.RegistrationSetting,
+        removeUrl: dataApi.docFlow.RegistrationSetting
       }),
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
-      registerTypeDataSource: this.$store.getters["docflow/registerType"](this),
+      settingTypeDataSource: SettingTypes.GetAll(this),
       statusDataSource: this.$store.getters["status/status"](this),
-      currentNuberPopupOpen: false,
-      selectedDocumentRegisterId: null
+      documentRegisterDataSource: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.docFlow.DocumentRegistry
+        }),
+        paginate: true
+      }
     };
   },
   methods: {
@@ -188,7 +199,7 @@ export default {
     hideCurrentNumberPopup() {
       this.currentNuberPopupOpen = false;
     },
-    showDocumentRegisterEditForm(e) {
+    showRegistrationSettingsForm(e) {
       this.$router.push(`/docflow/document-register/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {

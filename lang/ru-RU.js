@@ -54,9 +54,7 @@ export default {
   },
   lifeCycleState: {
     onControl: "На контроле",
-    specialControl: "На особом контроле",
     withoutControl: "Не на контроле",
-    controlRemoved: "Снято с контроля",
     sending: "Оправка на исполнение",
     withoutExecute: "Не требует исполнения",
     onExecution: "На исполнении",
@@ -187,7 +185,9 @@ export default {
     areYouSure: "Вы уверены?",
     confirm: "Подтверждение",
     required: "Заполните это поле",
-    newRecord: "(Новая запись)"
+    newRecord: "(Новая запись)",
+    documentFlow: "Документопоток",
+    status: "Состояние"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",
@@ -251,7 +251,7 @@ export default {
       authorId: "Автор",
       registrationDate: "Дата документа",
       registrationNumber: "Рег. №",
-      documentNumber:"Номер документа",
+      documentNumber: "Номер документа",
       correspondentId: "Контрагент",
       subject: "Содержание",
       documentKindId: "Вид документа",
@@ -885,6 +885,22 @@ export default {
       0: "Задача",
       3: "Задание",
       4: "Уведомление"
+    }
+  },
+  registrationSettings: {
+    fields: {
+      name: "Имя",
+      priority: "Приоритет",
+      documentRegister: "Журнал",
+      settingType: "Тип настройки",
+      documentKinds: "Виды документов",
+      businessUnits: "Наши организации",
+      departments: "Подразделения"
+    },
+    settingType: {
+      registration: "Регистрация",
+      numeration: "Нумерация",
+      reservation: "Резервирование"
     }
   }
 };
