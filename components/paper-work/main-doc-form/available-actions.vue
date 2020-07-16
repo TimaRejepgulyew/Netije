@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     async createTask(e) {
-      console.log(e);
       const documentId = this.$store.getters["currentDocument/document"].id;
       await e.itemData.create({ documentId });
     }

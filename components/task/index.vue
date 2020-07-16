@@ -86,7 +86,6 @@ export default {
     }
   },
   destroyed() {
-    console.log("delete");
     this.$store.dispatch("currentTask/dispose", { key: this.taskId });
   },
   data() {
@@ -98,7 +97,6 @@ export default {
     };
   },
   created() {
-    console.log("created");
     const taskTypeNames = new Map();
     for (let item in TaskType) {
       taskTypeNames.set(

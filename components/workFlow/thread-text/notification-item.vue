@@ -85,7 +85,6 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseSubject(value) {
-      console.log(value);
       return assignmentTypeName(this)[value]?.text;
     },
     formatDate(date) {

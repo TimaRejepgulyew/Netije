@@ -48,7 +48,7 @@ export default {
             this.$t("assignment.acceptAssignmentMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.BaseResult.Accept);
+          this.setResult(ReviewResult.ReviewAssignment.Accept);
           if (response) this.completeAssignment();
         }
       };
@@ -62,7 +62,7 @@ export default {
             this.$t("assignment.sureReworkMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.BaseResult.ForRework);
+          this.setResult(ReviewResult.ReviewAssignment.ForRework);
           if (response) this.completeAssignment();
         }
       };

@@ -62,7 +62,6 @@ export default {
     Comment
   },
   created() {
-    console.log(taskStatusLocalization(this));
   },
   name: "comment",
   props: ["comment"],

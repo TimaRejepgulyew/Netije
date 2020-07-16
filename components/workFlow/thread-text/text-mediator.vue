@@ -22,7 +22,6 @@ export default {
   name: "text-mediator",
   props: ["comment"],
   created() {
-    console.log(this.comment);
   },
   computed: {
     getComponentByType() {

@@ -309,6 +309,10 @@ export default {
     acceptAssignmentMessage: "Вы действительно приняли задачу",
     readdressToEmployee: "Переадресовать сотруднику",
     result: {
+      SendForReview: "Отправлено на рассмотрение",
+      Complete: "Завершено",
+      Accept: "Принято",
+      ForRework: "На доработку",
       AddAssignment: "Отправлено на исполнение",
       AddResolution: "Вынесена резолюция",
       Explored: "Принято к сведению",
@@ -457,6 +461,7 @@ export default {
     user: "Пользователи"
   },
   buttons: {
+    addResolution: "Вынести резалюцию",
     sendToResolution: "Отправить на резалюцию",
     sendToReview: "Отправить на расмотрение",
     sendToAssignee: "Отправить на исполнение",

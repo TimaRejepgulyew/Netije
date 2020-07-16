@@ -121,7 +121,7 @@ export default {
     btnSendToResolutionOptions() {
       return {
         icon: resolutionIcon,
-        text: this.$t("buttons.resolution"),
+        text: this.$t("buttons.addResolution"),
         onClick: () => {
           this.setResult(ReviewResult.ReviewManager.AddResolution);
           this.completeAssignment();

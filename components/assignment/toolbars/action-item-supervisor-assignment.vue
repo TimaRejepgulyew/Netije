@@ -2,12 +2,7 @@
   <div class="toolbar">
     <DxToolbar>
       <DxItem :visible="InProcess" :options="btnOptions" location="before" widget="dxButton" />
-      <DxItem
-        :visible="InProcess"
-        :options="reworkBtnOptions"
-        location="before"
-        widget="dxButton"
-      />
+      <DxItem :visible="InProcess" :options="reworkBtnOptions" location="before" widget="dxButton" />
     </DxToolbar>
   </div>
 </template>
@@ -33,7 +28,7 @@ export default {
             this.$t("assignment.sureCompleteSupervisor"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.BaseResult.Accept);
+          this.setResult(ReviewResult.ActionItemSupervisorAssignment.Accept);
           if (response) this.completeAssignment();
         }
       };
@@ -47,7 +42,7 @@ export default {
             this.$t("assignment.sureReworkMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.BaseResult.ForRework);
+          this.setResult(ReviewResult.ActionItemSupervisorAssignment.ForRework);
           if (response) this.completeAssignment();
         }
       };

@@ -92,7 +92,6 @@ export const actions = {
       dataApi.attachment.PasteByAssignment,
       options
     );
-    console.log(data);
     commit("SET_ATTACHMENT_GROUPS", data);
   },
   async detachAttachment({ commit }, attachmentId) {

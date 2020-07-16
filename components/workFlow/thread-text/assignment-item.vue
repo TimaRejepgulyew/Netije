@@ -77,7 +77,8 @@ export default {
       resultStore: generateElementsResult(this.comment.entity.assignmentType)
     };
   },
-
+  created() {
+  },
   methods: {
     toDetail(emitName, params) {
       this.$emit(emitName, params);
@@ -89,7 +90,6 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseIconStatus(status) {
-      console.log(assignmentStatusLocalization(this)[status]);
       return assignmentStatusLocalization(this)[status]?.icon;
     },
     parseTextStatus(status) {

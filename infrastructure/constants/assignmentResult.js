@@ -1,6 +1,26 @@
 import * as resultIcon from "~/static/icons/status/assignmentResult.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
+const Simple = {
+  Complete: 0
+};
+const Acquaintance = {
+  Accept: 0
+};
+const ActionItemExecution = {
+  Complete: 0
+};
+const AcquaintanceFinish = {
+  Accept: 0
+};
+const ActionItemSupervisor = {
+  Accept: 0,
+  ForRework: 1
+};
+const ReviewAssignment = {
+  Accept: 0,
+  ForRework: 1
+};
 const BaseResult = {
   Accept: 0,
   ForRework: 1
@@ -24,19 +44,73 @@ export default {
   ReviewResolution,
   ReviewManager,
   PrepareDraftResolution,
-  BaseResult
+  BaseResult,
+  ReviewAssignment,
+  ActionItemSupervisor,
+  AcquaintanceFinish,
+  ActionItemExecution,
+  Acquaintance,
+  Simple
 };
 
 export const generateElementsResult = assignmentType => {
   const resultByType = {};
   for (let type in AssignmentType) {
-    if (resultElements[type])
-      resultByType[AssignmentType[type]] = resultElements[type];
+    if (resultElements[type[0].toLowerCase() + type.slice(1)])
+      resultByType[AssignmentType[type]] =
+        resultElements[type[0].toLowerCase() + type.slice(1)];
     else resultByType[AssignmentType[type]] = resultElements["baseResult"];
   }
   return resultByType[assignmentType];
 };
-
+function simpleAssignment(context) {
+  return generatorMapObj({
+    Constant: Simple,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function acquaintanceAssignment(context) {
+  return generatorMapObj({
+    Constant: Acquaintance,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function actionItemExecutionAssignment(context) {
+  return generatorMapObj({
+    Constant: ActionItemExecution,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function acquaintanceFinishAssignment(context) {
+  return generatorMapObj({
+    Constant: AcquaintanceFinish,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function actionItemSupervisorAssignment(context) {
+  return generatorMapObj({
+    Constant: ActionItemSupervisor,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function reviewAssignmentAssignment(context) {
+  return generatorMapObj({
+    Constant: ReviewAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
 function baseResult(context) {
   return generatorMapObj({
     Constant: BaseResult,
@@ -45,7 +119,7 @@ function baseResult(context) {
     iconStores: resultIcon
   });
 }
-function reviewResolution(context) {
+function reviewResolutionAssignment(context) {
   return generatorMapObj({
     Constant: ReviewResolution,
     translateName: "assignment.result",
@@ -53,7 +127,7 @@ function reviewResolution(context) {
     iconStores: resultIcon
   });
 }
-function reviewManager(context) {
+function reviewManagerAssignment(context) {
   return generatorMapObj({
     Constant: ReviewManager,
     translateName: "assignment.result",
@@ -61,7 +135,7 @@ function reviewManager(context) {
     iconStores: resultIcon
   });
 }
-function prepareDraftResolution(context) {
+function prepareDraftResolutionAssignment(context) {
   return generatorMapObj({
     Constant: PrepareDraftResolution,
     translateName: "assignment.result",
@@ -70,8 +144,14 @@ function prepareDraftResolution(context) {
   });
 }
 export const resultElements = {
-  prepareDraftResolution,
-  reviewManager,
-  reviewResolution,
-  baseResult
+  prepareDraftResolutionAssignment,
+  reviewManagerAssignment,
+  reviewResolutionAssignment,
+  baseResult,
+  reviewAssignmentAssignment,
+  actionItemSupervisorAssignment,
+  acquaintanceFinishAssignment,
+  actionItemExecutionAssignment,
+  acquaintanceAssignment,
+  simpleAssignment
 };

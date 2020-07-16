@@ -27,7 +27,7 @@ export default {
             this.$t("assignment.sureCompleteAcquaintanceMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.BaseResult.Accept);
+          this.setResult(ReviewResult.AcquaintanceFinish.Accept);
           if (response) this.completeAssignment();
         }
       };

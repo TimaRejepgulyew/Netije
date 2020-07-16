@@ -27,7 +27,7 @@ export default {
             this.$t("assignment.sureCompleteMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.BaseResult.Accept);
+          this.setResult(ReviewResult.ActionItemSupervisor.Complete);
           if (response) this.completeAssignment();
         }
       };

@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     showPopup() {
-      console.log(this.value);
+   
       this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {
