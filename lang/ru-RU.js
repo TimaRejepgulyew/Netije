@@ -888,6 +888,7 @@ export default {
     }
   },
   registrationSettings: {
+    caption:"Настройка регистрации",
     fields: {
       name: "Имя",
       priority: "Приоритет",
@@ -901,6 +902,10 @@ export default {
       registration: "Регистрация",
       numeration: "Нумерация",
       reservation: "Резервирование"
+    },
+    groups: {
+      criterias: "Критерии",
+      documentRegister: "Журнал"
     }
   }
 };

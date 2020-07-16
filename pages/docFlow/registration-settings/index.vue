@@ -1,25 +1,6 @@
 <template>
   <main>
-    <DxPopup
-      :visible.sync="currentNuberPopupOpen"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="400"
-      :height="200"
-      :title="$t('translations.fields.currentNumber')"
-    >
-      <div>
-        <current-number-popup
-          :documentRegisterId="selectedDocumentRegisterId"
-          v-if="currentNuberPopupOpen"
-          @hidePopup="hideCurrentNumberPopup"
-        />
-      </div>
-    </DxPopup>
-
     <Header :headerTitle="$t('docFlow.regSetting.registrationSettings')"></Header>
-
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -103,7 +84,7 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton icon="more" :text="$t('shared.more')" :onClick="showDocumentRegisterEditForm"></DxButton>
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="showRegistrationSettingsForm" ></DxButton>
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
     </DxDataGrid>
@@ -113,11 +94,9 @@
 import Status from "~/infrastructure/constants/status";
 import SettingTypes from "~/infrastructure/stores/settingTypes.js"
 import EntityType from "~/infrastructure/constants/entityTypes";
-import CurrentNumberPopup from "~/components/docFlow/document-registry/current-number-popup";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import { DxPopup } from "devextreme-vue/popup";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -155,9 +134,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxPopup,
-    DxButton,
-    CurrentNumberPopup
+    DxButton
   },
   data() {
     return {
@@ -192,15 +169,8 @@ export default {
 
       return this.$store.getters[`permissions/${permission}`](this.entityType);
     },
-    showCurrentNumberPopup(e) {
-      this.selectedDocumentRegisterId = e.row.key;
-      this.currentNuberPopupOpen = true;
-    },
-    hideCurrentNumberPopup() {
-      this.currentNuberPopupOpen = false;
-    },
     showRegistrationSettingsForm(e) {
-      this.$router.push(`/docflow/document-register/${e.row.data.id}`);
+      this.$router.push(`/docflow/registration-settings/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
       const addButton = e.toolbarOptions.items.find(btn => {
@@ -208,7 +178,7 @@ export default {
       });
       if (addButton) {
         addButton.options.onClick = () => {
-          this.$router.push("/docflow/document-register/create");
+          this.$router.push("/docflow/registration-settings/create");
         };
       }
     }
