@@ -35,9 +35,9 @@
   </div>
 </template>
 <script>
+import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
-
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
@@ -51,14 +51,18 @@ export default {
     DxPopup,
     taskCard
   },
+  props: ["assignmentId"],
   data() {
     return {
+      actionItemExecutionTaskId: null,
       showItemExecutionTask: false
     };
   },
   computed: {
     toolbarItemVisible() {
-      return this.$store.getters["currentAssignment/InProcess"];
+      return this.$store.getters["currentAssignment/inProcess"](
+        this.assignmentId
+      );
     },
     btnSendToAssigneeOptions() {
       return {
@@ -77,12 +81,17 @@ export default {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
         onClick: async () => {
-          await this.$store.dispatch("currentTask/initTask", {
-            taskType: TaskType.ActionItemExecutionTask,
-            parentAssignmentId: this.$store.getters[
-              "currentAssignment/assignment"
-            ].id
-          });
+          const { taskId } = await createTaskRequest(
+            this,
+            {
+              taskType: TaskType.ActionItemExecutionTask,
+              parentAssignment: this.$store.getters[
+                "currentAssignment/assignment"
+              ](this.assignmentId).id
+            },
+            false
+          );
+          this.actionItemExecutionTaskId = taskId;
           this.showItemExecutionTask = true;
         }
       };
@@ -90,7 +99,10 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", result);
+      this.$store.commit("currentAssignment/SET_RESULT", {
+        key: this.assignmentId,
+        payload: result
+      });
     },
     closeTask(taskId) {
       this.showItemExecutionTask = false;
@@ -100,7 +112,9 @@ export default {
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete"),
+        this.$store.dispatch("currentAssignment/complete", {
+          key: this.assignmentId
+        }),
         e => {
           this.$router.go(-1);
           this.$awn.success();

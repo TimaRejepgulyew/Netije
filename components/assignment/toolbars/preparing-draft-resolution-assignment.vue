@@ -10,7 +10,12 @@
       :height="'auto'"
     >
       <div>
-        <task-card @closeTask="closeTask" v-if="showItemExecutionTask" :isCard="true" />
+        <task-card
+          :taskId="actionItemExecutionTaskId"
+          @closeTask="closeTask"
+          v-if="showItemExecutionTask"
+          :isCard="true"
+        />
       </div>
     </DxPopup>
 
@@ -47,8 +52,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :disabled="!$store.getters['currentAssignment/assignment']
-        .addresseeId"
+          :disabled="btnReaddressDisabled"
           :visible="!isRework"
           :options="btnReaddressOptions"
           location="before"
@@ -75,6 +79,7 @@
   </div>
 </template>
 <script>
+import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
@@ -94,25 +99,35 @@ export default {
     DxPopup,
     taskCard
   },
+  props: ["assignmentId"],
   data() {
     return {
+      actionItemExecutionTaskId: null,
       showComment: false,
       showItemExecutionTask: false,
       result: null
     };
   },
   computed: {
+    btnReaddressDisabled() {
+      return !this.$store.getters["currentAssignment/assignment"](
+        this.assignmentId
+      ).addresseeId;
+    },
     tollbarItemVisible() {
-      const addresseeId = this.$store.getters["currentAssignment/assignment"]
-        .addresseeId;
+      const addresseeId = this.$store.getters["currentAssignment/assignment"](
+        this.assignmentId
+      ).addresseeId;
 
       return addresseeId
         ? false
-        : this.$store.getters["currentAssignment/InProcess"];
+        : this.$store.getters["currentAssignment/inProcess"](this.assignmentId);
     },
     isRework() {
-      if (this.$store.getters["currentAssignment/InProcess"])
-        return this.$store.getters["currentAssignment/assignment"].isRework;
+      if (this.$store.getters["currentAssignment/inProcess"])
+        return this.$store.getters["currentAssignment/assignment"](
+          this.assignmentId
+        ).isRework;
       else return true;
     },
     btnSendToReviewOptions() {
@@ -164,12 +179,17 @@ export default {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
         onClick: async () => {
-          await this.$store.dispatch("currentTask/initTask", {
-            taskType: TaskType.ActionItemExecutionTask,
-            parentAssignment: this.$store.getters[
-              "currentAssignment/assignment"
-            ].id
-          });
+          const { taskId } = await createTaskRequest(
+            this,
+            {
+              taskType: TaskType.ActionItemExecutionTask,
+              parentAssignment: this.$store.getters[
+                "currentAssignment/assignment"
+              ](this.assignmentId).id
+            },
+            false
+          );
+          this.actionItemExecutionTaskId = taskId;
           this.showItemExecutionTask = true;
         }
       };
@@ -183,14 +203,19 @@ export default {
       }
     },
     sendResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", result);
+      this.$store.commit("currentAssignment/SET_RESULT", {
+        key: this.assignmentId,
+        payload: result
+      });
     },
     toogleCommentPopup() {
       this.showComment = !this.showComment;
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete"),
+        this.$store.dispatch("currentAssignment/complete", {
+          key: this.assignmentId
+        }),
         e => {
           this.$router.go(-1);
           this.$awn.success();

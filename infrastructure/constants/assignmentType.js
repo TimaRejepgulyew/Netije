@@ -16,8 +16,12 @@ const AssignmentType = {
   ReviewObserverNotification: 13,
   ReviewObserversNotification: 14,
   ReviewClerkNotification: 15,
-  ActionItemObserversNotification: 16,
-  ActionItemSupervisorNotification: 17,
+  FreeApprovalAssignment: 16,
+  FreeApprovalFinishAssignment : 17,
+  FreeApprovalReworkAssignment : 18,
+  ActionItemObserversNotification : 19,
+  ActionItemSupervisorNotification :20,
+  FreeApprovalNotification :21
 
 };
 export default AssignmentType;

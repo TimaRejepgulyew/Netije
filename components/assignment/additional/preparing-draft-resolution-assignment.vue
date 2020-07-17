@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class>
     <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
     <div class="f-grow-1">
       <employee-select-box
@@ -13,35 +13,29 @@
 
 <script>
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
 export default {
   components: {
-  
     employeeSelectBox
   },
-  data() {
-    return {
-      employeeStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
-        })
-      }),
-      isCardOpened: false
-    };
-  },
+props:["assignmentId"],
   methods: {
     valueChanged(id) {
-      this.$store.commit("currentAssignment/SET_ADDRESSEE_ID", id);
+      this.$store.commit("currentAssignment/SET_ADDRESSEE_ID", {
+        key: this.assignmentId,
+        payload: id
+      });
     }
   },
   computed: {
     addresseeId() {
-      return this.$store.getters["currentAssignment/assignment"].addresseeId;
+      return this.$store.getters["currentAssignment/assignment"](
+        this.assignmentId
+      ).addresseeId;
     },
     InProcess() {
-      return this.$store.getters["currentAssignment/InProcess"];
+      return this.$store.getters["currentAssignment/inProcess"](
+        this.assignmentId
+      );
     }
   }
 };

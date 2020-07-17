@@ -4,55 +4,63 @@ import { isActionItemExicutionAssignment } from "~/infrastructure/constants/assi
 import dataApi from "~/static/dataApi";
 import Importance from "~/infrastructure/constants/assignmentImportance";
 export const state = () => ({
-  assignment: null,
-  comment: null
+  assignments: {}
 });
 
 export const getters = {
-  isCompleted({ assignment }) {
-    return assignment.status === AssignmentStatus.Completed;
+  isCompleted: ({ assignments }) => key => {
+    return assignments[key].assignment.status === AssignmentStatus.Completed;
   },
-  InProcess({ assignment }) {
-    return assignment.status === AssignmentStatus.InProcess;
+  inProcess: ({ assignments }) => key => {
+    console.log(assignments, key);
+    return assignments[key].assignment.status === AssignmentStatus.InProcess;
   },
-  assignmentType({ assignment }) {
-    return assignment.assignmentType;
+  assignmentType: ({ assignments }) => key => {
+    return assignments[key].assignment.assignmentType;
   },
-  isActionItemExicutionAssignment({ assignment }) {
-    return isActionItemExicutionAssignment(assignment.assignmentType);
-  },
-  canUpdate({ assignment }) {
-    return (
-      isAssignment(assignment.assignmentType) &&
-      assignment.status !== AssignmentStatus.Completed
+  isActionItemExicutionAssignment: ({ assignments }) => key => {
+    return isActionItemExicutionAssignment(
+      assignments[key].assignment.assignmentType
     );
   },
-  isImportant({ assignment }) {
-    return assignment.importance === Importance.High;
+  canUpdate: ({ assignments }) => key => {
+    return (
+      isAssignment(assignments[key].assignment.assignmentType) &&
+      assignments[key].assignment.status !== AssignmentStatus.Completed
+    );
   },
-  assignment({ assignment }) {
-    return assignment;
+  isImportant: ({ assignments }) => key => {
+    return assignments[key].assignment.importance === Importance.High;
+  },
+  assignment: ({ assignments }) => key => {
+    return assignments[key].assignment;
   }
 };
 export const mutations = {
-  RESET_FIELDS(state) {
-    state.assignment = null;
-    state.comment = null;
+  SET_ASSIGNMENT(state, { key, payload }) {
+    let overlays =
+      state.assignments[key]?.overlays >= 0
+        ? state.assignments[key].overlays
+        : 0;
+    const obj = {
+      assignment: payload,
+      overlays: overlays
+    };
+    var newObj = { ...state.assignments };
+    newObj[key] = obj;
+    state.assignments = Object.assign({}, state.assignments, newObj);
   },
-  SET_ASSIGNMENT(state, payload) {
-    state.assignment = payload;
+  SET_BODY(state, { key, payload }) {
+    state.assignments[key].body = payload;
   },
-  SET_BODY(state, payload) {
-    state.body = payload;
+  SET_ATTACHMENT_GROUPS(state, { key, payload }) {
+    state.assignments[key].assignment.attachmentGroups = payload;
   },
-  SET_ATTACHMENT_GROUPS(state, payload) {
-    state.assignment.attachmentGroups = payload;
+  SET_ADDRESSEE_ID(state, { key, payload }) {
+    state.assignments[key].assignment.addresseeId = payload;
   },
-  SET_ADDRESSEE_ID(state, payload) {
-    state.assignment.addresseeId = payload;
-  },
-  SET_RESULT(state, payload) {
-    state.assignment.result = payload;
+  SET_RESULT(state, { key, payload }) {
+    state.assignments[key].assignment.result = payload;
   }
 };
 
@@ -62,42 +70,40 @@ export const actions = {
       assignmentId: id
     });
   },
-  async load({ commit, dispatch }, id) {
-    commit("RESET_FIELDS");
+  async load({ commit, dispatch }, { key }) {
     const { data } = await this.$axios.get(
-      dataApi.assignment.GetAssignmentById + id
+      dataApi.assignment.GetAssignmentById + key
     );
-
     if (!data.isRead) {
-      await dispatch("markAsRead", +id);
+      await dispatch("markAsRead", +key);
     }
-    commit("SET_ASSIGNMENT", data);
+    commit("SET_ASSIGNMENT", { key, payload: data });
   },
-  async complete({ state, commit }, params) {
-    const assignment = { ...state.assignment };
-    delete assignment.attachmentGroups;
+  async complete({ state }, { key, params }) {
+    const assignment = { ...state.assignments[key].assignment };
+    delete state.assignments[key].assignment.attachmentGroups;
     const assignmentJson = JSON.stringify(assignment);
 
-    return await this.$axios.post(dataApi.assignment.CompleteAssignment, {
-      assignmentId: state.assignment.id,
-      assignmentType: state.assignment.assignmentType,
+    await this.$axios.post(dataApi.assignment.CompleteAssignment, {
+      assignmentId: key,
+      assignmentType: state.assignments[key].assignment.assignmentType,
       assignmentJson,
       ...params
     });
   },
 
-  async pasteAttachment({ state, commit }, payload) {
-    const options = { ...payload, id: state.assignment.id };
+  async pasteAttachment({ state, commit }, { key, payload }) {
+    const options = { ...payload, id: key };
     const { data } = await this.$axios.post(
       dataApi.attachment.PasteByAssignment,
       options
     );
     commit("SET_ATTACHMENT_GROUPS", data);
   },
-  async detachAttachment({ commit }, attachmentId) {
+  async detachAttachment({ commit }, { key, payload }) {
     const { data } = await this.$axios.delete(
-      `${dataApi.attachment.Detach}/${attachmentId}`
+      `${dataApi.attachment.Detach}/${payload}`
     );
-    commit("SET_ATTACHMENT_GROUPS", data);
+    commit("SET_ATTACHMENT_GROUPS", { key, payload: data });
   }
 };

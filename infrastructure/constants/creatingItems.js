@@ -43,19 +43,26 @@ export default function(context) {
     }
   ];
 }
-export const createTaskRequest = async function(context, params) {
-  const guid = +new Date();
-  await context.$store.dispatch("currentTask/initTask", { ...params, guid });
-  const taskId = context.$store.getters["currentTask/taskIdByGuid"](guid);
-  context.$store.commit("currentTask/DROP_GUID",{ key: guid });
+function toRouter(context, { taskId, taskType }) {
   const replaceOldRoute = context.$store.getters["currentTask/isNew"](taskId);
-
-  const route = `/task/detail/${params.taskType}/${taskId}`;
+  const route = `/task/detail/${taskType}/${taskId}`;
   if (replaceOldRoute) {
     context.$router.replace(route);
   } else {
     context.$router.push(route);
   }
+}
+export const createTaskRequest = async function(
+  context,
+  params,
+  withRouter = true
+) {
+  const guid = +new Date();
+  await context.$store.dispatch("currentTask/initTask", { ...params, guid });
+  const taskId = context.$store.getters["currentTask/taskIdByGuid"](guid);
+  context.$store.commit("currentTask/DROP_GUID", { key: guid });
+  if (withRouter) toRouter(context, { taskId, taskType: params.taskType });
+  else return { taskId, taskType: params.taskType };
 };
 export function TaskButtons(context) {
   return [

@@ -328,6 +328,7 @@ export default {
     },
     type: {
       SimpleAssignment: "Простое задание",
+      SimpleNotify:"Уведомление",
       AcquaintanceAssignment: "Задание на ознакомление",
       ActionItemExecutionAssignment: "Задание на исполнение поручений",
       Notice: "Уведомление",
@@ -343,7 +344,7 @@ export default {
       ReviewDraftResolutionAssignment:
         " Рассмотрение руководителем документа с проектом резолюции",
       ReviewManagerAssignment:
-        "Задание на рассмотрение документа .Рассмотрение руководителем",
+        "Рассмотрение руководителем",
       ReviewResolutionAssignment: "Обработка резолюции",
       ReviewObserverNotification: "Уведомление наблюдателю",
       ReviewObserversNotification: "Уведомление о рассмотрении",
