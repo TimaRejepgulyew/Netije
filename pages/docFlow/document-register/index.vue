@@ -170,7 +170,7 @@ export default {
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.DocumentRegister.All,
-        removeUrl: dataApi.docFlow.DocumentRegister.All
+        removeUrl: dataApi.docFlow.DocumentRegister.Value
       }),
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
       registerTypeDataSource: this.$store.getters["docflow/registerType"](this),

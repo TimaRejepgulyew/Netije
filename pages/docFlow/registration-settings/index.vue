@@ -150,7 +150,7 @@ export default {
       documentRegisterDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.DocumentRegister.AvailableForUse
+          loadUrl: dataApi.docFlow.DocumentRegister.AvailableForRegistrationSetttings
         }),
         paginate: true
       }

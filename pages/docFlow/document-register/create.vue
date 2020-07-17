@@ -284,7 +284,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(
-          dataApi.docFlow.DocumentRegister.All,
+          dataApi.docFlow.DocumentRegister.Value,
           this.documentRegister
         ),
         res => {

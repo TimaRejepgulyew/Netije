@@ -31,16 +31,22 @@ export default {
   },
   docFlow: {
     DocumentRegister: {
+      Value: `${url}/api/DocumentRegister`,
       All: `${url}/api/DocumentRegister`,
       AvailableForUse: `${url}/api/DocumentRegister/AvailableForUse`,
+      AvailableForRegistrationSetttings: `${url}/api/DocumentRegister/AvailableForRegistrationSetttings`,
       PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
+      FilterByDocumentParams: `${url}/api/DocumentRegister/FilterByDocumentParams`,
+    },
+    CaseFile: {
+      Value: `${url}/api/CaseFile`,
+      All: `${url}/api/CaseFile`,
     },
     ContractCategories: `${url}/api/ContractCategory`,
     PersonalSettings: `${url}/api/PersonalSettings`,
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
     DocumentSendAction: `${url}/api/DocumentSendAction`,
-    CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
     RegistrationGroup: `${url}/api/RegistrationGroup`,
     ResponsibleForGroupOnMe: `${url}/api/RegistrationGroup/ResponsibleForGroupOnMe`,

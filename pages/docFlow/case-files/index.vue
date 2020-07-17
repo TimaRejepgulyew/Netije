@@ -181,10 +181,10 @@ export default {
       entityType: EntityType.CaseFile,
       store: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.CaseFile,
-        insertUrl: dataApi.docFlow.CaseFile,
-        updateUrl: dataApi.docFlow.CaseFile,
-        removeUrl: dataApi.docFlow.CaseFile
+        loadUrl: dataApi.docFlow.CaseFile.All,
+        insertUrl: dataApi.docFlow.CaseFile.Value,
+        updateUrl: dataApi.docFlow.CaseFile.Value,
+        removeUrl: dataApi.docFlow.CaseFile.Value
       }),
       indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
       statusDataSource: this.$store.getters["status/status"](this)

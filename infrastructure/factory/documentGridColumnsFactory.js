@@ -474,7 +474,7 @@ function CreateCaseFileColumn(context, visible = false) {
   return CreateLookupColumn(
     "caseFileId",
     context,
-    dataApi.docFlow.CaseFile,
+    dataApi.docFlow.CaseFile.All,
     visible,
     "title"
   );

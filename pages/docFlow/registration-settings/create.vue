@@ -235,7 +235,7 @@ export default {
         dataSource: {
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.docFlow.DocumentRegister.AvailableForUse
+            loadUrl: dataApi.docFlow.DocumentRegister.AvailableForRegistrationSetttings
           }),
           filter: [
             ["status", "=", Status.Active],

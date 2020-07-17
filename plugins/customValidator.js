@@ -157,7 +157,7 @@ export default ({ app }, inject) => {
 
   async function CaseFileDataFieldValueNotExists(payload, propertyName) {
     return (
-      (await isEntityExists(dataApi.docFlow.CaseFile, payload, propertyName)) ==
+      (await isEntityExists(dataApi.docFlow.CaseFile.All, payload, propertyName)) ==
       false
     );
   }

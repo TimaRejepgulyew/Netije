@@ -62,11 +62,16 @@
         data-type="boolean"
       ></DxColumn>
 
-      <DxColumn visible-index="0" data-field="name" :caption="$t('translations.fields.name')" data-type="string">
+      <DxColumn
+        :visible-index="0"
+        data-field="name"
+        :caption="$t('translations.fields.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
       </DxColumn>
       <DxColumn
-      visible-index="1"
+        :visible-index="1"
         data-field="responsibleEmployeeId"
         :caption="$t('translations.fields.responsibleId')"
       >
@@ -78,7 +83,7 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn visible-index="2" data-field="index" :caption="$t('translations.fields.index')">
+      <DxColumn :visible-index="2" data-field="index" :caption="$t('translations.fields.index')">
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
         <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
       </DxColumn>
