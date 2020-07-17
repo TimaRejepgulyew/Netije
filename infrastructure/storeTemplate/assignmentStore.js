@@ -64,7 +64,7 @@ export const actions = {
       dataApi.assignment.GetAssignmentById + assignmentId
     );
     if (!data.isRead) {
-      await dispatch("markAsRead", +key);
+      await dispatch("markAsRead", +assignmentId);
     }
     commit("SET_ASSIGNMENT", data);
   },
@@ -81,7 +81,7 @@ export const actions = {
     });
   },
 
-  async pasteAttachment({ state, commit }, payload ) {
+  async pasteAttachment({ state, commit }, payload) {
     const options = { ...payload, id: state.assignment.id };
     const { data } = await this.$axios.post(
       dataApi.attachment.PasteByAssignment,
