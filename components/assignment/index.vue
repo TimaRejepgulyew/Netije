@@ -122,7 +122,6 @@ export default {
     ...additional
   },
   props: ["assignmentId"],
-
   data() {
     return {
       attachmentsUrl: dataApi.attachment.AttachmentByAssignment,
@@ -134,17 +133,18 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      assignmentData: "currentAssignment/assignment"
-    }),
+   
     assignment() {
-      return this.assignmentData(this.assignmentId);
+      return mapGetters({
+        assignment: `assignments/${this.assignmentId}`
+      });
     },
     performerId() {
-      return this.assignmentData(this.assignmentId).performerId;
+      console.log(this.assignment);
+      return this.assignment.performerId;
     },
     authorId() {
-      return this.assignmentData(this.assignmentId).authorId;
+      return this.assignment.authorId;
     },
     subjectOptions() {
       return {
@@ -221,20 +221,17 @@ export default {
     },
     detach(attachmentId) {
       this.$awn.async(
-        this.$store.dispatch("currentAssignment/detachAttachment", {
-          key: this.assignmentId,
-          payload: attachmentId
-        }),
+        this.$store.dispatch(
+          "currentAssignment/detachAttachment",
+          attachmentId
+        ),
         () => {},
         () => {}
       );
     },
     pasteAttachment(options) {
       this.$awn.async(
-        this.$store.dispatch("currentAssignment/pasteAttachment", {
-          key: this.assignmentId,
-          payload: options
-        }),
+        this.$store.dispatch("currentAssignment/pasteAttachment", options),
         () => {},
         () => {}
       );
