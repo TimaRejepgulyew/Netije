@@ -10,7 +10,11 @@ import outgoingTaxInvoiceIcon from "~/static/icons/outgoingTaxInvoice.svg";
 import universaltransferdocumentIcon from "~/static/icons/universaltransferdocument.svg";
 import waybillIcon from "~/static/icons/waybill.svg";
 import supAgreementIcon from "~/static/icons/supAgreement.svg";
-
+import simpleTaskIcon from "~/static/icons/simpleTask.svg";
+import acquintanceTaskIcon from "~/static/icons/acquintanceTask.svg";
+import actionItemExecution from "~/static/icons/actionItemExecution.svg";
+import documentReview from "~/static/icons/documentReview.svg";
+import * as documentTypeIcon from "~/static/icons/document-type/index.js";
 export default function(context) {
   return [
     {
@@ -40,9 +44,12 @@ export default function(context) {
   ];
 }
 export const createTaskRequest = async function(context, params) {
-  const replaceOldRoute = context.$store.getters["currentTask/isNew"];
-  await context.$store.dispatch("currentTask/initTask", params);
-  const taskId = context.$store.getters["currentTask/task"].id;
+  const guid = +new Date();
+  await context.$store.dispatch("currentTask/initTask", { ...params, guid });
+  const taskId = context.$store.getters["currentTask/taskIdByGuid"](guid);
+  context.$store.commit("currentTask/DROP_GUID",{ key: guid });
+  const replaceOldRoute = context.$store.getters["currentTask/isNew"](taskId);
+
   const route = `/task/detail/${params.taskType}/${taskId}`;
   if (replaceOldRoute) {
     context.$router.replace(route);
@@ -53,7 +60,7 @@ export const createTaskRequest = async function(context, params) {
 export function TaskButtons(context) {
   return [
     {
-      icon: "plus",
+      icon: simpleTaskIcon,
       text: context.$t("createItemDialog.simpleTask"),
       async create(params) {
         await createTaskRequest(context, {
@@ -63,7 +70,7 @@ export function TaskButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: acquintanceTaskIcon,
       text: context.$t("createItemDialog.acquaintanceTask"),
       async create(params) {
         await createTaskRequest(context, {
@@ -73,11 +80,21 @@ export function TaskButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: actionItemExecution,
       text: context.$t("createItemDialog.actionItemExecutionTask"),
       async create(params) {
         await createTaskRequest(context, {
           taskType: TaskType.ActionItemExecutionTask,
+          ...params
+        });
+      }
+    },
+    {
+      icon: documentReview,
+      text: context.$t("createItemDialog.documentReviewTask"),
+      async create(params) {
+        await createTaskRequest(context, {
+          taskType: TaskType.DocumentReviewTask,
           ...params
         });
       }
@@ -194,7 +211,7 @@ export function FinancialArchiveButtons(context) {
 export function DocumentButtons(context) {
   return [
     {
-      icon: "plus",
+      icon: documentTypeIcon.incomingLetterIcon,
       text: context.$t("createItemDialog.incomingLetter"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -204,7 +221,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: documentTypeIcon.outgoingLetterIcon,
       text: context.$t("createItemDialog.outgoingLetter"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -214,7 +231,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: documentTypeIcon.orderIcon,
       text: context.$t("createItemDialog.order"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -224,7 +241,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: documentTypeIcon.companyDirectiveIcon,
       text: context.$t("createItemDialog.companyDirective"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -234,7 +251,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: documentTypeIcon.simpleDocumentIcon,
       text: context.$t("createItemDialog.simpleDocument"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -244,7 +261,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: documentTypeIcon.addendumIcon,
       text: context.$t("createItemDialog.addendum"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -254,7 +271,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: documentTypeIcon.memoIcon,
       text: context.$t("createItemDialog.memo"),
       async create(params) {
         await createDocumentRequest(context, {
@@ -264,7 +281,7 @@ export function DocumentButtons(context) {
       }
     },
     {
-      icon: "plus",
+      icon: documentTypeIcon.powerOfAttorneyIcon,
       text: context.$t("createItemDialog.powerOfAttorney"),
       async create(params) {
         await createDocumentRequest(context, {

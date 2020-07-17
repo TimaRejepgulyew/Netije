@@ -63,8 +63,8 @@
       <DxSimpleItem
         :visible="isDraft"
         :col-span="3"
-        data-field="actionItem"
-        :editor-options="actionItemOptions"
+        data-field="body"
+        :editor-options="bodyOptions"
         editor-type="dxTextArea"
       >
         <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
@@ -126,6 +126,7 @@ export default {
     DxLabel,
     DxForm
   },
+  props: ["taskId"],
   data() {
     return {
       validatorGroup: "task"
@@ -133,67 +134,92 @@ export default {
   },
   methods: {
     setActionItemObservers(value) {
-      this.$store.commit("currentTask/SET_ACTION_ITEM_OBSERVERS", value);
+      this.$store.commit("currentTask/SET_ACTION_ITEM_OBSERVERS", {
+        key: this.taskId,
+        payload: value
+      });
     },
     setCoAssignees(value) {
-      this.$store.commit("currentTask/SET_CO_ASSIGNEES", value);
+      this.$store.commit("currentTask/SET_CO_ASSIGNEES", {
+        key: this.taskId,
+        payload: value
+      });
     },
     setAssignee(value) {
-      this.$store.commit("currentTask/SET_ASSIGNEE", value);
+      this.$store.commit("currentTask/SET_ASSIGNEE", {
+        key: this.taskId,
+        payload: value
+      });
     },
     setSupervisor(value) {
-      this.$store.commit("currentTask/SET_SUPERVISOR", value);
+      this.$store.commit("currentTask/SET_SUPERVISOR", {
+        key: this.taskId,
+        payload: value
+      });
     }
   },
   computed: {
     isUnderControl() {
-      return this.$store.getters["currentTask/task"].isUnderControl;
+      return this.$store.getters["currentTask/task"](this.taskId).isUnderControl;
     },
     actionItemObservers() {
-      return this.$store.getters["currentTask/task"].actionItemObservers;
+      return this.$store.getters["currentTask/task"](this.taskId)
+        .actionItemObservers;
     },
     coAssignees() {
-      return this.$store.getters["currentTask/task"].coAssignees;
+      return this.$store.getters["currentTask/task"](this.taskId).coAssignees;
     },
     supervisorId() {
-      return this.$store.getters["currentTask/task"].supervisorId;
+      return this.$store.getters["currentTask/task"](this.taskId).supervisorId;
     },
     assigneeId() {
-      return this.$store.getters["currentTask/task"].assigneeId;
+      return this.$store.getters["currentTask/task"](this.taskId).assigneeId;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"];
+      return this.$store.getters["currentTask/inProcess"](this.taskId);
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"];
+      return this.$store.getters["currentTask/isNew"](this.taskId);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"].subject,
+        value: this.$store.getters["currentTask/task"](this.taskId).subject,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", e.value);
+          this.$store.commit("currentTask/SET_SUBJECT", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
     isUnderControlOptions() {
       return {
-        value: this.$store.getters["currentTask/task"].isUnderControl,
+        value: this.$store.getters["currentTask/task"](this.taskId).isUnderControl,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_IS_UNDER_CONTROL", e.value);
-          this.$store.commit("currentTask/SET_SUPERVISOR", null);
+          this.$store.commit("currentTask/SET_IS_UNDER_CONTROL", {
+            key: this.taskId,
+            payload: e.value
+          });
+          this.$store.commit("currentTask/SET_SUPERVISOR", {
+            key: this.taskId,
+            payload: null
+          });
         }
       };
     },
-    actionItemOptions() {
+    bodyOptions() {
       return {
         placeholder: this.$t("translations.fields.actionItemRequired"),
         height: 250,
-        value: this.$store.getters["currentTask/task"].actionItem,
+        value: this.$store.getters["currentTask/task"](this.taskId).body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_ACTION_ITEM", e.value);
+          this.$store.commit("currentTask/SET_BODY", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
@@ -201,9 +227,12 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].maxDeadline,
+        value: this.$store.getters["currentTask/task"](this.taskId).maxDeadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_MAX_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_MAX_DEADLINE", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     }

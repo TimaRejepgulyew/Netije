@@ -15,6 +15,10 @@ export default {
         name: context.$t("menu.actionItemsExicutionAssignments")
       },
       {
+        id: 9,
+        name: context.$t("createItemDialog.documentReviewTask")
+      },
+      {
         id: 3,
         name: context.$t("menu.simpleNotices")
       },
@@ -26,6 +30,7 @@ export default {
         id: 5,
         name: context.$t("menu.acquaintanceNotices")
       },
+
       {
         id: null,
         name: context.$t("translations.fields.all")
@@ -36,8 +41,8 @@ export default {
   statusType(context) {
     return [
       {
-        id: AssigmentStatus.InProccess,
-        name: context.$t("translations.fields.inProccess")
+        id: AssigmentStatus.InProcess,
+        name: context.$t("translations.fields.InProcess")
       },
       {
         id: AssigmentStatus.Completed,

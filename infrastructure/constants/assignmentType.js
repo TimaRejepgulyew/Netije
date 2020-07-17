@@ -1,3 +1,4 @@
+import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 const AssignmentType = {
   SimpleAssignment: 0,
   AcquaintanceAssignment: 1,
@@ -8,8 +9,16 @@ const AssignmentType = {
   AcquaintanceFinishAssignment: 6,
   ActionItemSupervisorAssignment: 7,
   ReviewAssignment: 8,
+  PreparingDraftResolutionAssignment: 9,
+  ReviewDraftResolutionAssignment: 10,
+  ReviewManagerAssignment: 11,
+  ReviewResolutionAssignment: 12,
+  ReviewObserverNotification: 13,
+  ReviewObserversNotification: 14,
+  ReviewClerkNotification: 15,
   ActionItemObserversNotification: 16,
-  ActionItemSupervisorNotification: 17
+  ActionItemSupervisorNotification: 17,
+
 };
 export default AssignmentType;
 export function isAssignment(type) {
@@ -28,4 +37,11 @@ export function isAssignment(type) {
 
 export function isActionItemExicutionAssignment(type) {
   return type === AssignmentType.ActionItemExecutionAssignment;
+}
+export function assignmentTypeName(context) {
+  return generatorMapObj({
+    Constant: AssignmentType,
+    translateName: "assignment.type",
+    context: context
+  });
 }

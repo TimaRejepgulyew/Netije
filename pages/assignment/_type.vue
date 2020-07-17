@@ -112,10 +112,10 @@
           data-type="date"
         />
         <template #isImportant="cell">
-          <img class="icon--type" :src="cell.data.value|isImportant" />
+          <is-important-icon v-if="cell.data.value" :state="cell.data.value" />
         </template>
         <template #typeIcon="cell">
-          <img class="icon--type" :src="cell.data.value|typeIcon" />
+          <icon-by-assignment-type class="icon--type" :assignmentType="cell.data.value" />
         </template>
       </DxDataGrid>
       <transition name="fade">
@@ -127,6 +127,8 @@
   </main>
 </template>
 <script>
+import isImportantIcon from "~/components/page/task-important.vue";
+import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
@@ -138,6 +140,7 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import TaskFilter from "~/components/assignment/filter";
 import DxButton from "devextreme-vue/button";
+import iconByAssignmentType from "~/components/assignment/icon-by-assignment-type.vue";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -175,7 +178,9 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    iconByAssignmentType,
+    isImportantIcon
   },
 
   data() {
@@ -205,39 +210,10 @@ export default {
   },
   methods: {
     subjectText(rowData) {
-      let prefix = "";
-      switch (rowData.assignmentType) {
-        case AssignmentType.ActionItemSupervisorAssignment:
-          prefix = this.$t(
-            "assignment.prefixes.actionItemSupervisorAssignment"
-          );
-          break;
-        case AssignmentType.ActionItemExecutionAssignment:
-          prefix = this.$t("assignment.prefixes.actionItemExecutionAssignment");
-          break;
-        case AssignmentType.ActionItemExecutionNotification:
-          prefix = this.$t(
-            "assignment.prefixes.actionItemExecutionNotification"
-          );
-          break;
-        case AssignmentType.AcquaintanceAssignment:
-          prefix = this.$t("assignment.prefixes.acquaintanceAssignment");
-          break;
-        case AssignmentType.AcquaintanceNotification:
-          prefix = this.$t("assignment.prefixes.acquaintanceNotification");
-          break;
-        case AssignmentType.AcquaintanceFinishAssignment:
-          prefix = this.$t("assignment.prefixes.acquaintanceFinishAssignment");
-          break;
-        case AssignmentType.ActionItemObserversNotification:
-          prefix = this.$t(
-            "assignment.prefixes.actionItemObserversNotification"
-          );
-          break;
-        default:
-          break;
-      }
-      return prefix + rowData.subject;
+      return (
+        generatorPrefixByAssignmentType(rowData.assignmentType, this) +
+        rowData.subject
+      );
     },
     addButtonToGrid(header) {
       header.toolbarOptions.items.unshift({
@@ -278,34 +254,9 @@ export default {
     showAssignment(e) {
       this.$router.push("/assignment/more/" + e.key);
     },
-    createTask(e) {
-      this.$router.push(e.itemData.path);
-    },
+
     showFilter() {
       this.isFilterOpen = !this.isFilterOpen;
-    }
-  },
-  filters: {
-    typeIcon(value) {
-      switch (value) {
-        case AssignmentType.AcquaintanceAssignment:
-          return require("~/static/icons/status/acquiantance.svg");
-        case AssignmentType.SimpleAssignment:
-        case AssignmentType.ActionItemExecutionAssignment:
-          return require("~/static/icons/iconAssignment/clock.svg");
-        case 6:
-        case 7:
-        case 8:
-          return require("~/static/icons/status/underreview.svg");
-        case AssignmentType.SimpleNotify:
-        case AssignmentType.ActionItemExecutionNotification:
-        case AssignmentType.AcquaintanceNotification:
-        case AssignmentType.ActionItemObserversNotification:
-        case AssignmentType.ActionItemSupervisorNotification:
-          return require("~/static/icons/iconAssignment/notice.svg");
-        default:
-          return require("~/static/icons/iconAssignment/inProccess1.svg");
-      }
     },
     isImportant(value) {
       switch (value) {
@@ -316,7 +267,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped >
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 
@@ -338,6 +289,7 @@ export default {
 .icon--type {
   display: flex;
   margin: 0 auto;
-  width: 25px;
+  height: 20px;
+  width: 100%;
 }
 </style>

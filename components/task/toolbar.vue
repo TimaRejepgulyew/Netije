@@ -34,7 +34,6 @@ import { alert } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
-import ReviewResult from "~/infrastructure/constants/reviewResult.js";
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
@@ -46,22 +45,26 @@ export default {
     DxToolbar,
     DxItem
   },
-
+  data() {
+    return {
+      taskId: this.$parent.taskId
+    };
+  },
   computed: {
     isDataChanged() {
-      return this.$store.getters["currentTask/isDataChanged"];
+      return this.$store.getters["currentTask/isDataChanged"](this.taskId);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"];
+      return this.$store.getters["currentTask/inProcess"](this.taskId);
     },
     isCompleted() {
-      return this.$store.getters["currentTask/isCompleted"];
+      return this.$store.getters["currentTask/isCompleted"](this.taskId);
     },
     isAborted() {
-      return this.$store.getters["currentTask/isAborted"];
+      return this.$store.getters["currentTask/isAborted"](this.taskId);
     },
 
     saveButtonOptions() {
@@ -82,7 +85,9 @@ export default {
             this.$parent.$refs["form"].instance.validate().isValid
           )
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/startAndLoad"),
+              this.$store.dispatch("currentTask/startAndLoad", {
+                key: this.taskId
+              }),
               e => {
                 this.backTo();
               },
@@ -98,7 +103,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/abort"),
+              this.$store.dispatch("currentTask/abort", { key: this.taskId }),
               e => {
                 this.backTo();
               },
@@ -114,7 +119,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/restart"),
+              this.$store.dispatch("currentTask/restart", { key: this.taskId }),
               e => {
                 this.backTo();
               },
@@ -126,7 +131,7 @@ export default {
   },
   methods: {
     backTo() {
-      this.$router.go(-1);
+      this.$emit("backTo");
     },
     generateHtmlError(attachments) {
       return attachments.map(attachment => {
@@ -137,9 +142,9 @@ export default {
     },
     validateAttachment() {
       let isValid = true;
-      let attachments = this.$store.getters[
-        "currentTask/task"
-      ].attachmentGroups.filter(attachment => attachment.isRequired);
+      let attachments = this.$store.getters["currentTask/task"](
+        this.taskId
+      ).attachmentGroups.filter(attachment => attachment.isRequired);
       attachments.forEach(attachment => {
         if (!attachment.entities) isValid = false;
       });
@@ -154,7 +159,7 @@ export default {
         this.$parent.$refs["form"].instance.validate().isValid
       )
         this.$awn.asyncBlock(
-          this.$store.dispatch("currentTask/saveAndLoad"),
+          this.$store.dispatch("currentTask/saveAndLoad", { key: this.taskId }),
           e => {},
           e => this.$awn.alert()
         );

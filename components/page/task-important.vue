@@ -3,15 +3,13 @@
 </template>
 
 <script>
+import importantIcon from "~/static/icons/iconAssignment/important.svg";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 export default {
   props: ["state"],
   computed: {
     path() {
-      switch (this.state) {
-        case Important.High:
-          return require("~/static/icons/iconAssignment/important.svg");
-      }
+      return this.state === Important.High ? importantIcon : false;
     }
   }
 };

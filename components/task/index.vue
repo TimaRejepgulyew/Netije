@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
-    <Header  :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
-    <toolbar />
+    <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
+    <toolbar @backTo="backTo" />
     <DxForm
       ref="form"
       :col-count="10"
@@ -23,7 +23,7 @@
       </DxGroupItem>
 
       <template #mainForm>
-        <component :is="taskType"></component>
+        <component :taskId="taskId" :is="taskType"></component>
       </template>
       <template #attachments>
         <attachment
@@ -33,18 +33,24 @@
         />
       </template>
       <template #comments>
-        <comments v-if="!isDraft" :url="commentsUrl"></comments>
+        <thread-texts
+          v-if="!isDraft"
+          entityType="task"
+          :id="taskId"
+        ></thread-texts>
       </template>
     </DxForm>
   </div>
+
+
 </template>
 <script>
+import documentReviewTask from "~/components/task/document-review-task.vue";
 import simpleTask from "~/components/task/simple-task.vue";
 import acquaintanceTask from "~/components/task/acquaintance-task.vue";
 import actionItemExecutionTask from "~/components/task/action-item-execution-task.vue";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import toolbar from "~/components/task/toolbar.vue";
-import comments from "~/components/workFlow/assignment-comments.vue";
 import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
 import DxForm, {
@@ -55,11 +61,12 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
+  name: "index",
   components: {
     simpleTask,
     acquaintanceTask,
     actionItemExecutionTask,
-    comments,
+    threadTexts:()=>import("~/components/workFlow/thread-text/thread-texts.vue"),
     toolbar,
     attachment,
     Header,
@@ -67,17 +74,25 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    DxForm
+    DxForm,
+    documentReviewTask
   },
   props: {
+    taskId: {
+      type: Number
+    },
     isCard: {
       default: false
     }
   },
+  destroyed() {
+    this.$store.dispatch("currentTask/dispose", { key: this.taskId });
+  },
   data() {
     return {
       taskTypeNames: null,
-      taskTypeGuid: this.$store.getters["currentTask/task"].taskType,
+      taskTypeGuid: this.$store.getters["currentTask/task"](this.taskId)
+        .taskType,
       commentsUrl: dataApi.task.TextsByTask
     };
   },
@@ -92,16 +107,28 @@ export default {
     this.taskTypeNames = taskTypeNames;
   },
   methods: {
+    backTo() {
+      if (this.isCard) {
+        const taskId = this.$store.getters["currentTask/task"](this.taskId).id;
+        this.$emit("closeTask", taskId);
+      } else this.$router.go(-1);
+    },
     detach(attachmentId) {
       this.$awn.async(
-        this.$store.dispatch("currentTask/detachAttachment", attachmentId),
+        this.$store.dispatch("currentTask/detachAttachment", {
+          key: this.taskId,
+          payload: attachmentId
+        }),
         () => {},
         () => {}
       );
     },
     pasteAttachment(options) {
       this.$awn.async(
-        this.$store.dispatch("currentTask/pasteAttachment", options),
+        this.$store.dispatch("currentTask/pasteAttachment", {
+          key: this.taskId,
+          payload: options
+        }),
         () => {},
         () => {}
       );
@@ -111,16 +138,17 @@ export default {
     headerTitle() {
       return this.isNew
         ? this.taskTypeNames.get(this.taskTypeGuid)
-        : this.$store.getters["currentTask/task"].subject;
+        : this.$store.getters["currentTask/task"](this.taskId).subject;
     },
     attachmentGroups() {
-      return this.$store.getters["currentTask/task"].attachmentGroups;
+      return this.$store.getters["currentTask/task"](this.taskId)
+        .attachmentGroups;
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"];
+      return this.$store.getters["currentTask/isNew"](this.taskId);
     },
     taskType() {
       switch (this.taskTypeGuid) {
@@ -130,6 +158,8 @@ export default {
           return "acquaintance-task";
         case TaskType.ActionItemExecutionTask:
           return "action-item-execution-task";
+        case TaskType.DocumentReviewTask:
+          return "document-review-task";
       }
     }
   }

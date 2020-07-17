@@ -12,6 +12,9 @@ export const getters = {
   isCompleted({ assignment }) {
     return assignment.status === AssignmentStatus.Completed;
   },
+  InProcess({ assignment }) {
+    return assignment.status === AssignmentStatus.InProcess;
+  },
   assignmentType({ assignment }) {
     return assignment.assignmentType;
   },
@@ -39,11 +42,17 @@ export const mutations = {
   SET_ASSIGNMENT(state, payload) {
     state.assignment = payload;
   },
-  SET_COMMENT(state, payload) {
-    state.comment = payload;
+  SET_BODY(state, payload) {
+    state.body = payload;
   },
   SET_ATTACHMENT_GROUPS(state, payload) {
     state.assignment.attachmentGroups = payload;
+  },
+  SET_ADDRESSEE_ID(state, payload) {
+    state.assignment.addresseeId = payload;
+  },
+  SET_RESULT(state, payload) {
+    state.assignment.result = payload;
   }
 };
 
@@ -64,25 +73,25 @@ export const actions = {
     }
     commit("SET_ASSIGNMENT", data);
   },
-  async complete({ state, commit }, result) {
-    const assignment = {
-      assignmentId: state.assignment.id,
-      comment: state.comment,
-      result: result
-    };
+  async complete({ state, commit }, params) {
+    const assignment = { ...state.assignment };
+    delete assignment.attachmentGroups;
+    const assignmentJson = JSON.stringify(assignment);
 
-    return await this.$axios.post(
-      dataApi.assignment.CompleteAssignment,
-      assignment
-    );
+    return await this.$axios.post(dataApi.assignment.CompleteAssignment, {
+      assignmentId: state.assignment.id,
+      assignmentType: state.assignment.assignmentType,
+      assignmentJson,
+      ...params
+    });
   },
+
   async pasteAttachment({ state, commit }, payload) {
     const options = { ...payload, id: state.assignment.id };
     const { data } = await this.$axios.post(
       dataApi.attachment.PasteByAssignment,
       options
     );
-    console.log(data);
     commit("SET_ATTACHMENT_GROUPS", data);
   },
   async detachAttachment({ commit }, attachmentId) {

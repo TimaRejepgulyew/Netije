@@ -56,13 +56,17 @@
 import Comment from "~/components/workFlow/comments-item.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
+import { taskStatusLocalization } from "~/infrastructure/constants/taskStatus.js";
 export default {
   components: {
     Comment
   },
+  created() {
+  },
   name: "comment",
   props: ["comment"],
   methods: {
+    
     parseIconStatus(icon) {
       return require(`~/static/icons/status/${icon}.svg`);
     },
@@ -87,7 +91,7 @@ export default {
           return true;
       }
     }
-  },
+  }
 };
 </script>
 

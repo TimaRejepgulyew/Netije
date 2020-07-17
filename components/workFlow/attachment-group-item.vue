@@ -2,14 +2,14 @@
   <div>
     <DxPopup
       width="90%"
-      height="90%"
+      height="100%"
       :showTitle="false"
       :visible.sync="isOpenCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div class="scrool-auto">
-        <documentGrid :documentQuery="100" @selectedDocument="pasteAttachment" />
+      <div >
+        <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -96,52 +96,6 @@ export default {
           return "taskField";
       }
     },
-    groupDemo() {
-      let groupDemo = { ...this.group };
-      groupDemo.entities = groupDemo.entities = [
-        {
-          entity: {
-            type: 0,
-            name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-            note: "adwdawd",
-            ourSignatoryId: null,
-            placedToCaseFileDate: null,
-            preparedById: 16,
-            registrationDate: null,
-            registrationNumber: null,
-            registrationState: 1,
-            responsibleForReturnEmployeeId: null,
-            returnDate: null,
-            returnDeadline: null,
-            scheduledReturnDateFromCounterparty: null,
-            subject: "dwadaw",
-            extension: ".pdf"
-          },
-          canDetach: true
-        },
-        {
-          entity: {
-            type: 1,
-            name: "Вх. письмо от вцфвцфвцф вфцвфцвц ",
-            note: "adwdawd",
-            ourSignatoryId: null,
-            placedToCaseFileDate: null,
-            preparedById: 16,
-            registrationDate: null,
-            registrationNumber: null,
-            registrationState: 1,
-            responsibleForReturnEmployeeId: null,
-            returnDate: null,
-            returnDeadline: null,
-            scheduledReturnDateFromCounterparty: null,
-            subject: "dwadaw",
-            extension: ".pdf"
-          },
-          canDetach: true
-        }
-      ];
-      return groupDemo;
-    },
     hasGroupItem() {
       return this.group.entities;
     }
@@ -192,10 +146,7 @@ export default {
 .pb-1 {
   padding-bottom: 10px;
 }
-.scrool-auto {
-  width: 100%;
-  overflow: auto;
-}
+
 ul {
   padding: 0;
   li {

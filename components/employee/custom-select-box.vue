@@ -88,14 +88,13 @@ export default {
   },
   methods: {
     showPopup() {
+   
       this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {
-      console.log(e);
       this.$emit("valueChanged", e.value);
     },
     updateEmployee(data) {
-      console.log("updateEmployee");
       this.$emit("valueChanged", data.id);
       this.employeeStore.reload();
     }

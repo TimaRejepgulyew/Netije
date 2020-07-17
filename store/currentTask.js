@@ -2,217 +2,260 @@ import dataApi from "~/static/dataApi";
 import TaskStatus from "~/infrastructure/constants/taskStatus";
 
 export const state = () => ({
-  task: {},
-  isDataChanged: false,
-  isNew: false
+  tasks: {},
+  guids: {}
 });
 
 export const getters = {
-  isDataChanged({ isDataChanged }) {
-    return isDataChanged;
+  overlays: state => key => {
+    return state.tasks[key]?.overlays;
   },
-  isNew({ isNew }) {
-    return isNew;
+  isDataChanged: state => key => {
+    return state.tasks[key].isDataChanged;
   },
-  isDraft({ task }) {
-    return task.status === TaskStatus.Draft;
+  isNew: state => key => {
+    if (state.tasks[key]) return state.tasks[key].isNew;
+    else return false;
   },
-  isCompleted({ task }) {
-    return task.status === TaskStatus.Completed;
+  isDraft: state => key => {
+    return state.tasks[key].task.status === TaskStatus.Draft;
   },
-  inProcess({ task }) {
-    return task.status === TaskStatus.InProcess;
+  isCompleted: state => key => {
+    return state.tasks[key].task.status === TaskStatus.Completed;
   },
-  isAborted({ task }) {
-    return task.status === TaskStatus.Aborted;
+  inProcess: state => key => {
+    return state.tasks[key].task.status === TaskStatus.InProcess;
   },
-  task({ task }) {
-    return task;
+  isAborted: state => key => {
+    return state.tasks[key].task.status === TaskStatus.Aborted;
   },
-  taskTypeAndId({ task: { taskType, id } }) {
-    return { taskType, id };
+  task: state => key => {
+    return state.tasks[key].task;
+  },
+  taskIdByGuid: state => key => {
+    return state.guids[key].taskId;
+  },
+  taskTypeAndId: state => key => {
+    return {
+      taskType: state.tasks[key].task.taskType,
+      id: state.tasks[key].task.id
+    };
   }
 };
 function checkDataChanged(oldValue, newValue) {
   if (oldValue !== newValue) return oldValue !== newValue;
 }
 export const mutations = {
-  SET_IS_DATA_CHANGED(state, payload) {
-    state.isDataChanged = payload;
+  SET_IS_DATA_CHANGED(state, { key, payload }) {
+    state.tasks[key].isDataChanged = payload;
   },
-  SET_TASK(state, payload) {
-    state.task = payload;
+  SET_TASK(state, { key, payload }) {
+    let overlays =
+      state.tasks[key]?.overlays >= 0 ? state.tasks[key].overlays : 0;
+    const obj = {
+      ...payload,
+      isDataChanged: false,
+      isNew: false,
+      overlays: overlays
+    };
+
+    var newObj = { ...state.tasks };
+    newObj[key] = obj;
+    state.tasks = Object.assign({}, state.tasks, newObj);
   },
-  SET_SUBJECT(state, payload) {
-    if (checkDataChanged(state.task.subject, payload))
-      state.isDataChanged = true;
-    state.task.subject = payload;
+  DISPOSE(state, { key }) {
+    delete state.tasks[key];
   },
-  SET_IS_UNDER_CONTROL(state, payload) {
-    if (checkDataChanged(state.task.isUnderControl, payload))
-      state.isDataChanged = true;
-    state.task.isUnderControl = payload;
+  DROP_GUID(state, { key }) {
+    delete state.guids[key];
   },
-  SET_MAX_DEADLINE(state, payload) {
-    if (checkDataChanged(state.task.maxDeadline, payload))
-      state.isDataChanged = true;
-    state.task.maxDeadline = payload;
+  SET_SUBJECT(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.subject, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.subject = payload;
   },
-  SET_DEADLINE(state, payload) {
-    if (checkDataChanged(state.task.deadline, payload))
-      state.isDataChanged = true;
-    state.task.deadline = payload;
+  SET_IS_UNDER_CONTROL(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.isUnderControl, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.isUnderControl = payload;
   },
-  SET_COMMENT(state, payload) {
-    if (checkDataChanged(state.task.comment, payload))
-      state.isDataChanged = true;
-    state.task.comment = payload;
+  SET_MAX_DEADLINE(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.maxDeadline, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.maxDeadline = payload;
   },
-  SET_ROUTE_TYPE(state, payload) {
-    if (checkDataChanged(state.task.routeType, payload))
-      state.isDataChanged = true;
-    state.task.routeType = payload;
+  SET_DEADLINE(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.deadline, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.deadline = payload;
   },
-  SET_NEEDS_REVIEW(state, payload) {
-    if (checkDataChanged(state.task.needsReview, payload))
-      state.isDataChanged = true;
-    state.task.needsReview = payload;
+  SET_BODY(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.body, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.body = payload;
   },
-  SET_PERFORMERS(state, payload) {
-    if (checkDataChanged(state.task.performers, payload))
-      state.isDataChanged = true;
-    state.task.performers = payload;
+  SET_ROUTE_TYPE(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.routeType, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.routeType = payload;
   },
-  SET_EXCLUDED_PERFORMERS(state, payload) {
-    if (checkDataChanged(state.task.excludedPerformers, payload))
-      state.isDataChanged = true;
-    state.task.excludedPerformers = payload;
+  SET_NEEDS_REVIEW(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.needsReview, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.needsReview = payload;
   },
-  SET_OBSERVERS(state, payload) {
-    if (checkDataChanged(state.task.observers, payload))
-      state.isDataChanged = true;
-    state.task.observers = payload;
+  SET_PERFORMERS(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.performers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.performers = payload;
   },
-  IS_NEW(state, payload) {
-    state.isNew = payload;
+  SET_EXCLUDED_PERFORMERS(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.excludedPerformers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.excludedPerformers = payload;
   },
-  SET_IS_ELECTRONIC_ACQUAINTANCE(state, payload) {
-    if (checkDataChanged(state.task.isElectronicAcquaintance, payload))
-      state.isDataChanged = true;
-    state.task.isElectronicAcquaintance = payload;
+  SET_OBSERVERS(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.observers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.observers = payload;
   },
-  SET_ACTION_ITEM_OBSERVERS(state, payload) {
-    if (checkDataChanged(state.task.actionItemObservers, payload))
-      state.isDataChanged = true;
-    state.task.actionItemObservers = payload;
+  IS_NEW(state, { key, payload }) {
+    state.tasks[key].isNew = payload;
   },
-  SET_CO_ASSIGNEES(state, payload) {
-    if (checkDataChanged(state.task.coAssignees, payload))
-      state.isDataChanged = true;
-    state.task.coAssignees = payload;
+  SET_IS_ELECTRONIC_ACQUAINTANCE(state, { key, payload }) {
+    if (
+      checkDataChanged(state.tasks[key].task.isElectronicAcquaintance, payload)
+    )
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.isElectronicAcquaintance = payload;
   },
-  SET_ASSIGNEE(state, payload) {
-    if (checkDataChanged(state.task.assigneeId, payload))
-      state.isDataChanged = true;
-    state.task.assigneeId = payload;
+  SET_ACTION_ITEM_OBSERVERS(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.actionItemObservers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.actionItemObservers = payload;
   },
-  SET_SUPERVISOR(state, payload) {
-    if (checkDataChanged(state.task.supervisorId, payload))
-      state.isDataChanged = true;
-    state.task.supervisorId = payload;
+  SET_CO_ASSIGNEES(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.coAssignees, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.coAssignees = payload;
   },
-  SET_ACTION_ITEM(state, payload) {
-    if (checkDataChanged(state.task.actionItem, payload))
-      state.isDataChanged = true;
-    state.task.actionItem = payload;
+  SET_ASSIGNEE(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.assigneeId, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.assigneeId = payload;
   },
-  SET_IMPORTANCE(state, payload) {
-    if (checkDataChanged(state.task.importance, payload))
-      state.isDataChanged = true;
-    state.task.importance = payload;
+  SET_SUPERVISOR(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.supervisorId, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.supervisorId = payload;
   },
-  SET_STATUS(state, payload) {
-    state.task.status = payload;
+  SET_IMPORTANCE(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.importance, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.importance = payload;
   },
-  SET_ATTACHMENT_GROUPS(state, payload) {
-    state.task.attachmentGroups = payload;
+  SET_STATUS(state, { key, payload }) {
+    state.tasks[key].task.status = payload;
+  },
+  SET_ATTACHMENT_GROUPS(state, { key, payload }) {
+    state.tasks[key].task.attachmentGroups = payload;
+  },
+  SET_RESOLUTION_OBSERVERS(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.resolutionObservers, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.resolutionObservers = payload;
+  },
+  SET_ADDRESSEE_ID(state, { key, payload }) {
+    if (checkDataChanged(state.tasks[key].task.addresseeId, payload))
+      state.tasks[key].isDataChanged = true;
+    state.tasks[key].task.addresseeId = payload;
+  },
+  ASSING_GUID(state, { key, taskId }) {
+    state.guids[key] = { taskId };
+  },
+  INCREMENT_OVERLAY(state, { key }) {
+    state.tasks[key].overlays++;
+  },
+  DECREMENT_OVERLAY(state, { key }) {
+    state.tasks[key].overlays--;
   }
 };
 
 export const actions = {
   async initTask({ commit }, params) {
     const { data } = await this.$axios.post(dataApi.task.CreateTask, params);
-    commit("SET_IS_DATA_CHANGED", true);
-    commit("IS_NEW", true);
-    commit("SET_TASK", data.task);
+
+    commit("ASSING_GUID", { key: params.guid, taskId: data.task.id });
+    commit("SET_TASK", { key: data.task.id, payload: data });
+    commit("SET_IS_DATA_CHANGED", { key: data.task.id, payload: true });
+    commit("IS_NEW", { key: data.task.id, payload: true });
   },
-  async load({ getters, commit }, { taskType, id }) {
-    if (!getters["isNew"]) {
+  async load({ getters, state, commit }, { key, taskType }) {
+    if (state.tasks[key]?.overlays >= 0) {
+      commit("INCREMENT_OVERLAY", { key });
+      return;
+    }
+
+    if (!getters["isNew"](key)) {
       const { data } = await this.$axios.get(
-        `${dataApi.task.GetTaskById}${taskType}/${id}`
+        `${dataApi.task.GetTaskById}${taskType}/${key}`
       );
-      commit("SET_TASK", data.task);
+      commit("SET_TASK", { key, payload: data });
     }
   },
-  async saveAndLoad({ state, commit }) {
-    try {
-      const obj = { ...state.task };
-      delete obj.attachmentGroups;
-      const task = JSON.stringify(obj);
-      const { data } = await this.$axios.put(
-        dataApi.task.UpdateTask + state.task.id,
-        {
-          taskJson: task,
-          taskType: state.task.taskType
-        }
-      );
-      commit("IS_NEW", false);
-      commit("SET_TASK", data.task);
-      commit("SET_IS_DATA_CHANGED", false);
-    } catch (e) {}
+  async saveAndLoad({ state, commit }, { key }) {
+    const obj = { ...state.tasks[key].task };
+    delete obj.attachmentGroups;
+    const task = JSON.stringify(obj);
+    const { data } = await this.$axios.put(dataApi.task.UpdateTask + obj.id, {
+      taskJson: task,
+      taskType: obj.taskType
+    });
+
+    commit("SET_TASK", { key: data.task.id, payload: data });
   },
-  async delete({ state }) {
-    await this.$axios.delete(dataApi.task.Delete + state.task.id);
+  async delete({ state }, { key }) {
+    await this.$axios.delete(dataApi.task.Delete + key);
   },
-  async startAndLoad({ state, dispatch, getters }) {
-    try {
-      if (getters["isNew"]) {
-        await dispatch("saveAndLoad");
-      }
-      await this.$axios.post(dataApi.task.Start, {
-        id: state.task.id,
-        taskType: state.task.taskType
-      });
-      commit("SET_STATUS", TaskStatus.InProcess);
-    } catch (e) {}
+  async startAndLoad({ state, dispatch, getters }, { key }) {
+    if (getters["isDataChanged"](key)) {
+      await dispatch("saveAndLoad", { key });
+    }
+    await this.$axios.post(dataApi.task.Start, {
+      id: key,
+      taskType: state.tasks[key].task.taskType
+    });
   },
-  async abort({ dispatch, getters }) {
-    try {
-      const res = await this.$axios.post(
-        dataApi.task.Abort,
-        getters["taskTypeAndId"]
-      );
-      commit("SET_STATUS", TaskStatus.Abort);
-    } catch (e) {}
+  async abort({ state }, { key }) {
+    const res = await this.$axios.post(dataApi.task.Abort, {
+      id: state.tasks[key].task.id,
+      taskType: state.tasks[key].task.taskType
+    });
+    commit("SET_STATUS", { key, payload: TaskStatus.Abort });
   },
-  async restart({ dispatch, getters }) {
-    try {
-      await this.$axios.post(dataApi.task.Restart, getters["taskTypeAndId"]);
-      commit("SET_STATUS", TaskStatus.Draft);
-    } catch (e) {}
+  async restart({ state }, { key }) {
+    await this.$axios.post(dataApi.task.Restart, {
+      id: state.tasks[key].task.id,
+      taskType: state.tasks[key].task.taskType
+    });
+    commit("SET_STATUS", { key, payload: TaskStatus.Draft });
   },
-  async pasteAttachment({ state, commit }, payload) {
-    const options = { ...payload, id: state.task.id };
+  async pasteAttachment({ commit }, { key, payload }) {
+    const options = { ...payload, id: key };
     const { data } = await this.$axios.post(
       dataApi.attachment.PasteByTask,
       options
     );
-    commit("SET_ATTACHMENT_GROUPS", data);
+    commit("SET_ATTACHMENT_GROUPS", { key, payload: data });
   },
-  async detachAttachment({ state, commit }, attachmentId) {
+  async detachAttachment({ commit }, { key, payload }) {
     const { data } = await this.$axios.delete(
-      `${dataApi.attachment.Detach}/${attachmentId}`
+      `${dataApi.attachment.Detach}/${payload}`
     );
-    commit("SET_ATTACHMENT_GROUPS", data);
+    commit("SET_ATTACHMENT_GROUPS", { key, payload: data });
+  },
+  dispose({ state, commit }, { key }) {
+    commit("DECREMENT_OVERLAY", { key });
+    if (state.tasks[key].overlays < 0) commit("DISPOSE", { key });
   }
 };

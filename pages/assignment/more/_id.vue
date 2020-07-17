@@ -1,11 +1,12 @@
 <template>
   <div id>
     <div class>
-      <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
-      <toolbar />
+      <Header :isbackButton="true" :headerTitle="headerTitle">
+        <important-indicator :isImportant="isImportant" slot="indicator"></important-indicator>
+      </Header>
+      <component :is="componentByType('toolbar')" />
       <form class="d-flex">
         <div class="item f-grow-3">
-          <slot name="information"></slot>
           <DxForm
             :col-count="10"
             :form-data.sync="assignment"
@@ -43,9 +44,16 @@
                   </DxSimpleItem>
                 </DxGroupItem>
               </DxGroupItem>
-
+              <DxGroupItem :col-span="3" template="additional" />
               <DxGroupItem :col-span="3">
                 <DxGroupItem>
+                  <DxSimpleItem
+                    data-field="body"
+                    :editor-options="bodyOptions"
+                    editor-type="dxTextArea"
+                  >
+                    <DxLabel location="top" :visible="false" />
+                  </DxSimpleItem>
                   <DxSimpleItem template="comments">
                     <DxLabel location="top" :visible="false" />
                   </DxSimpleItem>
@@ -56,9 +64,23 @@
 
             <template #comments>
               <div>
-                <status-message />
-                <Assignment-comments :url="commentsUrl"></Assignment-comments>
-                <slot name="Test"></slot>
+                <thread-texts
+                  class="comments"
+                  :id="$store.getters['currentAssignment/assignment'].id"
+                  entityType="assignment"
+                ></thread-texts>
+                <DxTextArea
+                  :visible="InProcess"
+                  :placeholder="placeholder"
+                  :on-value-changed="setComment"
+                  :height="100"
+                  :value="comment"
+                />
+              </div>
+            </template>
+            <template #additional>
+              <div>
+                <component :is="componentByType('additional')"></component>
               </div>
             </template>
             <template #attachments>
@@ -77,15 +99,20 @@
   </div>
 </template>
 <script>
+import importantIndicator from "~/components/assignment/impartant-indicator.vue";
+import Importance from "~/infrastructure/constants/assignmentImportance.js";
+import * as toolbars from "~/components/assignment/toolbars/index.js";
+import * as additional from "~/components/assignment/additional/index.js";
+import { ComponentsByAssignmentType } from "~/infrastructure/services/generatorComponentByType.js";
+import AssignmentType from "~/infrastructure/constants/assignmentType.js";
+import acquaintanceAssignmentDescription from "~/components/assignment/additional/acquaintance-assignment-description.vue";
 import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import { DxTextArea } from "devextreme-vue";
+import "devextreme-vue/text-area";
 import dataApi from "~/static/dataApi";
-import attachmentDetails from "~/components/assignment/attachment-details";
-import AssignmentComments from "~/components/workFlow/assignment-comments";
-import Toolbar from "~/components/assignment/toolbar.vue";
-import statusMessage from "~/components/assignment/status-message";
+import threadTexts from "~/components/workFlow/thread-text/thread-texts.vue";
+
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -95,18 +122,19 @@ export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    DxTextArea,
-    Toolbar,
-    statusMessage,
-    AssignmentComments,
-    attachmentDetails,
+    threadTexts,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
     DxForm,
     attachment,
-    Header
+    Header,
+    acquaintanceAssignmentDescription,
+    importantIndicator,
+    ...toolbars,
+    ...additional
   },
+
   async asyncData({ app, params }) {
     await app.store.dispatch("currentAssignment/load", params.id);
     return {
@@ -130,6 +158,37 @@ export default {
     };
   },
   computed: {
+    bodyOptions() {
+      return {
+        placeholder: this.placeholder
+      };
+    },
+    InProcess() {
+      return this.$store.getters["currentAssignment/InProcess"];
+    },
+    placeholder() {
+      switch (this.$store.getters["currentAssignment/assignmentType"]) {
+        case AssignmentType.AcquaintanceFinishAssignment:
+        case AssignmentType.SimpleAssignment:
+        case AssignmentType.ActionItemSupervisorAssignment:
+        case AssignmentType.ReviewAssignment:
+        case AssignmentType.AcquaintanceAssignment:
+          return this.$t("assignment.placeholderSimple");
+        case AssignmentType.ActionItemExecutionAssignment:
+          return this.$t("assignment.placeholderActionItemExicution");
+        default:
+          return this.$t("assignment.placeholderSimple");
+      }
+    },
+    comment() {
+      return this.$store.getters["currentAssignment/comment"];
+    },
+    isImportant() {
+      return (
+        this.$store.getters["currentAssignment/assignment"].importance ===
+        Importance.High
+      );
+    },
     headerTitle() {
       return this.$store.getters["currentAssignment/assignment"].subject;
     },
@@ -139,6 +198,16 @@ export default {
     }
   },
   methods: {
+    setComment(e) {
+      this.$store.getters[("currentAssignment/SET_COMMENT", e.value)];
+    },
+    componentByType(componentName) {
+      const assignmentType = this.$store.getters["currentAssignment/assignment"]
+        .assignmentType;
+
+      if (ComponentsByAssignmentType.has(assignmentType))
+        return ComponentsByAssignmentType.get(assignmentType)[componentName];
+    },
     detach(attachmentId) {
       this.$awn.async(
         this.$store.dispatch(
@@ -159,6 +228,12 @@ export default {
   }
 };
 </script>
+<style  scoped>
+.comments {
+  overflow: auto;
+  max-height: 47vh;
+}
+</style>
 
 
 

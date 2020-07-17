@@ -10,13 +10,13 @@ export default {
     path() {
       switch (this.taskTypeGuid) {
         case TaskType.AcquaintanceTask:
-          return require("~/static/icons/status/acquiantance.svg");
+          return require("~/static/icons/acquintanceTask.svg");
         case TaskType.SimpleTask:
           return require("~/static/icons/status/simple.svg");
         case TaskType.ActionItemExecutionTask:
-          return require("~/static/icons/status/actionItemExicution.svg");
+          return require("~/static/icons/actionItemExecution.svg");
         default:
-          return require("~/static/icons/iconAssignment/inProccess1.svg");
+          return require("~/static/icons/iconAssignment/InProccess1.svg");
       }
     }
   }

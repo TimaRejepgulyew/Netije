@@ -43,6 +43,7 @@ export default {
     { src: "~/assets/themes/generated/theme.base.css", lang: "css" },
     { src: "~/assets/themes/generated/theme.additional.css", lang: "css" },
     { src: "~/assets/extentions/flaticon.css", lang: "css" },
+    { src: "~/assets/styles/base-styles.scss", lang: "css" },
     { src: "vue-awesome-notifications/dist/styles/style.scss", lang: "css" }
   ],
   /*

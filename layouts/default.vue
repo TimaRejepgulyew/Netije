@@ -113,7 +113,6 @@ body {
   color: red;
 }
 .d-flex {
-  display: flex;
   .item {
     flex-grow: 1;
     padding-right: 15px;

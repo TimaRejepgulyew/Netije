@@ -52,8 +52,8 @@
 
         <DxSimpleItem
           v-if="isDraft"
-          data-field="comment"
-          :editor-options="commentOptions"
+          data-field="body"
+          :editor-options="bodyOptions"
           editor-type="dxTextArea"
         >
           <DxLabel location="top" :text="$t('translations.fields.comment')" />
@@ -104,6 +104,7 @@ export default {
     DxForm,
     recipientTagBox
   },
+  props: ["taskId"],
   data() {
     return {
       validatorGroup: "task"
@@ -111,48 +112,64 @@ export default {
   },
   methods: {
     setObservers(value) {
-      this.$store.commit("currentTask/SET_OBSERVERS", value);
+      this.$store.commit("currentTask/SET_OBSERVERS", {
+        key: this.taskId,
+        payload: value
+      });
     },
     setPerformers(value) {
-      this.$store.commit("currentTask/SET_PERFORMERS", value);
+      this.$store.commit("currentTask/SET_PERFORMERS", {
+        key: this.taskId,
+        payload: value
+      });
     },
     setExcludedPerformers(value) {
-      this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", value);
+      this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", {
+        key: this.taskId,
+        payload: value
+      });
     }
   },
   computed: {
     observers() {
-      return this.$store.getters["currentTask/task"].observers;
+      return this.$store.getters["currentTask/task"](this.taskId).observers;
     },
     performers() {
-      return this.$store.getters["currentTask/task"].performers;
+      return this.$store.getters["currentTask/task"](this.taskId).performers;
     },
     excludedPerformers(value) {
-      return this.$store.getters["currentTask/task"].excludedPerformers;
+      return this.$store.getters["currentTask/task"](this.taskId)
+        .excludedPerformers;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"];
+      return this.$store.getters["currentTask/inProcess"](this.taskId);
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"];
+      return this.$store.getters["currentTask/isNew"](this.taskId);
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"];
+      return this.$store.getters["currentTask/isDraft"](this.taskId);
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"].subject,
+        value: this.$store.getters["currentTask/task"](this.taskId).subject,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", e.value);
+          this.$store.commit("currentTask/SET_SUBJECT", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
-    commentOptions() {
+    bodyOptions() {
       return {
         height: 250,
-        value: this.$store.getters["currentTask/task"].comment,
+        value: this.$store.getters["currentTask/task"](this.taskId).body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_COMMENT", e.value);
+          this.$store.commit("currentTask/SET_BODY", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
@@ -160,9 +177,12 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"].deadline,
+        value: this.$store.getters["currentTask/task"](this.taskId).deadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_DEADLINE", e.value);
+          this.$store.commit("currentTask/SET_DEADLINE", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
@@ -171,9 +191,12 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"].needsReview,
+        value: this.$store.getters["currentTask/task"](this.taskId).needsReview,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_NEEDS_REVIEW", e.value);
+          this.$store.commit("currentTask/SET_NEEDS_REVIEW", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     },
@@ -182,12 +205,13 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"].isElectronicAcquaintance,
+        value: this.$store.getters["currentTask/task"](this.taskId)
+          .isElectronicAcquaintance,
         onValueChanged: e => {
-          this.$store.commit(
-            "currentTask/SET_IS_ELECTRONIC_ACQUAINTANCE",
-            e.value
-          );
+          this.$store.commit("currentTask/SET_IS_ELECTRONIC_ACQUAINTANCE", {
+            key: this.taskId,
+            payload: e.value
+          });
         }
       };
     }
