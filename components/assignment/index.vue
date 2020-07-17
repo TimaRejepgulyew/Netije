@@ -65,7 +65,7 @@
             </template>
             <template #additional>
               <div>
-                <component :is="componentByType('additional')"></component>
+                <component :assignmentId="assignmentId" :is="componentByType('additional')"></component>
               </div>
             </template>
             <template #attachments>

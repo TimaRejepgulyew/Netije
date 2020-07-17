@@ -124,7 +124,7 @@ export default {
         : this.$store.getters["currentAssignment/inProcess"](this.assignmentId);
     },
     isRework() {
-      if (this.$store.getters["currentAssignment/inProcess"])
+      if (this.$store.getters["currentAssignment/inProcess"](this.assignmentId))
         return this.$store.getters["currentAssignment/assignment"](
           this.assignmentId
         ).isRework;

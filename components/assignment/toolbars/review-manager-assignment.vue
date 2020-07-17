@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <DxPopup
       :showTitle="false"
       :visible.sync="showItemExecutionTask"
@@ -106,7 +104,6 @@ export default {
       const addresseeId = this.$store.getters["currentAssignment/assignment"](
         this.assignmentId
       ).addresseeId;
-
       return addresseeId
         ? false
         : this.$store.getters["currentAssignment/inProcess"](this.assignmentId);
