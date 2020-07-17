@@ -13,10 +13,10 @@
         validation-group="OfficialDocument"
       >
         <DxTabbedItem :tab-panel-options="tabPanelOptions">
-          <DxTab :col-count="8" :title="$t('menu.mainInfo')">
-            <DxGroupItem :col-span="6" :col-count="1" :caption="$t('translations.fields.main')">
+          <DxTab :col-count="12" :title="$t('document.tabs.main')">
+            <DxGroupItem :col-span="8" :col-count="1" :caption="$t('document.groups.captions.main')">
               <DxSimpleItem data-field="name" :editor-options="nameOptions">
-                <DxLabel location="top" :text="$t('translations.fields.nameRequired')" />
+                <DxLabel location="left" :text="$t('document.fields.name')" />
                 <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
@@ -24,7 +24,7 @@
                 :editor-options="documentKindOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel location="top" :text="$t('translations.fields.documentKindId')" />
+                <DxLabel location="left" :text="$t('translations.fields.documentKindId')" />
                 <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
               </DxSimpleItem>
 
@@ -33,7 +33,7 @@
                 :editor-options="subjectOptions"
                 editor-type="dxTextArea"
               >
-                <DxLabel location="top" :text="$t('translations.fields.subject')" />
+                <DxLabel location="left" :text="$t('translations.fields.subject')" />
                 <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
               </DxSimpleItem>
               <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
@@ -45,17 +45,17 @@
                 <DxLabel location="top" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
             </DxGroupItem>
-            <DxGroupItem :col-span="2">
+            <DxGroupItem :col-span="4">
               <DxSimpleItem template="registrationBlock"></DxSimpleItem>
-              <DxGroupItem :caption="$t('document.lifeCycle')">
+              <DxGroupItem :caption="$t('document.groups.captions.lifeCycle')">
                 <DxSimpleItem template="lifeCycle"></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('menu.relation')" :disabled="isDataChanged">
+          <DxTab :col-count="8" :title="$t('document.tabs.relations')" :disabled="isDataChanged">
             <DxSimpleItem :col-span="8" template="relation"></DxSimpleItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('menu.history')" :disabled="isNew">
+          <DxTab :col-count="8" :title="$t('document.tabs.history')" :disabled="isNew">
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
         </DxTabbedItem>

@@ -3,7 +3,7 @@ const AssignmentType = {
   SimpleAssignment: 0,
   AcquaintanceAssignment: 1,
   ActionItemExecutionAssignment: 2,
-  SimpleNotify: 3,
+  Notice: 3,
   ActionItemExecutionNotification: 4,
   AcquaintanceNotification: 5,
   AcquaintanceFinishAssignment: 6,

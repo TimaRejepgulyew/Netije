@@ -258,7 +258,7 @@ export const actions = {
             )
           },
           {
-            text: this.$i18n.t("menu.documentRegistry"),
+            text: this.$i18n.t("menu.documentRegister"),
             path: "/docflow/document-register",
             visible: rootGetters["permissions/allowReading"](
               EntityType.DocumentRegister

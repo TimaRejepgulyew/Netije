@@ -163,7 +163,7 @@ export default {
         !this.regData.isCustomNumber
       ) {
         const res = await this.$axios.get(
-          dataApi.documentRegistration.PreliminaryNumber + this.filter
+          dataApi.DocumentRegister.PreliminaryNumber + this.filter
         );
         this.regData.registrationNumber = res.data.preliminaryNumber;
 

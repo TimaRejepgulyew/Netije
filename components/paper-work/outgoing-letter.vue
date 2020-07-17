@@ -23,13 +23,6 @@
       >
         <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="deliveryMethodId"
-        :editor-options="deliveryMethodOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('document.fields.deliveryMethodId')" />
-      </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
       <DxSimpleItem
@@ -121,17 +114,7 @@ export default {
   data() {
     return {
       selectedCorrespondentType: null,
-      signatoryApi: dataApi.signatureSettings.Members,
-      deliveryMethodOptions: {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.MailDeliveryMethod
-        }),
-        value: this.$store.getters["currentDocument/document"].deliveryMethodId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DELIVERY_METHOD_ID", e.value);
-        }
-      }
+      signatoryApi: dataApi.signatureSettings.Members
     };
   },
   methods: {

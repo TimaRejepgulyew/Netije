@@ -1,25 +1,6 @@
 <template>
   <main>
-    <DxPopup
-      :visible.sync="currentNuberPopupOpen"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="400"
-      :height="200"
-      :title="$t('translations.fields.currentNumber')"
-    >
-      <div>
-        <current-number-popup
-          :documentRegisterId="selectedDocumentRegisterId"
-          v-if="currentNuberPopupOpen"
-          @hidePopup="hideCurrentNumberPopup"
-        />
-      </div>
-    </DxPopup>
-
-    <Header :headerTitle="$t('menu.documentRegister')"></Header>
-
+    <Header :headerTitle="$t('docFlow.regSetting.registrationSettings')"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -58,15 +39,15 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
-
-      <DxColumn data-field="index" :caption="$t('translations.fields.index')"></DxColumn>
-
       <DxColumn
-        data-field="documentFlow"
-        :caption="$t('translations.fields.documentFlow')"
+        data-field="name"
+        :caption="$t('registrationSettings.fields.name')"
         data-type="string"
-      >
+      ></DxColumn>
+
+      <DxColumn data-field="priority" :caption="$t('registrationSettings.fields.priority')"></DxColumn>
+
+      <DxColumn data-field="documentFlow" :caption="$t('shared.documentFlow')" data-type="string">
         <DxLookup
           :allow-clearing="true"
           :data-source="documentFlowDataSource"
@@ -74,26 +55,27 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn data-field="registerType" :caption="$t('translations.fields.registerType')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="registerTypeDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
       <DxColumn
-        data-field="registrationGroupId"
-        :caption="$t('translations.fields.registrationGroupId')"
+        data-field="documentRegisterId"
+        :caption="$t('registrationSettings.fields.documentRegister')"
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="registrationGroupDataSource"
+          :data-source="documentRegisterDataSource"
           value-expr="id"
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+
+      <DxColumn data-field="settingType" :caption="$t('registrationSettings.fields.settingType')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="settingTypeDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+      <DxColumn data-field="status" :caption="$t('shared.status')">
         <DxLookup
           :allow-clearing="true"
           :data-source="statusDataSource"
@@ -102,14 +84,7 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton icon="more" :text="$t('shared.more')" :onClick="showDocumentRegisterEditForm"></DxButton>
-        <DxButton
-          icon="orderedlist"
-          :text="$t('translations.fields.currentNumber')"
-          :visible="canUpdate"
-          :onClick="showCurrentNumberPopup"
-        ></DxButton>
-
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="showRegistrationSettingsForm" ></DxButton>
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
     </DxDataGrid>
@@ -117,12 +92,11 @@
 </template>
 <script>
 import Status from "~/infrastructure/constants/status";
+import SettingTypes from "~/infrastructure/stores/settingTypes.js"
 import EntityType from "~/infrastructure/constants/entityTypes";
-import CurrentNumberPopup from "~/components/docFlow/document-registry/current-number-popup";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import { DxPopup } from "devextreme-vue/popup";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -160,27 +134,23 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxPopup,
-    DxButton,
-    CurrentNumberPopup
+    DxButton
   },
   data() {
     return {
-      entityType: EntityType.DocumentRegister,
+      entityType: EntityType.RegistrationSetting,
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.DocumentRegister.All,
-        removeUrl: dataApi.docFlow.DocumentRegister.All
+        loadUrl: dataApi.docFlow.RegistrationSetting,
+        removeUrl: dataApi.docFlow.RegistrationSetting
       }),
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
-      registerTypeDataSource: this.$store.getters["docflow/registerType"](this),
+      settingTypeDataSource: SettingTypes.GetAll(this),
       statusDataSource: this.$store.getters["status/status"](this),
-      currentNuberPopupOpen: false,
-      selectedDocumentRegisterId: null,
-      registrationGroupDataSource: {
+      documentRegisterDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.RegistrationGroup
+          loadUrl: dataApi.docFlow.DocumentRegister.AvailableForUse
         }),
         paginate: true
       }
@@ -193,30 +163,14 @@ export default {
     allowDeleting(e) {
       return this.canOperateWithDocumentRegister(e.row.data, "allowDeleting");
     },
-
     canOperateWithDocumentRegister(documentRegister, permission) {
       const employeeId = this.$store.getters["permissions/employeeId"];
       if (this.$store.getters["permissions/IsAdmin"]) return true;
-      if (!this.$store.getters[`permissions/${permission}`](this.entityType))
-        return false;
 
-      if (
-        documentRegister.registrationGroup?.responsibleEmployeeId ==
-          employeeId ||
-        !documentRegister.registrationGroupId
-      )
-        return true;
-      return false;
+      return this.$store.getters[`permissions/${permission}`](this.entityType);
     },
-    showCurrentNumberPopup(e) {
-      this.selectedDocumentRegisterId = e.row.key;
-      this.currentNuberPopupOpen = true;
-    },
-    hideCurrentNumberPopup() {
-      this.currentNuberPopupOpen = false;
-    },
-    showDocumentRegisterEditForm(e) {
-      this.$router.push(`/docflow/document-register/${e.row.data.id}`);
+    showRegistrationSettingsForm(e) {
+      this.$router.push(`/docflow/registration-settings/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
       const addButton = e.toolbarOptions.items.find(btn => {
@@ -224,7 +178,7 @@ export default {
       });
       if (addButton) {
         addButton.options.onClick = () => {
-          this.$router.push("/docflow/document-register/create");
+          this.$router.push("/docflow/registration-settings/create");
         };
       }
     }

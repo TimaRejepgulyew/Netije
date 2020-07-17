@@ -8,14 +8,14 @@
   >
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
       <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
-        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+        <DxLabel location="left" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
-        <DxLabel location="top" :text="$t('translations.fields.dated')" />
+        <DxLabel location="left" :text="$t('translations.fields.dated')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
-        <DxLabel location="top" text="№" />
+        <DxLabel location="left" text="№" />
       </DxSimpleItem>
       <DxSimpleItem
         :col-span="2"
@@ -24,13 +24,13 @@
         editor-type="dxSelectBox"
         :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
       >
-        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+        <DxLabel location="left" :text="$t('translations.fields.inResponseToId')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
-        <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+        <DxLabel location="left" :text="$t('translations.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="contactId" template="contact">
-        <DxLabel location="top" :text="$t('translations.fields.contactId')" />
+        <DxLabel location="left" :text="$t('translations.fields.contactId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.whom')">
@@ -39,7 +39,7 @@
         :editor-options="businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+        <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -47,15 +47,15 @@
         :editor-options="deparmentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+        <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="addressee">
-        <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+        <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="assigneeId" template="assignee">
-        <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+        <DxLabel location="left" :text="$t('translations.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #correspondent>

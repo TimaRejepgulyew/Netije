@@ -208,7 +208,7 @@ export default ({ app }, inject) => {
   ) {
     return (
       (await isEntityExists(
-        dataApi.docFlow.DocumentRegistry,
+        dataApi.docFlow.DocumentRegister.All,
         payload,
         propertyName
       )) == false

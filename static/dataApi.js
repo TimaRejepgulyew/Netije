@@ -30,11 +30,15 @@ export default {
     RoleMembers: `${url}/api/RoleMembers/`
   },
   docFlow: {
+    DocumentRegister: {
+      All: `${url}/api/DocumentRegister`,
+      AvailableForUse: `${url}/api/DocumentRegister/AvailableForUse`,
+      PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
+    },
     ContractCategories: `${url}/api/ContractCategory`,
     PersonalSettings: `${url}/api/PersonalSettings`,
     DocumentKind: `${url}/api/DocumentKind`,
     DocumentType: `${url}/api/DocumentType`,
-    DocumentKind: `${url}/api/DocumentKind`,
     DocumentSendAction: `${url}/api/DocumentSendAction`,
     CaseFile: `${url}/api/CaseFile`,
     FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
@@ -42,17 +46,13 @@ export default {
     ResponsibleForGroupOnMe: `${url}/api/RegistrationGroup/ResponsibleForGroupOnMe`,
     RegistrationGroupMembers: `${url}/api/RegistrationGroupMembers/`,
     MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
-    DocumentRegistry: `${url}/api/DocumentRegistry`,
-    RegSettingAvailableBusinessUnits: `${url}/api/RegistrationSetting/AvailableBusinessUnits`,
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
-    FilesType: `${url}/api/FilesType`,
-    RegSettingAvailableDocumentKinds: `${url}/api/RegistrationSetting/AvailableDocumentKinds`
+    FilesType: `${url}/api/FilesType`
   },
   documentRegistration: {
     RegisterDocument: `${url}/api/OfficialDocument/Register`,
     UnregisterDocument: `${url}/api/OfficialDocument/Unregister`,
-    PreliminaryNumber: `${url}/api/DocumentRegistration/PreliminaryNumber`,
     CaseFiles: `${url}/api/DocumentRegistration/CaseFiles`,
     Registries: `${url}/api/DocumentRegistration/Registries/`
   },

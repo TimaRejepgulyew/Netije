@@ -7,16 +7,16 @@ export default {
     status: {
       InProcess: "В процессе",
       Draft: "Черновик",
-      Suspended: "Приостановленный",
+      Suspended: "Приостановленно",
       Completed: "Завершено",
       Aborted: "Прекращено",
       UnderReview: "На приемке"
     },
     type: {
       SimpleTask: "Задача",
-      AcquaintanceTask: "Задача на ознакомление",
-      ActionItemExecutionTask: "Задача на исполнение поручения",
-      DocumentReviewTask: "Задача на рассмотрение"
+      AcquaintanceTask: "Задача на ознакомление с документом",
+      ActionItemExecutionTask: "Поручение",
+      DocumentReviewTask: "Задача на рассмотрение документа"
     }
   },
   docFlow: {
@@ -33,8 +33,6 @@ export default {
       docKind: "Виды документов",
       docKindDescr:
         "Классификация документов, определяющая документопоток, тип нумерации документа.",
-      deliveriMethods: "Способ доставки документов",
-      deliveriMethodsDescr: "Настройте способ доставки документов",
       categories: "Категории договоров",
       categoriesDescr:
         "Дополнительная классификация договоров в рамках видов документов."
@@ -46,7 +44,11 @@ export default {
         "Перечень журналов, используемых для учета, нумерации и регистрации документов.",
       regGroup: "Группы регистрации",
       regGroupDescr:
-        "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации."
+        "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации.",
+      registrationSettings: "Настройки регистрации",
+      registrationSettingsDescr: "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
+      deliveriMethods: "Способ доставки документов",
+      deliveriMethodsDescr: "Настройте способ доставки документов"
     },
     caseFileSetting: {
       title: "Номенклатура дел",
@@ -68,9 +70,7 @@ export default {
   },
   lifeCycleState: {
     onControl: "На контроле",
-    specialControl: "На особом контроле",
     withoutControl: "Не на контроле",
-    controlRemoved: "Снято с контроля",
     sending: "Оправка на исполнение",
     withoutExecute: "Не требует исполнения",
     onExecution: "На исполнении",
@@ -206,7 +206,9 @@ export default {
     areYouSure: "Вы уверены?",
     confirm: "Подтверждение",
     required: "Заполните это поле",
-    newRecord: "(Новая запись)"
+    newRecord: "(Новая запись)",
+    documentFlow: "Документопоток",
+    status: "Состояние"
   },
   workFlow: {
     isElectronicAcquaintance: "Ознакомление в электронном виде",
@@ -234,6 +236,19 @@ export default {
     externalApprovalState: "Согл. с контрагентом",
     executionState: "Исполнение",
     controlExecutionState: "Контроль исполнения",
+    tabs: {
+      main: "Свойства",
+      relations: "Связи",
+      history: "История"
+    },
+    groups: {
+      captions: {
+        main: "ОСНОВНОЕ",
+        numberAndDate: "ДАТА И НОМЕР",
+        storing: "ХРАНЕНИЕ",
+        lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ"
+      }
+    },
     fields: {
       accountNumber: "Номер счета",
       accountDate: "Дата счета",
@@ -255,8 +270,9 @@ export default {
       created: "Создан",
       modified: "Изменено",
       authorId: "Автор",
-      registrationDate: "Дата Рег.",
+      registrationDate: "Дата документа",
       registrationNumber: "Рег. №",
+      documentNumber: "Номер документа",
       correspondentId: "Контрагент",
       subject: "Содержание",
       documentKindId: "Вид документа",
@@ -316,47 +332,37 @@ export default {
       AddAssignment: "Отправлено на исполнение",
       AddResolution: "Вынесена резолюция",
       Explored: "Принято к сведению",
-      Forward: "Вынесена резолюция"
+      Forward: "Переадресовано"
     },
     status: {
       InProcess: "В процессе",
       Draft: "Черновик",
-      Suspended: "Приостановленный",
+      Suspended: "Приостановленно",
       Completed: "Завершено",
       Aborted: "Прекращено",
       UnderReview: "На приемке"
     },
     type: {
-      SimpleAssignment: "Простое задание",
-      SimpleNotify:"Уведомление",
-      AcquaintanceAssignment: "Задание на ознакомление",
-      ActionItemExecutionAssignment: "Задание на исполнение поручений",
       Notice: "Уведомление",
-      ActionItemExecutionNotification:
-        "Уведомление задания на исполнение поручений",
-      AcquaintanceFinishAssignment:
-        "Уведомление о завершение задания на ознакомление",
-      ActionItemSupervisorAssignment:
-        "Задание на контроль исполнение поручений",
-      ReviewAssignment: "Задание на приемку",
-      PreparingDraftResolutionAssignment:
-        "Подготовка проекта резолюции для рассмотрения документа руководителем",
-      ReviewDraftResolutionAssignment:
-        " Рассмотрение руководителем документа с проектом резолюции",
-      ReviewManagerAssignment:
-        "Рассмотрение руководителем",
-      ReviewResolutionAssignment: "Обработка резолюции",
-      ReviewObserverNotification: "Уведомление наблюдателю",
-      ReviewObserversNotification: "Уведомление о рассмотрении",
-      ReviewClerkNotification: "Уведомление автору задачи на рассмотрение",
-      FreeApprovalAssignment: "Задание на согласование документа",
-      FreeApprovalFinishAssignment:
-        "Задание на завершение согласование документа",
-      FreeApprovalReworkAssignmen: " Доработка документа на согласование",
-      ActionItemObserversNotification:
-        " Уведомление наблюдателей в Задание на исполнение поручений",
-      ActionItemSupervisorNotification:
-        "Уведомление контроллеров в задание на исполнение поручений",
+      SimpleAssignment: "Задание",
+      ReviewAssignment: "Приемка работ",
+      AcquaintanceAssignment: "Ознакомление",
+      AcquaintanceFinishAssignment: "Завершение работ по ознакомлению",
+      ActionItemExecutionNotification: "Уведомление о приемке работ",
+      ActionItemSupervisorNotification: "Уведомление контролеру",
+      ActionItemSupervisorAssignment: "Приемка работ контролером",
+      ActionItemExecutionAssignment: "Исполнение поручения",
+      ActionItemObserversNotification: "Уведомление о создании поручения",
+      PreparingDraftResolutionAssignment: "Подготовка проекта резолюции",
+      ReviewDraftResolutionAssignment: "Рассмотрение проекта резолюции",
+      ReviewManagerAssignment: "Рассмотрение руководителем",
+      ReviewResolutionAssignment: "Обработка проекта резолюции",
+      ReviewObserverNotification: "Уведомление о завершении рассмотрения",
+      ReviewObserversNotification: "Уведомление о начале рассмотрения",
+      ReviewClerkNotification: "Уведомление о завершении рассмотрения",
+      FreeApprovalAssignment: "Cогласование",
+      FreeApprovalFinishAssignment: "Завершение работ по согласованию",
+      FreeApprovalReworkAssignmen: "Доработка документа",
       FreeApprovalNotification: "Уведомление"
     },
     prefixes: {
@@ -426,7 +432,7 @@ export default {
     caseFile: "Номенклатура дел",
     fileRetentionPeriod: "Срок хранения дел",
     mailDeliveryMethod: "Способы доставки документов",
-    documentRegistry: "Журналы регистрации",
+    documentRegister: "Журналы регистрации",
     documentType: "Тип документа",
     documentKind: "Виды документов",
     registrationSetting: "Настройки регистрации",
@@ -460,7 +466,7 @@ export default {
     incomming: "Исходящие",
 
     user: "Пользователи",
-    logs:"Логи"
+    logs: "Логи"
   },
   buttons: {
     addResolution: "Вынести резалюцию",
@@ -532,7 +538,7 @@ export default {
       totalAmount: "Сумма",
       currencyId: "Валюта",
       IsStandard: "Типовой",
-      IsStandardSupAgreement:"Типовое",
+      IsStandardSupAgreement: "Типовое",
       responsibleEmployeeId: "Ответственный",
       supervisorIdRequired: "Введите контролера",
       isUnderControl: "На контроль",
@@ -808,11 +814,6 @@ export default {
       documentKindId: "Вид документа",
       documentKindIdRequired: "Выберите вид документа",
       documentRegisterId: "Журнал регистрации",
-      documentRegisterIdRequired: "Выберите журнал регитсрации",
-      registrationNumber: "Рег. №",
-      registrationDate: "Дата регистрации документа",
-      cancelDocRegistrySuccess: "Отмена регистрации прошла успешна",
-      cancelDocRegistryError: "При отмене регистрации произошла ошибка",
       numerable: "Нумерумый",
       notNumerable: "Не нумеруемый",
       registrable: "Регистрируемый",
@@ -829,7 +830,6 @@ export default {
       moreSettings: "Дополнительные настройки",
       moreAbout: "Подробнее",
       settingType: "Тип настройки регистрации документов",
-      settingTypeRequired: "Выберите тип настройки регистрации документов",
       availableActions: "Действие по отправке",
       availableActions: "Действие по отправке",
       numberingSection: "Разрез нумерации",
@@ -919,19 +919,17 @@ export default {
       updateDocKindSucces: "Редактирование вида документа прошло успешно",
       updateDocKindError: "При редактирование вида документа  произошла ошибка",
       editDocumentKind: "Редактирование вида документа",
-      addDocumentRegistry: "Добавление журнала регистрации",
+      addDocumentRegister: "Добавление журнала регистрации",
       addDoctRegistrySucces: "Добавление журнала регистрации прошло успешно",
       addDoctRegistryError:
         "При добавлении  журнала регистрации  произошла ошибка",
-      editDocumentRegistry: "Редактирование журнала регистрации",
+      editDocumentRegister: "Редактирование журнала регистрации",
       updateDocRegistrySucces:
         "Редактирование журнала регистрации  прошло успешно",
       registrationSucceded: "Документ успешно зарегистрирован",
       registrationError: "При регистрации документа произошла ошибка",
       updateDocRegistryError:
         "При редактирование журнала регистрации  произошла ошибка",
-      addRegistrationSetting: "Добавление настройки регистрации",
-      editRegistrationSetting: "Редактирование настройки регистрации",
       addRegistrationGroup: "Добавление групп регистрации",
       editRegistrationGroup: "Редактирование групп регистрации",
       simpleTask: "Простая задача",
@@ -967,6 +965,27 @@ export default {
       0: "Задача",
       3: "Задание",
       4: "Уведомление"
+    }
+  },
+  registrationSettings: {
+    caption:"Настройка регистрации",
+    fields: {
+      name: "Имя",
+      priority: "Приоритет",
+      documentRegister: "Журнал",
+      settingType: "Тип настройки",
+      documentKinds: "Виды документов",
+      businessUnits: "Наши организации",
+      departments: "Подразделения"
+    },
+    settingType: {
+      registration: "Регистрация",
+      numeration: "Нумерация",
+      reservation: "Резервирование"
+    },
+    groups: {
+      criterias: "Критерии",
+      documentRegister: "Журнал"
     }
   }
 };

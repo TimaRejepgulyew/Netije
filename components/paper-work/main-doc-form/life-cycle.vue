@@ -5,7 +5,7 @@
       data-field="lifeCycleState"
       :editor-options="lifeCycleStateOptions"
     >
-      <DxLabel location="top" :text="$t('document.state')" />
+      <DxLabel location="left" :text="$t('document.state')" />
     </DxSimpleItem>
 
     <DxSimpleItem
@@ -14,7 +14,7 @@
       :editor-options="registrationStateOptions"
       editor-type="dxSelectBox"
     >
-      <DxLabel location="top" :text="$t('document.registrationState')" />
+      <DxLabel location="left" :text="$t('document.registrationState')" />
     </DxSimpleItem>
 
     <DxSimpleItem
@@ -23,7 +23,7 @@
       :editor-options="internalApprovalStateOptions"
       editor-type="dxSelectBox"
     >
-      <DxLabel location="top" :text="$t('document.internalApprovalState')" />
+      <DxLabel location="left" :text="$t('document.internalApprovalState')" />
     </DxSimpleItem>
     <DxSimpleItem
       v-if="itemVisible.externalApprovalState"
@@ -31,7 +31,7 @@
       :editor-options="externalApprovalStateOptions"
       editor-type="dxSelectBox"
     >
-      <DxLabel location="top" :text="$t('document.externalApprovalState')" />
+      <DxLabel location="left" :text="$t('document.externalApprovalState')" />
     </DxSimpleItem>
 
     <DxSimpleItem
@@ -40,7 +40,7 @@
       :editor-options="executionStateOptions"
       editor-type="dxSelectBox"
     >
-      <DxLabel location="top" :text="$t('document.executionState')" />
+      <DxLabel location="left" :text="$t('document.executionState')" />
     </DxSimpleItem>
     <DxSimpleItem
       v-if="itemVisible.executionState"
@@ -48,7 +48,7 @@
       :editor-options="controlExecutionStateOptions"
       editor-type="dxSelectBox"
     >
-      <DxLabel location="top" :text="$t('document.controlExecutionState')" />
+      <DxLabel location="left" :text="$t('document.controlExecutionState')" />
     </DxSimpleItem>
   </DxForm>
 </template>
