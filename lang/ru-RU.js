@@ -7,16 +7,16 @@ export default {
     status: {
       InProcess: "В процессе",
       Draft: "Черновик",
-      Suspended: "Приостановленный",
+      Suspended: "Приостановленно",
       Completed: "Завершено",
       Aborted: "Прекращено",
       UnderReview: "На приемке"
     },
     type: {
       SimpleTask: "Задача",
-      AcquaintanceTask: "Задача на ознакомление",
-      ActionItemExecutionTask: "Задача на исполнение поручения",
-      DocumentReviewTask: "Задача на рассмотрение"
+      AcquaintanceTask: "Задача на ознакомление с документом",
+      ActionItemExecutionTask: "Поручение",
+      DocumentReviewTask: "Задача на рассмотрение документа"
     }
   },
   docFlow: {
@@ -336,41 +336,32 @@ export default {
     status: {
       InProcess: "В процессе",
       Draft: "Черновик",
-      Suspended: "Приостановленный",
+      Suspended: "Приостановленно",
       Completed: "Завершено",
       Aborted: "Прекращено",
       UnderReview: "На приемке"
     },
     type: {
-      SimpleAssignment: "Простое задание",
-      AcquaintanceAssignment: "Задание на ознакомление",
-      ActionItemExecutionAssignment: "Задание на исполнение поручений",
+      SimpleAssignment: "Задание",
+      AcquaintanceAssignment: "Ознакомление",
+      ActionItemExecutionAssignment: "Исполнение поручения",
       Notice: "Уведомление",
-      ActionItemExecutionNotification:
-        "Уведомление задания на исполнение поручений",
-      AcquaintanceFinishAssignment:
-        "Уведомление о завершение задания на ознакомление",
-      ActionItemSupervisorAssignment:
-        "Задание на контроль исполнение поручений",
-      ReviewAssignment: "Задание на приемку",
-      PreparingDraftResolutionAssignment:
-        "Подготовка проекта резолюции для рассмотрения документа руководителем",
-      ReviewDraftResolutionAssignment:
-        " Рассмотрение руководителем документа с проектом резолюции",
-      ReviewManagerAssignment:
-        "Задание на рассмотрение документа .Рассмотрение руководителем",
-      ReviewResolutionAssignment: "Обработка резолюции",
-      ReviewObserverNotification: "Уведомление наблюдателю",
-      ReviewObserversNotification: "Уведомление о рассмотрении",
-      ReviewClerkNotification: "Уведомление автору задачи на рассмотрение",
+      ActionItemExecutionNotification: "Уведомление о приемке работ",
+      AcquaintanceFinishAssignment: "Завершение работ по ознакомлению",
+      ActionItemSupervisorAssignment: "Приемка работ контролером",
+      ReviewAssignment: "Приемка работ",
+      PreparingDraftResolutionAssignment: "Подготовка проекта резолюции",
+      ReviewDraftResolutionAssignment: "Рассмотрение проекта резолюции",
+      ReviewManagerAssignment: "Рассмотрение руководителем",
+      ReviewResolutionAssignment: "Обработка проекта резолюции",
+      ReviewObserverNotification: "Уведомление о завершении рассмотрения",
+      ReviewObserversNotification: "Уведомление о начале рассмотрения",
+      ReviewClerkNotification: "Уведомление о завершении рассмотрения",
       FreeApprovalAssignment: "Задание на согласование документа",
-      FreeApprovalFinishAssignment:
-        "Задание на завершение согласование документа",
-      FreeApprovalReworkAssignmen: " Доработка документа на согласование",
-      ActionItemObserversNotification:
-        " Уведомление наблюдателей в Задание на исполнение поручений",
-      ActionItemSupervisorNotification:
-        "Уведомление контроллеров в задание на исполнение поручений",
+      FreeApprovalFinishAssignment: "Завершение работ по согласованию",
+      FreeApprovalReworkAssignmen: "Доработка документа на согласование",
+      ActionItemObserversNotification: "Уведомление о создании поручения",
+      ActionItemSupervisorNotification: "Уведомление контролеру",
       FreeApprovalNotification: "Уведомление"
     },
     prefixes: {
