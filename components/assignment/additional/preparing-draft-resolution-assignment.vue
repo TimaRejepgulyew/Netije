@@ -17,7 +17,7 @@ export default {
   components: {
     employeeSelectBox
   },
-props:["assignmentId"],
+  props: ["assignmentId"],
   methods: {
     valueChanged(id) {
       this.$store.commit("currentAssignment/SET_ADDRESSEE_ID", {
