@@ -18,7 +18,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.documentRegistry')"
+        :file-name="$t('translations.fields.documentRegister')"
       />
       <DxFilterRow :visible="true" />
 
@@ -27,7 +27,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegistry" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegister" />
 
       <DxEditing
         :allow-deleting="allowDeleting"
@@ -150,7 +150,7 @@ export default {
       documentRegisterDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.DocumentRegistry
+          loadUrl: dataApi.docFlow.DocumentRegister.AvailableForUse
         }),
         paginate: true
       }

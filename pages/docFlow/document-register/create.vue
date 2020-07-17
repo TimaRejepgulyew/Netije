@@ -3,7 +3,7 @@
     <Header
       :isNew="true"
       :isbackButton="true"
-      :headerTitle="$t('translations.headers.addDocumentRegistry')"
+      :headerTitle="$t('translations.headers.addDocumentRegister')"
     ></Header>
     <toolbar @saveChanges="handleSubmit" :canSave="true" />
     <DxForm
@@ -284,7 +284,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(
-          dataApi.docFlow.DocumentRegistry,
+          dataApi.docFlow.DocumentRegister.All,
           this.documentRegister
         ),
         res => {

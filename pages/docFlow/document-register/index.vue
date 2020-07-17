@@ -18,7 +18,7 @@
       </div>
     </DxPopup>
 
-    <Header :headerTitle="$t('menu.documentRegistry')"></Header>
+    <Header :headerTitle="$t('menu.documentRegister')"></Header>
 
     <DxDataGrid
       id="gridContainer"
@@ -37,7 +37,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.documentRegistry')"
+        :file-name="$t('translations.fields.documentRegister')"
       />
       <DxFilterRow :visible="true" />
 
@@ -46,7 +46,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegistry" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegister" />
 
       <DxEditing
         :allow-deleting="allowDeleting"
@@ -169,8 +169,8 @@ export default {
       entityType: EntityType.DocumentRegister,
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.DocumentRegistry,
-        removeUrl: dataApi.docFlow.DocumentRegistry
+        loadUrl: dataApi.docFlow.DocumentRegister.All,
+        removeUrl: dataApi.docFlow.DocumentRegister.All
       }),
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
       registerTypeDataSource: this.$store.getters["docflow/registerType"](this),

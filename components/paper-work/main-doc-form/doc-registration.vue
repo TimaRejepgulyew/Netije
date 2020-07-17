@@ -164,7 +164,7 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.DocumentRegistry,
+          url: dataApi.docFlow.DocumentRegister.All,
           disabled: true
         }),
         value: this.$store.getters["currentDocument/document"]

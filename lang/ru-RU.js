@@ -432,7 +432,7 @@ export default {
     caseFile: "Номенклатура дел",
     fileRetentionPeriod: "Срок хранения дел",
     mailDeliveryMethod: "Способы доставки документов",
-    documentRegistry: "Журналы регистрации",
+    documentRegister: "Журналы регистрации",
     documentType: "Тип документа",
     documentKind: "Виды документов",
     registrationSetting: "Настройки регистрации",
@@ -919,11 +919,11 @@ export default {
       updateDocKindSucces: "Редактирование вида документа прошло успешно",
       updateDocKindError: "При редактирование вида документа  произошла ошибка",
       editDocumentKind: "Редактирование вида документа",
-      addDocumentRegistry: "Добавление журнала регистрации",
+      addDocumentRegister: "Добавление журнала регистрации",
       addDoctRegistrySucces: "Добавление журнала регистрации прошло успешно",
       addDoctRegistryError:
         "При добавлении  журнала регистрации  произошла ошибка",
-      editDocumentRegistry: "Редактирование журнала регистрации",
+      editDocumentRegister: "Редактирование журнала регистрации",
       updateDocRegistrySucces:
         "Редактирование журнала регистрации  прошло успешно",
       registrationSucceded: "Документ успешно зарегистрирован",

@@ -372,11 +372,11 @@ function CreateDocumentKindColumn(context) {
   );
 }
 
-function CreateDocumentRegistryColumn(context) {
+function CreateDocumentRegisterColumn(context) {
   return CreateLookupColumn(
     "documentRegisterId",
     context,
-    dataApi.docFlow.DocumentRegistry,
+    dataApi.docFlow.DocumentRegister.All,
     false
   );
 }
@@ -535,7 +535,7 @@ function CreateBaseColumn(context) {
     CreateDocumentModifiedColumn(context),
     CreateDocumentAuthorColumn(context),
     CreateDocumentRegistrationStateColumn(context),
-    CreateDocumentRegistryColumn(context),
+    CreateDocumentRegisterColumn(context),
     CreateDocumentKindColumn(context),
     CreateDocumentRegistrationNumberColumn(context),
     CreateDocumentRegistrationDateColumn(context),
