@@ -331,7 +331,7 @@ export default {
       AddAssignment: "Отправлено на исполнение",
       AddResolution: "Вынесена резолюция",
       Explored: "Принято к сведению",
-      Forward: "Вынесена резолюция"
+      Forward: "Переадресовано"
     },
     status: {
       InProcess: "В процессе",
@@ -342,14 +342,16 @@ export default {
       UnderReview: "На приемке"
     },
     type: {
-      SimpleAssignment: "Задание",
-      AcquaintanceAssignment: "Ознакомление",
-      ActionItemExecutionAssignment: "Исполнение поручения",
       Notice: "Уведомление",
-      ActionItemExecutionNotification: "Уведомление о приемке работ",
-      AcquaintanceFinishAssignment: "Завершение работ по ознакомлению",
-      ActionItemSupervisorAssignment: "Приемка работ контролером",
+      SimpleAssignment: "Задание",
       ReviewAssignment: "Приемка работ",
+      AcquaintanceAssignment: "Ознакомление",
+      AcquaintanceFinishAssignment: "Завершение работ по ознакомлению",
+      ActionItemExecutionNotification: "Уведомление о приемке работ",
+      ActionItemSupervisorNotification: "Уведомление контролеру",
+      ActionItemSupervisorAssignment: "Приемка работ контролером",
+      ActionItemExecutionAssignment: "Исполнение поручения",
+      ActionItemObserversNotification: "Уведомление о создании поручения",
       PreparingDraftResolutionAssignment: "Подготовка проекта резолюции",
       ReviewDraftResolutionAssignment: "Рассмотрение проекта резолюции",
       ReviewManagerAssignment: "Рассмотрение руководителем",
@@ -360,8 +362,6 @@ export default {
       FreeApprovalAssignment: "Задание на согласование документа",
       FreeApprovalFinishAssignment: "Завершение работ по согласованию",
       FreeApprovalReworkAssignmen: "Доработка документа на согласование",
-      ActionItemObserversNotification: "Уведомление о создании поручения",
-      ActionItemSupervisorNotification: "Уведомление контролеру",
       FreeApprovalNotification: "Уведомление"
     },
     prefixes: {

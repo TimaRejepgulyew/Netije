@@ -24,7 +24,7 @@ export default {
         case AssignmentType.ActionItemSupervisorAssignment:
         case AssignmentType.ReviewAssignment:
           return require("~/static/icons/status/underreview.svg");
-        case AssignmentType.SimpleNotify:
+        case AssignmentType.Notice:
         case AssignmentType.ActionItemExecutionNotification:
         case AssignmentType.AcquaintanceNotification:
         case AssignmentType.ActionItemObserversNotification:
