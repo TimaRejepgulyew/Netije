@@ -41,6 +41,7 @@ export default {
     CaseFile: {
       Value: `${url}/api/CaseFile`,
       All: `${url}/api/CaseFile`,
+      AvailableForUse: `${url}/api/CaseFile/AvailableForUse`,
     },
     ContractCategories: `${url}/api/ContractCategory`,
     PersonalSettings: `${url}/api/PersonalSettings`,

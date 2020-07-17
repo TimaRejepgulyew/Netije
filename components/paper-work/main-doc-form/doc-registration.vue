@@ -176,7 +176,7 @@ export default {
         readOnly: !this.canRegister,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.documentRegistration.CaseFiles,
+          url: dataApi.docFlow.CaseFile.AvailableForUse,
           filter: ["status", "=", 0],
           value: "title"
         }),
