@@ -7,9 +7,10 @@
 
 <script>
 export default {
+  props:["assignmentId"],
   computed: {
     description() {
-      return this.$store.getters["currentAssignment/assignment"].description;
+      return this.$store.getters["currentAssignment/assignment"](this.assignmentId).description;
     }
   }
 };

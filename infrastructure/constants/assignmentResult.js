@@ -5,7 +5,7 @@ const Simple = {
   Complete: 0
 };
 const Acquaintance = {
-  Accept: 0
+  Acquainted: 0
 };
 const ActionItemExecution = {
   Complete: 0

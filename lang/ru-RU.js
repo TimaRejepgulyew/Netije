@@ -324,6 +324,7 @@ export default {
     acceptAssignmentMessage: "Вы действительно приняли задачу",
     readdressToEmployee: "Переадресовать сотруднику",
     result: {
+      Acquainted:"Ознакомлен",
       SendForReview: "Отправлено на рассмотрение",
       Complete: "Завершено",
       Accept: "Принято",
@@ -359,9 +360,9 @@ export default {
       ReviewObserverNotification: "Уведомление о завершении рассмотрения",
       ReviewObserversNotification: "Уведомление о начале рассмотрения",
       ReviewClerkNotification: "Уведомление о завершении рассмотрения",
-      FreeApprovalAssignment: "Задание на согласование документа",
+      FreeApprovalAssignment: "Cогласование",
       FreeApprovalFinishAssignment: "Завершение работ по согласованию",
-      FreeApprovalReworkAssignmen: "Доработка документа на согласование",
+      FreeApprovalReworkAssignmen: "Доработка документа",
       FreeApprovalNotification: "Уведомление"
     },
     prefixes: {

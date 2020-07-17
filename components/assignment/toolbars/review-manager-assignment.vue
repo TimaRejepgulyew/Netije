@@ -1,19 +1,6 @@
 <template>
   <div>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showEmployeeList"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      position="top"
-      width="90%"
-      :height="'auto'"
-    >
-      <div>
-        <employee-list @selected="readdress" :isCard="true" />
-      </div>
-    </DxPopup>
+
 
     <DxPopup
       :showTitle="false"
@@ -25,7 +12,12 @@
       :height="'auto'"
     >
       <div>
-        <task-card @closeTask="closeTask" v-if="showItemExecutionTask" :isCard="true" />
+        <task-card
+          :taskId="actionItemExecutionTaskId"
+          @closeTask="closeTask"
+          v-if="showItemExecutionTask"
+          :isCard="true"
+        />
       </div>
     </DxPopup>
     <div class="toolbar">
@@ -48,8 +40,7 @@
 
         <DxItem
           locateInMenu="auto"
-          :disabled="!$store.getters['currentAssignment/assignment']
-        .addresseeId"
+          :disabled="btnReaddressDisabled"
           :visible="!isRework"
           :options="btnReaddressOptions"
           location="before"
@@ -76,6 +67,7 @@
   </div>
 </template>
 <script>
+import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
 import employeeList from "~/components/employee/employee-list.vue";
@@ -93,29 +85,37 @@ export default {
     DxToolbar,
     DxItem,
     DxPopup,
-
     employeeList,
     taskCard
   },
+  props: ["assignmentId"],
   data() {
     return {
+      actionItemExecutionTaskId: null,
       showComment: false,
-      showEmployeeList: false,
       showItemExecutionTask: false
     };
   },
   computed: {
+    btnReaddressDisabled() {
+      return !this.$store.getters["currentAssignment/assignment"](
+        this.assignmentId
+      ).addresseeId;
+    },
     toolbarItemVisible() {
-      const addresseeId = this.$store.getters["currentAssignment/assignment"]
-        .addresseeId;
+      const addresseeId = this.$store.getters["currentAssignment/assignment"](
+        this.assignmentId
+      ).addresseeId;
 
       return addresseeId
         ? false
-        : this.$store.getters["currentAssignment/InProcess"];
+        : this.$store.getters["currentAssignment/inProcess"](this.assignmentId);
     },
     isRework() {
-      if (this.$store.getters["currentAssignment/InProcess"])
-        return this.$store.getters["currentAssignment/assignment"].isRework;
+      if (this.$store.getters["currentAssignment/inProcess"](this.assignmentId))
+        return this.$store.getters["currentAssignment/assignment"](
+          this.assignmentId
+        ).isRework;
       else return true;
     },
     btnSendToResolutionOptions() {
@@ -167,12 +167,17 @@ export default {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
         onClick: async () => {
-          await this.$store.dispatch("currentTask/initTask", {
-            taskType: TaskType.ActionItemExecutionTask,
-            parentAssignment: this.$store.getters[
-              "currentAssignment/assignment"
-            ].id
-          });
+          const { taskId } = await createTaskRequest(
+            this,
+            {
+              taskType: TaskType.ActionItemExecutionTask,
+              parentAssignment: this.$store.getters[
+                "currentAssignment/assignment"
+              ](this.assignmentId).id
+            },
+            false
+          );
+          this.actionItemExecutionTaskId = taskId;
           this.showItemExecutionTask = true;
         }
       };
@@ -180,7 +185,10 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", result);
+      this.$store.commit("currentAssignment/SET_RESULT", {
+        key: this.assignmentId,
+        payload: result
+      });
     },
     closeTask(taskId) {
       this.showItemExecutionTask = false;
@@ -190,7 +198,9 @@ export default {
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete"),
+        this.$store.dispatch("currentAssignment/complete", {
+          key: this.assignmentId
+        }),
         e => {
           this.$router.go(-1);
           this.$awn.success();

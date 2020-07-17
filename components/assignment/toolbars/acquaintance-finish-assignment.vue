@@ -14,9 +14,12 @@ export default {
     DxToolbar,
     DxItem
   },
+  props: ["assignmentId"],
   computed: {
     InProcess() {
-      return this.$store.getters["currentAssignment/InProcess"];
+      return this.$store.getters["currentAssignment/inProcess"](
+        this.assignmentId
+      );
     },
     btnOptions() {
       return {
@@ -35,11 +38,16 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", result);
+      this.$store.commit("currentAssignment/SET_RESULT", {
+        key: this.assignmentId,
+        payload: result
+      });
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete"),
+        this.$store.dispatch("currentAssignment/complete", {
+          key: this.assignmentId
+        }),
         e => {
           this.$router.go(-1);
           this.$awn.success();
