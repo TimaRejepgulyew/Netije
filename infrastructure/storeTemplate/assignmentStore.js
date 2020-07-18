@@ -9,6 +9,9 @@ export const state = () => ({
 });
 
 export const getters = {
+  overlays({ overlays }) {
+    return overlays;
+  },
   isCompleted({ assignment }) {
     return assignment.status === AssignmentStatus.Completed;
   },
@@ -35,8 +38,15 @@ export const getters = {
   }
 };
 export const mutations = {
+  DECREMENT_OVERLAYS(state) {
+    state.overlays--;
+  },
+  INCREMENT_OVERLAYS(state) {
+    if (state.overlays === null) {
+      state.overlays = 0;
+    } else state.overlays++;
+  },
   SET_ASSIGNMENT(state, payload) {
-    state.overlays = state.overlays >= 0 ? state.overlays : 0;
     state.assignment = payload;
   },
   SET_BODY(state, payload) {
@@ -70,9 +80,9 @@ export const actions = {
   },
   async complete({ state }, params) {
     const assignment = { ...state.assignment };
-    delete state.assignment.attachmentGroups;
+    delete assignment.attachmentGroups;
     const assignmentJson = JSON.stringify(assignment);
-
+    console.log(assignmentJson);
     await this.$axios.post(dataApi.assignment.CompleteAssignment, {
       assignmentId: state.assignment.id,
       assignmentType: state.assignment.assignmentType,

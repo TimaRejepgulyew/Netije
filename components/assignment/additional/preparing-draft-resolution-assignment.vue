@@ -3,7 +3,7 @@
     <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
     <div class="f-grow-1">
       <employee-select-box
-        :read-only="!InProcess"
+        :read-only="!inProcess"
         :value="addresseeId"
         @valueChanged="valueChanged"
       />
@@ -20,22 +20,19 @@ export default {
   props: ["assignmentId"],
   methods: {
     valueChanged(id) {
-      this.$store.commit("currentAssignment/SET_ADDRESSEE_ID", {
-        key: this.assignmentId,
-        payload: id
-      });
+      this.$store.commit(
+        `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
+        id
+      );
     }
   },
   computed: {
     addresseeId() {
-      return this.$store.getters["currentAssignment/assignment"](
-        this.assignmentId
-      ).addresseeId;
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+        .addresseeId;
     },
-    InProcess() {
-      return this.$store.getters["currentAssignment/inProcess"](
-        this.assignmentId
-      );
+    inProcess() {
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     }
   }
 };

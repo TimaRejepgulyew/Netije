@@ -60,9 +60,7 @@ export default {
   },
   computed: {
     toolbarItemVisible() {
-      return this.$store.getters["currentAssignment/inProcess"](
-        this.assignmentId
-      );
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
     btnSendToAssigneeOptions() {
       return {
@@ -86,8 +84,8 @@ export default {
             {
               taskType: TaskType.ActionItemExecutionTask,
               parentAssignment: this.$store.getters[
-                "currentAssignment/assignment"
-              ](this.assignmentId).id
+                `assignments/${this.assignmentId}/assignment`
+              ].id
             },
             false
           );
@@ -99,10 +97,10 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", {
-        key: this.assignmentId,
-        payload: result
-      });
+      this.$store.commit(
+        `assignments/${this.assignmentId}/SET_RESULT`,
+        payload
+      );
     },
     closeTask(taskId) {
       this.showItemExecutionTask = false;
@@ -112,9 +110,7 @@ export default {
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete", {
-          key: this.assignmentId
-        }),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
         e => {
           this.$router.go(-1);
           this.$awn.success();

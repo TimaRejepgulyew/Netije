@@ -41,11 +41,7 @@
                   <DxSimpleItem template="comments">
                     <DxLabel location="top" :visible="false" />
                   </DxSimpleItem>
-                  <DxSimpleItem
-                    data-field="body"
-                    :editor-options="bodyOptions"
-                    editor-type="dxTextArea"
-                  >
+                  <DxSimpleItem :editor-options="bodyOptions" editor-type="dxTextArea">
                     <DxLabel location="top" :visible="false" />
                   </DxSimpleItem>
                 </DxGroupItem>
@@ -84,6 +80,7 @@
   </div>
 </template>
 <script>
+import { unload } from "~/infrastructure/services/assignmentService.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
 import Importance from "~/infrastructure/constants/assignmentImportance.js";
@@ -97,7 +94,6 @@ import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import "devextreme-vue/text-area";
 import dataApi from "~/static/dataApi";
-import threadTexts from "~/components/workFlow/thread-text/thread-texts.vue";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -107,7 +103,8 @@ export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    threadTexts,
+    threadTexts: () =>
+      import("~/components/workFlow/thread-text/thread-texts.vue"),
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
@@ -120,14 +117,10 @@ export default {
     ...toolbars,
     ...additional
   },
+  name: "assignment",
   props: ["assignmentId"],
   destroyed() {
-    const overlays = this.$store.getters[
-      `assignments/${this.assignmentId}/overlays`
-    ];
-    this.$store.dispatch(`assignments/${this.assignmentId}/DECREMENT_OVERLAY`);
-    if (!overlays)
-      this.$store.unregisterModule(`assignments/${this.assignmentId}`);
+    unload(this, this.assignmentId);
   },
   data() {
     return {
@@ -167,6 +160,7 @@ export default {
         visible: !this.$store.getters[
           `assignments/${this.assignmentId}/canUpdate`
         ],
+        value: this.assignment.body,
         onValueChanged: e => {
           this.$store.commit(
             `assignments/${this.assignmentId}/SET_BODY`,

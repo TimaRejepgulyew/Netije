@@ -109,25 +109,20 @@ export default {
     };
   },
   computed: {
+    assignment() {
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
+    },
+    inProcess() {
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
+    },
     btnReaddressDisabled() {
-      return !this.$store.getters["currentAssignment/assignment"](
-        this.assignmentId
-      ).addresseeId;
+      return !this.assignment.addresseeId;
     },
     tollbarItemVisible() {
-      const addresseeId = this.$store.getters["currentAssignment/assignment"](
-        this.assignmentId
-      ).addresseeId;
-
-      return addresseeId
-        ? false
-        : this.$store.getters["currentAssignment/inProcess"](this.assignmentId);
+      return this.assignment.addresseeId ? false : this.inProcess;
     },
     isRework() {
-      if (this.$store.getters["currentAssignment/inProcess"](this.assignmentId))
-        return this.$store.getters["currentAssignment/assignment"](
-          this.assignmentId
-        ).isRework;
+      if (this.inProcess) return this.assignment.isRework;
       else return true;
     },
     btnSendToReviewOptions() {
@@ -183,9 +178,7 @@ export default {
             this,
             {
               taskType: TaskType.ActionItemExecutionTask,
-              parentAssignment: this.$store.getters[
-                "currentAssignment/assignment"
-              ](this.assignmentId).id
+              parentAssignment: this.assignmentId
             },
             false
           );
@@ -203,19 +196,17 @@ export default {
       }
     },
     sendResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", {
-        key: this.assignmentId,
-        payload: result
-      });
+      this.$store.commit(
+        `assignments/${this.assignmentId}/SET_RESULT`,
+        payload
+      );
     },
     toogleCommentPopup() {
       this.showComment = !this.showComment;
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete", {
-          key: this.assignmentId
-        }),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
         e => {
           this.$router.go(-1);
           this.$awn.success();

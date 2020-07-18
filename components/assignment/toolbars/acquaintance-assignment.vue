@@ -18,9 +18,7 @@ export default {
   props: ["assignmentId"],
   computed: {
     InProcess() {
-      return this.$store.getters["currentAssignment/inProcess"](
-        this.assignmentId
-      );
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
     btnOptions() {
       return {
@@ -39,16 +37,11 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", {
-        key: this.assignmentId,
-        payload: result
-      });
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete", {
-          key: this.assignmentId
-        }),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
         e => {
           this.$router.go(-1);
           this.$awn.success();

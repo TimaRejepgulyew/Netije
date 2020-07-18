@@ -61,7 +61,7 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
-  name: "index",
+  name: "task",
   components: {
     simpleTask,
     acquaintanceTask,
