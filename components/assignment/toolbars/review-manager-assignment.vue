@@ -178,10 +178,7 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit(
-        `assignments/${this.assignmentId}/SET_RESULT`,
-        payload
-      );
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     closeTask(taskId) {
       this.showItemExecutionTask = false;

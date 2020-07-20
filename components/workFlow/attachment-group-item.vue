@@ -2,14 +2,15 @@
   <div>
     <DxPopup
       width="90%"
-      height="100%"
+      height="50%"
       :showTitle="false"
       :visible.sync="isOpenCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div >
-        <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
+
+        <!-- <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" /> -->
       </div>
     </DxPopup>
     <div class="d-flex align-center">

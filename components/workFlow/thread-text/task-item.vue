@@ -49,7 +49,7 @@
 </template>
 <script>
 import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
-import { commentTextByTaskType } from "~/infrastructure/constants/taskType.js";
+import { taskElements } from "~/infrastructure/constants/taskType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
@@ -79,7 +79,7 @@ export default {
       return taskStatusGeneratorObj(this)[status].text;
     },
     parseSubject(value) {
-      return commentTextByTaskType(this)[value]?.text;
+      return taskElements(this)[value]?.text;
     },
     formatDate(date) {
       return moment(date).format("MM.DD.YYYY HH:mm");

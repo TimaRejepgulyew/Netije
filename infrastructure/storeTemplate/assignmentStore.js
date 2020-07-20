@@ -1,11 +1,11 @@
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus";
-import { isAssignment } from "~/infrastructure/constants/assignmentType.js";
 import { isActionItemExicutionAssignment } from "~/infrastructure/constants/assignmentType.js";
 import dataApi from "~/static/dataApi";
 import Importance from "~/infrastructure/constants/assignmentImportance";
 export const state = () => ({
   assignment: {},
-  overlays: null
+  overlays: null,
+  canUpdate: false
 });
 
 export const getters = {
@@ -24,11 +24,8 @@ export const getters = {
   isActionItemExicutionAssignment({ assignment }) {
     return isActionItemExicutionAssignment(assignment.assignmentType);
   },
-  canUpdate({ assignment }) {
-    return (
-      isAssignment(assignment.assignmentType) &&
-      assignment.status !== AssignmentStatus.Completed
-    );
+  canUpdate({ assignment, canUpdate }) {
+    return assignment.status === AssignmentStatus.InProcess && canUpdate;
   },
   isImportant({ assignment }) {
     return assignment.importance === Importance.High;
@@ -47,7 +44,9 @@ export const mutations = {
     } else state.overlays++;
   },
   SET_ASSIGNMENT(state, payload) {
-    state.assignment = payload;
+    for (let item in payload) {
+      state[item] = payload[item];
+    }
   },
   SET_BODY(state, payload) {
     state.assignment.body = payload;
@@ -64,16 +63,16 @@ export const mutations = {
 };
 
 export const actions = {
-  async markAsRead(actions, id) {
+  async markAsRead(actions, assignmentId) {
     await this.$axios.post(dataApi.assignment.MarkAsRead, {
-      assignmentId: id
+      assignmentId
     });
   },
   async load({ commit, dispatch }, assignmentId) {
     const { data } = await this.$axios.get(
       dataApi.assignment.GetAssignmentById + assignmentId
     );
-    if (!data.isRead) {
+    if (!data.assignment.isRead && data.canUpdate) {
       await dispatch("markAsRead", +assignmentId);
     }
     commit("SET_ASSIGNMENT", data);
@@ -82,7 +81,6 @@ export const actions = {
     const assignment = { ...state.assignment };
     delete assignment.attachmentGroups;
     const assignmentJson = JSON.stringify(assignment);
-    console.log(assignmentJson);
     await this.$axios.post(dataApi.assignment.CompleteAssignment, {
       assignmentId: state.assignment.id,
       assignmentType: state.assignment.assignmentType,

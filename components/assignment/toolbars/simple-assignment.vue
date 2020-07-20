@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-      <DxItem :visible="InProcess" :options="btnOptions" location="before" widget="dxButton" />
+      <DxItem :visible="inProcess" :options="btnOptions" location="before" widget="dxButton" />
     </DxToolbar>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   },
   props: ["assignmentId"],
   computed: {
-    InProcess() {
+    inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
     btnOptions() {
@@ -28,7 +28,6 @@ export default {
             this.$t("assignment.sureCompleteMessage"),
             this.$t("shared.confirm")
           );
-          console.log("dawdawd");
           this.setResult(ReviewResult.Simple.Complete);
           if (response) this.completeAssignment();
         }
@@ -37,7 +36,6 @@ export default {
   },
   methods: {
     setResult(result) {
-      console.log(result);
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {

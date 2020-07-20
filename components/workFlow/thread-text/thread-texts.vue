@@ -122,7 +122,6 @@ export default {
       this.tooglePopup("showAuthorCard");
     },
     toDetailAssignment({ id, assignmentType }) {
-      console.log(id);
       this.currentAssignmentId = id;
       this.$awn.asyncBlock(
         load(this, this.currentAssignmentId),

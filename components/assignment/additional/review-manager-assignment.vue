@@ -3,7 +3,7 @@
     <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
     <div class="f-grow-1">
       <employee-select-box
-        :read-only="!InProcess"
+        :read-only="!canUpdate"
         :value="addresseeId"
         @valueChanged="valueChanged"
       />
@@ -31,8 +31,8 @@ export default {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .addresseeId;
     },
-    InProcess() {
-      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
+    canUpdate() {
+      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
     }
   }
 };

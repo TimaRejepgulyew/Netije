@@ -4,7 +4,7 @@
       <Header :isbackButton="true" :headerTitle="headerTitle">
         <important-indicator :isImportant="isImportant" slot="indicator"></important-indicator>
       </Header>
-      <component :assignmentId="assignmentId" :is="componentByType('toolbar')" />
+      <component v-if="canUpdate" :assignmentId="assignmentId" :is="componentByType('toolbar')" />
       <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm
@@ -136,7 +136,9 @@ export default {
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
     },
-
+    canUpdate() {
+      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
+    },
     performerId() {
       return this.assignment.performerId;
     },
@@ -157,9 +159,7 @@ export default {
     bodyOptions() {
       return {
         placeholder: this.placeholder,
-        visible: !this.$store.getters[
-          `assignments/${this.assignmentId}/canUpdate`
-        ],
+        visible: this.canUpdate,
         value: this.assignment.body,
         onValueChanged: e => {
           this.$store.commit(
