@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
+import { createActionItemExicutionTask } from "~/infrastructure/services/taskService.js";
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
@@ -79,15 +79,9 @@ export default {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
         onClick: async () => {
-          const { taskId } = await createTaskRequest(
+          const { taskId } = await createActionItemExicutionTask(
             this,
-            {
-              taskType: TaskType.ActionItemExecutionTask,
-              parentAssignment: this.$store.getters[
-                `assignments/${this.assignmentId}/assignment`
-              ].id
-            },
-            false
+            this.assignmentId
           );
           this.actionItemExecutionTaskId = taskId;
           this.showItemExecutionTask = true;
@@ -110,7 +104,7 @@ export default {
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
         e => {
           this.$router.go(-1);
           this.$awn.success();
