@@ -1,19 +1,12 @@
 export default class StoreModule {
-
-  contructor({ moduleType, storeTemplate }) {
+  constructor({ moduleName, storeTemplate }) {
     this.registeredModules = {};
-    this.moduleType = moduleType;
+    this.moduleName = moduleName;
     this.storeTemplate = storeTemplate;
   }
-
-  contructor({ moduleType, storeTemplate }) {
-    this.registeredModules = {};
-    this.moduleType = moduleType;
-    this.storeTemplate = storeTemplate;
-  }
-
   async registerModule(context, taskId) {
-    await context.$store.registerModule(`${this.moduleType}/${taskId}`, {
+    console.log(this.moduleName);
+    await context.$store.registerModule(`${this.moduleName}/${taskId}`, {
       namespaced: true,
       ...this.storeTemplate
     });
@@ -21,7 +14,7 @@ export default class StoreModule {
   }
 
   async unregisterModule(context, taskId) {
-    await context.$store.unregisterModule(`${this.moduleType}/${taskId}`);
+    await context.$store.unregisterModule(`${this.moduleName}/${taskId}`);
     this.registeredModules[taskId] = false;
   }
   hasModule(taskId) {

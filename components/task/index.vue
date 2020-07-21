@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       taskTypeNames: null,
-      taskTypeGuid: this.$store.getters["currentTask/task"](this.taskId)
+      taskTypeGuid: this.$store.getters[`tasks${this.taskId}/task`]
         .taskType,
       commentsUrl: dataApi.task.TextsByTask
     };
@@ -109,7 +109,7 @@ export default {
   methods: {
     backTo() {
       if (this.isCard) {
-        const taskId = this.$store.getters["currentTask/task"](this.taskId).id;
+        const taskId = this.$store.getters[`tasks${this.taskId}/task`].id;
         this.$emit("closeTask", taskId);
       } else this.$router.go(-1);
     },
@@ -138,17 +138,17 @@ export default {
     headerTitle() {
       return this.isNew
         ? this.taskTypeNames.get(this.taskTypeGuid)
-        : this.$store.getters["currentTask/task"](this.taskId).subject;
+        : this.$store.getters[`tasks${this.taskId}/task`].subject;
     },
     attachmentGroups() {
-      return this.$store.getters["currentTask/task"](this.taskId)
+      return this.$store.getters[`tasks${this.taskId}/task`]
         .attachmentGroups;
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"](this.taskId);
+      return this.$store.getters[`tasks${this.taskId}/isNew`];
     },
     taskType() {
       switch (this.taskTypeGuid) {

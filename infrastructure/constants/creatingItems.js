@@ -54,21 +54,13 @@ function createTaskBtn(context) {
   for (let item in taskTypeBtn) {
     taskTypeBtn[item].create = async function(params) {
       const taksId = await createTask(context, { taskType: +item, ...params });
-      const replaceOldRoute = context.$store.getters[`task${taksId}/isNew`];
-      const route = `/task/detail/${params.documentType}/${documentId}`;
-      toRouter(context)
-      if (replaceOldRoute) {
-        context.$router.replace(route);
-      } else {
-        context.$router.push(route);
-      }
+      toRouter(context, { taksId, taskType: +item });
     };
   }
   return taskTypeBtn;
 }
 
 export function TaskButtons(context) {
-  console.log(Object.values(createTaskBtn(context)));
   return Object.values(createTaskBtn(context));
   // return [
   //   {

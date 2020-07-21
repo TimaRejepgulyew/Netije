@@ -15,10 +15,10 @@ export default {
   components: {
     DxCheckBox
   },
-  props: ["readOnly"],
+  props: ["readOnly", "taskId"],
   computed: {
     importance() {
-      return this.$store.getters["currentTask/task"].importance ===
+      return this.$store.getters[`tasks${this.taskId}/task`].importance ===
         Important.Normal
         ? false
         : true;
@@ -27,7 +27,7 @@ export default {
   methods: {
     setImportance(e) {
       this.$store.commit(
-        "currentTask/SET_IMPORTANCE",
+        `tasks/${this.taskId}/SET_IMPORTANCE`,
         e.value ? Important.High : Important.Normal
       );
     }

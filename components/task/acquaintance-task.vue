@@ -112,64 +112,51 @@ export default {
   },
   methods: {
     setObservers(value) {
-      this.$store.commit("currentTask/SET_OBSERVERS", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_OBSERVERS`, value);
     },
     setPerformers(value) {
-      this.$store.commit("currentTask/SET_PERFORMERS", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_PERFORMER`, value);
     },
     setExcludedPerformers(value) {
-      this.$store.commit("currentTask/SET_EXCLUDED_PERFORMERS", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_EXCLUDED_PERFORMERS`, value);
     }
   },
   computed: {
+    task() {
+      return this.$store.getters[`tasks${this.taskId}/task`];
+    },
     observers() {
-      return this.$store.getters["currentTask/task"](this.taskId).observers;
+      return this.task.observers;
     },
     performers() {
-      return this.$store.getters["currentTask/task"](this.taskId).performers;
+      return this.task.performers;
     },
     excludedPerformers(value) {
-      return this.$store.getters["currentTask/task"](this.taskId)
-        .excludedPerformers;
+      return this.task.excludedPerformers;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/inProcess`];
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"](this.taskId);
+      return this.$store.getters[`tasks${this.taskId}/isNew`];
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"](this.taskId).subject,
+        value: this.task.subject,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
         }
       };
     },
     bodyOptions() {
       return {
         height: 250,
-        value: this.$store.getters["currentTask/task"](this.taskId).body,
+        value: this.task.body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_BODY", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
         }
       };
     },
@@ -177,12 +164,9 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"](this.taskId).deadline,
+        value: this.task.deadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_DEADLINE", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
         }
       };
     },
@@ -191,12 +175,9 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"](this.taskId).needsReview,
+        value: this.task.needsReview,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_NEEDS_REVIEW", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_NEEDS_REVIEW`, e.value);
         }
       };
     },
@@ -205,13 +186,9 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"](this.taskId)
-          .isElectronicAcquaintance,
+        value: this.task.isElectronicAcquaintance,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_IS_ELECTRONIC_ACQUAINTANCE", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_IS_ELECTRONIC_ACQUAINTANCE`, e.value);
         }
       };
     }

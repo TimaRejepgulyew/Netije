@@ -134,79 +134,60 @@ export default {
   },
   methods: {
     setActionItemObservers(value) {
-      this.$store.commit("currentTask/SET_ACTION_ITEM_OBSERVERS", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`, value);
     },
     setCoAssignees(value) {
-      this.$store.commit("currentTask/SET_CO_ASSIGNEES", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_CO_ASSIGNEE`, value);
     },
     setAssignee(value) {
-      this.$store.commit("currentTask/SET_ASSIGNEE", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNEE`, value);
     },
     setSupervisor(value) {
-      this.$store.commit("currentTask/SET_SUPERVISOR", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     }
   },
   computed: {
+    task() {
+      return this.$store.getters[`tasks${this.taskId}/task`];
+    },
     isUnderControl() {
-      return this.$store.getters["currentTask/task"](this.taskId).isUnderControl;
+      return this.task.isUnderControl;
     },
     actionItemObservers() {
-      return this.$store.getters["currentTask/task"](this.taskId)
-        .actionItemObservers;
+      return this.task.actionItemObservers;
     },
     coAssignees() {
-      return this.$store.getters["currentTask/task"](this.taskId).coAssignees;
+      return this.task.coAssignees;
     },
     supervisorId() {
-      return this.$store.getters["currentTask/task"](this.taskId).supervisorId;
+      return this.task.supervisorId;
     },
     assigneeId() {
-      return this.$store.getters["currentTask/task"](this.taskId).assigneeId;
+      return this.task.assigneeId;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/inProcess`];
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"](this.taskId);
+      return this.$store.getters[`tasks${this.taskId}/isNew`];
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"](this.taskId).subject,
+        value: this.task.subject,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
         }
       };
     },
     isUnderControlOptions() {
       return {
-        value: this.$store.getters["currentTask/task"](this.taskId).isUnderControl,
+        value: this.task.isUnderControl,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_IS_UNDER_CONTROL", {
-            key: this.taskId,
-            payload: e.value
-          });
-          this.$store.commit("currentTask/SET_SUPERVISOR", {
-            key: this.taskId,
-            payload: null
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_IS_UNDER_CONTROL`, e.value);
+          this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
         }
       };
     },
@@ -214,12 +195,9 @@ export default {
       return {
         placeholder: this.$t("translations.fields.actionItemRequired"),
         height: 250,
-        value: this.$store.getters["currentTask/task"](this.taskId).body,
+        value: this.task.body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_BODY", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
         }
       };
     },
@@ -227,12 +205,9 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"](this.taskId).maxDeadline,
+        value: this.task.maxDeadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_MAX_DEADLINE", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
         }
       };
     }

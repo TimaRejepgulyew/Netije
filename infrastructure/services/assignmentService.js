@@ -1,19 +1,18 @@
 import dataApi from "~/static/dataApi";
 import * as assignmentStoreTemplate from "~/infrastructure/storeTemplate/assignmentStore.js";
-const registeredModules = {};
+import StoreModule from "~/infrastructure/services/StoreModule.js";
+const assignmentModules = new StoreModule({
+  moduleName: "assignments",
+  storeTemplate: assignmentStoreTemplate
+});
 
 export async function load(context, assignmentId) {
-  if (!registeredModules[assignmentId]) {
-    await context.$store.registerModule(`assignments/${assignmentId}`, {
-      namespaced: true,
-      ...assignmentStoreTemplate
-    });
-
+  if (!assignmentModules.hasModule(assignmentId)) {
+    assignmentModules.registerModule(context, assignmentId);
     await context.$store.dispatch(
       `assignments/${assignmentId}/load`,
       assignmentId
     );
-    registeredModules[assignmentId] = true;
   }
   context.$store.commit(`assignments/${assignmentId}/INCREMENT_OVERLAYS`);
 }
@@ -21,8 +20,7 @@ export function unload(context, assignmentId) {
   const overlays =
     context.$store.getters[`assignments/${assignmentId}/overlays`];
   if (!overlays) {
-    context.$store.unregisterModule(`assignments/${assignmentId}`);
-    registeredModules[assignmentId] = false;
+    assignmentModules.unregisterModule(context, assignmentId);
   } else
     context.$store.commit(`assignments/${assignmentId}/DECREMENT_OVERLAYS`);
 }

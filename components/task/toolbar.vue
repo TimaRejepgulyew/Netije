@@ -23,7 +23,7 @@
       />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
-        <importanceChanger :read-only="!isDraft"></importanceChanger>
+        <importanceChanger taskId="taskId" :read-only="!isDraft"></importanceChanger>
       </template>
     </DxToolbar>
   </div>
@@ -52,19 +52,19 @@ export default {
   },
   computed: {
     isDataChanged() {
-      return this.$store.getters["currentTask/isDataChanged"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isDataChanged`];
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/inProcess`];
     },
     isCompleted() {
-      return this.$store.getters["currentTask/isCompleted"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isCompleted`];
     },
     isAborted() {
-      return this.$store.getters["currentTask/isAborted"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isAborted`];
     },
 
     saveButtonOptions() {
@@ -85,9 +85,7 @@ export default {
             this.$parent.$refs["form"].instance.validate().isValid
           )
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/startAndLoad", {
-                key: this.taskId
-              }),
+              this.$store.dispatch(`tasks/${this.taskId}start`),
               e => {
                 this.backTo();
               },
@@ -103,7 +101,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/abort", { key: this.taskId }),
+              this.$store.dispatch(`tasks/${this.taskId}abort`),
               e => {
                 this.backTo();
               },
@@ -119,7 +117,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentTask/restart", { key: this.taskId }),
+              this.$store.dispatch(`tasks/${this.taskId}start`),
               e => {
                 this.backTo();
               },
@@ -142,9 +140,9 @@ export default {
     },
     validateAttachment() {
       let isValid = true;
-      let attachments = this.$store.getters["currentTask/task"](
-        this.taskId
-      ).attachmentGroups.filter(attachment => attachment.isRequired);
+      let attachments = this.$store.getters[
+        `tasks/${this.taskId}/task`
+      ].attachmentGroups.filter(attachment => attachment.isRequired);
       attachments.forEach(attachment => {
         if (!attachment.entities) isValid = false;
       });
@@ -159,7 +157,7 @@ export default {
         this.$parent.$refs["form"].instance.validate().isValid
       )
         this.$awn.asyncBlock(
-          this.$store.dispatch("currentTask/saveAndLoad", { key: this.taskId }),
+          this.$store.dispatch(`tasks/${this.taskId}/save`),
           e => {},
           e => this.$awn.alert()
         );
