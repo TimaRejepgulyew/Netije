@@ -44,11 +44,9 @@ export default {
   },
   methods: {
     async createTask(e) {
-      const { id, documentTypeGuid } = this.$store.getters[
-        "currentDocument/document"
-      ];
-      console.log(id, documentTypeGuid);
-      await e.itemData.create({ documentId: id, documentTypeGuid });
+      const documentId = this.$store.getters["currentDocument/document"].id;
+       const documentTypeGuid = this.$store.getters["currentDocument/document"].documentTypeGuid;
+      await e.itemData.create({ documentId,documentTypeGuid });
     }
   }
 };

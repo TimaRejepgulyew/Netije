@@ -8,9 +8,8 @@
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div >
-
-        <!-- <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" /> -->
+      <div>
+        <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -44,6 +43,7 @@
 </template>
 
 <script>
+import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import documentGrid from "~/components/paper-work/document-grid.vue";
 import taskField from "~/components/workFlow/field-task-attachment.vue";
 import documentField from "~/components/workFlow/field-document-attachment.vue";
@@ -80,11 +80,12 @@ export default {
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
     },
-    pasteAttachment({ documentTypeguid, id }) {
+    pasteAttachment({ documentTypeGuid, id }) {
       this.isOpenCard = !this.isOpenCard;
       this.$emit("pasteAttachment", {
         attachmentId: id,
-        groupId: this.group.groupId
+        groupId: this.group.groupId,
+        entityTypeGuid: mapToEntityType(documentTypeGuid)
       });
     }
   },
