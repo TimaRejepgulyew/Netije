@@ -41,7 +41,8 @@ export default function(context) {
   ];
 }
 function toRouter(context, { taskId, taskType }) {
-  const replaceOldRoute = context.$store.getters["currentTask/isNew"](taskId);
+  console.log(taskId, taskType);
+  const replaceOldRoute = context.$store.getters[`tasks/${taskId}/isNew`];
   const route = `/task/detail/${taskType}/${taskId}`;
   if (replaceOldRoute) {
     context.$router.replace(route);
@@ -53,10 +54,14 @@ function createTaskBtn(context) {
   const taskTypeBtn = taskElements(context);
   for (let item in taskTypeBtn) {
     taskTypeBtn[item].create = async function(params) {
-      const taksId = await createTask(context, { taskType: +item, ...params });
-      toRouter(context, { taksId, taskType: +item });
+      const { taskId, taskType } = await createTask(context, {
+        taskType: +item,...params
+      });
+      console.log(taskId, taskType, "createItems");
+      toRouter(context, { taskId, taskType });
     };
   }
+  console.log(taskTypeBtn);
   return taskTypeBtn;
 }
 

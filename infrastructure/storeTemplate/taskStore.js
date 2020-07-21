@@ -25,7 +25,7 @@ export const getters = {
     return task.status === TaskStatus.Completed;
   },
   inProcess({ task }) {
-    return state.task.status === TaskStatus.InProcess;
+    return task.status === TaskStatus.InProcess;
   },
   isAborted({ task }) {
     return task.status === TaskStatus.Aborted;
@@ -35,7 +35,6 @@ export const getters = {
   },
 
   taskTypeAndId({ task: { taskType, id } }) {
-    console.log(taskType, id, "getters taskType and id");
     return {
       taskType,
       id
@@ -51,7 +50,8 @@ export const mutations = {
   },
   SET_TASK(state, payload) {
     for (let item in payload) {
-      state[item] = payload;
+      console.log(payload);
+      state[item] = payload[item];
     }
   },
   SET_SUBJECT(state, payload) {
@@ -152,10 +152,10 @@ export const mutations = {
       state.isDataChanged = true;
     state.task.addresseeId = payload;
   },
-  INCREMENT_OVERLAY(state) {
+  INCREMENT_OVERLAYS(state) {
     state.overlays++;
   },
-  DECREMENT_OVERLAY(state) {
+  DECREMENT_OVERLAYS(state) {
     state.overlays--;
   }
 };
@@ -171,13 +171,14 @@ export const actions = {
     });
 
     commit("SET_TASK", data);
+    commit("SET_IS_DATA_CHANGED", false);
   },
   async delete({ state }) {
     await this.$axios.delete(dataApi.task.Delete + state.task.id);
   },
   async start({ state, dispatch, getters }) {
     if (getters["isDataChanged"]) {
-      await dispatch("saveAndLoad");
+      await dispatch("save");
     }
     await this.$axios.post(dataApi.task.Start, {
       id: state.task.id,
@@ -204,12 +205,12 @@ export const actions = {
       dataApi.attachment.PasteByTask,
       options
     );
-    commit("SET_ATTACHMENT_GROUPS", { key, payload: data });
+    commit("SET_ATTACHMENT_GROUPS", data);
   },
-  async detachAttachment({ commit }, { key, payload }) {
+  async detachAttachment({ commit }, payload) {
     const { data } = await this.$axios.delete(
       `${dataApi.attachment.Detach}/${payload}`
     );
     commit("SET_ATTACHMENT_GROUPS", data);
-  },
+  }
 };

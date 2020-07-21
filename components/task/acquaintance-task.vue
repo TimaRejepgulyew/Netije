@@ -115,7 +115,7 @@ export default {
       this.$store.commit(`tasks/${this.taskId}/SET_OBSERVERS`, value);
     },
     setPerformers(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_PERFORMER`, value);
+      this.$store.commit(`tasks/${this.taskId}/SET_PERFORMERS`, value);
     },
     setExcludedPerformers(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_EXCLUDED_PERFORMERS`, value);
@@ -123,7 +123,7 @@ export default {
   },
   computed: {
     task() {
-      return this.$store.getters[`tasks${this.taskId}/task`];
+      return this.$store.getters[`tasks/${this.taskId}/task`];
     },
     observers() {
       return this.task.observers;

@@ -137,7 +137,7 @@ export default {
       this.$store.commit(`tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`, value);
     },
     setCoAssignees(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_CO_ASSIGNEE`, value);
+      this.$store.commit(`tasks/${this.taskId}/SET_CO_ASSIGNEES`, value);
     },
     setAssignee(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNEE`, value);
@@ -148,7 +148,7 @@ export default {
   },
   computed: {
     task() {
-      return this.$store.getters[`tasks${this.taskId}/task`];
+      return this.$store.getters[`tasks/${this.taskId}/task`];
     },
     isUnderControl() {
       return this.task.isUnderControl;

@@ -2,20 +2,22 @@ import dataApi from "~/static/dataApi";
 import * as taskStoreTemplate from "~/infrastructure/storeTemplate/taskStore.js";
 import StoreModule from "~/infrastructure/services/StoreModule.js";
 import TaskType from "~/infrastructure/constants/TaskType.js";
-const taskModules = new StoreModule({
+export const taskModules = new StoreModule({
   moduleName: "tasks",
   storeTemplate: taskStoreTemplate
 });
 
 export async function createTask(context, params) {
+  console.log(params, "params");
   const { data } = await context.$axios.post(dataApi.task.CreateTask, params);
   const taskId = data.task.id;
+  const taskType = data.task.taskType;
   await taskModules.registerModule(context, taskId);
   context.$store.commit(`tasks/${taskId}/SET_TASK`, data);
   context.$store.commit(`tasks/${taskId}/SET_IS_DATA_CHANGED`, true);
   context.$store.commit(`tasks/${taskId}/IS_NEW`, true);
   context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
-  return { taskId, tasktype: data.task.taskType };
+  return { taskId, taskType };
 }
 
 export async function createSubTask(context, params) {
@@ -36,8 +38,8 @@ export async function load(context, { taskType, taskId }) {
     const { data } = await context.$axios.get(
       `${dataApi.task.GetTaskById}${taskType}/${taskId}`
     );
-    context.$store.commit(`tasks/${taskId}/SET_TASK`, data);
     await taskModules.registerModule(context, taskId);
+    context.$store.commit(`tasks/${taskId}/SET_TASK`, data);
   }
   context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
 }

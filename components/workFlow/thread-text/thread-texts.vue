@@ -71,7 +71,8 @@
   </div>
 </template>
 <script>
-import { load } from "~/infrastructure/services/assignmentService.js";
+import { load as assignmentLoad } from "~/infrastructure/services/assignmentService.js";
+import { load as taskLoad } from "~/infrastructure/services/taskService.js";
 import cardAssignment from "~/components/assignment/index.vue";
 import cardTask from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
@@ -124,7 +125,7 @@ export default {
     toDetailAssignment({ id, assignmentType }) {
       this.currentAssignmentId = id;
       this.$awn.asyncBlock(
-        load(this, this.currentAssignmentId),
+        assignmentLoad(this, this.currentAssignmentId),
         () => {
           this.tooglePopup("showAssignmentCard");
         },
@@ -134,7 +135,7 @@ export default {
     async toDetailTask({ id, taskType }) {
       this.currentTaskCardId = id;
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentTask/load", { taskType, key: id }),
+        taskLoad(this, { taskType, taskId: id }),
         () => {
           this.tooglePopup("showTaskCard");
         },

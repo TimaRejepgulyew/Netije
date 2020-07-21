@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     task() {
-      return this.$store.getters[`tasks${this.taskId}/task`];
+      return this.$store.getters[`tasks/${this.taskId}/task`];
     },
     resolutionObservers() {
       return this.task.resolutionObservers;

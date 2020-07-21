@@ -18,7 +18,7 @@ export default {
   props: ["readOnly", "taskId"],
   computed: {
     importance() {
-      return this.$store.getters[`tasks${this.taskId}/task`].importance ===
+      return this.$store.getters[`tasks/${this.taskId}/task`].importance ===
         Important.Normal
         ? false
         : true;

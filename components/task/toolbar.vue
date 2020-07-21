@@ -23,7 +23,7 @@
       />
       <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
       <template #importanceChanger>
-        <importanceChanger taskId="taskId" :read-only="!isDraft"></importanceChanger>
+        <importanceChanger :taskId="taskId" :read-only="!isDraft"></importanceChanger>
       </template>
     </DxToolbar>
   </div>
@@ -55,6 +55,10 @@ export default {
       return this.$store.getters[`tasks/${this.taskId}/isDataChanged`];
     },
     isDraft() {
+      console.log(
+        this.$store.getters[`tasks/${this.taskId}/isDraft`],
+        "isDraft"
+      );
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     inProcess() {
@@ -85,7 +89,7 @@ export default {
             this.$parent.$refs["form"].instance.validate().isValid
           )
             this.$awn.asyncBlock(
-              this.$store.dispatch(`tasks/${this.taskId}start`),
+              this.$store.dispatch(`tasks/${this.taskId}/start`),
               e => {
                 this.backTo();
               },
@@ -101,7 +105,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch(`tasks/${this.taskId}abort`),
+              this.$store.dispatch(`tasks/${this.taskId}/abort`),
               e => {
                 this.backTo();
               },
@@ -117,7 +121,7 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch(`tasks/${this.taskId}start`),
+              this.$store.dispatch(`tasks/${this.taskId}/restart`),
               e => {
                 this.backTo();
               },
