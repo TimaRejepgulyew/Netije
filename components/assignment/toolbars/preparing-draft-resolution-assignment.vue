@@ -174,7 +174,7 @@ export default {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
         onClick: async () => {
-          const  taskId  = await createActionItemExicutionTask(
+          const { taskId } = await createActionItemExicutionTask(
             this,
             this.assignmentId
           );
