@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
     <div class="link d-flex f-grow-1" @dblclick="showAttachment">
+    
       <taskTypeIcon class="icon" :taskTypeGuid="item.entity.type" />
       <div>{{item.entity.name}}</div>
     </div>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <attachmentGroupItem
+      :assignmentId="assignmentId"
       @detach="detach"
       @pasteAttachment="pasteAttachment"
       :group="groupItem"
@@ -16,7 +17,7 @@ export default {
   components: {
     attachmentGroupItem
   },
-  props: ["attachmentGroups"],
+  props: ["attachmentGroups", "assignmentId"],
   methods: {
     detach(attachmentId) {
       this.$emit("detach", attachmentId);

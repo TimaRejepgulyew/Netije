@@ -8,8 +8,13 @@
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div>
-        <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
+      <div v-if="isOpenCard">
+        <documentGrid
+          v-if="componentByAttachmentType ==='documentField'"
+          :documentQuery="100"
+          @selectedDocument="pasteAttachment"
+        />
+        <task-card :taskId="taskId" @closeTask="pasteAttachment" v-else :isCard="true" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -43,6 +48,8 @@
 </template>
 
 <script>
+import { createActionItemExicutionTask } from "~/infrastructure/services/taskService.js";
+import taskCard from "~/components/task/index.vue";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import documentGrid from "~/components/paper-work/document-grid.vue";
 import taskField from "~/components/workFlow/field-task-attachment.vue";
@@ -61,7 +68,8 @@ export default {
     documentGrid,
     DxPopup,
     documentField,
-    taskField
+    taskField,
+    taskCard
   },
   data() {
     return {
@@ -75,10 +83,25 @@ export default {
       })
     };
   },
-  props: ["group"],
+  props: ["group", "assignmentId"],
   methods: {
+    async openPopup() {
+      switch (this.group.attachmentGroupType) {
+        case GroupAttachmentType.Task:
+          await this.createActionItemExecutionTask();
+          break;
+      }
+      this.isOpenCard = true;
+    },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
+    },
+    async createActionItemExecutionTask() {
+      const { taskId } = await createActionItemExicutionTask(
+        this,
+        this.assignmentId
+      );
+      this.taskId = taskId;
     },
     pasteAttachment({ documentTypeGuid, id }) {
       this.isOpenCard = !this.isOpenCard;
