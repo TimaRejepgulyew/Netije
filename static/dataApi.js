@@ -33,7 +33,7 @@ export default {
     DocumentRegister: {
       All: `${url}/api/DocumentRegister`,
       AvailableForUse: `${url}/api/DocumentRegister/AvailableForUse`,
-      PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
+      PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`
     },
     ContractCategories: `${url}/api/ContractCategory`,
     PersonalSettings: `${url}/api/PersonalSettings`,
@@ -77,7 +77,9 @@ export default {
     GetTaskById: `${url}/api/Task/`,
     Delete: `${url}/api/Task/`,
     UpdateTask: `${url}/api/Task/`,
-    CreateTask: `${url}/api/Task`,
+    CreateTask: `${url}/api/Task/Create`,
+    СreateTaskByDocument: `${url}/api/Task/CreateTaskByDocument`,
+    CreateChildActionItemExecution: `${url}/api/Task/CreateChildActionItemExecutionTask`,
     Abort: `${url}/api/Task/Abort`,
     Start: `${url}/api/Task/Start`,
     Restart: `${url}/api/Task/`,

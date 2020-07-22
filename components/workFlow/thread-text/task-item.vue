@@ -26,7 +26,7 @@
             class="task__item"
             v-if="comment.entity.deadline && displayDeadline(comment.type)"
             :class="{'expired':comment.isExpired}"
-          >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.deadline)}}</div>
+          >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.maxDeadline)}}</div>
           <div class="d-flex task__item item--status">
             <img class="icon--status" :src="parseIconStatus(comment.entity.status)" />
             {{parseTextStatus(comment.entity.status)}}
@@ -98,5 +98,4 @@ export default {
 </script>
 
 <style lang="scss" scoped >
-
 </style>

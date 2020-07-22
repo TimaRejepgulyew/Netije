@@ -7,8 +7,12 @@ export const taskModules = new StoreModule({
   storeTemplate: taskStoreTemplate
 });
 
-export async function createTask(context, params) {
-  const { data } = await context.$axios.post(dataApi.task.CreateTask, params);
+export async function createTask(
+  context,
+  params,
+  urlPath = dataApi.task.CreateTask
+) {
+  const { data } = await context.$axios.post(urlPath, params);
   const taskId = data.task.id;
   const taskType = data.task.taskType;
   await taskModules.registerModule(context, taskId);
@@ -24,13 +28,17 @@ export async function createSubTask(context, params) {
 }
 
 export async function createActionItemExicutionTask(context, parentAssignment) {
-  return await createTask(context, {
-    parentAssignment,
-    taskType: TaskType.ActionItemExecutionTask
-  });
+  return await createTask(
+    context,
+    {
+      parentAssignment,
+      taskType: TaskType.ActionItemExecutionTask
+    },
+    dataApi.task.CreateChildActionItemExecution
+  );
 }
 export async function createTaskByDocument(context, params) {
-  return await createTask(context, params);
+  return await createTask(context, params, dataApi.task.СreateTaskByDocument);
 }
 export async function load(context, { taskType, taskId }) {
   if (!taskModules.hasModule(taskId)) {

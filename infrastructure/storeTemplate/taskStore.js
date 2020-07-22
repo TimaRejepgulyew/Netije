@@ -186,7 +186,6 @@ export const actions = {
       id: state.task.id,
       taskType: state.task.taskType
     });
-    commit("SET_STATUS", TaskStatus.InProcess);
   },
   async abort({ state }) {
     const res = await this.$axios.post(dataApi.task.Abort, {
