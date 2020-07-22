@@ -27,11 +27,11 @@ export async function createSubTask(context, params) {
   return await createTask(context, params);
 }
 
-export async function createActionItemExicutionTask(context, parentAssignment) {
+export async function createActionItemExicutionTask(context, parentAssignmentId) {
   return await createTask(
     context,
     {
-      parentAssignment,
+      parentAssignmentId,
       taskType: TaskType.ActionItemExecutionTask
     },
     dataApi.task.CreateChildActionItemExecution
