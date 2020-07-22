@@ -8,7 +8,6 @@ export const taskModules = new StoreModule({
 });
 
 export async function createTask(context, params) {
-  console.log(params, "params");
   const { data } = await context.$axios.post(dataApi.task.CreateTask, params);
   const taskId = data.task.id;
   const taskType = data.task.taskType;
@@ -43,9 +42,10 @@ export async function load(context, { taskType, taskId }) {
   }
   context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
 }
-export async function unload(context, taskId) {
+export function unload(context, taskId) {
   const overlays = context.$store.getters[`tasks/${taskId}/overlays`];
+  console.log(overlays);
   if (!overlays) {
-    await taskModules.unregisterModule(context, taskId);
+    taskModules.unregisterModule(context, taskId);
   } else context.$store.commit(`tasks/${taskId}/DECREMENT_OVERLAYS`);
 }

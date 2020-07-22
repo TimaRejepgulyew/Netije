@@ -153,7 +153,9 @@ export const mutations = {
     state.task.addresseeId = payload;
   },
   INCREMENT_OVERLAYS(state) {
-    state.overlays++;
+    if (state.overlays === null) {
+      state.overlays = 0;
+    } else state.overlays++;
   },
   DECREMENT_OVERLAYS(state) {
     state.overlays--;

@@ -10,6 +10,7 @@ export default {
     cardTask
   },
   async asyncData({ app, params, $axios, store }) {
+   
     await load(
       { $store: app.store, $axios },
       { taskType: +params.type, taskId: +params.id }

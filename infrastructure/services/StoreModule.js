@@ -5,7 +5,6 @@ export default class StoreModule {
     this.storeTemplate = storeTemplate;
   }
   async registerModule(context, taskId) {
-    console.log(this.moduleName);
     await context.$store.registerModule(`${this.moduleName}/${taskId}`, {
       namespaced: true,
       ...this.storeTemplate
@@ -15,6 +14,7 @@ export default class StoreModule {
 
   async unregisterModule(context, taskId) {
     await context.$store.unregisterModule(`${this.moduleName}/${taskId}`);
+    console.log(this.moduleName, taskId);
     this.registeredModules[taskId] = false;
   }
   hasModule(taskId) {
