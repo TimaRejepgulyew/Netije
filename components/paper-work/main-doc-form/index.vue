@@ -42,7 +42,7 @@
                 :editor-options="noteOptions"
                 editor-type="dxTextArea"
               >
-                <DxLabel location="top" :text="$t('translations.fields.note')" />
+                <DxLabel location="left" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
             </DxGroupItem>
             <DxGroupItem :col-span="4">

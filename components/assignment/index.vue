@@ -17,7 +17,7 @@
             <DxGroupItem :col-span="7">
               <DxGroupItem :col-span="2">
                 <DxSimpleItem :editor-options="subjectOptions" :col-span="4" data-field="subject">
-                  <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+                  <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
                 </DxSimpleItem>
                 <DxGroupItem :col-count="3">
                   <DxSimpleItem
@@ -25,13 +25,13 @@
                     :editor-options="dateTimeOptions"
                     editor-type="dxDateBox"
                   >
-                    <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+                    <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
                   </DxSimpleItem>
                   <DxSimpleItem template="authorId" data-field="authorId">
-                    <DxLabel location="top" :text="$t('shared.from')" />
+                    <DxLabel location="left" :text="$t('shared.from')" />
                   </DxSimpleItem>
                   <DxSimpleItem data-field="performerId" template="performerId">
-                    <DxLabel location="top" :text="$t('shared.whom')" />
+                    <DxLabel location="left" :text="$t('shared.whom')" />
                   </DxSimpleItem>
                 </DxGroupItem>
               </DxGroupItem>
@@ -39,10 +39,10 @@
               <DxGroupItem :col-span="3">
                 <DxGroupItem>
                   <DxSimpleItem template="comments">
-                    <DxLabel location="top" :visible="false" />
+                    <DxLabel location="left" :visible="false" />
                   </DxSimpleItem>
                   <DxSimpleItem :editor-options="bodyOptions" editor-type="dxTextArea">
-                    <DxLabel location="top" :visible="false" />
+                    <DxLabel location="left" :visible="false" />
                   </DxSimpleItem>
                 </DxGroupItem>
               </DxGroupItem>

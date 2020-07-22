@@ -9,25 +9,25 @@
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
         <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
-          <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+          <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
           <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
         </DxSimpleItem>
 
         <DxGroupItem :col-count="2">
           <DxSimpleItem data-field="addresseeId" template="addresseeId">
             <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
-            <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+            <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="deadline"
             :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+            <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxSimpleItem template="resolutionObservers" data-field="resolutionObservers">
-          <DxLabel location="top" :text="$t('translations.fields.observers')" />
+          <DxLabel location="left" :text="$t('translations.fields.observers')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -36,7 +36,7 @@
           :editor-options="bodyOptions"
           editor-type="dxTextArea"
         >
-          <DxLabel location="top" :text="$t('translations.fields.comment')" />
+          <DxLabel location="left" :text="$t('translations.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
       <template #addresseeId>

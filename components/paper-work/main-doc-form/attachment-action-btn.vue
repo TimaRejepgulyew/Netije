@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {

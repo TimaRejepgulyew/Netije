@@ -13,12 +13,12 @@
       <DxGroupItem :col-span="7">
         <DxGroupItem template="mainForm"></DxGroupItem>
         <DxSimpleItem v-if="!isDraft" template="comments">
-          <DxLabel :visible="false" location="top" :text="$t('translations.headers.attachment')" />
+          <DxLabel :visible="false" location="left" :text="$t('translations.headers.attachment')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="3">
         <DxSimpleItem template="attachments">
-          <DxLabel :visible="false" location="top" :text="$t('translations.headers.attachment')" />
+          <DxLabel :visible="false" location="left" :text="$t('translations.headers.attachment')" />
         </DxSimpleItem>
       </DxGroupItem>
 

@@ -67,7 +67,7 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import documentIcon from "~/components/page/document-icon";
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import {
   DxSearchPanel,
   DxFilterPanel,

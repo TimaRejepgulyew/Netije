@@ -12,7 +12,7 @@
         :editor-options="leadingDocumentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.leadingDocumentId')" />
+        <DxLabel location="left" :text="$t('translations.fields.leadingDocumentId')" />
         <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
       </DxSimpleItem>
     </DxGroupItem>

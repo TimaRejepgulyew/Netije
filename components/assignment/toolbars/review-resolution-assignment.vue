@@ -69,8 +69,6 @@ export default {
         onClick: () => {
           this.setResult(ReviewResult.ReviewResolution.AddAssignment);
           this.completeAssignment();
-
-          // this.toogleCommentPopup();
         }
       };
     },

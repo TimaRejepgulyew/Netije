@@ -10,7 +10,7 @@
 
 <script>
 import taskTypeIcon from "~/components/page/task-icon.vue";
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment-action-btn.vue";
 
 export default {

@@ -13,7 +13,7 @@
           :editor-options="businessUnitOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+          <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
           <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -21,7 +21,7 @@
           :editor-options="deparmentOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
           <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -29,23 +29,23 @@
           :editor-options="validTillOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.validTill')" />
+          <DxLabel location="left" :text="$t('translations.fields.validTill')" />
           <DxRequiredRule :message="$t('translations.fields.validTillRequired')" />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="issuedToId" template="issuedToId">
-          <DxLabel location="top" :text="$t('translations.fields.issuedToId')" />
+          <DxLabel location="left" :text="$t('translations.fields.issuedToId')" />
           <DxRequiredRule :message="$t('translations.fields.issuedToIdRequired')" />
         </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
         <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+          <DxLabel location="left" :text="$t('translations.fields.signatory')" />
           <DxRequiredRule :message="$t('translations.fields.ourSignatoryRequired')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
-          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+          <DxLabel location="left" :text="$t('translations.fields.prepared')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>

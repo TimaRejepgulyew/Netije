@@ -12,7 +12,7 @@
         :editor-options="numberOptions"
         editor-type="dxNumberBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.accountNumber')" />
+        <DxLabel location="left" :text="$t('translations.fields.accountNumber')" />
       </DxSimpleItem>
       <DxSimpleItem
         :isRequired="true"
@@ -20,7 +20,7 @@
         :editor-options="dateOptions"
         editor-type="dxDateBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.accountDate')" />
+        <DxLabel location="left" :text="$t('translations.fields.accountDate')" />
       </DxSimpleItem>
 
       <DxSimpleItem
@@ -29,7 +29,7 @@
         :editor-options="totalAmountOptions"
         editor-type="dxNumberBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.totalAmount')" />
+        <DxLabel location="left" :text="$t('translations.fields.totalAmount')" />
       </DxSimpleItem>
       <DxSimpleItem
         :isRequired="true"
@@ -38,13 +38,13 @@
         editor-type="dxSelectBox"
         :editor-options="currencyIdOptions"
       >
-        <DxLabel location="top" :text="$t('translations.fields.currencyId')" />
+        <DxLabel location="left" :text="$t('translations.fields.currencyId')" />
       </DxSimpleItem>
     </DxGroupItem>
 
     <DxGroupItem :col-span="2" :col-count="1" :caption="$t('translations.fields.counterPart')">
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
-        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+        <DxLabel location="left" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -54,7 +54,7 @@
         :editor-options="leadingDocumentOptions"
         :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
       >
-        <DxLabel location="top" :text="$t('document.fields.contract')" />
+        <DxLabel location="left" :text="$t('document.fields.contract')" />
       </DxSimpleItem>
     </DxGroupItem>
 
@@ -64,7 +64,7 @@
         :editor-options="businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+        <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -72,7 +72,7 @@
         :editor-options="deparmentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+        <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
     </DxGroupItem>

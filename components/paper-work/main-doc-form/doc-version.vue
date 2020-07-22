@@ -50,7 +50,7 @@ import DocumentIcon from "~/components/page/document-icon";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
-import documentService from "~/infrastructure/services/documentService.js";
+import documentService from "~/infrastructure/services/documentVersionService.js";
 import AttachmentActionBtn from "~/components/paper-work/main-doc-form/attachment-action-btn";
 import moment from "moment";
 import { DxButton } from "devextreme-vue";

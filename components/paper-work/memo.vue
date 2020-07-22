@@ -13,7 +13,7 @@
           :editor-options="businessUnitOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+          <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
           <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -21,25 +21,25 @@
           :editor-options="deparmentOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
           <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
         </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
         <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+          <DxLabel location="left" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
           <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+          <DxLabel location="left" :text="$t('translations.fields.prepared')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="assigneeId" template="assignee">
-          <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+          <DxLabel location="left" :text="$t('translations.fields.assigneeId')" />
         </DxSimpleItem>
         <DxSimpleItem template="addressee" data-field="addresseeId">
           <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
-          <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+          <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>

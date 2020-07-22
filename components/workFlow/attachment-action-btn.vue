@@ -12,7 +12,7 @@
 
 <script>
 import cardIcon from "~/static/icons/card.svg";
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 export default {

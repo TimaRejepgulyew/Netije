@@ -23,7 +23,7 @@
 <script>
 import documentCard from "~/components/paper-work/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment-action-btn.vue";
 import documentIcon from "~/components/page/document-icon.vue";
 export default {

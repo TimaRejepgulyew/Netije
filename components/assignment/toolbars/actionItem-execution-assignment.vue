@@ -6,6 +6,7 @@
   </div>
 </template>
 <script>
+import { confirm } from "devextreme/ui/dialog";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
@@ -27,7 +28,7 @@ export default {
             this.$t("assignment.sureCompleteMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.ActionItemSupervisor.Complete);
+          this.setResult(ReviewResult.ActionItemExecution.Complete);
           if (response) this.completeAssignment();
         }
       };
@@ -35,11 +36,11 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);;
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
         e => {
           this.$router.go(-1);
           this.$awn.success();

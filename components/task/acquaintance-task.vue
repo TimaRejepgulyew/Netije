@@ -10,7 +10,7 @@
       <DxGroupItem :caption="$t('translations.fields.main')">
         <DxGroupItem :col-count="10">
           <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
-            <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+            <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
             <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
           </DxSimpleItem>
           <DxSimpleItem
@@ -19,7 +19,7 @@
             :editor-options="needsReviewOptions"
             editor-type="dxCheckBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
+            <DxLabel location="left" :text="$t('translations.fields.needsReview')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxGroupItem :col-count="3">
@@ -29,25 +29,25 @@
             :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+            <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="isElectronicAcquaintance"
             :editor-options="isElectronicAcquaintanceOptions"
             editor-type="dxCheckBox"
           >
-            <DxLabel location="top" :text="$t('workFlow.isElectronicAcquaintance')" />
+            <DxLabel location="left" :text="$t('workFlow.isElectronicAcquaintance')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxSimpleItem template="observers" data-field="observers">
-          <DxLabel location="top" :text="$t('translations.fields.observers')" />
+          <DxLabel location="left" :text="$t('translations.fields.observers')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="performers" template="performers">
           <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
-          <DxLabel location="top" :text="$t('translations.fields.acquaintMembers')" />
+          <DxLabel location="left" :text="$t('translations.fields.acquaintMembers')" />
         </DxSimpleItem>
         <DxSimpleItem template="excludedPerformers" data-field="excludedPerformers">
-          <DxLabel location="top" :text="$t('workFlow.excludedPerformers')" />
+          <DxLabel location="left" :text="$t('workFlow.excludedPerformers')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -56,7 +56,7 @@
           :editor-options="bodyOptions"
           editor-type="dxTextArea"
         >
-          <DxLabel location="top" :text="$t('translations.fields.comment')" />
+          <DxLabel location="left" :text="$t('translations.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
       <template #performers>

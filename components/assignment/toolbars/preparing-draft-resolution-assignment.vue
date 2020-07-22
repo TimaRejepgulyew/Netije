@@ -188,7 +188,6 @@ export default {
     closeTask(taskId) {
       this.showItemExecutionTask = false;
       if (taskId) {
-        // TODO function create task resolution
       }
     },
     sendResult(result) {

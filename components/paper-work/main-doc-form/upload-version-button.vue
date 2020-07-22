@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import documentService from "~/infrastructure/services/documentService.js";
+import documentService from "~/infrastructure/services/documentVersionService.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";

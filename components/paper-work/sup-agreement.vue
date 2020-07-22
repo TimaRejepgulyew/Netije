@@ -22,20 +22,20 @@
       :editor-options="leadingDocumentOptions"
       :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
     >
-      <DxLabel location="top" :text="$t('document.fields.contract')" />
+      <DxLabel location="left" :text="$t('document.fields.contract')" />
     </DxSimpleItem>
 
     <DxGroupItem :col-span="2" :col-count="1" :caption="$t('translations.fields.counterPart')">
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
-        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+        <DxLabel location="left" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
       <DxGroupItem :col-count="2">
         <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+          <DxLabel location="left" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="contactId" template="contact">
-          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
+          <DxLabel location="left" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
@@ -46,7 +46,7 @@
         :editor-options="businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+        <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -54,15 +54,15 @@
         :editor-options="deparmentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+        <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-        <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+        <DxLabel location="left" :text="$t('translations.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem template="responsibleEmployee" data-field="responsibleEmployeeId">
-        <DxLabel location="top" :text="$t('translations.fields.responsibleEmployeeId')" />
+        <DxLabel location="left" :text="$t('translations.fields.responsibleEmployeeId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.conditions')">
@@ -71,21 +71,21 @@
         :editor-options="validFromOptions"
         editor-type="dxDateBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.validFrom')" />
+        <DxLabel location="left" :text="$t('translations.fields.validFrom')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="validTill"
         :editor-options="validTillOptions"
         editor-type="dxDateBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.validTill')" />
+        <DxLabel location="left" :text="$t('translations.fields.validTill')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="totalAmount"
         :editor-options="totalAmountOptions"
         editor-type="dxNumberBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.totalAmount')" />
+        <DxLabel location="left" :text="$t('translations.fields.totalAmount')" />
       </DxSimpleItem>
       <DxSimpleItem
         :col-span="1"
@@ -93,7 +93,7 @@
         editor-type="dxSelectBox"
         :editor-options="currencyIdOptions"
       >
-        <DxLabel location="top" :text="$t('translations.fields.currencyId')" />
+        <DxLabel location="left" :text="$t('translations.fields.currencyId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #counterparty>

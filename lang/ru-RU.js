@@ -46,7 +46,8 @@ export default {
       regGroupDescr:
         "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации.",
       registrationSettings: "Настройки регистрации",
-      registrationSettingsDescr: "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
+      registrationSettingsDescr:
+        "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
       deliveriMethods: "Способ доставки документов",
       deliveriMethodsDescr: "Настройте способ доставки документов"
     },
@@ -324,7 +325,7 @@ export default {
     acceptAssignmentMessage: "Вы действительно приняли задачу",
     readdressToEmployee: "Переадресовать сотруднику",
     result: {
-      Acquainted:"Ознакомлен",
+      Acquainted: "Ознакомлен",
       SendForReview: "Отправлено на рассмотрение",
       Complete: "Завершено",
       Accept: "Принято",
@@ -530,6 +531,7 @@ export default {
   },
   translations: {
     fields: {
+      body: "Комментарий",
       correctedId: "Корректирует",
       isAdjustment: "Корректировочный",
       accountNumber: "Номер счета",
@@ -968,7 +970,7 @@ export default {
     }
   },
   registrationSettings: {
-    caption:"Настройка регистрации",
+    caption: "Настройка регистрации",
     fields: {
       name: "Имя",
       priority: "Приоритет",

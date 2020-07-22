@@ -12,7 +12,7 @@
       :editor-options="leadingDocumentOptions"
       :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
     >
-      <DxLabel location="top" :text="$t('document.fields.contract')" />
+      <DxLabel location="left" :text="$t('document.fields.contract')" />
     </DxSimpleItem>
     <DxGroupItem :col-span="2" :col-count="2">
       <DxSimpleItem
@@ -21,7 +21,7 @@
         editor-type="dxCheckBox"
         :editor-options="isAdjustmentOptions"
       >
-        <DxLabel location="top" :text="$t('translations.fields.isAdjustment')" />
+        <DxLabel location="left" :text="$t('translations.fields.isAdjustment')" />
       </DxSimpleItem>
       <DxSimpleItem
         :visible="isAdjustment"
@@ -30,21 +30,21 @@
         editor-type="dxSelectBox"
         :help-text="counterpartyId?'':$t('translations.fields.counterPartRequired')"
       >
-        <DxLabel location="top" :text="$t('translations.fields.correctedId')" />
+        <DxLabel location="left" :text="$t('translations.fields.correctedId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="1" :caption="$t('translations.fields.counterPart')">
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
-        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+        <DxLabel location="left" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
       <DxGroupItem :col-count="2">
         <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+          <DxLabel location="left" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="contactId" template="contact">
-          <DxLabel location="top" :text="$t('translations.fields.contactId')" />
+          <DxLabel location="left" :text="$t('translations.fields.contactId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
@@ -54,7 +54,7 @@
         :editor-options="businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+        <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -62,7 +62,7 @@
         :editor-options="deparmentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+        <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
     </DxGroupItem>
@@ -72,7 +72,7 @@
         :editor-options="totalAmountOptions"
         editor-type="dxNumberBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.totalAmount')" />
+        <DxLabel location="left" :text="$t('translations.fields.totalAmount')" />
       </DxSimpleItem>
       <DxSimpleItem
         :col-span="1"
@@ -80,7 +80,7 @@
         editor-type="dxSelectBox"
         :editor-options="currencyIdOptions"
       >
-        <DxLabel location="top" :text="$t('translations.fields.currencyId')" />
+        <DxLabel location="left" :text="$t('translations.fields.currencyId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #counterparty>

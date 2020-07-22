@@ -80,7 +80,7 @@
   </div>
 </template>
 <script>
-import documentService from "~/infrastructure/services/documentService.js";
+import documentService from "~/infrastructure/services/documentVersionService.js";
 import uploadVersionButton from "~/components/paper-work/main-doc-form/upload-version-button.vue";
 import createRelation from "~/components/paper-work/main-doc-form/create-relation.vue";
 import addendumIcon from "~/static/icons/addendum.svg";
