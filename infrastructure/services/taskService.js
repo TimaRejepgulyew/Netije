@@ -19,7 +19,6 @@ export async function createTask(
   context.$store.commit(`tasks/${taskId}/SET_TASK`, data);
   context.$store.commit(`tasks/${taskId}/SET_IS_DATA_CHANGED`, true);
   context.$store.commit(`tasks/${taskId}/IS_NEW`, true);
-  context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
   return { taskId, taskType };
 }
 

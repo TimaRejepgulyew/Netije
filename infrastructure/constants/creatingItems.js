@@ -41,7 +41,6 @@ export default function(context) {
   ];
 }
 function toRouter(context, { taskId, taskType }) {
-  console.log(taskId, taskType);
   const replaceOldRoute = context.$store.getters[`tasks/${taskId}/isNew`];
   const route = `/task/detail/${taskType}/${taskId}`;
   if (replaceOldRoute) {
