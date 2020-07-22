@@ -312,6 +312,7 @@ export default {
     }
   },
   assignment: {
+    returnManagersAssistantMessage:"Вы уверенны что хотите вернуть помощнику",
     placeholderSimple: "Введите комментарий",
     placeholderActionItemExicution: "Введите отчет",
     sureCompleteMessage: "Вы действительно выполнили задачу",
@@ -470,6 +471,8 @@ export default {
     logs: "Логи"
   },
   buttons: {
+    returnManagersAssistant:"Вернуть помощнику",
+    approveResolution: "Утвердить проект резалюции",
     addResolution: "Вынести резалюцию",
     sendToResolution: "Отправить на резалюцию",
     sendToReview: "Отправить на расмотрение",

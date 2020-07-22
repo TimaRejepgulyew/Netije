@@ -71,7 +71,7 @@
           locateInMenu="auto"
           :visible="tollbarItemVisible"
           :options="btnAddExecutionOptions"
-          location="after"
+          location="before"
           widget="dxButton"
         />
       </DxToolbar>
@@ -82,10 +82,10 @@
 import { createActionItemExicutionTask } from "~/infrastructure/services/taskService.js";
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
-import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
+import returnManagersAssistantIcon from "~/static/icons/status/forrework.svg";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
-import exploredIcon from "~/static/icons/status/explored.svg";
+import informedIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
@@ -125,34 +125,39 @@ export default {
       if (this.inProcess) return this.assignment.isRework;
       else return true;
     },
-    btnSendToReviewOptions() {
-      return {
-        icon: resolutionIcon,
-        text: this.$t("buttons.sendToReview"),
-        onClick: () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.SendForReview);
-          this.completeAssignment();
-        }
-      };
-    },
     btnForExecutionOptions() {
       return {
-        icon: sendToAssigneeIcon,
-        text: this.$t("buttons.sendToAssignee"),
+        icon: resolutionIcon,
+        text: this.$t("buttons.approveResolution"),
         onClick: () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.AddAssignment);
+          this.sendResult(ReviewResult.ReviewDraftResolution.ForExecution);
           this.completeAssignment();
         }
       };
     },
+
     btnInformedOptions() {
       return {
-        icon: exploredIcon,
+        icon: informedIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.Explored);
+          this.sendResult(ReviewResult.ReviewDraftResolution.Informed);
           let response = await confirm(
             this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) this.completeAssignment();
+        }
+      };
+    },
+    btnAddResolutionOptions() {
+      return {
+        icon: returnManagersAssistantIcon,
+        text: this.$("buttons.returnManagersAssistant"),
+        onClick: async () => {
+          this.sendResult(ReviewResult.ReviewDraftResolution.AddResolution);
+          let response = await confirm(
+            this.$t("assignment.returnManagersAssistantMessage"),
             this.$t("shared.confirm")
           );
           if (response) this.completeAssignment();
@@ -164,7 +169,7 @@ export default {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
         onClick: () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.Forward);
+          this.sendResult(ReviewResult.ReviewDraftResolution.Forward);
           this.completeAssignment();
         }
       };
@@ -185,10 +190,8 @@ export default {
     }
   },
   methods: {
-    closeTask(taskId) {
+    closeTask() {
       this.showItemExecutionTask = false;
-      if (taskId) {
-      }
     },
     sendResult(result) {
       this.$store.commit(

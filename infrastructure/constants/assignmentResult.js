@@ -31,6 +31,12 @@ const PrepareDraftResolution = {
   AddAssignment: 2,
   Forward: 3
 };
+const ReviewDraftResolution = {
+  ForExecution: 0,
+  Informed: 1,
+  AddResolution: 2,
+  Forward: 3
+};
 const ReviewManager = {
   AddAssignment: 0,
   AddResolution: 1,
@@ -43,6 +49,7 @@ const ReviewResolution = {
 export default {
   ReviewResolution,
   ReviewManager,
+  ReviewDraftResolution,
   PrepareDraftResolution,
   BaseResult,
   ReviewAssignment,

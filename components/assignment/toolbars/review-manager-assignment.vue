@@ -57,7 +57,7 @@
           locateInMenu="auto"
           :visible="toolbarItemVisible"
           :options="btnAddExecutionOptions"
-          location="after"
+          location="before"
           widget="dxButton"
         />
       </DxToolbar>
