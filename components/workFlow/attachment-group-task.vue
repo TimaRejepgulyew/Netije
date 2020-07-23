@@ -9,7 +9,7 @@
       :close-on-outside-click="true"
     >
       <div>
-        <task-card v-if="isOpenCard" :taskId="taskId" :isCard="true" @close-task="pasteAttachment" />
+        <task-card v-if="isOpenCard" :taskId="taskId" :isCard="true" @onSave="pasteAttachment" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -27,7 +27,7 @@
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <taskField @detach="detach" :item="groupItem" />
+        <taskField @detach="detach" @showCard="showCard" :item="groupItem" />
       </li>
     </ul>
     <div
@@ -43,7 +43,10 @@
 </template>
 
 <script>
-import { createActionItemExicutionTask } from "~/infrastructure/services/taskService.js";
+import {
+  createActionItemExicutionTask,
+  load
+} from "~/infrastructure/services/taskService.js";
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import taskField from "~/components/workFlow/field-task-attachment.vue";
 import { DxButton } from "devextreme-vue";
@@ -52,13 +55,13 @@ import DataSource from "devextreme/data/data_source";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import DxSelectBox from "devextreme-vue/select-box";
 import { DxPopup } from "devextreme-vue/popup";
-import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.js";
 import taskCard from "~/components/task/index.vue";
 export default {
   components: {
     DxSelectBox,
     DxButton,
     DxPopup,
+    taskField,
     taskCard: async () => {
       return await import("~/components/task/index.vue");
     }
@@ -67,36 +70,38 @@ export default {
   data() {
     return {
       taskId: null,
-      isOpenCard: false,
-      attachment: null,
-      documentStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.paperWork.AllDocument
-        })
-      })
+      isOpenCard: false
     };
   },
 
   props: ["group", "assignmentId"],
   methods: {
+    showCard({ id, taskType }) {
+      this.$awn.asyncBlock(load(this, { taskType, taskId: id }), () => {
+        this.taskId = id;
+        this.tooglePopup();
+      });
+    },
+    tooglePopup() {
+      this.isOpenCard = !this.isOpenCard;
+    },
     openPopup() {
       this.$awn.asyncBlock(
         createActionItemExicutionTask(this, this.assignmentId),
         ({ taskId, taskType }) => {
           this.taskId = taskId;
-          this.isOpenCard = true;
+          this.tooglePopup();
         }
       );
     },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
     },
-    pasteAttachment({ documentTypeGuid, id }) {
+    pasteAttachment({ taskType, taskId }) {
       this.$emit("pasteAttachment", {
-        attachmentId: id,
+        attachmentId: taskId,
         groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(documentTypeGuid)
+        entityTypeGuid: mapToEntityType(taskType)
       });
       this.isOpenCard = false;
     }

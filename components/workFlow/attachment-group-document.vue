@@ -4,12 +4,24 @@
       width="90%"
       height="90%"
       :showTitle="false"
+      :visible.sync="isOpenGrid"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+    >
+      <div>
+        <documentGrid v-if="isOpenGrid" :documentQuery="100" @selectedDocument="pasteAttachment" />
+      </div>
+    </DxPopup>
+    <DxPopup
+      width="90%"
+      height="95%"
+      :showTitle="false"
       :visible.sync="isOpenCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div>
-        <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
+        <document-card class="card" v-if="isOpenCard" :isCard="true" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -27,7 +39,7 @@
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <documentField @detach="detach" :item="groupItem" />
+        <documentField @detach="detach" @showCard="showCard" :item="groupItem" />
       </li>
     </ul>
     <div
@@ -45,6 +57,7 @@
 <script>
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import documentGrid from "~/components/paper-work/document-grid.vue";
+import documentCard from "~/components/paper-work/main-doc-form/index.vue";
 import documentField from "~/components/workFlow/field-document-attachment.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
@@ -57,25 +70,32 @@ export default {
     DxSelectBox,
     DxButton,
     documentGrid,
+    documentCard,
     DxPopup,
-    documentField,
+    documentField
   },
   data() {
     return {
       isOpenCard: false,
-      attachment: null,
-      documentStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.paperWork.AllDocument
-        })
-      })
+      isOpenGrid: false
     };
   },
-  props: ["group", "assignmentId"],
+  props: ["group"],
   methods: {
+    showCard({ id, documentTypeGuid }) {
+      // corrected when rewrite document store add documentId in Props
+      this.$awn.asyncBlock(
+        this.$store.dispatch("currentDocument/getDocumentById", {
+          id: document.id,
+          type: documentTypeGuid
+        }),
+        () => {
+          this.isOpenCard = true;
+        }
+      );
+    },
     tooglePopup() {
-      this.isOpenCard = !this.isOpenCard;
+      this.isOpenGrid = !this.isOpenGrid;
     },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
@@ -84,7 +104,7 @@ export default {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(documentTypeGuid) 
+        entityTypeGuid: mapToEntityType(documentTypeGuid)
       });
       this.tooglePopup();
     }

@@ -1,42 +1,32 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <div class="link d-flex f-grow-1" @dblclick="showAttachment">
-    
-      <taskTypeIcon class="icon" :taskTypeGuid="item.entity.type" />
-      <div>{{item.entity.name}}</div>
+    <div class="link d-flex f-grow-1" @dblclick="()=>showCard(item.entity)">
+      <div class="icon">
+        <img :src="actionItemExecutionIcon" />
+      </div>
+      <div>{{$t("task.prefixes.actionItemExecutionTask")}}: {{item.entity.subject}}</div>
     </div>
-    <actionBtn :attachment="item" />
+    <actionBtn @showCard="()=>showCard(item.entity)" :attachment="item" />
   </div>
 </template>
 
 <script>
-import taskTypeIcon from "~/components/page/task-icon.vue";
 import DocumentService from "~/infrastructure/services/documentVersionService";
-import actionBtn from "~/components/workFlow/attachment-action-btn.vue";
-
+import actionBtn from "~/components/workFlow/attachment-task-action-btn.vue";
+import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 export default {
   components: {
-    actionBtn,
-    taskTypeIcon
+    actionBtn
   },
   props: ["item"],
+  data() {
+    return {
+      actionItemExecutionIcon
+    };
+  },
   methods: {
-    showAttachment() {
-      const canPreview =
-        this.item.entity.hasVersions && this.item.entity.canBeOpenedWithPreview;
-      if (canPreview) DocumentService.previewDocument(this.item.entity, this);
-      else if (this.item.entity.hasVersions)
-        DocumentService.downloadDocument(
-          {
-            ...this.item.entity,
-            extension: this.item.entity.extension
-          },
-          this
-        );
-      else
-        this.$router.push(
-          `/paper-work/detail/${this.item.entity.documentTypeGuid}/${this.item.entity.id}`
-        );
+    showCard(task) {
+      this.$emit("showCard", task);
     }
   }
 };
@@ -64,7 +54,9 @@ export default {
   }
 }
 .icon {
+  width: 25px;
   margin: 0;
+  margin-left: 10px;
   margin-right: 5px;
 }
 </style>

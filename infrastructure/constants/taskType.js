@@ -7,7 +7,7 @@ const TaskType = {
 export default TaskType;
 import * as taskTypeIcons from "~/static/icons/taskType.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
-
+import entityTypes from "~/infrastructure/constants/entityTypes.js";
 export function taskElements(context) {
   return generatorMapObj({
     Constant: TaskType,

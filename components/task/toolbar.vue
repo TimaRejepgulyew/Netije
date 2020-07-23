@@ -1,7 +1,12 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-      <DxItem :visible="isDraft" :options="startButtonOptions" location="before" widget="dxButton" />
+      <DxItem
+        :visible="startBtnVisible"
+        :options="startButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
       <DxItem
         :visible="isDraft"
         :disabled="!isDataChanged"
@@ -25,16 +30,17 @@
       <template #importanceChanger>
         <importanceChanger :taskId="taskId" :read-only="!isDraft"></importanceChanger>
       </template>
-    </DxToolbar>
-     <!-- <DxItem
-        :visible="isCompleted||isAborted"
-        :options="restartButtonOptions"
+      <DxItem
+        :visible="!isNew&&isDraft||isAborted"
+        :options="deleteButtonOptions"
         location="before"
         widget="dxButton"
-      /> -->
+      />
+    </DxToolbar>
   </div>
 </template>
 <script>
+import { confirm } from "devextreme/ui/dialog";
 import importanceChanger from "~/components/task/importance-changer";
 import { alert } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -57,8 +63,17 @@ export default {
     };
   },
   computed: {
+    startBtnVisible() {
+      return this.isDraft && !this.task.isDraftResolution;
+    },
+    task() {
+      return this.$store.getters[`tasks/${this.taskId}/task`];
+    },
     isDataChanged() {
       return this.$store.getters[`tasks/${this.taskId}/isDataChanged`];
+    },
+    isNew() {
+      return this.$store.getters[`tasks/${this.taskId}/isNew`];
     },
     isDraft() {
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
@@ -93,7 +108,7 @@ export default {
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/start`),
               e => {
-                this.backTo();
+                this.$emit("onStart");
               },
               e => this.$awn.alert()
             );
@@ -124,6 +139,26 @@ export default {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/restart`),
+              e => {
+                this.backTo();
+              },
+              e => this.$awn.alert()
+            );
+        }
+      };
+    },
+    deleteButtonOptions() {
+      return {
+        icon: "trash",
+        hint: this.$t("buttons.delete"),
+        onClick: async () => {
+          let response = await confirm(
+            this.$t("shared.areYouSureDeleteTask"),
+            this.$t("shared.confirm")
+          );
+          if (response)
+            this.$awn.asyncBlock(
+              this.$store.dispatch(`tasks/${this.taskId}/delete`),
               e => {
                 this.backTo();
               },
@@ -164,7 +199,9 @@ export default {
       )
         this.$awn.asyncBlock(
           this.$store.dispatch(`tasks/${this.taskId}/save`),
-          e => {},
+          e => {
+            this.$emit("onSave");
+          },
           e => this.$awn.alert()
         );
     }

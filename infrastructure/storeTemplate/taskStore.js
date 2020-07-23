@@ -136,6 +136,7 @@ export const mutations = {
     state.task.importance = payload;
   },
   SET_STATUS(state, payload) {
+    console.log(payload, "setStatus");
     state.task.status = payload;
   },
   SET_ATTACHMENT_GROUPS(state, payload) {
@@ -173,12 +174,13 @@ export const actions = {
     });
 
     commit("SET_TASK", data);
+    commit("IS_NEW", false);
     commit("SET_IS_DATA_CHANGED", false);
   },
   async delete({ state }) {
     await this.$axios.delete(dataApi.task.Delete + state.task.id);
   },
-  async start({ state, dispatch, getters }) {
+  async start({ state, dispatch, getters, commit }) {
     if (getters["isDataChanged"]) {
       await dispatch("save");
     }
@@ -186,15 +188,16 @@ export const actions = {
       id: state.task.id,
       taskType: state.task.taskType
     });
+    commit("SET_STATUS", TaskStatus.InProcess);
   },
-  async abort({ state }) {
+  async abort({ state, commit }) {
     const res = await this.$axios.post(dataApi.task.Abort, {
       id: state.task.id,
       taskType: state.task.taskType
     });
     commit("SET_STATUS", TaskStatus.Abort);
   },
-  async restart({ state }) {
+  async restart({ state, commit }) {
     await this.$axios.post(dataApi.task.Restart, {
       id: state.task.id,
       taskType: state.task.taskType

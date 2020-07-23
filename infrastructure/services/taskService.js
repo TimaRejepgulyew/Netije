@@ -47,7 +47,6 @@ export async function CreateChildActionItemExecution(
     context,
     {
       parentAssignmentId,
-      taskType: TaskType.ActionItemExecutionTask
     },
     dataApi.task.CreateChildActionItemExecution
   );

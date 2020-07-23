@@ -10,7 +10,13 @@
       :height="'auto'"
     >
       <div>
-        <task-card @closeTask="closeTask" v-if="showItemExecutionTask" :isCard="true" />
+        <task-card
+          @onStart="tooglePopup"
+       
+          :taskId="actionItemExecutionTaskId"
+          v-if="showItemExecutionTask"
+          :isCard="true"
+        />
       </div>
     </DxPopup>
 
@@ -35,7 +41,7 @@
   </div>
 </template>
 <script>
-import { createActionItemExicutionTask } from "~/infrastructure/services/taskService.js";
+import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
@@ -43,7 +49,6 @@ import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import TaskType from "~/infrastructure/constants/TaskType.js";
 export default {
   components: {
     DxToolbar,
@@ -76,13 +81,14 @@ export default {
       return {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
-        onClick: async () => {
-          const { taskId } = await createActionItemExicutionTask(
-            this,
-            this.assignmentId
+        onClick: () => {
+          this.$awn.asyncBlock(
+            CreateChildActionItemExecution(this, this.assignmentId),
+            ({ taskId }) => {
+              this.actionItemExecutionTaskId = taskId;
+              this.tooglePopup();
+            }
           );
-          this.actionItemExecutionTaskId = taskId;
-          this.showItemExecutionTask = true;
         }
       };
     }
@@ -94,11 +100,8 @@ export default {
         payload
       );
     },
-    closeTask(taskId) {
+    tooglePopup(taskId) {
       this.showItemExecutionTask = false;
-      if (taskId) {
-        // TODO function create task resolution
-      }
     },
     completeAssignment() {
       this.$awn.asyncBlock(

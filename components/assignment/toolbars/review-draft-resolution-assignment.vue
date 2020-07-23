@@ -1,37 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showItemExecutionTask"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      width="90%"
-      :height="'auto'"
-    >
-      <div>
-        <task-card
-          :taskId="actionItemExecutionTaskId"
-          @closeTask="closeTask"
-          v-if="showItemExecutionTask"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
-
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showComment"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="500"
-      :height="'auto'"
-    >
-      <div>
-        <comment-form @sendRequest="sendResult" @toogleCommentPopup="toogleCommentPopup" />
-      </div>
-    </DxPopup>
     <div class="toolbar">
       <DxToolbar>
         <DxItem
@@ -66,45 +34,26 @@
           location="before"
           widget="dxButton"
         />
-
-        <DxItem
-          locateInMenu="auto"
-          :visible="tollbarItemVisible"
-          :options="btnAddExecutionOptions"
-          location="before"
-          widget="dxButton"
-        />
       </DxToolbar>
     </div>
   </div>
 </template>
 <script>
-import { createActionItemExicutionTask } from "~/infrastructure/services/taskService.js";
 import { confirm } from "devextreme/ui/dialog";
-import taskCard from "~/components/task/index.vue";
 import returnManagersAssistantIcon from "~/static/icons/status/forrework.svg";
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import informedIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import AssignmentType from "~/infrastructure/constants/assignmentType.js";
-import TaskType from "~/infrastructure/constants/TaskType.js";
 export default {
   components: {
     DxToolbar,
-    DxItem,
-    DxPopup,
-    taskCard
+    DxItem
   },
   props: ["assignmentId"],
   data() {
     return {
-      actionItemExecutionTaskId: null,
-      showComment: false,
-      showItemExecutionTask: false,
       result: null
     };
   },
@@ -190,17 +139,11 @@ export default {
     }
   },
   methods: {
-    closeTask() {
-      this.showItemExecutionTask = false;
-    },
     sendResult(result) {
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_RESULT`,
         payload
       );
-    },
-    toogleCommentPopup() {
-      this.showComment = !this.showComment;
     },
     completeAssignment() {
       this.$awn.asyncBlock(

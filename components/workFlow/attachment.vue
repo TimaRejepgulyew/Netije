@@ -19,7 +19,7 @@ import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.
 export default {
   components: {
     attachmentGroupDocument,
-     attachmentGroupTask
+    attachmentGroupTask
   },
   props: ["attachmentGroups", "assignmentId"],
   methods: {

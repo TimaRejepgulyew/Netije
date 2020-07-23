@@ -17,6 +17,9 @@ export default {
       AcquaintanceTask: "Задача на ознакомление с документом",
       ActionItemExecutionTask: "Поручение",
       DocumentReviewTask: "Задача на рассмотрение документа"
+    },
+    prefixes: {
+      actionItemExecutionTask: "Поручение"
     }
   },
   docFlow: {
@@ -205,6 +208,7 @@ export default {
     from: "От",
     whom: "Кому",
     areYouSure: "Вы уверены?",
+    areYouSureDeleteTask: "Вы уверены что хотите удалить эту задачу?",
     confirm: "Подтверждение",
     required: "Заполните это поле",
     newRecord: "(Новая запись)",
@@ -312,7 +316,7 @@ export default {
     }
   },
   assignment: {
-    returnManagersAssistantMessage:"Вы уверенны что хотите вернуть помощнику",
+    returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
     placeholderSimple: "Введите комментарий",
     placeholderActionItemExicution: "Введите отчет",
     sureCompleteMessage: "Вы действительно выполнили задачу",
@@ -471,7 +475,7 @@ export default {
     logs: "Логи"
   },
   buttons: {
-    returnManagersAssistant:"Вернуть помощнику",
+    returnManagersAssistant: "Вернуть помощнику",
     approveResolution: "Утвердить проект резалюции",
     addResolution: "Вынести резалюцию",
     sendToResolution: "Отправить на резалюцию",
