@@ -56,11 +56,9 @@ function createTaskBtn(context) {
       const { taskId, taskType } = await createTask(context, {
         taskType: +item,...params
       });
-      console.log(taskId, taskType, "createItems");
       toRouter(context, { taskId, taskType });
     };
   }
-  console.log(taskTypeBtn);
   return taskTypeBtn;
 }
 

@@ -14,7 +14,6 @@ export default class StoreModule {
 
   async unregisterModule(context, moduleId) {
     await context.$store.unregisterModule(`${this.moduleName}/${moduleId}`);
-    console.log(this.moduleName, moduleId);
     this.registeredModules[moduleId] = false;
   }
   hasModule(moduleId) {

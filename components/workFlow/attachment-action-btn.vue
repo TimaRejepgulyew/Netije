@@ -9,7 +9,6 @@
     @item-click="onItemClick"
   />
 </template>
-
 <script>
 import cardIcon from "~/static/icons/card.svg";
 import DocumentService from "~/infrastructure/services/documentVersionService";
@@ -92,6 +91,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

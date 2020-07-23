@@ -43,7 +43,6 @@ export default {
             this.$t("assignment.sureReworkMessage"),
             this.$t("shared.confirm")
           );
-          console.log("supervisor", response);
           this.setResult(ReviewResult.ActionItemSupervisor.ForRework);
           if (response) this.completeAssignment();
         }

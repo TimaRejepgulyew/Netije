@@ -80,6 +80,8 @@ export default {
     CreateTask: `${url}/api/Task/Create`,
     СreateTaskByDocument: `${url}/api/Task/CreateTaskByDocument`,
     CreateChildActionItemExecution: `${url}/api/Task/CreateChildActionItemExecutionTask`,
+    CreateDraftResolutionActionItemExecutionTask: `${url}/api/Task/CreateDraftResolutionActionItemExecutionTask`,
+
     Abort: `${url}/api/Task/Abort`,
     Start: `${url}/api/Task/Start`,
     Restart: `${url}/api/Task/`,

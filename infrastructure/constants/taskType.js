@@ -16,3 +16,17 @@ export function taskElements(context) {
     iconStores: taskTypeIcons
   });
 }
+export const mapToEntityType = taskType => {
+  switch (taskType) {
+    case TaskType.SimpleTak:
+      return entityTypes.SimpleTak;
+    case TaskType.ActionItemExecutionTask:
+      return entityTypes.ActionItemExecutionTask;
+    case TaskType.AcquaintanceTask:
+      return entityTypes.AcquaintanceTask;
+    case TaskType.DocumentReviewTask:
+      return entityTypes.DocumentReviewTask;
+    default:
+      throw "Unsupported task type";
+  }
+};

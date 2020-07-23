@@ -26,6 +26,12 @@
         <importanceChanger :taskId="taskId" :read-only="!isDraft"></importanceChanger>
       </template>
     </DxToolbar>
+     <DxItem
+        :visible="isCompleted||isAborted"
+        :options="restartButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
   </div>
 </template>
 <script>
@@ -55,10 +61,6 @@ export default {
       return this.$store.getters[`tasks/${this.taskId}/isDataChanged`];
     },
     isDraft() {
-      console.log(
-        this.$store.getters[`tasks/${this.taskId}/isDraft`],
-        "isDraft"
-      );
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     inProcess() {

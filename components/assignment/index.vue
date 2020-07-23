@@ -67,6 +67,7 @@
             <template #attachments>
               <div>
                 <attachment
+                  :assignmentId="assignmentId"
                   @detach="detach"
                   @pasteAttachment="pasteAttachment"
                   :attachmentGroups="attachmentGroups"
