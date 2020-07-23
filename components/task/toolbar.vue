@@ -26,12 +26,12 @@
         <importanceChanger :taskId="taskId" :read-only="!isDraft"></importanceChanger>
       </template>
     </DxToolbar>
-     <DxItem
+     <!-- <DxItem
         :visible="isCompleted||isAborted"
         :options="restartButtonOptions"
         location="before"
         widget="dxButton"
-      />
+      /> -->
   </div>
 </template>
 <script>

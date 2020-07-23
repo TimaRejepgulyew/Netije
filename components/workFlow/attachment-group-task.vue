@@ -18,7 +18,7 @@
       <DxButton
         :id="'addAttachment'+group.groupId"
         class="btn--green"
-        :visible="!group.canAddAttachments"
+        :visible="group.canAddAttachments"
         icon="plus"
         styling-mode="text"
         :hint="$t('buttons.add')"
