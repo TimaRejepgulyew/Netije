@@ -34,7 +34,6 @@ export async function createActionItemExicutionTask(
     context,
     {
       parentAssignmentId,
-      taskType: TaskType.ActionItemExecutionTask
     },
     dataApi.task.CreateDraftResolutionActionItemExecutionTask
   );

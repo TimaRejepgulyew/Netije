@@ -81,9 +81,9 @@ export default {
       default: false
     }
   },
-  destroyed() {
-    unload(this, this.taskId);
-  },
+  // destroyed() {
+  //   unload(this, this.taskId);
+  // },
   data() {
     return {
       taskTypeNames: null,
