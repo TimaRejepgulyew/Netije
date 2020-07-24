@@ -86,7 +86,7 @@ export default {
       // corrected when rewrite document store add documentId in Props
       this.$awn.asyncBlock(
         this.$store.dispatch("currentDocument/getDocumentById", {
-          id: document.id,
+          id,
           type: documentTypeGuid
         }),
         () => {
@@ -166,5 +166,8 @@ ul {
   li {
     list-style: none;
   }
+}
+.card {
+  height: 85vh;
 }
 </style>

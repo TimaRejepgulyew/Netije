@@ -85,7 +85,5 @@ export default {
   overflow: hidden;
   white-space: nowrap;
 }
-.card {
-  height: 85vh;
-}
+
 </style>

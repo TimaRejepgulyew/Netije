@@ -97,7 +97,7 @@ export default {
     setResult(result) {
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_RESULT`,
-        payload
+        result
       );
     },
     tooglePopup(taskId) {
