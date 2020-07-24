@@ -9,7 +9,7 @@
       :close-on-outside-click="true"
     >
       <div>
-        <task-card v-if="isOpenCard" :taskId="taskId" :isCard="true" @onSave="pasteAttachment" />
+        <task-card v-if="isOpenCard" :taskId="taskId" :isCard="true" @onSave="reloadAttachmment" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -97,12 +97,8 @@ export default {
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
     },
-    pasteAttachment({ taskType, taskId }) {
-      this.$emit("pasteAttachment", {
-        attachmentId: taskId,
-        groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(taskType)
-      });
+    reloadAttachmment() {
+      this.$emit("reloadAttachment");
       this.isOpenCard = false;
     }
   },

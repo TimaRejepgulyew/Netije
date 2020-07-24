@@ -68,7 +68,7 @@ export async function load(context, { taskType, taskId }) {
 export function unload(context, taskId) {
   const overlays = context.$store.getters[`tasks/${taskId}/overlays`];
   console.log(overlays);
-  // if (overlays === 0) {
-  //   taskModules.unregisterModule(context, taskId);
-  // } else context.$store.commit(`tasks/${taskId}/DECREMENT_OVERLAYS`);
+  if (overlays === 0) {
+    taskModules.unregisterModule(context, taskId);
+  } else context.$store.commit(`tasks/${taskId}/DECREMENT_OVERLAYS`);
 }

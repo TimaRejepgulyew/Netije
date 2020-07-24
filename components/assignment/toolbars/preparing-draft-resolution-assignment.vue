@@ -50,7 +50,7 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
-    DxItem,
+    DxItem
   },
   props: ["assignmentId"],
   data() {
@@ -122,10 +122,7 @@ export default {
   },
   methods: {
     sendResult(result) {
-      this.$store.commit(
-        `assignments/${this.assignmentId}/SET_RESULT`,
-        payload
-      );
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {
       this.$awn.asyncBlock(

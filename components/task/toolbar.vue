@@ -33,7 +33,7 @@
       <DxItem
         :visible="!isNew&&isDraft||isAborted"
         :options="deleteButtonOptions"
-        location="before"
+        location="after"
         widget="dxButton"
       />
     </DxToolbar>

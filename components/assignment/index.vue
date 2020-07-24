@@ -70,6 +70,7 @@
                   :assignmentId="assignmentId"
                   @detach="detach"
                   @pasteAttachment="pasteAttachment"
+                  @reloadAttachment="reload"
                   :attachmentGroups="attachmentGroups"
                 />
               </div>
@@ -203,6 +204,9 @@ export default {
         return ComponentsByAssignmentType.get(this.assignment.assignmentType)[
           componentName
         ];
+    },
+    reload() {
+      this.$awn.asyncBlock(this.$store.dispatch(`assignments/${this.assignmentId}/reload`));
     },
     detach(attachmentId) {
       this.$awn.async(

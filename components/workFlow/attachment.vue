@@ -6,6 +6,7 @@
         :assignmentId="assignmentId"
         @detach="detach"
         @pasteAttachment="pasteAttachment"
+        @reloadAttachment="reloadAttachment"
         :group="groupItem"
       />
     </div>
@@ -28,6 +29,10 @@ export default {
     },
     pasteAttachment(options) {
       this.$emit("pasteAttachment", options);
+    },
+    reloadAttachment() {
+      console.log("attachment");
+      this.$emit("reloadAttachment");
     },
     componentByAttachmentType(attachmentGroupType) {
       switch (attachmentGroupType) {
