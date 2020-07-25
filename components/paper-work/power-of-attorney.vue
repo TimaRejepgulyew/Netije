@@ -51,6 +51,7 @@
     </DxGroupItem>
     <template #ourSignatory>
       <employee-select-box
+        valueExpr="id"
         validatorGroup="OfficialDocument"
         :storeApi="signatoryApi"
         :value="ourSignatoryId"
@@ -59,6 +60,7 @@
     </template>
     <template #issuedToId>
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate || isRegistered"
         validatorGroup="OfficialDocument"
         :value="issuedToId"
@@ -66,7 +68,7 @@
       />
     </template>
     <template #prepared>
-      <employee-select-box :value="preparedById" @valueChanged="setPreparedById" />
+      <employee-select-box valueExpr="id" :value="preparedById" @valueChanged="setPreparedById" />
     </template>
   </DxForm>
 </template>

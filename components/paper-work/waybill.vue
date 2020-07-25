@@ -5,7 +5,7 @@
     :show-validation-summary="false"
     :validation-group="validatorGroup"
   >
-   <DxSimpleItem
+    <DxSimpleItem
       :col-span="2"
       data-field="leadingDocumentId"
       editor-type="dxSelectBox"
@@ -95,13 +95,18 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
+        valueExpr="id"
         :value="ourSignatoryId"
         :storeApi="signatoryApi"
         @valueChanged="setOurSignatoryId"
       />
     </template>
     <template #responsibleEmployee>
-      <employee-select-box :value="responsibleEmployeeId" @valueChanged="setResponsibleEmployeeId" />
+      <employee-select-box
+        valueExpr="id"
+        :value="responsibleEmployeeId"
+        @valueChanged="setResponsibleEmployeeId"
+      />
     </template>
   </DxForm>
 </template>

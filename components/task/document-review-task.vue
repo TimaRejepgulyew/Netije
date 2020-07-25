@@ -41,6 +41,7 @@
       </DxGroupItem>
       <template #addresseeId>
         <employee-select-box
+          valueExpr="id"
           :read-only="!isDraft"
           :messageRequired="validatorGroup"
           :value="addresseeId"
@@ -49,6 +50,7 @@
       </template>
       <template #resolutionObservers>
         <employee-tag-box
+          valueExpr="id"
           :read-only="!isDraft"
           :value="resolutionObservers"
           @valueChanged="setResolutionObservers"
@@ -86,7 +88,10 @@ export default {
   },
   methods: {
     setResolutionObservers(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_RESOLUTION_OBSERVERS`, value);
+      this.$store.commit(
+        `tasks/${this.taskId}/SET_RESOLUTION_OBSERVERS`,
+        value
+      );
     },
     setAddresseeId(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_ADDRESSEE_ID`, value);

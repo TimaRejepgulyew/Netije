@@ -94,6 +94,7 @@
       </template>
       <template #assignee>
         <employee-select-box
+          valueExpr="id"
           :read-only="!isDraft"
           :messageRequired="$t('translations.fields.assigneeIdRequired')"
           :validator-group="validatorGroup"
@@ -134,15 +135,22 @@ export default {
   },
   methods: {
     setActionItemObservers(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`, value);
+      console.log(value, "obeservers");
+      this.$store.commit(
+        `tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`,
+        value
+      );
     },
     setCoAssignees(value) {
+      console.log(value, "so assignees");
       this.$store.commit(`tasks/${this.taskId}/SET_CO_ASSIGNEES`, value);
     },
     setAssignee(value) {
+      console.log(value, " assignees");
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNEE`, value);
     },
     setSupervisor(value) {
+      console.log(value, " supervisor");
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     }
   },
@@ -186,7 +194,10 @@ export default {
       return {
         value: this.task.isUnderControl,
         onValueChanged: e => {
-          this.$store.commit(`tasks/${this.taskId}/SET_IS_UNDER_CONTROL`, e.value);
+          this.$store.commit(
+            `tasks/${this.taskId}/SET_IS_UNDER_CONTROL`,
+            e.value
+          );
           this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
         }
       };

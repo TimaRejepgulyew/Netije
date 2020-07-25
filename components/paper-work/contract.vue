@@ -112,7 +112,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
-       :readOnly="isRegistered"
+        :readOnly="isRegistered"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         validatorGroup="OfficialDocument"
         @valueChanged="setCounterparty"
@@ -137,6 +137,7 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
+        valueExpr="id"
         :value="ourSignatoryId"
         :storeApi="signatoryApi"
         @valueChanged="setOurSignatoryId"

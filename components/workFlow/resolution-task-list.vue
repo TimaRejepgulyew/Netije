@@ -1,14 +1,21 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <div class="link d-flex f-grow-1" @dblclick="()=>showCard(item.entity)">
+    <div class="link d-flex f-grow-1" @dblclick="()=>showCard(task.entity)">
       <div class="icon">
         <img :src="actionItemExecutionIcon" />
       </div>
-      <div
-        class="max-width-5vw"
-      >{{$t("task.prefixes.actionItemExecutionTask")}}: {{item.entity.subject}}</div>
+      <div>
+        <div
+          class="max-width-5vw"
+        >{{$t("task.prefixes.actionItemExecutionTask")}}: {{task.entity.subject}}</div>
+      </div>
+      <div>
+        <i class="dx-icon dx-icon-user"></i>
+        {{task.entity.author}}
+        <i class="dx-icon dx-icon-clock"></i>
+        {{task.entity.created}}
+      </div>
     </div>
-    <actionBtn @showCard="()=>showCard(item.entity)" :attachment="item" />
   </div>
 </template>
 
@@ -20,7 +27,7 @@ export default {
   components: {
     actionBtn
   },
-  props: ["item"],
+  props: ["task"],
   data() {
     return {
       actionItemExecutionIcon

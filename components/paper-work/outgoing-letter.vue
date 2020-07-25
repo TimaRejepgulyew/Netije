@@ -72,6 +72,7 @@
 
     <template #prepared>
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate"
         validatorGroup="OfficialDocument"
         :value="preparedById"
@@ -80,6 +81,7 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate"
         :value="ourSignatoryId"
         :storeApi="signatoryApi"

@@ -85,10 +85,10 @@
       />
     </template>
     <template #addressee>
-      <employee-select-box :read-only="!canUpdate" :value="addresseeId" @valueChanged="setAddresseeId" />
+      <employee-select-box valueExpr="id" :read-only="!canUpdate" :value="addresseeId" @valueChanged="setAddresseeId" />
     </template>
     <template #assignee>
-      <employee-select-box :read-only="!canUpdate" :value="assigneeId" @valueChanged="setAssigneeId" />
+      <employee-select-box valueExpr="id" :read-only="!canUpdate" :value="assigneeId" @valueChanged="setAssigneeId" />
     </template>
   </DxForm>
 </template>

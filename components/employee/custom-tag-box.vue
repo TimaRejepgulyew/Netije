@@ -5,7 +5,7 @@
     @valueChanged="valueChanged"
     :showClearButton="true"
     :value="value"
-    valueExpr="id"
+    :valueExpr="valueExpr"
     displayExpr="name"
     :searchEnabled="true"
     searchExpr="name"
@@ -35,7 +35,13 @@ export default {
     DxTagBox,
     customSelectItem
   },
-  props: ["value", "messageRequired", "validatorGroup", "readOnly"],
+  props: [
+    "value",
+    "messageRequired",
+    "validatorGroup",
+    "readOnly",
+    "valueExpr"
+  ],
   created() {},
   data() {
     return {

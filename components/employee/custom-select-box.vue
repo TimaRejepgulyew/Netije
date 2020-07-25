@@ -25,7 +25,7 @@
       :value="value"
       :openOnFieldClick="false"
       :focusStateEnabled="false"
-      valueExpr="id"
+      :valueExpr="valueExpr"
       displayExpr="name"
       :searchEnabled="true"
       searchExpr="name"
@@ -74,7 +74,14 @@ export default {
     DxPopup,
     DxButton
   },
-  props: ["value", "storeApi", "messageRequired", "validatorGroup", "readOnly"],
+  props: [
+    "value",
+    "storeApi",
+    "messageRequired",
+    "validatorGroup",
+    "readOnly",
+    "valueExpr"
+  ],
   data() {
     return {
       employeeStore: new DataSource({
@@ -88,14 +95,14 @@ export default {
   },
   methods: {
     showPopup() {
-   
       this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },
     updateEmployee(data) {
-      this.$emit("valueChanged", data.id);
+      if (this.valueExpr) this.$emit("valueChanged", data[valueExpr]);
+      else this.$emit("valueChanged", data);
       this.employeeStore.reload();
     }
   },

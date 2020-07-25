@@ -3,6 +3,7 @@
     <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
     <div class="f-grow-1">
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate"
         :value="addresseeId"
         @valueChanged="valueChanged"

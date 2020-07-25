@@ -40,10 +40,16 @@
       </DxGroupItem>
     </DxGroupItem>
     <template #assignee>
-      <employee-select-box :read-only="!canUpdate" :value="assigneeId" @valueChanged="setAssigneeId" />
+      <employee-select-box
+        valueExpr="id"
+        :read-only="!canUpdate"
+        :value="assigneeId"
+        @valueChanged="setAssigneeId"
+      />
     </template>
     <template #ourSignatory>
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate"
         :storeApi="signatoryApi"
         :value="ourSignatoryId"
@@ -52,6 +58,7 @@
     </template>
     <template #prepared>
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate"
         validatorGroup="OfficialDocument"
         :value="preparedById"
@@ -101,7 +108,7 @@ export default {
     isRegistered() {
       return this.$store.getters["currentDocument/isRegistered"];
     },
-     preparedById() {
+    preparedById() {
       return this.$store.getters["currentDocument/document"].preparedById;
     },
     ourSignatoryId() {

@@ -1,11 +1,11 @@
 <template>
   <div>
-    {{projectReslotions}}
     <ul>
-      <li v-for="item in projectReslotions.entities" :key="item.attachmentId">
-        <resolutionTask :key="item.attachmentId" :task="item" />
+      <li v-for="item in projectReslotions" :key="item.attachmentId">
+        <resolutionTask :key="item.attachmentId" :item="item" />
       </li>
     </ul>
+
     <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
     <div class="f-grow-1">
       <employee-select-box
@@ -44,12 +44,10 @@ export default {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
     },
     projectReslotions() {
-      const attachments = this.$store.getters[
+      return this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
-      ].attachmentGroups;
-      console.log(attachments[3].groupId, attachments[3].entities);
-      return attachments.find(attachment => {
-        return attachment.groupId === 11;
+      ].attachmentGroup.find(attachment => {
+        return attachment.groupId == 11;
       });
     }
   }

@@ -49,10 +49,10 @@
             </DxGroupItem>
             <DxGroupItem template="attachments" :col-span="3"></DxGroupItem>
             <template #authorId>
-              <employee-select-box :value="authorId" :readOnly="true" />
+              <employee-select-box valueExpr="id" :value="authorId" :readOnly="true" />
             </template>
             <template #performerId>
-              <employee-select-box :readOnly="true" :value="performerId" />
+              <employee-select-box valueExpr="id" :readOnly="true" :value="performerId" />
             </template>
             <template #comments>
               <div>
@@ -206,7 +206,9 @@ export default {
         ];
     },
     reload() {
-      this.$awn.asyncBlock(this.$store.dispatch(`assignments/${this.assignmentId}/reload`));
+      this.$awn.asyncBlock(
+        this.$store.dispatch(`assignments/${this.assignmentId}/reload`)
+      );
     },
     detach(attachmentId) {
       this.$awn.async(

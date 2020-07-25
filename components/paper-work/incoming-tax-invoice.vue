@@ -111,7 +111,6 @@
   </DxForm>
 </template>
 <script>
-import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/documentQuery.js";
@@ -131,7 +130,6 @@ export default {
     DxRequiredRule,
     customSelectBox,
     customSelectBoxContact,
-    employeeSelectBox
   },
   data() {
     return {

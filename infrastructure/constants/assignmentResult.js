@@ -142,7 +142,7 @@ function reviewManagerAssignment(context) {
     iconStores: resultIcon
   });
 }
-function prepareDraftResolutionAssignment(context) {
+function preparingDraftResolutionAssignment(context) {
   return generatorMapObj({
     Constant: PrepareDraftResolution,
     translateName: "assignment.result",
@@ -150,8 +150,17 @@ function prepareDraftResolutionAssignment(context) {
     iconStores: resultIcon
   });
 }
+function reviewDraftResolutionAssignment(context) {
+  return generatorMapObj({
+    Constant: ReviewDraftResolution,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
 export const resultElements = {
-  prepareDraftResolutionAssignment,
+  preparingDraftResolutionAssignment,
+  reviewDraftResolutionAssignment,
   reviewManagerAssignment,
   reviewResolutionAssignment,
   baseResult,
