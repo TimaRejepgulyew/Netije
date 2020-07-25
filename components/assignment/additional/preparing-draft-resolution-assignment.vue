@@ -1,23 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showItemExecutionTask"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      width="90%"
-      :height="'auto'"
-    >
-      <div>
-        <task-card
-          @onStart="tooglePopup"
-          :taskId="taskId"
-          v-if="showItemExecutionTask"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
     <div class="d-flex align-center">
       <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
       <div class="f-grow-1">
@@ -38,8 +20,6 @@
 </template>
 
 <script>
-import taskCard from "~/components/task/index.vue";
-import { DxPopup } from "devextreme-vue/popup";
 import { load } from "~/infrastructure/services/taskService.js";
 import resolutionTask from "~/components/workFlow/resolution-task-list.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
@@ -47,26 +27,10 @@ export default {
   components: {
     employeeSelectBox,
     resolutionTask,
-    taskCard,
-    DxPopup
   },
   props: ["assignmentId"],
-  data() {
-    return {
-      showItemExecutionTask: false,
-      taskId: null
-    };
-  },
+ 
   methods: {
-    openTaskCard({ taskId, taskType }) {
-      this.$awn.asyncBlock(load(this, { taskId, taskType }), () => {
-        this.taskId = taskId;
-        this.tooglePopup();
-      });
-    },
-    tooglePopup() {
-      this.showItemExecutionTask = !this.showItemExecutionTask;
-    },
     valueChanged(id) {
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
