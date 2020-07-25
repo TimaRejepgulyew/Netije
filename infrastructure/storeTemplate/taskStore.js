@@ -121,14 +121,14 @@ export const mutations = {
     state.task.coAssignees = payload;
   },
   SET_ASSIGNEE(state, payload) {
-    if (checkDataChanged(state.task.assigneeId, payload))
+    if (checkDataChanged(state.task.assignee, payload))
       state.isDataChanged = true;
-    state.task.assigneeId = payload;
+    state.task.assignee = payload;
   },
   SET_SUPERVISOR(state, payload) {
-    if (checkDataChanged(state.task.supervisorId, payload))
+    if (checkDataChanged(state.task.supervisor, payload))
       state.isDataChanged = true;
-    state.task.supervisorId = payload;
+    state.task.supervisor = payload;
   },
   SET_IMPORTANCE(state, payload) {
     if (checkDataChanged(state.task.importance, payload))

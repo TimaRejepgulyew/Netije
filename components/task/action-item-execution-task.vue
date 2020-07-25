@@ -26,14 +26,14 @@
             :col-span="3"
             :visible="isUnderControl"
             template="supervisor"
-            data-field="supervisorId"
+            data-field="supervisor"
           >
             <DxLabel location="left" :text="$t('translations.fields.supervisorId')" />
             <DxRequiredRule :message="$t('translations.fields.supervisorIdRequired')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxGroupItem :col-count="2">
-          <DxSimpleItem template="assignee" data-field="assigneeId">
+          <DxSimpleItem template="assignee" data-field="assignee">
             <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
             <DxLabel location="left" :text="$t('translations.fields.assigneeId')" />
           </DxSimpleItem>
@@ -88,17 +88,16 @@
         <employee-select-box
           :read-only="!isDraft"
           :validator-group="validatorGroup"
-          :value="supervisorId"
+          :value="supervisor"
           @valueChanged="setSupervisor"
         />
       </template>
       <template #assignee>
         <employee-select-box
-          valueExpr="id"
           :read-only="!isDraft"
           :messageRequired="$t('translations.fields.assigneeIdRequired')"
           :validator-group="validatorGroup"
-          :value="assigneeId"
+          :value="assignee"
           @valueChanged="setAssignee"
         />
       </template>
@@ -135,22 +134,18 @@ export default {
   },
   methods: {
     setActionItemObservers(value) {
-      console.log(value, "obeservers");
       this.$store.commit(
         `tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`,
         value
       );
     },
     setCoAssignees(value) {
-      console.log(value, "so assignees");
       this.$store.commit(`tasks/${this.taskId}/SET_CO_ASSIGNEES`, value);
     },
     setAssignee(value) {
-      console.log(value, " assignees");
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNEE`, value);
     },
     setSupervisor(value) {
-      console.log(value, " supervisor");
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     }
   },
@@ -167,11 +162,11 @@ export default {
     coAssignees() {
       return this.task.coAssignees;
     },
-    supervisorId() {
-      return this.task.supervisorId;
+    supervisor() {
+      return this.task.supervisor;
     },
-    assigneeId() {
-      return this.task.assigneeId;
+    assignee() {
+      return this.task.assignee;
     },
     inProcess() {
       return this.$store.getters[`tasks/${this.taskId}/inProcess`];

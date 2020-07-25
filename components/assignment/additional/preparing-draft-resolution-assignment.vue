@@ -1,20 +1,39 @@
 <template>
   <div>
-    {{projectReslotions}}
+    <DxPopup
+      :showTitle="false"
+      :visible.sync="showItemExecutionTask"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="90%"
+      :height="'auto'"
+    >
+      <div>
+        <task-card
+          @onStart="tooglePopup"
+          :taskId="taskId"
+          v-if="showItemExecutionTask"
+          :isCard="true"
+        />
+      </div>
+    </DxPopup>
+    <div class="d-flex align-center">
+      <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
+      <div class="f-grow-1">
+        <employee-select-box
+          valueExpr="id"
+          :read-only="!canUpdate"
+          :value="addresseeId"
+          @valueChanged="valueChanged"
+        />
+      </div>
+    </div>
     <ul>
       <li v-for="item in projectReslotions.entities" :key="item.attachmentId">
         <resolutionTask :key="item.attachmentId" :task="item" />
       </li>
     </ul>
-    <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
-    <div class="f-grow-1">
-      <employee-select-box
-        valueExpr="id"
-        :read-only="!canUpdate"
-        :value="addresseeId"
-        @valueChanged="valueChanged"
-      />
-    </div>
   </div>
 </template>
 
@@ -27,7 +46,19 @@ export default {
     resolutionTask
   },
   props: ["assignmentId"],
+  data() {
+    return {
+      showItemExecutionTask: false,
+      taskId: null
+    };
+  },
   methods: {
+    load(){
+      
+    },
+    tooglePopup() {
+      this.showItemExecutionTask = this.showItemExecutionTask;
+    },
     valueChanged(id) {
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
@@ -47,7 +78,6 @@ export default {
       const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
       ].attachmentGroups;
-      console.log(attachments[3].groupId, attachments[3].entities);
       return attachments.find(attachment => {
         return attachment.groupId === 11;
       });

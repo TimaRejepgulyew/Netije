@@ -1,20 +1,21 @@
 <template>
   <div>
+    <div class="d-flex align-center">
+      <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
+      <div class="f-grow-1">
+        <employee-select-box
+          valueExpr="id"
+          :read-only="!canUpdate"
+          :value="addresseeId"
+          @valueChanged="valueChanged"
+        />
+      </div>
+    </div>
     <ul>
-      <li v-for="item in projectReslotions" :key="item.attachmentId">
-        <resolutionTask :key="item.attachmentId" :item="item" />
+      <li v-for="item in projectReslotions.entities" :key="item.attachmentId">
+        <resolutionTask :key="item.attachmentId" :task="item" />
       </li>
     </ul>
-
-    <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
-    <div class="f-grow-1">
-      <employee-select-box
-        valueExpr="id"
-        :read-only="!canUpdate"
-        :value="addresseeId"
-        @valueChanged="valueChanged"
-      />
-    </div>
   </div>
 </template>
 
@@ -44,10 +45,11 @@ export default {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
     },
     projectReslotions() {
-      return this.$store.getters[
+      const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
-      ].attachmentGroup.find(attachment => {
-        return attachment.groupId == 11;
+      ].attachmentGroups;
+      return attachments.find(attachment => {
+        return attachment.groupId === 11;
       });
     }
   }

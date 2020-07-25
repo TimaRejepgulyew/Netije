@@ -189,6 +189,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    deadLine:"Срок",
     read: "Прочитано",
     unread: "Не прочитано",
     explanation: "Пояснение",
@@ -223,7 +224,11 @@ export default {
     acquaintance: "Задача на ознакомление",
     reviewManager: "Задача на рассмотрение руководителем",
     freeApproval: "Свободное согласование",
-    approval: "Согласование по регламенту"
+    approval: "Согласование по регламенту",
+    fields: {
+      supervisor: "Контролер",
+      coAssignees:"Соисполнители"
+    }
   },
   contractCategories: {
     title: "Категории договоров",

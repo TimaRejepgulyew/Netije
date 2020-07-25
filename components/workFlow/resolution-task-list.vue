@@ -8,18 +8,38 @@
         <div
           class="max-width-5vw"
         >{{$t("task.prefixes.actionItemExecutionTask")}}: {{task.entity.subject}}</div>
-      </div>
-      <div>
-        <i class="dx-icon dx-icon-user"></i>
-        {{task.entity.author}}
-        <i class="dx-icon dx-icon-clock"></i>
-        {{task.entity.created}}
+
+        <div>
+          <div class="d-flex">
+            <div v-if="task.entity.assignedBy
+">
+              {{$t("shared.from")}}:
+              {{task.entity.assignedBy.name}}
+            </div>
+            <div v-if="task.entity.maxDeadline">
+              {{$t("shared.deadLine")}}
+              {{task.entity.maxDeadline|formatDate}}
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              v-if="task.entity.isUnderControl"
+            >{{$t("workFlow.fields.supervisor")}}: {{task.entity.supervisor}}</div>
+          </div>
+          <ul v-if="task.entity.coAssigneees">
+            <li
+              v-for="employee in task.entity.coAssigneees"
+              :key="employee.id"
+            >{{$t("workFlow.fields.coAssignees")}}:{{employee.name}},</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from "moment";
 import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment-task-action-btn.vue";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
@@ -37,6 +57,11 @@ export default {
     showCard(task) {
       this.$emit("showCard", task);
     }
+  },
+  filters: {
+    formatDate(value) {
+      return moment(value).format("MM.DD.YYYY HH:mm");
+    }
   }
 };
 </script>
@@ -48,7 +73,7 @@ export default {
   align-content: stretch;
 }
 .max-width-5vw {
-  max-width: 20vw;
+  max-width: 50vw;
   min-width: 300px;
   text-overflow: ellipsis;
   overflow: hidden;
