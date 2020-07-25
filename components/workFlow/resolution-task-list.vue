@@ -1,6 +1,9 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <div class="link d-flex f-grow-1" @dblclick="()=>showCard(task.entity)">
+    <div
+      class="link d-flex f-grow-1"
+      @dblclick="()=>showCard({taskId:task.entity.id,taskType:task.entity.taskType})"
+    >
       <div class="icon">
         <img :src="actionItemExecutionIcon" />
       </div>
@@ -55,6 +58,7 @@ export default {
   },
   methods: {
     showCard(task) {
+      console.log("showtask resolution");
       this.$emit("showCard", task);
     }
   },

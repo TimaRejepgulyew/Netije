@@ -24,7 +24,7 @@
         <div class="task-state">
           <div
             class="task__item"
-            v-if="comment.entity.deadline && displayDeadline(comment.type)"
+            v-if="comment.entity.maxDeadline && displayDeadline(comment.type)"
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.maxDeadline)}}</div>
           <div class="d-flex task__item item--status">

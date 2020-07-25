@@ -31,19 +31,24 @@
     </div>
     <ul>
       <li v-for="item in projectReslotions.entities" :key="item.attachmentId">
-        <resolutionTask :key="item.attachmentId" :task="item" />
+        <resolutionTask @showCard="openTaskCard" :key="item.attachmentId" :task="item" />
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import taskCard from "~/components/task/index.vue";
+import { DxPopup } from "devextreme-vue/popup";
+import { load } from "~/infrastructure/services/taskService.js";
 import resolutionTask from "~/components/workFlow/resolution-task-list.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {
     employeeSelectBox,
-    resolutionTask
+    resolutionTask,
+    taskCard,
+    DxPopup
   },
   props: ["assignmentId"],
   data() {
@@ -53,11 +58,14 @@ export default {
     };
   },
   methods: {
-    load(){
-      
+    openTaskCard({ taskId, taskType }) {
+      this.$awn.asyncBlock(load(this, { taskId, taskType }), () => {
+        this.taskId = taskId;
+        this.tooglePopup();
+      });
     },
     tooglePopup() {
-      this.showItemExecutionTask = this.showItemExecutionTask;
+      this.showItemExecutionTask = !this.showItemExecutionTask;
     },
     valueChanged(id) {
       this.$store.commit(

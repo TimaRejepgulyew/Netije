@@ -12,7 +12,7 @@
       </div>
     </div>
     <ul>
-      <li v-for="item in projectReslotions.entities" :key="item.attachmentId">
+      <li v-for="item in projectResolutions.entities" :key="item.attachmentId">
         <resolutionTask :key="item.attachmentId" :task="item" />
       </li>
     </ul>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import AttachmentGroup from "~/infrastructure/constants/attachmentGroup.js";
 import resolutionTask from "~/components/workFlow/resolution-task-list.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
@@ -44,12 +45,12 @@ export default {
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
     },
-    projectReslotions() {
+    projectResolutions() {
       const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
       ].attachmentGroups;
       return attachments.find(attachment => {
-        return attachment.groupId === 11;
+        return attachment.groupId === AttachmentGroup.Resolution;
       });
     }
   }
