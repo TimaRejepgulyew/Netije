@@ -11,22 +11,18 @@
         />
       </div>
     </div>
-    <ul>
-      <li v-for="item in projectReslotions.entities" :key="item.attachmentId">
-        <resolutionTask @showCard="openTaskCard" :key="item.attachmentId" :task="item" />
-      </li>
-    </ul>
+ 
   </div>
 </template>
 
 <script>
-import { load } from "~/infrastructure/services/taskService.js";
-import resolutionTask from "~/components/workFlow/resolution-task-list.vue";
+
+
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {
     employeeSelectBox,
-    resolutionTask,
+
   },
   props: ["assignmentId"],
  
@@ -46,14 +42,6 @@ export default {
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
     },
-    projectReslotions() {
-      const attachments = this.$store.getters[
-        `assignments/${this.assignmentId}/assignment`
-      ].attachmentGroups;
-      return attachments.find(attachment => {
-        return attachment.groupId === 11;
-      });
-    }
   }
 };
 </script>
