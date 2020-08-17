@@ -1,15 +1,18 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
 import { taskElements } from "~/infrastructure/constants/taskType.js";
 
-
 import { createTask } from "~/infrastructure/services/taskService.js";
 import { createDocument } from "~/infrastructure/services/documentService.js";
+
 export default function(context) {
+  CreateDocumentButton().init(context);
   return [
     {
       text: context.$t("createItemDialog.recordManagementGroup"),
       icon: "file",
-      items: DocumentButtons(context)
+      items: CreateDocumentButton()
+        .init(context)
+        .getPaperWorkDocument()
     },
     {
       text: context.$t("createItemDialog.taskGroup"),
@@ -20,14 +23,14 @@ export default function(context) {
     {
       text: context.$t("createItemDialog.accountingDocumentsGroup"),
       icon: financialArchiveIcon,
-      items: FinancialArchiveButtons(context),
+      items: CreateDocumentButton.init(context).getFinancialArchive(),
       visible:
         context.$store.getters["permissions/isResponsibleFinansicalArchive"]
     },
     {
       text: context.$t("createItemDialog.contractualDocumentsGroup"),
       icon: contractIcon,
-      items: ContractButtons(context),
+      items: CreateDocumentButton.init(context).getContractDocument(),
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
     }
   ];
@@ -55,192 +58,35 @@ function TaskButtons(context) {
   }
   return Object.values(taskTypeBtn(context));
 }
-
-class DocumentCreateBtn {
-  #documentTypes = [];
-  init(documentTypes) {
-    this.documentTypes = documentTypes;
+function documentBtn(context) {
+  async function create(context) {
+    const { documentTypeGuid, documentId } = await createDocument(context);
+    const route = `/paper-work/detail/${documentTypeGuid}/${documentId}`;
+    const replaceOldRoute =
+      context.$store.getters[`documents/${documentId}/isNew`];
+    toRouter(context, { route, replaceOldRoute });
+  }
+  const documentTypes = documentTypes(context);
+  for (let documentType in documentTypes) {
+    documentTypes[documentType].create = async context => {
+      return await create(context);
+    };
+  }
+  return 
+}
+export class CreateDocumentButton extends DocumentType {
+  init(context) {
+    async function create(context) {
+      const { documentTypeGuid, documentId } = await createDocument(context);
+      const route = `/paper-work/detail/${documentTypeGuid}/${documentId}`;
+      const replaceOldRoute =
+        context.$store.getters[`dcoments/${documentId}/isNew`];
+      toRouter(context, { route, replaceOldRoute });
+    }
+    super.init(context);
+    for (let documentType in this.documentTypes) {
+      this.documentTypes[documentType] = create;
+    }
     return;
   }
-  getAll() {
-    return this.documentTypes;
-  }
-  getPaperWorkDocumentBtn() {
-    return this.documentTypes.filter(documentType => documentType.value < 8);
-  }
-
-}
-
-export function ContractButtons(context) {
-  return [
-    // {
-    //   icon: incomingInvoiceIcon,
-    //   text: context.$t("createItemDialog.incomingInvoice"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.IncomingInvoice,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: contractStatementIcon,
-    //   text: context.$t("createItemDialog.contractStatement"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.ContractStatement,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: contractIcon,
-    //   text: context.$t("createItemDialog.contract"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.Contract,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: supAgreementIcon,
-    //   text: context.$t("createItemDialog.supAgreement"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.SupAgreement,
-    //       ...params
-    //     });
-    //   }
-    // }
-  ];
-}
-
-export function FinancialArchiveButtons(context) {
-  return [
-  //   {
-  //     icon: incommingTaxInvoiceIcon,
-  //     text: context.$t("createItemDialog.incomingTaxInvoice"),
-  //     async create(params) {
-  //       await createDocument(context, {
-  //         documentType: DocumentType.IncomingTaxInvoice,
-  //         ...params
-  //       });
-  //     }
-  //   },
-  //   {
-  //     icon: outgoingTaxInvoiceIcon,
-  //     text: context.$t("createItemDialog.outgoingTaxInvoice"),
-  //     async create(params) {
-  //       await createDocument(context, {
-  //         documentType: DocumentType.OutgoingTaxInvoice,
-  //         ...params
-  //       });
-  //     }
-  //   },
-  //   {
-  //     icon: universaltransferdocumentIcon,
-  //     text: context.$t("createItemDialog.universalTransferDocument"),
-  //     async create(params) {
-  //       await createDocument(context, {
-  //         documentType: DocumentType.UniversalTransferDocument,
-  //         ...params
-  //       });
-  //     }
-  //   },
-  //   {
-  //     icon: waybillIcon,
-  //     text: context.$t("createItemDialog.waybill"),
-  //     async create(params) {
-  //       await createDocument(context, {
-  //         documentType: DocumentType.Waybill,
-  //         ...params
-  //       });
-  //     }
-  //   }
-  ];
-}
-export function DocumentButtons(context) {
-  return [
-    // {
-    //   icon: documentTypeIcon.incomingLetterIcon,
-    //   text: context.$t("createItemDialog.incomingLetter"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.IncomingLetter,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: documentTypeIcon.outgoingLetterIcon,
-    //   text: context.$t("createItemDialog.outgoingLetter"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.OutgoingLetter,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: documentTypeIcon.orderIcon,
-    //   text: context.$t("createItemDialog.order"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.Order,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: documentTypeIcon.companyDirectiveIcon,
-    //   text: context.$t("createItemDialog.companyDirective"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.CompanyDirective,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: documentTypeIcon.simpleDocumentIcon,
-    //   text: context.$t("createItemDialog.simpleDocument"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.SimpleDocument,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: documentTypeIcon.addendumIcon,
-    //   text: context.$t("createItemDialog.addendum"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.Addendum,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: documentTypeIcon.memoIcon,
-    //   text: context.$t("createItemDialog.memo"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.Memo,
-    //       ...params
-    //     });
-    //   }
-    // },
-    // {
-    //   icon: documentTypeIcon.powerOfAttorneyIcon,
-    //   text: context.$t("createItemDialog.powerOfAttorney"),
-    //   async create(params) {
-    //     await createDocument(context, {
-    //       documentType: DocumentType.PowerOfAttorney,
-    //       ...params
-    //     });
-    //   }
-    // }
-  ];
 }

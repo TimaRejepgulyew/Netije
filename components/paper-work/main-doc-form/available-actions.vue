@@ -12,7 +12,6 @@
   />
 </template>
 <script>
-import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
 import ActionGuid from "~/infrastructure/constants/actionGuid.js";
@@ -46,7 +45,7 @@ export default {
   },
   methods: {
     createTask(e) {
-      const documentTypeGuid = this.documentId
+      const documentTypeGuid = this.documentId;
       this.$awn.asyncBlock(
         e.itemData.create({ documentId: this.documentId, documentTypeGuid }),
         () => {},

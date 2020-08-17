@@ -15,7 +15,7 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
 import ActionGuid from "~/infrastructure/constants/actionGuid.js";
 import { DxDropDownButton } from "devextreme-vue";
-import { createDocumentRequest } from "~/infrastructure/constants/creatingItems.js";
+import { createLeadingDocument } from "~/infrastructure/constants/creatingItems.js";
 export default {
   components: {
     DxDropDownButton,

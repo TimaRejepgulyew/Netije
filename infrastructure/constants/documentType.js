@@ -73,12 +73,13 @@ export default DocumentTypeGuid;
 
 export class DocumentType {
   documentTypes = DocumentTypeGuid;
-  init(context) {
+  init(context,options) {
     this.documentTypes = generatorMapObj({
       Constant: DocumentTypes,
       translateName: "document.type",
       context: context,
-      iconStores: documentTypeIcon
+      iconStores: documentTypeIcon,
+      
     });
     return;
   }
