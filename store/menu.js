@@ -2,8 +2,11 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import DocumentQuery, {
   generateNameByDocQuery
 } from "~/infrastructure/constants/documentQuery";
-import financialArchiveIcon from "~/static/icons/financial-archive.svg";
-import contractIcon from "~/static/icons/contract.svg";
+import {
+  FinancialArchive as financialArchiveIcon,
+  Contract as contractIcon
+} from "~/static/icons/document-type/index.js";
+
 export const state = () => ({
   menuList: []
 });

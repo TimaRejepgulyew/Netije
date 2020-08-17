@@ -1,4 +1,4 @@
 export default {
-    active:0,
-    
-}
+  Active: 0,
+  Closed: 1
+};

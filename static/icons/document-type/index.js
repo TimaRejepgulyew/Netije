@@ -7,7 +7,7 @@ import OrderIcon from "~/static/icons/document-type/order.svg";
 import PowerOfAttorney from "~/static/icons/document-type/power-of-attorney.svg";
 import SimpleDocument from "~/static/icons/document-type/simple-document.svg";
 import IncomingInvoice from "~/static/icons/document-type/memo.svg";
-import ContractStatement from "~/static/icons/document-type/contactState.svg";
+import ContractStatement from "~/static/icons/document-type/contract-statement.svg";
 import IncomingTaxInvoice from "~/static/icons/document-type/incoming-tax-invoice.svg";
 import OutgoingTaxInvoice from "~/static/icons/document-type/outgoing-tax-invoice.svg";
 import UniversalTransferDocument from "~/static/icons/document-type/universal-transfer-document.svg";
