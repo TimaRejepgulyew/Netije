@@ -1,5 +1,6 @@
 import entityTypes from "./entityTypes";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
+import documentTypeIcon from "~/static/icons/document-type/index.js"
 const DocumentTypeGuid = {
   IncomingLetter: 1,
   OutgoingLetter: 2,
