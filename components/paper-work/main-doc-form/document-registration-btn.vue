@@ -10,7 +10,11 @@
       :title="$t('translations.fields.registration')"
     >
       <div>
-        <document-registration-popup v-if="isDocumentRegistrationPopupOpen" @hidePopup="hidePopup" />
+        <document-registration-popup
+          :documentId="documentId"
+          v-if="isDocumentRegistrationPopupOpen"
+          @hidePopup="hidePopup"
+        />
       </div>
     </DxPopup>
     <DxButton
@@ -36,18 +40,18 @@ import { confirm } from "devextreme/ui/dialog";
 import { DxPopup } from "devextreme-vue/popup";
 import DocumentRegistrationPopup from "~/components/paper-work/main-doc-form/document-registration-popup";
 import Docflow from "~/infrastructure/constants/docflows";
-import EntityType from "~/infrastructure/constants/entityTypes";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
     DxButton,
     DxPopup,
-    DocumentRegistrationPopup
+    DocumentRegistrationPopup,
   },
+  props: ["documentId"],
   data() {
     return {
       registerIcon,
-      isDocumentRegistrationPopupOpen: false
+      isDocumentRegistrationPopupOpen: false,
     };
   },
   methods: {
@@ -61,12 +65,12 @@ export default {
             .isValid
         )
           this.$awn.asyncBlock(
-            this.$store.dispatch("currentDocument/save"),
-            res => {
+            this.$store.dispatch(`documents/${this.documentId}/save`),
+            (res) => {
               this.$awn.success(this.$t("document.saved"));
               this.isDocumentRegistrationPopupOpen = true;
             },
-            e => {
+            (e) => {
               this.$awn.alert();
             }
           );
@@ -79,46 +83,35 @@ export default {
         this.$t("translations.fields.areYouSureCancelRegistration"),
         this.$t("shared.confirm")
       );
-      result.then(dialogResult => {
+      result.then((dialogResult) => {
         if (dialogResult) {
           this.$awn.asyncBlock(
-            this.$store.dispatch("currentDocument/unRegister"),
-            res => {
+            this.$store.dispatch(`documents/${this.documentId}/unRegister`),
+            (res) => {
               this.$awn.success();
             },
-            err => {
+            (err) => {
               this.$awn.alert();
             }
           );
         }
       });
-    }
+    },
   },
   computed: {
     isDataChanged() {
-      return this.$store.getters["currentDocument/isDataChanged"];
+      return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
     },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
-    entityType() {
-      switch (this.$store.getters["paper-work/documentKind"]("documentFlow")) {
-        case Docflow.Incoming:
-          return EntityType.IncomingDocument;
-        case Docflow.Outgoing:
-          return EntityType.OutgoingDocument;
-
-        case Docflow.Internal:
-          return EntityType.InternalDocument;
-      }
-    }
   },
   watch: {
-    isDocumentRegistrationPopupOpen: function(value) {
+    isDocumentRegistrationPopupOpen: function (value) {
       if (!value) {
         this.hidePopup();
       }
-    }
-  }
+    },
+  },
 };
 </script>

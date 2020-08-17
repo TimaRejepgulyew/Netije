@@ -52,7 +52,6 @@
     </DxSimpleItem>
   </DxForm>
 </template>
-
 <script>
 import DocumentType from "~/infrastructure/constants/documentType.js";
 import { generateLifeCycleItemState } from "~/infrastructure/services/documentVersionService.js";
@@ -64,7 +63,7 @@ import { ControlExecutionStateStore } from "~/infrastructure/constants/controlEx
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -72,8 +71,9 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxForm
+    DxForm,
   },
+  props: ["documentId"],
   data() {
     return {
       itemVisible: {
@@ -82,8 +82,8 @@ export default {
         internalApprovalState: false,
         externalApprovalState: false,
         executionState: false,
-        controlExecutionState: false
-      }
+        controlExecutionState: false,
+      },
     };
   },
   created() {
@@ -136,26 +136,32 @@ export default {
           this.itemVisible.externalApprovalState = true;
           break;
       }
-    }
+    },
   },
   computed: {
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
+    },
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
     },
     documentTypeGuid() {
-      return this.$store.getters["currentDocument/document"].documentTypeGuid;
+      return this.document.documentTypeGuid;
     },
     lifeCycleStateOptions() {
       return {
-        readOnly:!this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_LIFE_CYCLE_STATE", e.value);
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_LIFE_CYCLE_STATE`,
+            e.value
+          );
         },
-        value: this.$store.getters["currentDocument/document"].lifeCycleState,
-        dataSource: generateLifeCycleItemState(this, this.documentTypeGuid)
+        value: this.lifeCycleState,
+        dataSource: generateLifeCycleItemState(this, this.documentTypeGuid),
       };
     },
     registrationStateOptions() {
@@ -163,77 +169,76 @@ export default {
         visible: this.itemVisible.registrationState,
         readOnly: true,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        value: this.$store.getters["currentDocument/document"]
-          .registrationState,
-        dataSource: RegistrationStateStore(this)
+        value: this.document.registrationState,
+        dataSource: RegistrationStateStore(this),
       };
     },
     internalApprovalStateOptions() {
       return {
-        readOnly:!this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
-            "currentDocument/SET_INTERNAL_APPROVAL_STATE",
+            `documents/${this.documentId}/SET_INTERNAL_APPROVAL_STATE`,
             e.value
           );
         },
-        value: this.$store.getters["currentDocument/document"]
-          .internalApprovalState,
-        dataSource: InternalApprovalStateStore(this)
+        value: this.document.internalApprovalState,
+        dataSource: InternalApprovalStateStore(this),
       };
     },
     externalApprovalStateOptions() {
       return {
-        readOnly:!this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
-            "currentDocument/SET_EXTERNAL_APPROVAL_STATE",
+            `documents/${this.documentId}/SET_EXTERNAL_APPROVAL_STATE`,
             e.value
           );
         },
-        value: this.$store.getters["currentDocument/document"]
-          .externalApprovalState,
-        dataSource: ExternalApprovalStateStore(this)
+        value: this.document.externalApprovalState,
+        dataSource: ExternalApprovalStateStore(this),
       };
     },
     executionStateOptions() {
       return {
-        readOnly:!this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_EXECUTION_STATE", e.value);
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_EXECUTION_STATE`,
+            e.value
+          );
         },
-        value: this.$store.getters["currentDocument/document"].executionState,
-        dataSource: ExecutionStateStore(this)
+        value: this.document.executionState,
+        dataSource: ExecutionStateStore(this),
       };
     },
     controlExecutionStateOptions() {
       return {
-        readOnly:!this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
-            "currentDocument/SET_CONTROL_EXECUTION_STATE",
+            `documents/${this.documentId}/SET_CONTROL_EXECUTION_STATE`,
             e.value
           );
         },
-        value: this.$store.getters["currentDocument/document"]
-          .controlExecutionState,
-        dataSource: ControlExecutionStateStore(this)
+        value: this.document.controlExecutionState,
+        dataSource: ControlExecutionStateStore(this),
       };
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <DxForm
     :col-count="1"
-    :store.sync="store"
+    :store.sync="document"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     validation-group="OfficialDocument"
@@ -24,7 +24,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -32,26 +32,32 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule
+    DxRequiredRule,
   },
+  props: ["documentId"],
   computed: {
-    store() {
-      return this.$store.getters["currentDocument/document"];
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     leadingDocumentOptions() {
       return {
-        readOnly: this.$store.getters["currentDocument/readOnly"],
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.paperWork.AllDocument
+          url: dataApi.paperWork.AllDocument,
         }),
-        value: this.$store.getters["currentDocument/document"]
-          .leadingDocumentId,
-        onValueChanged: e => {
-          this.$store.dispatch("currentDocument/setLeadingDocumentId", e.value);
-        }
+        value: this.document.leadingDocumentId,
+        onValueChanged: (e) => {
+          this.$store.dispatch(
+            `documents/${this.documentId}/setLeadingDocumentId`,
+            e.value
+          );
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

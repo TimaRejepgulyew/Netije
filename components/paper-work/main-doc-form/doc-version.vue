@@ -21,7 +21,7 @@
                   </div>
                 </div>
                 <div class="list__btn-group">
-                  <attachment-action-btn :version="item.data" />
+                  <attachment-action-btn :documentId="documentId" :version="item.data" />
                 </div>
               </div>
             </div>
@@ -60,9 +60,9 @@ export default {
     DocumentIcon,
     DxFileUploader,
     DxList,
-    DxButton
+    DxButton,
   },
-
+  props: ["documentId"],
   data() {
     return {
       versions: new DataSource({
@@ -70,45 +70,53 @@ export default {
           key: "id",
           loadUrl:
             dataApi.paperWork.Version +
-            `${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`
+            `${
+              this.$store.getters[`documents/${this.documentId}/document`]
+                .documentTypeGuid
+            }/${this.documentId}`,
         }),
-        sort: [{ selector: "number", desc: true }]
-      })
+        sort: [{ selector: "number", desc: true }],
+      }),
     };
   },
   computed: {
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     acceptExtension() {
       return this.$store.getters["cache/acceptExtension"];
     },
     extension() {
       return this.$store.getters["cache/extension"];
-    }
+    },
   },
   methods: {
     refresh() {
       this.versions.reload();
     },
     uploadVersionFromFile(e) {
-      const document = this.$store.getters["currentDocument/document"];
+      const document = this.$store.getters[
+        `documents/${this.documentId}/document`
+      ];
       this.$awn.async(
         documentService.uploadVersion(document, e.file, this),
-        version => {
+        (version) => {
           this.$refs["fileUploader"].instance.reset();
-          this.$store.commit("currentDocument/SET_VERSION", version.data);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_VERSION`,
+            version.data
+          );
           this.refresh();
         },
-        e => {}
+        (e) => {}
       );
-    }
+    },
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

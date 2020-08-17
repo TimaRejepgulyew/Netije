@@ -1,7 +1,6 @@
 import dataApi from "~/static/dataApi";
 import * as taskStoreTemplate from "~/infrastructure/storeTemplate/taskStore.js";
 import StoreModule from "~/infrastructure/services/StoreModule.js";
-import TaskType from "~/infrastructure/constants/TaskType.js";
 export const taskModules = new StoreModule({
   moduleName: "tasks",
   storeTemplate: taskStoreTemplate
@@ -67,7 +66,6 @@ export async function load(context, { taskType, taskId }) {
 }
 export function unload(context, taskId) {
   const overlays = context.$store.getters[`tasks/${taskId}/overlays`];
-  console.log(overlays);
   if (overlays === 0) {
     taskModules.unregisterModule(context, taskId);
   } else context.$store.commit(`tasks/${taskId}/DECREMENT_OVERLAYS`);

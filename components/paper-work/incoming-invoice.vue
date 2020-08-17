@@ -79,7 +79,7 @@
     <template #counterparty>
       <custom-select-box
         :readOnly="isRegistered"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="validatorGroup"
         @valueChanged="setCounterparty"
         messageRequired="translations.fields.counterPartRequired"
         :value="counterpartyId"
@@ -95,7 +95,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -104,52 +104,62 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    customSelectBox
+    customSelectBox,
   },
+  props: ["documentId"],
   data() {
     return {
-      validatorGroup: "OfficialDocument"
+      validatorGroup: "OfficialDocument",
     };
   },
   methods: {
     setCounterparty(data) {
-      this.$store.dispatch("currentDocument/setCounterparty", data);
-      this.$store.dispatch("currentDocument/setLeadingDocumentId", null);
-    }
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCounterparty`,
+        data
+      );
+      this.$store.dispatch(
+        `documents/${this.documentId}/setLeadingDocumentId`,
+        null
+      );
+    },
   },
 
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     counterpartyId() {
-      return this.$store.getters["currentDocument/document"].counterpartyId;
+      return this.document.counterpartyId;
     },
     departmentId() {
-      return this.$store.getters["currentDocument/document"].departmentId;
+      return this.document.departmentId;
     },
     numberOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        value: this.$store.getters["currentDocument/document"].number,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/NUMBER", e.value);
-        }
+        value: this.document.number,
+        onValueChanged: (e) => {
+          this.$store.commit(`documents/${this.documentId}/NUMBER`, e.value);
+        },
       };
     },
     dateOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        value: this.$store.getters["currentDocument/document"].date,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/DATE", e.value);
-        }
+        value: this.document.date,
+        onValueChanged: (e) => {
+          this.$store.commit(`documents/${this.documentId}/DATE`, e.value);
+        },
       };
     },
     leadingDocumentOptions() {
@@ -161,13 +171,15 @@ export default {
           url: `${dataApi.paperWork.Documents}${DocumentQuery.Contract}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
-            : []
+            : [],
         }),
-        value: this.$store.getters["currentDocument/document"]
-          .leadingDocumentId,
-        onValueChanged: e => {
-          this.$store.dispatch("currentDocument/setLeadingDocumentId", e.value);
-        }
+        value: this.document.leadingDocumentId,
+        onValueChanged: (e) => {
+          this.$store.dispatch(
+            `documents/${this.documentId}/setLeadingDocumentId`,
+            e.value
+          );
+        },
       };
     },
     currencyIdOptions() {
@@ -175,23 +187,29 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", 0]
+          filter: ["status", "=", 0],
         }),
         readOnly: this.isRegistered,
-        value: this.$store.getters["currentDocument/document"].currencyId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_CURRENCY_ID", e.value);
-        }
+        value: this.document.currencyId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_CURRENCY_ID`,
+            e.value
+          );
+        },
       };
     },
     totalAmountOptions() {
       return {
         format: "#,##0.00",
         readOnly: this.isRegistered,
-        value: this.$store.getters["currentDocument/document"].totalAmount,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_TOTAL_AMOUNT", e.value);
-        }
+        value: this.document.totalAmount,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_TOTAL_AMOUNT`,
+            e.value
+          );
+        },
       };
     },
     businessUnitOptions() {
@@ -200,18 +218,23 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
+          filter: ["status", "=", 0],
         }),
-        value: this.$store.getters["currentDocument/document"].businessUnitId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
-        }
+        value: this.document.businessUnitId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            null
+          );
+        },
       };
     },
     deparmentOptions() {
-      let businessUnitId = this.$store.getters["currentDocument/document"]
-        .businessUnitId;
+      let businessUnitId = this.document.businessUnitId;
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -220,16 +243,19 @@ export default {
           filter: [
             ["businessUnitId", "=", businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters["currentDocument/document"].departmentId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
-        }
+        value: this.document.departmentId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            e.value
+          );
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

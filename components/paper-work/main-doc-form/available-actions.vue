@@ -12,7 +12,6 @@
   />
 </template>
 <script>
-// TODO Добавить по дефолту простую задачу
 import { createTaskRequest } from "~/infrastructure/constants/creatingItems.js";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
@@ -20,40 +19,41 @@ import ActionGuid from "~/infrastructure/constants/actionGuid.js";
 import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
-    DxDropDownButton
+    DxDropDownButton,
   },
+  props: ["documentId"],
   data() {
     return {
-      sendIcon
+      sendIcon,
     };
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     items() {
       const allActionGuid = ActionGuid(this);
       const availableActions =
-        this.$store.getters["currentDocument/document"].documentKind
-          ?.availableActions || [];
-      return allActionGuid.filter(el => {
+        this.document.documentKind?.availableActions || [];
+      return allActionGuid.filter((el) => {
         let isSimilar = false;
         for (let id in availableActions) {
           if (availableActions[id] === el.id) isSimilar = true;
         }
         return isSimilar;
       });
-    }
+    },
   },
   methods: {
     createTask(e) {
-      const documentId = this.$store.getters["currentDocument/document"].id;
-      const documentTypeGuid = this.$store.getters["currentDocument/document"]
-        .documentTypeGuid;
+      const documentTypeGuid = this.documentId
       this.$awn.asyncBlock(
-        e.itemData.create({ documentId, documentTypeGuid }),
+        e.itemData.create({ documentId: this.documentId, documentTypeGuid }),
         () => {},
         () => {}
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

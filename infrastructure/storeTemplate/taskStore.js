@@ -155,7 +155,6 @@ export const mutations = {
   INCREMENT_OVERLAYS(state) {
     if (state.overlays === null) {
       state.overlays = 0;
-      console.log("state.overlays");
     } else state.overlays++;
   },
   DECREMENT_OVERLAYS(state) {

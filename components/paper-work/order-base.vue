@@ -74,7 +74,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -83,45 +83,54 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    employeeSelectBox
+    employeeSelectBox,
   },
   data() {
     return {
-      signatoryApi: dataApi.signatureSettings.Members
+      signatoryApi: dataApi.signatureSettings.Members,
     };
   },
   methods: {
     setPreparedById(data) {
-      this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        data
+      );
     },
     setOurSignatoryId(data) {
-      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
     setAssigneeId(data) {
-      this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
-    }
+      this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
+    },
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     preparedById() {
-      return this.$store.getters["currentDocument/document"].preparedById;
+      return document.preparedById;
     },
     ourSignatoryId() {
-      return this.$store.getters["currentDocument/document"].ourSignatoryId;
+      return document.ourSignatoryId;
     },
     assigneeId() {
-      return this.$store.getters["currentDocument/document"].assigneeId;
+      return document.assigneeId;
     },
     businessUnitId() {
-      return this.$store.getters["currentDocument/document"].businessUnitId;
+      return document.businessUnitId;
     },
     departmentId() {
-      return this.$store.getters["currentDocument/document"].departmentId;
+      return document.departmentId;
     },
     businessUnitOptions() {
       return {
@@ -129,16 +138,31 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
+          filter: ["status", "=", 0],
         }),
         value: this.businessUnitId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);
-          this.$store.commit("currentDocument/SET_PREPARED_BY_ID", null);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
-          this.$store.commit("currentDocument/SET_ASSIGNEE_ID", null);
-        }
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ASSIGNEE_ID`,
+            null
+          );
+        },
       };
     },
     deparmentOptions() {
@@ -150,15 +174,24 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
         value: this.departmentId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
-          this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);
-          this.$store.commit("currentDocument/SET_PREPARED_BY_ID", null);
-        }
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+            null
+          );
+        },
       };
     },
     ourSignatoryOptions() {
@@ -169,13 +202,16 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters["currentDocument/document"].ourSignatoryId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", e.value);
-        }
+        value: document.ourSignatoryId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+            e.value
+          );
+        },
       };
     },
     assigneeOptions() {
@@ -186,13 +222,16 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters["currentDocument/document"].assigneeId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_ASSIGNEE_ID", e.value);
-        }
+        value: document.assigneeId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ASSIGNEE_ID`,
+            e.value
+          );
+        },
       };
     },
     preparedByOptions() {
@@ -203,15 +242,18 @@ export default {
           filter: [
             ["departmentId", "=", this.departmentId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters["currentDocument/document"].preparedById,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_PREPARED_BY_ID", e.value);
-        }
+        value: document.preparedById,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+            e.value
+          );
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

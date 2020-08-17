@@ -59,7 +59,7 @@ export default {
   paperWork: {
     Documents: `${url}/api/OfficialDocument/`,
     AllDocument: `${url}/api/OfficialDocument/100`,
-    GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
+    GetDocumentById: `${url}/api/OfficialDocument/`,
     DeleteDocument: `${url}/api/OfficialDocument/`,
     ReevaluateDocumentName: `${url}/api/OfficialDocument/ReevaluateDocumentName`,
     Version: `${url}/api/OfficialDocument/Version/`,

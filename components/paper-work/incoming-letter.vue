@@ -85,10 +85,20 @@
       />
     </template>
     <template #addressee>
-      <employee-select-box valueExpr="id" :read-only="!canUpdate" :value="addresseeId" @valueChanged="setAddresseeId" />
+      <employee-select-box
+        valueExpr="id"
+        :read-only="!canUpdate"
+        :value="addresseeId"
+        @valueChanged="setAddresseeId"
+      />
     </template>
     <template #assignee>
-      <employee-select-box valueExpr="id" :read-only="!canUpdate" :value="assigneeId" @valueChanged="setAssigneeId" />
+      <employee-select-box
+        valueExpr="id"
+        :read-only="!canUpdate"
+        :value="assigneeId"
+        @valueChanged="setAssigneeId"
+      />
     </template>
   </DxForm>
 </template>
@@ -103,7 +113,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -114,22 +124,13 @@ export default {
     DxRequiredRule,
     customSelectBox,
     customSelectBoxContact,
-    employeeSelectBox
+    employeeSelectBox,
   },
+  props: ["documentId"],
   data() {
     return {
       selectedCorrespondentType: null,
       validatorGroup: "OfficialDocument",
-      deliveryMethodOptions: {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.MailDeliveryMethod
-        }),
-        value: this.$store.getters["currentDocument/document"].deliveryMethodId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DELIVERY_METHOD_ID", e.value);
-        }
-      }
     };
   },
   methods: {
@@ -138,31 +139,58 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.$store.dispatch("currentDocument/setCorrespondent", data);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCorrespondent`,
+        data
+      );
       this.setContact(null);
       this.setCounterpartySignatoryId(null);
-      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
+      this.$store.commit(
+        `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
+        null
+      );
     },
     setContact(data) {
-      this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_CONTACT_ID`,
+        data && data.id
+      );
     },
     setCounterpartySignatoryId(data) {
       this.$store.commit(
-        "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
+        `documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`,
         data && data.id
       );
     },
     setAddresseeId(data) {
-      this.$store.commit("currentDocument/SET_ADDRESSE_ID", data);
+      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
     },
     setAssigneeId(data) {
-      this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
+      this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
-    }
+    },
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    deliveryMethodOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.docFlow.MailDeliveryMethod,
+        }),
+        value: this.document.deliveryMethodId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DELIVERY_METHOD_ID`,
+            e.value
+          );
+        },
+      };
+    },
     isOrganization() {
       return (
         this.selectedCorrespondentType != null &&
@@ -170,35 +198,34 @@ export default {
       );
     },
     store() {
-      return this.$store.getters["currentDocument/document"];
+      return this.document;
     },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     correspondentId() {
-      return this.$store.getters["currentDocument/document"].correspondentId;
+      return this.document.correspondentId;
     },
     readOnly() {
-      return this.$store.getters["currentDocument/readOnly"];
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     departmentId() {
-      return this.$store.getters["currentDocument/document"].departmentId;
+      return this.document.departmentId;
     },
     contactId() {
-      return this.$store.getters["currentDocument/document"].contactId;
+      return this.document.contactId;
     },
     counterpartySignatoryId() {
-      return this.$store.getters["currentDocument/document"]
-        .counterpartySignatoryId;
+      return this.document.counterpartySignatoryId;
     },
     addresseeId() {
-      return this.$store.getters["currentDocument/document"].addresseeId;
+      return this.document.addresseeId;
     },
     assigneeId() {
-      return this.$store.getters["currentDocument/document"].assigneeId;
+      return this.document.assigneeId;
     },
     businessUnitOptions() {
       const builder = new SelectBoxOptionsBuilder();
@@ -209,17 +236,27 @@ export default {
       return {
         readOnly: this.isRegistered,
         ...options,
-        value: this.$store.getters["currentDocument/document"].businessUnitId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
-        }
+        value: this.document.businessUnitId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ADDRESSE_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            null
+          );
+        },
       };
     },
     deparmentOptions() {
-      let businessUnitId = this.$store.getters["currentDocument/document"]
-        .businessUnitId;
+      let businessUnitId = this.$store.getters[
+        `documents/${this.documentId}/document`
+      ].businessUnitId;
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -228,14 +265,20 @@ export default {
           filter: [
             ["businessUnitId", "=", businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters["currentDocument/document"].departmentId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
-        }
+        value: this.document.departmentId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ADDRESSE_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            e.value
+          );
+        },
       };
     },
     inResponseToIdOptions() {
@@ -249,7 +292,7 @@ export default {
             ? ["correspondentId", "=", this.correspondentId]
             : []
         )
-        .acceptCustomValues(e => {
+        .acceptCustomValues((e) => {
           e.customItem = null;
         })
         .withoutDeferRendering()
@@ -259,37 +302,40 @@ export default {
       return {
         readOnly: !this.correspondentId,
         ...options,
-        value: this.$store.getters["currentDocument/document"].inResponseTo,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", e.value?.id);
-        }
+        value: this.document.inResponseTo,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
+            e.value?.id
+          );
+        },
       };
     },
     inNumberOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        value: this.$store.getters["currentDocument/document"].inNumber,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/IN_NUMBER", e.value);
-        }
+        value: this.document.inNumber,
+        onValueChanged: (e) => {
+          this.$store.commit(`documents/${this.documentId}/IN_NUMBER`, e.value);
+        },
       };
     },
     datedOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        value: this.$store.getters["currentDocument/document"].dated,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/DATED", e.value);
-        }
+        value: this.document.dated,
+        onValueChanged: (e) => {
+          this.$store.commit(`documents/${this.documentId}/DATED`, e.value);
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

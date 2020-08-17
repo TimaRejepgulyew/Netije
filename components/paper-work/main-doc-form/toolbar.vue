@@ -1,7 +1,7 @@
 <template>
   <div class="navBar">
     <DxToolbar>
-      <!-- <DxItem :visible="!isCard" :options="backButtonOptions" location="before" widget="dxButton" /> -->
+      <DxItem :visible="!isCard" :options="backButtonOptions" location="before" widget="dxButton" />
       <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
         locateInMenu="auto"
@@ -31,7 +31,7 @@
         widget="dxButton"
       />
       <template #createRelation>
-        <create-relation />
+        <create-relation :documentId="documentId" />
       </template>
       <DxItem
         locateInMenu="auto"
@@ -40,15 +40,12 @@
         location="before"
       />
       <template #createTaskForDocument>
-        <available-actions />
+        <available-actions :documentId="documentId" />
       </template>
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="accessRightButton" location="after" />
       <template #accessRightButton>
-        <access-right
-          :entity-type="entityType"
-          :entity-id="$store.getters['currentDocument/document'].id"
-        />
+        <access-right :entity-type="entityType" :entity-id="documentId" />
       </template>
       <DxItem
         template="uploadVersion"
@@ -57,7 +54,7 @@
         location="before"
       />
       <template #uploadVersion>
-        <upload-version-button />
+        <upload-version-button :documentId="documentId" />
       </template>
       <DxItem
         :options="previewButtonOptions"
@@ -68,7 +65,7 @@
       />
 
       <template #registrationButton>
-        <document-registration-btn />
+        <document-registration-btn :documentId="documentId" />
       </template>
       <DxItem
         :visible="canDelete"
@@ -80,6 +77,7 @@
   </div>
 </template>
 <script>
+import { load } from "~/infrastructure/services/documentService.js";
 import documentService from "~/infrastructure/services/documentVersionService.js";
 import uploadVersionButton from "~/components/paper-work/main-doc-form/upload-version-button.vue";
 import createRelation from "~/components/paper-work/main-doc-form/create-relation.vue";
@@ -106,9 +104,9 @@ export default {
     DxItem,
     DocumentRegistrationBtn,
     availableActions,
-    createRelation
+    createRelation,
   },
-  props: ["isCard"],
+  props: ["isCard", "documentId"],
   data() {
     return {
       addendumIcon,
@@ -118,48 +116,47 @@ export default {
         type: "back",
         onClick: () => {
           this.$router.go(-1);
-        }
-      }
+        },
+      },
     };
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     canBeOpenedWithPreview() {
-      return this.$store.getters["currentDocument/document"]
-        .canBeOpenedWithPreview;
+      return this.document.canBeOpenedWithPreview;
     },
     hasVersions() {
-      return this.$store.getters["currentDocument/document"].hasVersions;
+      return this.document.hasVersions;
     },
     isNew() {
-      return this.$store.getters["currentDocument/isNew"];
+      return this.$store.getters[`documents/${this.documentId}/isNew`];
     },
     entityType() {
-      return mapToEntityType(
-        this.$store.getters["currentDocument/document"].documentTypeGuid
-      );
+      return mapToEntityType(this.document.documentTypeGuid);
     },
     canUpdate() {
       return (
-        this.isDataChanged && this.$store.getters["currentDocument/canUpdate"]
+        this.isDataChanged &&
+        this.$store.getters[`documents/${this.documentId}/canUpdate`]
       );
     },
     isDataChanged() {
-      return this.$store.getters["currentDocument/isDataChanged"];
+      return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
     },
     canRegister() {
-      return this.$store.getters["currentDocument/canRegister"];
+      return this.$store.getters[`documents/${this.documentId}/canRegister`];
     },
     canDelete() {
-      return this.$store.getters["currentDocument/canDelete"];
+      return this.$store.getters[`documents/${this.documentId}/canDelete`];
     },
     previewButtonOptions() {
       return {
         icon: "pdffile",
         onClick: () => {
-          const document = this.$store.getters["currentDocument/document"];
-
-          documentService.previewDocument(document, this);
-        }
+          documentService.previewDocument(this.document, this);
+        },
       };
     },
     saveButtonOptions() {
@@ -169,15 +166,15 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentDocument/save"),
-              res => {
+              this.$store.dispatch(`documents/${this.documentId}/save`),
+              (res) => {
                 this.$awn.success();
               },
-              e => {
+              (e) => {
                 this.$awn.alert();
               }
             );
-        }
+        },
       };
     },
     versionOptions() {
@@ -187,7 +184,7 @@ export default {
         text: this.$t("buttons.versions"),
         onClick: () => {
           this.$emit("openVersion");
-        }
+        },
       };
     },
     saveAndBackButtonOptions() {
@@ -199,16 +196,17 @@ export default {
         onClick: () => {
           if (this.$parent.$refs["form"].instance.validate().isValid)
             this.$awn.asyncBlock(
-              this.$store.dispatch("currentDocument/save"),
-              res => {
+              this.$store.dispatch(`documents/${this.documentId}/save`),
+              (res) => {
                 this.$awn.success();
+                this.$emit("onSave", { back: true });
                 this.$router.go(-1);
               },
-              e => {
+              (e) => {
                 this.$awn.alert();
               }
             );
-        }
+        },
       };
     },
     createAddendumOptions() {
@@ -219,9 +217,9 @@ export default {
         onClick: () => {
           this.$router.push({
             path: `/paper-work/create/${DocumentTypeGuid.Addendum}`,
-            query: { leadingDocument: this.$route.params.id }
+            query: { leadingDocument: this.$route.params.id },
           });
-        }
+        },
       };
     },
     removeDocumentButtonOptions() {
@@ -234,39 +232,33 @@ export default {
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then(dialogResult => {
+          result.then((dialogResult) => {
             if (dialogResult) {
               this.$awn.asyncBlock(
-                this.$store.dispach("currentDocument/delete"),
-                e => {
-                  this.$router.go(-1);
+                this.$store.dispach(`documents/${this.documentId}/delete`),
+                (e) => {
+                  this.$emit("onRemove");
                   this.$awn.success();
                 },
-                e => {
+                (e) => {
                   this.$awn.alert();
                 }
               );
             }
           });
-        }
+        },
       };
     },
     refreshButtonOptions() {
       return {
         icon: "refresh",
         onClick: () => {
-          const { documentTypeGuid: type, id } = this.$store.getters[
-            "currentDocument/document"
-          ];
-
-          this.$store.dispatch("currentDocument/getDocumentById", {
-            type,
-            id
-          });
-        }
+          const { documentTypeGuid, id } = this.document;
+          this.$awn.asyncBlock(load(this, { documentTypeGuid, id }), () => {});
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

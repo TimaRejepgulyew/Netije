@@ -1,4 +1,4 @@
 {
-    "baseUrl": "https://net.turkmen-tranzit.com",
+    "baseUrl": "https://192.168.4.159",
     "uiAddr": "http://localhost:3000"
 }

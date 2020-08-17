@@ -144,7 +144,7 @@ export default {
         }
       ],
       filterBuilderPopupPosition: this.$store.getters[
-        "papaer-work/filterBuilderPopupPosition"
+        "paper-work/filterBuilderPopupPosition"
       ],
       selectDocument: e => {
         this.$emit("selectedDocument", {

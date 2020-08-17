@@ -1,18 +1,24 @@
-import addendumIcon from "~/static/icons/document-type/addendum.svg";
-import incomingLetterIcon from "~/static/icons/document-type/incoming-letter.svg";
-import companyDirectiveIcon from "~/static/icons/document-type/company-directive.svg";
-import outgoingLetterIcon from "~/static/icons/document-type/outgoing-letter.svg";
-import memoIcon from "~/static/icons/document-type/memo.svg";
-import orderIcon from "~/static/icons/document-type/order.svg";
-import powerOfAttorneyIcon from "~/static/icons/document-type/power-of-attorney.svg";
-import simpleDocumentIcon from "~/static/icons/document-type/simple-document.svg";
+import Addendum from "~/static/icons/document-type/addendum.svg";
+import IncomingLetter from "~/static/icons/document-type/incoming-letter.svg";
+import CompanyDirective from "~/static/icons/document-type/company-directive.svg";
+import OutgoingLetter from "~/static/icons/document-type/outgoing-letter.svg";
+import Memo from "~/static/icons/document-type/memo.svg";
+import OrderIcon from "~/static/icons/document-type/order.svg";
+import PowerOfAttorney from "~/static/icons/document-type/power-of-attorney.svg";
+import SimpleDocument from "~/static/icons/document-type/simple-document.svg";
+import ContractStatement from "~/static/icons/document-type/contactState.svg";
+import IncomingInvoice from "~/static/icons/document-type/memo.svg";
+import PowerOfAttorney from "~/static/icons/document-type/power-of-attorney.svg";
+import SimpleDocument from "~/static/icons/document-type/simple-document.svg";
 export {
-  addendumIcon,
-  incomingLetterIcon,
-  companyDirectiveIcon,
-  outgoingLetterIcon,
-  memoIcon,
-  orderIcon,
-  powerOfAttorneyIcon,
-  simpleDocumentIcon
+  Addendum,
+  IncomingLetter,
+  CompanyDirective,
+  OutgoingLetter,
+  Memo,
+  OrderIcon as Order,
+  PowerOfAttorney,
+  SimpleDocument,
+  ContractStatement,
+  IncomingInvoice
 };

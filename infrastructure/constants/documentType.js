@@ -1,5 +1,5 @@
 import entityTypes from "./entityTypes";
-
+import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 const DocumentTypeGuid = {
   IncomingLetter: 1,
   OutgoingLetter: 2,
@@ -69,3 +69,78 @@ export function generateNameByDocTypeGuid(key, context) {
   return documentTypeGuidName.get(key);
 }
 export default DocumentTypeGuid;
+
+export class DocumentType {
+  documentTypes = DocumentTypeGuid;
+  init(context) {
+    this.documentTypes = generatorMapObj({
+      Constant: DocumentTypes,
+      translateName: "document.type",
+      context: context,
+      iconStores: documentTypeIcon
+    });
+    return;
+  }
+  getAll() {
+    return this.documentTypes;
+  }
+  getPaperWorkDocument() {
+    const getPaperWorkDocument = {};
+    for (let documentType in this.documentTypes) {
+      if (documentType <= 8)
+        getPaperWorkDocument[documentType] = this.documentTypes[documentType];
+    }
+    return getPaperWorkDocument;
+  }
+  getContractDocument() {
+    const contractDocument = {};
+    for (let documentType in this.documentTypes) {
+      switch (documentType) {
+        case DocumentTypeGuid.IncomingInvoice:
+          contractDocument[
+            DocumentTypeGuid.IncomingInvoice
+          ] = this.documentTypes[DocumentTypeGuid.IncomingInvoice];
+        case DocumentTypeGuid.ContractStatement:
+          contractDocument[
+            DocumentTypeGuid.ContractStatement
+          ] = this.documentTypes[DocumentTypeGuid.ContractStatement];
+        case DocumentTypeGuid.Contract:
+          contractDocument[DocumentTypeGuid.Contract] = this.documentTypes[
+            DocumentTypeGuid.Contract
+          ];
+        case DocumentTypeGuid.SupAgreement:
+          contractDocument[DocumentTypeGuid.SupAgreement] = this.documentTypes[
+            DocumentTypeGuid.SupAgreement
+          ];
+      }
+    }
+    return contractDocument;
+  }
+  getFinancialArchive() {
+    const financialArchive = {};
+    for (let documentType in this.documentTypes) {
+      switch (documentType) {
+        case DocumentTypeGuid.IncomingTaxInvoice:
+          contractDocument[
+            DocumentTypeGuid.IncomingTaxInvoice
+          ] = this.documentTypes[DocumentTypeGuid.IncomingTaxInvoice];
+
+        case DocumentTypeGuid.OutgoingTaxInvoice:
+          contractDocument[
+            DocumentTypeGuid.OutgoingTaxInvoice
+          ] = this.documentTypes[DocumentTypeGuid.OutgoingTaxInvoice];
+
+        case DocumentTypeGuid.UniversalTransferDocument:
+          contractDocument[
+            DocumentTypeGuid.ContraUniversalTransferDocumentct
+          ] = this.documentTypes[DocumentTypeGuid.UniversalTransferDocument];
+
+        case DocumentTypeGuid.Waybill:
+          contractDocument[DocumentTypeGuid.Waybill] = this.documentTypes[
+            DocumentTypeGuid.Waybill
+          ];
+      }
+    }
+    return financialArchive;
+  }
+}

@@ -58,7 +58,7 @@ import DxForm, {
   DxRequiredRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule
+  DxPatternRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -71,34 +71,35 @@ export default {
     DxRangeRule,
     DxStringLengthRule,
     DxForm,
-    DxButton
+    DxButton,
   },
-  destroyed() {
-    if (!this.isRegistered)
-      this.$store.commit("currentDocument/CLEAR_REGISTRATION_DATA");
-  },
+  props: ["documentId"],
   data() {
     return {
       saveButtonOptions: {
         text: this.$t("buttons.register"),
         useSubmitBehavior: true,
-        type: "success"
+        type: "success",
       },
       regData: {
-        documentId: this.$store.getters["currentDocument/document"].id,
-        documentTypeGuid: this.$store.getters["currentDocument/document"]
-          .documentTypeGuid,
+        documentId: this.documentId,
+        documentTypeGuid: this.$store.getters[
+          `documents/${this.documentId}/document`
+        ].documentTypeGuid,
         isCustomNumber: false,
         registrationNumber: null,
         registrationDate: null,
-        documentRegisterId: null
+        documentRegisterId: null,
       },
-      registrationNumberPattern: ""
+      registrationNumberPattern: "",
     };
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`docuemnts/${this.documentId}/isRegistered`];
     },
     filter() {
       return `?documentRegisterId=${
@@ -108,12 +109,10 @@ export default {
       ).format("L")}`;
     },
     isCustomNumberOptions() {
-      const numberingType = this.$store.getters["currentDocument/document"]
-        .documentKind.numberingType;
+      const numberingType = this.document.documentKind.numberingType;
       let autoNumbering;
       if (numberingType === numberingTypes.Numerable) {
-        autoNumbering = this.$store.getters["currentDocument/document"]
-          .documentKind.autoNumbering;
+        autoNumbering = this.document.documentKind.autoNumbering;
         if (autoNumbering) {
           this.regData.isCustomNumber = false;
           return { disabled: true };
@@ -121,39 +120,40 @@ export default {
       }
       return {
         disabled: false,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.getDataByFilter();
-        }
+        },
       };
     },
     registrationNumberOptions() {
       return {
         disabled: !this.regData.isCustomNumber,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.getDataByFilter();
-        }
+        },
       };
     },
     registrationDateOptions() {
       return {
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.getDataByFilter();
-        }
+        },
       };
     },
     documentRegisterOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.documentRegistration.Registries + this.regData.documentId
+          url:
+            dataApi.documentRegistration.Registries + this.regData.documentId,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           if (!this.regData.registrationDate)
             this.regData.registrationDate = new Date();
           else this.getDataByFilter();
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     async getDataByFilter() {
@@ -172,14 +172,17 @@ export default {
     },
     handleSubmit() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentDocument/registration", this.regData),
-        res => {
+        this.$store.dispatch(
+          `documents/${this.documentId}/registration`,
+          this.regData
+        ),
+        (res) => {
           this.$emit("hidePopup");
           this.$awn.success();
         },
-        err => this.$awn.alert()
+        (err) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>

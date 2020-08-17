@@ -18,15 +18,18 @@ import { DxDropDownButton } from "devextreme-vue";
 import { createDocumentRequest } from "~/infrastructure/constants/creatingItems.js";
 export default {
   components: {
-    DxDropDownButton
+    DxDropDownButton,
   },
+  props: ["documentId"],
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     items() {
-      const documentTypeGuid = this.$store.getters["currentDocument/document"]
-        .documentTypeGuid;
-      const documentId = this.$store.getters["currentDocument/document"].id;
+      const documentTypeGuid = this.document.documentTypeGuid;
+
       function generateUrl(typeGuid) {
-        return `/paper-work/create/${typeGuid}?relationId=${documentId}`;
+        return `/paper-work/create/${typeGuid}?relationId=${this.documentId}`;
       }
       return [
         {
@@ -36,10 +39,10 @@ export default {
           create: async () => {
             await createDocumentRequest(this, {
               documentType: DocumentType.IncomingLetter,
-              leadingDocumentId: this.$store.getters["currentDocument/document"].id,
-              leadingDocumentType: this.$store.getters["currentDocument/document"].documentTypeGuid,
+              leadingDocumentId: this.documentId,
+              leadingDocumentType: this.document.documentTypeGuid,
             });
-          }
+          },
         },
         {
           icon: "plus",
@@ -48,11 +51,10 @@ export default {
           create: async () => {
             await createDocumentRequest(this, {
               documentType: DocumentType.OutgoingLetter,
-              leadingDocumentId: this.$store.getters["currentDocument/document"]
-                .id,
-                leadingDocumentType: this.$store.getters["currentDocument/document"].documentTypeGuid,
+              leadingDocumentId: this.documentId,
+              leadingDocumentType: this.document.documentTypeGuid,
             });
-          }
+          },
         },
 
         {
@@ -61,20 +63,19 @@ export default {
           create: async () => {
             await createDocumentRequest(this, {
               documentType: DocumentType.Addendum,
-              leadingDocumentId: this.$store.getters["currentDocument/document"]
-                .id,
-                leadingDocumentType: this.$store.getters["currentDocument/document"].documentTypeGuid,
+              leadingDocumentId: this.documentId,
+              leadingDocumentType: this.document.documentTypeGuid,
             });
-          }
-        }
+          },
+        },
       ];
-    }
+    },
   },
   methods: {
     async createRelation(e) {
       await e.itemData.create();
-    }
-  }
+    },
+  },
 };
 </script>
 
