@@ -3,6 +3,23 @@
     <div>
       <DxPopup
         :showTitle="false"
+        :visible.sync="showAssignmentCard"
+        :drag-enabled="false"
+        :close-on-outside-click="true"
+        :show-title="true"
+        width="90%"
+        :height="'95%'"
+      >
+        <div class="scrool-auto">
+          <card-assignment
+            v-if="showAssignmentCard"
+            :assignmentId="currentAssignmentId"
+            :isCard="true"
+          />
+        </div>
+      </DxPopup>
+      <DxPopup
+        :showTitle="false"
         :visible.sync="showTaskCard"
         :drag-enabled="false"
         :close-on-outside-click="true"
@@ -54,6 +71,9 @@
   </div>
 </template>
 <script>
+import { load as assignmentLoad } from "~/infrastructure/services/assignmentService.js";
+import { load as taskLoad } from "~/infrastructure/services/taskService.js";
+import cardAssignment from "~/components/assignment/index.vue";
 import cardTask from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import employeeCard from "~/components/employee/employee-card.vue";
@@ -63,6 +83,7 @@ import DxList from "devextreme-vue/list";
 import moment from "moment";
 export default {
   components: {
+    cardAssignment,
     cardTask,
     employeeCard,
     DxPopup,
@@ -85,9 +106,11 @@ export default {
         })
       }),
       showTaskCard: false,
+      currentTaskCardId: null,
       showAuthorCard: false,
       currentAuthorId: null,
-      currentTaskCardId: null
+      showAssignmentCard: false,
+      currentAssignmentId: null
     };
   },
   methods: {
@@ -99,11 +122,20 @@ export default {
       this.currentAuthorId = id;
       this.tooglePopup("showAuthorCard");
     },
-    async toDetailAssignment({ id, assignmentType }) {},
+    toDetailAssignment({ id, assignmentType }) {
+      this.currentAssignmentId = id;
+      this.$awn.asyncBlock(
+        assignmentLoad(this, this.currentAssignmentId),
+        () => {
+          this.tooglePopup("showAssignmentCard");
+        },
+        () => {}
+      );
+    },
     async toDetailTask({ id, taskType }) {
       this.currentTaskCardId = id;
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentTask/load", { taskType, key: id }),
+        taskLoad(this, { taskType, taskId: id }),
         () => {
           this.tooglePopup("showTaskCard");
         },

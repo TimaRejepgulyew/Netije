@@ -23,7 +23,7 @@
       </DxGroupItem>
 
       <template #mainForm>
-        <component :taskId="taskId" :is="taskType"></component>
+        <component :taskId="taskId" :is="taskTypeComponent"></component>
       </template>
       <template #attachments>
         <attachment
@@ -33,16 +33,10 @@
         />
       </template>
       <template #comments>
-        <thread-texts
-          v-if="!isDraft"
-          entityType="task"
-          :id="taskId"
-        ></thread-texts>
+        <thread-texts v-if="!isDraft" entityType="task" :id="taskId"></thread-texts>
       </template>
     </DxForm>
   </div>
-
-
 </template>
 <script>
 import documentReviewTask from "~/components/task/document-review-task.vue";
@@ -53,6 +47,7 @@ import TaskType from "~/infrastructure/constants/taskType.js";
 import toolbar from "~/components/task/toolbar.vue";
 import Header from "~/components/page/page__header";
 import attachment from "~/components/workFlow/attachment.vue";
+import { unload } from "~/infrastructure/services/taskService.js";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -61,12 +56,13 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
-  name: "index",
+  name: "task",
   components: {
     simpleTask,
     acquaintanceTask,
     actionItemExecutionTask,
-    threadTexts:()=>import("~/components/workFlow/thread-text/thread-texts.vue"),
+    threadTexts: () =>
+      import("~/components/workFlow/thread-text/thread-texts.vue"),
     toolbar,
     attachment,
     Header,
@@ -86,13 +82,11 @@ export default {
     }
   },
   destroyed() {
-    this.$store.dispatch("currentTask/dispose", { key: this.taskId });
+    unload(this, this.taskId);
   },
   data() {
     return {
       taskTypeNames: null,
-      taskTypeGuid: this.$store.getters["currentTask/task"](this.taskId)
-        .taskType,
       commentsUrl: dataApi.task.TextsByTask
     };
   },
@@ -109,49 +103,52 @@ export default {
   methods: {
     backTo() {
       if (this.isCard) {
-        const taskId = this.$store.getters["currentTask/task"](this.taskId).id;
+        const taskId = this.task.id;
         this.$emit("closeTask", taskId);
       } else this.$router.go(-1);
     },
     detach(attachmentId) {
       this.$awn.async(
-        this.$store.dispatch("currentTask/detachAttachment", {
-          key: this.taskId,
-          payload: attachmentId
-        }),
+        this.$store.dispatch(
+          `tasks/${this.taskId}/detachAttachment`,
+          attachmentId
+        ),
         () => {},
         () => {}
       );
     },
     pasteAttachment(options) {
       this.$awn.async(
-        this.$store.dispatch("currentTask/pasteAttachment", {
-          key: this.taskId,
-          payload: options
-        }),
+        this.$store.dispatch(`tasks/${this.taskId}/pasteAttachment`, options),
         () => {},
         () => {}
       );
     }
   },
   computed: {
-    headerTitle() {
-      return this.isNew
-        ? this.taskTypeNames.get(this.taskTypeGuid)
-        : this.$store.getters["currentTask/task"](this.taskId).subject;
-    },
-    attachmentGroups() {
-      return this.$store.getters["currentTask/task"](this.taskId)
-        .attachmentGroups;
-    },
-    isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.taskId);
-    },
-    isNew() {
-      return this.$store.getters["currentTask/isNew"](this.taskId);
+    task() {
+      return this.$store.getters[`tasks/${this.taskId}/task`];
     },
     taskType() {
-      switch (this.taskTypeGuid) {
+      return this.task.taskType;
+    },
+    headerTitle() {
+      return this.isNew
+        ? this.taskTypeNames.get(this.taskType)
+        : this.task.subject;
+    },
+    attachmentGroups() {
+      return this.task.attachmentGroups;
+    },
+    isDraft() {
+      return this.$store.getters[`tasks/${this.taskId}/isDraft`];
+    },
+    isNew() {
+      return this.$store.getters[`tasks${this.taskId}/isNew`];
+    },
+
+    taskTypeComponent() {
+      switch (this.taskType) {
         case TaskType.SimpleTask:
           return "simple-task";
         case TaskType.AcquaintanceTask:

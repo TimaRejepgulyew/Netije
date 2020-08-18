@@ -96,54 +96,45 @@ export default {
   },
   methods: {
     setObservers(value) {
-      this.$store.commit("currentTask/SET_OBSERVERS", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_OBSERVERS`, value);
     },
     setPerformers(value) {
-      this.$store.commit("currentTask/SET_PERFORMERS", {
-        key: this.taskId,
-        payload: value
-      });
+      this.$store.commit(`tasks/${this.taskId}/SET_PERFORMERS`, value);
     }
   },
   computed: {
+    task() {
+      return this.$store.getters[`tasks/${this.taskId}/task`];
+    },
     observers() {
-      return this.$store.getters["currentTask/task"](this.taskId).observers;
+      return this.task.observers;
     },
     performers() {
-      return this.$store.getters["currentTask/task"](this.taskId).performers;
+      return this.task.performers;
     },
     inProcess() {
-      return this.$store.getters["currentTask/inProcess"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/inProcess`];
     },
     isNew() {
-      return this.$store.getters["currentTask/isNew"](this.taskId);
+      return this.$store.getters[`tasks${this.taskId}/isNew`];
     },
     isDraft() {
-      return this.$store.getters["currentTask/isDraft"](this.taskId);
+      return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     subjectOptions() {
       return {
-        value: this.$store.getters["currentTask/task"](this.taskId).subject,
+        value: this.task.subject,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_SUBJECT", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
         }
       };
     },
     bodyOptions() {
       return {
         height: 250,
-        value: this.$store.getters["currentTask/task"](this.taskId).body,
+        value: this.task.body,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_BODY", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
         }
       };
     },
@@ -151,12 +142,9 @@ export default {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.$store.getters["currentTask/task"](this.taskId).maxDeadline,
+        value: this.task.maxDeadline,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_MAX_DEADLINE", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
         }
       };
     },
@@ -165,12 +153,9 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
-        value: this.$store.getters["currentTask/task"](this.taskId).needsReview,
+        value: this.task.needsReview,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_NEEDS_REVIEW", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_NEEDS_REVIEW`, e.value);
         }
       };
     },
@@ -182,12 +167,9 @@ export default {
           { id: 0, name: this.$t("translations.fields.gradually") },
           { id: 1, name: this.$t("translations.fields.parallel") }
         ],
-        value: this.$store.getters["currentTask/task"](this.taskId).routeType,
+        value: this.task.routeType,
         onValueChanged: e => {
-          this.$store.commit("currentTask/SET_ROUTE_TYPE", {
-            key: this.taskId,
-            payload: e.value
-          });
+          this.$store.commit(`tasks/${this.taskId}/SET_IMPORTANCE`, e.value);
         }
       };
     }

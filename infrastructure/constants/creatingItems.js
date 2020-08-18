@@ -1,5 +1,5 @@
 import DocumentType from "~/infrastructure/constants/documentType.js";
-import TaskType from "~/infrastructure/constants/taskType.js";
+import { taskElements } from "~/infrastructure/constants/taskType.js";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
 import financialArchiveIcon from "~/static/icons/financial-archive.svg";
 import contractIcon from "~/static/icons/contract.svg";
@@ -10,11 +10,8 @@ import outgoingTaxInvoiceIcon from "~/static/icons/outgoingTaxInvoice.svg";
 import universaltransferdocumentIcon from "~/static/icons/universaltransferdocument.svg";
 import waybillIcon from "~/static/icons/waybill.svg";
 import supAgreementIcon from "~/static/icons/supAgreement.svg";
-import simpleTaskIcon from "~/static/icons/simpleTask.svg";
-import acquintanceTaskIcon from "~/static/icons/acquintanceTask.svg";
-import actionItemExecution from "~/static/icons/actionItemExecution.svg";
-import documentReview from "~/static/icons/documentReview.svg";
 import * as documentTypeIcon from "~/static/icons/document-type/index.js";
+import { createTask } from "~/infrastructure/services/taskService.js";
 export default function(context) {
   return [
     {
@@ -44,7 +41,8 @@ export default function(context) {
   ];
 }
 function toRouter(context, { taskId, taskType }) {
-  const replaceOldRoute = context.$store.getters["currentTask/isNew"](taskId);
+  console.log(taskId, taskType);
+  const replaceOldRoute = context.$store.getters[`tasks/${taskId}/isNew`];
   const route = `/task/detail/${taskType}/${taskId}`;
   if (replaceOldRoute) {
     context.$router.replace(route);
@@ -52,61 +50,65 @@ function toRouter(context, { taskId, taskType }) {
     context.$router.push(route);
   }
 }
-export const createTaskRequest = async function(
-  context,
-  params,
-  withRouter = true
-) {
-  const guid = +new Date();
-  await context.$store.dispatch("currentTask/initTask", { ...params, guid });
-  const taskId = context.$store.getters["currentTask/taskIdByGuid"](guid);
-  context.$store.commit("currentTask/DROP_GUID", { key: guid });
-  if (withRouter) toRouter(context, { taskId, taskType: params.taskType });
-  else return { taskId, taskType: params.taskType };
-};
+function createTaskBtn(context) {
+  const taskTypeBtn = taskElements(context);
+  for (let item in taskTypeBtn) {
+    taskTypeBtn[item].create = async function(params) {
+      const { taskId, taskType } = await createTask(context, {
+        taskType: +item,...params
+      });
+      console.log(taskId, taskType, "createItems");
+      toRouter(context, { taskId, taskType });
+    };
+  }
+  console.log(taskTypeBtn);
+  return taskTypeBtn;
+}
+
 export function TaskButtons(context) {
-  return [
-    {
-      icon: simpleTaskIcon,
-      text: context.$t("createItemDialog.simpleTask"),
-      async create(params) {
-        await createTaskRequest(context, {
-          taskType: TaskType.SimpleTask,
-          ...params
-        });
-      }
-    },
-    {
-      icon: acquintanceTaskIcon,
-      text: context.$t("createItemDialog.acquaintanceTask"),
-      async create(params) {
-        await createTaskRequest(context, {
-          taskType: TaskType.AcquaintanceTask,
-          ...params
-        });
-      }
-    },
-    {
-      icon: actionItemExecution,
-      text: context.$t("createItemDialog.actionItemExecutionTask"),
-      async create(params) {
-        await createTaskRequest(context, {
-          taskType: TaskType.ActionItemExecutionTask,
-          ...params
-        });
-      }
-    },
-    {
-      icon: documentReview,
-      text: context.$t("createItemDialog.documentReviewTask"),
-      async create(params) {
-        await createTaskRequest(context, {
-          taskType: TaskType.DocumentReviewTask,
-          ...params
-        });
-      }
-    }
-  ];
+  return Object.values(createTaskBtn(context));
+  // return [
+  //   {
+  //     icon: simpleTaskIcon,
+  //     text: context.$t("createItemDialog.simpleTask"),
+  //     async create(params) {
+  //       await createTaskRequest(context, {
+  //         taskType: TaskType.SimpleTask,
+  //         ...params
+  //       });
+  //     }
+  //   },
+  //   {
+  //     icon: acquintanceTaskIcon,
+  //     text: context.$t("createItemDialog.acquaintanceTask"),
+  //     async create(params) {
+  //       await createTaskRequest(context, {
+  //         taskType: TaskType.AcquaintanceTask,
+  //         ...params
+  //       });
+  //     }
+  //   },
+  //   {
+  //     icon: actionItemExecution,
+  //     text: context.$t("createItemDialog.actionItemExecutionTask"),
+  //     async create(params) {
+  //       await createTaskRequest(context, {
+  //         taskType: TaskType.ActionItemExecutionTask,
+  //         ...params
+  //       });
+  //     }
+  //   },
+  //   {
+  //     icon: documentReview,
+  //     text: context.$t("createItemDialog.documentReviewTask"),
+  //     async create(params) {
+  //       await createTaskRequest(context, {
+  //         taskType: TaskType.DocumentReviewTask,
+  //         ...params
+  //       });
+  //     }
+  //   }
+  // ];
 }
 
 export const createDocumentRequest = async function(context, params) {

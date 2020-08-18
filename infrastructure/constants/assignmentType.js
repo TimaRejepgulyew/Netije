@@ -17,27 +17,14 @@ const AssignmentType = {
   ReviewObserversNotification: 14,
   ReviewClerkNotification: 15,
   FreeApprovalAssignment: 16,
-  FreeApprovalFinishAssignment : 17,
-  FreeApprovalReworkAssignment : 18,
-  ActionItemObserversNotification : 19,
-  ActionItemSupervisorNotification :20,
-  FreeApprovalNotification :21
-
+  FreeApprovalFinishAssignment: 17,
+  FreeApprovalReworkAssignment: 18,
+  ActionItemObserversNotification: 19,
+  ActionItemSupervisorNotification: 20,
+  FreeApprovalNotification: 21
 };
 export default AssignmentType;
-export function isAssignment(type) {
-  switch (type) {
-    case AssignmentType.SimpleAssignment:
-    case AssignmentType.AcquaintanceAssignment:
-    case AssignmentType.ActionItemExecutionAssignment:
-    case AssignmentType.AcquaintanceFinishAssignment:
-    case AssignmentType.ActionItemSupervisorAssignment:
-    case AssignmentType.ReviewAssignment:
-      return true;
-    default:
-      return false;
-  }
-}
+
 
 export function isActionItemExicutionAssignment(type) {
   return type === AssignmentType.ActionItemExecutionAssignment;
