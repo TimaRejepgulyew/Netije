@@ -67,6 +67,7 @@ function TaskButtons(context) {
   const taskTypes = taskElements(context);
 
   for (let taskType in taskTypes) {
+    
     taskTypes[+taskType].create = async context => {
       const { taskId } = await createTask(context, {
         taskType: +taskType
