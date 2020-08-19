@@ -16,8 +16,6 @@ function loadDocument(context, documentId, payload) {
   context.$store.commit(`documents/${documentId}/SET_DOCUMENT`, payload);
 }
 export async function createDocument(context, params) {
-  var result = await documentChangeTracker.handleConfirm(context);
-  if (!result) return;
   const { data } = await context.$axios.post(
     dataApi.paperWork.Documents,
     params
@@ -26,7 +24,7 @@ export async function createDocument(context, params) {
   const documentTypeGuid = data.document.documentTypeGuid;
   await documentModules.registerModule(context, documentId);
   loadDocument(context, documentId, data);
-  context.$store.commit(`documents/${documentId}/IS_NEW`, true);
+  context.$store.commit(`documents/${documentId}/SET_IS_NEW`, true);
   context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, true);
   context.$store.commit(`documents/${documentId}/SKIP_DESTROY`, true);

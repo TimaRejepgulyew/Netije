@@ -1,18 +1,38 @@
-import DocumentType from "~/infrastructure/constants/documentType.js";
+import { DocumentType } from "~/infrastructure/constants/documentType.js";
 import { taskElements } from "~/infrastructure/constants/taskType.js";
-
 import { createTask } from "~/infrastructure/services/taskService.js";
 import { createDocument } from "~/infrastructure/services/documentService.js";
 
 export default function(context) {
-  CreateDocumentButton().init(context);
+  async function create(context, params) {
+    const { documentTypeGuid, documentId } = await createDocument(
+      context,
+      params
+    );
+    const route = `/paper-work/detail/${documentTypeGuid}/${documentId}`;
+    const replaceOldRoute =
+      context.$store.getters[`documents/${documentId}/isNew`];
+    toRouter(context, { route, replaceOldRoute });
+  }
+
+  const paperWorkDocumentBtns = Object.values(
+    new DocumentCreateButton(context)
+      .withMethodCreate(create)
+      .filterPaperWorkDocument()
+  );
+  const financialArchiveDocumentBtns = Object.values(
+    new DocumentCreateButton(context)
+      .withMethodCreate(create)
+      .filterFinancialArchive()
+  );
+  const contractDocumentBtns = Object.values(
+    new DocumentCreateButton(context).withMethodCreate(create).filterContract()
+  );
   return [
     {
       text: context.$t("createItemDialog.recordManagementGroup"),
       icon: "file",
-      items: CreateDocumentButton()
-        .init(context)
-        .getPaperWorkDocument()
+      items: paperWorkDocumentBtns
     },
     {
       text: context.$t("createItemDialog.taskGroup"),
@@ -22,15 +42,15 @@ export default function(context) {
 
     {
       text: context.$t("createItemDialog.accountingDocumentsGroup"),
-      icon: financialArchiveIcon,
-      items: CreateDocumentButton.init(context).getFinancialArchive(),
+      // icon: financialArchiveIcon,
+      items: financialArchiveDocumentBtns,
       visible:
         context.$store.getters["permissions/isResponsibleFinansicalArchive"]
     },
     {
       text: context.$t("createItemDialog.contractualDocumentsGroup"),
-      icon: contractIcon,
-      items: CreateDocumentButton.init(context).getContractDocument(),
+      // icon: contractIcon,
+      items: contractDocumentBtns,
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
     }
   ];
@@ -44,49 +64,29 @@ function toRouter(context, { replaceOldRoute, route }) {
   }
 }
 function TaskButtons(context) {
-  const taskTypeBtn = taskElements(context);
-  for (let item in taskTypeBtn) {
-    taskTypeBtn[item].create = async function(params) {
-      const { taskId, taskType } = await createTask(context, {
-        taskType: +item,
-        ...params
+  const taskTypes = taskElements(context);
+
+  for (let taskType in taskTypes) {
+    taskTypes[+taskType].create = async context => {
+      const { taskId } = await createTask(context, {
+        taskType: +taskType
       });
-      const route = `/task/detail/${taskType}/${taskId}`;
+      const route = `/task/detail/${+taskType}/${taskId}`;
       const replaceOldRoute = context.$store.getters[`tasks/${taskId}/isNew`];
       toRouter(context, { route, replaceOldRoute });
     };
   }
-  return Object.values(taskTypeBtn(context));
+  return Object.values(taskTypes);
 }
-function documentBtn(context) {
-  async function create(context) {
-    const { documentTypeGuid, documentId } = await createDocument(context);
-    const route = `/paper-work/detail/${documentTypeGuid}/${documentId}`;
-    const replaceOldRoute =
-      context.$store.getters[`documents/${documentId}/isNew`];
-    toRouter(context, { route, replaceOldRoute });
-  }
-  const documentTypes = documentTypes(context);
-  for (let documentType in documentTypes) {
-    documentTypes[documentType].create = async context => {
-      return await create(context);
-    };
-  }
-  return 
-}
-export class CreateDocumentButton extends DocumentType {
-  init(context) {
-    async function create(context) {
-      const { documentTypeGuid, documentId } = await createDocument(context);
-      const route = `/paper-work/detail/${documentTypeGuid}/${documentId}`;
-      const replaceOldRoute =
-        context.$store.getters[`dcoments/${documentId}/isNew`];
-      toRouter(context, { route, replaceOldRoute });
-    }
-    super.init(context);
+
+export class DocumentCreateButton extends DocumentType {
+  withMethodCreate(method) {
     for (let documentType in this.documentTypes) {
-      this.documentTypes[documentType] = create;
+      this.documentTypes[documentType].create = context => {
+        console.log(+documentType);
+        method(context, { documentType: +documentType });
+      };
     }
-    return;
+    return this;
   }
 }

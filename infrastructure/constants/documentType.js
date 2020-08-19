@@ -1,6 +1,6 @@
 import entityTypes from "./entityTypes";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
-import documentTypeIcon from "~/static/icons/document-type/index.js"
+import *as documentTypeIcon from "~/static/icons/document-type/index.js";
 const DocumentTypeGuid = {
   IncomingLetter: 1,
   OutgoingLetter: 2,
@@ -69,76 +69,79 @@ export function generateNameByDocTypeGuid(key, context) {
   }
   return documentTypeGuidName.get(key);
 }
+
 export default DocumentTypeGuid;
 
 export class DocumentType {
-  documentTypes = DocumentTypeGuid;
-  init(context,options) {
+  constructor(context, options) {
     this.documentTypes = generatorMapObj({
-      Constant: DocumentTypes,
+      Constant: DocumentTypeGuid,
       translateName: "document.type",
       context: context,
-      iconStores: documentTypeIcon,
-      
+      iconStores: documentTypeIcon
     });
-    return;
   }
   getAll() {
     return this.documentTypes;
   }
-  getPaperWorkDocument() {
+  filterPaperWorkDocument() {
     const getPaperWorkDocument = {};
     for (let documentType in this.documentTypes) {
       if (documentType <= 8)
         getPaperWorkDocument[documentType] = this.documentTypes[documentType];
     }
+    console.log(getPaperWorkDocument);
     return getPaperWorkDocument;
   }
-  getContractDocument() {
+  filterContract() {
     const contractDocument = {};
     for (let documentType in this.documentTypes) {
-      switch (documentType) {
+      switch (+documentType) {
         case DocumentTypeGuid.IncomingInvoice:
           contractDocument[
             DocumentTypeGuid.IncomingInvoice
           ] = this.documentTypes[DocumentTypeGuid.IncomingInvoice];
+          break;
         case DocumentTypeGuid.ContractStatement:
           contractDocument[
             DocumentTypeGuid.ContractStatement
           ] = this.documentTypes[DocumentTypeGuid.ContractStatement];
+          break;
         case DocumentTypeGuid.Contract:
           contractDocument[DocumentTypeGuid.Contract] = this.documentTypes[
             DocumentTypeGuid.Contract
           ];
+          break;
         case DocumentTypeGuid.SupAgreement:
           contractDocument[DocumentTypeGuid.SupAgreement] = this.documentTypes[
             DocumentTypeGuid.SupAgreement
           ];
+          break;
       }
     }
     return contractDocument;
   }
-  getFinancialArchive() {
+  filterFinancialArchive() {
     const financialArchive = {};
     for (let documentType in this.documentTypes) {
-      switch (documentType) {
+      switch (+documentType) {
         case DocumentTypeGuid.IncomingTaxInvoice:
-          contractDocument[
+          financialArchive[
             DocumentTypeGuid.IncomingTaxInvoice
           ] = this.documentTypes[DocumentTypeGuid.IncomingTaxInvoice];
-
+          break;
         case DocumentTypeGuid.OutgoingTaxInvoice:
-          contractDocument[
+          financialArchive[
             DocumentTypeGuid.OutgoingTaxInvoice
           ] = this.documentTypes[DocumentTypeGuid.OutgoingTaxInvoice];
-
+          break;
         case DocumentTypeGuid.UniversalTransferDocument:
-          contractDocument[
+          financialArchive[
             DocumentTypeGuid.ContraUniversalTransferDocumentct
           ] = this.documentTypes[DocumentTypeGuid.UniversalTransferDocument];
-
+          break;
         case DocumentTypeGuid.Waybill:
-          contractDocument[DocumentTypeGuid.Waybill] = this.documentTypes[
+          financialArchive[DocumentTypeGuid.Waybill] = this.documentTypes[
             DocumentTypeGuid.Waybill
           ];
       }

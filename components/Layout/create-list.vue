@@ -1,7 +1,7 @@
 <template>
   <DxTreeView
     :animation-enabled="true"
-    :items="creatingItems"
+    :items="createItems"
     expand-event="click"
     key-expr="path"
     selection-mode="single"
@@ -20,14 +20,14 @@ export default {
   },
   data() {
     return {
-      creatingItems: createItems(this),
+      createItems: createItems(this),
       treeView: this.$refs["treeViewRef"] && this.$refs["treeViewRef"].instance
     };
   },
   methods: {
     async handleItemClick(e) {
       if (e.itemData.create) {
-        await e.itemData.create();
+        await e.itemData.create(this);
         this.$parent.$parent.hidePopup();
       }
     }

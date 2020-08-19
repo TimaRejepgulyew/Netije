@@ -44,8 +44,8 @@ export default {
       result = await documentChangeTracker.handleConfirm(this);
       if (result) {
         await load(this, {
-          documentTypeGuid: +params.type,
-          documentId: +params.id,
+          documentTypeGuid: +this.$route.params.type,
+          documentId: +this.$route.params.id,
         });
       }
     }

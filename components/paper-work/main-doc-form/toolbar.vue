@@ -88,7 +88,7 @@ import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
 import accessRight from "~/components/page/access-right.vue";
-import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
+import DxToolbar, { DxItem  } from "devextreme-vue/toolbar";
 import Docflow from "~/infrastructure/constants/docflows";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import { DxButton } from "devextreme-vue";
