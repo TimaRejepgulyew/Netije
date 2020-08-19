@@ -39,7 +39,7 @@ export default {
     openDocument(e) {
       if (e.selectedItem !== null && typeof e.selectedItem !== "string") {
         this.$router.push(
-          `/paper-work/detail/${e.selectedItem.documentTypeGuid}/${e.selectedItem.id}`
+          `/document-module/detail/${e.selectedItem.documentTypeGuid}/${e.selectedItem.id}`
         );
       }
     }

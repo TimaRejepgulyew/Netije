@@ -29,7 +29,7 @@ export default {
       const documentTypeGuid = this.document.documentTypeGuid;
 
       function generateUrl(typeGuid) {
-        return `/paper-work/create/${typeGuid}?relationId=${this.documentId}`;
+        return `/document-module/create/${typeGuid}?relationId=${this.documentId}`;
       }
       return [
         {

@@ -11,7 +11,7 @@ export default function(context) {
       context,
       params
     );
-    const route = `/paper-work/detail/${documentTypeGuid}/${documentId}`;
+    const route = `/document-module/detail/${documentTypeGuid}/${documentId}`;
     const replaceOldRoute =
       context.$store.getters[`documents/${documentId}/isNew`];
     toRouter(context, { route, replaceOldRoute });
