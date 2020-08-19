@@ -36,6 +36,7 @@ export default {
       СustomizableDocumentRegisters: `${url}/api/DocumentRegister/СustomizableDocumentRegisters`,
       PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
       SuitableRegistrableDocumentRegisters: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters`,
+      DefaultNumberingDocumentRegister:`${url}/api/DocumentRegister/DefaultNumberingDocumentRegister/`
     },
     CaseFile: {
       Value: `${url}/api/CaseFile`,
