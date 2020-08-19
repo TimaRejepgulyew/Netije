@@ -24,6 +24,7 @@ export async function createDocument(context, params) {
   const documentTypeGuid = data.document.documentTypeGuid;
   await documentModules.registerModule(context, documentId);
   loadDocument(context, documentId, data);
+  
   context.$store.commit(`documents/${documentId}/SET_IS_NEW`, true);
   context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, true);

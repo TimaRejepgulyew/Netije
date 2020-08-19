@@ -42,12 +42,13 @@ export default {
       return this.$store.getters["cache/extension"];
     },
     document() {
-      this.$store.getters[`documents/${this.documentId}/document`];
+      return this.$store.getters[`documents/${this.documentId}/document`];
     },
   },
   methods: {
     uploadVersionFromFile(e) {
-      if (!this.document.subject) {
+     
+      if (this.document.subject) {
         this.$store.dispatch(
           `documents/${this.documentId}/setSubject`,
           e.file.name.split(".").slice(0, -1).join(".")

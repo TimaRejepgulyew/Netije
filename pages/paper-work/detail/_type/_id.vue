@@ -24,7 +24,7 @@ export default {
     let result = true;
     if (
       !this.$store.getters[
-        `document/${this.$route.params.id}/skipRouteHandling`
+        `document/${+this.$route.params.id}/skipRouteHandling`
       ]
     ) {
       result = await documentChangeTracker.handleConfirm(

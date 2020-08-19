@@ -80,6 +80,9 @@ export default {
     };
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
