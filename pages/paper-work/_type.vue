@@ -2,7 +2,7 @@
   <documentGrid :documentQuery="documentQuery" @selectedDocument="showDocumentDetails" />
 </template>
 <script>
-import documentGrid from "~/components/paper-work/document-grid.vue";
+import documentGrid from "~/components/document-module/document-grid.vue";
 export default {
   components: {
     documentGrid

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import documentCard from "~/components/paper-work/main-doc-form/index.vue";
+import documentCard from "~/components/document-module/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment-document-action-btn.vue";

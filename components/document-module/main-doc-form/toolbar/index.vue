@@ -82,11 +82,11 @@ import documentService from "~/infrastructure/services/documentVersionService.js
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
-import toolbarItemRegistration from "~/components/paper-work/main-doc-form/toolbar/document-registration-btn";
-import toolbarItemUploadVersion from "~/components/paper-work/main-doc-form/toolbar/upload-version-button.vue";
-import toolbarItemRelation from "~/components/paper-work/main-doc-form//toolbar/create-relation.vue";
+import toolbarItemRegistration from "~/components/document-module/main-doc-form/toolbar/document-registration-btn";
+import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
+import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";
-import toolbarItemAvailableActions from "~/components/paper-work/main-doc-form/toolbar/available-actions.vue";
+import toolbarItemAvailableActions from "~/components/document-module/main-doc-form/toolbar/available-actions.vue";
 //constants
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";

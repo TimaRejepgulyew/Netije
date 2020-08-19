@@ -38,7 +38,7 @@ import registerIcon from "~/static/icons/stamp.svg";
 import dataApi from "~/static/dataApi";
 import { confirm } from "devextreme/ui/dialog";
 import { DxPopup } from "devextreme-vue/popup";
-import DocumentRegistrationPopup from "~/components/paper-work/main-doc-form/toolbar/document-registration-popup";
+import DocumentRegistrationPopup from "~/components/document-module/main-doc-form/toolbar/document-registration-popup";
 import Docflow from "~/infrastructure/constants/docflows";
 import { DxButton } from "devextreme-vue";
 export default {

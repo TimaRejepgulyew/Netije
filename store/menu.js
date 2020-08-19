@@ -1,12 +1,7 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DocumentQuery, {
-  generateNameByDocQuery
-} from "~/infrastructure/constants/documentQuery";
-import {
-  FinancialArchive as financialArchiveIcon,
-  Contract as contractIcon
-} from "~/static/icons/document-type/index.js";
-
+import DocumentQuery from "~/infrastructure/constants/documentQuery";
+import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
+import contractIcon from "~/static/icons/document-type/contract.svg";
 export const state = () => ({
   menuList: []
 });
@@ -144,33 +139,13 @@ export const actions = {
         text: this.$i18n.t("menu.contractualDocuments"),
         icon: contractIcon,
         path: `/paper-work/${DocumentQuery.ContractualDocuments}`,
-        visible: hasContractAccess(rootGetters),
-        items: [
-          // {
-          //   text: this.$i18n.t("documentType.contract"),
-          //   path: `/paper-work/${DocumentQuery.Contract}`
-          // },
-          // {
-          //   text: this.$i18n.t("documentType.contractStatement"),
-          //   path: `/paper-work/${DocumentQuery.ContractStatement}`
-          // },
-        ]
+        visible: hasContractAccess(rootGetters)
       },
       {
         text: this.$i18n.t("menu.accountingDocuments"),
         icon: financialArchiveIcon,
         path: `/paper-work/${DocumentQuery.AccountingDocuments}`,
         visible: hasAccountingDocumentBaseAccess(rootGetters)
-        // items: [
-        //   {
-        //     text: this.$i18n.t("menu.accountingDocuments"),
-        //     path: `/paper-work/${DocumentQuery.AccountingDocuments}`
-        //   },
-        //   {
-        //     text: this.$i18n.t("menu.сontractsAndSupAgreements"),
-        //     path: `/paper-work/${DocumentQuery.ContractsAndSupAgreements}`
-        //   },
-        // ]
       },
       {
         text: this.$i18n.t("menu.contractors"),
