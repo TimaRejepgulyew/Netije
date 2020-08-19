@@ -145,7 +145,7 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.DocumentRegister.FilterByDocumentParams + this.regData.documentId
+          url: dataApi.docFlow.DocumentRegister.SuitableRegistrableDocumentRegisters + this.regData.documentId
         }),
         onValueChanged: e => {
           if (!this.regData.registrationDate)

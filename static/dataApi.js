@@ -33,10 +33,9 @@ export default {
     DocumentRegister: {
       Value: `${url}/api/DocumentRegister`,
       All: `${url}/api/DocumentRegister`,
-      GetUserDocumentRegistersForRegistration: `${url}/api/DocumentRegister/GetUserDocumentRegistersForRegistration`,
-      AvailableForRegistrationSetttings: `${url}/api/DocumentRegister/AvailableForRegistrationSetttings`,
+      СustomizableDocumentRegisters: `${url}/api/DocumentRegister/СustomizableDocumentRegisters`,
       PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
-      FilterByDocumentParams: `${url}/api/DocumentRegister/FilterByDocumentParams`,
+      SuitableRegistrableDocumentRegisters: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters`,
     },
     CaseFile: {
       Value: `${url}/api/CaseFile`,
