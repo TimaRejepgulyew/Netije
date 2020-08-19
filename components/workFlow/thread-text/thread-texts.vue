@@ -88,8 +88,8 @@ export default {
     employeeCard,
     DxPopup,
     DxList,
-    treadTextMediator: () =>
-      import("~/components/workFlow/thread-text/text-mediator.vue")
+    treadTextMediator: async () =>
+      await import("~/components/workFlow/thread-text/text-mediator.vue")
   },
   name: "thread-texts",
   props: ["id", "entityType"],

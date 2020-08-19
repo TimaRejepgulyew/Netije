@@ -88,14 +88,6 @@
             <DxLabel location="top" alignment="left" :text="$t('translations.fields.isDefault')" />
           </DxSimpleItem>
 
-          <DxSimpleItem :visible="isNumerable" data-field="autoNumbering" editor-type="dxCheckBox">
-            <DxLabel
-              location="top"
-              alignment="left"
-              :text="$t('translations.fields.autoNumbering')"
-            />
-          </DxSimpleItem>
-
           <DxSimpleItem data-field="note" :col-span="2" editor-type="dxTextArea">
             <DxLabel location="top" :text="$t('translations.fields.note')" />
           </DxSimpleItem>
@@ -147,7 +139,6 @@ export default {
         shortName: "",
         numberingType: null,
         generateDocumentName: false,
-        autoNumbering: false,
         isDefault: false,
         documentTypeGuid: null,
         code: "",
@@ -226,14 +217,6 @@ export default {
         displayExpr: "name"
       };
     },
-    isNumerable() {
-      if (this.documentKind.numberingType == NumberingType.Numerable) {
-        return true;
-      } else {
-        this.documentKind.autoNumbering = false;
-        return false;
-      }
-    }
   }
 };
 </script>

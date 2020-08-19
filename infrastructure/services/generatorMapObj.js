@@ -8,6 +8,7 @@ export default function({
 
   for (let item in Constant) {
     obj[Constant[item]] = {
+      value: item,
       icon: iconStores ? iconStores[item] : false,
       text: context.$t(`${translateName}.${item}`)
     };

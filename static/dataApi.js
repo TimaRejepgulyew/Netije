@@ -65,7 +65,7 @@ export default {
   paperWork: {
     Documents: `${url}/api/OfficialDocument/`,
     AllDocument: `${url}/api/OfficialDocument/100`,
-    GetDocumentById: `${url}/api/OfficialDocument/GetDocumentById/`,
+    GetDocumentById: `${url}/api/OfficialDocument/`,
     DeleteDocument: `${url}/api/OfficialDocument/`,
     ReevaluateDocumentName: `${url}/api/OfficialDocument/ReevaluateDocumentName`,
     Version: `${url}/api/OfficialDocument/Version/`,
@@ -83,7 +83,11 @@ export default {
     GetTaskById: `${url}/api/Task/`,
     Delete: `${url}/api/Task/`,
     UpdateTask: `${url}/api/Task/`,
-    CreateTask: `${url}/api/Task`,
+    CreateTask: `${url}/api/Task/Create`,
+    СreateTaskByDocument: `${url}/api/Task/CreateTaskByDocument`,
+    CreateChildActionItemExecution: `${url}/api/Task/CreateChildActionItemExecutionTask`,
+    CreateDraftResolutionActionItemExecutionTask: `${url}/api/Task/CreateDraftResolutionActionItemExecutionTask`,
+
     Abort: `${url}/api/Task/Abort`,
     Start: `${url}/api/Task/Start`,
     Restart: `${url}/api/Task/`,

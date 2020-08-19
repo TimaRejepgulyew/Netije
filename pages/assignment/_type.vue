@@ -252,6 +252,7 @@ export default {
       }
     },
     showAssignment(e) {
+      
       this.$router.push("/assignment/more/" + e.key);
     },
 

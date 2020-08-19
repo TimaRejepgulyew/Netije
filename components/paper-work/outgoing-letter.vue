@@ -8,12 +8,12 @@
   >
     <DxGroupItem :caption="$t('translations.fields.whom')">
       <DxSimpleItem data-field="correspondentId" template="correspondent">
-        <DxLabel location="top" :text="$t('translations.fields.counterPart')" />
+        <DxLabel location="left" :text="$t('translations.fields.counterPart')" />
         <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="contact">
-        <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+        <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="inResponseToId"
@@ -21,7 +21,7 @@
         editor-type="dxSelectBox"
         :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
       >
-        <DxLabel location="top" :text="$t('translations.fields.inResponseToId')" />
+        <DxLabel location="left" :text="$t('translations.fields.inResponseToId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
@@ -30,7 +30,7 @@
         :editor-options="businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+        <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
         <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -38,16 +38,16 @@
         :editor-options="deparmentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+        <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
         <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-        <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+        <DxLabel location="left" :text="$t('translations.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem template="prepared" data-field="preparedById">
         <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-        <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+        <DxLabel location="left" :text="$t('translations.fields.prepared')" />
       </DxSimpleItem>
     </DxGroupItem>
 
@@ -72,6 +72,7 @@
 
     <template #prepared>
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate"
         validatorGroup="OfficialDocument"
         :value="preparedById"
@@ -80,6 +81,7 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
+        valueExpr="id"
         :read-only="!canUpdate"
         :value="ourSignatoryId"
         :storeApi="signatoryApi"
@@ -98,7 +100,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -109,12 +111,13 @@ export default {
     DxLabel,
     DxRequiredRule,
     customSelectBoxContact,
-    employeeSelectBox
+    employeeSelectBox,
   },
+  props: ["documentId"],
   data() {
     return {
       selectedCorrespondentType: null,
-      signatoryApi: dataApi.signatureSettings.Members
+      signatoryApi: dataApi.signatureSettings.Members,
     };
   },
   methods: {
@@ -123,32 +126,47 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", null);
-      this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
-      this.$store.dispatch("currentDocument/setCorrespondent", data);
+      this.$store.commit(`documents/${this.documentId}/IN_RESPONSE_TO_ID`, null);
+      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, null);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCorrespondent`,
+        data
+      );
     },
     setAddressee(data) {
-      this.$store.commit("currentDocument/SET_ADDRESSE_ID", data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_ADDRESSE_ID`,
+        data && data.id
+      );
     },
     setPreparedById(data) {
-      this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        data
+      );
     },
     setOurSignatoryId(data) {
-      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
-    }
+    },
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     preparedById() {
-      return this.$store.getters["currentDocument/document"].preparedById;
+      return this.document.preparedById;
     },
     ourSignatoryId() {
-      return this.$store.getters["currentDocument/document"].ourSignatoryId;
+      return this.document.ourSignatoryId;
     },
     addresseeId() {
-      return this.$store.getters["currentDocument/document"].addresseeId;
+      return this.document.addresseeId;
     },
     isCompany() {
       return (
@@ -157,22 +175,22 @@ export default {
       );
     },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     readOnly() {
-      return this.$store.getters["currentDocument/readOnly"];
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     store() {
-      return this.$store.getters["currentDocument/document"];
+      return this.document;
     },
     correspondentId() {
-      return this.$store.getters["currentDocument/document"].correspondentId;
+      return this.document.correspondentId;
     },
     businessUnitId() {
-      return this.$store.getters["currentDocument/document"].businessUnitId;
+      return this.document.businessUnitId;
     },
 
     businessUnitOptions() {
@@ -181,13 +199,19 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
+          filter: ["status", "=", 0],
         }),
-        value: this.$store.getters["currentDocument/document"].businessUnitId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
-        }
+        value: this.document.businessUnitId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            null
+          );
+        },
       };
     },
     deparmentOptions() {
@@ -199,13 +223,16 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters["currentDocument/document"].departmentId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
-        }
+        value: this.document.departmentId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            e.value
+          );
+        },
       };
     },
 
@@ -215,18 +242,17 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.paperWork.Documents}${DocumentQuery.IncomingLetter}`,
-          filter: [
-            "correspondentId",
-            "=",
-            this.$store.getters["currentDocument/document"].correspondentId
-          ]
+          filter: ["correspondentId", "=", this.document.correspondentId],
         }),
-        value: this.$store.getters["currentDocument/document"].inResponseToId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/IN_RESPONSE_TO_ID", e.value);
-        }
+        value: this.document.inResponseToId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
+            e.value
+          );
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

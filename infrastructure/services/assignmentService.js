@@ -19,7 +19,7 @@ export async function load(context, assignmentId) {
 export function unload(context, assignmentId) {
   const overlays =
     context.$store.getters[`assignments/${assignmentId}/overlays`];
-  if (!overlays) {
+  if (overlays === 0) {
     assignmentModules.unregisterModule(context, assignmentId);
   } else
     context.$store.commit(`assignments/${assignmentId}/DECREMENT_OVERLAYS`);

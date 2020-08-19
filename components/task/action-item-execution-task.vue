@@ -10,7 +10,7 @@
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
         <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
-          <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+          <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
           <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
         </DxSimpleItem>
         <DxGroupItem :col-count="5">
@@ -20,22 +20,22 @@
             :editor-options="isUnderControlOptions"
             editor-type="dxCheckBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.isUnderControl')" />
+            <DxLabel location="left" :text="$t('translations.fields.isUnderControl')" />
           </DxSimpleItem>
           <DxSimpleItem
             :col-span="3"
             :visible="isUnderControl"
             template="supervisor"
-            data-field="supervisorId"
+            data-field="supervisor"
           >
-            <DxLabel location="top" :text="$t('translations.fields.supervisorId')" />
+            <DxLabel location="left" :text="$t('translations.fields.supervisorId')" />
             <DxRequiredRule :message="$t('translations.fields.supervisorIdRequired')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxGroupItem :col-count="2">
-          <DxSimpleItem template="assignee" data-field="assigneeId">
+          <DxSimpleItem template="assignee" data-field="assignee">
             <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
-            <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+            <DxLabel location="left" :text="$t('translations.fields.assigneeId')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="maxDeadline"
@@ -43,11 +43,11 @@
             editor-type="dxDateBox"
           >
             <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
-            <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+            <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
           </DxSimpleItem>
 
           <DxSimpleItem :col-span="2" template="coAssignees" data-field="coAssignees">
-            <DxLabel location="top" :text="$t('translations.fields.coAssignees')" />
+            <DxLabel location="left" :text="$t('translations.fields.coAssignees')" />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -55,7 +55,7 @@
             template="actionItemObservers"
             data-field="actionItemObservers"
           >
-            <DxLabel location="top" :text="$t('translations.fields.observers')" />
+            <DxLabel location="left" :text="$t('translations.fields.observers')" />
           </DxSimpleItem>
         </DxGroupItem>
       </DxGroupItem>
@@ -67,7 +67,7 @@
         :editor-options="bodyOptions"
         editor-type="dxTextArea"
       >
-        <DxLabel location="top" :text="$t('translations.fields.actionItem')" />
+        <DxLabel location="left" :text="$t('translations.fields.actionItem')" />
         <DxRequiredRule :message="$t('translations.fields.actionItemRequired')" />
       </DxSimpleItem>
       <template #actionItemObservers>
@@ -88,7 +88,7 @@
         <employee-select-box
           :read-only="!isDraft"
           :validator-group="validatorGroup"
-          :value="supervisorId"
+          :value="supervisor"
           @valueChanged="setSupervisor"
         />
       </template>
@@ -97,7 +97,7 @@
           :read-only="!isDraft"
           :messageRequired="$t('translations.fields.assigneeIdRequired')"
           :validator-group="validatorGroup"
-          :value="assigneeId"
+          :value="assignee"
           @valueChanged="setAssignee"
         />
       </template>
@@ -134,7 +134,10 @@ export default {
   },
   methods: {
     setActionItemObservers(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`, value);
+      this.$store.commit(
+        `tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`,
+        value
+      );
     },
     setCoAssignees(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_CO_ASSIGNEES`, value);
@@ -159,11 +162,11 @@ export default {
     coAssignees() {
       return this.task.coAssignees;
     },
-    supervisorId() {
-      return this.task.supervisorId;
+    supervisor() {
+      return this.task.supervisor;
     },
-    assigneeId() {
-      return this.task.assigneeId;
+    assignee() {
+      return this.task.assignee;
     },
     inProcess() {
       return this.$store.getters[`tasks/${this.taskId}/inProcess`];
@@ -186,7 +189,10 @@ export default {
       return {
         value: this.task.isUnderControl,
         onValueChanged: e => {
-          this.$store.commit(`tasks/${this.taskId}/SET_IS_UNDER_CONTROL`, e.value);
+          this.$store.commit(
+            `tasks/${this.taskId}/SET_IS_UNDER_CONTROL`,
+            e.value
+          );
           this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
         }
       };

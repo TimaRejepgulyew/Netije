@@ -17,6 +17,9 @@ export default {
       AcquaintanceTask: "Задача на ознакомление с документом",
       ActionItemExecutionTask: "Поручение",
       DocumentReviewTask: "Задача на рассмотрение документа"
+    },
+    prefixes: {
+      actionItemExecutionTask: "Поручение"
     }
   },
   docFlow: {
@@ -46,7 +49,8 @@ export default {
       regGroupDescr:
         "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации.",
       registrationSettings: "Настройки регистрации",
-      registrationSettingsDescr: "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
+      registrationSettingsDescr:
+        "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
       deliveriMethods: "Способ доставки документов",
       deliveriMethodsDescr: "Настройте способ доставки документов"
     },
@@ -185,6 +189,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    deadLine:"Срок",
     read: "Прочитано",
     unread: "Не прочитано",
     explanation: "Пояснение",
@@ -204,6 +209,7 @@ export default {
     from: "От",
     whom: "Кому",
     areYouSure: "Вы уверены?",
+    areYouSureDeleteTask: "Вы уверены что хотите удалить эту задачу?",
     confirm: "Подтверждение",
     required: "Заполните это поле",
     newRecord: "(Новая запись)",
@@ -218,7 +224,11 @@ export default {
     acquaintance: "Задача на ознакомление",
     reviewManager: "Задача на рассмотрение руководителем",
     freeApproval: "Свободное согласование",
-    approval: "Согласование по регламенту"
+    approval: "Согласование по регламенту",
+    fields: {
+      supervisor: "Контролер",
+      coAssignees:"Соисполнители"
+    }
   },
   contractCategories: {
     title: "Категории договоров",
@@ -311,6 +321,7 @@ export default {
     }
   },
   assignment: {
+    returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
     placeholderSimple: "Введите комментарий",
     placeholderActionItemExicution: "Введите отчет",
     sureCompleteMessage: "Вы действительно выполнили задачу",
@@ -324,7 +335,7 @@ export default {
     acceptAssignmentMessage: "Вы действительно приняли задачу",
     readdressToEmployee: "Переадресовать сотруднику",
     result: {
-      Acquainted:"Ознакомлен",
+      Acquainted: "Ознакомлен",
       SendForReview: "Отправлено на рассмотрение",
       Complete: "Завершено",
       Accept: "Принято",
@@ -471,6 +482,10 @@ export default {
   buttons: {
     addResolution: "Вынести резолюцию",
     sendToResolution: "Отправить на рассмотрение",
+    returnManagersAssistant: "Вернуть помощнику",
+    approveResolution: "Утвердить проект резалюции",
+    addResolution: "Вынести резалюцию",
+    sendToResolution: "Отправить на резалюцию",
     sendToReview: "Отправить на расмотрение",
     sendToAssignee: "Отправить на исполнение",
     takeInto: "Принять к сведению",
@@ -530,6 +545,7 @@ export default {
   },
   translations: {
     fields: {
+      body: "Комментарий",
       correctedId: "Корректирует",
       isAdjustment: "Корректировочный",
       accountNumber: "Номер счета",
@@ -968,7 +984,7 @@ export default {
     }
   },
   registrationSettings: {
-    caption:"Настройка регистрации",
+    caption: "Настройка регистрации",
     fields: {
       name: "Имя",
       priority: "Приоритет",

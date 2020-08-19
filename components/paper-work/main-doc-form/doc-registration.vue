@@ -1,6 +1,6 @@
 <template >
   <DxForm
-    :visible="$store.getters['currentDocument/isRegistrable']"
+    :visible="isRegistrable"
     :col-count="1"
     :read-only="!canUpdate"
     :show-colon-after-label="true"
@@ -8,7 +8,10 @@
     validation-group="OfficialDocument"
   >
     <DxGroupItem :col-count="1">
-      <DxGroupItem :visible="numberingAndDateVisible" :caption="$t('document.groups.captions.numberAndDate')">
+      <DxGroupItem
+        :visible="numberingAndDateVisible"
+        :caption="$t('document.groups.captions.numberAndDate')"
+      >
         <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
           <DxLabel
             location="left"
@@ -68,7 +71,7 @@ import NumberingType from "~/infrastructure/constants/numberingTypes.js";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -76,76 +79,74 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxForm
+    DxForm,
   },
+  props: ["documentId"],
 
-  methods: {
-    modified() {
-      this.$store.commit("currentDocument/DATA_CHANGED", true);
-    }
-  },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    isRegistrable() {
+      return this.$store.getters[`documents/${this.documentId}/isRegistrable`];
+    },
     deliveryMethodVisible() {
-      var documentTypeGuid = this.$store.getters["currentDocument/document"]
-        .documentTypeGuid;
+      const documentTypeGuid = this.document.documentTypeGuid;
       return (
         documentTypeGuid == DocumentTypeGuid.IncomingLetter ||
         documentTypeGuid == DocumentTypeGuid.OutgoingLetter
       );
     },
-    numberingAndDateVisible(){
-      return this.$store.getters["currentDocument/document"].documentKind.numberingType != NumberingType.NotNumberable;
+    numberingAndDateVisible() {
+      return (
+        this.document.documentKind.numberingType != NumberingType.NotNumberable
+      );
     },
     isRegistrable() {
       return (
-        this.$store.getters["currentDocument/document"].documentKind
-          .numberingType == NumberingType.Registrable
+        this.document.documentKind.numberingType == NumberingType.Registrable
       );
     },
     canRegister() {
-      return this.$store.getters["currentDocument/canRegister"];
+      return this.$store.getters[`documents/${this.documentId}/canRegister`];
     },
     caseFileRequired() {
-      return Boolean(
-        this.$store.getters["currentDocument/document"].placedToCaseFileDate
-      );
+      return Boolean(this.document.placedToCaseFileDate);
     },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     readOnly() {
-      return this.$store.getters["currentDocument/readOnly"];
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     placedToCaseFileDateOptions() {
       return {
         readOnly: !this.canRegister,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        value: this.$store.getters["currentDocument/document"]
-          .placedToCaseFileDate,
-        onValueChanged: e => {
+        value: this.document.placedToCaseFileDate,
+        onValueChanged: (e) => {
           this.$store.commit(
-            "currentDocument/SET_PLACE_TO_CASE_FILE_DATE_ID",
+            `documents/${this.documentId}/SET_PLACE_TO_CASE_FILE_DATE_ID`,
             e.value
           );
-        }
+        },
       };
     },
     registrationNumberOptions() {
       return {
         disabled: true,
-        value: this.$store.getters["currentDocument/document"]
-          .registrationNumber
+        value: this.document.registrationNumber,
       };
     },
     registrationDateOptions() {
       return {
         disabled: true,
-        value: this.$store.getters["currentDocument/document"].registrationDate
+        value: this.document.registrationDate,
       };
     },
     deliveryMethodOptions() {
@@ -154,10 +155,13 @@ export default {
           context: this,
           url: dataApi.docFlow.DeliveryMethod
         }),
-        value: this.$store.getters["currentDocument/document"].deliveryMethodId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DELIVERY_METHOD_ID", e.value);
-        }
+        value: this.document.deliveryMethodId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documetId}/SET_DELIVERY_METHOD_ID`,
+            e.value
+          );
+        },
       };
     },
     documentRegisterOptions() {
@@ -165,10 +169,9 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentRegister.All,
-          disabled: true
+          disabled: true,
         }),
-        value: this.$store.getters["currentDocument/document"]
-          .documentRegisterId
+        value: this.document.documentRegisterId,
       };
     },
     caseFileOptions() {
@@ -178,23 +181,22 @@ export default {
           context: this,
           url: dataApi.docFlow.CaseFile.AvailableForUse,
           filter: ["status", "=", 0],
-          value: "title"
+          value: "title",
         }),
-        value: this.$store.getters["currentDocument/document"].caseFileId,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_CASE_FILE_ID", e.value);
-          if (
-            !this.$store.getters["currentDocument/document"]
-              .placedToCaseFileDate &&
-            this.$store.getters["currentDocument/document"].caseFileId
-          )
+        value: this.document.caseFileId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_CASE_FILE_ID`,
+            e.value
+          );
+          if (!this.document.placedToCaseFileDate && this.document.caseFileId)
             this.$store.commit(
-              "currentDocument/SET_PLACE_TO_CASE_FILE_DATE_ID",
+              `documents/${this.documentId}/SET_PLACE_TO_CASE_FILE_DATE_ID`,
               new Date()
             );
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

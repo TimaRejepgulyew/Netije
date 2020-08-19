@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import documentService from "~/infrastructure/services/documentService.js";
+import documentService from "~/infrastructure/services/documentVersionService.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";
@@ -25,12 +25,13 @@ export default {
   components: {
     DxFileUploader,
     DxButton,
-    DxPopup
+    DxPopup,
   },
+  props: ["documentId"],
   data() {
     return {
       associatedApplication: [],
-      popup: false
+      popup: false,
     };
   },
   computed: {
@@ -39,29 +40,31 @@ export default {
     },
     extension() {
       return this.$store.getters["cache/extension"];
-    }
+    },
+    document() {
+      this.$store.getters[`documents/${this.documentId}/document`];
+    },
   },
   methods: {
     uploadVersionFromFile(e) {
-      const document = this.$store.getters["currentDocument/document"];
-      if (!this.$store.getters["currentDocument/document"].subject) {
+      if (!this.document.subject) {
         this.$store.dispatch(
-          "currentDocument/setSubject",
-          e.file.name
-            .split(".")
-            .slice(0, -1)
-            .join(".")
+          `documents/${this.documentId}/setSubject`,
+          e.file.name.split(".").slice(0, -1).join(".")
         );
       }
       this.$awn.async(
         documentService.uploadVersion(document, e.file, this),
-        e => {
-          this.$store.commit("currentDocument/SET_VERSION", e.data);
+        (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_VERSION`,
+            e.data
+          );
         },
         () => {}
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

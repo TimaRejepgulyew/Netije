@@ -1,113 +1,55 @@
 import dataApi from "~/static/dataApi";
-import { saveAs } from "file-saver";
-import DocumentType from "~/infrastructure/constants/documentType.js";
-import {
-  lifeCycleStateStoreType1,
-  lifeCycleStateStoreType2,
-  lifeCycleStateStoreType3,
-  lifeCycleStateStoreContract,
-  lifeCycleStateStoreIncomingInvoice
-} from "~/infrastructure/constants/lifeCycleState.js";
-export default {
-  async uploadVersion(document, file, context) {
-    return await upload(document, file, context);
-  },
-  previewVersion(versionId, document, context) {
-    preview(
-      `${dataApi.paperWork.PreviewVersion}${document.documentTypeGuid}/${document.id}/${versionId}`,
-      context
-    );
-  },
-  previewDocument(document, context) {
-    preview(
-      `${dataApi.paperWork.PreviewLastVersion}${document.documentTypeGuid}/${document.id}`,
-      context
-    );
-  },
-  downloadDocument(document, context) {
-    download(
-      `${dataApi.paperWork.DownloadLastVersion}${document.documentTypeGuid}/${document.id}`,
-      document,
-      context
-    );
-  },
-  downloadVersion(document, version, context) {
-    download(
-      `${dataApi.paperWork.DownloadVersion}${document.documentTypeGuid}/${document.id}/${version.id}`,
-      version,
-      context
-    );
-  }
-};
-export function generateLifeCycleItemState(context, documentTypeGuid) {
-  switch (documentTypeGuid) {
-    case DocumentType.IncomingLetter:
-    case DocumentType.OutgoingLetter:
-      return lifeCycleStateStoreType1(context);
-    case DocumentType.Order:
-    case DocumentType.CompanyDirective:
-    case DocumentType.SimpleDocument:
-    case DocumentType.Addendum:
-    case DocumentType.Memo:
-    case DocumentType.PowerOfAttorney:
-    case DocumentType.ContractStatement:
-    case DocumentType.Waybill:
-    case DocumentType.UniversalTransferDocument:
-      return lifeCycleStateStoreType2(context);
-    case DocumentType.IncomingTaxInvoice:
-    case DocumentType.OutgoingTaxInvoice:
-      return lifeCycleStateStoreType3(context);
-    case DocumentType.Contract:
-    case DocumentType.SupAgreement:
-      return lifeCycleStateStoreContract(context);
-    case DocumentType.IncomingInvoice:
-      return lifeCycleStateStoreIncomingInvoice(context);
-  }
+import * as documentStoreTemplate from "~/infrastructure/storeTemplate/documentStore.js";
+import StoreModule from "~/infrastructure/services/StoreModule.js";
+import docmentKindService from "~/infrastructure/services/documentKind.js";
+import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
+export const documentModules = new StoreModule({
+  moduleName: "documents",
+  storeTemplate: documentStoreTemplate
+});
+function loadDocument(context, documentId, payload) {
+  payload.document.documentKind = docmentKindService.emptyDocumentKind();
+  context.$store.commit(
+    `documents/${documentId}/IS_REGISTERED`,
+    payload.document.registrationState
+  );
+  context.$store.commit(`documents/${documentId}/SET_DOCUMENT`, payload);
+}
+export async function createDocument(context, params) {
+  const { data } = await context.$axios.post(
+    dataApi.paperWork.Documents,
+    params
+  );
+  const documentId = data.document.id;
+  const documentTypeGuid = data.document.documentTypeGuid;
+  await documentModules.registerModule(context, documentId);
+  loadDocument(context, documentId, data);
+  context.$store.commit(`documents/${documentId}/SET_IS_NEW`, true);
+  context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
+  context.$store.commit(`documents/${documentId}/DATA_CHANGED`, true);
+  context.$store.commit(`documents/${documentId}/SKIP_DESTROY`, true);
+  context.$store.commit(`documents/${documentId}/SKIP_ROUTE_HANDLING`, true);
+  return { documentId, documentTypeGuid };
 }
 
-const preview = (endpoint, context) => {
-  context.$awn.async(
-    context.$axios
-      .get(endpoint, {
-        responseType: "blob"
-      })
-      .then(response => {
-        var x = screen.width * 0.25;
-        var offset = screen.height * 0.2;
-        let params = `height=${screen.height - offset},width=${screen.width *
-          0.5},left=${x},top=${50}`;
-        window.open(URL.createObjectURL(response.data), "Preview", params);
-      }),
-    e => {},
-    e => context.$awn.alert()
-  );
-};
-const upload = async (document, file, context) => {
-  let formData = new FormData();
-  formData.append("file", file);
-  formData.append("documentId", document.id);
-
-  return await context.$axios.post(
-    dataApi.paperWork.CreateVersionFromFile + document.documentTypeGuid,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    }
-  );
-};
-const download = (endpoint, obj, context) => {
-  context.$awn.async(
-    context.$axios
-      .get(endpoint, {
-        responseType: "blob"
-      })
-      .then(response => {
-        var blob = new Blob([response.data], {
-          type: `data:${response.data.type}`
-        });
-        saveAs(blob, `${obj.name}${obj.extension.toLowerCase()}`);
-      })
-  );
-};
+export async function createLeadingDocument(context, leadingDocumentId) {
+  return await createTask(context, { leadingDocumentId });
+}
+export async function load(context, { documentTypeGuid, documentId }) {
+  if (!documentModules.hasModule(documentId)) {
+    const { data } = await context.$axios.get(
+      `${dataApi.paperWork.GetDocumentById}${documentTypeGuid}/${documentId}`
+    );
+    await documentModules.registerModule(context, documentId);
+    context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
+    context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
+    loadDocument(context, documentId, data);
+  }
+  context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
+}
+export function unload(context, documentId) {
+  const overlays = context.$store.getters[`documents/${documentId}/overlays`];
+  if (overlays === 0) {
+    documentModules.unregisterModule(context, documentId);
+  } else context.$store.commit(`documents/${documentId}/DECREMENT_OVERLAYS`);
+}

@@ -9,10 +9,9 @@
     @item-click="onItemClick"
   />
 </template>
-
 <script>
 import cardIcon from "~/static/icons/card.svg";
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 export default {
@@ -21,24 +20,9 @@ export default {
   },
   props: ["attachment"],
   data() {
-    const canPreview =
-      this.attachment.entity.hasVersions &&
-      this.attachment.entity.canBeOpenedWithPreview;
 
     return {
       btnType: [
-        {
-          type: "preview",
-          visible: canPreview,
-          icon: "pdffile",
-          name: this.$t("buttons.preview")
-        },
-        {
-          type: "download",
-          visible: this.attachment.entity.hasVersions,
-          icon: "download",
-          name: this.$t("buttons.download")
-        },
         {
           type: "detach",
           visible: this.attachment.canDetach,
@@ -60,12 +44,6 @@ export default {
     },
     onItemClick(e) {
       switch (e.itemData.type) {
-        case "preview":
-          this.previewDocument();
-          break;
-        case "download":
-          this.downloadDocument();
-          break;
         case "detach":
           this.detachLink();
           break;
@@ -77,21 +55,7 @@ export default {
     detachLink() {
       this.$emit("detach", this.attachment.attachmentId);
     },
-    downloadDocument() {
-      DocumentService.downloadDocument(
-        {
-          ...this.attachment.entity,
-          extension: this.attachment.entity.extension
-        },
-        this
-      );
-    },
-    previewDocument() {
-      DocumentService.previewDocument(this.attachment.entity, this);
-    }
+   
   }
 };
 </script>
-
-<style>
-</style>

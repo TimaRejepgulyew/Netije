@@ -9,7 +9,7 @@
     <DxGroupItem :caption="$t('translations.fields.main')">
       <DxGroupItem :col-count="10">
         <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
-          <DxLabel location="top" :text="$t('translations.fields.subjectTask')" />
+          <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
           <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -17,7 +17,7 @@
           :editor-options="needsReviewOptions"
           editor-type="dxCheckBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.needsReview')" />
+          <DxLabel location="left" :text="$t('translations.fields.needsReview')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-count="2">
@@ -26,7 +26,7 @@
           :editor-options="maxDeadlineOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.deadLine')" />
+          <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -34,16 +34,16 @@
           editor-type="dxSelectBox"
           :editor-options="routeTypeOptions"
         >
-          <DxLabel location="top" :text="$t('translations.fields.start')" />
+          <DxLabel location="left" :text="$t('translations.fields.start')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxSimpleItem :disabled="true" template="observers" data-field="observers">
-        <DxLabel location="top" :text="$t('translations.fields.observers')" />
+        <DxLabel location="left" :text="$t('translations.fields.observers')" />
       </DxSimpleItem>
 
       <DxSimpleItem template="performers" data-field="performers">
         <DxRequiredRule :message="$t('translations.fields.performersRequired')" />
-        <DxLabel location="top" :text="$t('translations.fields.performers')" />
+        <DxLabel location="left" :text="$t('translations.fields.performers')" />
       </DxSimpleItem>
 
       <DxSimpleItem
@@ -52,7 +52,7 @@
         :editor-options="bodyOptions"
         editor-type="dxTextArea"
       >
-        <DxLabel location="top" :text="$t('translations.fields.body')" />
+        <DxLabel location="left" :text="$t('translations.fields.body')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #performers>

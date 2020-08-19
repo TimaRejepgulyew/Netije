@@ -11,8 +11,8 @@
     >
       <div>
         <task-card
+          @onStart="tooglePopup"
           :taskId="actionItemExecutionTaskId"
-          @closeTask="closeTask"
           v-if="showItemExecutionTask"
           :isCard="true"
         />
@@ -38,9 +38,9 @@
 
         <DxItem
           locateInMenu="auto"
-          :disabled="btnReaddressDisabled"
+          :disabled="btnForwardDisabled"
           :visible="!isRework"
-          :options="btnReaddressOptions"
+          :options="btnForwardOptions"
           location="before"
           widget="dxButton"
         />
@@ -57,7 +57,7 @@
           locateInMenu="auto"
           :visible="toolbarItemVisible"
           :options="btnAddExecutionOptions"
-          location="after"
+          location="before"
           widget="dxButton"
         />
       </DxToolbar>
@@ -65,10 +65,9 @@
   </div>
 </template>
 <script>
-import { createActionItemExicutionTask } from "~/infrastructure/services/taskService.js";
+import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
 import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
-import employeeList from "~/components/employee/employee-list.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
@@ -77,13 +76,11 @@ import resolutionIcon from "~/static/icons/addResolution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import TaskType from "~/infrastructure/constants/TaskType.js";
 export default {
   components: {
     DxToolbar,
     DxItem,
     DxPopup,
-    employeeList,
     taskCard
   },
   props: ["assignmentId"],
@@ -101,7 +98,7 @@ export default {
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
     },
-    btnReaddressDisabled() {
+    btnForwardDisabled() {
       return !this.assignment.addresseeId;
     },
     toolbarItemVisible() {
@@ -145,7 +142,7 @@ export default {
         }
       };
     },
-    btnReaddressOptions() {
+    btnForwardOptions() {
       return {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
@@ -159,13 +156,14 @@ export default {
       return {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createExecution"),
-        onClick: async () => {
-          const { taskId } = await createActionItemExicutionTask(
-            this,
-            this.assignmentId
+        onClick: () => {
+          this.$awn.asyncBlock(
+            CreateChildActionItemExecution(this, this.assignmentId),
+            ({ taskId }) => {
+              this.actionItemExecutionTaskId = taskId;
+              this.tooglePopup();
+            }
           );
-          this.actionItemExecutionTaskId = taskId;
-          this.showItemExecutionTask = true;
         }
       };
     }
@@ -174,11 +172,8 @@ export default {
     setResult(result) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
-    closeTask(taskId) {
-      this.showItemExecutionTask = false;
-      if (taskId) {
-        // TODO function create task resolution
-      }
+    tooglePopup() {
+      this.showItemExecutionTask = !this.showItemExecutionTask;
     },
     completeAssignment() {
       this.$awn.asyncBlock(

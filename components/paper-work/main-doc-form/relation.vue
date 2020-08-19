@@ -22,23 +22,36 @@ import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
+import DataSource from "devextreme/data/data_source";
 import moment from "moment";
 export default {
   components: {
     DxList,
-    DxButton
+    DxButton,
   },
+  props: ["documentId"],
   async created() {
     const { data } = await this.getData(dataApi.company.Employee);
     this.employee = data;
-    this.store = await this.getData(`${dataApi.paperWork.Relation}${this.$store.getters["currentDocument/document"].documentTypeGuid}/${this.$store.getters["currentDocument/document"].id}`
-    );
   },
   data() {
     return {
-      store: [],
-      employee: []
+      store: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${dataApi.paperWork.Relation}${
+            this.$store.getters[`documents/${this.documentId}/document`]
+              .documentTypeGuid
+          }/${this.documentId}`,
+        }),
+      }),
+      employee: [],
     };
+  },
+  computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
   },
   methods: {
     toDocument(documentTypeGuidId, documentId) {
@@ -63,12 +76,12 @@ export default {
       }
     },
     getUserById(id) {
-      const author = this.employee.find(employeeId => {
+      const author = this.employee.find((employeeId) => {
         return employeeId === id;
       });
       if (author) return author.name;
       else return "";
-    }
+    },
   },
   filters: {
     formatDate(value) {
@@ -77,8 +90,8 @@ export default {
       } else {
         return "";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

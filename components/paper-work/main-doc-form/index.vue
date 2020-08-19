@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header  :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
-    <toolbar @openVersion="openVersion"></toolbar>
+    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
+    <toolbar :documentId="documentId" :isCard="isCard" @openVersion="openVersion"></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -14,7 +14,11 @@
       >
         <DxTabbedItem :tab-panel-options="tabPanelOptions">
           <DxTab :col-count="12" :title="$t('document.tabs.main')">
-            <DxGroupItem :col-span="8" :col-count="1" :caption="$t('document.groups.captions.main')">
+            <DxGroupItem
+              :col-span="8"
+              :col-count="1"
+              :caption="$t('document.groups.captions.main')"
+            >
               <DxSimpleItem data-field="name" :editor-options="nameOptions">
                 <DxLabel location="left" :text="$t('document.fields.name')" />
                 <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
@@ -42,7 +46,7 @@
                 :editor-options="noteOptions"
                 editor-type="dxTextArea"
               >
-                <DxLabel location="top" :text="$t('translations.fields.note')" />
+                <DxLabel location="left" :text="$t('translations.fields.note')" />
               </DxSimpleItem>
             </DxGroupItem>
             <DxGroupItem :col-span="4">
@@ -60,32 +64,34 @@
           </DxTab>
         </DxTabbedItem>
         <template #history>
-          <History
-            :entityTypeGuid="entityTypeGuid"
-            :id="$store.getters['currentDocument/document'].id"
-            slot="history"
-          ></History>
+          <History :entityTypeGuid="entityTypeGuid" :id="documentId" slot="history"></History>
         </template>
         <template #relation>
-          <Relation></Relation>
+          <Relation :documentId="documentId" :isCard="isCard"></Relation>
         </template>
         <template #lifeCycle>
-          <life-cycle />
+          <life-cycle :documentId="documentId" :isCard="isCard" />
         </template>
         <template #registrationBlock>
-          <doc-registration></doc-registration>
+          <doc-registration :documentId="documentId" :isCard="isCard"></doc-registration>
         </template>
         <template #formByTypeGuid>
-          <component :is="formByTypeGuid"></component>
+          <component :documentId="documentId" :isCard="isCard" :is="formByTypeGuid"></component>
         </template>
       </DxForm>
       <transition name="fade">
-        <docVersion class="item--drawer" v-if="versionOpenState"></docVersion>
+        <docVersion
+          :documentId="documentId"
+          :isCard="isCard"
+          class="item--drawer"
+          v-if="versionOpenState"
+        ></docVersion>
       </transition>
     </div>
   </div>
 </template>
 <script>
+import { unload } from "~/infrastructure/services/documentService.js";
 import { generateNameByDocTypeGuid } from "~/infrastructure/constants/documentType.js";
 import Header from "~/components/page/page__header";
 import lifeCycle from "~/components/paper-work/main-doc-form/life-cycle.vue";
@@ -93,24 +99,11 @@ import Relation from "~/components/paper-work/main-doc-form/relation";
 import History from "~/components/page/history.vue";
 import docVersion from "~/components/paper-work/main-doc-form/doc-version";
 import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
-import powerOfAttorney from "~/components/paper-work/power-of-attorney.vue";
-import memo from "~/components/paper-work/memo.vue";
-import addendum from "~/components/paper-work/addendum.vue";
-import simpleDocument from "~/components/paper-work/simple-document.vue";
-import orderBase from "~/components/paper-work/order-base.vue";
-import outgoingLetter from "~/components/paper-work/outgoing-letter.vue";
-import IncomingLetter from "~/components/paper-work/incoming-letter.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import contract from "~/components/paper-work/contract.vue";
-import incomingInvoice from "~/components/paper-work/incoming-invoice.vue";
-import supAgreement from "~/components/paper-work/sup-agreement.vue";
-import contractStatement from "~/components/paper-work/contract-statement.vue";
-import incomingTaxInvoice from "~/components/paper-work/incoming-tax-invoice.vue";
-import outgoingTaxInvoice from "~/components/paper-work/outgoing-tax-invoice.vue";
-import universalTransferDocument from "~/components/paper-work/universal-transfer-document.vue";
-import waybill from "~/components/paper-work/waybill.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
+import * as documentTypeComponent from "~/components/paper-work/documentTypeComponents.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import "devextreme-vue/text-area";
 import DxForm, {
@@ -119,84 +112,79 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import { DxDrawer } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
+    ...documentTypeComponent,
     DxTabbedItem,
     DxTab,
     Relation,
     History,
     docVersion,
     docRegistration,
-    powerOfAttorney,
-    memo,
-    addendum,
-    simpleDocument,
-    orderBase,
-    outgoingLetter,
     Toolbar,
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
     DxForm,
-    IncomingLetter,
     lifeCycle,
-    contract,
-    incomingInvoice,
-    supAgreement,
-    contractStatement,
-    incomingTaxInvoice,
-    outgoingTaxInvoice,
-    universalTransferDocument,
-    waybill,
     Header,
-    generateNameByDocTypeGuid
+    generateNameByDocTypeGuid,
   },
-  props: ["isCard"],
+  destroyed() {
+    unload(this, this.documentId);
+  },
+  props: ["isCard", "documentId"],
   head() {
     return {
-      title: this.$store.getters["currentDocument/document"].name
+      title: this.$store.getters[`documents/${this.documentId}/document`].name,
     };
   },
 
   created() {
-    if (this.$store.getters["currentDocument/isNew"]) {
-      this.$store.commit("currentDocument/DATA_CHANGED", true);
+    if (this.isNew) {
+      this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
     }
-    this.$store.commit("currentDocument/SKIP_ROUTE_HANDLING", false);
-    this.$store.commit("currentDocument/SKIP_DESTROY", false);
+    this.$store.commit(
+      `documents/${this.documentId}/SKIP_ROUTE_HANDLING`,
+      false
+    );
+    this.$store.commit(`documents/${this.documentId}/SKIP_DESTROY`, false);
   },
   beforeDestroy() {
-    this.$store.dispatch("currentDocument/destroyDocument");
+    this.$store.dispatch(`documents/${this.documentId}/destroyDocument`);
   },
   data() {
     return {
-      documentType: this.$store.getters["currentDocument/document"]
-        .documentTypeGuid,
       versionOpenState: false,
       entityTypeGuid: mapToEntityType(
-        this.$store.getters["currentDocument/document"].documentTypeGuid
+        this.$store.getters[`documents/${this.documentId}/document`]
+          .documentTypeGuid
       ),
-      tabPanelOptions: { focusStateEnabled: false }
+      tabPanelOptions: { focusStateEnabled: false },
     };
   },
   methods: {
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    }
+    },
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    isNew() {
+      return this.$store.getters[`documents/${this.documentId}/isNew`];
+    },
     generateHeaderTitle() {
-      if (this.$store.getters["currentDocument/isNew"]) {
-        const key = this.$store.getters["currentDocument/document"]
-          .documentTypeGuid;
-        return generateNameByDocTypeGuid(key, this);
+      if (this.isNew) {
+        return generateNameByDocTypeGuid(this.document.documentTypeGuid, this);
       }
-      return this.$store.getters["currentDocument/document"].name;
+      return this.document.name;
     },
     documentKindOptions() {
       return {
@@ -205,37 +193,39 @@ export default {
           context: this,
           url: dataApi.docFlow.DocumentKind,
           filter: [
-            ["documentTypeGuid", "=", this.documentType],
+            ["documentTypeGuid", "=", this.document.documentType],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters["currentDocument/document"].documentKindId,
-        onValueChanged: e => {
-          this.$store.dispatch("currentDocument/reevaluateDocumentName");
-        },
-        onSelectionChanged: e => {
+        value: this.document.documentKindId,
+        onValueChanged: (e) => {
           this.$store.dispatch(
-            "currentDocument/setDocumentKind",
+            `documents/${this.documentId}/reevaluateDocumentName`
+          );
+        },
+        onSelectionChanged: (e) => {
+          this.$store.dispatch(
+            `documents/${this.documentId}/setDocumentKind`,
             e.selectedItem
           );
-        }
+        },
       };
     },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     isDataChanged() {
-      return this.$store.getters["currentDocument/isDataChanged"];
+      return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
     },
     isNew() {
-      return this.$store.getters["currentDocument/isNew"];
+      return this.$store.getters[`documents/${this.documentId}/isNew`];
     },
     formByTypeGuid() {
-      switch (this.documentType) {
+      switch (this.document.documentTypeGuid) {
         case DocumentTypeGuid.IncomingLetter:
           return "incoming-letter";
         case DocumentTypeGuid.OutgoingLetter:
@@ -271,36 +261,38 @@ export default {
     },
     nameOptions() {
       return {
-        value: this.$store.getters["currentDocument/document"].name,
+        value: this.document.name,
         disabled:
-          this.$store.getters["currentDocument/document"].documentKind
-            ?.generateDocumentName || this.isRegistered,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_NAME", e.value);
-        }
+          this.document.documentKind?.generateDocumentName || this.isRegistered,
+        onValueChanged: (e) => {
+          this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
+        },
       };
     },
     subjectOptions() {
       return {
         readOnly: this.isRegistered,
-        value: this.$store.getters["currentDocument/document"].subject,
-        onValueChanged: e => {
-          this.$store.dispatch("currentDocument/setSubject", e.value);
-        }
+        value: this.document.subject,
+        onValueChanged: (e) => {
+          this.$store.dispatch(
+            `documents/${this.documentId}/setSubject`,
+            e.value
+          );
+        },
       };
     },
     noteOptions() {
       return {
         readOnly: !this.canUpdate,
-        value: this.$store.getters["currentDocument/document"].note,
+        value: this.document.note,
         height: 70,
         autoResizeEnabled: true,
-        onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_NOTE", e.value);
-        }
+        onValueChanged: (e) => {
+          this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" >

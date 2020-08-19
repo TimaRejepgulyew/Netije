@@ -1,4 +1,3 @@
-import { url } from '~/static/dataApi'
 export const oidcSettings = {
     authority: process.env.baseUrl,
     client_id: "TTDoc.UI",

@@ -7,7 +7,7 @@ import cardTask from "~/components/task/index.vue";
 import { load, taskModules } from "~/infrastructure/services/taskService.js";
 export default {
   components: {
-    cardTask
+    cardTask,
   },
   async asyncData({ app, params, $axios, store }) {
     await load(
@@ -16,8 +16,8 @@ export default {
     );
 
     return {
-      taskId: +params.id
+      taskId: +params.id,
     };
-  }
+  },
 };
 </script>

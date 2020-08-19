@@ -1,17 +1,5 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <DxPopup
-      width="90%"
-      height="95%"
-      :showTitle="false"
-      :visible.sync="isOpenCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <document-card class="card" v-if="isOpenCard" :isCard="true" />
-      </div>
-    </DxPopup>
     <div class="link d-flex f-grow-1" @dblclick="showAttachment">
       <documentIcon :extension="item.entity.extension" />
       <div class="max-width-5vw">{{item.entity.name}}</div>
@@ -23,8 +11,8 @@
 <script>
 import documentCard from "~/components/paper-work/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
-import DocumentService from "~/infrastructure/services/documentService";
-import actionBtn from "~/components/workFlow/attachment-action-btn.vue";
+import DocumentService from "~/infrastructure/services/documentVersionService";
+import actionBtn from "~/components/workFlow/attachment-document-action-btn.vue";
 import documentIcon from "~/components/page/document-icon.vue";
 export default {
   components: {
@@ -44,15 +32,7 @@ export default {
       this.$emit("detach", attachmentId);
     },
     showCard(document) {
-      this.$awn.asyncBlock(
-        this.$store.dispatch("currentDocument/getDocumentById", {
-          id: document.id,
-          type: document.documentTypeGuid
-        }),
-        () => {
-          this.isOpenCard = true;
-        }
-      );
+      this.$emit("showCard", document);
     },
     downloadVersion() {
       DocumentService.downloadDocument(
@@ -105,7 +85,5 @@ export default {
   overflow: hidden;
   white-space: nowrap;
 }
-.card {
-  height: 85vh;
-}
+
 </style>

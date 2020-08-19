@@ -1,23 +1,31 @@
 <template>
-  <div class>
-    <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
-    <div class="f-grow-1">
-      <employee-select-box
-        :read-only="!canUpdate"
-        :value="addresseeId"
-        @valueChanged="valueChanged"
-      />
+  <div>
+    <div class="d-flex align-center">
+      <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
+      <div class="f-grow-1">
+        <employee-select-box
+          valueExpr="id"
+          :read-only="!canUpdate"
+          :value="addresseeId"
+          @valueChanged="valueChanged"
+        />
+      </div>
     </div>
+ 
   </div>
 </template>
 
 <script>
+
+
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {
-    employeeSelectBox
+    employeeSelectBox,
+
   },
   props: ["assignmentId"],
+ 
   methods: {
     valueChanged(id) {
       this.$store.commit(
@@ -33,7 +41,7 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
-    }
+    },
   }
 };
 </script>

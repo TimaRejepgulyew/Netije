@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
-    DxDropDownButton
+    DxDropDownButton,
   },
-  props: ["version"],
+  props: ["version", "documentId"],
   data() {
     return {
       btnType: [
@@ -27,15 +27,20 @@ export default {
           type: "preview",
           visible: this.version.canBeOpenedWithPreview,
           icon: "pdffile",
-          name: this.$t("buttons.preview")
+          name: this.$t("buttons.preview"),
         },
         {
           type: "download",
           icon: "download",
-          name: this.$t("buttons.download")
-        }
-      ]
+          name: this.$t("buttons.download"),
+        },
+      ],
     };
+  },
+  computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
   },
   methods: {
     onItemClick(e) {
@@ -52,9 +57,8 @@ export default {
       DocumentService.previewVersion(
         this.version.id,
         {
-          id: this.$store.getters["currentDocument/document"].id,
-          documentTypeGuid: this.$store.getters["currentDocument/document"]
-            .documentTypeGuid
+          id: this.documentId,
+          documentTypeGuid: this.document.documentTypeGuid,
         },
         this
       );
@@ -62,19 +66,18 @@ export default {
     downloadVersion() {
       DocumentService.downloadVersion(
         {
-          id: this.$store.getters["currentDocument/document"].id,
-          documentTypeGuid: this.$store.getters["currentDocument/document"]
-            .documentTypeGuid
+          id: this.documentId,
+          documentTypeGuid: this.document.documentTypeGuid,
         },
         {
           id: this.version.id,
-          name: this.$store.getters["currentDocument/document"].name,
-          extension: this.version.extension
+          name: this.document.name,
+          extension: this.version.extension,
         },
         this
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -13,7 +13,7 @@
           :editor-options="businessUnitOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
+          <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
           <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
@@ -21,25 +21,25 @@
           :editor-options="deparmentOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
           <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
         </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
         <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-          <DxLabel location="top" :text="$t('translations.fields.signatory')" />
+          <DxLabel location="left" :text="$t('translations.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
           <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-          <DxLabel location="top" :text="$t('translations.fields.prepared')" />
+          <DxLabel location="left" :text="$t('translations.fields.prepared')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="assigneeId" template="assignee">
-          <DxLabel location="top" :text="$t('translations.fields.assigneeId')" />
+          <DxLabel location="left" :text="$t('translations.fields.assigneeId')" />
         </DxSimpleItem>
         <DxSimpleItem template="addressee" data-field="addresseeId">
           <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
-          <DxLabel location="top" :text="$t('translations.fields.addresseeId')" />
+          <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
@@ -86,42 +86,42 @@ export default {
   },
   methods: {
     setPreparedById(data) {
-      this.$store.commit("currentDocument/SET_PREPARED_BY_ID", data);
+      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, data);
     },
     setOurSignatoryId(data) {
-      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+      this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
     },
     setAddresseeId(data) {
-      this.$store.commit("currentDocument/SET_ADDRESSE_ID", data);
+      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
     },
     setAssigneeId(data) {
-      this.$store.commit("currentDocument/SET_ASSIGNEE_ID", data);
+      this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     }
   },
   computed: {
     canUpdate() {
-      return this.$store.getters["currentDocument/canUpdate"];
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     preparedById() {
-      return this.$store.getters["currentDocument/document"].preparedById;
+      return this.$store.getters[`documents/${this.documentId}/document`].preparedById;
     },
     ourSignatoryId() {
-      return this.$store.getters["currentDocument/document"].ourSignatoryId;
+      return this.$store.getters[`documents/${this.documentId}/document`].ourSignatoryId;
     },
     assigneeId() {
-      return this.$store.getters["currentDocument/document"].assigneeId;
+      return this.$store.getters[`documents/${this.documentId}/document`].assigneeId;
     },
     addresseeId() {
-      return this.$store.getters["currentDocument/document"].addresseeId;
+      return this.$store.getters[`documents/${this.documentId}/document`].addresseeId;
     },
     businessUnitId() {
-      return this.$store.getters["currentDocument/document"].businessUnitId;
+      return this.$store.getters[`documents/${this.documentId}/document`].businessUnitId;
     },
     departmentId() {
-      return this.$store.getters["currentDocument/document"].departmentId;
+      return this.$store.getters[`documents/${this.documentId}/document`].departmentId;
     },
     businessUnitOptions() {
       return {
@@ -133,12 +133,12 @@ export default {
         }),
         value: this.businessUnitId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", null);
-          this.$store.commit("currentDocument/SET_PREPARED_BY_ID", null);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
-          this.$store.commit("currentDocument/SET_ASSIGNEE_ID", null);
+          this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`, e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, null);
+          this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, null);
+          this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, null);
+          this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, null);
+          this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, null);
         }
       };
     },
@@ -154,10 +154,10 @@ export default {
             ["status", "=", 0]
           ]
         }),
-        value: this.$store.getters["currentDocument/document"].departmentId,
+        value: this.$store.getters[`documents/${this.documentId}/document`].departmentId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, e.value);
         }
       };
     },
@@ -172,9 +172,9 @@ export default {
             ["status", "=", 0]
           ]
         }),
-        value: this.$store.getters["currentDocument/document"].ourSignatoryId,
+        value: this.$store.getters[`documents/${this.documentId}/document`].ourSignatoryId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, e.value);
         }
       };
     },
@@ -189,9 +189,9 @@ export default {
             ["status", "=", 0]
           ]
         }),
-        value: this.$store.getters["currentDocument/document"].assigneeId,
+        value: this.$store.getters[`documents/${this.documentId}/document`].assigneeId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_ASSIGNEE_ID", e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, e.value);
         }
       };
     },
@@ -206,9 +206,9 @@ export default {
             ["status", "=", 0]
           ]
         }),
-        value: this.$store.getters["currentDocument/document"].preparedById,
+        value: this.$store.getters[`documents/${this.documentId}/document`].preparedById,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_PREPARED_BY_ID", e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, e.value);
         }
       };
     },
@@ -223,9 +223,9 @@ export default {
             ["status", "=", 0]
           ]
         }),
-        value: this.$store.getters["currentDocument/document"].addresseeId,
+        value: this.$store.getters[`documents/${this.documentId}/document`].addresseeId,
         onValueChanged: e => {
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, e.value);
         }
       };
     }

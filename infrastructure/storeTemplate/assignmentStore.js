@@ -35,6 +35,9 @@ export const getters = {
   }
 };
 export const mutations = {
+  SET_STATUS(state, payload) {
+    state.assignment.status = payload;
+  },
   DECREMENT_OVERLAYS(state) {
     state.overlays--;
   },
@@ -77,7 +80,15 @@ export const actions = {
     }
     commit("SET_ASSIGNMENT", data);
   },
-  async complete({ state }, params) {
+  async reload({ commit, state }) {
+    const body = state.assignment.body;
+    const { data } = await this.$axios.get(
+      dataApi.assignment.GetAssignmentById + state.assignment.id
+    );
+    data.assignment.body = body;
+    commit("SET_ASSIGNMENT", data);
+  },
+  async complete({ state, commit }, params) {
     const assignment = { ...state.assignment };
     delete assignment.attachmentGroups;
     const assignmentJson = JSON.stringify(assignment);
@@ -87,6 +98,7 @@ export const actions = {
       assignmentJson,
       ...params
     });
+    commit("SET_STATUS", AssignmentStatus.Completed);
   },
 
   async pasteAttachment({ state, commit }, payload) {

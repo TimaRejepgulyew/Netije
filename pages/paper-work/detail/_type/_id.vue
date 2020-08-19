@@ -1,46 +1,55 @@
 <template>
-  <main-document-form />
+  <main-document-form :isCard="false" :documentId="$route.params.id" />
 </template>
 <script>
+import { load } from "~/infrastructure/services/documentService.js";
 import mainDocumentForm from "~/components/paper-work/main-doc-form/index.vue";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
 export default {
   components: {
-    mainDocumentForm
+    mainDocumentForm,
   },
-  async asyncData({ app, params, router }) {
-    if (
-      (!app.store.getters["currentDocument/isNew"] &&
-        !app.store.getters["currentDocument/isDataChanged"]) ||
-      app.store.getters["currentDocument/loadedFromUrl"]
-    ) {
-      await app.store.dispatch("currentDocument/getDocumentById", {
-        type: +params.type,
-        id: +params.id
-      });
-    }
+  async asyncData({ app, params, router, $axios }) {
+    await load(
+      { $store: app.store, $axios },
+      {
+        documentTypeGuid: +params.type,
+        documentId: +params.id,
+      }
+    );
   },
   async beforeRouteLeave(to, from, next) {
     let result = true;
-    if (!this.$store.getters["currentDocument/skipRouteHandling"]) {
-      result = await documentChangeTracker.handleConfirm(this);
+    if (
+      !this.$store.getters[
+        `document/${this.$route.params.id}/skipRouteHandling`
+      ]
+    ) {
+      result = await documentChangeTracker.handleConfirm(
+        this,
+        this.$route.params.id
+      );
     }
     next(result);
   },
   async beforeRouteUpdate(to, from, next) {
     let result = true;
-    if (!this.$store.getters["currentDocument/skipRouteHandling"]) {
+    if (
+      !this.$store.getters[
+        `document/${this.$route.params.id}/skipRouteHandling`
+      ]
+    ) {
       result = await documentChangeTracker.handleConfirm(this);
       if (result) {
-        await this.$store.dispatch("currentDocument/getDocumentById", {
-          type: +to.params.type,
-          id: +to.params.id
+        await load(this, {
+          documentTypeGuid: +this.$route.params.type,
+          documentId: +this.$route.params.id,
         });
       }
     }
     next(result);
-  }
+  },
 };
 </script>

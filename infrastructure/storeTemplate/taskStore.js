@@ -50,7 +50,6 @@ export const mutations = {
   },
   SET_TASK(state, payload) {
     for (let item in payload) {
-      console.log(payload);
       state[item] = payload[item];
     }
   },
@@ -122,14 +121,14 @@ export const mutations = {
     state.task.coAssignees = payload;
   },
   SET_ASSIGNEE(state, payload) {
-    if (checkDataChanged(state.task.assigneeId, payload))
+    if (checkDataChanged(state.task.assignee, payload))
       state.isDataChanged = true;
-    state.task.assigneeId = payload;
+    state.task.assignee = payload;
   },
   SET_SUPERVISOR(state, payload) {
-    if (checkDataChanged(state.task.supervisorId, payload))
+    if (checkDataChanged(state.task.supervisor, payload))
       state.isDataChanged = true;
-    state.task.supervisorId = payload;
+    state.task.supervisor = payload;
   },
   SET_IMPORTANCE(state, payload) {
     if (checkDataChanged(state.task.importance, payload))
@@ -137,6 +136,7 @@ export const mutations = {
     state.task.importance = payload;
   },
   SET_STATUS(state, payload) {
+    console.log(payload, "setStatus");
     state.task.status = payload;
   },
   SET_ATTACHMENT_GROUPS(state, payload) {
@@ -153,7 +153,9 @@ export const mutations = {
     state.task.addresseeId = payload;
   },
   INCREMENT_OVERLAYS(state) {
-    state.overlays++;
+    if (state.overlays === null) {
+      state.overlays = 0;
+    } else state.overlays++;
   },
   DECREMENT_OVERLAYS(state) {
     state.overlays--;
@@ -171,12 +173,13 @@ export const actions = {
     });
 
     commit("SET_TASK", data);
+    commit("IS_NEW", false);
     commit("SET_IS_DATA_CHANGED", false);
   },
   async delete({ state }) {
     await this.$axios.delete(dataApi.task.Delete + state.task.id);
   },
-  async start({ state, dispatch, getters }) {
+  async start({ state, dispatch, getters, commit }) {
     if (getters["isDataChanged"]) {
       await dispatch("save");
     }
@@ -184,15 +187,16 @@ export const actions = {
       id: state.task.id,
       taskType: state.task.taskType
     });
+    commit("SET_STATUS", TaskStatus.InProcess);
   },
-  async abort({ state }) {
+  async abort({ state, commit }) {
     const res = await this.$axios.post(dataApi.task.Abort, {
       id: state.task.id,
       taskType: state.task.taskType
     });
     commit("SET_STATUS", TaskStatus.Abort);
   },
-  async restart({ state }) {
+  async restart({ state, commit }) {
     await this.$axios.post(dataApi.task.Restart, {
       id: state.task.id,
       taskType: state.task.taskType

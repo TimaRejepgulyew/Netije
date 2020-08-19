@@ -29,7 +29,7 @@ export default {
             this.$t("assignment.sureCompleteSupervisor"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.ActionItemSupervisorAssignment.Accept);
+          this.setResult(ReviewResult.ActionItemSupervisor.Accept);
           if (response) this.completeAssignment();
         }
       };
@@ -43,7 +43,7 @@ export default {
             this.$t("assignment.sureReworkMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.ActionItemSupervisorAssignment.ForRework);
+          this.setResult(ReviewResult.ActionItemSupervisor.ForRework);
           if (response) this.completeAssignment();
         }
       };
@@ -51,11 +51,11 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);;
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
         e => {
           this.$router.go(-1);
           this.$awn.success();

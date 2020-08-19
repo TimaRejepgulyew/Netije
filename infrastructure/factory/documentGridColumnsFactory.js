@@ -1,5 +1,5 @@
 import DocumentQuery from "~/infrastructure/constants/documentQuery";
-import DocumentService from "~/infrastructure/services/documentService";
+import DocumentService from "~/infrastructure/services/documentVersionService";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
 export default {

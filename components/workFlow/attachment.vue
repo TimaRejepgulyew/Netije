@@ -1,30 +1,49 @@
 <template>
   <div>
-    <attachmentGroupItem
-      @detach="detach"
-      @pasteAttachment="pasteAttachment"
-      :group="groupItem"
-      v-for="groupItem in attachmentGroups.filter(el=>el.isVisible)"
-      :key="groupItem.groupId"
-    />
+    <div v-for="groupItem in attachmentGroups.filter(el=>el.isVisible)" :key="groupItem.groupId">
+      <component
+        :is="componentByAttachmentType(groupItem.attachmentGroupType)"
+        :assignmentId="assignmentId"
+        @detach="detach"
+        @pasteAttachment="pasteAttachment"
+        @reloadAttachment="reloadAttachment"
+        :group="groupItem"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import attachmentGroupItem from "~/components/workFlow/attachment-group-item.vue";
+import attachmentGroupDocument from "~/components/workFlow/attachment-group-document.vue";
+import attachmentGroupTask from "~/components/workFlow/attachment-group-task.vue";
+import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.js";
 export default {
   components: {
-    attachmentGroupItem
+    attachmentGroupDocument,
+    attachmentGroupTask
   },
-  props: ["attachmentGroups"],
+  props: ["attachmentGroups", "assignmentId"],
   methods: {
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
     },
     pasteAttachment(options) {
       this.$emit("pasteAttachment", options);
+    },
+    reloadAttachment() {
+      console.log("attachment");
+      this.$emit("reloadAttachment");
+    },
+    componentByAttachmentType(attachmentGroupType) {
+      switch (attachmentGroupType) {
+        case GroupAttachmentType.Document:
+          return "attachmentGroupDocument";
+        case GroupAttachmentType.Task:
+          return "attachmentGroupTask";
+      }
     }
-  }
+  },
+  computed: {}
 };
 </script>
 

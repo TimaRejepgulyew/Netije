@@ -2,14 +2,14 @@
   <div>
     <DxPopup
       width="90%"
-      height="50%"
+      height="90%"
       :showTitle="false"
       :visible.sync="isOpenCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div>
-        <documentGrid v-if="isOpenCard" :documentQuery="100" @selectedDocument="pasteAttachment" />
+        <task-card v-if="isOpenCard" :taskId="taskId" :isCard="true" @onSave="reloadAttachmment" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -22,18 +22,18 @@
         icon="plus"
         styling-mode="text"
         :hint="$t('buttons.add')"
-        :on-click="()=>{isOpenCard =!isOpenCard}"
+        :on-click="openPopup"
       ></DxButton>
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <component @detach="detach" :is="componentByAttachmentType" :item="groupItem" />
+        <taskField @detach="detach" @showCard="showCard" :item="groupItem" />
       </li>
     </ul>
     <div
       class="d-flex group__description"
       :class="{'cursor-pointer':group.canAddAttachments}"
-      @click="()=>{if(group.canAddAttachments)isOpenCard =!isOpenCard}"
+      @click="()=>{if(group.canAddAttachments)tooglePopup()}"
       v-else
     >
       <i class="dx-icon dx-icon-link"></i>
@@ -43,61 +43,66 @@
 </template>
 
 <script>
-import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import documentGrid from "~/components/paper-work/document-grid.vue";
+import {
+  createActionItemExicutionTask,
+  load
+} from "~/infrastructure/services/taskService.js";
+import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import taskField from "~/components/workFlow/field-task-attachment.vue";
-import documentField from "~/components/workFlow/field-document-attachment.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import DxSelectBox from "devextreme-vue/select-box";
 import { DxPopup } from "devextreme-vue/popup";
-import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.js";
+import taskCard from "~/components/task/index.vue";
 export default {
   components: {
     DxSelectBox,
     DxButton,
-    documentGrid,
     DxPopup,
-    documentField,
-    taskField
+    taskField,
+    taskCard: async () => {
+      return await import("~/components/task/index.vue");
+    }
   },
+  name: "attachment-group-task",
   data() {
     return {
-      isOpenCard: false,
-      attachment: null,
-      documentStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.paperWork.AllDocument
-        })
-      })
+      taskId: null,
+      isOpenCard: false
     };
   },
-  props: ["group"],
+
+  props: ["group", "assignmentId"],
   methods: {
+    showCard({ id, taskType }) {
+      this.$awn.asyncBlock(load(this, { taskType, taskId: id }), () => {
+        this.taskId = id;
+        this.tooglePopup();
+      });
+    },
+    tooglePopup() {
+      this.isOpenCard = !this.isOpenCard;
+    },
+    openPopup() {
+      this.$awn.asyncBlock(
+        createActionItemExicutionTask(this, this.assignmentId),
+        ({ taskId, taskType }) => {
+          this.taskId = taskId;
+          this.tooglePopup();
+        }
+      );
+    },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
     },
-    pasteAttachment({ documentTypeGuid, id }) {
-      this.isOpenCard = !this.isOpenCard;
-      this.$emit("pasteAttachment", {
-        attachmentId: id,
-        groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(documentTypeGuid)
-      });
+    reloadAttachmment() {
+      this.$emit("reloadAttachment");
+      this.isOpenCard = false;
     }
   },
   computed: {
-    componentByAttachmentType() {
-      switch (this.group.attachmentGroupType) {
-        case GroupAttachmentType.Document:
-          return "documentField";
-        case GroupAttachmentType.Task:
-          return "taskField";
-      }
-    },
     hasGroupItem() {
       return this.group.entities;
     }
