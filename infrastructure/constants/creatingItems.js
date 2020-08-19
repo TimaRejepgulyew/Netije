@@ -2,6 +2,8 @@ import { DocumentType } from "~/infrastructure/constants/documentType.js";
 import { taskElements } from "~/infrastructure/constants/taskType.js";
 import { createTask } from "~/infrastructure/services/taskService.js";
 import { createDocument } from "~/infrastructure/services/documentService.js";
+import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
+import contractIcon from "~/static/icons/document-type/contract.svg";
 
 export default function(context) {
   async function create(context, params) {
@@ -42,14 +44,14 @@ export default function(context) {
 
     {
       text: context.$t("createItemDialog.accountingDocumentsGroup"),
-      // icon: financialArchiveIcon,
+      icon: financialArchiveIcon,
       items: financialArchiveDocumentBtns,
       visible:
         context.$store.getters["permissions/isResponsibleFinansicalArchive"]
     },
     {
       text: context.$t("createItemDialog.contractualDocumentsGroup"),
-      // icon: contractIcon,
+      icon: contractIcon,
       items: contractDocumentBtns,
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
     }
@@ -67,7 +69,6 @@ function TaskButtons(context) {
   const taskTypes = taskElements(context);
 
   for (let taskType in taskTypes) {
-    
     taskTypes[+taskType].create = async context => {
       const { taskId } = await createTask(context, {
         taskType: +taskType
