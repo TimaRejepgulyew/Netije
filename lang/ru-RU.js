@@ -469,8 +469,8 @@ export default {
     logs: "Логи"
   },
   buttons: {
-    addResolution: "Вынести резалюцию",
-    sendToResolution: "Отправить на резалюцию",
+    addResolution: "Вынести резолюцию",
+    sendToResolution: "Отправить на рассмотрение",
     sendToReview: "Отправить на расмотрение",
     sendToAssignee: "Отправить на исполнение",
     takeInto: "Принять к сведению",

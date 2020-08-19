@@ -4,7 +4,7 @@
       <Header :isbackButton="true" :headerTitle="headerTitle">
         <important-indicator :isImportant="isImportant" slot="indicator"></important-indicator>
       </Header>
-      <component :assignmentId="assignmentId" :is="componentByType('toolbar')" />
+      <component v-if="canUpdate" :assignmentId="assignmentId" :is="componentByType('toolbar')" />
       <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm
@@ -41,11 +41,7 @@
                   <DxSimpleItem template="comments">
                     <DxLabel location="top" :visible="false" />
                   </DxSimpleItem>
-                  <DxSimpleItem
-                    data-field="body"
-                    :editor-options="bodyOptions"
-                    editor-type="dxTextArea"
-                  >
+                  <DxSimpleItem :editor-options="bodyOptions" editor-type="dxTextArea">
                     <DxLabel location="top" :visible="false" />
                   </DxSimpleItem>
                 </DxGroupItem>
@@ -84,6 +80,7 @@
   </div>
 </template>
 <script>
+import { unload } from "~/infrastructure/services/assignmentService.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
 import Importance from "~/infrastructure/constants/assignmentImportance.js";
@@ -97,8 +94,6 @@ import attachment from "~/components/workFlow/attachment.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import "devextreme-vue/text-area";
 import dataApi from "~/static/dataApi";
-import threadTexts from "~/components/workFlow/thread-text/thread-texts.vue";
-import { mapGetters } from "vuex";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -108,7 +103,8 @@ export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    threadTexts,
+    threadTexts: () =>
+      import("~/components/workFlow/thread-text/thread-texts.vue"),
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
@@ -121,8 +117,11 @@ export default {
     ...toolbars,
     ...additional
   },
+  name: "assignment",
   props: ["assignmentId"],
-
+  destroyed() {
+    unload(this, this.assignmentId);
+  },
   data() {
     return {
       attachmentsUrl: dataApi.attachment.AttachmentByAssignment,
@@ -134,17 +133,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      assignmentData: "currentAssignment/assignment"
-    }),
     assignment() {
-      return this.assignmentData(this.assignmentId);
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
+    },
+    canUpdate() {
+      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
     },
     performerId() {
-      return this.assignmentData(this.assignmentId).performerId;
+      return this.assignment.performerId;
     },
     authorId() {
-      return this.assignmentData(this.assignmentId).authorId;
+      return this.assignment.authorId;
     },
     subjectOptions() {
       return {
@@ -160,28 +159,21 @@ export default {
     bodyOptions() {
       return {
         placeholder: this.placeholder,
-        visible: this.$store.getters["currentAssignment/canUpdate"](
-          this.assignmentId
-        ),
+        visible: this.canUpdate,
+        value: this.assignment.body,
         onValueChanged: e => {
-          this.$store.commit("currentAssignment/SET_BODY", {
-            key: this.assignmentId,
-            payload: e.value
-          });
+          this.$store.commit(
+            `assignments/${this.assignmentId}/SET_BODY`,
+            e.value
+          );
         }
       };
     },
-    InProcess() {
-      return this.$store.getters["currentAssignment/inProcess"](
-        this.assignmentId
-      );
+    inProcess() {
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
     placeholder() {
-      switch (
-        this.$store.getters["currentAssignment/assignmentType"](
-          this.assignmentId
-        )
-      ) {
+      switch (this.assignment.assignmentType) {
         case AssignmentType.AcquaintanceFinishAssignment:
         case AssignmentType.SimpleAssignment:
         case AssignmentType.ActionItemSupervisorAssignment:
@@ -195,46 +187,38 @@ export default {
       }
     },
     isImportant() {
-      return (
-        this.$store.getters["currentAssignment/assignment"](this.assignmentId)
-          .importance === Importance.High
-      );
+      return this.assignment.importance === Importance.High;
     },
     headerTitle() {
-      return this.$store.getters["currentAssignment/assignment"](
-        this.assignmentId
-      ).subject;
+      return this.assignment.subject;
     },
     attachmentGroups() {
-      return this.$store.getters["currentAssignment/assignment"](
-        this.assignmentId
-      ).attachmentGroups;
+      return this.assignment.attachmentGroups;
     }
   },
   methods: {
     componentByType(componentName) {
-      const assignmentType = this.$store.getters[
-        "currentAssignment/assignment"
-      ](this.assignmentId).assignmentType;
-      if (ComponentsByAssignmentType.has(assignmentType))
-        return ComponentsByAssignmentType.get(assignmentType)[componentName];
+      if (ComponentsByAssignmentType.has(this.assignment.assignmentType))
+        return ComponentsByAssignmentType.get(this.assignment.assignmentType)[
+          componentName
+        ];
     },
     detach(attachmentId) {
       this.$awn.async(
-        this.$store.dispatch("currentAssignment/detachAttachment", {
-          key: this.assignmentId,
-          payload: attachmentId
-        }),
+        this.$store.dispatch(
+          `assignments/${this.assignmentId}/detachAttachment`,
+          attachmentId
+        ),
         () => {},
         () => {}
       );
     },
     pasteAttachment(options) {
       this.$awn.async(
-        this.$store.dispatch("currentAssignment/pasteAttachment", {
-          key: this.assignmentId,
-          payload: options
-        }),
+        this.$store.dispatch(
+          `assignments/${this.assignmentId}/pasteAttachment`,
+          options
+        ),
         () => {},
         () => {}
       );

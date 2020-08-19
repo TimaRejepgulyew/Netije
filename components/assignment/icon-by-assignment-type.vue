@@ -10,19 +10,20 @@ export default {
     iconByAssignmentType() {
       switch (this.assignmentType) {
         case AssignmentType.AcquaintanceAssignment:
-        case AssignmentType.ReviewDraftResolutionAssignment:
-       
           return require("~/static/icons/acquintanceTask.svg");
+        case AssignmentType.ReviewDraftResolutionAssignment:
         case AssignmentType.SimpleAssignment:
         case AssignmentType.ActionItemExecutionAssignment:
         case AssignmentType.PreparingDraftResolutionAssignment:
-        case AssignmentType.ReviewDraftResolutionAssignment:
         case AssignmentType.ReviewManagerAssignment:
         case AssignmentType.ReviewResolutionAssignment:
+        case AssignmentType.FreeApprovalAssignment:
+          case AssignmentType.FreeApprovalReworkAssignment:
           return require("~/static/icons/iconAssignment/clock.svg");
         case AssignmentType.AcquaintanceFinishAssignment:
         case AssignmentType.ActionItemSupervisorAssignment:
         case AssignmentType.ReviewAssignment:
+        case AssignmentType.FreeApprovalFinishAssignment:
           return require("~/static/icons/status/underreview.svg");
         case AssignmentType.Notice:
         case AssignmentType.ActionItemExecutionNotification:
@@ -32,8 +33,7 @@ export default {
         case AssignmentType.ReviewObserverNotification:
         case AssignmentType.ReviewObserversNotification:
         case AssignmentType.ReviewClerkNotification:
-        case AssignmentType.ActionItemObserversNotification:
-        case AssignmentType.ActionItemSupervisorNotification:
+        case AssignmentType.FreeApprovalNotification:
           return require("~/static/icons/iconAssignment/notice.svg");
         default:
           return require("~/static/icons/iconAssignment/InProccess1.svg");

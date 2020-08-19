@@ -2,14 +2,14 @@
   <div class="d-flex align-stretch align-items-center">
     <DxPopup
       width="90%"
-      height="90%"
+      height="95%"
       :showTitle="false"
       :visible.sync="isOpenCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div>
-        <document-card class="card" v-if="isOpenCard"  :isCard="true" />
+        <document-card class="card" v-if="isOpenCard" :isCard="true" />
       </div>
     </DxPopup>
     <div class="link d-flex f-grow-1" @dblclick="showAttachment">

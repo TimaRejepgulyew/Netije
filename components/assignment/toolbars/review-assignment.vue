@@ -1,21 +1,8 @@
 <template>
   <div class="toolbar">
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showComment"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :width="500"
-      :height="'auto'"
-    >
-      <div>
-        <comment-form @sendRequest="sendResult" @tooglePopup="tooglePopup" />
-      </div>
-    </DxPopup>
     <DxToolbar>
-      <DxItem :visible="InProcess" :options="btnOptions" location="before" widget="dxButton" />
-      <DxItem :visible="InProcess" :options="reworkBtnOptions" location="before" widget="dxButton" />
+      <DxItem :visible="inProcess" :options="btnOptions" location="before" widget="dxButton" />
+      <DxItem :visible="inProcess" :options="reworkBtnOptions" location="before" widget="dxButton" />
     </DxToolbar>
   </div>
 </template>
@@ -31,10 +18,8 @@ export default {
   },
   props: ["assignmentId"],
   computed: {
-    InProcess() {
-      return this.$store.getters["currentAssignment/inProcess"](
-        this.assignmentId
-      );
+    inProcess() {
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
     btnOptions() {
       return {
@@ -67,16 +52,11 @@ export default {
   },
   methods: {
     setResult(result) {
-      this.$store.commit("currentAssignment/SET_RESULT", {
-        key: this.assignmentId,
-        payload: result
-      });
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);;
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentAssignment/complete", {
-          key: this.assignmentId
-        }),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
         e => {
           this.$router.go(-1);
           this.$awn.success();
