@@ -55,7 +55,7 @@ export default {
         );
       }
       this.$awn.async(
-        documentService.uploadVersion(document, e.file, this),
+        documentService.uploadVersion(this.document, e.file, this),
         (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,

@@ -102,7 +102,7 @@ import docRegistration from "~/components/paper-work/main-doc-form/doc-registrat
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import contract from "~/components/paper-work/contract.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
-import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
+import Toolbar from "~/components/paper-work/main-doc-form/toolbar/index";
 import * as documentTypeComponent from "~/components/paper-work/documentTypeComponents.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import "devextreme-vue/text-area";
@@ -192,8 +192,9 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentKind,
+
           filter: [
-            ["documentTypeGuid", "=", this.document.documentType],
+            ["documentTypeGuid", "=", this.document.documentTypeGuid],
             "and",
             ["status", "=", 0],
           ],

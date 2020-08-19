@@ -20,41 +20,43 @@
         locateInMenu="auto"
         :visible="canRegister"
         location="before"
-        template="registrationButton"
+        template="toolbarItemRegistration"
       />
-
+      <template #toolbarItemRegistration>
+        <toolbar-item-registration :documentId="documentId" />
+      </template>
       <DxItem
         locateInMenu="auto"
-        template="createRelation"
+        template="toolbarItemRelation"
         v-if="!isNew"
         location="before"
         widget="dxButton"
       />
-      <template #createRelation>
-        <create-relation :documentId="documentId" />
+      <template #toolbarItemRelation>
+        <toolbar-item-relation :documentId="documentId" />
       </template>
       <DxItem
         locateInMenu="auto"
-        template="createTaskForDocument"
+        template="toolbarItemavailableActions"
         :visible="!isDataChanged"
         location="before"
       />
-      <template #createTaskForDocument>
-        <available-actions :documentId="documentId" />
+      <template #toolbarItemavailableActions>
+        <toolbar-item-available-actions :documentId="documentId" />
       </template>
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
-      <DxItem template="accessRightButton" location="after" />
-      <template #accessRightButton>
-        <access-right :entity-type="entityType" :entity-id="documentId" />
+      <DxItem template="toolbarItemAccessRight" location="after" />
+      <template #toolbarItemAccessRight>
+        <toolbar-item-access-right :entity-type="entityType" :entity-id="documentId" />
       </template>
       <DxItem
-        template="uploadVersion"
+        template="toolbarItemUploadVersion"
         locateInMenu="auto"
         :visible="!hasVersions"
         location="before"
       />
-      <template #uploadVersion>
-        <upload-version-button :documentId="documentId" />
+      <template #toolbarItemUploadVersion>
+        <toolbar-item-upload-version :documentId="documentId" />
       </template>
       <DxItem
         :options="previewButtonOptions"
@@ -63,10 +65,6 @@
         location="before"
         widget="dxButton"
       />
-
-      <template #registrationButton>
-        <document-registration-btn :documentId="documentId" />
-      </template>
       <DxItem
         :visible="canDelete"
         :options="removeDocumentButtonOptions"
@@ -77,34 +75,38 @@
   </div>
 </template>
 <script>
+//servises
 import { load } from "~/infrastructure/services/documentService.js";
 import documentService from "~/infrastructure/services/documentVersionService.js";
-import uploadVersionButton from "~/components/paper-work/main-doc-form/upload-version-button.vue";
-import createRelation from "~/components/paper-work/main-doc-form/create-relation.vue";
-import addendumIcon from "~/static/icons/addendum.svg";
-import availableActions from "~/components/paper-work/main-doc-form/available-actions.vue";
+//components
+import { confirm } from "devextreme/ui/dialog";
+import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
+import { DxButton } from "devextreme-vue";
+import toolbarItemRegistration from "~/components/paper-work/main-doc-form/toolbar/document-registration-btn";
+import toolbarItemUploadVersion from "~/components/paper-work/main-doc-form/toolbar/upload-version-button.vue";
+import toolbarItemRelation from "~/components/paper-work/main-doc-form//toolbar/create-relation.vue";
+import toolbarItemAccessRight from "~/components/page/access-right.vue";
+import toolbarItemAvailableActions from "~/components/paper-work/main-doc-form/toolbar/available-actions.vue";
+//constants
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
-import accessRight from "~/components/page/access-right.vue";
-import DxToolbar, { DxItem  } from "devextreme-vue/toolbar";
 import Docflow from "~/infrastructure/constants/docflows";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import { DxButton } from "devextreme-vue";
-import DocumentRegistrationBtn from "~/components/paper-work/main-doc-form/document-registration-btn";
+//icons
+import addendumIcon from "~/static/icons/addendum.svg";
 import saveIcon from "~/static/icons/save.svg";
 import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
 export default {
   components: {
-    uploadVersionButton,
-    accessRight,
+    toolbarItemUploadVersion,
+    toolbarItemAccessRight,
+    toolbarItemRegistration,
+    toolbarItemAvailableActions,
+    toolbarItemRelation,
     DxButton,
     DxToolbar,
     DxItem,
-    DocumentRegistrationBtn,
-    availableActions,
-    createRelation,
   },
   props: ["isCard", "documentId"],
   data() {
