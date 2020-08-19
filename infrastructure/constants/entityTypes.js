@@ -19,7 +19,7 @@ export default {
   CaseFile: 303,
   FileRetentionPeriod: 304,
   DocumentRegister: 305,
-  MailDeliveryMethod: 306,
+  DeliveryMethod: 306,
   RegistrationGroup: 307,
   RegistrationSetting: 308,
   PersonalSettings: 309,

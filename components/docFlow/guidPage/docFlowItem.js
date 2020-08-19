@@ -52,7 +52,7 @@ export default function(context) {
       visible:
         isVisible(EntityType.DocumentRegister) ||
         isVisible(EntityType.RegistrationGroup) ||
-        isVisible(EntityType.MailDeliveryMethod),
+        isVisible(EntityType.DeliveryMethod),
       items: [
         {
           name: context.$t("docFlow.regSetting.registration"),
@@ -77,8 +77,8 @@ export default function(context) {
           description: context.$t(
             "docFlow.regSetting.deliveriMethodsDescr"
           ),
-          path: pathGenerate("mail-delivery-method"),
-          visible: isVisible(EntityType.MailDeliveryMethod)
+          path: pathGenerate("delivery-method"),
+          visible: isVisible(EntityType.DeliveryMethod)
         }
       ]
     },

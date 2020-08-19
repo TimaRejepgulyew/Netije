@@ -28,7 +28,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="MailDeliveryMethod" />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="DeliveryMethod" />
 
       <DxEditing
         :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
@@ -106,12 +106,12 @@ export default {
     return {
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.MailDeliveryMethod,
-        insertUrl: dataApi.docFlow.MailDeliveryMethod,
-        updateUrl: dataApi.docFlow.MailDeliveryMethod,
-        removeUrl: dataApi.docFlow.MailDeliveryMethod
+        loadUrl: dataApi.docFlow.DeliveryMethod,
+        insertUrl: dataApi.docFlow.DeliveryMethod,
+        updateUrl: dataApi.docFlow.DeliveryMethod,
+        removeUrl: dataApi.docFlow.DeliveryMethod
       }),
-      entityType: EntityType.MailDeliveryMethod,
+      entityType: EntityType.DeliveryMethod,
       statusDataSource: this.$store.getters["status/status"](this)
     };
   },

@@ -162,13 +162,13 @@ export default ({ app }, inject) => {
     );
   }
 
-  async function MailDeliveryMethodDataFieldValueNotExists(
+  async function DeliveryMethodDataFieldValueNotExists(
     payload,
     propertyName
   ) {
     return (
       (await isEntityExists(
-        dataApi.docFlow.MailDeliveryMethod,
+        dataApi.docFlow.DeliveryMethod,
         payload,
         propertyName
       )) == false
@@ -257,7 +257,7 @@ export default ({ app }, inject) => {
     ContactDataFieldValueNotExists: ContactDataFieldValueNotExists,
     CaseFileDataFieldValueNotExists: CaseFileDataFieldValueNotExists,
     FileRetentionPeriodDataFieldValueNotExists: FileRetentionPeriodDataFieldValueNotExists,
-    MailDeliveryMethodDataFieldValueNotExists: MailDeliveryMethodDataFieldValueNotExists,
+    DeliveryMethodDataFieldValueNotExists: DeliveryMethodDataFieldValueNotExists,
     RegistrationGroupDataFieldValueNotExists: RegistrationGroupDataFieldValueNotExists,
     DocumentRegistrationDataFieldValueNotExists: DocumentRegistrationDataFieldValueNotExists,
     FilesTypeDataFieldValueNotExists: FilesTypeDataFieldValueNotExists,

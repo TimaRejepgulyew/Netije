@@ -33,7 +33,7 @@ export default {
     DocumentRegister: {
       Value: `${url}/api/DocumentRegister`,
       All: `${url}/api/DocumentRegister`,
-      AvailableForUse: `${url}/api/DocumentRegister/AvailableForUse`,
+      GetUserDocumentRegistersForRegistration: `${url}/api/DocumentRegister/GetUserDocumentRegistersForRegistration`,
       AvailableForRegistrationSetttings: `${url}/api/DocumentRegister/AvailableForRegistrationSetttings`,
       PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
       FilterByDocumentParams: `${url}/api/DocumentRegister/FilterByDocumentParams`,
@@ -52,7 +52,7 @@ export default {
     RegistrationGroup: `${url}/api/RegistrationGroup`,
     ResponsibleForGroupOnMe: `${url}/api/RegistrationGroup/ResponsibleForGroupOnMe`,
     RegistrationGroupMembers: `${url}/api/RegistrationGroupMembers/`,
-    MailDeliveryMethod: `${url}/api/MailDeliveryMethod`,
+    DeliveryMethod: `${url}/api/DeliveryMethod`,
     RegistrationSetting: `${url}/api/RegistrationSetting`,
     AssociatedApplication: `${url}/api/AssociatedApplication`,
     FilesType: `${url}/api/FilesType`

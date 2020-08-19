@@ -408,7 +408,7 @@ function CreateDeliveryMethodColumn(context) {
   return CreateLookupColumn(
     "deliveryMethodId",
     context,
-    dataApi.docFlow.MailDeliveryMethod
+    dataApi.docFlow.DeliveryMethod
   );
 }
 function CreateAddresseConterPartColumn(context) {

@@ -48,7 +48,7 @@ export const hasDocflowAccess = rootGetters => {
     rootGetters["permissions/allowReading"](EntityType.CaseFile) ||
     rootGetters["permissions/allowReading"](EntityType.FileRetentionPeriod) ||
     rootGetters["permissions/allowReading"](EntityType.DocumentRegister) ||
-    rootGetters["permissions/allowReading"](EntityType.MailDeliveryMethod) ||
+    rootGetters["permissions/allowReading"](EntityType.DeliveryMethod) ||
     rootGetters["permissions/allowReading"](EntityType.RegistrationGroup) ||
     rootGetters["permissions/allowReading"](EntityType.RegistrationSetting)
   );

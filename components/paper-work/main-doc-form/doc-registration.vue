@@ -152,7 +152,7 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.MailDeliveryMethod
+          url: dataApi.docFlow.DeliveryMethod
         }),
         value: this.$store.getters["currentDocument/document"].deliveryMethodId,
         onValueChanged: e => {
