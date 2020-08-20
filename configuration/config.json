@@ -1,4 +1,4 @@
 {
-    "baseUrl": "https://localhost:5001",
+    "baseUrl": "https://192.168.4.159",
     "uiAddr": "http://localhost:3000"
 }

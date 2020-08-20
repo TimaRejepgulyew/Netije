@@ -20,6 +20,14 @@ export default class DocumentType extends AbstractType {
 
     return getPaperWorkDocument;
   }
+  filterRelationDocument() {
+    const allowTypes = [
+      DocumentTypeGuid.Addendum,
+      DocumentTypeGuid.IncomingLetter,
+      DocumentTypeGuid.OutgoingLetter
+    ];
+    return this.filtering(allowTypes);
+  }
   filterContract() {
     const allowTypes = [
       DocumentTypeGuid.IncomingInvoice,
