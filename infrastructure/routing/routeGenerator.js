@@ -14,7 +14,7 @@ export default {
     }
   },
   // generateDocumentDetailRoute(typeGuid, documentId) {
-  //   return `/paper-work/detail/${typeGuid}/${documentId}`;
+  //   return `/document-module/detail/${typeGuid}/${documentId}`;
   // },
   // generateRouteByTypeGuid(typeGuid) {
   //   switch (typeGuid) {

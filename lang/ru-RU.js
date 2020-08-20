@@ -1,3 +1,4 @@
+import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
 export default {
   status: {
     active: "Активный",
@@ -189,7 +190,7 @@ export default {
     version: "Версии"
   },
   shared: {
-    deadLine:"Срок",
+    deadLine: "Срок",
     read: "Прочитано",
     unread: "Не прочитано",
     explanation: "Пояснение",
@@ -227,99 +228,15 @@ export default {
     approval: "Согласование по регламенту",
     fields: {
       supervisor: "Контролер",
-      coAssignees:"Соисполнители"
+      coAssignees: "Соисполнители"
     }
   },
   contractCategories: {
     title: "Категории договоров",
     documentKinds: "Виды документов"
   },
-  document: {
-    remove: "Удалить",
-    preview: "Предпросмотр",
-    download: "Загрузка",
-    saved: "Документ сохранен",
-    lifeCycle: "Жизненый цикл",
-    state: "Состояние",
-    registrationState: "Регистрация",
-    internalApprovalState: "Согласование",
-    externalApprovalState: "Согл. с контрагентом",
-    executionState: "Исполнение",
-    controlExecutionState: "Контроль исполнения",
-    tabs: {
-      main: "Свойства",
-      relations: "Связи",
-      history: "История"
-    },
-    groups: {
-      captions: {
-        main: "ОСНОВНОЕ",
-        numberAndDate: "ДАТА И НОМЕР",
-        storing: "ХРАНЕНИЕ",
-        lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ"
-      }
-    },
-    fields: {
-      accountNumber: "Номер счета",
-      accountDate: "Дата счета",
-      totalAmount: "Сумма",
-      contract: "Договор",
-      areYouSureCancelDocument:
-        "Вы уверенны что хотите выйти? Не сохраненные данные будут утеряны",
-      dated: "Дата от",
-      name: "Имя",
-      inResponseToId: "В ответ на",
-      index: "Индекс",
-      ourSignatoryId: "Подписал",
-      counterpartySignatoryId: "Подписал",
-      caseFileId: "Дело",
-      placedToCaseFileDate: "Дата помещения",
-      contactId: "Контакт",
-      preparedById: "Подготовил",
-      assigneeId: "Исполнитель",
-      created: "Создан",
-      modified: "Изменено",
-      authorId: "Автор",
-      registrationDate: "Дата документа",
-      registrationNumber: "Рег. №",
-      documentNumber: "Номер документа",
-      correspondentId: "Контрагент",
-      subject: "Содержание",
-      documentKindId: "Вид документа",
-      documentRegisterId: "Журнал регистрации",
-      registrationState: "Регистрация",
-      deliveryMethodId: "Способ доставки",
-      addresseeId: "Адрессат",
-      businessUnitId: "Огранизация",
-      departmentId: "Отдел",
-      leadingDocumentId: "Ведущий документ",
-      documentTypeGuid: "Тип документа",
-      regNumberDocument: "Вх. Рег. номер",
-      validFrom: "Действителен c",
-      validTill: "Действителен по",
-      issuedToId: "Кому выдана"
-    }
-  },
-  validation: {
-    caseFile: {
-      endDateLessThanBegin: "Дата конца не может быть меньше даты начала"
-    },
-    valueMustNotContainsSpaces: "В значении не должны присутствовать пробелы"
-  },
-  registrationPopup: {
-    preliminaryRegistrationNumberMessage:
-      "*Точный регистрационный № будет назначен после регистрации",
-    preliminaryRegistrationNumber: "Предварительный регистрационный №",
-    isCustomNumber: "Назначить номер самому",
-    documentRegister: "Журнал регистрации",
-    regNumberDocument: "Регистрационный №",
-    registrationDate: "Дата регистрации",
-    validation: {
-      regNumberDocumentRequired: "Введите регистрационный № документа",
-      documentRegisterRequired: "Выберите журнал регистрации",
-      registrationDateRequired: "Введите дату регистрации документа"
-    }
-  },
+  document: documentModule,
+
   assignment: {
     returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
     placeholderSimple: "Введите комментарий",
@@ -954,7 +871,6 @@ export default {
       acquaintanceAssignment: "Задача на ознакомление",
       versions: "Версии",
       attachment: "Вложения",
-
       moreAbout: "Подробнее"
     },
 

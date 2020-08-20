@@ -16,6 +16,9 @@ export function taskElements(context) {
     iconStores: taskTypeIcons
   });
 }
+export class TaskElement{
+  
+}
 export const mapToEntityType = taskType => {
   switch (taskType) {
     case TaskType.SimpleTak:

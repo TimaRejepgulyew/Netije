@@ -94,16 +94,16 @@
 import { unload } from "~/infrastructure/services/documentService.js";
 import { generateNameByDocTypeGuid } from "~/infrastructure/constants/documentType.js";
 import Header from "~/components/page/page__header";
-import lifeCycle from "~/components/paper-work/main-doc-form/life-cycle.vue";
-import Relation from "~/components/paper-work/main-doc-form/relation";
+import lifeCycle from "~/components/document-module/main-doc-form/life-cycle.vue";
+import Relation from "~/components/document-module/main-doc-form/relation";
 import History from "~/components/page/history.vue";
-import docVersion from "~/components/paper-work/main-doc-form/doc-version";
-import docRegistration from "~/components/paper-work/main-doc-form/doc-registration";
+import docVersion from "~/components/document-module/main-doc-form/doc-version";
+import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-import contract from "~/components/paper-work/contract.vue";
+import contract from "~/components/document-module/contract.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
-import Toolbar from "~/components/paper-work/main-doc-form/toolbar";
-import * as documentTypeComponent from "~/components/paper-work/documentTypeComponents.js";
+import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
+import * as documentTypeComponent from "~/components/document-module/documentTypeComponents.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import "devextreme-vue/text-area";
 import DxForm, {
@@ -193,7 +193,7 @@ export default {
           context: this,
           url: dataApi.docFlow.DocumentKind,
           filter: [
-            ["documentTypeGuid", "=", this.document.documentType],
+            ["documentTypeGuid", "=", this.document.documentTypeGuid],
             "and",
             ["status", "=", 0],
           ],

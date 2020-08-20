@@ -2,7 +2,7 @@
   <documentGrid :documentQuery="documentQuery" @selectedDocument="showDocumentDetails" />
 </template>
 <script>
-import documentGrid from "~/components/paper-work/document-grid.vue";
+import documentGrid from "~/components/document-module/document-grid.vue";
 export default {
   components: {
     documentGrid
@@ -15,7 +15,7 @@ export default {
   methods: {
     showDocumentDetails({ id, documentTypeGuid }) {
       this.$store.commit("currentDocument/LOADED_FROM_URL", false);
-      this.$router.push(`/paper-work/detail/${documentTypeGuid}/${id}`);
+      this.$router.push(`/document-module/detail/${documentTypeGuid}/${id}`);
     }
   }
 };

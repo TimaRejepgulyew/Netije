@@ -56,7 +56,7 @@ export default {
   methods: {
     toDocument(documentTypeGuidId, documentId) {
       this.$router.push(
-        `/paper-work/detail/${documentTypeGuidId}/${documentId}`
+        `/document-module/detail/${documentTypeGuidId}/${documentId}`
       );
     },
     async getData(address) {

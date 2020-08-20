@@ -56,8 +56,8 @@
 
 <script>
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import documentGrid from "~/components/paper-work/document-grid.vue";
-import documentCard from "~/components/paper-work/main-doc-form/index.vue";
+import documentGrid from "~/components/document-module/document-grid.vue";
+import documentCard from "~/components/document-module/main-doc-form/index.vue";
 import documentField from "~/components/workFlow/field-document-attachment.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";

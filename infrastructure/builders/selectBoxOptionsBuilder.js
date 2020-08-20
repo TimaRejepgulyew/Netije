@@ -1,76 +1,75 @@
 import DataSource from "devextreme/data/data_source";
 
 export default class SelectBoxOptionBuilder {
+  constructor() {
+    this.deferRendering = true;
+    this.valueExpr = "id";
+    this.showClearButton = true;
+    this.displayExpr = "name";
+    this.searchEnabled = true;
+    this.searchExpr = "name";
+    this.paginate = true;
+    this.pageSize = 10;
+    this.acceptCustomValue = false;
+    this.focusStateEnabled = false;
+  }
 
-    constructor() {
-        this.deferRendering = true;
-        this.valueExpr = "id";
-        this.showClearButton = true;
-        this.displayExpr = "name";
-        this.searchEnabled = true;
-        this.searchExpr = "name";
-        this.paginate = true;
-        this.pageSize = 10;
-        this.acceptCustomValue = false;
-        this.focusStateEnabled = false;
+  withoutDeferRendering() {
+    this.deferRendering = false;
+    return this;
+  }
+
+  withUrl(url) {
+    this.url = url;
+    return this;
+  }
+
+  focusStateDisabled() {
+    this.focusStateEnabled = false;
+    return this;
+  }
+
+  acceptCustomValues(callback) {
+    this.acceptCustomValue = true;
+    this.onCustomItemCreating = callback;
+    return this;
+  }
+
+  filter(filter) {
+    this.filter = filter;
+    return this;
+  }
+
+  clearValueExpr() {
+    delete this.valueExpr;
+    return this;
+  }
+
+  build(context) {
+    const obj = {
+      dataSource: new DataSource({
+        store: context.$dxStore({
+          key: "id",
+          loadUrl: this.url
+        }),
+        filter: this.filter
+      }),
+      focusStateEnabled: this.focusStateEnabled,
+      acceptCustomValue: this.acceptCustomValue,
+      deferRendering: this.deferRendering,
+      valueExpr: this.valueExpr,
+      showClearButton: this.showClearButton,
+      displayExpr: this.displayExpr,
+      searchEnabled: this.searchEnabled,
+      searchExpr: this.searchExpr,
+      paginate: this.paginate,
+      pageSize: this.pageSize
+    };
+
+    if (this.onCustomItemCreating) {
+      Object.assign(obj, this.onCustomItemCreating);
     }
 
-    withoutDeferRendering() {
-        this.deferRendering = false;
-        return this;
-    }
-
-    withUrl(url) {
-        this.url = url;
-        return this;
-    }
-
-    focusStateDisabled() {
-        this.focusStateEnabled = false;
-        return this;
-    }
-
-    acceptCustomValues(callback) {
-        this.acceptCustomValue = true;
-        this.onCustomItemCreating = callback;
-        return this;
-    }
-
-    filter(filter) {
-        this.filter = filter;
-        return this;
-    }
-
-    clearValueExpr(){
-        delete this.valueExpr;
-        return this;
-    }
-
-    build(context) {
-        const obj = {
-            dataSource: new DataSource({
-                store: context.$dxStore({
-                    key: "id",
-                    loadUrl: this.url,
-                }),
-                filter: this.filter
-            }),
-            focusStateEnabled: this.focusStateEnabled,
-            acceptCustomValue: this.acceptCustomValue,
-            deferRendering: this.deferRendering,
-            valueExpr: this.valueExpr,
-            showClearButton: this.showClearButton,
-            displayExpr: this.displayExpr,
-            searchEnabled: this.searchEnabled,
-            searchExpr: this.searchExpr,
-            paginate: this.paginate,
-            pageSize: this.pageSize,
-        }
-
-        if (this.onCustomItemCreating) {
-            Object.assign(obj, this.onCustomItemCreating)
-        }
-
-        return obj;
-    }
+    return obj;
+  }
 }

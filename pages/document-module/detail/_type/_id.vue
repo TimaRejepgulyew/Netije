@@ -3,7 +3,7 @@
 </template>
 <script>
 import { load } from "~/infrastructure/services/documentService.js";
-import mainDocumentForm from "~/components/paper-work/main-doc-form/index.vue";
+import mainDocumentForm from "~/components/document-module/main-doc-form/index.vue";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
@@ -24,7 +24,7 @@ export default {
     let result = true;
     if (
       !this.$store.getters[
-        `document/${this.$route.params.id}/skipRouteHandling`
+        `document/${+this.$route.params.id}/skipRouteHandling`
       ]
     ) {
       result = await documentChangeTracker.handleConfirm(

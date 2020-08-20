@@ -1,12 +1,7 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DocumentQuery, {
-  generateNameByDocQuery
-} from "~/infrastructure/constants/documentQuery";
-import {
-  FinancialArchive as financialArchiveIcon,
-  Contract as contractIcon
-} from "~/static/icons/document-type/index.js";
-
+import DocumentQuery from "~/infrastructure/constants/documentQuery";
+import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
+import contractIcon from "~/static/icons/document-type/contract.svg";
 export const state = () => ({
   menuList: []
 });
@@ -102,39 +97,39 @@ export const actions = {
         items: [
           {
             text: this.$i18n.t("DocumentQuery.incomingLetter"),
-            path: `/paper-work/${DocumentQuery.IncomingLetter}`
+            path: `/document-module/${DocumentQuery.IncomingLetter}`
           },
           {
             text: this.$i18n.t("DocumentQuery.outgoingLetter"),
-            path: `/paper-work/${DocumentQuery.OutgoingLetter}`
+            path: `/document-module/${DocumentQuery.OutgoingLetter}`
           },
           {
             text: this.$i18n.t("DocumentQuery.internalDocument"),
-            path: `/paper-work/${DocumentQuery.InternalDocument}`,
+            path: `/document-module/${DocumentQuery.InternalDocument}`,
             items: [
               {
                 text: this.$i18n.t("DocumentQuery.order"),
-                path: `/paper-work/${DocumentQuery.Order}`
+                path: `/document-module/${DocumentQuery.Order}`
               },
               {
                 text: this.$i18n.t("DocumentQuery.companyDirective"),
-                path: `/paper-work/${DocumentQuery.CompanyDirective}`
+                path: `/document-module/${DocumentQuery.CompanyDirective}`
               },
               {
                 text: this.$i18n.t("DocumentQuery.simpleDocument"),
-                path: `/paper-work/${DocumentQuery.SimpleDocument}`
+                path: `/document-module/${DocumentQuery.SimpleDocument}`
               },
               {
                 text: this.$i18n.t("DocumentQuery.addendum"),
-                path: `/paper-work/${DocumentQuery.Addendum}`
+                path: `/document-module/${DocumentQuery.Addendum}`
               },
               {
                 text: this.$i18n.t("DocumentQuery.memo"),
-                path: `/paper-work/${DocumentQuery.Memo}`
+                path: `/document-module/${DocumentQuery.Memo}`
               },
               {
                 text: this.$i18n.t("DocumentQuery.powerOfAttorney"),
-                path: `/paper-work/${DocumentQuery.PowerOfAttorney}`
+                path: `/document-module/${DocumentQuery.PowerOfAttorney}`
               }
             ]
           }
@@ -143,34 +138,14 @@ export const actions = {
       {
         text: this.$i18n.t("menu.contractualDocuments"),
         icon: contractIcon,
-        path: `/paper-work/${DocumentQuery.ContractualDocuments}`,
-        visible: hasContractAccess(rootGetters),
-        items: [
-          // {
-          //   text: this.$i18n.t("documentType.contract"),
-          //   path: `/paper-work/${DocumentQuery.Contract}`
-          // },
-          // {
-          //   text: this.$i18n.t("documentType.contractStatement"),
-          //   path: `/paper-work/${DocumentQuery.ContractStatement}`
-          // },
-        ]
+        path: `/document-module/${DocumentQuery.ContractualDocuments}`,
+        visible: hasContractAccess(rootGetters)
       },
       {
         text: this.$i18n.t("menu.accountingDocuments"),
         icon: financialArchiveIcon,
-        path: `/paper-work/${DocumentQuery.AccountingDocuments}`,
+        path: `/document-module/${DocumentQuery.AccountingDocuments}`,
         visible: hasAccountingDocumentBaseAccess(rootGetters)
-        // items: [
-        //   {
-        //     text: this.$i18n.t("menu.accountingDocuments"),
-        //     path: `/paper-work/${DocumentQuery.AccountingDocuments}`
-        //   },
-        //   {
-        //     text: this.$i18n.t("menu.сontractsAndSupAgreements"),
-        //     path: `/paper-work/${DocumentQuery.ContractsAndSupAgreements}`
-        //   },
-        // ]
       },
       {
         text: this.$i18n.t("menu.contractors"),

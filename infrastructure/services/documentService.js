@@ -2,7 +2,6 @@ import dataApi from "~/static/dataApi";
 import * as documentStoreTemplate from "~/infrastructure/storeTemplate/documentStore.js";
 import StoreModule from "~/infrastructure/services/StoreModule.js";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
-import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
 export const documentModules = new StoreModule({
   moduleName: "documents",
   storeTemplate: documentStoreTemplate
@@ -24,6 +23,7 @@ export async function createDocument(context, params) {
   const documentTypeGuid = data.document.documentTypeGuid;
   await documentModules.registerModule(context, documentId);
   loadDocument(context, documentId, data);
+
   context.$store.commit(`documents/${documentId}/SET_IS_NEW`, true);
   context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, true);
@@ -32,8 +32,12 @@ export async function createDocument(context, params) {
   return { documentId, documentTypeGuid };
 }
 
-export async function createLeadingDocument(context, leadingDocumentId) {
-  return await createTask(context, { leadingDocumentId });
+export async function createLeadingDocument(context, params) {
+  const { documentId, documentTypeGuid } = await createDocument(
+    context,
+    params
+  );
+  return { documentId, documentTypeGuid };
 }
 export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {

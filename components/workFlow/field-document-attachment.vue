@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import documentCard from "~/components/paper-work/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment-document-action-btn.vue";
@@ -19,12 +18,11 @@ export default {
     documentIcon,
     actionBtn,
     DxPopup,
-    documentCard
   },
   props: ["item"],
   data() {
     return {
-      isOpenCard: false
+      isOpenCard: false,
     };
   },
   methods: {
@@ -38,7 +36,7 @@ export default {
       DocumentService.downloadDocument(
         {
           ...this.item.entity,
-          extension: this.item.entity.extension
+          extension: this.item.entity.extension,
         },
         this
       );
@@ -52,8 +50,8 @@ export default {
       if (canPreview) this.previewVersion();
       else if (this.item.entity.hasVersions) this.downloadVersion();
       else this.showCard(this.item.entity);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -85,5 +83,4 @@ export default {
   overflow: hidden;
   white-space: nowrap;
 }
-
 </style>
