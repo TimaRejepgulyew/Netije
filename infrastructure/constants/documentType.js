@@ -1,6 +1,6 @@
 import entityTypes from "./entityTypes";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
-import *as documentTypeIcon from "~/static/icons/document-type/index.js";
+import * as documentTypeIcon from "~/static/icons/document-type/index.js";
 const DocumentTypeGuid = {
   IncomingLetter: 1,
   OutgoingLetter: 2,
@@ -19,6 +19,17 @@ const DocumentTypeGuid = {
   Contract: 15,
   SupAgreement: 16
 };
+
+export function generateNameByDocTypeGuid(key, context) {
+  const documentTypeGuidName = new Map();
+  for (let el in DocumentTypeGuid) {
+    documentTypeGuidName.set(
+      DocumentTypeGuid[el],
+      context.$t(`createItemDialog.${el[0].toLowerCase() + el.slice(1)}`.trim())
+    );
+  }
+  return documentTypeGuidName.get(key);
+}
 
 export const mapToEntityType = documentTypeGuid => {
   switch (documentTypeGuid) {
@@ -58,23 +69,22 @@ export const mapToEntityType = documentTypeGuid => {
       throw "Unsupported document type";
   }
 };
-
-export function generateNameByDocTypeGuid(key, context) {
-  const documentTypeGuidName = new Map();
-  for (let el in DocumentTypeGuid) {
-    documentTypeGuidName.set(
-      DocumentTypeGuid[el],
-      context.$t(`createItemDialog.${el[0].toLowerCase() + el.slice(1)}`.trim())
-    );
-  }
-  return documentTypeGuidName.get(key);
-}
-
 export default DocumentTypeGuid;
 
 export class DocumentType {
+  filtering(allowTypes) {
+    const filterObj = {};
+    for (let element in this.elements) {
+      for (let allowType of allowTypes) {
+        if (+element === allowType) {
+          filterObj[element] = this.elements[element];
+        }
+      }
+    }
+    return filterObj;
+  }
   constructor(context, options) {
-    this.documentTypes = generatorMapObj({
+    this.elements = generatorMapObj({
       Constant: DocumentTypeGuid,
       translateName: "document.type",
       context: context,
@@ -82,70 +92,51 @@ export class DocumentType {
     });
   }
   getAll() {
-    return this.documentTypes;
+    return this.elements;
+  }
+  filterRelationDocument() {
+    const allowTypes = [
+      DocumentTypeGuid.Addendum,
+      DocumentTypeGuid.IncomingLetter,
+      DocumentTypeGuid.OutgoingLetter
+    ];
+    return this.filtering(allowTypes);
   }
   filterPaperWorkDocument() {
     const getPaperWorkDocument = {};
-    for (let documentType in this.documentTypes) {
-      if (documentType <= 8)
-        getPaperWorkDocument[documentType] = this.documentTypes[documentType];
+    for (let element in this.elements) {
+      if (element <= 8) getPaperWorkDocument[element] = this.elements[element];
     }
-    console.log(getPaperWorkDocument);
+
     return getPaperWorkDocument;
   }
   filterContract() {
-    const contractDocument = {};
-    for (let documentType in this.documentTypes) {
-      switch (+documentType) {
-        case DocumentTypeGuid.IncomingInvoice:
-          contractDocument[
-            DocumentTypeGuid.IncomingInvoice
-          ] = this.documentTypes[DocumentTypeGuid.IncomingInvoice];
-          break;
-        case DocumentTypeGuid.ContractStatement:
-          contractDocument[
-            DocumentTypeGuid.ContractStatement
-          ] = this.documentTypes[DocumentTypeGuid.ContractStatement];
-          break;
-        case DocumentTypeGuid.Contract:
-          contractDocument[DocumentTypeGuid.Contract] = this.documentTypes[
-            DocumentTypeGuid.Contract
-          ];
-          break;
-        case DocumentTypeGuid.SupAgreement:
-          contractDocument[DocumentTypeGuid.SupAgreement] = this.documentTypes[
-            DocumentTypeGuid.SupAgreement
-          ];
-          break;
-      }
-    }
-    return contractDocument;
+    const allowTypes = [
+      DocumentTypeGuid.IncomingInvoice,
+      DocumentTypeGuid.ContractStatement,
+      DocumentTypeGuid.Contract,
+      DocumentTypeGuid.SupAgreement
+    ];
+    return this.filtering(allowTypes);
   }
   filterFinancialArchive() {
-    const financialArchive = {};
+    const allowTypes = [
+      DocumentTypeGuid.IncomingTaxInvoice,
+      DocumentTypeGuid.OutgoingTaxInvoice,
+      DocumentTypeGuid.UniversalTransferDocument,
+      DocumentTypeGuid.Waybill,
+      DocumentTypeGuid.SupAgreement
+    ];
+
+    return this.filtering(allowTypes);
+  }
+}
+export class RelationItemTypeGuid extends DocumentType {
+  withVisibility(currentDocumentTypeGuid) {
     for (let documentType in this.documentTypes) {
-      switch (+documentType) {
-        case DocumentTypeGuid.IncomingTaxInvoice:
-          financialArchive[
-            DocumentTypeGuid.IncomingTaxInvoice
-          ] = this.documentTypes[DocumentTypeGuid.IncomingTaxInvoice];
-          break;
-        case DocumentTypeGuid.OutgoingTaxInvoice:
-          financialArchive[
-            DocumentTypeGuid.OutgoingTaxInvoice
-          ] = this.documentTypes[DocumentTypeGuid.OutgoingTaxInvoice];
-          break;
-        case DocumentTypeGuid.UniversalTransferDocument:
-          financialArchive[
-            DocumentTypeGuid.ContraUniversalTransferDocumentct
-          ] = this.documentTypes[DocumentTypeGuid.UniversalTransferDocument];
-          break;
-        case DocumentTypeGuid.Waybill:
-          financialArchive[DocumentTypeGuid.Waybill] = this.documentTypes[
-            DocumentTypeGuid.Waybill
-          ];
-      }
+      this.documentTypes[documentType].visible =
+        currentDocumentTypeGuid !== +documentType;
     }
-    return financialArchive;
+    return this;
   }
 }

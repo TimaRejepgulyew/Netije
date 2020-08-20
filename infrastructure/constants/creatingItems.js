@@ -1,10 +1,10 @@
-import { DocumentType } from "~/infrastructure/constants/documentType.js";
+import DocumentCreateBtn from "~/infrastructure/models/DocumentCreateBtn.js";
 import { taskElements } from "~/infrastructure/constants/taskType.js";
 import { createTask } from "~/infrastructure/services/taskService.js";
 import { createDocument } from "~/infrastructure/services/documentService.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
-
+import toRouter from "~/infrastructure/services/toRouterDetail.js";
 export default function(context) {
   async function create(context, params) {
     const { documentTypeGuid, documentId } = await createDocument(
@@ -18,17 +18,17 @@ export default function(context) {
   }
 
   const paperWorkDocumentBtns = Object.values(
-    new DocumentCreateButton(context)
+    new DocumentCreateBtn(context)
       .withMethodCreate(create)
       .filterPaperWorkDocument()
   );
   const financialArchiveDocumentBtns = Object.values(
-    new DocumentCreateButton(context)
+    new DocumentCreateBtn(context)
       .withMethodCreate(create)
       .filterFinancialArchive()
   );
   const contractDocumentBtns = Object.values(
-    new DocumentCreateButton(context).withMethodCreate(create).filterContract()
+    new DocumentCreateBtn(context).withMethodCreate(create).filterContract()
   );
   return [
     {
@@ -58,13 +58,6 @@ export default function(context) {
   ];
 }
 
-function toRouter(context, { replaceOldRoute, route }) {
-  if (replaceOldRoute) {
-    context.$router.replace(route);
-  } else {
-    context.$router.push(route);
-  }
-}
 function TaskButtons(context) {
   const taskTypes = taskElements(context);
 
@@ -79,16 +72,4 @@ function TaskButtons(context) {
     };
   }
   return Object.values(taskTypes);
-}
-
-export class DocumentCreateButton extends DocumentType {
-  withMethodCreate(method) {
-    for (let documentType in this.documentTypes) {
-      this.documentTypes[documentType].create = context => {
-        console.log(+documentType);
-        method(context, { documentType: +documentType });
-      };
-    }
-    return this;
-  }
 }

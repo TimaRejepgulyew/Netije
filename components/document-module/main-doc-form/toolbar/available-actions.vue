@@ -1,15 +1,18 @@
 <template>
-  <DxDropDownButton
-    :use-select-mode="false"
-    :split-button="false"
-    :text="$t('buttons.send')"
-    :hint="$t('buttons.createTaskByDocument')"
-    :drop-down-options="{ width: 330 }"
-    :items="items"
-    :icon="sendIcon"
-    display-expr="name"
-    @item-click="createTask"
-  />
+  <div>
+    
+    <DxDropDownButton
+      :use-select-mode="false"
+      :split-button="false"
+      :text="$t('buttons.send')"
+      :hint="$t('buttons.createTaskByDocument')"
+      :drop-down-options="{ width: 330 }"
+      :items="items"
+      :icon="sendIcon"
+      display-expr="name"
+      @item-click="createTask"
+    />
+  </div>
 </template>
 <script>
 import TaskType from "~/infrastructure/constants/taskType.js";
