@@ -29,6 +29,7 @@ export function lifeCycleStateStoreType2(context) {
 }
 export function lifeCycleStateStoreType3(context) {
   return [
+    { id: LifeCycleState.Draft, name: context.$t("lifeCycleState.draft") },
     { id: LifeCycleState.Active, name: context.$t("lifeCycleState.active") },
     {
       id: LifeCycleState.Obsolete,
