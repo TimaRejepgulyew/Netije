@@ -92,7 +92,7 @@
 </template>
 <script>
 import { unload } from "~/infrastructure/services/documentService.js";
-import { generateNameByDocTypeGuid } from "~/infrastructure/constants/documentType.js";
+import DocumentType from "~/infrastructure/models/DocumentType.js";
 import Header from "~/components/page/page__header";
 import lifeCycle from "~/components/document-module/main-doc-form/life-cycle.vue";
 import Relation from "~/components/document-module/main-doc-form/relation";
@@ -114,7 +114,6 @@ import DxForm, {
   DxRequiredRule,
   DxLabel,
 } from "devextreme-vue/form";
-import { DxDrawer } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
@@ -133,7 +132,6 @@ export default {
     DxForm,
     lifeCycle,
     Header,
-    generateNameByDocTypeGuid,
   },
   destroyed() {
     unload(this, this.documentId);
@@ -182,7 +180,8 @@ export default {
     },
     generateHeaderTitle() {
       if (this.isNew) {
-        return generateNameByDocTypeGuid(this.document.documentTypeGuid, this);
+        return new DocumentType(this).getById(this.document.documentTypeGuid)
+          .text;
       }
       return this.document.name;
     },

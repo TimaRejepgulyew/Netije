@@ -31,7 +31,6 @@ export default {
       this.$emit("pasteAttachment", options);
     },
     reloadAttachment() {
-      console.log("attachment");
       this.$emit("reloadAttachment");
     },
     componentByAttachmentType(attachmentGroupType) {

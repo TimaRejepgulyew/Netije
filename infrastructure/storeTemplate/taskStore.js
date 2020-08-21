@@ -136,7 +136,6 @@ export const mutations = {
     state.task.importance = payload;
   },
   SET_STATUS(state, payload) {
-    console.log(payload, "setStatus");
     state.task.status = payload;
   },
   SET_ATTACHMENT_GROUPS(state, payload) {

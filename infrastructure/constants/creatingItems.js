@@ -1,35 +1,18 @@
 import DocumentCreateBtn from "~/infrastructure/models/DocumentCreateBtn.js";
-import { taskElements } from "~/infrastructure/constants/taskType.js";
-import { createTask } from "~/infrastructure/services/taskService.js";
-import { createDocument } from "~/infrastructure/services/documentService.js";
+import TaskCreateBtn from "~/infrastructure/models/TaskCreateBtn.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
-import toRouter from "~/infrastructure/services/toRouterDetail.js";
 export default function(context) {
-  async function create(context, params) {
-    const { documentTypeGuid, documentId } = await createDocument(
-      context,
-      params
-    );
-    const route = `/document-module/detail/${documentTypeGuid}/${documentId}`;
-    const replaceOldRoute =
-      context.$store.getters[`documents/${documentId}/isNew`];
-    toRouter(context, { route, replaceOldRoute });
-  }
-
   const paperWorkDocumentBtns = Object.values(
-    new DocumentCreateBtn(context)
-      .withMethodCreate(create)
-      .filterPaperWorkDocument()
+    new DocumentCreateBtn(context).init().filterPaperWorkDocument()
   );
   const financialArchiveDocumentBtns = Object.values(
-    new DocumentCreateBtn(context)
-      .withMethodCreate(create)
-      .filterFinancialArchive()
+    new DocumentCreateBtn(context).init().filterFinancialArchive()
   );
   const contractDocumentBtns = Object.values(
-    new DocumentCreateBtn(context).withMethodCreate(create).filterContract()
+    new DocumentCreateBtn(context).init().filterContract()
   );
+  const taskBtn = Object.values(new TaskCreateBtn(context).init().getAll());
   return [
     {
       text: context.$t("createItemDialog.recordManagementGroup"),
@@ -39,7 +22,7 @@ export default function(context) {
     {
       text: context.$t("createItemDialog.taskGroup"),
       icon: "selectall",
-      items: TaskButtons(context)
+      items: taskBtn
     },
 
     {
@@ -56,20 +39,4 @@ export default function(context) {
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
     }
   ];
-}
-
-function TaskButtons(context) {
-  const taskTypes = taskElements(context);
-
-  for (let taskType in taskTypes) {
-    taskTypes[+taskType].create = async context => {
-      const { taskId } = await createTask(context, {
-        taskType: +taskType
-      });
-      const route = `/task/detail/${+taskType}/${taskId}`;
-      const replaceOldRoute = context.$store.getters[`tasks/${taskId}/isNew`];
-      toRouter(context, { route, replaceOldRoute });
-    };
-  }
-  return Object.values(taskTypes);
 }

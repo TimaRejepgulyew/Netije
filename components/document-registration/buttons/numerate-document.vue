@@ -67,7 +67,7 @@ export default {
       }
 
       const { data } = await this.$axios.get(dataApi.docFlow.DocumentRegister.DefaultNumberingDocumentRegister+this.documentId);
-      console.log(data=='')
+  
     },
     isDocumentValid(){
       return this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate().isValid;

@@ -10,7 +10,6 @@ export default class RelationDropDownBtnOption {
   icon = "link";
   displayExpr = "text";
   itemClick(e, context, params) {
-    console.log(params, "click");
     e.itemData.create(context, params);
   }
 }
@@ -20,7 +19,7 @@ class RelationDropDownItemOption {
       this[option] = options[option];
     }
   }
-
+ 
   async create(context, params) {
     const { documentId, documentTypeGuid } = await createLeadingDocument(
       context,

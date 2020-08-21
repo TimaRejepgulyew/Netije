@@ -71,13 +71,6 @@ export default {
   },
   name: "task-item",
   props: ["comment"],
-  created() {
-    console.log(
-      this.resultStore(this),
-      this.comment.entity.assignmentType,
-      "testy"
-    );
-  },
   data() {
     return {
       unreadIcon,

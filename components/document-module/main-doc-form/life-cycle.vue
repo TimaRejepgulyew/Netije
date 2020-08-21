@@ -155,12 +155,13 @@ export default {
           context: this,
         }),
         onValueChanged: (e) => {
+          console.log(e);
           this.$store.commit(
             `documents/${this.documentId}/SET_LIFE_CYCLE_STATE`,
             e.value
           );
         },
-        value: this.lifeCycleState,
+        value: this.document.lifeCycleState,
         dataSource: generateLifeCycleItemState(this, this.documentTypeGuid),
       };
     },

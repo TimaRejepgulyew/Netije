@@ -21,7 +21,7 @@
       :close-on-outside-click="true"
     >
       <div>
-        <document-card class="card" v-if="isOpenCard" :isCard="true" />
+        <document-card class="card" v-if="isOpenCard" :documentId="attachmentId" :isCard="true" />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -56,8 +56,7 @@
 
 <script>
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import documentGrid from "~/components/document-module/document-grid.vue";
-import documentCard from "~/components/document-module/main-doc-form/index.vue";
+import { load } from "~/infrastructure/services/documentService.js";
 import documentField from "~/components/workFlow/field-document-attachment.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
@@ -69,30 +68,31 @@ export default {
   components: {
     DxSelectBox,
     DxButton,
-    documentGrid,
-    documentCard,
+    documentGrid: async () =>
+      await import("~/components/document-module/document-grid.vue"),
+    documentCard: async () =>
+      await import("~/components/document-module/main-doc-form/index.vue"),
     DxPopup,
-    documentField
+    documentField,
   },
   data() {
     return {
       isOpenCard: false,
-      isOpenGrid: false
+      isOpenGrid: false,
+      attachmentId: false,
     };
   },
   props: ["group"],
+
   methods: {
     showCard({ id, documentTypeGuid }) {
-      // corrected when rewrite document store add documentId in Props
       this.$awn.asyncBlock(
-        this.$store.dispatch("currentDocument/getDocumentById", {
-          id,
-          type: documentTypeGuid
-        }),
+        load(this, { documentId: id, documentTypeGuid }),
         () => {
           this.isOpenCard = true;
         }
       );
+      this.attachmentId = id;
     },
     tooglePopup() {
       this.isOpenGrid = !this.isOpenGrid;
@@ -104,16 +104,16 @@ export default {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(documentTypeGuid)
+        entityTypeGuid: mapToEntityType(documentTypeGuid),
       });
       this.tooglePopup();
-    }
+    },
   },
   computed: {
     hasGroupItem() {
       return this.group.entities;
-    }
-  }
+    },
+  },
 };
 </script>
 

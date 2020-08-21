@@ -1,8 +1,7 @@
-import AbstractType from "~/infrastructure/models/AbstractType.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as documentTypeIcon from "~/static/icons/document-type/index.js";
-export default class DocumentType extends AbstractType {
+export default class DocumentType {
   constructor(context) {
     this.elements = generatorMapObj({
       Constant: DocumentTypeGuid,
@@ -11,7 +10,23 @@ export default class DocumentType extends AbstractType {
       iconStores: documentTypeIcon
     });
   }
-
+  filtering(allowTypes) {
+    const filterObj = {};
+    for (let element in this.elements) {
+      for (let allowType of allowTypes) {
+        if (+element === allowType) {
+          filterObj[element] = this.elements[element];
+        }
+      }
+    }
+    return filterObj;
+  }
+  getAll() {
+    return this.elements;
+  }
+  getById(id) {
+    return this.elements[id];
+  }
   filterPaperWorkDocument() {
     const getPaperWorkDocument = {};
     for (let element in this.elements) {
@@ -20,6 +35,14 @@ export default class DocumentType extends AbstractType {
 
     return getPaperWorkDocument;
   }
+  filterRelationDocument() {
+    const allowTypes = [
+      DocumentTypeGuid.Addendum,
+      DocumentTypeGuid.IncomingLetter,
+      DocumentTypeGuid.OutgoingLetter
+    ];
+    return this.filtering(allowTypes);
+  }
   filterContract() {
     const allowTypes = [
       DocumentTypeGuid.IncomingInvoice,
@@ -27,7 +50,7 @@ export default class DocumentType extends AbstractType {
       DocumentTypeGuid.Contract,
       DocumentTypeGuid.SupAgreement
     ];
-    // return this.filtering(allowTypes);
+    return this.filtering(allowTypes);
   }
   filterFinancialArchive() {
     const allowTypes = [
@@ -38,6 +61,6 @@ export default class DocumentType extends AbstractType {
       DocumentTypeGuid.SupAgreement
     ];
 
-    // return this.filtering(allowTypes);
+    return this.filtering(allowTypes);
   }
 }

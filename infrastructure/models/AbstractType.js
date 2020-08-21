@@ -1,4 +1,5 @@
 export default class AbstractType {
+  elements= []
   filtering(allowTypes) {
     const filterObj = {};
     for (let element in this.elements) {
@@ -13,4 +14,5 @@ export default class AbstractType {
   getAll() {
     return this.elements;
   }
+  
 }

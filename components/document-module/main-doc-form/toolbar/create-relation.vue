@@ -28,8 +28,7 @@
   </div>
 </template>
 <script>
- import RelationDocumentType from  "~/infrastructure/models/RelationDocumentType.js"
-import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import RelationDocumentType from "~/infrastructure/models/RelationDocumentType.js";
 import documentCard from "~/components/document-module/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import RelationDropDownBtnOption from "~/infrastructure/builders/relationDropDown.js";
@@ -59,9 +58,9 @@ export default {
     },
     items() {
       return Object.values(
-        new RelationItemTypeGuid(this)
-          .withVisibility(this.document.documentTypeGuid)
-          .filterRelationDocument()
+        new RelationDocumentType(this)
+          .init(this.document.documentTypeGuid)
+          .getAll()
       );
     },
   },

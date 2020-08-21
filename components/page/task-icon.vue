@@ -3,15 +3,16 @@
 </template>
 
 <script>
-import TaskType from "~/infrastructure/constants/taskType.js";
-import { taskElements } from "~/infrastructure/constants/taskType.js";
+import TaskType from "~/infrastructure/models/TaskType.js";
 export default {
   props: ["taskTypeGuid"],
   computed: {
     icon() {
-      return taskElements(this)[this.taskTypeGuid].icon;
-    }
-  }
+      
+      const icon = new TaskType(this).getById(this.taskTypeGuid).icon;
+      return icon;
+    },
+  },
 };
 </script>
 
