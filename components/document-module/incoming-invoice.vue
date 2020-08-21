@@ -168,7 +168,7 @@ export default {
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentQuery.Contract}`,
+          url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : [],

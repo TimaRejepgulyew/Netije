@@ -241,7 +241,7 @@ export default {
         readOnly: !this.correspondentId,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentQuery.IncomingLetter}`,
+          url: `${dataApi.documentModule.Documents}${DocumentQuery.IncomingLetter}`,
           filter: ["correspondentId", "=", this.document.correspondentId],
         }),
         value: this.document.inResponseToId,

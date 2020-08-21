@@ -36,12 +36,12 @@ export default {
       СustomizableDocumentRegisters: `${url}/api/DocumentRegister/СustomizableDocumentRegisters`,
       PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
       SuitableRegistrableDocumentRegisters: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters`,
-      DefaultNumberingDocumentRegister:`${url}/api/DocumentRegister/DefaultNumberingDocumentRegister/`
+      DefaultNumberingDocumentRegister: `${url}/api/DocumentRegister/DefaultNumberingDocumentRegister/`
     },
     CaseFile: {
       Value: `${url}/api/CaseFile`,
       All: `${url}/api/CaseFile`,
-      AvailableForUse: `${url}/api/CaseFile/AvailableForUse`,
+      AvailableForUse: `${url}/api/CaseFile/AvailableForUse`
     },
     ContractCategories: `${url}/api/ContractCategory`,
     PersonalSettings: `${url}/api/PersonalSettings`,
@@ -58,12 +58,14 @@ export default {
     FilesType: `${url}/api/FilesType`
   },
   documentRegistration: {
+    DefaultDocumentRegister: `${url}/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
+    RegistrableDocumentRegisteres: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`,
     RegisterDocument: `${url}/api/OfficialDocument/Register`,
     UnregisterDocument: `${url}/api/OfficialDocument/Unregister`,
     CaseFiles: `${url}/api/DocumentRegistration/CaseFiles`,
     Registries: `${url}/api/DocumentRegistration/Registries/`
   },
-  paperWork: {
+  documentModule: {
     Documents: `${url}/api/OfficialDocument/`,
     AllDocument: `${url}/api/OfficialDocument/100`,
     GetDocumentById: `${url}/api/OfficialDocument/`,

@@ -61,8 +61,9 @@ export default {
     register() {
       if (this.isDataChanged) {
         if (
-          this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate()
-            .isValid
+          true
+          // this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate()
+          //   .isValid
         )
           this.$awn.asyncBlock(
             this.$store.dispatch(`documents/${this.documentId}/save`),

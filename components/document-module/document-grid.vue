@@ -121,7 +121,7 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}`
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`
         }),
         paginate: true
       }),
@@ -163,7 +163,7 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.paperWork.Documents}${this.documentQuery}?quickFilter=${filter}&`
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`
         }),
         paginate: true
       });

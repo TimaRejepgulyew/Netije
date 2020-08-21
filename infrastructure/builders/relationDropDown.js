@@ -9,9 +9,6 @@ export default class RelationDropDownBtnOption {
   dropDownOptions = { width: 330 };
   icon = "link";
   displayExpr = "text";
-  itemClick(e, context, params) {
-    e.itemData.create(context, params);
-  }
 }
 class RelationDropDownItemOption {
   constructor({ ...options }) {

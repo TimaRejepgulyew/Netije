@@ -285,7 +285,7 @@ export default {
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(
-          `${dataApi.paperWork.Documents}${DocumentQuery.OutgoingLetter}`
+          `${dataApi.documentModule.Documents}${DocumentQuery.OutgoingLetter}`
         )
         .filter(
           this.correspondentId

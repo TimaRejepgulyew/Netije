@@ -30,7 +30,7 @@ export default {
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.paperWork.AllDocument
+          loadUrl: dataApi.documentModule.AllDocument
         })
       })
     };

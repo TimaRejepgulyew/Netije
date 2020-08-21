@@ -401,7 +401,7 @@ function CreateInResponseToIdColumn(context) {
   return CreateLookupColumn(
     "inResponseToId",
     context,
-    dataApi.paperWork.AllDocument
+    dataApi.documentModule.AllDocument
   );
 }
 function CreateDeliveryMethodColumn(context) {
@@ -516,7 +516,7 @@ function CreateLeadingDocumentIdColumn(context, visible = true, caption) {
   return CreateLookupColumn(
     "leadingDocumentId",
     context,
-    dataApi.paperWork.AllDocument,
+    dataApi.documentModule.AllDocument,
     visible,
     "name",
     "id",

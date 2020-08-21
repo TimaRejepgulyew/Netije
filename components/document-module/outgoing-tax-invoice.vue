@@ -245,7 +245,7 @@ export default {
         readOnly: !this.counterpartyId,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentQuery.OutgoingTaxInvoice}`,
+          url: `${dataApi.documentModule.Documents}${DocumentQuery.OutgoingTaxInvoice}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : [],
@@ -265,7 +265,7 @@ export default {
         readOnly: !this.counterpartyId,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.paperWork.Documents}${DocumentQuery.Contract}`,
+          url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : [],

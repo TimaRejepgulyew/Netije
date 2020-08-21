@@ -47,7 +47,7 @@ export default {
         readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.paperWork.AllDocument,
+          url: dataApi.documentModule.AllDocument,
         }),
         value: this.document.leadingDocumentId,
         onValueChanged: (e) => {

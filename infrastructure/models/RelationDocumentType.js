@@ -1,6 +1,6 @@
 import DocumentType from "~/infrastructure/models/DocumentType.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-import { createLeadingDocument } from "~/infrastructure/constants/creatingItems.js";
+import { createLeadingDocument } from "~/infrastructure/services/documentService.js";
 export default class RelationDocumentType extends DocumentType {
   init(currentDocumentTypeGuid) {
     const allowTypes = [
@@ -21,13 +21,13 @@ export default class RelationDocumentType extends DocumentType {
   }
   withMethodCreate() {
     for (let element in this.elements) {
-      this.elements[element].create = async context => {
+      this.elements[element].create = async (context, params) => {
+        console.log(params);
         const { documentId, documentTypeGuid } = await createLeadingDocument(
           context,
           {
-            documentType: +this.id,
-            leadingDocumentId: context.documentId,
-            leadingDocumentType: context.document.documentTypeGuid
+            documentType: +element,
+            ...params
           }
         );
         return { documentId, documentTypeGuid };

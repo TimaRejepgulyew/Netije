@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import NumberingType from "~/infrastructure/constants/numberingTypes.js";
+
 import RegisterDocumentBtn from "~/components/document-registration/buttons/register-document.vue";
 import NumerateDocumentBtn from "~/components/document-registration/buttons/numerate-document.vue";
 
@@ -14,7 +16,9 @@ export default {
   props: ["documentId"],
   computed: {
     registrationButtonComponent() {
-      var documentKind = this.$store.getters[`documents/${this.documentId}/document`].documentKind;
+      const documentKind = this.$store.getters[
+        `documents/${this.documentId}/document`
+      ].documentKind;
       switch (documentKind?.numberingType) {
         case NumberingType.Registrable:
           return "register-document-btn";

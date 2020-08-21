@@ -14,26 +14,26 @@ export default {
   },
   previewVersion(versionId, document, context) {
     preview(
-      `${dataApi.paperWork.PreviewVersion}${document.documentTypeGuid}/${document.id}/${versionId}`,
+      `${dataApi.documentModule.PreviewVersion}${document.documentTypeGuid}/${document.id}/${versionId}`,
       context
     );
   },
   previewDocument(document, context) {
     preview(
-      `${dataApi.paperWork.PreviewLastVersion}${document.documentTypeGuid}/${document.id}`,
+      `${dataApi.documentModule.PreviewLastVersion}${document.documentTypeGuid}/${document.id}`,
       context
     );
   },
   downloadDocument(document, context) {
     download(
-      `${dataApi.paperWork.DownloadLastVersion}${document.documentTypeGuid}/${document.id}`,
+      `${dataApi.documentModule.DownloadLastVersion}${document.documentTypeGuid}/${document.id}`,
       document,
       context
     );
   },
   downloadVersion(document, version, context) {
     download(
-      `${dataApi.paperWork.DownloadVersion}${document.documentTypeGuid}/${document.id}/${version.id}`,
+      `${dataApi.documentModule.DownloadVersion}${document.documentTypeGuid}/${document.id}/${version.id}`,
       version,
       context
     );
@@ -88,7 +88,7 @@ const upload = async (document, file, context) => {
   formData.append("documentId", document.id);
 
   return await context.$axios.post(
-    dataApi.paperWork.CreateVersionFromFile + document.documentTypeGuid,
+    dataApi.documentModule.CreateVersionFromFile + document.documentTypeGuid,
     formData,
     {
       headers: {

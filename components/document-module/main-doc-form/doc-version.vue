@@ -69,7 +69,7 @@ export default {
         store: this.$dxStore({
           key: "id",
           loadUrl:
-            dataApi.paperWork.Version +
+            dataApi.documentModule.Version +
             `${
               this.$store.getters[`documents/${this.documentId}/document`]
                 .documentTypeGuid

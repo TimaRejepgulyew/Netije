@@ -82,7 +82,8 @@ import documentService from "~/infrastructure/services/documentVersionService.js
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
-import toolbarItemRegistration from "~/components/document-module/main-doc-form/toolbar/document-registration-btn";
+import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
+// import toolbarItemRegistration from "~/components/document-module/main-doc-form/toolbar/document-registration-btn";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";
@@ -188,6 +189,9 @@ export default {
           this.$emit("openVersion");
         },
       };
+    },
+    validateForm() {
+      return this.$parent.$refs["form"].instance.validate().isValid;
     },
     saveAndBackButtonOptions() {
       return {

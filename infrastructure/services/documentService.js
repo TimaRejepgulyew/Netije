@@ -16,7 +16,7 @@ function loadDocument(context, documentId, payload) {
 }
 export async function createDocument(context, params) {
   const { data } = await context.$axios.post(
-    dataApi.paperWork.Documents,
+    dataApi.documentModule.Documents,
     params
   );
   const documentId = data.document.id;
@@ -42,7 +42,7 @@ export async function createLeadingDocument(context, params) {
 export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
     const { data } = await context.$axios.get(
-      `${dataApi.paperWork.GetDocumentById}${documentTypeGuid}/${documentId}`
+      `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
     );
     await documentModules.registerModule(context, documentId);
     context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);

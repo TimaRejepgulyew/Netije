@@ -378,13 +378,13 @@ export const mutations = {
 export const actions = {
   async delete({ state }) {
     await this.$axios.delete(
-      `${dataApi.paperWork.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
+      `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
     );
   },
   async save({ dispatch, getters, commit, state }) {
     const document = JSON.stringify(state.document);
     const res = await this.$axios.put(
-      dataApi.paperWork.Documents + state.document.id,
+      dataApi.documentModule.Documents + state.document.id,
       {
         documentJson: document,
         documentTypeGuid: state.document.documentTypeGuid
@@ -421,7 +421,7 @@ export const actions = {
   async reevaluateDocumentName({ state, commit }) {
     if (state.document.documentKind.generateDocumentName) {
       const { data } = await this.$axios.post(
-        dataApi.paperWork.ReevaluateDocumentName,
+        dataApi.documentModule.ReevaluateDocumentName,
         state.document
       );
       commit("SET_NAME", data);
@@ -434,7 +434,7 @@ export const actions = {
   },
   async getDocumentById({ dispatch, commit }, { type, id }) {
     const { data } = await this.$axios.get(
-      dataApi.paperWork.Documents + `${type}/${id}`
+      dataApi.documentModule.Documents + `${type}/${id}`
     );
 
     commit("SET_IS_NEW", false);
@@ -460,7 +460,7 @@ export const actions = {
   },
   async initNewDocument({ dispatch, commit }, params) {
     const { data } = await this.$axios.post(
-      dataApi.paperWork.Documents,
+      dataApi.documentModule.Documents,
       params
     );
     dispatch("loadDocument", data);

@@ -29,7 +29,6 @@
 </template>
 <script>
 import RelationDocumentType from "~/infrastructure/models/RelationDocumentType.js";
-import documentCard from "~/components/document-module/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import RelationDropDownBtnOption from "~/infrastructure/builders/relationDropDown.js";
 import { DxDropDownButton } from "devextreme-vue";
@@ -38,7 +37,8 @@ export default {
   components: {
     DxDropDownButton,
     DxPopup,
-    documentCard,
+    documentCard: async () =>
+      import("~/components/document-module/main-doc-form/index.vue"),
   },
   props: ["documentId"],
   data() {
@@ -72,12 +72,21 @@ export default {
     tooglePopup() {
       this.isOpenPopup = !this.isOpenPopup;
     },
-    async createRelation(e) {
-      const { documentId } = await e.itemData.create(this, {
-        leadingDocumentType: this.document.documentTypeGuid,
-        leadingDocumentId: +this.documentId,
-      });
-      this.showRelationDocument(documentId);
+    createRelation(e) {
+      console.log("createRelation");
+      this.$awn.asyncBlock(
+        e.itemData.create(this, {
+          leadingDocumentType: this.document.documentTypeGuid,
+          leadingDocumentId: +this.documentId,
+        }),
+        ({ documentId }) => {
+          e.itemData.create(this, {
+            leadingDocumentType: this.document.documentTypeGuid,
+            leadingDocumentId: +this.documentId,
+          });
+          this.showRelationDocument(documentId);
+        }
+      );
     },
   },
 };

@@ -39,7 +39,7 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.paperWork.Relation}${
+          loadUrl: `${dataApi.documentModule.Relation}${
             this.$store.getters[`documents/${this.documentId}/document`]
               .documentTypeGuid
           }/${this.documentId}`,
