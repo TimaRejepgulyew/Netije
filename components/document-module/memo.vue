@@ -93,6 +93,7 @@ export default {
     DxLabel,
     DxRequiredRule,
   },
+  props: ["documentId"],
   methods: {
     setPreparedById(data) {
       this.$store.commit(

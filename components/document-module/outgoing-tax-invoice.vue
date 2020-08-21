@@ -161,7 +161,10 @@ export default {
           this.selectedCorrespondentType.type = null;
       }
 
-      this.$store.dispatch(`documents/${this.documentId}/setCounterparty`, data);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCounterparty`,
+        data
+      );
       this.$store.commit(`documents/${this.documentId}/SET_CORRECTED_ID`, null);
       this.$store.dispatch(
         `documents/${this.documentId}/setLeadingDocumentId`,
@@ -197,7 +200,7 @@ export default {
 
   computed: {
     document() {
-      return this.this.$store.getters[`documents/${this.documentId}/document`];
+      return this.$store.getters[`documents/${this.documentId}/document`];
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];

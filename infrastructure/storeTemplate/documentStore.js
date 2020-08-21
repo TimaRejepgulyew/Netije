@@ -15,7 +15,8 @@ export const state = () => ({
   selectedDocumentNumberingType: null,
   skipRouteHandling: false,
   skipDestroy: false,
-  loadedFromUrl: true
+  loadedFromUrl: true,
+  overlays:null
 });
 
 export const getters = {

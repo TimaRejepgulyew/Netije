@@ -14,4 +14,5 @@ export default class AbstractType {
   getAll() {
     return this.elements;
   }
+  
 }
