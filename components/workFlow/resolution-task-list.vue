@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     showCard(task) {
-      console.log("showtask resolution");
       this.$emit("showCard", task);
     }
   },

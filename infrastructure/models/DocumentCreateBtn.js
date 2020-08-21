@@ -10,13 +10,17 @@ async function create(context, params) {
   const replaceOldRoute =
     context.$store.getters[`documents/${documentId}/isNew`];
   toRouter(context, { route, replaceOldRoute });
+  return { documentTypeGuid, documentId };
 }
 export default class DocumentCreateButton extends DocumentType {
   init() {
     for (let element in this.elements) {
-      console.log(element);
-      this.elements[element].create = context =>
-        create(context,{ documentType: +element });
+      this.elements[element].create = async context => {
+        const { documentTypeGuid, documentId } = await create(context, {
+          documentType: +element
+        });
+        return { documentTypeGuid, documentId };
+      };
     }
     return this;
   }

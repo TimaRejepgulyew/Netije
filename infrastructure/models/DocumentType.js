@@ -24,7 +24,9 @@ export default class DocumentType {
   getAll() {
     return this.elements;
   }
-
+  getById(id) {
+    return this.elements[id];
+  }
   filterPaperWorkDocument() {
     const getPaperWorkDocument = {};
     for (let element in this.elements) {

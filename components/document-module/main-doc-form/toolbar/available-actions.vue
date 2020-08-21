@@ -59,7 +59,6 @@ export default {
       const items = Object.values(
         new AvailableActions(this).init().filtering(availableActions)
       );
-      console.log(items);
       return items;
     },
   },

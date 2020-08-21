@@ -10,7 +10,6 @@ export default class RelationDropDownBtnOption {
   icon = "link";
   displayExpr = "text";
   itemClick(e, context, params) {
-    console.log(params, "click");
     e.itemData.create(context, params);
   }
 }

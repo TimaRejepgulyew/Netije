@@ -26,4 +26,7 @@ export default class TaskType {
   getAll() {
     return this.elements;
   }
+  getById(id) {
+    return this.elements[id];
+  }
 }

@@ -10,7 +10,6 @@ async function create(context, params) {
 export default class CreateTaskBtn extends TaskType {
   init() {
     for (let element in this.elements) {
-      console.log(element);
       this.elements[element].create = context =>
         create(context, { taskType: +element });
     }

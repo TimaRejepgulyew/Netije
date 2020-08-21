@@ -5,20 +5,8 @@ const TaskType = {
   DocumentReviewTask: 3
 };
 export default TaskType;
-import * as taskTypeIcons from "~/static/icons/taskType.js";
-import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import entityTypes from "~/infrastructure/constants/entityTypes.js";
-export function taskElements(context) {
-  return generatorMapObj({
-    Constant: TaskType,
-    translateName: "task.type",
-    context: context,
-    iconStores: taskTypeIcons
-  });
-}
-export class TaskElement{
-  
-}
+
 export const mapToEntityType = taskType => {
   switch (taskType) {
     case TaskType.SimpleTak:

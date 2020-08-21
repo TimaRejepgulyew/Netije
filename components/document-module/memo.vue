@@ -51,10 +51,19 @@
       />
     </template>
     <template #ourSignatory>
-      <employee-select-box :read-only="!canUpdate" :value="ourSignatoryId" @valueChanged="setOurSignatoryId" />
+      <employee-select-box
+        :read-only="!canUpdate"
+        :value="ourSignatoryId"
+        @valueChanged="setOurSignatoryId"
+      />
     </template>
     <template #prepared>
-      <employee-select-box validatorGroup="OfficialDocument" :read-only="!canUpdate" :value="preparedById" @valueChanged="setPreparedById" />
+      <employee-select-box
+        validatorGroup="OfficialDocument"
+        :read-only="!canUpdate"
+        :value="preparedById"
+        @valueChanged="setPreparedById"
+      />
     </template>
     <template #addressee>
       <employee-select-box
@@ -73,7 +82,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -82,23 +91,32 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule
+    DxRequiredRule,
   },
   methods: {
     setPreparedById(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        data
+      );
     },
     setOurSignatoryId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
     setAddresseeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
     },
     setAssigneeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
-    }
+    },
   },
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
@@ -106,22 +124,22 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     preparedById() {
-      return this.$store.getters[`documents/${this.documentId}/document`].preparedById;
+      return this.document.preparedById;
     },
     ourSignatoryId() {
-      return this.$store.getters[`documents/${this.documentId}/document`].ourSignatoryId;
+      return this.document.ourSignatoryId;
     },
     assigneeId() {
-      return this.$store.getters[`documents/${this.documentId}/document`].assigneeId;
+      return this.document.assigneeId;
     },
     addresseeId() {
-      return this.$store.getters[`documents/${this.documentId}/document`].addresseeId;
+      return this.document.addresseeId;
     },
     businessUnitId() {
-      return this.$store.getters[`documents/${this.documentId}/document`].businessUnitId;
+      return this.document.businessUnitId;
     },
     departmentId() {
-      return this.$store.getters[`documents/${this.documentId}/document`].departmentId;
+      return this.document.departmentId;
     },
     businessUnitOptions() {
       return {
@@ -129,17 +147,35 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
+          filter: ["status", "=", 0],
         }),
         value: this.businessUnitId,
-        onValueChanged: e => {
-          this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`, e.value);
-          this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, null);
-          this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, null);
-          this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, null);
-          this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, null);
-          this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, null);
-        }
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ADDRESSE_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ASSIGNEE_ID`,
+            null
+          );
+        },
       };
     },
     deparmentOptions() {
@@ -151,14 +187,20 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters[`documents/${this.documentId}/document`].departmentId,
-        onValueChanged: e => {
-          this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, e.value);
-          this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, e.value);
-        }
+        value: this.document.departmentId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ADDRESSE_ID`,
+            e.value
+          );
+        },
       };
     },
     ourSignatoryOptions() {
@@ -169,13 +211,16 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters[`documents/${this.documentId}/document`].ourSignatoryId,
-        onValueChanged: e => {
-          this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, e.value);
-        }
+        value: this.document.ourSignatoryId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+            e.value
+          );
+        },
       };
     },
     assigneeOptions() {
@@ -186,13 +231,16 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters[`documents/${this.documentId}/document`].assigneeId,
-        onValueChanged: e => {
-          this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, e.value);
-        }
+        value: this.document.assigneeId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ASSIGNEE_ID`,
+            e.value
+          );
+        },
       };
     },
     preparedByOptions() {
@@ -203,13 +251,16 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters[`documents/${this.documentId}/document`].preparedById,
-        onValueChanged: e => {
-          this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, e.value);
-        }
+        value: this.document.preparedById,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+            e.value
+          );
+        },
       };
     },
     addresseeOptions() {
@@ -220,15 +271,18 @@ export default {
           filter: [
             ["departmentId", "=", this.departmentId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
-        value: this.$store.getters[`documents/${this.documentId}/document`].addresseeId,
-        onValueChanged: e => {
-          this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, e.value);
-        }
+        value: this.document.addresseeId,
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ADDRESSE_ID`,
+            e.value
+          );
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
