@@ -60,9 +60,7 @@ export default {
     items() {
       return Object.values(
         new RelationDocumentType(this)
-          .init()
-          .withMethodCreate()
-          .withVisibility(this.document.documentTypeGuid)
+          .init(this.document.documentTypeGuid)
           .getAll()
       );
     },

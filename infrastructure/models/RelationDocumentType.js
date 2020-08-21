@@ -1,13 +1,16 @@
 import DocumentType from "~/infrastructure/models/DocumentType.js";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { createLeadingDocument } from "~/infrastructure/constants/creatingItems.js";
 export default class RelationDocumentType extends DocumentType {
-  init() {
+  init(currentDocumentTypeGuid) {
     const allowTypes = [
       DocumentTypeGuid.Addendum,
       DocumentTypeGuid.IncomingLetter,
       DocumentTypeGuid.OutgoingLetter
     ];
     this.elements = this.filtering(allowTypes);
+    this.withVisibility(currentDocumentTypeGuid).withMethodCreate();
+    return this;
   }
 
   withVisibility(currentDocumentTypeGuid) {
@@ -16,7 +19,7 @@ export default class RelationDocumentType extends DocumentType {
     }
     return this;
   }
-  withMethodCreate(method) {
+  withMethodCreate() {
     for (let element in this.elements) {
       this.elements[element].create = async context => {
         const { documentId, documentTypeGuid } = await createLeadingDocument(

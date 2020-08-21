@@ -1,4 +1,5 @@
 export default class AbstractType {
+  elements= []
   filtering(allowTypes) {
     const filterObj = {};
     for (let element in this.elements) {
