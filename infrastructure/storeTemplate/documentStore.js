@@ -2,9 +2,7 @@ import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
-function checkDataChanged(oldValue, newValue) {
-  if (oldValue !== newValue) return oldValue !== newValue;
-}
+const checkDataChanged = (oldValue, newValue) => oldValue !== newValue;
 export const state = () => ({
   document: {},
   documentState: {},
@@ -86,9 +84,10 @@ export const mutations = {
     state.document.documentGroupId = payload;
   },
   SET_DOCUMENT_KIND(state, payload) {
-    if (checkDataChanged(state.document.documentKindId, payload.id)) {
+   
+    if (checkDataChanged(state.document.documentKindId, payload.id))
       state.isDataChanged = true;
-    }
+
     state.document.documentKind = payload;
     if (payload) state.document.documentKindId = payload.id;
     else state.document.documentKindId = null;
@@ -400,8 +399,8 @@ export const actions = {
       }
     );
     dispatch("loadDocument", res.data);
-    commit("DATA_CHANGED", false);
     commit("SET_IS_NEW", false);
+    commit("DATA_CHANGED", false);
   },
   setDocumentKind({ commit, dispatch }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
