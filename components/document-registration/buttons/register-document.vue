@@ -1,7 +1,7 @@
 <template>
   <div class="navBar">
     <DxPopup
-      :visible.sync="isDocumentRegistrationPopupOpen"
+      :visible.sync="isOpenDocumentRegistrationPopup"
       :drag-enabled="false"
       :close-on-outside-click="true"
       :show-title="true"
@@ -12,8 +12,8 @@
       <div>
         <document-registration-popup
           :documentId="documentId"
-          v-if="isDocumentRegistrationPopupOpen"
-          @hidePopup="hidePopup"
+          v-if="isOpenDocumentRegistrationPopup"
+          @hidePopup="togglePopup"
         />
       </div>
     </DxPopup>
@@ -51,33 +51,20 @@ export default {
   data() {
     return {
       registerIcon,
-      isDocumentRegistrationPopupOpen: false,
+      isOpenDocumentRegistrationPopup: false,
     };
   },
   methods: {
-    hidePopup() {
-      this.isDocumentRegistrationPopupOpen = false;
+    togglePopup() {
+      this.isOpenDocumentRegistrationPopup = !this
+        .isOpenDocumentRegistrationPopup;
     },
+
     register() {
       if (this.isDataChanged) {
-        if (
-          true
-          // this.$parent.$parent.$parent.$parent.$refs["form"].instance.validate()
-          //   .isValid
-        )
-          this.$awn.asyncBlock(
-            this.$store.dispatch(`documents/${this.documentId}/save`),
-            (res) => {
-              this.$awn.success(this.$t("document.saved"));
-              this.isDocumentRegistrationPopupOpen = true;
-            },
-            (e) => {
-              this.$awn.alert();
-            }
-          );
-      } else {
-        this.isDocumentRegistrationPopupOpen = true;
+        this.$store.dispatch(`documents/${this.documentId}/save`);
       }
+      this.togglePopup();
     },
     unRegister() {
       let result = confirm(
@@ -105,13 +92,6 @@ export default {
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
-    },
-  },
-  watch: {
-    isDocumentRegistrationPopupOpen: function (value) {
-      if (!value) {
-        this.hidePopup();
-      }
     },
   },
 };

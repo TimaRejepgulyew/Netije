@@ -16,7 +16,7 @@ export const state = () => ({
   skipRouteHandling: false,
   skipDestroy: false,
   loadedFromUrl: true,
-  overlays:null
+  overlays: null
 });
 
 export const getters = {
@@ -85,7 +85,6 @@ export const mutations = {
     state.document.documentGroupId = payload;
   },
   SET_DOCUMENT_KIND(state, payload) {
-   
     if (checkDataChanged(state.document.documentKindId, payload.id))
       state.isDataChanged = true;
 
@@ -390,7 +389,7 @@ export const actions = {
       `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
     );
   },
-  async save({ dispatch, getters, commit, state }) {
+  async save({ dispatch, commit, state }) {
     const document = JSON.stringify(state.document);
     const res = await this.$axios.put(
       dataApi.documentModule.Documents + state.document.id,
@@ -399,9 +398,12 @@ export const actions = {
         documentTypeGuid: state.document.documentTypeGuid
       }
     );
-    dispatch("loadDocument", res.data);
-    commit("SET_IS_NEW", false);
+    if (state.isNew) {
+      dispatch("loadDocument", res.data);
+      commit("SET_IS_NEW", false);
+    }
     commit("DATA_CHANGED", false);
+    return;
   },
   setDocumentKind({ commit, dispatch }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();

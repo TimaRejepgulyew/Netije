@@ -1,5 +1,8 @@
 <template>
-  <component :is="registrationButtonComponent" :documentId="documentId" />
+  <component
+    :is="registrationButtonComponent"
+    :documentId="documentId"
+  />
 </template>
 
 <script>

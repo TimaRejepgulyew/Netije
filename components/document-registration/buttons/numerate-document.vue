@@ -1,26 +1,26 @@
 <template>
   <div class="navBar">
+    <keep-alive>
+      <DxPopup
+        :visible.sync="isOpenPopupRegiterCard"
+        :drag-enabled="true"
+        :close-on-outside-click="true"
+        :show-title="true"
+        :min-width="300"
+        :width="600"
+        :height="'auto'"
+        :title="$t('doсumentRegistration.cardOfNumbering')"
+      >
+        <div>
+          <document-numerate-popup
+            :documentRegistrationId="defaultDocumentRegisterId"
+            :documentId="documentId"
+          />
+        </div>
+      </DxPopup>
+    </keep-alive>
     <DxPopup
-      :visible.sync="isOpenPopupRegiterCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      :min-width="300"
-      :width="600"
-      position="top"
-      :height="'auto'"
-      :title="$t('doсumentRegistration.cardOfNumbering')"
-    >
-      <div>
-        <document-numerate-popup
-          :documentRegistrationId="defaultDocumentRegisterId"
-          :documentId="documentId"
-          v-if="isOpenPopupRegiterCard"
-          @hidePopup="hidePopup"
-        />
-      </div>
-    </DxPopup>
-    <DxPopup
+      :deferRendering="false"
       :visible.sync="isOpenNotFindDocumentRegister"
       :drag-enabled="false"
       :close-on-outside-click="true"
@@ -28,13 +28,18 @@
       :width="400"
       max-width="100%"
       position="center"
-      :height="'300'"
+      height="300px"
       :title="$t('doсumentRegistration.notFindDocumentRegister')"
     >
-      <div>{{$t("doсumentRegistration.notFindDocumentRegister")}}</div>
+      <div>
+        <not-find-document-register-popup
+          v-if="isOpenNotFindDocumentRegister"
+          @hidePopup="()=>togglePopup('isOpenNotFindDocumentRegister')"
+        />
+      </div>
     </DxPopup>
     <DxButton
-      v-if="!isRegistered"
+      v-if="isRegistered"
       :text="$t('doсumentRegistration.clearNumerate')"
       :onClick="unRegister"
       icon="clear"
@@ -54,6 +59,7 @@ import numerateIcon from "~/static/icons/document-registration/numerate.svg";
 import dataApi from "~/static/dataApi";
 import { confirm } from "devextreme/ui/dialog";
 import { DxPopup } from "devextreme-vue/popup";
+import notFindDocumentRegisterPopup from "~/components/document-registration/popups/not-find-document-register-popup.vue";
 import documentNumeratePopup from "~/components/document-registration/popups/numeration-popup.vue";
 import { DxButton } from "devextreme-vue";
 export default {
@@ -61,6 +67,7 @@ export default {
     DxButton,
     DxPopup,
     documentNumeratePopup,
+    notFindDocumentRegisterPopup,
   },
   props: ["documentId"],
   data() {
@@ -75,27 +82,29 @@ export default {
     //popups
     showPopupRegisterCard(data) {
       this.defaultDocumentRegisterId = data?.id;
-      this.tooglePopup("isOpenPopupRegiterCard");
+      this.togglePopup("isOpenPopupRegiterCard");
     },
     showPopupNotFindDocumentRegister() {
-      this.tooglePopup("isOpenNotFindDocumentRegister");
+      this.togglePopup("isOpenNotFindDocumentRegister");
     },
-    tooglePopup(popupName) {
+    togglePopup(popupName) {
       this[popupName] = !this[popupName];
     },
     //main logic
     async register() {
-      const data = await this.getDefaultDocumentRegiter();
+      const data = await this.$awn.asyncBlock(
+        this.getDefaultDocumentRegiter(),
+        (data) => {},
+        (data) => {}
+      );
       if (data === undefined) {
-        if (this.isDataChanged) {
-          this.$awn.asyncBlock(
-            this.$store.dispatch(`documents/${this.documentId}/save`),
-            () => {}
-          );
-        }
-
         this.showPopupNotFindDocumentRegister();
-      } else this.showPopupRegisterCard(data);
+      } else {
+        if (this.isDataChanged) {
+          this.$store.dispatch(`documents/${this.documentId}/save`);
+        }
+        this.showPopupRegisterCard(data);
+      }
     },
 
     unRegister() {
@@ -122,7 +131,9 @@ export default {
       const data = await this.$awn.asyncBlock(
         this.$axios.get(
           dataApi.documentRegistration.DefaultDocumentRegister + this.documentId
-        )
+        ),
+        () => {},
+        () => {}
       );
       if (data === "") {
         this.showPopupRegisterCard(data);
