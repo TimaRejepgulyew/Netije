@@ -13,10 +13,7 @@
         :caption="$t('document.groups.captions.numberAndDate')"
       >
         <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
-          <DxLabel
-            location="left"
-            :text="isRegistrable?$t('document.fields.registrationNumber'):$t('document.fields.documentNumber')"
-          />
+          <DxLabel location="left" :text="registrationNumberHelptext" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -90,6 +87,11 @@ export default {
     isRegistrable() {
       return this.$store.getters[`documents/${this.documentId}/isRegistrable`];
     },
+    registrationNumberHelptext() {
+      return this.isRegistrable
+        ? $t("documentRegistration.registrationNumber")
+        : $t("documentRegistration.documentNumber");
+    },
     deliveryMethodVisible() {
       const documentTypeGuid = this.document.documentTypeGuid;
       return (
@@ -100,11 +102,6 @@ export default {
     numberingAndDateVisible() {
       return (
         this.document.documentKind.numberingType != NumberingType.NotNumberable
-      );
-    },
-    isRegistrable() {
-      return (
-        this.document.documentKind.numberingType == NumberingType.Registrable
       );
     },
     canRegister() {
@@ -153,12 +150,12 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.DeliveryMethod
+          url: dataApi.docFlow.DeliveryMethod,
         }),
         value: this.document.deliveryMethodId,
         onValueChanged: (e) => {
           this.$store.commit(
-            `documents/${this.documetId}/SET_DELIVERY_METHOD_ID`,
+            `documents/${this.documentId}/SET_DELIVERY_METHOD_ID`,
             e.value
           );
         },

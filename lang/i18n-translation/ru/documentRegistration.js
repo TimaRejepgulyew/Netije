@@ -1,6 +1,20 @@
 export default {
-  documentRegister:":Журнал регистрации",
-  registrationNumber:"Регистрационный номер ",
+  documentRegister: ":Журнал регистрации",
+  registrationNumber: "Регистрационный номер ",
+  registrationDate: "Дата регистрации",
+  preliminaryRegistrationNumberMessage:
+    "*Точный регистрационный № будет назначен после регистрации",
+  preliminaryRegistrationNumber: "Предварительный регистрационный №",
+  isCustomNumber: "Назначить номер самому",
+  documentRegister: "Журнал регистрации",
+  regNumberDocument: "Регистрационный №",
+  registrationDate: "Дата регистрации",
+  areYouSureClearNumerate: "Вы уверенны что хотите очитить нумерацию",
+  validation: {
+    regNumberDocumentRequired: "Введите регистрационный № документа",
+    documentRegisterRequired: "Выберите журнал регистрации",
+    registrationDateRequired: "Введите дату регистрации документа"
+  },
   isCustomNumber: "Свой номер",
   numerate: "Пронумеровать",
   clearNumerate: "Очистить нумерацию",

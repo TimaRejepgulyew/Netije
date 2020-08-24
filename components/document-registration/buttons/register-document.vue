@@ -56,7 +56,7 @@ export default {
       isOpenDocumentRegistrationPopup: false,
     };
   },
-  inject: ["isValidDocument"],
+  inject: ["trySaveDocument"],
   methods: {
     togglePopup() {
       this.isOpenDocumentRegistrationPopup = !this
@@ -64,34 +64,33 @@ export default {
     },
 
     async register() {
-      if (this.isValidDocument()) {
-        if (this.isDataChanged) {
-          await this.$store.dispatch(`documents/${this.documentId}/save`);
-        }
+      if (await this.trySaveDocument()) {
         const data = await this.getDefaultDocumentRegiter();
 
         this.defaultDocumentRegistration = data;
         this.togglePopup();
       }
     },
-    unRegister() {
-      let result = confirm(
-        this.$t("translations.fields.areYouSureCancelRegistration"),
-        this.$t("shared.confirm")
-      );
-      result.then((dialogResult) => {
-        if (dialogResult) {
-          this.$awn.asyncBlock(
-            this.$store.dispatch(`documents/${this.documentId}/unRegister`),
-            (res) => {
-              this.$awn.success();
-            },
-            (err) => {
-              this.$awn.alert();
-            }
-          );
-        }
-      });
+    async unRegister() {
+      if (await this.trySaveDocument()) {
+        let result = confirm(
+          this.$t("documentRegistration.areYouSureCancelRegistration"),
+          this.$t("shared.confirm")
+        );
+        result.then((dialogResult) => {
+          if (dialogResult) {
+            this.$awn.asyncBlock(
+              this.$store.dispatch(`documents/${this.documentId}/unRegister`),
+              (res) => {
+                this.$awn.success();
+              },
+              (err) => {
+                this.$awn.alert();
+              }
+            );
+          }
+        });
+      }
     },
     async getDefaultDocumentRegiter() {
       const data = await this.$awn.asyncBlock(

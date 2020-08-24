@@ -11,35 +11,35 @@
         :editor-options="isCustomNumberOptions"
         editor-type="dxCheckBox"
       >
-        <DxLabel location="top" :text="$t('registrationPopup.isCustomNumber')" />
+        <DxLabel location="top" :text="$t('doсumentRegistration.isCustomNumber')" />
       </DxSimpleItem>
       <DxSimpleItem
-        :helpText="isCustomNumber?'':$t('registrationPopup.preliminaryRegistrationNumberMessage')"
+        :helpText="isCustomNumber?'':$t('doсumentRegistration.preliminaryRegistrationNumberMessage')"
         data-field="registrationNumber"
         :editor-options="registrationNumberOptions"
       >
         <DxPatternRule :pattern="registrationNumberPattern" />
         <DxLabel
           location="top"
-          :text="isCustomNumber?$t('registrationPopup.regNumberDocument'):$t('registrationPopup.preliminaryRegistrationNumber')"
+          :text="isCustomNumber?$t('doсumentRegistration.regNumberDocument'):$t('doсumentRegistration.preliminaryRegistrationNumber')"
         />
-        <DxRequiredRule :message="$t('registrationPopup.validation.regNumberDocumentRequired')" />
+        <DxRequiredRule :message="$t('doсumentRegistration.validation.regNumberDocumentRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="documentRegisterId"
         :editor-options="documentRegisterOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('registrationPopup.documentRegister')" />
-        <DxRequiredRule :message="$t('registrationPopup.validation.documentRegisterRequired')" />
+        <DxLabel location="top" :text="$t('doсumentRegistration.documentRegister')" />
+        <DxRequiredRule :message="$t('doсumentRegistration.validation.documentRegisterRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="registrationDate"
         :editor-options="registrationDateOptions"
         editor-type="dxDateBox"
       >
-        <DxLabel location="top" :text="$t('registrationPopup.registrationDate')" />
-        <DxRequiredRule :message="$t('registrationPopup.validation.registrationDateRequired')" />
+        <DxLabel location="top" :text="$t('doсumentRegistration.registrationDate')" />
+        <DxRequiredRule :message="$t('doсumentRegistration.validation.registrationDateRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>
@@ -73,7 +73,7 @@ export default {
     DxForm,
     DxButton,
   },
-  props: ["documentId", "defaulDocumentRegistration"],
+  props: ["documentId", "defauldoсumentRegistration"],
   data() {
     return {
       saveButtonOptions: {
@@ -89,7 +89,7 @@ export default {
         ].documentTypeGuid,
         registrationNumber: null,
         registrationDate: new Date(),
-        documentRegisterId: this.defaulDocumentRegistration?.id,
+        documentRegisterId: this.defauldoсumentRegistration?.id,
       },
       registrationNumberPattern: "",
     };

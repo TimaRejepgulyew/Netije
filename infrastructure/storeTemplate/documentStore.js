@@ -12,7 +12,6 @@ export const state = () => ({
   canDelete: false,
   canRegister: false,
   isRegistered: false,
-  selectedDocumentNumberingType: null,
   skipRouteHandling: false,
   skipDestroy: false,
   loadedFromUrl: true,
@@ -29,13 +28,21 @@ export const getters = {
   skipRouteHandling({ skipRouteHandling }) {
     return skipRouteHandling;
   },
-  canRegister({ canRegister, selectedDocumentNumberingType }) {
-    return (
-      canRegister && selectedDocumentNumberingType != NumberingType.NotNumerable
-    );
+  canRegister({
+    canRegister,
+    document: {
+      documentKind: { numberingType }
+    }
+  }) {
+    return canRegister && numberingType != NumberingType.NotNumerable;
   },
-  isRegistrable({ selectedDocumentNumberingType }) {
-    return selectedDocumentNumberingType != NumberingType.NotNumerable;
+  isRegistrable({
+    document: {
+      documentKind: { numberingType }
+    }
+  }) {
+    console.log("num", numberingType != NumberingType.NotNumerable);
+    return numberingType != NumberingType.NotNumerable;
   },
   canUpdate({ canUpdate }) {
     return canUpdate;
@@ -192,6 +199,7 @@ export const mutations = {
     state.document.counterpartySignatoryId = payload;
   },
   SET_DELIVERY_METHOD_ID(state, payload) {
+    console.log("delivery");
     if (checkDataChanged(state.document.deliveryMethodId, payload)) {
       state.isDataChanged = true;
     }

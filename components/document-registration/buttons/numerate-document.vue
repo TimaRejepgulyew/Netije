@@ -8,7 +8,7 @@
       :min-width="300"
       :width="600"
       :height="'auto'"
-      :title="$t('doсumentRegistration.cardOfNumbering')"
+      :title="$t('documentRegistration.cardOfNumbering')"
     >
       <div>
         <document-numerate-popup
@@ -39,14 +39,14 @@
     </DxPopup>
     <DxButton
       v-if="isRegistered"
-      :text="$t('doсumentRegistration.clearNumerate')"
+      :text="$t('documentRegistration.clearNumerate')"
       :onClick="unRegister"
       icon="clear"
     ></DxButton>
     <DxButton
       v-else
-      :text="$t('doсumentRegistration.numerate')"
-      :hint="$t('doсumentRegistration.numerate')"
+      :text="$t('documentRegistration.numerate')"
+      :hint="$t('documentRegistration.numerate')"
       :icon="numerateIcon"
       :onClick="register"
     ></DxButton>
@@ -77,7 +77,7 @@ export default {
       defaultDocumentRegistration: {},
     };
   },
-  inject: ["isValidDocument"],
+  inject: ["trySaveDocument"],
   methods: {
     //popups
     showPopupRegisterCard(data) {
@@ -92,38 +92,37 @@ export default {
     },
     //main logic
     async register() {
-      if (this.isValidDocument()) {
-        if (this.isDataChanged) {
-          await this.$store.dispatch(`documents/${this.documentId}/save`);
-          console.log("save");
-        }
+      if (await this.trySaveDocument()) {
         const data = await this.getDefaultDocumentRegiter();
         if (data === "") {
           this.showPopupNotFindDocumentRegister();
         } else {
-          this.showPopupRegisterCard(data);
+            this.showPopupRegisterCard(data);
         }
       }
     },
 
-    unRegister() {
-      const result = confirm(
-        this.$t("documentRegistration.areYouSureClearNumerate"),
-        this.$t("shared.confirm")
-      );
-      result.then((dialogResult) => {
-        if (dialogResult) {
-          this.$awn.asyncBlock(
-            this.$store.dispatch(`documents/${this.documentId}/unRegister`),
-            (res) => {
-              this.$awn.success();
-            },
-            (err) => {
-              this.$awn.alert();
-            }
-          );
-        }
-      });
+    async unRegister() {
+      if (await this.trySaveDocument()) {
+        const result = confirm(
+          this.$t("documentRegistration.areYouSureClearNumerate"),
+          this.$t("shared.confirm")
+        );
+
+        result.then((dialogResult) => {
+          if (dialogResult) {
+            this.$awn.asyncBlock(
+              this.$store.dispatch(`documents/${this.documentId}/unRegister`),
+              (res) => {
+                this.$awn.success();
+              },
+              (err) => {
+                this.$awn.alert();
+              }
+            );
+          }
+        });
+      }
     },
     async getDefaultDocumentRegiter() {
       const { data } = await this.$axios.get(

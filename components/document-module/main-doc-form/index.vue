@@ -144,7 +144,7 @@ export default {
   },
   provide: function () {
     return {
-      isValidDocument: this.isValidDocument,
+      trySaveDocument: this.trySave,
     };
   },
   created() {
@@ -171,9 +171,17 @@ export default {
     };
   },
   methods: {
-    isValidDocument() {
-      console.log("validate", this);
-      return this.$refs["form"].instance.validate().isValid;
+    async trySave() {
+      if (this.$refs["form"].instance.validate().isValid) {
+        if (this.isDataChanged) {
+          await this.$awn.asyncBlock(
+            this.$store.dispatch(`documents/${this.documentId}/save`)
+          );
+        }
+        return true;
+      } else {
+        return false;
+      }
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;

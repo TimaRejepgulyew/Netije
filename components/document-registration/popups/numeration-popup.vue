@@ -13,9 +13,16 @@
       >
         <DxLabel location="top" :text="$t('documentRegistration.isCustomNumber')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
+      <DxSimpleItem
+        :helpText="isCustomNumber?'':$t('documentRegistration.preliminaryRegistrationNumberMessage')"
+        data-field="registrationNumber"
+        :editor-options="registrationNumberOptions"
+      >
         <DxPatternRule :pattern="registrationNumberPattern" />
-        <DxLabel location="top" />
+        <DxLabel
+          location="top"
+          :text="isCustomNumber?$t('documentRegistration.regNumberDocument'):$t('documentRegistration.preliminaryRegistrationNumber')"
+        />
         <DxRequiredRule :message="$t('documentRegistration.validation.regNumberDocumentRequired')" />
       </DxSimpleItem>
       <DxSimpleItem :editor-options="documentRegisterOptions" editor-type="dxTextBox">
