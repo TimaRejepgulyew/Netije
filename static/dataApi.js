@@ -35,8 +35,8 @@ export default {
       All: `${url}/api/DocumentRegister`,
       СustomizableDocumentRegisters: `${url}/api/DocumentRegister/СustomizableDocumentRegisters`,
       PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
-      SuitableRegistrableDocumentRegisters: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters`,
-      DefaultNumberingDocumentRegister: `${url}/api/DocumentRegister/DefaultNumberingDocumentRegister/`
+      DefaultDocumentRegister: `${url}/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
+      RegistrableDocumentRegisteres: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`
     },
     CaseFile: {
       Value: `${url}/api/CaseFile`,
@@ -58,8 +58,6 @@ export default {
     FilesType: `${url}/api/FilesType`
   },
   documentRegistration: {
-    DefaultDocumentRegister: `${url}/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
-    RegistrableDocumentRegisteres: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`,
     RegisterDocument: `${url}/api/OfficialDocument/Register`,
     UnregisterDocument: `${url}/api/OfficialDocument/Unregister`,
     CaseFiles: `${url}/api/DocumentRegistration/CaseFiles`,

@@ -6,7 +6,7 @@ export const documentModules = new StoreModule({
   moduleName: "documents",
   storeTemplate: documentStoreTemplate
 });
-function loadDocument(context, documentId, payload) {
+export function loadDocument(context, documentId, payload) {
   payload.document.documentKind = docmentKindService.emptyDocumentKind();
   context.$store.commit(
     `documents/${documentId}/IS_REGISTERED`,
@@ -39,17 +39,23 @@ export async function createLeadingDocument(context, params) {
   );
   return { documentId, documentTypeGuid };
 }
-export async function load(context, { documentTypeGuid, documentId }) {
+export async function load(
+  context,
+  { documentTypeGuid, documentId },
+  refresh = "true"
+) {
   if (!documentModules.hasModule(documentId)) {
+    documentModules.registerModule(context, documentId);
+    context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
+  }
+  if (!documentModules.hasModule(documentId) || refresh) {
     const { data } = await context.$axios.get(
       `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
     );
-    await documentModules.registerModule(context, documentId);
     context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
     loadDocument(context, documentId, data);
   }
-  context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
 }
 export function unload(context, documentId) {
   const overlays = context.$store.getters[`documents/${documentId}/overlays`];

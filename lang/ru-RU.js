@@ -1,4 +1,5 @@
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
+import doсumentRegistration from "~/lang/i18n-translation/ru/documentRegistration.js";
 export default {
   status: {
     active: "Активный",
@@ -236,7 +237,7 @@ export default {
     documentKinds: "Виды документов"
   },
   document: documentModule,
-
+  doсumentRegistration: doсumentRegistration,
   assignment: {
     returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
     placeholderSimple: "Введите комментарий",
@@ -441,7 +442,8 @@ export default {
     no: "Нет",
     createAddendum: "Создать приложение",
     createRelation: "Cвязь",
-    saveAndBack: "Сохранить и выйти"
+    saveAndBack: "Сохранить и выйти",
+    closed: "Закрыть"
   },
   notification: {
     labels: {

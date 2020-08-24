@@ -130,7 +130,7 @@ export default {
     async getDefaultDocumentRegiter() {
       const data = await this.$awn.asyncBlock(
         this.$axios.get(
-          dataApi.documentRegistration.DefaultDocumentRegister + this.documentId
+          `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
         ),
         () => {},
         () => {}

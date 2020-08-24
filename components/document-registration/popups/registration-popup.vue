@@ -6,23 +6,9 @@
       :show-colon-after-label="true"
       :show-validation-summary="true"
     >
-      <DxSimpleItem
-        data-field="isCustomNumber"
-        :editor-options="isCustomNumberOptions"
-        editor-type="dxCheckBox"
-      >
-        <DxLabel location="top" :text="$t('registrationPopup.isCustomNumber')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        :helpText="isCustomNumber?'':$t('registrationPopup.preliminaryRegistrationNumberMessage')"
-        data-field="registrationNumber"
-        :editor-options="registrationNumberOptions"
-      >
+      <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
         <DxPatternRule :pattern="registrationNumberPattern" />
-        <DxLabel
-          location="top"
-          :text="isCustomNumber?$t('registrationPopup.regNumberDocument'):$t('registrationPopup.preliminaryRegistrationNumber')"
-        />
+        <DxLabel location="top" />
         <DxRequiredRule :message="$t('registrationPopup.validation.regNumberDocumentRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -86,9 +72,8 @@ export default {
         documentTypeGuid: this.$store.getters[
           `documents/${this.documentId}/document`
         ].documentTypeGuid,
-        isCustomNumber: false,
         registrationNumber: null,
-        registrationDate: null,
+        registrationDate: new Date(),
         documentRegisterId: null,
       },
       registrationNumberPattern: "",
@@ -108,26 +93,8 @@ export default {
         this.regData.registrationDate
       ).format("L")}`;
     },
-    isCustomNumberOptions() {
-      const numberingType = this.document.documentKind.numberingType;
-      let autoNumbering;
-      if (numberingType === numberingTypes.Numerable) {
-        autoNumbering = this.document.documentKind.autoNumbering;
-        if (autoNumbering) {
-          this.regData.isCustomNumber = false;
-          return { disabled: true };
-        }
-      }
-      return {
-        disabled: false,
-        onValueChanged: (e) => {
-          this.getDataByFilter();
-        },
-      };
-    },
     registrationNumberOptions() {
       return {
-        disabled: !this.regData.isCustomNumber,
         onValueChanged: (e) => {
           this.getDataByFilter();
         },
@@ -144,7 +111,9 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.DocumentRegister.SuitableRegistrableDocumentRegisters + this.regData.documentId
+          url:
+            dataApi.docFlow.DocumentRegister.RegistrableDocumentRegisteres +
+            this.regData.documentId,
         }),
         onValueChanged: (e) => {
           if (!this.regData.registrationDate)
@@ -155,20 +124,16 @@ export default {
     },
   },
   methods: {
-    async getDataByFilter() {
-      if (
-        this.regData.registrationDate &&
-        this.regData.documentRegisterId &&
-        !this.regData.isCustomNumber
-      ) {
-        const res = await this.$axios.get(
-          dataApi.DocumentRegister.PreliminaryNumber + this.filter
-        );
-        this.regData.registrationNumber = res.data.preliminaryNumber;
+    // async getDataByFilter() {
+    //   if (this.regData.registrationDate && this.regData.documentRegisterId) {
+    //     const res = await this.$axios.get(
+    //       dataApi.DocumentRegister.PreliminaryNumber + this.filter
+    //     );
+    //     this.regData.registrationNumber = res.data.preliminaryNumber;
 
-        this.registrationNumberPattern = res.data.pattern;
-      }
-    },
+    //     this.registrationNumberPattern = res.data.pattern;
+    //   }
+    // },
     handleSubmit() {
       this.$awn.asyncBlock(
         this.$store.dispatch(

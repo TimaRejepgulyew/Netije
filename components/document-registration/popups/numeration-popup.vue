@@ -14,14 +14,13 @@
         <DxLabel location="top" :text="$t('registrationPopup.isCustomNumber')" />
       </DxSimpleItem>
       <DxSimpleItem
-        :helpText="isCustomNumber?'':$t('registrationPopup.preliminaryRegistrationNumberMessage')"
         data-field="registrationNumber"
         :editor-options="registrationNumberOptions"
       >
         <DxPatternRule :pattern="registrationNumberPattern" />
         <DxLabel
           location="top"
-          :text="isCustomNumber?$t('registrationPopup.regNumberDocument'):$t('registrationPopup.preliminaryRegistrationNumber')"
+  
         />
         <DxRequiredRule :message="$t('registrationPopup.validation.regNumberDocumentRequired')" />
       </DxSimpleItem>
@@ -73,7 +72,7 @@ export default {
     DxForm,
     DxButton,
   },
-  props: ["documentId"],
+  props: ["documentId", "documentRegisterId"],
   data() {
     return {
       saveButtonOptions: {
@@ -82,14 +81,14 @@ export default {
         type: "success",
       },
       regData: {
-        documentId: this.documentId,
+        documentId: +this.documentId,
         documentTypeGuid: this.$store.getters[
           `documents/${this.documentId}/document`
         ].documentTypeGuid,
-        isCustomNumber: false,
+        isCustomNumber: true,
         registrationNumber: null,
-        registrationDate: null,
-        documentRegisterId: null,
+        registrationDate: new Date(),
+        documentRegisterId: this.documentRegisterId,
       },
       registrationNumberPattern: "",
     };
@@ -109,66 +108,68 @@ export default {
       ).format("L")}`;
     },
     isCustomNumberOptions() {
-      const numberingType = this.document.documentKind.numberingType;
-      let autoNumbering;
-      if (numberingType === numberingTypes.Numerable) {
-        autoNumbering = this.document.documentKind.autoNumbering;
-        if (autoNumbering) {
-          this.regData.isCustomNumber = false;
-          return { disabled: true };
-        }
-      }
+      //TODO: netije 2 version this functionality
+
+      // const numberingType = this.document.documentKind.numberingType;
+      // let autoNumbering;
+      // if (numberingType === numberingTypes.Numerable) {
+      //   autoNumbering = this.document.documentKind.autoNumbering;
+      //   if (autoNumbering) {
+      //     this.regData.isCustomNumber = false;
+      //     return { disabled: true };
+      //   }
+      // }
       return {
-        disabled: false,
-        onValueChanged: (e) => {
-          this.getDataByFilter();
-        },
+        disabled: true,
+        // onValueChanged: (e) => {
+        //   this.getDataByFilter();
+        // },
       };
     },
     registrationNumberOptions() {
       return {
         disabled: !this.regData.isCustomNumber,
-        onValueChanged: (e) => {
-          this.getDataByFilter();
-        },
+        // onValueChanged: (e) => {
+        //   this.getDataByFilter();
+        // },
       };
     },
     registrationDateOptions() {
       return {
-        onValueChanged: (e) => {
-          this.getDataByFilter();
-        },
+        // onValueChanged: (e) => {
+        //   this.getDataByFilter();
+        // },
       };
     },
     documentRegisterOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.DocumentRegister.SuitableRegistrableDocumentRegisters + this.regData.documentId
         }),
-        onValueChanged: (e) => {
-          if (!this.regData.registrationDate)
-            this.regData.registrationDate = new Date();
-          else this.getDataByFilter();
-        },
+        disabled: true,
+        // onValueChanged: (e) => {
+        //   if (!this.regData.registrationDate)
+        //     this.regData.registrationDate = new Date();
+        //   else this.getDataByFilter();
+        // },
       };
     },
   },
   methods: {
-    async getDataByFilter() {
-      if (
-        this.regData.registrationDate &&
-        this.regData.documentRegisterId &&
-        !this.regData.isCustomNumber
-      ) {
-        const res = await this.$axios.get(
-          dataApi.DocumentRegister.PreliminaryNumber + this.filter
-        );
-        this.regData.registrationNumber = res.data.preliminaryNumber;
+    // async getDataByFilter() {
+    //   if (
+    //     this.regData.registrationDate &&
+    //     this.regData.documentRegisterId &&
+    //     !this.regData.isCustomNumber
+    //   ) {
+    //     const res = await this.$axios.get(
+    //       dataApi.DocumentRegister.PreliminaryNumber + this.filter
+    //     );
+    //     this.regData.registrationNumber = res.data.preliminaryNumber;
 
-        this.registrationNumberPattern = res.data.pattern;
-      }
-    },
+    //     this.registrationNumberPattern = res.data.pattern;
+    //   }
+    // },
     handleSubmit() {
       this.$awn.asyncBlock(
         this.$store.dispatch(

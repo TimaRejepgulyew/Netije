@@ -88,5 +88,5 @@ export default {
     validFrom: "Действителен c",
     validTill: "Действителен по",
     issuedToId: "Кому выдана"
-  }
+  },
 };

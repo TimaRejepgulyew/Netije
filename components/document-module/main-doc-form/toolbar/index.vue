@@ -260,7 +260,10 @@ export default {
         icon: "refresh",
         onClick: () => {
           const { documentTypeGuid, id } = this.document;
-          this.$awn.asyncBlock(load(this, { documentTypeGuid, id }), () => {});
+          this.$awn.asyncBlock(
+            load(this, { documentTypeGuid, documentId: id }, true),
+            () => {}
+          );
         },
       };
     },
