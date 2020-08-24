@@ -7,7 +7,7 @@
       :show-title="true"
       :width="500"
       :height="'auto'"
-      :title="$t('translations.fields.registration')"
+      :title="$t('doсumentRegistration.cardOfRegistration')"
     >
       <div>
         <document-registration-popup
@@ -20,14 +20,14 @@
     </DxPopup>
     <DxButton
       v-if="isRegistered"
-      :text="$t('translations.fields.cancelRegistration')"
+      :text="$t('doсumentRegistration.cancelRegistration')"
       :onClick="unRegister"
       icon="clear"
     ></DxButton>
     <DxButton
       v-else
-      :text="$t('translations.fields.register')"
-      :hint="$t('translations.fields.register')"
+      :text="$t('doсumentRegistration.register')"
+      :hint="$t('doсumentRegistration.register')"
       :icon="registerIcon"
       :onClick="register"
     ></DxButton>
@@ -68,11 +68,8 @@ export default {
         if (this.isDataChanged) {
           await this.$store.dispatch(`documents/${this.documentId}/save`);
         }
-        const data = await this.$awn.asyncBlock(
-          this.getDefaultDocumentRegiter(),
-          () => {},
-          () => {}
-        );
+        const data = await this.getDefaultDocumentRegiter();
+
         this.defaultDocumentRegistration = data;
         this.togglePopup();
       }

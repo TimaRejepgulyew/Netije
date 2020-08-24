@@ -1,25 +1,23 @@
 <template>
   <div class="navBar">
-    <keep-alive>
-      <DxPopup
-        :visible.sync="isOpenPopupRegiterCard"
-        :drag-enabled="true"
-        :close-on-outside-click="true"
-        :show-title="true"
-        :min-width="300"
-        :width="600"
-        :height="'auto'"
-        :title="$t('doсumentRegistration.cardOfNumbering')"
-      >
-        <div>
-          <document-numerate-popup
-            v-if="isOpenPopupRegiterCard"
-            :defaultDocumentRegistration="defaultDocumentRegistration"
-            :documentId="documentId"
-          />
-        </div>
-      </DxPopup>
-    </keep-alive>
+    <DxPopup
+      :visible.sync="isOpenPopupRegiterCard"
+      :drag-enabled="true"
+      :close-on-outside-click="true"
+      :show-title="true"
+      :min-width="300"
+      :width="600"
+      :height="'auto'"
+      :title="$t('doсumentRegistration.cardOfNumbering')"
+    >
+      <div>
+        <document-numerate-popup
+          v-if="isOpenPopupRegiterCard"
+          :defaultDocumentRegistration="defaultDocumentRegistration"
+          :documentId="documentId"
+        />
+      </div>
+    </DxPopup>
     <DxPopup
       :deferRendering="false"
       :visible.sync="isOpenNotFindDocumentRegister"
@@ -30,7 +28,7 @@
       max-width="100%"
       position="center"
       height="300px"
-      :title="$t('doсumentRegistration.notFindDocumentRegister')"
+      :title="$t('shared.notFound')"
     >
       <div>
         <not-find-document-register-popup
@@ -76,7 +74,7 @@ export default {
       numerateIcon,
       isOpenPopupRegiterCard: false,
       isOpenNotFindDocumentRegister: false,
-      defaultDocumentRegistration: false,
+      defaultDocumentRegistration: {},
     };
   },
   inject: ["isValidDocument"],
@@ -95,17 +93,14 @@ export default {
     //main logic
     async register() {
       if (this.isValidDocument()) {
-        const data = await this.$awn.asyncBlock(
-          this.getDefaultDocumentRegiter(),
-          () => {},
-          () => {}
-        );
-        if (data === undefined) {
+        if (this.isDataChanged) {
+          await this.$store.dispatch(`documents/${this.documentId}/save`);
+          console.log("save");
+        }
+        const data = await this.getDefaultDocumentRegiter();
+        if (data === "") {
           this.showPopupNotFindDocumentRegister();
         } else {
-          if (this.isDataChanged) {
-            this.$store.dispatch(`documents/${this.documentId}/save`);
-          }
           this.showPopupRegisterCard(data);
         }
       }
@@ -130,16 +125,14 @@ export default {
         }
       });
     },
-  },
-  async getDefaultDocumentRegiter() {
-    const data = await this.$awn.asyncBlock(
-      this.$axios.get(
+    async getDefaultDocumentRegiter() {
+      const { data } = await this.$axios.get(
         `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
-      ),
-      () => {},
-      () => {}
-    );
-    return data;
+      );
+
+      console.log(data);
+      return data;
+    },
   },
   computed: {
     isDataChanged() {

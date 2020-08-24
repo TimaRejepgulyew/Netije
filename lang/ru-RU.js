@@ -191,6 +191,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    notFound:"Не найдено",
     deadLine: "Срок",
     read: "Прочитано",
     unread: "Не прочитано",
