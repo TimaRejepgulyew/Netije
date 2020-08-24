@@ -42,7 +42,7 @@ export async function createLeadingDocument(context, params) {
 export async function load(
   context,
   { documentTypeGuid, documentId },
-  refresh = "true"
+  refresh = "false"
 ) {
   if (!documentModules.hasModule(documentId)) {
     documentModules.registerModule(context, documentId);
