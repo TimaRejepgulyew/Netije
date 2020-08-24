@@ -1,7 +1,6 @@
 <template>
   <div class="d-flex f-direction-column">
     <div class="d-flex message-text">{{messageText}}</div>
-    <a :href="link.path" class="link">{{link.text}}</a>
     <div>
       <DxButton
         :icon="btnOptions.icon"
@@ -21,11 +20,8 @@ export default {
   },
   data() {
     return {
-      link: {
-        text: this.$t("doсumentRegistration.toDocFlow"),
-        path: "/docflow",
-      },
-      messageText: this.$t("doсumentRegistration.notFindDocumentRegistration"),
+
+      messageText: this.$t("doсumentRegistration.notFindDocumentRegistrationSetting"),
       btnOptions: {
         icon: "close",
         stylingMode: "outlined",
@@ -39,5 +35,3 @@ export default {
 };
 </script>
 
-<style>
-</style>

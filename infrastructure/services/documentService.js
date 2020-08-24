@@ -39,16 +39,10 @@ export async function createLeadingDocument(context, params) {
   );
   return { documentId, documentTypeGuid };
 }
-export async function load(
-  context,
-  { documentTypeGuid, documentId },
-  refresh = "false"
-) {
+export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
     documentModules.registerModule(context, documentId);
-    context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
-  }
-  if (!documentModules.hasModule(documentId) || refresh) {
+
     const { data } = await context.$axios.get(
       `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
     );
@@ -56,6 +50,15 @@ export async function load(
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
     loadDocument(context, documentId, data);
   }
+  context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
+}
+export async function refresh(context, { documentTypeGuid, documentId }) {
+  const { data } = await context.$axios.get(
+    `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
+  );
+  context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
+  context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
+  loadDocument(context, documentId, data);
 }
 export function unload(context, documentId) {
   const overlays = context.$store.getters[`documents/${documentId}/overlays`];

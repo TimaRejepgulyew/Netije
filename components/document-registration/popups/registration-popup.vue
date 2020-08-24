@@ -68,7 +68,8 @@ export default {
         type: "success",
       },
       regData: {
-        documentId: this.documentId,
+        isCustomNumber: true,
+        documentId: +this.documentId,
         documentTypeGuid: this.$store.getters[
           `documents/${this.documentId}/document`
         ].documentTypeGuid,
@@ -124,16 +125,16 @@ export default {
     },
   },
   methods: {
-    // async getDataByFilter() {
-    //   if (this.regData.registrationDate && this.regData.documentRegisterId) {
-    //     const res = await this.$axios.get(
-    //       dataApi.DocumentRegister.PreliminaryNumber + this.filter
-    //     );
-    //     this.regData.registrationNumber = res.data.preliminaryNumber;
+    async getDataByFilter() {
+      if (this.regData.registrationDate && this.regData.documentRegisterId) {
+        const res = await this.$axios.get(
+          dataApi.DocumentRegister.PreliminaryNumber + this.filter
+        );
+        this.regData.registrationNumber = res.data.preliminaryNumber;
 
-    //     this.registrationNumberPattern = res.data.pattern;
-    //   }
-    // },
+        this.registrationNumberPattern = res.data.pattern;
+      }
+    },
     handleSubmit() {
       this.$awn.asyncBlock(
         this.$store.dispatch(

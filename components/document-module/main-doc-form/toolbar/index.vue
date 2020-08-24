@@ -76,7 +76,7 @@
 </template>
 <script>
 //servises
-import { load } from "~/infrastructure/services/documentService.js";
+import { load, refresh } from "~/infrastructure/services/documentService.js";
 import documentService from "~/infrastructure/services/documentVersionService.js";
 //components
 import { confirm } from "devextreme/ui/dialog";
@@ -261,7 +261,7 @@ export default {
         onClick: () => {
           const { documentTypeGuid, id } = this.document;
           this.$awn.asyncBlock(
-            load(this, { documentTypeGuid, documentId: id }, true),
+            refresh(this, { documentTypeGuid, documentId: id }),
             () => {}
           );
         },

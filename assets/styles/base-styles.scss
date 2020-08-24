@@ -6,7 +6,7 @@
   overflow: auto;
 }
 
-.d-flex{
+.d-flex {
   display: flex;
 }
 .list__content {
@@ -72,6 +72,7 @@
   font-style: italic;
 }
 .link:hover {
+  color: $base-accent;
   text-decoration: underline;
   color: #f90;
 }
