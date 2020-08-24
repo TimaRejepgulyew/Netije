@@ -13,7 +13,8 @@
       >
         <div>
           <document-numerate-popup
-            :documentRegistrationId="defaultDocumentRegisterId"
+            v-if="isOpenPopupRegiterCard"
+            :defaultDocumentRegistration="defaultDocumentRegistration"
             :documentId="documentId"
           />
         </div>
@@ -75,13 +76,14 @@ export default {
       numerateIcon,
       isOpenPopupRegiterCard: false,
       isOpenNotFindDocumentRegister: false,
-      defaultDocumentRegisterId: false,
+      defaultDocumentRegistration: false,
     };
   },
+  inject: ["isValidDocument"],
   methods: {
     //popups
     showPopupRegisterCard(data) {
-      this.defaultDocumentRegisterId = data?.id;
+      this.defaultDocumentRegistration = data;
       this.togglePopup("isOpenPopupRegiterCard");
     },
     showPopupNotFindDocumentRegister() {
@@ -92,18 +94,20 @@ export default {
     },
     //main logic
     async register() {
-      const data = await this.$awn.asyncBlock(
-        this.getDefaultDocumentRegiter(),
-        (data) => {},
-        (data) => {}
-      );
-      if (data === undefined) {
-        this.showPopupNotFindDocumentRegister();
-      } else {
-        if (this.isDataChanged) {
-          this.$store.dispatch(`documents/${this.documentId}/save`);
+      if (this.isValidDocument()) {
+        const data = await this.$awn.asyncBlock(
+          this.getDefaultDocumentRegiter(),
+          () => {},
+          () => {}
+        );
+        if (data === undefined) {
+          this.showPopupNotFindDocumentRegister();
+        } else {
+          if (this.isDataChanged) {
+            this.$store.dispatch(`documents/${this.documentId}/save`);
+          }
+          this.showPopupRegisterCard(data);
         }
-        this.showPopupRegisterCard(data);
       }
     },
 
@@ -126,19 +130,16 @@ export default {
         }
       });
     },
-
-    async getDefaultDocumentRegiter() {
-      const data = await this.$awn.asyncBlock(
-        this.$axios.get(
-          `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
-        ),
-        () => {},
-        () => {}
-      );
-      if (data === "") {
-        this.showPopupRegisterCard(data);
-      } else return data;
-    },
+  },
+  async getDefaultDocumentRegiter() {
+    const data = await this.$awn.asyncBlock(
+      this.$axios.get(
+        `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
+      ),
+      () => {},
+      () => {}
+    );
+    return data;
   },
   computed: {
     isDataChanged() {

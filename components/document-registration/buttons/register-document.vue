@@ -11,6 +11,7 @@
     >
       <div>
         <document-registration-popup
+          :defaultDocumentRegistration="defaultDocumentRegistration"
           :documentId="documentId"
           v-if="isOpenDocumentRegistrationPopup"
           @hidePopup="togglePopup"
@@ -50,21 +51,31 @@ export default {
   props: ["documentId"],
   data() {
     return {
+      defaultDocumentRegistration: {},
       registerIcon,
       isOpenDocumentRegistrationPopup: false,
     };
   },
+  inject: ["isValidDocument"],
   methods: {
     togglePopup() {
       this.isOpenDocumentRegistrationPopup = !this
         .isOpenDocumentRegistrationPopup;
     },
 
-    register() {
-      if (this.isDataChanged) {
-        this.$store.dispatch(`documents/${this.documentId}/save`);
+    async register() {
+      if (this.isValidDocument()) {
+        if (this.isDataChanged) {
+          await this.$store.dispatch(`documents/${this.documentId}/save`);
+        }
+        const data = await this.$awn.asyncBlock(
+          this.getDefaultDocumentRegiter(),
+          () => {},
+          () => {}
+        );
+        this.defaultDocumentRegistration = data;
+        this.togglePopup();
       }
-      this.togglePopup();
     },
     unRegister() {
       let result = confirm(
@@ -84,6 +95,15 @@ export default {
           );
         }
       });
+    },
+    async getDefaultDocumentRegiter() {
+      const data = await this.$awn.asyncBlock(
+        this.$axios.get(
+          `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
+        ),
+        () => {},
+        () => {}
+      );
     },
   },
   computed: {

@@ -1,8 +1,5 @@
 <template>
-  <component
-    :is="registrationButtonComponent"
-    :documentId="documentId"
-  />
+  <component :is="registrationButtonComponent" :documentId="documentId" />
 </template>
 
 <script>
@@ -16,6 +13,7 @@ export default {
     RegisterDocumentBtn,
     NumerateDocumentBtn,
   },
+ 
   props: ["documentId"],
   computed: {
     registrationButtonComponent() {

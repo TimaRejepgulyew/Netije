@@ -142,7 +142,11 @@ export default {
       title: this.$store.getters[`documents/${this.documentId}/document`].name,
     };
   },
-
+  provide: function () {
+    return {
+      isValidDocument: this.isValidDocument,
+    };
+  },
   created() {
     if (this.isNew) {
       this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
@@ -167,6 +171,10 @@ export default {
     };
   },
   methods: {
+    isValidDocument() {
+      console.log("validate", this);
+      return this.$refs["form"].instance.validate().isValid;
+    },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
     },
