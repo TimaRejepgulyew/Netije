@@ -7,7 +7,7 @@
     @valueChanged="setRecipient"
     :showClearButton="true"
     :value="recipients"
-    valueExpr="id"
+    :valueExpr="valueExpr"
     displayExpr="name"
     :searchEnabled="true"
     searchExpr="name"
@@ -34,25 +34,31 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxTagBox,
-    recipientGrouped
+    recipientGrouped,
   },
-  props: ["recipients", "messageRequired", "validatorGroup", "readOnly"],
+  props: [
+    "recipients",
+    "messageRequired",
+    "validatorGroup",
+    "readOnly",
+    "valueExpr",
+  ],
   data() {
     return {
       resipientStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
+          loadUrl: dataApi.recipient.list,
         }),
-        group: [{ selector: "recipientType" }]
-      })
+         group: [{ selector: "recipientType" }],
+      }),
     };
   },
   methods: {
     setRecipient(e) {
       this.$emit("setRecipients", e.value);
-    }
-  }
+    },
+  },
 };
 </script>
 
