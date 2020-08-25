@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       saveButtonOptions: {
-        text: this.$t("buttons.register"),
+        text: this.$t("documentRegistration.buttons.numerate"),
         useSubmitBehavior: true,
         type: "success",
       },
@@ -88,7 +88,7 @@ export default {
     };
   },
   created() {
-    this.getDataByFilter();
+    this.getPreliminaryRegistrationNumber();
   },
   computed: {
     preliminaryRegistrationNumberMessage() {
@@ -114,37 +114,18 @@ export default {
         this.regData.registrationDate
       ).format("L")}`;
     },
-    isCustomNumberOptions() {
-      //TODO: netije 2 version this functionality
-
-      // const numberingType = this.document.documentKind.numberingType;
-      // let autoNumbering;
-      // if (numberingType === numberingTypes.Numerable) {
-      //   autoNumbering = this.document.documentKind.autoNumbering;
-      //   if (autoNumbering) {
-      //     this.regData.isCustomNumber = false;
-      //     return { disabled: true };
-      //   }
-      // }
-      return {
-        disabled: false,
-        // onValueChanged: (e) => {
-        //   this.getDataByFilter();
-        // },
-      };
-    },
     registrationNumberOptions() {
       return {
         disabled: !this.regData.isCustomNumber,
         onValueChanged: (e) => {
-          this.getDataByFilter();
+          this.getPreliminaryRegistrationNumber();
         },
       };
     },
     registrationDateOptions() {
       return {
         onValueChanged: (e) => {
-          this.getDataByFilter();
+          this.getPreliminaryRegistrationNumber();
         },
       };
     },
@@ -161,14 +142,13 @@ export default {
     isCustomNumberOptions() {
       return {
         onValueChanged: (e) => {
-          this.getDataByFilter();
+          this.getPreliminaryRegistrationNumber();
         },
       };
     },
   },
   methods: {
-    async getDataByFilter() {
-      console.log("get");
+    async getPreliminaryRegistrationNumber() {
       if (
         this.regData.registrationDate &&
         this.regData.documentRegisterId &&

@@ -39,14 +39,14 @@
     </DxPopup>
     <DxButton
       v-if="isRegistered"
-      :text="$t('documentRegistration.clearNumerate')"
+      :text="$t('documentRegistration.buttons.clearNumerate')"
       :onClick="unRegister"
       icon="clear"
     ></DxButton>
     <DxButton
       v-else
-      :text="$t('documentRegistration.numerate')"
-      :hint="$t('documentRegistration.numerate')"
+      :text="$t('documentRegistration.buttons.numerate')"
+      :hint="$t('documentRegistration.buttons.numerate')"
       :icon="numerateIcon"
       :onClick="register"
     ></DxButton>

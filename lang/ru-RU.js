@@ -794,8 +794,7 @@ export default {
       numericCodeRequired: "Введите цифровой код",
       currentNumber: "Текущий номер",
       currentNumberRequired: "Введите текущий номер",
-      areYouSureCancelRegistration:
-        "Вы уверены что хотите отменить регистрацию",
+     
       validFrom: "Действителен c",
       validTill: "Действителен по",
       daysToFinishWorks: "Дней для завершения",

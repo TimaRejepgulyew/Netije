@@ -11,7 +11,7 @@
         :editor-options="isCustomNumberOptions"
         editor-type="dxCheckBox"
       >
-        <DxLabel location="top" :text="$t('doсumentRegistration.isCustomNumber')" />
+        <DxLabel location="top" :text="$t('documentRegistration.isCustomNumber')" />
       </DxSimpleItem>
       <DxSimpleItem
         :helpText="preliminaryRegistrationNumberMessage"
@@ -20,23 +20,23 @@
       >
         <DxPatternRule :pattern="registrationNumberPattern" />
         <DxLabel location="top" :text="preliminaryRegistrationNumber" />
-        <DxRequiredRule :message="$t('doсumentRegistration.validation.regNumberDocumentRequired')" />
+        <DxRequiredRule :message="$t('documentRegistration.validation.regNumberDocumentRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="documentRegisterId"
         :editor-options="documentRegisterOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="top" :text="$t('doсumentRegistration.documentRegister')" />
-        <DxRequiredRule :message="$t('doсumentRegistration.validation.documentRegisterRequired')" />
+        <DxLabel location="top" :text="$t('documentRegistration.documentRegister')" />
+        <DxRequiredRule :message="$t('documentRegistration.validation.documentRegisterRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="registrationDate"
         :editor-options="registrationDateOptions"
         editor-type="dxDateBox"
       >
-        <DxLabel location="top" :text="$t('doсumentRegistration.registrationDate')" />
-        <DxRequiredRule :message="$t('doсumentRegistration.validation.registrationDateRequired')" />
+        <DxLabel location="top" :text="$t('documentRegistration.registrationDate')" />
+        <DxRequiredRule :message="$t('documentRegistration.validation.registrationDateRequired')" />
       </DxSimpleItem>
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>
@@ -70,11 +70,14 @@ export default {
     DxForm,
     DxButton,
   },
-  props: ["documentId", "defauldoсumentRegistration"],
+  props: ["documentId", "defaultDocumentRegistration"],
+  async created() {
+    this.getPreliminaryRegistrationNumber();
+  },
   data() {
     return {
       saveButtonOptions: {
-        text: this.$t("buttons.register"),
+        text: this.$t("documentRegistration.buttons.numerate"),
         useSubmitBehavior: true,
         type: "success",
       },
@@ -86,7 +89,7 @@ export default {
         ].documentTypeGuid,
         registrationNumber: null,
         registrationDate: new Date(),
-        documentRegisterId: this.defauldoсumentRegistration?.id,
+        documentRegisterId: this.defaultDocumentRegistration?.id,
       },
       registrationNumberPattern: "",
     };
@@ -119,7 +122,7 @@ export default {
       return {
         disabled: !this.regData.isCustomNumber,
         onValueChanged: (e) => {
-          this.getDataByFilter();
+          this.getPreliminaryRegistrationNumber();
         },
       };
     },
@@ -127,7 +130,7 @@ export default {
     registrationDateOptions() {
       return {
         onValueChanged: (e) => {
-          this.getDataByFilter();
+          this.getPreliminaryRegistrationNumber();
         },
       };
     },
@@ -142,20 +145,20 @@ export default {
         onValueChanged: (e) => {
           if (!this.regData.registrationDate)
             this.regData.registrationDate = new Date();
-          else this.getDataByFilter();
+          else this.getPreliminaryRegistrationNumber();
         },
       };
     },
     isCustomNumberOptions() {
       return {
         onValueChanged: (e) => {
-          this.getDataByFilter();
+          this.getPreliminaryRegistrationNumber();
         },
       };
     },
   },
   methods: {
-    async getDataByFilter() {
+    async getPreliminaryRegistrationNumber() {
       if (
         this.regData.registrationDate &&
         this.regData.documentRegisterId &&

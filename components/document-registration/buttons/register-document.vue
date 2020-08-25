@@ -7,7 +7,7 @@
       :show-title="true"
       :width="500"
       :height="'auto'"
-      :title="$t('doсumentRegistration.cardOfRegistration')"
+      :title="$t('documentRegistration.cardOfRegistration')"
     >
       <div>
         <document-registration-popup
@@ -20,14 +20,14 @@
     </DxPopup>
     <DxButton
       v-if="isRegistered"
-      :text="$t('doсumentRegistration.cancelRegistration')"
+      :text="$t('documentRegistration.buttons.cancelRegistration')"
       :onClick="unRegister"
       icon="clear"
     ></DxButton>
     <DxButton
       v-else
-      :text="$t('doсumentRegistration.register')"
-      :hint="$t('doсumentRegistration.register')"
+      :text="$t('documentRegistration.buttons.register')"
+      :hint="$t('documentRegistration.buttons.register')"
       :icon="registerIcon"
       :onClick="register"
     ></DxButton>
@@ -68,6 +68,7 @@ export default {
         const data = await this.getDefaultDocumentRegiter();
 
         this.defaultDocumentRegistration = data;
+        console.log(this.defaultDocumentRegistration);
         this.togglePopup();
       }
     },
@@ -93,13 +94,10 @@ export default {
       }
     },
     async getDefaultDocumentRegiter() {
-      const data = await this.$awn.asyncBlock(
-        this.$axios.get(
-          `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
-        ),
-        () => {},
-        () => {}
+      const { data } = await this.$axios.get(
+        `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
       );
+      return data;
     },
   },
   computed: {

@@ -21,7 +21,7 @@ export default {
   data() {
     return {
 
-      messageText: this.$t("doсumentRegistration.notFindDocumentRegistrationSetting"),
+      messageText: this.$t("documentRegistration.notFindDocumentRegistrationSetting"),
       btnOptions: {
         icon: "close",
         stylingMode: "outlined",
