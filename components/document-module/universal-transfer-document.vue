@@ -171,66 +171,88 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.$store.commit("currentDocument/SET_CORRECTED_ID", null);
-      this.$store.dispatch("currentDocument/setLeadingDocumentId", null);
-      this.$store.dispatch("currentDocument/setCounterparty", data);
-      this.$store.commit("currentDocument/SET_CONTACT_ID", null);
-      this.$store.commit("currentDocument/SET_COUNTERPART_SIGNATORY_ID", null);
+      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED_ID`, null);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setLeadingDocumentId`,
+        null
+      );
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCounterparty`,
+        data
+      );
+      this.$store.commit(`documents/${this.documentId}/SET_CONTACT_ID`, null);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`,
+        null
+      );
     },
     setContact(data) {
-      this.$store.commit("currentDocument/SET_CONTACT_ID", data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_CONTACT_ID`,
+        data && data.id
+      );
     },
     setCounterpartySignatoryId(data) {
       this.$store.commit(
-        "currentDocument/SET_COUNTERPART_SIGNATORY_ID",
+        `documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`,
         data && data.id
       );
     },
     setOurSignatoryId(data) {
-      this.$store.commit("currentDocument/SET_OUR_SIGNATORY_ID", data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
     setResponsibleEmployeeId(data) {
       return this.$store.commit(
-        "currentDocument/SET_RESPONSIBLE_EMPLOYEE_ID",
+        `documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE_ID`,
         data
       );
     },
   },
 
   computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
     isRegistered() {
-      return this.$store.getters["currentDocument/isRegistered"];
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     counterpartyId() {
-      return this.$store.getters["currentDocument/document"].counterpartyId;
+      return this.document.counterpartyId;
     },
     departmentId() {
-      return this.$store.getters["currentDocument/document"].departmentId;
+      return this.document.departmentId;
     },
     contactId() {
-      return this.$store.getters["currentDocument/document"].contactId;
+      return this.document.contactId;
     },
     counterpartySignatoryId() {
-      return this.$store.getters["currentDocument/document"]
-        .counterpartySignatoryId;
+      return this.document.counterpartySignatoryId;
     },
     ourSignatoryId() {
-      return this.$store.getters["currentDocument/document"].ourSignatoryId;
+      return this.document.ourSignatoryId;
     },
     responsibleEmployeeId() {
-      return this.$store.getters["currentDocument/document"]
-        .responsibleEmployeeId;
+      return this.document.responsibleEmployeeId;
     },
     isAdjustment() {
-      return this.$store.getters["currentDocument/document"].isAdjustment;
+      return this.document.isAdjustment;
     },
     isAdjustmentOptions() {
       return {
         readOnly: this.isRegistered,
         value: this.isAdjustment,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_IS_ADJUSTMENT", e.value);
-          this.$store.commit("currentDocument/SET_CORRECTED_ID", null);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_IS_ADJUSTMENT`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_CORRECTED_ID`,
+            null
+          );
         },
       };
     },
@@ -245,9 +267,12 @@ export default {
             ? ["counterpartyId", "=", this.counterpartyId]
             : [],
         }),
-        value: this.$store.getters["currentDocument/document"].correctedId,
+        value: this.document.correctedId,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_CORRECTED_ID", e.value);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_CORRECTED_ID`,
+            e.value
+          );
         },
       };
     },
@@ -262,10 +287,12 @@ export default {
             ? ["counterpartyId", "=", this.counterpartyId]
             : [],
         }),
-        value: this.$store.getters["currentDocument/document"]
-          .leadingDocumentId,
+        value: this.document.leadingDocumentId,
         onValueChanged: (e) => {
-          this.$store.dispatch("currentDocument/setLeadingDocumentId", e.value);
+          this.$store.dispatch(
+            `documents/${this.documentId}/setLeadingDocumentId`,
+            e.value
+          );
         },
       };
     },
@@ -277,9 +304,12 @@ export default {
           filter: ["status", "=", 0],
         }),
         readOnly: this.isRegistered,
-        value: this.$store.getters["currentDocument/document"].currencyId,
+        value: this.document.currencyId,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_CURRENCY_ID", e.value);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_CURRENCY_ID`,
+            e.value
+          );
         },
       };
     },
@@ -290,9 +320,12 @@ export default {
         }),
         format: "#,##0.00",
         readOnly: this.isRegistered,
-        value: this.$store.getters["currentDocument/document"].totalAmount,
+        value: this.document.totalAmount,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_TOTAL_AMOUNT", e.value);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_TOTAL_AMOUNT`,
+            e.value
+          );
         },
       };
     },
@@ -302,14 +335,17 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
         }),
-        value: this.$store.getters["currentDocument/document"].validFrom,
+        value: this.document.validFrom,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_VALID_FROM", null);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_VALID_FROM`,
+            null
+          );
         },
       };
     },
     validTill() {
-      return this.$store.getters["currentDocument/document"].validTill;
+      return this.document.validTill;
     },
     validTillOptions() {
       return {
@@ -319,7 +355,10 @@ export default {
         }),
         value: this.validTill,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_VALID_TILL", e.value);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_VALID_TILL`,
+            e.value
+          );
         },
       };
     },
@@ -331,17 +370,27 @@ export default {
           url: dataApi.company.BusinessUnit,
           filter: ["status", "=", 0],
         }),
-        value: this.$store.getters["currentDocument/document"].businessUnitId,
+        value: this.document.businessUnitId,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+            e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ADDRESSE_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            null
+          );
         },
       };
     },
     deparmentOptions() {
-      let businessUnitId = this.$store.getters["currentDocument/document"]
-        .businessUnitId;
+      let businessUnitId = this.$store.getters[
+        `documents/${this.documentId}/document`
+      ].businessUnitId;
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -353,10 +402,16 @@ export default {
             ["status", "=", 0],
           ],
         }),
-        value: this.$store.getters["currentDocument/document"].departmentId,
+        value: this.document.departmentId,
         onValueChanged: (e) => {
-          this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
-          this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
+          this.$store.commit(
+            `documents/${this.documentId}/SET_ADDRESSE_ID`,
+            null
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+            e.value
+          );
         },
       };
     },
