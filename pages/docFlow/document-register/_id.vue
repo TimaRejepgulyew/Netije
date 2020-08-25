@@ -204,10 +204,8 @@ export default {
       if (this.$store.getters["permissions/IsAdmin"]) return true;
       if (!this.$store.getters[`permissions/allowUpdating`](this.entityType))
         return false;
-      if (
-        documentRegister.registrationGroup?.responsibleEmployeeId ==
-          employeeId ||
-        !documentRegister.registrationGroupId
+      if (documentRegister.registrationGroup?.responsibleEmployeeId ==
+          employeeId || documentRegister.registerType == RegisterType.Numbering
       )
         return true;
       return false;
