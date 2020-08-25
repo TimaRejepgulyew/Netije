@@ -241,7 +241,7 @@ export default {
           result.then((dialogResult) => {
             if (dialogResult) {
               this.$awn.asyncBlock(
-                this.$store.dispach(`documents/${this.documentId}/delete`),
+                this.$store.dispatch(`documents/${this.documentId}/delete`),
                 (e) => {
                   this.$emit("onRemove");
                   this.$awn.success();
