@@ -1,13 +1,13 @@
 <template>
   <div>
     <DxPopup
+      position="{ my: 'center', at: 'center', of: window }"
       :visible.sync="isOpenPopup"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="true"
+      :show-title="false"
       width="90%"
-      maxHeight="95%"
-      height="auto"
+      height="95%"
     >
       <div class="scrool-auto">
         <document-card v-if="isOpenPopup" :isCard="true" :documentId="relationId" />

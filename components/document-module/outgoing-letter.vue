@@ -4,7 +4,7 @@
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :readOnly="!canUpdate"
-    validation-group="OfficialDocument"
+    validation-group="documentValidatorName"
   >
     <DxGroupItem :caption="$t('translations.fields.whom')">
       <DxSimpleItem data-field="correspondentId" template="correspondent">
@@ -114,6 +114,7 @@ export default {
     employeeSelectBox,
   },
   props: ["documentId"],
+  inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
@@ -126,7 +127,10 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.$store.commit(`documents/${this.documentId}/IN_RESPONSE_TO_ID`, null);
+      this.$store.commit(
+        `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
+        null
+      );
       this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, null);
       this.$store.dispatch(
         `documents/${this.documentId}/setCorrespondent`,

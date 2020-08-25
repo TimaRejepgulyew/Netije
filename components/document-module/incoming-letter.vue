@@ -4,7 +4,7 @@
     :read-only="!canUpdate"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    :validation-group="validatorGroup"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
       <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
@@ -127,10 +127,10 @@ export default {
     employeeSelectBox,
   },
   props: ["documentId"],
+  inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
-      validatorGroup: "OfficialDocument",
     };
   },
   methods: {

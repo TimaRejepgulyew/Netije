@@ -4,7 +4,7 @@
     :col-count="1"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="OfficialDocument"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="2">
       <DxGroupItem>
@@ -91,6 +91,7 @@ export default {
     employeeSelectBox,
   },
   props: ["documentId"],
+  inject: ["documentValidatorName"],
   data() {
     return {
       signatoryApi: dataApi.signatureSettings.Members,

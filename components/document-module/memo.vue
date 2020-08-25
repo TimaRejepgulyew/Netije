@@ -4,7 +4,7 @@
     :read-only="!canUpdate"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="OfficialDocument"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="2">
       <DxGroupItem>
@@ -94,6 +94,7 @@ export default {
     DxRequiredRule,
   },
   props: ["documentId"],
+  inject: ["documentValidatorName"],
   methods: {
     setPreparedById(data) {
       this.$store.commit(

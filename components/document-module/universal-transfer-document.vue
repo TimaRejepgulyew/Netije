@@ -3,7 +3,7 @@
     :col-count="2"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    :validation-group="validatorGroup"
+    :validation-group="documentValidatorName"
   >
     <DxSimpleItem
       :col-span="2"
@@ -141,7 +141,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -152,14 +152,14 @@ export default {
     DxRequiredRule,
     customSelectBox,
     customSelectBoxContact,
-    employeeSelectBox
+    employeeSelectBox,
   },
-  props:["documentId"],
+  props: ["documentId"],
+  inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
-      validatorGroup: "OfficialDocument"
     };
   },
   methods: {
@@ -194,7 +194,7 @@ export default {
         "currentDocument/SET_RESPONSIBLE_EMPLOYEE_ID",
         data
       );
-    }
+    },
   },
 
   computed: {
@@ -228,10 +228,10 @@ export default {
       return {
         readOnly: this.isRegistered,
         value: this.isAdjustment,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_IS_ADJUSTMENT", e.value);
           this.$store.commit("currentDocument/SET_CORRECTED_ID", null);
-        }
+        },
       };
     },
     correctedIdOptions() {
@@ -243,12 +243,12 @@ export default {
           url: `${dataApi.documentModule.Documents}${DocumentQuery.AccountingDocuments}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
-            : []
+            : [],
         }),
         value: this.$store.getters["currentDocument/document"].correctedId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_CORRECTED_ID", e.value);
-        }
+        },
       };
     },
     leadingDocumentOptions() {
@@ -260,13 +260,13 @@ export default {
           url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
           filter: this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
-            : []
+            : [],
         }),
         value: this.$store.getters["currentDocument/document"]
           .leadingDocumentId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.dispatch("currentDocument/setLeadingDocumentId", e.value);
-        }
+        },
       };
     },
     currencyIdOptions() {
@@ -274,38 +274,38 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", 0]
+          filter: ["status", "=", 0],
         }),
         readOnly: this.isRegistered,
         value: this.$store.getters["currentDocument/document"].currencyId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_CURRENCY_ID", e.value);
-        }
+        },
       };
     },
     totalAmountOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         format: "#,##0.00",
         readOnly: this.isRegistered,
         value: this.$store.getters["currentDocument/document"].totalAmount,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_TOTAL_AMOUNT", e.value);
-        }
+        },
       };
     },
     validFromOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.$store.getters["currentDocument/document"].validFrom,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_VALID_FROM", null);
-        }
+        },
       };
     },
     validTill() {
@@ -315,12 +315,12 @@ export default {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.validTill,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_VALID_TILL", e.value);
-        }
+        },
       };
     },
     businessUnitOptions() {
@@ -329,14 +329,14 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0]
+          filter: ["status", "=", 0],
         }),
         value: this.$store.getters["currentDocument/document"].businessUnitId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_BUSINESS_UNIT_ID", e.value);
           this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", null);
-        }
+        },
       };
     },
     deparmentOptions() {
@@ -350,14 +350,14 @@ export default {
           filter: [
             ["businessUnitId", "=", businessUnitId],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
         value: this.$store.getters["currentDocument/document"].departmentId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit("currentDocument/SET_ADDRESSE_ID", null);
           this.$store.commit("currentDocument/SET_DEPARTMENT_ID", e.value);
-        }
+        },
       };
     },
     isCompany() {
@@ -365,8 +365,8 @@ export default {
         this.selectedCorrespondentType != null &&
         this.selectedCorrespondentType?.type !== "Person"
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

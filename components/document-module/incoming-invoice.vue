@@ -3,7 +3,7 @@
     :col-count="2"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    :validation-group="validatorGroup"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.account')">
       <DxSimpleItem
@@ -107,11 +107,7 @@ export default {
     customSelectBox,
   },
   props: ["documentId"],
-  data() {
-    return {
-      validatorGroup: "OfficialDocument",
-    };
-  },
+  inject: ["documentValidatorName"],
   methods: {
     setCounterparty(data) {
       this.$store.dispatch(

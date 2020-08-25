@@ -3,7 +3,7 @@
     :col-count="2"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    :validation-group="validatorGroup"
+    :validation-group="documentValidatorName"
   >
     <DxSimpleItem
       :col-span="2"
@@ -144,6 +144,7 @@ export default {
     employeeSelectBox,
   },
   props: ["documentId"],
+  inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,

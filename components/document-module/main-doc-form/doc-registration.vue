@@ -79,7 +79,7 @@ export default {
     DxForm,
   },
   props: ["documentId"],
-  provide: ["documentValidatorName"],
+  inject: ["documentValidatorName"],
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];

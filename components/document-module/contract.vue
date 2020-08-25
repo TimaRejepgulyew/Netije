@@ -172,7 +172,7 @@ export default {
     employeeSelectBox,
   },
   props: ["documentId"],
-  provide: ["documentValidatorName"],
+  inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
