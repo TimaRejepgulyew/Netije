@@ -54,7 +54,7 @@
     <template #correspondent>
       <custom-select-box
         :disabled="readOnly"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         messageRequired="translations.fields.counterPartRequired"
@@ -74,7 +74,7 @@
       <employee-select-box
         valueExpr="id"
         :read-only="!canUpdate"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         :value="preparedById"
         @valueChanged="setPreparedById"
       />

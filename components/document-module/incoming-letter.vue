@@ -61,7 +61,7 @@
     <template #correspondent>
       <custom-select-box
         :readOnly="readOnly"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         messageRequired="translations.fields.counterPartRequired"

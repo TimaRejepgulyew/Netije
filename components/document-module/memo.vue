@@ -59,7 +59,7 @@
     </template>
     <template #prepared>
       <employee-select-box
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         :read-only="!canUpdate"
         :value="preparedById"
         @valueChanged="setPreparedById"
@@ -69,7 +69,9 @@
       <employee-select-box
         :value="addresseeId"
         :read-only="!canUpdate"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
+
+
         @valueChanged="setAddresseeId"
       />
     </template>

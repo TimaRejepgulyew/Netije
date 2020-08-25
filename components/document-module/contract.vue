@@ -114,7 +114,7 @@
       <custom-select-box
         :readOnly="isRegistered"
         @selectionChanged="handlerCorrespondentSelectionChanged"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"
         messageRequired="translations.fields.counterPartRequired"
         :value="counterpartyId"

@@ -79,7 +79,7 @@
     <template #counterparty>
       <custom-select-box
         :readOnly="isRegistered"
-        :validatorGroup="validatorGroup"
+        :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"
         messageRequired="translations.fields.counterPartRequired"
         :value="counterpartyId"

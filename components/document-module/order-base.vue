@@ -60,7 +60,7 @@
       <employee-select-box
         valueExpr="id"
         :read-only="!canUpdate"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         :value="preparedById"
         @valueChanged="setPreparedById"
       />

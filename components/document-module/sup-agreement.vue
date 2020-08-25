@@ -99,7 +99,7 @@
     <template #counterparty>
       <custom-select-box
         @selectionChanged="handlerCorrespondentSelectionChanged"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"
         messageRequired="translations.fields.counterPartRequired"
         :value="counterpartyId"

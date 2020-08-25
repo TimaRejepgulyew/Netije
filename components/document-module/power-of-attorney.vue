@@ -52,7 +52,7 @@
     <template #ourSignatory>
       <employee-select-box
         valueExpr="id"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         :storeApi="signatoryApi"
         :value="ourSignatoryId"
         @valueChanged="setOurSignatoryId"
@@ -62,7 +62,7 @@
       <employee-select-box
         valueExpr="id"
         :read-only="!canUpdate || isRegistered"
-        validatorGroup="OfficialDocument"
+        :validatorGroup="documentValidatorName"
         :value="issuedToId"
         @valueChanged="setIssuedToId"
       />
