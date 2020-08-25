@@ -27,7 +27,7 @@
         <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
           <DxLookup
             :allow-clearing="true"
-            :data-source="getActiveEmployees"
+            :data-source="getActiveRecipients"
             value-expr="id"
             display-expr="name"
           />
@@ -107,11 +107,11 @@ export default {
     },
   },
   methods: {
-    getActiveEmployees(options) {
+    getActiveRecipients(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee,
+          loadUrl: dataApi.recipient.list
         }),
         paginate: true,
         filter: options.data

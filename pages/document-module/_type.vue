@@ -14,7 +14,6 @@ export default {
   },
   methods: {
     showDocumentDetails({ id, documentTypeGuid }) {
-      this.$store.commit("currentDocument/LOADED_FROM_URL", false);
       this.$router.push(`/document-module/detail/${documentTypeGuid}/${id}`);
     }
   }
