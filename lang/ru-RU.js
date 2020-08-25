@@ -1,29 +1,15 @@
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
-import documentRegistration  from "~/lang/i18n-translation/ru/documentRegistration.js";
+import documentRegistration, {
+  DocumentType
+} from "~/lang/i18n-translation/ru/documentRegistration.js";
+import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
+import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
 export default {
   status: {
     active: "Активный",
     closed: "Закрытый"
   },
-  task: {
-    status: {
-      InProcess: "В процессе",
-      Draft: "Черновик",
-      Suspended: "Приостановленно",
-      Completed: "Завершено",
-      Aborted: "Прекращено",
-      UnderReview: "На приемке"
-    },
-    type: {
-      SimpleTask: "Задача",
-      AcquaintanceTask: "Задача на ознакомление с документом",
-      ActionItemExecutionTask: "Поручение",
-      DocumentReviewTask: "Задача на рассмотрение документа"
-    },
-    prefixes: {
-      actionItemExecutionTask: "Поручение"
-    }
-  },
+  task: taskModule,
   docFlow: {
     headerTitle: "Документооборот",
     headerDescription:
@@ -74,32 +60,7 @@ export default {
         "Справочник определяет расширения файлов, которые можно использовать в документах."
     }
   },
-  lifeCycleState: {
-    onControl: "На контроле",
-    withoutControl: "Не на контроле",
-    sending: "Оправка на исполнение",
-    withoutExecute: "Не требует исполнения",
-    onExecution: "На исполнении",
-    executed: "Исполнен",
-    draft: "Черновик",
-    active: "Действующий",
-    obsolete: "Недействующий",
-    old: "Устаревший",
-    terminated: "Расторгнут",
-    closed: "Исполнен",
-    сanceled: "Аннулирован",
-    new: "Новый",
-    acceptedForPayment: "Принят к оплате",
-    paymentDenied: "Отказано в оплате",
-    onApproval: "На согласовании",
-    onRework: "На доработке",
-    pendingSign: "На подписании",
-    signed: "Подписан",
-    unsigned: "Не подписан",
-    aborted: "Прекращено",
-    pendingReview: "На рассмотрении",
-    reviewed: "Рассмотрен"
-  },
+  lifeCycleState: lifeCycleState,
   AssignmentQuery: {
     all: "Все задания и уведомления",
     onExicution: "На исполнение",
@@ -129,30 +90,12 @@ export default {
     simpleDocument: "Простые документы"
   },
   createItemDialog: {
-    documentReviewTask: "Задача на рассмотрение документа",
+    ...DocumentType,
+    ...TaskType,
     recordManagementGroup: "Делопроизводственные документы",
     taskGroup: "Задачи",
     accountingDocumentsGroup: "Финансовые документы",
-    contractualDocumentsGroup: "Договорные документы",
-    supAgreement: "Дополнительное соглашение",
-    incomingInvoice: "Входящий счет на оплату",
-    contractStatement: "Акт выполненных работ",
-    incomingTaxInvoice: "Счет-фактура полученный",
-    outgoingTaxInvoice: "Счет-фактура выставленный",
-    universalTransferDocument: "Универсальный передаточный документ",
-    waybill: "Накладная",
-    contract: "Договор",
-    addendum: "Приложение к документу",
-    memo: "Служебная записка",
-    order: "Приказ",
-    powerOfAttorney: "Доверенность",
-    outgoingLetter: "Исходящее письмо",
-    incomingLetter: "Входящее письмо",
-    companyDirective: "Распоряжение",
-    simpleDocument: "Простой документ",
-    simpleTask: "Задача",
-    actionItemExecutionTask: "Задача на исполнение поручения",
-    acquaintanceTask: "Задача на ознакомление с документом"
+    contractualDocumentsGroup: "Договорные документы"
   },
   sex: {
     male: "Мужской",
@@ -191,7 +134,9 @@ export default {
     version: "Версии"
   },
   shared: {
-    notFound:"Не найдено",
+    filter: "Фильтер",
+    type: "Тип",
+    notFound: "Не найдено",
     deadLine: "Срок",
     read: "Прочитано",
     unread: "Не прочитано",
@@ -794,7 +739,7 @@ export default {
       numericCodeRequired: "Введите цифровой код",
       currentNumber: "Текущий номер",
       currentNumberRequired: "Введите текущий номер",
-     
+
       validFrom: "Действителен c",
       validTill: "Действителен по",
       daysToFinishWorks: "Дней для завершения",

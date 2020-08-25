@@ -1,12 +1,12 @@
 <template>
   <div class="sideBar">
     <div class="btn--close right">
-      <label class="filter__header">Фильтр</label>
-      <DxButton icon="close" :on-click="showFilter" />
+      <label class="filter__header">{{$t("shared.filter")}}</label>
+      <DxButton icon="close" styling-mode="text" :on-click="showFilter" />
     </div>
     <div class="filter__content">
       <div class="option--group">
-        <div class="option__title">Статус</div>
+        <div class="option__title">{{$t("shared.status")}}</div>
         <DxRadioGroup
           name="status"
           :onValueChanged="(e)=>{this.filterChaged(e,'status')}"
@@ -17,7 +17,7 @@
         />
       </div>
       <div class="option--group">
-        <div class="option__title">Тип</div>
+        <div class="option__title">{{$t("shared.type")}}</div>
         <DxRadioGroup
           :value="assignmentType"
           valueExpr="id"
@@ -38,7 +38,7 @@ export default {
   components: {
     DxRadioGroup,
     DxCheckBox,
-    DxButton
+    DxButton,
   },
   created() {
     this.filterChaged();
@@ -48,7 +48,7 @@ export default {
       statusTypeRadioItems: filterTypeItems.statusType(this),
       assignmentTypeRadioItems: filterTypeItems.assignmentType(this),
       status: +localStorage.getItem("statusFilter") || null,
-      assignmentType: +localStorage.getItem("assignmentTypeFilter") || null
+      assignmentType: +localStorage.getItem("assignmentTypeFilter") || null,
     };
   },
   methods: {
@@ -72,21 +72,21 @@ export default {
     },
     emitFilter(filter) {
       this.$emit("changeFilter", {
-        filter
+        filter,
       });
     },
     filterChaged(e, name) {
       this.changeFilterProperty(e, name);
       const filter = this.buildFilter({
         status: this.status,
-        assignmentType: this.assignmentType
+        assignmentType: this.assignmentType,
       });
       this.emitFilter(filter);
     },
     showFilter() {
       this.$emit("showFilter");
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

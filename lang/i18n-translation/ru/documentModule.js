@@ -1,3 +1,22 @@
+export const DocumentType = {
+  IncomingLetter: "Входящее письмо",
+  OutgoingLetter: "Исходящее письмо",
+  CompanyDirective: "Распоряжение",
+  SimpleDocument: "Простой документ",
+  Addendum: "Приложение к документу",
+  PowerOfAttorney: "Доверенность",
+  Order: "Приказ",
+  Memo: "Служебная записка",
+  InternalDocument: "Внутрение документы",
+  SupAgreement: "Дополнительные соглашения",
+  IncomingInvoice: "Входящие счета на оплату",
+  ContractStatement: "Акты выполненных работ",
+  IncomingTaxInvoice: "Счет-фактуры полученные",
+  OutgoingTaxInvoice: "Счет-фактуры выставленные",
+  UniversalTransferDocument: "Универсальные передаточный документы",
+  Waybill: "Накладные",
+  Contract: "Договоры"
+};
 export default {
   remove: "Удалить",
   preview: "Предпросмотр",
@@ -10,24 +29,7 @@ export default {
   externalApprovalState: "Согл. с контрагентом",
   executionState: "Исполнение",
   controlExecutionState: "Контроль исполнения",
-  type: {
-    IncomingLetter: "Входящее письмо",
-    OutgoingLetter: "Исходящее письмо",
-    CompanyDirective: "Распоряжение",
-    SimpleDocument: "Простой документ",
-    Addendum: "Приложение к документу",
-    PowerOfAttorney: "Доверенность",
-    Order: "Приказ",
-    InternalDocument: "Внутрение документы",
-    SupAgreement: "Дополнительные соглашения",
-    IncomingInvoice: "Входящие счета на оплату",
-    ContractStatement: "Акты выполненных работ",
-    IncomingTaxInvoice: "Счет-фактуры полученные",
-    OutgoingTaxInvoice: "Счет-фактуры выставленные",
-    UniversalTransferDocument: "Универсальные передаточный документы",
-    Waybill: "Накладные",
-    Contract: "Договоры"
-  },
+  type: { ...DocumentType },
   tabs: {
     main: "Свойства",
     relations: "Связи",
@@ -88,5 +90,5 @@ export default {
     validFrom: "Действителен c",
     validTill: "Действителен по",
     issuedToId: "Кому выдана"
-  },
+  }
 };

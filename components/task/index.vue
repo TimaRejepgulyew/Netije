@@ -52,7 +52,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -71,15 +71,15 @@ export default {
     DxLabel,
     DxRequiredRule,
     DxForm,
-    documentReviewTask
+    documentReviewTask,
   },
   props: {
     taskId: {
-      type: Number
+      type: Number,
     },
     isCard: {
-      default: false
-    }
+      default: false,
+    },
   },
   destroyed() {
     unload(this, this.taskId);
@@ -87,16 +87,13 @@ export default {
   data() {
     return {
       taskTypeNames: null,
-      commentsUrl: dataApi.task.TextsByTask
+      commentsUrl: dataApi.task.TextsByTask,
     };
   },
   created() {
     const taskTypeNames = new Map();
     for (let item in TaskType) {
-      taskTypeNames.set(
-        TaskType[item],
-        this.$t(`createItemDialog.${item[0].toLowerCase() + item.slice(1)}`)
-      );
+      taskTypeNames.set(TaskType[item], this.$t(`createItemDialog.item`));
     }
     this.taskTypeNames = taskTypeNames;
   },
@@ -110,13 +107,13 @@ export default {
     onSave() {
       this.$emit("onSave", {
         taskId: this.task.id,
-        taskType: this.task.taskType
+        taskType: this.task.taskType,
       });
     },
     onStart() {
       this.$emit("onStart", {
         taskId: this.task.id,
-        taskType: this.task.taskType
+        taskType: this.task.taskType,
       });
       if (!this.isCard) this.$router.go(-1);
     },
@@ -136,7 +133,7 @@ export default {
         () => {},
         () => {}
       );
-    }
+    },
   },
   computed: {
     task() {
@@ -171,8 +168,8 @@ export default {
         case TaskType.DocumentReviewTask:
           return "document-review-task";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

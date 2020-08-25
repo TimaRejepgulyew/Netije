@@ -20,7 +20,6 @@ export default {
   },
   data() {
     return {
-
       messageText: this.$t("documentRegistration.notFindDocumentRegistrationSetting"),
       btnOptions: {
         icon: "close",
