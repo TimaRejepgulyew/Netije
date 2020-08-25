@@ -5,7 +5,7 @@
     :read-only="!canUpdate"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="OfficialDocument"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="1">
       <DxGroupItem
@@ -79,7 +79,7 @@ export default {
     DxForm,
   },
   props: ["documentId"],
-
+  provide: ["documentValidatorName"],
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];

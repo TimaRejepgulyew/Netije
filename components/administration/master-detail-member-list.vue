@@ -1,9 +1,8 @@
 <template>
-  <DxTabPanel>
+  <DxTabPanel :tab-panel-options="tabPanelOptions">
     <DxItem :title="$t('translations.fields.members')" template="members-list" />
     <template #members-list>
       <DxDataGrid
-      
         id="gridContainer"
         :errorRowEnabled="false"
         :show-borders="true"
@@ -56,7 +55,7 @@ import {
   DxScrolling,
   DxLookup,
   DxFilterRow,
-  DxButton
+  DxButton,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -71,13 +70,13 @@ export default {
     DxScrolling,
     DxLookup,
     DxFilterRow,
-    permissions
+    permissions,
   },
   props: {
     data: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data() {
     let { id, immutable } = this.data.data;
@@ -89,22 +88,28 @@ export default {
         key: "memberId",
         insertUrl: dataApi.admin.RoleMembers,
         loadUrl: dataApi.admin.RoleMembers + id,
-        removeUrl: dataApi.admin.RoleMembers + id
+        removeUrl: dataApi.admin.RoleMembers + id,
       }),
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"],
+
+      tabPanelOptions: {
+        focusStateEnabled: false,
+        animationEnabled: true,
+        swipeEnabled: true,
+        loop: "true",
+      },
     };
   },
+
   methods: {
     getActiveRecipientLinks(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
+          loadUrl: dataApi.recipient.list,
         }),
         paginate: true,
-        filter: options.data
-          ? [["status", "=", Status.Active]]
-          : []
+        filter: options.data ? [["status", "=", Status.Active]] : [],
       };
     },
     onInitNewRow(e) {
@@ -118,7 +123,7 @@ export default {
         return true;
       }
       return false;
-    }
-  }
+    },
+  },
 };
 </script>

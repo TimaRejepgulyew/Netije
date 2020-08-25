@@ -1,5 +1,5 @@
 <template>
-  <DxTabPanel>
+  <DxTabPanel :tab-panel-options="tabPanelOptions">
     <DxItem :title="$t('translations.fields.members')" template="members-list" />
     <template #members-list>
       <DxDataGrid
@@ -54,7 +54,7 @@ import {
   DxScrolling,
   DxLookup,
   DxFilterRow,
-  DxButton
+  DxButton,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -69,13 +69,19 @@ export default {
     DxScrolling,
     DxLookup,
     DxFilterRow,
-    permissions
+    permissions,
   },
   props: {
     data: {
+      tabPanelOptions: {
+        focusStateEnabled: false,
+        animationEnabled: true,
+        swipeEnabled: true,
+        loop: "true",
+      },
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data() {
     let { id } = this.data.data;
@@ -86,9 +92,9 @@ export default {
         key: "employeeId",
         insertUrl: dataApi.company.DepartmentMembers,
         loadUrl: dataApi.company.DepartmentMembers + id,
-        removeUrl: dataApi.company.DepartmentMembers + id
+        removeUrl: dataApi.company.DepartmentMembers + id,
       }),
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"],
     };
   },
   methods: {
@@ -96,12 +102,12 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.id]
-          : []
+          : [],
       };
     },
     onInitNewRow(e) {
@@ -116,7 +122,7 @@ export default {
         return true;
       }
       return false;
-    }
-  }
+    },
+  },
 };
 </script>

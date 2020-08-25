@@ -10,7 +10,7 @@
         :read-only="!canUpdate"
         :show-colon-after-label="true"
         :show-validation-summary="false"
-        validation-group="OfficialDocument"
+        :validation-group="documentValidatorName"
       >
         <DxTabbedItem :tab-panel-options="tabPanelOptions">
           <DxTab :col-count="12" :title="$t('document.tabs.main')">
@@ -145,6 +145,7 @@ export default {
   provide: function () {
     return {
       trySaveDocument: this.trySave,
+      documentValidatorName: this.documentValidatorName,
     };
   },
   created() {
@@ -167,7 +168,13 @@ export default {
         this.$store.getters[`documents/${this.documentId}/document`]
           .documentTypeGuid
       ),
-      tabPanelOptions: { focusStateEnabled: false },
+      tabPanelOptions: {
+        focusStateEnabled: false,
+        animationEnabled: true,
+        swipeEnabled: true,
+        loop: "true",
+      },
+      documentValidatorName: `OfficialDocument/${this.documentId}`,
     };
   },
   methods: {

@@ -3,7 +3,7 @@
     :col-count="2"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    :validation-group="validatorGroup"
+    :validation-group="documentValidatorName"
   >
     <DxSimpleItem
       :col-span="1"
@@ -172,11 +172,11 @@ export default {
     employeeSelectBox,
   },
   props: ["documentId"],
+  provide: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
       signatoryApi: dataApi.signatureSettings.Members,
-      validatorGroup: "OfficialDocument",
     };
   },
   methods: {

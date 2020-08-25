@@ -4,7 +4,7 @@
     :store.sync="document"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="OfficialDocument"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem>
       <DxSimpleItem
@@ -35,6 +35,7 @@ export default {
     DxRequiredRule,
   },
   props: ["documentId"],
+  provide: ["documentValidatorName"],
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];

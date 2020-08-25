@@ -1,5 +1,5 @@
 <template>
-  <DxTabPanel>
+  <DxTabPanel :tab-panel-options="tabPanelOptions">
     <DxItem :title="$t('translations.fields.members')" template="members-list" />
     <template #members-list>
       <DxDataGrid
@@ -34,7 +34,7 @@
         </DxColumn>
       </DxDataGrid>
     </template>
-    
+
     <!-- TODO:V2.0 <DxItem :title="$t('translations.fields.permissions')" template="permissions" /> 
     <permissions slot="permissions" :data="data.id" />-->
   </DxTabPanel>
@@ -54,7 +54,7 @@ import {
   DxScrolling,
   DxLookup,
   DxFilterRow,
-  DxButton
+  DxButton,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -69,13 +69,19 @@ export default {
     DxScrolling,
     DxLookup,
     DxFilterRow,
-    permissions
+    permissions,
   },
   props: {
     data: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+      tabPanelOptions: {
+        focusStateEnabled: false,
+        animationEnabled: true,
+        swipeEnabled: true,
+        loop: "true",
+      },
+    },
   },
   data() {
     let { id, responsibleEmployeeId } = this.data.data;
@@ -86,9 +92,9 @@ export default {
         key: "memberId",
         insertUrl: dataApi.docFlow.RegistrationGroupMembers,
         loadUrl: dataApi.docFlow.RegistrationGroupMembers + id,
-        removeUrl: dataApi.docFlow.RegistrationGroupMembers + id
+        removeUrl: dataApi.docFlow.RegistrationGroupMembers + id,
       }),
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"],
     };
   },
   computed: {
@@ -98,26 +104,25 @@ export default {
         this.$store.getters["permissions/employeeId"] ==
           this.responsibleEmployeeId
       );
-    }
+    },
   },
   methods: {
     getActiveEmployees(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.id]
-          : []
+          : [],
       };
     },
     onInitNewRow(e) {
       e.data.registrationGroupId = this.id;
     },
     allowDeleting(e) {
-      
       if (
         !this.$store.getters["permissions/IsAdmin"] &&
         !this.$store.getters["permissions/employeeId"] ==
@@ -126,7 +131,7 @@ export default {
         return false;
       }
       return e.row.key != this.responsibleEmployeeId;
-    }
-  }
+    },
+  },
 };
 </script>
