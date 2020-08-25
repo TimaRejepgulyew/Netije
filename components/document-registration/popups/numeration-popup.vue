@@ -14,15 +14,12 @@
         <DxLabel location="top" :text="$t('documentRegistration.isCustomNumber')" />
       </DxSimpleItem>
       <DxSimpleItem
-        :helpText="isCustomNumber?'':$t('documentRegistration.preliminaryRegistrationNumberMessage')"
+        :helpText="preliminaryRegistrationNumberMessage"
         data-field="registrationNumber"
         :editor-options="registrationNumberOptions"
       >
         <DxPatternRule :pattern="registrationNumberPattern" />
-        <DxLabel
-          location="top"
-          :text="isCustomNumber?$t('documentRegistration.regNumberDocument'):$t('documentRegistration.preliminaryRegistrationNumber')"
-        />
+        <DxLabel location="top" :text="preliminaryRegistrationNumber" />
         <DxRequiredRule :message="$t('documentRegistration.validation.regNumberDocumentRequired')" />
       </DxSimpleItem>
       <DxSimpleItem :editor-options="documentRegisterOptions" editor-type="dxTextBox">
@@ -94,6 +91,16 @@ export default {
     this.getDataByFilter();
   },
   computed: {
+    preliminaryRegistrationNumberMessage() {
+      return this.regData.isCustomNumber
+        ? ""
+        : this.$t("documentRegistration.preliminaryRegistrationNumberMessage");
+    },
+    preliminaryRegistrationNumber() {
+      return this.regData.isCustomNumber
+        ? this.$t("documentRegistration.regNumberDocument")
+        : this.$t("documentRegistration.preliminaryRegistrationNumber");
+    },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },

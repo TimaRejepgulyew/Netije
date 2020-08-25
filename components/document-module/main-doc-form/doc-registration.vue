@@ -89,8 +89,8 @@ export default {
     },
     registrationNumberHelptext() {
       return this.isRegistrable
-        ? $t("documentRegistration.registrationNumber")
-        : $t("documentRegistration.documentNumber");
+        ? this.$t("documentRegistration.registrationNumber")
+        : this.$t("documentRegistration.documentNumber");
     },
     deliveryMethodVisible() {
       const documentTypeGuid = this.document.documentTypeGuid;

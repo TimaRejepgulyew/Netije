@@ -15,7 +15,6 @@ export default {
     documentRegisterRequired: "Выберите журнал регистрации",
     registrationDateRequired: "Введите дату регистрации документа"
   },
-  isCustomNumber: "Свой номер",
   numerate: "Пронумеровать",
   clearNumerate: "Очистить нумерацию",
   cancelRegistration: "Отменить регистрацию",
