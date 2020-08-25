@@ -10,7 +10,7 @@
       height="95%"
     >
       <div class="scrool-auto">
-        <document-card v-if="isOpenPopup" :isCard="true" :documentId="relationId" />
+        <document-card v-if="isOpenPopup"  @onClose="togglePopup" :isCard="true" :documentId="relationId" />
       </div>
     </DxPopup>
 
@@ -67,9 +67,9 @@ export default {
   methods: {
     showRelationDocument(relationId) {
       this.relationId = relationId;
-      this.tooglePopup();
+      this.togglePopup();
     },
-    tooglePopup() {
+    togglePopup() {
       this.isOpenPopup = !this.isOpenPopup;
     },
     createRelation(e) {

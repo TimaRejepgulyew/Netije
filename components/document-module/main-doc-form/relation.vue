@@ -10,7 +10,12 @@
       height="95%"
     >
       <div class="scrool-auto">
-        <document-card v-if="isOpenPopup" :isCard="true" :documentId="currentRelationId" />
+        <document-card
+          v-if="isOpenPopup"
+          :isCard="true"
+          @onClose="togglePopup"
+          :documentId="currentRelationId"
+        />
       </div>
     </DxPopup>
     <DxList :data-source="store" :search-expr="['name','authorId']" :search-enabled="true">
@@ -115,14 +120,9 @@ export default {
   },
 };
 </script>
-<style >
+<style  >
 .list-container {
   margin: 3vh auto 0 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-}
-.dx-icon {
-  font-size: 30px;
-  padding: 0 10px;
-  font-weight: bold;
 }
 </style>

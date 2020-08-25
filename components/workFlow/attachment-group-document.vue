@@ -21,7 +21,13 @@
       :close-on-outside-click="true"
     >
       <div>
-        <document-card class="card" v-if="isOpenCard" :documentId="attachmentId" :isCard="true" />
+        <document-card
+          class="card"
+          v-if="isOpenCard"
+          @onClose="togglePopupCard"
+          :documentId="attachmentId"
+          :isCard="true"
+        />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
@@ -34,7 +40,7 @@
         icon="plus"
         styling-mode="text"
         :hint="$t('buttons.add')"
-        :on-click="tooglePopup"
+        :on-click="togglePopupGrid"
       ></DxButton>
     </div>
     <ul v-if="hasGroupItem">
@@ -45,7 +51,7 @@
     <div
       class="d-flex group__description"
       :class="{'cursor-pointer':group.canAddAttachments}"
-      @click="()=>{if(group.canAddAttachments)tooglePopup()}"
+      @click="()=>{if(group.canAddAttachments)togglePopupGrid()}"
       v-else
     >
       <i class="dx-icon dx-icon-link"></i>
@@ -94,7 +100,10 @@ export default {
       );
       this.attachmentId = id;
     },
-    tooglePopup() {
+    togglePopupCard() {
+      this.isOpenCard = !this.isOpenCard;
+    },
+    togglePopupGrid() {
       this.isOpenGrid = !this.isOpenGrid;
     },
     detach(attachmentId) {
@@ -106,7 +115,7 @@ export default {
         groupId: this.group.groupId,
         entityTypeGuid: mapToEntityType(documentTypeGuid),
       });
-      this.tooglePopup();
+      this.togglePopupGrid();
     },
   },
   computed: {

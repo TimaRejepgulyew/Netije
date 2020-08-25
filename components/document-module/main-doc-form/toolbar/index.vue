@@ -204,8 +204,7 @@ export default {
               this.$store.dispatch(`documents/${this.documentId}/save`),
               (res) => {
                 this.$awn.success();
-                this.$emit("onSave", { back: true });
-                this.$router.go(-1);
+                this.$emit("onClose");
               },
               (e) => {
                 this.$awn.alert();

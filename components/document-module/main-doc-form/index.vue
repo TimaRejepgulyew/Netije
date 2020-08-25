@@ -1,7 +1,12 @@
 <template>
   <div>
     <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
-    <toolbar :documentId="documentId" :isCard="isCard" @openVersion="openVersion"></toolbar>
+    <toolbar
+      :documentId="documentId"
+      :isCard="isCard"
+      @onClose="onClose"
+      @openVersion="openVersion"
+    ></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -178,6 +183,9 @@ export default {
     };
   },
   methods: {
+    onClose() {
+      this.$emit("onClose");
+    },
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
         if (this.isDataChanged) {
