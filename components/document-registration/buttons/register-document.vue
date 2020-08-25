@@ -57,6 +57,7 @@ export default {
     };
   },
   inject: ["trySaveDocument"],
+ 
   methods: {
     togglePopup() {
       this.isOpenDocumentRegistrationPopup = !this
@@ -68,7 +69,6 @@ export default {
         const data = await this.getDefaultDocumentRegiter();
 
         this.defaultDocumentRegistration = data;
-        console.log(this.defaultDocumentRegistration);
         this.togglePopup();
       }
     },

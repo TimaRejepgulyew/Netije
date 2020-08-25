@@ -41,7 +41,6 @@ export const getters = {
       documentKind: { numberingType }
     }
   }) {
-    console.log("num", numberingType != NumberingType.NotNumerable);
     return numberingType != NumberingType.NotNumerable;
   },
   canUpdate({ canUpdate }) {
@@ -199,7 +198,6 @@ export const mutations = {
     state.document.counterpartySignatoryId = payload;
   },
   SET_DELIVERY_METHOD_ID(state, payload) {
-    console.log("delivery");
     if (checkDataChanged(state.document.deliveryMethodId, payload)) {
       state.isDataChanged = true;
     }
@@ -407,7 +405,7 @@ export const actions = {
       }
     );
     if (state.isNew) {
-      dispatch("loadDocument", res.data);
+      // dispatch("loadDocument", res.data);
       commit("SET_IS_NEW", false);
     }
     commit("DATA_CHANGED", false);
@@ -447,6 +445,7 @@ export const actions = {
     }
   },
   loadDocument({ commit }, payload) {
+    //  TODO:  Создать функццю глубокого копирования
     payload.document.documentKind = docmentKindService.emptyDocumentKind();
     commit("IS_REGISTERED", payload.document.registrationState);
     commit("SET_DOCUMENT", payload);

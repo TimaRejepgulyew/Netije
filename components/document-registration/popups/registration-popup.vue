@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       saveButtonOptions: {
-        text: this.$t("documentRegistration.buttons.numerate"),
+        text: this.$t("documentRegistration.buttons.register"),
         useSubmitBehavior: true,
         type: "success",
       },

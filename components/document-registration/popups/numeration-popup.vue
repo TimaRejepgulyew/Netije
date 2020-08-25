@@ -130,7 +130,6 @@ export default {
       };
     },
     documentRegisterOptions() {
-      console.log(this.defaultDocumentRegistration);
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,

@@ -28,7 +28,6 @@ export default {
     async handleItemClick(e) {
       if (e.itemData.create) {
         await e.itemData.create(this);
-        console.log(this.$parent.$parent);
         this.$parent.$parent.hidePopup();
       }
     },

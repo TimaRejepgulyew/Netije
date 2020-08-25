@@ -28,7 +28,7 @@
       <DxItem
         locateInMenu="auto"
         template="toolbarItemRelation"
-        v-if="!isNew"
+        :visible="!isNew"
         location="before"
         widget="dxButton"
       />

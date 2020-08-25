@@ -129,7 +129,7 @@ export default {
         `${dataApi.docFlow.DocumentRegister.DefaultDocumentRegister}${this.documentId}`
       );
 
-      console.log(data);
+    
       return data;
     },
   },

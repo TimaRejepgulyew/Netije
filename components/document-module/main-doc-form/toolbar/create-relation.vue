@@ -73,7 +73,6 @@ export default {
       this.isOpenPopup = !this.isOpenPopup;
     },
     createRelation(e) {
-      console.log("createRelation");
       this.$awn.asyncBlock(
         e.itemData.create(this, {
           leadingDocumentType: this.document.documentTypeGuid,

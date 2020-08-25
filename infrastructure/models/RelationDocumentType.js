@@ -22,7 +22,6 @@ export default class RelationDocumentType extends DocumentType {
   withMethodCreate() {
     for (let element in this.elements) {
       this.elements[element].create = async (context, params) => {
-        console.log(params);
         const { documentId, documentTypeGuid } = await createLeadingDocument(
           context,
           {
