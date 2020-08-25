@@ -133,6 +133,7 @@ export default {
     customSelectBoxContact,
     employeeSelectBox
   },
+  props:["documentId"],
   data() {
     return {
       selectedCorrespondentType: null,

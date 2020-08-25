@@ -85,6 +85,7 @@ export default {
     DxRequiredRule,
     employeeSelectBox,
   },
+  props:["documentId"],
   data() {
     return {
       signatoryApi: dataApi.signatureSettings.Members,
