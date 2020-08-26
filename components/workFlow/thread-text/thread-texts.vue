@@ -31,7 +31,7 @@
           <card-task
             v-if="showTaskCard"
             :taskId="currentTaskCardId"
-            @closeTask="closeTask"
+            @onClose="closeTask"
             :isCard="true"
           />
         </div>
@@ -89,7 +89,7 @@ export default {
     DxPopup,
     DxList,
     treadTextMediator: async () =>
-      await import("~/components/workFlow/thread-text/text-mediator.vue")
+      await import("~/components/workFlow/thread-text/text-mediator.vue"),
   },
   name: "thread-texts",
   props: ["id", "entityType"],
@@ -102,32 +102,34 @@ export default {
       comments: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: url + this.id
-        })
+          loadUrl: url + this.id,
+        }),
       }),
       showTaskCard: false,
       currentTaskCardId: null,
       showAuthorCard: false,
       currentAuthorId: null,
       showAssignmentCard: false,
-      currentAssignmentId: null
+      currentAssignmentId: null,
     };
   },
   methods: {
-    closeTask() {},
-    tooglePopup(popupName) {
+    closeTask() {      
+      this.togglePopup("showTaskCard");
+    },
+    togglePopup(popupName) {
       this[popupName] = !this[popupName];
     },
     toDetailAuthor(id) {
       this.currentAuthorId = id;
-      this.tooglePopup("showAuthorCard");
+      this.togglePopup("showAuthorCard");
     },
     toDetailAssignment({ id, assignmentType }) {
       this.currentAssignmentId = id;
       this.$awn.asyncBlock(
         assignmentLoad(this, this.currentAssignmentId),
         () => {
-          this.tooglePopup("showAssignmentCard");
+          this.togglePopup("showAssignmentCard");
         },
         () => {}
       );
@@ -137,12 +139,12 @@ export default {
       this.$awn.asyncBlock(
         taskLoad(this, { taskType, taskId: id }),
         () => {
-          this.tooglePopup("showTaskCard");
+          this.togglePopup("showTaskCard");
         },
         () => {}
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style  scoped>

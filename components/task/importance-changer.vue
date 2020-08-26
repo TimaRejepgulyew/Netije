@@ -13,16 +13,19 @@ import Important from "~/infrastructure/constants/assignmentImportance.js";
 import { DxCheckBox } from "devextreme-vue/check-box";
 export default {
   components: {
-    DxCheckBox
+    DxCheckBox,
   },
   props: ["readOnly", "taskId"],
+  created() {
+    console.log(this.taskId);
+  },
   computed: {
     importance() {
-      return this.$store.getters[`tasks/${this.taskId}/task`].importance ===
+      return this.$store.getters[`tasks/${this.taskId}/task`]?.importance ===
         Important.Normal
         ? false
         : true;
-    }
+    },
   },
   methods: {
     setImportance(e) {
@@ -30,7 +33,7 @@ export default {
         `tasks/${this.taskId}/SET_IMPORTANCE`,
         e.value ? Important.High : Important.Normal
       );
-    }
-  }
+    },
+  },
 };
 </script>

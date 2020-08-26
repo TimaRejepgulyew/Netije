@@ -1,5 +1,5 @@
 <template>
-  <card-task :taskId="taskId" />
+  <card-task @onClose="closeTask" :taskId="taskId" />
 </template>
 <script>
 import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
@@ -51,6 +51,11 @@ export default {
 
       next(result);
     }
+  },
+  methods: {
+    closeTask() {
+      this.$router.go(-1);
+    },
   },
 };
 </script>

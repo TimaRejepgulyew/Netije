@@ -55,13 +55,11 @@ export default {
     importanceChanger,
     DxButton,
     DxToolbar,
-    DxItem
+    DxItem,
   },
-  data() {
-    return {
-      taskId: this.$parent.taskId
-    };
-  },
+  props: ["taskId"],
+  inject: ["isValidTask"],
+
   computed: {
     startBtnVisible() {
       return this.isDraft && !this.task.isDraftResolution;
@@ -94,7 +92,7 @@ export default {
         hint: this.$t("buttons.save"),
         onClick: () => {
           this.save();
-        }
+        },
       };
     },
     startButtonOptions() {
@@ -107,12 +105,12 @@ export default {
           )
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/start`),
-              e => {
+              (e) => {
                 this.$emit("onStart");
               },
-              e => this.$awn.alert()
+              (e) => this.$awn.alert()
             );
-        }
+        },
       };
     },
     abortButtonOptions() {
@@ -120,15 +118,15 @@ export default {
         icon: abortIcon,
         hint: this.$t("buttons.abort"),
         onClick: () => {
-          if (this.$parent.$refs["form"].instance.validate().isValid)
+          if (this.isValidTask())
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/abort`),
-              e => {
-                this.backTo();
+              (e) => {
+                this.onClose();
               },
-              e => this.$awn.alert()
+              (e) => this.$awn.alert()
             );
-        }
+        },
       };
     },
     restartButtonOptions() {
@@ -136,15 +134,15 @@ export default {
         icon: restartIcon,
         hint: this.$t("buttons.restart"),
         onClick: () => {
-          if (this.$parent.$refs["form"].instance.validate().isValid)
+          if (this.this.isValidTask())
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/restart`),
-              e => {
-                this.backTo();
+              (e) => {
+                this.onClose();
               },
-              e => this.$awn.alert()
+              (e) => this.$awn.alert()
             );
-        }
+        },
       };
     },
     deleteButtonOptions() {
@@ -159,21 +157,21 @@ export default {
           if (response)
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/delete`),
-              e => {
-                this.backTo();
+              (e) => {
+                this.onClose();
               },
-              e => this.$awn.alert()
+              (e) => this.$awn.alert()
             );
-        }
+        },
       };
-    }
+    },
   },
   methods: {
-    backTo() {
-      this.$emit("backTo");
+    onClose() {
+      this.$emit("onClose");
     },
     generateHtmlError(attachments) {
-      return attachments.map(attachment => {
+      return attachments.map((attachment) => {
         if (!attachment.entities) {
           return `<li class="red">Вложите ${attachment.groupTitle.toLowerCase()}</li>`;
         }
@@ -183,8 +181,8 @@ export default {
       let isValid = true;
       let attachments = this.$store.getters[
         `tasks/${this.taskId}/task`
-      ].attachmentGroups.filter(attachment => attachment.isRequired);
-      attachments.forEach(attachment => {
+      ].attachmentGroups.filter((attachment) => attachment.isRequired);
+      attachments.forEach((attachment) => {
         if (!attachment.entities) isValid = false;
       });
       if (!isValid) {
@@ -199,13 +197,13 @@ export default {
       )
         this.$awn.asyncBlock(
           this.$store.dispatch(`tasks/${this.taskId}/save`),
-          e => {
+          (e) => {
             this.$emit("onSave");
           },
-          e => this.$awn.alert()
+          (e) => this.$awn.alert()
         );
-    }
-  }
+    },
+  },
 };
 </script>
 <style >

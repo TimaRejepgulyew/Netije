@@ -1,7 +1,7 @@
 <template>
   <div id="form-demo">
     <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
-    <toolbar @backTo="backTo" @onSave="onSave" @onStart="onStart" />
+    <toolbar :taskId="taskId" @onClose="onClose" @onSave="onSave" @onStart="onStart" />
     <DxForm
       ref="form"
       :col-count="10"
@@ -86,7 +86,11 @@ export default {
   provide: function () {
     return {
       taskValidatorName: this.taskValidatorName,
+      isValidTask: this.validateForm,
     };
+  },
+  beforeDestroy(){
+    
   },
   destroyed() {
     unload(this, this.taskId);
@@ -99,18 +103,35 @@ export default {
   },
 
   methods: {
-     backTo() {
+    validateAttachment() {
+      let isValid = true;
+      let attachments = this.$store.getters[
+        `tasks/${this.taskId}/task`
+      ].attachmentGroups.filter((attachment) => attachment.isRequired);
+      attachments.forEach((attachment) => {
+        if (!attachment.entities) isValid = false;
+      });
+      if (!isValid) {
+        alert(this.generateHtmlError(attachments), this.$t("shared.error"));
+      }
+      return isValid;
+    },
+    validateForm() {
+      if (this.validateAttachment())
+        return this.$refs["form"].instance.validate().isValid;
+    },
+    onClose() {
       if (this.isCard) {
-        this.$emit("closeTask", this.taskId);
+        this.$emit("onClose", this.taskId);
       } else this.$router.go(-1);
     },
-     onSave() {
+    onSave() {
       this.$emit("onSave", {
         taskId: this.taskId,
         taskType: this.task.taskType,
       });
     },
-     onStart() {
+    onStart() {
       this.$emit("onStart", {
         taskId: this.taskId,
         taskType: this.task.taskType,
