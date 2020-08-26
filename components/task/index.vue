@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
 import documentReviewTask from "~/components/task/document-review-task.vue";
 import simpleTask from "~/components/task/simple-task.vue";
 import acquaintanceTask from "~/components/task/acquaintance-task.vue";
@@ -81,6 +82,7 @@ export default {
       default: false,
     },
   },
+
   destroyed() {
     unload(this, this.taskId);
   },
@@ -98,23 +100,23 @@ export default {
     this.taskTypeNames = taskTypeNames;
   },
   methods: {
-    backTo() {
+    async backTo() {
       if (this.isCard) {
-        const taskId = this.task.id;
-        this.$emit("closeTask", taskId);
+        this.$emit("closeTask", this.taskId);
       } else this.$router.go(-1);
     },
-    onSave() {
+    async onSave() {
       this.$emit("onSave", {
-        taskId: this.task.id,
+        taskId: this.taskId,
         taskType: this.task.taskType,
       });
     },
-    onStart() {
+    async onStart() {
       this.$emit("onStart", {
-        taskId: this.task.id,
+        taskId: this.taskId,
         taskType: this.task.taskType,
       });
+
       if (!this.isCard) this.$router.go(-1);
     },
     detach(attachmentId) {
