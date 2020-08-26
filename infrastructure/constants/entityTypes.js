@@ -55,7 +55,7 @@ export default {
   Roles: 500,
 
   Task: 600,
-  SimpleTak: 601,
+  SimpleTask: 601,
   ActionItemExecutionTask: 602,
   AcquaintanceTask: 603,
   DocumentReviewTask: 604,

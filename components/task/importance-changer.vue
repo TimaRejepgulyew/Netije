@@ -4,7 +4,7 @@
       :read-only="readOnly"
       :onValueChanged="setImportance"
       :value="importance"
-      :text="$t('translations.fields.highImportance')"
+      :text="$t('task..importance.highImportance')"
     />
   </div>
 </template>
@@ -16,8 +16,7 @@ export default {
     DxCheckBox,
   },
   props: ["readOnly", "taskId"],
-  created() {
-  },
+  created() {},
   computed: {
     importance() {
       return this.$store.getters[`tasks/${this.taskId}/task`]?.importance ===

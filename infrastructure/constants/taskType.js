@@ -9,8 +9,8 @@ import entityTypes from "~/infrastructure/constants/entityTypes.js";
 
 export const mapToEntityType = taskType => {
   switch (taskType) {
-    case TaskType.SimpleTak:
-      return entityTypes.SimpleTak;
+    case TaskType.SimpleTask:
+      return entityTypes.SimpleTask;
     case TaskType.ActionItemExecutionTask:
       return entityTypes.ActionItemExecutionTask;
     case TaskType.AcquaintanceTask:

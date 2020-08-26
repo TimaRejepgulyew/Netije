@@ -134,6 +134,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    main: "Основное",
     filter: "Фильтер",
     type: "Тип",
     notFound: "Не найдено",

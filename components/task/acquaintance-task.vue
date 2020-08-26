@@ -7,11 +7,11 @@
       :show-validation-summary="true"
       :validation-group="validatorGroup"
     >
-      <DxGroupItem :caption="$t('translations.fields.main')">
+      <DxGroupItem >
         <DxGroupItem :col-count="10">
           <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
-            <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
-            <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+            <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
+            <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
           </DxSimpleItem>
           <DxSimpleItem
             :col-span="2"
@@ -19,7 +19,7 @@
             :editor-options="needsReviewOptions"
             editor-type="dxCheckBox"
           >
-            <DxLabel location="left" :text="$t('translations.fields.needsReview')" />
+            <DxLabel location="left" :text="$t('task.fields.needsReview')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxGroupItem :col-count="3">
@@ -29,25 +29,25 @@
             :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
-            <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
+            <DxLabel location="left" :text="$t('task.fields.deadLine')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="isElectronicAcquaintance"
             :editor-options="isElectronicAcquaintanceOptions"
             editor-type="dxCheckBox"
           >
-            <DxLabel location="left" :text="$t('workFlow.isElectronicAcquaintance')" />
+            <DxLabel location="left" :text="$t('task.fields.isElectronicAcquaintance')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxSimpleItem template="observers" data-field="observers">
-          <DxLabel location="left" :text="$t('translations.fields.observers')" />
+          <DxLabel location="left" :text="$t('task.fields.observers')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="performers" template="performers">
-          <DxRequiredRule :message="$t('translations.fields.acquaintMembersRequired')" />
-          <DxLabel location="left" :text="$t('translations.fields.acquaintMembers')" />
+          <DxRequiredRule :message="$t('task.validation.acquaintMembersRequired')" />
+          <DxLabel location="left" :text="$t('task.fields.acquaintMembers')" />
         </DxSimpleItem>
         <DxSimpleItem template="excludedPerformers" data-field="excludedPerformers">
-          <DxLabel location="left" :text="$t('workFlow.excludedPerformers')" />
+          <DxLabel location="left" :text="$t('task.fields.excludedPerformers')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -56,13 +56,13 @@
           :editor-options="bodyOptions"
           editor-type="dxTextArea"
         >
-          <DxLabel location="left" :text="$t('translations.fields.comment')" />
+          <DxLabel location="left" :text="$t('task.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
       <template #performers>
         <recipient-tag-box
           :read-only="!isDraft"
-          :messageRequired="$t('translations.fields.acquaintMembersRequired')"
+          :messageRequired="$t('task.validation.acquaintMembersRequired')"
           :validator-group="validatorGroup"
           :recipients="performers"
           @setRecipients="setPerformers"

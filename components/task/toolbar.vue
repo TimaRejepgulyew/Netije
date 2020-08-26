@@ -26,9 +26,9 @@
         location="before"
         widget="dxButton"
       />
-      <DxItem template="importanceChanger" location="before" widget="dxCheckBox" />
-      <template #importanceChanger>
-        <importanceChanger :taskId="taskId" :read-only="!isDraft"></importanceChanger>
+      <DxItem template="toolbarItemImportanceChanger" location="before" widget="dxCheckBox" />
+      <template #toolbarItemImportanceChanger>
+        <toolbarItemImportanceChanger :taskId="taskId" :read-only="!isDraft"></toolbarItemImportanceChanger>
       </template>
       <DxItem
         :visible="canDelete"
@@ -36,12 +36,17 @@
         location="after"
         widget="dxButton"
       />
+      <DxItem location="after" template="toolbarItemAccessRight" />
+      <template #toolbarItemAccessRight>
+        <toolbar-item-access-right :entity-type="entityType" :entity-id="taskId" />
+      </template>
     </DxToolbar>
   </div>
 </template>
 <script>
+import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
-import importanceChanger from "~/components/task/importance-changer";
+import toolbarItemImportanceChanger from "~/components/task/importance-changer";
 import { alert } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
@@ -50,17 +55,21 @@ import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
 import attachmentVue from "../workFlow/attachment.vue";
+import toolbarItemAccessRight from "~/components/page/access-right.vue";
 export default {
   components: {
-    importanceChanger,
+    toolbarItemImportanceChanger,
+    toolbarItemAccessRight,
     DxButton,
     DxToolbar,
     DxItem,
   },
   props: ["taskId"],
   inject: ["isValidTask"],
-
   computed: {
+    entityType() {
+      return mapToEntityType(this.task.taskType);
+    },
     canDelete() {
       return this.$store.getters[`tasks/${this.taskId}/canDelete`];
     },

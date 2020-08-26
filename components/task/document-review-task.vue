@@ -7,27 +7,27 @@
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
     >
-      <DxGroupItem :caption="$t('translations.fields.main')">
+      <DxGroupItem >
         <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
-          <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
-          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+          <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
+          <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
         <DxGroupItem :col-count="2">
           <DxSimpleItem data-field="addressee" template="addressee">
-            <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
-            <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
+            <DxRequiredRule :message="$t('task.validation.addresseeRequired')" />
+            <DxLabel location="left" :text="$t('task.fields.addressee')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="deadline"
             :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
-            <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
+            <DxLabel location="left" :text="$t('task.fields.deadLine')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxSimpleItem template="resolutionObservers" data-field="resolutionObservers">
-          <DxLabel location="left" :text="$t('translations.fields.observers')" />
+          <DxLabel location="left" :text="$t('task.fields.observers')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -36,13 +36,13 @@
           :editor-options="bodyOptions"
           editor-type="dxTextArea"
         >
-          <DxLabel location="left" :text="$t('translations.fields.comment')" />
+          <DxLabel location="left" :text="$t('task.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
       <template #addressee>
         <employee-select-box
           :read-only="!isDraft"
-          :messageRequired="$t('translations.fields.addresseeIdRequired')"
+          :messageRequired="$t('task.validation.addresseeRequired')"
           :validator-group="taskValidatorName"
           :value="addressee"
           @valueChanged="setAddressee"

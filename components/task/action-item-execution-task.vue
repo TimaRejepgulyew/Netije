@@ -8,10 +8,10 @@
       :show-validation-summary="false"
       :validation-group="taskValidatorName"
     >
-      <DxGroupItem :caption="$t('translations.fields.main')">
+      <DxGroupItem>
         <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
-          <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
-          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+          <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
+          <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
         <DxGroupItem :col-count="5">
           <DxSimpleItem
@@ -20,7 +20,7 @@
             :editor-options="isUnderControlOptions"
             editor-type="dxCheckBox"
           >
-            <DxLabel location="left" :text="$t('translations.fields.isUnderControl')" />
+            <DxLabel location="left" :text="$t('task.fields.isUnderControl')" />
           </DxSimpleItem>
           <DxSimpleItem
             :col-span="3"
@@ -28,26 +28,26 @@
             template="supervisor"
             data-field="supervisor"
           >
-            <DxLabel location="left" :text="$t('translations.fields.supervisorId')" />
-            <DxRequiredRule :message="$t('translations.fields.supervisorIdRequired')" />
+            <DxLabel location="left" :text="$t('task.fields.supervisor')" />
+            <DxRequiredRule :message="$t('task.validation.supervisorRequired')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxGroupItem :col-count="2">
           <DxSimpleItem template="assignee" data-field="assignee">
-            <DxRequiredRule :message="$t('translations.fields.assigneeIdRequired')" />
-            <DxLabel location="left" :text="$t('translations.fields.assigneeId')" />
+            <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
+            <DxLabel location="left" :text="$t('task.fields.assignee')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="maxDeadline"
             :editor-options="maxDeadlineOptions"
             editor-type="dxDateBox"
           >
-            <DxRequiredRule :message="$t('translations.fields.deadLineRequired')" />
-            <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
+            <DxRequiredRule :message="$t('task.validation.maxDeadlineRequired')" />
+            <DxLabel location="left" :text="$t('task.fields.maxDeadline')" />
           </DxSimpleItem>
 
           <DxSimpleItem :col-span="2" template="coAssignees" data-field="coAssignees">
-            <DxLabel location="left" :text="$t('translations.fields.coAssignees')" />
+            <DxLabel location="left" :text="$t('task.fields.coAssignees')" />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -55,7 +55,7 @@
             template="actionItemObservers"
             data-field="actionItemObservers"
           >
-            <DxLabel location="left" :text="$t('translations.fields.observers')" />
+            <DxLabel location="left" :text="$t('task.fields.observers')" />
           </DxSimpleItem>
         </DxGroupItem>
       </DxGroupItem>
@@ -67,8 +67,8 @@
         :editor-options="bodyOptions"
         editor-type="dxTextArea"
       >
-        <DxLabel location="left" :text="$t('translations.fields.actionItem')" />
-        <DxRequiredRule :message="$t('translations.fields.actionItemRequired')" />
+        <DxLabel location="left" :text="$t('task.fields.actionItem')" />
+        <DxRequiredRule :message="$t('task.validation.actionItemRequired')" />
       </DxSimpleItem>
       <template #actionItemObservers>
         <recipient-tag-box
@@ -87,7 +87,7 @@
       <template #supervisor>
         <employee-select-box
           :read-only="!isDraft"
-          :messageRequired="$t('translations.fields.surepvisorRequired')"
+          :messageRequired="$t('task.validation.supervisorRequired')"
           :validator-group="taskValidatorName"
           :value="supervisor"
           @valueChanged="setSupervisor"
@@ -96,7 +96,7 @@
       <template #assignee>
         <employee-select-box
           :read-only="!isDraft"
-          :messageRequired="$t('translations.fields.assigneeIdRequired')"
+          :messageRequired="$t('task.validation.assigneeRequired')"
           :validator-group="taskValidatorName"
           :value="assignee"
           @valueChanged="setAssignee"
@@ -203,7 +203,7 @@ export default {
     },
     bodyOptions() {
       return {
-        placeholder: this.$t("translations.fields.actionItemRequired"),
+        placeholder: this.$t("task.validation.actionItemRequired"),
         height: 250,
         value: this.task.body,
         onValueChanged: (e) => {

@@ -6,18 +6,18 @@
     :show-validation-summary="false"
     :validation-group="taskValidatorName"
   >
-    <DxGroupItem :caption="$t('translations.fields.main')">
+    <DxGroupItem>
       <DxGroupItem :col-count="10">
         <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
-          <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
-          <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+          <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
+          <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="needsReview"
           :editor-options="needsReviewOptions"
           editor-type="dxCheckBox"
         >
-          <DxLabel location="left" :text="$t('translations.fields.needsReview')" />
+          <DxLabel location="left" :text="$t('task.fields.needsReview')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-count="2">
@@ -26,7 +26,7 @@
           :editor-options="maxDeadlineOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
+          <DxLabel location="left" :text="$t('task.fields.deadLine')" />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -34,16 +34,16 @@
           editor-type="dxSelectBox"
           :editor-options="routeTypeOptions"
         >
-          <DxLabel location="left" :text="$t('translations.fields.start')" />
+          <DxLabel location="left" :text="$t('task.fields.start')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxSimpleItem :disabled="true" template="observers" data-field="observers">
-        <DxLabel location="left" :text="$t('translations.fields.observers')" />
+        <DxLabel location="left" :text="$t('task.fields.observers')" />
       </DxSimpleItem>
 
       <DxSimpleItem template="performers" data-field="performers">
-        <DxRequiredRule :message="$t('translations.fields.performersRequired')" />
-        <DxLabel location="left" :text="$t('translations.fields.performers')" />
+        <DxRequiredRule :message="$t('task.validation.performersRequired')" />
+        <DxLabel location="left" :text="$t('task.fields.performers')" />
       </DxSimpleItem>
 
       <DxSimpleItem
@@ -52,12 +52,12 @@
         :editor-options="bodyOptions"
         editor-type="dxTextArea"
       >
-        <DxLabel location="left" :text="$t('translations.fields.body')" />
+        <DxLabel location="left" :text="$t('task.fields.comment')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #performers>
       <recipient-tag-box
-        :messageRequired="$t('translations.fields.performersRequired')"
+        :messageRequired="$t('task.validation.performersRequired')"
         :validator-group="taskValidatorName"
         :read-only="!isDraft"
         :recipients="performers"
@@ -164,8 +164,8 @@ export default {
         displayExpr: "name",
         valueExpr: "id",
         dataSource: [
-          { id: 0, name: this.$t("translations.fields.gradually") },
-          { id: 1, name: this.$t("translations.fields.parallel") },
+          { id: 0, name: this.$t("task.fields.gradually") },
+          { id: 1, name: this.$t("task.fields.parallel") },
         ],
         value: this.task.routeType,
         onValueChanged: (e) => {
