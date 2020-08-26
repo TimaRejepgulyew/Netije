@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import TaskTypeModel from "~/infrastructure/models/TaskType.js";
 import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
 import documentReviewTask from "~/components/task/document-review-task.vue";
 import simpleTask from "~/components/task/simple-task.vue";
@@ -93,17 +94,10 @@ export default {
   data() {
     return {
       taskValidatorName: `task/${this.taskId}`,
-      taskTypeNames: null,
       commentsUrl: dataApi.task.TextsByTask,
     };
   },
-  created() {
-    const taskTypeNames = new Map();
-    for (let item in TaskType) {
-      taskTypeNames.set(TaskType[item], this.$t(`createItemDialog.item`));
-    }
-    this.taskTypeNames = taskTypeNames;
-  },
+
   methods: {
     async backTo() {
       if (this.isCard) {
@@ -143,6 +137,9 @@ export default {
     },
   },
   computed: {
+    taskTypeNames() {
+      return new TaskTypeModel(this);
+    },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
     },
@@ -151,7 +148,7 @@ export default {
     },
     headerTitle() {
       return this.isNew
-        ? this.taskTypeNames.get(this.taskType)
+        ? this.taskTypeNames.getById(this.taskType).text
         : this.task.subject;
     },
     attachmentGroups() {
@@ -161,7 +158,7 @@ export default {
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
     isNew() {
-      return this.$store.getters[`tasks${this.taskId}/isNew`];
+      return this.$store.getters[`tasks/${this.taskId}/isNew`];
     },
 
     taskTypeComponent() {
