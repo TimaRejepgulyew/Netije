@@ -88,7 +88,6 @@ export default {
       this.isOpenPopup = !this.isOpenPopup;
     },
     async openDocumentCard({ documentTypeGuid, documentId }) {
-      console.log(documentTypeGuid, documentId);
       await load(this, { documentTypeGuid, documentId });
       this.currentRelationId = documentId;
       this.togglePopup();
@@ -98,7 +97,6 @@ export default {
       return store.data;
     },
     getIcon(value) {
-      console.log(value, this.documentTypes.getById(value));
       return this.documentTypes.getById(value).icon;
     },
     getUserById(id) {

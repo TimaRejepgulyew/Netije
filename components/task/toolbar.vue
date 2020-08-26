@@ -31,7 +31,7 @@
         <importanceChanger :taskId="taskId" :read-only="!isDraft"></importanceChanger>
       </template>
       <DxItem
-        :visible="!isNew&&isDraft||isAborted"
+        :visible="canDelete"
         :options="deleteButtonOptions"
         location="after"
         widget="dxButton"
@@ -61,6 +61,9 @@ export default {
   inject: ["isValidTask"],
 
   computed: {
+    canDelete() {
+      return this.$store.getters[`tasks/${this.taskId}/canDelete`];
+    },
     startBtnVisible() {
       return this.isDraft && !this.task.isDraftResolution;
     },

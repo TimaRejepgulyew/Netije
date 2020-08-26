@@ -43,6 +43,9 @@ export const getters = {
       taskType,
       id
     };
+  },
+  canDelete({ canDelete }) {
+    return canDelete;
   }
 };
 function checkDataChanged(oldValue, newValue) {

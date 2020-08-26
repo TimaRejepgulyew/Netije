@@ -17,7 +17,6 @@ export default {
   },
   props: ["readOnly", "taskId"],
   created() {
-    console.log(this.taskId);
   },
   computed: {
     importance() {
