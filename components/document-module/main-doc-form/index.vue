@@ -6,6 +6,7 @@
       :isCard="isCard"
       @onClose="onClose"
       @openVersion="openVersion"
+      @onRemove="onRemove"
     ></toolbar>
     <div class="wrapper--relative">
       <DxForm
@@ -180,8 +181,12 @@ export default {
     };
   },
   methods: {
+    onRemove() {
+      this.$emit("onRemove",this.documentId);
+      this.$emit("onClose",this.documentId);
+    },
     onClose() {
-      this.$emit("onClose");
+      this.$emit("onClose", this.documentId);
     },
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
