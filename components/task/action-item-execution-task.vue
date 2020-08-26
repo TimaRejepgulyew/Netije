@@ -71,10 +71,10 @@
         <DxRequiredRule :message="$t('translations.fields.actionItemRequired')" />
       </DxSimpleItem>
       <template #actionItemObservers>
-        <employee-tag-box
+        <recipient-tag-box
           :read-only="!isDraft"
-          :value="actionItemObservers"
-          @valueChanged="setActionItemObservers"
+          :recipients="actionItemObservers"
+          @setRecipients="setActionItemObservers"
         />
       </template>
       <template #coAssignees>
@@ -106,6 +106,7 @@
   </div>
 </template>
 <script>
+import recipientTagBox from "~/components/page/recipient-tag-box.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import "devextreme-vue/text-area";
@@ -121,6 +122,7 @@ export default {
   components: {
     employeeSelectBox,
     employeeTagBox,
+    recipientTagBox,
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,

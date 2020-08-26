@@ -49,16 +49,17 @@
         />
       </template>
       <template #resolutionObservers>
-        <employee-tag-box
+        <recipient-tag-box
           :read-only="!isDraft"
-          :value="resolutionObservers"
-          @valueChanged="setResolutionObservers"
+          :recipients="resolutionObservers"
+          @setRecipients="setResolutionObservers"
         />
       </template>
     </DxForm>
   </div>
 </template>
 <script>
+import recipientTagBox from "~/components/page/recipient-tag-box.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import "devextreme-vue/text-area";
@@ -77,6 +78,7 @@ export default {
     DxRequiredRule,
     DxForm,
     employeeSelectBox,
+    recipientTagBox,
     employeeTagBox,
   },
   props: ["taskId"],

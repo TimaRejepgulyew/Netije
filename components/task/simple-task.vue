@@ -56,21 +56,25 @@
       </DxSimpleItem>
     </DxGroupItem>
     <template #performers>
-      <employee-tag-box
-        :read-only="!isDraft"
+      <recipient-tag-box
         :messageRequired="$t('translations.fields.performersRequired')"
         :validator-group="taskValidatorName"
-        :value="performers"
-        @valueChanged="setPerformers"
+        :read-only="!isDraft"
+        :recipients="performers"
+        @setRecipients="setPerformers"
       />
     </template>
     <template #observers>
-      <employee-tag-box :read-only="inProcess" :value="observers" @valueChanged="setObservers" />
+      <recipient-tag-box
+        :read-only="!isDraft"
+        :recipients="observers"
+        @setRecipients="setObservers"
+      />
     </template>
   </DxForm>
 </template>
 <script>
-import employeeTagBox from "~/components/employee/custom-tag-box.vue";
+import recipientTagBox from "~/components/page/recipient-tag-box.vue";
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,
@@ -81,7 +85,7 @@ import DxForm, {
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    employeeTagBox,
+    recipientTagBox,
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
