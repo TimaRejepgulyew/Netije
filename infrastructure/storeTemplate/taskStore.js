@@ -5,12 +5,16 @@ export const state = () => ({
   task: {},
   overlays: null,
   isNew: false,
-  isDataChanged: false
+  isDataChanged: false,
+  skipRouteHandling: false
 });
 
 export const getters = {
   overlays({ overlays }) {
     return overlays;
+  },
+  skipRouteHandling({ skipRouteHandling }) {
+    return skipRouteHandling;
   },
   isDataChanged({ isDataChanged }) {
     return isDataChanged;
@@ -45,6 +49,9 @@ function checkDataChanged(oldValue, newValue) {
   if (oldValue !== newValue) return oldValue !== newValue;
 }
 export const mutations = {
+  SKIP_ROUTE_HANDLING(state, payload) {
+    state.skipRouteHandling = payload;
+  },
   SET_IS_DATA_CHANGED(state, payload) {
     state.isDataChanged = payload;
   },
@@ -146,10 +153,10 @@ export const mutations = {
       state.isDataChanged = true;
     state.task.resolutionObservers = payload;
   },
-  SET_ADDRESSEE_ID(state, payload) {
-    if (checkDataChanged(state.task.addresseeId, payload))
+  SET_ADDRESSEE(state, payload) {
+    if (checkDataChanged(state.task.addressee, payload))
       state.isDataChanged = true;
-    state.task.addresseeId = payload;
+    state.task.addressee = payload;
   },
   INCREMENT_OVERLAYS(state) {
     if (state.overlays === null) {

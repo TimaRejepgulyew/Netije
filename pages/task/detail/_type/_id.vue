@@ -22,24 +22,35 @@ export default {
   },
   async beforeRouteLeave(to, from, next) {
     let result = true;
+    if (
+      !this.$store.getters[`tasks/${this.$route.params.id}/skipRouteHandling`]
+    ) {
+      result = await taskChangeTracker.handleConfirm(
+        this,
+        this.$route.params.id
+      );
 
-    result = await taskChangeTracker.handleConfirm(this, this.$route.params.id);
-
-    next(result);
+      next(result);
+    }
   },
   async beforeRouteUpdate(to, from, next) {
     let result = true;
-
-    result = await taskChangeTracker.handleConfirm(this, this.$route.params.id);
-    if (result) {
-      await load(
+    if (
+      !this.$store.getters[`tasks/${this.$route.params.id}/skipRouteHandling`]
+    ) {
+      result = await taskChangeTracker.handleConfirm(
         this,
-        { $store: app.store, $axios },
-        { taskType: +params.type, taskId: +params.id }
+        this.$route.params.id
       );
-    }
+      if (result) {
+        await load(this, {
+          taskType: +this.$route.params.type,
+          taskId: +this.$route.params.id,
+        });
+      }
 
-    next(result);
+      next(result);
+    }
   },
 };
 </script>

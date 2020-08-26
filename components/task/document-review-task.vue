@@ -5,7 +5,7 @@
       :read-only="!isDraft"
       :show-colon-after-label="true"
       :show-validation-summary="true"
-      :validation-group="validatorGroup"
+      :validation-group="taskValidatorName"
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
         <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
@@ -14,7 +14,7 @@
         </DxSimpleItem>
 
         <DxGroupItem :col-count="2">
-          <DxSimpleItem data-field="addresseeId" template="addresseeId">
+          <DxSimpleItem data-field="addressee" template="addressee">
             <DxRequiredRule :message="$t('translations.fields.addresseeIdRequired')" />
             <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
           </DxSimpleItem>
@@ -39,18 +39,17 @@
           <DxLabel location="left" :text="$t('translations.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <template #addresseeId>
+      <template #addressee>
         <employee-select-box
-          valueExpr="id"
           :read-only="!isDraft"
-          :messageRequired="validatorGroup"
-          :value="addresseeId"
-          @valueChanged="setAddresseeId"
+          :messageRequired="$t('translations.fields.addresseeIdRequired')"
+          :validator-group="taskValidatorName"
+          :value="addressee"
+          @valueChanged="setAddressee"
         />
       </template>
       <template #resolutionObservers>
         <employee-tag-box
-          valueExpr="id"
           :read-only="!isDraft"
           :value="resolutionObservers"
           @valueChanged="setResolutionObservers"
@@ -67,7 +66,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -78,14 +77,10 @@ export default {
     DxRequiredRule,
     DxForm,
     employeeSelectBox,
-    employeeTagBox
+    employeeTagBox,
   },
   props: ["taskId"],
-  data() {
-    return {
-      validatorGroup: "task"
-    };
-  },
+  inject: ["taskValidatorName"],
   methods: {
     setResolutionObservers(value) {
       this.$store.commit(
@@ -93,9 +88,9 @@ export default {
         value
       );
     },
-    setAddresseeId(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_ADDRESSEE_ID`, value);
-    }
+    setAddressee(value) {
+      this.$store.commit(`tasks/${this.taskId}/SET_ADDRESSEE`, value);
+    },
   },
   computed: {
     task() {
@@ -104,8 +99,8 @@ export default {
     resolutionObservers() {
       return this.task.resolutionObservers;
     },
-    addresseeId() {
-      return this.task.addresseeId;
+    addressee() {
+      return this.task.addressee;
     },
 
     isDraft() {
@@ -114,18 +109,18 @@ export default {
     subjectOptions() {
       return {
         value: this.task.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
+        },
       };
     },
     bodyOptions() {
       return {
         height: 250,
         value: this.task.body,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
-        }
+        },
       };
     },
     deadlineOptions() {
@@ -133,11 +128,11 @@ export default {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
         value: this.task.deadline,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

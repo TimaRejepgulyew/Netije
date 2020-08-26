@@ -163,9 +163,6 @@ export default {
     );
     this.$store.commit(`documents/${this.documentId}/SKIP_DESTROY`, false);
   },
-  beforeDestroy() {
-    this.$store.dispatch(`documents/${this.documentId}/destroyDocument`);
-  },
   data() {
     return {
       versionOpenState: false,

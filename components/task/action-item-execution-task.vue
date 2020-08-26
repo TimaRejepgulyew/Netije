@@ -6,7 +6,7 @@
       :read-only="!isDraft"
       :show-colon-after-label="true"
       :show-validation-summary="false"
-      :validation-group="validatorGroup"
+      :validation-group="taskValidatorName"
     >
       <DxGroupItem :caption="$t('translations.fields.main')">
         <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
@@ -87,7 +87,8 @@
       <template #supervisor>
         <employee-select-box
           :read-only="!isDraft"
-          :validator-group="validatorGroup"
+          :messageRequired="$t('translations.fields.surepvisorRequired')"
+          :validator-group="taskValidatorName"
           :value="supervisor"
           @valueChanged="setSupervisor"
         />
@@ -96,7 +97,7 @@
         <employee-select-box
           :read-only="!isDraft"
           :messageRequired="$t('translations.fields.assigneeIdRequired')"
-          :validator-group="validatorGroup"
+          :validator-group="taskValidatorName"
           :value="assignee"
           @valueChanged="setAssignee"
         />
@@ -112,7 +113,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -124,14 +125,15 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm
+    DxForm,
   },
   props: ["taskId"],
   data() {
     return {
-      validatorGroup: "task"
+      validatorGroup: "task",
     };
   },
+  inject: ["taskValidatorName"],
   methods: {
     setActionItemObservers(value) {
       this.$store.commit(
@@ -147,7 +149,7 @@ export default {
     },
     setSupervisor(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
-    }
+    },
   },
   computed: {
     task() {
@@ -180,21 +182,21 @@ export default {
     subjectOptions() {
       return {
         value: this.task.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
+        },
       };
     },
     isUnderControlOptions() {
       return {
         value: this.task.isUnderControl,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `tasks/${this.taskId}/SET_IS_UNDER_CONTROL`,
             e.value
           );
           this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
-        }
+        },
       };
     },
     bodyOptions() {
@@ -202,9 +204,9 @@ export default {
         placeholder: this.$t("translations.fields.actionItemRequired"),
         height: 250,
         value: this.task.body,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
-        }
+        },
       };
     },
     maxDeadlineOptions() {
@@ -212,12 +214,12 @@ export default {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
         value: this.task.maxDeadline,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

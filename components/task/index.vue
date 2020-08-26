@@ -8,7 +8,7 @@
       :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="false"
-      validation-group="task"
+      :validation-group="taskValidatorName"
     >
       <DxGroupItem :col-span="7">
         <DxGroupItem template="mainForm"></DxGroupItem>
@@ -82,12 +82,17 @@ export default {
       default: false,
     },
   },
-
+  provide: function () {
+    return {
+      taskValidatorName: this.taskValidatorName,
+    };
+  },
   destroyed() {
     unload(this, this.taskId);
   },
   data() {
     return {
+      taskValidatorName: `task/${this.taskId}`,
       taskTypeNames: null,
       commentsUrl: dataApi.task.TextsByTask,
     };

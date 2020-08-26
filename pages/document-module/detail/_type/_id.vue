@@ -41,7 +41,10 @@ export default {
         `document/${this.$route.params.id}/skipRouteHandling`
       ]
     ) {
-      result = await documentChangeTracker.handleConfirm(this);
+      result = await documentChangeTracker.handleConfirm(
+        this,
+        +this.$route.params.id
+      );
       if (result) {
         await load(this, {
           documentTypeGuid: +this.$route.params.type,
