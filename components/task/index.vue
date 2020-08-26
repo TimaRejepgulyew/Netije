@@ -99,18 +99,18 @@ export default {
   },
 
   methods: {
-    async backTo() {
+     backTo() {
       if (this.isCard) {
         this.$emit("closeTask", this.taskId);
       } else this.$router.go(-1);
     },
-    async onSave() {
+     onSave() {
       this.$emit("onSave", {
         taskId: this.taskId,
         taskType: this.task.taskType,
       });
     },
-    async onStart() {
+     onStart() {
       this.$emit("onStart", {
         taskId: this.taskId,
         taskType: this.task.taskType,
@@ -137,7 +137,7 @@ export default {
     },
   },
   computed: {
-    taskTypeNames() {
+    taskTypeModel() {
       return new TaskTypeModel(this);
     },
     task() {
@@ -148,7 +148,7 @@ export default {
     },
     headerTitle() {
       return this.isNew
-        ? this.taskTypeNames.getById(this.taskType).text
+        ? this.taskTypeModel.getById(this.taskType).text
         : this.task.subject;
     },
     attachmentGroups() {

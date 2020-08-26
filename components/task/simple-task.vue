@@ -4,7 +4,7 @@
     :read-only="!isDraft"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    :validation-group="validatorGroup"
+    :validation-group="taskValidatorName"
   >
     <DxGroupItem :caption="$t('translations.fields.main')">
       <DxGroupItem :col-count="10">
@@ -59,7 +59,7 @@
       <employee-tag-box
         :read-only="!isDraft"
         :messageRequired="$t('translations.fields.performersRequired')"
-        :validator-group="validatorGroup"
+        :validator-group="taskValidatorName"
         :value="performers"
         @valueChanged="setPerformers"
       />
@@ -76,7 +76,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -86,21 +86,17 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    DxForm
+    DxForm,
   },
   props: ["taskId"],
-  data() {
-    return {
-      validatorGroup: "task"
-    };
-  },
+  inject: ["taskValidatorName"],
   methods: {
     setObservers(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_OBSERVERS`, value);
     },
     setPerformers(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_PERFORMERS`, value);
-    }
+    },
   },
   computed: {
     task() {
@@ -124,18 +120,18 @@ export default {
     subjectOptions() {
       return {
         value: this.task.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
+        },
       };
     },
     bodyOptions() {
       return {
         height: 250,
         value: this.task.body,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
-        }
+        },
       };
     },
     maxDeadlineOptions() {
@@ -143,20 +139,20 @@ export default {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
         value: this.task.maxDeadline,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
-        }
+        },
       };
     },
     needsReviewOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.task.needsReview,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_NEEDS_REVIEW`, e.value);
-        }
+        },
       };
     },
     routeTypeOptions() {
@@ -165,15 +161,15 @@ export default {
         valueExpr: "id",
         dataSource: [
           { id: 0, name: this.$t("translations.fields.gradually") },
-          { id: 1, name: this.$t("translations.fields.parallel") }
+          { id: 1, name: this.$t("translations.fields.parallel") },
         ],
         value: this.task.routeType,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_IMPORTANCE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 
