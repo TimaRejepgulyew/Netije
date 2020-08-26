@@ -11,7 +11,7 @@
     >
       <div>
         <task-card
-          @onStart="tooglePopup"
+          @onClose="tooglePopup"
           :taskId="actionItemExecutionTaskId"
           v-if="showItemExecutionTask"
           :isCard="true"
@@ -81,14 +81,14 @@ export default {
     DxToolbar,
     DxItem,
     DxPopup,
-    taskCard
+    taskCard,
   },
   props: ["assignmentId"],
   data() {
     return {
       actionItemExecutionTaskId: null,
       showComment: false,
-      showItemExecutionTask: false
+      showItemExecutionTask: false,
     };
   },
   computed: {
@@ -115,7 +115,7 @@ export default {
         onClick: () => {
           this.setResult(ReviewResult.ReviewManager.AddResolution);
           this.completeAssignment();
-        }
+        },
       };
     },
     btnSendToAssigneeOptions() {
@@ -125,7 +125,7 @@ export default {
         onClick: () => {
           this.setResult(ReviewResult.ReviewManager.AddAssignment);
           this.completeAssignment();
-        }
+        },
       };
     },
     btnAcceptOptions() {
@@ -139,7 +139,7 @@ export default {
           );
           this.setResult(ReviewResult.ReviewManager.Explored);
           if (response) this.completeAssignment();
-        }
+        },
       };
     },
     btnForwardOptions() {
@@ -149,7 +149,7 @@ export default {
         onClick: () => {
           this.setResult(ReviewResult.ReviewManager.Forward);
           this.completeAssignment();
-        }
+        },
       };
     },
     btnAddExecutionOptions() {
@@ -164,9 +164,9 @@ export default {
               this.tooglePopup();
             }
           );
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     setResult(result) {
@@ -178,14 +178,14 @@ export default {
     completeAssignment() {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        e => {
+        (e) => {
           this.$router.go(-1);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

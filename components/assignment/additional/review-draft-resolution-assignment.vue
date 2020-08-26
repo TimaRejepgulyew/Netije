@@ -11,7 +11,7 @@
     >
       <div>
         <task-card
-          @onStart="tooglePopup"
+          @onClose="tooglePopup"
           :taskId="taskId"
           v-if="showItemExecutionTask"
           :isCard="true"

@@ -10,7 +10,7 @@
       height="auto"
     >
       <div class="scrool-auto">
-        <task-card @onStart="tooglePopup" :taskId="taskId" v-if="isOpenPopup" :isCard="true" />
+        <task-card @onClose="tooglePopup" :taskId="taskId" v-if="isOpenPopup" :isCard="true" />
       </div>
     </DxPopup>
 

@@ -11,8 +11,7 @@
     >
       <div>
         <task-card
-          @onStart="tooglePopup"
-       
+          @onClose="tooglePopup"
           :taskId="actionItemExecutionTaskId"
           v-if="showItemExecutionTask"
           :isCard="true"
@@ -54,13 +53,13 @@ export default {
     DxToolbar,
     DxItem,
     DxPopup,
-    taskCard
+    taskCard,
   },
   props: ["assignmentId"],
   data() {
     return {
       actionItemExecutionTaskId: null,
-      showItemExecutionTask: false
+      showItemExecutionTask: false,
     };
   },
   computed: {
@@ -74,7 +73,7 @@ export default {
         onClick: () => {
           this.setResult(ReviewResult.ReviewResolution.AddAssignment);
           this.completeAssignment();
-        }
+        },
       };
     },
     btnAddExecutionOptions() {
@@ -89,31 +88,28 @@ export default {
               this.tooglePopup();
             }
           );
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     setResult(result) {
-      this.$store.commit(
-        `assignments/${this.assignmentId}/SET_RESULT`,
-        result
-      );
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
-    tooglePopup(taskId) {
+    tooglePopup() {
       this.showItemExecutionTask = false;
     },
     completeAssignment() {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        e => {
+        (e) => {
           this.$router.go(-1);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

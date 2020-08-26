@@ -12,18 +12,13 @@ export const state = () => ({
   canDelete: false,
   canRegister: false,
   isRegistered: false,
-  skipRouteHandling: false,
-  skipDestroy: false,
-  loadedFromUrl: true,
+  skipRouteHandling: true,
   overlays: null
 });
 
 export const getters = {
   document({ document }) {
     return document;
-  },
-  loadedFromUrl({ loadedFromUrl }) {
-    return loadedFromUrl;
   },
   skipRouteHandling({ skipRouteHandling }) {
     return skipRouteHandling;
@@ -362,9 +357,6 @@ export const mutations = {
   DATA_CHANGED(state, payload) {
     state.isDataChanged = payload;
   },
-  SKIP_DESTROY(state, payload) {
-    state.skipDestroy = payload;
-  },
   SKIP_ROUTE_HANDLING(state, payload) {
     state.skipRouteHandling = payload;
   },
@@ -373,9 +365,6 @@ export const mutations = {
   },
   STOP_DATA_TRACKING(state) {
     state.trackDataChange = false;
-  },
-  LOADED_FROM_URL(state, payload) {
-    state.loadedFromUrl = payload;
   },
   CLEAR_DOCUMENT(state) {
     state.document = {};
@@ -468,10 +457,4 @@ export const actions = {
     );
     dispatch("loadDocument", data);
   },
-  destroyDocument({ state, commit }) {
-    if (!state.skipDestroy) {
-      commit("SET_IS_NEW", false);
-    }
-    commit("DATA_CHANGED", false);
-  }
 };

@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     closeTask() {
-      this.$router.go(-1);
+      this.$router.push(`/task`);
     },
   },
 };

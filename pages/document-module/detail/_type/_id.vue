@@ -1,5 +1,5 @@
 <template>
-  <main-document-form :isCard="false" :documentId="$route.params.id" />
+  <main-document-form :isCard="false" @onClose="onClose" :documentId="$route.params.id" />
 </template>
 <script>
 import { load } from "~/infrastructure/services/documentService.js";
@@ -53,6 +53,11 @@ export default {
       }
     }
     next(result);
+  },
+  methods: {
+    onClose() {
+      this.$router.push(`/document-module/${this.$route.params.type}`);
+    },
   },
 };
 </script>

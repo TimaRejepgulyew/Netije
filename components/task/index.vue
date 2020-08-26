@@ -1,7 +1,13 @@
 <template>
   <div id="form-demo">
     <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
-    <toolbar :taskId="taskId" @onClose="onClose" @onSave="onSave" @onStart="onStart" />
+    <toolbar
+      :taskId="taskId"
+      @onRemove="onRemove"
+      @onClose="onClose"
+      @onSave="onSave"
+      @onStart="onStart"
+    />
     <DxForm
       ref="form"
       :col-count="10"
@@ -89,9 +95,6 @@ export default {
       isValidTask: this.validateForm,
     };
   },
-  beforeDestroy(){
-    
-  },
   destroyed() {
     unload(this, this.taskId);
   },
@@ -121,9 +124,7 @@ export default {
         return this.$refs["form"].instance.validate().isValid;
     },
     onClose() {
-      if (this.isCard) {
-        this.$emit("onClose", this.taskId);
-      } else this.$router.go(-1);
+      this.$emit("onClose", this.taskId);
     },
     onSave() {
       this.$emit("onSave", {
@@ -136,8 +137,11 @@ export default {
         taskId: this.taskId,
         taskType: this.task.taskType,
       });
-
-      if (!this.isCard) this.$router.go(-1);
+      this.$emit("onClose", this.taskId);
+    },
+    onRemove() {
+      this.$emit("onRemove", this.taskId);
+      this.$emit("onClose", this.taskId);
     },
     detach(attachmentId) {
       this.$awn.async(

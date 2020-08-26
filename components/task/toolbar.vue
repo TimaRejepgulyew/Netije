@@ -158,7 +158,7 @@ export default {
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/delete`),
               (e) => {
-                this.onClose();
+                this.$emit("onRemove");
               },
               (e) => this.$awn.alert()
             );

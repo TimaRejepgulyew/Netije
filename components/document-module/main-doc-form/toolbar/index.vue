@@ -109,6 +109,7 @@ export default {
     DxItem,
   },
   props: ["isCard", "documentId"],
+  inject: ["trySaveDocument"],
   data() {
     return {
       addendumIcon,
@@ -151,7 +152,10 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/canRegister`];
     },
     canDelete() {
-      return this.$store.getters[`documents/${this.documentId}/canDelete`];
+      return (
+        this.$store.getters[`documents/${this.documentId}/canDelete`] &&
+        !this.isNew
+      );
     },
     previewButtonOptions() {
       return {
@@ -165,17 +169,8 @@ export default {
       return {
         icon: saveIcon,
         disabled: !this.canUpdate,
-        onClick: () => {
-          if (this.$parent.$refs["form"].instance.validate().isValid)
-            this.$awn.asyncBlock(
-              this.$store.dispatch(`documents/${this.documentId}/save`),
-              (res) => {
-                this.$awn.success();
-              },
-              (e) => {
-                this.$awn.alert();
-              }
-            );
+        onClick: async () => {
+          await this.trySaveDocument();
         },
       };
     },
@@ -189,27 +184,15 @@ export default {
         },
       };
     },
-    validateForm() {
-      return this.$parent.$refs["form"].instance.validate().isValid;
-    },
     saveAndBackButtonOptions() {
       return {
         icon: saveAndCloseIcon,
-
         hint: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate,
-        onClick: () => {
-          if (this.$parent.$refs["form"].instance.validate().isValid)
-            this.$awn.asyncBlock(
-              this.$store.dispatch(`documents/${this.documentId}/save`),
-              (res) => {
-                this.$awn.success();
-                this.$emit("onClose");
-              },
-              (e) => {
-                this.$awn.alert();
-              }
-            );
+        onClick: async () => {
+          await this.trySaveDocument();
+
+          this.$emit("onClose");
         },
       };
     },
