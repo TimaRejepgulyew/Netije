@@ -43,15 +43,9 @@ export default {
       lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ"
     }
   },
-  groups: {
-    captions: {
-      main: "ОСНОВНОЕ",
-      numberAndDate: "ДАТА И НОМЕР",
-      storing: "ХРАНЕНИЕ",
-      lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ"
-    }
-  },
   fields: {
+    isAutomaticRenewal: "С автопролонгацией",
+    currencyId: "Валюта",
     accountNumber: "Номер счета",
     accountDate: "Дата счета",
     totalAmount: "Сумма",
@@ -63,10 +57,12 @@ export default {
     inResponseToId: "В ответ на",
     index: "Индекс",
     ourSignatoryId: "Подписал",
+    signatory: "Подписал",
+    counterPart: "Контрагент",
     counterpartySignatoryId: "Подписал",
     caseFileId: "Дело",
     placedToCaseFileDate: "Дата помещения",
-    contactId: "Контакт",
+    contactId: "Контактное лицо",
     preparedById: "Подготовил",
     assigneeId: "Исполнитель",
     created: "Создан",
@@ -89,10 +85,18 @@ export default {
     regNumberDocument: "Вх. Рег. номер",
     validFrom: "Действителен c",
     validTill: "Действителен по",
-    issuedToId: "Кому выдана"
-
+    issuedToId: "Кому выдана",
+    daysToFinishWorks: "Дней для завершения",
+    documentGroupId: "Категория",
+    isStandard: "Типовой",
+    ourSide: "Наша сторона",
+    responsibleEmployeeId: "Ответственный"
   },
-  validation:{
-    leadingDocumentIdRequired: "Введите ведущий документ",
+  validation: {
+    departmentIdRequired: "Выберите подразделение",
+    businessUnitIdRequired: "Выберите организацию",
+    counterPartRequired: "Выберите контрагента",
+    documentGroupIdRequired: "Выберите категорию",
+    leadingDocumentIdRequired: "Введите ведущий документ"
   }
 };
