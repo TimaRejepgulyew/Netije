@@ -2,7 +2,7 @@
   <div id="form-demo">
     <DxForm
       ref="form"
-      :read-only="!isDraft"
+      :read-only="!canUpdate"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       :validation-group="taskValidatorName"

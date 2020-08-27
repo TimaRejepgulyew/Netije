@@ -18,8 +18,7 @@
     >
       <DxGroupItem :col-span="7">
         <DxGroupItem template="mainForm"></DxGroupItem>
-        <DxSimpleItem v-if="!isDraft" template="comments">
-        </DxSimpleItem>
+        <DxSimpleItem v-if="!isDraft" template="comments"></DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="3">
         <DxSimpleItem template="attachments">
@@ -32,6 +31,7 @@
       </template>
       <template #attachments>
         <attachment
+          :canUpdate="canUpdate"
           @pasteAttachment="pasteAttachment"
           @detach="detach"
           :attachmentGroups="attachmentGroups"
@@ -87,6 +87,9 @@ export default {
     isCard: {
       default: false,
     },
+  },
+  created() {
+    console.log(this.canUpdate, "canUpdate");
   },
   provide: function () {
     return {
@@ -166,6 +169,9 @@ export default {
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
+    },
+    canUpdate() {
+      return this.$store.getters[`tasks/${this.taskId}/canUpdate`];
     },
     taskType() {
       return this.task.taskType;

@@ -3,6 +3,7 @@ import TaskStatus from "~/infrastructure/constants/taskStatus";
 import TaskType from "~/infrastructure/constants/taskType";
 export const state = () => ({
   task: {},
+  canUpdate: false,
   overlays: null,
   isNew: false,
   isDataChanged: false,
@@ -10,6 +11,9 @@ export const state = () => ({
 });
 
 export const getters = {
+  canUpdate({ canUpdate }) {
+    return canUpdate;
+  },
   overlays({ overlays }) {
     return overlays;
   },

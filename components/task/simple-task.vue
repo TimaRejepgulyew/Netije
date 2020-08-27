@@ -37,13 +37,12 @@
           <DxLabel location="left" :text="$t('task.fields.start')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxSimpleItem :disabled="true" template="observers" data-field="observers">
-        <DxLabel location="left" :text="$t('task.fields.observers')" />
-      </DxSimpleItem>
-
       <DxSimpleItem template="performers" data-field="performers">
         <DxRequiredRule :message="$t('task.validation.performersRequired')" />
         <DxLabel location="left" :text="$t('task.fields.performers')" />
+      </DxSimpleItem>
+      <DxSimpleItem :disabled="true" template="observers" data-field="observers">
+        <DxLabel location="left" :text="$t('task.fields.observers')" />
       </DxSimpleItem>
 
       <DxSimpleItem
