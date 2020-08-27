@@ -16,6 +16,7 @@ export async function createTask(
   const taskType = data.task.taskType;
   await taskModules.registerModule(context, taskId);
   context.$store.commit(`tasks/${taskId}/SET_TASK`, data);
+  context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`tasks/${taskId}/SET_IS_DATA_CHANGED`, true);
   context.$store.commit(`tasks/${taskId}/IS_NEW`, true);
   return { taskId, taskType };
@@ -32,7 +33,7 @@ export async function createActionItemExicutionTask(
   return await createTask(
     context,
     {
-      parentAssignmentId,
+      parentAssignmentId
     },
     dataApi.task.CreateDraftResolutionActionItemExecutionTask
   );
@@ -45,7 +46,7 @@ export async function CreateChildActionItemExecution(
   return await createTask(
     context,
     {
-      parentAssignmentId,
+      parentAssignmentId
     },
     dataApi.task.CreateChildActionItemExecution
   );
