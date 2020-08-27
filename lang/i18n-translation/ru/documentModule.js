@@ -90,7 +90,9 @@ export default {
     documentGroupId: "Категория",
     isStandard: "Типовой",
     ourSide: "Наша сторона",
-    responsibleEmployeeId: "Ответственный"
+    responsibleEmployeeId: "Ответственный",
+    conditions: "Условия",
+    accountDate: "Дата счета",
   },
   validation: {
     departmentIdRequired: "Выберите подразделение",
