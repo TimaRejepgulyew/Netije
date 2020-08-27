@@ -54,8 +54,10 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
     items() {
-      const availableActions =
-        this.document.documentKind?.availableActions || [];
+      const availableActions = [
+        ...this.document.documentKind?.availableActions,
+        TaskType.SimpleTask,
+      ] || [TaskType.SimpleTask];
       const items = Object.values(
         new AvailableActions(this).init().filtering(availableActions)
       );
