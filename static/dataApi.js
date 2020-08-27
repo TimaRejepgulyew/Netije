@@ -79,6 +79,7 @@ export default {
   },
 
   task: {
+    ReevaluateTaskName: `${url}/api/Task/ComputeTaskSubject`,
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,
     GetTaskById: `${url}/api/Task/`,

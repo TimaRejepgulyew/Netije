@@ -7,7 +7,7 @@
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
     >
-      <DxGroupItem >
+      <DxGroupItem>
         <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
@@ -110,6 +110,7 @@ export default {
     },
     subjectOptions() {
       return {
+        disabled: true,
         value: this.task.subject,
         onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);

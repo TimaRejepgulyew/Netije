@@ -183,6 +183,7 @@ export default {
     },
     subjectOptions() {
       return {
+        disabled: true,
         value: this.task.subject,
         onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);

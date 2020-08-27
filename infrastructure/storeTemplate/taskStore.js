@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 import TaskStatus from "~/infrastructure/constants/taskStatus";
-
+import TaskType from "~/infrastructure/constants/taskType";
 export const state = () => ({
   task: {},
   overlays: null,
@@ -172,6 +172,18 @@ export const mutations = {
 };
 
 export const actions = {
+  setBody({ commit, dispatch }, payload) {
+    dispatch("reevaluateTaskName");
+    commit("SET_BODY", payload);
+  },
+  async reevaluateTaskName({ state, commit }) {
+    const payload = { id: state.task.id, body: state.task.body };
+    const { data } = await this.$axios.post(
+      dataApi.task.ReevaluateTaskName,
+      payload
+    );
+    commit("SET_SUBJECT", data);
+  },
   async save({ state, commit }) {
     const obj = { ...state.task };
     delete obj.attachmentGroups;
@@ -212,12 +224,18 @@ export const actions = {
     });
     commit("SET_STATUS", TaskStatus.Draft);
   },
-  async pasteAttachment({ commit, state }, payload) {
+  async pasteAttachment({ commit, dispatch, state }, payload) {
     const options = { ...payload, id: state.task.id };
     const { data } = await this.$axios.post(
       dataApi.attachment.PasteByTask,
       options
     );
+    switch (state.task.taskType) {
+      case TaskType.AcquaintanceTask:
+      case TaskType.DocumentReviewTask:
+        dispatch("reevaluateTaskName");
+        break;
+    }
     commit("SET_ATTACHMENT_GROUPS", data);
   },
   async detachAttachment({ commit }, payload) {

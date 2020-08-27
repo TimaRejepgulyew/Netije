@@ -41,9 +41,6 @@
                   <DxSimpleItem template="comments">
                     <DxLabel location="left" :visible="false" />
                   </DxSimpleItem>
-                  <DxSimpleItem :editor-options="bodyOptions" editor-type="dxTextArea">
-                    <DxLabel location="left" :visible="false" />
-                  </DxSimpleItem>
                 </DxGroupItem>
               </DxGroupItem>
             </DxGroupItem>
@@ -99,7 +96,7 @@ import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -117,7 +114,7 @@ export default {
     importantIndicator,
     employeeSelectBox,
     ...toolbars,
-    ...additional
+    ...additional,
   },
   name: "assignment",
   props: ["assignmentId"],
@@ -130,8 +127,8 @@ export default {
       commentsUrl: dataApi.assignment.TextsByAssignment,
       employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: dataApi.company.Employee
-      })
+        url: dataApi.company.Employee,
+      }),
     };
   },
   computed: {
@@ -149,28 +146,16 @@ export default {
     },
     subjectOptions() {
       return {
-        readOnly: true
+        readOnly: true,
       };
     },
     dateTimeOptions() {
       return {
         readOnly: true,
-        type: "datetime"
+        type: "datetime",
       };
     },
-    bodyOptions() {
-      return {
-        placeholder: this.placeholder,
-        visible: this.canUpdate,
-        value: this.assignment.body,
-        onValueChanged: e => {
-          this.$store.commit(
-            `assignments/${this.assignmentId}/SET_BODY`,
-            e.value
-          );
-        }
-      };
-    },
+
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
@@ -196,7 +181,7 @@ export default {
     },
     attachmentGroups() {
       return this.assignment.attachmentGroups;
-    }
+    },
   },
   methods: {
     componentByType(componentName) {
@@ -229,8 +214,8 @@ export default {
         () => {},
         () => {}
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style  scoped>

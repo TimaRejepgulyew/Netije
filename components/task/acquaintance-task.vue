@@ -7,7 +7,7 @@
       :show-validation-summary="true"
       :validation-group="validatorGroup"
     >
-      <DxGroupItem >
+      <DxGroupItem>
         <DxGroupItem :col-count="10">
           <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
             <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
@@ -92,7 +92,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -102,12 +102,12 @@ export default {
     DxLabel,
     DxRequiredRule,
     DxForm,
-    recipientTagBox
+    recipientTagBox,
   },
   props: ["taskId"],
   data() {
     return {
-      validatorGroup: "task"
+      validatorGroup: "task",
     };
   },
   methods: {
@@ -119,7 +119,7 @@ export default {
     },
     setExcludedPerformers(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_EXCLUDED_PERFORMERS`, value);
-    }
+    },
   },
   computed: {
     task() {
@@ -145,19 +145,20 @@ export default {
     },
     subjectOptions() {
       return {
+        disabled: true,
         value: this.task.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
+        },
       };
     },
     bodyOptions() {
       return {
         height: 250,
         value: this.task.body,
-        onValueChanged: e => {
-          this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
-        }
+        onValueChanged: (e) => {
+          this.$store.dispatch(`tasks/${this.taskId}/setBody`, e.value);
+        },
       };
     },
     deadlineOptions() {
@@ -165,33 +166,36 @@ export default {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
         value: this.task.deadline,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
-        }
+        },
       };
     },
     needsReviewOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.task.needsReview,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_NEEDS_REVIEW`, e.value);
-        }
+        },
       };
     },
     isElectronicAcquaintanceOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.task.isElectronicAcquaintance,
-        onValueChanged: e => {
-          this.$store.commit(`tasks/${this.taskId}/SET_IS_ELECTRONIC_ACQUAINTANCE`, e.value);
-        }
+        onValueChanged: (e) => {
+          this.$store.commit(
+            `tasks/${this.taskId}/SET_IS_ELECTRONIC_ACQUAINTANCE`,
+            e.value
+          );
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

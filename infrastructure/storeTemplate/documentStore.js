@@ -456,5 +456,5 @@ export const actions = {
       }
     );
     dispatch("loadDocument", data);
-  },
+  }
 };
