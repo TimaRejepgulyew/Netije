@@ -90,5 +90,9 @@ export default {
     validFrom: "Действителен c",
     validTill: "Действителен по",
     issuedToId: "Кому выдана"
+
+  },
+  validation:{
+    leadingDocumentIdRequired: "Введите ведущий документ",
   }
 };

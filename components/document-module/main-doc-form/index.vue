@@ -162,7 +162,6 @@ export default {
       `documents/${this.documentId}/SKIP_ROUTE_HANDLING`,
       false
     );
-    this.$store.commit(`documents/${this.documentId}/SKIP_DESTROY`, false);
   },
   data() {
     return {

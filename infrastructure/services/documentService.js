@@ -27,7 +27,6 @@ export async function createDocument(context, params) {
   context.$store.commit(`documents/${documentId}/SET_IS_NEW`, true);
   context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, true);
-  context.$store.commit(`documents/${documentId}/SKIP_DESTROY`, true);
   context.$store.commit(`documents/${documentId}/SKIP_ROUTE_HANDLING`, true);
   return { documentId, documentTypeGuid };
 }

@@ -12,8 +12,8 @@
         :editor-options="leadingDocumentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="left" :text="$t('translations.fields.leadingDocumentId')" />
-        <DxRequiredRule :message="$t('translations.fields.leadingDocumentIdRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.leadingDocumentId')" />
+        <DxRequiredRule :message="$t('document.validation.leadingDocumentIdRequired')" />
       </DxSimpleItem>
     </DxGroupItem>
   </DxForm>

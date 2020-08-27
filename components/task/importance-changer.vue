@@ -4,7 +4,7 @@
       :read-only="readOnly"
       :onValueChanged="setImportance"
       :value="importance"
-      :text="$t('task..importance.highImportance')"
+      :text="$t('task.importance.highImportance')"
     />
   </div>
 </template>
