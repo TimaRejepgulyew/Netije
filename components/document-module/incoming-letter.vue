@@ -6,13 +6,13 @@
     :show-validation-summary="false"
     :validation-group="documentValidatorName"
   >
-    <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
+    <DxGroupItem :col-count="2" :caption="$t('document.fields.fromWhom')">
       <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
-        <DxLabel location="left" :text="$t('translations.fields.counterPart')" />
-        <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.counterPart')" />
+        <DxRequiredRule :message="$t('document.fields.counterPartRequired')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
-        <DxLabel location="left" :text="$t('translations.fields.dated')" />
+        <DxLabel location="left" :text="$t('document.fields.dated')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
         <DxLabel location="left" text="№" />
@@ -22,40 +22,40 @@
         data-field="inResponseToId"
         :editor-options="inResponseToIdOptions"
         editor-type="dxSelectBox"
-        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
+        :help-text="correspondentId?'':$t('document.fields.counterPartRequired')"
       >
-        <DxLabel location="left" :text="$t('translations.fields.inResponseToId')" />
+        <DxLabel location="left" :text="$t('document.fields.inResponseToId')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
-        <DxLabel location="left" :text="$t('translations.fields.signatory')" />
+        <DxLabel location="left" :text="$t('document.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="contactId" template="contact">
-        <DxLabel location="left" :text="$t('translations.fields.contactId')" />
+        <DxLabel location="left" :text="$t('document.fields.contactId')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-count="2" :caption="$t('translations.fields.whom')">
+    <DxGroupItem :col-count="2" :caption="$t('shared.whom')">
       <DxSimpleItem
         data-field="businessUnitId"
         :editor-options="businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
+        <DxRequiredRule :message="$t('document.fields.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
         :editor-options="deparmentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
-        <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+        <DxRequiredRule :message="$t('document.fields.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="addressee">
-        <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
+        <DxLabel location="left" :text="$t('document.fields.addresseeId')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="assigneeId" template="assignee">
-        <DxLabel location="left" :text="$t('translations.fields.assigneeId')" />
+        <DxLabel location="left" :text="$t('document.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #correspondent>
@@ -64,7 +64,7 @@
         :validatorGroup="documentValidatorName"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
-        messageRequired="translations.fields.counterPartRequired"
+        messageRequired="document.fields.counterPartRequired"
         :value="correspondentId"
       />
     </template>

@@ -93,6 +93,7 @@ export default {
     responsibleEmployeeId: "Ответственный",
     conditions: "Условия",
     accountDate: "Дата счета",
+    whom: "Кому"
   },
   validation: {
     departmentIdRequired: "Выберите подразделение",
