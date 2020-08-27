@@ -2,6 +2,7 @@
   <div id="form-demo">
     <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
     <toolbar
+      :canUpdate="canUpdate"
       :taskId="taskId"
       @onRemove="onRemove"
       @onClose="onClose"
@@ -27,7 +28,7 @@
       </DxGroupItem>
 
       <template #mainForm>
-        <component :taskId="taskId" :is="taskTypeComponent"></component>
+        <component :canUpdate="canUpdate" :taskId="taskId" :is="taskTypeComponent"></component>
       </template>
       <template #attachments>
         <attachment
@@ -87,9 +88,6 @@ export default {
     isCard: {
       default: false,
     },
-  },
-  created() {
-    console.log(this.canUpdate, "canUpdate");
   },
   provide: function () {
     return {

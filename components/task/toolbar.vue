@@ -2,33 +2,33 @@
   <div class="toolbar">
     <DxToolbar>
       <DxItem
-        :visible="startBtnVisible"
+        :visible="canStart"
         :options="startButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
-        :visible="isDraft"
+        :visible="canSave"
         :disabled="!isDataChanged"
         :options="saveButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
-        :visible="inProcess"
+        :visible="canAbort"
         :options="abortButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
-        :visible="isCompleted||isAborted"
+        :visible="canRestart "
         :options="restartButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem template="toolbarItemImportanceChanger" location="before" widget="dxCheckBox" />
       <template #toolbarItemImportanceChanger>
-        <toolbarItemImportanceChanger :taskId="taskId" :read-only="!isDraft"></toolbarItemImportanceChanger>
+        <toolbarItemImportanceChanger :taskId="taskId" :read-only="!isDraft&&canUpdate"></toolbarItemImportanceChanger>
       </template>
       <DxItem
         :visible="canDelete"
@@ -36,7 +36,7 @@
         location="after"
         widget="dxButton"
       />
-      <DxItem location="after" template="toolbarItemAccessRight" />
+      <DxItem location="after" :visible="canUpdate" template="toolbarItemAccessRight" />
       <template #toolbarItemAccessRight>
         <toolbar-item-access-right :entity-type="entityType" :entity-id="taskId" />
       </template>
@@ -64,17 +64,25 @@ export default {
     DxToolbar,
     DxItem,
   },
-  props: ["taskId"],
+  props: ["taskId", "canUpdate"],
   inject: ["isValidTask"],
   computed: {
     entityType() {
       return mapToEntityType(this.task.taskType);
     },
     canDelete() {
-      return this.$store.getters[`tasks/${this.taskId}/canDelete`]&&!this.isNew;
+      return (
+        this.$store.getters[`tasks/${this.taskId}/canDelete`] && !this.isNew
+      );
     },
-    startBtnVisible() {
-      return this.isDraft && !this.task.isDraftResolution;
+    canSave() {
+      return this.isDraft && this.canUpdate;
+    },
+    canRestart() {
+      return (this.isCompleted || this.isAborted) && this.canUpdate;
+    },
+    canStart() {
+      return this.isDraft && !this.task.isDraftResolution && this.canUpdate;
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
@@ -97,7 +105,9 @@ export default {
     isAborted() {
       return this.$store.getters[`tasks/${this.taskId}/isAborted`];
     },
-
+    canAbort() {
+      return this.inProcess && this.canUpdate;
+    },
     saveButtonOptions() {
       return {
         icon: saveIcon,

@@ -1,7 +1,7 @@
 <template>
   <DxForm
     ref="form"
-    :read-only="!isDraft"
+    :read-only="readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="taskValidatorName"
@@ -91,7 +91,7 @@ export default {
     DxRequiredRule,
     DxForm,
   },
-  props: ["taskId"],
+  props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
   methods: {
     setObservers(value) {
@@ -102,6 +102,9 @@ export default {
     },
   },
   computed: {
+    readOnly() {
+      return !this.isDraft && !this.canUpdate;
+    },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
     },
