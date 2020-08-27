@@ -71,7 +71,7 @@ export default {
       return mapToEntityType(this.task.taskType);
     },
     canDelete() {
-      return this.$store.getters[`tasks/${this.taskId}/canDelete`];
+      return this.$store.getters[`tasks/${this.taskId}/canDelete`]&&!this.isNew;
     },
     startBtnVisible() {
       return this.isDraft && !this.task.isDraftResolution;

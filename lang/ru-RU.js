@@ -134,6 +134,7 @@ export default {
     version: "Версии"
   },
   shared: {
+    accessRight:"Права доступа",
     main: "Основное",
     filter: "Фильтер",
     type: "Тип",

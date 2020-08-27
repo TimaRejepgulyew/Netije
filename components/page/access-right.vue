@@ -8,7 +8,7 @@
       :show-title="true"
       width="60%"
       :height="'auto'"
-      :title="$t('translations.fields.accessRightDocument')"
+      :title="$t('shared.accessRight')"
     >
       <div>
         <access-right-list v-if="popup" :entity-type="entityType" :entity-id="entityId" />
