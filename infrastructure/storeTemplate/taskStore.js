@@ -173,8 +173,8 @@ export const mutations = {
 
 export const actions = {
   setBody({ commit, dispatch }, payload) {
-    dispatch("reevaluateTaskName");
     commit("SET_BODY", payload);
+    dispatch("reevaluateTaskName");
   },
   async reevaluateTaskName({ state, commit }) {
     const payload = { id: state.task.id, body: state.task.body };
@@ -230,18 +230,26 @@ export const actions = {
       dataApi.attachment.PasteByTask,
       options
     );
+    commit("SET_ATTACHMENT_GROUPS", data);
     switch (state.task.taskType) {
-      case TaskType.AcquaintanceTask:
-      case TaskType.DocumentReviewTask:
+      case TaskType.SimpleTask:
+        return;
+      default:
         dispatch("reevaluateTaskName");
         break;
     }
-    commit("SET_ATTACHMENT_GROUPS", data);
   },
-  async detachAttachment({ commit }, payload) {
+  async detachAttachment({ commit, state, dispatch }, payload) {
     const { data } = await this.$axios.delete(
       `${dataApi.attachment.Detach}/${payload}`
     );
     commit("SET_ATTACHMENT_GROUPS", data);
+    switch (state.task.taskType) {
+      case TaskType.SimpleTask:
+        return;
+      default:
+        dispatch("reevaluateTaskName");
+        break;
+    }
   }
 };

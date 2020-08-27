@@ -1,7 +1,7 @@
 export const TaskType = {
   SimpleTask: "Простая задача",
   AcquaintanceTask: "Задача на ознакомление с документом",
-  ActionItemExecutionTask: "Поручение",
+  ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа"
 };
 export default {

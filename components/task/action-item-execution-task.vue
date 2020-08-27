@@ -183,7 +183,7 @@ export default {
     },
     subjectOptions() {
       return {
-        disabled: true,
+         readOnly: true,
         value: this.task.subject,
         onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
@@ -208,7 +208,7 @@ export default {
         height: 250,
         value: this.task.body,
         onValueChanged: (e) => {
-          this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
+          this.$store.dispatch(`tasks/${this.taskId}/setBody`, e.value);
         },
       };
     },
