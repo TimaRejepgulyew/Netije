@@ -414,7 +414,6 @@ export default {
   translations: {
     fields: {
       body: "Комментарий",  correctedId: "Корректирует",
-    
       isAdjustment: "Корректировочный",
       accountNumber: "Номер счета",
       accountDate: "Дата счета",

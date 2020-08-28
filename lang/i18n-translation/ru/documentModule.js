@@ -40,10 +40,12 @@ export default {
       main: "ОСНОВНОЕ",
       numberAndDate: "ДАТА И НОМЕР",
       storing: "ХРАНЕНИЕ",
-      lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ"
+      lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ",
+      versions: "Версии"
     }
   },
   fields: {
+    invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",
     isAdjustment: "Корректировочный",
     correctedId: "Корректирует",

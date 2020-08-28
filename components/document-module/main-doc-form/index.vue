@@ -27,15 +27,15 @@
             >
               <DxSimpleItem data-field="name" :editor-options="nameOptions">
                 <DxLabel location="left" :text="$t('document.fields.name')" />
-                <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+                <DxRequiredRule :message="$t('document.validation.nameRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
                 data-field="documentKindId"
                 :editor-options="documentKindOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel location="left" :text="$t('translations.fields.documentKindId')" />
-                <DxRequiredRule :message="$t('translations.fields.documentKindIdRequired')" />
+                <DxLabel location="left" :text="$t('document.fields.documentKindId')" />
+                <DxRequiredRule :message="$t('document.validation.documentKindIdRequired')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -43,8 +43,8 @@
                 :editor-options="subjectOptions"
                 editor-type="dxTextArea"
               >
-                <DxLabel location="left" :text="$t('translations.fields.subject')" />
-                <DxRequiredRule :message="$t('translations.fields.subjectRequired')" />
+                <DxLabel location="left" :text="$t('document.fields.subject')" />
+                <DxRequiredRule :message="$t('document.validation.subjectRequired')" />
               </DxSimpleItem>
               <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
               <DxSimpleItem
@@ -52,7 +52,7 @@
                 :editor-options="noteOptions"
                 editor-type="dxTextArea"
               >
-                <DxLabel location="left" :text="$t('translations.fields.note')" />
+                <DxLabel location="left" :text="$t('document.fields.note')" />
               </DxSimpleItem>
             </DxGroupItem>
             <DxGroupItem :col-span="4">

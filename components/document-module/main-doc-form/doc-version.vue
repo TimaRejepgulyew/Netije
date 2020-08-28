@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="file-uploader-block">
-      <span class="dx-form-group-caption border-b">{{$t("translations.headers.versions")}}</span>
+      <span class="dx-form-group-caption border-b">{{$t("document.groups.captions.versions")}}</span>
       <DxButton :hint="$t('buttons.refresh')" class="refresh-btn" icon="refresh" :onClick="refresh"></DxButton>
       <div class="list-container">
         <DxList :data-source="versions" :activeStateEnabled="false" :focusStateEnabled="false">
@@ -38,7 +38,7 @@
           @progress="uploadVersionFromFile"
           @value-changed="e => files = e.value"
           :showFileList="true"
-          :invalid-fileextension-message="$t('translations.fields.invalidExeption')"
+          :invalid-fileextension-message="$t('document.fields.invalidExeption')"
         />
       </div>
     </div>

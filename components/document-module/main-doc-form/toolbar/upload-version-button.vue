@@ -10,7 +10,7 @@
       :allowed-file-extensions="extension"
       @progress="uploadVersionFromFile"
       :showFileList="false"
-      :invalid-fileextension-message="$t('translations.fields.invalidExeption')"
+      :invalid-fileextension-message="$t('document.fields.invalidExeption')"
     />
   </div>
 </template>
