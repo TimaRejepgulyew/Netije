@@ -6,7 +6,7 @@
     :show-validation-summary="false"
     :validation-group="documentValidatorName"
   >
-    <DxGroupItem :col-count="2" :caption="$t('document.fields.fromWhom')">
+    <DxGroupItem :col-count="2" :caption="$t('shared.fromWhom')">
       <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
         <DxRequiredRule :message="$t('document.fields.counterPartRequired')" />
