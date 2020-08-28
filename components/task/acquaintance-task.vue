@@ -2,7 +2,7 @@
   <div id="form-demo">
     <DxForm
       ref="form"
-      :read-only="!isDraft"
+      :read-only="readOnly"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       :validation-group="validatorGroup"
@@ -61,7 +61,7 @@
       </DxGroupItem>
       <template #performers>
         <recipient-tag-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :messageRequired="$t('task.validation.acquaintMembersRequired')"
           :validator-group="validatorGroup"
           :recipients="performers"
@@ -70,14 +70,14 @@
       </template>
       <template #observers>
         <recipient-tag-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :recipients="observers"
           @setRecipients="setObservers"
         />
       </template>
       <template #excludedPerformers>
         <recipient-tag-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :recipients="excludedPerformers"
           @setRecipients="setExcludedPerformers"
         />
@@ -95,6 +95,7 @@ import DxForm, {
   DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
+import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxGroupItem,
@@ -104,7 +105,7 @@ export default {
     DxForm,
     recipientTagBox,
   },
-  props: ["taskId"],
+  props: ["taskId", "canUpdate"],
   data() {
     return {
       validatorGroup: "task",
@@ -122,6 +123,9 @@ export default {
     },
   },
   computed: {
+    readOnly() {
+      return !this.isDraft && !this.canUpdate;
+    },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
     },

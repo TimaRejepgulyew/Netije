@@ -3,7 +3,7 @@
     <DxForm
       ref="form"
       :col-count="1"
-      :read-only="!isDraft"
+      :read-only="readOnly"
       :show-colon-after-label="true"
       :show-validation-summary="false"
       :validation-group="taskValidatorName"
@@ -14,23 +14,30 @@
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
         <DxGroupItem :col-count="5">
-          <DxSimpleItem
-            :col-span="2"
-            data-field="isUnderControl"
-            :editor-options="isUnderControlOptions"
-            editor-type="dxCheckBox"
-          >
-            <DxLabel location="left" :text="$t('task.fields.isUnderControl')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            :col-span="3"
-            :visible="isUnderControl"
-            template="supervisor"
-            data-field="supervisor"
-          >
-            <DxLabel location="left" :text="$t('task.fields.supervisor')" />
-            <DxRequiredRule :message="$t('task.validation.supervisorRequired')" />
-          </DxSimpleItem>
+          <DxGroupItem :col-span="5" :col-count="2">
+            <DxSimpleItem :visible="isDraft" template="assigneeBy">
+              <DxLabel location="left" :text="$t('task.fields.assigneeBy')" />
+              <DxRequiredRule :message="$t('task.validation.assigneeByRequired')" />
+            </DxSimpleItem>
+
+            <DxSimpleItem
+              data-field="isUnderControl"
+              :editor-options="isUnderControlOptions"
+              editor-type="dxCheckBox"
+            >
+              <DxLabel location="left" :text="$t('task.fields.isUnderControl')" />
+            </DxSimpleItem>
+
+            <DxSimpleItem
+              :col-span="2"
+              :visible="isUnderControl"
+              template="supervisor"
+              data-field="supervisor"
+            >
+              <DxLabel location="left" :text="$t('task.fields.supervisor')" />
+              <DxRequiredRule :message="$t('task.validation.supervisorRequired')" />
+            </DxSimpleItem>
+          </DxGroupItem>
         </DxGroupItem>
         <DxGroupItem :col-count="2">
           <DxSimpleItem template="assignee" data-field="assignee">
@@ -59,7 +66,6 @@
           </DxSimpleItem>
         </DxGroupItem>
       </DxGroupItem>
-
       <DxSimpleItem
         :visible="isDraft"
         :col-span="3"
@@ -70,23 +76,31 @@
         <DxLabel location="left" :text="$t('task.fields.actionItem')" />
         <DxRequiredRule :message="$t('task.validation.actionItemRequired')" />
       </DxSimpleItem>
+      <template #assigneeBy>
+        <employee-select-box
+          :storeApi="assigneeByStore"
+          :read-only="readOnly"
+          :value="assigneeBy"
+          @valueChanged="setAssigneeBy"
+        />
+      </template>
       <template #actionItemObservers>
         <recipient-tag-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :recipients="actionItemObservers"
           @setRecipients="setActionItemObservers"
         />
       </template>
       <template #coAssignees>
         <employee-tag-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :value="coAssignees"
           @valueChanged="setCoAssignees"
         />
       </template>
       <template #supervisor>
         <employee-select-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :messageRequired="$t('task.validation.supervisorRequired')"
           :validator-group="taskValidatorName"
           :value="supervisor"
@@ -95,7 +109,7 @@
       </template>
       <template #assignee>
         <employee-select-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :messageRequired="$t('task.validation.assigneeRequired')"
           :validator-group="taskValidatorName"
           :value="assignee"
@@ -129,7 +143,7 @@ export default {
     DxLabel,
     DxForm,
   },
-  props: ["taskId"],
+  props: ["taskId", "canUpdate"],
   data() {
     return {
       validatorGroup: "task",
@@ -152,10 +166,22 @@ export default {
     setSupervisor(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     },
+    setAssigneeBy(value) {
+      this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNEE_BY`, value);
+    },
   },
   computed: {
+    assigneeByStore() {
+      return `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`;
+    },
+    readOnly() {
+      return !this.canUpdate && !this.isDraft;
+    },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
+    },
+    assigneeBy() {
+      return this.task.assigneeBy;
     },
     isUnderControl() {
       return this.task.isUnderControl;

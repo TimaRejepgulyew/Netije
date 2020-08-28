@@ -56,6 +56,9 @@ function checkDataChanged(oldValue, newValue) {
   if (oldValue !== newValue) return oldValue !== newValue;
 }
 export const mutations = {
+  SET_ASSIGNEE_BY(state, payload) {
+    state.task.assigneeBy = payload;
+  },
   SKIP_ROUTE_HANDLING(state, payload) {
     state.skipRouteHandling = payload;
   },

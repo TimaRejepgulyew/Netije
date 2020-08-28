@@ -72,7 +72,7 @@ export default {
     customField,
     updateCard,
     DxPopup,
-    DxButton
+    DxButton,
   },
   props: [
     "value",
@@ -80,17 +80,18 @@ export default {
     "messageRequired",
     "validatorGroup",
     "readOnly",
-    "valueExpr"
+    "valueExpr",
+   
   ],
   data() {
     return {
       employeeStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
-        })
+          loadUrl: this.storeApi || dataApi.company.Employee,
+        }),
       }),
-      isCardOpened: false
+      isCardOpened: false,
     };
   },
   methods: {
@@ -104,9 +105,9 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[valueExpr]);
       else this.$emit("valueChanged", data);
       this.employeeStore.reload();
-    }
+    },
   },
-  computed: {}
+  computed: {},
 };
 </script>
 

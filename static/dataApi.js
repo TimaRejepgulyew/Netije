@@ -79,6 +79,9 @@ export default {
   },
 
   task: {
+    actionItemExecution: {
+      GetAvailableProducers: `${url}/api/Task/ActionItemExecution/GetAvailableProducers/`
+    },
     ReevaluateTaskName: `${url}/api/Task/ComputeTaskSubject`,
     TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
     Task: `${url}/api/Task/GetAllTasks`,

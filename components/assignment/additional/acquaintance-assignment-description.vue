@@ -1,7 +1,7 @@
 <template>
-  <div v-if="description">
+  <div v-if="!isElectronicAcquaintance">
     <div>{{$t("shared.explanation")}}</div>
-    <div>{{description}}</div>
+    <div>{{$t("task.message.acquaintDocumentMessage")}}</div>
   </div>
 </template>
 
@@ -9,10 +9,13 @@
 export default {
   props: ["assignmentId"],
   computed: {
-    description() {
-      return  this.$store.getters[`assignments/${this.assignmentId}/assignment`].description;
-    }
-  }
+    isElectronicAcquaintance() {
+      return (
+        this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+          .isElectronicAcquaintance !== false
+      );
+    },
+  },
 };
 </script>
 

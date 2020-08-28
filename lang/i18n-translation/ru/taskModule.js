@@ -3,8 +3,12 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа"
+
 };
 export default {
+  message:{
+    acquaintDocumentMessage:"Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись"
+  },
   status: {
     InProcess: "В процессе",
     Draft: "Черновик",
@@ -19,6 +23,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    assigneeBy:"Выдал",
     parallel: "паралельно",
     gradually: "друг за другом",
     performers: "Исполнители",

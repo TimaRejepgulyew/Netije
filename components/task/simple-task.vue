@@ -58,14 +58,14 @@
       <recipient-tag-box
         :messageRequired="$t('task.validation.performersRequired')"
         :validator-group="taskValidatorName"
-        :read-only="!isDraft"
+        :read-only="readOnly"
         :recipients="performers"
         @setRecipients="setPerformers"
       />
     </template>
     <template #observers>
       <recipient-tag-box
-        :read-only="!isDraft"
+        :read-only="readOnly"
         :recipients="observers"
         @setRecipients="setObservers"
       />
