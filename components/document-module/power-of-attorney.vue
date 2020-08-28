@@ -13,39 +13,39 @@
           :editor-options="businessUnitOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
-          <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+          <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
+          <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="deparmentOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
-          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+          <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="validTill"
           :editor-options="validTillOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="left" :text="$t('translations.fields.validTill')" />
-          <DxRequiredRule :message="$t('translations.fields.validTillRequired')" />
+          <DxLabel location="left" :text="$t('document.fields.validTill')" />
+          <DxRequiredRule :message="$t('document.validation.validTillRequired')" />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="issuedToId" template="issuedToId">
-          <DxLabel location="left" :text="$t('translations.fields.issuedToId')" />
-          <DxRequiredRule :message="$t('translations.fields.issuedToIdRequired')" />
+          <DxLabel location="left" :text="$t('document.fields.issuedToId')" />
+          <DxRequiredRule :message="$t('document.validation.issuedToIdRequired')" />
         </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
         <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-          <DxLabel location="left" :text="$t('translations.fields.signatory')" />
-          <DxRequiredRule :message="$t('translations.fields.ourSignatoryRequired')" />
+          <DxLabel location="left" :text="$t('document.fields.signatory')" />
+          <DxRequiredRule :message="$t('document.validation.ourSignatoryRequired')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
-          <DxLabel location="left" :text="$t('translations.fields.prepared')" />
+          <DxLabel location="left" :text="$t('document.fields.prepared')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
