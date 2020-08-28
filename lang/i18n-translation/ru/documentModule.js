@@ -44,6 +44,7 @@ export default {
     }
   },
   fields: {
+    isStandardSupAgreement: "Типовое",
     isAdjustment: "Корректировочный",
     correctedId: "Корректирует",
     isAutomaticRenewal: "С автопролонгацией",

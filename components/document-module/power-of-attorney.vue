@@ -45,7 +45,7 @@
           <DxRequiredRule :message="$t('document.validation.ourSignatoryRequired')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
-          <DxLabel location="left" :text="$t('document.fields.prepared')" />
+          <DxLabel location="left" :text="$t('document.fields.preparedById')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
