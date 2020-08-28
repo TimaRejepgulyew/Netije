@@ -6,48 +6,48 @@
     :readOnly="!canUpdate"
     validation-group="documentValidatorName"
   >
-    <DxGroupItem :caption="$t('translations.fields.whom')">
+    <DxGroupItem :caption="$t('document.fields.whom')">
       <DxSimpleItem data-field="correspondentId" template="correspondent">
-        <DxLabel location="left" :text="$t('translations.fields.counterPart')" />
-        <DxRequiredRule :message="$t('translations.fields.counterPartRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.counterPart')" />
+        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="contact">
-        <DxLabel location="left" :text="$t('translations.fields.addresseeId')" />
+        <DxLabel location="left" :text="$t('document.fields.addresseeId')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="inResponseToId"
         :editor-options="inResponseToIdOptions"
         editor-type="dxSelectBox"
-        :help-text="correspondentId?'':$t('translations.fields.counterPartRequired')"
+        :help-text="correspondentId?'':$t('document.validation.counterPartRequired')"
       >
-        <DxLabel location="left" :text="$t('translations.fields.inResponseToId')" />
+        <DxLabel location="left" :text="$t('document.fields.inResponseToId')" />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-count="2" :caption="$t('translations.fields.fromWhom')">
+    <DxGroupItem :col-count="2" :caption="$t('shared.fromWhom')">
       <DxSimpleItem
         data-field="businessUnitId"
         :editor-options="businessUnitOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="left" :text="$t('translations.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
+        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
         :editor-options="deparmentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="left" :text="$t('translations.fields.departmentId')" />
-        <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
-        <DxLabel location="left" :text="$t('translations.fields.signatory')" />
+        <DxLabel location="left" :text="$t('document.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem template="prepared" data-field="preparedById">
-        <DxRequiredRule :message="$t('translations.fields.preparedRequired')" />
-        <DxLabel location="left" :text="$t('translations.fields.prepared')" />
+        <DxRequiredRule :message="$t('document.validation.preparedRequired')" />
+        <DxLabel location="left" :text="$t('document.fields.prepared')" />
       </DxSimpleItem>
     </DxGroupItem>
 
@@ -57,7 +57,7 @@
         :validatorGroup="documentValidatorName"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
-        messageRequired="translations.fields.counterPartRequired"
+        messageRequired="document.validation.counterPartRequired"
         :value="correspondentId"
       />
     </template>

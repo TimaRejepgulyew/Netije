@@ -44,6 +44,8 @@ export default {
     }
   },
   fields: {
+    isAdjustment: "Корректировочный",
+    correctedId: "Корректирует",
     isAutomaticRenewal: "С автопролонгацией",
     currencyId: "Валюта",
     accountNumber: "Номер счета",
