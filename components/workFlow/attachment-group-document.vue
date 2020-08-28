@@ -36,7 +36,7 @@
       <DxButton
         :id="'addAttachment'+group.groupId"
         class="btn--green"
-        :visible="group.canAddAttachments"
+        :visible="canUpdate && group.canAddAttachments"
         icon="plus"
         styling-mode="text"
         :hint="$t('buttons.add')"
@@ -51,7 +51,7 @@
     <div
       class="d-flex group__description"
       :class="{'cursor-pointer':group.canAddAttachments}"
-      @click="()=>{if(group.canAddAttachments)togglePopupGrid()}"
+      @click="()=>{if(canUpdate &&group.canAddAttachments)togglePopupGrid()}"
       v-else
     >
       <i class="dx-icon dx-icon-link"></i>
@@ -88,7 +88,7 @@ export default {
       attachmentId: false,
     };
   },
-  props: ["group"],
+  props: ["group", "canUpdate"],
 
   methods: {
     showCard({ id, documentTypeGuid }) {
