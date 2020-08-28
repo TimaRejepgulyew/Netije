@@ -2,7 +2,7 @@
   <div id="form-demo">
     <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
     <toolbar
-      :canUpdate="canUpdate"
+      v-if="canUpdate"
       :taskId="taskId"
       @onRemove="onRemove"
       @onClose="onClose"
@@ -32,7 +32,6 @@
       </template>
       <template #attachments>
         <attachment
-          :canUpdate="canUpdate"
           @pasteAttachment="pasteAttachment"
           @detach="detach"
           :attachmentGroups="attachmentGroups"

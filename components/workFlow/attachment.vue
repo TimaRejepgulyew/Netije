@@ -2,7 +2,6 @@
   <div>
     <div v-for="groupItem in attachmentGroups.filter(el=>el.isVisible)" :key="groupItem.groupId">
       <component
-        :canUpdate="canUpdate"
         :is="componentByAttachmentType(groupItem.attachmentGroupType)"
         :assignmentId="assignmentId"
         @detach="detach"
@@ -23,7 +22,7 @@ export default {
     attachmentGroupDocument,
     attachmentGroupTask,
   },
-  props: ["attachmentGroups", "assignmentId", "canUpdate"],
+  props: ["attachmentGroups", "assignmentId"],
   methods: {
     detach(attachmentId) {
       this.$emit("detach", attachmentId);

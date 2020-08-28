@@ -50,6 +50,7 @@ export default {
     lowImportance: "Низкая важность"
   },
   validation: {
+    assigneeByRequired:"Введите кому выдана",
     performersRequired: "Выберите исполнителя",
     addresseeRequired: "Выберите адресата",
     actionItemRequired: "Введите поручение",

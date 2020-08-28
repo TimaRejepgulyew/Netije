@@ -28,7 +28,7 @@
       />
       <DxItem template="toolbarItemImportanceChanger" location="before" widget="dxCheckBox" />
       <template #toolbarItemImportanceChanger>
-        <toolbarItemImportanceChanger :taskId="taskId" :read-only="!isDraft&&canUpdate"></toolbarItemImportanceChanger>
+        <toolbarItemImportanceChanger :taskId="taskId"></toolbarItemImportanceChanger>
       </template>
       <DxItem
         :visible="canDelete"
@@ -36,7 +36,7 @@
         location="after"
         widget="dxButton"
       />
-      <DxItem location="after" :visible="canUpdate" template="toolbarItemAccessRight" />
+      <DxItem location="after" template="toolbarItemAccessRight" />
       <template #toolbarItemAccessRight>
         <toolbar-item-access-right :entity-type="entityType" :entity-id="taskId" />
       </template>
@@ -64,7 +64,7 @@ export default {
     DxToolbar,
     DxItem,
   },
-  props: ["taskId", "canUpdate"],
+  props: ["taskId"],
   inject: ["isValidTask"],
   computed: {
     entityType() {
@@ -76,13 +76,13 @@ export default {
       );
     },
     canSave() {
-      return this.isDraft && this.canUpdate;
+      return this.isDraft;
     },
     canRestart() {
-      return (this.isCompleted || this.isAborted) && this.canUpdate;
+      return this.isCompleted || this.isAborted;
     },
     canStart() {
-      return this.isDraft && !this.task.isDraftResolution && this.canUpdate;
+      return this.isDraft && !this.task.isDraftResolution;
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
@@ -106,7 +106,7 @@ export default {
       return this.$store.getters[`tasks/${this.taskId}/isAborted`];
     },
     canAbort() {
-      return this.inProcess && this.canUpdate;
+      return this.inProcess;
     },
     saveButtonOptions() {
       return {

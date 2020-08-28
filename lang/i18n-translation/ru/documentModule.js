@@ -45,6 +45,7 @@ export default {
     }
   },
   fields: {
+    
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",
     isAdjustment: "Корректировочный",
