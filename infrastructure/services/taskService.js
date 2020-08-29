@@ -19,6 +19,7 @@ export async function createTask(
   context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`tasks/${taskId}/SET_IS_DATA_CHANGED`, true);
   context.$store.commit(`tasks/${taskId}/IS_NEW`, true);
+  context.$store.commit(`tasks/${taskId}/SKIP_ROUTE_HANDLING`, true);
   return { taskId, taskType };
 }
 
@@ -56,14 +57,18 @@ export async function createTaskByDocument(context, params) {
   return await createTask(context, params, dataApi.task.СreateTaskByDocument);
 }
 export async function load(context, { taskType, taskId }) {
+  console.log(taskModules.hasModule(taskId), "loadadadadad");
   if (!taskModules.hasModule(taskId)) {
+    await taskModules.registerModule(context, taskId);
     const { data } = await context.$axios.get(
       `${dataApi.task.GetTaskById}${taskType}/${taskId}`
     );
-    await taskModules.registerModule(context, taskId);
+    context.$store.commit(`tasks/${taskId}/SET_IS_DATA_CHANGED`, false);
     context.$store.commit(`tasks/${taskId}/SET_TASK`, data);
   }
-  context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
+  if (!context.$store.getters[`tasks/${taskId}/isNew`]) {
+    context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
+  }
 }
 export function unload(context, taskId) {
   const overlays = context.$store.getters[`tasks/${taskId}/overlays`];

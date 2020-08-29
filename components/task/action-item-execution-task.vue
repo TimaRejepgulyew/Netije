@@ -175,7 +175,7 @@ export default {
       return `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`;
     },
     readOnly() {
-      return !this.canUpdate && !this.isDraft;
+      return !this.isDraft || !this.canUpdate;
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];

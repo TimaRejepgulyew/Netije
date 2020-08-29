@@ -103,7 +103,7 @@ export default {
   },
   computed: {
     readOnly() {
-      return !this.isDraft && !this.canUpdate;
+      return !this.isDraft || !this.canUpdate;
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];

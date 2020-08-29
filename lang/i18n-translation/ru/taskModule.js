@@ -29,7 +29,7 @@ export default {
     performers: "Исполнители",
     start: "Старт",
     addressee: "Адресат",
-    maxDeadline: "Максимальный срок",
+    maxDeadline: "Cрок",
     assignee: "Исполнитель",
     supervisor: "Контролер",
     subjectTask: "Тема",

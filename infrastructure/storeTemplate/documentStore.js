@@ -373,9 +373,11 @@ export const mutations = {
     state.document = {};
   },
   INCREMENT_OVERLAYS(state) {
-    if (state.overlays === null) {
+    console.log("inc");
+    if (state.overlays === null || state.overlays < 0) {
       state.overlays = 0;
     } else state.overlays++;
+    console.log(state.overlays);
   },
   DECREMENT_OVERLAYS(state) {
     state.overlays--;

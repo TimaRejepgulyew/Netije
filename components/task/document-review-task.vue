@@ -2,7 +2,7 @@
   <div id="form-demo">
     <DxForm
       ref="form"
-      :read-only="!canUpdate"
+      :read-only="readOnly"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
@@ -41,7 +41,7 @@
       </DxGroupItem>
       <template #addressee>
         <employee-select-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :messageRequired="$t('task.validation.addresseeRequired')"
           :validator-group="taskValidatorName"
           :value="addressee"
@@ -50,7 +50,7 @@
       </template>
       <template #resolutionObservers>
         <recipient-tag-box
-          :read-only="!isDraft"
+          :read-only="readOnly"
           :recipients="resolutionObservers"
           @setRecipients="setResolutionObservers"
         />
@@ -95,6 +95,9 @@ export default {
     },
   },
   computed: {
+     readOnly() {
+      return !this.isDraft || !this.canUpdate;
+    },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
     },

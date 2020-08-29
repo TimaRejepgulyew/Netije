@@ -13,13 +13,13 @@ export default {
     RegisterDocumentBtn,
     NumerateDocumentBtn,
   },
- 
+
   props: ["documentId"],
   computed: {
     registrationButtonComponent() {
       const documentKind = this.$store.getters[
         `documents/${this.documentId}/document`
-      ].documentKind;
+      ]?.documentKind;
       switch (documentKind?.numberingType) {
         case NumberingType.Registrable:
           return "register-document-btn";

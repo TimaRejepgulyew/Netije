@@ -14,6 +14,7 @@ export function loadDocument(context, documentId, payload) {
   );
   context.$store.commit(`documents/${documentId}/SET_DOCUMENT`, payload);
 }
+
 export async function createDocument(context, params) {
   const { data } = await context.$axios.post(
     dataApi.documentModule.Documents,
@@ -38,6 +39,7 @@ export async function createLeadingDocument(context, params) {
   );
   return { documentId, documentTypeGuid };
 }
+
 export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
     documentModules.registerModule(context, documentId);
@@ -45,12 +47,14 @@ export async function load(context, { documentTypeGuid, documentId }) {
     const { data } = await context.$axios.get(
       `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
     );
-    context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
-    context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
     loadDocument(context, documentId, data);
+    context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
   }
-  context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
+  if (!context.$store.getters[`documents/${documentId}/isNew`]) {
+    context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
+  }
 }
+
 export async function refresh(context, { documentTypeGuid, documentId }) {
   const { data } = await context.$axios.get(
     `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
