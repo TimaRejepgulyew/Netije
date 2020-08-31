@@ -26,7 +26,12 @@
         location="before"
         widget="dxButton"
       />
-      <DxItem template="toolbarItemImportanceChanger" location="before" widget="dxCheckBox" />
+      <DxItem
+        template="toolbarItemImportanceChanger"
+        :disabled="!isDraft"
+        location="before"
+        widget="dxCheckBox"
+      />
       <template #toolbarItemImportanceChanger>
         <toolbarItemImportanceChanger :taskId="taskId"></toolbarItemImportanceChanger>
       </template>
@@ -78,6 +83,7 @@ export default {
     canSave() {
       return this.isDraft;
     },
+
     canRestart() {
       return this.isCompleted || this.isAborted;
     },
@@ -140,14 +146,13 @@ export default {
         icon: abortIcon,
         hint: this.$t("buttons.abort"),
         onClick: () => {
-          if (this.isValidTask())
-            this.$awn.asyncBlock(
-              this.$store.dispatch(`tasks/${this.taskId}/abort`),
-              (e) => {
-                this.onClose();
-              },
-              (e) => this.$awn.alert()
-            );
+          this.$awn.asyncBlock(
+            this.$store.dispatch(`tasks/${this.taskId}/abort`),
+            (e) => {
+              this.onClose();
+            },
+            (e) => this.$awn.alert()
+          );
         },
       };
     },
@@ -156,14 +161,13 @@ export default {
         icon: restartIcon,
         hint: this.$t("buttons.restart"),
         onClick: () => {
-          if (this.this.isValidTask())
-            this.$awn.asyncBlock(
-              this.$store.dispatch(`tasks/${this.taskId}/restart`),
-              (e) => {
-                this.onClose();
-              },
-              (e) => this.$awn.alert()
-            );
+          this.$awn.asyncBlock(
+            this.$store.dispatch(`tasks/${this.taskId}/restart`),
+            (e) => {
+              this.onClose();
+            },
+            (e) => this.$awn.alert()
+          );
         },
       };
     },

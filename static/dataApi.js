@@ -95,7 +95,7 @@ export default {
 
     Abort: `${url}/api/Task/Abort`,
     Start: `${url}/api/Task/Start`,
-    Restart: `${url}/api/Task/`,
+    Restart: `${url}/api/Task/Restart`,
     Remove: `${url}/api/Task/RemoveAttachment`
   },
   accessRights: {

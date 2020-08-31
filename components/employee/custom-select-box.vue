@@ -12,7 +12,7 @@
           v-if="isCardOpened"
           @valueChanged="valueChanged"
           :isCard="true"
-          :employeeId="value"
+          :employeeId="employeeId"
         />
       </div>
     </DxPopup>
@@ -81,8 +81,8 @@ export default {
     "validatorGroup",
     "readOnly",
     "valueExpr",
-   
   ],
+
   data() {
     return {
       employeeStore: new DataSource({
@@ -92,22 +92,24 @@ export default {
         }),
       }),
       isCardOpened: false,
+      employeeId: null,
     };
   },
   methods: {
     showPopup() {
+      console.log(this.$refs["employee"].instance);
+      this.employeeId = this.$refs["employee"].instance.option("selectedItem").id;
       this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },
     updateEmployee(data) {
-      if (this.valueExpr) this.$emit("valueChanged", data[valueExpr]);
+      if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.employeeStore.reload();
     },
   },
-  computed: {},
 };
 </script>
 

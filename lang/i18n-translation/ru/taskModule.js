@@ -3,11 +3,11 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа"
-
 };
 export default {
-  message:{
-    acquaintDocumentMessage:"Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись"
+  message: {
+    acquaintDocumentMessage:
+      "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись"
   },
   status: {
     InProcess: "В процессе",
@@ -23,7 +23,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
-    assigneeBy:"Выдал",
+    assignedBy: "Выдал",
     parallel: "паралельно",
     gradually: "друг за другом",
     performers: "Исполнители",
@@ -50,7 +50,7 @@ export default {
     lowImportance: "Низкая важность"
   },
   validation: {
-    assigneeByRequired:"Введите кому выдана",
+    assignedByRequired: "Введите кому выдана",
     performersRequired: "Выберите исполнителя",
     addresseeRequired: "Выберите адресата",
     actionItemRequired: "Введите поручение",

@@ -15,9 +15,9 @@
         </DxSimpleItem>
         <DxGroupItem :col-count="5">
           <DxGroupItem :col-span="5" :col-count="2">
-            <DxSimpleItem :visible="isDraft" template="assigneeBy">
-              <DxLabel location="left" :text="$t('task.fields.assigneeBy')" />
-              <DxRequiredRule :message="$t('task.validation.assigneeByRequired')" />
+            <DxSimpleItem data-field="assignedBy" template="assignedBy">
+              <DxLabel location="left" :text="$t('task.fields.assignedBy')" />
+              <DxRequiredRule :message="$t('task.validation.assignedByRequired')" />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -76,14 +76,14 @@
         <DxLabel location="left" :text="$t('task.fields.actionItem')" />
         <DxRequiredRule :message="$t('task.validation.actionItemRequired')" />
       </DxSimpleItem>
-      <template #assigneeBy>
+      <template #assignedBy>
         <employee-select-box
           :messageRequired="$t('task.validation.supervisorRequired')"
           :validator-group="taskValidatorName"
-          :storeApi="assigneeByStore"
+          :storeApi="assignedByStore"
           :read-only="readOnly"
-          :value="assigneeBy"
-          @valueChanged="setAssigneeBy"
+          :value="assignedBy"
+          @valueChanged="setAssignedBy"
         />
       </template>
       <template #actionItemObservers>
@@ -168,12 +168,16 @@ export default {
     setSupervisor(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     },
-    setAssigneeBy(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNEE_BY`, value);
+    setAssignedBy(value) {
+      console.log("setAssignedBy", value);
+      this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
     },
   },
   computed: {
-    assigneeByStore() {
+    assignedByStore() {
+      console.log(
+        `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`
+      );
       return `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`;
     },
     readOnly() {
@@ -182,8 +186,8 @@ export default {
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
     },
-    assigneeBy() {
-      return this.task.assigneeBy;
+    assignedBy() {
+      return this.task.assignedBy;
     },
     isUnderControl() {
       return this.task.isUnderControl;

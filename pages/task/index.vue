@@ -78,7 +78,7 @@
 
         <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
         <DxColumn
-          data-field="deadline"
+          data-field="maxDeadline"
           :caption="$t('translations.fields.deadLine')"
           data-type="date"
         />
