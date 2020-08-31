@@ -81,7 +81,7 @@ export default {
     recipientTagBox,
     employeeTagBox,
   },
-  props: ["taskId"],
+  props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
   methods: {
     setResolutionObservers(value) {
@@ -95,7 +95,7 @@ export default {
     },
   },
   computed: {
-     readOnly() {
+    readOnly() {
       return !this.isDraft || !this.canUpdate;
     },
     task() {

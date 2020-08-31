@@ -78,6 +78,8 @@
       </DxSimpleItem>
       <template #assigneeBy>
         <employee-select-box
+          :messageRequired="$t('task.validation.supervisorRequired')"
+          :validator-group="taskValidatorName"
           :storeApi="assigneeByStore"
           :read-only="readOnly"
           :value="assigneeBy"
