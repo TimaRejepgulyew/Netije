@@ -24,12 +24,12 @@ export default {
     let result = true;
     if (
       !this.$store.getters[
-        `document/${+this.$route.params.id}/skipRouteHandling`
+        `documents/${+this.$route.params.id}/skipRouteHandling`
       ]
     ) {
       result = await documentChangeTracker.handleConfirm(
         this,
-        this.$route.params.id
+        +this.$route.params.id
       );
     }
     next(result);
@@ -38,7 +38,7 @@ export default {
     let result = true;
     if (
       !this.$store.getters[
-        `document/${this.$route.params.id}/skipRouteHandling`
+        `documents/${this.$route.params.id}/skipRouteHandling`
       ]
     ) {
       result = await documentChangeTracker.handleConfirm(

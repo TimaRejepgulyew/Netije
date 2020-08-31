@@ -7,7 +7,7 @@ export const state = () => ({
   overlays: null,
   isNew: false,
   isDataChanged: false,
-  skipRouteHandling: false
+  skipRouteHandling: true
 });
 
 export const getters = {

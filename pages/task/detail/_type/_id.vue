@@ -21,36 +21,27 @@ export default {
     };
   },
   async beforeRouteLeave(to, from, next) {
+    console.log("pass");
     let result = true;
-    if (
-      !this.$store.getters[`tasks/${this.$route.params.id}/skipRouteHandling`]
-    ) {
-      result = await taskChangeTracker.handleConfirm(
-        this,
-        this.$route.params.id
-      );
-
-      next(result);
+    if (!this.$store.getters[`tasks/${+this.taskId}/skipRouteHandling`]) {
     }
+    result = await taskChangeTracker.handleConfirm(this, this.taskId);
+    console.log(result, "result");
+    next(result);
   },
   async beforeRouteUpdate(to, from, next) {
+    console.log("pass");
     let result = true;
-    if (
-      !this.$store.getters[`tasks/${this.$route.params.id}/skipRouteHandling`]
-    ) {
-      result = await taskChangeTracker.handleConfirm(
-        this,
-        this.$route.params.id
-      );
+    if (!this.$store.getters[`tasks/${this.taskId}/skipRouteHandling`]) {
+      result = await taskChangeTracker.handleConfirm(this, this.taskId);
       if (result) {
         await load(this, {
           taskType: +this.$route.params.type,
-          taskId: +this.$route.params.id,
+          taskId: +this.taskId,
         });
       }
-
-      next(result);
     }
+    next(result);
   },
   methods: {
     closeTask() {

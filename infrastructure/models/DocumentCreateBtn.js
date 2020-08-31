@@ -7,8 +7,13 @@ async function create(context, params) {
     params
   );
   const route = `/document-module/detail/${documentTypeGuid}/${documentId}`;
-  const replaceOldRoute =
-    context.$store.getters[`documents/${documentId}/isNew`];
+  let replaceOldRoute = false;
+  if (context.$route.name.includes("document-module-detail-type-id")) {
+    replaceOldRoute =
+      context.$store.getters[`tasks/${context.$route.params.id}/isNew`];
+  } else {
+    replaceOldRoute = false;
+  }
   toRouter(context, { route, replaceOldRoute });
   return { documentTypeGuid, documentId };
 }

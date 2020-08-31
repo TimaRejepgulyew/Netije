@@ -39,12 +39,12 @@
             <DxLabel location="left" :text="$t('task.fields.isElectronicAcquaintance')" />
           </DxSimpleItem>
         </DxGroupItem>
-        <DxSimpleItem template="observers" data-field="observers">
-          <DxLabel location="left" :text="$t('task.fields.observers')" />
-        </DxSimpleItem>
         <DxSimpleItem data-field="performers" template="performers">
           <DxRequiredRule :message="$t('task.validation.acquaintMembersRequired')" />
           <DxLabel location="left" :text="$t('task.fields.acquaintMembers')" />
+        </DxSimpleItem>
+        <DxSimpleItem template="observers" data-field="observers">
+          <DxLabel location="left" :text="$t('task.fields.observers')" />
         </DxSimpleItem>
         <DxSimpleItem template="excludedPerformers" data-field="excludedPerformers">
           <DxLabel location="left" :text="$t('task.fields.excludedPerformers')" />

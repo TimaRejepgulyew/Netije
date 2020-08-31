@@ -4,8 +4,16 @@ import toRouter from "~/infrastructure/services/toRouterDetail.js";
 async function create(context, params) {
   const { taskId, taskType } = await createTask(context, params);
   const route = `/task/detail/${+taskType}/${taskId}`;
-  const replaceOldRoute = context.$store.getters[`tasks/${taskId}/isNew`];
+  let replaceOldRoute = false;
+  if (context.$route.name.includes("task-detail-type-id")) {
+    replaceOldRoute =
+      context.$store.getters[`tasks/${context.$route.params.id}/isNew`];
+  } else {
+    replaceOldRoute = false;
+  }
+
   toRouter(context, { route, replaceOldRoute });
+  return { taskId, taskType };
 }
 export default class CreateTaskBtn extends TaskType {
   init() {

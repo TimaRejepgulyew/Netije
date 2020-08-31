@@ -171,7 +171,7 @@ export default {
         ],
         value: this.task.routeType,
         onValueChanged: (e) => {
-          this.$store.commit(`tasks/${this.taskId}/SET_IMPORTANCE`, e.value);
+          this.$store.commit(`tasks/${this.taskId}/SET_ROUTE_TYPE`, e.value);
         },
       };
     },
