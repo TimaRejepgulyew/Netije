@@ -27,17 +27,18 @@
             v-if="comment.entity.deadline && displayDeadline(comment.type)"
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.deadline)}}</div>
-          <div v-if="!comment.entity.isRead" class="d-flex task__item item--status">
-            <img class="icon--status" :src="unreadIcon" />
-            {{$t('shared.unread')}}
-          </div>
-          <div v-else-if="comment.entity.result !==null" class="d-flex task__item item--status">
+          <div v-if="comment.entity.result !==null" class="d-flex task__item item--status">
             <img class="icon--status" :src="parseIconResult(comment.entity.result)" />
             {{parseTextResult(comment.entity.result)}}
           </div>
-          <div v-else class="d-flex task__item item--status">
+
+          <div v-else-if="comment.entity.status !==null" class="d-flex task__item item--status">
             <img class="icon--status" :src="parseIconStatus(comment.entity.status)" />
             {{parseTextStatus(comment.entity.status)}}
+          </div>
+          <div v-else class="d-flex task__item item--status">
+            <img class="icon--status" :src="unreadIcon" />
+            {{$t('shared.unread')}}
           </div>
         </div>
       </div>
@@ -67,14 +68,14 @@ export default {
   components: {
     iconByName,
     treadTextMediator: () =>
-      import("~/components/workFlow/thread-text/text-mediator.vue")
+      import("~/components/workFlow/thread-text/text-mediator.vue"),
   },
   name: "task-item",
   props: ["comment"],
   data() {
     return {
       unreadIcon,
-      resultStore: generateElementsResult(this.comment.entity.assignmentType)
+      resultStore: generateElementsResult(this.comment.entity.assignmentType),
     };
   },
   methods: {
@@ -112,8 +113,8 @@ export default {
         default:
           return true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
