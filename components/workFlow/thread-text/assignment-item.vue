@@ -27,19 +27,7 @@
             v-if="comment.entity.deadline && displayDeadline(comment.type)"
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.deadline)}}</div>
-          <div v-if="comment.entity.result !==null" class="d-flex task__item item--status">
-            <img class="icon--status" :src="parseIconResult(comment.entity.result)" />
-            {{parseTextResult(comment.entity.result)}}
-          </div>
-
-          <div v-else-if="comment.entity.status !==null" class="d-flex task__item item--status">
-            <img class="icon--status" :src="parseIconStatus(comment.entity.status)" />
-            {{parseTextStatus(comment.entity.status)}}
-          </div>
-          <div v-else class="d-flex task__item item--status">
-            <img class="icon--status" :src="unreadIcon" />
-            {{$t('shared.unread')}}
-          </div>
+          <component :is="showIndicatorComponent(comment.entity)" :data="comment.entity" />
         </div>
       </div>
       <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
@@ -57,28 +45,36 @@
   </div>
 </template>
 <script>
-import unreadIcon from "~/static/icons/status/unread.svg";
-import { assignmentStatusLocalization } from "~/infrastructure/constants/assignmentStatus.js";
-import { generateElementsResult } from "~/infrastructure/constants/assignmentResult.js";
+import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
+import * as indicators from "~/components/workFlow/thread-text/indicator-state/indicators.js";
 import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
+    ...indicators,
     iconByName,
     treadTextMediator: () =>
       import("~/components/workFlow/thread-text/text-mediator.vue"),
   },
   name: "task-item",
   props: ["comment"],
-  data() {
-    return {
-      unreadIcon,
-      resultStore: generateElementsResult(this.comment.entity.assignmentType),
-    };
-  },
   methods: {
+    showIndicatorComponent(data) {
+      console.log("dat", data);
+      if (data.status === AssignmentStatus.Completed) {
+        return "result-indicator";
+      } else if (data.status === AssignmentStatus.Aborted) {
+        return "status-indicator";
+      } else if (data.status === AssignmentStatus.InProcess) {
+        if (data.isRead) {
+          return "status-indicator";
+        } else {
+          return "isRead-indicator";
+        }
+      }
+    },
     toDetail(emitName, params) {
       this.$emit(emitName, params);
     },
@@ -87,18 +83,6 @@ export default {
     },
     toDetailAuthor(id) {
       this.$emit("toDetailAuthor", id);
-    },
-    parseIconStatus(status) {
-      return assignmentStatusLocalization(this)[status]?.icon;
-    },
-    parseTextStatus(status) {
-      return assignmentStatusLocalization(this)[status]?.text;
-    },
-    parseIconResult(result) {
-      return this.resultStore(this)[result]?.icon;
-    },
-    parseTextResult(result) {
-      return this.resultStore(this)[result]?.text;
     },
     parseSubject(value) {
       return assignmentTypeName(this)[value]?.text;
