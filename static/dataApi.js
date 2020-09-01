@@ -79,6 +79,7 @@ export default {
   },
 
   task: {
+    CheckMembersPermissions: `${url}/api/Task/CheckMembersPermissions/`,
     actionItemExecution: {
       GetAvailableProducers: `${url}/api/Task/ActionItemExecution/GetAvailableProducers/`
     },

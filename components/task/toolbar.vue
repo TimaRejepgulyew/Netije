@@ -1,12 +1,10 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-      <DxItem
-        :visible="canStart"
-        :options="startButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
+      <DxItem template="toolbarItemStartBtn" :visible="canStart" location="before" />
+      <template #toolbarItemStartBtn>
+        <toolbar-item-start-btn @onStart="onStart" :taskId="taskId" />
+      </template>
       <DxItem
         :visible="canSave"
         :disabled="!isDataChanged"
@@ -51,10 +49,10 @@
 <script>
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
+import toolbarItemStartBtn from "~/components/task/start-btn.vue";
 import toolbarItemImportanceChanger from "~/components/task/importance-changer";
 import { alert } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import { DxButton } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
@@ -65,12 +63,17 @@ export default {
   components: {
     toolbarItemImportanceChanger,
     toolbarItemAccessRight,
-    DxButton,
+    toolbarItemStartBtn,
     DxToolbar,
     DxItem,
   },
   props: ["taskId"],
   inject: ["isValidTask"],
+  data() {
+    return {
+      isPopupAccesRight: false,
+    };
+  },
   computed: {
     entityType() {
       return mapToEntityType(this.task.taskType);
@@ -123,29 +126,16 @@ export default {
         },
       };
     },
-    startButtonOptions() {
-      return {
-        ...this.$store.getters["globalProperties/btnStart"](this),
-        onClick: () => {
-          if (
-            this.validateAttachment() &&
-            this.$parent.$refs["form"].instance.validate().isValid
-          )
-            this.$awn.asyncBlock(
-              this.$store.dispatch(`tasks/${this.taskId}/start`),
-              (e) => {
-                this.$emit("onStart");
-              },
-              (e) => this.$awn.alert()
-            );
-        },
-      };
-    },
     abortButtonOptions() {
       return {
         icon: abortIcon,
         hint: this.$t("buttons.abort"),
-        onClick: () => {
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("task.message.sureAbortTask"),
+            this.$t("shared.confirm")
+          );
+          if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/abort`),
             (e) => {
@@ -160,7 +150,12 @@ export default {
       return {
         icon: restartIcon,
         hint: this.$t("buttons.restart"),
-        onClick: () => {
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("task.message.sureRestartTask"),
+            this.$t("shared.confirm")
+          );
+          if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/restart`),
             (e) => {
@@ -193,6 +188,9 @@ export default {
     },
   },
   methods: {
+    onStart() {
+      this.$emit("onStart");
+    },
     onClose() {
       this.$emit("onClose");
     },

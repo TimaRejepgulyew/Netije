@@ -1,6 +1,6 @@
 <template>
   <div id="form-demo">
-    <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard"></Header>
+    <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard" />
     <toolbar
       v-if="canUpdate"
       :taskId="taskId"
