@@ -27,10 +27,7 @@
             v-if="comment.entity.maxDeadline && displayDeadline(comment.type)"
             :class="{'expired':comment.isExpired}"
           >{{$t("translations.fields.deadLine")}}: {{formatDate(comment.entity.maxDeadline)}}</div>
-          <div class="d-flex task__item item--status">
-            <img class="icon--status" :src="parseIconStatus(comment.entity.status)" />
-            {{parseTextStatus(comment.entity.status)}}
-          </div>
+          <status-indicator :data="comment.entity" />
         </div>
       </div>
       <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
@@ -48,13 +45,15 @@
   </div>
 </template>
 <script>
-import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
+import statusIndicator  from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";
+
 import TaskType from "~/infrastructure/models/TaskType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
+    statusIndicator,
     iconByName,
     treadTextMediator: () =>
       import("~/components/workFlow/thread-text/text-mediator.vue"),
@@ -71,12 +70,6 @@ export default {
     },
     toDetailAuthor(id) {
       this.$emit("toDetailAuthor", id);
-    },
-    parseIconStatus(status) {
-      return taskStatusGeneratorObj(this)[status]?.icon;
-    },
-    parseTextStatus(status) {
-      return taskStatusGeneratorObj(this)[status].text;
     },
     parseSubject(value) {
       return new TaskType(this).getById(value).text;

@@ -1,5 +1,6 @@
 <template>
   <div class="d-flex task__item item--status">
+
     <img class="icon--status" :src="isRead.icon" />
     {{isRead.text}}
   </div>

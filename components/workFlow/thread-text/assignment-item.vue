@@ -46,7 +46,7 @@
 </template>
 <script>
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
-import * as indicators from "~/components/workFlow/thread-text/indicator-state/indicators.js";
+import * as indicators from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
 import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";

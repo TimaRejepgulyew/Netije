@@ -22,10 +22,7 @@
           </div>
         </div>
         <div class="task-state">
-          <div class="d-flex task__item item--status">
-            <img class="icon--status" :src="isReadStatusIcon(comment.entity.isRead)" />
-            {{isReadStatusText(comment.entity.isRead)}}
-          </div>
+          <is-read-indicator :data="comment.entity" />
         </div>
       </div>
       <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
@@ -43,8 +40,7 @@
   </div>
 </template>
 <script>
-import unreadIcon from "~/static/icons/status/unread.svg";
-import readIcon from "~/static/icons/status/read.svg";
+import { isReadIndicator } from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
 import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
@@ -52,17 +48,13 @@ import moment from "moment";
 export default {
   components: {
     iconByName,
+    isReadIndicator,
     treadTextMediator: () =>
-      import("~/components/workFlow/thread-text/text-mediator.vue")
+      import("~/components/workFlow/thread-text/text-mediator.vue"),
   },
   name: "task-item",
   props: ["comment"],
-  data() {
-    return {
-      readIcon,
-      unreadIcon
-    };
-  },
+
   methods: {
     isReadStatusText(isRead) {
       return isRead ? this.$t("shared.read") : this.$t("shared.unread");
@@ -92,8 +84,8 @@ export default {
         default:
           return true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -9,9 +9,14 @@
 import { generateElementsResult } from "~/infrastructure/constants/assignmentResult.js";
 export default {
   props: ["data"],
+  created() {
+    console.log(
+      generateElementsResult(this.data.assignmentType)(this)[this.data.result]
+    );
+  },
   data() {
     return {
-      result: generateElementsResult(this.data.assignmentType)[
+      result: generateElementsResult(this.data.assignmentType)(this)[
         this.data.result
       ],
     };
