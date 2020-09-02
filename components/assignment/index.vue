@@ -41,7 +41,18 @@
                   <DxSimpleItem template="comments">
                     <DxLabel location="left" :visible="false" />
                   </DxSimpleItem>
+                  <DxSimpleItem template="comments">
+                    <DxLabel location="left" :visible="false" />
+                  </DxSimpleItem>
                 </DxGroupItem>
+                <DxSimpleItem
+                  template=""
+                  :data-field="comment"
+                  editor-type="dxTextArea"
+                  :visible="inProcess&&canUpdate"
+                >
+                  <DxLabel location="left" :text="$t('shared.whom')" />
+                </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
             <DxGroupItem template="attachments" :col-span="3" />
@@ -79,6 +90,7 @@
   </div>
 </template>
 <script>
+import * as assignmentBodyComponents from "~/"
 import { unload } from "~/infrastructure/services/assignmentService.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
@@ -182,6 +194,16 @@ export default {
     attachmentGroups() {
       return this.assignment.attachmentGroups;
     },
+    // bodyOptions() {
+    //   return {
+    //     placeholder: "",
+    //     height: 250,
+    //     value: this.comment,
+    //     onValueChanged: (e) => {
+    //       this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
+    //     },
+    //   };
+    // },
   },
   methods: {
     componentByType(componentName) {

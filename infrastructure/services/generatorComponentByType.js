@@ -1,21 +1,23 @@
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
-export default function(context) {}
+export default function (context) { }
 export const ComponentsByAssignmentType = new Map([
-  [AssignmentType.SimpleAssignment, { toolbar: "toolbar-simple-assignment" }],
+  [AssignmentType.SimpleAssignment, { toolbar: "toolbar-simple-assignment", body: "body-simple-assignment" }],
   [
     AssignmentType.AcquaintanceAssignment,
     {
       toolbar: "toolbar-acquaintance-assignment",
-      additional: "additional-acquaintance-assignment-description"
+      additional: "additional-acquaintance-assignment-description",
+      body: "body-acquaintance-assignment"
+
     }
   ],
   [
     AssignmentType.ActionItemExecutionAssignment,
-    { toolbar: "toolbar-action-item-execution-assignment" }
+    { toolbar: "toolbar-action-item-execution-assignment", body: "body-action-item-execution-assignment" }
   ],
   [
     AssignmentType.AcquaintanceFinishAssignment,
-    { toolbar: "toolbar-acquaintance-finish-assignment" }
+    { toolbar: "toolbar-acquaintance-finish-assignment", body: "body-acquaintance-finish-assignment" }
   ],
   [
     AssignmentType.ActionItemSupervisorAssignment,

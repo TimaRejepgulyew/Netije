@@ -1,6 +1,6 @@
 import toolbarSimpleAssignment from "~/components/assignment/toolbars/simple-assignment.vue";
 import toolbarAcquaintanceAssignment from "~/components/assignment/toolbars/acquaintance-assignment.vue";
-import toolbarActionItemExecutionAssignment from "~/components/assignment/toolbars/actionItem-execution-assignment.vue";
+import toolbarActionItemExecutionAssignment from "~/components/assignment/toolbars/action-item-execution-assignment.vue";
 import toolbarAcquaintanceFinishAssignment from "~/components/assignment/toolbars/acquaintance-finish-assignment.vue";
 import toolbarActionItemSupervisorAssignment from "~/components/assignment/toolbars/action-item-supervisor-assignment.vue";
 import toolbarPreparingDraftResolutionAssignment from "~/components/assignment/toolbars/preparing-draft-resolution-assignment.vue";
