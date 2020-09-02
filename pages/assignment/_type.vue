@@ -115,7 +115,11 @@
           <is-important-icon v-if="cell.data.value" :state="cell.data.value" />
         </template>
         <template #typeIcon="cell">
-          <icon-by-assignment-type class="icon--type" :assignmentType="cell.data.value" />
+          <icon-by-assignment-type
+            class="icon--type"
+            :assignmentType="cell.data.value"
+            :assignmentTypes="assignmentTypes"
+          />
         </template>
       </DxDataGrid>
       <transition name="fade">
@@ -127,10 +131,11 @@
   </main>
 </template>
 <script>
+import AssignmentType from "~/infrastructure/models/AssignmentType.js";
+
 import isImportantIcon from "~/components/page/task-important.vue";
 import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
-import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import AssignmentQuery, {
   generateAssignmentQueryName,
@@ -201,6 +206,9 @@ export default {
     };
   },
   computed: {
+    assignmentTypes() {
+      return new AssignmentType(this).withIconGroup();
+    },
     headerTitle() {
       return generateAssignmentQueryName(+this.$route.params.type, this);
     },
@@ -226,8 +234,13 @@ export default {
       this.store.reload();
     },
     showCompleteAssignment(style, data) {
-      if(data.assignmentType = AssignmentType)
-      style.fontWeight = 500;
+      if (
+        (!this.assignmentTypes.isNotification(data.assignmentType) &&
+          data.status === AssignmentStatus.Completed) ||
+        data.status === AssignmentStatus.Aborted
+      ) {
+        style.textDecoration = "line-through";
+      }
     },
     onRowPrepared(e) {
       if (e.data != undefined) {
@@ -237,9 +250,6 @@ export default {
         }
         if (e.data.isExpired) {
           e.rowElement.style.color = "red";
-        }
-        if (e.data.status == AssignmentStatus.Completed) {
-          e.rowElement.style.textDecoration = "line-through";
         }
         this.showCompleteAssignment(e.rowElement.style, e.data);
       }

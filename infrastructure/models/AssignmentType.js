@@ -1,6 +1,6 @@
 import AssignmentTypeGuid from "~/infrastructure/constants/assignmentType.js"
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
-import assignmentIcon from "~/static/icons/assignmentType/clock.svg"
+import * as assignmentTypeGroupIcon from "~/static/icons/assignmentType/index.js"
 export default class AssignmentType {
 
   constructor(context) {
@@ -10,18 +10,19 @@ export default class AssignmentType {
       context: context,
     });
   }
-  whithIconGroup() {
-    
-    for (element in this.filterAssignment()) {
-      this.elements[element].icon = assignmentIcon
-    }
-    for (element in this.filteringNotification()) {
-      this.elements[element].icon = notificationIcon
-    }
-    for (element in this.filteringReviewAssignment()) {
-      this.elements[element].icon = reviewAssignmentIcon
-    }
+  withIconGroup() {
 
+    for (let element in this.filterAssignment()) {
+      this.elements[element].icon = assignmentTypeGroupIcon.assignmentIcon
+    }
+    for (let element in this.filteringNotification()) {
+      this.elements[element].icon = assignmentTypeGroupIcon.noticeIcon
+    }
+    for (let element in this.filteringReviewAssignment()) {
+      this.elements[element].icon = assignmentTypeGroupIcon.underreviewIcon
+    }
+    this.elements[AssignmentTypeGuid.AcquaintanceAssignment].icon = assignmentTypeGroupIcon.acquintanceIcon
+    return this
   }
   filtering(allowTypes) {
     const filterObj = {};
@@ -42,6 +43,7 @@ export default class AssignmentType {
   }
   filterAssignment() {
     const allowTypes = [
+      AssignmentTypeGuid.AcquaintanceAssignment,
       AssignmentTypeGuid.ReviewDraftResolutionAssignment,
       AssignmentTypeGuid.SimpleAssignment,
       AssignmentTypeGuid.ActionItemExecutionAssignment,
@@ -52,6 +54,16 @@ export default class AssignmentType {
       AssignmentTypeGuid.FreeApprovalReworkAssignment,
     ]
     return this.filtering(allowTypes);
+  }
+  isAssignment(assignmentType) {
+    let isAssignment = false
+    const elements = this.filterAssignment()
+    for (let element in elements) {
+      if (assignmentType === +element)
+        isAssignment = true
+      break
+    }
+    return isAssignment
   }
   filteringNotification() {
     const allowTypes = [
@@ -67,6 +79,16 @@ export default class AssignmentType {
     ]
     return this.filtering(allowTypes);
   }
+  isNotification(assignmentType) {
+    let isNotification = false
+    const elements = this.filteringNotification()
+    for (let element in elements) {
+      if (assignmentType === +element)
+        isNotification = true
+      break
+    }
+    return isNotification
+  }
   filteringReviewAssignment() {
     const allowTypes = [
       AssignmentTypeGuid.AcquaintanceFinishAssignment,
@@ -75,6 +97,16 @@ export default class AssignmentType {
       AssignmentTypeGuid.FreeApprovalFinishAssignment,
     ]
     return this.filtering(allowTypes);
+  }
+  isReviewAssignment(assignmentType) {
+    let isReviewAssignment = false
+    const elements = this.filteringReviewAssignment()
+    for (let element in elements) {
+      if (assignmentType === +element)
+        isReviewAssignment = true
+      break
+    }
+    return isReviewAssignment
   }
 
 
