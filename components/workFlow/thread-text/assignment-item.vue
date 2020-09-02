@@ -11,10 +11,7 @@
           </div>
 
           <div class="list__content d-flex">
-            <div class="link" @click="()=>toDetailAuthor(comment.author.id)">
-              <i class="dx-icon dx-icon-user"></i>
-              {{ comment.author.name}}
-            </div>
+            <threadTextComponentAuthor :author="comment.author" @toDetailAuthor="toDetailAuthor" />
             <div>
               <i class="dx-icon dx-icon-event"></i>
               {{formatDate(comment.modificationDate)}}
@@ -45,6 +42,7 @@
   </div>
 </template>
 <script>
+import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import * as indicators from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
 import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
@@ -53,6 +51,7 @@ import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTex
 import moment from "moment";
 export default {
   components: {
+    threadTextComponentAuthor,
     ...indicators,
     iconByName,
     treadTextMediator: () =>
