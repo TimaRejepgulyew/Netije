@@ -1,7 +1,11 @@
 <template>
-  <div v-if="!isElectronicAcquaintance">
-    <div>{{$t("shared.explanation")}}</div>
-    <div>{{$t("task.message.acquaintDocumentMessage")}}</div>
+  <div class="d-flex align-content-center info-message" v-if="!isElectronicAcquaintance">
+    <i class="dx-icon-info info-message__icon"></i>
+
+    <div class="info-message__text">
+      <div>{{$t("shared.explanation")}}</div>
+      <div>{{$t("task.message.acquaintDocumentMessage")}}</div>
+    </div>
   </div>
 </template>
 
@@ -19,5 +23,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" >
+.info-message {
+  
+  font-size: 1.1em;
+  font-weight: 500px;
+  font-style: italic;
+  .info-message__icon {
+    padding: 5px;
+    display: inline-flex;
+    align-self: center;
+    font-size: 25px;
+  }
+}
 </style>
