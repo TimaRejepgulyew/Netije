@@ -1,5 +1,5 @@
 <template>
-  <img class="icon--type" :src="iconByType" />
+  <img class="group-title__icon" :src="iconByType" />
 </template>
 
 <script>
@@ -29,8 +29,8 @@ export default {
 };
 </script>
 
-<style >
-.icon--type {
+<style  >
+.group-title__icon {
   margin-right: 10px;
   width: 25px;
   height: 100%;

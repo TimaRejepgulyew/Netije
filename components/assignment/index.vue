@@ -44,7 +44,7 @@
                 </DxGroupItem>
               </DxGroupItem>
             </DxGroupItem>
-            <DxGroupItem template="attachments" :col-span="3"></DxGroupItem>
+            <DxGroupItem template="attachments" :col-span="3" />
             <template #authorId>
               <employee-select-box valueExpr="id" :value="authorId" :readOnly="true" />
             </template>
