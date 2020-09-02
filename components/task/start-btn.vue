@@ -1,6 +1,11 @@
 <template>
   <div>
-    <DxButton :icon="startIcon" :hint="$t('buttons.start')" :on-click="startTask" />
+    <DxButton
+      :icon="startIcon"
+      :hint="$t('buttons.start')"
+      :text="$t('buttons.start')"
+      :on-click="startTask"
+    />
     <DxPopup
       :showTitle="false"
       :visible.sync="isPopupAccesRight"

@@ -124,6 +124,7 @@ export default {
       return {
         icon: saveIcon,
         hint: this.$t("buttons.save"),
+        text: this.$t("buttons.save"),
         onClick: () => {
           this.save();
         },
@@ -133,6 +134,7 @@ export default {
       return {
         icon: abortIcon,
         hint: this.$t("buttons.abort"),
+        text: this.$t("buttons.abort"),
         onClick: async () => {
           const response = await confirm(
             this.$t("task.message.sureAbortTask"),
@@ -151,6 +153,7 @@ export default {
       return {
         icon: restartIcon,
         hint: this.$t("buttons.restart"),
+        text: this.$t("buttons.restart"),
         onClick: async () => {
           const response = await confirm(
             this.$t("task.message.sureRestartTask"),
@@ -169,6 +172,7 @@ export default {
       return {
         icon: "trash",
         hint: this.$t("buttons.delete"),
+        text: this.$t("buttons.delete"),
         onClick: async () => {
           let response = await confirm(
             this.$t("shared.areYouSureDeleteTask"),
