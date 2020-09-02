@@ -1,4 +1,4 @@
-import AbstractType from "~/infrastructure/models/AbstractType.js";
+
 import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as taskTypeIcons from "~/static/icons/taskType.js";

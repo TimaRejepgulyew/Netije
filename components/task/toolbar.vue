@@ -79,6 +79,10 @@ export default {
       return mapToEntityType(this.task.taskType);
     },
     canDelete() {
+      console.log(
+        this.$store.getters[`tasks/${this.taskId}/canDelete`],
+        this.isNew
+      );
       return (
         this.$store.getters[`tasks/${this.taskId}/canDelete`] && !this.isNew
       );
@@ -114,8 +118,11 @@ export default {
     isAborted() {
       return this.$store.getters[`tasks/${this.taskId}/isAborted`];
     },
+    isUnderReview() {
+      return this.$store.getters[`tasks/${this.taskId}/isUnderReview`];
+    },
     canAbort() {
-      return this.inProcess;
+      return this.inProcess || this.isUnderReview;
     },
     saveButtonOptions() {
       return {
@@ -138,9 +145,7 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/abort`),
-            (e) => {
-              
-            },
+            (e) => {},
             (e) => this.$awn.alert()
           );
         },

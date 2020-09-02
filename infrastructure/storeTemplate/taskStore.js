@@ -3,6 +3,7 @@ import TaskStatus from "~/infrastructure/constants/taskStatus";
 import TaskType from "~/infrastructure/constants/taskType";
 export const state = () => ({
   task: {},
+  canDelete: false,
   canUpdate: false,
   overlays: null,
   isNew: false,
@@ -31,6 +32,9 @@ export const getters = {
   },
   isCompleted({ task }) {
     return task.status === TaskStatus.Completed;
+  },
+  isUnderReview({ task }) {
+    return task.status === TaskStatus.UnderReview
   },
   inProcess({ task }) {
     return task.status === TaskStatus.InProcess;
@@ -220,18 +224,18 @@ export const actions = {
     commit("SET_STATUS", TaskStatus.InProcess);
   },
   async abort({ state, commit }) {
-    const res = await this.$axios.post(dataApi.task.Abort, {
+    const { data } = await this.$axios.post(dataApi.task.Abort, {
       id: state.task.id,
       taskType: state.task.taskType
     });
-    commit("SET_STATUS", TaskStatus.Aborted);
+    commit("SET_TASK", data);
   },
   async restart({ state, commit }) {
-    await this.$axios.post(dataApi.task.Restart, {
+    const { data } = await this.$axios.post(dataApi.task.Restart, {
       id: state.task.id,
       taskType: state.task.taskType
     });
-    commit("SET_STATUS", TaskStatus.Draft);
+    commit("SET_TASK", data);
   },
   async pasteAttachment({ commit, dispatch, state }, payload) {
     const options = { ...payload, id: state.task.id };

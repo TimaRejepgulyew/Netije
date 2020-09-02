@@ -120,7 +120,7 @@
       </DxDataGrid>
       <transition name="fade">
         <aside class="sideBar" v-show="isFilterOpen">
-          <TaskFilter @changeFilter="changeFilter" @showFilter="showFilter"></TaskFilter>
+          <TaskFilter @changeFilter="changeFilter" @showFilter="showFilter" />
         </aside>
       </transition>
     </div>
@@ -133,7 +133,7 @@ import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import AssignmentQuery, {
-  generateAssignmentQueryName
+  generateAssignmentQueryName,
 } from "~/infrastructure/constants/assignmentQuery.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -156,7 +156,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -180,7 +180,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     iconByAssignmentType,
-    isImportantIcon
+    isImportantIcon,
   },
 
   data() {
@@ -189,15 +189,15 @@ export default {
         store: this.$dxStore({
           key: "id",
           loadUrl:
-            dataApi.assignment.Assignments + (this.$route.params.type || 0)
+            dataApi.assignment.Assignments + (this.$route.params.type || 0),
         }),
-        sort: [{ selector: "created", desc: true }]
+        sort: [{ selector: "created", desc: true }],
       }),
       isFilterOpen: false,
       employeeStores: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.Employee
-      })
+        loadUrl: dataApi.company.Employee,
+      }),
     };
   },
   computed: {
@@ -206,7 +206,7 @@ export default {
     },
     withFilter() {
       return +this.$route.params.type === AssignmentQuery.All;
-    }
+    },
   },
   methods: {
     subjectText(rowData) {
@@ -219,11 +219,15 @@ export default {
       header.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
-        options: { icon: "refresh", onClick: this.reload }
+        options: { icon: "refresh", onClick: this.reload },
       });
     },
     reload() {
       this.store.reload();
+    },
+    showCompleteAssignment(style, data) {
+      if(data.assignmentType = AssignmentType)
+      style.fontWeight = 500;
     },
     onRowPrepared(e) {
       if (e.data != undefined) {
@@ -237,6 +241,7 @@ export default {
         if (e.data.status == AssignmentStatus.Completed) {
           e.rowElement.style.textDecoration = "line-through";
         }
+        this.showCompleteAssignment(e.rowElement.style, e.data);
       }
     },
     changeFilter(filter) {
@@ -244,15 +249,14 @@ export default {
         this.store = new DataSource({
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.assignment.Assignments + this.$route.params.type
+            loadUrl: dataApi.assignment.Assignments + this.$route.params.type,
           }),
           sort: [{ selector: "created", desc: true }],
-          filter: filter.filter.length > 0 ? filter.filter : null
+          filter: filter.filter.length > 0 ? filter.filter : null,
         });
       }
     },
     showAssignment(e) {
-      
       this.$router.push("/assignment/more/" + e.key);
     },
 
@@ -264,8 +268,8 @@ export default {
         case Important.High:
           return require("~/static/icons/iconAssignment/important.svg");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped >

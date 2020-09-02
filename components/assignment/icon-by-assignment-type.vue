@@ -3,6 +3,7 @@
 </template>
 
 <script>
+
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 export default {
   props: ["assignmentType"],
