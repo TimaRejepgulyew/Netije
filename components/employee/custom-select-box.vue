@@ -97,7 +97,6 @@ export default {
   },
   methods: {
     showPopup() {
-      console.log(this.$refs["employee"].instance);
       this.employeeId = this.$refs["employee"].instance.option("selectedItem").id;
       this.$refs["popup"].instance.toggle();
     },

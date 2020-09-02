@@ -61,7 +61,7 @@ export default {
   props: ["comment"],
   methods: {
     showIndicatorComponent(data) {
-      console.log("dat", data);
+  
       if (data.status === AssignmentStatus.Completed) {
         return "result-indicator";
       } else if (data.status === AssignmentStatus.Aborted) {

@@ -79,10 +79,6 @@ export default {
       return mapToEntityType(this.task.taskType);
     },
     canDelete() {
-      console.log(
-        this.$store.getters[`tasks/${this.taskId}/canDelete`],
-        this.isNew
-      );
       return (
         this.$store.getters[`tasks/${this.taskId}/canDelete`] && !this.isNew
       );

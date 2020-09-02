@@ -21,16 +21,14 @@ export default {
     };
   },
   async beforeRouteLeave(to, from, next) {
-    console.log("pass");
+
     let result = true;
     if (!this.$store.getters[`tasks/${+this.taskId}/skipRouteHandling`]) {
     }
     result = await taskChangeTracker.handleConfirm(this, this.taskId);
-    console.log(result, "result");
     next(result);
   },
   async beforeRouteUpdate(to, from, next) {
-    console.log("pass");
     let result = true;
     if (!this.$store.getters[`tasks/${this.taskId}/skipRouteHandling`]) {
       result = await taskChangeTracker.handleConfirm(this, this.taskId);

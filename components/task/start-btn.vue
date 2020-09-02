@@ -112,8 +112,7 @@ export default {
       if (this.validateAttachment() && this.isValidTask()) {
         const hasRecipientAccessRight = await this.checkRecipientAccessRight();
         if (!hasRecipientAccessRight) return false;
-        console.log(hasRecipientAccessRight);
-        console.log("start");
+
         this.$awn.asyncBlock(
           this.$store.dispatch(`tasks/${this.taskId}/start`),
           (e) => {
