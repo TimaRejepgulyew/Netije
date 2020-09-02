@@ -224,7 +224,7 @@ export const actions = {
       id: state.task.id,
       taskType: state.task.taskType
     });
-    commit("SET_STATUS", TaskStatus.Abort);
+    commit("SET_STATUS", TaskStatus.Aborted);
   },
   async restart({ state, commit }) {
     await this.$axios.post(dataApi.task.Restart, {

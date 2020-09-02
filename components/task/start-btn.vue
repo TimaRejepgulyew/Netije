@@ -90,16 +90,16 @@ export default {
       this.isPopupAccesRight = !this.isPopupAccesRight;
     },
     async checkRecipientAccessRight() {
-      // const {
-      //   data: { succeeded, availableTypes },
-      // } = await this.$axios.get(
-      //   `${dataApi.task.CheckMembersPermissions}${this.task?.taskType}/${this.taskId}`
-      // );
-      const availableTypes = [
-        { id: 0, name: "Read" },
-        { id: 1, name: "write" },
-      ];
-      const succeeded = false;
+      const {
+        data: { succeeded, availableTypes },
+      } = await this.$axios.get(
+        `${dataApi.task.CheckMembersPermissions}${this.task?.taskType}/${this.taskId}`
+      );
+      // const availableTypes = [
+      //   { id: 0, name: "Read" },
+      //   { id: 1, name: "write" },
+      // ];
+      // const succeeded = false;
       if (!succeeded) {
         this.avaliableAccessRight = availableTypes;
         this.tooglePopupAccessRight();

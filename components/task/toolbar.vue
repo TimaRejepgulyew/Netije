@@ -139,7 +139,7 @@ export default {
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/abort`),
             (e) => {
-              this.onClose();
+              
             },
             (e) => this.$awn.alert()
           );
@@ -158,9 +158,7 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/restart`),
-            (e) => {
-              this.onClose();
-            },
+            (e) => {},
             (e) => this.$awn.alert()
           );
         },
