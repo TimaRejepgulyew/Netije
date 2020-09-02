@@ -45,7 +45,7 @@ export default {
     }
   },
   fields: {
-    note:"Комментарий",
+    note: "Комментарий",
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",
     isAdjustment: "Корректировочный",
@@ -102,6 +102,8 @@ export default {
     whom: "Кому"
   },
   validation: {
+    subjectRequired: "Введите содержания",
+    documentKindIdRequired: "Введите вид документа",
     departmentIdRequired: "Выберите подразделение",
     businessUnitIdRequired: "Выберите организацию",
     counterPartRequired: "Выберите контрагента",

@@ -70,8 +70,6 @@
         :value="addresseeId"
         :read-only="!canUpdate"
         :validatorGroup="documentValidatorName"
-
-
         @valueChanged="setAddresseeId"
       />
     </template>

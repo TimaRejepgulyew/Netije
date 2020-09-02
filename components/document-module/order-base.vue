@@ -4,7 +4,7 @@
     :col-count="1"
     :show-colon-after-label="true"
     :show-validation-summary="false"
-    validation-group="documentValidatorName"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="2">
       <DxGroupItem>
@@ -32,7 +32,7 @@
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
           <DxRequiredRule :message="$t('document.validation.preparedRequired')" />
-          <DxLabel location="left" :text="$t('document.fields.prepared')" />
+          <DxLabel location="left" :text="$t('document.fields.preparedById')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="assigneeId" template="assignee">
           <DxLabel location="left" :text="$t('document.fields.assigneeId')" />

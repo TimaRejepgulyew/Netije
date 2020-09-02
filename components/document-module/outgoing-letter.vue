@@ -4,7 +4,7 @@
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :readOnly="!canUpdate"
-    validation-group="documentValidatorName"
+    :validation-group="documentValidatorName"
   >
     <DxGroupItem :caption="$t('document.fields.whom')">
       <DxSimpleItem data-field="correspondentId" template="correspondent">
