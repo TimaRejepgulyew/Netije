@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+import TaskType from "~/infrastructure/constants/taskType.js";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -14,7 +15,7 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["assignmentId"],
   computed: {
@@ -31,8 +32,11 @@ export default {
             this.$t("shared.confirm")
           );
           this.setResult(ReviewResult.ReviewAssignment.Accept);
-          if (response) this.completeAssignment();
-        }
+          if (response) {
+            this.completeAssignment();
+            this.$router.go(-1);
+          }
+        },
       };
     },
     reworkBtnOptions() {
@@ -45,26 +49,31 @@ export default {
             this.$t("shared.confirm")
           );
           this.setResult(ReviewResult.ReviewAssignment.ForRework);
-          if (response) this.completeAssignment();
-        }
+          if (response) {
+            await this.completeAssignment();
+            const { taskId } = this.$store.getters[
+              `assignments/${this.assignmentId}/assignment`
+            ];
+            this.$router.push(`/task/detail/${TaskType.SimpleTask}/${taskId}`);
+          }
+        },
       };
-    }
+    },
   },
   methods: {
     setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);;
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
-        e => {
-          this.$router.go(-1);
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
+        (e) => {
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
