@@ -24,13 +24,11 @@
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
 
-        <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
-          <DxLookup
-            :allow-clearing="true"
-            :data-source="getActiveRecipientLinks"
-            value-expr="id"
-            display-expr="name"
-          />
+        <DxColumn
+          data-field="member.name"
+          data-type="string"
+          :caption="$t('translations.fields.name')"
+        >
         </DxColumn>
       </DxDataGrid>
     </template>
@@ -77,6 +75,9 @@ export default {
       default: () => ({}),
     },
   },
+  created() {
+    console.log(this.roleId);
+  },
   data() {
     let { id, immutable } = this.data.data;
     return {
@@ -101,16 +102,6 @@ export default {
   },
 
   methods: {
-    getActiveRecipientLinks(options) {
-      return {
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.recipient.list,
-        }),
-        paginate: true,
-        filter: options.data ? [["status", "=", Status.Active]] : [],
-      };
-    },
     onInitNewRow(e) {
       e.data.roleId = this.roleId;
     },

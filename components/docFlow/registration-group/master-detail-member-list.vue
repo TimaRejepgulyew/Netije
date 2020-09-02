@@ -35,7 +35,7 @@
       </DxDataGrid>
     </template>
 
-    <!-- TODO:V2.0 <DxItem :title="$t('translations.fields.permissions')" template="permissions" /> 
+    <!-- TODO:V2.0 <DxItem :title="$t('translations.fields.permissions')" template="permissions" />
     <permissions slot="permissions" :data="data.id" />-->
   </DxTabPanel>
 </template>
@@ -75,12 +75,6 @@ export default {
     data: {
       type: Object,
       default: () => ({}),
-      tabPanelOptions: {
-        focusStateEnabled: false,
-        animationEnabled: true,
-        swipeEnabled: true,
-        loop: "true",
-      },
     },
   },
   data() {
@@ -95,6 +89,12 @@ export default {
         removeUrl: dataApi.docFlow.RegistrationGroupMembers + id,
       }),
       statusDataSource: this.$store.getters["status/status"],
+      tabPanelOptions: {
+        focusStateEnabled: false,
+        animationEnabled: true,
+        swipeEnabled: true,
+        loop: "true",
+      },
     };
   },
   computed: {
@@ -111,7 +111,7 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
+          loadUrl: dataApi.recipient.list,
         }),
         paginate: true,
         filter: options.data
