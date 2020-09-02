@@ -14,10 +14,12 @@ export default {
       default: () => {},
     },
   },
-  computed: {
+  methods: {
     toDetailAuthor() {
       this.$emit("toDetailAuthor", this.author.id);
     },
+  },
+  computed: {
     isRecipient() {
       return this.author.recipientType === recipientTypes.Employee
         ? true

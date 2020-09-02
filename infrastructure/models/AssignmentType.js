@@ -1,5 +1,6 @@
 import AssignmentTypeGuid from "~/infrastructure/constants/assignmentType.js"
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
+import assignmentIcon from "~/static/icons/assignmentType/clock.svg"
 export default class AssignmentType {
 
   constructor(context) {
@@ -8,6 +9,19 @@ export default class AssignmentType {
       translateName: "assignment.type",
       context: context,
     });
+  }
+  whithIconGroup() {
+    
+    for (element in this.filterAssignment()) {
+      this.elements[element].icon = assignmentIcon
+    }
+    for (element in this.filteringNotification()) {
+      this.elements[element].icon = notificationIcon
+    }
+    for (element in this.filteringReviewAssignment()) {
+      this.elements[element].icon = reviewAssignmentIcon
+    }
+
   }
   filtering(allowTypes) {
     const filterObj = {};
@@ -26,7 +40,7 @@ export default class AssignmentType {
   getById(id) {
     return this.elements[id];
   }
-  filterIsAssignment() {
+  filterAssignment() {
     const allowTypes = [
       AssignmentTypeGuid.ReviewDraftResolutionAssignment,
       AssignmentTypeGuid.SimpleAssignment,
@@ -39,7 +53,7 @@ export default class AssignmentType {
     ]
     return this.filtering(allowTypes);
   }
-  filteringIsNotification() {
+  filteringNotification() {
     const allowTypes = [
       AssignmentTypeGuid.Notice,
       AssignmentTypeGuid.ActionItemExecutionNotification,
@@ -53,7 +67,7 @@ export default class AssignmentType {
     ]
     return this.filtering(allowTypes);
   }
-  filteringIsReviewAssignment() {
+  filteringReviewAssignment() {
     const allowTypes = [
       AssignmentTypeGuid.AcquaintanceFinishAssignment,
       AssignmentTypeGuid.ActionItemSupervisorAssignment,
@@ -62,18 +76,8 @@ export default class AssignmentType {
     ]
     return this.filtering(allowTypes);
   }
-  filterisAcquintanceAssignment() {
-    const allowTypes = [
-      AssignmentTypeGuid.AcquaintanceAssignment
-    ]
-    return this.filtering(allowTypes);
-  }
-  filterisActionItemExecutionAssignment() {
-    const allowTypes = [
-      AssignmentTypeGuid.ActionItemExecutionAssignment
-    ]
-    return this.filtering(allowTypes);
-  }
+
+
 
 
 }
