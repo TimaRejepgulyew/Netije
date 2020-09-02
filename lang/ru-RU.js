@@ -4,6 +4,7 @@ import documentRegistration, {
 } from "~/lang/i18n-translation/ru/documentRegistration.js";
 import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
+import recipientType from "~/lang/i18n-translation/ru/recipientType.js"
 export default {
   status: {
     active: "Активный",
@@ -411,9 +412,10 @@ export default {
       asyncBlock: "Загрузка"
     }
   },
+  recipientType,
   translations: {
     fields: {
-      body: "Комментарий",  correctedId: "Корректирует",
+      body: "Комментарий", correctedId: "Корректирует",
       isAdjustment: "Корректировочный",
       accountNumber: "Номер счета",
       accountDate: "Дата счета",

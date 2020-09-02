@@ -2,7 +2,7 @@ export default {
   BusinessUnit: 0,
   Department: 1,
   Role: 2,
-  Group: 3,
-  User: 4,
-  Employee: 5
+  RegistrationGroup: 3,
+  Employee: 4,
+  SistemUser: 5
 };

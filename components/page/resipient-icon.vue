@@ -15,30 +15,24 @@ export default {
           return require("~/static/icons/recipient-type/men.svg");
         case ResipientType.Role:
           return require("~/static/icons/recipient-type/supporter.svg");
-        case ResipientType.Group:
+        case ResipientType.ResistrationGroup:
           return require("~/static/icons/recipient-type/x-men.svg");
-        case ResipientType.Employee:
+        case ResipientType.SistemUser:
           return require("~/static/icons/recipient-type/business.svg");
-          case ResipientType.User:
+        case ResipientType.Employee:
           return require("~/static/icons/recipient-type/business.svg");
         default:
           throw "not this type icon resipient";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style scoped>
-.select--box.icon--type {
-  margin-right: 10px;
-  max-width: 20px;
-  height: 10px;
-}
+<style >
 .icon--type {
-  
   margin-right: 10px;
-  width: 30px;
+  width: 25px;
   height: 100%;
 }
 </style>

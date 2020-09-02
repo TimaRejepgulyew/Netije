@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import RecipientType from "~/infrastructure/constants/resipientType.js";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
