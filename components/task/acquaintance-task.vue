@@ -5,7 +5,7 @@
       :read-only="readOnly"
       :show-colon-after-label="true"
       :show-validation-summary="true"
-      :validation-group="validatorGroup"
+      :validation-group="taskValidatorName"
     >
       <DxGroupItem>
         <DxGroupItem :col-count="10">
@@ -29,6 +29,7 @@
             :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
+            <DxRequiredRule :message="$t('task.validation.deadlineRequired')" />
             <DxLabel location="left" :text="$t('task.fields.deadLine')" />
           </DxSimpleItem>
           <DxSimpleItem
@@ -62,8 +63,7 @@
       <template #performers>
         <recipient-tag-box
           :read-only="readOnly"
-          :messageRequired="$t('task.validation.acquaintMembersRequired')"
-          :validator-group="validatorGroup"
+         :validatorGroup="taskValidatorName"
           :recipients="performers"
           @setRecipients="setPerformers"
         />
@@ -106,11 +106,7 @@ export default {
     recipientTagBox,
   },
   props: ["taskId", "canUpdate"],
-  data() {
-    return {
-      validatorGroup: "task",
-    };
-  },
+  inject: ["taskValidatorName"],
   methods: {
     setObservers(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_OBSERVERS`, value);

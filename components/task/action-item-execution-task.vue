@@ -146,11 +146,8 @@ export default {
     DxForm,
   },
   props: ["taskId", "canUpdate"],
-  data() {
-    return {
-      validatorGroup: "task",
-    };
-  },
+  inject: ["taskValidatorName"],
+
   inject: ["taskValidatorName"],
   methods: {
     setActionItemObservers(value) {
@@ -175,7 +172,7 @@ export default {
   },
   computed: {
     assignedByStore() {
-     
+
       return `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`;
     },
     readOnly() {

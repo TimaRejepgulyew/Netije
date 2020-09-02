@@ -53,6 +53,7 @@ export default {
     lowImportance: "Низкая важность"
   },
   validation: {
+    deadlineRequired: "Заполните срок",
     assignedByRequired: "Введите кому выдана",
     performersRequired: "Выберите исполнителя",
     addresseeRequired: "Выберите адресата",
