@@ -166,11 +166,13 @@ export default {
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     },
     setAssignedBy(value) {
+
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
     },
   },
   computed: {
     assignedByStore() {
+
       return `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`;
     },
     readOnly() {

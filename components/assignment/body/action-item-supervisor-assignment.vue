@@ -1,22 +1,24 @@
 <template>
   <div>
-    <label class="control__label" for="newDeadLine">{{$t("assignment.fields.newDeadline")}}</label>
-    <DxDateBox
-      :readOnly="!inProcess|| !canUpdate"
-      type="datetime"
-      name="newDeadLine"
-      :min="new Date().getTime()"
-      :value.sync="newDeadline"
-      valueChanged="newDeadlineChanged"
-      styling-mode="outlined"
-    >
-      <DxDateBoxButton :options="todayButton" name="today" location="before" />
-      <DxDateBoxButton :options="prevDateButton" name="prevDate" location="before" />
-      <DxDateBoxButton :options="nextDateButton" name="nextDate" location="after" />
-      <DxDateBoxButton name="dropDown" />
-    </DxDateBox>
+    <div class="d-flex align-center">
+      <label
+        class="control__label align-content-center"
+        for="newDeadLine"
+      >{{$t("assignment.fields.newDeadline")}}</label>
+      <div class="f-grow-1">
+        <DxDateBox
+          :readOnly="!inProcess|| !canUpdate"
+          type="datetime"
+          name="newDeadLine"
+          :min="new Date().getTime()"
+          :value.sync="newDeadline"
+          @valueChanged="newDeadlineChanged"
+          styling-mode="outlined"
+        ></DxDateBox>
+      </div>
+    </div>
     <DxTextArea
-      v-if="inProcess&& canUpdate"
+      v-if="inProcess && canUpdate"
       :placeholder="placeholder"
       :height="height"
       :max-length="maxLength"
@@ -41,10 +43,12 @@ export default {
   mixins: [bodyMixin],
   components: {
     DxDateBox,
-    DxDateBoxButton,
   },
   data() {
     return {
+      newDeadline: this.$store.getters[
+        `assignments/${this.assignmentId}/assignment`
+      ].newDeadline,
       // validationMessage: $t("assignment.validation.actionItemRequired"),
       placeholder: this.$t("assignment.body.actionItemSupervisorAssignment"),
       isRequired: false,
@@ -86,12 +90,6 @@ export default {
         },
       };
     },
-    newDeadline() {
-      const deadline = this.$store.getters[
-        `assignments/${this.assignmentId}/assignment`
-      ].newDeadline;
-      return deadline;
-    },
   },
   methods: {
     newDeadlineChanged(e) {
@@ -106,6 +104,6 @@ export default {
 <style lang="scss" >
 .control__label {
   display: block;
-  padding: 15px 0;
+  padding: 15px 15px;
 }
 </style>

@@ -32,6 +32,7 @@ export default {
     performers: "Исполнители",
     start: "Старт",
     addressee: "Адресат",
+    deadline: "Cрок",
     maxDeadline: "Cрок",
     assignee: "Исполнитель",
     supervisor: "Контролер",
