@@ -7,7 +7,7 @@
     @valueChanged="onValueChanged"
   >
     <DxValidator v-if="isRequired" :validationGroup="assignmentValidatorName">
-      <DxRequiredRule :message="$t('assignment.validation.bodyRequired')" />
+      <DxRequiredRule :message="placeholder" />
     </DxValidator>
   </DxTextArea>
 </template>

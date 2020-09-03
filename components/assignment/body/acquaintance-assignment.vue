@@ -7,7 +7,7 @@
     @valueChanged="onValueChanged"
   >
     <DxValidator v-if="isRequired" :validationGroup="assignmentValidatorName">
-      <DxRequiredRule :message="$t('assignment.validation.bodyRequired')" />
+      <DxRequiredRule :message="placeholder" />
     </DxValidator>
   </DxTextArea>
 </template>
@@ -18,6 +18,9 @@ export default {
   mixins: [bodyMixin],
   data() {
     return {
+      // validationmMesssage: this.$t(
+      //   "assignment.validation.acquaintanceAssignmentRequired"
+      // ),
       placeholder: this.$t("assignment.body.acquaintanceAssignment"),
       isRequired: false,
     };

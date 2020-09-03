@@ -44,7 +44,7 @@
                   </DxSimpleItem>
                 </DxGroupItem>
                 <DxSimpleItem template="body" data-field="comment" :visible="inProcess&&canUpdate">
-                  <DxLabel location="top" :text="$t('assignment.comment')" />
+                  <DxLabel location="top" :visible="false"  />
                 </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
@@ -241,6 +241,11 @@ export default {
 .comments {
   overflow: auto;
   max-height: 50vh;
+}
+@media screen and (min-device-height: 910px) {
+  .comments {
+    max-height: 60vh;
+  }
 }
 </style>
 

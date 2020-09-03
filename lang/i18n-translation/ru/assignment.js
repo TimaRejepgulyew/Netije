@@ -46,9 +46,10 @@ export default {
   body: {
     acquaintanceAssignment: "Оставьте комментарий прежде чем выполнить задание...",
     simpleAssignment: "Введите текст задания...",
-    acquaintanceFinishAssignment: "Введите текст задания..."
+    acquaintanceFinishAssignment: "Введите текст задания...",
+    actionAtiemExecution: "Оставьте отчет по исполнению поручения..."
   },
   validation: {
-    bodyRequired: "Введите текст задания..."
+    bodyRequired: "Введите текст задания...",
   }
 }

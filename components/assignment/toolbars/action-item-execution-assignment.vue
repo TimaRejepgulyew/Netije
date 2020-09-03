@@ -12,9 +12,10 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["assignmentId"],
+  inject: ["isValidForm"],
   computed: {
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
@@ -24,15 +25,17 @@ export default {
         icon: "check",
         text: this.$t("buttons.complete"),
         onClick: async () => {
-          let response = await confirm(
-            this.$t("assignment.sureCompleteMessage"),
-            this.$t("shared.confirm")
-          );
-          this.setResult(ReviewResult.ActionItemExecution.Complete);
-          if (response) this.completeAssignment();
-        }
+          if (this.isValidForm()) {
+            let response = await confirm(
+              this.$t("assignment.sureCompleteMessage"),
+              this.$t("shared.confirm")
+            );
+            this.setResult(ReviewResult.ActionItemExecution.Complete);
+            if (response) this.completeAssignment();
+          }
+        },
       };
-    }
+    },
   },
   methods: {
     setResult(result) {
@@ -41,14 +44,14 @@ export default {
     completeAssignment() {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        e => {
+        (e) => {
           this.$router.go(-1);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
