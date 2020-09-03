@@ -55,16 +55,6 @@ export default class AssignmentType {
     ]
     return this.filtering(allowTypes);
   }
-  isAssignment(assignmentType) {
-    let isAssignment = false
-    const elements = this.filterAssignment()
-    for (let element in elements) {
-      if (assignmentType === +element)
-        isAssignment = true
-      break
-    }
-    return isAssignment
-  }
   filteringNotification() {
     const allowTypes = [
       AssignmentTypeGuid.Notice,
@@ -79,16 +69,6 @@ export default class AssignmentType {
     ]
     return this.filtering(allowTypes);
   }
-  isNotification(assignmentType) {
-    let isNotification = false
-    const elements = this.filteringNotification()
-    for (let element in elements) {
-      if (assignmentType === +element)
-        isNotification = true
-      break
-    }
-    return isNotification
-  }
   filteringReviewAssignment() {
     const allowTypes = [
       AssignmentTypeGuid.AcquaintanceFinishAssignment,
@@ -97,16 +77,6 @@ export default class AssignmentType {
       AssignmentTypeGuid.FreeApprovalFinishAssignment,
     ]
     return this.filtering(allowTypes);
-  }
-  isReviewAssignment(assignmentType) {
-    let isReviewAssignment = false
-    const elements = this.filteringReviewAssignment()
-    for (let element in elements) {
-      if (assignmentType === +element)
-        isReviewAssignment = true
-      break
-    }
-    return isReviewAssignment
   }
 
 

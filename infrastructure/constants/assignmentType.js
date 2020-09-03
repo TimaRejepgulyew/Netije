@@ -24,8 +24,46 @@ const AssignmentType = {
   FreeApprovalNotification: 21
 };
 export default AssignmentType;
+export function isAssignment(assignmenType) {
+  const allowTypes = [
+    AssignmentTypeGuid.AcquaintanceAssignment,
+    AssignmentTypeGuid.ReviewDraftResolutionAssignment,
+    AssignmentTypeGuid.SimpleAssignment,
+    AssignmentTypeGuid.ActionItemExecutionAssignment,
+    AssignmentTypeGuid.PreparingDraftResolutionAssignment,
+    AssignmentTypeGuid.ReviewManagerAssignment,
+    AssignmentTypeGuid.ReviewResolutionAssignment,
+    AssignmentTypeGuid.FreeApprovalAssignment,
+    AssignmentTypeGuid.FreeApprovalReworkAssignment,
+  ]
+  return allowTypes.some((el) => assignmenType === el)
 
+}
+export function isNotification(assignmenType) {
+  const allowTypes = [
+    AssignmentType.Notice,
+    AssignmentType.ActionItemExecutionNotification,
+    AssignmentType.AcquaintanceNotification,
+    AssignmentType.ActionItemObserversNotification,
+    AssignmentType.ActionItemSupervisorNotification,
+    AssignmentType.ReviewObserverNotification,
+    AssignmentType.ReviewObserversNotification,
+    AssignmentType.ReviewClerkNotification,
+    AssignmentType.FreeApprovalNotification,
+  ]
+  return allowTypes.some((el) => assignmenType === el)
 
+}
+export function isReviewAssignment(assignmenType) {
+  const allowTypes = [
+    AssignmentTypeGuid.AcquaintanceFinishAssignment,
+    AssignmentTypeGuid.ActionItemSupervisorAssignment,
+    AssignmentTypeGuid.ReviewAssignment,
+    AssignmentTypeGuid.FreeApprovalFinishAssignment,
+  ]
+  return allowTypes.some((el) => assignmenType === el)
+
+}
 export function isActionItemExicutionAssignment(type) {
   return type === AssignmentType.ActionItemExecutionAssignment;
 }

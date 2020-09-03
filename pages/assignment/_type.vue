@@ -132,7 +132,7 @@
 </template>
 <script>
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
-
+import { isNotification } from "~/infrastructure/constants/assignmentType.js";
 import isImportantIcon from "~/components/page/task-important.vue";
 import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
@@ -235,7 +235,7 @@ export default {
     },
     showCompleteAssignment(style, data) {
       if (
-        (!this.assignmentTypes.isNotification(data.assignmentType) &&
+        (!isNotification(data.assignmentType) &&
           data.status === AssignmentStatus.Completed) ||
         data.status === AssignmentStatus.Aborted
       ) {

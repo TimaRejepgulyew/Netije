@@ -48,7 +48,7 @@ export default {
       statusTypeRadioItems: filterTypeItems.statusType(this),
       assignmentTypeRadioItems: filterTypeItems.assignmentType(this),
       status: +localStorage.getItem("statusFilter") || null,
-      assignmentType: +localStorage.getItem("assignmentTypeFilter") || null,
+      assignmentType: +localStorage.getItem("assignmentQueryFilter") || null,
     };
   },
   methods: {
@@ -62,6 +62,7 @@ export default {
           filter.push([item, "=", items[item]]);
         }
       }
+      console.log(filter);
       return filter;
     },
     changeFilterProperty(e, name) {
