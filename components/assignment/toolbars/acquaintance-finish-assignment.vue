@@ -12,9 +12,10 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["assignmentId"],
+  inject: ["isValidForm"],
   computed: {
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
@@ -24,31 +25,33 @@ export default {
         icon: "check",
         text: this.$t("buttons.complete"),
         onClick: async () => {
-          let response = await confirm(
-            this.$t("assignment.sureCompleteAcquaintanceMessage"),
-            this.$t("shared.confirm")
-          );
-          this.setResult(ReviewResult.AcquaintanceFinish.Accept);
-          if (response) this.completeAssignment();
-        }
+          if (this.isValidForm()) {
+            let response = await confirm(
+              this.$t("assignment.sureCompleteAcquaintanceMessage"),
+              this.$t("shared.confirm")
+            );
+            this.setResult(ReviewResult.AcquaintanceFinish.Accept);
+            if (response) this.completeAssignment();
+          }
+        },
       };
-    }
+    },
   },
   methods: {
     setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);;
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, ),
-        e => {
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
+        (e) => {
           this.$router.go(-1);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

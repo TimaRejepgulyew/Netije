@@ -4,11 +4,13 @@ import dataApi from "~/static/dataApi";
 import Importance from "~/infrastructure/constants/assignmentImportance";
 export const state = () => ({
   assignment: {},
+
   overlays: null,
   canUpdate: false
 });
 
 export const getters = {
+
   overlays({ overlays }) {
     return overlays;
   },
@@ -93,6 +95,7 @@ export const actions = {
     delete assignment.attachmentGroups;
     const assignmentJson = JSON.stringify(assignment);
     await this.$axios.post(dataApi.assignment.CompleteAssignment, {
+
       assignmentId: state.assignment.id,
       assignmentType: state.assignment.assignmentType,
       assignmentJson,

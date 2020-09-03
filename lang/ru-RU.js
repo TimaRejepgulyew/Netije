@@ -5,6 +5,7 @@ import documentRegistration, {
 import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
 import recipientType from "~/lang/i18n-translation/ru/recipientType.js"
+import assignmentModule from "~/lang/i18n-translation/ru/assignment.js"
 export default {
   status: {
     active: "Активный",
@@ -188,72 +189,7 @@ export default {
   },
   document: documentModule,
   documentRegistration: documentRegistration,
-  assignment: {
-    returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
-    placeholderSimple: "Введите комментарий",
-    placeholderActionItemExicution: "Введите отчет",
-    sureCompleteMessage: "Вы действительно выполнили задачу",
-    sureAcquaintanceMessage: "Вы действительно ознакомились с документом",
-    sureCompleteAcquaintanceMessage:
-      "Вы уверенны что хотите завершить ознакомление",
-    sureCompleteSupervisor: "Потвердите что бы завершить задачу",
-    sureReworkMessage: "Вы уверенны что хотите отправить на доработку",
-    takeIntoMessage:
-      "После принятия к сведению задание завершится без исполнения",
-    acceptAssignmentMessage: "Вы действительно приняли задачу",
-    readdressToEmployee: "Переадресовать сотруднику",
-    result: {
-      Acquainted: "Ознакомлен",
-      SendForReview: "Отправлено на рассмотрение",
-      Complete: "Завершено",
-      Accept: "Принято",
-      ForRework: "На доработку",
-      AddAssignment: "Отправлено на исполнение",
-      AddResolution: "Вынесена резолюция",
-      Explored: "Принято к сведению",
-      Forward: "Переадресовано"
-    },
-    status: {
-      InProcess: "В процессе",
-      Draft: "Черновик",
-      Suspended: "Приостановленно",
-      Completed: "Завершено",
-      Aborted: "Прекращено",
-      UnderReview: "На приемке"
-    },
-    type: {
-      Notice: "Уведомление",
-      SimpleAssignment: "Задание",
-      ReviewAssignment: "Приемка работ",
-      AcquaintanceAssignment: "Ознакомление",
-      AcquaintanceFinishAssignment: "Завершение работ по ознакомлению",
-      ActionItemExecutionNotification: "Уведомление о приемке работ",
-      ActionItemSupervisorNotification: "Уведомление контролеру",
-      ActionItemSupervisorAssignment: "Приемка работ контролером",
-      ActionItemExecutionAssignment: "Исполнение поручения",
-      ActionItemObserversNotification: "Уведомление о создании поручения",
-      PreparingDraftResolutionAssignment: "Подготовка проекта резолюции",
-      ReviewDraftResolutionAssignment: "Рассмотрение проекта резолюции",
-      ReviewManagerAssignment: "Рассмотрение руководителем",
-      ReviewResolutionAssignment: "Обработка проекта резолюции",
-      ReviewObserverNotification: "Уведомление о завершении рассмотрения",
-      ReviewObserversNotification: "Уведомление о начале рассмотрения",
-      ReviewClerkNotification: "Уведомление о завершении рассмотрения",
-      FreeApprovalAssignment: "Cогласование",
-      FreeApprovalFinishAssignment: "Завершение работ по согласованию",
-      FreeApprovalReworkAssignmen: "Доработка документа",
-      FreeApprovalNotification: "Уведомление"
-    },
-    prefixes: {
-      actionItemSupervisorAssignment: "Примите работы: ",
-      actionItemExecutionAssignment: "Исполните: ",
-      actionItemExecutionNotification: "Приняты работы: ",
-      acquaintanceAssignment: "Ознакомьтесь: ",
-      acquaintanceNotification: "Ознакомление с документом: ",
-      acquaintanceFinishAssignment: "Завершите работы по ознакомлению: ",
-      actionItemObserversNotification: "Начаты работы: "
-    }
-  },
+  assignment: assignmentModule,
   menu: {
     recordManagementGroup: "Делопроизводство",
     accountingDocuments: "Финансовые документы",

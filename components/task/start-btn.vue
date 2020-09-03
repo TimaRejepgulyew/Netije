@@ -61,19 +61,6 @@ export default {
     },
   },
   methods: {
-    validateAttachment() {
-      let isValid = true;
-      let attachments = this.$store.getters[
-        `tasks/${this.taskId}/task`
-      ].attachmentGroups.filter((attachment) => attachment.isRequired);
-      attachments.forEach((attachment) => {
-        if (!attachment.entities) isValid = false;
-      });
-      if (!isValid) {
-        alert(this.generateHtmlError(attachments), this.$t("shared.error"));
-      }
-      return isValid;
-    },
     generateHtmlError(attachments) {
       return attachments.map((attachment) => {
         if (!attachment.entities) {
@@ -114,7 +101,7 @@ export default {
       }
     },
     async startTask() {
-      if (this.validateAttachment() && this.isValidTask()) {
+      if (this.isValidTask()) {
         const hasRecipientAccessRight = await this.checkRecipientAccessRight();
         if (!hasRecipientAccessRight) return false;
 

@@ -51,7 +51,6 @@ import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
 import toolbarItemStartBtn from "~/components/task/start-btn.vue";
 import toolbarItemImportanceChanger from "~/components/task/importance-changer";
-import { alert } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import saveIcon from "~/static/icons/save.svg";
@@ -197,31 +196,8 @@ export default {
     onClose() {
       this.$emit("onClose");
     },
-    generateHtmlError(attachments) {
-      return attachments.map((attachment) => {
-        if (!attachment.entities) {
-          return `<li class="red">Вложите ${attachment.groupTitle.toLowerCase()}</li>`;
-        }
-      });
-    },
-    validateAttachment() {
-      let isValid = true;
-      let attachments = this.$store.getters[
-        `tasks/${this.taskId}/task`
-      ].attachmentGroups.filter((attachment) => attachment.isRequired);
-      attachments.forEach((attachment) => {
-        if (!attachment.entities) isValid = false;
-      });
-      if (!isValid) {
-        alert(this.generateHtmlError(attachments), this.$t("shared.error"));
-      }
-      return isValid;
-    },
     save() {
-      if (
-        this.validateAttachment() &&
-        this.$parent.$refs["form"].instance.validate().isValid
-      )
+      if (this.isValidTask())
         this.$awn.asyncBlock(
           this.$store.dispatch(`tasks/${this.taskId}/save`),
           (e) => {

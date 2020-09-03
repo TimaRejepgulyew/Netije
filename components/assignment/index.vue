@@ -8,11 +8,12 @@
       <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm
+            ref="form"
             :col-count="10"
             :form-data.sync="assignment"
             :show-colon-after-label="true"
             :show-validation-summary="true"
-            validation-group="assignment"
+            :validation-group="assignmentValidatorName"
           >
             <DxGroupItem :col-span="7">
               <DxGroupItem :col-span="2">
@@ -41,17 +42,9 @@
                   <DxSimpleItem template="comments">
                     <DxLabel location="left" :visible="false" />
                   </DxSimpleItem>
-                  <DxSimpleItem template="comments">
-                    <DxLabel location="left" :visible="false" />
-                  </DxSimpleItem>
                 </DxGroupItem>
-                <DxSimpleItem
-                  template=""
-                  :data-field="comment"
-                  editor-type="dxTextArea"
-                  :visible="inProcess&&canUpdate"
-                >
-                  <DxLabel location="left" :text="$t('shared.whom')" />
+                <DxSimpleItem template="body" data-field="comment" :visible="inProcess&&canUpdate">
+                  <DxLabel location="top" :text="$t('assignment.comment')" />
                 </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
@@ -65,6 +58,15 @@
             <template #comments>
               <div>
                 <thread-texts class="comments" :id="assignmentId" entityType="assignment"></thread-texts>
+              </div>
+            </template>
+            <template #body>
+              <div>
+                <component
+                  :value="body"
+                  :assignmentId="assignmentId"
+                  :is="componentByType('body')"
+                />
               </div>
             </template>
             <template #additional>
@@ -90,11 +92,12 @@
   </div>
 </template>
 <script>
-import * as assignmentBodyComponents from "~/"
+import { alert } from "devextreme/ui/dialog";
 import { unload } from "~/infrastructure/services/assignmentService.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
 import Importance from "~/infrastructure/constants/assignmentImportance.js";
+import * as bodies from "~/components/assignment/body/index.js";
 import * as toolbars from "~/components/assignment/toolbars/index.js";
 import * as additional from "~/components/assignment/additional/index.js";
 import { ComponentsByAssignmentType } from "~/infrastructure/services/generatorComponentByType.js";
@@ -127,14 +130,22 @@ export default {
     employeeSelectBox,
     ...toolbars,
     ...additional,
+    ...bodies,
   },
   name: "assignment",
   props: ["assignmentId"],
+  provide: function () {
+    return {
+      assignmentValidatorName: this.assignmentValidatorName,
+      isValidForm: this.validateForm,
+    };
+  },
   destroyed() {
     unload(this, this.assignmentId);
   },
   data() {
     return {
+      assignmentValidatorName: `assignment/${this.assignmentId}`,
       attachmentsUrl: dataApi.attachment.AttachmentByAssignment,
       commentsUrl: dataApi.assignment.TextsByAssignment,
       employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
@@ -144,6 +155,9 @@ export default {
     };
   },
   computed: {
+    body() {
+      return this.$store.getters[`assignments/${this.assignmentId}/body`];
+    },
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
     },
@@ -171,20 +185,6 @@ export default {
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
-    placeholder() {
-      switch (this.assignment.assignmentType) {
-        case AssignmentType.AcquaintanceFinishAssignment:
-        case AssignmentType.SimpleAssignment:
-        case AssignmentType.ActionItemSupervisorAssignment:
-        case AssignmentType.ReviewAssignment:
-        case AssignmentType.AcquaintanceAssignment:
-          return this.$t("assignment.placeholderSimple");
-        case AssignmentType.ActionItemExecutionAssignment:
-          return this.$t("assignment.placeholderActionItemExicution");
-        default:
-          return this.$t("assignment.placeholderSimple");
-      }
-    },
     isImportant() {
       return this.assignment.importance === Importance.High;
     },
@@ -194,18 +194,15 @@ export default {
     attachmentGroups() {
       return this.assignment.attachmentGroups;
     },
-    // bodyOptions() {
-    //   return {
-    //     placeholder: "",
-    //     height: 250,
-    //     value: this.comment,
-    //     onValueChanged: (e) => {
-    //       this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
-    //     },
-    //   };
-    // },
   },
   methods: {
+    validateForm() {
+      if (this.$refs["form"].instance.validate().isValid) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     componentByType(componentName) {
       if (ComponentsByAssignmentType.has(this.assignment.assignmentType))
         return ComponentsByAssignmentType.get(this.assignment.assignmentType)[

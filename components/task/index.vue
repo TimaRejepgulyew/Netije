@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import { alert } from "devextreme/ui/dialog";
 import TaskTypeModel from "~/infrastructure/models/TaskType.js";
 import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
 import documentReviewTask from "~/components/task/document-review-task.vue";
@@ -117,6 +118,13 @@ export default {
         alert(this.generateHtmlError(attachments), this.$t("shared.error"));
       }
       return isValid;
+    },
+    generateHtmlError(attachments) {
+      return attachments.map((attachment) => {
+        if (!attachment.entities) {
+          return `<li class="red">Вложите ${attachment.groupTitle.toLowerCase()}</li>`;
+        }
+      });
     },
     validateForm() {
       if (this.validateAttachment())
