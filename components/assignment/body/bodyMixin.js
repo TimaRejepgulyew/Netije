@@ -10,10 +10,23 @@ export default {
   inject: ["assignmentValidatorName"],
   data() {
     return {
-      value: this.$store.getters[`assignments/${this.assignmentId}/assignment`].body,
       height: 90,
       maxLength: 271,
     };
+  },
+  computed: {
+    inProcess() {
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`]
+    },
+    canUpdate() {
+      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`]
+    },
+    assignment() {
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+    },
+    value() {
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`].body
+    }
   },
   methods: {
     onValueChanged(e) {

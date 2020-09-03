@@ -43,8 +43,8 @@
                     <DxLabel location="left" :visible="false" />
                   </DxSimpleItem>
                 </DxGroupItem>
-                <DxSimpleItem template="body" data-field="comment" :visible="inProcess&&canUpdate">
-                  <DxLabel location="top" :visible="false"  />
+                <DxSimpleItem template="body" data-field="comment">
+                  <DxLabel location="top" :visible="false" />
                 </DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>

@@ -13,6 +13,9 @@ export default {
     "После принятия к сведению задание завершится без исполнения",
   acceptAssignmentMessage: "Вы действительно приняли задачу",
   readdressToEmployee: "Переадресовать сотруднику",
+  fields: {
+    newDeadline :"Новый срок",
+  },
   result: {
     Acquainted: "Ознакомлен",
     SendForReview: "Отправлено на рассмотрение",
@@ -44,6 +47,7 @@ export default {
   },
   comment: "Комментарий",
   body: {
+    actionItemSupervisorAssignment: "Введите комментарий к отчету исполнителя...",
     acquaintanceAssignment: "Оставьте комментарий прежде чем выполнить задание...",
     simpleAssignment: "Введите текст задания...",
     acquaintanceFinishAssignment: "Введите текст задания...",

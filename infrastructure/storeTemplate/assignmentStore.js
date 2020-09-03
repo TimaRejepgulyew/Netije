@@ -64,6 +64,9 @@ export const mutations = {
   },
   SET_RESULT(state, payload) {
     state.assignment.result = payload;
+  },
+  SET_NEW_DEADLINE(state, payload) {
+    state.assignment.newDeadline = payload;
   }
 };
 

@@ -21,7 +21,7 @@ export const ComponentsByAssignmentType = new Map([
   ],
   [
     AssignmentType.ActionItemSupervisorAssignment,
-    { toolbar: "toolbar-action-item-supervisor-assignment" }
+    { toolbar: "toolbar-action-item-supervisor-assignment", body: "body-action-item-supervisor-assignment" }
   ],
   [AssignmentType.ReviewAssignment, { toolbar: "toolbar-review-assignment" }],
   [

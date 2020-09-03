@@ -1,5 +1,6 @@
 <template>
   <DxTextArea
+    v-if="inProcess&& canUpdate"
     :placeholder="placeholder"
     :height="height"
     :max-length="maxLength"

@@ -45,12 +45,12 @@
             <DxLabel location="left" :text="$t('task.fields.assignee')" />
           </DxSimpleItem>
           <DxSimpleItem
-            data-field="maxDeadline"
-            :editor-options="maxDeadlineOptions"
+            data-field="deadline"
+            :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
-            <DxRequiredRule :message="$t('task.validation.maxDeadlineRequired')" />
-            <DxLabel location="left" :text="$t('task.fields.maxDeadline')" />
+            <DxRequiredRule :message="$t('task.validation.deadlineRequired')" />
+            <DxLabel location="left" :text="$t('task.fields.deadline')" />
           </DxSimpleItem>
 
           <DxSimpleItem :col-span="2" template="coAssignees" data-field="coAssignees">
@@ -166,13 +166,11 @@ export default {
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     },
     setAssignedBy(value) {
-
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
     },
   },
   computed: {
     assignedByStore() {
-
       return `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`;
     },
     readOnly() {
@@ -239,13 +237,13 @@ export default {
         },
       };
     },
-    maxDeadlineOptions() {
+    deadlineOptions() {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
-        value: this.task.maxDeadline,
+        value: this.task.deadline,
         onValueChanged: (e) => {
-          this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
+          this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
         },
       };
     },
