@@ -1,11 +1,11 @@
 export default {
   type: {
-    DefaultAction: "Отправить",
-    Acquaintance: "Ознакомление",
-    ActionItemExecution: "Исполнение поручения",
-    ReviewManager: "Расмотрение руководителем",
-    FreeApproval: "Свободное согласование",
-    Approval: "Согласование по регламенту",
+    DefaultAction: "Простая задача",
+    Acquaintance: "На ознакомление",
+    ActionItemExecution: "На исполнение поручения",
+    ReviewManager: "На расмотрение руководителем",
+    FreeApproval: "На свободное согласование",
+    Approval: "На согласование по регламенту",
   }
 
 }
