@@ -19,10 +19,10 @@
       <div class="option--group">
         <div class="option__title">{{$t("shared.type")}}</div>
         <DxRadioGroup
-          :value="assignmentType"
+          :value="assignmentQuery"
           valueExpr="id"
           displayExpr="name"
-          :onValueChanged="(e)=>{this.filterChaged(e,'assignmentType')}"
+          :onValueChanged="(e)=>{this.filterChaged(e,'assignmentQuery')}"
           :items="assignmentTypeRadioItems"
         />
       </div>
@@ -48,7 +48,7 @@ export default {
       statusTypeRadioItems: filterTypeItems.statusType(this),
       assignmentTypeRadioItems: filterTypeItems.assignmentType(this),
       status: +localStorage.getItem("statusFilter") || null,
-      assignmentType: +localStorage.getItem("assignmentQueryFilter") || null,
+      assignmentQuery: +localStorage.getItem("assignmentQueryFilter") || null,
     };
   },
   methods: {
@@ -79,7 +79,7 @@ export default {
       this.changeFilterProperty(e, name);
       const filter = this.buildFilter({
         status: this.status,
-        assignmentType: this.assignmentType,
+        assignmentType: this.assignmentQuery,
       });
       this.emitFilter(filter);
     },
