@@ -40,7 +40,7 @@ export default {
     DxCheckBox,
     DxButton,
   },
-  created() {
+  mounted() {
     this.filterChaged();
   },
   data() {
@@ -62,7 +62,6 @@ export default {
           filter.push([item, "=", items[item]]);
         }
       }
-      console.log(filter);
       return filter;
     },
     changeFilterProperty(e, name) {

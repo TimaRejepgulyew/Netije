@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :isbackButton="true" :headerTitle="$t(`translations.headers.tasks`)" />
+    <Header :isbackButton="true" :headerTitle="$t(`translations.headers.actionItemExecutionTasks`)" />
     <div class="grid">
       <DxDataGrid
         id="gridContainer"
@@ -108,6 +108,7 @@
   </main>
 </template>
 <script>
+import TaskType from "~/infrastructure/constants/taskType.js"
 import taskStoreMixin from "~/mixins/task/taskСategories.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -120,6 +121,7 @@ export default {
           key: "id",
           loadUrl: dataApi.task.Task,
         }),
+          filter: ["taskType", "=",TaskType.ActionItemExecutionTask],
       }),
     };
   },
@@ -133,4 +135,3 @@ export default {
   color: forestgreen;
 }
 </style>
-

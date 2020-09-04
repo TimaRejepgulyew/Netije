@@ -87,9 +87,27 @@ export const actions = {
         ]
       },
       {
-        text: this.$i18n.t("menu.task"),
+        text: this.$i18n.t("menu.tasks"),
         icon: "selectall",
-        path: "/task"
+        path: "/task",
+        items: [
+          {
+            text: this.$i18n.t("menu.actionItemExecutionTasks"),
+            path: "/task/taskCategory/action-item-execution",
+          },
+          {
+            text: this.$i18n.t("menu.reviewTasks"),
+            path: "/task/taskCategory/review",
+          },
+          {
+            text: this.$i18n.t("menu.acquaintanceTasks"),
+            path: "/task/taskCategory/acquaintance",
+          },
+          {
+            text: this.$i18n.t("menu.otherTasks"),
+            path: "/task/taskCategory/others",
+          },
+        ]
       },
       {
         text: this.$i18n.t("menu.recordManagementGroup"),
