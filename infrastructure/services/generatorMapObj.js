@@ -1,8 +1,9 @@
-export default function({
+export default function ({
   Constant,
   translateName,
   iconStores = false,
-  context
+  context,
+  options
 }) {
   let obj = {};
 
@@ -11,7 +12,8 @@ export default function({
       id: Constant[item],
       value: item,
       icon: iconStores ? iconStores[item] : false,
-      text: context.$t(`${translateName}.${item}`)
+      text: context.$t(`${translateName}.${item}`),
+      ...options
     };
   }
   return obj;

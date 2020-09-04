@@ -32,7 +32,7 @@ import taskCard from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
-import AvailableActions from "~/infrastructure/models/AvailableActions.js";
+import DocumentSendAction from "~/infrastructure/models/DocumentSendAction.js";
 import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
@@ -59,7 +59,7 @@ export default {
         TaskType.SimpleTask,
       ] || [TaskType.SimpleTask];
       const items = Object.values(
-        new AvailableActions(this).init().filtering(availableActions)
+        new DocumentSendAction(this).init().filtering(availableActions)
       );
       return items;
     },
