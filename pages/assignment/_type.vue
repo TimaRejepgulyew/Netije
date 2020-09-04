@@ -100,6 +100,14 @@
             display-expr="name"
           />
         </DxColumn>
+        <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+          <DxLookup
+            :allow-clearing="true"
+            :data-source="statusStore"
+            value-expr="id"
+            display-expr="text"
+          />
+        </DxColumn>
         <DxColumn
           data-field="deadline"
           :caption="$t('translations.fields.deadLine')"
@@ -135,7 +143,7 @@ import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { isNotification } from "~/infrastructure/constants/assignmentType.js";
 import isImportantIcon from "~/components/page/task-important.vue";
 import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
-import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
+import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import AssignmentQuery, {
   generateAssignmentQueryName,
@@ -146,6 +154,7 @@ import Header from "~/components/page/page__header";
 import TaskFilter from "~/components/assignment/filter";
 import DxButton from "devextreme-vue/button";
 import iconByAssignmentType from "~/components/assignment/icon-by-assignment-type.vue";
+import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -203,6 +212,7 @@ export default {
         key: "id",
         loadUrl: dataApi.company.Employee,
       }),
+      statusStore: Object.values(new AssignmentStatus(this).getAll()),
     };
   },
   computed: {
@@ -236,8 +246,8 @@ export default {
     showCompleteAssignment(style, data) {
       if (
         (!isNotification(data.assignmentType) &&
-          data.status === AssignmentStatus.Completed) ||
-        data.status === AssignmentStatus.Aborted
+          data.status === AssignmentStatusGuid.Completed) ||
+        data.status === AssignmentStatusGuid.Aborted
       ) {
         style.textDecoration = "line-through";
       }

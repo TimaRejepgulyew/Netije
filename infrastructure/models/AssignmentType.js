@@ -11,7 +11,6 @@ export default class AssignmentType {
     });
   }
   withIconGroup() {
-
     for (let element in this.filterAssignment()) {
       this.elements[element].icon = assignmentTypeGroupIcon.assignmentIcon
     }
