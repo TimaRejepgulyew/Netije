@@ -9,6 +9,7 @@
         :data-source="store"
         :remote-operations="true"
         @init-new-row="onInitNewRow"
+        @row-inserted=""
       >
         <DxHeaderFilter :visible="true" />
         <DxEditing
@@ -25,11 +26,20 @@
         <DxScrolling mode="virtual" />
 
         <DxColumn
+          editCellTemplate="nameSelectBoxcomponent"
           data-field="member.name"
           data-type="string"
           :caption="$t('translations.fields.name')"
-        >
-        </DxColumn>
+        ></DxColumn>
+        <template #nameSelectBoxcomponent="{ data: cellInfo }">
+          <DxSelectBox
+            display-expr="name"
+            value-expr="id"
+            :data-source="recipientStore"
+            :value="cellInfo.value"
+            :on-value-changed="(value) => onValueChanged(value, cellInfo)"
+          />
+        </template>
       </DxDataGrid>
     </template>
     <!-- TODO:V2.0<DxItem :title="$t('translations.fields.permissions')" template="permissions" />
@@ -38,6 +48,7 @@
 </template>
 
 <script>
+import DxSelectBox from "devextreme-vue/select-box";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
@@ -57,6 +68,7 @@ import {
 
 export default {
   components: {
+    DxSelectBox,
     DxTabPanel,
     DxItem,
     DxSearchPanel,
@@ -75,9 +87,6 @@ export default {
       default: () => ({}),
     },
   },
-  created() {
-    console.log(this.roleId);
-  },
   data() {
     let { id, immutable } = this.data.data;
     return {
@@ -86,12 +95,15 @@ export default {
       immutable,
       store: this.$dxStore({
         key: "memberId",
-        insertUrl: dataApi.admin.RoleMembers,
+        // insertUrl: dataApi.admin.RoleMembers,
         loadUrl: dataApi.admin.RoleMembers + id,
         removeUrl: dataApi.admin.RoleMembers + id,
       }),
       statusDataSource: this.$store.getters["status/status"],
-
+      recipientStore: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.recipient.list,
+      }),
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: true,
@@ -102,6 +114,18 @@ export default {
   },
 
   methods: {
+    onValueChanged(value, cellInfo) {
+      console.log(cellInfo, value);
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
+    },
+    rowInserted({ data: { roleId, member } }) {
+      this.$axios.post(dataApi.admin.RoleMembers, {
+        roleId,
+        memberId: member.name.value,
+      });
+      console.log(member);
+    },
     onInitNewRow(e) {
       e.data.roleId = this.roleId;
     },
