@@ -1,3 +1,15 @@
+import documentModule from "~/lang/i18n-translation/tk/documentModule.js";
+import documentRegistration, {
+  DocumentType
+} from "~/lang/i18n-translation/tk/documentRegistration.js";
+import taskModule, { TaskType } from "~/lang/i18n-translation/tk/taskModule.js";
+import lifeCycleState from "~/lang/i18n-translation/tk/lifeCycleState.js";
+import recipientType from "~/lang/i18n-translation/tk/recipientType.js"
+import assignmentModule from "~/lang/i18n-translation/tk/assignment.js"
+import menu from "~/lang/i18n-translation/tk/menu.js"
+import headers from "~/lang/i18n-translation/tk/headers.js"
+import documentSendAction from "~/lang/i18n-translation/tk/documentSendAction.js"
+
 export default {
   status: {
     active: " Işjeň",
@@ -121,21 +133,9 @@ export default {
       registrationDateRequired: "Введите дату регистрации документа" //TODO TRANSLATE
     }
   },
-  assignment: {
-    placeholderSimple: "Введите комментарий",
-    placeholderActionItemExicution: "Введите отчет",
-    prefixes: {
-      actionItemSupervisorAssignment: "Примите работы: ",
-      actionItemExecutionAssignment: "Исполните: ",
-      actionItemExecutionNotification: "Приняты работы: ",
-      acquaintanceAssignment: "Ознакомьтесь: ",
-      acquaintanceNotification: "Ознакомление с документом: ",
-      acquaintanceFinishAssignment: "Завершите работы по ознакомлению: ",
-      actionItemObserversNotification: "Начаты работы: "
-    }
-  }, //TODO TRANSLATE
+  assignment: assignment, //TODO TRANSLATE
   menu: {
-    history: "История",
+    history: "taryh",
     group: "Toparlar",
     all: "Hemmesi",
     allDocument: "Все докуменÄhli resminamalar",

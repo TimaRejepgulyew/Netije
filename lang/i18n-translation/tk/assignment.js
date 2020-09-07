@@ -1,7 +1,15 @@
 import assignmentType from "./assignmentType"
 export default {
+  prefixes: {
+    actionItemSupervisorAssignment: "Примите работы: ",
+    actionItemExecutionAssignment: "Исполните: ",
+    actionItemExecutionNotification: "Приняты работы: ",
+    acquaintanceAssignment: "Ознакомьтесь: ",
+    acquaintanceNotification: "Ознакомление с документом: ",
+    acquaintanceFinishAssignment: "Завершите работы по ознакомлению: ",
+    actionItemObserversNotification: "Начаты работы: "
+  },
   returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
-  placeholderActionItemExicution: "Введите отчет",
   sureCompleteMessage: "Вы действительно выполнили задачу",
   sureAcquaintanceMessage: "Вы действительно ознакомились с документом",
   sureCompleteAcquaintanceMessage:
@@ -35,16 +43,6 @@ export default {
     UnderReview: "На приемке"
   },
   type: assignmentType,
-  prefixes: {
-    actionItemSupervisorAssignment: "Примите работы: ",
-    actionItemExecutionAssignment: "Исполните: ",
-    actionItemExecutionNotification: "Приняты работы: ",
-    acquaintanceAssignment: "Ознакомьтесь: ",
-    acquaintanceNotification: "Ознакомление с документом: ",
-    acquaintanceFinishAssignment: "Завершите работы по ознакомлению: ",
-    actionItemObserversNotification: "Начаты работы: "
-  },
-  comment: "Комментарий",
   body: {
     actionItemSupervisorAssignment: "Введите комментарий к отчету исполнителя...",
     acquaintanceAssignment: "Оставьте комментарий прежде чем выполнить задание...",

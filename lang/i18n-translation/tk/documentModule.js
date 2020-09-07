@@ -7,15 +7,15 @@ export const DocumentType = {
   PowerOfAttorney: "Доверенность",
   Order: "Приказ",
   Memo: "Служебная записка",
-  InternalDocument: "Внутрений документ",
-  SupAgreement: "Дополнительное соглашение",
-  IncomingInvoice: "Входящий счет на оплату",
-  ContractStatement: "Акт выполненных работ",
-  IncomingTaxInvoice: "Счет-фактура полученный",
-  OutgoingTaxInvoice: "Счет-фактура выставленный",
-  UniversalTransferDocument: "Универсальный передаточный документ",
-  Waybill: "Накладная",
-  Contract: "Договор"
+  InternalDocument: "Внутрение документы",
+  SupAgreement: "Дополнительные соглашения",
+  IncomingInvoice: "Входящие счета на оплату",
+  ContractStatement: "Акты выполненных работ",
+  IncomingTaxInvoice: "Счет-фактуры полученные",
+  OutgoingTaxInvoice: "Счет-фактуры выставленные",
+  UniversalTransferDocument: "Универсальные передаточный документы",
+  Waybill: "Накладные",
+  Contract: "Договоры"
 };
 export default {
   remove: "Удалить",

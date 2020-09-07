@@ -41,7 +41,7 @@
       <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
     </DxForm>
   </form>
-</template> 
+</template>
 <script>
 import numberingTypes from "~/infrastructure/constants/numberingTypes.js";
 import moment from "moment";
@@ -123,6 +123,7 @@ export default {
         disabled: !this.regData.isCustomNumber,
         onValueChanged: (e) => {
           this.getPreliminaryRegistrationNumber();
+          console.log(this.regData, e.value);
         },
       };
     },
@@ -162,7 +163,7 @@ export default {
       if (
         this.regData.registrationDate &&
         this.regData.documentRegisterId &&
-        !this.isCustomNumber
+        !this.regData.isCustomNumber
       ) {
         const res = await this.$axios.get(
           dataApi.docFlow.DocumentRegister.PreliminaryNumber + this.filter
