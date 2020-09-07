@@ -9,7 +9,7 @@
         :data-source="store"
         :remote-operations="true"
         @init-new-row="onInitNewRow"
-        @row-inserted=""
+        @row-inserting="rowInserting"
       >
         <DxHeaderFilter :visible="true" />
         <DxEditing
@@ -17,8 +17,18 @@
           :allow-deleting="!immutable"
           :allow-adding="!immutable"
           :useIcons="true"
-          mode="row"
-        />
+          mode="batch"
+        >
+          <div>
+            <DxSelectBox
+              display-expr="name"
+              value-expr="id"
+              :data-source="recipientStore"
+              :value="0"
+              :on-value-changed="(value) => onValueChanged(value, cellInfo)"
+            />
+          </div>
+        </DxEditing>
 
         <DxFilterRow :visible="true" />
 
@@ -95,7 +105,7 @@ export default {
       immutable,
       store: this.$dxStore({
         key: "memberId",
-        // insertUrl: dataApi.admin.RoleMembers,
+        insertUrl: dataApi.admin.RoleMembers,
         loadUrl: dataApi.admin.RoleMembers + id,
         removeUrl: dataApi.admin.RoleMembers + id,
       }),
@@ -119,12 +129,9 @@ export default {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
     },
-    rowInserted({ data: { roleId, member } }) {
-      this.$axios.post(dataApi.admin.RoleMembers, {
-        roleId,
-        memberId: member.name.value,
-      });
-      console.log(member);
+    rowInserting(e) {
+      e.data.memberId = e.data.member.name.value;
+      delete e.data.member;
     },
     onInitNewRow(e) {
       e.data.roleId = this.roleId;
