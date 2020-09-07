@@ -52,7 +52,6 @@
         data-field="leadingDocumentId"
         editor-type="dxSelectBox"
         :editor-options="leadingDocumentOptions"
-        :help-text="counterpartyId?'':$t('document.validation.counterPartRequired')"
       >
         <DxLabel location="left" :text="$t('document.fields.contract')" />
       </DxSimpleItem>
@@ -110,10 +109,7 @@ export default {
   inject: ["documentValidatorName"],
   methods: {
     setCounterparty(data) {
-      this.$store.dispatch(
-        `documents/${this.documentId}/setCounterparty`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_COUNTERPARTY`, data);
       this.$store.dispatch(
         `documents/${this.documentId}/setLeadingDocumentId`,
         null

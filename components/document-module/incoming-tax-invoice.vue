@@ -10,7 +10,7 @@
       data-field="leadingDocumentId"
       editor-type="dxSelectBox"
       :editor-options="leadingDocumentOptions"
-      :help-text="counterpartyId?'':$t('document.validation.counterPartRequired')"
+
     >
       <DxLabel location="left" :text="$t('document.fields.contract')" />
     </DxSimpleItem>
@@ -28,7 +28,6 @@
         data-field="correctedId"
         :editor-options="correctedIdOptions"
         editor-type="dxSelectBox"
-        :help-text="counterpartyId?'':$t('document.validation.counterPartRequired')"
       >
         <DxLabel location="left" :text="$t('document.fields.correctedId')" />
         <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
@@ -146,22 +145,23 @@ export default {
       this.selectedCorrespondentType = data;
     },
     setCounterparty(data) {
+
       if (data == null) {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
       this.$store.commit("documents/${this.documentId}/SET_CORRECTED_ID", null);
       this.$store.dispatch(
-        "documents/${this.documentId}/setLeadingDocumentId",
+        `documents/${this.documentId}/setLeadingDocumentId`,
         null
       );
       this.$store.dispatch(
-        "documents/${this.documentId}/setCounterparty",
+        `documents/${this.documentId}/setCounterparty`,
         data
       );
-      this.$store.commit("documents/${this.documentId}/SET_CONTACT_ID", null);
+      this.$store.commit(`documents/${this.documentId}/SET_CONTACT_ID`, null);
       this.$store.commit(
-        "documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID",
+        `documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`,
         null
       );
     },
@@ -225,6 +225,7 @@ export default {
     },
     correctedIdOptions() {
       return {
+        placeholder:this.$t('document.validation.counterPartRequired'),
         readOnly: !this.counterpartyId,
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({

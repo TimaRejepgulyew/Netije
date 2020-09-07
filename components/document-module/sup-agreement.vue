@@ -20,7 +20,6 @@
       data-field="leadingDocumentId"
       editor-type="dxSelectBox"
       :editor-options="leadingDocumentOptions"
-      :help-text="counterpartyId?'':$t('document.validation.counterPartRequired')"
     >
       <DxLabel location="left" :text="$t('document.fields.contract')" />
     </DxSimpleItem>

@@ -10,7 +10,6 @@
       data-field="leadingDocumentId"
       editor-type="dxSelectBox"
       :editor-options="leadingDocumentOptions"
-      :help-text="counterpartyId?'':$t('document.validation.counterPartRequired')"
     >
       <DxLabel location="left" :text="$t('document.fields.contract')" />
     </DxSimpleItem>
@@ -28,7 +27,6 @@
         data-field="correctedId"
         :editor-options="correctedIdOptions"
         editor-type="dxSelectBox"
-        :help-text="counterpartyId?'':$t('document.validation.counterPartRequired')"
       >
         <DxLabel location="left" :text="$t('document.fields.correctedId')" />
         <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />

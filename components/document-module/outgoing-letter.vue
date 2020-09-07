@@ -19,7 +19,6 @@
         data-field="inResponseToId"
         :editor-options="inResponseToIdOptions"
         editor-type="dxSelectBox"
-        :help-text="correspondentId?'':$t('document.validation.counterPartRequired')"
       >
         <DxLabel location="left" :text="$t('document.fields.inResponseToId')" />
       </DxSimpleItem>
