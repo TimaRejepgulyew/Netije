@@ -22,7 +22,7 @@ export default {
           return this.$t("recipientType.department");
         case ResipientType.Role:
           return this.$t("recipientType.role");
-        case ResipientType.ResistrationGroup:
+        case ResipientType.RegistrationGroup:
           return this.$t("recipientType.registrationGroup");
         case ResipientType.Employee:
           return this.$t("recipientType.employee");

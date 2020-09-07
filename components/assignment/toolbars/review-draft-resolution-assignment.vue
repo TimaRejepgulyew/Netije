@@ -49,12 +49,12 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["assignmentId"],
   data() {
     return {
-      result: null
+      result: null,
     };
   },
   computed: {
@@ -81,7 +81,7 @@ export default {
         onClick: () => {
           this.sendResult(ReviewResult.ReviewDraftResolution.ForExecution);
           this.completeAssignment();
-        }
+        },
       };
     },
 
@@ -96,13 +96,13 @@ export default {
             this.$t("shared.confirm")
           );
           if (response) this.completeAssignment();
-        }
+        },
       };
     },
     btnAddResolutionOptions() {
       return {
         icon: returnManagersAssistantIcon,
-        text: this.$("buttons.returnManagersAssistant"),
+        text: this.$t("buttons.returnManagersAssistant"),
         onClick: async () => {
           this.sendResult(ReviewResult.ReviewDraftResolution.AddResolution);
           let response = await confirm(
@@ -110,7 +110,7 @@ export default {
             this.$t("shared.confirm")
           );
           if (response) this.completeAssignment();
-        }
+        },
       };
     },
     btnForwardOptions() {
@@ -120,7 +120,7 @@ export default {
         onClick: () => {
           this.sendResult(ReviewResult.ReviewDraftResolution.Forward);
           this.completeAssignment();
-        }
+        },
       };
     },
     btnAddExecutionOptions() {
@@ -134,28 +134,25 @@ export default {
           );
           this.actionItemExecutionTaskId = taskId;
           this.showItemExecutionTask = true;
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     sendResult(result) {
-      this.$store.commit(
-        `assignments/${this.assignmentId}/SET_RESULT`,
-        result
-      );
+      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     completeAssignment() {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        e => {
+        (e) => {
           this.$router.go(-1);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

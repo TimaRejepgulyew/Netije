@@ -28,22 +28,24 @@ export const ComponentsByAssignmentType = new Map([
     AssignmentType.PreparingDraftResolutionAssignment,
     {
       toolbar: "toolbar-preparing-draft-resolution-assignment",
-      additional: "additional-preparing-draft-resolution-assignment"
+      additional: "additional-preparing-draft-resolution-assignment",
+      body: "bodyPreparingDraftResolutionAssignment"
     }
   ],
   [
     AssignmentType.ReviewDraftResolutionAssignment,
-    { toolbar: "toolbar-review-draft-resolution-assignment" }
+    { toolbar: "toolbar-review-draft-resolution-assignment", body: "bodyReviewDraftResolutionAssignment" }
   ],
   [
     AssignmentType.ReviewManagerAssignment,
     {
       toolbar: "toolbar-review-manager-assignment",
-      additional: "additional-review-manager-assignment"
+      additional: "additional-review-manager-assignment",
+      body: "bodyReviewManagerAssignment"
     }
   ],
   [
     AssignmentType.ReviewResolutionAssignment,
-    { toolbar: "toolbar-review-resolution-assignment" }
+    { toolbar: "toolbar-review-resolution-assignment", body: "bodyReviewResolutionAssignment" }
   ]
 ]);

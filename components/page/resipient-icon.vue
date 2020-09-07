@@ -15,7 +15,7 @@ export default {
           return require("~/static/icons/recipient-type/men.svg");
         case ResipientType.Role:
           return require("~/static/icons/recipient-type/supporter.svg");
-        case ResipientType.ResistrationGroup:
+        case ResipientType.RegistrationGroup:
           return require("~/static/icons/recipient-type/x-men.svg");
         case ResipientType.SistemUser:
           return require("~/static/icons/recipient-type/business.svg");

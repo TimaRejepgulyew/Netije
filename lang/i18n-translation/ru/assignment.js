@@ -14,7 +14,7 @@ export default {
   acceptAssignmentMessage: "Вы действительно приняли задачу",
   readdressToEmployee: "Переадресовать сотруднику",
   fields: {
-    newDeadline :"Новый срок",
+    newDeadline: "Новый срок",
   },
   result: {
     Acquainted: "Ознакомлен",
@@ -51,7 +51,11 @@ export default {
     acquaintanceAssignment: "Оставьте комментарий прежде чем выполнить задание...",
     simpleAssignment: "Введите текст задания...",
     acquaintanceFinishAssignment: "Введите текст задания...",
-    actionAtiemExecution: "Оставьте отчет по исполнению поручения..."
+    actionAtiemExecution: "Оставьте отчет по исполнению поручения...",
+    preparingDraftResolutionAssignment: "Введите текст задания...",
+    reviewDraftResolutionAssignment: "Введите текст задания...",
+    reviewResolutionAssignment: "Текст резолюции...",
+    reviewManagerAssignment: "Текст резолюции..."
   },
   validation: {
     bodyRequired: "Введите текст задания...",
