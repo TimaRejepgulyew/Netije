@@ -29,7 +29,7 @@ export default {
   externalApprovalState: "Согл. с контрагентом",
   executionState: "Исполнение",
   controlExecutionState: "Контроль исполнения",
-  type: { ...DocumentType },
+  type: DocumentType,
   tabs: {
     main: "Свойства",
     relations: "Связи",
