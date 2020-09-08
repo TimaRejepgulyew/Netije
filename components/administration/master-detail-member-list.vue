@@ -17,7 +17,7 @@
           :allow-deleting="canDelete"
           :allow-adding="!immutable"
           :useIcons="true"
-          mode="batch"
+          mode="row"
         >
           <div>
             <DxSelectBox
