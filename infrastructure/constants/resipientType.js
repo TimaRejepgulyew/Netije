@@ -4,5 +4,5 @@ export default {
   Role: 2,
   RegistrationGroup: 3,
   Employee: 4,
-  SistemUser: 5
+  SystemUser: 5
 };

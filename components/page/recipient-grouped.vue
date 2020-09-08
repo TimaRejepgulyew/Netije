@@ -26,8 +26,8 @@ export default {
           return this.$t("recipientType.registrationGroup");
         case ResipientType.Employee:
           return this.$t("recipientType.employee");
-        case ResipientType.SistemUser:
-          return this.$t("recipientType.sistemUser");
+        case ResipientType.SystemUser:
+          return this.$t("recipientType.systemUser");
       }
     },
   },

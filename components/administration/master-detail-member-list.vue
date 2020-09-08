@@ -75,7 +75,7 @@ import {
   DxFilterRow,
   DxButton,
 } from "devextreme-vue/data-grid";
-
+import RecipientType from "~/infrastructure/constants/resipientType.js";
 export default {
   components: {
     DxSelectBox,
@@ -125,8 +125,13 @@ export default {
 
   methods: {
     canDelete(e) {
-      console.log(e.row.data);
-      return !this.immutable && !e.row.data.member?.isSystem;
+      return (
+        !this.immutable &&
+        !(
+          e.row.data.member?.isSystem &&
+          e.row.data.member?.recipientType === RecipientType.SystemUser
+        )
+      );
     },
     onValueChanged(value, cellInfo) {
       console.log(cellInfo, value);
