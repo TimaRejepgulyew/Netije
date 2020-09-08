@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
 import { DxPopup } from "devextreme-vue/popup";
@@ -87,11 +88,6 @@ export default {
       } = await this.$axios.get(
         `${dataApi.task.CheckMembersPermissions}${this.task?.taskType}/${this.taskId}`
       );
-      // const availableTypes = [
-      //   { id: 0, name: "Read" },
-      //   { id: 1, name: "write" },
-      // ];
-      // const succeeded = false;
       if (!succeeded) {
         this.avaliableAccessRight = availableTypes;
         this.tooglePopupAccessRight();
@@ -104,14 +100,19 @@ export default {
       if (this.isValidTask()) {
         const hasRecipientAccessRight = await this.checkRecipientAccessRight();
         if (!hasRecipientAccessRight) return false;
-
-        this.$awn.asyncBlock(
-          this.$store.dispatch(`tasks/${this.taskId}/start`),
-          (e) => {
-            this.$emit("onStart");
-          },
-          (e) => this.$awn.alert()
+        const response = await confirm(
+          this.$t("task.message.sureStartTask"),
+          this.$t("shared.confirm")
         );
+        if (response) {
+          this.$awn.asyncBlock(
+            this.$store.dispatch(`tasks/${this.taskId}/start`),
+            (e) => {
+              this.$emit("onStart");
+            },
+            (e) => this.$awn.alert()
+          );
+        }
       }
     },
   },
