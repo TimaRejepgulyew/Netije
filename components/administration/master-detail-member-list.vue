@@ -14,7 +14,7 @@
         <DxHeaderFilter :visible="true" />
         <DxEditing
           :allow-updating="false"
-          :allow-deleting="!immutable"
+          :allow-deleting="canDelete"
           :allow-adding="!immutable"
           :useIcons="true"
           mode="batch"
@@ -124,6 +124,10 @@ export default {
   },
 
   methods: {
+    canDelete(e) {
+      console.log(e.row.data);
+      return !this.immutable && !e.row.data.member?.isSystem;
+    },
     onValueChanged(value, cellInfo) {
       console.log(cellInfo, value);
       cellInfo.setValue(value);
