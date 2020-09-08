@@ -72,7 +72,9 @@ export default {
     all: "Все задания и уведомления",
     onExicution: "На исполнение",
     onReview: "На приемку",
-    onAcquaintance: "На ознакомление"
+    onAcquaintance: "На ознакомление",
+    onDocumentReview: "На расмотрении",
+    reviewResolution: "На обработке"
   },
   DocumentQuery: {
     all: "Все документы",

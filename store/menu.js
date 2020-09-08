@@ -83,6 +83,14 @@ export const actions = {
           {
             text: this.$i18n.t("AssignmentQuery.onAcquaintance"),
             path: `/assignment/${AssignmentQuery.OnAcquaintance}`
+          },
+          {
+            text: this.$i18n.t("AssignmentQuery.onDocumentReview"),
+            path: `/assignment/${AssignmentQuery.OnDocumentReview}`
+          },
+          {
+            text: this.$i18n.t("AssignmentQuery.reviewResolution"),
+            path: `/assignment/${AssignmentQuery.ReviewResolution}`
           }
         ]
       },
