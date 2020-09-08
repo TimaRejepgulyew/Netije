@@ -1,8 +1,8 @@
 const QuickFilter = {
-  New: 0,
-  New: 0,
-  InProcess: 1,
-  MounthAgo: 2
+  All: 0,
+  New: 1,
+  InProcess: 2,
+  MounthAgo: 3
 }
 export default QuickFilter
 

@@ -141,6 +141,7 @@
   </main>
 </template>
 <script>
+import QuiсkFilter from "~/infrastructure/constants/assignmentQuickFilter.js"
 import { DxButtonGroup } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { isNotification } from "~/infrastructure/constants/assignmentType.js";

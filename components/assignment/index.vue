@@ -210,9 +210,7 @@ export default {
         ];
     },
     reload() {
-      this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/reload`)
-      );
     },
     detach(attachmentId) {
       this.$awn.async(
