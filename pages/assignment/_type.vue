@@ -2,11 +2,13 @@
   <main>
     <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
-      <DxButton
-        icon="filter"
-        :text="$t('buttons.filter')"
-        v-if="withFilter"
-        :on-click="showFilter"
+      <DxButtonGroup
+        slot="toolbar"
+        :selected-item-keys="[activeFilter]"
+        :items="QuiсkFilterOptions"
+        key-expr="filterKey"
+        styling-mode="text"
+        @item-click="itemClick"
       />
     </div>
     <div class="grid">
@@ -139,6 +141,7 @@
   </main>
 </template>
 <script>
+import { DxButtonGroup } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { isNotification } from "~/infrastructure/constants/assignmentType.js";
 import isImportantIcon from "~/components/page/task-important.vue";
@@ -195,6 +198,7 @@ export default {
     DxStateStoring,
     iconByAssignmentType,
     isImportantIcon,
+    DxButtonGroup,
   },
 
   data() {
@@ -213,6 +217,24 @@ export default {
         loadUrl: dataApi.company.Employee,
       }),
       statusStore: Object.values(new AssignmentStatus(this).getAll()),
+      // QuiсkFilterOptions: [
+      //   {
+      //     text: this.$t("buttons.all"),
+      //     filterKey: QuiсkFilter.All,
+      //     hint: this.$t("buttons.all"),
+      //   },
+      //   {
+      //     text: this.$t("buttons.new"),
+      //     filterKey: QuiсkFilter.New,
+      //     hint: this.$t("buttons.new"),
+      //   },
+
+      //   {
+      //     text: this.$t("buttons.monthAgo"),
+      //     filterKey: QuiсkFilter.MonthAgo,
+      //     hint: this.$t("buttons.monthAgo"),
+      //   },
+      // ],
     };
   },
   computed: {
@@ -227,6 +249,19 @@ export default {
     },
   },
   methods: {
+    itemClick(e) {
+      this.activeFilter = e.itemIndex;
+      this.setStore(this.activeFilter);
+    },
+    setStore(filter) {
+      this.store = new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
+        }),
+        paginate: true,
+      });
+    },
     subjectText(rowData) {
       return (
         generatorPrefixByAssignmentType(rowData.assignmentType, this) +
@@ -238,6 +273,16 @@ export default {
         widget: "button",
         location: "after",
         options: { icon: "refresh", onClick: this.reload },
+      });
+      header.toolbarOptions.items.unshift({
+        widget: "button",
+        location: "after",
+        options: {
+          icon: "filter",
+          visible: this.withFilter,
+          text: this.$t("buttons.filter"),
+          onClick: this.showFilter,
+        },
       });
     },
     reload() {

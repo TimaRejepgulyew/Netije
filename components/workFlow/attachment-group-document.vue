@@ -49,10 +49,10 @@
       </li>
     </ul>
     <div
+      v-else
       class="d-flex group__description"
       :class="{'cursor-pointer':group.canAddAttachments}"
       @click="()=>{if(group.canAddAttachments)togglePopupGrid()}"
-      v-else
     >
       <i class="dx-icon dx-icon-link"></i>
       <label :for="'addAttachment'+group.groupId" class="f-grow-1">{{group.description}}</label>

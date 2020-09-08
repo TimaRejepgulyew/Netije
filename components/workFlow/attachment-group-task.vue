@@ -33,7 +33,7 @@
     <div
       class="d-flex group__description"
       :class="{'cursor-pointer':group.canAddAttachments}"
-      @click="()=>{if(group.canAddAttachments)tooglePopup()}"
+      @click="()=>{if(group.canAddAttachments)openPopup()}"
       v-else
     >
       <i class="dx-icon dx-icon-link"></i>
