@@ -104,7 +104,7 @@ export default {
         icon: returnManagersAssistantIcon,
         text: this.$t("buttons.returnManagersAssistant"),
         onClick: async () => {
-          this.sendResult(ReviewResult.ReviewDraftResolution.AddResolution);
+          this.sendResult(ReviewResult.ReviewDraftResolution.ForRework);
           let response = await confirm(
             this.$t("assignment.returnManagersAssistantMessage"),
             this.$t("shared.confirm")

@@ -34,7 +34,7 @@ const PrepareDraftResolution = {
 const ReviewDraftResolution = {
   ForExecution: 0,
   Informed: 1,
-  AddResolution: 2,
+  ForRework: 2,
   Forward: 3
 };
 const ReviewManager = {

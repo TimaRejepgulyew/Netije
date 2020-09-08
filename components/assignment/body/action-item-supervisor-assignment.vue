@@ -51,7 +51,7 @@ export default {
       ].newDeadline,
       // validationMessage: $t("assignment.validation.actionItemRequired"),
       placeholder: this.$t("assignment.body.actionItemSupervisorAssignment"),
-      isRequired: true,
+      isRequired: false,
       todayButton: {
         text: "Today",
         onClick: () => {

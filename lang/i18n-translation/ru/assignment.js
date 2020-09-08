@@ -24,7 +24,8 @@ export default {
     AddAssignment: "Отправлено на исполнение",
     AddResolution: "Вынесена резолюция",
     Explored: "Принято к сведению",
-    Forward: "Переадресовано"
+    Forward: "Переадресовано",
+    ForExecution:"Отправлено на исполнения"
   },
   status: {
     InProcess: "В процессе",

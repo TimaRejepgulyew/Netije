@@ -34,7 +34,7 @@ export const ComponentsByAssignmentType = new Map([
   ],
   [
     AssignmentType.ReviewDraftResolutionAssignment,
-    { toolbar: "toolbar-review-draft-resolution-assignment", body: "bodyReviewDraftResolutionAssignment" }
+    { toolbar: "toolbar-review-draft-resolution-assignment", additional: "additionalReviewDraftResolutionAssignment", body: "bodyReviewDraftResolutionAssignment" }
   ],
   [
     AssignmentType.ReviewManagerAssignment,

@@ -2,6 +2,7 @@
   <main>
     <Header :isbackButton="true" :headerTitle="headerTitle"></Header>
     <div class="nav-bar">
+      <quick-filter />
       <DxButtonGroup
         slot="toolbar"
         :selected-item-keys="[activeFilter]"
@@ -141,7 +142,7 @@
   </main>
 </template>
 <script>
-import QuiсkFilter from "~/infrastructure/constants/assignmentQuickFilter.js"
+import QuiсkFilter from "~/infrastructure/constants/assignmentQuickFilter.js";
 import { DxButtonGroup } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { isNotification } from "~/infrastructure/constants/assignmentType.js";
@@ -156,7 +157,6 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import TaskFilter from "~/components/assignment/filter";
-import DxButton from "devextreme-vue/button";
 import iconByAssignmentType from "~/components/assignment/icon-by-assignment-type.vue";
 import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
 import {
@@ -180,7 +180,6 @@ import {
 export default {
   components: {
     TaskFilter,
-    DxButton,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -218,27 +217,32 @@ export default {
         loadUrl: dataApi.company.Employee,
       }),
       statusStore: Object.values(new AssignmentStatus(this).getAll()),
-      // QuiсkFilterOptions: [
-      //   {
-      //     text: this.$t("buttons.all"),
-      //     filterKey: QuiсkFilter.All,
-      //     hint: this.$t("buttons.all"),
-      //   },
-      //   {
-      //     text: this.$t("buttons.new"),
-      //     filterKey: QuiсkFilter.New,
-      //     hint: this.$t("buttons.new"),
-      //   },
+      QuiсkFilterOptions: [
+        {
+          text: this.$t("buttons.all"),
+          filterKey: QuiсkFilter.All,
+          hint: this.$t("buttons.all"),
+        },
+        {
+          text: this.$t("buttons.new"),
+          filterKey: QuiсkFilter.New,
+          hint: this.$t("buttons.new"),
+        },
 
-      //   {
-      //     text: this.$t("buttons.monthAgo"),
-      //     filterKey: QuiсkFilter.MonthAgo,
-      //     hint: this.$t("buttons.monthAgo"),
-      //   },
-      // ],
+        {
+          text: this.$t("buttons.monthAgo"),
+          filterKey: QuiсkFilter.MonthAgo,
+          hint: this.$t("buttons.monthAgo"),
+        },
+      ],
     };
   },
   computed: {
+    quickFiler() {
+      return localStorage.getItem(
+        `assignmentQuickFilter${this.$route.params.type}`
+      );
+    },
     assignmentTypes() {
       return new AssignmentType(this).withIconGroup();
     },

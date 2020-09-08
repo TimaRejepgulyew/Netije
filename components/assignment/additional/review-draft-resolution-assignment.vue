@@ -87,6 +87,13 @@ export default {
       const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
       ].attachmentGroups;
+      console.log(
+        attachments,
+        attachments.find((attachment) => {
+          console.log(attachment, AttachmentGroup.Resolution);
+          return attachment.groupId === AttachmentGroup.Resolution;
+        })
+      );
       return attachments.find((attachment) => {
         return attachment.groupId === AttachmentGroup.Resolution;
       });
