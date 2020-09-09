@@ -36,7 +36,7 @@
       :deferRendering="true"
     >
       <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
-        <DxRequiredRule :message="$t(messageRequired)" />
+        <DxRequiredRule />
       </DxValidator>
       <template #customSelectItem="{data}">
         <custom-select-item :item-data="data" />
@@ -46,7 +46,7 @@
           @openCard="showPopup"
           :read-only="readOnly"
           @valueChanged="updateEmployee"
-          :field-data="data"
+          :field-data="data||value"
         />
       </template>
     </DxSelectBox>
@@ -92,12 +92,15 @@ export default {
         }),
       }),
       isCardOpened: false,
-      employeeId: null,
     };
+  },
+  computed: {
+    employeeId() {
+      return this.valueExpr ? this.value : this.value?.id;
+    },
   },
   methods: {
     showPopup() {
-      this.employeeId = this.$refs["employee"].instance.option("selectedItem").id;
       this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {

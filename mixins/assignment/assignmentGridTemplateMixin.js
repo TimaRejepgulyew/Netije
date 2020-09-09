@@ -1,24 +1,15 @@
-<template>
-  <main>
 
-  </main>
-</template>
-<script>
-import QuiсkFilter from "~/infrastructure/constants/assignmentQuickFilter.js";
-import { DxButtonGroup } from "devextreme-vue";
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { isNotification } from "~/infrastructure/constants/assignmentType.js";
 import isImportantIcon from "~/components/page/task-important.vue";
 import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
 import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
-import AssignmentQuery, {
-  generateAssignmentQueryName,
-} from "~/infrastructure/constants/assignmentQuery.js";
+import { generateAssignmentQueryName } from "~/infrastructure/constants/assignmentQuery.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-
+import TaskFilter from "~/components/assignment/filter";
 import iconByAssignmentType from "~/components/assignment/icon-by-assignment-type.vue";
 import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
 import {
@@ -38,9 +29,9 @@ import {
   DxFilterRow,
   DxStateStoring,
 } from "devextreme-vue/data-grid";
-
 export default {
   components: {
+    TaskFilter,
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -61,7 +52,6 @@ export default {
     isImportantIcon,
     DxButtonGroup,
   },
-
   data() {
     return {
       store: new DataSource({
@@ -72,62 +62,35 @@ export default {
         }),
         sort: [{ selector: "created", desc: true }],
       }),
-      isFilterOpen: false,
       employeeStores: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.Employee,
       }),
       statusStore: Object.values(new AssignmentStatus(this).getAll()),
-      QuiсkFilterOptions: [
-        {
-          text: this.$t("buttons.all"),
-          filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all"),
-        },
-        {
-          text: this.$t("buttons.new"),
-          filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new"),
-        },
-
-        {
-          text: this.$t("buttons.monthAgo"),
-          filterKey: QuiсkFilter.MonthAgo,
-          hint: this.$t("buttons.monthAgo"),
-        },
-      ],
     };
   },
   computed: {
-    quickFiler() {
-      return localStorage.getItem(
-        `assignmentQuickFilter${this.$route.params.type}`
-      );
-    },
     assignmentTypes() {
       return new AssignmentType(this).withIconGroup();
     },
     headerTitle() {
       return generateAssignmentQueryName(+this.$route.params.type, this);
     },
-    withFilter() {
-      return +this.$route.params.type === AssignmentQuery.All;
-    },
   },
   methods: {
-    itemClick(e) {
-      this.activeFilter = e.itemIndex;
-      this.setStore(this.activeFilter);
-    },
-    setStore(filter) {
+    setFilter(filter) {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.assignment.Assignments}${this.$route.params.type}?quickFilter=${filter}&`,
         }),
         paginate: true,
       });
     },
+    // itemClick(e) {
+    //   this.activeFilter = e.itemIndex;
+    //   this.setStore(this.activeFilter);
+    // },
     subjectText(rowData) {
       return (
         generatorPrefixByAssignmentType(rowData.assignmentType, this) +
@@ -139,16 +102,6 @@ export default {
         widget: "button",
         location: "after",
         options: { icon: "refresh", onClick: this.reload },
-      });
-      header.toolbarOptions.items.unshift({
-        widget: "button",
-        location: "after",
-        options: {
-          icon: "filter",
-          visible: this.withFilter,
-          text: this.$t("buttons.filter"),
-          onClick: this.showFilter,
-        },
       });
     },
     reload() {
@@ -175,22 +128,9 @@ export default {
         this.showCompleteAssignment(e.rowElement.style, e.data);
       }
     },
-    changeFilter(filter) {
-      if (this.withFilter) {
-        this.store = new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.assignment.Assignments + this.$route.params.type,
-          }),
-          sort: [{ selector: "created", desc: true }],
-          filter: filter.filter.length > 0 ? filter.filter : null,
-        });
-      }
-    },
     showAssignment(e) {
       this.$router.push("/assignment/more/" + e.key);
     },
-
     showFilter() {
       this.isFilterOpen = !this.isFilterOpen;
     },
@@ -202,30 +142,4 @@ export default {
     },
   },
 };
-</script>
-<style lang="scss" scoped >
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 
-.fade-enter,
-.fade-leave-to {
-  transform: translateX(30vw);
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 0.5s;
-}
-.right {
-  display: flex;
-  justify-content: space-between;
-  .filter__header {
-    justify-self: flex-start;
-  }
-}
-.icon--type {
-  display: flex;
-  margin: 0 auto;
-  height: 20px;
-  width: 100%;
-}
-</style>

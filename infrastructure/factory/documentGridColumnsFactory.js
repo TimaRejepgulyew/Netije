@@ -1,5 +1,5 @@
 import DocumentQuery from "~/infrastructure/constants/documentQuery";
-import DocumentService from "~/infrastructure/services/documentVersionService";
+import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
 export default {
@@ -76,7 +76,7 @@ const hasVersion = e => {
   return e.row.data.hasVersions;
 };
 const downloadDocument = (e, context) => {
-  DocumentService.downloadDocument(
+  DocumentVersionService.downloadDocument(
     {
       ...e.row.data,
       extension: e.row.data.extension
@@ -85,7 +85,7 @@ const downloadDocument = (e, context) => {
   );
 };
 const previewDocument = (e, context) => {
-  DocumentService.previewDocument(e.row.data, context);
+  DocumentVersionService.previewDocument(e.row.data, context);
 };
 
 const CreateElectronicDocumentColumns = context => {
