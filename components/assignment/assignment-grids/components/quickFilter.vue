@@ -12,20 +12,21 @@
 <script>
 import QuiсkFilter from "~/infrastructure/constants/assignmentQuickFilter.js";
 import { DxButtonGroup } from "devextreme-vue";
+function setQuickfilter(value, oldvalue, context) {
+  console.log(context, value);
+  if (value !== null) {
+    context.$emit("getQuickFilter", value);
+  }
+}
 export default {
   components: {
     DxButtonGroup,
   },
-  props: ["key"],
-  created() {
-    if (this.currentQuickFilter) {
-      this.$emit("getQuickFilter", this.currentQuickFilter);
-    }
-  },
+  props: ["assignmentQuery"],
   data() {
     return {
       currentQuickFilter: localStorage.getItem(
-        `assignmentQuickFilter${this.key}` || null
+        `assignmentQuickFilter${this.assignmentQuery}` || null
       ),
       QuiсkFilterOptions: [
         {
@@ -56,9 +57,20 @@ export default {
       ],
     };
   },
-  methods: {
-    setQuickfilter(filter) {},
+  methods:{
+    itemClick(){
+      
+    }
   },
+  watch: {
+    currentQuickFilter: {
+      handler: function (value, oldValue) {
+        setQuickfilter(value, oldValue, this);
+      },
+      immediate: true,
+    },
+  },
+  methods: {},
 };
 </script>
 

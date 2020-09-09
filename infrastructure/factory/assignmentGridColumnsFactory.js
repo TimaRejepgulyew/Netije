@@ -1,45 +1,30 @@
-import AssignmentQuery from "~/infrastructure/constants/assignmentQuery";
-import DocumentVersionService from "~/infrastructure/services/documentVersionService";
+import AssignmentQuery from "~/infrastructure/constants/assignmentQuery.js";
 import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
 import dataApi from "~/static/dataApi";
 const GetColumnsByAssignmentQuery = (type, context) => {
   switch (type) {
-    case DocumentQuery.All:
-      return CreateElectronicDocumentColumns(context);
-    case DocumentQuery.IncomingLetter:
-      return CreateIncomingLetterColumns(context);
-    case DocumentQuery.OutgoingLetter:
-      return CreateOutgoingLetterColumns(context);
-    case DocumentQuery.InternalDocument:
-      return CreateInternalDocumentColumns(context);
-    case DocumentQuery.Addendum:
-      return CreateAddendumColumns(context);
-    case DocumentQuery.Order:
-      return CreateOrderColumns(context);
-    case DocumentQuery.CompanyDirective:
-      return CreateCompanyDirectiveColumns(context);
-    case DocumentQuery.SimpleDocument:
-      return CreateSimpleDocumentColumns(context);
-    case DocumentQuery.Memo:
-      return CreateMemoColumns(context);
-    case DocumentQuery.PowerOfAttorney:
-      return CreatePowerOfAttorneyColumns(context);
-    case DocumentQuery.ContractualDocuments:
-      return CreateContractColumns(context);
-    case DocumentQuery.AccountingDocuments:
-      return CreateAccountingDocumentsColumns(context);
-
+    case AssignmentQuery.All:
+      return CreateAllAssignmentColumns(context)
+    case AssignmentQuery.OnExicution:
+      return CreateOnExecutionAssignmentColumns(context);
+    case AssignmentQuery.OnReview:
+      return CreateOnReviewAssignmentColumns(context);
+    case AssignmentQuery.OnAcquaintance:
+      return CreateOnAcquintanceAssignmentColumns(context);
+    case AssignmentQuery.OnDocumentReview:
+      return CreateOnDocumentReviewAssignmentColumns(context);
+    case AssignmentQuery.ReviewResolution:
+      return CreateReviewResolutionAssignmentColumns(context);
     default:
       return [];
   }
 };
 export default {
   CreateColumns: (type, context) => {
-    const columns = [GetDefaultColumn()];
+    const defaultColumns = [];
     const typedColumns = GetColumnsByAssignmentQuery(type, context);
     const buttons = CreateButtons(context);
-    var resultColumns = columns.concat(typedColumns);
-    resultColumns.push(buttons);
+    const resultColumns = [...typedColumns, ];
     return resultColumns;
   }
 };
@@ -52,12 +37,13 @@ const CreateButtons = context => {
 };
 const CreateBaseColumns = context => {
   return [
+    CreateAssignmentTypeIconColumn(context),
+    CreateAssignmentImportanceColumn(context),
     CreateSubjectColumn(context),
     CreateDeadlineColumn(context),
     CreateAssignmentCreatedColumn(context),
     CreateAuthorColumn(context),
-    CreateStatuscolumn(context),
-    CreateAssignmentImportanceColumn(context),
+    CreateStatusColumn(context),
   ];
 };
 const CreateAllAssignmentColumns = context => {
@@ -120,12 +106,13 @@ function CreateAuthorColumn(context,) {
     true
   );
 }
-function CreateStatuscolumn(context) {
-  return CreateLookupColumn(
+function CreateStatusColumn(context) {
+  return CreateArrayLookupColumn(
     "status",
     context,
-    Object.values(new AssignmentStatus(this).getAll()),
-    true
+    Object.values(new AssignmentStatus(context).getAll()),
+    true,
+    "text"
   );
 }
 
@@ -137,13 +124,14 @@ function CreateAssignmentImportanceColumn(context) {
   return { ...GetDefaultColumnTypeIconSetting(context), dataField: "importance", cellTemplate: "importanceIconColumn", width: 40 }
 }
 
+
 function CreateSubjectColumn(context) {
   return {
     dataField: "subject",
-    calculateCellValue: generateSubjectText,
     caption: context.$t('assignment.fields.subject')
   }
 }
+
 function CreateLookupColumn(
   dataField,
   context,
@@ -155,7 +143,7 @@ function CreateLookupColumn(
 ) {
   return {
     dataField: dataField,
-    caption: context.$t(`assignment.fields.${caption || dataField}`),
+    caption: context.$t(`assignment.fields.${caption || dataField} `),
     visible,
     lookup: {
       dataSource: {
@@ -178,8 +166,8 @@ function CreateArrayLookupColumn(
   displayExpr = "name"
 ) {
   return {
-    dataField: dataField,
-    caption: context.$t(`assignment.fields.${dataField}`),
+    dataField,
+    caption: context.$t(`assignment.fields.${dataField} `),
     visible,
     lookup: {
       dataSource: items,

@@ -1,8 +1,7 @@
 
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { isNotification } from "~/infrastructure/constants/assignmentType.js";
-import isImportantIcon from "~/components/page/task-important.vue";
-import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
+import importanceIconColumn from "~/components/page/task-important.vue";
 import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
 import { generateAssignmentQueryName } from "~/infrastructure/constants/assignmentQuery.js";
@@ -10,8 +9,8 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import TaskFilter from "~/components/assignment/filter";
-import iconByAssignmentType from "~/components/assignment/icon-by-assignment-type.vue";
-import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
+import assignnmentTypeIconColumn from "~/components/assignment/icon-by-assignment-type.vue";
+import toolbarItemQuickFilter from "~/components/assignment/assignment-grids/components/quickFilter.vue"
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -48,25 +47,21 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    iconByAssignmentType,
-    isImportantIcon,
-    DxButtonGroup,
+    assignnmentTypeIconColumn,
+    importanceIconColumn,
+    toolbarItemQuickFilter
   },
+  props: ["assignmentQuery"],
   data() {
     return {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl:
-            dataApi.assignment.Assignments + (this.$route.params.type || 0),
+            dataApi.assignment.Assignments + (this.assignmentQuery || 0),
         }),
         sort: [{ selector: "created", desc: true }],
       }),
-      employeeStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee,
-      }),
-      statusStore: Object.values(new AssignmentStatus(this).getAll()),
     };
   },
   computed: {
@@ -74,7 +69,7 @@ export default {
       return new AssignmentType(this).withIconGroup();
     },
     headerTitle() {
-      return generateAssignmentQueryName(+this.$route.params.type, this);
+      return generateAssignmentQueryName(this.assignmentQuery, this);
     },
   },
   methods: {
@@ -82,20 +77,10 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.assignment.Assignments}${this.$route.params.type}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}?quickFilter=${filter}&`,
         }),
         paginate: true,
       });
-    },
-    // itemClick(e) {
-    //   this.activeFilter = e.itemIndex;
-    //   this.setStore(this.activeFilter);
-    // },
-    subjectText(rowData) {
-      return (
-        generatorPrefixByAssignmentType(rowData.assignmentType, this) +
-        rowData.subject
-      );
     },
     addButtonToGrid(header) {
       header.toolbarOptions.items.unshift({

@@ -1,203 +1,31 @@
 <template>
   <main>
-
+    <component :assignmentQuery="+$route.params.type" :is="generateGridComponentByAssignmentQuery" />
   </main>
 </template>
 <script>
-import QuiсkFilter from "~/infrastructure/constants/assignmentQuickFilter.js";
-import { DxButtonGroup } from "devextreme-vue";
-import AssignmentType from "~/infrastructure/models/AssignmentType.js";
-import { isNotification } from "~/infrastructure/constants/assignmentType.js";
-import isImportantIcon from "~/components/page/task-important.vue";
-import generatorPrefixByAssignmentType from "~/infrastructure/services/generatorPrefixByAssignmentType.js";
-import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
-import Important from "~/infrastructure/constants/assignmentImportance.js";
-import AssignmentQuery, {
-  generateAssignmentQueryName,
-} from "~/infrastructure/constants/assignmentQuery.js";
-import DataSource from "devextreme/data/data_source";
-import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
-
-import iconByAssignmentType from "~/components/assignment/icon-by-assignment-type.vue";
-import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
-import {
-  DxSearchPanel,
-  DxDataGrid,
-  DxColumn,
-  DxEditing,
-  DxHeaderFilter,
-  DxScrolling,
-  DxExport,
-  DxSelection,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  DxColumnChooser,
-  DxColumnFixing,
-  DxFilterRow,
-  DxStateStoring,
-} from "devextreme-vue/data-grid";
+import AssignmentQuery from "~/infrastructure/constants/assignmentQuery.js";
+import * as assignmentGrids from "~/components/assignment/assignment-grids/index.js";
 
 export default {
   components: {
-    Header,
-    DxSearchPanel,
-    DxDataGrid,
-    DxColumn,
-    DxEditing,
-    DxHeaderFilter,
-    DxScrolling,
-    DxExport,
-    DxSelection,
-    DxLookup,
-    DxGrouping,
-    DxGroupPanel,
-    DxColumnChooser,
-    DxColumnFixing,
-    DxFilterRow,
-    DxStateStoring,
-    iconByAssignmentType,
-    isImportantIcon,
-    DxButtonGroup,
-  },
-
-  data() {
-    return {
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl:
-            dataApi.assignment.Assignments + (this.$route.params.type || 0),
-        }),
-        sort: [{ selector: "created", desc: true }],
-      }),
-      isFilterOpen: false,
-      employeeStores: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee,
-      }),
-      statusStore: Object.values(new AssignmentStatus(this).getAll()),
-      QuiсkFilterOptions: [
-        {
-          text: this.$t("buttons.all"),
-          filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all"),
-        },
-        {
-          text: this.$t("buttons.new"),
-          filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new"),
-        },
-
-        {
-          text: this.$t("buttons.monthAgo"),
-          filterKey: QuiсkFilter.MonthAgo,
-          hint: this.$t("buttons.monthAgo"),
-        },
-      ],
-    };
+    ...assignmentGrids,
   },
   computed: {
-    quickFiler() {
-      return localStorage.getItem(
-        `assignmentQuickFilter${this.$route.params.type}`
-      );
-    },
-    assignmentTypes() {
-      return new AssignmentType(this).withIconGroup();
-    },
-    headerTitle() {
-      return generateAssignmentQueryName(+this.$route.params.type, this);
-    },
-    withFilter() {
-      return +this.$route.params.type === AssignmentQuery.All;
-    },
-  },
-  methods: {
-    itemClick(e) {
-      this.activeFilter = e.itemIndex;
-      this.setStore(this.activeFilter);
-    },
-    setStore(filter) {
-      this.store = new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
-        }),
-        paginate: true,
-      });
-    },
-    subjectText(rowData) {
-      return (
-        generatorPrefixByAssignmentType(rowData.assignmentType, this) +
-        rowData.subject
-      );
-    },
-    addButtonToGrid(header) {
-      header.toolbarOptions.items.unshift({
-        widget: "button",
-        location: "after",
-        options: { icon: "refresh", onClick: this.reload },
-      });
-      header.toolbarOptions.items.unshift({
-        widget: "button",
-        location: "after",
-        options: {
-          icon: "filter",
-          visible: this.withFilter,
-          text: this.$t("buttons.filter"),
-          onClick: this.showFilter,
-        },
-      });
-    },
-    reload() {
-      this.store.reload();
-    },
-    showCompleteAssignment(style, data) {
-      if (
-        (!isNotification(data.assignmentType) &&
-          data.status === AssignmentStatusGuid.Completed) ||
-        data.status === AssignmentStatusGuid.Aborted
-      ) {
-        style.textDecoration = "line-through";
-      }
-    },
-    onRowPrepared(e) {
-      if (e.data != undefined) {
-        if (!e.data.isRead) {
-          e.rowElement.style.fontWeight = "bolder";
-          e.rowElement.style.color = "#339966";
-        }
-        if (e.data.isExpired) {
-          e.rowElement.style.color = "red";
-        }
-        this.showCompleteAssignment(e.rowElement.style, e.data);
-      }
-    },
-    changeFilter(filter) {
-      if (this.withFilter) {
-        this.store = new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.assignment.Assignments + this.$route.params.type,
-          }),
-          sort: [{ selector: "created", desc: true }],
-          filter: filter.filter.length > 0 ? filter.filter : null,
-        });
-      }
-    },
-    showAssignment(e) {
-      this.$router.push("/assignment/more/" + e.key);
-    },
-
-    showFilter() {
-      this.isFilterOpen = !this.isFilterOpen;
-    },
-    isImportant(value) {
-      switch (value) {
-        case Important.High:
-          return require("~/static/icons/iconAssignment/important.svg");
+    generateGridComponentByAssignmentQuery() {
+      switch (+this.$route.params.type) {
+        case AssignmentQuery.All:
+          return "allAssignment";
+        case AssignmentQuery.OnExicution:
+          return "onExicution";
+        case AssignmentQuery.OnReview:
+          return "onReview";
+        case AssignmentQuery.OnAcquaintance:
+          return "onAcquaintance";
+        case AssignmentQuery.OnDocumentReview:
+          return "onDocumentReview";
+        case AssignmentQuery.ReviewResolution:
+          return "reviewResolution";
       }
     },
   },
@@ -207,21 +35,6 @@ export default {
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 
-.fade-enter,
-.fade-leave-to {
-  transform: translateX(30vw);
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 0.5s;
-}
-.right {
-  display: flex;
-  justify-content: space-between;
-  .filter__header {
-    justify-self: flex-start;
-  }
-}
 .icon--type {
   display: flex;
   margin: 0 auto;
