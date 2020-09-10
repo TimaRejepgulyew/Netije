@@ -18,7 +18,7 @@
         />
       </div>
     </DxPopup>
-    <div class="d-flex align-center">
+    <div >
       <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
       <div class="f-grow-1">
         <employee-select-box

@@ -50,12 +50,12 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["assignmentId"],
   data() {
     return {
-      result: null
+      result: null,
     };
   },
   computed: {
@@ -79,20 +79,32 @@ export default {
       return {
         icon: resolutionIcon,
         text: this.$t("buttons.sendToReview"),
-        onClick: () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.SendForReview);
-          this.completeAssignment();
-        }
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.sendResult(ReviewResult.PrepareDraftResolution.SendForReview);
+            this.completeAssignment();
+          }
+        },
       };
     },
     btnSendToAssigneeOptions() {
       return {
         icon: sendToAssigneeIcon,
         text: this.$t("buttons.sendToAssignee"),
-        onClick: () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.AddAssignment);
-          this.completeAssignment();
-        }
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.sendResult(ReviewResult.PrepareDraftResolution.AddAssignment);
+            this.completeAssignment();
+          }
+        },
       };
     },
     btnAcceptOptions() {
@@ -100,25 +112,33 @@ export default {
         icon: exploredIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.Explored);
-          let response = await confirm(
+          const response = await confirm(
             this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
           );
-          if (response) this.completeAssignment();
-        }
+          if (response) {
+            this.completeAssignment();
+            this.sendResult(ReviewResult.PrepareDraftResolution.Explored);
+          }
+        },
       };
     },
     btnForwardOptions() {
       return {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
-        onClick: () => {
-          this.sendResult(ReviewResult.PrepareDraftResolution.Forward);
-          this.completeAssignment();
-        }
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.sendResult(ReviewResult.PrepareDraftResolution.Forward);
+            this.completeAssignment();
+          }
+        },
       };
-    }
+    },
   },
   methods: {
     sendResult(result) {
@@ -127,14 +147,14 @@ export default {
     completeAssignment() {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        e => {
+        (e) => {
           this.$router.go(-1);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

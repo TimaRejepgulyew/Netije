@@ -54,7 +54,7 @@ export default {
     "~/plugins/axios",
     "~/plugins/customStore",
     "~/plugins/customValidator",
-    "~/plugins/signalRStore"
+    "~/plugins/signalR"
   ],
   /*
    ** Nuxt.js dev-modules
@@ -114,6 +114,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) { }
   }
 };

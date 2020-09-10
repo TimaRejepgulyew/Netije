@@ -1,5 +1,13 @@
 import assignmentType from "./assignmentType"
 export default {
+  fields: {
+    newDeadline: "Новый срок",
+    deadline: "Срок",
+    authorId: "Автор",
+    status: "Статус",
+    created: "Создано",
+    subject: "Содержание",
+  },
   quickFilter: {
     all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
@@ -15,9 +23,7 @@ export default {
     "После принятия к сведению задание завершится без исполнения",
   acceptAssignmentMessage: "Вы действительно приняли задачу",
   readdressToEmployee: "Переадресовать сотруднику",
-  fields: {
-    newDeadline: "Новый срок",
-  },
+
   result: {
     Acquainted: "Ознакомлен",
     SendForReview: "Отправлено на рассмотрение",
@@ -30,6 +36,7 @@ export default {
     Forward: "Переадресовано",
     ForExecution: "Отправлено на исполнения"
   },
+
   status: {
     InProcess: "В процессе",
     Draft: "Черновик",

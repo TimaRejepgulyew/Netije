@@ -112,9 +112,15 @@ export default {
       return {
         icon: resolutionIcon,
         text: this.$t("buttons.addResolution"),
-        onClick: () => {
-          this.setResult(ReviewResult.ReviewManager.AddResolution);
-          this.completeAssignment();
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.setResult(ReviewResult.ReviewManager.AddResolution);
+            this.completeAssignment();
+          }
         },
       };
     },
@@ -122,9 +128,15 @@ export default {
       return {
         icon: sendToAssigneeIcon,
         text: this.$t("buttons.sendToAssignee"),
-        onClick: () => {
-          this.setResult(ReviewResult.ReviewManager.AddAssignment);
-          this.completeAssignment();
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.setResult(ReviewResult.ReviewManager.AddAssignment);
+            this.completeAssignment();
+          }
         },
       };
     },
@@ -133,12 +145,14 @@ export default {
         icon: exploredIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          let response = await confirm(
+          const response = await confirm(
             this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.ReviewManager.Explored);
-          if (response) this.completeAssignment();
+          if (response) {
+            this.setResult(ReviewResult.ReviewManager.Explored);
+            this.completeAssignment();
+          }
         },
       };
     },
@@ -146,9 +160,15 @@ export default {
       return {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
-        onClick: () => {
-          this.setResult(ReviewResult.ReviewManager.Forward);
-          this.completeAssignment();
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.setResult(ReviewResult.ReviewManager.Forward);
+            this.completeAssignment();
+          }
         },
       };
     },

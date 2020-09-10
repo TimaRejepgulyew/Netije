@@ -24,7 +24,7 @@ export default {
     const defaultColumns = [];
     const typedColumns = GetColumnsByAssignmentQuery(type, context);
     const buttons = CreateButtons(context);
-    const resultColumns = [...typedColumns, ];
+    const resultColumns = [...typedColumns,];
     return resultColumns;
   }
 };
@@ -143,7 +143,7 @@ function CreateLookupColumn(
 ) {
   return {
     dataField: dataField,
-    caption: context.$t(`assignment.fields.${caption || dataField} `),
+    caption: context.$t(`assignment.fields.${caption || dataField}`),
     visible,
     lookup: {
       dataSource: {
@@ -167,7 +167,7 @@ function CreateArrayLookupColumn(
 ) {
   return {
     dataField,
-    caption: context.$t(`assignment.fields.${dataField} `),
+    caption: context.$t(`assignment.fields.${dataField}`),
     visible,
     lookup: {
       dataSource: items,

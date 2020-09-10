@@ -78,9 +78,15 @@ export default {
       return {
         icon: resolutionIcon,
         text: this.$t("buttons.approveResolution"),
-        onClick: () => {
-          this.sendResult(ReviewResult.ReviewDraftResolution.ForExecution);
-          this.completeAssignment();
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.sendResult(ReviewResult.ReviewDraftResolution.ForExecution);
+            this.completeAssignment();
+          }
         },
       };
     },
@@ -90,12 +96,14 @@ export default {
         icon: informedIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          this.sendResult(ReviewResult.ReviewDraftResolution.Informed);
-          let response = await confirm(
+          const response = await confirm(
             this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
           );
-          if (response) this.completeAssignment();
+          if (response) {
+            this.sendResult(ReviewResult.ReviewDraftResolution.Informed);
+            this.completeAssignment();
+          }
         },
       };
     },
@@ -104,12 +112,14 @@ export default {
         icon: returnManagersAssistantIcon,
         text: this.$t("buttons.returnManagersAssistant"),
         onClick: async () => {
-          this.sendResult(ReviewResult.ReviewDraftResolution.ForRework);
-          let response = await confirm(
-            this.$t("assignment.returnManagersAssistantMessage"),
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
             this.$t("shared.confirm")
           );
-          if (response) this.completeAssignment();
+          if (response) {
+            this.sendResult(ReviewResult.ReviewDraftResolution.ForRework);
+            this.completeAssignment();
+          }
         },
       };
     },
@@ -117,9 +127,15 @@ export default {
       return {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
-        onClick: () => {
-          this.sendResult(ReviewResult.ReviewDraftResolution.Forward);
-          this.completeAssignment();
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.sendResult(ReviewResult.ReviewDraftResolution.Forward);
+            this.completeAssignment();
+          }
         },
       };
     },

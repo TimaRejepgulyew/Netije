@@ -1,5 +1,6 @@
 export const url = process.env.baseUrl;
 export default {
+
   Metadata: `${url}/api/Metadata`,
   account: `${url}/Identity/Account/Manage`,
   History: `${url}/api/History/`,
@@ -9,6 +10,7 @@ export default {
     Locality: `${url}/api/Locality`,
     Currency: `${url}/api/Currency`
   },
+  assignmentHub: `${url}/assignments`,
   contragents: {
     Company: `${url}/api/Companies`,
     Bank: `${url}/api/Bank`,

@@ -25,7 +25,7 @@ export default {
         icon: "check",
         text: this.$t("buttons.accept"),
         onClick: async () => {
-          let response = await confirm(
+         const response = await confirm(
             this.$t("assignment.sureCompleteSupervisor"),
             this.$t("shared.confirm")
           );
@@ -39,7 +39,7 @@ export default {
         icon: "undo",
         text: this.$t("buttons.rework"),
         onClick: async () => {
-          let response = await confirm(
+         const response = await confirm(
             this.$t("assignment.sureReworkMessage"),
             this.$t("shared.confirm")
           );

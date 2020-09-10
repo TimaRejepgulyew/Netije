@@ -70,9 +70,15 @@ export default {
       return {
         icon: sendToAssigneeIcon,
         text: this.$t("buttons.complete"),
-        onClick: () => {
-          this.setResult(ReviewResult.ReviewResolution.AddAssignment);
-          this.completeAssignment();
+        onClick: async () => {
+          const response = await confirm(
+            this.$t("assignment.takeIntoMessage"),
+            this.$t("shared.confirm")
+          );
+          if (response) {
+            this.setResult(ReviewResult.ReviewResolution.AddAssignment);
+            this.completeAssignment();
+          }
         },
       };
     },

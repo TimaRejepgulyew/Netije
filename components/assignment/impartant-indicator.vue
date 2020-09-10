@@ -1,23 +1,26 @@
 <template>
   <div>
-    <img v-if="isImportant" :src="fireIcon" class="icon-type" />
+    <img v-if="isImportant" :src="fireIcon" class="icon--important" />
   </div>
 </template>
 
 <script>
-import fireIcon from "~/static/icons/fire.svg";
+import fireIcon from "~/static/icons/fire.png";
 export default {
   props: ["isImportant"],
   data() {
     return {
-      fireIcon
+      fireIcon,
     };
-  }
+  },
 };
 </script>
 
 <style>
-.icon-type {
-  height: 30px;
+.icon--important {
+  padding: 0 5px;
+  position: relative;
+  bottom: -5px;
+  height: 25px;
 }
 </style>
