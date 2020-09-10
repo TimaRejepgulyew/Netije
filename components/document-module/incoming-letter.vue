@@ -59,6 +59,7 @@
     </DxGroupItem>
     <template #correspondent>
       <custom-select-box
+        value-expr="id"
         :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
         @valueChanged="setCorrenspondent"

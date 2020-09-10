@@ -86,8 +86,6 @@
       <custom-select-box
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
-
-
         @valueChanged="setCounterparty"
         messageRequired="document.validation .counterPartRequired"
         :value="counterpartyId"

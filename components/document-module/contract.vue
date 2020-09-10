@@ -144,7 +144,11 @@
       />
     </template>
     <template #responsibleEmployee>
-      <employee-select-box :value="responsibleEmployeeId" @valueChanged="setResponsibleEmployeeId" />
+      <employee-select-box
+        value-expr="id"
+        :value="responsibleEmployeeId"
+        @valueChanged="setResponsibleEmployeeId"
+      />
     </template>
   </DxForm>
 </template>

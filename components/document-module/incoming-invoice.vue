@@ -77,6 +77,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        value-expr="id"
         :readOnly="isRegistered"
         :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"

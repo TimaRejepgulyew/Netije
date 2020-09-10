@@ -45,6 +45,7 @@
     </DxGroupItem>
     <template #assignee>
       <employee-select-box
+        value-expr="id"
         :read-only="!canUpdate"
         :value="assigneeId"
         @valueChanged="setAssigneeId"
@@ -52,6 +53,7 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
+        value-expr="id"
         :read-only="!canUpdate"
         :value="ourSignatoryId"
         @valueChanged="setOurSignatoryId"
@@ -59,6 +61,7 @@
     </template>
     <template #prepared>
       <employee-select-box
+        value-expr="id"
         :validatorGroup="documentValidatorName"
         :read-only="!canUpdate"
         :value="preparedById"
@@ -68,6 +71,7 @@
     <template #addressee>
       <employee-select-box
         :value="addresseeId"
+        value-expr="id"
         :read-only="!canUpdate"
         :validatorGroup="documentValidatorName"
         @valueChanged="setAddresseeId"

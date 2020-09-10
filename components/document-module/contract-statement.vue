@@ -71,11 +71,10 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        value-expr="id"
         :readOnly="isRegistered"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
-
-
         @valueChanged="setCounterparty"
         messageRequired="document.validation.counterPartRequired"
         :value="counterpartyId"
@@ -106,7 +105,11 @@
       />
     </template>
     <template #responsibleEmployee>
-      <employee-select-box :value="responsibleEmployeeId" @valueChanged="setResponsibleEmployeeId" />
+      <employee-select-box
+        value-expr="id"
+        :value="responsibleEmployeeId"
+        @valueChanged="setResponsibleEmployeeId"
+      />
     </template>
   </DxForm>
 </template>

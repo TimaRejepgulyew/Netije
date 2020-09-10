@@ -22,14 +22,11 @@ export default {
     DxButtonGroup,
   },
   props: ["assignmentQuery"],
-  // created() {
-  //   console.log(this.currentQuickFilter);
-  // },
   data() {
     return {
-      currentQuickFilter: +localStorage.getItem(
-        `assignmentQuickFilter${this.assignmentQuery}` || QuiсkFilter.New
-      ),
+      currentQuickFilter:
+        +localStorage.getItem(`assignmentQuickFilter${this.assignmentQuery}`) ||
+        QuiсkFilter.New,
       QuiсkFilterOptions: [
         {
           text: this.$t("assignment.quickFilter.all"),
