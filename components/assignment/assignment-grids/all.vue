@@ -3,8 +3,8 @@
     <Header :isbackButton="true" :headerTitle="headerTitle">
       <toolbar-item-quick-filter
         slot="toolbar"
-        @setFilter="setFilter"
-        :assignmentQuery="+$route.params.type"
+        @getQuickFilter="setFilter"
+        :assignmentQuery="+assignmentQuery"
       />
     </Header>
     <div class="grid">
@@ -78,6 +78,7 @@ export default {
       );
     },
   },
+ 
 };
 </script>
 <style  scoped>

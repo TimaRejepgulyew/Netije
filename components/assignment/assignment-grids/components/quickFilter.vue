@@ -1,7 +1,7 @@
 <template>
   <DxButtonGroup
     slot="toolbar"
-    :selected-item-keys="[activeFilter]"
+    :selected-item-keys="[currentQuickFilter]"
     :items="QuiсkFilterOptions"
     key-expr="filterKey"
     styling-mode="text"
@@ -13,7 +13,6 @@
 import QuiсkFilter from "~/infrastructure/constants/assignmentQuickFilter.js";
 import { DxButtonGroup } from "devextreme-vue";
 function setQuickfilter(value, oldvalue, context) {
-  console.log(context, value);
   if (value !== null) {
     context.$emit("getQuickFilter", value);
   }
@@ -23,44 +22,52 @@ export default {
     DxButtonGroup,
   },
   props: ["assignmentQuery"],
+  // created() {
+  //   console.log(this.currentQuickFilter);
+  // },
   data() {
     return {
-      currentQuickFilter: localStorage.getItem(
-        `assignmentQuickFilter${this.assignmentQuery}` || null
+      currentQuickFilter: +localStorage.getItem(
+        `assignmentQuickFilter${this.assignmentQuery}` || QuiсkFilter.New
       ),
       QuiсkFilterOptions: [
         {
-          text: this.$t("assignment.quickfilter.all"),
+          text: this.$t("assignment.quickFilter.all"),
           filterKey: QuiсkFilter.All,
-          hint: this.$t("assignment.quickfilter.all"),
+          hint: this.$t("assignment.quickFilter.all"),
         },
         {
-          text: this.$t("assignment.quickfilter.new"),
+          text: this.$t("assignment.quickFilter.new"),
           filterKey: QuiсkFilter.New,
-          hint: this.$t("assignment.quickfilter.new"),
+          hint: this.$t("assignment.quickFilter.new"),
         },
         {
-          text: this.$t("assignment.quickfilter.inProcess"),
+          text: this.$t("assignment.quickFilter.inProcess"),
           filterKey: QuiсkFilter.InProcess,
-          hint: this.$t("assignment.quickfilter.inProcess"),
+          hint: this.$t("assignment.quickFilter.inProcess"),
         },
         {
-          text: this.$t("assignment.quickfilter.expired"),
+          text: this.$t("assignment.quickFilter.expired"),
           filterKey: QuiсkFilter.Expired,
-          hint: this.$t("assignment.quickfilter.expired"),
+          hint: this.$t("assignment.quickFilter.expired"),
         },
         {
-          text: this.$t("buttons.monthAgo"),
+          text: this.$t("assignment.quickFilter.monthAgo"),
           filterKey: QuiсkFilter.MonthAgo,
-          hint: this.$t("buttons.monthAgo"),
+          hint: this.$t("assignment.quickFilter.monthAgo"),
         },
       ],
     };
   },
-  methods:{
-    itemClick(){
-      
-    }
+  methods: {
+    itemClick(e) {
+      console.log(e);
+      this.currentQuickFilter = e.itemIndex;
+      localStorage.setItem(
+        `assignmentQuickFilter${this.assignmentQuery}`,
+        this.currentQuickFilter
+      );
+    },
   },
   watch: {
     currentQuickFilter: {
@@ -70,7 +77,6 @@ export default {
       immediate: true,
     },
   },
-  methods: {},
 };
 </script>
 

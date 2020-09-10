@@ -1,5 +1,8 @@
 import assignmentType from "./assignmentType"
 export default {
+  quickFilter: {
+    all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
+  },
   returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
   placeholderActionItemExicution: "Введите отчет",
   sureCompleteMessage: "Вы действительно выполнили задачу",
@@ -25,7 +28,7 @@ export default {
     AddResolution: "Вынесена резолюция",
     Explored: "Принято к сведению",
     Forward: "Переадресовано",
-    ForExecution:"Отправлено на исполнения"
+    ForExecution: "Отправлено на исполнения"
   },
   status: {
     InProcess: "В процессе",
