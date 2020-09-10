@@ -10,7 +10,9 @@ export default {
     Locality: `${url}/api/Locality`,
     Currency: `${url}/api/Currency`
   },
-  assignmentHub: `${url}/assignments`,
+  hubs: {
+    assignmentHub: `${url}/hubs/assignments`,
+  },
   contragents: {
     Company: `${url}/api/Companies`,
     Bank: `${url}/api/Bank`,

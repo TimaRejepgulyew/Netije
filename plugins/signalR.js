@@ -12,6 +12,7 @@ export default ({ app },) => {
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Information)
     .build()
+  
   connection
     .start()
     .then(res => {
