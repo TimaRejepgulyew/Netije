@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import notificationPanel from "~/components/Layout/notification-panel.vue";
 import Header from "~/components/page/page__header";
 import DxButton from "devextreme-vue/button";
 import DxDrawer from "devextreme-vue/drawer";
@@ -52,7 +53,7 @@ export default {
   props: {
     title: String,
     isXSmall: Boolean,
-    isLarge: Boolean
+    isLarge: Boolean,
   },
   methods: {
     toggleMenu(e) {
@@ -66,14 +67,14 @@ export default {
     handleSideBarClick() {
       if (this.menuOpened === false) this.menuTemporaryOpened = true;
       this.menuOpened = true;
-    }
+    },
   },
   data() {
     return {
       menuOpened: this.isLarge,
       menuTemporaryOpened: false,
       list: [],
-      property: []
+      property: [],
     };
   },
   computed: {
@@ -88,12 +89,12 @@ export default {
         minMenuSize: 0,
         menuOpened: this.isLarge,
         closeOnOutsideClick: shaderEnabled,
-        shaderEnabled
+        shaderEnabled,
       };
     },
     headerMenuTogglerEnabled() {
       return this.isXSmall;
-    }
+    },
   },
 
   watch: {
@@ -107,7 +108,7 @@ export default {
         this.menuOpened = false;
         this.menuTemporaryOpened = false;
       }
-    }
+    },
   },
   components: {
     DxButton,
@@ -117,8 +118,8 @@ export default {
     DxItem,
     HeaderToolbar,
     SideNavMenu,
-    Header
-  }
+    Header,
+  },
 };
 </script>
 

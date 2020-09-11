@@ -30,6 +30,13 @@
           <search-panel menu-mode="context" />
         </div>
       </dx-item>
+      <dx-item locateInMenu="auto" location="after">
+        <!-- eslint-disable vue/no-unused-vars -->
+        <div slot-scope="_">
+          <!-- eslint-enable -->
+          <notificationPanel />
+        </div>
+      </dx-item>
       <dx-item location="after">
         <!-- eslint-disable vue/no-unused-vars -->
         <div slot-scope="_">
@@ -54,6 +61,7 @@
 </template>
 
 <script>
+import notificationPanel from "~/components/Layout/notification-panel.vue";
 import searchPanel from "~/components/Layout/search-panel.vue";
 import DxButton from "devextreme-vue/button";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -65,7 +73,7 @@ export default {
     menuToggleEnabled: Boolean,
     title: String,
     toggleMenuFunc: Function,
-    logOutFunc: Function
+    logOutFunc: Function,
   },
   data() {
     return {};
@@ -78,8 +86,9 @@ export default {
     DxItem,
     UserPanel,
     LangPanel,
-    CreateBtnPanel
-  }
+    CreateBtnPanel,
+    notificationPanel,
+  },
 };
 </script>
 
