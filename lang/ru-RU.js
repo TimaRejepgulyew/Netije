@@ -11,6 +11,9 @@ import headers from "~/lang/i18n-translation/ru/headers.js"
 import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js"
 
 export default {
+  notification: {
+    cardTitle: "Уведомления"
+  },
   documentSendAction,
   status: {
     active: "Активный",

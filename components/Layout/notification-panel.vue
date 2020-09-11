@@ -1,48 +1,42 @@
 <template>
   <div>
     <div>
-      <!-- <DxPopup
-        :position="{ my: 'right top', at: 'right top', of: window }"
+      <DxPopup
         :showTitle="false"
-        :visible.sync="showNotificationPopup"
+        :visible.sync="showAssignmentPopup"
         :drag-enabled="false"
         :close-on-outside-click="true"
         :show-title="true"
-        width="500px"
-        :height="'auto'"
+        width="90%"
+        height="90%"
       >
-        <div>dawdaw{{notification}}</div>
-      </DxPopup>-->
+        <div>
+          <assignment-card
+            v-if="showAssignmentPopup"
+            :assignmentId="currentNotificationId"
+            :isCard="false"
+          />
+        </div>
+      </DxPopup>
       <div class="notify-item">
-        <DxButton
-          id="notifyBtn"
-          @click="showNotification"
-          :hoverStateEnabled="false"
-          :focusStateEnabled="false"
-          :activeStateEnabled="false"
-          :icon="notificationIcon"
-          stylingMode="text"
-        ></DxButton>
-        <label v-if="showCount" for="btn" class="notify-item_count">{{notificationCount}}</label>
+        <div class="d-flex align-content-center" id="notifyBtn" @click="showNotification">
+          <img
+            class="notify-item_icon"
+            :class="{'tossing':showCount}"
+            id="btn"
+            :src="notificationIcon"
+          />
+          <label v-if="showCount" for="btn" class="notify-item_count">{{notificationCount}}</label>
+        </div>
       </div>
       <DxActionSheet
-        height="30vh"
         itemTemplate="notificationItem"
         :width="500"
-        :items="[{subject:'WSDAWDAWAWDAW',assignmnetType:3,assignmentId:11212},
-        {subject:'WSDAWDAWAWDAW',assignmnetType:0,assignmentId:1212},
-         {subject:'WSDAWDAWwsAWDAW',assignmnetType:0,assignmentId:1212},
-          {subject:'WSDAWAWDAW',assignmnetType:0,assignmentId:21},
-           {subject:'WSDAWAWDAW',assignmnetType:0,assignmentId:123212},
-            {subject:'WSDDAWAWDAW',assignmnetType:0,assignmentId:132212},
-             {subject:'WSDAWDAWAWDAW',assignmnetType:0,assignmentId:12145212},
-              {subject:'WSDDAWAWDAW',assignmnetType:0,assignmentId:1255512},
-               {subject:'WSWDAWAWDAW',assignmnetType:0,assignmentId:24555},
-        {subject:'WSDAWDAWDAW',assignmnetType:5,assignmentId:121212}]"
+        :items="notification"
         :visible.sync="showNotificationPopup"
         target="#notifyBtn"
         :usePopover="true"
-        title="notification"
+        :title="$t('notification.cardTitle')"
         @itemClick="showNotificationDetail"
       >
         <template #notificationItem="item">
@@ -56,12 +50,14 @@
 </template>
 
 <script>
+import assignmentCard from "~/components/assignment/index.vue";
+import { load } from "~/infrastructure/services/assignmentService.js";
 import DxActionSheet from "devextreme-vue/action-sheet";
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { DxPopup } from "devextreme-vue/popup";
 import notificationIcon from "~/static/icons/notification/notification.svg";
 import notificationItem from "~/components/notification/assignmnet-notification-item.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { DxDropDownButton } from "devextreme-vue";
 import DxButton from "devextreme-vue/button";
 export default {
@@ -71,9 +67,15 @@ export default {
     DxPopup,
     notificationItem,
     DxActionSheet,
+    assignmentCard,
+  },
+  created() {
+    console.log(this.notification);
   },
   data() {
     return {
+      currentNotificationId: "null",
+      showAssignmentPopup: false,
       notificationIcon,
       showNotificationPopup: false,
     };
@@ -82,7 +84,6 @@ export default {
     assignmentTypeElements() {
       return new AssignmentType(this).withIconGroup();
     },
-
     ...mapGetters({
       notificationCount: "notificationHub/assignmentNotificationCount",
       notification: "notificationHub/assignmentNotification",
@@ -92,10 +93,18 @@ export default {
     },
   },
   methods: {
-    showNotificationDetail() {},
-    showNotification(e) {
-      // if (this.notificationCount !== 0)
-      this.showNotificationPopup = !this.notificationPopup;
+    ...mapMutations({
+      readNotification: "notificationHub/DELETE_ASSIGNMENT_NOTIFICATION",
+    }),
+    async showNotificationDetail({ itemData: { assignmentId } }) {
+      await this.$awn.asyncBlock(load(this, assignmentId));
+      this.showAssignmentPopup = !this.showAssignmentPopup;
+      this.currentNotificationId = assignmentId;
+      this.readNotification(assignmentId);
+    },
+    showNotification() {
+      if (this.notificationCount !== 0)
+        this.showNotificationPopup = !this.showNotificationPopup;
     },
   },
 };
@@ -104,7 +113,18 @@ export default {
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
+.notify-item_icon {
+  cursor: pointer;
+  width: 25px;
+}
+.align-content-center {
+  align-content: center;
+  align-items: center;
+}
 .notify-item_count {
+  display: flex;
+  align-content: center;
+
   cursor: pointer;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Chrome/Safari/Opera */
@@ -114,7 +134,7 @@ export default {
   user-select: none;
   position: relative;
   top: -7px;
-  left: -21px;
+  left: -11px;
   background: red;
   font-size: 8px;
   margin: 1px;
@@ -122,7 +142,41 @@ export default {
   border: 1px solid white;
   outline: 0px;
   box-sizing: border-box;
-  padding: 1px 4px;
+  padding: 3px 4px;
   border-radius: 10px;
+}
+.tossing {
+  animation-name: tossing;
+  -webkit-animation-name: tossing;
+
+  animation-duration: 2.5s;
+  -webkit-animation-duration: 2.5s;
+
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@keyframes tossing {
+  0% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(-4deg);
+  }
+}
+
+@-webkit-keyframes tossing {
+  0% {
+    -webkit-transform: rotate(-4deg);
+  }
+  50% {
+    -webkit-transform: rotate(4deg);
+  }
+  100% {
+    -webkit-transform: rotate(-4deg);
+  }
 }
 </style>

@@ -1,22 +1,21 @@
 <template>
-  <div>
-    <div class="d-flex list border-bottom">
-      <div class="list__icon">
-        <img :src="assignmentModel.getById(item.data.assignmnetType).icon" />
-      </div>
-      <div class="list__content f-grow-1 max-width-200px">{{ item.data.subject}}</div>
-      <div class="list__content">{{ assignmentModel.getById(item.data.assignmnetType).text}}</div>
-      <div class="list__btn-group js-self-flex-end">
-        <DxButton @click="()=>removeLink(item.data.assignmentId)" icon="clear" stylingMode="text"></DxButton>
+    <div>
+      <div class="d-flex list border-bottom">
+        <div class="list__icon">
+          <img :src="assignmentModel.getById(item.data.assignmentType).icon" />
+        </div>
+        <div class="list__content f-grow-1 max-width-250px">{{ item.data.subject}}</div>
+        <div class="list__btn-group js-self-flex-end">
+          <DxButton @click="()=>readNotification(item.data.assignmentId)" icon="clear" stylingMode="text"></DxButton>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
 import DxButton from "devextreme-vue/button";
 import AssignmentType from "~/infrastructure/models/AssignmentType.js";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import DxList from "devextreme-vue/list";
 export default {
   props: ["item", "assignmentModel"],
@@ -30,7 +29,9 @@ export default {
     }),
   },
   methods: {
-    removeLink(notifyId) {},
+    ...mapMutations({
+      readNotification: "notificationHub/DELETE_ASSIGNMENT_NOTIFICATION",
+    }),
     selectNotify(currentNotification) {
       this.$emit("selectedNotification", currentNotification);
     },
@@ -39,11 +40,18 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/dx-styles.scss";
 .list {
+  border: 2px solid $base-border-color;
+  box-sizing: border-box;
+  padding: 3px 0;
+  border-radius: 3px;
   cursor: pointer;
 }
 .list:hover {
-  background: green;
+  box-sizing: border-box;
+  border-bottom: 2px solid $base-accent;
 }
 .f-grow-1 {
   flex-grow: 1;
@@ -51,15 +59,15 @@ export default {
 .list__content {
   line-height: 30px;
 }
-.max-width-200px {
-  max-width: 200px;
+.max-width-250px {
+  max-width: 250px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 .list__icon {
   font-size: 25px;
-  padding: 0 10px;
+  padding: 0 8px;
   img {
     width: 22px;
   }
@@ -68,8 +76,4 @@ export default {
   margin-left: auto;
   justify-self: flex-end;
 }
-// .border-bottom {
-//   padding-bottom: 5px;
-//   border-bottom: 1px solid gray;
-// }
 </style>
