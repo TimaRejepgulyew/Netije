@@ -1,15 +1,17 @@
 <template>
-    <div>
-      <div class="d-flex list border-bottom">
+  <div>
+    <div class="d-flex list border-bottom">
+      <div @click="showNotificationDetail" class="d-flex f-grow-1">
         <div class="list__icon">
           <img :src="assignmentModel.getById(item.data.assignmentType).icon" />
         </div>
         <div class="list__content f-grow-1 max-width-250px">{{ item.data.subject}}</div>
-        <div class="list__btn-group js-self-flex-end">
-          <DxButton @click="()=>readNotification(item.data.assignmentId)" icon="clear" stylingMode="text"></DxButton>
-        </div>
+      </div>
+      <div class="list__btn-group js-self-flex-end">
+        <DxButton @click="readNotification" icon="clear" stylingMode="text"></DxButton>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -29,11 +31,14 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations({
-      readNotification: "notificationHub/DELETE_ASSIGNMENT_NOTIFICATION",
-    }),
-    selectNotify(currentNotification) {
-      this.$emit("selectedNotification", currentNotification);
+    showNotificationDetail() {
+      console.log("dawdaw", this.item.data.assignmentId);
+      this.$emit("showNotificationDetail", {
+        assignmentId: this.item.data.assignmentId,
+      });
+    },
+    readNotification() {
+      this.$emit("readNotification", this.item.data.assignmentId);
     },
   },
 };

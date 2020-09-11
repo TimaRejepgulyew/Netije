@@ -37,11 +37,15 @@
         target="#notifyBtn"
         :usePopover="true"
         :title="$t('notification.cardTitle')"
-        @itemClick="showNotificationDetail"
       >
         <template #notificationItem="item">
           <div>
-            <notification-item :assignmentModel="assignmentTypeElements" :item="item" />
+            <notification-item
+              :assignmentModel="assignmentTypeElements"
+              @showNotificationDetail="showNotificationDetail"
+              @readNotification="readNotification"
+              :item="item"
+            />
           </div>
         </template>
       </DxActionSheet>
@@ -96,7 +100,7 @@ export default {
     ...mapMutations({
       readNotification: "notificationHub/DELETE_ASSIGNMENT_NOTIFICATION",
     }),
-    async showNotificationDetail({ itemData: { assignmentId } }) {
+    async showNotificationDetail({ assignmentId }) {
       await this.$awn.asyncBlock(load(this, assignmentId));
       this.showAssignmentPopup = !this.showAssignmentPopup;
       this.currentNotificationId = assignmentId;
