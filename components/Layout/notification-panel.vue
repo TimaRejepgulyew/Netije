@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div >
-      <DxPopup
+    <div>
+      <!-- <DxPopup
         :position="{ my: 'right top', at: 'right top', of: window }"
         :showTitle="false"
         :visible.sync="showNotificationPopup"
@@ -12,31 +12,65 @@
         :height="'auto'"
       >
         <div>dawdaw{{notification}}</div>
-      </DxPopup>
-      <div class="notify-item" @click="showNotification">
+      </DxPopup>-->
+      <div class="notify-item">
         <DxButton
+          id="notifyBtn"
+          @click="showNotification"
           :hoverStateEnabled="false"
-          :focusStateEnabled="true"
+          :focusStateEnabled="false"
           :activeStateEnabled="false"
-          id="btn"
           :icon="notificationIcon"
           stylingMode="text"
-        />
+        ></DxButton>
         <label v-if="showCount" for="btn" class="notify-item_count">{{notificationCount}}</label>
       </div>
+      <DxActionSheet
+        height="30vh"
+        itemTemplate="notificationItem"
+        :width="500"
+        :items="[{subject:'WSDAWDAWAWDAW',assignmnetType:3,assignmentId:11212},
+        {subject:'WSDAWDAWAWDAW',assignmnetType:0,assignmentId:1212},
+         {subject:'WSDAWDAWwsAWDAW',assignmnetType:0,assignmentId:1212},
+          {subject:'WSDAWAWDAW',assignmnetType:0,assignmentId:21},
+           {subject:'WSDAWAWDAW',assignmnetType:0,assignmentId:123212},
+            {subject:'WSDDAWAWDAW',assignmnetType:0,assignmentId:132212},
+             {subject:'WSDAWDAWAWDAW',assignmnetType:0,assignmentId:12145212},
+              {subject:'WSDDAWAWDAW',assignmnetType:0,assignmentId:1255512},
+               {subject:'WSWDAWAWDAW',assignmnetType:0,assignmentId:24555},
+        {subject:'WSDAWDAWDAW',assignmnetType:5,assignmentId:121212}]"
+        :visible.sync="showNotificationPopup"
+        target="#notifyBtn"
+        :usePopover="true"
+        title="notification"
+        @itemClick="showNotificationDetail"
+      >
+        <template #notificationItem="item">
+          <div>
+            <notification-item :assignmentModel="assignmentTypeElements" :item="item" />
+          </div>
+        </template>
+      </DxActionSheet>
     </div>
   </div>
 </template>
 
 <script>
+import DxActionSheet from "devextreme-vue/action-sheet";
+import AssignmentType from "~/infrastructure/models/AssignmentType.js";
 import { DxPopup } from "devextreme-vue/popup";
 import notificationIcon from "~/static/icons/notification/notification.svg";
+import notificationItem from "~/components/notification/assignmnet-notification-item.vue";
 import { mapGetters } from "vuex";
+import { DxDropDownButton } from "devextreme-vue";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
     DxButton,
+    DxDropDownButton,
     DxPopup,
+    notificationItem,
+    DxActionSheet,
   },
   data() {
     return {
@@ -45,6 +79,10 @@ export default {
     };
   },
   computed: {
+    assignmentTypeElements() {
+      return new AssignmentType(this).withIconGroup();
+    },
+
     ...mapGetters({
       notificationCount: "notificationHub/assignmentNotificationCount",
       notification: "notificationHub/assignmentNotification",
@@ -54,9 +92,10 @@ export default {
     },
   },
   methods: {
-    showNotification() {
+    showNotificationDetail() {},
+    showNotification(e) {
       // if (this.notificationCount !== 0)
-        this.showNotificationPopup = !this.notificationPopup;
+      this.showNotificationPopup = !this.notificationPopup;
     },
   },
 };
