@@ -95,7 +95,7 @@ export default {
     reload() {
       this.store.reload();
     },
-    showCompleteAssignment(style, data) {
+    showCompleteAssignment(data, style) {
       if (
         (!isNotification(data.assignmentType) &&
           data.status === AssignmentStatusGuid.Completed) ||
@@ -104,18 +104,25 @@ export default {
         style.textDecoration = "line-through";
       }
     },
-    onRowPrepared(e) {
-      if (e.data != undefined) {
-        if (!e.data.isRead) {
-          e.rowElement.style.fontWeight = "bolder";
-          e.rowElement.style.color = "#339966";
-        }
-        if (e.data.isExpired) {
-          e.rowElement.style.color = "red";
-        }
-        this.showCompleteAssignment(e.rowElement.style, e.data);
+    showIsNotReadAssignment({ isRead, status }, style) {
+      if (isRead && status !== AssignmentStatusGuid.Aborted) {
+        style.fontWeight = "bolder";
+        style.color = "#339966";
       }
     },
+    showExipiredAssignmnet({ isExpired }, style) {
+      if (isExpired) {
+        style.color = "red";
+      }
+    },
+    onRowPrepared(e) {
+      if (e.data != undefined) {
+        this.showIsNotReadAssignment(e.data, e.rowElement.style)
+        this.showExipiredAssignmnet(e.data, e.rowElement.style)
+        this.showCompleteAssignment(e.data, e.rowElement.style);
+      }
+    },
+
     showAssignment(e) {
       this.$router.push("/assignment/more/" + e.key);
     },

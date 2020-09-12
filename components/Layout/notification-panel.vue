@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div >
       <DxPopup
         :showTitle="false"
         :visible.sync="showAssignmentPopup"
@@ -146,7 +146,7 @@ export default {
   border: 1px solid white;
   outline: 0px;
   box-sizing: border-box;
-  padding: 3px 4px;
+  padding: 2px 5px;
   border-radius: 10px;
 }
 .tossing {
