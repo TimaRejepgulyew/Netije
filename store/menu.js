@@ -288,6 +288,7 @@ export const actions = {
         text: this.$i18n.t("menu.shared-directory"),
         icon: "inactivefolder",
         visible: hasSharedDirectoryAccess(rootGetters),
+        path: "/shared-directory",
         items: [
           {
             text: this.$i18n.t("menu.countries"),

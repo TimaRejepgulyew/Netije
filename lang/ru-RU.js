@@ -1,3 +1,4 @@
+import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js"
 import administration from "~/lang/i18n-translation/ru/administration.js"
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
 import documentRegistration, {
@@ -12,6 +13,7 @@ import headers from "~/lang/i18n-translation/ru/headers.js"
 import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js"
 
 export default {
+  sharedDirectory,
   administration,
   documentSendAction,
   status: {

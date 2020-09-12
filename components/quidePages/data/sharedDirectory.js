@@ -1,6 +1,6 @@
 
-import territorialStructureIcon from "~/static/icons/quide-page/users.svg"
-import additionalInfoIcon from "~/static/icons/quide-page/users.svg"
+import territorialStructureIcon from "~/static/icons/quide-page/territorialStructure.svg"
+import additionalInfoIcon from "~/static/icons/quide-page/additionalInfo.svg"
 import EntityType from "~/infrastructure/constants/entityTypes";
 export default function (context) {
   function isVisible(accessKey) {
@@ -11,17 +11,17 @@ export default function (context) {
   };
   const sharedDirectory = [
     {
-      icon: usersIcon,
+      icon: territorialStructureIcon,
       title: context.$t("sharedDirectory.territorialStructure.title"),
       items: [
         {
           name: context.$t("sharedDirectory.territorialStructure.createLocalities"),
-          visible: true
+          visible: false
         },
         {
           name: context.$t("sharedDirectory.territorialStructure.localities"),
           description: context.$t("sharedDirectory.territorialStructure.localitiesDescr"),
-          path: pathGenerate("localities"),
+          path: pathGenerate("territorial-structure/localities"),
           visible: isVisible(EntityType.Locality),
 
         },
@@ -29,44 +29,30 @@ export default function (context) {
           name: context.$t("sharedDirectory.territorialStructure.region"),
           description: context.$t("sharedDirectory.territorialStructure.regionDescr"),
           visible: isVisible(EntityType.Region),
-          path: pathGenerate("region"),
+          path: pathGenerate("territorial-structure/region"),
 
         },
         {
           name: context.$t("sharedDirectory.territorialStructure.country"),
           description: context.$t("sharedDirectory.territorialStructure.countryDescr"),
           visible: isVisible(EntityType.Country),
-          path: pathGenerate("countries"),
+          path: pathGenerate("territorial-structure/countries"),
 
         },
       ]
     },
     {
-      icon: usersIcon,
+      icon: additionalInfoIcon,
       title: context.$t("sharedDirectory.additionalInfo.title"),
       items: [
+
         {
-          name: context.$t("sharedDirectory.currintiies.createLocalities"),
-          visible: true
+          name: context.$t("sharedDirectory.additionalInfo.currencies"),
+          description: context.$t("sharedDirectory.additionalInfo.currenciesDescr"),
+          path: pathGenerate("currencies"),
+          visible: isVisible(EntityType.Currencies),
         },
-        {
-          name: context.$t("sharedDirectory.territorialStructure.localities"),
-          description: context.$t("sharedDirectory.territorialStructure.localitiesDescr"),
-          path: pathGenerate("localities"),
-          visible: true
-        },
-        {
-          name: context.$t("sharedDirectory.territorialStructure.region"),
-          description: context.$t("sharedDirectory.territorialStructure.regionDescr"),
-          path: pathGenerate("region"),
-          visible: true
-        },
-        {
-          name: context.$t("sharedDirectory.territorialStructure.country"),
-          description: context.$t("sharedDirectory.territorialStructure.countryDescr"),
-          path: pathGenerate("country"),
-          visible: true
-        },
+
       ]
     },
 
