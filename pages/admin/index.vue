@@ -1,19 +1,15 @@
 <template>
-  <main class="doc-flow">
+  <main class="admin">
     <header class="quide-page__header">
       <h2 class="header-title">{{header.title}}</h2>
       <div>{{header.description}}</div>
     </header>
     <div class="container--grid">
       <div class="item">
-        <guidPageItem
-          :data="item"
-          v-for="item in docFlowItemsRightSide.filter(el=>el.visible)"
-          :key="item.name"
-        />
+        <guidPageItem :data="item" v-for="item in administrationItemsRightSide" :key="item.name" />
       </div>
       <div class="item">
-        <guidPageItem :data="item" v-for="item in docFlowItemsLeftSide" :key="item.name" />
+        <guidPageItem :data="item" v-for="item in administrationItemsLeftSide" :key="item.name" />
       </div>
     </div>
   </main>
@@ -21,20 +17,20 @@
 
 <script>
 import guidPageItem from "~/components/quidePages/templates/list.vue";
-import docFlowGuidPageData from "~/components/quidePages/data/docFlow.js";
+import administrationGuidPageData from "~/components/quidePages/data/administration.js";
 export default {
   components: {
     guidPageItem,
   },
   data() {
-    const docFlowItemsRightSide = docFlowGuidPageData(this).filter(
-      (el, index) => {
-        if (index % 2 == 0) {
-          return el;
-        }
+    const administrationItemsRightSide = administrationGuidPageData(
+      this
+    ).filter((el, index) => {
+      if (index % 2 == 0) {
+        return el;
       }
-    );
-    const docFlowItemsLeftSide = docFlowGuidPageData(this).filter(
+    });
+    const administrationItemsLeftSide = administrationGuidPageData(this).filter(
       (el, index) => {
         if (index % 2 != 0) {
           return el;
@@ -44,11 +40,11 @@ export default {
 
     return {
       header: {
-        title: this.$t("docFlow.headerTitle"),
-        description: this.$t("docFlow.headerDescription"),
+        title: this.$t("administration.headerTitle"),
+        description: this.$t("administration.headerDescription"),
       },
-      docFlowItemsRightSide: docFlowItemsRightSide,
-      docFlowItemsLeftSide: docFlowItemsLeftSide,
+      administrationItemsRightSide: administrationItemsRightSide,
+      administrationItemsLeftSide: administrationItemsLeftSide,
     };
   },
 };
@@ -57,6 +53,7 @@ export default {
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/themes/generated/variables.base.scss";
+
 .container--grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -66,23 +63,21 @@ export default {
     width: 100%;
   }
 }
-.doc-flow {
+.admin {
   padding: 20px 0 20px;
 }
 .quide-page__header {
   padding: 0;
   margin: 0 50px;
-  .header-title {
-    font-size: 26px !important;
-    color: darken($base-border-color, 40%);
-  }
 }
 h2 {
   font-weight: 450;
   padding: 0;
   margin: 0 !important;
 }
-
+.header-title {
+  color: darken($base-border-color, 40%);
+}
 .title {
   color: darken($base-border-color, 40%);
 }

@@ -319,6 +319,7 @@ export const actions = {
         text: this.$i18n.t("menu.administration"),
         icon: "preferences",
         visible: rootGetters["permissions/IsAdmin"],
+        path: "/admin",
         items: [
           {
             text: this.$i18n.t("menu.roles"),

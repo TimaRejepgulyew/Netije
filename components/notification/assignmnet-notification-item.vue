@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="notification">
     <div class="d-flex list border-bottom">
       <div @click="showNotificationDetail" class="d-flex f-grow-1">
         <div class="list__icon">
@@ -47,6 +47,7 @@ export default {
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
+.notification {
 .list {
   border: 2px solid $base-border-color;
   box-sizing: border-box;
@@ -57,9 +58,6 @@ export default {
 .list:hover {
   box-sizing: border-box;
   border-bottom: 2px solid $base-accent;
-}
-.f-grow-1 {
-  flex-grow: 1;
 }
 .list__content {
   line-height: 30px;
@@ -76,6 +74,10 @@ export default {
   img {
     width: 22px;
   }
+}
+}
+.f-grow-1 {
+  flex-grow: 1;
 }
 .js-self-flex-end {
   margin-left: auto;
