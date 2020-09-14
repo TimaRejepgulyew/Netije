@@ -10,8 +10,9 @@
       :height="'auto'"
     >
       <div>
+      
         <task-card
-          @onClose="tooglePopup"
+          @onClose="togglePopup"
           :taskId="actionItemExecutionTaskId"
           v-if="showItemExecutionTask"
           :isCard="true"
@@ -72,7 +73,7 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           const response = await confirm(
-            this.$t("assignment.takeIntoMessage"),
+            this.$t("assignment.sureCompleteMessage"),
             this.$t("shared.confirm")
           );
           if (response) {
@@ -91,7 +92,8 @@ export default {
             CreateChildActionItemExecution(this, this.assignmentId),
             ({ taskId }) => {
               this.actionItemExecutionTaskId = taskId;
-              this.tooglePopup();
+              this.togglePopup();
+              console.log(this.showItemExecutionTask,"showed");
             }
           );
         },
@@ -102,8 +104,8 @@ export default {
     setResult(result) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
-    tooglePopup() {
-      this.showItemExecutionTask = false;
+    togglePopup() {
+      this.showItemExecutionTask = !this.showItemExecutionTask;
     },
     completeAssignment() {
       this.$awn.asyncBlock(
