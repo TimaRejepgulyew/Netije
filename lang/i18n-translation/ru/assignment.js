@@ -15,7 +15,7 @@ export default {
     sureDocumentReviewExploredConfirmetionMessage:"Вы действительно ознакомились с документом?",
     sureDocumentReviewForwardConfirmetionMessage:"Вы действительно хотите переадресовать рассмотрение документа?",
     sureDocumentReviewAddresolutionConfirmetionMessage:"Вы действительно вынесли резолюцию по документу?",
-    sureDocumentReviewForwardConfirmetionMessage:"Вы действительно хотите переадресовать рассмотрение документа?"
+    sureDocumentReviewForwardConfirmetionMessage:"Вы действительно хотите переадресовать рассмотрение документа?",
     
     //TODO Добавить перевод предупреждения  о том что не создано ни одного поручение : выполнить задание без создание и отправки на поручение?
   },

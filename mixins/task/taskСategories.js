@@ -22,6 +22,7 @@ import {
   DxStateStoring,
 } from "devextreme-vue/data-grid";
 import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
+import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxCheckBox,
@@ -47,6 +48,12 @@ export default {
   },
   data() {
     return {
+      employeeDataSoure:new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee,
+        }),
+      }),
       statusDataSource: [...Object.values(taskStatusGeneratorObj(this))],
     };
   },
