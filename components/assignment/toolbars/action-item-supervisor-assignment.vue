@@ -26,7 +26,7 @@ export default {
         text: this.$t("buttons.accept"),
         onClick: async () => {
          const response = await confirm(
-            this.$t("assignment.sureCompleteSupervisor"),
+            this.$t("assignment.confirmMessage.sureActionItemAcceptConfirmetion"),
             this.$t("shared.confirm")
           );
           this.setResult(ReviewResult.ActionItemSupervisor.Accept);

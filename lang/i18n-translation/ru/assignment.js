@@ -12,23 +12,23 @@ export default {
     all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
   confirmMessage:{
-    sureDocumentReviewExploredConfirmetionMessage:"Вы действительно ознакомились с документом?",
-    sureDocumentReviewForwardConfirmetionMessage:"Вы действительно хотите переадресовать рассмотрение документа?",
-    sureDocumentReviewAddresolutionConfirmetionMessage:"Вы действительно вынесли резолюцию по документу?",
-    sureDocumentReviewForwardConfirmetionMessage:"Вы действительно хотите переадресовать рассмотрение документа?",
+    sureDocumentReviewExploredConfirmetion:"Вы действительно ознакомились с документом?",
+    sureDocumentReviewForwardConfirmetion:"Вы действительно хотите переадресовать рассмотрение документа?",
+    sureDocumentReviewAddresolutionConfirmetion:"Вы действительно вынесли резолюцию по документу?",
+    sureDocumentReviewForwardConfirmetion:"Вы действительно хотите переадресовать рассмотрение документа?",
+    sureActionItemForReworkConfirmetion:"Вы действительно хотите отправить поручение на доработку?",
+    sureActionItemAcceptConfirmetion:"Вы действительно хотите принять работы по поручению?",
+    sureActionItemDoneConfirmetion:"Вы действительно хотите выполнить поручения?",
+    sureReturnManagersAssistant: "Вы уверенны что хотите вернуть помощнику?",
+    sureComplete: "Вы действительно хотите выполнить задание?",
+    sureAcquaintance: "Вы действительно ознакомились с документом?",
+    sureFinishAcquaintance:
+      "Вы уверенны что хотите завершить ознакомление?",
+    sureCompleteSupervisor: "Подтвердите что бы завершить задачу",
+    sureRework: "Вы действительно хотите отправить задачу на доработку?",
     
     //TODO Добавить перевод предупреждения  о том что не создано ни одного поручение : выполнить задание без создание и отправки на поручение?
   },
-  sureActionItemForReworkConfirmetionMessage:"Вы действительно хотите отправить поручение на доработку?",
-  sureActionItemAcceptConfirmetionMessage:"Вы действительно хотите принять работы по поручению?",
-  sureActionItemDoneConfirmetionMessage:"Вы действительно хотите выполнить поручения?",
-  returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику?",
-  sureCompleteMessage: "Вы действительно хотите выполнить задание?",
-  sureAcquaintanceMessage: "Вы действительно ознакомились с документом?",
-  sureCompleteAcquaintanceMessage:
-    "Вы уверенны что хотите завершить ознакомление?",
-  sureCompleteSupervisor: "Подтвердите что бы завершить задачу",
-  sureReworkMessage: "Вы действительно хотите отправить задачу на доработку?",
   takeIntoMessage:
     "После принятия к сведению задание завершится без исполнения",
   acceptAssignmentMessage: "Вы действительно хотите принять задачу?",

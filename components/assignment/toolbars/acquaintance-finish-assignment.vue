@@ -27,7 +27,7 @@ export default {
         onClick: async () => {
           if (this.isValidForm()) {
            const response = await confirm(
-              this.$t("assignment.sureCompleteAcquaintanceMessage"),
+              this.$t("assignment.confirmMessage.sureFinishAcquaintance"),
               this.$t("shared.confirm")
             );
             this.setResult(ReviewResult.AcquaintanceFinish.Accept);
