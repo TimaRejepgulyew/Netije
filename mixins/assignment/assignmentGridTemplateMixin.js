@@ -105,9 +105,8 @@ export default {
       }
     },
     showIsNotReadAssignment({ isRead, status }, style) {
-      if (isRead && status !== AssignmentStatusGuid.Aborted) {
+      if (!isRead && status !== AssignmentStatusGuid.Aborted) {
         style.fontWeight = "bolder";
-        style.color = "#339966";
       }
     },
     showExipiredAssignmnet({ isExpired }, style) {
