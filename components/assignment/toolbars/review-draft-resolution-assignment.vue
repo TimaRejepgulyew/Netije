@@ -44,7 +44,9 @@ import forwardIcon from "~/static/icons/status/forward.svg";
 import informedIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
+  mixins: [toolbarMixin],
   data() {
     return {
       actionItemExecutionTaskId: null,

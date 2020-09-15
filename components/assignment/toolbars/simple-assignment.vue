@@ -7,7 +7,9 @@
 </template>
 <script>
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
+  mixins: [toolbarMixin],
   computed: {
     btnOptions() {
       return {
@@ -15,13 +17,13 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-           const response = await confirm(
+            const response = await confirm(
               this.$t("assignment.confirmMessage.sureComplete"),
               this.$t("shared.confirm")
             );
-            if (response){
-             this.setResult(ReviewResult.Simple.Complete);
-             this.completeAssignment();
+            if (response) {
+              this.setResult(ReviewResult.Simple.Complete);
+              this.completeAssignment();
             }
           }
         },

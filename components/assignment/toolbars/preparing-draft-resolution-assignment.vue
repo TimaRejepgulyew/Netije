@@ -43,8 +43,9 @@ import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
-import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js"
 export default {
+  mixins:[toolbarMixin],
   computed: {
     btnForwardDisabled() {
       return !this.assignment.addresseeId;

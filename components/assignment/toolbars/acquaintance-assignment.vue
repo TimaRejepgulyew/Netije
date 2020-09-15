@@ -7,7 +7,9 @@
 </template>
 <script>
 import assignmentResult from "~/infrastructure/constants/assignmentResult.js";
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js"
 export default {
+  mixins:[toolbarMixin],
   computed: {
     btnOptions() {
       return {
