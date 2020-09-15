@@ -8,7 +8,7 @@
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div>
+      <div class="scrool-auto">
         <task-card v-if="isOpenCard" :taskId="taskId" :isCard="true" @onSave="reloadAttachmment" />
       </div>
     </DxPopup>

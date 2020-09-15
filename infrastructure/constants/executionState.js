@@ -11,7 +11,7 @@ export function ExecutionStateStore(context) {
   return [
     {
       id: ExecutionState.OnReview,
-      name: context.$t("lifeCycleState.onApproval")
+      name: context.$t("lifeCycleState.onReview")
     },
     {
       id: ExecutionState.Sending,

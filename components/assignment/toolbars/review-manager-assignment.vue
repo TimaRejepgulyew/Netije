@@ -9,7 +9,7 @@
       width="90%"
       :height="'auto'"
     >
-      <div>
+      <div class="scrool-auto">
         <task-card
           @onClose="tooglePopup"
           :taskId="actionItemExecutionTaskId"

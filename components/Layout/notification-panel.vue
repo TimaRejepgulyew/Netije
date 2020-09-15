@@ -10,7 +10,7 @@
         width="90%"
         height="90%"
       >
-        <div>
+        <div class="scrool-auto">
           <assignment-card
             v-if="showAssignmentPopup"
             :assignmentId="currentNotificationId"
