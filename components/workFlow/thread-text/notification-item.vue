@@ -74,7 +74,7 @@ export default {
       return assignmentTypeName(this)[value]?.text;
     },
     formatDate(date) {
-      return moment(date).format("MM.DD.YYYY HH:mm");
+      return moment(date).format("DD.MM.YYYY HH:mm");
     },
     displayDeadline(type) {
       switch (type) {
