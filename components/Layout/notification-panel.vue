@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div >
+    <div>
       <DxPopup
         :showTitle="false"
         :visible.sync="showAssignmentPopup"
@@ -12,6 +12,7 @@
       >
         <div class="scrool-auto">
           <assignment-card
+            @complete="togglePopup('showAssignmentPopup')"
             v-if="showAssignmentPopup"
             :assignmentId="currentNotificationId"
             :isCard="false"
@@ -97,12 +98,15 @@ export default {
     },
   },
   methods: {
+    togglePopup(popupName) {
+      this[popupName] = !this[popupName];
+    },
     ...mapMutations({
       readNotification: "notificationHub/DELETE_ASSIGNMENT_NOTIFICATION",
     }),
     async showNotificationDetail({ assignmentId }) {
       await this.$awn.asyncBlock(load(this, assignmentId));
-      this.showAssignmentPopup = !this.showAssignmentPopup;
+      this.togglePopup("showAssignmentPopup");
       this.currentNotificationId = assignmentId;
       this.readNotification(assignmentId);
     },

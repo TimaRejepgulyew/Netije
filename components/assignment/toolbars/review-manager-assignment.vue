@@ -11,7 +11,7 @@
     >
       <div class="scrool-auto">
         <task-card
-          @onClose="tooglePopup"
+          @onClose="togglePopup"
           :taskId="actionItemExecutionTaskId"
           v-if="showItemExecutionTask"
           :isCard="true"
@@ -66,7 +66,6 @@
 </template>
 <script>
 import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
-import { confirm } from "devextreme/ui/dialog";
 import taskCard from "~/components/task/index.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
@@ -75,29 +74,18 @@ import exploredIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
-import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
-    DxToolbar,
-    DxItem,
     DxPopup,
     taskCard,
   },
-  props: ["assignmentId"],
   data() {
     return {
       actionItemExecutionTaskId: null,
-      showComment: false,
       showItemExecutionTask: false,
     };
   },
   computed: {
-    inProcess() {
-      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
-    },
-    assignment() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
-    },
     btnForwardDisabled() {
       return !this.assignment.addresseeId;
     },
@@ -113,13 +101,17 @@ export default {
         icon: resolutionIcon,
         text: this.$t("buttons.addResolution"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewAddresolutionConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.setResult(ReviewResult.ReviewManager.AddResolution);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewAddresolutionConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.ReviewManager.AddResolution);
+              this.completeAssignment();
+            }
           }
         },
       };
@@ -129,13 +121,17 @@ export default {
         icon: sendToAssigneeIcon,
         text: this.$t("buttons.sendToAssignee"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.setResult(ReviewResult.ReviewManager.AddAssignment);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.ReviewManager.AddAssignment);
+              this.completeAssignment();
+            }
           }
         },
       };
@@ -145,13 +141,17 @@ export default {
         icon: exploredIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewExploredConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.setResult(ReviewResult.ReviewManager.Explored);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewExploredConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.ReviewManager.Explored);
+              this.completeAssignment();
+            }
           }
         },
       };
@@ -161,13 +161,17 @@ export default {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewForwardConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.setResult(ReviewResult.ReviewManager.Forward);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewForwardConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.ReviewManager.Forward);
+              this.completeAssignment();
+            }
           }
         },
       };
@@ -181,7 +185,7 @@ export default {
             CreateChildActionItemExecution(this, this.assignmentId),
             ({ taskId }) => {
               this.actionItemExecutionTaskId = taskId;
-              this.tooglePopup();
+              this.togglePopup();
             }
           );
         },
@@ -189,21 +193,8 @@ export default {
     },
   },
   methods: {
-    setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
-    },
-    tooglePopup() {
+    togglePopup() {
       this.showItemExecutionTask = !this.showItemExecutionTask;
-    },
-    completeAssignment() {
-      this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        (e) => {
-          this.$router.go(-1);
-          this.$awn.success();
-        },
-        (e) => this.$awn.alert()
-      );
     },
   },
 };

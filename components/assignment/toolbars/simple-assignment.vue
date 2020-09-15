@@ -7,20 +7,8 @@
 </template>
 <script>
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { confirm } from "devextreme/ui/dialog";
-import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
-  components: {
-    DxToolbar,
-    DxItem,
-  },
-  props: ["assignmentId"],
-  inject: ["isValidForm"],
-
   computed: {
-    inProcess() {
-      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
-    },
     btnOptions() {
       return {
         icon: "check",
@@ -38,21 +26,6 @@ export default {
           }
         },
       };
-    },
-  },
-  methods: {
-    setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
-    },
-    completeAssignment() {
-      this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        (e) => {
-          this.$router.go(-1);
-          this.$awn.success();
-        },
-        (e) => this.$awn.alert()
-      );
     },
   },
 };

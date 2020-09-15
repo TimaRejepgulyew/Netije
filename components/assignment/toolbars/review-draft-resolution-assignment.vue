@@ -39,31 +39,19 @@
   </div>
 </template>
 <script>
-import { confirm } from "devextreme/ui/dialog";
 import returnManagersAssistantIcon from "~/static/icons/status/forrework.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import informedIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
-  components: {
-    DxToolbar,
-    DxItem,
-  },
-  props: ["assignmentId"],
   data() {
     return {
-      result: null,
+      actionItemExecutionTaskId: null,
+      showItemExecutionTask: false,
     };
   },
   computed: {
-    assignment() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
-    },
-    inProcess() {
-      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
-    },
     btnForwardDisabled() {
       return !this.assignment.addresseeId;
     },
@@ -79,30 +67,37 @@ export default {
         icon: resolutionIcon,
         text: this.$t("buttons.approveResolution"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewApproveRosolutionConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.sendResult(ReviewResult.ReviewDraftResolution.ForExecution);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewApproveRosolutionConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.sendResult(ReviewResult.ReviewDraftResolution.ForExecution);
+              this.completeAssignment();
+            }
           }
         },
       };
     },
-
     btnInformedOptions() {
       return {
         icon: informedIcon,
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewAcceptConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.sendResult(ReviewResult.ReviewDraftResolution.Informed);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewAcceptConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.sendResult(ReviewResult.ReviewDraftResolution.Informed);
+              this.completeAssignment();
+            }
           }
         },
       };
@@ -112,13 +107,17 @@ export default {
         icon: returnManagersAssistantIcon,
         text: this.$t("buttons.returnManagersAssistant"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewReworkConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.sendResult(ReviewResult.ReviewDraftResolution.ForRework);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewReworkConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.sendResult(ReviewResult.ReviewDraftResolution.ForRework);
+              this.completeAssignment();
+            }
           }
         },
       };
@@ -128,13 +127,17 @@ export default {
         icon: forwardIcon,
         text: this.$t("buttons.readdress"),
         onClick: async () => {
-          const response = await confirm(
-            this.$t("assignment.confirmMessage.sureDocumentReviewForwardConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          if (response) {
-            this.sendResult(ReviewResult.ReviewDraftResolution.Forward);
-            this.completeAssignment();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureDocumentReviewForwardConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.sendResult(ReviewResult.ReviewDraftResolution.Forward);
+              this.completeAssignment();
+            }
           }
         },
       };
@@ -152,21 +155,6 @@ export default {
           this.showItemExecutionTask = true;
         },
       };
-    },
-  },
-  methods: {
-    sendResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
-    },
-    completeAssignment() {
-      this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        (e) => {
-          this.$router.go(-1);
-          this.$awn.success();
-        },
-        (e) => this.$awn.alert()
-      );
     },
   },
 };
