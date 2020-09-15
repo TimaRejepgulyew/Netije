@@ -43,15 +43,15 @@ import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
 import resolutionIcon from "~/static/icons/addResolution.svg";
-import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js"
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
-  mixins:[toolbarMixin],
+  mixins: [toolbarMixin],
   computed: {
     btnForwardDisabled() {
       return !this.assignment.addresseeId;
     },
     tollbarItemVisible() {
-      return this.assignment.addresseeId ? false : this.inProcess;
+      return this.assignment?.addresseeId ? false : this.inProcess;
     },
     isRework() {
       if (this.inProcess) return this.assignment.isRework;

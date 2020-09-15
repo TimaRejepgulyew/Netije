@@ -17,7 +17,7 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-            const response = await confirm(
+            const response = await this.confirm(
               this.$t("assignment.confirmMessage.sureComplete"),
               this.$t("shared.confirm")
             );

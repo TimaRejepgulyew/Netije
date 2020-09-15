@@ -14,7 +14,6 @@ export default {
     }
   },
   methods: {
-
     setResult(result) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
@@ -31,7 +30,8 @@ export default {
   },
   computed: {
     assignment() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+
     },
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
