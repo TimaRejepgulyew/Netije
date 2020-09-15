@@ -89,6 +89,7 @@
           sort-order="desc"
           data-type="date"
         />
+        <DxColumn data-field="author.name" :caption="$t('task.fields.author')"/>
         <DxColumn data-field="status" :caption="$t('translations.fields.status')">
           <DxLookup
             :allow-clearing="true"

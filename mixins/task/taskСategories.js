@@ -21,6 +21,7 @@ import {
   DxFilterRow,
   DxStateStoring,
 } from "devextreme-vue/data-grid";
+import dataApi from "~/static/dataApi";
 import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
 import DataSource from "devextreme/data/data_source";
 export default {
@@ -48,12 +49,6 @@ export default {
   },
   data() {
     return {
-      employeeDataSoure:new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee,
-        }),
-      }),
       statusDataSource: [...Object.values(taskStatusGeneratorObj(this))],
     };
   },

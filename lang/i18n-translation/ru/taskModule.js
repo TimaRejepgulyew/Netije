@@ -27,7 +27,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
-    authorId: "Автор",
+    author: "Автор",
     assignedBy: "Выдал",
     parallel: "паралельно",
     gradually: "друг за другом",
