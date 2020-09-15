@@ -106,10 +106,9 @@ import History from "~/components/page/history.vue";
 import docVersion from "~/components/document-module/main-doc-form/doc-version";
 import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-import contract from "~/components/document-module/contract.vue";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
-import * as documentTypeComponent from "~/components/document-module/documentTypeComponents.js";
+import * as documentTypeComponent from "~/components/document-module/document-type-components/index.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import "devextreme-vue/text-area";
 import DxForm, {
@@ -181,8 +180,8 @@ export default {
   },
   methods: {
     onRemove() {
-      this.$emit("onRemove",this.documentId);
-      this.$emit("onClose",this.documentId);
+      this.$emit("onRemove", this.documentId);
+      this.$emit("onClose", this.documentId);
     },
     onClose() {
       this.$emit("onClose", this.documentId);
