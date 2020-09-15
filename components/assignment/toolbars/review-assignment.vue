@@ -28,7 +28,7 @@ export default {
         text: this.$t("buttons.accept"),
         onClick: async () => {
          const response = await confirm(
-            this.$t("assignment.acceptAssignmentMessage"),
+            this.$t("assignment.confirmMessage.sureAccept"),
             this.$t("shared.confirm")
           );
           this.setResult(ReviewResult.ReviewAssignment.Accept);
@@ -45,7 +45,7 @@ export default {
         text: this.$t("buttons.rework"),
         onClick: async () => {
          const response = await confirm(
-            this.$t("assignment.sureReworkMessage"),
+            this.$t("assignment.confirmMessage.sureRework"),
             this.$t("shared.confirm")
           );
           this.setResult(ReviewResult.ReviewAssignment.ForRework);

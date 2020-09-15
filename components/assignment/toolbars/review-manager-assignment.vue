@@ -114,7 +114,7 @@ export default {
         text: this.$t("buttons.addResolution"),
         onClick: async () => {
           const response = await confirm(
-            this.$t("assignment.takeIntoMessage"),
+            this.$t("assignment.confirmMessage.sureDocumentReviewAddresolutionConfirmetion"),
             this.$t("shared.confirm")
           );
           if (response) {
@@ -130,7 +130,7 @@ export default {
         text: this.$t("buttons.sendToAssignee"),
         onClick: async () => {
           const response = await confirm(
-            this.$t("assignment.takeIntoMessage"),
+            this.$t("assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmetion"),
             this.$t("shared.confirm")
           );
           if (response) {
@@ -146,7 +146,7 @@ export default {
         text: this.$t("buttons.takeInto"),
         onClick: async () => {
           const response = await confirm(
-            this.$t("assignment.takeIntoMessage"),
+            this.$t("assignment.confirmMessage.sureDocumentReviewExploredConfirmetion"),
             this.$t("shared.confirm")
           );
           if (response) {
@@ -162,7 +162,7 @@ export default {
         text: this.$t("buttons.readdress"),
         onClick: async () => {
           const response = await confirm(
-            this.$t("assignment.takeIntoMessage"),
+            this.$t("assignment.confirmMessage.sureDocumentReviewForwardConfirmetion"),
             this.$t("shared.confirm")
           );
           if (response) {

@@ -73,7 +73,7 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           const response = await confirm(
-            this.$t("assignment.sureCompleteMessage"),
+            this.$t("assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmetion"),
             this.$t("shared.confirm")
           );
           if (response) {
