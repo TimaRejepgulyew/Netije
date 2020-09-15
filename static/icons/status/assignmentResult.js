@@ -8,6 +8,7 @@ import AddResolution from "~/static/icons/status/addresolution.svg";
 import ForExecution from "~/static/icons/status/addresolution.svg";
 import SendForReview from "~/static/icons/status/sendToReview.svg";
 import Complete from "~/static/icons/status/completed.svg";
+import Informed from "~/static/icons/status/explored.svg";
 export {
   Accept,
   ForRework,
@@ -18,5 +19,6 @@ export {
   SendForReview,
   Complete,
   Acquainted,
-  ForExecution
+  ForExecution,
+  Informed
 };

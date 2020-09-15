@@ -43,6 +43,7 @@ export default {
     SendForReview: "Отправлено на рассмотрение",
     Complete: "Завершено",
     Accept: "Принято",
+    Informed:"Принято к сведению",
     ForRework: "На доработку",
     AddAssignment: "Отправлено на исполнение",
     AddResolution: "Вынесена резолюция",

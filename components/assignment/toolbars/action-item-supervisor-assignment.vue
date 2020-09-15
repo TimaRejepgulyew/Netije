@@ -29,8 +29,10 @@ export default {
             this.$t("assignment.confirmMessage.sureActionItemAcceptConfirmetion"),
             this.$t("shared.confirm")
           );
+           if (response){
           this.setResult(ReviewResult.ActionItemSupervisor.Accept);
-          if (response) this.completeAssignment();
+          this.completeAssignment();
+        }
         }
       };
     },

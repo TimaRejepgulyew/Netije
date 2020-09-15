@@ -117,8 +117,8 @@ export default {
             this.$t("shared.confirm")
           );
           if (response) {
-            this.completeAssignment();
             this.sendResult(ReviewResult.PrepareDraftResolution.Explored);
+            this.completeAssignment();
           }
         },
       };

@@ -31,8 +31,10 @@ export default {
               this.$t("assignment.confirmMessage.sureAcquaintance"),
               this.$t("shared.confirm")
             );
+             if (response){
             this.setResult(assignmentResult.Acquaintance.Acquainted);
-            if (response) this.completeAssignment();
+            this.completeAssignment();
+             }
           }
         },
       };

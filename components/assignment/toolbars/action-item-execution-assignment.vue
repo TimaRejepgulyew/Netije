@@ -30,8 +30,10 @@ export default {
               this.$t("assignment.confirmMessage.sureActionItemDoneConfirmetion"),
               this.$t("shared.confirm")
             );
-            this.setResult(ReviewResult.ActionItemExecution.Complete);
-            if (response) this.completeAssignment();
+            if (response){
+              this.setResult(ReviewResult.ActionItemExecution.Complete);
+              this.completeAssignment();
+            }
           }
         },
       };

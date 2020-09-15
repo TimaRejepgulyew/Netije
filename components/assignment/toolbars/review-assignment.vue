@@ -31,10 +31,9 @@ export default {
             this.$t("assignment.confirmMessage.sureAccept"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.ReviewAssignment.Accept);
           if (response) {
+          this.setResult(ReviewResult.ReviewAssignment.Accept);
             this.completeAssignment();
-            this.$router.go(-1);
           }
         },
       };
@@ -48,8 +47,8 @@ export default {
             this.$t("assignment.confirmMessage.sureRework"),
             this.$t("shared.confirm")
           );
-          this.setResult(ReviewResult.ReviewAssignment.ForRework);
           if (response) {
+          this.setResult(ReviewResult.ReviewAssignment.ForRework);
             await this.completeAssignment();
             const { taskId } = this.$store.getters[
               `assignments/${this.assignmentId}/assignment`

@@ -31,8 +31,10 @@ export default {
               this.$t("assignment.confirmMessage.sureComplete"),
               this.$t("shared.confirm")
             );
-            this.setResult(ReviewResult.Simple.Complete);
-            if (response) this.completeAssignment();
+            if (response){
+             this.setResult(ReviewResult.Simple.Complete);
+             this.completeAssignment();
+            }
           }
         },
       };
