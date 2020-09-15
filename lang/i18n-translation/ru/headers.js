@@ -35,8 +35,8 @@ export default {
   attachment: "Вложения",
   moreAbout: "Подробнее",
   tasks: "Задачи",
-  acquaintanceTasks: "Задачи на ознакомления",
+  acquaintanceTasks: "Ознакомление",
   otherTasks: "Другие задачи",
-  actionItemExecutionTasks: "Задачи на исполнения",
-  reviewTasks: "Задачи на расмотрения",
+  actionItemExecutionTasks: "Поручения",
+  reviewTasks: "Рассмотрение",
 }
