@@ -12,8 +12,11 @@ export default {
     all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
   confirmMessage:{
-    sureDocumentReviewSendToResolutionConfirmetion:"Вы действительно хотите отправить на резолюцию",
-    sureDocumentReviewSendToAssigneeConfirmetion:"Вы действительно хотите отправить на исполнение",
+    sureDocumentReviewAcceptConfirmetion:"После принятия к сведению задание завершится без исполнения",
+    sureDocumentReviewReworkConfirmetion:"Вы действительно хотите вернуть помощнику на доработку?",
+    sureDocumentReviewApproveRosolutionConfirmetion:"Вы действительно хотите утвердить проект резолюции?",
+    sureDocumentReviewSendToResolutionConfirmetion:"Вы действительно хотите отправить на резолюцию?",
+    sureDocumentReviewSendToAssigneeConfirmetion:"Вы действительно хотите отправить на исполнение?",
     sureDocumentReviewExploredConfirmetion:"Вы действительно ознакомились с документом?",
     sureDocumentReviewForwardConfirmetion:"Вы действительно хотите переадресовать рассмотрение документа?",
     sureDocumentReviewAddresolutionConfirmetion:"Вы действительно вынесли резолюцию по документу?",
