@@ -40,7 +40,7 @@ export default {
         text: this.$t("buttons.rework"),
         onClick: async () => {
          const response = await confirm(
-            this.$t("assignment.sureReworkMessage"),
+            this.$t("assignment.confirmMessage.sureActionItemForReworkConfirmetion"),
             this.$t("shared.confirm")
           );
           this.setResult(ReviewResult.ActionItemSupervisor.ForRework);

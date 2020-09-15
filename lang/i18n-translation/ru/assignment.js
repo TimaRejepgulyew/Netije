@@ -12,10 +12,11 @@ export default {
     all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
   confirmMessage:{
+    sureDocumentReviewSendToResolutionConfirmetion:"Вы действительно хотите отправить на резолюцию",
+    sureDocumentReviewSendToAssigneeConfirmetion:"Вы действительно хотите отправить на исполнение",
     sureDocumentReviewExploredConfirmetion:"Вы действительно ознакомились с документом?",
     sureDocumentReviewForwardConfirmetion:"Вы действительно хотите переадресовать рассмотрение документа?",
     sureDocumentReviewAddresolutionConfirmetion:"Вы действительно вынесли резолюцию по документу?",
-    sureDocumentReviewForwardConfirmetion:"Вы действительно хотите переадресовать рассмотрение документа?",
     sureActionItemForReworkConfirmetion:"Вы действительно хотите отправить поручение на доработку?",
     sureActionItemAcceptConfirmetion:"Вы действительно хотите принять работы по поручению?",
     sureActionItemDoneConfirmetion:"Вы действительно хотите выполнить поручения?",
@@ -26,12 +27,12 @@ export default {
       "Вы уверенны что хотите завершить ознакомление?",
     sureCompleteSupervisor: "Подтвердите что бы завершить задачу",
     sureRework: "Вы действительно хотите отправить задачу на доработку?",
+    sureAccept:"Вы действительно хотите принять задачу?"
     
     //TODO Добавить перевод предупреждения  о том что не создано ни одного поручение : выполнить задание без создание и отправки на поручение?
   },
   takeIntoMessage:
     "После принятия к сведению задание завершится без исполнения",
-  acceptAssignmentMessage: "Вы действительно хотите принять задачу?",
   readdressToEmployee: "Переадресовать сотруднику",
 
   result: {

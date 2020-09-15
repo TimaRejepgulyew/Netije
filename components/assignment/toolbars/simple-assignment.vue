@@ -28,7 +28,7 @@ export default {
         onClick: async () => {
           if (this.isValidForm()) {
            const response = await confirm(
-              this.$t("assignment.sureCompleteMessage"),
+              this.$t("assignment.confirmMessage.sureComplete"),
               this.$t("shared.confirm")
             );
             this.setResult(ReviewResult.Simple.Complete);
