@@ -78,7 +78,7 @@ export default {
     onReview: "На приемку",
     onAcquaintance: "На ознакомление",
     onDocumentReview: "На расмотрении",
-    reviewResolution: "На обработке"
+    reviewResolution: "На обработку"
   },
   DocumentQuery: {
     all: "Все документы",
