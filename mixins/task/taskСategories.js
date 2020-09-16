@@ -1,6 +1,5 @@
 import taskImportaceComponent from "~/components/page/task-important.vue";
 import taskIcon from "~/components/page/task-icon.vue";
-
 import { DxCheckBox } from "devextreme-vue";
 import Header from "~/components/page/page__header";
 import DxButton from "devextreme-vue/button";
@@ -21,9 +20,7 @@ import {
   DxFilterRow,
   DxStateStoring,
 } from "devextreme-vue/data-grid";
-import dataApi from "~/static/dataApi";
-import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
-import DataSource from "devextreme/data/data_source";
+import taskStatus, { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
 export default {
   components: {
     DxCheckBox,
@@ -67,12 +64,20 @@ export default {
       this.$router.push(`/task/detail/${data.taskType}/${data.id}`);
     },
     onRowPrepared(e) {
-      this.showCompletedTask(e);
-    },
-    showCompletedTask(e) {
-      if (e.data != undefined && e.data.status == 3) {
-        e.rowElement.style.textDecoration = "line-through";
+      if (e.data != undefined) {
+        this.showCompletedTask(e.data, e.rowElement.style);
+        this.showDraftTask(e.data, e.rowElement.style)
       }
     },
+    showCompletedTask(data, style) {
+      if (data.status == taskStatus.Completed) {
+        style.textDecoration = "line-through";
+      }
+    },
+    showDraftTask(data, style) {
+      if (data.status == taskStatus.Draft) {
+        style.fontStyle = "italic";
+      }
+    }
   },
 }
