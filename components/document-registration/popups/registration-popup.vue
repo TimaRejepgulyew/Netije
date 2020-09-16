@@ -123,7 +123,6 @@ export default {
         disabled: !this.regData.isCustomNumber,
         onValueChanged: (e) => {
           this.getPreliminaryRegistrationNumber();
-          console.log(this.regData, e.value);
         },
       };
     },

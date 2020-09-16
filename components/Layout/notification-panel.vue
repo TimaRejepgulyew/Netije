@@ -73,9 +73,6 @@ export default {
     DxActionSheet,
     assignmentCard,
   },
-  created() {
-    console.log(this.notification);
-  },
   data() {
     return {
       currentNotificationId: "null",

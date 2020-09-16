@@ -70,7 +70,6 @@ export default {
     );
   },
   mounted() {
-    console.log("connection", this);
     this.$hubs.connectAll();
     this.$nextTick(() => {
       this.$nuxt.$loading.start();

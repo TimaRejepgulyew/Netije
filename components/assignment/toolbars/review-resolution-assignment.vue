@@ -93,7 +93,6 @@ export default {
             ({ taskId }) => {
               this.actionItemExecutionTaskId = taskId;
               this.togglePopup();
-              console.log(this.showItemExecutionTask,"showed");
             }
           );
         },

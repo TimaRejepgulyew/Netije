@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     itemClick(e) {
-      console.log(e);
       this.currentQuickFilter = e.itemIndex;
       localStorage.setItem(
         `assignmentQuickFilter${this.assignmentQuery}`,

@@ -11,7 +11,6 @@ const DocumentSendActionGuid = {
 export default DocumentSendActionGuid
 
 export function mapToTaskType(documentSendActionType) {
-  console.log(documentSendActionType)
   switch (documentSendActionType) {
     case DocumentSendActionGuid.DefaultAction:
       return TaskType.SimpleTask

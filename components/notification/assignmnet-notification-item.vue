@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     showNotificationDetail() {
-      console.log("dawdaw", this.item.data.assignmentId);
       this.$emit("showNotificationDetail", {
         assignmentId: this.item.data.assignmentId,
       });
