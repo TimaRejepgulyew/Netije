@@ -5,7 +5,7 @@ export default {
   AcquaintanceAssignment: "Ознакомление",
   AcquaintanceFinishAssignment: "Завершение работ по ознакомлению",
   ActionItemExecutionNotification: "Уведомление об исполнения поручения",
-  ActionItemSupervisorNotification: "Уведомление об приемке работ",
+  ActionItemSupervisorNotification: "Уведомление контролеру",
   ActionItemSupervisorAssignment: "Приемка работ контролером",
   ActionItemExecutionAssignment: "Исполнение поручения",
   ActionItemObserversNotification: "Уведомление о создании поручения",
