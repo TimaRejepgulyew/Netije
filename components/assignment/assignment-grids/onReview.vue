@@ -78,14 +78,19 @@ export default {
       );
     },
   },
-
 };
 </script>
-<style  scoped>
+<style >
 .icon--type {
   display: flex;
   margin: 0 auto;
   height: 20px;
   width: 100%;
+}
+.dx-row.dx-data-row.dx-column-lines {
+  -webkit-user-select: none;
+}
+.dx-row.dx-data-row.dx-column-lines:hover {
+  color: forestgreen;
 }
 </style>
