@@ -218,7 +218,6 @@ export default {
     responsibleEmployeeId() {
       return this.document.responsibleEmployeeId;
     },
-
     leadingDocumentOptions() {
       return {
         readOnly: !this.counterpartyId,

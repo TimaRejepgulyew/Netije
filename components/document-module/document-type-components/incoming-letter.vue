@@ -70,7 +70,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
-        :disabled="!isOrganization||readOnly"
+        :disabled="!isCompany||readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setContact"
         :value="contactId"
@@ -78,7 +78,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
-        :disabled="!isOrganization||readOnly"
+        :disabled="!isCompany||readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"
@@ -191,14 +191,11 @@ export default {
         },
       };
     },
-    isOrganization() {
+    isCompany() {
       return (
         this.selectedCorrespondentType != null &&
         this.selectedCorrespondentType?.type !== "Person"
       );
-    },
-    store() {
-      return this.document;
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];

@@ -190,9 +190,7 @@ export default {
         hint: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate,
         onClick: async () => {
-          await this.trySaveDocument();
-
-          this.$emit("onClose");
+          if (await this.trySaveDocument()) this.$emit("onClose");
         },
       };
     },
