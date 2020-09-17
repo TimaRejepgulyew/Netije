@@ -11,8 +11,9 @@ import assignmentModule from "~/lang/i18n-translation/ru/assignment.js"
 import menu from "~/lang/i18n-translation/ru/menu.js"
 import headers from "~/lang/i18n-translation/ru/headers.js"
 import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js"
-
+import attachmentAccessRight from "~/lang/i18n-translation/ru/attachmentAccessRight.js"
 export default {
+  attachmentAccessRight,
   sharedDirectory,
   administration,
   documentSendAction,
