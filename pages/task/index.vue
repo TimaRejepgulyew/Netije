@@ -30,7 +30,7 @@
 
         <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('menu.task')" />
 
-        <DxStateStoring :enabled="true" type="localStorage" storage-key="task" />
+        <DxStateStoring :enabled="true" type="localStorage" :storage-key="'task'+taskQuery" />
 
         <DxEditing
           :allow-updating="false"
@@ -92,7 +92,12 @@
           sort-order="desc"
           data-type="date"
         />
-        <DxColumn data-field="author.name" :caption="$t('task.fields.author')" />
+        <DxColumn
+          data-field="author.name"
+          :caption="$t('task.fields.author')"
+          :allowHeaderFiltering="false"
+          data-type="string"
+        />
 
         <DxColumn data-field="status" :caption="$t('translations.fields.status')">
           <DxLookup
