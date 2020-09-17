@@ -80,7 +80,7 @@ export default {
   },
 };
 </script>
-<style  scoped>
+<style>
 .icon--type {
   display: flex;
   margin: 0 auto;
