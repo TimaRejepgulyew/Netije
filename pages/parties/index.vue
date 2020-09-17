@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.counterPart')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -54,7 +54,11 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn data-field="localityId" :caption="$t('translations.fields.localityId')" :visible="false">
+      <DxColumn
+        data-field="localityId"
+        :caption="$t('translations.fields.localityId')"
+        :visible="false"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="localityDataSource"
@@ -103,12 +107,13 @@
         />
       </DxColumn>
       <template #cellTemplate="cell">
-        <img class="icon--type" :src="cell.data.value|typeIcon" />
+        <img class="icon--type" :src="getCounterPartIconByType(cell.data.value)" />
       </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
+import * as counterPartTypesIcon from "~/static/icons/parties/index.js";
 import Status from "~/infrastructure/constants/status";
 import CounterpartyType from "~/infrastructure/constants/counterpartyTypes";
 import DataSource from "devextreme/data/data_source";
@@ -128,7 +133,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -147,55 +152,55 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
   },
   data() {
     return {
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.CounterPart
+        loadUrl: dataApi.contragents.CounterPart,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       regionsDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region
+          loadUrl: dataApi.sharedDirectory.Region,
         }),
-        paginate: true
+        paginate: true,
       },
       localityDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality
+          loadUrl: dataApi.sharedDirectory.Locality,
         }),
-        paginate: true
+        paginate: true,
       },
       banksDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Bank
+          loadUrl: dataApi.contragents.Bank,
         }),
-        paginate: true
-      }
+        paginate: true,
+      },
     };
   },
-  filters: {
-    typeIcon(value) {
-      switch (value) {
+  methods: {
+    getCounterPartIconByType(counterPartType) {
+      switch (counterPartType) {
         case CounterpartyType.Bank:
-          return require("~/static/icons/bank.svg");
+          return counterPartTypesIcon.Bank;
           break;
         case CounterpartyType.Company:
-          return require("~/static/icons/company.svg");
+          return counterPartTypesIcon.Company;
           break;
         case CounterpartyType.Person:
-          return require("~/static/icons/user-panel--icon.png");
+          return counterPartTypesIcon.Person;
           break;
         default:
           throw "Unknown counterparty";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

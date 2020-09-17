@@ -1,11 +1,6 @@
 <template>
   <main>
-    <Header
-      
-      :headerTitle="$t('menu.counterPart')"
-      :isbackButton="false"
-      :isNew="false"
-    ></Header>
+    <Header :headerTitle="$t('menu.counterPart')" :isbackButton="false" :isNew="false"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -115,7 +110,7 @@
         />
       </DxColumn>
       <template #cellTemplate="cell">
-        <img class="icon--type" :src="cell.data.value|typeIcon" />
+        <img class="icon--type" :src="getCounterPartIconByType(cell.data.value)" />
       </template>
     </DxDataGrid>
   </main>
@@ -140,9 +135,9 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
 } from "devextreme-vue/data-grid";
-
+import * as counterPartTypesIcon from "~/static/icons/parties/index.js";
 export default {
   components: {
     Header,
@@ -159,61 +154,58 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
   },
   data() {
     return {
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.CounterPart
+        loadUrl: dataApi.contragents.CounterPart,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       regionsDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region
+          loadUrl: dataApi.sharedDirectory.Region,
         }),
-        paginate: true
+        paginate: true,
       },
       localityDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality
+          loadUrl: dataApi.sharedDirectory.Locality,
         }),
-        paginate: true
+        paginate: true,
       },
       banksDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Bank
+          loadUrl: dataApi.contragents.Bank,
         }),
-        paginate: true
-      }
+        paginate: true,
+      },
     };
   },
   methods: {
-
     selectDocument(e) {
       this.$emit("valueChanged", e.data);
-    }
-  },
-  filters: {
-    typeIcon(value) {
-      switch (value) {
+    },
+    getCounterPartIconByType(counterPartType) {
+      switch (counterPartType) {
         case CounterpartyType.Bank:
-          return require("~/static/icons/bank.svg");
+          return counterPartTypesIcon.Bank;
           break;
         case CounterpartyType.Company:
-          return require("~/static/icons/company.svg");
+          return counterPartTypesIcon.Company;
           break;
         case CounterpartyType.Person:
-          return require("~/static/icons/user-panel--icon.png");
+          return counterPartTypesIcon.Person;
           break;
         default:
           throw "Unknown counterparty";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

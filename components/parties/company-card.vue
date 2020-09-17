@@ -3,11 +3,11 @@
     <toolbar
       :isCard="isCard"
       @saveChanges="submit"
-      :canSave="$store.getters['permissions/allowReading'](EntityType.Counterparty)"
+      :canSave="$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
     />
     <DxForm
       ref="form"
-      :read-only="!$store.getters['permissions/allowReading'](EntityType.Counterparty)"
+      :read-only="!$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
       :col-count="2"
       :form-data.sync="company"
       :show-colon-after-label="true"
@@ -138,7 +138,7 @@ export default {
     Toolbar
   },
   props: ["isCard", "counterpartId"],
-  async created() {
+    async fetch() {
     if (this.counterpartId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Company}/${this.counterpartId}`

@@ -3,11 +3,11 @@
     <toolbar
       :isCard="isCard"
       @saveChanges="submit"
-      :canSave="$store.getters['permissions/allowReading'](EntityType.Counterparty)"
+      :canSave="$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
     />
     <DxForm
       ref="form"
-      :read-only="!$store.getters['permissions/allowReading'](EntityType.Counterparty)"
+      :read-only="!$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
       :col-count="2"
       :form-data.sync="person"
       :show-colon-after-label="true"
@@ -127,7 +127,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -143,10 +143,10 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar
+    Toolbar,
   },
   props: ["isCard", "counterpartId"],
-  async created() {
+  async fetch() {
     if (this.counterpartId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Person}/${this.counterpartId}`
@@ -176,22 +176,22 @@ export default {
         tin: null,
         note: "",
         nonresident: true,
-        status: this.$store.getters["status/status"](this)[0].id
+        status: this.$store.getters["status/status"](this)[0].id,
       },
       sexOptions: {
         dataSource: [
           { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") }
+          { id: 1, name: this.$t("sex.female") },
         ],
         displayExpr: "name",
-        valueExpr: "id"
+        valueExpr: "id",
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
 
       statusOptions: {
@@ -199,8 +199,8 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
-      }
+        showClearButton: true,
+      },
     };
   },
   computed: {
@@ -209,11 +209,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         onValueChanged: () => {
           this.person.localityId = null;
-        }
+        },
       };
     },
     localityOptions() {
@@ -222,17 +222,17 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.person?.regionId]
-        ]
+          ["regionId", "=", this.person?.regionId],
+        ],
       });
-    }
+    },
   },
   methods: {
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.PersonDataFieldValueNotExists(
         {
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -272,8 +272,8 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

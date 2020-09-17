@@ -82,7 +82,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
@@ -99,10 +99,10 @@ export default {
     DxForm,
     DxAsyncRule,
     Toolbar,
-    customSelectBox
+    customSelectBox,
   },
   props: ["isCard", "contactId", "correspondentId"],
-  async created() {
+  async fetch() {
     if (this.contactId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Contact}/${this.contactId}`
@@ -124,39 +124,39 @@ export default {
         note: "",
         homepage: "",
         id: null,
-        status: this.$store.getters["status/status"](this)[0].id
+        status: this.$store.getters["status/status"](this)[0].id,
       },
       correspondentOptions: {
         dataSource: new DataSource({
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.contragents.CounterPart
-          })
+            loadUrl: dataApi.contragents.CounterPart,
+          }),
         }),
         valueExpr: "id",
         displayExpr: "name",
         value: this.correspondentId,
-        readOnly: true
+        readOnly: true,
       },
       sexOptions: {
         dataSource: [
           { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") }
+          { id: 1, name: this.$t("sex.female") },
         ],
         displayExpr: "name",
-        valueExpr: "id"
+        valueExpr: "id",
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       headCompanyOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Company,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
 
       statusOptions: {
@@ -164,8 +164,8 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
-      }
+        showClearButton: true,
+      },
     };
   },
   computed: {
@@ -174,11 +174,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         onValueChanged: () => {
           this.contact.localityId = null;
-        }
+        },
       };
     },
     localityOptions() {
@@ -187,10 +187,10 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.contact.regionId]
-        ]
+          ["regionId", "=", this.contact.regionId],
+        ],
       });
-    }
+    },
   },
   methods: {
     setCorrenspondent(data) {
@@ -231,8 +231,8 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
