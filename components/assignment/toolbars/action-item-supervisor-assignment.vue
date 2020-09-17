@@ -8,14 +8,9 @@
 </template>
 <script>
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { confirm } from "devextreme/ui/dialog";
-import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js"
 export default {
-  components: {
-    DxToolbar,
-    DxItem
-  },
-  props: ["assignmentId"],
+  mixins:[toolbarMixin],
   computed: {
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
@@ -25,15 +20,19 @@ export default {
         icon: "check",
         text: this.$t("buttons.accept"),
         onClick: async () => {
-         const response = await confirm(
-            this.$t("assignment.confirmMessage.sureActionItemAcceptConfirmetion"),
-            this.$t("shared.confirm")
-          );
-           if (response){
-          this.setResult(ReviewResult.ActionItemSupervisor.Accept);
-          this.completeAssignment();
-        }
-        }
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureActionItemAcceptConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.ActionItemSupervisor.Accept);
+              this.completeAssignment();
+            }
+          }
+        },
       };
     },
     reworkBtnOptions() {
@@ -41,31 +40,22 @@ export default {
         icon: "undo",
         text: this.$t("buttons.rework"),
         onClick: async () => {
-         const response = await confirm(
-            this.$t("assignment.confirmMessage.sureActionItemForReworkConfirmetion"),
-            this.$t("shared.confirm")
-          );
-          this.setResult(ReviewResult.ActionItemSupervisor.ForRework);
-          if (response) this.completeAssignment();
-        }
-      };
-    }
-  },
-  methods: {
-    setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
-    },
-    completeAssignment() {
-      this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        e => {
-          this.$router.go(-1);
-          this.$awn.success();
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureActionItemForReworkConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.ActionItemSupervisor.ForRework);
+              this.completeAssignment();
+            }
+          }
         },
-        e => this.$awn.alert()
-      );
-    }
-  }
+      };
+    },
+  },
 };
 </script>
 <style scoped>

@@ -12,6 +12,7 @@
       >
         <div class="scrool-auto">
           <card-assignment
+            @complete="togglePopup('showAssignmentCard')"
             v-if="showAssignmentCard"
             :assignmentId="currentAssignmentId"
             :isCard="true"
@@ -114,7 +115,7 @@ export default {
     };
   },
   methods: {
-    closeTask() {      
+    closeTask() {
       this.togglePopup("showTaskCard");
     },
     togglePopup(popupName) {

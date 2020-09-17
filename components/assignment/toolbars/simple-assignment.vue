@@ -7,52 +7,27 @@
 </template>
 <script>
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { confirm } from "devextreme/ui/dialog";
-import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
-  components: {
-    DxToolbar,
-    DxItem,
-  },
-  props: ["assignmentId"],
-  inject: ["isValidForm"],
-
+  mixins: [toolbarMixin],
   computed: {
-    inProcess() {
-      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
-    },
     btnOptions() {
       return {
         icon: "check",
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-           const response = await confirm(
+            const response = await this.confirm(
               this.$t("assignment.confirmMessage.sureComplete"),
               this.$t("shared.confirm")
             );
-            if (response){
-             this.setResult(ReviewResult.Simple.Complete);
-             this.completeAssignment();
+            if (response) {
+              this.setResult(ReviewResult.Simple.Complete);
+              this.completeAssignment();
             }
           }
         },
       };
-    },
-  },
-  methods: {
-    setResult(result) {
-      this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
-    },
-    completeAssignment() {
-      this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
-        (e) => {
-          this.$router.go(-1);
-          this.$awn.success();
-        },
-        (e) => this.$awn.alert()
-      );
     },
   },
 };

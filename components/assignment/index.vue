@@ -4,7 +4,13 @@
       <Header :isbackButton="true" :headerTitle="headerTitle">
         <important-indicator :isImportant="isImportant" slot="indicator"></important-indicator>
       </Header>
-      <component v-if="canUpdate" :assignmentId="assignmentId" :is="componentByType('toolbar')" />
+      <component
+        name="toolbar"
+        v-if="canUpdate"
+        @complete="onComplete"
+        :assignmentId="assignmentId"
+        :is="componentByType('toolbar')"
+      />
       <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm
@@ -196,6 +202,9 @@ export default {
     },
   },
   methods: {
+    onComplete(res) {
+      this.$emit("complete", res);
+    },
     validateForm() {
       if (this.$refs["form"].instance.validate().isValid) {
         return true;
@@ -210,7 +219,7 @@ export default {
         ];
     },
     reload() {
-        this.$store.dispatch(`assignments/${this.assignmentId}/reload`)
+      this.$store.dispatch(`assignments/${this.assignmentId}/reload`);
     },
     detach(attachmentId) {
       this.$awn.async(
