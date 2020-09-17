@@ -148,7 +148,7 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.$store.commit("documents/${this.documentId}/SET_CORRECTED_ID", null);
+      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED_ID`, null);
       this.$store.dispatch(
         `documents/${this.documentId}/setLeadingDocumentId`,
         null
