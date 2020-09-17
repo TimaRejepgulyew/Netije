@@ -102,7 +102,7 @@ export default {
     customSelectBox,
   },
   props: ["isCard", "contactId", "correspondentId"],
-  async fetch() {
+  async created() {
     if (this.contactId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Contact}/${this.contactId}`

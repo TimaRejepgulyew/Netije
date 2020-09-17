@@ -124,7 +124,7 @@ export default {
     Toolbar,
   },
   props: ["isCard", "counterpartId"],
-  async fetch() {
+  async created() {
     if (this.counterpartId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Bank}/${this.counterpartId}`

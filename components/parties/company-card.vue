@@ -117,7 +117,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -135,10 +135,10 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar
+    Toolbar,
   },
   props: ["isCard", "counterpartId"],
-    async fetch() {
+  async created() {
     if (this.counterpartId) {
       const { data } = await this.$axios.get(
         `${dataApi.contragents.Company}/${this.counterpartId}`
@@ -168,19 +168,19 @@ export default {
         bankId: null,
         type: "",
         id: null,
-        status: this.$store.getters["status/status"](this)[0].id
+        status: this.$store.getters["status/status"](this)[0].id,
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       headCompanyOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Company,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
 
       statusOptions: {
@@ -188,8 +188,8 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
-      }
+        showClearButton: true,
+      },
     };
   },
   computed: {
@@ -198,11 +198,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         onValueChanged: () => {
           this.company.localityId = null;
-        }
+        },
       };
     },
     localityOptions() {
@@ -211,17 +211,17 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.company.regionId]
-        ]
+          ["regionId", "=", this.company.regionId],
+        ],
       });
-    }
+    },
   },
   methods: {
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -261,8 +261,8 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
