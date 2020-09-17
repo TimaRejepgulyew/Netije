@@ -119,11 +119,13 @@ import dataApi from "~/static/dataApi";
 export default {
   mixins: [taskStoreMixin],
   data() {
+    const taskQuery = TaskQuery.ActionItems;
     return {
+      taskQuery,
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.task.Task + TaskQuery.ActionItems,
+          loadUrl: dataApi.task.Task + taskQuery,
         }),
       }),
     };
