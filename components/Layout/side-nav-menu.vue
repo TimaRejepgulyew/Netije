@@ -3,7 +3,7 @@
     <slot />
     <div class="menu-container">
       <dx-tree-view
-        expand-event="click"
+        expand-event="dblclick"
         width="100%"
         selection-mode="single"
         key-expr="path"
