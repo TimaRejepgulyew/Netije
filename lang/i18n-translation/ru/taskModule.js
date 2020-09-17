@@ -5,6 +5,9 @@ export const TaskType = {
   DocumentReviewTask: "Задача на рассмотрение документа"
 };
 export default {
+  quickFilter: {
+    all: "Все", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
+  },
   message: {
     acquaintDocumentMessage:
       "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись",

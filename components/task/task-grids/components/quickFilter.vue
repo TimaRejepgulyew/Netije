@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import QuiсkFilter from "~/infrastructure/constants/quickFilter/assignmentQuickFilter.js";
+import QuiсkFilter from "~/infrastructure/constants/quickFilter/taskQuickFilter.js";
 import { DxButtonGroup } from "devextreme-vue";
 function setQuickfilter(value, oldvalue, context) {
   if (value !== null) {
@@ -21,39 +21,34 @@ export default {
   components: {
     DxButtonGroup,
   },
-  props: ["assignmentQuery"],
+  props: ["taskQuery"],
   data() {
     return {
       currentQuickFilter: localStorage.hasOwnProperty(
-        `assignmentQuickFilter${this.assignmentQuery}`
+        `taskQuickFilter${this.taskQuery}`
       )
-        ? +localStorage.getItem(`assignmentQuickFilter${this.assignmentQuery}`)
+        ? +localStorage.getItem(`taskQuickFilter${this.taskQuery}`)
         : QuiсkFilter.InProcess,
       QuiсkFilterOptions: [
         {
-          text: this.$t("assignment.quickFilter.all"),
+          text: this.$t("task.quickFilter.all"),
           filterKey: QuiсkFilter.All,
-          hint: this.$t("assignment.quickFilter.all"),
+          hint: this.$t("task.quickFilter.all"),
         },
         {
-          text: this.$t("assignment.quickFilter.new"),
-          filterKey: QuiсkFilter.New,
-          hint: this.$t("assignment.quickFilter.new"),
-        },
-        {
-          text: this.$t("assignment.quickFilter.inProcess"),
+          text: this.$t("task.quickFilter.inProcess"),
           filterKey: QuiсkFilter.InProcess,
-          hint: this.$t("assignment.quickFilter.inProcess"),
+          hint: this.$t("task.quickFilter.inProcess"),
         },
         {
-          text: this.$t("assignment.quickFilter.expired"),
+          text: this.$t("task.quickFilter.expired"),
           filterKey: QuiсkFilter.Expired,
-          hint: this.$t("assignment.quickFilter.expired"),
+          hint: this.$t("task.quickFilter.expired"),
         },
         {
-          text: this.$t("assignment.quickFilter.monthAgo"),
+          text: this.$t("task.quickFilter.monthAgo"),
           filterKey: QuiсkFilter.MonthAgo,
-          hint: this.$t("assignment.quickFilter.monthAgo"),
+          hint: this.$t("task.quickFilter.monthAgo"),
         },
       ],
     };
@@ -62,7 +57,7 @@ export default {
     itemClick(e) {
       this.currentQuickFilter = e.itemIndex;
       localStorage.setItem(
-        `assignmentQuickFilter${this.assignmentQuery}`,
+        `taskQuickFilter${this.taskQuery}`,
         this.currentQuickFilter
       );
     },
@@ -79,4 +74,3 @@ export default {
 </script>
 
 <style>
-</style>

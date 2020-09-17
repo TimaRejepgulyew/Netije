@@ -1,4 +1,4 @@
-import AssignmentQuery from "~/infrastructure/constants/assignmentQuery.js";
+import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
 import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
 import dataApi from "~/static/dataApi";
 const GetColumnsByAssignmentQuery = (type, context) => {

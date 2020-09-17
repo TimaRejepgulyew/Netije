@@ -59,7 +59,7 @@
 </template>
 <script>
 import { DxButtonGroup } from "devextreme-vue";
-import QuiсkFilter from "~/infrastructure/constants/documentQuiсkFilter.js";
+import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
 import { generateNameByDocQuery } from "~/infrastructure/constants/documentQuery.js";
@@ -86,7 +86,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton
+  DxButton,
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 export default {
@@ -112,7 +112,7 @@ export default {
     DxStateStoring,
     DxButton,
     Header,
-    DxButtonGroup
+    DxButtonGroup,
   },
   props: ["documentQuery", "isCard"],
   data() {
@@ -121,37 +121,37 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
         }),
-        paginate: true
+        paginate: true,
       }),
       QuiсkFilterOptions: [
         {
           text: this.$t("buttons.all"),
           filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all")
+          hint: this.$t("buttons.all"),
         },
         {
           text: this.$t("buttons.new"),
           filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new")
+          hint: this.$t("buttons.new"),
         },
 
         {
           text: this.$t("buttons.obsolete"),
           filterKey: QuiсkFilter.Obsolete,
-          hint: this.$t("buttons.obsolete")
-        }
+          hint: this.$t("buttons.obsolete"),
+        },
       ],
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
-      selectDocument: e => {
+      selectDocument: (e) => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid
+          documentTypeGuid: e.data.documentTypeGuid,
         });
-      }
+      },
     };
   },
   methods: {
@@ -163,9 +163,9 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
         }),
-        paginate: true
+        paginate: true,
       });
     },
 
@@ -177,10 +177,10 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          }
-        }
+          },
+        },
       });
-    }
+    },
   },
   computed: {
     generateHeaderTitle() {
@@ -191,8 +191,8 @@ export default {
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

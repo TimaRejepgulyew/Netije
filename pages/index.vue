@@ -4,7 +4,7 @@
   </main>
 </template>
 <script>
-import AssignmentQuery from "~/infrastructure/constants/assignmentQuery.js";
+import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
 import * as assignmentGrids from "~/components/assignment/assignment-grids/index.js";
 
 export default {

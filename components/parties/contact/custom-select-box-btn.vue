@@ -39,7 +39,7 @@
       </div>
     </DxPopup>
     <DxButton
-      :visible="showBtn"
+      :visible="showBtn&&allowReadContactDetails"
       :on-click="this.openUpdateCard"
       icon="info"
       type="default"
@@ -48,6 +48,7 @@
       :useSubmitBehavior="false"
     ></DxButton>
     <DxButton
+      :visible="allowCreateContact"
       :on-click="this.openCreateCard"
       icon="plus"
       type="default"
@@ -61,22 +62,33 @@
 import contact from "~/components/parties/contact/card.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
+import EntityType from "~/infrastructure/constants/entityTypes";
 export default {
   components: {
     DxButton,
     DxPopup,
-    contact
+    contact,
   },
   data() {
     return {
       isOpenCardUpdate: false,
-      isOpenCardCreate: false
+      isOpenCardCreate: false,
     };
   },
   computed: {
     showBtn() {
       return this.id ? true : false;
-    }
+    },
+    allowReadContactDetails() {
+      return this.$store.getters["permissions/allowReading"](
+        EntityType.Contact
+      );
+    },
+    allowCreateContact() {
+      return this.$store.getters["permissions/allowCreating"](
+        EntityType.Contact
+      );
+    },
   },
   methods: {
     valueChanged(data) {
@@ -91,9 +103,9 @@ export default {
     },
     openCreateCard() {
       this.isOpenCardCreate = !this.isOpenCardCreate;
-    }
+    },
   },
-  props: ["id", "type", "correspondentId"]
+  props: ["id", "type", "correspondentId", "visible"],
 };
 </script>
 <style lang="scss">

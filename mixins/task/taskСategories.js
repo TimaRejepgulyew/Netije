@@ -3,6 +3,8 @@ import taskIcon from "~/components/page/task-icon.vue";
 import { DxCheckBox } from "devextreme-vue";
 import Header from "~/components/page/page__header";
 import DxButton from "devextreme-vue/button";
+import DataSource from "devextreme/data/data_source";
+import dataApi from "~/static/dataApi";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -20,6 +22,7 @@ import {
   DxFilterRow,
   DxStateStoring,
 } from "devextreme-vue/data-grid";
+import toolbarItemQuickFilter from "~/components/task/task-grids/components/quickFilter.vue"
 import taskStatus, { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
 export default {
   components: {
@@ -43,6 +46,7 @@ export default {
     DxStateStoring,
     taskIcon,
     taskImportaceComponent,
+    toolbarItemQuickFilter
   },
   data() {
     return {
@@ -50,6 +54,17 @@ export default {
     };
   },
   methods: {
+    setFilter(filter) {
+      console.log(filter, "task")
+      this.store = new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${dataApi.task.Task}${this.taskQuery}?quickFilter=${filter}&`,
+        }),
+        paginate: true,
+        sort: [{ selector: "created", desc: true }],
+      })
+    },
     onToolbarPreparing(header) {
       header.toolbarOptions.items.unshift({
         widget: "button",

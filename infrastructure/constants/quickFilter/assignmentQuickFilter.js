@@ -3,7 +3,7 @@ const QuickFilter = {
   New: 1,
   InProcess: 2,
   Expired: 3,
-  MounthAgo: 4,
+  MonthAgo: 4,
 }
 export default QuickFilter
 

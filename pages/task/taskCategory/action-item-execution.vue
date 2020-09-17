@@ -1,6 +1,9 @@
 <template>
   <main>
-    <Header :isbackButton="true" :headerTitle="$t(`translations.headers.actionItemExecutionTasks`)" />
+    <Header :isbackButton="true" :headerTitle="$t(`translations.headers.actionItemExecutionTasks`)">
+      <toolbar-item-quick-filter slot="toolbar" @getQuickFilter="setFilter" :taskQuery="taskQuery" />
+    </Header>
+
     <div class="grid">
       <DxDataGrid
         id="gridContainer"
@@ -89,7 +92,7 @@
           sort-order="desc"
           data-type="date"
         />
-        <DxColumn data-field="author.name" :caption="$t('task.fields.author')"/>
+        <DxColumn data-field="author.name" :caption="$t('task.fields.author')" />
         <DxColumn data-field="status" :caption="$t('translations.fields.status')">
           <DxLookup
             :allow-clearing="true"
@@ -109,7 +112,7 @@
   </main>
 </template>
 <script>
-import TaskType from "~/infrastructure/constants/taskType.js"
+import TaskQuery from "~/infrastructure/constants/query/taskQuery.js";
 import taskStoreMixin from "~/mixins/task/taskСategories.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -120,9 +123,8 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.task.Task,
+          loadUrl: dataApi.task.Task + TaskQuery.ActionItems,
         }),
-          filter: ["taskType", "=",TaskType.ActionItemExecutionTask],
       }),
     };
   },

@@ -4,7 +4,7 @@ import { isNotification } from "~/infrastructure/constants/assignmentType.js";
 import importanceIconColumn from "~/components/page/task-important.vue";
 import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
 import Important from "~/infrastructure/constants/assignmentImportance.js";
-import { generateAssignmentQueryName } from "~/infrastructure/constants/assignmentQuery.js";
+import { generateAssignmentQueryName } from "~/infrastructure/constants/query/assignmentQuery.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";

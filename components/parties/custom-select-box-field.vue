@@ -1,17 +1,5 @@
 <template>
   <div class="d-flex">
-    <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
-
-    <DxDropDownButton
-      icon="plus"
-      :drop-down-options="{ width: 150 }"
-      :items="dropDownBtnItems"
-      display-expr="name"
-      :hint="$t('buttons.add')"
-      stylingMode="text"
-      :style="{position:'relative',color:'green'}"
-      @item-click="createCounterPart"
-    />
     <DxPopup
       width="90%"
       height="auto"
@@ -29,7 +17,21 @@
         />
       </div>
     </DxPopup>
-
+    <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
+    <DxDropDownButton
+      :focusStateEnabled="false"
+      :hoverStateEnabled="false"
+      :showArrowIcon="false"
+      :visible="allowCreateCounterPart"
+      icon="plus"
+      :drop-down-options="{ width: 150 }"
+      :items="dropDownBtnItems"
+      display-expr="name"
+      :hint="$t('buttons.add')"
+      stylingMode="text"
+      :style="{position:'relative',color:'green'}"
+      @item-click="createCounterPart"
+    />
     <additional-btn :button-options="cardDetailCounterPartOptions">
       <component
         slot="card"
@@ -65,22 +67,21 @@ export default {
     counterPartGrid,
     company,
     bank,
-    person
+    person,
   },
   props: {
     readOnly: {
       type: Boolean,
-      default: true
+      default: true,
     },
     notPerson: {},
     fieldData: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   data() {
     return {
-      EntityType,
       activeCard: null,
       isOpenCardCreate: false,
       dropDownBtnItems: [
@@ -90,24 +91,33 @@ export default {
         {
           name: this.$t("counterPart.Person"),
           type: "person",
-          visible: !this.notPerson
-        }
-      ]
+          visible: !this.notPerson,
+        },
+      ],
     };
   },
   computed: {
+    allowReadCounterPartDetails() {
+      return this.$store.getters["permissions/allowReading"](
+        EntityType.Counterparty
+      );
+    },
+    allowCreateCounterPart() {
+      return this.$store.getters["permissions/allowCreating"](
+        EntityType.Counterparty
+      );
+    },
     cardGridBtnOptions() {
       return {
         icon: "more",
-        hint: this.$t("buttons.showCard"),
-        visible: !this.readOnly
+        visible: !this.readOnly && this.allowReadCounterPartDetails,
       };
     },
     cardDetailCounterPartOptions() {
       return {
         icon: "info",
         hint: this.$t("buttons.showCard"),
-        visible: this.isSelected
+        visible: this.isSelected && this.allowReadCounterPartDetails,
       };
     },
     isSelected() {
@@ -115,7 +125,7 @@ export default {
     },
     showCardByType() {
       return this.fieldData?.type.toLowerCase();
-    }
+    },
   },
   methods: {
     createCounterPart(e) {
@@ -127,7 +137,7 @@ export default {
     },
     valueUpdated(data) {
       this.$emit("valueChanged", { data, updated: true });
-    }
-  }
+    },
+  },
 };
 </script>

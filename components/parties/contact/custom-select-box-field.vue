@@ -2,7 +2,7 @@
   <div class="d-flex">
     <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
     <contact-btn
-      v-if="$store.getters['permissions/allowReading'](EntityType.Contact)"
+      
       :correspondentId="correspondentId"
       @valueChanged="valueChanged"
       :type="fieldData ? fieldData.type:null"
@@ -28,10 +28,12 @@ export default {
       default: () => {}
     }
   },
-  data() {
-    return {
-      EntityType
-    };
+  computed:{
+     allowReadContactDetails() {
+      return this.$store.getters["permissions/allowReading"](
+        EntityType.Contact
+      );
+    },
   },
   methods: {
     valueChanged(data) {

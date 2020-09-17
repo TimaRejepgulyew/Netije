@@ -63,7 +63,7 @@ export const mutations = {
     state.menuList = payload;
   }
 };
-import AssignmentQuery from "~/infrastructure/constants/assignmentQuery.js";
+import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
 export const actions = {
   initialize({ commit, rootGetters }) {
     const data = [
@@ -102,18 +102,6 @@ export const actions = {
           {
             text: this.$i18n.t("menu.actionItemExecutionTasks"),
             path: "/task/taskCategory/action-item-execution",
-          },
-          {
-            text: this.$i18n.t("menu.reviewTasks"),
-            path: "/task/taskCategory/review",
-          },
-          {
-            text: this.$i18n.t("menu.acquaintanceTasks"),
-            path: "/task/taskCategory/acquaintance",
-          },
-          {
-            text: this.$i18n.t("menu.otherTasks"),
-            path: "/task/taskCategory/others",
           },
         ]
       },
