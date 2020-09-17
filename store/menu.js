@@ -196,6 +196,7 @@ export const actions = {
       },
       {
         text: this.$i18n.t("menu.company-structure"),
+        path:"/company",
         icon: "hierarchy",
         visible: hasCompanyAccess(rootGetters),
         items: [
