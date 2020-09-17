@@ -1,4 +1,4 @@
-import DocumentQuery from "~/infrastructure/constants/documentQuery";
+import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";

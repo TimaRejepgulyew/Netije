@@ -62,7 +62,7 @@ import { DxButtonGroup } from "devextreme-vue";
 import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
-import { generateNameByDocQuery } from "~/infrastructure/constants/documentQuery.js";
+import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";

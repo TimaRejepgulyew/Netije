@@ -107,7 +107,7 @@ import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsB
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
-import DocumentQuery from "~/infrastructure/constants/documentQuery.js";
+import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,

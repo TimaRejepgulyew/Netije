@@ -1,5 +1,5 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DocumentQuery from "~/infrastructure/constants/documentQuery";
+import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
 export const state = () => ({
