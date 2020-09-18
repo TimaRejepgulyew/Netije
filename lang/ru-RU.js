@@ -12,7 +12,13 @@ import menu from "~/lang/i18n-translation/ru/menu.js"
 import headers from "~/lang/i18n-translation/ru/headers.js"
 import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js"
 import attachmentAccessRight from "~/lang/i18n-translation/ru/attachmentAccessRight.js"
+import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js"
+import parties from "~/lang/i18n-translation/ru/parties.js"
+import paperWork from "~/lang/i18n-translation/ru/paperWork.js"
 export default {
+  paperWork,
+  parties,
+  companyStructure,
   attachmentAccessRight,
   sharedDirectory,
   administration,

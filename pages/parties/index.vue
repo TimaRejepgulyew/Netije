@@ -1,210 +1,89 @@
 <template>
-  <main>
-    <Header :headerTitle="$t('menu.counterPart')"></Header>
-    <DxDataGrid
-      id="gridContainer"
-      :show-borders="true"
-      :errorRowEnabled="false"
-      :data-source="dataSource"
-      :remote-operations="true"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-    >
-      <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false" />
-      <DxHeaderFilter :visible="true" />
-
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
-      <DxFilterRow :visible="true" />
-
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('menu.counterPartList')"
-      />
-
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="CounterParts" />
-
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
-
-      <DxColumn
-        data-field="type"
-        :allow-filtering="false"
-        :width="60"
-        :caption="$t('translations.fields.type')"
-        cell-template="cellTemplate"
-        :visible="true"
-      ></DxColumn>
-
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
-      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false"></DxColumn>
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="true"></DxColumn>
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="true"></DxColumn>
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false" />
-      <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="regionsDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-      <DxColumn
-        data-field="localityId"
-        :caption="$t('translations.fields.localityId')"
-        :visible="false"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="localityDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-      <DxColumn
-        data-field="legalAddress"
-        :caption="$t('translations.fields.legalAddress')"
-        :visible="false"
-      ></DxColumn>
-
-      <DxColumn
-        data-field="postAddress"
-        :caption="$t('translations.fields.postAddress')"
-        :visible="false"
-      ></DxColumn>
-      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')" :visible="false"></DxColumn>
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
-
-      <DxColumn
-        data-field="nonresident"
-        :visible="false"
-        data-type="boolean"
-        :caption="$t('translations.fields.nonresident')"
-      ></DxColumn>
-
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
-
-      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')" :visible="false">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="banksDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
-
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="statusDataSource"
-          value-expr="id"
-          display-expr="status"
-        />
-      </DxColumn>
-      <template #cellTemplate="cell">
-        <img class="icon--type" :src="getCounterPartIconByType(cell.data.value)" />
-      </template>
-    </DxDataGrid>
+  <main class="admin">
+    <header class="quide-page__header">
+      <h2 class="header-title">{{header.title}}</h2>
+      <div>{{header.description}}</div>
+    </header>
+    <div class="container--grid">
+      <div class="item">
+        <guidPageItem :data="item" v-for="item in partiesItemsRightSide" :key="item.name" />
+      </div>
+      <div class="item">
+        <guidPageItem :data="item" v-for="item in partiesItemsLeftSide" :key="item.name" />
+      </div>
+    </div>
   </main>
 </template>
-<script>
-import * as counterPartTypesIcon from "~/static/icons/parties/index.js";
-import Status from "~/infrastructure/constants/status";
-import CounterpartyType from "~/infrastructure/constants/counterpartyTypes";
-import DataSource from "devextreme/data/data_source";
-import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
-import {
-  DxSearchPanel,
-  DxDataGrid,
-  DxColumn,
-  DxHeaderFilter,
-  DxScrolling,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  DxExport,
-  DxSelection,
-  DxColumnChooser,
-  DxColumnFixing,
-  DxFilterRow,
-  DxStateStoring,
-} from "devextreme-vue/data-grid";
 
+<script>
+import guidPageItem from "~/components/quidePages/templates/list.vue";
+import partiesGuidPageData from "~/components/quidePages/data/parties.js";
 export default {
   components: {
-    Header,
-    DxSearchPanel,
-    DxDataGrid,
-    DxColumn,
-    DxHeaderFilter,
-    DxScrolling,
-    DxLookup,
-    DxGrouping,
-    DxGroupPanel,
-    DxExport,
-    DxSelection,
-    DxColumnChooser,
-    DxColumnFixing,
-    DxFilterRow,
-    DxStateStoring,
+    guidPageItem,
   },
   data() {
-    return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.contragents.CounterPart,
-      }),
-      statusDataSource: this.$store.getters["status/status"](this),
-      regionsDataSource: {
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.sharedDirectory.Region,
-        }),
-        paginate: true,
-      },
-      localityDataSource: {
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality,
-        }),
-        paginate: true,
-      },
-      banksDataSource: {
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.contragents.Bank,
-        }),
-        paginate: true,
-      },
-    };
-  },
-  methods: {
-    getCounterPartIconByType(counterPartType) {
-      switch (counterPartType) {
-        case CounterpartyType.Bank:
-          return counterPartTypesIcon.Bank;
-          break;
-        case CounterpartyType.Company:
-          return counterPartTypesIcon.Company;
-          break;
-        case CounterpartyType.Person:
-          return counterPartTypesIcon.Person;
-          break;
-        default:
-          throw "Unknown counterparty";
+    const partiesItemsRightSide = partiesGuidPageData(
+      this
+    ).filter((el, index) => {
+      if (index % 2 == 0) {
+        return el;
       }
-    },
+    });
+    const partiesItemsLeftSide = partiesGuidPageData(
+      this
+    ).filter((el, index) => {
+      if (index % 2 != 0) {
+        return el;
+      }
+    });
+
+    return {
+      header: {
+        title: this.$t("parties.headerTitle"),
+        description: this.$t("parties.headerDescription"),
+      },
+      partiesItemsRightSide: partiesItemsRightSide,
+      partiesItemsLeftSide: partiesItemsLeftSide,
+    };
   },
 };
 </script>
-<style lang="scss" scoped>
-.icon--type {
-  width: 30px;
+
+<style lang="scss">
+@import "~assets/themes/generated/variables.base.scss";
+@import "~assets/themes/generated/variables.base.scss";
+
+.container--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .item {
+    justify-self: flex-start;
+    width: 100%;
+  }
+}
+.admin {
+  padding: 20px 0 20px;
+}
+.quide-page__header {
+  padding: 0;
+  margin: 0 50px;
+}
+h2 {
+  font-weight: 450;
+  padding: 0;
+  margin: 0 !important;
+}
+.header-title {
+  font-size: 26px !important;
+  color: darken($base-border-color, 40%);
+}
+.title {
+  color: darken($base-border-color, 40%);
+}
+.description {
+  color: darken($base-border-color, 20%);
+  font-size: 0.9em;
 }
 </style>

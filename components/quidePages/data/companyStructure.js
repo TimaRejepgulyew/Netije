@@ -1,7 +1,9 @@
 
 
 import additionalInfoIcon from "~/static/icons/quide-page/additionalInfo.svg"
+import companyStructureIcon from "~/static/icons/quide-page/company-structure.svg"
 import EntityType from "~/infrastructure/constants/entityTypes";
+import employeeIcon from "~/static/icons/parties/person.svg"
 export default function (context) {
     function isVisible(accessKey) {
         return context.$store.getters["permissions/allowReading"](accessKey);
@@ -12,9 +14,9 @@ export default function (context) {
     const pathGenerate = detail => {
         return `/company/${detail}`;
     };
-    const sharedDirectory = [
+    const companyStructure = [
         {
-            icon: additionalInfoIcon,
+            icon: employeeIcon,
             title: context.$t("companyStructure.employee.title"),
             items: [
                 {
@@ -47,30 +49,30 @@ export default function (context) {
         },
         {
             icon: additionalInfoIcon,
-            title: context.$t("company.additionalInfo.title"),
+            title: context.$t("companyStructure.additionalInfo.title"),
             items: [
 
                 {
-                    name: context.$t("company.additionalInfo.companies"),
-                    description: context.$t("company.additionalInfo.companiesDescr"),
+                    name: context.$t("companyStructure.additionalInfo.companies"),
+                    description: context.$t("companyStructure.additionalInfo.companiesDescr"),
                     path: "/parties/organizations/companies",
                     visible: isVisible(EntityType.Counterparty),
                 },
                 {
-                    name: context.$t("company.additionalInfo.banks"),
-                    description: context.$t("company.additionalInfo.banksDescr"),
-                    path: "/partiesorganizations//banks",
+                    name: context.$t("companyStructure.additionalInfo.banks"),
+                    description: context.$t("companyStructure.additionalInfo.banksDescr"),
+                    path: "/parties/organizations/banks",
                     visible: isVisible(EntityType.Counterparty),
                 },
                 {
-                    name: context.$t("company.additionalInfo.persons"),
-                    description: context.$t("company.additionalInfo.personsDescr"),
-                    path: "/parties/organizations/persons",
+                    name: context.$t("companyStructure.additionalInfo.persons"),
+                    description: context.$t("companyStructure.additionalInfo.personsDescr"),
+                    path: "/parties/persons",
                     visible: isVisible(EntityType.Counterparty),
                 },
                 {
-                    name: context.$t("company.additionalInfo.roles"),
-                    description: context.$t("company.additionalInfo.rolesDescr"),
+                    name: context.$t("companyStructure.additionalInfo.roles"),
+                    description: context.$t("companyStructure.additionalInfo.rolesDescr"),
                     path: "/admin/roles",
                     visible: isVisible(EntityType.Roles),
                 },
@@ -78,27 +80,27 @@ export default function (context) {
             ]
         },
         {
-            icon: additionalInfoIcon,
-            title: context.$t("company.companyStucture.title"),
+            icon: companyStructureIcon,
+            title: context.$t("companyStructure.company.title"),
             items: [
                 {
-                    name: context.$t("company.companyStucture.createBusinessUnit"),
+                    name: context.$t("companyStructure.company.createBusinessUnit"),
 
                     visible: false,
                 },
                 {
-                    name: context.$t("company.companyStucture.businessUnit"),
-                    description: context.$t("company.companyStucture.businessUnitDescr"),
+                    name: context.$t("companyStructure.company.businessUnit"),
+                    description: context.$t("companyStructure.company.businessUnitDescr"),
                     path: pathGenerate("organization-structure/business-units"),
                     visible: isVisible(EntityType.BusinessUnit),
                 },
                 {
-                    name: context.$t("company.companyStucture.createDepartment"),
+                    name: context.$t("companyStructure.company.createDepartment"),
                     visible: false,
                 },
                 {
-                    name: context.$t("company.companyStucture.department"),
-                    description: context.$t("company.companyStucture.departmentDescr"),
+                    name: context.$t("companyStructure.company.department"),
+                    description: context.$t("companyStructure.company.departmentDescr"),
                     path: pathGenerate("organization-structure/departments"),
                     visible: isVisible(EntityType.BusinessUnit),
                 },
@@ -110,5 +112,5 @@ export default function (context) {
 
 
     ];
-    return sharedDirectory;
+    return companyStructure;
 }

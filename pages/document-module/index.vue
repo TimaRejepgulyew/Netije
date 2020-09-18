@@ -1,15 +1,15 @@
 <template>
-  <main class="admin">
+  <main class="paperWork">
     <header class="quide-page__header">
       <h2 class="header-title">{{header.title}}</h2>
       <div>{{header.description}}</div>
     </header>
     <div class="container--grid">
       <div class="item">
-        <guidPageItem :data="item" v-for="item in companyStructureItemsRightSide" :key="item.name" />
+        <guidPageItem :data="item" v-for="item in paperWorkItemsRightSide" :key="item.name" />
       </div>
       <div class="item">
-        <guidPageItem :data="item" v-for="item in companyStructureItemsLeftSide" :key="item.name" />
+        <guidPageItem :data="item" v-for="item in paperWorkItemsLeftSide" :key="item.name" />
       </div>
     </div>
   </main>
@@ -17,20 +17,20 @@
 
 <script>
 import guidPageItem from "~/components/quidePages/templates/list.vue";
-import companyStructureGuidPageData from "~/components/quidePages/data/companyStructure.js";
+import paperWorkGuidPageData from "~/components/quidePages/data/paperWork.js";
 export default {
   components: {
     guidPageItem,
   },
   data() {
-    const companyStructureItemsRightSide = companyStructureGuidPageData(
+    const paperWorkItemsRightSide = paperWorkGuidPageData(
       this
     ).filter((el, index) => {
       if (index % 2 == 0) {
         return el;
       }
     });
-    const companyStructureItemsLeftSide = companyStructureGuidPageData(
+    const paperWorkItemsLeftSide = paperWorkGuidPageData(
       this
     ).filter((el, index) => {
       if (index % 2 != 0) {
@@ -40,11 +40,11 @@ export default {
 
     return {
       header: {
-        title: this.$t("companyStructure.headerTitle"),
-        description: this.$t("companyStructure.headerDescription"),
+        title: this.$t("paperWork.headerTitle"),
+        description: this.$t("paperWork.headerDescription"),
       },
-      companyStructureItemsRightSide: companyStructureItemsRightSide,
-      companyStructureItemsLeftSide: companyStructureItemsLeftSide,
+      paperWorkItemsRightSide: paperWorkItemsRightSide,
+      paperWorkItemsLeftSide: paperWorkItemsLeftSide,
     };
   },
 };
@@ -63,7 +63,7 @@ export default {
     width: 100%;
   }
 }
-.admin {
+.paperWork {
   padding: 20px 0 20px;
 }
 .quide-page__header {

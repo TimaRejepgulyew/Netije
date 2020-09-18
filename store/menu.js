@@ -107,6 +107,7 @@ export const actions = {
       },
       {
         text: this.$i18n.t("menu.recordManagementGroup"),
+        path: "/document-module",
         icon: "file",
         items: [
           {
@@ -165,6 +166,7 @@ export const actions = {
         text: this.$i18n.t("menu.contractors"),
         icon: "group",
         visible: hasCounterPartyAccess(rootGetters),
+        path: "/parties",
         items: [
           {
             text: this.$i18n.t("menu.companies"),
@@ -196,7 +198,7 @@ export const actions = {
       },
       {
         text: this.$i18n.t("menu.company-structure"),
-        path:"/company",
+        path: "/company",
         icon: "hierarchy",
         visible: hasCompanyAccess(rootGetters),
         items: [
