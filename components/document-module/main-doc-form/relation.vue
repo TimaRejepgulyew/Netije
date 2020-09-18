@@ -72,6 +72,8 @@ export default {
               .documentTypeGuid
           }/${this.documentId}`,
         }),
+        paginate: true,
+        pageSize: 10,
       }),
       documentTypes: new DocumentType(this),
       employee: [],

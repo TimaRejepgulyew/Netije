@@ -50,7 +50,9 @@ export default {
           key: "id",
           loadUrl: dataApi.recipient.list,
         }),
-         group: [{ selector: "recipientType" }],
+        paginate: true,
+        pageSize: 10,
+        group: [{ selector: "recipientType" }],
       }),
     };
   },

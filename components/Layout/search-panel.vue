@@ -22,7 +22,7 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    DxAutocomplete
+    DxAutocomplete,
   },
   data() {
     return {
@@ -30,9 +30,11 @@ export default {
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.documentModule.AllDocument
-        })
-      })
+          loadUrl: dataApi.documentModule.AllDocument,
+        }),
+        paginate: true,
+        pageSize: 10,
+      }),
     };
   },
   methods: {
@@ -42,8 +44,8 @@ export default {
           `/document-module/detail/${e.selectedItem.documentTypeGuid}/${e.selectedItem.id}`
         );
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

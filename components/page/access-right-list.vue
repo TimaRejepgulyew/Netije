@@ -97,7 +97,7 @@ export default {
     DxList,
     DxButton,
     recipientGrouped,
-    resipientIcon
+    resipientIcon,
   },
   props: ["entityType", "entityId"],
   async created() {
@@ -105,7 +105,7 @@ export default {
       this.$axios.get(
         `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
       ),
-      res => {
+      (res) => {
         this.accessRight = res.data;
       },
       () => this.$awn.alert()
@@ -116,8 +116,8 @@ export default {
       accessRight: {},
       newRecipient: {
         recipientId: null,
-        accessRightTypeId: null
-      }
+        accessRightTypeId: null,
+      },
     };
   },
   methods: {
@@ -131,14 +131,14 @@ export default {
       this.newRecipient = {
         recipientId: null,
         accessRightTypeId: null,
-        entityType: +this.entityType
+        entityType: +this.entityType,
       };
     },
     addRecipient() {
       const recipient = {
         ...this.newRecipient,
         entityId: +this.entityId,
-        entityType: +this.entityType
+        entityType: +this.entityType,
       };
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.accessRights.AddRecipient, recipient),
@@ -163,16 +163,18 @@ export default {
           this.$awn.alert();
         }
       );
-    }
+    },
   },
   computed: {
     recipientStore() {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
+          loadUrl: dataApi.recipient.list,
         }),
-        group: [{ selector: "recipientType" }]
+        paginate: true,
+        pageSize: 10,
+        group: [{ selector: "recipientType" }],
       });
     },
     accessRightsStore() {
@@ -184,8 +186,8 @@ export default {
     },
     btnSave() {
       return this.$store.getters["globalProperties/btnSave"](this);
-    }
-  }
+    },
+  },
 };
 </script>
 

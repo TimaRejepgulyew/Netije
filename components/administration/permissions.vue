@@ -1,7 +1,8 @@
 <template>
   <main>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :show-borders="true"
       :data-source="store"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -13,7 +14,7 @@
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      
+
       <DxHeaderFilter :visible="true" />
       <DxEditing
         :allow-updating="false"
@@ -109,13 +110,13 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxRequiredRule,
-    DxStateStoring
+    DxStateStoring,
   },
   props: {
     data: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
 
   data() {
@@ -126,31 +127,32 @@ export default {
           key: "memberId",
           insertUrl: dataApi.admin.RoleMembers,
           loadUrl: dataApi.admin.RoleMembers + id,
-          removeUrl: dataApi.admin.RoleMembers + id
-        })
+          removeUrl: dataApi.admin.RoleMembers + id,
+        }),
+        paginate: true,
+        pageSize: 10,
       }),
       immutable,
       getFilteredMembers: this.$dxStore({
-        loadUrl: dataApi.admin.Recipient
+        loadUrl: dataApi.admin.Recipient,
       }),
-      initNewRow: e => {
+      initNewRow: (e) => {
         e.data.status = this.statusDataSource[0].id;
         e.data.roleId = id;
       },
       dataGridRefKey: "dataGrid",
-      statusDataSource: this.$store.getters["status/status"]
+      statusDataSource: this.$store.getters["status/status"],
     };
   },
   computed: {
-    dataGrid: function() {
+    dataGrid: function () {
       return this.$refs[this.dataGridRefKey].instance;
-    }
+    },
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
-
 </style>

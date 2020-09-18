@@ -124,6 +124,7 @@ export default {
           loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
         }),
         paginate: true,
+        pageSize: 10,
       }),
       QuiсkFilterOptions: [
         {

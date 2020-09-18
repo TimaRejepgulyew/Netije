@@ -62,6 +62,7 @@ export default {
           loadUrl: `${dataApi.task.Task}${this.taskQuery}?quickFilter=${filter}&`,
         }),
         paginate: true,
+        pageSize: 10,
         sort: [{ selector: "created", desc: true }],
       })
     },

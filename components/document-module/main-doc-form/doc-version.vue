@@ -75,6 +75,8 @@ export default {
                 .documentTypeGuid
             }/${this.documentId}`,
         }),
+        paginate: true,
+        pageSize: 10,
         sort: [{ selector: "number", desc: true }],
       }),
     };

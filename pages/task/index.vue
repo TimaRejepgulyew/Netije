@@ -133,6 +133,8 @@ export default {
           key: "id",
           loadUrl: dataApi.task.Task + taskQuery,
         }),
+        paginate: true,
+        pageSize: 10,
       }),
     };
   },

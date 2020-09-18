@@ -52,6 +52,8 @@ export default class SelectBoxOptionBuilder {
           key: "id",
           loadUrl: this.url
         }),
+        paginate: true,
+        pageSize: 10,
         filter: this.filter
       }),
       focusStateEnabled: this.focusStateEnabled,

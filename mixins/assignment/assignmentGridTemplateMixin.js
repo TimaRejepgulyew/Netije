@@ -60,6 +60,8 @@ export default {
           loadUrl:
             dataApi.assignment.Assignments + (this.assignmentQuery || 0),
         }),
+        paginate: true,
+        pageSize: 10,
         sort: [{ selector: "created", desc: true }],
       }),
     };

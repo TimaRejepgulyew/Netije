@@ -4,7 +4,9 @@ import dataApi from "~/static/dataApi";
 export default ({ app }, inject) => {
   async function isEntityExists(url, payload, propertyName) {
     const ds = new DataSource({
-      store: app.$dxStore({ key: "id", loadUrl: url }),
+      store: app.$dxStore({ key: "id", loadUrl: url },),
+      paginate: true,
+      pageSize: 10,
       requireTotalCount: true
     });
     var filter = [[propertyName, "=", payload[propertyName]]];

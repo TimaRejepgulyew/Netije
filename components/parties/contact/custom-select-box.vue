@@ -45,7 +45,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: [
     "validatorGroup",
@@ -53,7 +53,7 @@ export default {
     "value",
     "filter",
     "correspondentId",
-    "disabled"
+    "disabled",
   ],
   data() {
     return {};
@@ -63,11 +63,13 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Contact
+          loadUrl: dataApi.contragents.Contact,
         }),
-        filter: ["companyId", "=", this.correspondentId]
+        paginate: true,
+        pageSize: 10,
+        filter: ["companyId", "=", this.correspondentId],
       });
-    }
+    },
   },
   methods: {
     valueChanged(e) {
@@ -81,8 +83,8 @@ export default {
     setContact(data) {
       this.$emit("valueChanged", data);
       this.$refs["contact"].instance.repaint();
-    }
-  }
+    },
+  },
 };
 </script>
 

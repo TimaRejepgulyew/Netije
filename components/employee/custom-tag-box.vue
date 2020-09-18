@@ -33,14 +33,14 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxTagBox,
-    customSelectItem
+    customSelectItem,
   },
   props: [
     "value",
     "messageRequired",
     "validatorGroup",
     "readOnly",
-    "valueExpr"
+    "valueExpr",
   ],
   created() {},
   data() {
@@ -48,16 +48,18 @@ export default {
       employeeStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
-        })
-      })
+          loadUrl: dataApi.company.Employee,
+        }),
+        paginate: true,
+        pageSize: 10,
+      }),
     };
   },
   methods: {
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    }
-  }
+    },
+  },
 };
 </script>
 

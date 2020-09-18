@@ -132,6 +132,8 @@ export default {
             key: "id",
             loadUrl: dataApi.contragents.CounterPart,
           }),
+          paginate: true,
+          pageSize: 10,
         }),
         valueExpr: "id",
         displayExpr: "name",

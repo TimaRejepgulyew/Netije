@@ -33,7 +33,7 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
-    recipientGrouped
+    recipientGrouped,
   },
   props: ["recipients", "property", "isRequired", "validatorGroup", "readOnly"],
   created() {},
@@ -42,17 +42,19 @@ export default {
       resipientStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
+          loadUrl: dataApi.recipient.list,
         }),
-        group: [{ selector: "recipientType" }]
-      })
+        paginate: true,
+        pageSize: 10,
+        group: [{ selector: "recipientType" }],
+      }),
     };
   },
   methods: {
     setRecipient(e) {
       this.$emit("setRecipients", [this.property, e.value]);
-    }
-  }
+    },
+  },
 };
 </script>
 

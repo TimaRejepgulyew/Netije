@@ -90,6 +90,8 @@ export default {
           key: "id",
           loadUrl: this.storeApi || dataApi.company.Employee,
         }),
+        paginate: true,
+        pageSize: 10,
       }),
       isCardOpened: false,
     };
