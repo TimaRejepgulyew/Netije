@@ -29,6 +29,7 @@
     "vuex-oidc": "^3.4.1"
   },
   "devDependencies": {
+    "@babel/helper-compilation-targets": "^7.10.4",
     "devextreme-themebuilder": "^19.2.5",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2"

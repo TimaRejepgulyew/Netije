@@ -1,5 +1,5 @@
 export const state = () => ({
-  assignmentNotification: [{ count: 5, query: 0, }, { count: 1, query: 1, }, { count: 3, query: 2, }, { count: 1, query: 2, }]
+  assignmentNotification: []
 });
 
 export const getters = {
