@@ -1,5 +1,3 @@
-import assignmentQuery from "../infrastructure/constants/query/assignmentQuery";
-
 export const state = () => ({
   assignmentNotification: [{ count: 5, query: 0, }, { count: 1, query: 1, }, { count: 3, query: 2, }, { count: 1, query: 2, }]
 });
@@ -18,6 +16,7 @@ export const getters = {
 };
 export const mutations = {
   ASSIGNMENT_COUNTER_UPDATE(state, payload) {
+    console.log(payload,"update notificcation");
     state.assignmentNotification = payload
   },
 

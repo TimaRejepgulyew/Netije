@@ -2,29 +2,29 @@ import { HubConnectionBuilder, LogLevel, HttpTransportType, } from "@microsoft/s
 import dataApi from "~/static/dataApi";
 
 export default ({ app }, inject) => {
-   function connectAll() {
+  function connectAll() {
     const connection = new HubConnectionBuilder()
       .withUrl(dataApi.hubs.assignmentHub, {
-        transport:   HttpTransportType.LongPolling ,
+        transport: HttpTransportType.LongPolling,
         accessTokenFactory: () => app.store.getters["oidc/oidcAccessToken"]
       })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
       .build()
 
-      connection.on("AssignmentCounterUpdated", (count,query) => {
-        console.log(count,query);
-        app.store.commit("notificationHub/ASSIGNMENT_COUNTER_UPDATE", { count,query })
-      });
-     connection.start().then((e)=>{
+    connection.on("AssignmentCounterUpdated", (array) => {
+      console.log(array);
+      app.store.commit("notificationHub/ASSIGNMENT_COUNTER_UPDATE", array)
+    });
+    connection.start().then((e) => {
       console.log("connected");
     }).catch(function (err) {
       return console.error(err.toString());
     });
 
- 
 
-    
+
+
   }
 
 
