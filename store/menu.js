@@ -68,27 +68,45 @@ export const actions = {
   initialize({ commit, rootGetters }) {
     const data = [
       {
+        notificationType: "assignment",
+        query: AssignmentQuery.All,
+        template: "assignment-item",
         text: this.$i18n.t("menu.assignments"),
         icon: "clock",
         path: `/assignment/${AssignmentQuery.All}`,
         items: [
           {
+            notificationType: "assignment",
+            query: AssignmentQuery.OnExicution,
+            template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.onExicution"),
             path: `/assignment/${AssignmentQuery.OnExicution}`
           },
           {
+            notificationType: "assignment",
+            query: AssignmentQuery.OnReview,
+            template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.onReview"),
-            path: `/assignment/${AssignmentQuery.OnReview}`
+            id: `assignment-${AssignmentQuery.OnReview}`,
           },
           {
+            notificationType: "assignment",
+            query: AssignmentQuery.OnAcquaintance,
+            template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.onAcquaintance"),
             path: `/assignment/${AssignmentQuery.OnAcquaintance}`
           },
           {
+            notificationType: "assignment",
+            query: AssignmentQuery.OnDocumentReview,
+            template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.onDocumentReview"),
             path: `/assignment/${AssignmentQuery.OnDocumentReview}`
           },
           {
+            notificationType: "assignment",
+            query: AssignmentQuery.ReviewResolution,
+            template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.reviewResolution"),
             path: `/assignment/${AssignmentQuery.ReviewResolution}`
           }

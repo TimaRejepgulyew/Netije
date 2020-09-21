@@ -1,22 +1,26 @@
+import assignmentQuery from "../infrastructure/constants/query/assignmentQuery";
+
 export const state = () => ({
-  assignmentNotification: []
+  assignmentNotification: [{ count: 5, query: 0, }, { count: 1, query: 1, }, { count: 3, query: 2, }, { count: 1, query: 2, }]
 });
 
 export const getters = {
-  assignmentNotificationCount({ assignmentNotification }) {
-    return assignmentNotification.length
+  assignmentNotificationCount: (
+    { assignmentNotification }
+  ) => assignmentQuery => {
+    if (assignmentQuery !== undefined) {
+      console.log(assignmentNotification.find((el) => el.query === assignmentQuery)?.count);
+      return assignmentNotification.find((el) => el.query === assignmentQuery)?.count
+    }
+
   },
-  assignmentNotification({ assignmentNotification }) {
-    return assignmentNotification
-  }
+
 };
 export const mutations = {
-  SET_ASSIGNMENT_NOTIFICATION(state, payload) {
-    state.assignmentNotification.unshift(payload)
+  ASSIGNMENT_COUNTER_UPDATE(state, payload) {
+    state.assignmentNotification = payload
   },
-  DELETE_ASSIGNMENT_NOTIFICATION(state, payload) {
-    state.assignmentNotification = state.assignmentNotification.filter((notify) => notify.assignmentId !== payload)
-  }
+
 
 };
 export const actions = {

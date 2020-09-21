@@ -18,12 +18,17 @@
         @item-click="handleItemClick"
         @selection-changed="handleSelectionChange"
         @content-ready="handleSelectionChange"
-      />
+      >
+        <template #assignment-item="item">
+         <sideNavBarCustomItem :item="item" />
+        </template>
+      </dx-tree-view>
     </div>
   </div>
 </template>
 
 <script>
+import sideNavBarCustomItem from "~/components/Layout/side-nav-bar-custom-item.vue";
 import DxTreeView from "devextreme-vue/ui/tree-view";
 const treeViewRef = "treeViewRef";
 
@@ -31,11 +36,11 @@ export default {
   props: {
     items: Array,
     selectedItem: String,
-    compactMode: Boolean
+    compactMode: Boolean,
   },
   data() {
     return {
-      treeViewRef
+      treeViewRef,
     };
   },
   methods: {
@@ -52,7 +57,10 @@ export default {
         return;
       }
 
-      this.$router.push({ path: e.itemData.path,  params: { theNameYouGive: new Date() } });
+      this.$router.push({
+        path: e.itemData.path,
+        params: { theNameYouGive: new Date() },
+      });
 
       const pointerEvent = e.event;
       pointerEvent.stopPropagation();
@@ -68,7 +76,7 @@ export default {
       const rootNodes = element.querySelectorAll(
         `.${nodeClass}:not(.${leafNodeClass})`
       );
-      Array.from(rootNodes).forEach(node => {
+      Array.from(rootNodes).forEach((node) => {
         node.classList.remove(selectedClass);
       });
 
@@ -90,7 +98,7 @@ export default {
       }
 
       this.treeView.selectItem(this.$route.path);
-    }
+    },
   },
   mounted() {
     this.treeView = this.$refs[treeViewRef] && this.$refs[treeViewRef].instance;
@@ -107,17 +115,38 @@ export default {
       if (this.compactMode) {
         this.treeView.collapseAll();
       }
-    }
+    },
   },
   components: {
-    DxTreeView
-  }
+    DxTreeView,
+    sideNavBarCustomItem,
+  },
 };
 </script>
 
 <style lang="scss">
 @import "~assets/dx-styles.scss";
 @import "~assets/themes/generated/variables.base.scss";
+.justify-items-center {
+  position: relative;
+  justify-content: flex-start;
+  width: 100%;
+}
+.side-bar__item {
+  position: relative;
+  justify-content: flex-start;
+  width: 100%;
+}
+.unRead-counter {
+  font-weight: bold;
+  margin-left: auto;
+}
+.unRead-counter--position {
+  justify-self: flex-end;
+  position: absolute;
+  right: 2.5em;
+  top: 0;
+}
 
 .dx-swatch-additional .dx-texteditor.dx-editor-outlined {
   margin: 3px;

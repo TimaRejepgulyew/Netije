@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import notificationPanel from "~/components/Layout/notification-panel.vue";
 import Header from "~/components/page/page__header";
 import DxButton from "devextreme-vue/button";
 import DxDrawer from "devextreme-vue/drawer";

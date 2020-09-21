@@ -12,9 +12,9 @@ export default ({ app }, inject) => {
       .configureLogging(LogLevel.Information)
       .build()
 
-      connection.on("AssignmentCreated", (assignmentId, assignmentType, subject) => {
-        console.log(assignmentId, assignmentType, subject);
-        app.store.commit("notificationHub/SET_ASSIGNMENT_NOTIFICATION", { assignmentId, assignmentType, subject })
+      connection.on("AssignmentCounterUpdated", (count,query) => {
+        console.log(count,query);
+        app.store.commit("notificationHub/ASSIGNMENT_COUNTER_UPDATE", { count,query })
       });
      connection.start().then((e)=>{
       console.log("connected");

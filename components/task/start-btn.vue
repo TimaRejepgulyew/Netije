@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     async sendRecipientAccessRight(accessRightId) {
-      console.log(accessRightId, "access");
       await this.$axios.post(dataApi.task.CheckMembersPermissions, {
         taskId: this.taskId,
         taskType: this.task.taskType,
@@ -72,7 +71,7 @@ export default {
       } = await this.$axios.get(
         `${dataApi.task.CheckMembersPermissions}${this.task?.taskType}/${this.taskId}`
       );
-      if (succeeded) {
+      if (!succeeded) {
         this.tooglePopupAccessRight();
         return false;
       } else {
