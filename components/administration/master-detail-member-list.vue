@@ -18,17 +18,7 @@
           :allow-adding="!immutable"
           :useIcons="true"
           mode="row"
-        >
-          <div>
-            <DxSelectBox
-              display-expr="name"
-              value-expr="id"
-              :data-source="recipientStore"
-              :value="0"
-              :on-value-changed="(value) => onValueChanged(value, cellInfo)"
-            />
-          </div>
-        </DxEditing>
+        ></DxEditing>
 
         <DxFilterRow :visible="true" />
 
@@ -36,18 +26,17 @@
         <DxScrolling mode="virtual" />
 
         <DxColumn
-          editCellTemplate="nameSelectBoxcomponent"
+          editCellTemplate="recipientSelectBox"
           data-field="member.name"
           data-type="string"
           :caption="$t('translations.fields.name')"
         ></DxColumn>
-        <template #nameSelectBoxcomponent="{ data: cellInfo }">
-          <DxSelectBox
-            display-expr="name"
-            value-expr="id"
-            :data-source="recipientStore"
+        <template #recipientSelectBox="{ data: cellInfo }">
+          <recipient-select-box
+            valueExpr="id"
             :value="cellInfo.value"
-            :on-value-changed="(value) => onValueChanged(value, cellInfo)"
+            :isRequired="true"
+            @valueChanged="(value) => onValueChanged(value, cellInfo)"
           />
         </template>
       </DxDataGrid>
@@ -58,6 +47,7 @@
 </template>
 
 <script>
+import recipientSelectBox from "~/components/page/recipient-select-box.vue";
 import DxSelectBox from "devextreme-vue/select-box";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
@@ -90,6 +80,7 @@ export default {
     DxLookup,
     DxFilterRow,
     permissions,
+    recipientSelectBox,
   },
   props: {
     data: {
@@ -134,11 +125,12 @@ export default {
       );
     },
     onValueChanged(value, cellInfo) {
+      console.log(value);
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
     },
     rowInserting(e) {
-      e.data.memberId = e.data.member.name.value;
+      e.data.memberId = e.data.member.name;
       delete e.data.member;
     },
     onInitNewRow(e) {

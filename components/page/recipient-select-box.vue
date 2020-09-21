@@ -1,12 +1,12 @@
 <template>
   <DxSelectBox
     :read-only="readOnly"
-    :data-source="resipientStore"
+    :data-source="dataStore"
     :grouped="true"
-    @valueChanged="setRecipient"
+    @valueChanged="valueChanged"
     :showClearButton="true"
-    :value="recipients"
-    valueExpr="id"
+    :value="value"
+    :value-expr="valueExpr"
     displayExpr="name"
     :searchEnabled="true"
     searchExpr="name"
@@ -35,24 +35,35 @@ export default {
     DxSelectBox,
     recipientGrouped,
   },
-  props: ["recipients", "property", "isRequired", "validatorGroup", "readOnly"],
+  props: [
+    "valueExpr",
+    "value",
+    "isRequired",
+    "validatorGroup",
+    "readOnly",
+    "dataApi",
+    "property",
+  ],
   created() {},
   data() {
     return {
-      resipientStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.recipient.list,
+      dataStore:
+        new DataSource({
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: this.dataApi || dataApi.recipient.list,
+          }),
+          paginate: true,
+          pageSize: 10,
+          group: [{ selector: "recipientType" }],
         }),
-        paginate: true,
-        pageSize: 10,
-        group: [{ selector: "recipientType" }],
-      }),
     };
   },
   methods: {
-    setRecipient(e) {
-      this.$emit("setRecipients", [this.property, e.value]);
+    valueChanged(e) {
+      console.log(e.value);
+      if (this.valueExpr) this.$emit("valueChanged", e.value);
+      else this.$emit("valueChanged", e.value);
     },
   },
 };

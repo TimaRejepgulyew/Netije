@@ -24,7 +24,12 @@
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
 
-        <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
+        <DxColumn
+          editCellTemplate="recipientSelectBox"
+          data-field="memberId"
+          displayExpr="name"
+          :caption="$t('translations.fields.name')"
+        >
           <DxLookup
             :allow-clearing="true"
             :data-source="getActiveRecipients"
@@ -32,6 +37,14 @@
             display-expr="name"
           />
         </DxColumn>
+        <template #recipientSelectBox="{ data: cellInfo }">
+          <recipient-select-box
+            valueExpr="id"
+            :value="cellInfo.value"
+            :isRequired="true"
+            @valueChanged="(value) => onValueChanged(value, cellInfo)"
+          />
+        </template>
       </DxDataGrid>
     </template>
 
@@ -41,6 +54,7 @@
 </template>
 
 <script>
+import recipientSelectBox from "~/components/page/recipient-select-box.vue";
 import Status from "~/infrastructure/constants/status";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import permissions from "~/components/administration/permissions";
@@ -70,6 +84,7 @@ export default {
     DxLookup,
     DxFilterRow,
     permissions,
+    recipientSelectBox,
   },
   props: {
     data: {
@@ -107,6 +122,10 @@ export default {
     },
   },
   methods: {
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
+    },
     getActiveRecipients(options) {
       return {
         store: this.$dxStore({
