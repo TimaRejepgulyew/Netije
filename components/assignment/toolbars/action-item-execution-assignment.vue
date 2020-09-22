@@ -8,6 +8,7 @@
 <script>
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
+import dataApi from "~/static/dataApi";
 export default {
   mixins: [toolbarMixin],
   computed: {
@@ -17,15 +18,31 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-            const response = await this.confirm(
-              this.$t(
-                "assignment.confirmMessage.sureActionItemDoneConfirmetion"
-              ),
-              this.$t("shared.confirm")
+            const { data: hasChildActionItemItems } = await this.$axios.get(
+              dataApi.assignment.HasChildActionItemItems + this.assignmentId
             );
-            if (response) {
+            console.log(hasChildActionItemItems);
+            if (hasChildActionItemItems) {
+              let needAbortChildActionItems = await this.confirm(
+                this.$t("assignment.confirmMessage.hasChildActionItem"),
+                this.$t("shared.confirm")
+              );
+              console.log("complete", needAbortChildActionItems);
               this.setResult(ReviewResult.ActionItemExecution.Complete);
-              this.completeAssignment();
+              this.completeAssignment({
+                needAbortChildActionItems,
+              });
+            } else {
+              const response = await this.confirm(
+                this.$t(
+                  "assignment.confirmMessage.sureActionItemDoneConfirmetion"
+                ),
+                this.$t("shared.confirm")
+              );
+              if (response) {
+                this.setResult(ReviewResult.ActionItemExecution.Complete);
+                this.completeAssignment();
+              }
             }
           }
         },

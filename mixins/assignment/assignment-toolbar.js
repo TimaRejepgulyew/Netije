@@ -17,9 +17,9 @@ export default {
     setResult(result) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
-    completeAssignment() {
+    completeAssignment(params) {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`),
+        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, params),
         (e) => {
           this.$emit("complete")
           this.$awn.success();

@@ -12,6 +12,7 @@ export default {
     all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
   confirmMessage:{
+    hasChildActionItem:"Вы хотите остановить подзадачи соисполнителей?",
     sureDocumentReviewAcceptConfirmetion:"После принятия к сведению задание завершится без исполнения",
     sureDocumentReviewReworkConfirmetion:"Вы действительно хотите вернуть помощнику на доработку?",
     sureDocumentReviewApproveRosolutionConfirmetion:"Вы действительно хотите утвердить проект резолюции?",

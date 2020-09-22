@@ -110,6 +110,7 @@ export default {
     RemoveRecipient: `${url}/api/AccessRights/`
   },
   assignment: {
+    HasChildActionItemItems: `${url}/api/Assignment/HasChildActionItemItems/`,
     Assignments: `${url}/api/Assignment/`,
     GetAssignmentById: `${url}/api/Assignment/GetAssignmentById/`,
     CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
