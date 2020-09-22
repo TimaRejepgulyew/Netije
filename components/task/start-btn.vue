@@ -74,9 +74,7 @@ export default {
       if (!succeeded) {
         this.tooglePopupAccessRight();
         return false;
-      } else {
-        return true;
-      }
+      } else return true;
     },
     async startTask() {
       if (this.isValidTask()) {

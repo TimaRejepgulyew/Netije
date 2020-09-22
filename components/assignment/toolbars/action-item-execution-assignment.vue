@@ -25,7 +25,7 @@ export default {
             if (hasChildActionItemItems) {
               let needAbortChildActionItems = await this.confirm(
                 this.$t("assignment.confirmMessage.hasChildActionItem"),
-                this.$t("shared.confirm")
+                this.$t("assignment.confirmMessage.headerHasChildActionItem")
               );
               this.$store.commit(
                 `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
