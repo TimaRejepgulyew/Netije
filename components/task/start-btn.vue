@@ -89,7 +89,7 @@ export default {
           this.$t("shared.confirm")
         );
         if (response) {
-          this.startTask;
+          this.startTask();
         }
       }
     },

@@ -1,23 +1,58 @@
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-
+import { DxPopup } from "devextreme-vue/popup";
+import attachmentAccessRightDialog from "~/components/access-right/attachment-access-right-dialog.vue";
+import dataApi from "~/static/dataApi.js";
 export default {
   components: {
     DxToolbar,
     DxItem,
+    DxPopup,
+    attachmentAccessRightDialog
   },
   props: ["assignmentId"],
   inject: ["isValidForm"],
   data() {
     return {
-      confirm
+      confirm,
+      isPopupAccesRight: false
     }
   },
   methods: {
+    async sendRecipientAccessRight(accessRightId) {
+      await this.$axios.post(dataApi.assignment.GrantPermissions, {
+        assignmentId: this.assignmentId,
+        assignmentType: this.assignment.assignmentType,
+        accessRight: accessRightId,
+      });
+
+      await this.sendResult();
+      this.tooglePopupAccessRight();
+    },
+
+    tooglePopupAccessRight() {
+      this.isPopupAccesRight = !this.isPopupAccesRight;
+    },
+    async checkRecipientAccessRight() {
+      const {
+        data: { succeeded },
+      } = await this.$axios.get(
+        `${dataApi.assignment.CheckMembersPermissions}${this.assignment?.assignmentType}/${this.assignmentId}`
+      );
+      if (!succeeded) {
+        this.tooglePopupAccessRight();
+        return false;
+      } else return true;
+    },
     setResult(result) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
-    completeAssignment(params) {
+    async completeAssignment(params) {
+      const hasRecipientAccessRight = await this.checkRecipientAccessRight();
+      if (!hasRecipientAccessRight) return false;
+      this.sendResult(params)
+    },
+    sendResult(params) {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`, params),
         (e) => {

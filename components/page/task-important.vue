@@ -1,5 +1,7 @@
 <template>
-  <img class="icon--type" :src="path" />
+  <div>
+    <img v-if="path" class="icon--type" :src="path" />
+  </div>
 </template>
 
 <script>
@@ -10,8 +12,8 @@ export default {
   computed: {
     path() {
       return this.state === Important.High ? importantIcon : false;
-    }
-  }
+    },
+  },
 };
 </script>
 

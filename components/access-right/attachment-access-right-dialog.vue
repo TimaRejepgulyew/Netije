@@ -6,14 +6,17 @@
       >{{$t("attachmentAccessRight.message.whatPermissionsWillAssignToAttachment")}}</div>
       <div>{{$t("attachmentAccessRight.message.nothaveAccessRight")}}</div>
     </div>
-    <div>
-      <DxButton
-        v-for="btn in avaliableAccessRight"
-        :text="btn.text"
-        :on-click="()=>selected(btn.id)"
-        :key="btn.id"
-      />
-      <DxButton :text="$t('buttons.cancel')" :hint="$t('buttons.cancel')" :on-click="closeDialog" />
+    <div class="d-flex">
+      <div class="avaliableAccessRightBtn" v-for="btn in avaliableAccessRight" :key="btn.id">
+        <DxButton :text="btn.text" :on-click="()=>selected(btn.id)" />
+      </div>
+      <div class="avaliableAccessRightBtn">
+        <DxButton
+          :text="$t('buttons.cancel')"
+          :hint="$t('buttons.cancel')"
+          :on-click="closeDialog"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -42,5 +45,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.avaliableAccessRightBtn {
+  display: block;
+  padding: 0 5px;
+}
 </style>

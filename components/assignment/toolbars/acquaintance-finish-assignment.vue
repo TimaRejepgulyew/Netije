@@ -1,5 +1,21 @@
 <template>
   <div class="toolbar">
+    <DxPopup
+      :title="$t('shared.confirm')"
+      :visible.sync="isPopupAccesRight"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="auto"
+      :height="'auto'"
+    >
+      <div>
+        <attachment-access-right-dialog
+          @close="tooglePopupAccessRight"
+          @selected="sendRecipientAccessRight"
+        />
+      </div>
+    </DxPopup>
     <DxToolbar>
       <DxItem :visible="inProcess" :options="btnOptions" location="before" widget="dxButton" />
     </DxToolbar>
@@ -7,9 +23,9 @@
 </template>
 <script>
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js"
+import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
-  mixins:[toolbarMixin],
+  mixins: [toolbarMixin],
   computed: {
     btnOptions() {
       return {
