@@ -4,7 +4,7 @@
       :icon="startIcon"
       :hint="$t('buttons.start')"
       :text="$t('buttons.start')"
-      :on-click="startTask"
+      :on-click="validateAndStart"
     />
     <DxPopup
       :title="$t('shared.confirm')"
@@ -53,18 +53,20 @@ export default {
   },
   methods: {
     async sendRecipientAccessRight(accessRightId) {
-      await this.$axios.post(dataApi.task.CheckMembersPermissions, {
+      await this.$axios.post(dataApi.task.GrandPermissions, {
         taskId: this.taskId,
         taskType: this.task.taskType,
         accessRight: accessRightId,
       });
 
-      this.startTask();
+      await this.startTask();
       this.tooglePopupAccessRight();
     },
+
     tooglePopupAccessRight() {
       this.isPopupAccesRight = !this.isPopupAccesRight;
     },
+
     async checkRecipientAccessRight() {
       const {
         data: { succeeded },
@@ -76,7 +78,8 @@ export default {
         return false;
       } else return true;
     },
-    async startTask() {
+
+    async validateAndStart() {
       if (this.isValidTask()) {
         await this.$store.dispatch(`tasks/${this.taskId}/save`);
         const hasRecipientAccessRight = await this.checkRecipientAccessRight();
@@ -86,15 +89,19 @@ export default {
           this.$t("shared.confirm")
         );
         if (response) {
-          this.$awn.asyncBlock(
-            this.$store.dispatch(`tasks/${this.taskId}/start`),
-            (e) => {
-              this.$emit("onStart");
-            },
-            (e) => this.$awn.alert()
-          );
+          this.startTask;
         }
       }
+    },
+
+    startTask() {
+      this.$awn.asyncBlock(
+        this.$store.dispatch(`tasks/${this.taskId}/start`),
+        (e) => {
+          this.$emit("onStart");
+        },
+        (e) => this.$awn.alert()
+      );
     },
   },
 };
