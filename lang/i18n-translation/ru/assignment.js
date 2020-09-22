@@ -11,19 +11,19 @@ export default {
   quickFilter: {
     all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
-  confirmMessage:{
-    hasChildActionItem:"Вы хотите остановить подзадачи соисполнителей?",
-    sureDocumentReviewAcceptConfirmetion:"После принятия к сведению задание завершится без исполнения",
-    sureDocumentReviewReworkConfirmetion:"Вы действительно хотите вернуть помощнику на доработку?",
-    sureDocumentReviewApproveRosolutionConfirmetion:"Вы действительно хотите утвердить проект резолюции?",
-    sureDocumentReviewSendToResolutionConfirmetion:"Вы действительно хотите отправить на резолюцию?",
-    sureDocumentReviewSendToAssigneeConfirmetion:"Вы действительно хотите отправить на исполнение?",
-    sureDocumentReviewExploredConfirmetion:"Вы действительно ознакомились с документом?",
-    sureDocumentReviewForwardConfirmetion:"Вы действительно хотите переадресовать рассмотрение документа?",
-    sureDocumentReviewAddresolutionConfirmetion:"Вы действительно вынесли резолюцию по документу?",
-    sureActionItemForReworkConfirmetion:"Вы действительно хотите отправить поручение на доработку?",
-    sureActionItemAcceptConfirmetion:"Вы действительно хотите принять работы по поручению?",
-    sureActionItemDoneConfirmetion:"Вы действительно хотите выполнить поручения?",
+  confirmMessage: {
+    hasChildActionItem: "Прекратить подчиненные поручения?<br/> Есть незавершенные подчиненные поручения.Подчиненные ",
+    sureDocumentReviewAcceptConfirmetion: "После принятия к сведению задание завершится без исполнения",
+    sureDocumentReviewReworkConfirmetion: "Вы действительно хотите вернуть помощнику на доработку?",
+    sureDocumentReviewApproveRosolutionConfirmetion: "Вы действительно хотите утвердить проект резолюции?",
+    sureDocumentReviewSendToResolutionConfirmetion: "Вы действительно хотите отправить на резолюцию?",
+    sureDocumentReviewSendToAssigneeConfirmetion: "Вы действительно хотите отправить на исполнение?",
+    sureDocumentReviewExploredConfirmetion: "Вы действительно ознакомились с документом?",
+    sureDocumentReviewForwardConfirmetion: "Вы действительно хотите переадресовать рассмотрение документа?",
+    sureDocumentReviewAddresolutionConfirmetion: "Вы действительно вынесли резолюцию по документу?",
+    sureActionItemForReworkConfirmetion: "Вы действительно хотите отправить поручение на доработку?",
+    sureActionItemAcceptConfirmetion: "Вы действительно хотите принять работы по поручению?",
+    sureActionItemDoneConfirmetion: "Вы действительно хотите выполнить поручения?",
     sureReturnManagersAssistant: "Вы уверенны что хотите вернуть помощнику?",
     sureComplete: "Вы действительно хотите выполнить задание?",
     sureAcquaintance: "Вы действительно ознакомились с документом?",
@@ -31,8 +31,8 @@ export default {
       "Вы уверенны что хотите завершить ознакомление?",
     sureCompleteSupervisor: "Подтвердите что бы завершить задачу",
     sureRework: "Вы действительно хотите отправить задачу на доработку?",
-    sureAccept:"Вы действительно хотите принять задачу?"
-    
+    sureAccept: "Вы действительно хотите принять задачу?"
+
     //TODO Добавить перевод предупреждения  о том что не создано ни одного поручение : выполнить задание без создание и отправки на поручение?
   },
   takeIntoMessage:
@@ -44,7 +44,7 @@ export default {
     SendForReview: "Отправлено на рассмотрение",
     Complete: "Завершено",
     Accept: "Принято",
-    Informed:"Принято к сведению",
+    Informed: "Принято к сведению",
     ForRework: "На доработку",
     AddAssignment: "Отправлено на исполнение",
     AddResolution: "Вынесена резолюция",

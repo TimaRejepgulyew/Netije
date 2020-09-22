@@ -27,11 +27,10 @@ export default {
                 this.$t("assignment.confirmMessage.hasChildActionItem"),
                 this.$t("shared.confirm")
               );
-              console.log("complete", needAbortChildActionItems);
-              this.setResult(ReviewResult.ActionItemExecution.Complete);
-              this.completeAssignment({
-                needAbortChildActionItems,
-              });
+              this.$store.commit(
+                `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
+                needAbortChildActionItems
+              );
             } else {
               const response = await this.confirm(
                 this.$t(
@@ -39,11 +38,10 @@ export default {
                 ),
                 this.$t("shared.confirm")
               );
-              if (response) {
-                this.setResult(ReviewResult.ActionItemExecution.Complete);
-                this.completeAssignment();
-              }
+              if (!response) return;
             }
+            this.setResult(ReviewResult.ActionItemExecution.Complete);
+            this.completeAssignment();
           }
         },
       };

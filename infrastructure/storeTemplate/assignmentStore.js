@@ -67,6 +67,10 @@ export const mutations = {
   },
   SET_NEW_DEADLINE(state, payload) {
     state.assignment.newDeadline = payload;
+  },
+  SET_NEED_ABORT_CHILD_ACTION_ITEMS(state, payload) {
+    state.assignment.needAbortChildActionItems = payload
+
   }
 };
 
