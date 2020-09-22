@@ -213,10 +213,7 @@ export const actions = {
   async delete({ state }) {
     await this.$axios.delete(dataApi.task.Delete + state.task.id);
   },
-  async start({ state, dispatch, getters, commit }) {
-    if (getters["isDataChanged"]) {
-      await dispatch("save");
-    }
+  async start({ state, commit }) {
     await this.$axios.post(dataApi.task.Start, {
       id: state.task.id,
       taskType: state.task.taskType

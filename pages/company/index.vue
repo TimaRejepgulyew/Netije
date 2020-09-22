@@ -69,15 +69,16 @@ export default {
 .quide-page__header {
   padding: 0;
   margin: 0 50px;
-}
-h2 {
-  font-weight: 450;
-  padding: 0;
-  margin: 0 !important;
-}
-.header-title {
-  font-size: 26px !important;
-  color: darken($base-border-color, 40%);
+  padding-bottom: 20px;
+  .header-title {
+    font-size: 26px !important;
+    color: darken($base-border-color, 40%);
+  }
+  h2 {
+    font-weight: 450;
+    padding: 0;
+    margin: 0 !important;
+  }
 }
 .title {
   color: darken($base-border-color, 40%);
@@ -86,4 +87,5 @@ h2 {
   color: darken($base-border-color, 20%);
   font-size: 0.9em;
 }
+
 </style>

@@ -80,6 +80,7 @@ export default {
     },
     async startTask() {
       if (this.isValidTask()) {
+        await this.$store.dispatch(`tasks/${this.taskId}/save`);
         const hasRecipientAccessRight = await this.checkRecipientAccessRight();
         if (!hasRecipientAccessRight) return false;
         const response = await confirm(
