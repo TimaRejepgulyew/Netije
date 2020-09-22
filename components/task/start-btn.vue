@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     async sendRecipientAccessRight(accessRightId) {
-      await this.$axios.post(dataApi.task.GrandPermissions, {
+      await this.$axios.post(dataApi.task.GrantPermissions, {
         taskId: this.taskId,
         taskType: this.task.taskType,
         accessRight: accessRightId,
