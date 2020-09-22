@@ -83,3 +83,36 @@
   text-decoration: underline;
   color: #f90;
 }
+.container--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .item {
+    justify-self: flex-start;
+    width: 100%;
+  }
+}
+.quide-page {
+  padding: 20px 0 20px;
+  .quide-page__header {
+    padding: 0;
+    margin: 0 50px;
+    padding-bottom: 20px;
+    .header-title {
+      font-size: 26px !important;
+      color: darken($base-border-color, 40%);
+    }
+    h2 {
+      font-weight: 450;
+      padding: 0;
+      margin: 0 !important;
+    }
+  }
+  .title {
+    color: darken($base-border-color, 40%);
+  }
+  .description {
+    color: darken($base-border-color, 20%);
+    font-size: 0.9em;
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <main class="admin">
+  <main class="quide-page">
     <header class="quide-page__header">
       <h2 class="header-title">{{header.title}}</h2>
       <div>{{header.description}}</div>
@@ -50,40 +50,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/themes/generated/variables.base.scss";
-
-.container--grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  .item {
-    justify-self: flex-start;
-    width: 100%;
-  }
-}
-.admin {
-  padding: 20px 0 20px;
-}
-.quide-page__header {
-  padding: 0;
-  margin: 0 50px;
-}
-h2 {
-  font-weight: 450;
-  padding: 0;
-  margin: 0 !important;
-}
-.header-title {
-  color: darken($base-border-color, 40%);
-  font-size: 26px !important;
-}
-.title {
-  color: darken($base-border-color, 40%);
-}
-.description {
-  color: darken($base-border-color, 20%);
-  font-size: 0.9em;
-}
+<style >
 </style>
