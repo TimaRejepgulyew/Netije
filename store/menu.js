@@ -87,7 +87,7 @@ export const actions = {
             query: AssignmentQuery.OnReview,
             template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.onReview"),
-            id: `assignment-${AssignmentQuery.OnReview}`,
+            path: `/assignment/${AssignmentQuery.OnReview}`,
           },
           {
             notificationType: "assignment",
