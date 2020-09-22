@@ -47,9 +47,9 @@ export default {
     setResult(result) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
-    async completeAssignment(params) {
-      const hasRecipientAccessRight = await this.checkRecipientAccessRight();
-      if (!hasRecipientAccessRight) return false;
+     completeAssignment(params) {
+      // const hasRecipientAccessRight = await this.checkRecipientAccessRight();
+      // if (!hasRecipientAccessRight) return false;
       this.sendResult(params)
     },
     sendResult(params) {
