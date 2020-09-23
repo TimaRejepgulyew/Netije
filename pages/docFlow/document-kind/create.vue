@@ -16,8 +16,8 @@
       >
         <DxGroupItem :col-count="1">
           <DxSimpleItem data-field="code" data-type="string">
-            <DxRequiredRule :message="$t('translations.fields.codeRequired')" />
-            <DxLabel location="top" :text="$t('translations.fields.code')" />
+            <DxRequiredRule :message="$t('shared.codeRequired')" />
+            <DxLabel location="top" :text="$t('shared.code')" />
             <DxPatternRule
               :ignore-empty-value="false"
               :pattern="codePattern"
@@ -26,13 +26,13 @@
           </DxSimpleItem>
 
           <DxSimpleItem data-field="name">
-            <DxLabel location="top" :text="$t('translations.fields.name')" />
-            <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+            <DxLabel location="top" :text="$t('shared.name')" />
+            <DxRequiredRule :message="$t('shared.nameRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem data-field="shortName">
-            <DxLabel location="top" :text="$t('translations.fields.shortName')" />
-            <DxRequiredRule :message="$t('translations.fields.shortNameRequired')" />
+            <DxLabel location="top" :text="$t('shared.shortName')" />
+            <DxRequiredRule :message="$t('shared.shortNameRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -40,8 +40,8 @@
             :editor-options="documentFlowOptions"
             editor-type="dxSelectBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.documentFlow')" />
-            <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
+            <DxLabel location="top" :text="$t('docFlow.fields.documentFlow')" />
+            <DxRequiredRule :message="$t('docFlow.fields.documentFlowRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem

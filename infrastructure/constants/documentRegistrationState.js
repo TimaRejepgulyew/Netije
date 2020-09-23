@@ -8,15 +8,15 @@ export function RegistrationStateStore(context) {
   return [
     {
       id: RegistrationState.Registered,
-      name: context.$t("translations.fields.registered")
+      name: context.$t("docFlow.registrationState.registered")
     },
     {
       id: RegistrationState.NotRegistered,
-      name: context.$t("translations.fields.notRegistered")
+      name: context.$t("docFlow.registrationState.notRegistered")
     },
     {
       id: RegistrationState.Reserved,
-      name: context.$t("translations.fields.reserved")
+      name: context.$t("docFlow.registrationState.reserved")
     }
   ];
 }

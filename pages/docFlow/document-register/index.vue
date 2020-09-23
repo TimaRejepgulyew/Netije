@@ -58,13 +58,13 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
 
       <DxColumn data-field="index" :caption="$t('translations.fields.index')"></DxColumn>
 
       <DxColumn
         data-field="documentFlow"
-        :caption="$t('translations.fields.documentFlow')"
+        :caption="$t('docFlow.fields.documentFlow')"
         data-type="string"
       >
         <DxLookup

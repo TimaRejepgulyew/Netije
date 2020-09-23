@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.associatedApp')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="true"
@@ -40,29 +40,29 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
       <DxColumn
         data-field="extension"
         data-type="string"
-        :caption="$t('translations.fields.extension')"
+        :caption="$t('docFlow.fields.extension')"
         :editor-options="extensionOptions"
       >
-        <DxRequiredRule :message="$t('translations.fields.extensionRequired')" />
+        <DxRequiredRule :message="$t('docFlow.validation.extensionRequired')" />
         <DxPatternRule
           :pattern="extensionsPattern"
-          :message="$t('translations.fields.extensionPatternRule')"
+          :message="$t('docFlow.validation.extensionPatternRule')"
         />
         <DxAsyncRule
           :reevaluate="false"
-          :message="$t('translations.fields.extensionAlreadyExists')"
+          :message="$t('docFlow.validation.extensionAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="filesTypeId" :caption="$t('translations.fields.filesTypeId')">
-        <DxRequiredRule :message="$t('translations.fields.filesTypeIdRequired')" />
+      <DxColumn data-field="filesTypeId" :caption="$t('docFlow.fields.filesTypeId')">
+        <DxRequiredRule :message="$t('docFlow.validation.filesTypeIdRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="filesTypeStores"
@@ -103,7 +103,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxPatternRule
+  DxPatternRule,
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 
@@ -126,14 +126,14 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxPatternRule
+    DxPatternRule,
   },
   data() {
     return {
       extensionsPattern: /^\.[^\s]\w+$/,
       extensionOptions: {
         mask: ".cccccccccc",
-        useMaskedValue: true
+        useMaskedValue: true,
       },
       entityType: EntityType.AssociatedApplications,
       dataSource: this.$dxStore({
@@ -141,16 +141,16 @@ export default {
         loadUrl: dataApi.docFlow.AssociatedApplication,
         insertUrl: dataApi.docFlow.AssociatedApplication,
         updateUrl: dataApi.docFlow.AssociatedApplication,
-        removeUrl: dataApi.docFlow.AssociatedApplication
+        removeUrl: dataApi.docFlow.AssociatedApplication,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       filesTypeStores: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.FilesType
+          loadUrl: dataApi.docFlow.FilesType,
         }),
-        paginate: true
-      }
+        paginate: true,
+      },
     };
   },
   methods: {
@@ -165,11 +165,11 @@ export default {
       return this.$customValidator.AssociatedApplicationDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
-    }
-  }
+    },
+  },
 };
 </script>

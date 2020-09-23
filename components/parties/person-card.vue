@@ -60,7 +60,7 @@
             :pattern="codePattern"
             :message="$t('validation.valueMustNotContainsSpaces')"
           />
-          <DxLabel location="top" :text="$t('translations.fields.code')" />
+          <DxLabel location="top" :text="$t('shared.code')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem>

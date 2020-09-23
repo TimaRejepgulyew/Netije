@@ -40,7 +40,7 @@
       <span class="dx-form-group-caption border-top">{{$t("translations.headers.addNewRecipient")}}</span>
       <div class="d-flex mt-2">
         <div class="dx-field-value pr-1">
-          <label>{{$t("translations.fields.recipient")}}</label>
+          <label>{{$t("shared.recipient")}}</label>
           <DxSelectBox
             v-model="newRecipient.recipientId"
             :data-source="recipientStore"
@@ -57,7 +57,7 @@
           </DxSelectBox>
         </div>
         <div class="dx-field-value">
-          <label>{{$t("translations.fields.accessRight")}}</label>
+          <label>{{$t("shared.accessRight")}}</label>
           <DxSelectBox
             v-model="newRecipient.accessRightTypeId"
             :items="accessRightsStore"

@@ -28,7 +28,7 @@
           editCellTemplate="recipientSelectBox"
           data-field="memberId"
           displayExpr="name"
-          :caption="$t('translations.fields.name')"
+          :caption="$t('shared.name')"
         >
           <DxLookup
             :allow-clearing="true"

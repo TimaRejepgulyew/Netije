@@ -88,7 +88,7 @@
 
         <DxColumn
           data-field="created"
-          :caption="$t('translations.fields.createdDate')"
+          :caption="$t('task.fields.createdDate')"
           sort-order="desc"
           data-type="date"
         />

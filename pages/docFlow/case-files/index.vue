@@ -20,7 +20,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.caseFile')"
+        :file-name="$t('docFlow.fields.caseFile')"
       />
       <DxFilterRow :visible="true" />
 
@@ -42,8 +42,8 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="title" :caption="$t('translations.fields.title')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.titleRequired')" />
+      <DxColumn data-field="title" :caption="$t('docFlow.fields.title')" data-type="string">
+        <DxRequiredRule :message="$t('docFlow.parties.titleRequired')" />
       </DxColumn>
 
       <DxColumn data-field="index" :caption="$t('translations.fields.index')" data-type="string">
@@ -55,16 +55,11 @@
         />
       </DxColumn>
 
-      <DxColumn
-        data-field="startDate"
-        :caption="$t('translations.fields.startDate')"
-        data-type="date"
-      >
-        <DxRequiredRule :message="$t('translations.fields.startDateRequired')" />
+      <DxColumn data-field="startDate" :caption="$t('docFlow.fields.startDate')" data-type="date">
+        <DxRequiredRule :message="$t('docFlow.validation.startDateRequired')" />
       </DxColumn>
-
-      <DxColumn data-field="endDate" :caption="$t('translations.fields.endDate')" data-type="date">
-        <DxRequiredRule :message="$t('translations.fields.endDateRequired')" />
+      <DxColumn data-field="endDate" :caption="$t('docFlow.fields.endDate')" data-type="date">
+        <DxRequiredRule :message="$t('docFlow.validation.endDateRequired')" />
         <DxCustomRule
           :message="$t('validation.caseFile.endDateLessThanBegin')"
           :validation-callback="validEndDate"
@@ -73,11 +68,8 @@
         ></DxCustomRule>
       </DxColumn>
 
-      <DxColumn
-        data-field="retentionPeriodId"
-        :caption="$t('translations.fields.retentionPeriodId')"
-      >
-        <DxRequiredRule :message="$t('translations.fields.retentionPeriodIdRequired')" />
+      <DxColumn data-field="retentionPeriodId" :caption="$t('docFlow.fields.retentionPeriodId')">
+        <DxRequiredRule :message="$t('docFlow.validation.retentionPeriodIdRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="getAvailableRetentionPeriod"
@@ -86,11 +78,7 @@
         />
       </DxColumn>
 
-      <DxColumn
-        data-field="location"
-        :caption="$t('translations.fields.location')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="location" :caption="$t('docFlow.fields.location')" :visible="false"></DxColumn>
 
       <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
         <DxLookup
@@ -151,7 +139,7 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxCustomRule,
-  DxPatternRule
+  DxPatternRule,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -173,7 +161,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxCustomRule,
-    DxPatternRule
+    DxPatternRule,
   },
 
   data() {
@@ -184,10 +172,10 @@ export default {
         loadUrl: dataApi.docFlow.CaseFile.All,
         insertUrl: dataApi.docFlow.CaseFile.Value,
         updateUrl: dataApi.docFlow.CaseFile.Value,
-        removeUrl: dataApi.docFlow.CaseFile.Value
+        removeUrl: dataApi.docFlow.CaseFile.Value,
       }),
       indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
-      statusDataSource: this.$store.getters["status/status"](this)
+      statusDataSource: this.$store.getters["status/status"](this),
     };
   },
   methods: {
@@ -225,7 +213,7 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Department
+          loadUrl: dataApi.company.Department,
         }),
         paginate: true,
         filter: options.data
@@ -236,16 +224,16 @@ export default {
               "or",
               "id",
               "=",
-              options.data.departmentId
+              options.data.departmentId,
             ]
-          : null
+          : null,
       };
     },
     getAvailableRetentionPeriod(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.FileRetentionPeriod
+          loadUrl: dataApi.docFlow.FileRetentionPeriod,
         }),
         paginate: true,
         filter: options.data
@@ -256,9 +244,9 @@ export default {
               "or",
               "id",
               "=",
-              options.data.retentionPeriodId
+              options.data.retentionPeriodId,
             ]
-          : null
+          : null,
       };
     },
     getAvailableRegistrationGroups(options) {
@@ -269,19 +257,19 @@ export default {
         filter.push([
           "responsibleEmployeeId",
           "=",
-          +this.$store.getters["permissions/employeeId"]
+          +this.$store.getters["permissions/employeeId"],
         ]);
       }
 
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.RegistrationGroup
+          loadUrl: dataApi.docFlow.RegistrationGroup,
         }),
         paginate: true,
-        filter: options.data ? filter : []
+        filter: options.data ? filter : [],
       };
-    }
-  }
+    },
+  },
 };
 </script>

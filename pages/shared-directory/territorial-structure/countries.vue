@@ -19,7 +19,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.countryId')"
+        :file-name="$t('sharedDirectory.fields.countryId')"
       />
       <DxFilterRow :visible="true" />
       <DxHeaderFilter :visible="true" />
@@ -40,12 +40,12 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
-        <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
+        <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
                 :reevaluate="false"
-          :message="$t('translations.fields.nameAlreadyExists')"
+          :message="$t('shared.nameAlreadyExists')"
           :validation-callback="validateCountryName"
         ></DxAsyncRule>
       </DxColumn>

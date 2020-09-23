@@ -41,8 +41,8 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">

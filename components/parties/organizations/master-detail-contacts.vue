@@ -41,12 +41,12 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
       <DxColumn
         data-field="companyId"
-        :caption="$t('translations.fields.company')"
+        :caption="$t('parties.fields.company')"
         :visible="false"
         :allow-editing="false"
       >
@@ -68,7 +68,7 @@
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
 
-      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')" :visible="false"></DxColumn>
+      <DxColumn data-field="fax" :caption="$t('parties.fields.fax')" :visible="false"></DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
         <DxEmailRule :message="$t('translations.fields.emailRule')" />

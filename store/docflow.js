@@ -5,36 +5,36 @@ import RegisterType from "~/infrastructure/constants/registerTypes";
 export const state = () => ({
     docflow: (context) => {
         return [
-            { id: Docflow.Incoming, name: context.$t("translations.fields.incomingEnum") },
-            { id: Docflow.Outgoing, name: context.$t("translations.fields.outcomingEnum") },
-            { id: Docflow.Internal, name: context.$t("translations.fields.inner") },
-            { id: Docflow.Contracts, name: context.$t("translations.fields.contracts") }
+            { id: Docflow.Incoming, name: context.$t("docFlow.documentType.incomingEnum") },
+            { id: Docflow.Outgoing, name: context.$t("docFlow.documentType.outcomingEnum") },
+            { id: Docflow.Internal, name: context.$t("docFlow.documentType.inner") },
+            { id: Docflow.Contracts, name: context.$t("docFlow.documentType.contracts") }
         ];
     },
     numberingType: (context) => {
         return [
-            { id: NumberingType.Registrable, name: context.$t("translations.fields.registrable") },
-            { id: NumberingType.Numerable, name: context.$t("translations.fields.numerable") },
-            { id: NumberingType.NotNumerable, name: context.$t("translations.fields.notNumerable") }
+            { id: NumberingType.Registrable, name: context.$t("docFlow.numberingType.registrable") },
+            { id: NumberingType.Numerable, name: context.$t("docFlow.numberingType.numerable") },
+            { id: NumberingType.NotNumerable, name: context.$t("docFlow.numberingType.notNumerable") }
         ];
     },
     numberingPeriod: (context) => {
         return [
             {
                 id: 0,
-                name: context.$t("translations.fields.year")
+                name: context.$t("docFlow.numberingPeriod.year")
             },
             {
                 id: 1,
-                name: context.$t("translations.fields.quarter")
+                name: context.$t("docFlow.numberingPeriod.quarter")
             },
             {
                 id: 2,
-                name: context.$t("translations.fields.month")
+                name: context.$t("docFlow.numberingPeriod.month")
             },
             {
                 id: 3,
-                name: context.$t("translations.fields.continuous")
+                name: context.$t("docFlow.numberingPeriod.continuous")
             }
         ];
     },
@@ -62,59 +62,59 @@ export const state = () => ({
         return [
             {
                 id: 1,
-                name: context.$t("translations.fields.number")
+                name: context.$t("docFlow.numberFormat.number")
             },
             {
                 id: 2,
-                name: context.$t("translations.fields.year2Place")
+                name: context.$t("docFlow.numberFormat.year2Place")
             },
             {
                 id: 3,
-                name: context.$t("translations.fields.year4Place")
+                name: context.$t("docFlow.numberFormat.year4Place")
             },
             {
                 id: 4,
-                name: context.$t("translations.fields.quarter")
+                name: context.$t("docFlow.numberFormat.quarter")
             },
             {
                 id: 5,
-                name: context.$t("translations.fields.month")
+                name: context.$t("docFlow.numberFormat.month")
             },
             {
                 id: 6,
-                name: context.$t("translations.fields.leadingNumber")
+                name: context.$t("docFlow.numberFormat.leadingNumber")
             },
             {
                 id: 7,
-                name: context.$t("translations.fields.log")
+                name: context.$t("docFlow.numberFormat.log")
             },
             {
                 id: 8,
-                name: context.$t("translations.fields.caseFile")
+                name: context.$t("docFlow.numberFormat.caseFile")
             },
             {
                 id: 9,
-                name: context.$t("translations.fields.departmentCode")
+                name: context.$t("docFlow.numberFormat.departmentCode")
             },
             {
                 id: 10,
-                name: context.$t("translations.fields.buCode")
+                name: context.$t("docFlow.numberFormat.buCode")
             },
             {
                 id: 11,
-                name: context.$t("translations.fields.docKindCode")
+                name: context.$t("docFlow.numberFormat.docKindCode")
             },
             {
                 id: 12,
-                name: context.$t("translations.fields.cPartyCode")
+                name: context.$t("docFlow.numberFormat.cPartyCode")
             },
             {
                 id: 13,
-                name: context.$t("translations.fields.customString")
+                name: context.$t("docFlow.numberFormat.customString")
             },
             {
                 id: 14,
-                name: context.$t("translations.fields.registrPlace")
+                name: context.$t("docFlow.numberFormat.registrPlace")
             }
         ]
     }

@@ -15,16 +15,16 @@
     >
       <DxGroupItem :col-count="2">
         <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.contactName')" />
-          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+          <DxLabel location="top" :text="$t('parties.fields.contactName')" />
+          <DxRequiredRule :message="$t('shared.nameRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           editor-type="dxSelectBox"
           :editor-options="correspondentOptions"
           data-field="companyId"
         >
-          <DxLabel location="top" :text="$t('translations.fields.company')" />
-          <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
+          <DxLabel location="top" :text="$t('parties.fields.company')" />
+          <DxRequiredRule :message="$t('parties.validation.companyRequired')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="department">
           <DxLabel location="top" :text="$t('translations.fields.department')" />
@@ -36,7 +36,7 @@
           <DxLabel location="top" :text="$t('translations.fields.homepage')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="fax">
-          <DxLabel location="top" :text="$t('translations.fields.fax')" />
+          <DxLabel location="top" :text="$t('parties.fields.fax')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
@@ -58,7 +58,7 @@
         <custom-select-box
           validatorGroup="contact"
           @setСounterPart="setCorrenspondent"
-          messageRequired="translations.fields.companyRequired"
+          messageRequired="parties.validation.companyRequired"
           :counterPart="contact.companyId"
           :notPerson="true"
         />

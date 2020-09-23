@@ -29,7 +29,7 @@
           editCellTemplate="recipientSelectBox"
           data-field="member.name"
           data-type="string"
-          :caption="$t('translations.fields.name')"
+          :caption="$t('shared.name')"
         ></DxColumn>
         <template #recipientSelectBox="{ data: cellInfo }">
           <recipient-select-box

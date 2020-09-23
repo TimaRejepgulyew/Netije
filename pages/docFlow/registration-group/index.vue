@@ -65,17 +65,17 @@
       <DxColumn
         :visible-index="0"
         data-field="name"
-        :caption="$t('translations.fields.name')"
+        :caption="$t('shared.name')"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
       <DxColumn
         :visible-index="1"
         data-field="responsibleEmployeeId"
-        :caption="$t('translations.fields.responsibleId')"
+        :caption="$t('docFlow.fields.responsibleId')"
       >
-        <DxRequiredRule :message="$t('translations.fields.responsibleIdRequired')" />
+        <DxRequiredRule :message="$t('docFlow.validation.responsibleIdRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveEmployees"

@@ -99,7 +99,7 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
+      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"

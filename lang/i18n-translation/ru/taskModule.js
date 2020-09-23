@@ -30,6 +30,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    status: "Состояние",
     author: "Автор",
     assignedBy: "Выдал",
     parallel: "паралельно",
@@ -38,6 +39,7 @@ export default {
     start: "Старт",
     addressee: "Адресат",
     deadline: "Cрок",
+    createdDate: "Дата создания",
     maxDeadline: "Cрок",
     assignee: "Исполнитель",
     supervisor: "Контролер",

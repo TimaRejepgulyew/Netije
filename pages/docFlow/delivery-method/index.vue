@@ -19,7 +19,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.mailDeliveryMethod')"
+        :file-name="$t('docFlow.fields.mailDeliveryMethod')"
       />
       <DxFilterRow :visible="true" />
 
@@ -41,8 +41,8 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
       <DxColumn data-field="note" :caption="$t('translations.fields.note')" data-type="string"></DxColumn>
@@ -79,7 +79,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -99,7 +99,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
   },
 
   data() {
@@ -109,10 +109,10 @@ export default {
         loadUrl: dataApi.docFlow.DeliveryMethod,
         insertUrl: dataApi.docFlow.DeliveryMethod,
         updateUrl: dataApi.docFlow.DeliveryMethod,
-        removeUrl: dataApi.docFlow.DeliveryMethod
+        removeUrl: dataApi.docFlow.DeliveryMethod,
       }),
       entityType: EntityType.DeliveryMethod,
-      statusDataSource: this.$store.getters["status/status"](this)
+      statusDataSource: this.$store.getters["status/status"](this),
     };
   },
   methods: {
@@ -121,8 +121,8 @@ export default {
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
-    }
-  }
+    },
+  },
 };
 </script>
 

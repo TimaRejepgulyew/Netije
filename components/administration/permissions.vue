@@ -43,8 +43,8 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="memberId" :caption="$t('translations.fields.name')">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="memberId" :caption="$t('shared.name')">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="getFilteredMembers"

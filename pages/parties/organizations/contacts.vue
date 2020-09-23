@@ -44,14 +44,14 @@
 
       <DxColumn
         data-field="name"
-        :caption="$t('translations.fields.contactName')"
+        :caption="$t('translations.parties.contactName')"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
       <DxColumn data-field="companyId" :caption="$t('menu.company')" :visible="true">
-        <DxRequiredRule :message="$t('translations.fields.companyRequired')" />
+        <DxRequiredRule :message="$t('parties.validation.companyRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="companiesDataSource"
@@ -74,7 +74,7 @@
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')"></DxColumn>
 
-      <DxColumn data-field="fax" :caption="$t('translations.fields.fax')"></DxColumn>
+      <DxColumn data-field="fax" :caption="$t('parties.fields.fax')"></DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
         <DxEmailRule :message="$t('translations.fields.emailRule')" />

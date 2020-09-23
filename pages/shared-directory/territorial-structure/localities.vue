@@ -41,7 +41,7 @@
 
       <DxColumn data-field="name" :caption="$t('translations.fields.localityId')">
         <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
-        <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
+        <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
                 :reevaluate="false"
           :message="$t('translations.fields.localityAlreadyExists')"

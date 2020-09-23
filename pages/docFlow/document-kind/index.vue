@@ -42,12 +42,12 @@
 
       <DxColumn
         data-field="name"
-        :caption="$t('translations.fields.name')"
+        :caption="$t('shared.name')"
         alignment="left"
         data-type="string"
       ></DxColumn>
 
-      <DxColumn data-field="documentFlow" :caption="$t('translations.fields.documentFlow')">
+      <DxColumn data-field="documentFlow" :caption="$t('docFlow.fields.documentFlow')">
         <DxLookup
           :allow-clearing="true"
           :data-source="documentFlow"

@@ -15,15 +15,15 @@
     >
       <DxGroupItem>
         <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.name')" />
-          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+          <DxLabel location="top" :text="$t('shared.name')" />
+          <DxRequiredRule :message="$t('shared.nameRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="headCompanyId"
           :editor-options="headCompanyOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.headCompanyId')" />
+          <DxLabel location="top" :text="$t('parties.fields.headCompanyId')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalName">
           <DxLabel location="top" :text="$t('translations.fields.legalName')" />
@@ -60,7 +60,7 @@
             :pattern="codePattern"
             :message="$t('validation.valueMustNotContainsSpaces')"
           />
-          <DxLabel location="top" :text="$t('translations.fields.code')" />
+          <DxLabel location="top" :text="$t('shared.code')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem>

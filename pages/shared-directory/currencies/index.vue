@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.currencies')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :show-borders="true"
       :data-source="store"
       :remote-operations="true"
@@ -19,9 +19,9 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.currencyId')"
+        :file-name="$t('sharedDirectory.fields.currencyId')"
       />
-     
+
       <DxHeaderFilter :visible="true" />
       <DxFilterRow :visible="true" />
 
@@ -43,57 +43,57 @@
 
       <DxColumn
         data-field="name"
-        :caption="$t('translations.fields.currencyId')"
+        :caption="$t('sharedDirectory.fields.currencyId')"
         alignment="left"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.currencyIdRequired')" />
-        <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
+        <DxRequiredRule :message="$t('sharedDirectory.validation.currencyIdRequired')" />
+        <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.currencyAlreadyExists')"
+          :reevaluate="false"
+          :message="$t('sharedDirectory.validation.currencyAlreadyExists')"
           :validation-callback="validateCurrencyName"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="alphaCode" :caption="$t('translations.fields.alphaCode')">
-        <DxRequiredRule :message="$t('translations.fields.alphaCodeRequired')" />
+      <DxColumn data-field="alphaCode" :caption="$t('sharedDirectory.fields.alphaCode')">
+        <DxRequiredRule :message="$t('sharedDirectory.validation.alphaCodeRequired')" />
         <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
         <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.alphaCodeAlreadyExists')"
+          :reevaluate="false"
+          :message="$t('sharedDirectory.validation.alphaCodeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')">
-        <DxRequiredRule :message="$t('translations.fields.shortNameRequired')" />
+      <DxColumn data-field="shortName" :caption="$t('shared.shortName')">
+        <DxRequiredRule :message="$t('shared.shortNameRequired')" />
         <DxStringLengthRule :max="60" :message="$t('translations.fields.maxLength')+' 60'" />
         <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.countryAlreadyExists')"
+          :reevaluate="false"
+          :message="$t('parties.validation.countryAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="fractionName" :caption="$t('translations.fields.fractionName')">
-        <DxRequiredRule :message="$t('translations.fields.fractionNameRequired')" />
+      <DxColumn data-field="fractionName" :caption="$t('sharedDirectory.fields.fractionName')">
+        <DxRequiredRule :message="$t('sharedDirectory.validation.fractionNameRequired')" />
         <DxStringLengthRule :max="20" :message="$t('translations.fields.maxLength')+' 20'" />
         <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.fractionNameAlreadyExists')"
+          :reevaluate="false"
+          :message="$t('sharedDirectory.validation.fractionNameAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
       <DxColumn
         data-field="isDefault"
         data-type="boolean"
-        :caption="$t('translations.fields.isDefault')"
+        :caption="$t('docFlow.fields.isDefault')"
       ></DxColumn>
-      <DxColumn data-field="numericCode" :caption="$t('translations.fields.numericCode')">
-        <DxRequiredRule :message="$t('translations.fields.numericCodeRequired')" />
+      <DxColumn data-field="numericCode" :caption="$t('sharedDirectory.fields.numericCode')">
+        <DxRequiredRule :message="$t('sharedDirectory.validation.numericCodeRequired')" />
         <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
         <DxAsyncRule
-                :reevaluate="false"
-          :message="$t('translations.fields.numericCodeAlreadyExists')"
+          :reevaluate="false"
+          :message="$t('sharedDirectory.fields.numericCodeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -130,7 +130,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxStateStoring,
-  DxFilterRow
+  DxFilterRow,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -152,7 +152,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxStateStoring,
-    DxFilterRow
+    DxFilterRow,
   },
   data() {
     return {
@@ -161,10 +161,10 @@ export default {
         loadUrl: dataApi.sharedDirectory.Currency,
         insertUrl: dataApi.sharedDirectory.Currency,
         updateUrl: dataApi.sharedDirectory.Currency,
-        removeUrl: dataApi.sharedDirectory.Currency
+        removeUrl: dataApi.sharedDirectory.Currency,
       }),
       entityType: EntityType.Currencies,
-      statusDataSource: this.$store.getters["status/status"](this)
+      statusDataSource: this.$store.getters["status/status"](this),
     };
   },
   methods: {
@@ -177,7 +177,7 @@ export default {
     validateCurrencyName(params) {
       return this.$customValidator.isCurrencyNameNotExists({
         id: params.data.id,
-        name: params.value
+        name: params.value,
       });
     },
     validateEntityExists(params) {
@@ -185,11 +185,11 @@ export default {
       return this.$customValidator.CurrencyDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
-    }
-  }
+    },
+  },
 };
 </script>

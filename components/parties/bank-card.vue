@@ -15,8 +15,8 @@
     >
       <DxGroupItem>
         <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.name')" />
-          <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+          <DxLabel location="top" :text="$t('shared.name')" />
+          <DxRequiredRule :message="$t('shared.nameRequired')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalName">
           <DxLabel location="top" :text="$t('translations.fields.legalName')" />
@@ -25,10 +25,10 @@
           <DxAsyncRule
             :ignore-empty-value="true"
             :reevaluate="false"
-            :message="$t('translations.fields.bicAlreadyExists')"
+            :message="$t('parties.valdation.bicAlreadyExists')"
             :validation-callback="validateEntityExists"
           ></DxAsyncRule>
-          <DxLabel location="top" :text="$t('translations.fields.bic')" />
+          <DxLabel location="top" :text="$t('parties.fields.bic')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
@@ -45,7 +45,7 @@
             :pattern="codePattern"
             :message="$t('validation.valueMustNotContainsSpaces')"
           />
-          <DxLabel location="top" :text="$t('translations.fields.code')" />
+          <DxLabel location="top" :text="$t('shared.code')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem>

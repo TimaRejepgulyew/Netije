@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.region')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -15,7 +15,7 @@
       @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false"/>
+      <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
@@ -43,15 +43,15 @@
       <DxScrolling mode="virtual" />
       <DxColumn data-field="name" :caption="$t('translations.fields.regionId')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule :max="60" :message="$t('translations.fields.nameShouldNotBeMoreThan')" />
+        <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :message="$t('translations.fields.regionAlreadyExists')"
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="countryId" :caption="$t('translations.fields.countryId')">
-        <DxRequiredRule :message="$t('translations.fields.countryIdRequired')" />
+      <DxColumn data-field="countryId" :caption="$t('parties.fields.countryId')">
+        <DxRequiredRule :message="$t('parties.validation.countryIdRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveCountriesDataSource"
@@ -93,7 +93,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxStringLengthRule
+  DxStringLengthRule,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -115,7 +115,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxStringLengthRule
+    DxStringLengthRule,
   },
   data() {
     return {
@@ -124,11 +124,11 @@ export default {
         loadUrl: dataApi.sharedDirectory.Region,
         insertUrl: dataApi.sharedDirectory.Region,
         updateUrl: dataApi.sharedDirectory.Region,
-        removeUrl: dataApi.sharedDirectory.Region
+        removeUrl: dataApi.sharedDirectory.Region,
       }),
       entityType: EntityType.Region,
-      statusDataSource: this.$store.getters["status/status"](this)
-    }
+      statusDataSource: this.$store.getters["status/status"](this),
+    };
   },
   methods: {
     onInitNewRow(e) {
@@ -141,20 +141,28 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Country
+          loadUrl: dataApi.sharedDirectory.Country,
         }),
         paginate: true,
         filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.countryId]
-          : []
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.countryId,
+            ]
+          : [],
       };
     },
     validateRegionName(params) {
       return this.$customValidator.isRegionNotExists({
         id: params.data.id,
-        name: params.value
+        name: params.value,
       });
-    }
-  }
+    },
+  },
 };
 </script>

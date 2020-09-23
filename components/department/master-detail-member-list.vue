@@ -24,7 +24,7 @@
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
 
-        <DxColumn data-field="employeeId" :caption="$t('translations.fields.name')">
+        <DxColumn data-field="employeeId" :caption="$t('shared.name')">
           <DxLookup
             :allow-clearing="true"
             :data-source="getActiveEmployees"

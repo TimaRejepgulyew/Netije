@@ -24,7 +24,7 @@
             <DxGroupItem :col-span="7">
               <DxGroupItem :col-span="2">
                 <DxSimpleItem :editor-options="subjectOptions" :col-span="4" data-field="subject">
-                  <DxLabel location="left" :text="$t('translations.fields.subjectTask')" />
+                  <DxLabel location="left" :text="$t('assignment.fields.subject')" />
                 </DxSimpleItem>
                 <DxGroupItem :col-count="3">
                   <DxSimpleItem

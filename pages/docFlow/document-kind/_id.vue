@@ -15,8 +15,8 @@
       >
         <DxGroupItem :col-count="1">
           <DxSimpleItem data-field="code" data-type="string">
-            <DxLabel location="top" :text="$t('translations.fields.code')" />
-            <DxRequiredRule :message="$t('translations.fields.codeRequired')" />
+            <DxLabel location="top" :text="$t('shared.code')" />
+            <DxRequiredRule :message="$t('shared.codeRequired')" />
             <DxPatternRule
               :ignore-empty-value="false"
               :pattern="codePattern"
@@ -25,13 +25,13 @@
           </DxSimpleItem>
 
           <DxSimpleItem data-field="name">
-            <DxLabel location="top" :text="$t('translations.fields.name')" />
-            <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+            <DxLabel location="top" :text="$t('shared.name')" />
+            <DxRequiredRule :message="$t('shared.nameRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem data-field="shortName">
-            <DxLabel location="top" :text="$t('translations.fields.shortName')" />
-            <DxRequiredRule :message="$t('translations.fields.shortNameRequired')" />
+            <DxLabel location="top" :text="$t('shared.shortName')" />
+            <DxRequiredRule :message="$t('shared.shortNameRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -39,8 +39,8 @@
             :editor-options="documentFlowOptions"
             editor-type="dxSelectBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.documentFlow')" />
-            <DxRequiredRule :message="$t('translations.fields.documentFlowRequired')" />
+            <DxLabel location="top" :text="$t('docFlow.fields.documentFlow')" />
+            <DxRequiredRule :message="$t('docFlow.validation.documentFlowRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -89,7 +89,7 @@
           </DxSimpleItem>
 
           <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
-            <DxLabel location="top" alignment="left" :text="$t('translations.fields.isDefault')" />
+            <DxLabel location="top" alignment="left" :text="$t('docFlow.fields.isDefault')" />
           </DxSimpleItem>
 
           <DxSimpleItem data-field="note" :col-span="2" editor-type="dxTextArea">
@@ -117,7 +117,7 @@ import DxForm, {
   DxCompareRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule
+  DxPatternRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -132,20 +132,20 @@ export default {
     DxPatternRule,
     DxRangeRule,
     DxForm,
-    Toolbar
+    Toolbar,
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(
       dataApi.docFlow.DocumentKind + "/" + params.id
     );
     return {
-      documentKind: res.data
+      documentKind: res.data,
     };
   },
   data() {
     return {
       entityType: EntityType.DocumentKind,
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
@@ -155,10 +155,10 @@ export default {
       const object = { ...this.documentKind };
       this.$awn.asyncBlock(
         this.$axios.put(`${dataApi.docFlow.DocumentKind}/${object.id}`, object),
-        res => this.$awn.success(),
-        err => this.$awn.alert()
+        (res) => this.$awn.success(),
+        (err) => this.$awn.alert()
       );
-    }
+    },
   },
   computed: {
     hasDependencies() {
@@ -168,12 +168,12 @@ export default {
       return {
         valueExpr: "id",
         displayExpr: "status",
-        dataSource: this.$store.getters["status/status"](this)
+        dataSource: this.$store.getters["status/status"](this),
       };
     },
     generateDocumentNameOptions() {
       return {
-        disabled: this.documentKind.hasDocuments
+        disabled: this.documentKind.hasDocuments,
       };
     },
     numberingTypeOptions() {
@@ -181,7 +181,7 @@ export default {
         dataSource: this.$store.getters["docflow/numberingType"](this),
         valueExpr: "id",
         displayExpr: "name",
-        disabled: this.hasDependencies
+        disabled: this.hasDependencies,
       };
     },
     documentFlowOptions() {
@@ -190,9 +190,9 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         disabled: this.hasDependencies,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.documentKind.documentTypeGuid = null;
-        }
+        },
       };
     },
     tagboxOptions() {
@@ -200,12 +200,12 @@ export default {
         dataSource: {
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.docFlow.DocumentSendAction
+            loadUrl: dataApi.docFlow.DocumentSendAction,
           }),
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         },
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
       };
     },
     docTypeOptions() {
@@ -213,19 +213,19 @@ export default {
         dataSource: {
           store: this.$dxStore({
             key: "documentTypeGuid",
-            loadUrl: dataApi.docFlow.DocumentType
+            loadUrl: dataApi.docFlow.DocumentType,
           }),
           filter: [
             ["status", "=", Status.Active],
             "and",
-            ["documentFlow", "=", this.documentKind.documentFlow]
-          ]
+            ["documentFlow", "=", this.documentKind.documentFlow],
+          ],
         },
         valueExpr: "documentTypeGuid",
         displayExpr: "name",
-        disabled: this.hasDependencies
+        disabled: this.hasDependencies,
       };
     },
-  }
+  },
 };
 </script>

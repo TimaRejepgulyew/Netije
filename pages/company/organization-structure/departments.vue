@@ -42,14 +42,14 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
-         <DxRequiredRule :message="$t('translations.fields.codeRequired')" />
+      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
+         <DxRequiredRule :message="$t('shared.codeRequired')" />
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
@@ -58,12 +58,12 @@
         <DxAsyncRule
                 :reevaluate="false"
           :ignore-empty-value="true"
-          :message="$t('translations.fields.codeAlreadyExists')"
+          :message="$t('shared.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="shortName" :caption="$t('translations.fields.shortName')"></DxColumn>
+      <DxColumn data-field="shortName" :caption="$t('company.shortName')"></DxColumn>
 
       <DxColumn
         data-field="headOfficeId"

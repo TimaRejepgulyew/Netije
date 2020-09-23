@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.banks')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -41,8 +41,8 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
         <DxPatternRule
@@ -51,7 +51,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -78,16 +78,16 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="bic" :caption="$t('translations.fields.bic')" :visible="false">
+      <DxColumn data-field="bic" :caption="$t('parties.fields.bic')" :visible="false">
         <DxAsyncRule
-         :ignore-empty-value="true"
-                :reevaluate="false"
-          :message="$t('translations.fields.bicAlreadyExists')"
+          :ignore-empty-value="true"
+          :reevaluate="false"
+          :message="$t('partis.validation.bicAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
+      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
@@ -129,7 +129,11 @@
         data-type="boolean"
       ></DxColumn>
 
-      <DxColumn data-field="correspondentAccount" :caption="$t('translations.fields.correspondentAccount')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="correspondentAccount"
+        :caption="$t('translations.fields.correspondentAccount')"
+        :visible="false"
+      ></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -146,7 +150,10 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](contactEntityType)" template="masterDetailTemplate" />
+      <DxMasterDetail
+        :enabled="$store.getters['permissions/allowReading'](contactEntityType)"
+        template="masterDetailTemplate"
+      />
 
       <template #masterDetailTemplate="company">
         <master-detail-contacts :company="company.data" />
@@ -186,7 +193,7 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxMasterDetail,
-  DxPatternRule
+  DxPatternRule,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -211,7 +218,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxPatternRule,
-    DxMasterDetail
+    DxMasterDetail,
   },
   data() {
     return {
@@ -222,14 +229,14 @@ export default {
         loadUrl: dataApi.contragents.Bank,
         insertUrl: dataApi.contragents.Bank,
         updateUrl: dataApi.contragents.Bank,
-        removeUrl: dataApi.contragents.Bank
+        removeUrl: dataApi.contragents.Bank,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
@@ -243,24 +250,44 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region
+          loadUrl: dataApi.sharedDirectory.Region,
         }),
         paginate: true,
         filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.regionId]
-          : []
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.regionId,
+            ]
+          : [],
       };
     },
     getActiveLocalities(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality
+          loadUrl: dataApi.sharedDirectory.Locality,
         }),
         paginate: true,
         filter: options.data
-          ? [ "regionId", "=", options.data.regionId, "or", "status", "=", Status.Active, "or", "id", "=", options.data.localityId]
-          : []
+          ? [
+              "regionId",
+              "=",
+              options.data.regionId,
+              "or",
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.localityId,
+            ]
+          : [],
       };
     },
     validateEntityExists(params) {
@@ -268,7 +295,7 @@ export default {
       return this.$customValidator.BankDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -276,8 +303,8 @@ export default {
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
-    }
-  }
+    },
+  },
 };
 </script>
 

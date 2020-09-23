@@ -78,17 +78,13 @@
           data-field="importance"
         ></DxColumn>
 
-        <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+        <DxColumn data-field="subject" :caption="$t('task.fields.subjectTask')"></DxColumn>
 
-        <DxColumn
-          data-field="maxDeadline"
-          :caption="$t('translations.fields.deadLine')"
-          data-type="date"
-        />
+        <DxColumn data-field="maxDeadline" :caption="$t('task.fields.deadLine')" data-type="date" />
 
         <DxColumn
           data-field="created"
-          :caption="$t('translations.fields.createdDate')"
+          :caption="$t('task.fields.createdDate')"
           sort-order="desc"
           data-type="date"
         />

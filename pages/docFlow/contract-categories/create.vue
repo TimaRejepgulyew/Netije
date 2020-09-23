@@ -12,8 +12,8 @@
       >
         <DxGroupItem :col-count="1">
           <DxSimpleItem data-field="name">
-            <DxLabel location="top" :text="$t('translations.fields.name')" />
-            <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+            <DxLabel location="top" :text="$t('shared.name')" />
+            <DxRequiredRule :message="$t('shared.nameRequired')" />
           </DxSimpleItem>
 
           <DxSimpleItem

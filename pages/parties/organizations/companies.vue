@@ -3,7 +3,7 @@
     <Header :headerTitle="$t('menu.companies')"></Header>
 
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -29,10 +29,14 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.company')"
+        :file-name="$t('parties.fields.company')"
       />
 
-      <DxStateStoring :enabled="$store.getters['permissions/allowReading'](contactEntityType)" type="localStorage" storage-key="Company" />
+      <DxStateStoring
+        :enabled="$store.getters['permissions/allowReading'](contactEntityType)"
+        type="localStorage"
+        storage-key="Company"
+      />
 
       <DxEditing
         :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
@@ -46,13 +50,13 @@
 
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string">
-        <DxRequiredRule :message="$t('translations.fields.nameRequired')" />
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+        <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
       <DxColumn
         data-field="headCompanyId"
-        :caption="$t('translations.fields.headCompanyId')"
+        :caption="$t('parties.fields.headCompanyId')"
         :visible="false"
       >
         <DxLookup
@@ -87,7 +91,7 @@
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
         <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false">
+      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
@@ -133,7 +137,7 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"  :visible="false"></DxColumn>
+      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')" :visible="false"></DxColumn>
 
       <DxColumn
         data-field="nonresident"
@@ -142,9 +146,9 @@
         data-type="boolean"
       ></DxColumn>
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')"  :visible="false"></DxColumn>
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')"  :visible="false">
+      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')" :visible="false">
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveBanks"
@@ -168,7 +172,10 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](contactEntityType)" template="masterDetailTemplate" />
+      <DxMasterDetail
+        :enabled="$store.getters['permissions/allowReading'](contactEntityType)"
+        template="masterDetailTemplate"
+      />
 
       <template #masterDetailTemplate="company">
         <master-detail-contacts :company="company.data" />
@@ -209,7 +216,7 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxMasterDetail,
-  DxEmailRule
+  DxEmailRule,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -235,7 +242,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxMasterDetail,
-    DxEmailRule
+    DxEmailRule,
   },
   data() {
     return {
@@ -246,14 +253,14 @@ export default {
         loadUrl: dataApi.contragents.Company,
         insertUrl: dataApi.contragents.Company,
         updateUrl: dataApi.contragents.Company,
-        removeUrl: dataApi.contragents.Company
+        removeUrl: dataApi.contragents.Company,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
@@ -266,14 +273,14 @@ export default {
     getActiveHeadOffices(options) {
       return {
         store: this.dataSource,
-        filter: options.data ? ["status", "=", Status.Active] : []
+        filter: options.data ? ["status", "=", Status.Active] : [],
       };
     },
     getActiveRegions(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region
+          loadUrl: dataApi.sharedDirectory.Region,
         }),
         paginate: true,
         filter: options.data
@@ -284,16 +291,16 @@ export default {
               "or",
               "id",
               "=",
-              options.data.regionId
+              options.data.regionId,
             ]
-          : []
+          : [],
       };
     },
     getActiveLocalities(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality
+          loadUrl: dataApi.sharedDirectory.Locality,
         }),
         paginate: true,
         filter: options.data
@@ -308,21 +315,21 @@ export default {
               "or",
               "id",
               "=",
-              options.data.localityId
+              options.data.localityId,
             ]
-          : []
+          : [],
       };
     },
     getActiveBanks(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Bank
+          loadUrl: dataApi.contragents.Bank,
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
-          : []
+          : [],
       };
     },
     validateEntityExists(params) {
@@ -330,7 +337,7 @@ export default {
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -338,7 +345,7 @@ export default {
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
-    }
-  }
+    },
+  },
 };
 </script>

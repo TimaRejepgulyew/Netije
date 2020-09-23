@@ -8,7 +8,6 @@ import { generateAssignmentQueryName } from "~/infrastructure/constants/query/as
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import TaskFilter from "~/components/assignment/filter";
 import assignnmentTypeIconColumn from "~/components/assignment/icon-by-assignment-type.vue";
 import toolbarItemQuickFilter from "~/components/assignment/assignment-grids/components/quickFilter.vue"
 import {
@@ -29,8 +28,7 @@ import {
   DxStateStoring,
 } from "devextreme-vue/data-grid";
 export default {
-  components: {
-    TaskFilter,
+  components: { 
     Header,
     DxSearchPanel,
     DxDataGrid,

@@ -55,6 +55,7 @@ export default {
   },
 
   status: {
+    All:"Все",
     InProcess: "В процессе",
     Draft: "Черновик",
     Suspended: "Приостановленно",

@@ -39,16 +39,16 @@
         data-field="type"
         :allow-filtering="false"
         :width="60"
-        :caption="$t('translations.fields.type')"
+        :caption="$t('parties.fields.type')"
         cell-template="cellTemplate"
         :visible="true"
       ></DxColumn>
 
-      <DxColumn data-field="name" :caption="$t('translations.fields.name')" data-type="string"></DxColumn>
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false"></DxColumn>
       <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" :visible="true"></DxColumn>
       <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="true"></DxColumn>
-      <DxColumn data-field="code" :caption="$t('translations.fields.code')" :visible="false" />
+      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false" />
       <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
         <DxLookup
           :allow-clearing="true"

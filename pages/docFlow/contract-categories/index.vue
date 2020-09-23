@@ -42,7 +42,7 @@
 
       <DxColumn
         data-field="name"
-        :caption="$t('translations.fields.name')"
+        :caption="$t('shared.name')"
         alignment="left"
         data-type="string"
       ></DxColumn>
