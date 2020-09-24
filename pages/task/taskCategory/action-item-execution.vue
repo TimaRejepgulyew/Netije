@@ -29,7 +29,11 @@
 
         <DxFilterRow :visible="true" />
 
-        <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('menu.task')" />
+        <DxExport
+          :enabled="true"
+          :allow-export-selected-data="true"
+          :file-name="$t('task.taskQuery.actionItem')"
+        />
 
         <DxStateStoring :enabled="true" type="localStorage" :storage-key="'task'+taskQuery" />
 
@@ -79,7 +83,7 @@
           data-field="importance"
         ></DxColumn>
 
-        <DxColumn data-field="subject" :caption="$t('translations.fields.subject')"></DxColumn>
+        <DxColumn data-field="subject" :caption="$t('task.fields.subjectTask')"></DxColumn>
         <DxColumn
           data-field="maxDeadline"
           :caption="$t('translations.fields.deadLine')"

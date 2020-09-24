@@ -8,6 +8,10 @@ export default {
   quickFilter: {
     all: "Все", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
+  taskQuery:{
+    all:"Все задачи",
+    actionItem:"Поручения"
+  },
   message: {
     acquaintDocumentMessage:
       "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись",

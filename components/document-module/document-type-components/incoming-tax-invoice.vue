@@ -87,7 +87,7 @@
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"
-        messageRequired="document.validation .counterPartRequired"
+        messageRequired="document.validation.counterPartRequired"
         :value="counterpartyId"
       />
     </template>

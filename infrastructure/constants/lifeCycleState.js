@@ -43,7 +43,7 @@ export function lifeCycleStateStoreContract(context) {
     { id: LifeCycleState.Active, name: context.$t("lifeCycleState.active") },
     {
       id: LifeCycleState.Obsolete,
-      name: context.$t("lifeCycleStates.сanceled")
+      name: context.$t("lifeCycleState.сanceled")
     },
     {
       id: LifeCycleState.Terminated,
@@ -61,7 +61,7 @@ export function lifeCycleStateStoreIncomingInvoice(context) {
     },
     {
       id: LifeCycleState.Obsolete,
-      name: context.$t("lifeCycleStates.paymentDenied")
+      name: context.$t("lifeCycleState.paymentDenied")
     }
   ];
 }

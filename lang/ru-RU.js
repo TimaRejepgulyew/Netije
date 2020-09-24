@@ -65,7 +65,7 @@ export default {
     incomingLetter: "Входящие письма",
     companyDirective: "Распоряжения",
     simpleDocument: "Простые документы",
-    universaltransferdocument: "Универсальный передаточный документ",  
+    universaltransferdocument: "Универсальный передаточный документ",
   },
   createItemDialog: {
     ...DocumentType,
@@ -161,6 +161,7 @@ export default {
   assignment: assignmentModule,
   menu: menu,
   buttons: {
+    refresh: "Перезагрузить",
     addResolution: "Вынести резолюцию",
     returnManagersAssistant: "Вернуть помощнику",
     approveResolution: "Утвердить проект резолюции",

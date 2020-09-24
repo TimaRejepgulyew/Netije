@@ -28,7 +28,7 @@
 
         <DxFilterRow :visible="true" />
 
-        <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('menu.task')" />
+        <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('task.taskQuery.all')" />
 
         <DxStateStoring :enabled="true" type="localStorage" :storage-key="'task'+taskQuery" />
 

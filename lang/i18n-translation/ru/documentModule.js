@@ -102,11 +102,13 @@ export default {
     whom: "Кому"
   },
   validation: {
-    validTillRequired:"Введите до какого",
-    addresseeIdRequired:"Введите адрессата",
-    nameRequired:"Введите наименование",
+    issuedToIdRequired: "Введите кому выдана доверенность",
+    ourSignatoryRequired:"Введите того кто подписал",
+    validTillRequired: "Введите по какой срок действительна доверенность",
+    addresseeIdRequired: "Введите адрессата",
+    nameRequired: "Введите наименование",
     subjectRequired: "Введите содержания",
-    preparedRequired:"Введите того кто подготовил",
+    preparedRequired: "Введите того кто подготовил",
     documentKindIdRequired: "Введите вид документа",
     departmentIdRequired: "Выберите подразделение",
     businessUnitIdRequired: "Выберите организацию",
