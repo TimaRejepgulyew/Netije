@@ -2,6 +2,7 @@ export default {
   areYouSureCancelRegistration: "Вы уверены что хотите отменить регистрацию",
   documentRegister: "Журнал регистрации",
   registrationNumber: "Регистрационный номер ",
+  documentNumber: "Номер документа",
   registrationDate: "Дата регистрации",
   preliminaryRegistrationNumberMessage:
     "*Точный регистрационный № будет назначен после регистрации",

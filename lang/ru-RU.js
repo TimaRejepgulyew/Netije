@@ -40,9 +40,14 @@ export default {
     reviewResolution: "На обработку"
   },
   DocumentQuery: {
+
     all: "Все документы",
+    incomingDocument: "Входящие документы",
+    outgoingDocument: "Исходящие документы",
     accountingDocuments: "Финансовые документы",
     contractualDocuments: "Договоры",
+    contractStatement: "Акт выполненных работ",
+    contractsAndSupAgreements: "Договоры и дополнительные соглашения",
     internalDocument: "Внутрение документы",
     supAgreement: "Дополнительные соглашения",
     incomingInvoice: "Входящие счета на оплату",
@@ -59,7 +64,8 @@ export default {
     outgoingLetter: "Исходящие письма",
     incomingLetter: "Входящие письма",
     companyDirective: "Распоряжения",
-    simpleDocument: "Простые документы"
+    simpleDocument: "Простые документы",
+    universaltransferdocument: "Универсальный передаточный документ",  
   },
   createItemDialog: {
     ...DocumentType,
@@ -216,6 +222,7 @@ export default {
   recipientType,
   translations: {
     fields: {
+      deadLine: "Срок",
       legalName: "Юридическое наименование",
       legalNameRequired: "Введите юридическое наименование",
       personalData: "Персональные данные",

@@ -9,7 +9,7 @@
     <DxGroupItem :col-count="2" :caption="$t('shared.fromWhom')">
       <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
-        <DxRequiredRule :message="$t('document.fields.counterPartRequired')" />
+        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
         <DxLabel location="left" :text="$t('document.fields.dated')" />
@@ -39,7 +39,7 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('document.fields.businessUnitIdRequired')" />
+        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
@@ -47,7 +47,7 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.fields.departmentIdRequired')" />
+        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="addressee">
@@ -64,7 +64,7 @@
         :validatorGroup="documentValidatorName"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
-        messageRequired="document.fields.counterPartRequired"
+        messageRequired="document.validation.counterPartRequired"
         :value="correspondentId"
       />
     </template>

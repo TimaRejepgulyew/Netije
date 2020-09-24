@@ -76,7 +76,7 @@
 
 
         @valueChanged="setCounterparty"
-        messageRequired="document.fields.counterPartRequired"
+        messageRequired="document.validation.counterPartRequired"
         :value="counterpartyId"
       />
     </template>

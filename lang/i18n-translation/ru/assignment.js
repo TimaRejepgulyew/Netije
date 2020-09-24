@@ -1,5 +1,6 @@
 import assignmentType from "./assignmentType"
 export default {
+  gridFileName: "Задание",
   fields: {
     newDeadline: "Новый срок",
     deadline: "Срок",
@@ -55,7 +56,7 @@ export default {
   },
 
   status: {
-    All:"Все",
+    All: "Все",
     InProcess: "В процессе",
     Draft: "Черновик",
     Suspended: "Приостановленно",

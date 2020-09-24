@@ -13,14 +13,14 @@ const storeModule = vuexOidcCreateStoreModule(
     publicRoutePaths: ["/callback"],
   },
   {
-    userLoaded: (user) => {
-      console.log("OIDC user is loaded:", user);
-    },
-    user1Unloaded: () => console.log("OIDC user is unloaded"),
-    accessTokenExpiring: () => console.log("Access token will expire"),
-    accessTokenExpired: () => console.log("Access token did expire"),
-    silentRenewError: () => console.log("OIDC user is unloaded"),
-    userSignedOut: () => console.log("OIDC user is signed out"),
+    // userLoaded: (user) => {
+    //   console.log("OIDC user is loaded:", user);
+    // },
+    // user1Unloaded: () => console.log("OIDC user is unloaded"),
+    // accessTokenExpiring: () => console.log("Access token will expire"),
+    // accessTokenExpired: () => console.log("Access token did expire"),
+    // silentRenewError: () => console.log("OIDC user is unloaded"),
+    // userSignedOut: () => console.log("OIDC user is signed out"),
   }
 );
 

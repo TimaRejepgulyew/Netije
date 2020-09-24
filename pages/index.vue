@@ -6,13 +6,9 @@
 <script>
 import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
 import * as assignmentGrids from "~/components/assignment/assignment-grids/index.js";
-import ru from "~/lang/ru-RU.js";
 export default {
   components: {
     ...assignmentGrids,
-  },
-  created() {
-    console.log(JSON.stringify(ru));
   },
   data() {
     return {
