@@ -44,7 +44,7 @@
 
       <DxColumn
         data-field="name"
-        :caption="$t('translations.parties.contactName')"
+        :caption="$t('parties.fields.contactName')"
         data-type="string"
       >
         <DxRequiredRule :message="$t('shared.nameRequired')" />

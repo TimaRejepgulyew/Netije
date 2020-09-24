@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.person')"
+        :file-name="$t('parties.fields.person')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Person" />

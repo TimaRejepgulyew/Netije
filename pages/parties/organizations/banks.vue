@@ -82,7 +82,7 @@
         <DxAsyncRule
           :ignore-empty-value="true"
           :reevaluate="false"
-          :message="$t('partis.validation.bicAlreadyExists')"
+          :message="$t('parties.validation.bicAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
@@ -131,8 +131,8 @@
 
       <DxColumn
         data-field="correspondentAccount"
-        :caption="$t('translations.fields.correspondentAccount')"
-        :visible="false"
+        :caption="$t('parties.fields.correspondentAccount')"
+        :visible="true"
       ></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">

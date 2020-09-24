@@ -26,7 +26,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('menu.departments')"
+        :file-name="$t('menu.department')"
       />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />

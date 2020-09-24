@@ -40,7 +40,6 @@ export default {
     reviewResolution: "На обработку"
   },
   DocumentQuery: {
-
     all: "Все документы",
     incomingDocument: "Входящие документы",
     outgoingDocument: "Исходящие документы",
@@ -75,6 +74,7 @@ export default {
     accountingDocumentsGroup: "Финансовые документы",
     contractualDocumentsGroup: "Договорные документы"
   },
+  
   sex: {
     male: "Мужской",
     female: "Женский"
@@ -144,6 +144,7 @@ export default {
     status: "Состояние",
     code: "Код",
     codeRequired: "Введите код",
+    codeAlreadyExists:"Такой код уже существует"
   },
   workFlow: {
     fields: {

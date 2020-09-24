@@ -64,7 +64,7 @@ export default function (context) {
             title: context.$t("parties.contactPerson.title"),
             items: [
                 {
-                    name: context.$t("organizations/contact"),
+                    name: context.$t("parties.contactPerson.сreateContact"),
                     visible: false,
                 },
                 {
