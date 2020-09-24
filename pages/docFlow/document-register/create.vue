@@ -41,10 +41,10 @@
 
             <DxColumn
               data-field="element"
-              :caption="$t('translations.fields.element')"
+              :caption="$t('docFlow.fields.element')"
             >
               <DxRequiredRule
-                :message="$t('translations.fields.elementRequired')"
+                :message="$t('docFlow.validation.elementRequired')"
               />
               <DxLookup
                 :data-source="elements"
@@ -88,10 +88,10 @@
         >
           <DxLabel
             location="top"
-            :text="$t('translations.fields.numberOfDigitsInNumber')"
+            :text="$t('docFlow.fields.numberOfDigitsInNumber')"
           />
           <DxRequiredRule
-            :message="$t('translations.fields.numberOfDigitsInNumberRequired')"
+            :message="$t('docFlow.validation.numberOfDigitsInNumberRequired')"
           />
         </DxSimpleItem>
         <DxSimpleItem
