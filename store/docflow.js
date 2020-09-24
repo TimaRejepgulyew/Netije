@@ -86,7 +86,7 @@ export const state = () => ({
             },
             {
                 id: 7,
-                name: context.$t("docFlow.numberFormat.login")
+                name: context.$t("docFlow.numberFormat.log")
             },
             {
                 id: 8,

@@ -1,7 +1,7 @@
 export default {
     numberFormat: {
         leadingNumber: "№ ведущего документа",
-        login: "Вход",
+        log: "Журнал регистрации (индекс)",
         caseFile: "Дело (индекс)",
         quarter: "Квартал",
         month: "Месяц",
