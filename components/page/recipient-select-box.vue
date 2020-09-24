@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     valueChanged(e) {
-      console.log(e.value);
       if (this.valueExpr) this.$emit("valueChanged", e.value);
       else this.$emit("valueChanged", e.value);
     },

@@ -13,11 +13,9 @@ export default ({ app }, inject) => {
       .build()
 
     connection.on("AssignmentCounterUpdated", (array) => {
-      console.log(array);
       app.store.commit("notificationHub/ASSIGNMENT_COUNTER_UPDATE", array)
     });
     connection.start().then((e) => {
-      console.log("connected");
     }).catch(function (err) {
       return console.error(err.toString());
     });

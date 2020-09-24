@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     setFilter(filter) {
-      console.log(filter, "task")
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
