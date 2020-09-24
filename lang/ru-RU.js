@@ -39,6 +39,12 @@ export default {
     onDocumentReview: "На расмотрении",
     reviewResolution: "На обработку"
   },
+  validation: {
+    caseFile: {
+      endDateLessThanBegin: "Дата конца не может быть меньше даты начала"
+    },
+    valueMustNotContainsSpaces: "В значении не должны присутствовать пробелы"
+  },
   DocumentQuery: {
     all: "Все документы",
     incomingDocument: "Входящие документы",
@@ -74,7 +80,7 @@ export default {
     accountingDocumentsGroup: "Финансовые документы",
     contractualDocumentsGroup: "Договорные документы"
   },
-  
+
   sex: {
     male: "Мужской",
     female: "Женский"
@@ -144,7 +150,7 @@ export default {
     status: "Состояние",
     code: "Код",
     codeRequired: "Введите код",
-    codeAlreadyExists:"Такой код уже существует"
+    codeAlreadyExists: "Такой код уже существует"
   },
   workFlow: {
     fields: {

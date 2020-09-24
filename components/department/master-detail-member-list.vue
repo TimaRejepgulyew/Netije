@@ -73,12 +73,6 @@ export default {
   },
   props: {
     data: {
-      tabPanelOptions: {
-        focusStateEnabled: false,
-        animationEnabled: true,
-        swipeEnabled: true,
-        loop: "true",
-      },
       type: Object,
       default: () => ({}),
     },
@@ -95,6 +89,12 @@ export default {
         removeUrl: dataApi.company.DepartmentMembers + id,
       }),
       statusDataSource: this.$store.getters["status/status"],
+      tabPanelOptions: {
+        focusStateEnabled: false,
+        animationEnabled: true,
+        swipeEnabled: true,
+        loop: "true",
+      },
     };
   },
   methods: {

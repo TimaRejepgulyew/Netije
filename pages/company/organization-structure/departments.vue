@@ -1,8 +1,8 @@
 <template>
-  <main >
+  <main>
     <Header :headerTitle="$t('menu.department')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -49,21 +49,21 @@
       <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
 
       <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-         <DxRequiredRule :message="$t('shared.codeRequired')" />
+        <DxRequiredRule :message="$t('shared.codeRequired')" />
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
           :message="$t('validation.valueMustNotContainsSpaces')"
         />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('shared.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="shortName" :caption="$t('company.shortName')"></DxColumn>
+      <DxColumn data-field="shortName" :caption="$t('shared.shortName')"></DxColumn>
 
       <DxColumn
         data-field="headOfficeId"
@@ -112,7 +112,10 @@
         edit-cell-template="textAreaEditor"
       ></DxColumn>
 
-      <DxMasterDetail :enabled="$store.getters['permissions/allowReading'](employeeEntityType)" template="masterDetailTemplate" />
+      <DxMasterDetail
+        :enabled="$store.getters['permissions/allowReading'](employeeEntityType)"
+        template="masterDetailTemplate"
+      />
 
       <template #masterDetailTemplate="data">
         <member-list :data="data.data" />
@@ -152,7 +155,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -177,7 +180,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
   },
   data() {
     return {
@@ -188,14 +191,14 @@ export default {
         loadUrl: dataApi.company.Department,
         insertUrl: dataApi.company.Department,
         updateUrl: dataApi.company.Department,
-        removeUrl: dataApi.company.Department
+        removeUrl: dataApi.company.Department,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       onBusinessUnitIdChanged(rowData, value) {
         rowData.code = rowData.code;
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
@@ -217,37 +220,57 @@ export default {
     getActiveHeadOffices(options) {
       return {
         store: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Department
+          key: "id",
+          loadUrl: dataApi.company.Department,
         }),
         paginate: true,
         filter: options.data
-          ? [ "businessUnitId","=", options.data.businessUnitId, "or", "status","=", Status.Active, "or","id","=", options.data.headOfficeId]
-          : []
+          ? [
+              "businessUnitId",
+              "=",
+              options.data.businessUnitId,
+              "or",
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.headOfficeId,
+            ]
+          : [],
       };
     },
     getActiveEmployees(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
-          : []
+          : [],
       };
     },
     getActiveBussinessUnit(options) {
       return {
         store: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.BusinessUnit
+          key: "id",
+          loadUrl: dataApi.company.BusinessUnit,
         }),
         paginate: true,
         filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.businessUnitId]
-          : []
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.businessUnitId,
+            ]
+          : [],
       };
     },
     validateEntityExists(params) {
@@ -257,7 +280,7 @@ export default {
         {
           id: params.data.id,
           [dataField]: params.value,
-          businessUnitId
+          businessUnitId,
         },
         dataField
       );
@@ -265,7 +288,7 @@ export default {
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
-    }
-  }
+    },
+  },
 };
 </script>

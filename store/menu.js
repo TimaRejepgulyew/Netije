@@ -250,7 +250,7 @@ export const actions = {
           },
           {
             text: this.$i18n.t("menu.managersAssistant"),
-            path: "/company/staff/managers-assistants",
+            path: "/company/staff/managers-assistant",
             visible: rootGetters["permissions/allowReading"](
               EntityType.ManagersAssistant
             )
