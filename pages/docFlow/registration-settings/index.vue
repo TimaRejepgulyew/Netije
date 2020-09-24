@@ -1,6 +1,8 @@
 <template>
   <main>
-    <Header :headerTitle="$t('docFlow.regSetting.registrationSettings')"></Header>
+    <Header
+      :headerTitle="$t('docFlow.regSetting.registrationSettings')"
+    ></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -10,7 +12,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif'),
+      }"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
@@ -18,7 +23,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.documentRegister')"
+        :file-name="$t('docFlow.fields.documentRegister')"
       />
       <DxFilterRow :visible="true" />
 
@@ -27,7 +32,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegister" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="DocumentRegister"
+      />
 
       <DxEditing
         :allow-deleting="allowDeleting"
@@ -45,9 +54,16 @@
         data-type="string"
       ></DxColumn>
 
-      <DxColumn data-field="priority" :caption="$t('registrationSettings.fields.priority')"></DxColumn>
+      <DxColumn
+        data-field="priority"
+        :caption="$t('registrationSettings.fields.priority')"
+      ></DxColumn>
 
-      <DxColumn data-field="documentFlow" :caption="$t('shared.documentFlow')" data-type="string">
+      <DxColumn
+        data-field="documentFlow"
+        :caption="$t('shared.documentFlow')"
+        data-type="string"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="documentFlowDataSource"
@@ -67,7 +83,10 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="settingType" :caption="$t('registrationSettings.fields.settingType')">
+      <DxColumn
+        data-field="settingType"
+        :caption="$t('registrationSettings.fields.settingType')"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="settingTypeDataSource"
@@ -84,7 +103,11 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton icon="more" :text="$t('shared.more')" :onClick="showRegistrationSettingsForm" ></DxButton>
+        <DxButton
+          icon="more"
+          :text="$t('shared.more')"
+          :onClick="showRegistrationSettingsForm"
+        ></DxButton>
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
     </DxDataGrid>
@@ -92,7 +115,7 @@
 </template>
 <script>
 import Status from "~/infrastructure/constants/status";
-import SettingTypes from "~/infrastructure/stores/settingTypes.js"
+import SettingTypes from "~/infrastructure/stores/settingTypes.js";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -113,7 +136,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton
+  DxButton,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -134,7 +157,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
   },
   data() {
     return {
@@ -142,7 +165,7 @@ export default {
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.RegistrationSetting,
-        removeUrl: dataApi.docFlow.RegistrationSetting
+        removeUrl: dataApi.docFlow.RegistrationSetting,
       }),
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
       settingTypeDataSource: SettingTypes.GetAll(this),
@@ -150,10 +173,11 @@ export default {
       documentRegisterDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.DocumentRegister.СustomizableDocumentRegisters
+          loadUrl:
+            dataApi.docFlow.DocumentRegister.СustomizableDocumentRegisters,
         }),
-        paginate: true
-      }
+        paginate: true,
+      },
     };
   },
   methods: {
@@ -173,7 +197,7 @@ export default {
       this.$router.push(`/docflow/registration-settings/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
-      const addButton = e.toolbarOptions.items.find(btn => {
+      const addButton = e.toolbarOptions.items.find((btn) => {
         return btn.name == "addRowButton";
       });
       if (addButton) {
@@ -181,7 +205,7 @@ export default {
           this.$router.push("/docflow/registration-settings/create");
         };
       }
-    }
-  }
+    },
+  },
 };
 </script>

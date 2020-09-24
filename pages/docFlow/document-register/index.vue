@@ -37,7 +37,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('translations.fields.documentRegister')"
+        :file-name="$t('docFlow.fields.documentRegister')"
       />
       <DxFilterRow :visible="true" />
 

@@ -120,6 +120,7 @@ export default {
   shared: {
     name: "Наименование",
     nameRequired: "Введите наименование",
+    nameAlreadyExists:"Такое имя уже существует",
     nameShouldNotBeMoreThan: "Не должно быть больше 60 символов",
     shortName: "Короткое наименование",
     shortNameRequired: "Введите короткое наименование",
@@ -299,6 +300,8 @@ export default {
       indexRequired: "Введите индекс",
       indexRule: "Индекс должен быть без пробелов",
       registration: "Зарегистрироваться",
+      number: "Номер",
+      numberRequired: "Введите номер",
       numberingType: "Тип нумерации",
       numberingTypeRequired: "Выберите тип нумерации",
       generateDocumentName: "Формировать имя документа автоматически",

@@ -79,7 +79,7 @@
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('docFlow.fields.documentFlow')" />
-          <DxRequiredRule :message="$t('docFlow.fields.documentFlowRequired')" />
+          <DxRequiredRule :message="$t('docFlow.validation.documentFlowRequired')" />
         </DxSimpleItem>
 
         <DxSimpleItem

@@ -50,8 +50,8 @@
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="countryId" :caption="$t('parties.fields.countryId')">
-        <DxRequiredRule :message="$t('parties.validation.countryIdRequired')" />
+      <DxColumn data-field="countryId" :caption="$t('sharedDirectory.fields.countryId')">
+        <DxRequiredRule :message="$t('sharedDirectory.validation.countryIdRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveCountriesDataSource"

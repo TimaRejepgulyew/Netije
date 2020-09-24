@@ -30,12 +30,22 @@
               mode="raw"
             />
 
-            <DxColumn data-field="number" :caption="$t('translations.fields.number')">
-              <DxRequiredRule :message="$t('translations.fields.numberRequired')" />
+            <DxColumn
+              data-field="number"
+              :caption="$t('translations.fields.number')"
+            >
+              <DxRequiredRule
+                :message="$t('translations.fields.numberRequired')"
+              />
             </DxColumn>
 
-            <DxColumn data-field="element" :caption="$t('translations.fields.element')">
-              <DxRequiredRule :message="$t('translations.fields.elementRequired')" />
+            <DxColumn
+              data-field="element"
+              :caption="$t('translations.fields.element')"
+            >
+              <DxRequiredRule
+                :message="$t('translations.fields.elementRequired')"
+              />
               <DxLookup
                 :data-source="elements"
                 :allowClearing="true"
@@ -43,7 +53,10 @@
                 displayExpr="name"
               />
             </DxColumn>
-            <DxColumn data-field="separator" :caption="$t('docFlow.fields.separator')">
+            <DxColumn
+              data-field="separator"
+              :caption="$t('docFlow.fields.separator')"
+            >
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
@@ -73,11 +86,12 @@
           :editor-options="numberOfDigitsInNumber"
           data-field="numberOfDigitsInNumber"
         >
-          <DxLabel location="top" :text="$t('translations.fields.numberOfDigitsInNumber')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.numberOfDigitsInNumber')"
+          />
           <DxRequiredRule
-            :message="
-                  $t('translations.fields.numberOfDigitsInNumberRequired')
-                "
+            :message="$t('translations.fields.numberOfDigitsInNumberRequired')"
           />
         </DxSimpleItem>
         <DxSimpleItem
@@ -86,7 +100,9 @@
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('docFlow.fields.documentFlow')" />
-          <DxRequiredRule :message="$t('docFlow.fields.documentFlowRequired')" />
+          <DxRequiredRule
+            :message="$t('docFlow.validation.documentFlowRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -94,8 +110,13 @@
           :editor-options="registerTypeOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.registerType')" />
-          <DxRequiredRule :message="$t('translations.fields.registerTypeRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.registerType')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.registerTypeRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -104,16 +125,26 @@
           :editor-options="registrationGroupOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.registrationGroupId')" />
-          <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.registrationGroupId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.registrationGroupIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           editor-type="dxSelectBox"
           :editor-options="numberingSectionOptions"
           data-field="numberingSection"
         >
-          <DxLabel location="top" :text="$t('translations.fields.numberingSection')" />
-          <DxRequiredRule :message="$t('translations.fields.numberingSectionRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.numberingSection')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.numberingSectionRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -121,13 +152,20 @@
           :editor-options="numberingPeriodOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('docFlow.fields.numberingPeriod')" />
+          <DxLabel
+            location="top"
+            :text="$t('docFlow.fields.numberingPeriod')"
+          />
           <DxRequiredRule
             numberingPeriodOptions
             :message="$t('docFlow.validation.numberingPeriodRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="status" :editor-options="statusOptions" editor-type="dxSelectBox">
+        <DxSimpleItem
+          data-field="status"
+          :editor-options="statusOptions"
+          editor-type="dxSelectBox"
+        >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>

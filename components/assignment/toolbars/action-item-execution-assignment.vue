@@ -17,7 +17,12 @@
       </div>
     </DxPopup>
     <DxToolbar>
-      <DxItem :visible="inProcess" :options="btnOptions" location="before" widget="dxButton" />
+      <DxItem
+        :visible="inProcess"
+        :options="btnOptions"
+        location="before"
+        widget="dxButton"
+      />
     </DxToolbar>
   </div>
 </template>
@@ -27,6 +32,32 @@ import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 import dataApi from "~/static/dataApi";
 export default {
   mixins: [toolbarMixin],
+  methods: {
+    async hasChildActionItemItems() {
+      const { data: hasChildActionItemItems } = await this.$axios.get(
+        dataApi.assignment.HasChildActionItemItems + this.assignmentId
+      );
+      return hasChildActionItemItems;
+    },
+    async needAbortChildActionItems() {
+      const needAbortChildActionItems = await this.confirm(
+        this.$t("assignment.confirmMessage.hasChildActionItem"),
+        this.$t("assignment.confirmMessage.headerHasChildActionItem")
+      );
+      needAbortChildActionItems;
+      this.$store.commit(
+        `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
+        needAbortChildActionItems
+      );
+    },
+    async sureActionItemDoneConfirmetion() {
+      const response = await this.confirm(
+        this.$t("assignment.confirmMessage.sureActionItemDoneConfirmetion"),
+        this.$t("shared.confirm")
+      );
+      return response;
+    },
+  },
   computed: {
     btnOptions() {
       return {
@@ -34,27 +65,10 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-            const { data: hasChildActionItemItems } = await this.$axios.get(
-              dataApi.assignment.HasChildActionItemItems + this.assignmentId
-            );
-            console.log(hasChildActionItemItems);
-            if (hasChildActionItemItems) {
-              let needAbortChildActionItems = await this.confirm(
-                this.$t("assignment.confirmMessage.hasChildActionItem"),
-                this.$t("assignment.confirmMessage.headerHasChildActionItem")
-              );
-              this.$store.commit(
-                `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
-                needAbortChildActionItems
-              );
+            if (this.hasChildActionItemItems()) {
+              await this.needAbortChildActionItems();
             } else {
-              const response = await this.confirm(
-                this.$t(
-                  "assignment.confirmMessage.sureActionItemDoneConfirmetion"
-                ),
-                this.$t("shared.confirm")
-              );
-              if (!response) return;
+              if (!this.sureActionItemDoneConfirmetion) return;
             }
             this.setResult(ReviewResult.ActionItemExecution.Complete);
             this.completeAssignment();

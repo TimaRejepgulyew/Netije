@@ -11,7 +11,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif'),
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -29,7 +32,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="CaseFile" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="CaseFile"
+      />
 
       <DxEditing
         :allow-updating="isAllowUpdating"
@@ -42,11 +49,19 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="title" :caption="$t('docFlow.fields.title')" data-type="string">
-        <DxRequiredRule :message="$t('docFlow.parties.titleRequired')" />
+      <DxColumn
+        data-field="title"
+        :caption="$t('docFlow.fields.title')"
+        data-type="string"
+      >
+        <DxRequiredRule :message="$t('docFlow.validation.titleRequired')" />
       </DxColumn>
 
-      <DxColumn data-field="index" :caption="$t('translations.fields.index')" data-type="string">
+      <DxColumn
+        data-field="index"
+        :caption="$t('translations.fields.index')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
         <DxPatternRule
           :ignore-empty-value="false"
@@ -55,10 +70,18 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="startDate" :caption="$t('docFlow.fields.startDate')" data-type="date">
+      <DxColumn
+        data-field="startDate"
+        :caption="$t('docFlow.fields.startDate')"
+        data-type="date"
+      >
         <DxRequiredRule :message="$t('docFlow.validation.startDateRequired')" />
       </DxColumn>
-      <DxColumn data-field="endDate" :caption="$t('docFlow.fields.endDate')" data-type="date">
+      <DxColumn
+        data-field="endDate"
+        :caption="$t('docFlow.fields.endDate')"
+        data-type="date"
+      >
         <DxRequiredRule :message="$t('docFlow.validation.endDateRequired')" />
         <DxCustomRule
           :message="$t('validation.caseFile.endDateLessThanBegin')"
@@ -68,8 +91,13 @@
         ></DxCustomRule>
       </DxColumn>
 
-      <DxColumn data-field="retentionPeriodId" :caption="$t('docFlow.fields.retentionPeriodId')">
-        <DxRequiredRule :message="$t('docFlow.validation.retentionPeriodIdRequired')" />
+      <DxColumn
+        data-field="retentionPeriodId"
+        :caption="$t('docFlow.fields.retentionPeriodId')"
+      >
+        <DxRequiredRule
+          :message="$t('docFlow.validation.retentionPeriodIdRequired')"
+        />
         <DxLookup
           :allow-clearing="true"
           :data-source="getAvailableRetentionPeriod"
@@ -78,9 +106,16 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="location" :caption="$t('docFlow.fields.location')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="location"
+        :caption="$t('docFlow.fields.location')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
+      <DxColumn
+        data-field="departmentId"
+        :caption="$t('translations.fields.departmentId')"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="getAvailableDepartment"

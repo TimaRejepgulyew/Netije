@@ -10,7 +10,10 @@
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif'),
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -28,11 +31,19 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="currency" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="currency"
+      />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
         :useIcons="true"
@@ -47,8 +58,13 @@
         alignment="left"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('sharedDirectory.validation.currencyIdRequired')" />
-        <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
+        <DxRequiredRule
+          :message="$t('sharedDirectory.validation.currencyIdRequired')"
+        />
+        <DxStringLengthRule
+          :max="60"
+          :message="$t('shared.nameShouldNotBeMoreThan')"
+        />
         <DxAsyncRule
           :reevaluate="false"
           :message="$t('sharedDirectory.validation.currencyAlreadyExists')"
@@ -56,9 +72,17 @@
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="alphaCode" :caption="$t('sharedDirectory.fields.alphaCode')">
-        <DxRequiredRule :message="$t('sharedDirectory.validation.alphaCodeRequired')" />
-        <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
+      <DxColumn
+        data-field="alphaCode"
+        :caption="$t('sharedDirectory.fields.alphaCode')"
+      >
+        <DxRequiredRule
+          :message="$t('sharedDirectory.validation.alphaCodeRequired')"
+        />
+        <DxStringLengthRule
+          :max="3"
+          :message="$t('translations.fields.maxLength') + ' 3'"
+        />
         <DxAsyncRule
           :reevaluate="false"
           :message="$t('sharedDirectory.validation.alphaCodeAlreadyExists')"
@@ -67,16 +91,27 @@
       </DxColumn>
       <DxColumn data-field="shortName" :caption="$t('shared.shortName')">
         <DxRequiredRule :message="$t('shared.shortNameRequired')" />
-        <DxStringLengthRule :max="60" :message="$t('translations.fields.maxLength')+' 60'" />
+        <DxStringLengthRule
+          :max="60"
+          :message="$t('translations.fields.maxLength') + ' 60'"
+        />
         <DxAsyncRule
           :reevaluate="false"
-          :message="$t('parties.validation.countryAlreadyExists')"
+          :message="$t('sharedDirectory.validation.countryAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="fractionName" :caption="$t('sharedDirectory.fields.fractionName')">
-        <DxRequiredRule :message="$t('sharedDirectory.validation.fractionNameRequired')" />
-        <DxStringLengthRule :max="20" :message="$t('translations.fields.maxLength')+' 20'" />
+      <DxColumn
+        data-field="fractionName"
+        :caption="$t('sharedDirectory.fields.fractionName')"
+      >
+        <DxRequiredRule
+          :message="$t('sharedDirectory.validation.fractionNameRequired')"
+        />
+        <DxStringLengthRule
+          :max="20"
+          :message="$t('translations.fields.maxLength') + ' 20'"
+        />
         <DxAsyncRule
           :reevaluate="false"
           :message="$t('sharedDirectory.validation.fractionNameAlreadyExists')"
@@ -88,12 +123,20 @@
         data-type="boolean"
         :caption="$t('docFlow.fields.isDefault')"
       ></DxColumn>
-      <DxColumn data-field="numericCode" :caption="$t('sharedDirectory.fields.numericCode')">
-        <DxRequiredRule :message="$t('sharedDirectory.validation.numericCodeRequired')" />
-        <DxStringLengthRule :max="3" :message="$t('translations.fields.maxLength')+' 3'" />
+      <DxColumn
+        data-field="numericCode"
+        :caption="$t('sharedDirectory.fields.numericCode')"
+      >
+        <DxRequiredRule
+          :message="$t('sharedDirectory.validation.numericCodeRequired')"
+        />
+        <DxStringLengthRule
+          :max="3"
+          :message="$t('translations.fields.maxLength') + ' 3'"
+        />
         <DxAsyncRule
           :reevaluate="false"
-          :message="$t('sharedDirectory.fields.numericCodeAlreadyExists')"
+          :message="$t('sharedDirectory.validation.numericCodeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>

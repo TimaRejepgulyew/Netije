@@ -125,7 +125,6 @@ export default {
       );
     },
     onValueChanged(value, cellInfo) {
-      console.log(value);
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
     },
