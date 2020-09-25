@@ -39,6 +39,7 @@ export default {
       } = await this.$axios.get(
         `${dataApi.assignment.CheckMembersPermissions}${this.assignment?.assignmentType}/${this.assignmentId}`
       );
+      console.log("succeeded");
       if (!succeeded) {
         this.tooglePopupAccessRight();
         return false;
@@ -48,6 +49,7 @@ export default {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
     async completeAssignment(params) {
+      console.log("complete");
       const hasRecipientAccessRight = await this.checkRecipientAccessRight();
       if (!hasRecipientAccessRight) return false;
       this.sendResult(params)

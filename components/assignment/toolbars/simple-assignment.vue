@@ -17,7 +17,12 @@
       </div>
     </DxPopup>
     <DxToolbar>
-      <DxItem :visible="inProcess" :options="btnOptions" location="before" widget="dxButton" />
+      <DxItem
+        :visible="inProcess"
+        :options="btnOptions"
+        location="before"
+        widget="dxButton"
+      />
     </DxToolbar>
   </div>
 </template>
@@ -38,6 +43,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
+              console.log("simple");
               this.setResult(ReviewResult.Simple.Complete);
               this.completeAssignment();
             }

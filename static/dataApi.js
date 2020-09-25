@@ -111,6 +111,7 @@ export default {
     RemoveRecipient: `${url}/api/AccessRights/`
   },
   assignment: {
+    GrantPermissions: `${url}/api/Assignment/GrantPermissions`,
     CheckMembersPermissions: `${url}/api/Assignment/CheckMembersPermissions/`,
     HasChildActionItemItems: `${url}/api/Assignment/HasChildActionItemItems/`,
     Assignments: `${url}/api/Assignment/`,
