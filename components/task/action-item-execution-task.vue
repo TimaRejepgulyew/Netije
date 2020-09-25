@@ -17,7 +17,9 @@
           <DxGroupItem :col-span="5" :col-count="2">
             <DxSimpleItem data-field="assignedBy" template="assignedBy">
               <DxLabel location="left" :text="$t('task.fields.assignedBy')" />
-              <DxRequiredRule :message="$t('task.validation.assignedByRequired')" />
+              <DxRequiredRule
+                :message="$t('task.validation.assignedByRequired')"
+              />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -25,7 +27,10 @@
               :editor-options="isUnderControlOptions"
               editor-type="dxCheckBox"
             >
-              <DxLabel location="left" :text="$t('task.fields.isUnderControl')" />
+              <DxLabel
+                location="left"
+                :text="$t('task.fields.isUnderControl')"
+              />
             </DxSimpleItem>
 
             <DxSimpleItem
@@ -35,7 +40,9 @@
               data-field="supervisor"
             >
               <DxLabel location="left" :text="$t('task.fields.supervisor')" />
-              <DxRequiredRule :message="$t('task.validation.supervisorRequired')" />
+              <DxRequiredRule
+                :message="$t('task.validation.supervisorRequired')"
+              />
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
@@ -53,7 +60,11 @@
             <DxLabel location="left" :text="$t('task.fields.deadline')" />
           </DxSimpleItem>
 
-          <DxSimpleItem :col-span="2" template="coAssignees" data-field="coAssignees">
+          <DxSimpleItem
+            :col-span="2"
+            template="coAssignees"
+            data-field="coAssignees"
+          >
             <DxLabel location="left" :text="$t('task.fields.coAssignees')" />
           </DxSimpleItem>
 
@@ -147,7 +158,11 @@ export default {
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
-
+  data() {
+    return {
+      assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`,
+    };
+  },
   inject: ["taskValidatorName"],
   methods: {
     setActionItemObservers(value) {
@@ -166,15 +181,10 @@ export default {
       this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
     },
     setAssignedBy(value) {
-
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
     },
   },
   computed: {
-    assignedByStore() {
-
-      return `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`;
-    },
     readOnly() {
       return !this.isDraft || !this.canUpdate;
     },

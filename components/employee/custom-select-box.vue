@@ -38,15 +38,15 @@
       <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
         <DxRequiredRule />
       </DxValidator>
-      <template #customSelectItem="{data}">
+      <template #customSelectItem="{ data }">
         <custom-select-item :item-data="data" />
       </template>
-      <template #customfield="{data}">
+      <template #customfield="{ data }">
         <custom-field
           @openCard="showPopup"
           :read-only="readOnly"
           @valueChanged="updateEmployee"
-          :field-data="data||value"
+          :field-data="data || value"
         />
       </template>
     </DxSelectBox>
@@ -85,18 +85,28 @@ export default {
 
   data() {
     return {
-      employeeStore: new DataSource({
+      // employeeStore: new DataSource({
+      //   store: this.$dxStore({
+      //     key: "id",
+      //     loadUrl: this.storeApi || dataApi.company.Employee,
+      //   }),
+      //   paginate: true,
+      //   pageSize: 10,
+      // }),
+      isCardOpened: false,
+    };
+  },
+  computed: {
+    employeeStore() {
+      return new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: this.storeApi || dataApi.company.Employee,
         }),
         paginate: true,
         pageSize: 10,
-      }),
-      isCardOpened: false,
-    };
-  },
-  computed: {
+      });
+    },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
     },
