@@ -78,17 +78,20 @@ export default {
         return false;
       } else return true;
     },
-
+    async sureStartTaskConfirm() {
+      const response = await confirm(
+        this.$t("task.message.sureStartTask"),
+        this.$t("shared.confirm")
+      );
+      return response;
+    },
     async validateAndStart() {
       if (this.isValidTask()) {
         await this.$store.dispatch(`tasks/${this.taskId}/save`);
-        const hasRecipientAccessRight = await this.checkRecipientAccessRight();
-        if (!hasRecipientAccessRight) return false;
-        const response = await confirm(
-          this.$t("task.message.sureStartTask"),
-          this.$t("shared.confirm")
-        );
-        if (response) {
+        if (await this.sureStartTaskConfirm()) {
+          const hasRecipientAccessRight = await this.checkRecipientAccessRight();
+          if (!hasRecipientAccessRight) return false;
+
           this.startTask();
         }
       }

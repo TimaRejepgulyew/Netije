@@ -25,7 +25,6 @@ export default {
         assignmentType: this.assignment.assignmentType,
         accessRight: accessRightId,
       });
-
       await this.sendResult();
       this.tooglePopupAccessRight();
     },
@@ -45,15 +44,18 @@ export default {
         return false;
       } else return true;
     },
+
     setResult(result) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_RESULT`, result);
     },
+
     async completeAssignment(params) {
       console.log("complete");
       const hasRecipientAccessRight = await this.checkRecipientAccessRight();
       if (!hasRecipientAccessRight) return false;
       this.sendResult(params)
     },
+    
     sendResult(params) {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`, params),
