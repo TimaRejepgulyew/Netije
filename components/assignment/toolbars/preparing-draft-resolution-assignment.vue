@@ -55,6 +55,7 @@
   </div>
 </template>
 <script>
+import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
@@ -85,8 +86,10 @@ export default {
               ),
               this.$t("shared.confirm")
             );
+            console.log("send");
             if (response) {
-              this.sendResult(
+              console.log(ReviewResult.PrepareDraftResolution);
+              this.setResult(
                 ReviewResult.PrepareDraftResolution.SendForReview
               );
               this.completeAssignment();
@@ -108,7 +111,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.sendResult(
+              this.setResult(
                 ReviewResult.PrepareDraftResolution.AddAssignment
               );
               this.completeAssignment();
@@ -130,7 +133,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.sendResult(ReviewResult.PrepareDraftResolution.Explored);
+              this.setResult(ReviewResult.PrepareDraftResolution.Explored);
               this.completeAssignment();
             }
           }
@@ -150,7 +153,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.sendResult(ReviewResult.PrepareDraftResolution.Forward);
+              this.setResult(ReviewResult.PrepareDraftResolution.Forward);
               this.completeAssignment();
             }
           }

@@ -42,7 +42,7 @@ export default function (context) {
                     name: context.$t("companyStructure.employee.managersAssistant"),
                     description: context.$t("companyStructure.employee.managersAssistantDescr"),
                     visible: isVisible(EntityType.ManagersAssistant),
-                    path: pathGenerate("staaff/managers-assistant"),
+                    path: pathGenerate("staff/managers-assistant"),
 
                 },
             ]
@@ -64,12 +64,7 @@ export default function (context) {
                     path: "/parties/organizations/banks",
                     visible: isVisible(EntityType.Counterparty),
                 },
-                {
-                    name: context.$t("companyStructure.additionalInfo.persons"),
-                    description: context.$t("companyStructure.additionalInfo.personsDescr"),
-                    path: "/parties/persons",
-                    visible: isVisible(EntityType.Counterparty),
-                },
+
                 {
                     name: context.$t("companyStructure.additionalInfo.roles"),
                     description: context.$t("companyStructure.additionalInfo.rolesDescr"),

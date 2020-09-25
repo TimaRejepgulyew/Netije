@@ -12,7 +12,7 @@ export default {
     },
     control: {
         title: "Контроль",
-        actionItemExicution: "Поручение",
+        actionItemExicution: "Поручения",
         actionItemExicutionDescr: "Контроль выданных поручений.",
     },
 }

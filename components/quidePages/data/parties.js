@@ -23,7 +23,7 @@ export default function (context) {
                 {
                     name: context.$t("parties.organizations.createcompany"),
                     path: pathGenerate("organizations/companies"),//TODO add path and add route like that
-                    visible: canCreate(EntityType.Counterparty)
+                    visible: false 
                 },
                 {
                     name: context.$t("parties.organizations.company"),

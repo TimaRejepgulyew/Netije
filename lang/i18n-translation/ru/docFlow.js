@@ -65,7 +65,7 @@ export default {
         registrationSettings: "Настройки регистрации",
         registrationSettingsDescr:
             "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
-        deliveriMethods: "Способ доставки документов",
+        deliveriMethods: "Способы доставки документов",
         deliveriMethodsDescr: "Настройте способ доставки документов"
     },
 

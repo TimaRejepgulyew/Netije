@@ -93,7 +93,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.sendResult(ReviewResult.ReviewDraftResolution.ForExecution);
+              this.setResult(ReviewResult.ReviewDraftResolution.ForExecution);
               this.completeAssignment();
             }
           }
@@ -113,7 +113,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.sendResult(ReviewResult.ReviewDraftResolution.Informed);
+              this.setResult(ReviewResult.ReviewDraftResolution.Informed);
               this.completeAssignment();
             }
           }
@@ -133,7 +133,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.sendResult(ReviewResult.ReviewDraftResolution.ForRework);
+              this.setResult(ReviewResult.ReviewDraftResolution.ForRework);
               this.completeAssignment();
             }
           }
@@ -153,7 +153,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.sendResult(ReviewResult.ReviewDraftResolution.Forward);
+              this.setResult(ReviewResult.ReviewDraftResolution.Forward);
               this.completeAssignment();
             }
           }
