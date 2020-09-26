@@ -1,13 +1,17 @@
 <template>
   <div>
-    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
-    <toolbar
-      :documentId="documentId"
-      :isCard="isCard"
-      @onClose="onClose"
-      @openVersion="openVersion"
-      @onRemove="onRemove"
-    ></toolbar>
+    <Header
+      :headerTitle="generateHeaderTitle"
+      :isbackButton="!isCard"
+      :isNew="isNew"
+    ></Header>
+      <toolbar
+        :documentId="documentId"
+        :isCard="isCard"
+        @onClose="onClose"
+        @openVersion="openVersion"
+        @onRemove="onRemove"
+      ></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -27,15 +31,22 @@
             >
               <DxSimpleItem data-field="name" :editor-options="nameOptions">
                 <DxLabel location="left" :text="$t('document.fields.name')" />
-                <DxRequiredRule :message="$t('document.validation.nameRequired')" />
+                <DxRequiredRule
+                  :message="$t('document.validation.nameRequired')"
+                />
               </DxSimpleItem>
               <DxSimpleItem
                 data-field="documentKindId"
                 :editor-options="documentKindOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel location="left" :text="$t('document.fields.documentKindId')" />
-                <DxRequiredRule :message="$t('document.validation.documentKindIdRequired')" />
+                <DxLabel
+                  location="left"
+                  :text="$t('document.fields.documentKindId')"
+                />
+                <DxRequiredRule
+                  :message="$t('document.validation.documentKindIdRequired')"
+                />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -43,8 +54,13 @@
                 :editor-options="subjectOptions"
                 editor-type="dxTextArea"
               >
-                <DxLabel location="left" :text="$t('document.fields.subject')" />
-                <DxRequiredRule :message="$t('document.validation.subjectRequired')" />
+                <DxLabel
+                  location="left"
+                  :text="$t('document.fields.subject')"
+                />
+                <DxRequiredRule
+                  :message="$t('document.validation.subjectRequired')"
+                />
               </DxSimpleItem>
               <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
               <DxSimpleItem
@@ -62,15 +78,27 @@
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('document.tabs.relations')" :disabled="isDataChanged">
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.relations')"
+            :disabled="isDataChanged"
+          >
             <DxSimpleItem :col-span="8" template="relation"></DxSimpleItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('document.tabs.history')" :disabled="isNew">
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.history')"
+            :disabled="isNew"
+          >
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
         </DxTabbedItem>
         <template #history>
-          <History :entityTypeGuid="entityTypeGuid" :id="documentId" slot="history"></History>
+          <History
+            :entityTypeGuid="entityTypeGuid"
+            :id="documentId"
+            slot="history"
+          ></History>
         </template>
         <template #relation>
           <Relation :documentId="documentId" :isCard="isCard"></Relation>
@@ -79,10 +107,17 @@
           <life-cycle :documentId="documentId" :isCard="isCard" />
         </template>
         <template #registrationBlock>
-          <doc-registration :documentId="documentId" :isCard="isCard"></doc-registration>
+          <doc-registration
+            :documentId="documentId"
+            :isCard="isCard"
+          ></doc-registration>
         </template>
         <template #formByTypeGuid>
-          <component :documentId="documentId" :isCard="isCard" :is="formByTypeGuid"></component>
+          <component
+            :documentId="documentId"
+            :isCard="isCard"
+            :is="formByTypeGuid"
+          ></component>
         </template>
       </DxForm>
       <transition name="fade">
@@ -360,5 +395,9 @@ export default {
   .filter__header {
     justify-self: flex-start;
   }
+}
+.toolbar--sticky {
+  position: sticky;
+  top: 0;
 }
 </style>

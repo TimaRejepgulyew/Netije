@@ -50,7 +50,6 @@ export default {
     },
 
     async completeAssignment(params) {
-      console.log("complete");
       const hasRecipientAccessRight = await this.checkRecipientAccessRight();
       if (!hasRecipientAccessRight) return false;
       this.sendResult(params)

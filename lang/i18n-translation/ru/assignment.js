@@ -14,7 +14,7 @@ export default {
   },
   confirmMessage: {
     headerHasChildActionItem: "Прекратить подчиненные поручения?",
-    hasChildActionItem: "Есть незавершенные подчиненные поручения.Подчиненные ",
+    hasChildActionItem: "Есть незавершенные подчиненные поручения.",
     sureDocumentReviewAcceptConfirmetion: "После принятия к сведению задание завершится без исполнения",
     sureDocumentReviewReworkConfirmetion: "Вы действительно хотите вернуть помощнику на доработку?",
     sureDocumentReviewApproveRosolutionConfirmetion: "Вы действительно хотите утвердить проект резолюции?",

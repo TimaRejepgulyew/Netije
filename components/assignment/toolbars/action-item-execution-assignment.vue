@@ -42,9 +42,8 @@ export default {
     async needAbortChildActionItems() {
       const needAbortChildActionItems = await this.confirm(
         this.$t("assignment.confirmMessage.hasChildActionItem"),
-        this.$t("assignment.confirmMessage.headerHasChildActionItem")
+        this.$t("assignment.confirmMessage.headerHasChildActionItem"),
       );
-      needAbortChildActionItems;
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
         needAbortChildActionItems

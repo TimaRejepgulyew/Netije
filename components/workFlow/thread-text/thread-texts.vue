@@ -54,27 +54,35 @@
           />
         </div>
       </DxPopup>
-      <DxToolbar>
-        <DxItem :options="refreshOptions" location="after" widget="dxButton" />
-      </DxToolbar>
-      <DxList
-        :hover-state-enabled="false"
-        :activeStateEnabled="false"
-        :focusStateEnabled="false"
-        :data-source="comments"
-        :search-enabled="false"
-      >
-        <template #item="item">
-          <div class="list-container">
-            <tread-text-mediator
-              @toDetailAuthor="toDetailAuthor"
-              @toDetailTask="toDetailTask"
-              @toDetailAssignment="toDetailAssignment"
-              :comment="item.data"
-            />
-          </div>
-        </template>
-      </DxList>
+      <div class="toolbar--position-top">
+        <DxToolbar>
+          <DxItem
+            :options="refreshOptions"
+            location="after"
+            widget="dxButton"
+          />
+        </DxToolbar>
+      </div>
+      <div class="tread-text__list">
+        <DxList
+          :hover-state-enabled="false"
+          :activeStateEnabled="false"
+          :focusStateEnabled="false"
+          :data-source="comments"
+          :search-enabled="false"
+        >
+          <template #item="item">
+            <div class="list-container">
+              <tread-text-mediator
+                @toDetailAuthor="toDetailAuthor"
+                @toDetailTask="toDetailTask"
+                @toDetailAssignment="toDetailAssignment"
+                :comment="item.data"
+              />
+            </div>
+          </template>
+        </DxList>
+      </div>
     </div>
   </div>
 </template>
@@ -107,7 +115,7 @@ export default {
   watch: {
     isRefreshing: function (value) {
       if (value) {
-       this.$data.comments.reload()
+        this.$data.comments.reload();
         this.$emit("refreshed");
       }
     },
@@ -138,7 +146,6 @@ export default {
     refreshOptions() {
       return {
         icon: "refresh",
-        text: this.$t("buttons.refresh"),
         onClick: () => {
           this.comments.reload();
         },
@@ -188,4 +195,13 @@ export default {
 .dx-list-item-content {
   padding: 0px;
 }
+.toolbar--position-top {
+  z-index: 5;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+}
+/* .tread-text__list{
+  padding: 50px 0;
+} */
 </style>

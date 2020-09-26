@@ -1,7 +1,14 @@
 <template>
   <header class="grid__header">
-    <DxButton icon="back" styling-mode="text" :visible="isbackButton" :on-click="goBack" />
-    <h3 class="grid__title">{{headerTitle}} {{isNew?$t("shared.newRecord"):""}}</h3>
+    <DxButton
+      icon="back"
+      styling-mode="text"
+      :visible="isbackButton"
+      :on-click="goBack"
+    />
+    <h3 class="grid__title">
+      {{ headerTitle }} {{ isNew ? $t("shared.newRecord") : "" }}
+    </h3>
     <slot name="indicator"></slot>
     <div class="header--toolbar">
       <slot name="toolbar"></slot>
@@ -12,20 +19,20 @@
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    DxButton
+    DxButton,
   },
   props: {
     headerTitle: {},
     isNew: {},
     isbackButton: {
-      default: true
-    }
+      default: true,
+    },
   },
   methods: {
     goBack() {
       this.$router.go(-1);
-    }
-  }
+    },
+  },
 };
 </script>
 
