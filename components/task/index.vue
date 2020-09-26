@@ -23,12 +23,20 @@
       </DxGroupItem>
       <DxGroupItem :col-span="3">
         <DxSimpleItem template="attachments">
-          <DxLabel :visible="false" location="left" :text="$t('task.attachment')" />
+          <DxLabel
+            :visible="false"
+            location="left"
+            :text="$t('task.attachment')"
+          />
         </DxSimpleItem>
       </DxGroupItem>
 
       <template #mainForm>
-        <component :canUpdate="canUpdate" :taskId="taskId" :is="taskTypeComponent"></component>
+        <component
+          :canUpdate="canUpdate"
+          :taskId="taskId"
+          :is="taskTypeComponent"
+        ></component>
       </template>
       <template #attachments>
         <attachment
@@ -38,7 +46,13 @@
         />
       </template>
       <template #comments>
-        <thread-texts v-if="!isDraft" entityType="task" :id="taskId"></thread-texts>
+        <thread-texts
+          :isRefreshing="threadTextsResreshTracker"
+          @refreshed="() => changeThreadTextsResreshTracker(false)"
+          v-if="!isDraft"
+          entityType="task"
+          :id="taskId"
+        ></thread-texts>
       </template>
     </DxForm>
   </div>
@@ -102,6 +116,7 @@ export default {
     return {
       taskValidatorName: `task/${this.taskId}`,
       commentsUrl: dataApi.task.TextsByTask,
+      threadTextsResreshTracker: false,
     };
   },
 

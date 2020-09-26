@@ -47,9 +47,16 @@
         :height="'auto'"
       >
         <div>
-          <employee-card v-if="showAuthorCard" :employeeId="currentAuthorId" :isCard="true" />
+          <employee-card
+            v-if="showAuthorCard"
+            :employeeId="currentAuthorId"
+            :isCard="true"
+          />
         </div>
       </DxPopup>
+      <DxToolbar>
+        <DxItem :options="refreshOptions" location="after" widget="dxButton" />
+      </DxToolbar>
       <DxList
         :hover-state-enabled="false"
         :activeStateEnabled="false"
@@ -72,6 +79,7 @@
   </div>
 </template>
 <script>
+import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { load as assignmentLoad } from "~/infrastructure/services/assignmentService.js";
 import { load as taskLoad } from "~/infrastructure/services/taskService.js";
 import cardAssignment from "~/components/assignment/index.vue";
@@ -84,6 +92,8 @@ import DxList from "devextreme-vue/list";
 import moment from "moment";
 export default {
   components: {
+    DxToolbar,
+    DxItem,
     cardAssignment,
     cardTask,
     employeeCard,
@@ -93,7 +103,15 @@ export default {
       await import("~/components/workFlow/thread-text/text-mediator.vue"),
   },
   name: "thread-texts",
-  props: ["id", "entityType"],
+  props: ["id", "entityType", "isRefreshing"],
+  watch: {
+    isRefreshing: function (value) {
+      if (value) {
+       this.$data.comments.reload()
+        this.$emit("refreshed");
+      }
+    },
+  },
   data() {
     const url =
       this.entityType === "task"
@@ -115,6 +133,17 @@ export default {
       showAssignmentCard: false,
       currentAssignmentId: null,
     };
+  },
+  computed: {
+    refreshOptions() {
+      return {
+        icon: "refresh",
+        text: this.$t("buttons.refresh"),
+        onClick: () => {
+          this.comments.reload();
+        },
+      };
+    },
   },
   methods: {
     closeTask() {

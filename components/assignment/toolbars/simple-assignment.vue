@@ -43,7 +43,6 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              console.log("simple");
               this.setResult(ReviewResult.Simple.Complete);
               this.completeAssignment();
             }

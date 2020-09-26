@@ -2,7 +2,10 @@
   <div>
     <div>
       <Header :isbackButton="true" :headerTitle="headerTitle">
-        <important-indicator :isImportant="isImportant" slot="indicator"></important-indicator>
+        <important-indicator
+          :isImportant="isImportant"
+          slot="indicator"
+        ></important-indicator>
       </Header>
       <component
         name="toolbar"
@@ -23,8 +26,15 @@
           >
             <DxGroupItem :col-span="7">
               <DxGroupItem :col-span="2">
-                <DxSimpleItem :editor-options="subjectOptions" :col-span="4" data-field="subject">
-                  <DxLabel location="left" :text="$t('assignment.fields.subject')" />
+                <DxSimpleItem
+                  :editor-options="subjectOptions"
+                  :col-span="4"
+                  data-field="subject"
+                >
+                  <DxLabel
+                    location="left"
+                    :text="$t('assignment.fields.subject')"
+                  />
                 </DxSimpleItem>
                 <DxGroupItem :col-count="3">
                   <DxSimpleItem
@@ -32,7 +42,10 @@
                     :editor-options="dateTimeOptions"
                     editor-type="dxDateBox"
                   >
-                    <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
+                    <DxLabel
+                      location="left"
+                      :text="$t('translations.fields.deadLine')"
+                    />
                   </DxSimpleItem>
                   <DxSimpleItem template="authorId" data-field="authorId">
                     <DxLabel location="left" :text="$t('shared.from')" />
@@ -56,14 +69,28 @@
             </DxGroupItem>
             <DxGroupItem template="attachments" :col-span="3" />
             <template #authorId>
-              <employee-select-box valueExpr="id" :value="authorId" :readOnly="true" />
+              <employee-select-box
+                valueExpr="id"
+                :value="authorId"
+                :readOnly="true"
+              />
             </template>
             <template #performerId>
-              <employee-select-box valueExpr="id" :readOnly="true" :value="performerId" />
+              <employee-select-box
+                valueExpr="id"
+                :readOnly="true"
+                :value="performerId"
+              />
             </template>
             <template #comments>
               <div>
-                <thread-texts class="comments" :id="assignmentId" entityType="assignment"></thread-texts>
+                <thread-texts
+                  :isRefreshing="threadTextsResreshTracker"
+                  @refreshed="() => changeThreadTextsResreshTracker(false)"
+                  class="comments"
+                  :id="assignmentId"
+                  entityType="assignment"
+                ></thread-texts>
               </div>
             </template>
             <template #body>
@@ -77,7 +104,10 @@
             </template>
             <template #additional>
               <div>
-                <component :assignmentId="assignmentId" :is="componentByType('additional')"></component>
+                <component
+                  :assignmentId="assignmentId"
+                  :is="componentByType('additional')"
+                ></component>
               </div>
             </template>
             <template #attachments>
@@ -151,6 +181,7 @@ export default {
   },
   data() {
     return {
+      threadTextsResreshTracker: false,
       assignmentValidatorName: `assignment/${this.assignmentId}`,
       attachmentsUrl: dataApi.attachment.AttachmentByAssignment,
       commentsUrl: dataApi.assignment.TextsByAssignment,
@@ -202,8 +233,11 @@ export default {
     },
   },
   methods: {
+    changeThreadTextsResreshTracker(value) {
+      this.threadTextsResreshTracker = value;
+    },
     onComplete(res) {
-      this.$emit("complete", res);
+      this.changeThreadTextsResreshTracker(true);
     },
     validateForm() {
       if (this.$refs["form"].instance.validate().isValid) {

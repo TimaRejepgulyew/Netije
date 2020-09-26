@@ -97,7 +97,7 @@ export const actions = {
     data.assignment.body = body;
     commit("SET_ASSIGNMENT", data);
   },
-  async complete({ state, commit }, params) {
+  async complete({ state, commit, dispatch }, params) {
     const assignment = { ...state.assignment };
     delete assignment.attachmentGroups;
     const assignmentJson = JSON.stringify(assignment);
@@ -109,6 +109,7 @@ export const actions = {
       ...params
     });
     commit("SET_STATUS", AssignmentStatus.Completed);
+    dispatch("reload")
   },
 
   async pasteAttachment({ state, commit }, payload) {

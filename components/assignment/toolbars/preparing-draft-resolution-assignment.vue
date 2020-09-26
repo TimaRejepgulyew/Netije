@@ -37,7 +37,8 @@
         <DxItem
           locateInMenu="auto"
           :disabled="btnForwardDisabled"
-          :visible="!isRework"
+          :visible2="!isRework"
+          :visible="false"
           :options="btnForwardOptions"
           location="before"
           widget="dxButton"
@@ -89,9 +90,7 @@ export default {
             console.log("send");
             if (response) {
               console.log(ReviewResult.PrepareDraftResolution);
-              this.setResult(
-                ReviewResult.PrepareDraftResolution.SendForReview
-              );
+              this.setResult(ReviewResult.PrepareDraftResolution.SendForReview);
               this.completeAssignment();
             }
           }
@@ -111,9 +110,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.setResult(
-                ReviewResult.PrepareDraftResolution.AddAssignment
-              );
+              this.setResult(ReviewResult.PrepareDraftResolution.AddAssignment);
               this.completeAssignment();
             }
           }

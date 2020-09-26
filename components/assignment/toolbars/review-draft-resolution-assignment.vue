@@ -29,7 +29,8 @@
         <DxItem
           locateInMenu="auto"
           :disabled="btnForwardDisabled"
-          :visible="!isRework"
+          :visible2="!isRework"
+          :visible="false"
           :options="btnForwardOptions"
           location="before"
           widget="dxButton"

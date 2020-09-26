@@ -1,6 +1,6 @@
 <template>
-  <div >
-    <label class="pr-2">{{$t("assignment.readdressToEmployee")}}</label>
+  <div v-if="false">
+    <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
     <div class="f-grow-1">
       <employee-select-box
         valueExpr="id"
@@ -16,7 +16,7 @@
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {
-    employeeSelectBox
+    employeeSelectBox,
   },
   props: ["assignmentId"],
   methods: {
@@ -25,7 +25,7 @@ export default {
         `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
         id
       );
-    }
+    },
   },
   computed: {
     addresseeId() {
@@ -34,8 +34,8 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
-    }
-  }
+    },
+  },
 };
 </script>
 

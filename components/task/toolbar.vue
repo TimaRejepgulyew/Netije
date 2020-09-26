@@ -1,7 +1,11 @@
 <template>
   <div class="toolbar">
     <DxToolbar>
-      <DxItem template="toolbarItemStartBtn" :visible="canStart" location="before" />
+      <DxItem
+        template="toolbarItemStartBtn"
+        :visible="canStart"
+        location="before"
+      />
       <template #toolbarItemStartBtn>
         <toolbar-item-start-btn @onStart="onStart" :taskId="taskId" />
       </template>
@@ -19,7 +23,7 @@
         widget="dxButton"
       />
       <DxItem
-        :visible="canRestart "
+        :visible="canRestart"
         :options="restartButtonOptions"
         location="before"
         widget="dxButton"
@@ -31,7 +35,9 @@
         widget="dxCheckBox"
       />
       <template #toolbarItemImportanceChanger>
-        <toolbarItemImportanceChanger :taskId="taskId"></toolbarItemImportanceChanger>
+        <toolbarItemImportanceChanger
+          :taskId="taskId"
+        ></toolbarItemImportanceChanger>
       </template>
       <DxItem
         :visible="canDelete"
@@ -41,7 +47,10 @@
       />
       <DxItem location="after" template="toolbarItemAccessRight" />
       <template #toolbarItemAccessRight>
-        <toolbar-item-access-right :entity-type="entityType" :entity-id="taskId" />
+        <toolbar-item-access-right
+          :entity-type="entityType"
+          :entity-id="taskId"
+        />
       </template>
     </DxToolbar>
   </div>
@@ -142,7 +151,8 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/abort`),
-            (e) => {},
+            (e) => {
+            },
             (e) => this.$awn.alert()
           );
         },
@@ -161,7 +171,8 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/restart`),
-            (e) => {},
+            (e) => {
+            },
             (e) => this.$awn.alert()
           );
         },

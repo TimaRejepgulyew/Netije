@@ -55,17 +55,17 @@ export default {
       if (!hasRecipientAccessRight) return false;
       this.sendResult(params)
     },
-    
+    //TODO remane this function 
     sendResult(params) {
       this.$awn.asyncBlock(
         this.$store.dispatch(`assignments/${this.assignmentId}/complete`, params),
         (e) => {
-          this.$emit("complete")
+          this.$listeners.complete()
           this.$awn.success();
         },
         (e) => this.$awn.alert()
       );
-    }
+    },
   },
   computed: {
     assignment() {
