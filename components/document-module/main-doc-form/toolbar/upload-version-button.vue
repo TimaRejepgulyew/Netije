@@ -48,7 +48,7 @@ export default {
   methods: {
     uploadVersionFromFile(e) {
      
-      if (this.document.subject) {
+      if (!this.document.subject) {
         this.$store.dispatch(
           `documents/${this.documentId}/setSubject`,
           e.file.name.split(".").slice(0, -1).join(".")
