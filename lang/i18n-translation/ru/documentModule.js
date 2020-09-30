@@ -45,6 +45,7 @@ export default {
     }
   },
   fields: {
+    status:"Состояние",
     note: "Комментарий",
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",

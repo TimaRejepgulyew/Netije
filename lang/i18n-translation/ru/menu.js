@@ -1,4 +1,5 @@
 export default {
+  documentTemplate:"Шаблоны документов",
   recordManagementGroup: "Делопроизводство",
   accountingDocuments: "Финансовые документы",
   contractualDocuments: "Договоры",

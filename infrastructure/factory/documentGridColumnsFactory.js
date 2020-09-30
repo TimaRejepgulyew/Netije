@@ -2,6 +2,7 @@ import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
+import { baseStatusModel as documentTemplateStatus } from "~/infrastructure/constants/status.js"
 export default {
   CreateColumns: (type, context) => {
     const columns = [GetDefaultColumn()];
@@ -39,7 +40,8 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateContractColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
-
+    case "document-template":
+      return createDocumentTemplateColumns(context)
     default:
       return [];
   }
@@ -196,6 +198,15 @@ const CreateAccountingDocumentsColumns = context => {
   ];
 };
 
+const createDocumentTemplateColumns = context => {
+  return [
+    CreateDocumentNameColumn(context),
+    CreateDocumentModifiedColumn(context, true),
+    CreateDocumentAuthorColumn(context, true),
+    CreateDocumentCreatedColumn(context),
+    CreateDocumentTemplateStatus(context)
+  ];
+}
 const GetDefaultColumn = () => {
   return {
     dataField: "extension",
@@ -217,12 +228,16 @@ const GetDefaultColumn = () => {
   };
 };
 
+
 function CreateDocumentNameColumn(context) {
   return {
     dataField: "name",
     caption: context.$t("document.fields.name"),
     visible: true
   };
+}
+function CreateDocumentTemplateStatus(context) {
+  return CreateArrayLookupColumn("status", context, documentTemplateStatus(context), true)
 }
 function CreateInNumberColumn(context) {
   return {
@@ -259,7 +274,7 @@ function CreateDateColumn(context) {
     visible: false
   };
 }
-function CreateDocumentModifiedColumn(context) {
+function CreateDocumentModifiedColumn(context, visible = false) {
   return {
     dataField: "modified",
     caption: context.$t("document.fields.modified"),
