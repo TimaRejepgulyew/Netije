@@ -20,11 +20,10 @@ import documentService from "~/infrastructure/services/documentVersionService.js
 import { DxPopup } from "devextreme-vue/popup";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";
-import { DxButton } from "devextreme-vue";
+
 export default {
   components: {
     DxFileUploader,
-    DxButton,
     DxPopup,
   },
   props: ["documentId"],
