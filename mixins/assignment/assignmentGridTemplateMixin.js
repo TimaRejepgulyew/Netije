@@ -10,6 +10,7 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import assignnmentTypeIconColumn from "~/components/assignment/icon-by-assignment-type.vue";
 import toolbarItemQuickFilter from "~/components/assignment/assignment-grids/components/quickFilter.vue"
+import { confirm } from "devextreme/ui/dialog";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -28,7 +29,7 @@ import {
   DxStateStoring,
 } from "devextreme-vue/data-grid";
 export default {
-  components: { 
+  components: {
     Header,
     DxSearchPanel,
     DxDataGrid,
@@ -104,7 +105,7 @@ export default {
       }
     },
     showIsNotReadAssignment({ isRead, status }, style) {
-      if (!isRead && status !== AssignmentStatusGuid.Aborted) {
+      if (!isRead && status !== AssignmentStatusGuid.Aborted && status !== AssignmentStatusGuid.Completed) {
         style.fontWeight = "bolder";
       }
     },

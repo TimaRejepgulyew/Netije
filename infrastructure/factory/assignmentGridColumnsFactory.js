@@ -1,6 +1,12 @@
 import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
 import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
+import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js"
+import AssignmentType from "~/infrastructure/constants/assignmentType.js"
+import AssignmentResult from "~/infrastructure/constants/assignmentResult.js"
 import dataApi from "~/static/dataApi";
+import { sendResult } from "~/infrastructure/services/assignmentService.js"
+import { ForExecution as forExecutionIcon } from "~/static/icons/status/assignmentResult.js"
+import { confirm } from "devextreme/ui/dialog";
 const GetColumnsByAssignmentQuery = (type, context) => {
   switch (type) {
     case AssignmentQuery.All:
@@ -24,17 +30,47 @@ export default {
     const defaultColumns = [];
     const typedColumns = GetColumnsByAssignmentQuery(type, context);
     const buttons = CreateButtons(context);
-    const resultColumns = [...typedColumns,];
+    const resultColumns = [...typedColumns, buttons];
     return resultColumns;
   }
 };
 const CreateButtons = context => {
   return {
     type: "buttons",
+
     buttons: [
+      {
+        cssClass: "forExecutionBtn",
+        visible: isReviewDraftResolution,
+        icon: forExecutionIcon,
+        text: context.$t("document.preview"),
+        onClick: e => addResolution(e.row.data, context)
+      },
     ]
   };
 };
+
+const isReviewDraftResolution = e => {
+  return e.row.data.assignmentType === AssignmentType.ReviewDraftResolutionAssignment && e.row.data.status === AssignmentStatusGuid.InProcess;
+}
+// const inProcess = e => {
+//   return e.row.data.status === AssignmentStatus.InProcess;
+// }
+const addResolution = async ({ assignmentType, id, body }, context) => {
+  const response = await confirm(
+    context.$t(
+      "assignment.confirmMessage.sureDocumentReviewApproveRosolutionConfirmetion"
+    ),
+    context.$t("shared.confirm")
+  );
+  if (response) {
+    const assignment = { assignmentType, id, body, result: AssignmentResult.ReviewDraftResolution.ForExecution }
+    console.log(assignment);
+    await sendResult(context, assignment,)
+    console.log(context);
+    context.store.reload()
+  }
+}
 const CreateBaseColumns = context => {
   return [
     CreateAssignmentTypeIconColumn(context),
@@ -117,7 +153,7 @@ function CreateStatusColumn(context) {
 }
 
 function CreateAssignmentTypeIconColumn(context) {
-  return { ...GetDefaultColumnTypeIconSetting(context), dataField: "assignmentType", cellTemplate: "assignnmentTypeIconColumn", width: 60 }
+  return { ...GetDefaultColumnTypeIconSetting(context), dataField: "assignmentType", cellTemplate: "assignnmentTypeIconColumn", width: 20 }
 }
 
 function CreateAssignmentImportanceColumn(context) {

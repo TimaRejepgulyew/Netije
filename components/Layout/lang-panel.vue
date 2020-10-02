@@ -27,7 +27,7 @@ export default {
         {
           items: [
             { name: "Русский", value: "ru" },
-            { name: "Turkmen", value: "tk" }
+            // { name: "Turkmen", value: "tk" }
           ]
         }
       ]

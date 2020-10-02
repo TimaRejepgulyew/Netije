@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 class AccessOperation {
-  constructor() {}
+  constructor() { }
 }
 export const state = () => ({
   accessRights: {},
@@ -123,6 +123,18 @@ export const getters = {
   },
   allowRegisterDocument: ({ accessRights }) => entityType => {
     return accessRights.operations.has(entityType);
+  },
+  isResponibleForCounterParts({ accessRights }) {
+    if (accessRights.isAdmin) {
+      return true;
+    }
+    return accessRights.isResponibleForCounterParts
+  },
+  isResponsibleForRegistrationSettings({ accessRights }) {
+    if (accessRights.isAdmin) {
+      return true;
+    }
+    return accessRights.isResponsibleForRegistrationSettings
   }
 };
 export const mutations = {
@@ -134,9 +146,11 @@ export const mutations = {
       isResponsibleForTheFinancialArchive: payload.roles.includes(
         "ResponsibleForTheFinancialArchive"
       ),
-      isResponsibleForContracts:payload.roles.includes(
+      isResponsibleForContracts: payload.roles.includes(
         "ResponsibleForContracts"
       ),
+      isResponibleForCounterParts: payload.roles.includes("ResponsibleForCounterparts"),
+      isResponsibleForRegistrationSettings: payload.roles.includes("ResponsibleForRegistrationSettings"),
       Roles: payload.roles,
       operations: new Map(
         payload.accessRights.map(({ entityType, operation }) => {
