@@ -2,11 +2,6 @@
   <DxToolbar>
     <DxItem :options="btnSaveFileOptions" location="before" widget="dxButton" />
     <DxItem
-      :options="btnScannerDocumentOptions"
-      location="before"
-      widget="dxButton"
-    />
-    <DxItem
       :vasible="hasActivePage"
       :options="btnRotateLeftOptions"
       location="before"
@@ -68,15 +63,6 @@ export default {
         text: this.$t("buttons.rotateLeft"),
         onClick: () => {
           this.rotatePage(-90);
-        },
-      };
-    },
-    btnScannerDocumentOptions() {
-      return {
-        icon: scanner,
-        text: this.$t("buttons.scanner"),
-        onClick: () => {
-          this.$scanner.scanDocument();
         },
       };
     },

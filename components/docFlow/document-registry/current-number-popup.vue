@@ -6,11 +6,20 @@
       :show-colon-after-label="true"
       :show-validation-summary="true"
     >
-      <DxSimpleItem data-field="value" :editor-options="numberBoxOptions" editor-type="dxNumberBox">
+      <DxSimpleItem
+        data-field="value"
+        :editor-options="numberBoxOptions"
+        editor-type="dxNumberBox"
+      >
         <DxLabel location="top" :visible="false" />
-        <DxRequiredRule :message="$t('translations.fields.currentNumberRequired')" />
+        <DxRequiredRule
+          :message="$t('translations.fields.currentNumberRequired')"
+        />
       </DxSimpleItem>
-      <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
+      <DxButtonItem
+        :button-options="saveButtonOptions"
+        horizontal-alignment="right"
+      />
     </DxForm>
   </form>
 </template>
@@ -22,7 +31,7 @@ import DxForm, {
   DxSimpleItem,
   DxButtonItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -31,7 +40,7 @@ export default {
     DxLabel,
     DxRequiredRule,
     DxForm,
-    DxButton
+    DxButton,
   },
   async created() {
     var res = await this.$axios.get(
@@ -44,18 +53,18 @@ export default {
     return {
       currentNumberData: {
         id: this.documentRegisterId,
-        value: null
+        value: null,
       },
       saveButtonOptions: {
         height: 40,
-        text: this.$t("buttons.save"),
+        icon: scanner,
         useSubmitBehavior: true,
-        type: "normal"
+        text: this.$t("buttons.scanner"),
       },
       numberBoxOptions: {
         placeholder: this.$t("translations.fields.currentNumberRequired"),
-        min: 1
-      }
+        min: 1,
+      },
     };
   },
   methods: {
@@ -65,14 +74,14 @@ export default {
           `${dataApi.docFlow.DocumentRegister.Value}/CurrentNumber/${this.documentRegisterId}`,
           this.currentNumberData
         ),
-        res => {
+        (res) => {
           this.$emit("hidePopup");
           this.$awn.success();
         },
-        err => this.$awn.alert()
+        (err) => this.$awn.alert()
       );
       e.preventDefault();
-    }
-  }
+    },
+  },
 };
 </script>

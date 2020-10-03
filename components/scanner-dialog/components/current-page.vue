@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex rotate-0">
     <img
+      v-if="data"
       :class="{ ['rotate-' + data.rotate]: data.rotate }"
       class="current-page"
       :src="data.file"

@@ -5,9 +5,7 @@ export default function (app) {
         .withAutomaticReconnect()
         .configureLogging(LogLevel.Information)
         .build()
-    // connection.on("UpdateDeviceInfo"(devices => {
-    // }));
-
+        
     async function tryConnect() {
         try {
             await connection.start();
@@ -44,6 +42,9 @@ export default function (app) {
             return false;
         }
     }
+    function stopConnection(){
+        connection.stop()
+    }
     function onUpdateDeviceInfo(handler) {
         connection.on("UpdateDeviceInfo", handler)
     }
@@ -68,6 +69,7 @@ export default function (app) {
         scanDocument,
         generatePdf,
         deletePageById,
+        stopConnection
     }
 
 }
