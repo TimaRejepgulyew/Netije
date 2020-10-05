@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="scanDocument">
     <Header
-      :headerTitle="$t('scannerDialog.header')"
+      :headerTitle="$t('scanner.header')"
       :isbackButton="false"
       :isNew="false"
     ></Header>
@@ -11,13 +11,13 @@
       @fileSaved="onFileSaved"
     />
     <main class="d-flex">
-      <template v-if="isFilesEmpty">
+      <template v-if="!isFilesEmpty">
         <left-side-bar class="left-side-bar"></left-side-bar>
         <current-page class="main" />
       </template>
       <div class="main" v-else>
         <scanner-icon />
-        {{ $t("scannerDialog.downloadfile") }}
+        {{ $t("scanner.downloadfile") }}
       </div>
       <right-side-bar
         :documentValidatorName="documentValidatorName"
@@ -62,7 +62,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ isFilesEmpty: "scanner/isFilesEmpty" }),
+    ...mapGetters({
+      isFilesEmpty: "scanner/isFilesEmpty",
+    }),
     hasActivePage() {
       return this.$store.getters["scanner/currentPageId"] != null;
     },
@@ -79,10 +81,14 @@ export default {
 }
 .main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  background: lightgray;
+  align-items: center;
+  background: #f4f4f4;
   overflow: hidden;
+  flex-grow: 1;
   flex-basis: 800px;
+  min-height: 80vh;
 }
 .filesEmpty {
   width: 80vh;

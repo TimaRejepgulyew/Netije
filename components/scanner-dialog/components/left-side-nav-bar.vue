@@ -39,7 +39,7 @@ export default {
   box-sizing: border-box;
 }
 .item__page {
-  background: lightgray;
+  background: #f4f4f4;
   display: block;
   margin: 5px auto;
   width: 80%;

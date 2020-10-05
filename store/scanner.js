@@ -20,7 +20,7 @@ export const state = () => ({
 
 export const getters = {
     isFilesEmpty({ files }) {
-        return files.length = 0
+        return files.length === 0
     },
     devices({ devices }) {
         return devices
@@ -40,8 +40,8 @@ export const getters = {
     }
 }
 export const mutations = {
-    DELETE_FILES(state, payload) {
-        state.files = null
+    DELETE_FILES(state) {
+        state.files = []
     },
     SET_FILE(state, payload) {
         state.file = payload
@@ -100,6 +100,7 @@ export const actions = {
     deletePage({ commit }, payload) {
         commit("DELETE_PAGE", payload)
         commit("SET_CURRENT_PAGE_ID", null)
+        
     },
     saveFile({ state }) {
         const file = state.files.map(({ id, rotate }) => { id, rotate })

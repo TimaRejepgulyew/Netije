@@ -1,14 +1,25 @@
 <template>
   <DxToolbar>
-    <DxItem :options="btnSaveFileOptions" location="before" widget="dxButton" />
     <DxItem
-      :vasible="hasActivePage"
+      :options="btnSaveFileOptions"
+      location="before"
+      :disabled="isFilesEmpty"
+      widget="dxButton"
+    />
+    <DxItem
+      :options="btnDeleteOptions"
+      :disabled="!hasActivePage || isFilesEmpty"
+      location="after"
+      widget="dxButton"
+    />
+    <DxItem
+      :disabled="!hasActivePage || isFilesEmpty"
       :options="btnRotateLeftOptions"
       location="before"
       widget="dxButton"
     />
     <DxItem
-      :vasible="hasActivePage"
+      :disabled="!hasActivePage || isFilesEmpty"
       :options="btnRotateRightOptions"
       location="before"
       widget="dxButton"
@@ -17,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import scanner from "~/static/icons/scanner/scanner.svg";
 import rotateLeft from "~/static/icons/scanner/rotateLeft.svg";
 import rotateRight from "~/static/icons/scanner/rotateRight.svg";
@@ -32,11 +43,15 @@ export default {
       rotatePage: "scanner/rotatePage",
       saveFile: "scanner/saveFile",
       scanDocument: "scanner/scanDocument",
+      deletePage: "scanner/deletePage",
     }),
   },
   computed: {
+    ...mapGetters({
+      isFilesEmpty: "scanner/isFilesEmpty",
+    }),
     hasActivePage() {
-      return this.$store.getters["scanner/currentPageId"] != null;
+      return this.$store.getters["scanner/currentPageId"] !== null;
     },
     btnSaveFileOptions() {
       return {
@@ -45,6 +60,14 @@ export default {
         onClick: () => {
           this.saveFile();
           this.$emit("fileSaved");
+        },
+      };
+    },
+    btnDeleteOptions() {
+      return {
+        icon: "trash",
+        onClick: () => {
+          this.deletePage();
         },
       };
     },

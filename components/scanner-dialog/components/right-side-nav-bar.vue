@@ -72,7 +72,7 @@ export default {
       },
       colorStore: [
         { name: this.$t("scanner.coloured"), id: 0 },
-        { name: "black-white", id: 1 },
+        { name: "blackWhite", id: 1 },
       ],
       extencionStore: ["1280x 870x", "800x 640x", "1600x 1100x"],
     };
