@@ -1,50 +1,57 @@
 <template>
   <div>
     <div class="file-uploader-block">
-      <span class="dx-form-group-caption border-b">{{$t("document.groups.captions.versions")}}</span>
-      <DxButton :hint="$t('buttons.refresh')" class="refresh-btn" icon="refresh" :onClick="refresh"></DxButton>
+      <span class="dx-form-group-caption border-b">{{
+        $t("document.groups.captions.versions")
+      }}</span>
+      <div class="d-flex">
+        <DxButton
+          :hint="$t('buttons.refresh')"
+          class="refresh-btn"
+          icon="refresh"
+          :onClick="refresh"
+        ></DxButton>
+        <btn-version-from-scanner @uploadVersion="refresh" />
+        <btn-upload-version @uploadVersion="refresh" :documentId="documentId" />
+      </div>
       <div class="list-container">
-        <DxList :data-source="versions" :activeStateEnabled="false" :focusStateEnabled="false">
+        <DxList
+          :data-source="versions"
+          :activeStateEnabled="false"
+          :focusStateEnabled="false"
+        >
           <template #item="item">
             <div>
               <div class="d-flex">
                 <document-icon :extension="item.data.extension"></document-icon>
                 <div class="list__content">
-                  {{ item.data.note}}
+                  {{ item.data.note }}
                   <div>
                     <i class="dx-icon dx-icon-clock"></i>
-                    <small>{{item.data.created|formatDate}}</small>
+                    <small>{{ item.data.created | formatDate }}</small>
                   </div>
                   <div>
                     <i class="dx-icon dx-icon-user"></i>
-                    <small>{{item.data.author}}</small>
+                    <small>{{ item.data.author }}</small>
                   </div>
                 </div>
                 <div class="list__btn-group">
-                  <attachment-action-btn :documentId="documentId" :version="item.data" />
+                  <attachment-action-btn
+                    :documentId="documentId"
+                    :version="item.data"
+                  />
                 </div>
               </div>
             </div>
           </template>
         </DxList>
       </div>
-      <div class="file-uploader" v-if="canUpdate">
-        <DxFileUploader
-          uploadMode="useButtons"
-          ref="fileUploader"
-          :multiple="false"
-          :accept="acceptExtension"
-          :allowed-file-extensions="extension"
-          @progress="uploadVersionFromFile"
-          @value-changed="e => files = e.value"
-          :showFileList="true"
-          :invalid-fileextension-message="$t('document.fields.invalidExeption')"
-        />
-      </div>
     </div>
   </div>
 </template>
 <script>
+import btnUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
+import btnVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import DataSource from "devextreme/data/data_source";
 import DocumentIcon from "~/components/page/document-icon";
 import DxFileUploader from "devextreme-vue/file-uploader";
@@ -61,6 +68,8 @@ export default {
     DxFileUploader,
     DxList,
     DxButton,
+    btnUploadVersion,
+    btnVersionFromScanner,
   },
   props: ["documentId"],
   data() {
@@ -127,6 +136,35 @@ export default {
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/themes/generated/variables.base.scss";
+
+.uploadButton {
+  padding: 0;
+  margin: 0;
+  .dx-fileuploader-input-wrapper::before {
+    padding: 3px 0;
+  }
+  .dx-fileuploader-input-wrapper {
+    width: auto;
+    padding: 6px 0;
+    margin: 0;
+  }
+  .dx-fileuploader-files-container {
+    display: none;
+  }
+  .dx-fileuploader-wrapper {
+    max-width: 150px;
+    width: auto;
+    padding: 0;
+    border: none;
+  }
+  .file-upload-button {
+    display: none;
+  }
+  .dx-fileuploader-input-container {
+    display: none;
+  }
+}
+
 .file-uploader-block {
   background: $base-bg;
   display: block;
@@ -143,7 +181,7 @@ export default {
   }
 
   .list-container {
-    min-height: 50vh;
+    min-height: 78vh;
     overflow: auto;
     width: 100%;
     i {

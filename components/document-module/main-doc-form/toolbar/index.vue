@@ -1,7 +1,12 @@
 <template>
   <div class="navBar">
     <DxToolbar>
-      <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
+      <DxItem
+        locateInMenu="auto"
+        :options="saveButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
       <DxItem
         locateInMenu="auto"
         :options="saveAndBackButtonOptions"
@@ -46,7 +51,10 @@
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="toolbarItemAccessRight" location="after" />
       <template #toolbarItemAccessRight>
-        <toolbar-item-access-right :entity-type="entityType" :entity-id="documentId" />
+        <toolbar-item-access-right
+          :entity-type="entityType"
+          :entity-id="documentId"
+        />
       </template>
       <DxItem
         template="toolbarItemUploadVersion"
@@ -56,6 +64,16 @@
       />
       <template #toolbarItemUploadVersion>
         <toolbar-item-upload-version :documentId="documentId" />
+      </template>
+
+      <DxItem
+        template="toolbarItemUploadVersionFromScanner"
+        locateInMenu="auto"
+        :visible="!canUpdate"
+        location="before"
+      />
+      <template #toolbarItemUploadVersionFromScanner>
+        <toolbar-item-upload-version-from-scanner :documentId="documentId" />
       </template>
       <DxItem
         :options="previewButtonOptions"
@@ -81,8 +99,9 @@ import documentService from "~/infrastructure/services/documentVersionService.js
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
+
 import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
-// import toolbarItemRegistration from "~/components/document-module/main-doc-form/toolbar/document-registration-btn";
+import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";
@@ -99,6 +118,7 @@ import saveIcon from "~/static/icons/save.svg";
 import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
 export default {
   components: {
+    toolbarItemUploadVersionFromScanner,
     toolbarItemUploadVersion,
     toolbarItemAccessRight,
     toolbarItemRegistration,
