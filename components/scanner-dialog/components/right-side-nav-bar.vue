@@ -18,15 +18,15 @@
     </DxSimpleItem>
     <DxSimpleItem
       data-field="color"
-      :editor-options="colorOptions"
+      :editor-options="modeOptions"
       editor-type="dxSelectBox"
     >
       <DxLabel :text="$t('scanner.fields.color')" />
       <DxRequiredRule :message="$t('scanner.validation.colorRequired')" />
     </DxSimpleItem>
     <DxSimpleItem
-      data-field="extencion"
-      :editor-options="extencionOptions"
+      data-field="dpi"
+      :editor-options="dpiOptions"
       editor-type="dxSelectBox"
     >
       <DxLabel :text="$t('scanner.fields.extencion')" />
@@ -70,56 +70,67 @@ export default {
         useSubmitBehavior: true,
         text: this.$t("buttons.scanner"),
       },
-      colorStore: [
-        { name: this.$t("scanner.coloured"), id: 0 },
-        { name: "blackWhite", id: 1 },
-      ],
-      extencionStore: ["1280x 870x", "800x 640x", "1600x 1100x"],
     };
   },
   computed: {
-    ...mapGetters({ params: "scanner/params", deviceStore: "scanner/devices" }),
+    ...mapGetters({
+      params: "scanner/params",
+      deviceStore: "scanner/currentDevice",
+      devicesStore: "scanner/devices",
+    }),
     deviceOptions() {
       return {
-        dataSource: this.deviceStore,
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+        }),
+        dataSource: this.devicesStore,
         value: this.params.device,
         onValueChanged: (e) => {
-          console.log(e.value);
+          this.setDpi(null);
+          this.setMode(null);
           this.setDevice(e.value);
+        },
+        onSelectionChanged: (e) => {
+          this.setCurrentDevice(e.selectedItem);
         },
       };
     },
-    colorOptions() {
+    modeOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
         }),
         searchEnabled: true,
-        dataSource: this.colorStore,
-        value: this.params.color,
+        dataSource: this.deviceStore?.mode,
+        value: this.params.mode,
         onValueChanged: (e) => {
           console.log(e.value);
-          this.setColor(e.value);
+          this.setMode(e.value);
         },
       };
     },
-    extencionOptions() {
+    dpiOptions() {
       return {
         searchEnabled: true,
-        dataSource: this.extencionStore,
-        value: this.params.extencion,
+        dataSource: this.deviceStore?.dpi,
+        value: this.params.dpi,
         onValueChanged: (e) => {
           console.log(e.value);
-          this.setExtencion(e.value);
+          this.setDpi(e.value);
         },
       };
     },
   },
   methods: {
+    setDeviceParamsStore({ dpi, mode }) {
+      this.dpiStore = dpi;
+      this.modeStore = mode;
+    },
     ...mapMutations({
+      setCurrentDevice: "scanner/SET_CURRENT_DEVICE",
+      setDpi: "scanner/SET_DPI",
+      setMode: "scanner/SET_MODE",
       setDevice: "scanner/SET_DEVICE",
-      setColor: "scanner/SET_COLOR",
-      setExtencion: "scanner/SET_EXTENCION",
     }),
   },
 };

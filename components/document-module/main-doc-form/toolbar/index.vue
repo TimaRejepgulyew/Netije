@@ -101,7 +101,7 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 
 import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
-import toolbarItemUploadVersionFromScanner from "~/components/document-module/main-doc-form/toolbar/upload-version-from-scanner";
+import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";

@@ -2,10 +2,10 @@ import { HubConnectionBuilder, LogLevel, HttpTransportType, } from "@microsoft/s
 export default function (app) {
     const connection = new HubConnectionBuilder()
         .withUrl("http://192.168.4.179:8080/SignalR")
-        .withAutomaticReconnect()
+        // .withAutomaticReconnect(0)
+        .withAutomaticReconnect([0, 0, 0, 0])
         .configureLogging(LogLevel.Information)
         .build()
-        
     async function tryConnect() {
         try {
             await connection.start();
@@ -42,7 +42,7 @@ export default function (app) {
             return false;
         }
     }
-    function stopConnection(){
+    function stopConnection() {
         connection.stop()
     }
     function onUpdateDeviceInfo(handler) {
