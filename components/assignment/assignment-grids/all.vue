@@ -18,7 +18,10 @@
         :hover-state-enabled="true"
         :column-auto-width="false"
         :show-column-lines="false"
-        :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+        :load-panel="{
+          enabled: true,
+          indicatorSrc: require('~/static/icons/loading.gif'),
+        }"
         :onRowDblClick="showAssignment"
         :on-row-prepared="onRowPrepared"
         @toolbar-preparing="addButtonToGrid($event)"
@@ -41,12 +44,15 @@
         <DxStateStoring
           :enabled="true"
           type="localStorage"
-          :storage-key="'assignment'+assignmentQuery"
+          :storage-key="'assignment' + assignmentQuery"
         />
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
         <template #importanceIconColumn="cell">
-          <importanceIconColumn v-if="cell.data.value" :state="cell.data.value" />
+          <importanceIconColumn
+            v-if="cell.data.value"
+            :state="cell.data.value"
+          />
         </template>
         <template #assignnmentTypeIconColumn="cell">
           <assignnmentTypeIconColumn
@@ -86,6 +92,10 @@ export default {
   margin: 0 auto;
   height: 20px;
   width: 100%;
+}
+.forExecutionBtn {
+  width: auto;
+  height: 20px;
 }
 .dx-row.dx-data-row.dx-column-lines {
   -webkit-user-select: none;

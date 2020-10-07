@@ -5,6 +5,12 @@ import contractIcon from "~/static/icons/document-type/contract.svg";
 export const state = () => ({
   menuList: []
 });
+export const hasCounterPartySettingAccess = rootGetters => {
+  return rootGetters["permissions/isResponibleForCounterParts"];
+};
+export const hasRegistrationSettingAccess = rootGetters => {
+  return rootGetters["permissions/isResponsibleForRegistrationSettings"];
+};
 export const hasContractAccess = rootGetters => {
   return rootGetters["permissions/isResponsibleForContracts"];
 };
@@ -183,7 +189,7 @@ export const actions = {
       {
         text: this.$i18n.t("menu.contractors"),
         icon: "group",
-        visible: hasCounterPartyAccess(rootGetters),
+        visible: hasCounterPartyAccess(rootGetters) && hasCounterPartySettingAccess(rootGetters),
         path: "/parties",
         items: [
           {
@@ -218,7 +224,7 @@ export const actions = {
         text: this.$i18n.t("menu.company-structure"),
         path: "/company",
         icon: "hierarchy",
-        visible: hasCompanyAccess(rootGetters),
+        visible: hasCompanyAccess(rootGetters) && rootGetters["permissions/IsAdmin"],
         items: [
           {
             text: this.$i18n.t("menu.employee"),
@@ -261,7 +267,7 @@ export const actions = {
         text: this.$i18n.t("menu.docFlow"),
         icon: "repeat",
         path: "/docflow",
-        visible: hasDocflowAccess(rootGetters),
+        visible: hasDocflowAccess(rootGetters) && hasRegistrationSettingAccess(rootGetters),
         items: [
           {
             text: this.$i18n.t("menu.documentKind"),
@@ -303,7 +309,7 @@ export const actions = {
       {
         text: this.$i18n.t("menu.shared-directory"),
         icon: "inactivefolder",
-        visible: hasSharedDirectoryAccess(rootGetters),
+        visible: hasSharedDirectoryAccess(rootGetters) && hasCounterPartySettingAccess(rootGetters),
         path: "/shared-directory",
         items: [
           {
