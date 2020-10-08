@@ -17,7 +17,7 @@ export default function (app) {
     }
     async function scanDocument(params) {
         try {
-            await connection.invoke("scanDocument", params);
+            await connection.invoke("startScan", params);
             return true;
         } catch {
             console.log("connection failed")
@@ -46,23 +46,23 @@ export default function (app) {
         connection.stop()
     }
     function onUpdateDeviceInfo(handler) {
-        connection.on("UpdateDeviceInfo", handler)
+        connection.on("updateDeviceInfo", handler)
     }
     function onDocumentScannered(handler) {
-        connection.on("DocumentScannered", handler)
+        connection.on("scanCompleted", handler)
     }
     function onFileGenerated(handler) {
-        connection.on("FileGenerated", handler)
+        connection.on("fileGenerated", handler)
     }
     onUpdateDeviceInfo((device) => {
         console.log("device", device);
-        app.dispatch("scanner/setDevice", device)
+        app.store.dispatch("scanner/setDevices", device)
     })
     onDocumentScannered((document) => {
-        app.dispatch("scanner/setPage", document)
+        app.store.dispatch("scanner/setPage", document)
     })
     onFileGenerated((file) => {
-        app.dispatch("scanner/setFile", file)
+        app.store.dispatch("scanner/setFile", file)
     })
     return {
         tryConnect,

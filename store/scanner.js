@@ -13,25 +13,23 @@ export const state = () => ({
     devices: [{
         id: 0, name: "Cannon",
         mode: [
-            { name: "scanner.coloured", id: 0 },
-            { name: "blackWhite", id: 1 },
+            "scanner.coloured",
+            "blackWhite",
         ],
         dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
     },
     {
         id: 1, name: "Hp 2020vf",
         mode: [
-            { name: "scanner.coloured", id: 1 },
-            { name: "blackWhite", id: 1 },
-            { name: "scanner.colo2121red", id: 3 },
+            "scanner.coloured",
+            "blackWhite",
         ],
         dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
     }, {
         id: 2, name: "Samsung",
         mode: [
-            { name: "scanner.colo2121red", id: 2 },
-            { name: "scanner.coloured", id: 0 },
-            { name: "blackWhite", id: 1 },
+            "scanner.coloured",
+            "blackWhite",
         ],
         dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
     }
@@ -44,8 +42,9 @@ export const state = () => ({
     currentPageId: 0,
     params: deviceParamsByCurrentDevice || {
         mode: null,
-        device: null,
-        dpi: null
+        id: null,
+        dpi: null,
+        size: null
     },
 
 })
@@ -75,7 +74,6 @@ export const getters = {
     }
 }
 export const mutations = {
-
     DELETE_FILES(state) {
         state.files = []
     },
@@ -84,16 +82,20 @@ export const mutations = {
     },
     SET_DEVICE(state, payload) {
         console.log(payload, "store device");
-        state.params.device = payload
-        writeParamsByCurrentDevice(state.params, state.params.device)
+        state.params.id = payload
+        writeParamsByCurrentDevice(state.params, state.params.id)
+    },
+    SET_SIZE(state, payload) {
+        state.params.size = payload
+        writeParamsByCurrentDevice(state.params, state.params.id)
     },
     SET_MODE(state, payload) {
         state.params.mode = payload
-        writeParamsByCurrentDevice(state.params, state.params.device)
+        writeParamsByCurrentDevice(state.params, state.params.id)
     },
     SET_DPI(state, payload) {
         state.params.dpi = payload
-        writeParamsByCurrentDevice(state.params, state.params.device)
+        writeParamsByCurrentDevice(state.params, state.params.id)
     },
     DELETE_PAGE(state) {
         state.files = state.files.filter(file => file.id !== state.currentPageId)
@@ -122,9 +124,12 @@ export const mutations = {
 
         })
     },
+    SET_DEVICES(state, payload) {
+        state.devices = payload
+    },
     SET_PARAMS(state, payload) {
         state.params = payload
-        writeParamsByCurrentDevice(state.params, state.params.device)
+        writeParamsByCurrentDevice(state.params, state.params.id)
     },
     SET_CURRENT_DEVICE(state, payload) {
         state.currentDevice = payload
@@ -164,10 +169,7 @@ export const actions = {
         console.log("Closset");
     },
 
-    setDevice({ commit }, payload) {
-        const defaultParams = JSON.parse(localStorage.getItem(`deviceParamsBy: ${payload}`))
-        if (defaultParams) this.setParams(defaultParams)
-        else commit("SET_DEVICE", payload.id)
-        commit("SET_DEVICE_STORE", payload)
+    setDevices({ commit }, payload) {
+        commit("SET_DEVICES", payload)
     },
 }

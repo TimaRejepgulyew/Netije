@@ -4,13 +4,16 @@ export default {
     blackWhite: "Черно-белый",
     downloadfile: "Загрузите файл",
     fields: {
+        mode: "Глубина цвета",
         device: "Устройства",
-        color: "Цветовая палитра",
+        size: "Размер",
         extencion: "Разрешение",
     },
     validation: {
         deviceRequired: "Выберите устройство",
-        colorRequired: "Выберите цветовую палитру",
-        extencionRequired: "Выберите разрешение"
+        modeRequired: "Выберите глубину цвета",
+        extencionRequired: "Выберите разрешение",
+        size: "Выберите размер документа"
+
     }
 }

@@ -57,7 +57,7 @@ export default {
     showScannerDialog() {
       console.log("show scanner dialog");
       this.$awn.asyncBlock(this.$scanner.tryConnect(), (connected) => {
-        if (connected) {
+        if (!connected) {
           alert(`document.message.setupFor`, this.$t("shared.error"));
           return false;
         } else {

@@ -9,7 +9,7 @@
     :validation-group="documentValidatorName"
   >
     <DxSimpleItem
-      data-field="deviсe"
+      data-field="id"
       :editor-options="deviceOptions"
       editor-type="dxSelectBox"
     >
@@ -17,12 +17,20 @@
       <DxRequiredRule :message="$t('scanner.validation.deviceRequired')" />
     </DxSimpleItem>
     <DxSimpleItem
-      data-field="color"
+      data-field="mode"
       :editor-options="modeOptions"
       editor-type="dxSelectBox"
     >
-      <DxLabel :text="$t('scanner.fields.color')" />
-      <DxRequiredRule :message="$t('scanner.validation.colorRequired')" />
+      <DxLabel :text="$t('scanner.fields.mode')" />
+      <DxRequiredRule :message="$t('scanner.validation.modeRequired')" />
+    </DxSimpleItem>
+    <DxSimpleItem
+      data-field="size"
+      :editor-options="sizeOptions"
+      editor-type="dxSelectBox"
+    >
+      <DxLabel :text="$t('scanner.fields.size')" />
+      <DxRequiredRule :message="$t('scanner.validation.sizeRequired')" />
     </DxSimpleItem>
     <DxSimpleItem
       data-field="dpi"
@@ -40,6 +48,7 @@
 </template>
 
 <script>
+import DataSource from "devextreme/data/data_source";
 import scanner from "~/static/icons/scanner/scanner.svg";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import DxForm, {
@@ -84,11 +93,12 @@ export default {
           context: this,
         }),
         dataSource: this.devicesStore,
-        value: this.params.device,
+        value: this.params.id,
         onValueChanged: (e) => {
+          this.setSize(null);
           this.setDpi(null);
           this.setMode(null);
-          this.setDevice(e.value);
+          this.setDeviceId(e.value);
         },
         onSelectionChanged: (e) => {
           this.setCurrentDevice(e.selectedItem);
@@ -97,9 +107,6 @@ export default {
     },
     modeOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-        }),
         searchEnabled: true,
         dataSource: this.deviceStore?.mode,
         value: this.params.mode,
@@ -109,10 +116,25 @@ export default {
         },
       };
     },
+    sizeOptions() {
+      return {
+        dataSource: this.deviceStore?.size,
+        value: this.params.size,
+        onValueChanged: (e) => {
+          console.log(e.value);
+          this.setSize(e.value);
+        },
+      };
+    },
     dpiOptions() {
       return {
         searchEnabled: true,
-        dataSource: this.deviceStore?.dpi,
+        dataSource: new DataSource({
+          paginate: true,
+          pageSize: 10,
+          loadMode: "raw",
+          load: () => this.deviceStore?.dpi,
+        }),
         value: this.params.dpi,
         onValueChanged: (e) => {
           console.log(e.value);
@@ -122,15 +144,13 @@ export default {
     },
   },
   methods: {
-    setDeviceParamsStore({ dpi, mode }) {
-      this.dpiStore = dpi;
-      this.modeStore = mode;
-    },
+   
     ...mapMutations({
       setCurrentDevice: "scanner/SET_CURRENT_DEVICE",
       setDpi: "scanner/SET_DPI",
       setMode: "scanner/SET_MODE",
-      setDevice: "scanner/SET_DEVICE",
+      setDeviceId: "scanner/SET_DEVICE",
+      setSize: "scanner/SET_SIZE",
     }),
   },
 };
