@@ -89,9 +89,8 @@ export default {
     }),
     deviceOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-        }),
+        valueExpr: "id",
+        displayExpr: "name",
         dataSource: this.devicesStore,
         value: this.params.id,
         onValueChanged: (e) => {
@@ -144,7 +143,6 @@ export default {
     },
   },
   methods: {
-   
     ...mapMutations({
       setCurrentDevice: "scanner/SET_CURRENT_DEVICE",
       setDpi: "scanner/SET_DPI",

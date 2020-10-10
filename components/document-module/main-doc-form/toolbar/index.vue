@@ -69,7 +69,7 @@
       <DxItem
         template="toolbarItemUploadVersionFromScanner"
         locateInMenu="auto"
-        :visible="!canUpdate"
+        :visible="!hasVersions"
         location="before"
       />
       <template #toolbarItemUploadVersionFromScanner>

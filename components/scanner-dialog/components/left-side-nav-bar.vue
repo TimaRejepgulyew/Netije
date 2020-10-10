@@ -1,19 +1,21 @@
 <template>
   <ol class="left-side-bar--container">
-    <li
-      class="d-flex left-side-bar--item"
-      :class="{ isCurrent: el.id === currentPageId }"
-      @click="() => setCurrentPage(el.id)"
-      v-for="(el, index) in files"
-      :key="el.id"
-    >
-      <span> {{ index + 1 }}.</span>
-      <img
-        class="item__page"
-        :class="{ ['rotate-' + el.rotate]: el.rotate }"
-        :src="el.file"
-      />
-    </li>
+    <transition-group name="flip-list">
+      <li
+        class="d-flex left-side-bar--item"
+        :class="{ isCurrent: el.id === currentPageId }"
+        @click="() => setCurrentPage(el.id)"
+        v-for="(el, index) in files"
+        :key="el.id"
+      >
+        <span> {{ index + 1 }}.</span>
+        <img
+          class="item__page"
+          :class="{ ['rotate-' + el.rotate]: el.rotate }"
+          :src="'data:image/png;base64,' + el.data"
+        />
+      </li>
+    </transition-group>
   </ol>
 </template>
 
@@ -38,13 +40,16 @@ export default {
 * {
   box-sizing: border-box;
 }
+.flip-list-move {
+  transition: transform 0.6s;
+}
 .item__page {
   background: #f4f4f4;
   display: block;
   margin: 5px auto;
   width: 80%;
   height: 100%;
-  min-height: 300px;
+  min-height: 200px;
   max-height: 50%;
   transition: 0.4s border;
   border: 2px solid white;

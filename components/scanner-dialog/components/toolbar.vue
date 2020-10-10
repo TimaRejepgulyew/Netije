@@ -24,12 +24,26 @@
       location="before"
       widget="dxButton"
     />
+    <DxItem
+      :disabled="!hasActivePage || isFilesEmpty"
+      :options="btnOrderUpOptions"
+      location="before"
+      widget="dxButton"
+    />
+    <DxItem
+      :disabled="!hasActivePage || isFilesEmpty"
+      :options="btnOrderDownOptions"
+      location="before"
+      widget="dxButton"
+    />
   </DxToolbar>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import scanner from "~/static/icons/scanner/scanner.svg";
+import orderUp from "~/static/icons/scanner/order-up.svg";
+import orderDown from "~/static/icons/scanner/order-down.svg";
 import rotateLeft from "~/static/icons/scanner/rotateLeft.svg";
 import rotateRight from "~/static/icons/scanner/rotateRight.svg";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -44,11 +58,18 @@ export default {
       saveFile: "scanner/saveFile",
       scanDocument: "scanner/scanDocument",
       deletePage: "scanner/deletePage",
+      setOrderUp: "scanner/setOrderUp",
+      setOrderDown: "scanner/setOrderDown",
     }),
+  },
+  created() {
+    console.log(this.currentPage, "current Page");
   },
   computed: {
     ...mapGetters({
       isFilesEmpty: "scanner/isFilesEmpty",
+      currentPage: "scanner/currentPage",
+      files: "scanner/files",
     }),
     hasActivePage() {
       return this.$store.getters["scanner/currentPageId"] !== null;
@@ -86,6 +107,26 @@ export default {
         text: this.$t("buttons.rotateLeft"),
         onClick: () => {
           this.rotatePage(-90);
+        },
+      };
+    },
+    btnOrderUpOptions() {
+      return {
+        icon: orderUp,
+        text: this.$t("buttons.orderUp"),
+        disabled: this.currentPage?.order === 1,
+        onClick: () => {
+          this.setOrderUp();
+        },
+      };
+    },
+    btnOrderDownOptions() {
+      return {
+        icon: orderDown,
+        text: this.$t("buttons.orderDown"),
+        disabled: this.currentPage?.order === this.files.length,
+        onClick: () => {
+          this.setOrderDown();
         },
       };
     },

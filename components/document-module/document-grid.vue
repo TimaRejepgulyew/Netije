@@ -19,7 +19,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="false"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif'),
+      }"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="false"
@@ -44,7 +47,7 @@
       <DxStateStoring
         :enabled="true"
         type="localStorage"
-        :storage-key="'allDocument'+documentQuery"
+        :storage-key="'allDocument' + documentQuery"
       />
       <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
 
@@ -52,7 +55,7 @@
       <DxScrolling mode="virtual" />
 
       <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value?cell.data.value:null" />
+        <document-icon :extension="cell.data.value ? cell.data.value : null" />
       </template>
     </DxDataGrid>
   </main>

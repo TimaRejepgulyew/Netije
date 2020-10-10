@@ -7,38 +7,52 @@ const writeParamsByCurrentDevice = (params, currentDeviceId) => {
     JSON.stringify(params)
     localStorage.setItem(`deviceParamsBy/${currentDeviceId}`, JSON.stringify(params))
 }
+function sortFiles(files) {
+    return files.sort(function (prevEl, currentEl) {
+        if (prevEl.order > currentEl.oder) {
+            return 1;
+        }
+        if (prevEl.order < currentEl.order) {
+            return -1;
+        }
+        return 0;
+    });
+}
 export const state = () => ({
+    isLoading: false,
     file: null,
     currentDevice,
-    devices: [{
-        id: 0, name: "Cannon",
-        mode: [
-            "scanner.coloured",
-            "blackWhite",
-        ],
-        dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
-    },
-    {
-        id: 1, name: "Hp 2020vf",
-        mode: [
-            "scanner.coloured",
-            "blackWhite",
-        ],
-        dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
-    }, {
-        id: 2, name: "Samsung",
-        mode: [
-            "scanner.coloured",
-            "blackWhite",
-        ],
-        dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
-    }
+    devices: [
+        //{
+        //     id: 0, name: "Cannon",
+        //     mode: [
+        //         "scanner.coloured",
+        //         "blackWhite",
+        //     ],
+        //     dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
+        // },
+        // {
+        //     id: 1, name: "Hp 2020vf",
+        //     mode: [
+        //         "scanner.coloured",
+        //         "blackWhite",
+        //     ],
+        //     dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
+        // }, {
+        //     id: 2, name: "Samsung",
+        //     mode: [
+        //         "scanner.coloured",
+        //         "blackWhite",
+        //     ],
+        //     dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
+        // }
     ],
     files: [
-        { id: 0, file: somePic1, rotate: 0 },
-        { id: 1, file: somePic2, rotate: 0 },
-        { id: 3, file: document, rotate: 0 },
-        { id: 4, file: somePic2, rotate: 0 },],
+        // { id: 0, file: somePic1, rotate: 0, order: 1, },
+        // { id: 1, file: somePic2, rotate: 0, order: 2, },
+        // { id: 2, file: document, rotate: 0, order: 3, },
+        // { id: 3, file: somePic2, rotate: 0, order: 4, },
+    ],
     currentPageId: 0,
     params: deviceParamsByCurrentDevice || {
         mode: null,
@@ -50,6 +64,9 @@ export const state = () => ({
 })
 
 export const getters = {
+    isLoading({ isLoading }) {
+        return isLoading
+    },
     isFilesEmpty({ files }) {
         return files.length === 0
     },
@@ -74,6 +91,9 @@ export const getters = {
     }
 }
 export const mutations = {
+    TOGGLE_LOADING(state,) {
+        state.isLoading = !state.isLoading;
+    },
     DELETE_FILES(state) {
         state.files = []
     },
@@ -102,7 +122,8 @@ export const mutations = {
     },
     SET_PAGE(state, payload) {
         payload.rotate = 0
-        state.files.unshift(payload)
+        payload.order = state.files.length
+        state.files.push(payload)
 
     },
     SET_CURRENT_PAGE_ID(state, payload) {
@@ -135,6 +156,37 @@ export const mutations = {
         state.currentDevice = payload
         console.log(state.currentDevice, 'stiore');
         localStorage.setItem("currentDevice", JSON.stringify(state.currentDevice))
+    },
+    SET_ORDER(state, payload) {
+        let newOrder
+        let files = state.files.map((page) => {
+            if (page.id === state.currentPageId) {
+                if (payload === "up") page.order -= 1
+                else if (payload === "down") page.order += 1
+                newOrder = page.order
+            }
+
+            return page
+        })
+        files = files.map((page) => {
+            if (payload == "up") {
+
+                if (page.id !== state.currentPageId && page.order === newOrder) {
+                    console.log(page);
+                    page.order++
+                }
+            }
+            else if (payload == "down") {
+                if (page.id !== state.currentPageId && page.order === newOrder) {
+                    page.order--
+                }
+            }
+
+            return page
+        })
+        state.files = sortFiles(files)
+        console.log(state.files);
+
     }
 }
 export const actions = {
@@ -172,4 +224,11 @@ export const actions = {
     setDevices({ commit }, payload) {
         commit("SET_DEVICES", payload)
     },
+    setOrderUp({ commit },) {
+        commit("SET_ORDER", "up")
+    },
+    setOrderDown({ commit },) {
+        commit("SET_ORDER", "down")
+    }
 }
+

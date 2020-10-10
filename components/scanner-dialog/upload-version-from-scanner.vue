@@ -3,14 +3,17 @@
     <DxPopup
       :visible.sync="isOpenPopup"
       :drag-enabled="false"
-      :close-on-outside-click="true"
+      :close-on-outside-click="false"
       :show-title="false"
       width="90%"
       maxHeight="95%"
       height="auto"
     >
       <div>
-        <scanner-dialog v-if="isOpenPopup" @onSave="uploadVersionFromFile" />
+        <scanner-dialog
+          @closeScanDialog="togglePopup"
+          @onSave="uploadVersionFromFile"
+        />
       </div>
     </DxPopup>
     <DxButton
@@ -58,7 +61,10 @@ export default {
       console.log("show scanner dialog");
       this.$awn.asyncBlock(this.$scanner.tryConnect(), (connected) => {
         if (!connected) {
-          alert(`document.message.setupFor`, this.$t("shared.error"));
+          alert(
+            this.$t("scanner.alert.checkSwichOnScannerApp"),
+            this.$t(`scanner.alert.error`)
+          );
           return false;
         } else {
           this.togglePopup();
@@ -66,12 +72,6 @@ export default {
       });
     },
     uploadVersionFromFile(e) {
-      if (!this.document.subject) {
-        this.$store.dispatch(
-          `documents/${this.documentId}/setSubject`,
-          e.file.name.split(".").slice(0, -1).join(".")
-        );
-      }
       this.$awn.async(
         documentService.uploadVersion(this.document, e.file, this),
         (e) => {

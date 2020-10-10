@@ -171,6 +171,8 @@ export default {
   assignment: assignmentModule,
   menu: menu,
   buttons: {
+    orderUp: "вверх",
+    orderDown: "вниз",
     createFromScanner: "Создать со сканера",
     scanner: "Сканировать",
     rotateLeft: "Повернуть на лево 90",

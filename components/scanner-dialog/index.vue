@@ -1,10 +1,18 @@
 <template>
   <form @submit.prevent="scanDocument">
+    <DxLoadPanel :visible.sync="isLoading" :indicatorSrc="indicatorIcon" />
     <Header
       :headerTitle="$t('scanner.header')"
       :isbackButton="false"
       :isNew="false"
-    ></Header>
+    >
+      <DxButton
+        slot="toolbar"
+        icon="close"
+        styling-mode="text"
+        @click="closeScanDialog"
+      />
+    </Header>
     <toolbar
       class="toolbar-scanner"
       :documentValidatorName="documentValidatorName"
@@ -28,13 +36,17 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import indicatorIcon from "~/static/icons/loading.gif";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import Header from "~/components/page/page__header";
 import scannerIcon from "~/components/scanner-dialog/scanner-icon.vue";
 import currentPage from "./components/current-page.vue";
 import leftSideBar from "./components/left-side-nav-bar.vue";
 import toolbar from "./components/toolbar.vue";
 import rightSideBar from "./components/right-side-nav-bar.vue";
+import { DxButton } from "devextreme-vue";
+import { DxLoadPanel } from "devextreme-vue/load-panel";
+import { confirm } from "devextreme/ui/dialog";
 export default {
   components: {
     Header,
@@ -43,9 +55,12 @@ export default {
     currentPage,
     leftSideBar,
     rightSideBar,
+    DxButton,
+    DxLoadPanel,
   },
   data() {
     return {
+      indicatorIcon,
       documentValidatorName: "scannerParamsFormValidator",
     };
   },
@@ -56,17 +71,41 @@ export default {
     ...mapActions({
       onClose: "scanner/onClose",
     }),
+    ...mapMutations({
+      toggleLoading: "scanner/TOGGLE_LOADING",
+    }),
     onFileSaved() {},
     scanDocument() {
       this.$store.dispatch("scanner/scanDocument");
+      this.toggleLoading();
+      setTimeout(() => {
+        if (this.isLoading) this.toggleLoading();
+      }, 1000 * 60);
+    },
+    async closeScanDialog() {
+      if (!this.isFilesEmpty) {
+        const confirmmessage = this.isLoading
+          ? this.loadingConfirm
+          : this.notSaveConFirm;
+        const result = await confirm(...confirmmessage);
+        if (!result) return;
+      }
+      this.$emit("closeScanDialog");
     },
   },
   computed: {
     ...mapGetters({
       isFilesEmpty: "scanner/isFilesEmpty",
+      isLoading: "scanner/isLoading",
     }),
     hasActivePage() {
       return this.$store.getters["scanner/currentPageId"] != null;
+    },
+    loadingConfirm() {
+      return [this.$t("scanner.confirm.loading"), this.$t("shared.areYouSure")];
+    },
+    notSaveConFirm() {
+      return [this.$t("scanner.confirm.notSave"), this.$t("shared.areYouSure")];
     },
   },
 };
@@ -76,8 +115,8 @@ export default {
 .left-side-bar {
   overflow-y: scroll;
   overflow-x: hidden;
-  width: 25%;
-  flex-basis: 25%;
+  width: 20%;
+  flex-basis: 20%;
 }
 .main {
   display: flex;

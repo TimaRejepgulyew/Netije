@@ -4,7 +4,7 @@
       v-if="data"
       :class="{ ['rotate-' + data.rotate]: data.rotate }"
       class="current-page"
-      :src="data.file"
+      :src="'data:image/png;base64,' + data.data"
     />
   </div>
 </template>

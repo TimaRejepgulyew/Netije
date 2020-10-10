@@ -5,7 +5,6 @@
 import { load } from "~/infrastructure/services/documentService.js";
 import mainDocumentForm from "~/components/document-module/main-doc-form/index.vue";
 import { confirm } from "devextreme/ui/dialog";
-import dataApi from "~/static/dataApi";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
 export default {
   components: {

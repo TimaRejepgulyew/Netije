@@ -3,7 +3,7 @@ export default function (app) {
     const connection = new HubConnectionBuilder()
         .withUrl("http://192.168.4.179:8080/SignalR")
         // .withAutomaticReconnect(0)
-        .withAutomaticReconnect([0, 0, 0, 0])
+        .withAutomaticReconnect()
         .configureLogging(LogLevel.Information)
         .build()
     async function tryConnect() {
@@ -43,12 +43,12 @@ export default function (app) {
         }
     }
     function stopConnection() {
-        connection.stop()
+        // connection.stop()
     }
     function onUpdateDeviceInfo(handler) {
         connection.on("updateDeviceInfo", handler)
     }
-    function onDocumentScannered(handler) {
+    function onScanCompleted(handler) {
         connection.on("scanCompleted", handler)
     }
     function onFileGenerated(handler) {
@@ -58,11 +58,14 @@ export default function (app) {
         console.log("device", device);
         app.store.dispatch("scanner/setDevices", device)
     })
-    onDocumentScannered((document) => {
+    onScanCompleted((document) => {
+        console.log(document, "scan Completed");
         app.store.dispatch("scanner/setPage", document)
+        app.store.commit("scanner/TOGGLE_LOADING",)
     })
     onFileGenerated((file) => {
         app.store.dispatch("scanner/setFile", file)
+        app.store.commit("scanner/TOGGLE_LOADING",)
     })
     return {
         tryConnect,
