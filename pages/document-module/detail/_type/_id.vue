@@ -1,5 +1,9 @@
 <template>
-  <main-document-form :isCard="false" @onClose="onClose" :documentId="$route.params.id" />
+  <main-document-form
+    :isCard="false"
+    @onClose="onClose"
+    :documentId="+$route.params.id"
+  />
 </template>
 <script>
 import { load } from "~/infrastructure/services/documentService.js";

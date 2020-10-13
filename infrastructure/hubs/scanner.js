@@ -43,7 +43,7 @@ export default function (app) {
         }
     }
     function stopConnection() {
-        // connection.stop()
+         connection.stop()
     }
     function onUpdateDeviceInfo(handler) {
         connection.on("updateDeviceInfo", handler)

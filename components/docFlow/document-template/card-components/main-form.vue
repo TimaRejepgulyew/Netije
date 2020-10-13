@@ -3,7 +3,6 @@
     <DxForm
       :scrolling-enabled="true"
       ref="form"
-      :read-only="!canUpdate"
       :show-colon-after-label="true"
       :show-validation-summary="false"
       :validation-group="documentValidatorName"
@@ -13,16 +12,6 @@
         <DxRequiredRule :message="$t('document.validation.nameRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="documentTypeId"
-        :editor-options="documentTypeOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="left" :text="$t('document.fields.documentType')" />
-        <DxRequiredRule
-          :message="$t('document.validation.documentTypeRequired')"
-        />
-      </DxSimpleItem>
-      <DxSimpleItem
         data-field="documentKindId"
         :editor-options="documentKindOptions"
         editor-type="dxSelectBox"
@@ -30,6 +19,16 @@
         <DxLabel location="left" :text="$t('document.fields.documentKindId')" />
         <DxRequiredRule
           :message="$t('document.validation.documentKindIdRequired')"
+        />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="documentTypeId"
+        :editor-options="documentTypeOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel location="left" :text="$t('document.fields.documentType')" />
+        <DxRequiredRule
+          :message="$t('document.validation.documentTypeRequired')"
         />
       </DxSimpleItem>
       <DxSimpleItem
@@ -58,6 +57,7 @@
 </template>
 
 <script>
+import dataApi from "~/static/dataApi";
 import DxForm, {
   DxTabbedItem,
   DxTab,
@@ -76,8 +76,15 @@ export default {
     DxRequiredRule,
     DxLabel,
   },
+  props: ["documentId", "isCard"],
+  inject: ["documentValidatorName"],
   computed: {
     canUpdate() {
+      console.log(
+        "documentid ",
+        this.documentId,
+        this.$store.getters[`documents/${this.documentId}/canUpdate`]
+      );
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     document() {
@@ -85,35 +92,38 @@ export default {
     },
     nameOptions() {
       return {
-        readOnly: this.canUpdate,
-        value: this.document.name,
+        readOnly: !this.canUpdate,
+        value: this.document?.name,
         onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setDocumentName`,
-            e.value
-          );
+          this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
         },
       };
     },
-    documentType() {
+    documentTypeOptions() {
       return {
-        readOnly: this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentType,
         }),
-        value: this.document.documentType,
+        valueExpr: "documentTypeGuid",
+        value: this.document?.documentTypeGuid,
         onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setDocumentType`,
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DOCUMENT_TYPE_GUID`,
             e.value
+          );
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DOCUMENT_KIND_ID`,
+            null
           );
         },
       };
     },
     documentKindOptions() {
+      console.log(this.document.documentTypeGuid, "typeGuid");
       return {
-        readOnly: this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentKind,
@@ -123,10 +133,11 @@ export default {
             ["status", "=", 0],
           ],
         }),
-        value: this.document.documentKindId,
+
+        value: this.document?.documentKindId,
         onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setDocumentKind`,
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DOCUMENT_KIND_ID`,
             e.value
           );
         },
@@ -134,15 +145,15 @@ export default {
     },
     businessUnitOptions() {
       return {
-        readOnly: this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
         }),
-        value: this.document.businessUnitId,
+        value: this.document?.businessUnitId,
         onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setBusinessUnitId`,
+          this.$store.commit(
+            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
             e.value
           );
         },
@@ -150,15 +161,15 @@ export default {
     },
     departmentOptions() {
       return {
-        readOnly: this.canUpdate,
+        readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
         }),
-        value: this.document.departmentId,
+        value: this.document?.departmentId,
         onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setDepartmentId`,
+          this.$store.commit(
+            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
             e.value
           );
         },
@@ -167,9 +178,9 @@ export default {
     noteOptions() {
       return {
         height: 90,
-        value: this.document.body,
+        value: this.document?.body,
         onValueChanged: (e) => {
-          this.$store.dispatch(`documents/${this.documentId}/setBody`, e.value);
+          this.$store.commit(`documents/${this.documentId}/ SET_NOTE`, e.value);
         },
       };
     },

@@ -1,23 +1,23 @@
 <template>
   <div>
     <Header
-      :headerTitle="generateHeaderTitle"
+      :headerTitle="$t('documentTemplate.headerTitle')"
       :isbackButton="!isCard"
       :isNew="isNew"
     ></Header>
-    <toolbar
+    <!-- <toolbar
       :documentId="documentId"
       :isCard="isCard"
       @onClose="onClose"
       @openVersion="openVersion"
       @onRemove="onRemove"
-    ></toolbar>
+    ></toolbar> -->
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
         class="mt-1"
         ref="form"
-        :read-only="!canUpdate"
+        :read-only="canUpdate"
         :show-colon-after-label="true"
         :show-validation-summary="false"
         :validation-group="documentValidatorName"
@@ -34,56 +34,6 @@
               :col-count="1"
               template="params-form"
             ></DxSimpleItem>
-            <!-- <DxGroupItem
-              :col-span="8"
-              :col-count="1"
-              :caption="$t('document.groups.captions.main')"
-            >
-              <DxSimpleItem data-field="name" :editor-options="nameOptions">
-                <DxLabel location="left" :text="$t('document.fields.name')" />
-                <DxRequiredRule
-                  :message="$t('document.validation.nameRequired')"
-                />
-              </DxSimpleItem>
-              <DxSimpleItem
-                data-field="documentKindId"
-                :editor-options="documentKindOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel
-                  location="left"
-                  :text="$t('document.fields.documentKindId')"
-                />
-                <DxRequiredRule
-                  :message="$t('document.validation.documentKindIdRequired')"
-                />
-              </DxSimpleItem>
-
-              <DxSimpleItem
-                data-field="subject"
-                :editor-options="subjectOptions"
-                editor-type="dxTextArea"
-              >
-                <DxLabel
-                  location="left"
-                  :text="$t('document.fields.subject')"
-                />
-                <DxRequiredRule
-                  :message="$t('document.validation.subjectRequired')"
-                />
-              </DxSimpleItem>
-              <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
-              <DxSimpleItem
-                data-field="note"
-                :editor-options="noteOptions"
-                editor-type="dxTextArea"
-              >
-                <DxLabel location="left" :text="$t('document.fields.note')" />
-              </DxSimpleItem>
-            </DxGroupItem> -->
-            <!-- <DxGroupItem :col-span="4">
-              <DxSimpleItem template="registrationBlock"></DxSimpleItem>
-            </DxGroupItem> -->
           </DxTab>
           <DxTab
             :col-count="8"
@@ -100,32 +50,32 @@
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
         </DxTabbedItem>
-        <template #history>
+        <!-- <template #history>
           <History
             :entityTypeGuid="entityTypeGuid"
             :id="documentId"
             slot="history"
           ></History>
-        </template>
+        </template> -->
         <template #main-form>
           <main-form :documentId="documentId" :isCard="isCard"></main-form>
         </template>
-        <template #params-form>
+        <!-- <template #params-form>
           <component
             :documentId="documentId"
             :isCard="isCard"
             :is="formByTypeGuid"
           ></component>
-        </template>
+        </template> -->
       </DxForm>
-      <transition name="fade">
+      <!-- <transition name="fade">
         <docVersion
           :documentId="documentId"
           :isCard="isCard"
           class="item--drawer"
           v-if="versionOpenState"
         ></docVersion>
-      </transition>
+      </transition> -->
     </div>
   </div>
 </template>
@@ -139,11 +89,14 @@ import DxForm, {
   DxRequiredRule,
   DxLabel,
 } from "devextreme-vue/form";
+import { unload } from "~/infrastructure/services/documentService.js";
 import dataApi from "~/static/dataApi";
 import toolbar from "./card-components/toolbar.vue";
 import Header from "~/components/page/page__header";
 import History from "~/components/page/history.vue";
 import docVersion from "~/components/document-module/main-doc-form/doc-version";
+import mainForm from "./card-components/main-form.vue";
+import paramsForm from "./card-components/params-form.vue";
 export default {
   components: {
     Header,
@@ -156,6 +109,8 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
+    mainForm,
+    paramsForm,
   },
   props: ["documentId", "isCard"],
   data() {
@@ -168,7 +123,30 @@ export default {
         swipeEnabled: true,
         loop: "true",
       },
-      documentValidatorName: `documentTemplate/${this.documentId}`,
+      documentValidatorName: `OfficialDocument/${this.documentId}`,
+    };
+  },
+  destroyed() {
+    unload(this, this.documentId);
+  },
+  created() {
+    if (this.isNew) {
+      this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
+    }
+    this.$store.commit(
+      `documents/${this.documentId}/SKIP_ROUTE_HANDLING`,
+      false
+    );
+  },
+  head() {
+    return {
+      title: this.$store.getters[`documents/${this.documentId}/document`].name,
+    };
+  },
+  provide: function () {
+    return {
+      trySaveDocument: this.trySave,
+      documentValidatorName: this.documentValidatorName,
     };
   },
   methods: {
@@ -182,9 +160,8 @@ export default {
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
         if (this.isDataChanged) {
-          await this.$awn.asyncBlock(
-            // this.$store.dispatch(`documents/${this.documentId}/save`)
-          );
+          await this.$awn.asyncBlock;
+          this.$store.dispatch(`documents/${this.documentId}/save`)();
         }
         return true;
       } else {
@@ -193,6 +170,23 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
+    },
+  },
+  computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    isNew() {
+      return this.$store.getters[`documents/${this.documentId}/isNew`];
+    },
+    canUpdate() {
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
+    },
+    isDataChanged() {
+      return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
+    },
+    isNew() {
+      return this.$store.getters[`documents/${this.documentId}/isNew`];
     },
   },
 };

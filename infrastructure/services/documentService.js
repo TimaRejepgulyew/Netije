@@ -1,11 +1,10 @@
 import dataApi from "~/static/dataApi";
-import * as documentStoreTemplate from "~/infrastructure/storeTemplate/documentStore.js";
-import StoreModule from "~/infrastructure/services/StoreModule.js";
+import DocumentStoreTemplate from "~/infrastructure/services/DocumentStoreModule.js"
 import docmentKindService from "~/infrastructure/services/documentKind.js";
-export const documentModules = new StoreModule({
+export const documentModules = new DocumentStoreTemplate({
   moduleName: "documents",
-  storeTemplate: documentStoreTemplate
 });
+
 export function loadDocument(context, documentId, payload) {
   payload.document.documentKind = docmentKindService.emptyDocumentKind();
   context.$store.commit(
@@ -14,7 +13,17 @@ export function loadDocument(context, documentId, payload) {
   );
   context.$store.commit(`documents/${documentId}/SET_DOCUMENT`, payload);
 }
-
+export async function createDocumentTemplate() {
+  const { data } = await context.$axios.post(
+    dataApi.documentTemplate.createDocumentTemplate,
+    params
+  );
+  const documentId = data.document.id;
+  const documentTypeGuid = data.document.documentTypeGuid;
+  documentModules.setStoreTemplate(documentTypeGuid)
+  await documentModules.registerModule(context, documentId);
+  loadDocument(context, documentId, data);
+}
 export async function createDocument(context, params) {
   const { data } = await context.$axios.post(
     dataApi.documentModule.Documents,
@@ -22,6 +31,7 @@ export async function createDocument(context, params) {
   );
   const documentId = data.document.id;
   const documentTypeGuid = data.document.documentTypeGuid;
+  documentModules.setStoreTemplate(documentTypeGuid)
   await documentModules.registerModule(context, documentId);
   loadDocument(context, documentId, data);
 
@@ -39,9 +49,45 @@ export async function createLeadingDocument(context, params) {
   );
   return { documentId, documentTypeGuid };
 }
-
-export async function load(context, { documentTypeGuid, documentId }) {
+export async function loadDocumentTemplate(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
+    documentModules.setStoreTemplate(documentTypeGuid)
+    documentModules.registerModule(context, documentId);
+
+    // const { data } = await context.$axios.get(
+    //   `${dataApi.documentTemplate.GetDocumentById}${documentId}`
+    // );
+    const data = {
+      document: {
+        id: 1,
+        name: "Test",
+        note: "note",
+        documentKindId: null,
+        documentType: null,
+        documentTypeGuid: null,
+        businessUnitId: null,
+        departmentId: null
+      },
+      isNew: false,
+      isDataChanged: false,
+      canUpdate: true,
+      canDelete: true,
+      canRegister: false,
+      isRegistered: false,
+      skipRouteHandling: true,
+      overlays: null
+    }
+    loadDocument(context, documentId, data);
+    context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
+  }
+  if (!context.$store.getters[`documents/${documentId}/isNew`]) {
+    context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
+  }
+}
+export async function load(context, { documentTypeGuid, documentId }) {
+
+  if (!documentModules.hasModule(documentId)) {
+    documentModules.setStoreTemplate(documentTypeGuid)
     documentModules.registerModule(context, documentId);
 
     const { data } = await context.$axios.get(
@@ -56,9 +102,17 @@ export async function load(context, { documentTypeGuid, documentId }) {
 }
 
 export async function refresh(context, { documentTypeGuid, documentId }) {
-  const { data } = await context.$axios.get(
-    `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
-  );
+  let requiestApi
+  switch (documentTypeGuid) {
+    //TODO right request Api and documentTypeGuid add constant
+    case 20:
+      requiestApi = `${dataApi.documentTemplate.GetDocumentById}${documentId}`
+      break
+    default:
+      requiestApi = `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
+      break
+  }
+  let { data } = await context.$axios.get(requiestApi);
   context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
   loadDocument(context, documentId, data);

@@ -40,17 +40,18 @@ export default {
     DxPopup,
     scannerDialog,
   },
-  props: ["documentId"],
+  props: ["documentId", "storeName"],
   data() {
     return {
       fromScannerIcon,
-      associatedApplication: [],
       isOpenPopup: false,
     };
   },
   computed: {
     document() {
-      return this.$store.getters[`documents/${this.documentId}/document`];
+      return this.$store.getters[
+        `${this.storeName}/${this.documentId}/document`
+      ];
     },
   },
   methods: {
@@ -58,7 +59,6 @@ export default {
       this.isOpenPopup = !this.isOpenPopup;
     },
     showScannerDialog() {
-      console.log("show scanner dialog");
       this.$awn.asyncBlock(this.$scanner.tryConnect(), (connected) => {
         if (!connected) {
           alert(
@@ -76,7 +76,7 @@ export default {
         documentService.uploadVersion(this.document, e.file, this),
         (e) => {
           this.$store.commit(
-            `documents/${this.documentId}/SET_VERSION`,
+            `${this.storeName}/${this.documentId}/SET_VERSION`,
             e.data
           );
         },
