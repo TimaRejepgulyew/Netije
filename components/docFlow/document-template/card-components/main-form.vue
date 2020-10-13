@@ -12,6 +12,19 @@
         <DxRequiredRule :message="$t('document.validation.nameRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
+        data-field="documentTypeId"
+        :editor-options="documentTypeOptions"
+        editor-type="dxSelectBox"
+      >
+        <DxLabel
+          location="left"
+          :text="$t('document.fields.documentTypeGuid')"
+        />
+        <DxRequiredRule
+          :message="$t('document.validation.documentTypeRequired')"
+        />
+      </DxSimpleItem>
+      <DxSimpleItem
         data-field="documentKindId"
         :editor-options="documentKindOptions"
         editor-type="dxSelectBox"
@@ -19,16 +32,6 @@
         <DxLabel location="left" :text="$t('document.fields.documentKindId')" />
         <DxRequiredRule
           :message="$t('document.validation.documentKindIdRequired')"
-        />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="documentTypeId"
-        :editor-options="documentTypeOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="left" :text="$t('document.fields.documentType')" />
-        <DxRequiredRule
-          :message="$t('document.validation.documentTypeRequired')"
         />
       </DxSimpleItem>
       <DxSimpleItem
@@ -177,7 +180,7 @@ export default {
     },
     noteOptions() {
       return {
-        height: 90,
+        height: 150,
         value: this.document?.body,
         onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/ SET_NOTE`, e.value);

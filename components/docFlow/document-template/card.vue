@@ -60,13 +60,12 @@
         <template #main-form>
           <main-form :documentId="documentId" :isCard="isCard"></main-form>
         </template>
-        <!-- <template #params-form>
-          <component
+        <template #params-form>
+          <paramsForm
             :documentId="documentId"
             :isCard="isCard"
-            :is="formByTypeGuid"
-          ></component>
-        </template> -->
+          ></paramsForm>
+        </template>
       </DxForm>
       <!-- <transition name="fade">
         <docVersion

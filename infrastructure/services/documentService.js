@@ -59,6 +59,9 @@ export async function loadDocumentTemplate(context, { documentTypeGuid, document
     // );
     const data = {
       document: {
+        params: [
+          { name: "test name", value: "value.test" }
+        ],
         id: 1,
         name: "Test",
         note: "note",
