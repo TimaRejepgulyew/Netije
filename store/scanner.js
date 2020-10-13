@@ -122,7 +122,7 @@ export const mutations = {
     },
     SET_PAGE(state, payload) {
         payload.rotate = 0
-        payload.order = state.files.length
+        payload.order = state.files.length + 1
         state.files.push(payload)
 
     },
