@@ -61,8 +61,8 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="filesTypeId" :caption="$t('docFlow.fields.filesTypeId')">
-        <DxRequiredRule :message="$t('docFlow.validation.filesTypeIdRequired')" />
+      <DxColumn data-field="filesTypeId" :caption="$t('docFlow.fields.filesType')">
+        <DxRequiredRule :message="$t('docFlow.validation.filesTypeRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="filesTypeStores"
