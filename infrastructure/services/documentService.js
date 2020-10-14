@@ -60,14 +60,21 @@ export async function loadDocumentTemplate(context, { documentTypeGuid, document
     const data = {
       document: {
         params: [
-          { name: "test name", value: "value.test" }
+          { name: "wdawdaw", value: "value.test" },
+          { name: "Test", value: "value.test" },
+          { name: "best", value: "value.test" },
+          { name: "gest", value: "value.test" },
+          { name: "mwast", value: "value.test" },
+          { name: "fest", value: "value.test" }
+
         ],
         id: 1,
         name: "Test",
         note: "note",
         documentKindId: null,
         documentType: null,
-        documentTypeGuid: null,
+        documentTypeId: null,
+        documentTypeGuid: 17,
         businessUnitId: null,
         departmentId: null
       },

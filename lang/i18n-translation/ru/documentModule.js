@@ -37,15 +37,17 @@ export default {
   },
   groups: {
     captions: {
-      main: "ОСНОВНОЕ",
-      numberAndDate: "ДАТА И НОМЕР",
-      storing: "ХРАНЕНИЕ",
-      lifeCycle: "ЖИЗНЕННЫЙ ЦИКЛ",
-      versions: "Версии"
+      main: "Основное",
+      numberAndDate: "Дата и номер",
+      storing: "Хранение",
+      lifeCycle: "Жизненный цикл",
+      versions: "Версии",
+      params: "Параметры"
     }
   },
   fields: {
-    status:"Состояние",
+    value: "Значение",
+    status: "Состояние",
     note: "Комментарий",
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",
@@ -104,7 +106,7 @@ export default {
   },
   validation: {
     issuedToIdRequired: "Введите кому выдана доверенность",
-    ourSignatoryRequired:"Введите того кто подписал",
+    ourSignatoryRequired: "Введите того кто подписал",
     validTillRequired: "Введите по какой срок действительна доверенность",
     addresseeIdRequired: "Введите адрессата",
     nameRequired: "Введите наименование",
@@ -116,5 +118,8 @@ export default {
     counterPartRequired: "Выберите контрагента",
     documentGroupIdRequired: "Выберите категорию",
     leadingDocumentIdRequired: "Введите ведущий документ"
+  },
+  header: {
+    documentTemplate: "Шаблон документа"
   }
 };

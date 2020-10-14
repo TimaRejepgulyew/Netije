@@ -68,10 +68,10 @@ export const mutations = {
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
         state.document.extension = payload.extension;
     },
-    SET_DOCUMENT_TYPE_GUID(state, payload) {
-        if (checkDataChanged(state.document.documentTypeGuid, payload))
+    SET_DOCUMENT_TYPE_(state, payload) {
+        if (checkDataChanged(state.document.documentTypeId, payload))
             state.isDataChanged = true;
-        state.document.documentTypeGuid = payload
+        state.document.documentTypeId = payload
     },
     SET_DOCUMENT_KIND_ID(state, payload) {
         if (checkDataChanged(state.document.documentKindId, payload))
@@ -111,7 +111,16 @@ export const mutations = {
             state[item] = payload[item];
         }
     },
+    SET_PARAM(state, { name, value }) {
+        const currentParam = state.document.params.find(param => {
+            return param.name === name
+        })
+        if (checkDataChanged(currentParam.value, value)) {
+            state.isDataChanged = true;
+        }
+        currentParam.value = value
 
+    },
     DATA_CHANGED(state, payload) {
         state.isDataChanged = payload;
     },

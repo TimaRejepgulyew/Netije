@@ -110,10 +110,10 @@ export default {
           url: dataApi.docFlow.DocumentType,
         }),
         valueExpr: "documentTypeGuid",
-        value: this.document?.documentTypeGuid,
+        value: this.document?.documentTypeId,
         onValueChanged: (e) => {
           this.$store.commit(
-            `documents/${this.documentId}/SET_DOCUMENT_TYPE_GUID`,
+            `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
             e.value
           );
           this.$store.commit(
@@ -131,7 +131,7 @@ export default {
           context: this,
           url: dataApi.docFlow.DocumentKind,
           filter: [
-            ["documentTypeGuid", "=", this.document.documentTypeGuid],
+            ["documentTypeGuid", "=", this.document.documentTypeId],
             "and",
             ["status", "=", 0],
           ],

@@ -1,17 +1,17 @@
 <template>
   <div>
     <Header
-      :headerTitle="$t('documentTemplate.headerTitle')"
+      :headerTitle="headerTitle"
       :isbackButton="!isCard"
       :isNew="isNew"
     ></Header>
-    <!-- <toolbar
+    <toolbar
       :documentId="documentId"
       :isCard="isCard"
       @onClose="onClose"
       @openVersion="openVersion"
       @onRemove="onRemove"
-    ></toolbar> -->
+    ></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -24,16 +24,21 @@
       >
         <DxTabbedItem :tab-panel-options="tabPanelOptions">
           <DxTab :col-count="12" :title="$t('document.tabs.main')">
-            <DxSimpleItem
+            <DxGroupItem
               :col-span="6"
-              :col-count="1"
-              template="main-form"
-            ></DxSimpleItem>
-            <DxSimpleItem
+              :caption="$t('document.groups.captions.main')"
+            >
+              <DxSimpleItem :col-count="1" template="main-form"></DxSimpleItem>
+            </DxGroupItem>
+            <DxGroupItem
               :col-span="6"
-              :col-count="1"
-              template="params-form"
-            ></DxSimpleItem>
+              :caption="$t('document.groups.captions.params')"
+            >
+              <DxSimpleItem
+                :col-count="1"
+                template="params-form"
+              ></DxSimpleItem>
+            </DxGroupItem>
           </DxTab>
           <DxTab
             :col-count="8"
@@ -50,31 +55,28 @@
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
         </DxTabbedItem>
-        <!-- <template #history>
+        <template #history>
           <History
             :entityTypeGuid="entityTypeGuid"
             :id="documentId"
             slot="history"
           ></History>
-        </template> -->
+        </template>
         <template #main-form>
           <main-form :documentId="documentId" :isCard="isCard"></main-form>
         </template>
         <template #params-form>
-          <paramsForm
-            :documentId="documentId"
-            :isCard="isCard"
-          ></paramsForm>
+          <paramsForm :documentId="documentId" :isCard="isCard"></paramsForm>
         </template>
       </DxForm>
-      <!-- <transition name="fade">
+      <transition name="fade">
         <docVersion
           :documentId="documentId"
           :isCard="isCard"
           class="item--drawer"
           v-if="versionOpenState"
         ></docVersion>
-      </transition> -->
+      </transition>
     </div>
   </div>
 </template>
@@ -98,6 +100,7 @@ import mainForm from "./card-components/main-form.vue";
 import paramsForm from "./card-components/params-form.vue";
 export default {
   components: {
+    toolbar,
     Header,
     History,
     docVersion,
@@ -172,6 +175,9 @@ export default {
     },
   },
   computed: {
+    headerTitle() {
+      return this.document.name || this.$t("document.header.documentTemplate");
+    },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
@@ -191,5 +197,22 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.wrapper--relative {
+  position: relative;
+  height: 100%;
+  .item--drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+.fade-enter,
+.fade-leave-to {
+  transform: translateX(40vw);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 0.5s;
+}
 </style>

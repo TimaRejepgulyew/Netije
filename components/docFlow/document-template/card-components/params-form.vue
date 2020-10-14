@@ -19,13 +19,18 @@
         :allowEditing="false"
         :fixed="true"
         data-field="name"
-        caption="name"
+        :caption="$t('document.fields.name')"
       />
       <DxColumn
         :customizeText="customizeText"
         data-field="value"
-        caption="value"
-      />
+        :caption="$t('document.fields.value')"
+      >
+        <DxPatternRule
+          :pattern="/(^\.|\S)$/"
+          :message="$t('document.validation.patternRule')"
+        />
+      </DxColumn>
     </DxDataGrid>
   </div>
 </template>
@@ -36,6 +41,7 @@ import {
   DxColumn,
   DxEditing,
   DxScrolling,
+  DxPatternRule,
   DxButton,
 } from "devextreme-vue/data-grid";
 export default {
@@ -44,19 +50,24 @@ export default {
     DxColumn,
     DxEditing,
     DxScrolling,
+    DxPatternRule,
     DxButton,
   },
   props: ["documentId", "isCard"],
   data() {
     return {
-      data: [{ name: "wdawdaw", value: "tes.test" }],
+      data: [
+        ...this.$store.getters[`documents/${this.documentId}/document`].params,
+      ],
     };
   },
   methods: {
     rowUpdating(e) {
-      e.cancel = true;
       console.log(e);
-      e.cancel = false;
+      this.$store.commit(`documents/${this.documentId}/SET_PARAM`, {
+        name: e.key.name,
+        value: e.newData.value,
+      });
     },
     customizeText(cellInfo) {
       return "> " + cellInfo.value.split(".").join(" > ");

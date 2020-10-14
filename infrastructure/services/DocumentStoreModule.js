@@ -9,7 +9,7 @@ export default class DocumentStoreModule extends StoreModule {
     setStoreTemplate(documentTypeGuid) {
         switch (documentTypeGuid) {
             //TODO set DocumentTemplate Type Id
-            case 18:
+            case 17:
                 this.storeTemplate = documentStoresTemplate.documentTemplate
                 break
             default:
