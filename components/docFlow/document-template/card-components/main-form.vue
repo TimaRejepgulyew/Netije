@@ -110,7 +110,7 @@ export default {
           url: dataApi.docFlow.DocumentType,
         }),
         valueExpr: "documentTypeGuid",
-        value: this.document?.documentTypeId,
+        value: this.document?.documentType,
         onValueChanged: (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
@@ -124,14 +124,13 @@ export default {
       };
     },
     documentKindOptions() {
-      console.log(this.document.documentTypeGuid, "typeGuid");
       return {
         readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentKind,
           filter: [
-            ["documentTypeGuid", "=", this.document.documentTypeId],
+            ["documentTypeGuid", "=", this.document.documentType],
             "and",
             ["status", "=", 0],
           ],

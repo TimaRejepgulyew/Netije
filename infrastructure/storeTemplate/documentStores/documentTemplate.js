@@ -69,9 +69,9 @@ export const mutations = {
         state.document.extension = payload.extension;
     },
     SET_DOCUMENT_TYPE_(state, payload) {
-        if (checkDataChanged(state.document.documentTypeId, payload))
+        if (checkDataChanged(state.document.documentType, payload))
             state.isDataChanged = true;
-        state.document.documentTypeId = payload
+        state.document.documentType = payload
     },
     SET_DOCUMENT_KIND_ID(state, payload) {
         if (checkDataChanged(state.document.documentKindId, payload))
