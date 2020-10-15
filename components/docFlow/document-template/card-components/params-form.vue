@@ -27,7 +27,7 @@
         :caption="$t('document.fields.value')"
       >
         <DxPatternRule
-          :pattern="/(^\.|\S)$/"
+          :pattern="/^\w\S+\w$/"
           :message="$t('document.validation.patternRule')"
         />
       </DxColumn>
@@ -55,15 +55,17 @@ export default {
   },
   props: ["documentId", "isCard"],
   data() {
+    const data = JSON.parse(
+      JSON.stringify(
+        this.$store.getters[`documents/${this.documentId}/document`].params
+      )
+    );
     return {
-      data: [
-        ...this.$store.getters[`documents/${this.documentId}/document`].params,
-      ],
+      data,
     };
   },
   methods: {
     rowUpdating(e) {
-      console.log(e);
       this.$store.commit(`documents/${this.documentId}/SET_PARAM`, {
         name: e.key.name,
         value: e.newData.value,
