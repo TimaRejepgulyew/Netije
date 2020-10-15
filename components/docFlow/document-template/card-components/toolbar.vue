@@ -20,34 +20,7 @@
         location="before"
         widget="dxButton"
       />
-      <DxItem
-        locateInMenu="auto"
-        :visible="canRegister"
-        location="before"
-        template="toolbarItemRegistration"
-      />
-      <template #toolbarItemRegistration>
-        <toolbar-item-registration :documentId="documentId" />
-      </template>
-      <DxItem
-        locateInMenu="auto"
-        template="toolbarItemRelation"
-        :visible="!isNew"
-        location="before"
-        widget="dxButton"
-      />
-      <template #toolbarItemRelation>
-        <toolbar-item-relation :documentId="documentId" />
-      </template>
-      <DxItem
-        locateInMenu="auto"
-        template="toolbarItemavailableActions"
-        :visible="!isDataChanged"
-        location="before"
-      />
-      <template #toolbarItemavailableActions>
-        <toolbar-item-available-actions :documentId="documentId" />
-      </template>
+
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="toolbarItemAccessRight" location="after" />
       <template #toolbarItemAccessRight>
@@ -94,18 +67,15 @@
 <script>
 //servises
 import { load, refresh } from "~/infrastructure/services/documentService.js";
-import documentService from "~/infrastructure/services/documentVersionService.js";
+import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 //components
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 
-import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
 import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
-import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";
-import toolbarItemAvailableActions from "~/components/document-module/main-doc-form/toolbar/available-actions.vue";
 //constants
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
@@ -121,9 +91,6 @@ export default {
     toolbarItemUploadVersionFromScanner,
     toolbarItemUploadVersion,
     toolbarItemAccessRight,
-    toolbarItemRegistration,
-    toolbarItemAvailableActions,
-    toolbarItemRelation,
     DxButton,
     DxToolbar,
     DxItem,
@@ -181,7 +148,7 @@ export default {
       return {
         icon: "pdffile",
         onClick: () => {
-          documentService.previewDocument(this.document, this);
+          documentVersionService.previewDocument(this.document, this);
         },
       };
     },
@@ -211,19 +178,6 @@ export default {
         disabled: !this.canUpdate,
         onClick: async () => {
           if (await this.trySaveDocument()) this.$emit("onClose");
-        },
-      };
-    },
-    createAddendumOptions() {
-      return {
-        icon: this.addendumIcon,
-        type: "normal",
-        hint: this.$t("buttons.createAddendum"),
-        onClick: () => {
-          this.$router.push({
-            path: `/paper-work/create/${DocumentTypeGuid.Addendum}`,
-            query: { leadingDocument: this.$route.params.id },
-          });
         },
       };
     },

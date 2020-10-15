@@ -1,4 +1,4 @@
 {
-    "baseUrl": "https://192.168.4.159",
+    "baseUrl": "https://netijeapi.turkmen-tranzit.com",
     "uiAddr": "http://localhost:3000"
 }

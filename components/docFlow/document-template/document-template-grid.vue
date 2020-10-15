@@ -1,15 +1,9 @@
 <template>
   <main>
-    <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard">
-      <DxButtonGroup
-        slot="toolbar"
-        :selected-item-keys="[activeFilter]"
-        :items="QuiсkFilterOptions"
-        key-expr="filterKey"
-        styling-mode="text"
-        @item-click="itemClick"
-      />
-    </Header>
+    <Header
+      :headerTitle="$t('docFlow.documentTemplate.header')"
+      :isbackButton="!isCard"
+    />
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -23,7 +17,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif'),
       }"
-      :onRowDblClick="selectDocument"
+      :onRowDblClick="selected"
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="false"
     >
@@ -36,18 +30,17 @@
 
       <DxFilterRow :visible="true" />
       <DxFilterPanel :visible="true" />
-      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
 
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('shared.documents')"
+        :file-name="$t('shared.documentTemplates')"
       />
 
       <DxStateStoring
         :enabled="true"
         type="localStorage"
-        :storage-key="'allDocument' + documentQuery"
+        storage-key="document-template"
       />
       <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
 
@@ -61,20 +54,12 @@
   </main>
 </template>
 <script>
-import { DxButtonGroup } from "devextreme-vue";
-import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
-import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
-import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import { DxLoadPanel } from "devextreme-vue/load-panel";
 import documentIcon from "~/components/page/document-icon";
-import DocumentService from "~/infrastructure/services/documentVersionService";
 import {
   DxSearchPanel,
-  DxFilterPanel,
-  DxFilterBuilderPopup,
   DxDataGrid,
   DxColumn,
   DxEditing,
@@ -95,9 +80,6 @@ import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     documentIcon,
-    DxLoadPanel,
-    DxFilterPanel,
-    DxFilterBuilderPopup,
     DxSearchPanel,
     DxDataGrid,
     DxColumn,
@@ -115,64 +97,27 @@ export default {
     DxStateStoring,
     DxButton,
     Header,
-    DxButtonGroup,
   },
-  props: ["documentQuery", "isCard"],
+  props: ["isCard"],
   data() {
     return {
-      activeFilter: QuiсkFilter.All,
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
+          loadUrl: dataApi.docFlow.DocumentTemplate,
         }),
         paginate: true,
         pageSize: 10,
       }),
-      QuiсkFilterOptions: [
-        {
-          text: this.$t("buttons.all"),
-          filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all"),
-        },
-        {
-          text: this.$t("buttons.new"),
-          filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new"),
-        },
 
-        {
-          text: this.$t("buttons.obsolete"),
-          filterKey: QuiсkFilter.Obsolete,
-          hint: this.$t("buttons.obsolete"),
-        },
-      ],
-      filterBuilderPopupPosition: this.$store.getters[
-        "paper-work/filterBuilderPopupPosition"
-      ],
-      selectDocument: (e) => {
-        this.$emit("selectedDocument", {
+      selected: (e) => {
+        this.$emit("selected", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid,
         });
       },
     };
   },
   methods: {
-    itemClick(e) {
-      this.activeFilter = e.itemIndex;
-      this.setStore(this.activeFilter);
-    },
-    setStore(filter) {
-      this.store = new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
-        }),
-        paginate: true,
-      });
-    },
-
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
         widget: "button",
@@ -187,14 +132,8 @@ export default {
     },
   },
   computed: {
-    generateHeaderTitle() {
-      return generateNameByDocQuery(this.documentQuery, this);
-    },
     columns() {
-      return ColumnFactory.CreateColumns(this.documentQuery, this);
-    },
-    urlByTypeGuid() {
-      return this.$store.getters["paper-work/urlByTypeGuid"];
+      return ColumnFactory.CreateColumns("document-template", this);
     },
   },
 };

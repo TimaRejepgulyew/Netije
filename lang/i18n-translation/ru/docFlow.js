@@ -1,4 +1,6 @@
+import documentTemplate from "~/lang/i18n-translation/ru/documentTemplate.js"
 export default {
+    documentTemplate,
     numberFormat: {
         leadingNumber: "№ ведущего документа",
         log: "Журнал регистрации (индекс)",

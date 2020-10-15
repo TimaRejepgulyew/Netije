@@ -1,0 +1,27 @@
+export default {
+    header: "Сканирование документа",
+    coloured: "Цветной",
+    blackWhite: "Черно-белый",
+    downloadfile: "Загрузите файл",
+    fields: {
+        mode: "Глубина цвета",
+        device: "Устройства",
+        size: "Размер",
+        extencion: "Разрешение",
+    },
+    validation: {
+        deviceRequired: "Выберите устройство",
+        modeRequired: "Выберите глубину цвета",
+        extencionRequired: "Выберите разрешение",
+        size: "Выберите размер документа"
+
+    },
+    confirm: {
+        notSave: "Есть не сохраненные документы",
+        loading: "В данный момент идет загрузка"
+    },
+    alert: {
+        error: "Ошибка",
+        checkSwichOnScannerApp: "Установите приложения для сканирования или проверте запущено ли приложения для сканирование"
+    }
+}

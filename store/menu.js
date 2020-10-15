@@ -296,7 +296,14 @@ export const actions = {
             visible: rootGetters["permissions/allowReading"](
               EntityType.CaseFile
             )
-          }
+          },
+          {
+            text: this.$i18n.t("menu.documentTemplate"),
+            path: "/docflow/document-template",
+            // visible: rootGetters["permissions/allowReading"](
+            //   EntityType.DocumentTemplate
+            // )
+          },
         ]
       },
       {

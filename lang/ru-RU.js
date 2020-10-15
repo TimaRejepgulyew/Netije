@@ -16,7 +16,9 @@ import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js"
 import parties from "~/lang/i18n-translation/ru/parties.js"
 import paperWork from "~/lang/i18n-translation/ru/paperWork.js"
 import docFlow from "~/lang/i18n-translation/ru/docFlow.js"
+import scanner from "~/lang/i18n-translation/ru/scanner.js"
 export default {
+  scanner,
   paperWork,
   parties,
   companyStructure,
@@ -120,7 +122,7 @@ export default {
   shared: {
     name: "Наименование",
     nameRequired: "Введите наименование",
-    nameAlreadyExists:"Такое имя уже существует",
+    nameAlreadyExists: "Такое имя уже существует",
     nameShouldNotBeMoreThan: "Не должно быть больше 60 символов",
     shortName: "Короткое наименование",
     shortNameRequired: "Введите короткое наименование",
@@ -169,6 +171,12 @@ export default {
   assignment: assignmentModule,
   menu: menu,
   buttons: {
+    orderUp: "вверх",
+    orderDown: "вниз",
+    createFromScanner: "Создать со сканера",
+    scanner: "Сканировать",
+    rotateLeft: "Повернуть на лево 90",
+    rotateRight: "Повернуть на право 90",
     refresh: "Перезагрузить",
     addResolution: "Вынести резолюцию",
     returnManagersAssistant: "Вернуть помощнику",

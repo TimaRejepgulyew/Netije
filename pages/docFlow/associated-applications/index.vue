@@ -10,7 +10,10 @@
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif'),
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -27,11 +30,19 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="RegistrationGroup"
+      />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -40,7 +51,11 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
@@ -61,7 +76,10 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="filesTypeId" :caption="$t('docFlow.fields.filesType')">
+      <DxColumn
+        data-field="filesTypeId"
+        :caption="$t('docFlow.fields.filesType')"
+      >
         <DxRequiredRule :message="$t('docFlow.validation.filesTypeRequired')" />
         <DxLookup
           :allow-clearing="true"

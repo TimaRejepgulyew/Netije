@@ -12,7 +12,7 @@ export default {
 
   Counterparty: 200,
   Contact: 201,
-  
+
   AssociatedApplications: 300,
   FilesType: 301,
   DocumentKind: 302,
@@ -51,6 +51,7 @@ export default {
   ContractBase: 422,
   Contract: 423,
   SupAgreement: 424,
+  DocumentTemplate: 425,
 
   Roles: 500,
 

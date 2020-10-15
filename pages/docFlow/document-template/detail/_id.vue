@@ -1,24 +1,21 @@
 <template>
-  <main-document-form
-    :isCard="false"
-    @onClose="onClose"
-    :documentId="+$route.params.id"
-  />
+  <document-template-card :documentId="+$route.params.id" :isCard="false" />
 </template>
+
 <script>
-import { load } from "~/infrastructure/services/documentService.js";
-import mainDocumentForm from "~/components/document-module/main-doc-form/index.vue";
+import { loadDocumentTemplate } from "~/infrastructure/services/documentService.js";
 import { confirm } from "devextreme/ui/dialog";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
+import documentTemplateCard from "~/components/docFlow/document-template/card.vue";
 export default {
   components: {
-    mainDocumentForm,
+    documentTemplateCard,
   },
   async asyncData({ app, params, router, $axios }) {
-    await load(
+    await loadDocumentTemplate(
       { $store: app.store, $axios },
       {
-        documentTypeGuid: +params.type,
+        documentTypeGuid: 18,
         documentId: +params.id,
       }
     );
@@ -49,8 +46,8 @@ export default {
         +this.$route.params.id
       );
       if (result) {
-        await load(this, {
-          documentTypeGuid: +this.$route.params.type,
+        await loadDocumentTemplate(this, {
+          documentTypeGuid: 18,
           documentId: +this.$route.params.id,
         });
       }
@@ -59,8 +56,11 @@ export default {
   },
   methods: {
     onClose() {
-      this.$router.push(`/document-module/${this.$route.params.type}`);
+      this.$router.push(`/docFlow/document-template/`);
     },
   },
 };
 </script>
+
+<style>
+</style>

@@ -128,7 +128,6 @@
   </div>
 </template>
 <script>
-import { alert } from "devextreme/ui/dialog";
 import { unload } from "~/infrastructure/services/assignmentService.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";

@@ -15,7 +15,8 @@ const DocumentTypeGuid = {
   UniversalTransferDocument: 13,
   Waybill: 14,
   Contract: 15,
-  SupAgreement: 16
+  SupAgreement: 16,
+  DocumentTemplate: 17
 };
 export const mapToEntityType = documentTypeGuid => {
   switch (documentTypeGuid) {
@@ -51,6 +52,9 @@ export const mapToEntityType = documentTypeGuid => {
       return entityTypes.Contract;
     case DocumentTypeGuid.SupAgreement:
       return entityTypes.SupAgreement;
+    case DocumentTypeGuid.DocumentTemplate:
+      return entityTypes.DocumentTemplate;
+
     default:
       throw "Unsupported document type";
   }

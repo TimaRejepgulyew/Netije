@@ -20,11 +20,10 @@ import documentService from "~/infrastructure/services/documentVersionService.js
 import { DxPopup } from "devextreme-vue/popup";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";
-import { DxButton } from "devextreme-vue";
+
 export default {
   components: {
     DxFileUploader,
-    DxButton,
     DxPopup,
   },
   props: ["documentId"],
@@ -47,13 +46,13 @@ export default {
   },
   methods: {
     uploadVersionFromFile(e) {
-     
       if (!this.document.subject) {
         this.$store.dispatch(
           `documents/${this.documentId}/setSubject`,
           e.file.name.split(".").slice(0, -1).join(".")
         );
       }
+
       this.$awn.async(
         documentService.uploadVersion(this.document, e.file, this),
         (e) => {
@@ -61,6 +60,7 @@ export default {
             `documents/${this.documentId}/SET_VERSION`,
             e.data
           );
+          this.$emit("uploadVersion");
         },
         () => {}
       );
@@ -70,6 +70,9 @@ export default {
 </script>
 
 <style lang="scss">
+   .dx-fileuploader-input-wrapper::after {
+    padding: 3px 0;
+  }
 .uploadButton {
   padding: 0;
   margin: 0;
