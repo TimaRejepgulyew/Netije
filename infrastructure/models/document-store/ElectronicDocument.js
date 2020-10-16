@@ -1,4 +1,25 @@
 import BaseDocumentStore from "~/infrastructure/models/document-store/Base.js"
+const documentRegistrationActions = () => {
+    return {
+        async registration({ dispatch }, payload) {
+            const { data } = await this.$axios.post(
+                dataApi.documentRegistration.RegisterDocument,
+                payload
+            );
+            dispatch("loadDocument", data);
+        },
+        async unRegister({ dispatch, state }) {
+            var { data } = await this.$axios.post(
+                dataApi.documentRegistration.UnregisterDocument,
+                {
+                    documentTypeGuid: state.document.documentTypeGuid,
+                    documentId: state.document.id
+                }
+            );
+            dispatch("loadDocument", data);
+        }
+    }
+}
 const documentRegistrationMutation = () => {
     return {
         CLEAR_REGISTRATION_DATA(state) {
@@ -69,7 +90,8 @@ const lifeCycleMutation = () => {
     }
 }
 export default class extends BaseDocumentStore {
-    constructor({state,mutation}) {
+    constructor() {
+
         this.mutation = {
             ...super.mutation(),
             ...lifeCycleMutation(),
@@ -99,6 +121,27 @@ export default class extends BaseDocumentStore {
                 state.document.note = payload;
             },
 
+        }
+        this.actions = {
+            ...super.actions(),
+            ...documentRegistrationActions(),
+            setDocumentKind({ commit}, payload) {
+                if (!payload) payload = docmentKindService.emptyDocumentKind();
+                commit("SET_DOCUMENT_KIND", payload);
+            },
+            setSubject({ commit, dispatch }, payload) {
+                commit("SET_SUBJECT", payload);
+                dispatch("reevaluateDocumentName");
+            },
+            async reevaluateDocumentName({ state, commit }) {
+                if (state.document.documentKind.generateDocumentName) {
+                    const { data } = await this.$axios.post(
+                        dataApi.documentModule.ReevaluateDocumentName,
+                        state.document
+                    );
+                    commit("SET_NAME", data);
+                }
+            },
         }
     }
 }
