@@ -300,7 +300,6 @@ export const mutations = {
     if (checkDataChanged(state.document.leadingDocumentId, payload)) {
       state.isDataChanged = true;
     }
-
     state.document.leadingDocumentId = payload;
   },
   SET_ISSUED_TO_ID(state, payload) {
@@ -382,41 +381,12 @@ export const mutations = {
   }
 };
 export const actions = {
-  async delete({ state }) {
-    await this.$axios.delete(
-      `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
-    );
-  },
-  async save({ dispatch, commit, state }) {
-    const document = JSON.stringify(state.document);
-    const res = await this.$axios.put(
-      dataApi.documentModule.Documents + state.document.id,
-      {
-        documentJson: document,
-        documentTypeGuid: state.document.documentTypeGuid
-      }
-    );
-    if (state.isNew) {
-      // dispatch("loadDocument", res.data);
-      commit("SET_IS_NEW", false);
-    }
-    commit("DATA_CHANGED", false);
-    return;
-  },
-  setDocumentKind({ commit, dispatch }, payload) {
+  setDocumentKind({ commit }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
     commit("SET_DOCUMENT_KIND", payload);
   },
   setSubject({ commit, dispatch }, payload) {
     commit("SET_SUBJECT", payload);
-    dispatch("reevaluateDocumentName");
-  },
-  setLeadingDocumentId({ commit, dispatch }, payload) {
-    commit("SET_LEADING_DOCUMENT_ID", payload);
-    dispatch("reevaluateDocumentName");
-  },
-  setIssuedToId({ commit, dispatch }, payload) {
-    commit("SET_ISSUED_TO_ID", payload);
     dispatch("reevaluateDocumentName");
   },
   setCorrespondent({ commit, dispatch }, payload) {

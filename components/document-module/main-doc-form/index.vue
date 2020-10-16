@@ -5,13 +5,13 @@
       :isbackButton="!isCard"
       :isNew="isNew"
     ></Header>
-      <toolbar
-        :documentId="documentId"
-        :isCard="isCard"
-        @onClose="onClose"
-        @openVersion="openVersion"
-        @onRemove="onRemove"
-      ></toolbar>
+    <toolbar
+      :documentId="documentId"
+      :isCard="isCard"
+      @onClose="onClose"
+      @openVersion="openVersion"
+      @onRemove="onRemove"
+    ></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -189,6 +189,7 @@ export default {
     };
   },
   created() {
+    console.log(this.$store, "index");
     if (this.isNew) {
       this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
     }

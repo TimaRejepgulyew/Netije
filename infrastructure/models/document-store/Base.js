@@ -2,11 +2,11 @@ import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
-
+import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
 export default class {
-    #docmentKindService = docmentKindService
-    #checkDataChanged = (oldValue, newValue) => oldValue !== newValue;
-    #state = {
+
+    docmentKindService = docmentKindService
+    state = {
         document: {},
         documentState: {},
         isNew: false,
@@ -18,7 +18,7 @@ export default class {
         skipRouteHandling: true,
         overlays: null
     }
-    #getters = {
+    getters = {
         overlays({ overlays }) {
             return overlays;
         },
@@ -73,25 +73,20 @@ export default class {
             return regDate;
         }
     }
-    #mutation = {
+    mutations = {
         SET_VERSION(state, payload) {
             state.document.hasVersions = true;
             state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
             state.document.extension = payload.extension;
         },
-
-
-
-
         SET_NAME(state, payload) {
             state.document.name = payload;
         },
         SET_IS_NEW(state, payload) {
             state.isNew = payload;
         },
-
         SET_NOTE(state, payload) {
-            if (this.checkDataChanged(state.document.note, payload)) {
+            if (checkDataChanged(state.document.note, payload)) {
                 state.isDataChanged = true;
             }
             state.document.note = payload;
@@ -101,7 +96,6 @@ export default class {
                 state[item] = payload[item];
             }
         },
-
         IS_REGISTERED(state, payload) {
             state.isRegistered = payload === RegistrationState.Registered;
         },
@@ -129,7 +123,15 @@ export default class {
             state.overlays--;
         }
     };
-    #action = {
+    actions = {
+        setDocumentKind({ commit }, payload) {
+            if (!payload) payload = docmentKindService.emptyDocumentKind();
+            commit("SET_DOCUMENT_KIND", payload);
+        },
+        setSubject({ commit, dispatch }, payload) {
+            commit("SET_SUBJECT", payload);
+            dispatch("reevaluateDocumentName");
+        },
         async delete({ state }) {
             await this.$axios.delete(
                 `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
@@ -158,16 +160,34 @@ export default class {
             commit("SET_DOCUMENT", payload);
         },
     }
+    constructor(options) {
+        this.mutations = { ...this.mutations, ...options?.mutations }
+        this.getters = { ...this.getters, ...options?.getters }
+        this.state = { ...this.state, ...options?.state }
+        this.actions = {
+            ...options?.actions,
+            ...this.actions,
+            setDocumentKind({ commit }, payload) {
+                if (!payload) payload = docmentKindService.emptyDocumentKind();
+                commit("SET_DOCUMENT_KIND", payload);
+            },
+            setSubject({ commit, dispatch }, payload) {
+                commit("SET_SUBJECT", payload);
+                dispatch("reevaluateDocumentName");
+            },
+        }
+        console.log(this.mutations, "actions");
+    }
     stateOptions() {
         return this.state
     }
-    gettersOptions() {
+    getterOptions() {
         return this.getters
     }
     mutationOptions() {
-        return this.mutation
+        return this.mutations
     }
     actionOptions() {
-        return this.action
+        return this.actions
     }
 }
