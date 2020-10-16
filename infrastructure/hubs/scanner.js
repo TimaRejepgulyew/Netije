@@ -33,17 +33,8 @@ export default function (app) {
             return false;
         }
     }
-    async function deletePageById(pageId) {
-        try {
-            await connection.invoke("deletePageById", pageId);
-            return true;
-        } catch {
-            console.log("connection failed")
-            return false;
-        }
-    }
     function stopConnection() {
-         connection.stop()
+        connection.stop()
     }
     function onUpdateDeviceInfo(handler) {
         connection.on("updateDeviceInfo", handler)
@@ -71,7 +62,6 @@ export default function (app) {
         tryConnect,
         scanDocument,
         generatePdf,
-        deletePageById,
         stopConnection
     }
 

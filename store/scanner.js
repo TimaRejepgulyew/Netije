@@ -203,8 +203,11 @@ export const actions = {
 
     },
     saveFile({ state }) {
-        const file = state.files.map(({ id, rotate }) => { id, rotate })
-        this.$scanner.saveFile(file)
+        const file = state.files.map(({ id, rotate, order }) => {
+
+            return { id, rotate, order }
+        });
+        this.$scanner.generatePdf(file)
     },
     scanDocument({ state },) {
         this.$scanner.scanDocument(state.params)
