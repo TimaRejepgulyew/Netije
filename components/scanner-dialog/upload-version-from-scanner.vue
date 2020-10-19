@@ -12,7 +12,7 @@
       <div>
         <scanner-dialog
           @closeScanDialog="togglePopup"
-          @onSave="uploadVersionFromFile"
+          @fileSaved="uploadVersionFromFile"
         />
       </div>
     </DxPopup>
@@ -40,7 +40,7 @@ export default {
     DxPopup,
     scannerDialog,
   },
-  props: ["documentId", "storeName"],
+  props: ["documentId"],
   data() {
     return {
       fromScannerIcon,
@@ -49,9 +49,7 @@ export default {
   },
   computed: {
     document() {
-      return this.$store.getters[
-        `${this.storeName}/${this.documentId}/document`
-      ];
+      return this.$store.getters[`documents/${this.documentId}/document`];
     },
   },
   methods: {
@@ -72,15 +70,19 @@ export default {
       });
     },
     uploadVersionFromFile(e) {
+      this.togglePopup();
+      console.log(this.document);
       this.$awn.async(
         documentService.uploadVersion(this.document, e.file, this),
         (e) => {
           this.$store.commit(
-            `${this.storeName}/${this.documentId}/SET_VERSION`,
+            `documents/${this.documentId}/SET_VERSION`,
             e.data
           );
         },
-        () => {}
+        (e) => {
+          console.log(e);
+        }
       );
     },
   },

@@ -78,13 +78,14 @@ const preview = (endpoint, context) => {
           0.5},left=${x},top=${50}`;
         window.open(URL.createObjectURL(response.data), "Preview", params);
       }),
-    e => {},
+    e => { },
     e => context.$awn.alert()
   );
 };
 const upload = async (document, file, context) => {
+  console.log(file);
   let formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", file,);
   formData.append("documentId", document.id);
 
   return await context.$axios.post(

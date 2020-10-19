@@ -1,6 +1,4 @@
-import somePic1 from "~/static/icons/text.png";
-import somePic2 from "~/static/icons/user-panel--icon.png";
-import document from "~/static/icons/scanner/document.png"
+import { alert } from "devextreme/ui/dialog";
 const currentDevice = JSON.parse(localStorage.getItem("currentDevice"))
 const deviceParamsByCurrentDevice = JSON.parse(localStorage.getItem(`deviceParamsBy/${currentDevice?.id}`))
 const writeParamsByCurrentDevice = (params, currentDeviceId) => {
@@ -22,37 +20,8 @@ export const state = () => ({
     isLoading: false,
     file: null,
     currentDevice,
-    devices: [
-        //{
-        //     id: 0, name: "Cannon",
-        //     mode: [
-        //         "scanner.coloured",
-        //         "blackWhite",
-        //     ],
-        //     dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
-        // },
-        // {
-        //     id: 1, name: "Hp 2020vf",
-        //     mode: [
-        //         "scanner.coloured",
-        //         "blackWhite",
-        //     ],
-        //     dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
-        // }, {
-        //     id: 2, name: "Samsung",
-        //     mode: [
-        //         "scanner.coloured",
-        //         "blackWhite",
-        //     ],
-        //     dpi: ["1280x 870x", "800x 640x", "1600x 1100x"]
-        // }
-    ],
-    files: [
-        // { id: 0, file: somePic1, rotate: 0, order: 1, },
-        // { id: 1, file: somePic2, rotate: 0, order: 2, },
-        // { id: 2, file: document, rotate: 0, order: 3, },
-        // { id: 3, file: somePic2, rotate: 0, order: 4, },
-    ],
+    devices: [],
+    files: [],
     currentPageId: 0,
     params: deviceParamsByCurrentDevice || {
         mode: null,
@@ -79,6 +48,9 @@ export const getters = {
     },
     files({ files }) {
         return files
+    },
+    file({ file }) {
+        return file
     },
     params({ params }) {
         return params
@@ -232,6 +204,10 @@ export const actions = {
     },
     setOrderDown({ commit },) {
         commit("SET_ORDER", "down")
+    },
+    onError({ commit }, payload) {
+        commit("TOGGLE_LOADING",)
+        alert("Возможно сканнер либо в спячке либо не подключен к вашему устройству", "console.error();");
     }
 }
 

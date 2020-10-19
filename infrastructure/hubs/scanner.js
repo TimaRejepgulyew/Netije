@@ -27,11 +27,15 @@ export default function (app) {
     async function generatePdf(files) {
         try {
             await connection.invoke("generatePdf", files);
+            app.store.commit("scanner/TOGGLE_LOADING",)
             return true;
         } catch {
             console.log("connection failed")
             return false;
         }
+    }
+    function onError(handler) {
+        connection.on("error", handler)
     }
     function stopConnection() {
         connection.stop()
@@ -55,8 +59,13 @@ export default function (app) {
         app.store.commit("scanner/TOGGLE_LOADING",)
     })
     onFileGenerated((file) => {
+        console.log(file, "scan Completed");
         app.store.dispatch("scanner/setFile", file)
         app.store.commit("scanner/TOGGLE_LOADING",)
+    })
+    onError((message) => {
+        app.store.dispatch("scanner/onError", message)
+        console.log("error");
     })
     return {
         tryConnect,
