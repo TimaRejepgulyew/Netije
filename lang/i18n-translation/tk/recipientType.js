@@ -4,5 +4,5 @@ export default {
   role: "Роли",
   registrationGroup: "Группы регистрации",
   employee: "Сотрудники",
-  sistemUser: "Системные пользователи"
+  systemUser: "Системные пользователи"
 }

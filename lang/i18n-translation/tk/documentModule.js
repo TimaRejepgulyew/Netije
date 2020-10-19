@@ -7,15 +7,15 @@ export const DocumentType = {
   PowerOfAttorney: "Доверенность",
   Order: "Приказ",
   Memo: "Служебная записка",
-  InternalDocument: "Внутрение документы",
-  SupAgreement: "Дополнительные соглашения",
-  IncomingInvoice: "Входящие счета на оплату",
-  ContractStatement: "Акты выполненных работ",
-  IncomingTaxInvoice: "Счет-фактуры полученные",
-  OutgoingTaxInvoice: "Счет-фактуры выставленные",
-  UniversalTransferDocument: "Универсальные передаточный документы",
-  Waybill: "Накладные",
-  Contract: "Договоры"
+  InternalDocument: "Внутрений документ",
+  SupAgreement: "Дополнительное соглашение",
+  IncomingInvoice: "Входящий счет на оплату",
+  ContractStatement: "Акт выполненных работ",
+  IncomingTaxInvoice: "Счет-фактура полученный",
+  OutgoingTaxInvoice: "Счет-фактура выставленный",
+  UniversalTransferDocument: "Универсальный передаточный документ",
+  Waybill: "Накладная",
+  Contract: "Договор"
 };
 export default {
   remove: "Удалить",
@@ -29,7 +29,7 @@ export default {
   externalApprovalState: "Согл. с контрагентом",
   executionState: "Исполнение",
   controlExecutionState: "Контроль исполнения",
-  type: { ...DocumentType },
+  type: DocumentType,
   tabs: {
     main: "Свойства",
     relations: "Связи",
@@ -102,7 +102,13 @@ export default {
     whom: "Кому"
   },
   validation: {
+    issuedToIdRequired: "Введите кому выдана доверенность",
+    ourSignatoryRequired:"Введите того кто подписал",
+    validTillRequired: "Введите по какой срок действительна доверенность",
+    addresseeIdRequired: "Введите адрессата",
+    nameRequired: "Введите наименование",
     subjectRequired: "Введите содержания",
+    preparedRequired: "Введите того кто подготовил",
     documentKindIdRequired: "Введите вид документа",
     departmentIdRequired: "Выберите подразделение",
     businessUnitIdRequired: "Выберите организацию",

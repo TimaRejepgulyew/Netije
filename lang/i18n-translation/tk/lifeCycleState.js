@@ -15,6 +15,7 @@ export default {
   new: "Новый",
   acceptedForPayment: "Принят к оплате",
   paymentDenied: "Отказано в оплате",
+  onReview:"На рассмотрении",
   onApproval: "На согласовании",
   onRework: "На доработке",
   pendingSign: "На подписании",

@@ -5,12 +5,20 @@ export const TaskType = {
   DocumentReviewTask: "Задача на рассмотрение документа"
 };
 export default {
+  quickFilter: {
+    all: "Все", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
+  },
+  taskQuery:{
+    all:"Все задачи",
+    actionItem:"Поручения"
+  },
   message: {
     acquaintDocumentMessage:
       "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись",
     nothaveAccessRight: "Не достаточно прав, добавте права для этой задачи ",
-    sureAbortTask: "Вы уверенны что хотите прервать исполнение задачи",
-    sureRestartTask: "Вы уверенны что хотите рестартавать задачу",
+    sureAbortTask: "Вы действительно хотите прекратить задачи?",
+    sureRestartTask: "Вы действительно хотите рестартавать задачу?",
+    sureStartTask: "Вы действительно хотите стартовать задачу?"
   },
   status: {
     InProcess: "В процессе",
@@ -26,6 +34,8 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    status: "Состояние",
+    author: "Автор",
     assignedBy: "Выдал",
     parallel: "паралельно",
     gradually: "друг за другом",
@@ -33,6 +43,7 @@ export default {
     start: "Старт",
     addressee: "Адресат",
     deadline: "Cрок",
+    createdDate: "Дата создания",
     maxDeadline: "Cрок",
     assignee: "Исполнитель",
     supervisor: "Контролер",

@@ -3,8 +3,9 @@ export default {
   SimpleAssignment: "Задание",
   ReviewAssignment: "Приемка работ",
   AcquaintanceAssignment: "Ознакомление",
+  AcquaintanceNotification: "Уведомление о ознакомлении",
   AcquaintanceFinishAssignment: "Завершение работ по ознакомлению",
-  ActionItemExecutionNotification: "Уведомление о приемке работ",
+  ActionItemExecutionNotification: "Уведомление об исполнения поручения",
   ActionItemSupervisorNotification: "Уведомление контролеру",
   ActionItemSupervisorAssignment: "Приемка работ контролером",
   ActionItemExecutionAssignment: "Исполнение поручения",
@@ -19,5 +20,7 @@ export default {
   FreeApprovalAssignment: "Cогласование",
   FreeApprovalFinishAssignment: "Завершение работ по согласованию",
   FreeApprovalReworkAssignmen: "Доработка документа",
-  FreeApprovalNotification: "Уведомление"
+  FreeApprovalNotification: "Уведомление",
+  //TODO Перевести правильно 
+  FreeApprovalReworkAssignment:"Задание на доработку согласования"
 }

@@ -16,6 +16,7 @@ import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js"
 import parties from "~/lang/i18n-translation/ru/parties.js"
 import paperWork from "~/lang/i18n-translation/ru/paperWork.js"
 import docFlow from "~/lang/i18n-translation/ru/docFlow.js"
+import buttons from "~/lang/i18n-translation/ru/buttons.js"
 export default {
   paperWork,
   parties,
@@ -120,7 +121,7 @@ export default {
   shared: {
     name: "Наименование",
     nameRequired: "Введите наименование",
-    nameAlreadyExists:"Такое имя уже существует",
+    nameAlreadyExists: "Такое имя уже существует",
     nameShouldNotBeMoreThan: "Не должно быть больше 60 символов",
     shortName: "Короткое наименование",
     shortNameRequired: "Введите короткое наименование",
@@ -168,49 +169,7 @@ export default {
   documentRegistration: documentRegistration,
   assignment: assignmentModule,
   menu: menu,
-  buttons: {
-    refresh: "Перезагрузить",
-    addResolution: "Вынести резолюцию",
-    returnManagersAssistant: "Вернуть помощнику",
-    approveResolution: "Утвердить проект резолюции",
-    sendToReview: "Отправить на расмотрение",
-    sendToAssignee: "Отправить на исполнение",
-    takeInto: "Принять к сведению",
-    readdress: "Переадресовать",
-    createExecution: "Создать поручение",
-    new: "Новые",
-    obsolete: "Архив",
-    all: "Все",
-    showCard: "Карточка",
-    downloadFile: "Загрузить файл",
-    versions: "Версии",
-    restart: "Рестартовать",
-    abort: "Прекратить",
-    start: "Запустить",
-    acquaintance: "Ознакомиться",
-    changePassword: "Сменить пароль",
-    save: "Сохранить",
-    add: "Добавить",
-    complete: "Выполнить",
-    accept: "Принять",
-    rework: "На доработку",
-    filter: "Фильтр",
-    stop: "Прекратить",
-    accept: "Принять",
-    cancel: "Назад",
-    delete: "Удалить",
-    deleteLink: "Удалить ссылку",
-    create: "Создать",
-    createTaskByDocument: "Создать задачу на основе документа",
-    send: "Отправить",
-    register: "Зарегистрировать",
-    preview: "Читать",
-    download: "Скачать",
-    createAddendum: "Создать приложение",
-    createRelation: "Cвязь",
-    saveAndBack: "Сохранить и выйти",
-    closed: "Закрыть"
-  },
+  buttons,
   notification: {
     labels: {
       info: "Информация",
