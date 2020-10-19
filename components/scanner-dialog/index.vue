@@ -16,7 +16,6 @@
     <toolbar
       class="toolbar-scanner"
       :documentValidatorName="documentValidatorName"
-      @fileSaved="onFileSaved"
     />
     <main class="d-flex">
       <template v-if="!isFilesEmpty">
@@ -74,7 +73,9 @@ export default {
     ...mapMutations({
       toggleLoading: "scanner/TOGGLE_LOADING",
     }),
-    onFileSaved() {},
+    onFileSaved(file) {
+      this.$emit("fileSaved", { file });
+    },
     scanDocument() {
       this.$store.dispatch("scanner/scanDocument");
       this.toggleLoading();
@@ -97,6 +98,7 @@ export default {
     ...mapGetters({
       isFilesEmpty: "scanner/isFilesEmpty",
       isLoading: "scanner/isLoading",
+      file: "scanner/file",
     }),
     hasActivePage() {
       return this.$store.getters["scanner/currentPageId"] != null;
@@ -106,6 +108,14 @@ export default {
     },
     notSaveConFirm() {
       return [this.$t("scanner.confirm.notSave"), this.$t("shared.areYouSure")];
+    },
+  },
+  watch: {
+    file: function (newValue, oldValue) {
+      const blob = new Blob([newValue], {
+        type: "application/pdf",
+      });
+      this.onFileSaved(blob);
     },
   },
 };
