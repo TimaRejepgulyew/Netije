@@ -206,8 +206,9 @@ export const actions = {
         commit("SET_ORDER", "down")
     },
     onError({ commit }, payload) {
+        console.log(this);
         commit("TOGGLE_LOADING",)
-        alert("Возможно сканнер либо в спячке либо не подключен к вашему устройству", "console.error();");
+        alert(this.$i18n.t("scanner.alert.errorScanDocument", "scanner.alert.error"));
     }
 }
 

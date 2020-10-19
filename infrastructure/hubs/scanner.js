@@ -54,7 +54,6 @@ export default function (app) {
         app.store.dispatch("scanner/setDevices", device)
     })
     onScanCompleted((document) => {
-        console.log(document, "scan Completed");
         app.store.dispatch("scanner/setPage", document)
         app.store.commit("scanner/TOGGLE_LOADING",)
     })
