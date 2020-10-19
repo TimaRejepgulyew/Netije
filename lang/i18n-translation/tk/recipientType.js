@@ -1,8 +1,8 @@
 export default {
-  businessUnit: "Организация",
-  department: "Подразделения",
-  role: "Роли",
-  registrationGroup: "Группы регистрации",
-  employee: "Сотрудники",
-  systemUser: "Системные пользователи"
+  businessUnit: "Gurama",
+  department: "Bölümler",
+  role: "Rollar",
+  registrationGroup: "Bellige alyş toparlary",
+  employee: "Işgärler",
+  systemUser: "Ulgamyň ulanyjysy"
 }

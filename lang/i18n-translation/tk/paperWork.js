@@ -1,18 +1,18 @@
 export default {
-    headerTitle: "Делопроизводство",
-    headerDescription: "Модуль предназначен для управления внутренней структурой нашей компании.",
+    headerTitle: "Iş dolandyryjylyk",
+    headerDescription: "Bu modul kompaniýamyzyň içki düzüm birligini dolandyrmak üçin niýetlenen",
     documents: {
-        title: "Документы",
-        incomingLetter: "Входящие документы",
-        incomingLetterDescr: "Показать все входящие документы.",
-        outgoingLetter: "Исходящие документы",
-        outgoingLetterDescr: "Показать все исходящие документы.",
-        internalDocument: "Внутренние документы",
-        internalDocumentDescr: "Показать все внутренние документы."
+        title: "Resminamalar",
+        incomingLetter: "Giriş resminamalar",
+        incomingLetterDescr: "Ähli giriş resminamalary görkezmek",
+        outgoingLetter: "Çykyş resminamalar",
+        outgoingLetterDescr: "Ähli çykyş resminamalary görkezmek",
+        internalDocument: "Içki resminamalar",
+        internalDocumentDescr: "Ähli içki resminamalary görkezmek"
     },
     control: {
-        title: "Контроль",
-        actionItemExicution: "Поручения",
-        actionItemExicutionDescr: "Контроль выданных поручений.",
-    },
+        title: "Gözegçilik",
+        actionItemExicution: "Tabşyryk",
+        actionItemExicutionDescr: "Berlen"
+    }
 }

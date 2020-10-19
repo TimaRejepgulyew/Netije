@@ -1,79 +1,83 @@
 export const TaskType = {
-  SimpleTask: "Простая задача",
-  AcquaintanceTask: "Задача на ознакомление с документом",
-  ActionItemExecutionTask: "Задача на исполнение поручения",
-  DocumentReviewTask: "Задача на рассмотрение документа"
+  SimpleTask : "Ýönekeý mesele",
+  AcquaintanceTask : "Resminama bilen tanyşmak meselesi",
+  ActionItemExecutionTask : "Tabşyrygy ýerine ýetirmek üçin mesele",
+  DocumentReviewTask : "Resminamany gözden geçirmek wezipesi"
 };
 export default {
-  quickFilter: {
-    all: "Все", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
+  quickFilter : {
+    all : "Hemmesi",
+    inProcess : "Işjeň ýagdaýda",
+    expired : "Möhleti geçen",
+    monthAgo : "30 gün"
   },
-  taskQuery:{
-    all:"Все задачи",
-    actionItem:"Поручения"
+  taskQuery: {
+    all: "Все задачи",
+    actionItem: "Поручения"
   },
   message: {
-    acquaintDocumentMessage:
-      "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись",
-    nothaveAccessRight: "Не достаточно прав, добавте права для этой задачи ",
-    sureAbortTask: "Вы действительно хотите прекратить задачи?",
-    sureRestartTask: "Вы действительно хотите рестартавать задачу?",
-    sureStartTask: "Вы действительно хотите стартовать задачу?"
+    message : {
+      acquaintDocumentMessage : "Resminama bilen tanyşyň, jogapkäriň ýanyna bayň we şahsy goluňyzy goýuň",
+      nothaveAccessRight : "ullanyjy hukugy ýok, bu meseläni işlemek üçin hukuk beriň",
+      sureAbortTask : "Siz hakykatdanam meseläni işlemegi besetjek mi ?",
+      sureRestartTask : "Siz hakykatdanam bu meseläni täzeden goýmak isleýäňiz mi ?",
+      sureStartTask : "Siz hakykatdanam meseläni başlamak isleýäňizmi ?"
+    },
   },
   status: {
-    InProcess: "В процессе",
-    Draft: "Черновик",
-    Suspended: "Приостановленно",
-    Completed: "Завершено",
-    Aborted: "Прекращено",
-    UnderReview: "На приемке"
+    InProcess : "Iş dowam edýär",
+    Draft : "Garalama",
+    Suspended : "Togtadylan",
+    Completed : "Gadagan edilen",
+    Aborted : "Ýatyrylan",
+    UnderReview : "Kabul edilişde"
   },
   type: TaskType,
   prefixes: {
-    actionItemExecutionTask: "Поручение"
+    actionItemExecutionTask : "Tabşyryk"
   },
-  attachment: "Вложения",
+  attachment : "Goşundylar",
   fields: {
-    status: "Состояние",
-    author: "Автор",
-    assignedBy: "Выдал",
-    parallel: "паралельно",
-    gradually: "друг за другом",
-    performers: "Исполнители",
-    start: "Старт",
-    addressee: "Адресат",
-    deadline: "Cрок",
-    createdDate: "Дата создания",
-    maxDeadline: "Cрок",
-    assignee: "Исполнитель",
-    supervisor: "Контролер",
-    subjectTask: "Тема",
-    needsReview: "На контроле",
-    deadLine: "Срок",
-    isElectronicAcquaintance: "Ознакомление в электронном виде",
-    observers: "Наблюдатели",
-    acquaintMembers: "Кого ознакомить",
-    excludedPerformers: "Кроме",
-    comment: "Комментарий",
-    coAssignees: "Соисполнители",
-    actionItem: "Поручение",
-    isUnderControl: "На контроль"
+    status : "Ýagdaýy",
+    author : "Dörediji",
+    assignedBy : "Berdi",
+    parallel : "Paralel",
+    gradually : "biri-biriniň yzyndan",
+    performers : "Ýerine ýetirijiler",
+    start : "Başla",
+    addressee : "Barmaly ýeri",
+    deadline : "gutormaly wagty",
+    createdDate : "Döredilen senesi",
+    maxDeadline : "iň soňky möhlet",
+    assignee : "Ýerine ýetiriji",
+    supervisor : "Gözegçi",
+    subjectTask : "Mowzuk",
+    needsReview : "Göz astynda",
+    deadLine : "Soňky senesi",
+    isElectronicAcquaintance : "Elektron görnüşinde tanyşmak",
+    observers : "Gözegçiler",
+    acquaintMembers : "Kime tanyşdyrmaly",
+    excludedPerformers : "Mundan başga",
+    comment : "Teswir",
+    coAssignees : "Ýerine ýetirijiler",
+    actionItem : "Tabşyryk",
+    isUnderControl : "Gözegçilige"
   },
   importance: {
-    highImportance: "Высокая важность",
-    middleImportance: "Средняя важность",
-    lowImportance: "Низкая важность"
+    highImportance : "Ýokary ähmiýetli",
+    middleImportance : "Orta ähmiýetli",
+    lowImportance : "Pes ähmiýetli"
   },
   validation: {
-    deadlineRequired: "Заполните срок",
-    assignedByRequired: "Введите кому выдана",
-    performersRequired: "Выберите исполнителя",
-    addresseeRequired: "Выберите адресата",
-    actionItemRequired: "Введите поручение",
-    maxDeadlineRequired: "Заполните срок",
-    subjectRequired: "Введите Содержание",
-    supervisorRequired: "Введите контролера",
-    acquaintMembersRequired: "Выберите кого нужно ознакомить",
-    assigneeRequired: "Введите исполнителя"
+    deadlineRequired : "Möhletleri dolduryň",
+    assignedByRequired : "Kime berlendigini görkeziň",
+    performersRequired : "Ýerine ýetirijini saýlaň",
+    addresseeRequired : "Barmaly salgyny saýlaň",
+    actionItemRequired : "Tabşyrygy giriziň",
+    maxDeadlineRequired : "Möhleti bellemek",
+    subjectRequired : "Mazmuny giriziň",
+    supervisorRequired : "Gözegçini giriziň",
+    acquaintMembersRequired : "Haýsy işgärler bilen tanyşdyrmaly saýlaň",
+    assigneeRequired : "Ýerine ýetirijini giriziň"
   }
 };

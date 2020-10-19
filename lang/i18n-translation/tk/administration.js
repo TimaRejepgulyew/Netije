@@ -1,16 +1,15 @@
 export default {
-  headerTitle: "Администрирование",
-  headerDescription:"Модуль предназначен для выполнения административных задач, таких как регистрация нового пользователя или настройка прав доступа.",
-  usersAndGroups: {
-    title: "Пользователи и группы",
-    roles: "Роли",
-    rolesDescr: "Роли предназначены для группировки сотрудников по функциональным обязанностям.",
-    users: "Пользователи",
-    usersDescr: "Список пользователей системы. Для входа в систему пользователь должен быть связан с учетной записью.",
-    groups: "Группы",
-    groupsDescr: "Пользователи могут быть объединены в группы, например, по организационной структуре или функциональным обязанностям. Это удобно при выдаче прав, например, чтобы выдавать права на счета и финансовые документы не отдельно каждому бухгалтеру, а только группе «Бухгалтеры», и в дальнейшем нового бухгалтера надо будет только включить в эту группу, и у него сразу будут все нужные права.",
-    usersAccount: "Учетные записи",
-    usersAccountDescr: "Учетные записи предназначены для входа пользователей в систему.",
-
+ headerTitle : "Administrirlemek",
+ headerDescription : "Modul administratiw meseleleriň ýerine ýetirilmegi üçin niýetlenendir, olaryň içinde täze ullanyjyny hasaba almak, ýa-da elýeterlik hukugyny sazlamak",
+ usersAndGroups : {
+   title : "Ullanyjylar we toparlar",
+   roles : "Rollar",
+   rolesDescr : "Rollar işgärleriň funksional borçlaryna laýyklykda topar döretmek üçin niýetlenendir",
+   users : "Ullanyjylar",
+   usersDescr : "Ulgamyň ullanyjylaryň sanawy",
+   groups : "Toparlar",
+   groupsDescr : "Ulanyjylar, meselem, guramaçylyk gurluşy ýa-da funksional jogapkärçilikleri boýunça toparlara bölünip bilner. Hukuklar berlende bu amatlydyr, meselem, buhgalterçylyk hasaplara we maliýe resminamalaryna her bir hasapçy üçin aýratyn däl-de, eýsem diňe \"Hasapçylar\" toparyna hukuk bermek üçin, geljekde bolsa täze hasapçy şu topara goşulan halatynda derrew ähli zerur hukuklara eýe bolar",
+   usersAccount : "Hasabat ýazgylar",
+   usersAccountDescr : "Hasabat ýazgylary ullanyjylaryň ulgama girmek üçin niýetlenendir"
   }
 }

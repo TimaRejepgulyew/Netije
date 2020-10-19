@@ -1,124 +1,112 @@
 export default {
-    numberFormat: {
-        leadingNumber: "№ ведущего документа",
-        log: "Журнал регистрации (индекс)",
-        caseFile: "Дело (индекс)",
-        quarter: "Квартал",
-        month: "Месяц",
-        number: "№ - Порядковый номер",
-        year2Place: "Год, 2 цифры",
-        year4Place: "Год, 4 цифры",
-        departmentCode: "Подразделение (код)",
-        buCode: "Наша организация (код)",
-        docKindCode: "Код вида документа",
-        cPartyCode: "Контрагент (код)",
-        customString: "Произвольная строка",
-        registrPlace: "Группа регистрации (индекс)",
+    "numberFormat": {
+        "leadingNumber": "Resminamalary alyp baryjynyň № belgisi",
+        "login": "Giriş",
+        "caseFile": "Iş (indeks)",
+        "quarter": "Çärýek",
+        "month": "Aý",
+        "number": "Tertip belgisi",
+        "year2Place": "Ýyly, 2 san",
+        "year4Place": "Ýyly, 4 sany",
+        "departmentCode": "Bölümi ( kody )",
+        "buCode": "Biziň guramamyz ( kody )",
+        "docKindCode": "Resminamaň görnüşiniň kody",
+        "cPartyCode": "Kontragent (kody )",
+        "customString": "iň başdaky setir",
+        "registrPlace": "Bellige alyş topary (indeks)"
     },
-    registrationState: {
-        registered: "Зарегистрирован",
-        notRegistered: "Не зарегистрирован",
-        reserved: "Зарезервирован",
+    "registrationState": {
+        "registered": "Hasaba alynan",
+        "notRegistered": "Hasaba alynmady",
+        "reserved": "Hasaba alynan"
     },
-    numberingType: {
-        numerable: "Нумерумый",
-        notNumerable: "Не нумеруемый",
-        registrable: "Регистрируемый",
+    "numberingType": {
+        "numerable": "Belgili",
+        "notNumerable": "Belgilenmeýän",
+        "registrable": "Hasaba alynýan"
     },
-    documentType: {
-        incomingEnum: "Входящий",
-        outcomingEnum: "Исходящий",
-        inner: "Внутренний",
-        contract: "Договор",
+    "documentType": {
+        "incomingEnum": "Giriş",
+        "outcomingEnum": "Çykyş",
+        "inner": "Içki",
+        "contract": "Şertnama"
     },
-    numberingPeriod: {
-        year: "Год",
-        quarter: "Квартал",
-        month: "Месяц",
-        continuous: "Сквозной",
+    "numberingPeriod": {
+        "year": "Ýyl",
+        "quarter": "Çärýek",
+        "month": "Aý",
+        "continuous": "Üsti bilen"
     },
-    headerTitle: "Документооборот",
-    headerDescription:
-        "Модуль предназначен для настройки документооборота компании.",
-    personalSetting: {
-        title: "Персональные настройки",
-        mySetting: "Мои настройки",
-        mySettingDescr: "Личные настройки отдельных параметров работы системы."
+    "headerTitle": "Resminamadolanşyk",
+    "headerDescription": "Bu modul kärhananyň resminamadolanşygyny sazlamak üçin niýetlenen",
+    "personalSetting": {
+        "title": "Şahsy sazlanşyk",
+        "mySetting": "Menim sazlanşyklarym",
+        "mySettingDescr": "Ulgamyň işiniň aýratyn parametrleriň şahsy sazlanşygy"
     },
-    documentSetting: {
-        title: "Настройки документов",
-        docKind: "Виды документов",
-        docKindDescr:
-            "Классификация документов, определяющая документопоток, тип нумерации документа.",
-        categories: "Категории договоров",
-        categoriesDescr:
-            "Дополнительная классификация договоров в рамках видов документов."
+    "documentSetting": {
+        "title": "Resminamalaryň sazlanşygy",
+        "docKind": "Resminamalaryň görnüşleri",
+        "docKindDescr": "Resminama akuwynyň, belginiň görnüşiniň anyklaýan resminamalaryň klassifikasiýasy",
+        "categories": "Resminamalaryň kategoriýasy",
+        "categoriesDescr": "Resminamalaryň görnüşiniň çäginde şertnamalaryň goşmaça klasifikasiýasy"
     },
-    regSetting: {
-        title: "Регистрация и нумерация",
-        registration: "Журналы регистрации",
-        registrationDescr:
-            "Перечень журналов, используемых для учета, нумерации и регистрации документов.",
-        regGroup: "Группы регистрации",
-        regGroupDescr:
-            "Группы сотрудников, которыми производится регистрация, учет и хранение документов в определенных журналах регистрации.",
-        registrationSettings: "Настройки регистрации",
-        registrationSettingsDescr:
-            "Правила автоматического подбора журнала регистрации в соответствии с реквизитами документа.",
-        deliveriMethods: "Способы доставки документов",
-        deliveriMethodsDescr: "Настройте способ доставки документов"
+    "regSetting": {
+        "title": "Hasaba almak we belgilemek",
+        "registration": "Hasaba alyş žurnaly",
+        "registrationDescr": "Resminamalary belgilemek we hasaba almak üçin žurnallaryň sanawy",
+        "regGroup": "Hasaba alyş topary",
+        "regGroupDescr": "Belli bir hasaba alyş",
+        "registrationSettings": "Hasaba alyşygy sazlamak",
+        "registrationSettingsDescr": "Resminamanyň maglumatlaryna görä bellige alyş kitapçasyny awtomatiki saýlaýyş kadalary",
+        "deliveriMethods": "Resminamalary eltmek usullary",
+        "deliveriMethodsDescr": "Resminamalary eltmek usulyny sazlamak"
     },
-
-    caseFileSetting: {
-        title: "Номенклатура дел",
-        caseFile: "Номенклатура дел",
-        caseFileDescr:
-            "Систематизированный перечень дел. В дела помещаются документы, относящиеся к одному вопросу или участку деятельности.",
-        fileRetention: "Сроки хранения дел",
-        fileRetentionDescr: "Перечень регламентированных сроков хранения дел."
+    "caseFileSetting": {
+        "title": "Işleriň atlandyrylyşy",
+        "caseFile": "Işleriň atlandyrylyşy",
+        "caseFileDescr": "Iş bukjalaryna ulgamlaşdyrylan sanawy. Işlere bir meselä ýa-da bir iş çägine degişli resminamalar ýerleşdirilýär",
+        "fileRetention": "Iş bukjalarynyň saklanyş möhletleri",
+        "fileRetentionDescr": "Iş bukjalarynyň kadaly saklanyş möhletleriniň sanawy"
     },
-    associatedAppSetting: {
-        title: "Настройки приложений-обработчиков",
-        fileType: "Типы файлов",
-        fileTypeDescr:
-            "Типы файлов предназначены для группировки приложений-обработчиков.",
-        associatedApp: "Приложения-обработчики",
-        associatedAppDescr:
-            "Справочник определяет расширения файлов, которые можно использовать в документах."
+    "associatedAppSetting": {
+        "title": "Işläp geçiji goşundylaryň sazlamalary",
+        "fileType": "Faýllaryň tipleri",
+        "fileTypeDescr": "Işläp geçiji goşundylaryň toparlary üçin niýetlenen faýllaryň görnüşleri",
+        "associatedApp": "Işläp geçiji goşundylar",
+        "associatedAppDescr": "Resminamalarda ulanyp boljak faýl giňeltmelerini kesgitleýän gollanma"
     },
-    fields: {
-        documentRegister: "Журнал регистрации",
-        mailDeliveryMethod: "Способ доставки документа",
-        filesType: "Типы файлов",
-        responsibleId: "Ответственный за группу регистрации",
-        documentFlow: "Документопоток",
-        isDefault: "По умолчанию",
-        startDate: "Начало",
-        endDate: "Конец",
-        extension: "Раcширение",
-        title: "Заголовок",
-        location: "Место нахождения",
-        retentionPeriodId: "Срок хранения дел",
-        numberingPeriod: "Период нумерации",
-        element: "Формирование номера документа",
-        caseFile: "Дело (индекс)",
-        separator: "Разделитель",
-        numberOfDigitsInNumber: "Количество цифр в номере",
-
+    "fields": {
+        "mailDeliveryMethod": "Resminamany eltmek usuly",
+        "filesType": "Faýllaryň tipleri",
+        "responsibleId": " Bellige alyş topary üçin jogapkär",
+        "documentFlow": "Resminamalar dolanyşygy",
+        "isDefault": "Berlenlere görä",
+        "startDate": "Başlanýan senesi",
+        "endDate": "Soňlanýan senesi",
+        "extension": "Giňeltme",
+        "title": "Sözbaşy",
+        "location": "Ýerleşýän ýeri",
+        "retentionPeriodId": "Iş bukjalarynyö saklanyş möhleti",
+        "numberingPeriod": "Belgileniş döwri",
+        "element": "Resminama belgisini döretmek",
+        "caseFile": "Iş bukjasy (indeksi)",
+        "separator": "Bölüji",
+        "numberOfDigitsInNumber": "Belgide sanlaryň sany"
     },
-    validation: {
-        numberOfDigitsInNumberRequired: "Введите количество цифр в номере",
-        elementRequired: "Выберите формирование номера документа",
-        numberingPeriodRequired: "Выберите период нумерации",
-        retentionPeriodIdRequired: "Выберите срок хранения дел",
-        titleRequired: "Введите заголовок",
-        extensionPatternRule: "Пожалуйста введите валидное расширение",
-        extensionRequired: "Расширение не может быть пустым",
-        extensionAlreadyExists: "Такое расширение уже есть",
-        endDateRequired: "Выберите конец",
-        startDateRequired: "Выберите начало",
-        documentFlowRequired: "Выберите документопоток",
-        filesTypeRequired: "Тип файла не может быть пустым",
-        responsibleIdRequired: "Введите ответственного за группу регистрации",
+    "validation": {
+        "numberOfDigitsInNumberRequired": "Belgidäki sanlaryň sanyny giriziň",
+        "elementRequired": "Resminama belgisiniň döredilmegini saýlaň",
+        "numberingPeriodRequired": "Belgileme döwrüni saýlaň",
+        "retentionPeriodIdRequired": "Iş bukjalarynyň saklanyş möhletini saýlaň",
+        "titleRequired": "Sözbaşyny saýlaň",
+        "extensionPatternRule": "Nusgalyk giňeltmäni saýlaň",
+        "extensionRequired": "Giňeltme boş bolmaly däldir",
+        "extensionAlreadyExists": "Şeýle giňeltme öňden bar",
+        "endDateRequired": "Soňlaýjy senäni saýlaň",
+        "startDateRequired": "Başlangyç senäni saýlaň",
+        "documentFlowRequired": "Resminama dolanyşygyny saýlaň",
+        "filesTypeIdRequired": "Faýlyň görnüşi boş bolmaly däldir",
+        "responsibleIdRequired": "Bellige alyş topary üçin jogapkäri saýlaň"
     }
 }

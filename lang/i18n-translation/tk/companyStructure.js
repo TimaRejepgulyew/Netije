@@ -1,34 +1,32 @@
 export default {
-    headerTitle: "Компания",
-    headerDescription: "Модуль предназначен для управления внутренней структурой нашей компании.",
+    headerTitle: "Kompaniýa",
+    headerDescription: "Modul biziň kärhanamyzyň içki düzüm birligini dolandyrmak üçin niýetlenendir",
     employee: {
-        title: "Персонал",
-        employees: "Сотрудники",
-        employeesDescr: "Справочник предназначен для хранения сведений о наших сотрудниках. Каждый сотрудник связан с учетной записью для работы с системой.",
-        createEmployee: "Создать сотрудника",
-        jobTitle: "Должности",
-        jobTitleDescr: "Справочник предназначен для хранения должностей наших сотрудников.",
-        managersAssistant: "Помощники руководителей",
-        managersAssistantDescr: "Настройка сведений о помощниках (секретарях) руководителей."
+        title: "Işgärler",
+        employees: "Işgärler",
+        employeesDescr: "Salgylanma kitaby biziň işgärlerimiz barada maglumaty toplamak üçin niýetlenendir",
+        createEmployee: "Işgär döretmek",
+        jobTitle: "Wezipe",
+        jobTitleDescr: "Salgylanma kitaby biziň işgärlerimiziň wezipeleri barada maglumaty toplamak üçin niýetlenendir",
+        managersAssistant: "Ýolbaşçylaryň kömekçileri",
+        managersAssistantDescr: "Ýolbaşçynyň kömekçisi (kätibi) barada maglumatyň sazlanmagy"
     },
     additionalInfo: {
-        title: "Связанная информация",
-        companies: "Организации",
-        companiesDescr: "Открытие справочника организаций-контрагентов.",
-        banks: "Банки",
-        banksDescr: "Открытие справочника банков-контрагентов.",
-        persons: "Персоны",
-        personsDescr: "Открытие справочника персон.",
-        roles: "Роли",
-        rolesDescr: "Роли предназначены для группировки сотрудников по функциональным обязанностям."
+        title: "Baglanan maglumat",
+        companies: "edara-kärhanalar",
+        companiesDescr: "Kontragent guramalaryň müşderileriň salgylanma kitabynyň açylmagy",
+        banks: "Banklar",
+        banksDescr: "Kontragent banklaryň salgylanma kitabyny açmak",
+        persons: "Şahsylar",
+        personsDescr: "Şahsylaryň salgylanma kitabyny açmak",
+        roles: "Rollar",
+        rolesDescr: "Wezipeler işgärleri jogapkärçilikli toparlara bölmek üçin düzülendir"
     },
     company: {
-        title: "Организационная структура",
-        createBusinessUnit: "Создать нашу огранизацию",
-        businessUnit: "Наши организации",
-        businessUnitDescr: "Юридические лица, филиалы и представительства, в лице которых действует наша компания.",
-        createDepartment: "Создать отделение",
-        department: "Подразделения",
-        departmentDescr: "Структурные части компании, осуществляющие свою деятельность в рамках деятельности нашей компании. Подразделения могут быть как привязаны к нашим организациям, так и быть обособленными."
+        title: "Guramaçylyk düzüm birligi",
+        businessUnit: "Biziň guramalarymyz",
+        businessUnitDescr: "Biziň kärhanamyzyň adyndan hereket edýän ýuridiki şahsylar, şahamçalar we wekilhanalar",
+        department: "Müdirlikler",
+        departmentDescr: "Biziň kärhanamyzyň işiniň çäginde, öz işlerini alyp barýan, kärhananyň düzüm birlikleriň bölekleri"
     }
 }

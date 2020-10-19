@@ -1,29 +1,26 @@
 export default {
-  areYouSureCancelRegistration: "Вы уверены что хотите отменить регистрацию",
-  documentRegister: "Журнал регистрации",
-  registrationNumber: "Регистрационный номер ",
-  documentNumber: "Номер документа",
-  registrationDate: "Дата регистрации",
-  preliminaryRegistrationNumberMessage:
-    "*Точный регистрационный № будет назначен после регистрации",
-  preliminaryRegistrationNumber: "Предварительный регистрационный №",
-  isCustomNumber: "Назначить номер самому",
-  regNumberDocument: "Регистрационный №",
-  areYouSureClearNumerate: "Вы уверенны что хотите очитить нумерацию",
-  validation: {
-    regNumberDocumentRequired: "Введите регистрационный № документа",
-    documentRegisterRequired: "Выберите журнал регистрации",
-    registrationDateRequired: "Введите дату регистрации документа"
+ areYouSureCancelRegistration : "Belligi almagy ýatyrmaga ynamyňyz barmy?",
+ documentRegister : "Bellige alyş kitapçasy",
+ registrationNumber : "Bellige alyş belgisi",
+ registrationDate : "Bellige alyş senesi",
+ preliminaryRegistrationNumberMessage : "Deslapky bellige alyş belgisi barada habarnama",
+ preliminaryRegistrationNumber : "Deslapky bellige alyş belgisi",
+ isCustomNumber : "Belgini ulanyjynyň özi bellemeli",
+ regNumberDocument : "Resmianamanyň bellige alyş belgisi",
+ areYouSureClearNumerate : "Belgini pozmaga ynamyňyz barmy?",
+ validation : {
+   regNumberDocumentRequired : "Resminamanyň bellige alyş belgisini giriziň",
+   documentRegisterRequired : "Bellige alyş kitapçasyny saýlap alyň",
+   registrationDateRequired : "Resminamany bellige alyş senesini giriziň"
   },
-  buttons: {
-    numerate: "Пронумеровать",
-    register: "Зарегистрировать",
-    clearNumerate: "Очистить нумерацию",
-    cancelRegistration: "Отменить регистрацию"
+ buttons : {
+   numerate : "yzygider san goýmak",
+   register : "bellige almak",
+   clearNumerate : "yzygider san goýmagy pozmak",
+   cancelRegistration : "bellige almagy pozmak"
   },
 
-  cardOfNumbering: "Нумерация документа",
-  cardOfRegistration: "Регистрация документа",
-  notFindDocumentRegistrationSetting:
-    "Не найдена настройка журнала  нумерации для этого типа документа"
+ cardOfNumbering : "Resminama yzygider san goýmak",
+ cardOfRegistration : "Resminamany bellige almak",
+ notFindDocumentRegistrationSetting : "Resminama yzygiderli san goýmak kitarpçasynyň sazlamasy tapylmady"
 };

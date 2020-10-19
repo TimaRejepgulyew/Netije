@@ -1,13 +1,13 @@
 export default {
     btns: {
-        Read: "Просмотр",
-        Update: "Изменение",
-        FullAccess: "Полные",
-        DoNotAssign: "Не назначать",
+        Read: "Görmek",
+        Update: "Üýtgetmeler",
+        FullAccess: "Doly",
+        DoNotAssign: "Bellemeli däl"
     },
     message: {
-        whatPermissionsWillAssignToAttachment: "Какие права назначить на вложение для участников?",
-        nothaveAccessRight: "У некоторых участников отсутствуют права на просмотр вложений."
+        whatPermissionsWillAssignToAttachment: "Gatnaşyjylar üçin goşundylara haýsy hukuklary bermeli",
+        nothaveAccessRight: "Käbir gatnaşyjylarda goşundylary görmek üçin hukuk berilmedik"
     }
 
 }
