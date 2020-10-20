@@ -85,7 +85,7 @@ export default {
             }/${this.documentId}`,
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 7,
         sort: [{ selector: "number", desc: true }],
       }),
     };
@@ -181,7 +181,8 @@ export default {
   }
 
   .list-container {
-    min-height: 78vh;
+    margin: 0;
+    min-height: 65vh;
     overflow: auto;
     width: 100%;
     i {

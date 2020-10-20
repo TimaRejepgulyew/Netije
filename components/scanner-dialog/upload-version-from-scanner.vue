@@ -73,8 +73,9 @@ export default {
       this.togglePopup();
       console.log(this.document);
       this.$awn.async(
-        documentService.uploadVersion(this.document, e.file, this),
+        documentService.uploadVersion(this.document, e.file, this, "file.pdf"),
         (e) => {
+          console.log(e, "serverFile");
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,
             e.data

@@ -9,8 +9,8 @@ import {
   lifeCycleStateStoreIncomingInvoice
 } from "~/infrastructure/constants/lifeCycleState.js";
 export default {
-  async uploadVersion(document, file, context) {
-    return await upload(document, file, context);
+  async uploadVersion(document, file, context, fileName) {
+    return await upload(document, file, context, fileName);
   },
   previewVersion(versionId, document, context) {
     preview(
@@ -82,10 +82,10 @@ const preview = (endpoint, context) => {
     e => context.$awn.alert()
   );
 };
-const upload = async (document, file, context) => {
+const upload = async (document, file, context, fileName) => {
   console.log(file);
   let formData = new FormData();
-  formData.append("file", file,);
+  formData.append("file", file, fileName);
   formData.append("documentId", document.id);
 
   return await context.$axios.post(
