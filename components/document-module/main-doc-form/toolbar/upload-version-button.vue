@@ -1,6 +1,8 @@
 <template>
   <div>
     <DxFileUploader
+      uploadMode="instantly"
+      :chunkSize="200000000000"
       class="uploadButton"
       ref="fileUploader"
       :selectButtonText="$t('buttons.downloadFile')"
@@ -70,9 +72,9 @@ export default {
 </script>
 
 <style lang="scss">
-   .dx-fileuploader-input-wrapper::after {
-    padding: 3px 0;
-  }
+.dx-fileuploader-input-wrapper::after {
+  padding: 3px 0;
+}
 .uploadButton {
   padding: 0;
   margin: 0;

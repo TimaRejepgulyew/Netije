@@ -11,6 +11,7 @@
     >
       <div>
         <scanner-dialog
+          v-if="isOpenPopup"
           @closeScanDialog="togglePopup"
           @fileSaved="uploadVersionFromFile"
         />
@@ -28,7 +29,9 @@
 import scannerDialog from "~/components/scanner-dialog/index.vue";
 import fromScannerIcon from "~/static/icons/fromScanner.png";
 import { alert } from "devextreme/ui/dialog";
-import documentService from "~/infrastructure/services/documentVersionService.js";
+import documentService, {
+  base64toBlob,
+} from "~/infrastructure/services/documentVersionService.js";
 import { DxPopup } from "devextreme-vue/popup";
 import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";
@@ -43,6 +46,7 @@ export default {
   props: ["documentId"],
   data() {
     return {
+      file: null,
       fromScannerIcon,
       isOpenPopup: false,
     };
@@ -54,6 +58,7 @@ export default {
   },
   methods: {
     togglePopup() {
+      console.log("toogle");
       this.isOpenPopup = !this.isOpenPopup;
     },
     showScannerDialog() {
@@ -70,19 +75,18 @@ export default {
       });
     },
     uploadVersionFromFile(e) {
+      console.log("upload to server ");
       this.togglePopup();
-      console.log(this.document);
+      const blob = base64toBlob(e.file, "application/pdf");
       this.$awn.async(
-        documentService.uploadVersion(this.document, e.file, this, "file.pdf"),
-        (e) => {
-          console.log(e, "serverFile");
+        documentService.uploadVersion(this.document, blob, this, "file.pdf"),
+        (res) => {
+          this.file = e.file;
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,
-            e.data
+            res.data
           );
-        },
-        (e) => {
-          console.log(e);
+          this.$emit("uploadVersion");
         }
       );
     },

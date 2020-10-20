@@ -188,6 +188,7 @@ export const actions = {
         commit("SET_PARAMS", payload)
     },
     setFile({ commit }, payload) {
+        console.log("actionas");
         commit("SET_FILE", payload)
     },
     onClose({ commit },) {

@@ -11,7 +11,7 @@
           icon="refresh"
           :onClick="refresh"
         ></DxButton>
-        <btn-version-from-scanner @uploadVersion="refresh" />
+        <btn-version-from-scanner :documentId="documentId" />
         <btn-upload-version @uploadVersion="refresh" :documentId="documentId" />
       </div>
       <div class="list-container">
@@ -107,23 +107,6 @@ export default {
   methods: {
     refresh() {
       this.versions.reload();
-    },
-    uploadVersionFromFile(e) {
-      const document = this.$store.getters[
-        `documents/${this.documentId}/document`
-      ];
-      this.$awn.async(
-        documentService.uploadVersion(document, e.file, this),
-        (version) => {
-          this.$refs["fileUploader"].instance.reset();
-          this.$store.commit(
-            `documents/${this.documentId}/SET_VERSION`,
-            version.data
-          );
-          this.refresh();
-        },
-        (e) => {}
-      );
     },
   },
   filters: {

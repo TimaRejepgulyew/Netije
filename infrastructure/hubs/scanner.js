@@ -1,7 +1,7 @@
 import { HubConnectionBuilder, LogLevel, HttpTransportType, } from "@microsoft/signalr";
 export default function (app) {
     const connection = new HubConnectionBuilder()
-        .withUrl("http://192.168.4.199:8080/SignalR")
+        .withUrl("http://localhost:8080/SignalR")
         // .withAutomaticReconnect(0)
         .withAutomaticReconnect()
         .configureLogging(LogLevel.Information)
@@ -27,7 +27,6 @@ export default function (app) {
     async function generatePdf(files) {
         try {
             await connection.invoke("generatePdf", files);
-            app.store.commit("scanner/TOGGLE_LOADING",)
             return true;
         } catch {
             console.log("connection failed")
@@ -59,9 +58,7 @@ export default function (app) {
     })
     onFileGenerated((file) => {
         console.log(file, "scan Completed");
-
         app.store.dispatch("scanner/setFile", file)
-        app.store.commit("scanner/TOGGLE_LOADING",)
     })
     onError((message) => {
         app.store.dispatch("scanner/onError", message)
