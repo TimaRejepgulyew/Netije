@@ -1,5 +1,6 @@
 export default {
     "numberFormat": {
+        "log": "Loglar",
         "leadingNumber": "Resminamalary alyp baryjynyň № belgisi",
         "login": "Giriş",
         "caseFile": "Iş (indeks)",
@@ -77,6 +78,7 @@ export default {
         "associatedAppDescr": "Resminamalarda ulanyp boljak faýl giňeltmelerini kesgitleýän gollanma"
     },
     "fields": {
+        documentRegister: "Bellige alyş kitapçasy",
         "mailDeliveryMethod": "Resminamany eltmek usuly",
         "filesType": "Faýllaryň tipleri",
         "responsibleId": " Bellige alyş topary üçin jogapkär",

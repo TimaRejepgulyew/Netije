@@ -24,9 +24,11 @@ export default {
     },
     company: {
         title: "Guramaçylyk düzüm birligi",
-        businessUnit: "Biziň guramalarymyz",
+        createBusinessUnit: "Biziň guramalarymyz",
+        businessUnit: "Biziň guramalarymyz döretmek",
         businessUnitDescr: "Biziň kärhanamyzyň adyndan hereket edýän ýuridiki şahsylar, şahamçalar we wekilhanalar",
         department: "Müdirlikler",
-        departmentDescr: "Biziň kärhanamyzyň işiniň çäginde, öz işlerini alyp barýan, kärhananyň düzüm birlikleriň bölekleri"
+        departmentDescr: "Biziň kärhanamyzyň işiniň çäginde, öz işlerini alyp barýan, kärhananyň düzüm birlikleriň bölekleri",
+        createDepartment: "Müdirlikler döretmek",
     }
 }

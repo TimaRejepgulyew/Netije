@@ -37,6 +37,7 @@ export default {
     createAddendum: "Goşundy döretmek",
     createRelation: "Aragatnaşyk döretmek",
     saveAndBack: "Ýatda saklatmak we çykmak",
-    closed: "Ýapyldy"
+    closed: "Ýapyldy",
+    refresh:"Täzeden ýüklemek",
 }
 

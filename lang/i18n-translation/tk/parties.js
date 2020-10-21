@@ -4,6 +4,7 @@ export default {
     organizations: {
         title: "Guramalar",
         company: "edara-kärhanalar",
+        createcompany: "edara-kärhanalar döretmek",
         companyDescr: "Salgylanma kitaby, biziň kompaniýamyz bilen aragatnaşygy we hyzmatdaşlygy saklaýan guramalaryň maglumatlaryny saklamaga niýetlenendir",
         createEmployee: "Guramany döretmek",
         banks: "Banklar",
@@ -20,7 +21,7 @@ export default {
     },
     contactPerson: {
         title: "Guramalaryň işgärleriniň habarlaşmak üçin belgileri",
-        createContact: "Belgi döretmek",
+        сreateContact: "Belgi döretmek",
         contact: "Habarlaşmak üçin salgy",
         contactDescr: "Kontragent guramalaryň, müşderileriň wekilleri bilen tiz aragatnaşygy gurnamak üçin guramalaryň wekilleri barada maglumatlary saklaýan Salgylanma kitaby niýetlenen"
     },
@@ -32,6 +33,7 @@ export default {
 
     },
     fields: {
+        correspondentAccount: "Hasap",
         contactName: "Belginiň ady",
         fax: "Faks",
         code: "Kod",

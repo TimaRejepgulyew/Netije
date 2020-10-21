@@ -19,16 +19,26 @@
             :editor-options="businessUnitOptions"
             editor-type="dxSelectBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.businessUnitId')" />
-            <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.businessUnitId')"
+            />
+            <DxRequiredRule
+              :message="$t('translations.fields.businessUnitIdRequired')"
+            />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="departmentId"
             :editor-options="deparmentOptions"
             editor-type="dxSelectBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-            <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.departmentId')"
+            />
+            <DxRequiredRule
+              :message="$t('translations.fields.departmentIdRequired')"
+            />
           </DxSimpleItem>
         </DxGroupItem>
       </DxForm>
@@ -45,7 +55,8 @@ import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxLabel
+  DxRequiredRule,
+  DxLabel,
 } from "devextreme-vue/form";
 
 import dataApi from "~/static/dataApi";
@@ -55,19 +66,20 @@ export default {
     Header,
     DxGroupItem,
     DxSimpleItem,
+    DxRequiredRule,
     DxLabel,
     DxForm,
-    Toolbar
+    Toolbar,
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(dataApi.docFlow.PersonalSettings);
     return {
-      personalSettings: res.data
+      personalSettings: res.data,
     };
   },
   data() {
     return {
-      entityType: EntityType.PersonalSettings
+      entityType: EntityType.PersonalSettings,
     };
   },
   methods: {
@@ -77,10 +89,10 @@ export default {
       const object = { ...this.personalSettings };
       this.$awn.asyncBlock(
         this.$axios.put(`${dataApi.docFlow.PersonalSettings}`, object),
-        res => this.$awn.success(),
-        err => this.$awn.alert()
+        (res) => this.$awn.success(),
+        (err) => this.$awn.alert()
       );
-    }
+    },
   },
   computed: {
     businessUnitOptions() {
@@ -89,8 +101,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", Status.Active]
-        })
+          filter: ["status", "=", Status.Active],
+        }),
       };
     },
     deparmentOptions() {
@@ -102,11 +114,11 @@ export default {
           filter: [
             ["businessUnitId", "=", businessUnitId],
             "and",
-            ["status", "=", Status.Active]
-          ]
-        })
+            ["status", "=", Status.Active],
+          ],
+        }),
       };
-    }
-  }
+    },
+  },
 };
 </script>

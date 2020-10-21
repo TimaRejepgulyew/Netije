@@ -89,7 +89,7 @@ export default {
     documentTypeGuid: "Resminamanyň görnüşi",
     regNumberDocument: "Giriş belligi",
     validFrom: "Başlap hereket edýär",
-    validTill: "Çenli hereket edýärl",
+    validTill: "Çenli hereket edýär",
     issuedToId: "Kime berildi",
     daysToFinishWorks: "Tamamlanýan wagtyna çenli galan günler",
     documentGroupId: "Resminama topary",
@@ -100,12 +100,12 @@ export default {
     whom: "Kime"
   },
   validation: {
-    //TODO перевести до конца 
-    // issuedToIdRequired: "Введите кому выдана доверенность",
-    // ourSignatoryRequired:"Введите того кто подписал",
-    // validTillRequired: "Введите по какой срок действительна доверенность",
-    // addresseeIdRequired: "Введите адрессата",
-    // nameRequired: "Введите наименование",
+    addresseeIdRequired: "Barmaly salgyny saýlaň",
+    issuedToIdRequired: "Kime berildi saýlap alyň",
+    ourSignatoryRequired: "Gol çekeni saýlap alyň",
+    validTillRequired: "Çenli hereket edýär giriziň",
+    nameRequired: "Adyny giriziň",
+    preparedRequired: "Kim taýýarlady saýlap alyň",
     subjectRequired: "Mazmuny giriziň",
     documentKindIdRequired: "Resminama görnüşini giriziň",
     departmentIdRequired: "Bölümini saýlap alyň",
