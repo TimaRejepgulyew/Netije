@@ -11,6 +11,14 @@ export default class Addendum extends ElectronicDocument {
                 state.document.leadingDocumentId = payload;
             },
         }
+        const actions = {
+            ...options?.actions,
+            setLeadingDocumentId({ commit, dispatch }, payload) {
+                commit("SET_LEADING_DOCUMENT_ID", payload);
+                dispatch("reevaluateDocumentName");
+            },
+
+        }
         super({ mutations, actions })
     }
 }

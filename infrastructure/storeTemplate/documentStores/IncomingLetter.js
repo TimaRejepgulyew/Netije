@@ -1,8 +1,11 @@
 import IncomingLetter from "~/infrastructure/models/document-store/IncomingLetter.js"
 const incommingLeterStore = new IncomingLetter()
-export const state = () => (incommingLeterStore.stateOptions())
-export const getters = { ...incommingLeterStore.getterOptions() }
-export const actions = {
+const state = () => (incommingLeterStore.stateOptions())
+const getters = { ...incommingLeterStore.getterOptions() }
+const actions = {
     ...incommingLeterStore.actionOptions()
 }
-export const mutations = { ...incommingLeterStore.mutationOptions() }
+const mutations = { ...incommingLeterStore.mutationOptions() }
+export {
+    state, getters, actions, mutations
+}

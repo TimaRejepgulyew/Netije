@@ -4,12 +4,6 @@ export default class ContractStatement extends ElectronicDocument {
     constructor(options) {
         const mutations = {
             ...options?.mutations,
-            SET_LEADING_DOCUMENT_ID(state, payload) {
-                if (checkDataChanged(state.document.leadingDocumentId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.leadingDocumentId = payload;
-            },
             SET_COUNTERPARTY(state, payload) {
                 if (checkDataChanged(state.document.counterpartyId, payload)) {
                     state.isDataChanged = true;
@@ -82,6 +76,36 @@ export default class ContractStatement extends ElectronicDocument {
                 }
                 state.document.addresseeId = payload;
             },
+            SET_DOCUMENT_GROUP_ID(state, payload) {
+                if (checkDataChanged(state.document.documentGroupId, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.documentGroupId = payload;
+            },
+            SET_IS_STANDARD(state, payload) {
+                if (checkDataChanged(state.document.isStandard, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.isStandard = payload;
+            },
+            SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
+                if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.responsibleEmployeeId = payload;
+            },
+            SET_AUTOMATIC_RENEWAL(state, payload) {
+                if (checkDataChanged(state.document.isAutomaticRenewal, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.isAutomaticRenewal = payload;
+            },
+            SET_DAYS_TO_FINISH_WORKS(state, payload) {
+                if (checkDataChanged(state.document.daysToFinishWorks, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.daysToFinishWorks = payload;
+            },
         }
         const actions = {
             ...options?.actions,
@@ -92,15 +116,6 @@ export default class ContractStatement extends ElectronicDocument {
             setCounterparty({ commit, dispatch }, payload) {
                 commit("SET_COUNTERPARTY", payload);
                 dispatch("reevaluateDocumentName");
-            },
-            async reevaluateDocumentName({ state, commit }) {
-                if (state.document.documentKind.generateDocumentName) {
-                    const { data } = await this.$axios.post(
-                        dataApi.documentModule.ReevaluateDocumentName,
-                        state.document
-                    );
-                    commit("SET_NAME", data);
-                }
             },
         }
         super({ mutations, actions })

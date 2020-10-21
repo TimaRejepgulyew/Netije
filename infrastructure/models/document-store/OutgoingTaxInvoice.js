@@ -10,6 +10,12 @@ export default class ContractStatement extends ElectronicDocument {
                 }
                 state.document.leadingDocumentId = payload;
             },
+            SET_ADDRESSE_ID(state, payload) {
+                if (checkDataChanged(state.document.addresseeId, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.addresseeId = payload;
+            },
             SET_COUNTERPARTY(state, payload) {
                 if (checkDataChanged(state.document.counterpartyId, payload)) {
                     state.isDataChanged = true;
@@ -22,24 +28,7 @@ export default class ContractStatement extends ElectronicDocument {
                 }
                 state.document.contactId = payload;
             },
-            SET_COUNTERPART_SIGNATORY_ID(state, payload) {
-                if (checkDataChanged(state.document.counterpartySignatoryId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.counterpartySignatoryId = payload;
-            },
-            SET_OUR_SIGNATORY_ID(state, payload) {
-                if (checkDataChanged(state.document.ourSignatoryId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.ourSignatoryId = payload;
-            },
-            SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
-                if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.responsibleEmployeeId = payload;
-            },
+
             SET_CURRENCY_ID(state, payload) {
                 if (checkDataChanged(state.document.currencyId, payload)) {
                     state.isDataChanged = true;
@@ -76,11 +65,23 @@ export default class ContractStatement extends ElectronicDocument {
                 }
                 state.document.departmentId = payload;
             },
-            SET_ADDRESSE_ID(state, payload) {
-                if (checkDataChanged(state.document.addresseeId, payload)) {
+            SET_CORRECTED_ID(state, payload) {
+                if (checkDataChanged(state.document.correctedId, payload)) {
                     state.isDataChanged = true;
                 }
-                state.document.addresseeId = payload;
+                state.document.correctedId = payload;
+            },
+            SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
+                if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.responsibleEmployeeId = payload;
+            },
+            SET_IS_ADJUSTMENT(state, payload) {
+                if (checkDataChanged(state.document.isAdjustment, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.isAdjustment = payload;
             },
         }
         const actions = {
@@ -92,15 +93,6 @@ export default class ContractStatement extends ElectronicDocument {
             setCounterparty({ commit, dispatch }, payload) {
                 commit("SET_COUNTERPARTY", payload);
                 dispatch("reevaluateDocumentName");
-            },
-            async reevaluateDocumentName({ state, commit }) {
-                if (state.document.documentKind.generateDocumentName) {
-                    const { data } = await this.$axios.post(
-                        dataApi.documentModule.ReevaluateDocumentName,
-                        state.document
-                    );
-                    commit("SET_NAME", data);
-                }
             },
         }
         super({ mutations, actions })

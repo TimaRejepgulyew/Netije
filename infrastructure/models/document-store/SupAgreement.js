@@ -28,18 +28,6 @@ export default class ContractStatement extends ElectronicDocument {
                 }
                 state.document.counterpartySignatoryId = payload;
             },
-            SET_OUR_SIGNATORY_ID(state, payload) {
-                if (checkDataChanged(state.document.ourSignatoryId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.ourSignatoryId = payload;
-            },
-            SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
-                if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.responsibleEmployeeId = payload;
-            },
             SET_CURRENCY_ID(state, payload) {
                 if (checkDataChanged(state.document.currencyId, payload)) {
                     state.isDataChanged = true;
@@ -52,17 +40,17 @@ export default class ContractStatement extends ElectronicDocument {
                 }
                 state.document.totalAmount = payload;
             },
-            SET_VALID_FROM(state, payload) {
-                if (checkDataChanged(state.document.validFrom, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.validFrom = payload;
-            },
             SET_VALID_TILL(state, payload) {
                 if (checkDataChanged(state.document.validTill, payload)) {
                     state.isDataChanged = true;
                 }
                 state.document.validTill = payload;
+            },
+            SET_VALID_FROM(state, payload) {
+                if (checkDataChanged(state.document.validFrom, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.validFrom = payload;
             },
             SET_BUSINESS_UNIT_ID(state, payload) {
                 if (checkDataChanged(state.document.businessUnitId, payload)) {
@@ -81,6 +69,12 @@ export default class ContractStatement extends ElectronicDocument {
                     state.isDataChanged = true;
                 }
                 state.document.addresseeId = payload;
+            },
+            SET_IS_STANDARD(state, payload) {
+                if (checkDataChanged(state.document.isStandard, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.isStandard = payload;
             },
         }
         const actions = {

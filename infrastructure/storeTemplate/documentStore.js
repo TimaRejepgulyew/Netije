@@ -338,12 +338,6 @@ export const mutations = {
     }
     state.document.daysToFinishWorks = payload;
   },
-  SET_VALID_TILL(state, payload) {
-    if (checkDataChanged(state.document.validTill, payload)) {
-      state.isDataChanged = true;
-    }
-    state.document.validTill = payload;
-  },
   SET_REGISTRATION_NUMBER(state, payload) {
     state.document.registrationNumber = "" + payload;
   },
@@ -381,6 +375,10 @@ export const mutations = {
   }
 };
 export const actions = {
+  setLeadingDocumentId({ commit, dispatch }, payload) {
+    commit("SET_LEADING_DOCUMENT_ID", payload);
+    dispatch("reevaluateDocumentName");
+  },
   setDocumentKind({ commit }, payload) {
     if (!payload) payload = docmentKindService.emptyDocumentKind();
     commit("SET_DOCUMENT_KIND", payload);
