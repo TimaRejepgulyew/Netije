@@ -1,4 +1,4 @@
-const buttons = {
+export default {
     addResolution: "Rezolýusiýany çykarmak",
     returnManagersAssistant: "Kömekçä yzyna gaýtarmak",
     approveResolution: "Rezolýusiýanyň taslamasyny tassyklamak",
@@ -38,5 +38,5 @@ const buttons = {
     createRelation: "Aragatnaşyk döretmek",
     saveAndBack: "Ýatda saklatmak we çykmak",
     closed: "Ýapyldy"
-},
+}
 
