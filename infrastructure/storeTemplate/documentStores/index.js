@@ -11,7 +11,7 @@ import * as contract from "./contract.js"
 import * as incomingInvoice from "./incomingInvoice.js"
 import * as incomingTaxInvoice from "./incomingTaxInvoice.js"
 import * as outgoingTaxInvoice from "./outgoingTaxInvoice.js"
-import * as subAgreement from "./subAgreement.js"
+import * as supAgreement from "./supAgreement.js"
 import * as universalTransferDocument from "./universalTransferDocument.js"
 import * as waybill from "./waybill.js"
 export {
@@ -28,7 +28,7 @@ export {
     contract,
     incomingInvoice,
     incomingTaxInvoice,
-    subAgreement,
+    supAgreement,
     outgoingTaxInvoice,
     waybill
 }

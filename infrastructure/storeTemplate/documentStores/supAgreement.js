@@ -1,5 +1,5 @@
-import OrderBase from "~/infrastructure/models/document-store/OrderBase.js"
-const store = new OrderBase()
+import SupAgreement from "~/infrastructure/models/document-store/SupAgreement.js"
+const store = new SupAgreement()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

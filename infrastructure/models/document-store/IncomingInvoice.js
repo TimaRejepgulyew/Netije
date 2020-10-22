@@ -1,9 +1,15 @@
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js"
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
-export default class ContractStatement extends ElectronicDocument {
+export default class IncomingInvoice extends ElectronicDocument {
     constructor(options) {
         const mutations = {
             ...options?.mutations,
+            NUMBER(state, payload) {
+                if (checkDataChanged(state.document.number, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.number = payload;
+            },
             SET_LEADING_DOCUMENT_ID(state, payload) {
                 if (checkDataChanged(state.document.leadingDocumentId, payload)) {
                     state.isDataChanged = true;

@@ -1,7 +1,7 @@
 import dataApi from "~/static/dataApi";
 import BaseDocumentStore from "~/infrastructure/models/document-store/Base.js"
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
-export default class extends BaseDocumentStore {
+export default class ElectronicDocumnent extends BaseDocumentStore {
     constructor(options) {
         const documentRegistrationActions = () => {
             return {

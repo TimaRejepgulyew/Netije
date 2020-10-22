@@ -3,7 +3,7 @@ import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
-export default class {
+export default class Base {
 
     docmentKindService = docmentKindService
     state = {

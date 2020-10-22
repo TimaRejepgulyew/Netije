@@ -1,6 +1,6 @@
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js"
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
-export default class ContractStatement extends ElectronicDocument {
+export default class OutgoingTaxInvoice extends ElectronicDocument {
     constructor(options) {
         const mutations = {
             ...options?.mutations,
@@ -72,6 +72,7 @@ export default class ContractStatement extends ElectronicDocument {
                 state.document.correctedId = payload;
             },
             SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
+                console.log("ddawdaw");
                 if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
                     state.isDataChanged = true;
                 }

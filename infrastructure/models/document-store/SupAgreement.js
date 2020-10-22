@@ -1,6 +1,6 @@
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js"
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
-export default class ContractStatement extends ElectronicDocument {
+export default class SupAgreement extends ElectronicDocument {
     constructor(options) {
         const mutations = {
             ...options?.mutations,
@@ -86,15 +86,6 @@ export default class ContractStatement extends ElectronicDocument {
             setCounterparty({ commit, dispatch }, payload) {
                 commit("SET_COUNTERPARTY", payload);
                 dispatch("reevaluateDocumentName");
-            },
-            async reevaluateDocumentName({ state, commit }) {
-                if (state.document.documentKind.generateDocumentName) {
-                    const { data } = await this.$axios.post(
-                        dataApi.documentModule.ReevaluateDocumentName,
-                        state.document
-                    );
-                    commit("SET_NAME", data);
-                }
             },
         }
         super({ mutations, actions })

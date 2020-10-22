@@ -189,7 +189,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$store, "index");
     if (this.isNew) {
       this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
     }

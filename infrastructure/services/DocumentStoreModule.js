@@ -17,7 +17,7 @@ export default class DocumentStoreModule extends StoreModule {
                 break
             case DocumentType.Order:
             case DocumentType.CompanyDirective:
-                this.storeTemplate = documentStoresTemplate.order
+                this.storeTemplate = documentStoresTemplate.orderBase
                 break
             case DocumentType.SimpleDocument:
                 this.storeTemplate = documentStoresTemplate.simpleDocument
@@ -28,7 +28,7 @@ export default class DocumentStoreModule extends StoreModule {
             case DocumentType.Memo:
                 this.storeTemplate = documentStoresTemplate.memo
                 break
-            case DocumentType.powerOfAttorney:
+            case DocumentType.PowerOfAttorney:
                 this.storeTemplate = documentStoresTemplate.powerOfAttorney
                 break
             case DocumentType.IncomingInvoice:

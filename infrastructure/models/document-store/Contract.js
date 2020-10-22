@@ -1,6 +1,6 @@
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js"
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
-export default class ContractStatement extends ElectronicDocument {
+export default class Contract extends ElectronicDocument {
     constructor(options) {
         const mutations = {
             ...options?.mutations,
