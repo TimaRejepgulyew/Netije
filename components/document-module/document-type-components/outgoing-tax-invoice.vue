@@ -213,7 +213,6 @@ export default {
       );
     },
     setResponsibleEmployeeId(data) {
-      console.log("data", data);
       return this.$store.commit(
         `documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE_ID`,
         data

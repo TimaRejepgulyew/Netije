@@ -68,9 +68,6 @@ export default {
     DxLabel,
   },
   props: ["documentValidatorName"],
-  created() {
-    console.log(this.params);
-  },
   data() {
     return {
       saveButtonOptions: {
@@ -110,7 +107,6 @@ export default {
         dataSource: this.deviceStore?.mode,
         value: this.params.mode,
         onValueChanged: (e) => {
-          console.log(e.value);
           this.setMode(e.value);
         },
       };
@@ -120,7 +116,6 @@ export default {
         dataSource: this.deviceStore?.size,
         value: this.params.size,
         onValueChanged: (e) => {
-          console.log(e.value);
           this.setSize(e.value);
         },
       };
@@ -136,7 +131,6 @@ export default {
         }),
         value: this.params.dpi,
         onValueChanged: (e) => {
-          console.log(e.value);
           this.setDpi(e.value);
         },
       };

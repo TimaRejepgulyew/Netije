@@ -27,7 +27,7 @@
         :caption="$t('document.fields.value')"
       >
         <DxPatternRule
-          :pattern="/^\w\S+\w$/"
+          :pattern="/^[^\.:\s+]\S+[^\.:\s+]$/"
           :message="$t('document.validation.patternRule')"
         />
       </DxColumn>
@@ -81,10 +81,6 @@ export default {
         readOnly: true,
       };
     },
-    // params() {
-    //   return this.$store.getters[`documents/${this.documentId}/document`]
-    //     .params;
-    // },
   },
 };
 </script>

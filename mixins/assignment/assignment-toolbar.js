@@ -38,7 +38,6 @@ export default {
       } = await this.$axios.get(
         `${dataApi.assignment.CheckMembersPermissions}${this.assignment?.assignmentType}/${this.assignmentId}`
       );
-      console.log("succeeded");
       if (!succeeded) {
         this.tooglePopupAccessRight();
         return false;

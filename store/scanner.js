@@ -101,7 +101,7 @@ export const mutations = {
         state.file = payload
     },
     SET_DEVICE(state, payload) {
-        console.log(payload, "store device");
+
         state.params.id = payload
         writeParamsByCurrentDevice(state.params, state.params.id)
     },
@@ -154,7 +154,6 @@ export const mutations = {
     },
     SET_CURRENT_DEVICE(state, payload) {
         state.currentDevice = payload
-        console.log(state.currentDevice, 'stiore');
         localStorage.setItem("currentDevice", JSON.stringify(state.currentDevice))
     },
     SET_ORDER(state, payload) {
@@ -172,7 +171,6 @@ export const mutations = {
             if (payload == "up") {
 
                 if (page.id !== state.currentPageId && page.order === newOrder) {
-                    console.log(page);
                     page.order++
                 }
             }
@@ -185,8 +183,6 @@ export const mutations = {
             return page
         })
         state.files = sortFiles(files)
-        console.log(state.files);
-
     }
 }
 export const actions = {
@@ -218,7 +214,6 @@ export const actions = {
     onClose({ commit },) {
         commit("DELETE_FILES")
         this.$scanner.stopConnection()
-        console.log("Closset");
     },
 
     setDevices({ commit }, payload) {

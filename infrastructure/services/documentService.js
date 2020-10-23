@@ -97,7 +97,6 @@ export async function loadDocumentTemplate(context, { documentTypeGuid, document
 export async function load(context, { documentTypeGuid, documentId }) {
 
   if (!documentModules.hasModule(documentId)) {
-    console.log(documentTypeGuid, "documemtTypeguid");
     documentModules.setStoreTemplate(documentTypeGuid)
     documentModules.registerModule(context, documentId);
 

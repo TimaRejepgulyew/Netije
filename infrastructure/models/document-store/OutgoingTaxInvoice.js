@@ -72,7 +72,6 @@ export default class OutgoingTaxInvoice extends ElectronicDocument {
                 state.document.correctedId = payload;
             },
             SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
-                console.log("ddawdaw");
                 if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
                     state.isDataChanged = true;
                 }

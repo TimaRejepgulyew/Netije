@@ -118,7 +118,8 @@ export default {
     counterPartRequired: "Выберите контрагента",
     documentGroupIdRequired: "Выберите категорию",
     leadingDocumentIdRequired: "Введите ведущий документ",
-    contractRequired: "Выберите д я   оговор",
+    contractRequired: "Выберите договор",
+    documentTypeRequired:"Выберите тип документа"
   },
   header: {
     documentTemplate: "Шаблон документа"

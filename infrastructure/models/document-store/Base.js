@@ -4,8 +4,6 @@ import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
 export default class Base {
-
-    docmentKindService = docmentKindService
     state = {
         document: {},
         documentState: {},
@@ -155,7 +153,7 @@ export default class Base {
         },
         loadDocument({ commit }, payload) {
             //  TODO:  Создать функццю глубокого копирования
-            payload.document.documentKind = this.docmentKindService.emptyDocumentKind();
+            payload.document.documentKind = docmentKindService.emptyDocumentKind();
             commit("IS_REGISTERED", payload.document.registrationState);
             commit("SET_DOCUMENT", payload);
         },
@@ -176,7 +174,6 @@ export default class Base {
                 dispatch("reevaluateDocumentName");
             },
         }
-        console.log(this.mutations, "actions");
     }
     stateOptions() {
         return this.state

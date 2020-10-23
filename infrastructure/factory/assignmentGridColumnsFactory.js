@@ -65,9 +65,7 @@ const addResolution = async ({ assignmentType, id, body }, context) => {
   );
   if (response) {
     const assignment = { assignmentType, id, body, result: AssignmentResult.ReviewDraftResolution.ForExecution }
-    console.log(assignment);
     await sendResult(context, assignment,)
-    console.log(context);
     context.store.reload()
   }
 }

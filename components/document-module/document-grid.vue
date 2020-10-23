@@ -119,9 +119,6 @@ export default {
     DxButtonGroup,
   },
   props: ["documentQuery", "isCard"],
-  created() {
-    console.log(new ElectronicDocument());
-  },
   data() {
     return {
       activeFilter: QuiсkFilter.All,

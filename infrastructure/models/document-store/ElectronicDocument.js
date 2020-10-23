@@ -47,7 +47,6 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
 
             return {
                 SET_CASE_FILE_ID(state, payload) {
-                    console.log(checkDataChanged);
                     if (checkDataChanged(state.document.caseFileId, payload)) {
                         state.isDataChanged = true;
                     }
@@ -147,7 +146,6 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
                 }
             },
         }
-        console.log(actions, "electron");
         super({ actions, mutations })
     }
 }

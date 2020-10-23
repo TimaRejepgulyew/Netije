@@ -417,7 +417,6 @@ export default {
       };
     },
     businessUnitOptions() {
-      console.log("test", this.document);
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({

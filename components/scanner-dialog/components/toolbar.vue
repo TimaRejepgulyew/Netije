@@ -62,9 +62,6 @@ export default {
       setOrderDown: "scanner/setOrderDown",
     }),
   },
-  created() {
-    console.log(this.currentPage, "current Page");
-  },
   computed: {
     ...mapGetters({
       isFilesEmpty: "scanner/isFilesEmpty",
