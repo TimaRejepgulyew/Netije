@@ -22,6 +22,18 @@ export default class Waybill extends ElectronicDocument {
                 }
                 state.document.counterpartySignatoryId = payload;
             },
+            SET_TOTAL_AMOUNT(state, payload) {
+                if (checkDataChanged(state.document.totalAmount, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.totalAmount = payload;
+            },
+            SET_CURRENCY_ID(state, payload) {
+                if (checkDataChanged(state.document.currencyId, payload)) {
+                    state.isDataChanged = true;
+                }
+                state.document.currencyId = payload;
+            },
             SET_BUSINESS_UNIT_ID(state, payload) {
                 if (checkDataChanged(state.document.businessUnitId, payload)) {
                     state.isDataChanged = true;

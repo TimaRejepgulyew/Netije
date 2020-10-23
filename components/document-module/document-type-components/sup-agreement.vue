@@ -25,6 +25,7 @@
       :editor-options="leadingDocumentOptions"
     >
       <DxLabel location="left" :text="$t('document.fields.contract')" />
+      <DxRequiredRule :message="$t('document.validation.contractRequired')" />
     </DxSimpleItem>
 
     <DxGroupItem

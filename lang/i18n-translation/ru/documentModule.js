@@ -117,7 +117,8 @@ export default {
     businessUnitIdRequired: "Выберите организацию",
     counterPartRequired: "Выберите контрагента",
     documentGroupIdRequired: "Выберите категорию",
-    leadingDocumentIdRequired: "Введите ведущий документ"
+    leadingDocumentIdRequired: "Введите ведущий документ",
+    contractRequired: "Выберите д я   оговор",
   },
   header: {
     documentTemplate: "Шаблон документа"
