@@ -1,11 +1,10 @@
 import StoreModule from "./StoreModule";
 import * as documentStoresTemplate from "~/infrastructure/storeTemplate/documentStores/index.js"
-import * as documentStoreTemplate from "~/infrastructure/storeTemplate/documentStore.js";
 import DocumentType from '~/infrastructure/constants/documentType.js'
 export default class DocumentStoreModule extends StoreModule {
 
     constructor() {
-        super({ moduleName: "documents", storeTemplate: documentStoreTemplate })
+        super({ moduleName: "documents", storeTemplate: [] })
     }
     setStoreTemplate(documentTypeGuid) {
         switch (documentTypeGuid) {
@@ -61,8 +60,7 @@ export default class DocumentStoreModule extends StoreModule {
                 this.storeTemplate = documentStoresTemplate.documentTemplate
                 break
             default:
-                this.storeTemplate = documentStoreTemplate
-                break
+                throw "unsupported document type store module";
 
         }
         return this
