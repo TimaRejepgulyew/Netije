@@ -11,7 +11,7 @@
           icon="refresh"
           :onClick="refresh"
         ></DxButton>
-        <btn-version-from-scanner :documentId="documentId" />
+        <btn-version-from-scanner @uploadVersion="refresh" :documentId="documentId" />
         <btn-upload-version @uploadVersion="refresh" :documentId="documentId" />
       </div>
       <div class="list-container">
