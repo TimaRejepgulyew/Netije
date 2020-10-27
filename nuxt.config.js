@@ -6,7 +6,6 @@ const conf = JSON.parse(
 export default {
   env: {
     baseUrl: conf.baseUrl,
-    uiAddr: conf.uiAddr
   },
   loading: {
     color: "white"
@@ -50,6 +49,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    "~/plugins/nuxt-client-init",
     "~plugins/vue-notifications",
     "~/plugins/axios",
     "~/plugins/customStore",
@@ -114,6 +114,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { }
+    extend(config, ctx) {}
   }
 };
