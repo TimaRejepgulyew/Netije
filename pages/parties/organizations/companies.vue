@@ -11,7 +11,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif'),
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -39,8 +42,8 @@
       />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="(e) => allowUpdating(e)"
+        :allow-deleting="(e) => allowDeleting(e)"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -50,7 +53,11 @@
 
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
@@ -73,7 +80,11 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="true">
+      <DxColumn
+        data-field="tin"
+        :caption="$t('translations.fields.tin')"
+        :visible="true"
+      >
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
@@ -86,7 +97,10 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')"></DxColumn>
+      <DxColumn
+        data-field="phones"
+        :caption="$t('translations.fields.phones')"
+      ></DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
         <DxEmailRule :message="$t('translations.fields.emailRule')" />
@@ -137,7 +151,11 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="webSite"
+        :caption="$t('translations.fields.webSite')"
+        :visible="false"
+      ></DxColumn>
 
       <DxColumn
         data-field="nonresident"
@@ -146,9 +164,17 @@
         data-type="boolean"
       ></DxColumn>
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="account"
+        :caption="$t('translations.fields.account')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')" :visible="false">
+      <DxColumn
+        data-field="bankId"
+        :caption="$t('translations.fields.bankId')"
+        :visible="false"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveBanks"
@@ -184,7 +210,7 @@
       <template #textAreaEditor="cellInfo">
         <textArea
           :value="cellInfo.data.value"
-          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+          :on-value-changed="(value) => onValueChanged(value, cellInfo.data)"
         ></textArea>
       </template>
     </DxDataGrid>
@@ -264,6 +290,18 @@ export default {
     };
   },
   methods: {
+    allowUpdating(e) {
+      return (
+        this.$store.getters["permissions/allowDeleting"](this.entityType) &&
+        !e.row.data.isCardReadOnly
+      );
+    },
+    allowDeleting(e) {
+      return (
+        this.$store.getters["permissions/allowDeleting"](this.entityType) &&
+        !e.row.data.isCardReadOnly
+      );
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },
