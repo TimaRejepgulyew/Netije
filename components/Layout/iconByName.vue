@@ -64,7 +64,7 @@ export default {
   justify-content: center;
   width: 25px;
   height: 25px;
-  font-size: 0.8em;
+  font-size: 12px;
   border-radius: 15px;
   text-align: center;
   margin-right: 10px;

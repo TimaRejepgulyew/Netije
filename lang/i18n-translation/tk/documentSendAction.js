@@ -1,11 +1,10 @@
 export default {
-  type: {
-    DefaultAction: "Простая задача",
-    Acquaintance: "На ознакомление",
-    ActionItemExecution: "На исполнение поручения",
-    ReviewManager: "На расмотрение руководителем",
-    FreeApproval: "На свободное согласование",
-    Approval: "На согласование по регламенту",
+ type: {
+   DefaultAction: "Ýönekeý mesele",
+   Acquaintance: "Tanyşmak üçin",
+   ActionItemExecution: "Tabşyrygy ýerine ýetirmek üçin",
+   ReviewManager: "Ýolbaşçynyň garamagyna",
+   FreeApproval: "Mugt gepleşikler",
+   Approval: "Düzgüne laýyk ylalaşyga bermek"
   }
-
 }

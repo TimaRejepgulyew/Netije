@@ -1,11 +1,12 @@
-import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js"
-import administration from "~/lang/i18n-translation/ru/administration.js"
+import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js";
+import administration from "~/lang/i18n-translation/ru/administration.js";
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
 import documentRegistration, {
   DocumentType
 } from "~/lang/i18n-translation/ru/documentRegistration.js";
 import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
+import buttons from "~/lang/i18n-translation/ru/buttons.js";
 import recipientType from "~/lang/i18n-translation/ru/recipientType.js"
 import assignmentModule from "~/lang/i18n-translation/ru/assignment.js"
 import menu from "~/lang/i18n-translation/ru/menu.js"
@@ -72,7 +73,7 @@ export default {
     incomingLetter: "Входящие письма",
     companyDirective: "Распоряжения",
     simpleDocument: "Простые документы",
-    universaltransferdocument: "Универсальный передаточный документ",
+    universaltransferdocument: "Универсальный передаточный документ"
   },
   createItemDialog: {
     ...DocumentType,
@@ -151,6 +152,7 @@ export default {
     newRecord: "(Новая запись)",
     documentFlow: "Документопоток",
     status: "Состояние",
+    statusRequired: "Введите статус",
     code: "Код",
     codeRequired: "Введите код",
     codeAlreadyExists: "Такой код уже существует"
@@ -170,55 +172,7 @@ export default {
   documentRegistration: documentRegistration,
   assignment: assignmentModule,
   menu: menu,
-  buttons: {
-    orderUp: "вверх",
-    orderDown: "вниз",
-    createFromScanner: "Создать со сканера",
-    scanner: "Сканировать",
-    rotateLeft: "Повернуть на лево 90",
-    rotateRight: "Повернуть на право 90",
-    refresh: "Перезагрузить",
-    addResolution: "Вынести резолюцию",
-    returnManagersAssistant: "Вернуть помощнику",
-    approveResolution: "Утвердить проект резолюции",
-    sendToReview: "Отправить на расмотрение",
-    sendToAssignee: "Отправить на исполнение",
-    takeInto: "Принять к сведению",
-    readdress: "Переадресовать",
-    createExecution: "Создать поручение",
-    new: "Новые",
-    obsolete: "Архив",
-    all: "Все",
-    showCard: "Карточка",
-    downloadFile: "Загрузить файл",
-    versions: "Версии",
-    restart: "Рестартовать",
-    abort: "Прекратить",
-    start: "Запустить",
-    acquaintance: "Ознакомиться",
-    changePassword: "Сменить пароль",
-    save: "Сохранить",
-    add: "Добавить",
-    complete: "Выполнить",
-    accept: "Принять",
-    rework: "На доработку",
-    filter: "Фильтр",
-    stop: "Прекратить",
-    accept: "Принять",
-    cancel: "Назад",
-    delete: "Удалить",
-    deleteLink: "Удалить ссылку",
-    create: "Создать",
-    createTaskByDocument: "Создать задачу на основе документа",
-    send: "Отправить",
-    register: "Зарегистрировать",
-    preview: "Читать",
-    download: "Скачать",
-    createAddendum: "Создать приложение",
-    createRelation: "Cвязь",
-    saveAndBack: "Сохранить и выйти",
-    closed: "Закрыть"
-  },
+  buttons,
   notification: {
     labels: {
       info: "Информация",
@@ -338,9 +292,9 @@ export default {
       currentNumberRequired: "Введите текущий номер",
       regionAlreadyExists: "Такой регион уже существует",
       localityAlreadyExists: "Такой населенный пункт уже существует",
-      me: "Я",
+      me: "Я"
     },
-    headers: headers,
+    headers: headers
   },
   registrationSettings: {
     caption: "Настройка регистрации",

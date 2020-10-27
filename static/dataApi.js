@@ -1,9 +1,9 @@
 export const url = process.env.baseUrl;
 export default {
-
   Metadata: `${url}/api/Metadata`,
   account: `${url}/Identity/Account/Manage`,
   History: `${url}/api/History/`,
+  OidcConfiguration: `${url}/_configuration/${process.env.configUrl}`,
   sharedDirectory: {
     Country: `${url}/api/Country`,
     Region: `${url}/api/Region`,
@@ -11,7 +11,7 @@ export default {
     Currency: `${url}/api/Currency`
   },
   hubs: {
-    assignmentHub: `${url}/hubs/assignments`,
+    assignmentHub: `${url}/hubs/assignments`
   },
   contragents: {
     Company: `${url}/api/Companies`,

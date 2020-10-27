@@ -3,11 +3,17 @@
     <toolbar
       :isCard="isCard"
       @saveChanges="submit"
-      :canSave="$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
+      :canSave="
+        $store.getters['permissions/allowUpdating'](EntityType.Counterparty) &&
+        !company.isCardReadOnly
+      "
     />
     <DxForm
       ref="form"
-      :read-only="!$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
+      :read-only="
+        !$store.getters['permissions/allowUpdating'](EntityType.Counterparty) ||
+        company.isCardReadOnly
+      "
       :col-count="2"
       :form-data.sync="company"
       :show-colon-after-label="true"
@@ -45,7 +51,11 @@
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="bankId" :editor-options="bankOptions" editor-type="dxSelectBox">
+        <DxSimpleItem
+          data-field="bankId"
+          :editor-options="bankOptions"
+          editor-type="dxSelectBox"
+        >
           <DxLabel location="top" :text="$t('translations.fields.bankId')" />
         </DxSimpleItem>
 
@@ -76,26 +86,46 @@
           editor-type="dxSelectBox"
           data-field="localityId"
         >
-          <DxLabel location="top" :text="$t('translations.fields.localityId')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.localityId')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="postAddress">
-          <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.postAddress')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalAddress">
-          <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.legalAddress')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
-          <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.nonresident')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="account">
           <DxLabel location="top" :text="$t('translations.fields.account')" />
         </DxSimpleItem>
-        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
+        <DxSimpleItem
+          :editor-options="statusOptions"
+          editor-type="dxSelectBox"
+          data-field="status"
+        >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem data-field="note" :editor-options="{height: 90}" editor-type="dxTextArea">
+        <DxSimpleItem
+          data-field="note"
+          :editor-options="{ height: 90 }"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -150,6 +180,7 @@ export default {
     return {
       EntityType,
       company: {
+        IsCardReadOnly: false,
         headCompanyId: null,
         legalName: "",
         tin: null,

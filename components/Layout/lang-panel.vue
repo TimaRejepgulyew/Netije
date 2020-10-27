@@ -1,17 +1,14 @@
 <template>
   <div class="lang-panel">
-
     <DxSelectBox
       styling-mode
       v-model="activeLang"
-      :items=" languages"
+      :items="languages"
       :grouped="true"
       display-expr="name"
       value-expr="value"
       :width="150"
-      
     >
-    
     </DxSelectBox>
   </div>
 </template>
@@ -27,21 +24,21 @@ export default {
         {
           items: [
             { name: "Русский", value: "ru" },
-            // { name: "Turkmen", value: "tk" }
-          ]
-        }
-      ]
+            { name: "Turkmen", value: "tk" },
+          ],
+        },
+      ],
     };
   },
   watch: {
     activeLang: function changeLang(val) {
       this.$i18n.setLocaleCookie(val);
       window.location.href = this.switchLocalePath(val);
-    }
+    },
   },
   components: {
-    DxSelectBox
-  }
+    DxSelectBox,
+  },
 };
 </script>
 
@@ -58,5 +55,4 @@ export default {
   display: flex;
   align-items: center;
 }
-
 </style>

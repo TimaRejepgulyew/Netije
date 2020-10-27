@@ -1,60 +1,93 @@
 import assignmentType from "./assignmentType"
 export default {
-  prefixes: {
-    actionItemSupervisorAssignment: "Примите работы: ",
-    actionItemExecutionAssignment: "Исполните: ",
-    actionItemExecutionNotification: "Приняты работы: ",
-    acquaintanceAssignment: "Ознакомьтесь: ",
-    acquaintanceNotification: "Ознакомление с документом: ",
-    acquaintanceFinishAssignment: "Завершите работы по ознакомлению: ",
-    actionItemObserversNotification: "Начаты работы: "
-  },
-  returnManagersAssistantMessage: "Вы уверенны что хотите вернуть помощнику",
-  sureCompleteMessage: "Вы действительно выполнили задачу",
-  sureAcquaintanceMessage: "Вы действительно ознакомились с документом",
-  sureCompleteAcquaintanceMessage:
-    "Вы уверенны что хотите завершить ознакомление",
-  sureCompleteSupervisor: "Потвердите что бы завершить задачу",
-  sureReworkMessage: "Вы уверенны что хотите отправить на доработку",
-  takeIntoMessage:
-    "После принятия к сведению задание завершится без исполнения",
-  acceptAssignmentMessage: "Вы действительно приняли задачу",
-  readdressToEmployee: "Переадресовать сотруднику",
+  gridFileName: "Tabşyryklar",
   fields: {
-    newDeadline: "Новый срок",
+    newDeadline: "Täze möhlet",
+    deadline: "Möhleti",
+    authorId: "Awtory",
+    status: "Ýagdaýy",
+    created: "Döredildi",
+    subject: "Mazmuny"
   },
+  quickFilter: {
+    all: "Hemmesi",
+    new: "Täzeler",
+    inProcess: "Işlenýäni",
+    expired: "Möhleti gijikdirilen",
+    monthAgo: "Bir aý öň"
+  },
+  confirmMessage: {
+    headerHasChildActionItem: "Ikinji derejeli tabşyryklary bes etmek?",
+    hasChildActionItem: "Tamamlanmadyk ikinji derejeli tabşyryklar barmy",
+    sureDocumentReviewAcceptConfirmetion: " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
+    sureDocumentReviewReworkConfirmetion: "Hakykatdan hem kömekçä işlemek üçin yzyna bermekçimi?",
+    sureDocumentReviewApproveRosolutionConfirmetion: " Hakykatdan hem rezolýusiýanyňtaslamasyny tassyklamak isleýärsiňizmi?",
+    sureDocumentReviewSendToResolutionConfirmetion: "Siz hakykatdan hem rezolýusiýa üçin ibermek isleýärsiňizmi?",
+    sureDocumentReviewSendToAssigneeConfirmetion: "Siz hakykatda hem ýerine ýetirmek üçin ibermek isleýärsiňizmi?",
+    sureDocumentReviewExploredConfirmetion: "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
+    sureDocumentReviewForwardConfirmetion: "Siz hakykatdan hem resminamany  gaýtadan seretmek üçin başga birisine geçirmek isleýärsiňizmi?",
+    sureDocumentReviewAddresolutionConfirmetion: "Siz hakykatdan hem resminama boýunça rezolýusiýa çykardyňyzmy?",
+    sureActionItemForReworkConfirmetion: "Siz hakykatdan hem tabşyrygy gaýtadan işlemek üçin ibermek isleýärsiňizmi?",
+    sureActionItemAcceptConfirmetion: "Siz hakykatdan hem tabşyryk boýunça işleri kabul etmek isleýärsiňizmi?",
+    sureActionItemDoneConfirmetion: "Siz hakykatdan hem tabşyryklary ýerien ýetirmek isleýärsiňizmi",
+    sureReturnManagersAssistant: "Siz kömekçä yzyna bermek isleýärsiňizmi?",
+    sureComplete: "Siz hakykatdan hem ýumuşy ýerine ýetirmek isleýärsiňizmi?",
+    sureAcquaintance: "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
+    sureFinishAcquaintance: "Tanyşmagy tamamlamak isleýärsiňizmi ?",
+    sureCompleteSupervisor: "Ýumuşy tamamlaýandygyňyzy tassyklaň",
+    sureRework: "Ýumuşy gaýtadan işlemek üçin ibermek isleýärsiňizmi?",
+    sureAccept: "Ýumuşy kabul etmek isleýärsiňizmi?"
+    //TODO Добавить перевод предупреждения  о том что не создано ни одного поручение : выполнить задание без создание и отправки на поручение?
+  },
+  takeIntoMessage: " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
+  readdressToEmployee: "Işgäriň salgysyna geçirmelimi",
+
   result: {
-    Acquainted: "Ознакомлен",
-    SendForReview: "Отправлено на рассмотрение",
-    Complete: "Завершено",
-    Accept: "Принято",
-    ForRework: "На доработку",
-    AddAssignment: "Отправлено на исполнение",
-    AddResolution: "Вынесена резолюция",
-    Explored: "Принято к сведению",
-    Forward: "Переадресовано"
+    Acquainted: "Tanyşdym",
+    SendForReview: "Seretmek üçin iberildi",
+    Complete: "Tamamlandy",
+    Accept: "Kabul edildi",
+    Informed: "Kabul edildi",
+    ForRework: "Gaýtadan işlemäge iberildi",
+    AddAssignment: "Ýerine ýetirmek üçin iberildi",
+    AddResolution: "Rezolýusiýa çykaryldy",
+    Explored: "Kabul edildi",
+    Forward: "Iberilen",
+    ForExecution: "Ýerine ýetirmek üçin iberildi"
   },
+
   status: {
-    InProcess: "В процессе",
-    Draft: "Черновик",
-    Suspended: "Приостановленно",
-    Completed: "Завершено",
-    Aborted: "Прекращено",
-    UnderReview: "На приемке"
+    All: "Hemmesi",
+    InProcess: "Işlenýär",
+    Draft: "Garalama",
+    Suspended: "Wagtlaýyn bes edildi",
+    Completed: "Tamamlandy",
+    Aborted: "Bes edildi",
+    UnderReview: "Kabul etmek üçin seredilýär"
   },
   type: assignmentType,
+  prefixes: {
+    actionItemSupervisorAssignment: "Işleri kabul etmegiňizi soraýarys",
+    actionItemExecutionAssignment: "Işleri ýerine ýetirmegiňizi soraýarys",
+    actionItemExecutionNotification: "Işler kabul edildi",
+    acquaintanceAssignment: "Tabşyryk bilen tanyşmagyňyzy soraýarys",
+    acquaintanceNotification: "Resminama bilen tanyşmak",
+    acquaintanceFinishAssignment: "Tanyşmak boýunça işleri tamamlaň",
+    actionItemObserversNotification: "Işlere başlandy"
+  },
+  comment: "Bellikler",
   body: {
-    actionItemSupervisorAssignment: "Введите комментарий к отчету исполнителя...",
-    acquaintanceAssignment: "Оставьте комментарий прежде чем выполнить задание...",
-    simpleAssignment: "Введите текст задания...",
-    acquaintanceFinishAssignment: "Введите текст задания...",
-    actionAtiemExecution: "Оставьте отчет по исполнению поручения...",
-    preparingDraftResolutionAssignment: "Введите текст задания...",
-    reviewDraftResolutionAssignment: "Введите текст задания...",
-    reviewResolutionAssignment: "Текст резолюции...",
-    reviewManagerAssignment: "Текст резолюции..."
+    actionItemSupervisorAssignment: "Ýerine ýetirijiniň hasabaty boýunça bellikleri giriziň",
+    acquaintanceAssignment: "Tabşyryga başlamazdan öň bellikleri galdyryň",
+    simpleAssignment: "Tabşyrygyň tekstini giriziň...",
+    acquaintanceFinishAssignment: "Tabşyrygyň tekstini giriziň...",
+    actionAtiemExecution: "Tabşyrygy ýerine ýetirmek boýunça hasabaty galdyryň",
+    preparingDraftResolutionAssignment: "Tabşyrygyň tekstini giriziň...",
+    reviewDraftResolutionAssignment: "Tabşyrygyň tekstini giriziň...",
+    reviewResolutionAssignment: "Rezolýusiýanyň teksti...",
+    reviewManagerAssignment: "Rezolýusiýanyň teksti"
   },
   validation: {
-    bodyRequired: "Введите текст задания...",
+    bodyRequired: "Tabşyrygyň tekstini giriziň..."
   }
 }

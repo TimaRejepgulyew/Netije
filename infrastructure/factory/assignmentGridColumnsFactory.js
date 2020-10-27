@@ -1,16 +1,16 @@
 import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
 import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
-import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js"
-import AssignmentType from "~/infrastructure/constants/assignmentType.js"
-import AssignmentResult from "~/infrastructure/constants/assignmentResult.js"
+import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
+import AssignmentType from "~/infrastructure/constants/assignmentType.js";
+import AssignmentResult from "~/infrastructure/constants/assignmentResult.js";
 import dataApi from "~/static/dataApi";
-import { sendResult } from "~/infrastructure/services/assignmentService.js"
-import { ForExecution as forExecutionIcon } from "~/static/icons/status/assignmentResult.js"
+import { sendResult } from "~/infrastructure/services/assignmentService.js";
+import { ForExecution as forExecutionIcon } from "~/static/icons/status/assignmentResult.js";
 import { confirm } from "devextreme/ui/dialog";
 const GetColumnsByAssignmentQuery = (type, context) => {
   switch (type) {
     case AssignmentQuery.All:
-      return CreateAllAssignmentColumns(context)
+      return CreateAllAssignmentColumns(context);
     case AssignmentQuery.OnExicution:
       return CreateOnExecutionAssignmentColumns(context);
     case AssignmentQuery.OnReview:
@@ -45,14 +45,18 @@ const CreateButtons = context => {
         icon: forExecutionIcon,
         text: context.$t("document.preview"),
         onClick: e => addResolution(e.row.data, context)
-      },
+      }
     ]
   };
 };
 
 const isReviewDraftResolution = e => {
-  return e.row.data.assignmentType === AssignmentType.ReviewDraftResolutionAssignment && e.row.data.status === AssignmentStatusGuid.InProcess;
-}
+  return (
+    e.row.data.assignmentType ===
+      AssignmentType.ReviewDraftResolutionAssignment &&
+    e.row.data.status === AssignmentStatusGuid.InProcess
+  );
+};
 // const inProcess = e => {
 //   return e.row.data.status === AssignmentStatus.InProcess;
 // }
@@ -64,13 +68,18 @@ const addResolution = async ({ assignmentType, id, body }, context) => {
     context.$t("shared.confirm")
   );
   if (response) {
-    const assignment = { assignmentType, id, body, result: AssignmentResult.ReviewDraftResolution.ForExecution }
+    const assignment = {
+      assignmentType,
+      id,
+      body,
+      result: AssignmentResult.ReviewDraftResolution.ForExecution
+    };
     console.log(assignment);
-    await sendResult(context, assignment,)
+    await sendResult(context, assignment);
     console.log(context);
-    context.store.reload()
+    context.store.reload();
   }
-}
+};
 const CreateBaseColumns = context => {
   return [
     CreateAssignmentTypeIconColumn(context),
@@ -79,38 +88,26 @@ const CreateBaseColumns = context => {
     CreateDeadlineColumn(context),
     CreateAssignmentCreatedColumn(context),
     CreateAuthorColumn(context),
-    CreateStatusColumn(context),
+    CreateStatusColumn(context)
   ];
 };
 const CreateAllAssignmentColumns = context => {
-  return [
-    ...CreateBaseColumns(context),
-  ];
+  return [...CreateBaseColumns(context)];
 };
 const CreateOnExecutionAssignmentColumns = context => {
-  return [
-    ...CreateBaseColumns(context),
-  ];
+  return [...CreateBaseColumns(context)];
 };
 const CreateOnReviewAssignmentColumns = context => {
-  return [
-    ...CreateBaseColumns(context),
-  ];
+  return [...CreateBaseColumns(context)];
 };
 const CreateOnAcquintanceAssignmentColumns = context => {
-  return [
-    ...CreateBaseColumns(context),
-  ];
+  return [...CreateBaseColumns(context)];
 };
 const CreateOnDocumentReviewAssignmentColumns = context => {
-  return [
-    ...CreateBaseColumns(context),
-  ];
+  return [...CreateBaseColumns(context)];
 };
 const CreateReviewResolutionAssignmentColumns = context => {
-  return [
-    ...CreateBaseColumns(context),
-  ];
+  return [...CreateBaseColumns(context)];
 };
 
 function CreateDeadlineColumn(context) {
@@ -121,7 +118,7 @@ function CreateDeadlineColumn(context) {
     visible: true,
     dataType: "date",
     format: "dd.MM.yyyy HH:mm"
-  }
+  };
 }
 function CreateAssignmentCreatedColumn(context) {
   return {
@@ -134,7 +131,7 @@ function CreateAssignmentCreatedColumn(context) {
     format: "dd.MM.yyyy HH:mm"
   };
 }
-function CreateAuthorColumn(context,) {
+function CreateAuthorColumn(context) {
   return CreateLookupColumn(
     "authorId",
     context,
@@ -153,19 +150,29 @@ function CreateStatusColumn(context) {
 }
 
 function CreateAssignmentTypeIconColumn(context) {
-  return { ...GetDefaultColumnTypeIconSetting(context), dataField: "assignmentType", cellTemplate: "assignnmentTypeIconColumn", width: 20 }
+  return {
+    ...GetDefaultColumnTypeIconSetting(context),
+    dataField: "assignmentType",
+    cellTemplate: "assignnmentTypeIconColumn",
+    width: 40,
+    minWidth: 40
+  };
 }
 
 function CreateAssignmentImportanceColumn(context) {
-  return { ...GetDefaultColumnTypeIconSetting(context), dataField: "importance", cellTemplate: "importanceIconColumn", width: 40 }
+  return {
+    ...GetDefaultColumnTypeIconSetting(context),
+    dataField: "importance",
+    cellTemplate: "importanceIconColumn",
+    width: 40
+  };
 }
-
 
 function CreateSubjectColumn(context) {
   return {
     dataField: "subject",
-    caption: context.$t('assignment.fields.subject')
-  }
+    caption: context.$t("assignment.fields.subject")
+  };
 }
 
 function CreateLookupColumn(

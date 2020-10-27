@@ -1,5 +1,5 @@
 <template>
-  <img :src="assignmentGroupIcon" alt />
+  <img class="assignment-icon" :src="assignmentGroupIcon" alt />
 </template>
 
 <script>
@@ -16,5 +16,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.assignment-icon{
+  min-width: 25px;
+  height: 20px;
+}
 </style>
