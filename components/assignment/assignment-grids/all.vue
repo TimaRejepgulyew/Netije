@@ -56,7 +56,7 @@
         </template>
         <template #assignnmentTypeIconColumn="cell">
           <assignnmentTypeIconColumn
-            class="icon--type"
+         
             :assignmentType="cell.data.value"
             :assignmentTypes="assignmentTypes"
           />
@@ -87,12 +87,7 @@ export default {
 };
 </script>
 <style>
-.icon--type {
-  display: flex;
-  margin: 0 auto;
-  height: 20px;
-  width: 100%;
-}
+
 .forExecutionBtn {
   width: auto;
   height: 20px;
