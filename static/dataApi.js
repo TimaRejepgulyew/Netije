@@ -3,7 +3,7 @@ export default {
   Metadata: `${url}/api/Metadata`,
   account: `${url}/Identity/Account/Manage`,
   History: `${url}/api/History/`,
-  OidcConfiguration: `${url}/_configuration/TTDoc.UI`,
+  OidcConfiguration: `${url}/_configuration/${process.env.configUrl}`,
   sharedDirectory: {
     Country: `${url}/api/Country`,
     Region: `${url}/api/Region`,
