@@ -23,6 +23,7 @@
 </template>
 
 <script>
+// import scannerIco from "~/static/icons/scanner/scanner_netije.ico"
 import DxContextMenu from "devextreme-vue/context-menu";
 import DxList from "devextreme-vue/list";
 import DxButton from "devextreme-vue/button";
@@ -48,6 +49,11 @@ export default {
           text: this.$t("panel.logout"),
           icon: "runner",
           onClick: this.onLogoutClick
+        },
+        {
+          text:this.$t("panel.downloadScannerApp"),
+          icon:"download",
+          onClick:this.downloadScanner
         }
       ]
     };
@@ -58,6 +64,9 @@ export default {
     }
   },
   methods: {
+    downloadScanner(){
+      window.open('/WebClient.msi', '_blank')
+    },
     onLogoutClick() {
       this.$store.dispatch("oidc/signOutOidc");
     },

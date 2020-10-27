@@ -7,17 +7,17 @@ import documentRegistration, {
 import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
 import buttons from "~/lang/i18n-translation/ru/buttons.js";
-import recipientType from "~/lang/i18n-translation/ru/recipientType.js"
-import assignmentModule from "~/lang/i18n-translation/ru/assignment.js"
-import menu from "~/lang/i18n-translation/ru/menu.js"
-import headers from "~/lang/i18n-translation/ru/headers.js"
-import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js"
-import attachmentAccessRight from "~/lang/i18n-translation/ru/attachmentAccessRight.js"
-import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js"
-import parties from "~/lang/i18n-translation/ru/parties.js"
-import paperWork from "~/lang/i18n-translation/ru/paperWork.js"
-import docFlow from "~/lang/i18n-translation/ru/docFlow.js"
-import scanner from "~/lang/i18n-translation/ru/scanner.js"
+import recipientType from "~/lang/i18n-translation/ru/recipientType.js";
+import assignmentModule from "~/lang/i18n-translation/ru/assignment.js";
+import menu from "~/lang/i18n-translation/ru/menu.js";
+import headers from "~/lang/i18n-translation/ru/headers.js";
+import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js";
+import attachmentAccessRight from "~/lang/i18n-translation/ru/attachmentAccessRight.js";
+import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js";
+import parties from "~/lang/i18n-translation/ru/parties.js";
+import paperWork from "~/lang/i18n-translation/ru/paperWork.js";
+import docFlow from "~/lang/i18n-translation/ru/docFlow.js";
+import scanner from "~/lang/i18n-translation/ru/scanner.js";
 export default {
   scanner,
   paperWork,
@@ -90,7 +90,8 @@ export default {
   },
   panel: {
     profile: "Профиль",
-    logout: "выйти"
+    logout: "выйти",
+    downloadScannerApp: "Скачать веб сканнер"
   },
   counterPart: {
     Company: "Компания",
