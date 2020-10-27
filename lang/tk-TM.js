@@ -150,6 +150,7 @@ export default {
     newRecord: "(Täze ýazgy)",
     documentFlow: "Resminamalar dolanyşygy",
     status: "Ýagdaýy",
+    statusRequired: "Ýagdaýy saýlaň",
     code: "Kody",
     codeRequired: "Kody giriziň",
     codeAlreadyExists: "Şeýle kody öňden bar"

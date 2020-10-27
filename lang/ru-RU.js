@@ -1,22 +1,22 @@
-import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js"
-import administration from "~/lang/i18n-translation/ru/administration.js"
+import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js";
+import administration from "~/lang/i18n-translation/ru/administration.js";
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
 import documentRegistration, {
   DocumentType
 } from "~/lang/i18n-translation/ru/documentRegistration.js";
 import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
-import recipientType from "~/lang/i18n-translation/ru/recipientType.js"
-import assignmentModule from "~/lang/i18n-translation/ru/assignment.js"
-import menu from "~/lang/i18n-translation/ru/menu.js"
-import headers from "~/lang/i18n-translation/ru/headers.js"
-import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js"
-import attachmentAccessRight from "~/lang/i18n-translation/ru/attachmentAccessRight.js"
-import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js"
-import parties from "~/lang/i18n-translation/ru/parties.js"
-import paperWork from "~/lang/i18n-translation/ru/paperWork.js"
-import docFlow from "~/lang/i18n-translation/ru/docFlow.js"
-import buttons from "~/lang/i18n-translation/ru/buttons.js"
+import recipientType from "~/lang/i18n-translation/ru/recipientType.js";
+import assignmentModule from "~/lang/i18n-translation/ru/assignment.js";
+import menu from "~/lang/i18n-translation/ru/menu.js";
+import headers from "~/lang/i18n-translation/ru/headers.js";
+import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js";
+import attachmentAccessRight from "~/lang/i18n-translation/ru/attachmentAccessRight.js";
+import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js";
+import parties from "~/lang/i18n-translation/ru/parties.js";
+import paperWork from "~/lang/i18n-translation/ru/paperWork.js";
+import docFlow from "~/lang/i18n-translation/ru/docFlow.js";
+import buttons from "~/lang/i18n-translation/ru/buttons.js";
 export default {
   paperWork,
   parties,
@@ -71,7 +71,7 @@ export default {
     incomingLetter: "Входящие письма",
     companyDirective: "Распоряжения",
     simpleDocument: "Простые документы",
-    universaltransferdocument: "Универсальный передаточный документ",
+    universaltransferdocument: "Универсальный передаточный документ"
   },
   createItemDialog: {
     ...DocumentType,
@@ -150,6 +150,7 @@ export default {
     newRecord: "(Новая запись)",
     documentFlow: "Документопоток",
     status: "Состояние",
+    statusRequired: "Введите статус",
     code: "Код",
     codeRequired: "Введите код",
     codeAlreadyExists: "Такой код уже существует"
@@ -289,9 +290,9 @@ export default {
       currentNumberRequired: "Введите текущий номер",
       regionAlreadyExists: "Такой регион уже существует",
       localityAlreadyExists: "Такой населенный пункт уже существует",
-      me: "Я",
+      me: "Я"
     },
-    headers: headers,
+    headers: headers
   },
   registrationSettings: {
     caption: "Настройка регистрации",
