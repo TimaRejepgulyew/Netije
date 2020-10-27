@@ -3,6 +3,7 @@ export default {
  SimpleAssignment : "Ýönekeý ýumuş",
  ReviewAssignment : "Işleri kabul etmek",
  AcquaintanceAssignment : "Tanyşmak",
+ AcquaintanceNotification: "Tanyşmak boýunça habarnama",
  AcquaintanceFinishAssignment : "Tanyşmak boýunça işler tamamlandy",
  ActionItemExecutionNotification : "Tabşyrygyň ýerine ýetirilendigi barada habarnama",
  ActionItemSupervisorNotification : "Tabşyryk barada gözegçä habar bermek",
