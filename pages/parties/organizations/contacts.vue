@@ -86,6 +86,9 @@
         :visible="false"
       ></DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+         <DxRequiredRule
+          :message="$t('shared.statusRequired')"
+        />
         <DxLookup
           :allow-clearing="true"
           :data-source="statusDataSource"
