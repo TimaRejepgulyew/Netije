@@ -154,6 +154,7 @@ function CreateAssignmentTypeIconColumn(context) {
     ...GetDefaultColumnTypeIconSetting(context),
     dataField: "assignmentType",
     cellTemplate: "assignnmentTypeIconColumn",
+    width: 40,
     minWidth: 40
   };
 }
