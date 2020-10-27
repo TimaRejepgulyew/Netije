@@ -5,7 +5,7 @@ const conf = JSON.parse(
 );
 export default {
   env: {
-    configUrl: process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI",
+    configUrl: process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI-prod",
     baseUrl: conf.baseUrl
   },
   loading: {
