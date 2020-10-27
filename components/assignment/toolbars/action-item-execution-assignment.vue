@@ -64,7 +64,7 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-            if (this.hasChildActionItemItems()) {
+            if (await this.hasChildActionItemItems()) {
               await this.needAbortChildActionItems();
             } else {
               if (!this.sureActionItemDoneConfirmetion) return;
