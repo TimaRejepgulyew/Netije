@@ -127,10 +127,7 @@ export const mutations = {
     writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_CURRENT_DEVICE(state, payload) {
-    if (!payload.size && payload) {
-      console.log(payload);
-      payload.size = ["A4"];
-    }
+    
     state.currentDevice = payload;
     localStorage.setItem("currentDevice", JSON.stringify(state.currentDevice));
   },
