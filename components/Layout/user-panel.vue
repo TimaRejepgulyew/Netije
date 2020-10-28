@@ -23,7 +23,7 @@
 </template>
 
 <script>
-// import scannerIco from "~/static/icons/scanner/scanner_netije.ico"
+ import scannerIcon from "~/static/icons/scanner/scanner_netije.svg"
 import DxContextMenu from "devextreme-vue/context-menu";
 import DxList from "devextreme-vue/list";
 import DxButton from "devextreme-vue/button";
@@ -41,6 +41,11 @@ export default {
       },
       menuItems: [
         {
+          text:this.$t("panel.downloadScannerApp"),
+          icon:scannerIcon,
+          onClick:this.downloadScanner
+        },
+        {
           text: this.$t("panel.profile"),
           icon: "user",
           onClick: this.onProfileClick
@@ -50,11 +55,6 @@ export default {
           icon: "runner",
           onClick: this.onLogoutClick
         },
-        {
-          text:this.$t("panel.downloadScannerApp"),
-          icon:"download",
-          onClick:this.downloadScanner
-        }
       ]
     };
   },

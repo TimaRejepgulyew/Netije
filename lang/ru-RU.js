@@ -91,7 +91,7 @@ export default {
   panel: {
     profile: "Профиль",
     logout: "выйти",
-    downloadScannerApp: "Скачать веб сканнер"
+    downloadScannerApp: "Скачать веб клиент"
   },
   counterPart: {
     Company: "Компания",
