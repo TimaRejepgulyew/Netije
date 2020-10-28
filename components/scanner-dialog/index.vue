@@ -112,7 +112,6 @@ export default {
   },
   watch: {
     file: function (newValue, oldValue) {
-      console.log("terst");
       const test = this.onFileSaved;
       function* fileSaved() {
         yield test(newValue);

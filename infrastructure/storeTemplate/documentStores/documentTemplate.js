@@ -43,7 +43,6 @@ export const getters = {
         return numberingType != NumberingType.NotNumerable;
     },
     canUpdate({ canUpdate }) {
-        console.log("canup", canUpdate);
         return canUpdate;
     },
     canDelete({ canDelete }) {

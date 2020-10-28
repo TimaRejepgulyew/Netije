@@ -83,11 +83,6 @@ export default {
   inject: ["documentValidatorName"],
   computed: {
     canUpdate() {
-      console.log(
-        "documentid ",
-        this.documentId,
-        this.$store.getters[`documents/${this.documentId}/canUpdate`]
-      );
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     document() {

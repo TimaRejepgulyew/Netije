@@ -69,7 +69,6 @@ export default {
   },
   props: ["documentValidatorName"],
   created() {
-    console.log(this.params);
   },
   data() {
     return {
@@ -100,7 +99,6 @@ export default {
           this.setDeviceName(e.value)
         },
         onSelectionChanged: (e) => {
-          console.log();
           this.setCurrentDevice(e.selectedItem);
         },
       };

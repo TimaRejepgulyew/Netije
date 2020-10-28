@@ -75,7 +75,6 @@ export default {
             } else {
               const sureActionItemDoneConfirm = await this.sureActionItemDoneConfirmetion()
               if (sureActionItemDoneConfirm) {
-                console.log("past");
                 this.setResult(ReviewResult.ActionItemExecution.Complete);
                 this.completeAssignment();
               };

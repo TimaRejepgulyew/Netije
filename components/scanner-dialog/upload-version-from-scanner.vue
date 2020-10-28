@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     togglePopup() {
-      console.log("toogle");
       this.isOpenPopup = !this.isOpenPopup;
     },
     showScannerDialog() {
@@ -75,7 +74,6 @@ export default {
       });
     },
     uploadVersionFromFile(e) {
-      console.log("upload to server ");
       this.togglePopup();
       const blob = base64toBlob(e.file, "application/pdf");
       this.$awn.async(

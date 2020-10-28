@@ -50,7 +50,7 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     DxToolbar,
-    DxItem,
+    DxItem
   },
   methods: {
     ...mapActions({
@@ -59,17 +59,14 @@ export default {
       scanDocument: "scanner/scanDocument",
       deletePage: "scanner/deletePage",
       setOrderUp: "scanner/setOrderUp",
-      setOrderDown: "scanner/setOrderDown",
-    }),
-  },
-  created() {
-    console.log(this.currentPage, "current Page");
+      setOrderDown: "scanner/setOrderDown"
+    })
   },
   computed: {
     ...mapGetters({
       isFilesEmpty: "scanner/isFilesEmpty",
       currentPage: "scanner/currentPage",
-      files: "scanner/files",
+      files: "scanner/files"
     }),
     hasActivePage() {
       return this.$store.getters["scanner/currentPageId"] !== null;
@@ -81,7 +78,7 @@ export default {
         onClick: () => {
           this.saveFile();
           this.$emit("fileSaved");
-        },
+        }
       };
     },
     btnDeleteOptions() {
@@ -89,7 +86,7 @@ export default {
         icon: "trash",
         onClick: () => {
           this.deletePage();
-        },
+        }
       };
     },
     btnRotateRightOptions() {
@@ -98,7 +95,7 @@ export default {
         text: this.$t("buttons.rotateRight"),
         onClick: () => {
           this.rotatePage(90);
-        },
+        }
       };
     },
     btnRotateLeftOptions() {
@@ -107,7 +104,7 @@ export default {
         text: this.$t("buttons.rotateLeft"),
         onClick: () => {
           this.rotatePage(-90);
-        },
+        }
       };
     },
     btnOrderUpOptions() {
@@ -117,7 +114,7 @@ export default {
         disabled: this.currentPage?.order === 1,
         onClick: () => {
           this.setOrderUp();
-        },
+        }
       };
     },
     btnOrderDownOptions() {
@@ -127,12 +124,11 @@ export default {
         disabled: this.currentPage?.order === this.files.length,
         onClick: () => {
           this.setOrderDown();
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

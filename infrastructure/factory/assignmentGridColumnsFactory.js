@@ -74,9 +74,7 @@ const addResolution = async ({ assignmentType, id, body }, context) => {
       body,
       result: AssignmentResult.ReviewDraftResolution.ForExecution
     };
-    console.log(assignment);
     await sendResult(context, assignment);
-    console.log(context);
     context.store.reload();
   }
 };

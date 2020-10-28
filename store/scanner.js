@@ -76,7 +76,6 @@ export const mutations = {
     state.file = payload;
   },
   SET_DEVICE(state, payload) {
-    console.log(payload, "store device");
     state.params.id = payload;
     writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
