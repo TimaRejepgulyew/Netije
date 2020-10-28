@@ -527,7 +527,9 @@ function CreateLeadingDocumentIdColumn(context, visible = true, caption) {
 function createExecutionStateColumn(context) {
   return CreateArrayLookupColumn(
     "executionState",
-    ExecutionStateStore(context)
+    context,
+    ExecutionStateStore(context),
+    true
   );
 }
 function CreateBaseColumn(context) {
