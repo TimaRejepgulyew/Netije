@@ -46,7 +46,7 @@ export default {
     performers : "Ýerine ýetirijiler",
     start : "Başla",
     addressee : "Barmaly ýeri",
-    deadline : "gutormaly wagty",
+    deadline : "Gutormaly wagty",
     createdDate : "Döredilen senesi",
     maxDeadline : "iň soňky möhlet",
     assignee : "Ýerine ýetiriji",

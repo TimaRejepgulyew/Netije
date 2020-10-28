@@ -2,13 +2,13 @@
   <div>
     <DxPopup
       width="90%"
-      height="90%"
+      height="95%"
       :showTitle="false"
       :visible.sync="isOpenGrid"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div>
+      <div >
         <documentGrid v-if="isOpenGrid" :documentQuery="100" @selectedDocument="pasteAttachment" />
       </div>
     </DxPopup>

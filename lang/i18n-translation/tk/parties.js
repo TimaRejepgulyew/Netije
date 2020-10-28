@@ -29,9 +29,9 @@ export default {
       "Kontragent guramalaryň, müşderileriň wekilleri bilen tiz aragatnaşygy gurnamak üçin guramalaryň wekilleri barada maglumatlary saklaýan Salgylanma kitaby niýetlenen"
   },
   person: {
-    title: "Işgärler",
+    title: "Fiziki şahsylar",
     createPerson: "Belgi döretmek",
-    persons: "Şahsylar",
+    persons: "Fiziki şahsylar",
     personsDescr:
       "Salgylanma kitaby ähli şahsy raýatlar-müşderiler barada maglumatlary saklamak üçin niýetlenendir"
   },

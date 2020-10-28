@@ -192,7 +192,7 @@ export default {
   translations: {
     fields: {
       isDefault: "Berlenlere görä",
-      deadLine: "gutormaly wagty",
+      deadLine: "Gutormaly wagty",
       legalName: "Hukuk ady",
       legalNameRequired: "Hukuk adyny giriziň",
       personalData: "Şahsy maglumatlar",

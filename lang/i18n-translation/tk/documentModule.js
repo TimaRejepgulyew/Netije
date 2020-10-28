@@ -45,6 +45,13 @@ export default {
     }
   },
   fields: {
+    lifeCycle: "Ýaşaýyş aýlawy",
+    state: "Ýagdaýy",
+    registrationState: "Bellige almak",
+    internalApprovalState: "Özara ylalaşmak ýagdaýy",
+    externalApprovalState: "Beýleki tarap bilen ylalaşmagyň ýagdaýy",
+    executionState: "Ýerine ýetirilişi",
+    controlExecutionState: "Ýerine ýetirilişine gözegçilik",
     note: "Bellikler",
     invalidExeption: "Ýol berilmeýän giňeltme",
     isStandardSupAgreement: "Birkysmy goşmaça ylalaşyk",
@@ -56,7 +63,8 @@ export default {
     accountDate: "Hasabyň senesi",
     totalAmount: "Jemi möçberi",
     contract: "Şertnama",
-    areYouSureCancelDocument: "Resminamadan çykmak we ony pozmak isleýärsiňizmi?",
+    areYouSureCancelDocument:
+      "Resminamadan çykmak we ony pozmak isleýärsiňizmi?",
     dated: "Senesi",
     name: "Ady",
     inResponseToId: "Jogap hökmünde berilýär",
@@ -74,7 +82,7 @@ export default {
     modified: "Üýtgedildi",
     authorId: "Awtory",
     registrationDate: "Bellige alnan senesi",
-    registrationNumber: "Bellie alyş belgisi",
+    registrationNumber: "Bellige alyş belgisi",
     documentNumber: "Resminamanyň belgisi",
     correspondentId: "Kontragent",
     subject: "Mazmuny",

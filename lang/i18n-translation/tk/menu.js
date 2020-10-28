@@ -7,7 +7,7 @@ export default {
   "shared-directory": "Umumy gollanmalar",
   "company-structure": "Kompaniýa",
   "contractors": "Kontragentler",
-  "docFlow": "Resminamalar dolanyşygy",
+  "docFlow": "Resm dolanyşygy",
   "administration": "Administrirleme",
   "roles": "Rollar",
   "counterPart": "Kontragentler",
