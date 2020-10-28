@@ -42,12 +42,13 @@ export default {
     async needAbortChildActionItems() {
       const needAbortChildActionItems = await this.confirm(
         this.$t("assignment.confirmMessage.hasChildActionItem"),
-        this.$t("assignment.confirmMessage.headerHasChildActionItem"),
+        this.$t("assignment.confirmMessage.headerHasChildActionItem")
       );
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
         needAbortChildActionItems
       );
+      return needAbortChildActionItems
     },
     async sureActionItemDoneConfirmetion() {
       const response = await this.confirm(
@@ -55,7 +56,7 @@ export default {
         this.$t("shared.confirm")
       );
       return response;
-    },
+    }
   },
   computed: {
     btnOptions() {
@@ -64,18 +65,26 @@ export default {
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-            if (this.hasChildActionItemItems()) {
-              await this.needAbortChildActionItems();
+          const  hasChildActionItemItems =  await this.hasChildActionItemItems()
+            if (hasChildActionItemItems) {
+              const needAbortChildActionItems = await this.needAbortChildActionItems()
+              if (needAbortChildActionItems) {
+                this.setResult(ReviewResult.ActionItemExecution.Complete);
+                this.completeAssignment();
+              }
             } else {
-              if (!this.sureActionItemDoneConfirmetion) return;
+              const sureActionItemDoneConfirm = await this.sureActionItemDoneConfirmetion()
+              if (sureActionItemDoneConfirm) {
+                console.log("past");
+                this.setResult(ReviewResult.ActionItemExecution.Complete);
+                this.completeAssignment();
+              };
             }
-            this.setResult(ReviewResult.ActionItemExecution.Complete);
-            this.completeAssignment();
           }
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
