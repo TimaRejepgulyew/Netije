@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <Header :isbackButton="true" :headerTitle="headerTitle">
+      <Header :isbackButton="!isCard" :headerTitle="headerTitle">
         <important-indicator
           :isImportant="isImportant"
           slot="indicator"
@@ -169,7 +169,7 @@ export default {
     ...bodies,
   },
   name: "assignment",
-  props: ["assignmentId"],
+  props: ["assignmentId","isCard"],
   provide: function () {
     return {
       assignmentValidatorName: this.assignmentValidatorName,
