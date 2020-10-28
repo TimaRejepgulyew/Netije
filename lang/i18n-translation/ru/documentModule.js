@@ -15,7 +15,8 @@ export const DocumentType = {
   OutgoingTaxInvoice: "Счет-фактура выставленный",
   UniversalTransferDocument: "Универсальный передаточный документ",
   Waybill: "Накладная",
-  Contract: "Договор"
+  Contract: "Договор",
+  DocumentTemplate: "Шаблон документов"
 };
 export default {
   remove: "Удалить",

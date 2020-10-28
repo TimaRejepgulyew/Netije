@@ -83,7 +83,7 @@ export const mutations = {
   SET_SIZE(state, payload) {
     const defaultAcceptSize = ["A4"];
     if (payload) state.params.size = payload;
-    
+    else state.params.size = defaultAcceptSize;
     writeParamsByCurrentDevice(state.params, state.params.id);
   },
   SET_MODE(state, payload) {

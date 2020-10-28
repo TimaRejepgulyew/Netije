@@ -40,5 +40,10 @@ export default {
   createRelation: "Cвязь",
   saveAndBack: "Сохранить и выйти",
   closed: "Закрыть",
-  scanner: "Сканнер"
+  scanner: "Сканнер",
+  createFromScanner: "Создать со сканера",
+  rotateLeft: "Повернуть на лево",
+  rotateRight: "Повернуть на право",
+  orderUp: "Наверх",
+  orderDown: "Вниз"
 };
