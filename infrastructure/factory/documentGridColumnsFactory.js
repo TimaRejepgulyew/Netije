@@ -535,8 +535,8 @@ function createExecutionStateColumn(context) {
 function CreateBaseColumn(context) {
   return [
     CreateDocumentSubjectColumn(context),
-    createExecutionStateColumn(context),
     CreateDocumentTypeGuidColumn(context),
+    createExecutionStateColumn(context),
     CreateBusinessUnitColumn(context),
     CreateDepartmentColumn(context),
     CreateDocumentNameColumn(context),
