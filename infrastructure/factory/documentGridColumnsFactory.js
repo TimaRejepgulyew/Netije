@@ -1,5 +1,6 @@
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
+import { ExecutionStateStore } from "~/infrastructure/constants/executionState.js";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
 export default {
@@ -523,7 +524,12 @@ function CreateLeadingDocumentIdColumn(context, visible = true, caption) {
     "contract"
   );
 }
-
+function createExecutionStateColumn(context) {
+  return CreateArrayLookupColumn(
+    "executionState",
+    ExecutionStateStore(context)
+  );
+}
 function CreateBaseColumn(context) {
   return [
     CreateDocumentSubjectColumn(context),
@@ -540,7 +546,8 @@ function CreateBaseColumn(context) {
     CreateDocumentRegistrationNumberColumn(context),
     CreateDocumentRegistrationDateColumn(context),
     CreatePlacedToCaseFileDateColumn(context),
-    CreateCaseFileColumn(context)
+    CreateCaseFileColumn(context),
+    createExecutionStateColumn(context)
   ];
 }
 function CreateLookupColumn(
