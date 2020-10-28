@@ -89,15 +89,15 @@ export default {
     }),
     deviceOptions() {
       return {
-        valueExpr: "id",
+        valueExpr: "name",
         displayExpr: "name",
         dataSource: this.devicesStore,
-        value: this.params.id,
+        value: this.params.deviceName,
         onValueChanged: (e) => {
           this.setSize(null);
           this.setDpi(null);
           this.setMode(null);
-          this.setDeviceId(e.value);
+          this.setDeviceName(e.value)
         },
         onSelectionChanged: (e) => {
           this.setCurrentDevice(e.selectedItem);
@@ -110,7 +110,6 @@ export default {
         dataSource: this.deviceStore?.mode,
         value: this.params.mode,
         onValueChanged: (e) => {
-          console.log(e.value);
           this.setMode(e.value);
         },
       };
@@ -120,7 +119,6 @@ export default {
         dataSource: this.deviceStore?.size,
         value: this.params.size,
         onValueChanged: (e) => {
-          console.log(e.value);
           this.setSize(e.value);
         },
       };
@@ -136,7 +134,6 @@ export default {
         }),
         value: this.params.dpi,
         onValueChanged: (e) => {
-          console.log(e.value);
           this.setDpi(e.value);
         },
       };
@@ -147,7 +144,7 @@ export default {
       setCurrentDevice: "scanner/SET_CURRENT_DEVICE",
       setDpi: "scanner/SET_DPI",
       setMode: "scanner/SET_MODE",
-      setDeviceId: "scanner/SET_DEVICE",
+      setDeviceName: "scanner/SET_CURRENT_DEVICE",
       setSize: "scanner/SET_SIZE",
     }),
   },

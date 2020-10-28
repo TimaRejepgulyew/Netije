@@ -1,12 +1,12 @@
 import { alert } from "devextreme/ui/dialog";
 const currentDevice = JSON.parse(localStorage.getItem("currentDevice"));
 const deviceParamsByCurrentDevice = JSON.parse(
-  localStorage.getItem(`deviceParamsBy/${currentDevice?.id}`)
+  localStorage.getItem(`deviceParamsBy/${currentDevice?.name}`)
 );
-const writeParamsByCurrentDevice = (params, currentDeviceId) => {
+const writeParamsByCurrentDevice = (params, currentDeviceName) => {
   JSON.stringify(params);
   localStorage.setItem(
-    `deviceParamsBy/${currentDeviceId}`,
+    `deviceParamsBy/${currentDeviceName}`,
     JSON.stringify(params)
   );
 };
@@ -78,19 +78,20 @@ export const mutations = {
   SET_DEVICE(state, payload) {
     console.log(payload, "store device");
     state.params.id = payload;
-    writeParamsByCurrentDevice(state.params, state.params.id);
+    writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_SIZE(state, payload) {
-     state.params.size = payload;
-    writeParamsByCurrentDevice(state.params, state.params.id);
+    state.params.size = payload;
+    v;
+    writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_MODE(state, payload) {
     state.params.mode = payload;
-    writeParamsByCurrentDevice(state.params, state.params.id);
+    writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_DPI(state, payload) {
     state.params.dpi = payload;
-    writeParamsByCurrentDevice(state.params, state.params.id);
+    writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   DELETE_PAGE(state) {
     state.files = state.files.filter(file => file.id !== state.currentPageId);
@@ -119,16 +120,19 @@ export const mutations = {
   SET_DEVICES(state, payload) {
     state.devices = payload;
   },
+  SET_DEVICE_NAME(state, payload) {
+    state.params.deviceName = payload;
+    writeParamsByCurrentDevice(state.params, state.params.deviceName);
+  },
   SET_PARAMS(state, payload) {
     state.params = payload;
-    writeParamsByCurrentDevice(state.params, state.params.id);
+    writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_CURRENT_DEVICE(state, payload) {
     if (!payload.size) {
       payload.size = ["A4"];
     }
     state.currentDevice = payload;
-    console.log(state.currentDevice, "stiore");
     localStorage.setItem("currentDevice", JSON.stringify(state.currentDevice));
   },
   SET_ORDER(state, payload) {
@@ -157,7 +161,6 @@ export const mutations = {
       return page;
     });
     state.files = sortFiles(files);
-    console.log(state.files);
   }
 };
 export const actions = {
@@ -193,7 +196,9 @@ export const actions = {
     this.$scanner.stopConnection();
     console.log("Closset");
   },
-
+  setDevicesName({ commit }, payload) {
+    commit("SET_DEVICE_NAME", payload);
+  },
   setDevices({ commit }, payload) {
     commit("SET_DEVICES", payload);
   },
