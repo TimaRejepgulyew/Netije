@@ -30,14 +30,12 @@
       </div>
       <div class="file-uploader" v-if="canUpdate">
         <DxFileUploader
-          uploadMode="useButtons"
           ref="fileUploader"
           :multiple="false"
           :accept="acceptExtension"
           :allowed-file-extensions="extension"
-          @progress="uploadVersionFromFile"
-          @value-changed="e => files = e.value"
-          :showFileList="true"
+          @value-changed="uploadVersionFromFile"
+          :showFileList="false"
           :invalid-fileextension-message="$t('document.fields.invalidExeption')"
         />
       </div>
@@ -100,13 +98,13 @@ export default {
       this.versions.reload();
     },
     uploadVersionFromFile(e) {
+      const file = e.value[0];
       const document = this.$store.getters[
         `documents/${this.documentId}/document`
       ];
       this.$awn.async(
-        documentService.uploadVersion(document, e.file, this),
+        documentService.uploadVersion(document, file, this),
         (version) => {
-          this.$refs["fileUploader"].instance.reset();
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,
             version.data
