@@ -13,7 +13,7 @@ export default {
     },
     additionalInfo: {
         title: "Baglanan maglumat",
-        companies: "edara-kärhanalar",
+        companies: "Edara-kärhanalar",
         companiesDescr: "Kontragent guramalaryň müşderileriň salgylanma kitabynyň açylmagy",
         banks: "Banklar",
         banksDescr: "Kontragent banklaryň salgylanma kitabyny açmak",

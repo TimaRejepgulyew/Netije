@@ -49,6 +49,13 @@ export default {
   fields: {
     value: "Значение",
     status: "Состояние",
+    lifeCycle: "Жизненый цикл",
+    state: "Состояние",
+    registrationState: "Регистрация",
+    internalApprovalState: "Согласование",
+    externalApprovalState: "Согл. с контрагентом",
+    executionState: "Исполнение",
+    controlExecutionState: "Контроль исполнения",
     note: "Комментарий",
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",

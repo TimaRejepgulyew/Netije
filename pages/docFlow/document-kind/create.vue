@@ -85,7 +85,7 @@
           </DxSimpleItem>
 
           <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
-            <DxLabel location="top" alignment="left" :text="$t('translations.fields.isDefault')" />
+            <DxLabel location="top" alignment="left" :text="$t('docFlow.fields.isDefault')" />
           </DxSimpleItem>
 
           <DxSimpleItem data-field="note" :col-span="2" editor-type="dxTextArea">
