@@ -100,6 +100,7 @@ export default {
           this.setDeviceName(e.value)
         },
         onSelectionChanged: (e) => {
+          console.log();
           this.setCurrentDevice(e.selectedItem);
         },
       };
@@ -144,7 +145,7 @@ export default {
       setCurrentDevice: "scanner/SET_CURRENT_DEVICE",
       setDpi: "scanner/SET_DPI",
       setMode: "scanner/SET_MODE",
-      setDeviceName: "scanner/SET_CURRENT_DEVICE",
+      setDeviceName: "scanner/SET_DEVICE_NAME",
       setSize: "scanner/SET_SIZE",
     }),
   },

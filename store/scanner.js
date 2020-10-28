@@ -30,7 +30,7 @@ export const state = () => ({
   currentPageId: 0,
   params: deviceParamsByCurrentDevice || {
     mode: null,
-    id: null,
+    deviceName: null,
     dpi: null,
     size: null
   }
@@ -82,7 +82,6 @@ export const mutations = {
   },
   SET_SIZE(state, payload) {
     state.params.size = payload;
-    v;
     writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_MODE(state, payload) {
@@ -129,7 +128,8 @@ export const mutations = {
     writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_CURRENT_DEVICE(state, payload) {
-    if (!payload.size) {
+    if (!payload.size && payload) {
+      console.log(payload);
       payload.size = ["A4"];
     }
     state.currentDevice = payload;
