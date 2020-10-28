@@ -87,9 +87,7 @@ export default {
               ),
               this.$t("shared.confirm")
             );
-            console.log("send");
             if (response) {
-              console.log(ReviewResult.PrepareDraftResolution);
               this.setResult(ReviewResult.PrepareDraftResolution.SendForReview);
               this.completeAssignment();
             }

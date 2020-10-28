@@ -171,8 +171,7 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/restart`),
-            (e) => {
-            },
+            (e) => {},
             (e) => this.$awn.alert()
           );
         },
