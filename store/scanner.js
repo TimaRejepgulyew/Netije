@@ -81,9 +81,7 @@ export const mutations = {
     writeParamsByCurrentDevice(state.params, state.params.id);
   },
   SET_SIZE(state, payload) {
-    const defaultAcceptSize = ["A4"];
-    if (payload) state.params.size = payload;
-    else state.params.size = defaultAcceptSize;
+     state.params.size = payload;
     writeParamsByCurrentDevice(state.params, state.params.id);
   },
   SET_MODE(state, payload) {
@@ -126,6 +124,9 @@ export const mutations = {
     writeParamsByCurrentDevice(state.params, state.params.id);
   },
   SET_CURRENT_DEVICE(state, payload) {
+    if (!payload.size) {
+      payload.size = ["A4"];
+    }
     state.currentDevice = payload;
     console.log(state.currentDevice, "stiore");
     localStorage.setItem("currentDevice", JSON.stringify(state.currentDevice));
