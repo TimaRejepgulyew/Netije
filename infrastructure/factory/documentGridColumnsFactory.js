@@ -536,12 +536,12 @@ function CreateBaseColumn(context) {
   return [
     CreateDocumentSubjectColumn(context),
     CreateDocumentTypeGuidColumn(context),
-    createExecutionStateColumn(context),
     CreateBusinessUnitColumn(context),
     CreateDepartmentColumn(context),
     CreateDocumentNameColumn(context),
     CreateDocumentCreatedColumn(context),
     CreateDocumentModifiedColumn(context),
+    createExecutionStateColumn(context),
     CreateDocumentAuthorColumn(context),
     CreateDocumentRegistrationStateColumn(context),
     CreateDocumentRegisterColumn(context),
