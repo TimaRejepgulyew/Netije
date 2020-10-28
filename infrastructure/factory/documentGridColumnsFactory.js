@@ -535,6 +535,7 @@ function createExecutionStateColumn(context) {
 function CreateBaseColumn(context) {
   return [
     CreateDocumentSubjectColumn(context),
+    createExecutionStateColumn(context),
     CreateDocumentTypeGuidColumn(context),
     CreateBusinessUnitColumn(context),
     CreateDepartmentColumn(context),
@@ -548,8 +549,7 @@ function CreateBaseColumn(context) {
     CreateDocumentRegistrationNumberColumn(context),
     CreateDocumentRegistrationDateColumn(context),
     CreatePlacedToCaseFileDateColumn(context),
-    CreateCaseFileColumn(context),
-    createExecutionStateColumn(context)
+    CreateCaseFileColumn(context)
   ];
 }
 function CreateLookupColumn(

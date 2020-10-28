@@ -45,6 +45,13 @@ export default {
     }
   },
   fields: {
+    lifeCycle: "Жизненый цикл",
+    state: "Состояние",
+    registrationState: "Регистрация",
+    internalApprovalState: "Согласование",
+    externalApprovalState: "Согл. с контрагентом",
+    executionState: "Исполнение",
+    controlExecutionState: "Контроль исполнения",
     note: "Комментарий",
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",
@@ -103,7 +110,7 @@ export default {
   },
   validation: {
     issuedToIdRequired: "Введите кому выдана доверенность",
-    ourSignatoryRequired:"Введите того кто подписал",
+    ourSignatoryRequired: "Введите того кто подписал",
     validTillRequired: "Введите по какой срок действительна доверенность",
     addresseeIdRequired: "Введите адрессата",
     nameRequired: "Введите наименование",
