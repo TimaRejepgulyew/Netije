@@ -5,7 +5,7 @@ import {
 } from "@microsoft/signalr";
 export default function(app) {
   const connection = new HubConnectionBuilder()
-    .withUrl("http://192.168.111.135:8080/SignalR")
+    .withUrl("http://192.168.4.170:8080/SignalR")
     // .withAutomaticReconnect(0)
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Information)

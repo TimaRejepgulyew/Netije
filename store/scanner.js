@@ -1,5 +1,9 @@
 import { alert } from "devextreme/ui/dialog";
-const currentDevice = JSON.parse(localStorage.getItem("currentDevice"));
+const currentDevice = JSON.parse(localStorage.getItem("currentDevice")) || {
+  mode: null,
+  size: null,
+  dpi: null
+};
 const deviceParamsByCurrentDevice = JSON.parse(
   localStorage.getItem(`deviceParamsBy/${currentDevice?.name}`)
 );
@@ -9,6 +13,18 @@ const writeParamsByCurrentDevice = (params, currentDeviceName) => {
     `deviceParamsBy/${currentDeviceName}`,
     JSON.stringify(params)
   );
+};
+const setDefaultParams = ({ state, commit }, defaultParams) => {
+  console.log(state);
+  if (!state.params.size && defaultParams.size) {
+    commit("SET_SIZE", defaultParams.size);
+  }
+  if (!state.params.dpi && defaultParams.dpi) {
+    commit("SET_DPI", defaultParams.dpi);
+  }
+  if (!state.params.mode && defaultParams.mode) {
+    commit("SET_MODE", defaultParams.mode);
+  }
 };
 function sortFiles(files) {
   return files.sort(function(prevEl, currentEl) {
@@ -127,7 +143,6 @@ export const mutations = {
     writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
   SET_CURRENT_DEVICE(state, payload) {
-    
     state.currentDevice = payload;
     localStorage.setItem("currentDevice", JSON.stringify(state.currentDevice));
   },
@@ -196,7 +211,15 @@ export const actions = {
     commit("SET_DEVICE_NAME", payload);
   },
   setDevices({ commit }, payload) {
+    console.log(payload);
     commit("SET_DEVICES", payload);
+  },
+  setCurrentDevice({ commit, state }, payload) {
+    commit("SET_CURRENT_DEVICE", payload);
+    setDefaultParams(
+      { state, commit },
+      { size: payload.defaultSize, mode: payload.defaultMode, dpi: payload.defaultDpi }
+    );
   },
   setOrderUp({ commit }) {
     commit("SET_ORDER", "up");

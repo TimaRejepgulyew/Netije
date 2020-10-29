@@ -17,6 +17,7 @@
       <DxRequiredRule :message="$t('scanner.validation.deviceRequired')" />
     </DxSimpleItem>
     <DxSimpleItem
+      v-if="deviceStore.mode"
       data-field="mode"
       :editor-options="modeOptions"
       editor-type="dxSelectBox"
@@ -34,6 +35,7 @@
       <DxRequiredRule :message="$t('scanner.validation.sizeRequired')" />
     </DxSimpleItem>
     <DxSimpleItem
+      v-if="deviceStore.dpi"
       data-field="dpi"
       :editor-options="dpiOptions"
       editor-type="dxSelectBox"
@@ -93,9 +95,9 @@ export default {
         dataSource: this.devicesStore,
         value: this.params.deviceName,
         onValueChanged: e => {
-          this.setSize(null);
-          this.setDpi(null);
-          this.setMode(null);
+          // this.setSize(null);
+          // this.setDpi(null);
+          // this.setMode(null);
           this.setDeviceName(e.value);
         },
         onSelectionChanged: e => {
@@ -139,8 +141,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setCurrentDevice: "scanner/setCurrentDevice"
+    }),
     ...mapMutations({
-      setCurrentDevice: "scanner/SET_CURRENT_DEVICE",
       setDpi: "scanner/SET_DPI",
       setMode: "scanner/SET_MODE",
       setDeviceName: "scanner/SET_DEVICE_NAME",

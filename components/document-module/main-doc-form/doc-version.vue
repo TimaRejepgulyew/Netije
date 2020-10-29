@@ -11,7 +11,10 @@
           icon="refresh"
           :onClick="refresh"
         ></DxButton>
-        <btn-version-from-scanner @uploadVersion="refresh" :documentId="documentId" />
+        <btn-version-from-scanner
+          @uploadVersion="refresh"
+          :documentId="documentId"
+        />
         <btn-upload-version @uploadVersion="refresh" :documentId="documentId" />
       </div>
       <div class="list-container">
@@ -46,17 +49,6 @@
           </template>
         </DxList>
       </div>
-      <div class="file-uploader" v-if="canUpdate">
-        <DxFileUploader
-          ref="fileUploader"
-          :multiple="false"
-          :accept="acceptExtension"
-          :allowed-file-extensions="extension"
-          @value-changed="uploadVersionFromFile"
-          :showFileList="false"
-          :invalid-fileextension-message="$t('document.fields.invalidExeption')"
-        />
-      </div>
     </div>
   </div>
 </template>
@@ -65,7 +57,6 @@ import btnUploadVersion from "~/components/document-module/main-doc-form/toolbar
 import btnVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import DataSource from "devextreme/data/data_source";
 import DocumentIcon from "~/components/page/document-icon";
-import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import documentService from "~/infrastructure/services/documentVersionService.js";
@@ -76,11 +67,10 @@ export default {
   components: {
     AttachmentActionBtn,
     DocumentIcon,
-    DxFileUploader,
     DxList,
     DxButton,
     btnUploadVersion,
-    btnVersionFromScanner,
+    btnVersionFromScanner
   },
   props: ["documentId"],
   data() {
@@ -93,12 +83,12 @@ export default {
             `${
               this.$store.getters[`documents/${this.documentId}/document`]
                 .documentTypeGuid
-            }/${this.documentId}`,
+            }/${this.documentId}`
         }),
         paginate: true,
         pageSize: 7,
-        sort: [{ selector: "number", desc: true }],
-      }),
+        sort: [{ selector: "number", desc: true }]
+      })
     };
   },
   computed: {
@@ -107,41 +97,18 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    },
-    acceptExtension() {
-      return this.$store.getters["cache/acceptExtension"];
-    },
-    extension() {
-      return this.$store.getters["cache/extension"];
-    },
+    }
   },
   methods: {
     refresh() {
       this.versions.reload();
-    },
-    uploadVersionFromFile(e) {
-      const file = e.value[0];
-      const document = this.$store.getters[
-        `documents/${this.documentId}/document`
-      ];
-      this.$awn.async(
-        documentService.uploadVersion(document, file, this),
-        (version) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_VERSION`,
-            version.data
-          );
-          this.refresh();
-        },
-        (e) => {}
-      );
-    },
+    }
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -221,4 +188,3 @@ export default {
   margin-bottom: 10px;
 }
 </style>
-
