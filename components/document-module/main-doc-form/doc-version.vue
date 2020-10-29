@@ -46,6 +46,17 @@
           </template>
         </DxList>
       </div>
+      <div class="file-uploader" v-if="canUpdate">
+        <DxFileUploader
+          ref="fileUploader"
+          :multiple="false"
+          :accept="acceptExtension"
+          :allowed-file-extensions="extension"
+          @value-changed="uploadVersionFromFile"
+          :showFileList="false"
+          :invalid-fileextension-message="$t('document.fields.invalidExeption')"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -108,6 +119,26 @@ export default {
     refresh() {
       this.versions.reload();
     },
+<<<<<<< .merge_file_a18372
+=======
+    uploadVersionFromFile(e) {
+      const file = e.value[0];
+      const document = this.$store.getters[
+        `documents/${this.documentId}/document`
+      ];
+      this.$awn.async(
+        documentService.uploadVersion(document, file, this),
+        (version) => {
+          this.$store.commit(
+            `documents/${this.documentId}/SET_VERSION`,
+            version.data
+          );
+          this.refresh();
+        },
+        (e) => {}
+      );
+    },
+>>>>>>> .merge_file_a09660
   },
   filters: {
     formatDate(value) {

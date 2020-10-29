@@ -10,7 +10,7 @@
       :multiple="false"
       :accept="acceptExtension"
       :allowed-file-extensions="extension"
-      @progress="uploadVersionFromFile"
+      @valueChanged="uploadVersionFromFile"
       :showFileList="false"
       :invalid-fileextension-message="$t('document.fields.invalidExeption')"
     />
@@ -35,7 +35,7 @@ export default {
       popup: false,
     };
   },
-  computed: {
+  computed: {  
     acceptExtension() {
       return this.$store.getters["cache/acceptExtension"];
     },
@@ -48,19 +48,20 @@ export default {
   },
   methods: {
     uploadVersionFromFile(e) {
+      const file = e.value[0];
       if (!this.document.subject) {
         this.$store.dispatch(
           `documents/${this.documentId}/setSubject`,
-          e.file.name.split(".").slice(0, -1).join(".")
+          file.name.split(".").slice(0, -1).join(".")
         );
       }
 
       this.$awn.async(
-        documentService.uploadVersion(this.document, e.file, this),
-        (e) => {
+        documentService.uploadVersion(this.document,file , this),
+        (res) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,
-            e.data
+            res.data
           );
           this.$emit("uploadVersion");
         },
