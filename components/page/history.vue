@@ -1,5 +1,11 @@
 <template>
   <main class="pt-2">
+    <DxButton
+      :hint="$t('buttons.refresh')"
+      class="refresh-btn"
+      icon="refresh"
+      :onClick="refresh"
+    ></DxButton>
     <DxDataGrid
       :show-borders="true"
       :errorRowEnabled="false"
@@ -28,16 +34,30 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn data-field="version" :caption="$t('history.version')"></DxColumn>
-      <DxColumn data-field="hostName" :caption="$t('history.hostName')"></DxColumn>
-      <DxColumn data-field="userAgent" :caption="$t('history.userAgent')"></DxColumn>
-      <DxColumn data-field="comment" :caption="$t('history.comment')"></DxColumn>
+      <DxColumn
+        data-field="version"
+        :caption="$t('history.version')"
+      ></DxColumn>
+      <DxColumn
+        data-field="hostName"
+        :caption="$t('history.hostName')"
+      ></DxColumn>
+      <DxColumn
+        data-field="userAgent"
+        :caption="$t('history.userAgent')"
+      ></DxColumn>
+      <DxColumn
+        data-field="comment"
+        :caption="$t('history.comment')"
+      ></DxColumn>
     </DxDataGrid>
   </main>
 </template>
 <script>
 import Actions from "~/infrastructure/constants/historyActions.js";
 import dataApi from "~/static/dataApi";
+import { DxButton } from "devextreme-vue";
+import DataSource from "devextreme/data/data_source";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -68,19 +88,28 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    DxButton
   },
   props: ["entityTypeGuid", "id"],
   data() {
     return {
-      dataSource: {
+      dataSource: new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: `${dataApi.History}${this.entityTypeGuid}/${this.id}`
-        })
-      },
+        }),
+        paginate: true,
+        pageSize: 10
+      }),
+
       actions: Actions(this)
     };
+  },
+  methods: {
+    refresh() {
+      this.dataSource.reload();
+    }
   }
 };
 </script>

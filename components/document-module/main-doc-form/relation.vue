@@ -18,21 +18,41 @@
         />
       </div>
     </DxPopup>
-    <DxList :data-source="store" :search-expr="['name','authorId']" :search-enabled="true">
+    <DxButton
+      :hint="$t('buttons.refresh')"
+      class="refresh-btn"
+      icon="refresh"
+      :onClick="refresh"
+    ></DxButton>
+    <DxList
+      :data-source="store"
+      :search-expr="['name', 'authorId']"
+      :search-enabled="true"
+    >
       <template #item="item">
         <div
-          @dblclick="openDocumentCard({documentTypeGuid:item.data.documentTypeGuid,documentId:item.data.id})"
+          @dblclick="
+            openDocumentCard({
+              documentTypeGuid: item.data.documentTypeGuid,
+              documentId: item.data.id
+            })
+          "
         >
           <div class="d-flex">
-            <img class="custom-icon" :src="getIcon(item.data.documentTypeGuid)" alt />
+            <img
+              class="custom-icon"
+              :src="getIcon(item.data.documentTypeGuid)"
+              alt
+            />
 
             <div>
-              <div class="list__content">{{ item.data.name}}</div>
+              <div class="list__content">{{ item.data.name }}</div>
             </div>
           </div>
-          <div
-            class="list__content"
-          >{{getUserById(item.data.authorId)}} {{item.data.placedToCaseFileDate|formatDate}}</div>
+          <div class="list__content">
+            {{ getUserById(item.data.authorId) }}
+            {{ item.data.placedToCaseFileDate | formatDate }}
+          </div>
         </div>
       </template>
     </DxList>
@@ -54,7 +74,7 @@ export default {
     DxButton,
     DxPopup,
     documentCard: async () =>
-      import("~/components/document-module/main-doc-form/index.vue"),
+      import("~/components/document-module/main-doc-form/index.vue")
   },
   props: ["documentId"],
   async created() {
@@ -70,22 +90,25 @@ export default {
           loadUrl: `${dataApi.documentModule.Relation}${
             this.$store.getters[`documents/${this.documentId}/document`]
               .documentTypeGuid
-          }/${this.documentId}`,
+          }/${this.documentId}`
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
       documentTypes: new DocumentType(this),
       employee: [],
-      currentRelationId: false,
+      currentRelationId: false
     };
   },
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
-    },
+    }
   },
   methods: {
+    refresh() {
+      this.store.reload();
+    },
     togglePopup() {
       this.isOpenPopup = !this.isOpenPopup;
     },
@@ -102,12 +125,12 @@ export default {
       return this.documentTypes.getById(value).icon;
     },
     getUserById(id) {
-      const author = this.employee.find((employeeId) => {
+      const author = this.employee.find(employeeId => {
         return employeeId === id;
       });
       if (author) return author.name;
       else return "";
-    },
+    }
   },
   filters: {
     formatDate(value) {
@@ -116,11 +139,11 @@ export default {
       } else {
         return "";
       }
-    },
-  },
+    }
+  }
 };
 </script>
-<style  >
+<style>
 .list-container {
   margin: 3vh auto 0 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
