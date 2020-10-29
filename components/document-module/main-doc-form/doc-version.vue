@@ -119,8 +119,6 @@ export default {
     refresh() {
       this.versions.reload();
     },
-<<<<<<< .merge_file_a18372
-=======
     uploadVersionFromFile(e) {
       const file = e.value[0];
       const document = this.$store.getters[
@@ -138,7 +136,6 @@ export default {
         (e) => {}
       );
     },
->>>>>>> .merge_file_a09660
   },
   filters: {
     formatDate(value) {
