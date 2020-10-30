@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import Addendum from "~/infrastructure/models/document-store/Addendum.js"
+const store = new Addendum()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

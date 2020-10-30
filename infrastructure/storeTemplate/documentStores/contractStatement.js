@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import ContractStatement from "~/infrastructure/models/document-store/ContractStatement.js"
+const store = new ContractStatement()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

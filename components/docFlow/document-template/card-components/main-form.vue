@@ -137,6 +137,10 @@ export default {
             `documents/${this.documentId}/SET_DOCUMENT_KIND_ID`,
             e.value
           );
+          // this.$store.commit(
+          //   `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
+          //   null
+          // );
         },
       };
     },
@@ -177,7 +181,7 @@ export default {
         height: 150,
         value: this.document?.body,
         onValueChanged: (e) => {
-          this.$store.commit(`documents/${this.documentId}/ SET_NOTE`, e.value);
+          this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
         },
       };
     },

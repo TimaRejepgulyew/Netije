@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import UniversalTransferDocument from "~/infrastructure/models/document-store/UniversalTransferDocument.js"
+const store = new UniversalTransferDocument()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

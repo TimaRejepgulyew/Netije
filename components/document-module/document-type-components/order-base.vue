@@ -13,8 +13,13 @@
           :editor-options="businessUnitOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-          <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.businessUnitId')"
+          />
+          <DxRequiredRule
+            :message="$t('document.validation.businessUnitIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
@@ -22,7 +27,9 @@
           editor-type="dxSelectBox"
         >
           <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-          <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.departmentIdRequired')"
+          />
         </DxSimpleItem>
       </DxGroupItem>
 
@@ -31,7 +38,9 @@
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
-          <DxRequiredRule :message="$t('document.validation.preparedRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.preparedRequired')"
+          />
           <DxLabel location="left" :text="$t('document.fields.preparedById')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="assigneeId" template="assignee">
@@ -120,19 +129,19 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     preparedById() {
-      return document.preparedById;
+      return this.document.preparedById;
     },
     ourSignatoryId() {
-      return document.ourSignatoryId;
+      return this.document.ourSignatoryId;
     },
     assigneeId() {
-      return document.assigneeId;
+      return this.document.assigneeId;
     },
     businessUnitId() {
-      return document.businessUnitId;
+      return this.document.businessUnitId;
     },
     departmentId() {
-      return document.departmentId;
+      return this.document.departmentId;
     },
     businessUnitOptions() {
       return {

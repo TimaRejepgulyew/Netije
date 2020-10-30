@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import OrderBase from "~/infrastructure/models/document-store/OrderBase.js"
+const store = new OrderBase()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

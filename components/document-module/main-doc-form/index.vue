@@ -5,13 +5,13 @@
       :isbackButton="!isCard"
       :isNew="isNew"
     ></Header>
-      <toolbar
-        :documentId="documentId"
-        :isCard="isCard"
-        @onClose="onClose"
-        @openVersion="openVersion"
-        @onRemove="onRemove"
-      ></toolbar>
+    <toolbar
+      :documentId="documentId"
+      :isCard="isCard"
+      @onClose="onClose"
+      @openVersion="openVersion"
+      @onRemove="onRemove"
+    ></toolbar>
     <div class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"

@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import DocumentType from "~/infrastructure/constants/documentType.js";
 import { loadDocumentTemplate } from "~/infrastructure/services/documentService.js";
 import { confirm } from "devextreme/ui/dialog";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
@@ -15,7 +16,7 @@ export default {
     await loadDocumentTemplate(
       { $store: app.store, $axios },
       {
-        documentTypeGuid: 18,
+        documentTypeGuid: DocumentType.DocumentTemplate,
         documentId: +params.id,
       }
     );

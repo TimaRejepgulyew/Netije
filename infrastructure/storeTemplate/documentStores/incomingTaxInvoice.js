@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import IncomingTaxInvoice from "~/infrastructure/models/document-store/IncomingTaxInvoice.js"
+const store = new IncomingTaxInvoice()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

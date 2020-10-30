@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import Memo from "~/infrastructure/models/document-store/Memo.js"
+const store = new Memo()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

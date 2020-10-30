@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import PowerOfAttorney from "~/infrastructure/models/document-store/PowerOfAttorney.js"
+const store = new PowerOfAttorney()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

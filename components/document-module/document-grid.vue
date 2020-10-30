@@ -92,6 +92,7 @@ import {
   DxButton,
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
+import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
 export default {
   components: {
     documentIcon,

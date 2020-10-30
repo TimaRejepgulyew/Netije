@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import IncomingLetter from "~/infrastructure/models/document-store/IncomingLetter.js"
+const store = new IncomingLetter()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {

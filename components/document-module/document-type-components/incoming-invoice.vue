@@ -42,10 +42,16 @@
       </DxSimpleItem>
     </DxGroupItem>
 
-    <DxGroupItem :col-span="2" :col-count="1" :caption="$t('document.fields.counterPart')">
+    <DxGroupItem
+      :col-span="2"
+      :col-count="1"
+      :caption="$t('document.fields.counterPart')"
+    >
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
-        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.counterPartRequired')"
+        />
       </DxSimpleItem>
       <DxSimpleItem
         :col-span="2"
@@ -54,6 +60,7 @@
         :editor-options="leadingDocumentOptions"
       >
         <DxLabel location="left" :text="$t('document.fields.contract')" />
+        <DxRequiredRule :message="$t('document.validation.contractRequired')" />
       </DxSimpleItem>
     </DxGroupItem>
 
@@ -64,7 +71,9 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.businessUnitIdRequired')"
+        />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
@@ -72,7 +81,9 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
       </DxSimpleItem>
     </DxGroupItem>
     <template #counterparty>

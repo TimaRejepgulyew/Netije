@@ -1,5 +1,5 @@
-import DocumentTemplate from "~/infrastructure/models/document-store/DocumentTemplate.js"
-const store = new DocumentTemplate()
+import SimpleDocument from "~/infrastructure/models/document-store/SimpleDocument.js"
+const store = new SimpleDocument()
 const state = () => (store.stateOptions())
 const getters = { ...store.getterOptions() }
 const actions = {
