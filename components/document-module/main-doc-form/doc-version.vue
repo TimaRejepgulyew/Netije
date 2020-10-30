@@ -53,7 +53,6 @@ import btnUploadVersion from "~/components/document-module/main-doc-form/toolbar
 import btnVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import DataSource from "devextreme/data/data_source";
 import DocumentIcon from "~/components/page/document-icon";
-import DxFileUploader from "devextreme-vue/file-uploader";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import documentService from "~/infrastructure/services/documentVersionService.js";
@@ -64,7 +63,6 @@ export default {
   components: {
     AttachmentActionBtn,
     DocumentIcon,
-    DxFileUploader,
     DxList,
     DxButton,
     btnUploadVersion,
