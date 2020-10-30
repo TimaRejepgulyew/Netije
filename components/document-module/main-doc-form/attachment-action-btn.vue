@@ -16,6 +16,7 @@
 import DocumentService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
+import { confirm } from "devextreme/ui/dialog";
 export default {
   components: {
     DxDropDownButton
@@ -37,6 +38,9 @@ export default {
         },
         {
           type: "delete",
+          visible: this.$store.getters[
+            `documents/${this.documentId}/canUpdate`
+          ],
           icon: "trash",
           name: this.$t("buttons.delete")
         }
@@ -58,7 +62,7 @@ export default {
           this.downloadVersion();
           break;
         case "delete":
-          this.deleteVarsion();
+          this.deleteVersion();
       }
     },
     previewVersion() {
@@ -86,15 +90,25 @@ export default {
       );
     },
     async deleteVersion() {
-      await this.$axios.delete(
-        dataApi.documentModule.RemoveVersion + this.version.id
+      const response = await confirm(
+        this.$t("document.confirmMessage.sureDeleteVersion"),
+        this.$t("shared.confirm")
       );
-      const res = await this.$axios.get(
-        dataApi.documentModule.Last + this.documentId
-      );
-      console.log(res);
-      this.$store.dispatch("updateLastVersion", res);
-      this.$emit("updateVersions");
+      if (!response) {
+        return false;
+      } else
+        this.$awn.asyncBlock(
+          this.$store.dispatch(
+            `documents/${this.documentId}/removeVersion`,
+            this.version.id
+          ),
+          () => {
+            this.$store.dispatch(
+              `documents/${this.documentId}/updateLastVersion`
+            ),
+              this.$emit("updateVersions");
+          }
+        );
     }
   }
 };

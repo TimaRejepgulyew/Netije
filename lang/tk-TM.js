@@ -147,7 +147,7 @@ export default {
     whom: "Kime",
     areYouSure: "Ynamyňyz  barmy?",
     areYouSureDeleteTask: "Şu ýumuşy pozmaga ynamyňyz barmy",
-    confirm: "Tassyklamak",
+    confirm: "Tassyklaň!",
     newRecord: "(Täze ýazgy)",
     documentFlow: "Resminamalar dolanyşygy",
     status: "Ýagdaýy",

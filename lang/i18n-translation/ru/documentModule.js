@@ -31,6 +31,9 @@ export default {
   executionState: "Исполнение",
   controlExecutionState: "Контроль исполнения",
   type: DocumentType,
+  confirmMessage: {
+    sureDeleteVersion: "Удаление версии необратимо"
+  },
   tabs: {
     main: "Свойства",
     relations: "Связи",
