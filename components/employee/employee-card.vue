@@ -39,7 +39,7 @@
       >
         <DxSimpleItem
           data-field="userName"
-          :editor-options="{ disabled: 'true' }"
+          :editor-options="{ disabled: true }"
           data-type="string"
         >
           <DxLabel location="top" :text="$t('translations.fields.userName')" />
@@ -181,16 +181,11 @@ export default {
     ChangePasswordPopup,
     Toolbar
   },
-  props: ["employeeId", "isCard"],
-  async created() {
-    var res = await this.$axios.get(
-      dataApi.company.Employee + "/" + this.employeeId
-    );
-    this.employee = res.data;
-  },
+  props: ["data", "isCard"],
+
   data() {
     return {
-      employee: {},
+      employee: this.data,
       entityType: EntityType.Employee,
       statusOptions: {
         dataSource: this.$store.getters["status/status"](this),

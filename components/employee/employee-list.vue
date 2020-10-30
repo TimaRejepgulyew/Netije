@@ -10,14 +10,17 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxHeaderFilter :visible="true" />
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxColumnChooser :enabled="false" />
+      <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
@@ -28,30 +31,66 @@
         :file-name="$t('menu.employee')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Employee" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Employee"
+      />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="inline"
       />
 
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
-      <DxColumn data-field="jobTitleId" :caption="$t('translations.fields.jobTitleId')">
-        <DxLookup :data-source="jobTitleDataSource" value-expr="id" display-expr="name" />
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        data-type="string"
+      ></DxColumn>
+      <DxColumn
+        data-field="userName"
+        :caption="$t('translations.fields.userName')"
+        data-type="string"
+      ></DxColumn>
+      <DxColumn
+        data-field="jobTitleId"
+        :caption="$t('translations.fields.jobTitleId')"
+      >
+        <DxLookup
+          :data-source="jobTitleDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
+      <DxColumn
+        :visible="false"
+        data-field="email"
+        :caption="$t('translations.fields.email')"
+      ></DxColumn>
 
-      <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
-        <DxLookup :data-source="departmentsDataSource" value-expr="id" display-expr="name" />
+      <DxColumn
+        data-field="departmentId"
+        :caption="$t('translations.fields.departmentId')"
+      >
+        <DxLookup
+          :data-source="departmentsDataSource"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" />
+      <DxColumn
+        data-field="phone"
+        :caption="$t('translations.fields.phones')"
+      />
       <DxColumn :width="110" :buttons="editButtons" type="buttons" />
     </DxDataGrid>
   </main>

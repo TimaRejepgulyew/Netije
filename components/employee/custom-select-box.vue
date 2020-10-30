@@ -12,7 +12,7 @@
           v-if="isCardOpened"
           @valueChanged="valueChanged"
           :isCard="true"
-          :employeeId="employeeId"
+          :data="currentEmployee"
         />
       </div>
     </DxPopup>
@@ -72,7 +72,7 @@ export default {
     customField,
     updateCard,
     DxPopup,
-    DxButton,
+    DxButton
   },
   props: [
     "value",
@@ -80,7 +80,7 @@ export default {
     "messageRequired",
     "validatorGroup",
     "readOnly",
-    "valueExpr",
+    "valueExpr"
   ],
 
   data() {
@@ -94,6 +94,7 @@ export default {
       //   pageSize: 10,
       // }),
       isCardOpened: false,
+      currentEmployee: null
     };
   },
   computed: {
@@ -101,19 +102,24 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee,
+          loadUrl: this.storeApi || dataApi.company.Employee
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       });
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    },
+    }
   },
   methods: {
-    showPopup() {
-      this.$refs["popup"].instance.toggle();
+    async showPopup() {
+      const { data } = await this.$axios.get(
+        `${dataApi.company.Employee}/${this.employeeId}`
+      );
+      this.currentEmployee = data;
+      this.isCardOpened = !this.isCardOpened;
+      // this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
@@ -122,10 +128,9 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.employeeStore.reload();
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
