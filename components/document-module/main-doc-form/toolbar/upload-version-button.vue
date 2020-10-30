@@ -1,8 +1,6 @@
 <template>
   <div>
     <DxFileUploader
-      uploadMode="instantly"
-      :chunkSize="200000000000"
       class="uploadButton"
       ref="fileUploader"
       :selectButtonText="$t('buttons.downloadFile')"
