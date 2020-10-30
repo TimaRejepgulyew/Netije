@@ -17,6 +17,10 @@ export default function(context) {
       name: context.$t("history.createVersion")
     },
     {
+      id: 41,
+      name:context.$t("history.removeVersion")
+    },
+    {
       id: 50,
       name: context.$t("history.delete")
     },

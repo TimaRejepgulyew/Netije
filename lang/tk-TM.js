@@ -1,22 +1,22 @@
-import sharedDirectory from "~/lang/i18n-translation/tk/sharedDirectory.js"
-import administration from "~/lang/i18n-translation/tk/administration.js"
+import sharedDirectory from "~/lang/i18n-translation/tk/sharedDirectory.js";
+import administration from "~/lang/i18n-translation/tk/administration.js";
 import documentModule from "~/lang/i18n-translation/tk/documentModule.js";
 import documentRegistration, {
   DocumentType
 } from "~/lang/i18n-translation/tk/documentRegistration.js";
 import taskModule, { TaskType } from "~/lang/i18n-translation/tk/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/tk/lifeCycleState.js";
-import recipientType from "~/lang/i18n-translation/tk/recipientType.js"
-import assignmentModule from "~/lang/i18n-translation/tk/assignment.js"
-import menu from "~/lang/i18n-translation/tk/menu.js"
-import headers from "~/lang/i18n-translation/tk/headers.js"
-import documentSendAction from "~/lang/i18n-translation/tk/documentSendAction.js"
-import attachmentAccessRight from "~/lang/i18n-translation/tk/attachmentAccessRight.js"
-import companyStructure from "~/lang/i18n-translation/tk/companyStructure.js"
-import parties from "~/lang/i18n-translation/tk/parties.js"
-import paperWork from "~/lang/i18n-translation/tk/paperWork.js"
-import docFlow from "~/lang/i18n-translation/tk/docFlow.js"
-import buttons from "~/lang/i18n-translation/tk/buttons.js"
+import recipientType from "~/lang/i18n-translation/tk/recipientType.js";
+import assignmentModule from "~/lang/i18n-translation/tk/assignment.js";
+import menu from "~/lang/i18n-translation/tk/menu.js";
+import headers from "~/lang/i18n-translation/tk/headers.js";
+import documentSendAction from "~/lang/i18n-translation/tk/documentSendAction.js";
+import attachmentAccessRight from "~/lang/i18n-translation/tk/attachmentAccessRight.js";
+import companyStructure from "~/lang/i18n-translation/tk/companyStructure.js";
+import parties from "~/lang/i18n-translation/tk/parties.js";
+import paperWork from "~/lang/i18n-translation/tk/paperWork.js";
+import docFlow from "~/lang/i18n-translation/tk/docFlow.js";
+import buttons from "~/lang/i18n-translation/tk/buttons.js";
 export default {
   paperWork,
   parties,
@@ -40,7 +40,7 @@ export default {
     onDocumentReview: "Seredilýär",
     reviewResolution: "Gaýtadan işlenýär"
   },
-  // TODO Перевести на текменский 
+  // TODO Перевести на текменский
   // validation: {
   //   caseFile: {
   //     endDateLessThanBegin: "Дата конца не может быть меньше даты начала"
@@ -116,7 +116,8 @@ export default {
     previewVersion: "Wersiýany öňünden gözden geçirmek",
     loginFailed: "Girmek başa barmady",
     logout: "Çykmak",
-    version: "Wersiýa"
+    version: "Wersiýa",
+    removeVersion: "Versiany pozmak"
   },
   shared: {
     name: "Ady",
@@ -230,7 +231,8 @@ export default {
       note: "Bellikler",
       password: "Açarsöz",
       passwordRequired: "Açarsözi giriziň",
-      passwordRule: "Pasport ýokarky registrde azyndan bir latyn harpyndan we aşaky registrde bir sandan we azyndan bir belgiden ybarat bolmalydyr",
+      passwordRule:
+        "Pasport ýokarky registrde azyndan bir latyn harpyndan we aşaky registrde bir sandan we azyndan bir belgiden ybarat bolmalydyr",
       passwordChange: "Açarsözi üýtgetmeli",
       confirmPassword: "Açarsözi tassyklaň",
       confirmPasswordRequired: "Açarsöziň tassyklanmagyny giriziň",
@@ -291,7 +293,7 @@ export default {
       localityAlreadyExists: "şeýle ilatly nokat öňden bar",
       me: "Men"
     },
-    headers: headers,
+    headers: headers
   },
   registrationSettings: {
     caption: "Sözbaşy",

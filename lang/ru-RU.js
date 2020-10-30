@@ -116,10 +116,10 @@ export default {
     deregistration: "Отмена регистрации",
     downloadVersion: "Скачивание версии",
     previewVersion: "Предпросмотр версии",
-
     loginFailed: "Неудачный вход",
     logout: "Выход",
-    version: "Версии"
+    version: "Версии",
+    removeVersion:"Удалене версии"
   },
   shared: {
     name: "Наименование",
