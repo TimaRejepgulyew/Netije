@@ -182,6 +182,8 @@ export default {
     },
     previewButtonOptions() {
       return {
+        text: this.$t("buttons.read"),
+        hint: this.$t("buttons.read"),
         icon: "pdffile",
         onClick: () => {
           documentService.previewDocument(this.document, this);
