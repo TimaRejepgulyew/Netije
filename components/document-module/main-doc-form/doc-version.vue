@@ -36,6 +36,7 @@
                 </div>
                 <div class="list__btn-group">
                   <attachment-action-btn
+                    @updateVersions="refresh"
                     :documentId="documentId"
                     :version="item.data"
                   />
@@ -66,7 +67,7 @@ export default {
     DxList,
     DxButton,
     btnUploadVersion,
-    btnVersionFromScanner,
+    btnVersionFromScanner
   },
   props: ["documentId"],
   data() {
@@ -79,12 +80,12 @@ export default {
             `${
               this.$store.getters[`documents/${this.documentId}/document`]
                 .documentTypeGuid
-            }/${this.documentId}`,
+            }/${this.documentId}`
         }),
         paginate: true,
         pageSize: 7,
-        sort: [{ selector: "number", desc: true }],
-      }),
+        sort: [{ selector: "number", desc: true }]
+      })
     };
   },
   computed: {
@@ -99,12 +100,13 @@ export default {
     },
     extension() {
       return this.$store.getters["cache/extension"];
-    },
+    }
   },
   methods: {
     refresh() {
       this.versions.reload();
     },
+
     uploadVersionFromFile(e) {
       const file = e.value[0];
       const document = this.$store.getters[
@@ -112,22 +114,22 @@ export default {
       ];
       this.$awn.async(
         documentService.uploadVersion(document, file, this),
-        (version) => {
+        version => {
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,
             version.data
           );
           this.refresh();
         },
-        (e) => {}
+        e => {}
       );
-    },
+    }
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -207,4 +209,3 @@ export default {
   margin-bottom: 10px;
 }
 </style>
-
