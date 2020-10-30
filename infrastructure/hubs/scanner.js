@@ -58,7 +58,7 @@ export default function(app) {
   });
   onScanCompleted(document => {
     app.store.dispatch("scanner/setPage", document);
-    app.store.commit("scanner/TOGGLE_LOADING");
+    app.store.commit("scanner/CLOSE_LOADING");
   });
   onFileGenerated(file => {
     console.log(file, "scan Completed");

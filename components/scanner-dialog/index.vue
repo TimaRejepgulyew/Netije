@@ -55,12 +55,12 @@ export default {
     leftSideBar,
     rightSideBar,
     DxButton,
-    DxLoadPanel,
+    DxLoadPanel
   },
   data() {
     return {
       indicatorIcon,
-      documentValidatorName: "scannerParamsFormValidator",
+      documentValidatorName: "scannerParamsFormValidator"
     };
   },
   destroyed() {
@@ -68,19 +68,20 @@ export default {
   },
   methods: {
     ...mapActions({
-      onClose: "scanner/onClose",
+      onClose: "scanner/onClose"
     }),
     ...mapMutations({
-      toggleLoading: "scanner/TOGGLE_LOADING",
+      showLoading: "scanner/SHOW_LOADING",
+      closeLoading: "scanner/CLOSE_LOADING"
     }),
     onFileSaved(file) {
       this.$emit("fileSaved", { file });
     },
     scanDocument() {
       this.$store.dispatch("scanner/scanDocument");
-      this.toggleLoading();
+      this.showLoading();
       setTimeout(() => {
-        if (this.isLoading) this.toggleLoading();
+        this.closeLoading();
       }, 1000 * 60);
     },
     async closeScanDialog() {
@@ -92,13 +93,13 @@ export default {
         if (!result) return;
       }
       this.$emit("closeScanDialog");
-    },
+    }
   },
   computed: {
     ...mapGetters({
       isFilesEmpty: "scanner/isFilesEmpty",
       isLoading: "scanner/isLoading",
-      file: "scanner/file",
+      file: "scanner/file"
     }),
     hasActivePage() {
       return this.$store.getters["scanner/currentPageId"] != null;
@@ -108,17 +109,17 @@ export default {
     },
     notSaveConFirm() {
       return [this.$t("scanner.confirm.notSave"), this.$t("shared.areYouSure")];
-    },
+    }
   },
   watch: {
-    file: function (newValue, oldValue) {
+    file: function(newValue, oldValue) {
       const test = this.onFileSaved;
       function* fileSaved() {
         yield test(newValue);
       }
       fileSaved().next();
-    },
-  },
+    }
+  }
 };
 </script>
 

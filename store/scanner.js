@@ -82,8 +82,11 @@ export const getters = {
   }
 };
 export const mutations = {
-  TOGGLE_LOADING(state) {
-    state.isLoading = !state.isLoading;
+  SHOW_LOADING(state) {
+    state.isLoading = true;
+  },
+  CLOSE_LOADING(state) {
+    state.isLoading = false;
   },
   DELETE_FILES(state) {
     state.files = [];
@@ -218,7 +221,11 @@ export const actions = {
     commit("SET_CURRENT_DEVICE", payload);
     setDefaultParams(
       { state, commit },
-      { size: payload.defaultSize, mode: payload.defaultMode, dpi: payload.defaultDpi }
+      {
+        size: payload.defaultSize,
+        mode: payload.defaultMode,
+        dpi: payload.defaultDpi
+      }
     );
   },
   setOrderUp({ commit }) {
@@ -227,9 +234,8 @@ export const actions = {
   setOrderDown({ commit }) {
     commit("SET_ORDER", "down");
   },
-  onError({ commit }, payload) {
-    console.log(this);
-    commit("TOGGLE_LOADING");
+  onError({ commit }) {
+    commit("CLOSE_LOADING");
     alert(
       this.$i18n.t("scanner.alert.errorScanDocument", "scanner.alert.error")
     );
