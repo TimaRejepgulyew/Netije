@@ -49,7 +49,7 @@
         <div>
           <employee-card
             v-if="showAuthorCard"
-            :employeeId="currentAuthorId"
+            :data="currentEmployee"
             :isCard="true"
           />
         </div>
@@ -108,17 +108,17 @@ export default {
     DxPopup,
     DxList,
     treadTextMediator: async () =>
-      await import("~/components/workFlow/thread-text/text-mediator.vue"),
+      await import("~/components/workFlow/thread-text/text-mediator.vue")
   },
   name: "thread-texts",
   props: ["id", "entityType", "isRefreshing"],
   watch: {
-    isRefreshing: function (value) {
+    isRefreshing: function(value) {
       if (value) {
         this.$data.comments.reload();
         this.$emit("refreshed");
       }
-    },
+    }
   },
   data() {
     const url =
@@ -129,17 +129,17 @@ export default {
       comments: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: url + this.id,
+          loadUrl: url + this.id
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
       showTaskCard: false,
       currentTaskCardId: null,
       showAuthorCard: false,
-      currentAuthorId: null,
+      currentEmployee: null,
       showAssignmentCard: false,
-      currentAssignmentId: null,
+      currentAssignmentId: null
     };
   },
   computed: {
@@ -148,9 +148,9 @@ export default {
         icon: "refresh",
         onClick: () => {
           this.comments.reload();
-        },
+        }
       };
-    },
+    }
   },
   methods: {
     closeTask() {
@@ -159,8 +159,12 @@ export default {
     togglePopup(popupName) {
       this[popupName] = !this[popupName];
     },
-    toDetailAuthor(id) {
-      this.currentAuthorId = id;
+    async toDetailAuthor(id) {
+      console.log(id);
+      const { data } = await this.$axios.get(
+        `${dataApi.company.Employee}/${id}`
+      );
+      this.currentEmployee = data;
       this.togglePopup("showAuthorCard");
     },
     toDetailAssignment({ id, assignmentType }) {
@@ -182,11 +186,11 @@ export default {
         },
         () => {}
       );
-    },
-  },
+    }
+  }
 };
 </script>
-<style  scoped>
+<style scoped>
 .list-container {
   box-sizing: border-box;
   width: 100%;

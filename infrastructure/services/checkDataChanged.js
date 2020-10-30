@@ -1,0 +1,1 @@
+export default (oldValue, newValue) => oldValue !== newValue;

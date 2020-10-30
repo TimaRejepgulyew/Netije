@@ -163,7 +163,6 @@ export const mutations = {
     files = files.map(page => {
       if (payload == "up") {
         if (page.id !== state.currentPageId && page.order === newOrder) {
-          console.log(page);
           page.order++;
         }
       } else if (payload == "down") {
@@ -202,13 +201,11 @@ export const actions = {
     commit("SET_PARAMS", payload);
   },
   setFile({ commit }, payload) {
-    console.log("actionas");
     commit("SET_FILE", payload);
   },
   onClose({ commit }) {
     commit("DELETE_FILES");
     this.$scanner.stopConnection();
-    console.log("Closset");
   },
   setDevicesName({ commit }, payload) {
     commit("SET_DEVICE_NAME", payload);

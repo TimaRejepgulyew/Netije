@@ -45,5 +45,6 @@ export default {
   rotateLeft: "Повернуть на лево",
   rotateRight: "Повернуть на право",
   orderUp: "Наверх",
-  orderDown: "Вниз"
+  orderDown: "Вниз",
+  read:"Читать"
 };

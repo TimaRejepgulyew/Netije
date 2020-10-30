@@ -40,6 +40,7 @@
                 </div>
                 <div class="list__btn-group">
                   <attachment-action-btn
+                    @updateVersions="refresh"
                     :documentId="documentId"
                     :version="item.data"
                   />

@@ -30,6 +30,9 @@ export default {
   executionState: "Ýerine ýetirilişi",
   controlExecutionState: "Ýerine ýetirilişine gözegçilik",
   type: DocumentType,
+  confirmMessage: {
+    sureDeleteVersion: "Aýyrlan wersiyany yzyna gaýtaryp bolmaýar"
+  },
   tabs: {
     main: "Esasy häsiýetleri",
     relations: "Gatnaşyklary",
@@ -41,7 +44,7 @@ export default {
       numberAndDate: "BELGISI WE SENESI",
       storing: "SAKLAMAK",
       lifeCycle: "ÝAŞAÝYŞ AÝLAWY",
-      versions: "Wersiýa"
+      versions: "Wersiýalar"
     }
   },
   fields: {

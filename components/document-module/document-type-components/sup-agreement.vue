@@ -11,7 +11,10 @@
       editor-type="dxCheckBox"
       :editor-options="isStandardOptions"
     >
-      <DxLabel location="left" :text="$t('document.fields.isStandardSupAgreement')" />
+      <DxLabel
+        location="left"
+        :text="$t('document.fields.isStandardSupAgreement')"
+      />
     </DxSimpleItem>
 
     <DxSimpleItem
@@ -22,15 +25,25 @@
       :editor-options="leadingDocumentOptions"
     >
       <DxLabel location="left" :text="$t('document.fields.contract')" />
+      <DxRequiredRule :message="$t('document.validation.contractRequired')" />
     </DxSimpleItem>
 
-    <DxGroupItem :col-span="2" :col-count="1" :caption="$t('document.fields.counterPart')">
+    <DxGroupItem
+      :col-span="2"
+      :col-count="1"
+      :caption="$t('document.fields.counterPart')"
+    >
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
-        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.counterPartRequired')"
+        />
       </DxSimpleItem>
       <DxGroupItem :col-count="2">
-        <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
+        <DxSimpleItem
+          data-field="counterpartySignatoryId"
+          template="counterPartSignatury"
+        >
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="contactId" template="contact">
@@ -46,7 +59,9 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.businessUnitIdRequired')"
+        />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
@@ -54,17 +69,29 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
         <DxLabel location="left" :text="$t('document.fields.signatory')" />
       </DxSimpleItem>
-      <DxSimpleItem template="responsibleEmployee" data-field="responsibleEmployeeId">
-        <DxLabel location="left" :text="$t('document.fields.responsibleEmployeeId')" />
+      <DxSimpleItem
+        template="responsibleEmployee"
+        data-field="responsibleEmployeeId"
+      >
+        <DxLabel
+          location="left"
+          :text="$t('document.fields.responsibleEmployeeId')"
+        />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.conditions')">
+    <DxGroupItem
+      :col-span="2"
+      :col-count="2"
+      :caption="$t('shared.conditions')"
+    >
       <DxSimpleItem
         data-field="validFrom"
         :editor-options="validFromOptions"
@@ -318,7 +345,7 @@ export default {
         onValueChanged: (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_VALID_FROM`,
-            null
+            e.value
           );
         },
       };

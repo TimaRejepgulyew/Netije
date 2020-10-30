@@ -71,7 +71,6 @@ export default {
     DxLabel
   },
   props: ["documentValidatorName"],
-  created() {},
   data() {
     return {
       saveButtonOptions: {

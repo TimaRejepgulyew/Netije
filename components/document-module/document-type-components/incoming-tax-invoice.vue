@@ -10,9 +10,9 @@
       data-field="leadingDocumentId"
       editor-type="dxSelectBox"
       :editor-options="leadingDocumentOptions"
-
     >
       <DxLabel location="left" :text="$t('document.fields.contract')" />
+      <DxRequiredRule :message="$t('document.validation.contractRequired')" />
     </DxSimpleItem>
     <DxGroupItem :col-span="2" :col-count="2">
       <DxSimpleItem
@@ -30,16 +30,27 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.correctedId')" />
-        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.businessUnitIdRequired')"
+        />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-span="2" :col-count="1" :caption="$t('document.fields.counterPart')">
+    <DxGroupItem
+      :col-span="2"
+      :col-count="1"
+      :caption="$t('document.fields.counterPart')"
+    >
       <DxSimpleItem data-field="counterpartyId" template="counterparty">
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
-        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.counterPartRequired')"
+        />
       </DxSimpleItem>
       <DxGroupItem :col-count="2">
-        <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
+        <DxSimpleItem
+          data-field="counterpartySignatoryId"
+          template="counterPartSignatury"
+        >
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="contactId" template="contact">
@@ -54,7 +65,9 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.businessUnitIdRequired')"
+        />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
@@ -62,10 +75,16 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
       </DxSimpleItem>
     </DxGroupItem>
-    <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.conditions')">
+    <DxGroupItem
+      :col-span="2"
+      :col-count="2"
+      :caption="$t('shared.conditions')"
+    >
       <DxSimpleItem
         data-field="totalAmount"
         :editor-options="totalAmountOptions"
@@ -143,7 +162,6 @@ export default {
       this.selectedCorrespondentType = data;
     },
     setCounterparty(data) {
-
       if (data == null) {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
@@ -223,14 +241,17 @@ export default {
     },
     correctedIdOptions() {
       return {
-        placeholder:this.$t('document.validation.counterPartRequired'),
+        placeholder: this.$t("document.validation.counterPartRequired"),
         readOnly: !this.counterpartyId,
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.documentModule.Documents}${DocumentQuery.IncomingTaxInvoice}`,
           filter: this.counterpartyId
-            ? ["counterpartyId", "=", this.counterpartyId]
+            ? [
+                ["counterpartyId", "=", this.counterpartyId],
+                ["id", "<>", this.document.id],
+              ]
             : [],
         }),
         value: this.document.correctedId,

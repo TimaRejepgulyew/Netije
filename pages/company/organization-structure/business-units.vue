@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.businessUnit')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -10,7 +10,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -29,10 +32,16 @@
         :file-name="$t('menu.businessUnit')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="BusinessUnit" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="BusinessUnit"
+      />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
         :allow-deleting="allowDeleting"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
@@ -41,34 +50,51 @@
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
-
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
-
+      <DxColumn
+        data-field="headCompanyId"
+        :caption="$t('companyStructure.fields.headCompany')"
+      >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="companyStore"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
       <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-         <DxRequiredRule :message="$t('shared.codeRequired')" />
+        <DxRequiredRule :message="$t('shared.codeRequired')" />
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
           :message="$t('validation.valueMustNotContainsSpaces')"
         />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('shared.codeAlreadyExists')"
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
 
-      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')" :visible="false">
+      <DxColumn
+        data-field="tin"
+        :caption="$t('translations.fields.tin')"
+        :visible="false"
+      >
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -100,14 +126,19 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')" />
+      <DxColumn
+        data-field="phones"
+        :caption="$t('translations.fields.phones')"
+      />
 
       <DxColumn
         data-field="legalName"
         :caption="$t('translations.fields.legalName')"
         :visible="false"
       >
-        <DxRequiredRule :message="$t('translations.fields.legalNameRequired')" />
+        <DxRequiredRule
+          :message="$t('translations.fields.legalNameRequired')"
+        />
       </DxColumn>
 
       <DxColumn
@@ -122,7 +153,11 @@
         :visible="false"
       />
 
-      <DxColumn data-field="ceo" :caption="$t('translations.fields.ceo')" :visible="true">
+      <DxColumn
+        data-field="ceo"
+        :caption="$t('translations.fields.ceo')"
+        :visible="true"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveEmployees"
@@ -131,7 +166,11 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')" :visible="false">
+      <DxColumn
+        data-field="email"
+        :caption="$t('translations.fields.email')"
+        :visible="false"
+      >
         <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
 
@@ -141,9 +180,17 @@
         :visible="false"
       />
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="account"
+        :caption="$t('translations.fields.account')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')" :visible="false">
+      <DxColumn
+        data-field="bankId"
+        :caption="$t('translations.fields.bankId')"
+        :visible="false"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveBanks"
@@ -242,7 +289,15 @@ export default {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      companyStore: {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.BusinessUnit
+        }),
+        paginate: true,
+        filter: ["status", "=", Status.Active]
+      }
     };
   },
   methods: {
@@ -252,7 +307,7 @@ export default {
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
     },
-    allowDeleting(e){
+    allowDeleting(e) {
       if (!e.row.data.isSystem) {
         return this.$store.getters["permissions/allowDeleting"](
           this.entityType

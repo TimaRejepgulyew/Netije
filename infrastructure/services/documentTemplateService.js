@@ -1,10 +1,9 @@
 import dataApi from "~/static/dataApi";
-import * as documentStoreTemplate from "~/infrastructure/storeTemplate/documentStore.js";
 import StoreModule from "~/infrastructure/services/StoreModule.js";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 export const documentModules = new StoreModule({
     moduleName: "documents",
-    storeTemplate: documentStoreTemplate
+    storeTemplate: []
 });
 export function loadDocument(context, documentId, payload) {
     payload.document.documentKind = docmentKindService.emptyDocumentKind();

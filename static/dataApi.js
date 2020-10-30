@@ -79,7 +79,9 @@ export default {
     Relation: `${url}/api/Documentrelations/Relations/`,
     CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile/`,
     DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
-    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`
+    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`,
+    RemoveVersion: `${url}/api/OfficialDocument/Version/`,
+    Last: `${url}/api/OfficialDocument/Version/Last/`
   },
 
   task: {

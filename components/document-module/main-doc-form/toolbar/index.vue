@@ -73,7 +73,10 @@
         location="before"
       />
       <template #toolbarItemUploadVersionFromScanner>
-        <toolbar-item-upload-version-from-scanner :documentId="documentId" />
+        <toolbar-item-upload-version-from-scanner
+          v-if="false"
+          :documentId="documentId"
+        />
       </template>
       <DxItem
         :options="previewButtonOptions"
@@ -126,7 +129,7 @@ export default {
     toolbarItemRelation,
     DxButton,
     DxToolbar,
-    DxItem,
+    DxItem
   },
   props: ["isCard", "documentId"],
   inject: ["trySaveDocument"],
@@ -139,8 +142,8 @@ export default {
         type: "back",
         onClick: () => {
           this.$router.go(-1);
-        },
-      },
+        }
+      }
     };
   },
   computed: {
@@ -179,10 +182,12 @@ export default {
     },
     previewButtonOptions() {
       return {
+        text: this.$t("buttons.read"),
+        hint: this.$t("buttons.read"),
         icon: "pdffile",
         onClick: () => {
           documentService.previewDocument(this.document, this);
-        },
+        }
       };
     },
     saveButtonOptions() {
@@ -191,7 +196,7 @@ export default {
         disabled: !this.canUpdate,
         onClick: async () => {
           await this.trySaveDocument();
-        },
+        }
       };
     },
     versionOptions() {
@@ -201,7 +206,7 @@ export default {
         text: this.$t("buttons.versions"),
         onClick: () => {
           this.$emit("openVersion");
-        },
+        }
       };
     },
     saveAndBackButtonOptions() {
@@ -211,7 +216,7 @@ export default {
         disabled: !this.canUpdate,
         onClick: async () => {
           if (await this.trySaveDocument()) this.$emit("onClose");
-        },
+        }
       };
     },
     createAddendumOptions() {
@@ -222,9 +227,9 @@ export default {
         onClick: () => {
           this.$router.push({
             path: `/paper-work/create/${DocumentTypeGuid.Addendum}`,
-            query: { leadingDocument: this.$route.params.id },
+            query: { leadingDocument: this.$route.params.id }
           });
-        },
+        }
       };
     },
     removeDocumentButtonOptions() {
@@ -237,21 +242,21 @@ export default {
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then((dialogResult) => {
+          result.then(dialogResult => {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$store.dispatch(`documents/${this.documentId}/delete`),
-                (e) => {
+                e => {
                   this.$emit("onRemove");
                   this.$awn.success();
                 },
-                (e) => {
+                e => {
                   this.$awn.alert();
                 }
               );
             }
           });
-        },
+        }
       };
     },
     refreshButtonOptions() {
@@ -263,10 +268,10 @@ export default {
             refresh(this, { documentTypeGuid, documentId: id }),
             () => {}
           );
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
