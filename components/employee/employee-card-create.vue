@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Header :headerTitle="this.$t('menu.addingEmployee')" :isbackButton="!isCard" :isNew="true"></Header>
+    <Header
+      :headerTitle="this.$t('menu.addingEmployee')"
+      :isbackButton="!isCard"
+      :isNew="true"
+    ></Header>
     <toolbar @saveChanges="handleSubmit" :canSave="true" />
     <DxForm
       ref="form"
@@ -12,13 +16,17 @@
       <DxGroupItem :caption="$t('translations.fields.personalData')">
         <DxSimpleItem data-field="userName" data-type="string">
           <DxLabel location="top" :text="$t('translations.fields.userName')" />
-          <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
+          <DxRequiredRule
+            :message="$t('translations.fields.userNameRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="name">
           <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-          <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+          <DxRequiredRule
+            :message="$t('translations.fields.fullNameRequired')"
+          />
         </DxSimpleItem>
-      
+
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
@@ -35,15 +43,22 @@
             :pattern="passwordPattern"
             :message="$t('translations.fields.passwordRule')"
           />
-          <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
+          <DxRequiredRule
+            :message="$t('translations.fields.passwordRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           :editor-options="passwordOptions"
           editor-type="dxTextBox"
           data-field="confirmPassword"
         >
-          <DxLabel location="top" :text="$t('translations.fields.confirmPassword')" />
-          <DxRequiredRule :message="$t('translations.fields.confirmPasswordRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.confirmPassword')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.confirmPasswordRequired')"
+          />
           <DxCompareRule
             :comparison-target="passwordComparison"
             :message="$t('translations.fields.confirmPasswordRule')"
@@ -51,21 +66,44 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :caption="$t('translations.fields.APN')">
-          <DxSimpleItem
+        <DxSimpleItem
           data-field="jobTitleId"
           :editor-options="jobTitleOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
-          <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.jobTitleId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.jobTitleIdRequired')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="businessUnitId"
+          :editor-options="businessUnitOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.businessUnitId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.businessUnitIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="departmentOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.departmentId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.departmentIdRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="phone">
@@ -73,7 +111,11 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem data-field="note" :editor-options="{height: 90}" editor-type="dxTextArea">
+        <DxSimpleItem
+          data-field="note"
+          :editor-options="{ height: 90 }"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -123,6 +165,7 @@ export default {
         name: null,
         phone: null,
         jobTitleId: null,
+        businessUnitId: null,
         departmentId: null,
         note: null,
         userName: null,
@@ -137,14 +180,35 @@ export default {
         url: dataApi.company.JobTitle,
         filter: ["status", "=", Status.Active]
       }),
-      departmentOptions: this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Department,
-        filter: ["status", "=", Status.Active]
-      }),
       namePattern: /^[^0-9]+$/,
       passwordPattern: "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$"
     };
+  },
+  computed: {
+    businessUnitOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit
+        }),
+        onValueChanged: e => {
+          this.employee.departmentId = null;
+        }
+      };
+    },
+    departmentOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Department,
+          filter: [
+            ["status", "=", 0],
+            ["businessUnitId", "=", this.employee.businessUnitId]
+          ]
+        }),
+        value: this.employee.departmentId
+      };
+    }
   },
   methods: {
     passwordComparison() {
@@ -178,4 +242,3 @@ export default {
   }
 };
 </script>
-

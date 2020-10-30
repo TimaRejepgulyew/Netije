@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Header :isbackButton="!isCard" :isNew="false" :headerTitle="employee.name"></Header>
+    <Header
+      :isbackButton="!isCard"
+      :isNew="false"
+      :headerTitle="employee.name"
+    ></Header>
     <toolbar
       @saveChanges="handleSubmit"
       :canSave="$store.getters['permissions/allowUpdating'](entityType)"
@@ -15,7 +19,9 @@
       :title="$t('translations.fields.passwordChange')"
     >
       <div>
-        <change-password-popup @hidePopup="hidePopup('changePasswordPupupVisible')" />
+        <change-password-popup
+          @hidePopup="hidePopup('changePasswordPupupVisible')"
+        />
       </div>
     </DxPopup>
     <DxForm
@@ -27,13 +33,22 @@
       :show-validation-summary="true"
       validation-group="updateEmployee"
     >
-      <DxGroupItem :col-span="4" :caption="$t('translations.fields.personalData')">
-        <DxSimpleItem data-field="userName" :editor-options="{disabled:'true'}" data-type="string">
+      <DxGroupItem
+        :col-span="4"
+        :caption="$t('translations.fields.personalData')"
+      >
+        <DxSimpleItem
+          data-field="userName"
+          :editor-options="{ disabled: 'true' }"
+          data-type="string"
+        >
           <DxLabel location="top" :text="$t('translations.fields.userName')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="name">
           <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-          <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+          <DxRequiredRule
+            :message="$t('translations.fields.fullNameRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="email">
@@ -47,42 +62,75 @@
           />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :col-span="5" :caption="$t('translations.fields.departmentId')">
+      <DxGroupItem
+        :col-span="5"
+        :caption="$t('translations.fields.departmentId')"
+      >
         <DxSimpleItem
           data-field="jobTitleId"
           :editor-options="jobTitleOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.jobTitleId')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="businessUnitId"
+          :editor-options="businessUnitOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.businessUnitId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.businessUnitIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="departmentOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.departmentId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.departmentIdRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="phone">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.moreSettings')">
+      <DxGroupItem
+        :col-span="3"
+        :col-count="1"
+        :caption="$t('translations.fields.moreSettings')"
+      >
         <DxSimpleItem
           :col-span="3"
           data-field="status"
-          :editor-options=" statusOptions"
+          :editor-options="statusOptions"
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
-        <DxButtonItem :col-span="3" :button-options="popupPasswordOpt" horizontal-alignment="left" />
+        <DxButtonItem
+          :col-span="3"
+          :button-options="popupPasswordOpt"
+          horizontal-alignment="left"
+        />
       </DxGroupItem>
       <DxGroupItem :col-count="12" :col-span="12">
         <DxSimpleItem
           data-field="note"
           :col-span="12"
-          :editor-options="{height: 90}"
+          :editor-options="{ height: 90 }"
           editor-type="dxTextArea"
         >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
@@ -155,11 +203,6 @@ export default {
         url: dataApi.company.JobTitle,
         filter: ["status", "=", 0]
       }),
-      departmentOptions: this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.company.Department,
-        filter: ["status", "=", 0]
-      }),
       passwordOptions: {
         mode: "password"
       },
@@ -168,6 +211,30 @@ export default {
     };
   },
   computed: {
+    businessUnitOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.BusinessUnit
+        }),
+        onValueChanged: e => {
+          this.employee.departmentId = null;
+        }
+      };
+    },
+    departmentOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Department,
+          filter: [
+            ["status", "=", 0],
+            ["businessUnitId", "=", this.employee.businessUnitId]
+          ]
+        }),
+        value: this.employee.departmentId
+      };
+    },
     popupPasswordOpt() {
       return {
         disabled: !this.$store.getters["permissions/allowUpdating"](

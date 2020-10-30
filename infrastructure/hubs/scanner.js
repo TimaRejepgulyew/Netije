@@ -15,7 +15,6 @@ export default function(app) {
       await connection.start();
       return true;
     } catch {
-      console.log("connection failed");
       return false;
     }
   }
