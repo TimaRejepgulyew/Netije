@@ -11,7 +11,6 @@
           icon="refresh"
           :onClick="refresh"
         ></DxButton>
-        <btn-version-from-scanner @uploadVersion="refresh" :documentId="documentId" />
         <btn-upload-version @uploadVersion="refresh" :documentId="documentId" />
       </div>
       <div class="list-container">
@@ -45,17 +44,6 @@
             </div>
           </template>
         </DxList>
-      </div>
-      <div class="file-uploader" v-if="canUpdate">
-        <DxFileUploader
-          ref="fileUploader"
-          :multiple="false"
-          :accept="acceptExtension"
-          :allowed-file-extensions="extension"
-          @value-changed="uploadVersionFromFile"
-          :showFileList="false"
-          :invalid-fileextension-message="$t('document.fields.invalidExeption')"
-        />
       </div>
     </div>
   </div>
