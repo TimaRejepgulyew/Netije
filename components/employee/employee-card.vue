@@ -270,7 +270,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
-          dataApi.company.Employee + "/" + this.employeeId,
+          dataApi.company.Employee + "/" + this.employee.id,
           this.employee
         ),
         e => {
