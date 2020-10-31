@@ -76,7 +76,10 @@ export default class Base {
       console.log(payload);
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
-      else state.document.canBeOpenedWithPreview = false;
+      else {
+        state.document.hasVersions = false;
+        state.document.canBeOpenedWithPreview = false;
+      }
     },
     SET_VERSION(state, payload) {
       state.document.hasVersions = true;

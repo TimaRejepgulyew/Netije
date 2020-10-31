@@ -73,10 +73,7 @@
         location="before"
       />
       <template #toolbarItemUploadVersionFromScanner>
-        <toolbar-item-upload-version-from-scanner
-          v-if="false"
-          :documentId="documentId"
-        />
+        <toolbar-item-upload-version-from-scanner :documentId="documentId" />
       </template>
       <DxItem
         :options="previewButtonOptions"

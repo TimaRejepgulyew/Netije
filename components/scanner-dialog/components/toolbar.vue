@@ -7,12 +7,6 @@
       widget="dxButton"
     />
     <DxItem
-      :options="btnDeleteOptions"
-      :disabled="!hasActivePage || isFilesEmpty"
-      location="after"
-      widget="dxButton"
-    />
-    <DxItem
       :disabled="!hasActivePage || isFilesEmpty"
       :options="btnRotateLeftOptions"
       location="before"
@@ -33,6 +27,12 @@
     <DxItem
       :disabled="!hasActivePage || isFilesEmpty"
       :options="btnOrderDownOptions"
+      location="before"
+      widget="dxButton"
+    />
+    <DxItem
+      :options="btnDeleteOptions"
+      :disabled="!hasActivePage || isFilesEmpty"
       location="before"
       widget="dxButton"
     />
