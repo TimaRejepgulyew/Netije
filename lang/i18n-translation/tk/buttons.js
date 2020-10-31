@@ -39,5 +39,11 @@ export default {
   saveAndBack: "Ýatda saklatmak we çykmak",
   closed: "Ýapyldy",
   refresh: "Täzeden ýüklemek",
-  read: "Okamak"
+  read: "Okamak",
+  scanner: "Сканировать",
+  createFromScanner: "Создать со сканера",
+  rotateLeft: "Çepe dönmek",
+  rotateRight: "Saga dönmek",
+  orderUp: "Ýokaryk",
+  orderDown: "Aşag",
 };

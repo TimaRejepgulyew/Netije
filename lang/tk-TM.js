@@ -1,6 +1,7 @@
 import sharedDirectory from "~/lang/i18n-translation/tk/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/tk/administration.js";
 import documentModule from "~/lang/i18n-translation/tk/documentModule.js";
+import scanner from "~/lang/i18n-translation/tk/scanner.js"
 import documentRegistration, {
   DocumentType
 } from "~/lang/i18n-translation/tk/documentRegistration.js";
