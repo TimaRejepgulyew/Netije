@@ -2,15 +2,23 @@ export const TaskType = {
   SimpleTask: "Простая задача",
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
-  DocumentReviewTask: "Задача на рассмотрение документа"
+  DocumentReviewTask: "Задача на рассмотрение документа",
+  FreeApprovalTask: "Свободное согласование"
 };
 export default {
-  quickFilter: {
-    all: "Все", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
+  sources: {
+    assignment: "Задание",
+    notification: "Уведомление"
   },
-  taskQuery:{
-    all:"Все задачи",
-    actionItem:"Поручения"
+  quickFilter: {
+    all: "Все",
+    inProcess: "В работе",
+    expired: "Просроченые",
+    monthAgo: "30 дней"
+  },
+  taskQuery: {
+    all: "Все задачи",
+    actionItem: "Поручения"
   },
   message: {
     acquaintDocumentMessage:
@@ -57,7 +65,11 @@ export default {
     comment: "Комментарий",
     coAssignees: "Соисполнители",
     actionItem: "Поручение",
-    isUnderControl: "На контроль"
+    isUnderControl: "На контроль",
+    approvers: "Согласующие",
+    receiveOnCompletion: "По завершению получить",
+    receiveNotice: "Уведомлять о замечаниях",
+    copies: "Копии"
   },
   importance: {
     highImportance: "Высокая важность",
@@ -74,6 +86,8 @@ export default {
     subjectRequired: "Введите Содержание",
     supervisorRequired: "Введите контролера",
     acquaintMembersRequired: "Выберите кого нужно ознакомить",
-    assigneeRequired: "Введите исполнителя"
+    assigneeRequired: "Введите исполнителя",
+    approversRequired: "Выберите согласующих",
+    receiveOnCompletionRequired: "Выберите что получить по завершению"
   }
 };

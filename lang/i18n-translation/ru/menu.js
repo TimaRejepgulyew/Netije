@@ -39,5 +39,6 @@ export default {
   contacts: "Контакты",
   associatedApp: "Обработчики приложений",
   actionItemExecutionTasks: "Поручения",
-  logs: "Логи"
+  logs: "Логи",
+  approvals:"Согласовании"
 }

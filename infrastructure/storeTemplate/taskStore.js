@@ -34,7 +34,7 @@ export const getters = {
     return task.status === TaskStatus.Completed;
   },
   isUnderReview({ task }) {
-    return task.status === TaskStatus.UnderReview
+    return task.status === TaskStatus.UnderReview;
   },
   inProcess({ task }) {
     return task.status === TaskStatus.InProcess;
@@ -60,6 +60,26 @@ function checkDataChanged(oldValue, newValue) {
   if (oldValue !== newValue) return oldValue !== newValue;
 }
 export const mutations = {
+  SET_APPROVERS(state, payload) {
+    if (checkDataChanged(state.task.approvers, payload))
+      state.isDataChanged = true;
+    state.task.approvers = payload;
+  },
+  SET_MAX_DEADLINE(state, payload) {
+    if (checkDataChanged(state.task.maxDeadline, payload))
+      state.isDataChanged = true;
+    state.task.maxDeadline = payload;
+  },
+  SET_RECEIVE_NOTICE(state, payload) {
+    if (checkDataChanged(state.task.receiveNotice, payload))
+      state.isDataChanged = true;
+    state.task.receiveNotice = payload;
+  },
+  SET_RECEIVE_ON_COMPLETION(state, payload) {
+    if (checkDataChanged(state.task.receiveOnCompletion, payload))
+      state.isDataChanged = true;
+    state.task.receiveOnCompletion = payload;
+  },
   SET_ASSIGNED_BY(state, payload) {
     if (checkDataChanged(state.task.assignedBy, payload))
       state.isDataChanged = true;

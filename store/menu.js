@@ -93,7 +93,7 @@ export const actions = {
             query: AssignmentQuery.OnReview,
             template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.onReview"),
-            path: `/assignment/${AssignmentQuery.OnReview}`,
+            path: `/assignment/${AssignmentQuery.OnReview}`
           },
           {
             notificationType: "assignment",
@@ -125,8 +125,12 @@ export const actions = {
         items: [
           {
             text: this.$i18n.t("menu.actionItemExecutionTasks"),
-            path: "/task/taskCategory/action-item-execution",
+            path: "/task/taskCategory/action-item-execution"
           },
+          {
+            text: this.$i18n.t("menu.approvals"),
+            path: "/task/taskCategory/approvals"
+          }
         ]
       },
       {
@@ -189,7 +193,9 @@ export const actions = {
       {
         text: this.$i18n.t("menu.contractors"),
         icon: "group",
-        visible: hasCounterPartyAccess(rootGetters) && hasCounterPartySettingAccess(rootGetters),
+        visible:
+          hasCounterPartyAccess(rootGetters) &&
+          hasCounterPartySettingAccess(rootGetters),
         path: "/parties",
         items: [
           {
@@ -224,7 +230,8 @@ export const actions = {
         text: this.$i18n.t("menu.company-structure"),
         path: "/company",
         icon: "hierarchy",
-        visible: hasCompanyAccess(rootGetters) && rootGetters["permissions/IsAdmin"],
+        visible:
+          hasCompanyAccess(rootGetters) && rootGetters["permissions/IsAdmin"],
         items: [
           {
             text: this.$i18n.t("menu.employee"),
@@ -267,7 +274,9 @@ export const actions = {
         text: this.$i18n.t("menu.docFlow"),
         icon: "repeat",
         path: "/docflow",
-        visible: hasDocflowAccess(rootGetters) && hasRegistrationSettingAccess(rootGetters),
+        visible:
+          hasDocflowAccess(rootGetters) &&
+          hasRegistrationSettingAccess(rootGetters),
         items: [
           {
             text: this.$i18n.t("menu.documentKind"),
@@ -299,17 +308,19 @@ export const actions = {
           },
           {
             text: this.$i18n.t("menu.documentTemplate"),
-            path: "/docflow/document-template",
+            path: "/docflow/document-template"
             // visible: rootGetters["permissions/allowReading"](
             //   EntityType.DocumentTemplate
             // )
-          },
+          }
         ]
       },
       {
         text: this.$i18n.t("menu.shared-directory"),
         icon: "inactivefolder",
-        visible: hasSharedDirectoryAccess(rootGetters) && hasCounterPartySettingAccess(rootGetters),
+        visible:
+          hasSharedDirectoryAccess(rootGetters) &&
+          hasCounterPartySettingAccess(rootGetters),
         path: "/shared-directory",
         items: [
           {
@@ -347,7 +358,7 @@ export const actions = {
           {
             text: this.$i18n.t("menu.roles"),
             path: "/admin/roles"
-          },
+          }
           // {
           //   text: this.$i18n.t("menu.logs"),
           //   path: "/admin/logs"
