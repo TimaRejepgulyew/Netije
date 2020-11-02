@@ -1,29 +1,29 @@
 export default {
-  header: "Сканирование документа",
-  coloured: "Цветной",
-  blackWhite: "Черно-белый",
-  downloadfile: "Загрузите файл",
+  header: "Resminamany skanirlemek",
+  coloured: "Reňkli",
+  blackWhite: "Reňksiz",
+  downloadfile: "Faýly ýükläň",
   fields: {
-    mode: "Глубина цвета",
-    device: "Устройства",
-    size: "Размер",
-    extencion: "Разрешение"
+    mode: "Reňk çuňlugy",
+    device: "Enjamlar",
+    size: "Ölçeg",
+    extencion: "DPI Ölçeg"
   },
   validation: {
-    deviceRequired: "Выберите устройство",
-    modeRequired: "Выберите глубину цвета",
-    extencionRequired: "Выберите разрешение",
-    sizeRequired: "Выберите размер документа"
+    deviceRequired: "Enjam saýlaň",
+    modeRequired: "Reňk çuňlugyny saýlaň",
+    extencionRequired: "DPI ölçegi saýlaň",
+    sizeRequired: "Resminamanyň ölçegini saýlaň"
   },
   confirm: {
-    notSave: "Есть не сохраненные документы",
-    loading: "В данный момент идет загрузка"
+    notSave: "Yada ýazylmadyk resminamalar bar?",
+    loading: "Şu wagtd ýüklenýär"
   },
   alert: {
-    error: "Ошибка",
+    error: "ýalňyşlyk ",
     errorScanDocument:
-      "Возможно устройство в спящем режиме, или не подключено к вашему компьютеру",
+      "Enjam uky režiminde ýa-da kompýuteriňize birikdirilmedik bolup biler",
     checkSwichOnScannerApp:
-      "Установите приложения для сканирования или проверте запущено ли приложения для сканирование"
+      "Skaner programmasyny guruň ýa-da  işleýändigini barlaň."
   }
 };

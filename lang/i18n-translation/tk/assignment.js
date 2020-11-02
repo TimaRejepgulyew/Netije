@@ -17,6 +17,7 @@ export default {
     monthAgo: "Bir aý öň"
   },
   confirmMessage: {
+    sureAddResolutionAllSelection:"Siz hakykatdanam hemme bellenen tabşyryklaryň rezalyusiyalaryny tassyklamakçy?",
     headerHasChildActionItem: "Ikinji derejeli tabşyryklary bes etmek?",
     hasChildActionItem: "Tamamlanmadyk ikinji derejeli tabşyryklar barmy",
     sureDocumentReviewAcceptConfirmetion: " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
