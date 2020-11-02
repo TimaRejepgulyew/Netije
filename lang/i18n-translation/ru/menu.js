@@ -40,5 +40,5 @@ export default {
   associatedApp: "Обработчики приложений",
   actionItemExecutionTasks: "Поручения",
   logs: "Логи",
-  approvals:"Согласовании"
+  approvals:"Согласование"
 }

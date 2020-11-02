@@ -2,7 +2,8 @@ export const TaskType = {
   SimpleTask: "Ýönekeý mesele",
   AcquaintanceTask: "Resminama bilen tanyşmak meselesi",
   ActionItemExecutionTask: "Tabşyrygy ýerine ýetirmek üçin mesele",
-  DocumentReviewTask: "Resminamany gözden geçirmek wezipesi"
+  DocumentReviewTask: "Resminamany gözden geçirmek wezipesi",
+  FreeApprovalTask: "Ekrin ylalyşyk"
 };
 export default {
   quickFilter: {
