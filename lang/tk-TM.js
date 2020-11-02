@@ -39,7 +39,8 @@ export default {
     onReview: "Kabul edilýär",
     onAcquaintance: "Tanyşylýar",
     onDocumentReview: "Seredilýär",
-    reviewResolution: "Gaýtadan işlenýär"
+    reviewResolution: "Gaýtadan işlenýär",
+    onApproval:"Ylalyşylýar"
   },
   // TODO Перевести на текменский
   // validation: {

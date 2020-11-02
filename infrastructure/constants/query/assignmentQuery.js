@@ -4,7 +4,8 @@ const assignmentQuery = {
   OnReview: 2,
   OnAcquaintance: 3,
   OnDocumentReview: 4,
-  ReviewResolution:5
+  ReviewResolution: 5,
+  OnApproval: 6
 };
 export default assignmentQuery;
 export function generateAssignmentQueryName(key, context) {

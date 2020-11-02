@@ -115,6 +115,13 @@ export const actions = {
             template: "assignment-item",
             text: this.$i18n.t("AssignmentQuery.reviewResolution"),
             path: `/assignment/${AssignmentQuery.ReviewResolution}`
+          },
+          {
+            notificationType: "assignment",
+            query: AssignmentQuery.OnApproval,
+            template: "assignment-item",
+            text: this.$i18n.t("AssignmentQuery.onApproval"),
+            path: `/assignment/${AssignmentQuery.OnApproval}`
           }
         ]
       },

@@ -39,8 +39,9 @@ export default {
     onExicution: "На исполнение",
     onReview: "На приемку",
     onAcquaintance: "На ознакомление",
-    onDocumentReview: "На расмотрении",
-    reviewResolution: "На обработку"
+    onDocumentReview: "На расмотрениe",
+    reviewResolution: "На обработку",
+    onApproval: "На согласование"
   },
   validation: {
     caseFile: {
@@ -119,7 +120,7 @@ export default {
     loginFailed: "Неудачный вход",
     logout: "Выход",
     version: "Версии",
-    removeVersion:"Удалене версии"
+    removeVersion: "Удалене версии"
   },
   shared: {
     name: "Наименование",
