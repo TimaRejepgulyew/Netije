@@ -13,6 +13,7 @@ export default {
     all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
   },
   confirmMessage: {
+    sureAddResolutionAllSelection:"Вы действительно хотите утвердить резолюции по все выделенным заданиям?",
     headerHasChildActionItem: "Прекратить подчиненные поручения?",
     hasChildActionItem: "Есть незавершенные подчиненные поручения.",
     sureDocumentReviewAcceptConfirmetion: "После принятия к сведению задание завершится без исполнения",

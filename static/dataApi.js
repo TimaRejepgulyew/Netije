@@ -120,7 +120,8 @@ export default {
     GetAssignmentById: `${url}/api/Assignment/GetAssignmentById/`,
     CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
     MarkAsRead: `${url}/api/Assignment/MarkAsRead`,
-    TextsByAssignment: `${url}/api/WorkflowEntityText/ByAssignment/`
+    TextsByAssignment: `${url}/api/WorkflowEntityText/ByAssignment/`,
+    CompleteDraftResolutionAssignments: `${url}/api/Assignment/CompleteDraftResolutionsAssignments`
   },
   recipient: {
     list: `${url}/api/Recipient`
