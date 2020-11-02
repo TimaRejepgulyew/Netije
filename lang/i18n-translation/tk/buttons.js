@@ -46,4 +46,6 @@ export default {
   rotateRight: "Saga dönmek",
   orderUp: "Ýokaryk",
   orderDown: "Aşag",
+  approve: "Ylalyşmak",
+  addApprover: "Ylalyşýanyny goşmak"
 };

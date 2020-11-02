@@ -47,25 +47,38 @@
         <DxItem
           locateInMenu="auto"
           :visible="inProcess"
-          :options="btnForReworkOptions"
+          :options="btnReworkOptions"
           location="before"
           widget="dxButton"
         />
         <DxItem
           locateInMenu="auto"
           :visible="inProcess"
-          :options="btnAddApproverOptions"
+          :options="btnForwardOptions"
           location="before"
           widget="dxButton"
         />
+        <DxItem
+          locateInMenu="auto"
+          disabled=""
+          :visible="inProcess"
+          template="toolbarAddApproverBtn"
+          location="before"
+          widget="dxButton"
+        />
+        <template #toolbarAddApproverBtn>
+          <toolbarAddApproverBtn :assignmentId="assignmentId" />
+        </template>
       </DxToolbar>
     </div>
   </div>
 </template>
 <script>
+import toolbarAddApproverBtn from "~/components/assignment/form-components/add-approver-btn/btn.vue";
 import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
 import taskCard from "~/components/task/index.vue";
 import approveIcon from "~/static/icons/assignment-result/success.svg";
+import forwardIcon from "~/static/icons/status/forward.svg";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
@@ -74,7 +87,8 @@ export default {
   mixins: [toolbarMixin],
   components: {
     DxPopup,
-    taskCard
+    taskCard,
+    toolbarAddApproverBtn
   },
   data() {
     return {
@@ -91,30 +105,56 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureApprovalConfirmetion"
+                "assignment.confirmMessage.sureApproveAssignmentConfirmetion"
               ),
               this.$t("shared.confirm")
             );
             if (response) {
-              this.setResult(ReviewResult.ReviewResolution.AddAssignment);
+              this.setResult(ReviewResult.FreeApprovalAssignment.Approved);
               this.completeAssignment();
             }
           }
         }
       };
     },
-    btnAddExecutionOptions() {
+    btnReworkOptions() {
       return {
-        icon: actionItemExecutionIcon,
-        text: this.$t("buttons.createExecution"),
-        onClick: () => {
-          this.$awn.asyncBlock(
-            CreateChildActionItemExecution(this, this.assignmentId),
-            ({ taskId }) => {
-              this.actionItemExecutionTaskId = taskId;
-              this.togglePopup();
+        icon: "undo",
+        text: this.$t("buttons.rework"),
+        onClick: async () => {
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t("assignment.confirmMessage.sureRework"),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.FreeApprovalAssignment.ForRework);
+              await this.completeAssignment();
+              const { taskId } = this.$store.getters[
+                `assignments/${this.assignmentId}/assignment`
+              ];
             }
-          );
+          }
+        }
+      };
+    },
+    btnForwardOptions() {
+      return {
+        icon: forwardIcon,
+        text: this.$t("buttons.readdress"),
+        onClick: async () => {
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t(
+                "assignment.confirmMessage.sureApprovalForwardConfirmetion"
+              ),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(FreeApprovalAssignment.Forward);
+              this.completeAssignment();
+            }
+          }
         }
       };
     }

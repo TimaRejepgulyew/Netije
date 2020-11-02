@@ -46,7 +46,17 @@ const ReviewManager = {
 const ReviewResolution = {
   AddAssignment: 0
 };
+const FreeApprovalAssignment = {
+  ForRework: 0,
+  Approved: 1,
+  Forward: 2
+};
+const FreeApprovalFinishAssignment = {
+  completed:0
+}
 export default {
+  FreeApprovalFinishAssignment,
+  FreeApprovalAssignment,
   ReviewResolution,
   ReviewManager,
   ReviewDraftResolution,
