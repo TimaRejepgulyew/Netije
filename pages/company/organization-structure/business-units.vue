@@ -1,43 +1,20 @@
 <template>
   <main>
     <Header :headerTitle="$t('menu.businessUnit')"></Header>
-    <DxDataGrid
-      id="gridContainer"
-      :errorRowEnabled="false"
-      :show-borders="true"
+    <DxTreeList
       :data-source="dataSource"
-      :remote-operations="true"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
+      :show-borders="true"
+      parent-id-expr="headCompanyId"
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif')
+        indicatorSrc: require('~/static/icons/loading.gif'),
       }"
-      @row-updating="onRowUpdating"
-      @init-new-row="onInitNewRow"
+      @toolbar-preparing="onToolbarPreparing"
     >
-      <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false" />
-      <DxHeaderFilter :visible="true" />
-
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
+      <DxSearchPanel position="after" :visible="true" />
       <DxFilterRow :visible="true" />
-
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('menu.businessUnit')"
-      />
-
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="BusinessUnit"
-      />
-
+      <DxHeaderFilter :visible="true" />
       <DxEditing
         :allow-updating="
           $store.getters['permissions/allowUpdating'](entityType)
@@ -47,9 +24,6 @@
         :useIcons="true"
         mode="form"
       />
-
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
       <DxColumn
         data-field="name"
         :caption="$t('shared.name')"
@@ -82,7 +56,6 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-
       <DxColumn
         data-field="tin"
         :caption="$t('translations.fields.tin')"
@@ -125,7 +98,6 @@
           display-expr="name"
         />
       </DxColumn>
-
       <DxColumn
         data-field="phones"
         :caption="$t('translations.fields.phones')"
@@ -207,6 +179,7 @@
           display-expr="status"
         />
       </DxColumn>
+
       <DxColumn
         data-field="note"
         :caption="$t('translations.fields.note')"
@@ -217,10 +190,49 @@
       <template #textAreaEditor="cellInfo">
         <textArea
           :value="cellInfo.data.value"
-          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
+          :on-value-changed="(value) => onValueChanged(value, cellInfo.data)"
         ></textArea>
       </template>
-    </DxDataGrid>
+    </DxTreeList>
+    <!-- <DxDataGrid
+      id="gridContainer"
+      :errorRowEnabled="false"
+      :show-borders="true"
+      :data-source="dataSource"
+      :remote-operations="true"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
+      :column-auto-width="true"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif'),
+      }"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
+    >
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
+
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+
+
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="BusinessUnit"
+      />
+      <DxEditing
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="allowDeleting"
+        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        :useIcons="true"
+        mode="form"
+      />
+      <DxScrolling mode="virtual" />
+    </DxDataGrid> -->
   </main>
 </template>
 <script>
@@ -231,25 +243,42 @@ import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
 import textArea from "~/components/page/textArea";
 import {
-  DxSearchPanel,
+  // DxSearchPanel,
   DxDataGrid,
-  DxColumn,
-  DxEditing,
-  DxHeaderFilter,
+  // DxColumn,
+  // DxEditing,
+  // DxHeaderFilter,
   DxScrolling,
-  DxLookup,
+  // DxLookup,
   DxGrouping,
   DxGroupPanel,
-  DxAsyncRule,
-  DxPatternRule,
-  DxRequiredRule,
-  DxExport,
+  // DxAsyncRule,
+  // DxPatternRule,
+  // DxRequiredRule,
+  // DxExport,
   DxColumnChooser,
   DxColumnFixing,
-  DxFilterRow,
+  // DxFilterRow,
   DxStateStoring,
-  DxEmailRule
+  DxEmailRule,
 } from "devextreme-vue/data-grid";
+import {
+  DxTreeList,
+  DxColumn,
+  DxFilterRow,
+  DxHeaderFilter,
+  DxRequiredRule,
+  DxAsyncRule,
+  DxPatternRule,
+  DxExport,
+  DxEditing,
+  // DxGroupPanel,
+  // DxColumnChooser,
+  // DxHeaderFilter,
+  DxSearchPanel,
+  // DxSelection,
+  DxLookup,
+} from "devextreme-vue/tree-list";
 
 export default {
   components: {
@@ -272,7 +301,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxEmailRule
+    DxEmailRule,
+    DxTreeList,
   },
   data() {
     return {
@@ -281,7 +311,7 @@ export default {
         loadUrl: dataApi.company.BusinessUnit,
         insertUrl: dataApi.company.BusinessUnit,
         updateUrl: dataApi.company.BusinessUnit,
-        removeUrl: dataApi.company.BusinessUnit
+        removeUrl: dataApi.company.BusinessUnit,
       }),
       entityType: EntityType.BusinessUnit,
       statusDataSource: this.$store.getters["status/status"](this),
@@ -293,14 +323,23 @@ export default {
       companyStore: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.BusinessUnit
+          loadUrl: dataApi.company.BusinessUnit,
         }),
         paginate: true,
-        filter: ["status", "=", Status.Active]
-      }
+        filter: ["status", "=", Status.Active],
+      },
     };
   },
   methods: {
+    onToolbarPreparing(e) {
+      e.toolbarOptions.items.forEach((element) => {
+        if (element.name === "addRowButton") {
+          element.options.onClick = () => {
+            console.log(1);
+          };
+        }
+      });
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },
@@ -320,7 +359,7 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region
+          loadUrl: dataApi.sharedDirectory.Region,
         }),
         paginate: true,
         filter: options.data
@@ -331,16 +370,16 @@ export default {
               "or",
               "id",
               "=",
-              options.data.regionId
+              options.data.regionId,
             ]
-          : []
+          : [],
       };
     },
     getActiveLocalities(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality
+          loadUrl: dataApi.sharedDirectory.Locality,
         }),
         paginate: true,
         filter: options.data
@@ -355,33 +394,33 @@ export default {
               "or",
               "id",
               "=",
-              options.data.localityId
+              options.data.localityId,
             ]
-          : []
+          : [],
       };
     },
     getActiveBanks(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Bank
+          loadUrl: dataApi.contragents.Bank,
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
-          : []
+          : [],
       };
     },
     getActiveEmployees(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
-          : []
+          : [],
       };
     },
     validateEntityExists(params) {
@@ -389,7 +428,7 @@ export default {
       return this.$customValidator.BusinnesUnitDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -397,7 +436,7 @@ export default {
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
-    }
-  }
+    },
+  },
 };
 </script>

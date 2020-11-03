@@ -138,6 +138,7 @@ export default {
     companies: `${url}/api/Import/Companies`,
     banks: `${url}​/api/Import/Banks`,
     jobTitles: `${url}​/api/Import/JobTitles`,
-    persons: `${url}​/api/Import/Persons`
+    persons: `${url}​/api/Import/Persons`,
+    employees: `${url}​/api/Import/Employees`,
   }
 };

@@ -48,5 +48,6 @@ export default {
     importBank: 'Bankalary import etmek',
     importJobTitle: 'Wezipesi import etmek',
     importPersons: 'Şahsy adamlary import etmek',
+    importEmployees: 'Işgärleri import etmek',
   }
 };

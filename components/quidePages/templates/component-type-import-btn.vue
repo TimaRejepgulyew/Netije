@@ -43,7 +43,7 @@ export default {
     },
   },
   methods: {
-     changeFile(e) {
+    changeFile(e) {
       let file = new FormData();
       file.append("file", e.target.files[0]);
       this.$awn.asyncBlock(
@@ -55,6 +55,7 @@ export default {
           this.$awn.alert();
         }
       );
+      e.target.value = "";
     },
   },
   mounted() {},

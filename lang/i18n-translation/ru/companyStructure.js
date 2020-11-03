@@ -35,10 +35,11 @@ export default {
         headCompany: "Головная орг"
     },
     imports: {
-        title: 'Импортирование',
+        title: 'Импорт',
         importCompanies: 'Импортировать компании',
         importBank: 'Импортировать банки',
         importJobTitle: 'Импортировать должности',
         importPersons: 'Импортировать физические лица',
+        importEmployees: 'Импортировать сотрудников',
     }
 }

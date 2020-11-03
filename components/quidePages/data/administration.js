@@ -46,6 +46,16 @@ export default function (context) {
           visible: true,
           componentType: "uploadBtn"
         }, {
+          name: context.$t("companyStructure.imports.importEmployees"),
+          path: "import-btn",
+          params: {
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.import.employees, file)
+            }
+          },
+          visible: true,
+          componentType: "uploadBtn"
+        }, {
           name: context.$t("companyStructure.imports.importPersons"),
           path: "import-btn",
           params: {
