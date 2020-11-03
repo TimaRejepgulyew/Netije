@@ -133,5 +133,11 @@ export default {
     Detach: `${url}/api/Attachment/Detach`,
     PasteByTask: `${url}/api/Attachment/Task/Paste`,
     PasteByAssignment: `${url}/api/Attachment/Assignment/Paste`
+  },
+  import: {
+    companies: `${url}/api/Import/Companies`,
+    banks: `${url}​/api/Import/Banks`,
+    jobTitles: `${url}​/api/Import/JobTitles`,
+    persons: `${url}​/api/Import/Persons`
   }
 };
