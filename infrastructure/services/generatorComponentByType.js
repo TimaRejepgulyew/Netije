@@ -69,9 +69,16 @@ export const ComponentsByAssignmentType = new Map([
   [
     AssignmentType.FreeApprovalAssignment,
     {
-      toolbar: "toolbar-free-approval",
-      additional: "additional-free-approval",
-      body: "body-free-approval"
+      toolbar: "toolbar-free-approval-assignment",
+      additional: "additional-free-approval-assignment",
+      body: "body-free-approval-assignment"
+    }
+  ],
+  [
+    AssignmentType.FreeApprovalFinishAssignment,
+    {
+      toolbar: "toolbar-free-approval-finish-assignment",
+      body: "body-free-approval-finish-assignment"
     }
   ]
 ]);

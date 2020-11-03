@@ -23,7 +23,7 @@ export default {
       //   "assignment.validation.acquaintanceAssignmentRequired"
       // ),
       placeholder: this.$t("assignment.body.freeApprovalAssignment"),
-      isRequired: false,
+      isRequired: true,
     };
   },
 };

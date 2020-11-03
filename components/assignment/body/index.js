@@ -7,6 +7,9 @@ import preparingDraftResolutionAssignment from "./preparing-draft-resolution-ass
 import reviewDraftResolutionAssignment from "./review-draft-resolution-assignment.vue"
 import reviewManagerAssignment from "./review-manager-assignment.vue"
 import reviewResolutionAssignment from "./review-resolution-assignment.vue"
+import freeApprovalAssignment from "~/components/assignment/toolbars/free-approval-assignment.vue";
+import freeApprovalFinishAssignment from "~/components/assignment/toolbars/free-approval-finish-assignment.vue";
+import freeApprovalReworkAssignment from "~/components/assignment/toolbars/free-approval-rework-assignment.vue";
 export {
   simpleAssignment as bodySimpleAssignment,
   acquaintanceAssignment as bodyAcquaintanceAssignment,
@@ -16,5 +19,8 @@ export {
   preparingDraftResolutionAssignment as bodyPreparingDraftResolutionAssignment,
   reviewDraftResolutionAssignment as bodyReviewDraftResolutionAssignment,
   reviewResolutionAssignment as bodyReviewResolutionAssignment,
-  reviewManagerAssignment as bodyReviewManagerAssignment
+  reviewManagerAssignment as bodyReviewManagerAssignment,
+  freeApprovalAssignment as bodyFreeApprovalAssignment,
+  freeApprovalFinishAssignment as bodyFreeApprovalFinishAssignment,
+  freeApprovalReworkAssignment as bodyFreeApprovalReworkAssignment
 }

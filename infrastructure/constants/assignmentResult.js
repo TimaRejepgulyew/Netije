@@ -52,8 +52,11 @@ const FreeApprovalAssignment = {
   Forward: 2
 };
 const FreeApprovalFinishAssignment = {
-  completed:0
-}
+  Completed: 0
+};
+const FreeApprovalReworkAssignment = {
+  Reworked: 0
+};
 export default {
   FreeApprovalFinishAssignment,
   FreeApprovalAssignment,
@@ -67,7 +70,8 @@ export default {
   AcquaintanceFinish,
   ActionItemExecution,
   Acquaintance,
-  Simple
+  Simple,
+  FreeApprovalReworkAssignment
 };
 
 export const generateElementsResult = assignmentType => {
@@ -168,7 +172,34 @@ function reviewDraftResolutionAssignment(context) {
     iconStores: resultIcon
   });
 }
+function freeApprovalAssignment(context) {
+  return generatorMapObj({
+    Constant: FreeApprovalAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function freeApprovalFinishAssignment(context) {
+  return generatorMapObj({
+    Constant: FreeApprovalFinishAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function freeApprovalReworkAssignment(context) {
+  return generatorMapObj({
+    Constant: FreeApprovalReworkAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
 export const resultElements = {
+  freeApprovalReworkAssignment,
+  freeApprovalFinishAssignment,
+  freeApprovalAssignment,
   preparingDraftResolutionAssignment,
   reviewDraftResolutionAssignment,
   reviewManagerAssignment,

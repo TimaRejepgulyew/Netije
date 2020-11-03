@@ -1,13 +1,31 @@
 <template>
-  <div class="toolbar">
-    <DxToolbar>
-      <DxItem
-        :visible="inProcess"
-        :options="btnOptions"
-        location="before"
-        widget="dxButton"
-      />
-    </DxToolbar>
+  <div>
+    <DxPopup
+      :title="$t('shared.confirm')"
+      :visible.sync="isPopupAccesRight"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="auto"
+      :height="'auto'"
+    >
+      <div>
+        <attachment-access-right-dialog
+          @close="tooglePopupAccessRight"
+          @selected="sendRecipientAccessRight"
+        />
+      </div>
+    </DxPopup>
+    <div class="toolbar">
+      <DxToolbar>
+        <DxItem
+          :visible="inProcess"
+          :options="btnOptions"
+          location="before"
+          widget="dxButton"
+        />
+      </DxToolbar>
+    </div>
   </div>
 </template>
 <script>
@@ -23,7 +41,9 @@ export default {
         onClick: async () => {
           if (this.isValidForm()) {
             const response = await this.confirm(
-              this.$t("assignment.confirmMessage.sureFinishAcquaintance"),
+              this.$t(
+                "assignment.confirmMessage.sureFreeApprovalFinishAssignment"
+              ),
               this.$t("shared.confirm")
             );
             if (response) {
