@@ -7,11 +7,21 @@
     :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="2" :caption="$t('shared.fromWhom')">
-      <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
+      <DxSimpleItem
+        :col-span="2"
+        data-field="correspondentId"
+        template="correspondent"
+      >
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
-        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.counterPartRequired')"
+        />
       </DxSimpleItem>
-      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
+      <DxSimpleItem
+        data-field="dated"
+        :editor-options="datedOptions"
+        editor-type="dxDateBox"
+      >
         <DxLabel location="left" :text="$t('document.fields.dated')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
@@ -25,7 +35,10 @@
       >
         <DxLabel location="left" :text="$t('document.fields.inResponseToId')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
+      <DxSimpleItem
+        data-field="counterpartySignatoryId"
+        template="counterPartSignatury"
+      >
         <DxLabel location="left" :text="$t('document.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="contactId" template="contact">
@@ -35,11 +48,12 @@
     <DxGroupItem :col-count="2" :caption="$t('shared.whom')">
       <DxSimpleItem
         data-field="businessUnitId"
-        :editor-options="businessUnitOptions"
-        editor-type="dxSelectBox"
+        template="businessUnitSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.businessUnitIdRequired')"
+        />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
@@ -47,7 +61,9 @@
         editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="addressee">
@@ -70,7 +86,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
-        :disabled="!isCompany||readOnly"
+        :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setContact"
         :value="contactId"
@@ -78,7 +94,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
-        :disabled="!isCompany||readOnly"
+        :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"
@@ -100,12 +116,27 @@
         @valueChanged="setAssigneeId"
       />
     </template>
+    <template #businessUnitSelectBox>
+      <business-unit-select-box
+        valueExpr="id"
+        :read-only="isRegistered && !canUpdate"
+        :validatorGroup="documentValidatorName"
+        :value="businessUnitId"
+        @valueChanged="
+          (data) => {
+            setBusinessUnitId(data);
+            setAddresseeId(null);
+          }
+        "
+      />
+    </template>
   </DxForm>
 </template>
 <script>
 import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import dataApi from "~/static/dataApi";
@@ -125,6 +156,7 @@ export default {
     customSelectBox,
     customSelectBoxContact,
     employeeSelectBox,
+    BusinessUnitSelectBox,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -150,6 +182,7 @@ export default {
         null
       );
     },
+
     setContact(data) {
       this.$store.commit(
         `documents/${this.documentId}/SET_CONTACT_ID`,
@@ -163,10 +196,17 @@ export default {
       );
     },
     setAddresseeId(data) {
+      console.log(data);
       this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
     },
     setAssigneeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
+    },
+    setBusinessUnitId(data) {
+      this.$store.commit(
+        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        data
+      );
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
@@ -221,34 +261,11 @@ export default {
     addresseeId() {
       return this.document.addresseeId;
     },
+    businessUnitId() {
+      return this.document.businessUnitId;
+    },
     assigneeId() {
       return this.document.assigneeId;
-    },
-    businessUnitOptions() {
-      const builder = new SelectBoxOptionsBuilder();
-      const options = builder
-        .withUrl(dataApi.company.BusinessUnit)
-        .filter(["status", "=", 0])
-        .build(this);
-      return {
-        readOnly: this.isRegistered,
-        ...options,
-        value: this.document.businessUnitId,
-        onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
-            e.value
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_ADDRESSE_ID`,
-            null
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-            null
-          );
-        },
-      };
     },
     deparmentOptions() {
       let businessUnitId = this.$store.getters[
