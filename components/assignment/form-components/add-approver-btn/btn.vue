@@ -4,7 +4,7 @@
       :icon="addApproverBtnIcon"
       :hint="$t('buttons.addApprover')"
       :text="$t('buttons.addApprover')"
-      :on-click="showDialog"
+      :on-click="toggleDialog"
     />
     <DxPopup
       :title="$t('assignment.addApprover')"
@@ -16,14 +16,18 @@
       height="auto"
     >
       <div>
-        <dialog :assignmentId="assignmentId" @close="toggleDialog" />
+        <approveDialog
+          v-if="openDialog"
+          :assignmentId="assignmentId"
+          @close="toggleDialog"
+        />
       </div>
     </DxPopup>
   </div>
 </template>
 
 <script>
-import dialog from "./dialog.vue";
+import approveDialog from "./dialog.vue";
 import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
 import { DxPopup } from "devextreme-vue/popup";
@@ -32,7 +36,7 @@ export default {
   components: {
     DxButton,
     DxPopup,
-    dialog
+    approveDialog
   },
   props: ["assignmentId"],
   data() {

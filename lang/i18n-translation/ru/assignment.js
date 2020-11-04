@@ -2,7 +2,14 @@ import assignmentType from "./assignmentType";
 export default {
   addApprover: "Добавление согласующего",
   gridFileName: "Задание",
+  stores: {
+    doNotSend: "Не отправлять",
+    sendForApproval: "Отправить на согласование",
+    sendNotice: "Отправить уведомление"
+  },
   fields: {
+    action: "Действие",
+    approved: "Согласованно",
     approver: "Согласующий",
     newDeadline: "Новый срок",
     deadline: "Срок",
@@ -72,7 +79,10 @@ export default {
     AddResolution: "Вынесена резолюция",
     Explored: "Принято к сведению",
     Forward: "Переадресовано",
-    ForExecution: "Отправлено на исполнения"
+    ForExecution: "Отправлено на исполнения",
+    Completed: "Завершено",
+    Approved: "Согласованно",
+    Reworked: "Исправленно"
   },
 
   status: {

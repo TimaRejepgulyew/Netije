@@ -35,14 +35,14 @@
         />
         <DxItem
           locateInMenu="auto"
-          :visible="inProcess"
+          :disabled="!addresseeId"
+          :visible="inProcess && false"
           :options="btnForwardOptions"
           location="before"
           widget="dxButton"
         />
         <DxItem
           locateInMenu="auto"
-          disabled=""
           :visible="inProcess"
           template="toolbarAddApproverBtn"
           location="before"
@@ -70,7 +70,7 @@ export default {
   components: {
     DxPopup,
     taskCard,
-    toolbarAddApproverBtn
+    toolbarAddApproverBtn,
   },
   data() {
     return {
@@ -79,6 +79,9 @@ export default {
     };
   },
   computed: {
+    addresseeId() {
+      return this.assignment.addresseeId;
+    },
     btnApproveOptions() {
       return {
         icon: approveIcon,
@@ -142,8 +145,11 @@ export default {
     }
   },
   methods: {
-    togglePopup() {
-      this.showItemExecutionTask = !this.showItemExecutionTask;
+    valueChanged(id) {
+      this.$store.commit(
+        `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
+        id
+      );
     }
   }
 };

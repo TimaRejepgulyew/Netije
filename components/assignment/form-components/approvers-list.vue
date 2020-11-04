@@ -2,7 +2,9 @@
   <div>
     <DxDataGrid
       :data-source="data"
-      @rowUpdating="e => rowUpdating(e)"
+      @rowRemoved="e => updateApprovers(e)"
+      @rowInserted="e => updateApprovers(e)"
+      @rowUpdated="e => updateApprovers(e)"
       :remote-operations="false"
       :allow-column-reordering="true"
       :row-alternation-enabled="true"
@@ -10,13 +12,13 @@
       :showRowLines="false"
     >
       <DxEditing
-        :allow-adding="false"
+        :allow-adding="true"
         :allow-updating="true"
+        :allow-deleting="true"
         :useIcons="true"
         mode="row"
       />
       <DxColumn
-        editor-type="dxSelectBox"
         data-field="approverId"
         :caption="$t('assignment.fields.approver')"
       >
@@ -26,7 +28,9 @@
           value-expr="id"
           display-expr="name"
         />
-        <DxRequireRule />
+        <DxRequiredRule
+          :message="$t('assigment.validation.approverRequired')"
+        />
       </DxColumn>
       <DxColumn
         editor-type="dxCheckBox"
@@ -34,12 +38,8 @@
         data-field="approved"
         :caption="$t('assignment.fields.approved')"
       />
-      <DxColumn
-        editor-type="dxSelectBox"
-        data-field="value"
-        :caption="$t('assignment.fields.action')"
-      >
-        <DxRequireRule />
+      <DxColumn data-field="action" :caption="$t('assignment.fields.action')">
+        <DxRequiredRule :message="$t('assigment.validation.actionRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="actionStore"
@@ -59,7 +59,7 @@ import {
   DxColumn,
   DxEditing,
   DxScrolling,
-  DxRequireRule,
+  DxRequiredRule,
   DxButton,
   DxLookup
 } from "devextreme-vue/data-grid";
@@ -69,32 +69,34 @@ export default {
     DxColumn,
     DxEditing,
     DxScrolling,
-    DxRequireRule,
+    DxRequiredRule,
     DxButton,
     DxLookup
   },
   props: ["assignemntId"],
   data() {
-    const data = JSON.parse(
-      JSON.stringify(
-        this.$store.getters[`documents/${this.assignemntId}/document`].params
-      )
-    );
     return {
-      data
+      data: this.$store.getters[
+        `assigments/${this.assignemntId}/approvers`
+      ] || [
+        { id: 0, approverId: 18, approved: true, action: 1 },
+        { id: 1, approverId: 21, approved: false, action: 0 }
+      ]
     };
   },
   methods: {
-    rowUpdating(e) {
-      this.$store.commit(`assignments/${this.assignemntId}/SET_APPROVERS`, {
-        name: e.key.name,
-        value: e.newData.value
-      });
+    updateApprovers() {
+      const payload = JSON.parse(JSON.stringify(this.data.slice()));
+      this.$store.commit(
+        `assigments/${this.assignemntId}/SET_APPROVERS`,
+        payload
+      );
     }
   },
   computed: {
     employeeStore() {
       return this.$dxStore({
+        key: "id",
         loadUrl: dataApi.company.Employee
       });
     },
@@ -102,15 +104,15 @@ export default {
       return [
         {
           id: FreeApprovalReworkActions.SendForApproval,
-          name: this.$t("assigment.stores.sendForApproval")
+          name: this.$t("assignment.stores.sendForApproval")
         },
         {
           id: FreeApprovalReworkActions.DoNotSend,
-          name: this.$t("assigment.stores.doNotSend")
+          name: this.$t("assignment.stores.doNotSend")
         },
         {
           id: FreeApprovalReworkActions.SendNotice,
-          name: this.$t("assigment.stores.sendNotice")
+          name: this.$t("assignment.stores.sendNotice")
         }
       ];
     }

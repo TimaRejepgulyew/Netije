@@ -1,18 +1,18 @@
 <template>
-  <form @submit.prevent="addApprover">
-    <div>
+  <form action="your-action" @submit.prevent="addApprover">
+    <div class="d-flex align-center">
       <label class="pr-2">{{ $t("assignment.fields.approver") }}</label>
       <div class="f-grow-1">
         <employee-select-box
           valueExpr="id"
           displayExpr="name"
-          dataSource="employeeStore"
           :value="approver"
           @valueChanged="onApproverChanged"
+          validationGroup="addApproverDialog"
         >
-          <DxValidator validationGroup="addApproverDialog">
+          <!-- <DxValidator validationGroup="addApproverDialog">
             <DxRequiredRule :message="placeholder" />
-          </DxValidator>
+          </DxValidator> -->
         </employee-select-box>
       </div>
     </div>
@@ -32,16 +32,18 @@
         ></DxDateBox>
       </div>
     </div>
-    <DxButton
-      :hint="$t('buttons.add')"
-      :useSubmitBehavior="true"
-      :text="$t('buttons.add')"
-    />
-    <DxButton
-      :hint="$t('buttons.close')"
-      :text="$t('buttons.close')"
-      :on-click="closeDialog"
-    />
+    <div class="d-flex justify-flex-end">
+      <DxButton
+        :hint="$t('buttons.add')"
+        :useSubmitBehavior="true"
+        :text="$t('buttons.add')"
+      />
+      <DxButton
+        :hint="$t('buttons.closed')"
+        :text="$t('buttons.closed')"
+        :on-click="closeDialog"
+      />
+    </div>
   </form>
 </template>
 
@@ -50,26 +52,48 @@ import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-
+import {
+  DxDateBox,
+  DxButton as DxDateBoxButton
+} from "devextreme-vue/date-box";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
     employeeSelectBox,
-    DxButton
+    DxButton,
+    DxDateBox,
+    DxDateBoxButton
   },
   data() {
     return {
       approver: null,
       deadline: this.$store.getters[
-        `assignments${this.assignmentId}/assignment`
+        `assignments/${this.assignmentId}/assignment`
       ].deadline
     };
   },
   props: ["assignmentId"],
+  computed: {
+    inProcess() {
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
+    },
+    isRework() {
+      return this.assignment.isRework;
+    },
+    addresseeId() {
+      return this.assignment.addresseeId;
+    },
+    canUpdate() {
+      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
+    },
+    assignment() {
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
+    }
+  },
   methods: {
     addApprover() {
-      this.$awn(
+      this.$awn.asyncBlock(
         this.$axios.post(dataApi.assignment.AddApprover, {
           assignmentId: this.assignmentId,
           newDeadline: this.deadline,
@@ -85,7 +109,7 @@ export default {
       this.$emit("close");
     },
     onApproverChanged(e) {
-      this.approver = e.value;
+      this.approver = e;
     },
     onDeadlineChanged(e) {
       this.deadline = e.value;

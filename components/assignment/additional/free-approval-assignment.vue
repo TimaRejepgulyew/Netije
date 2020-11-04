@@ -1,6 +1,14 @@
 <template>
   <div>
-    <div v-if="false" v-if2="!isRework">
+    <custom-expander
+      :header="{
+        text: 'Согласующие'
+      }"
+      bodyTemplate="approvers"
+    >
+    <approvers-list slot="approvers" :assignmentId="assignmentId" />
+    </custom-expander>
+    <div v-if="!isRework">
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
         <employee-select-box
@@ -15,20 +23,23 @@
 </template>
 
 <script>
+import customExpander from "~/components/custom-expander/index.vue";
+import approversList from "~/components/assignment/form-components/approvers-list.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {
     employeeSelectBox,
+    approversList,
+    customExpander
   },
   props: ["assignmentId"],
-
   methods: {
     valueChanged(id) {
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
         id
       );
-    },
+    }
   },
   computed: {
     isRework() {
@@ -41,13 +52,9 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-.pr-2 {
-  padding-right: 20px;
-}
-</style>
+<style lang="scss"></style>
