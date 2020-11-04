@@ -2,7 +2,14 @@ import assignmentType from "./assignmentType";
 export default {
   addApprover: "Täze ylalaşyjy",
   gridFileName: "Tabşyryklar",
+  stores: {
+    doNotSend: "Hiç zat ibermek",
+    sendForApproval: "Ylalaşyga ibermek",
+    sendNotice: "Habarnamany ibermek"
+  },
   fields: {
+    action: "Hereketi",
+    approved: "Ylalyşyldy",
     approver: "Ylalaşyjy",
     newDeadline: "Täze möhlet",
     deadline: "Möhleti",
@@ -20,7 +27,7 @@ export default {
   },
   confirmMessage: {
     sureFreeApprovalAssignment:
-    "Siz hakykatdan resminama bilen ylalaşýarsyňyz?",
+      "Siz hakykatdan resminama bilen ylalaşýarsyňyz?",
     sureFreeApprovalFinishAssignment:
       "Siz hakykatdan resminama ylalaşygy tammalajak?",
     sureFreeApprovalConfirmation: "Siz hakykatdan resminama bilen ylalaşdyňyz?",
@@ -68,6 +75,9 @@ export default {
   readdressToEmployee: "Işgäriň salgysyna geçirmelimi",
 
   result: {
+    Reworked: "Düzedildi",
+    Completed: "Tamamlandy",
+    Approved: "Ylalaşyldy",
     Acquainted: "Tanyşdym",
     SendForReview: "Seretmek üçin iberildi",
     Complete: "Tamamlandy",

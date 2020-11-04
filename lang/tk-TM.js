@@ -74,6 +74,7 @@ export default {
     outgoingLetter: "Çykyş hatlary",
     incomingLetter: "Gelýän hatlar",
     companyDirective: "Kärhananyň içindäki buýruklar",
+    
     simpleDocument: "Ýönekeý resminamalar"
   },
   createItemDialog: {
@@ -90,6 +91,7 @@ export default {
     female: "aýal"
   },
   panel: {
+    downloadScannerApp:"Klienti ýükläp almak",
     profile: "Şahsy maglumatlary",
     logout: "çykmak"
   },

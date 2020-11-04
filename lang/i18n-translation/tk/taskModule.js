@@ -29,12 +29,12 @@ export default {
     }
   },
   status: {
-    InProcess : "Iş dowam edýär",
-    Draft : "Garalama",
-    Suspended : "Togtadylan",
-    Completed : "Tamamlandy",
-    Aborted : "Ýatyrylan",
-    UnderReview : "Kabul edilişde"
+    InProcess: "Iş dowam edýär",
+    Draft: "Garalama",
+    Suspended: "Togtadylan",
+    Completed: "Tamamlandy",
+    Aborted: "Ýatyrylan",
+    UnderReview: "Kabul edilişde"
   },
   type: TaskType,
   prefixes: {
@@ -69,7 +69,11 @@ export default {
     comment: "Teswir",
     coAssignees: "Ýerine ýetirijiler",
     actionItem: "Tabşyryk",
-    isUnderControl: "Gözegçilige"
+    isUnderControl: "Gözegçilige",
+    approvers: "Ylalaşyjylar",
+    copies: "Kopiýalar",
+    receiveOnCompletion: "Tammamlan wagty ugradyjygy",
+    receiveNotice: "Bellikler barada duýdurmak"
   },
   importance: {
     highImportance: "Ýokary ähmiýetli",
@@ -77,6 +81,7 @@ export default {
     lowImportance: "Pes ähmiýetli"
   },
   validation: {
+    approversRerquired: "Ylalaşyjylary goşuň",
     deadlineRequired: "Möhletleri dolduryň",
     assignedByRequired: "Kime berlendigini görkeziň",
     performersRequired: "Ýerine ýetirijini saýlaň",
@@ -86,6 +91,7 @@ export default {
     subjectRequired: "Mazmuny giriziň",
     supervisorRequired: "Gözegçini giriziň",
     acquaintMembersRequired: "Haýsy işgärler bilen tanyşdyrmaly saýlaň",
-    assigneeRequired: "Ýerine ýetirijini giriziň"
+    assigneeRequired: "Ýerine ýetirijini giriziň",
+    receiveOnCompletionRequired: "Tammamlan wagty ugradyjygy saýlaň"
   }
 };

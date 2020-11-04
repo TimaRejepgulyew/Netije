@@ -69,7 +69,7 @@ export default {
     approvers: "Согласующие",
     receiveOnCompletion: "По завершению получить",
     receiveNotice: "Уведомлять о замечаниях",
-    copies: "Копии"
+    copies: "Копия"
   },
   importance: {
     highImportance: "Высокая важность",

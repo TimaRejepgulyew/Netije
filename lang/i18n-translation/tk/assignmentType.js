@@ -19,6 +19,6 @@ export default {
  ReviewClerkNotification : "Gözden geçirmegiň tamamlanandygy barada habarnama",
  FreeApprovalAssignment : "Tabşyrygy özara ylalaşmak",
  FreeApprovalFinishAssignment : "Ylalaşmak boýunça işleri tamamlamak",
- FreeApprovalReworkAssignmen : "Resminama ylalaşylan üýtgetmeleri girizmek",
+ FreeApprovalReworkAssignment : "Resminama ylalaşylan üýtgetmeleri girizmek",
  FreeApprovalNotification : "Habarnama bermek"
 }

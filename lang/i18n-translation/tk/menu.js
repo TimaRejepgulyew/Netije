@@ -38,5 +38,6 @@ export default {
   associatedApp: "Goşundylary işläp taýýarlaýjylar",
   actionItemExecutionTasks: "Tabşyryklar",
   logs: "Loglar",
-  approvals: "Ylalyşyk"
+  approvals: "Ylalyşyk",
+  documentTemplate:"Resminamanyň nusgalary"
 };
