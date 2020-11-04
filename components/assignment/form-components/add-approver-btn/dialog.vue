@@ -1,72 +1,77 @@
 <template>
-  <form action="your-action" @submit.prevent="addApprover">
-    <div class="d-flex align-center">
-      <label class="pr-2">{{ $t("assignment.fields.approver") }}</label>
-      <div class="f-grow-1">
+  <form @submit.prevent="addApprover">
+    <DxForm
+      :scrolling-enabled="true"
+      :show-colon-after-label="true"
+      :show-validation-summary="false"
+      validation-group="addApproverDialog"
+    >
+      <DxSimpleItem template="approver" data-field="approver">
+        <DxRequiredRule :message="$t('assignment.fields.approverRequired')" />
+        <DxLabel location="left" :text="$t('assignment.fields.approver')" />
+      </DxSimpleItem>
+      <DxSimpleItem
+        data-field="dated"
+        :editor-options="datedOptions"
+        editor-type="dxDateBox"
+      >
+        <DxLabel location="left" :text="$t('assignment.fields.newDeadline')" />
+      </DxSimpleItem>
+      <template #approver>
         <employee-select-box
           valueExpr="id"
           displayExpr="name"
           :value="approver"
           @valueChanged="onApproverChanged"
-          validationGroup="addApproverDialog"
+          validatorGroup="addApproverDialog"
         >
-          <!-- <DxValidator validationGroup="addApproverDialog">
-            <DxRequiredRule :message="placeholder" />
-          </DxValidator> -->
         </employee-select-box>
-      </div>
-    </div>
-    <div class="d-flex align-center">
-      <label class="control__label align-content-center" for="newDeadLine">{{
-        $t("assignment.fields.newDeadline")
-      }}</label>
-      <div class="f-grow-1">
-        <DxDateBox
-          :readOnly="!inProcess || !canUpdate"
-          type="datetime"
-          name="newDeadLine"
-          :min="new Date().getTime()"
-          :value.sync="deadline"
-          @valueChanged="onDeadlineChanged"
-          styling-mode="outlined"
-        ></DxDateBox>
-      </div>
-    </div>
-    <div class="d-flex justify-flex-end">
-      <DxButton
-        :hint="$t('buttons.add')"
-        :useSubmitBehavior="true"
-        :text="$t('buttons.add')"
-      />
-      <DxButton
-        :hint="$t('buttons.closed')"
-        :text="$t('buttons.closed')"
-        :on-click="closeDialog"
-      />
-    </div>
+      </template>
+      <DxGroupItem :col-count="15">
+        <DxButtonItem
+          :col-span="14"
+          :button-options="saveButtonOptions"
+          horizontal-alignment="right"
+        />
+        <DxButtonItem
+          :button-options="closeButtonOptions"
+          horizontal-alignment="right"
+        />
+      </DxGroupItem>
+    </DxForm>
   </form>
 </template>
 
 <script>
 import dataApi from "~/static/dataApi.js";
-import DxButton from "devextreme-vue/button";
-import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
+import DxForm, {
+  DxSimpleItem,
+  DxLabel,
+  DxRequiredRule,
+  DxButtonItem,
+  DxGroupItem
+} from "devextreme-vue/form";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import {
-  DxDateBox,
-  DxButton as DxDateBoxButton
-} from "devextreme-vue/date-box";
 export default {
   components: {
-    DxValidator,
+    DxForm,
+    DxSimpleItem,
     DxRequiredRule,
-    employeeSelectBox,
-    DxButton,
-    DxDateBox,
-    DxDateBoxButton
+    DxLabel,
+    DxButtonItem,
+    DxGroupItem,
+    employeeSelectBox
   },
   data() {
     return {
+      closeButtonOptions: {
+        text: this.$t("buttons.closed"),
+        onClick: this.closeDialog
+      },
+      saveButtonOptions: {
+        text: this.$t("buttons.add"),
+        useSubmitBehavior: true
+      },
       approver: null,
       deadline: this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
@@ -75,6 +80,14 @@ export default {
   },
   props: ["assignmentId"],
   computed: {
+    datedOptions() {
+      return {
+        type: "datetime",
+        min: new Date().getTime(),
+        value: this.deadline,
+        onValueChanged: this.onApproverChanged
+      };
+    },
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },

@@ -50,9 +50,9 @@ export default {
       );
       return needAbortChildActionItems
     },
-    async sureActionItemDoneConfirmetion() {
+    async sureActionItemDoneConfirmation() {
       const response = await this.confirm(
-        this.$t("assignment.confirmMessage.sureActionItemDoneConfirmetion"),
+        this.$t("assignment.confirmMessage.sureActionItemDoneConfirmation"),
         this.$t("shared.confirm")
       );
       return response;
@@ -73,7 +73,7 @@ export default {
                 this.completeAssignment();
               }
             } else {
-              const sureActionItemDoneConfirm = await this.sureActionItemDoneConfirmetion()
+              const sureActionItemDoneConfirm = await this.sureActionItemDoneConfirmation()
               if (sureActionItemDoneConfirm) {
                 this.setResult(ReviewResult.ActionItemExecution.Complete);
                 this.completeAssignment();

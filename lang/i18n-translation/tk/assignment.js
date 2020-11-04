@@ -19,33 +19,38 @@ export default {
     monthAgo: "Bir aý öň"
   },
   confirmMessage: {
+    sureFreeApprovalFinishAssignment:
+      "Siz hakykatdan resminama bilen ylalaşýarsy?",
+    sureFreeApprovalConfirmation: "Siz hakykatdan resminama bilen ylalaşýarsy?",
+    sureApprovalForwardConfirmation:
+      "Вы действительно хотите переадресовать согласование документа?",
     sureAddResolutionAllSelection:
       "Siz resminamanyň ylalaşygy tassyklaýarsyňyz my?",
     sureAddResolutionAllSelection:
       "Siz hakykatdanam hemme bellenen tabşyryklaryň rezalyusiyalaryny tassyklamakçy?",
     headerHasChildActionItem: "Ikinji derejeli tabşyryklary bes etmek?",
     hasChildActionItem: "Tamamlanmadyk ikinji derejeli tabşyryklar barmy",
-    sureDocumentReviewAcceptConfirmetion:
+    sureDocumentReviewAcceptConfirmation:
       " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
-    sureDocumentReviewReworkConfirmetion:
+    sureDocumentReviewReworkConfirmation:
       "Hakykatdan hem kömekçä işlemek üçin yzyna bermekçimi?",
-    sureDocumentReviewApproveRosolutionConfirmetion:
+    sureDocumentReviewApproveRosolutionConfirmation:
       " Hakykatdan hem rezolýusiýanyňtaslamasyny tassyklamak isleýärsiňizmi?",
-    sureDocumentReviewSendToResolutionConfirmetion:
+    sureDocumentReviewSendToResolutionConfirmation:
       "Siz hakykatdan hem rezolýusiýa üçin ibermek isleýärsiňizmi?",
-    sureDocumentReviewSendToAssigneeConfirmetion:
+    sureDocumentReviewSendToAssigneeConfirmation:
       "Siz hakykatda hem ýerine ýetirmek üçin ibermek isleýärsiňizmi?",
-    sureDocumentReviewExploredConfirmetion:
+    sureDocumentReviewExploredConfirmation:
       "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
-    sureDocumentReviewForwardConfirmetion:
+    sureDocumentReviewForwardConfirmation:
       "Siz hakykatdan hem resminamany  gaýtadan seretmek üçin başga birisine geçirmek isleýärsiňizmi?",
-    sureDocumentReviewAddresolutionConfirmetion:
+    sureDocumentReviewAddresolutionConfirmation:
       "Siz hakykatdan hem resminama boýunça rezolýusiýa çykardyňyzmy?",
-    sureActionItemForReworkConfirmetion:
+    sureActionItemForReworkConfirmation:
       "Siz hakykatdan hem tabşyrygy gaýtadan işlemek üçin ibermek isleýärsiňizmi?",
-    sureActionItemAcceptConfirmetion:
+    sureActionItemAcceptConfirmation:
       "Siz hakykatdan hem tabşyryk boýunça işleri kabul etmek isleýärsiňizmi?",
-    sureActionItemDoneConfirmetion:
+    sureActionItemDoneConfirmation:
       "Siz hakykatdan hem tabşyryklary ýerien ýetirmek isleýärsiňizmi",
     sureReturnManagersAssistant: "Siz kömekçä yzyna bermek isleýärsiňizmi?",
     sureComplete: "Siz hakykatdan hem ýumuşy ýerine ýetirmek isleýärsiňizmi?",
@@ -95,7 +100,7 @@ export default {
   },
   comment: "Bellikler",
   body: {
-    freeApproval: "Tabşyrygyň tekstini giriziň...",
+    freeApprovalAssignment: "Tabşyrygyň tekstini giriziň...",
     actionItemSupervisorAssignment:
       "Ýerine ýetirijiniň hasabaty boýunça bellikleri giriziň",
     acquaintanceAssignment: "Tabşyryga başlamazdan öň bellikleri galdyryň",

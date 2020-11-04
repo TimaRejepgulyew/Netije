@@ -65,7 +65,7 @@ const isReviewDraftResolution = e => {
 const addResolution = async ({ assignmentType, id, body }, context) => {
   const response = await confirm(
     context.$t(
-      "assignment.confirmMessage.sureDocumentReviewApproveRosolutionConfirmetion"
+      "assignment.confirmMessage.sureDocumentReviewApproveRosolutionConfirmation"
     ),
     context.$t("shared.confirm")
   );

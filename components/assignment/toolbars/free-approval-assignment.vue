@@ -90,7 +90,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureFreeApprovalAssignmentConfirmetion"
+                "assignment.confirmMessage.sureFreeApprovalAssignmentConfirmation"
               ),
               this.$t("shared.confirm")
             );
@@ -131,7 +131,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureApprovalForwardConfirmetion"
+                "assignment.confirmMessage.sureApprovalForwardConfirmation"
               ),
               this.$t("shared.confirm")
             );

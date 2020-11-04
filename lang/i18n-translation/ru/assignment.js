@@ -26,33 +26,38 @@ export default {
     monthAgo: "30 дней"
   },
   confirmMessage: {
-    sureApprovalForwardConfirmetion:
+    sureFreeApprovalAssignment: "Вы действительно хотите согласовать документ?",
+    sureFreeApprovalFinishAssignment:
+      "Вы действительно хотите завершить согласование документа?",
+    sureFreeApprovalConfirmation:
+      "Вы действительно хотите переадресовать согласование",
+    sureApprovalForwardConfirmation:
       "Вы действительно хотите переадресовать согласование документа?",
     sureAddResolutionAllSelection:
       "Вы действительно хотите утвердить резолюции по все выделенным заданиям?",
     headerHasChildActionItem: "Прекратить подчиненные поручения?",
     hasChildActionItem: "Есть незавершенные подчиненные поручения.",
-    sureDocumentReviewAcceptConfirmetion:
+    sureDocumentReviewAcceptConfirmation:
       "После принятия к сведению задание завершится без исполнения",
-    sureDocumentReviewReworkConfirmetion:
+    sureDocumentReviewReworkConfirmation:
       "Вы действительно хотите вернуть помощнику на доработку?",
-    sureDocumentReviewApproveRosolutionConfirmetion:
+    sureDocumentReviewApproveRosolutionConfirmation:
       "Вы действительно хотите утвердить проект резолюции?",
-    sureDocumentReviewSendToResolutionConfirmetion:
+    sureDocumentReviewSendToResolutionConfirmation:
       "Вы действительно хотите отправить на резолюцию?",
-    sureDocumentReviewSendToAssigneeConfirmetion:
+    sureDocumentReviewSendToAssigneeConfirmation:
       "Вы действительно хотите отправить на исполнение?",
-    sureDocumentReviewExploredConfirmetion:
+    sureDocumentReviewExploredConfirmation:
       "Вы действительно ознакомились с документом?",
-    sureDocumentReviewForwardConfirmetion:
+    sureDocumentReviewForwardConfirmation:
       "Вы действительно хотите переадресовать рассмотрение документа?",
-    sureDocumentReviewAddresolutionConfirmetion:
+    sureDocumentReviewAddresolutionConfirmation:
       "Вы действительно вынесли резолюцию по документу?",
-    sureActionItemForReworkConfirmetion:
+    sureActionItemForReworkConfirmation:
       "Вы действительно хотите отправить поручение на доработку?",
-    sureActionItemAcceptConfirmetion:
+    sureActionItemAcceptConfirmation:
       "Вы действительно хотите принять работы по поручению?",
-    sureActionItemDoneConfirmetion:
+    sureActionItemDoneConfirmation:
       "Вы действительно хотите выполнить поручения?",
     sureReturnManagersAssistant: "Вы уверенны что хотите вернуть помощнику?",
     sureComplete: "Вы действительно хотите выполнить задание?",
