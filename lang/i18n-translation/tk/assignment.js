@@ -19,11 +19,13 @@ export default {
     monthAgo: "Bir aý öň"
   },
   confirmMessage: {
+    sureFreeApprovalAssignment:
+    "Siz hakykatdan resminama bilen ylalaşýarsyňyz?",
     sureFreeApprovalFinishAssignment:
-      "Siz hakykatdan resminama bilen ylalaşýarsy?",
-    sureFreeApprovalConfirmation: "Siz hakykatdan resminama bilen ylalaşýarsy?",
+      "Siz hakykatdan resminama ylalaşygy tammalajak?",
+    sureFreeApprovalConfirmation: "Siz hakykatdan resminama bilen ylalaşdyňyz?",
     sureApprovalForwardConfirmation:
-      "Вы действительно хотите переадресовать согласование документа?",
+      "Siz hakykatdan hem resminama  ylalaşygy  başga birine geçirmekçi?",
     sureAddResolutionAllSelection:
       "Siz resminamanyň ylalaşygy tassyklaýarsyňyz my?",
     sureAddResolutionAllSelection:
@@ -43,7 +45,7 @@ export default {
     sureDocumentReviewExploredConfirmation:
       "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
     sureDocumentReviewForwardConfirmation:
-      "Siz hakykatdan hem resminamany  gaýtadan seretmek üçin başga birisine geçirmek isleýärsiňizmi?",
+      "Siz hakykatdan hem resminamany  seretmek üçin başga birisine geçirmek isleýärsiňizmi?",
     sureDocumentReviewAddresolutionConfirmation:
       "Siz hakykatdan hem resminama boýunça rezolýusiýa çykardyňyzmy?",
     sureActionItemForReworkConfirmation:
