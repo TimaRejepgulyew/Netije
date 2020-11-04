@@ -29,12 +29,12 @@ export default {
     }
   },
   status: {
-    InProcess: "Iş dowam edýär",
-    Draft: "Garalama",
-    Suspended: "Togtadylan",
-    Completed: "Gadagan edilen",
-    Aborted: "Ýatyrylan",
-    UnderReview: "Kabul edilişde"
+    InProcess : "Iş dowam edýär",
+    Draft : "Garalama",
+    Suspended : "Togtadylan",
+    Completed : "Tamamlandy",
+    Aborted : "Ýatyrylan",
+    UnderReview : "Kabul edilişde"
   },
   type: TaskType,
   prefixes: {
