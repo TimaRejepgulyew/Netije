@@ -51,7 +51,6 @@ export default function (context) {
             icon: additionalInfoIcon,
             title: context.$t("companyStructure.additionalInfo.title"),
             items: [
-
                 {
                     name: context.$t("companyStructure.additionalInfo.companies"),
                     description: context.$t("companyStructure.additionalInfo.companiesDescr"),
@@ -74,7 +73,7 @@ export default function (context) {
         },
         {
             icon: companyStructureIcon,
-            title: context.$t("companyStructure.imports.title"),
+            title: context.$t("companyStructure.company.title"),
             items: [
                 {
                     name: context.$t("companyStructure.company.createBusinessUnit"),
