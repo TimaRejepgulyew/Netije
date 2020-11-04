@@ -11,6 +11,7 @@ export default {
     action: "Действие",
     approved: "Согласованно",
     approver: "Согласующий",
+    approvers: "Согласующий",
     newDeadline: "Новый срок",
     deadline: "Срок",
     authorId: "Автор",

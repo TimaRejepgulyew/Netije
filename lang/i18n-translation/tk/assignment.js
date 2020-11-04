@@ -11,6 +11,7 @@ export default {
     action: "Hereketi",
     approved: "Ylalyşyldy",
     approver: "Ylalaşyjy",
+    approvers: "Ylalaşyjylar",
     newDeadline: "Täze möhlet",
     deadline: "Möhleti",
     authorId: "Awtory",

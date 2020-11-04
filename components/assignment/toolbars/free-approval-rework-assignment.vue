@@ -38,12 +38,7 @@
   </div>
 </template>
 <script>
-import toolbarAddApproverBtn from "~/components/assignment/form-components/add-approver-btn/btn.vue";
-import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
-import taskCard from "~/components/task/index.vue";
 import reworkedAndStartIcon from "~/static/icons/start.svg";
-import forwardIcon from "~/static/icons/status/forward.svg";
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
@@ -51,14 +46,6 @@ export default {
   mixins: [toolbarMixin],
   components: {
     DxPopup,
-    taskCard,
-    toolbarAddApproverBtn
-  },
-  data() {
-    return {
-      actionItemExecutionTaskId: null,
-      showItemExecutionTask: false
-    };
   },
   computed: {
     btnReworkedOptions() {

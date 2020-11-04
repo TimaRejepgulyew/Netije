@@ -72,7 +72,7 @@ export default {
     isUnderControl: "Gözegçilige",
     approvers: "Ylalaşyjylar",
     copies: "Kopiýalar",
-    receiveOnCompletion: "Tammamlan wagty ugradyjygy",
+    receiveOnCompletion: "Tammam. soň ugradyjygy",
     receiveNotice: "Bellikler barada duýdurmak"
   },
   importance: {

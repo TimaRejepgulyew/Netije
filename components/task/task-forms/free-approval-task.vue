@@ -2,6 +2,7 @@
   <div id="form-demo">
     <DxForm
       ref="form"
+      :scrolling-enabled="true"
       :read-only="readOnly"
       :show-colon-after-label="true"
       :show-validation-summary="true"
@@ -23,8 +24,9 @@
           />
           <DxLabel location="left" :text="$t('task.fields.approvers')" />
         </DxSimpleItem>
-        <DxGroupItem :col-count="3">
+        <DxGroupItem :col-count="9">
           <DxSimpleItem
+            :col-span="3"
             data-field="maxDeadline"
             :editor-options="maxDeadlineOptions"
             editor-type="dxDateBox"
@@ -32,6 +34,7 @@
             <DxLabel location="left" :text="$t('task.fields.deadLine')" />
           </DxSimpleItem>
           <DxSimpleItem
+            :col-span="4"
             data-field="receiveOnCompletion"
             :editor-options="receiveOnCompletionOptions"
             editor-type="dxSelectBox"
@@ -45,6 +48,7 @@
             />
           </DxSimpleItem>
           <DxSimpleItem
+            :col-span="2"
             data-field="receiveNotice"
             :editor-options="receiveNoticeOptions"
             editor-type="dxCheckBox"

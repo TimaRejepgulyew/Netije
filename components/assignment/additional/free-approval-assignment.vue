@@ -1,14 +1,13 @@
 <template>
   <div>
     <custom-expander
-      :header="{
-        text: 'Согласующие'
-      }"
+      v-if="inProcess && canUpdate"
+      :header="header"
       bodyTemplate="approvers"
     >
-    <approvers-list slot="approvers" :assignmentId="assignmentId" />
+      <approvers-list slot="approvers" :assignmentId="assignmentId" />
     </custom-expander>
-    <div v-if="!isRework">
+    <div v-if="false && !isRework">
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
         <employee-select-box
@@ -42,6 +41,14 @@ export default {
     }
   },
   computed: {
+    header() {
+      return {
+        text: this.$t("assignment.fields.approvers")
+      };
+    },
+    inProcess() {
+      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
+    },
     isRework() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .isRework;
