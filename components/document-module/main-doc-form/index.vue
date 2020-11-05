@@ -92,6 +92,13 @@
           >
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
+           <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.documentTasks')"
+            :disabled="isNew"
+          >
+            <DxSimpleItem :col-span="8" template="documentTasks"></DxSimpleItem>
+          </DxTab>
         </DxTabbedItem>
         <template #history>
           <History
@@ -102,6 +109,9 @@
         </template>
         <template #relation>
           <Relation :documentId="documentId" :isCard="isCard"></Relation>
+        </template>
+        <template #documentTasks>
+          <document-tasks :documentId="documentId" :isCard="isCard" />
         </template>
         <template #lifeCycle>
           <life-cycle :documentId="documentId" :isCard="isCard" />
@@ -132,6 +142,7 @@
   </div>
 </template>
 <script>
+import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";
 import { unload } from "~/infrastructure/services/documentService.js";
 import DocumentType from "~/infrastructure/models/DocumentType.js";
 import Header from "~/components/page/page__header";
@@ -152,7 +163,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -172,6 +183,7 @@ export default {
     DxForm,
     lifeCycle,
     Header,
+    documentTasks
   },
   destroyed() {
     unload(this, this.documentId);
@@ -179,13 +191,13 @@ export default {
   props: ["isCard", "documentId"],
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name,
+      title: this.$store.getters[`documents/${this.documentId}/document`].name
     };
   },
-  provide: function () {
+  provide: function() {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName,
+      documentValidatorName: this.documentValidatorName
     };
   },
   created() {
@@ -208,9 +220,9 @@ export default {
         focusStateEnabled: false,
         animationEnabled: true,
         swipeEnabled: true,
-        loop: "true",
+        loop: "true"
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`,
+      documentValidatorName: `OfficialDocument/${this.documentId}`
     };
   },
   methods: {
@@ -235,7 +247,7 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    },
+    }
   },
   computed: {
     document() {
@@ -260,21 +272,21 @@ export default {
           filter: [
             ["documentTypeGuid", "=", this.document.documentTypeGuid],
             "and",
-            ["status", "=", 0],
-          ],
+            ["status", "=", 0]
+          ]
         }),
         value: this.document.documentKindId,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/reevaluateDocumentName`
           );
         },
-        onSelectionChanged: (e) => {
+        onSelectionChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/setDocumentKind`,
             e.selectedItem
           );
-        },
+        }
       };
     },
     isRegistered() {
@@ -329,21 +341,21 @@ export default {
         value: this.document.name,
         disabled:
           this.document.documentKind?.generateDocumentName || this.isRegistered,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
-        },
+        }
       };
     },
     subjectOptions() {
       return {
         readOnly: this.isRegistered,
         value: this.document.subject,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/setSubject`,
             e.value
           );
-        },
+        }
       };
     },
     noteOptions() {
@@ -352,15 +364,15 @@ export default {
         value: this.document.note,
         height: 70,
         autoResizeEnabled: true,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 .wrapper--relative {
   position: relative;
   height: 100%;

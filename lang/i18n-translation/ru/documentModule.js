@@ -37,7 +37,8 @@ export default {
   tabs: {
     main: "Свойства",
     relations: "Связи",
-    history: "История"
+    history: "История",
+    documentTasks: "Задачи документов"
   },
   groups: {
     captions: {
