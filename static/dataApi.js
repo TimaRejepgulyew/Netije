@@ -85,6 +85,7 @@ export default {
   },
 
   task: {
+    GetTasksByDocument: `${url}/api/Task/GetTasksByDocument/`,
     GrantPermissions: `${url}/api/Task/GrantPermissions`,
     CheckMembersPermissions: `${url}/api/Task/CheckMembersPermissions/`,
     actionItemExecution: {
