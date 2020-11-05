@@ -88,9 +88,7 @@
       <custom-select-box-contact
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
-        @valueChanged="(data) => {
-                        setContact(data)
-                    } "
+        @valueChanged="setContact"
         :value="contactId"
       />
     </template>
@@ -98,9 +96,7 @@
       <custom-select-box-contact
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
-        @valueChanged="(data) => {
-                        setCounterpartySignatoryId(data)
-                    } "
+        @valueChanged="setCounterpartySignatoryId"
         :value="counterpartySignatoryId"
       />
     </template>
@@ -109,9 +105,7 @@
         valueExpr="id"
         :read-only="!canUpdate"
         :value="addresseeId"
-        @valueChanged="(data) => {
-                        setAddresseeId(data)
-                    } "
+        @valueChanged="setAddresseeId"
       />
     </template>
     <template #assignee>
@@ -119,9 +113,7 @@
         valueExpr="id"
         :read-only="!canUpdate"
         :value="assigneeId"
-        @valueChanged="(data) => {
-                      setAssigneeId(data) 
-                    } "
+        @valueChanged="setAssigneeId"
       />
     </template>
     <template #businessUnitSelectBox>
