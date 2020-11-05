@@ -396,14 +396,14 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.setCounterparty(data)
+      this.dispatchCounterparty(data)
       this.setContact(null)
       this.setCounterpartySignatoryId(null)
     },
     setContact(data) {
       this.$store.commit(`documents/${this.documentId}/SET_CONTACT_ID`, data && data.id);
     },
-    setCounterparty(data) {
+    dispatchCounterparty(data) {
       this.$store.dispatch(`documents/${this.documentId}/setCounterparty`, data);
     },
     setCounterpartySignatoryId(data) {

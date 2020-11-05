@@ -280,7 +280,7 @@ export default {
           this.selectedCorrespondentType.type = null;
         }
       }
-      this.setCorrespondent(data)
+      this.dispatchCorrespondent(data)
       this.setContact(null);
       this.setCounterpartySignatoryId(null);
       this.setInResponseToId(null)
@@ -315,7 +315,7 @@ export default {
     setBusinessUnitId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
     },
-    setCorrespondent(data) {
+    dispatchCorrespondent(data) {
       this.$store.dispatch(`documents/${this.documentId}/setCorrespondent`, data);
     },
     handlerCorrespondentSelectionChanged(data) {
