@@ -1,7 +1,7 @@
 import sharedDirectory from "~/lang/i18n-translation/tk/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/tk/administration.js";
 import documentModule from "~/lang/i18n-translation/tk/documentModule.js";
-import scanner from "~/lang/i18n-translation/tk/scanner.js"
+import scanner from "~/lang/i18n-translation/tk/scanner.js";
 import documentRegistration, {
   DocumentType
 } from "~/lang/i18n-translation/tk/documentRegistration.js";
@@ -37,10 +37,10 @@ export default {
     all: "Hemme ýumuşlar we habarlar",
     onExicution: "Ýerine ýetirilýär",
     onReview: "Kabul edilýär",
-    onAcquaintance: "Tanyşylýar",
+    forRework: "Gaytadan işlemek",
     onDocumentReview: "Seredilýär",
     reviewResolution: "Gaýtadan işlenýär",
-    onApproval:"Ylalyşylýar"
+    onApproval: "Ylalyşylýar"
   },
   // TODO Перевести на текменский
   // validation: {
@@ -74,7 +74,7 @@ export default {
     outgoingLetter: "Çykyş hatlary",
     incomingLetter: "Gelýän hatlar",
     companyDirective: "Kärhananyň içindäki buýruklar",
-    
+
     simpleDocument: "Ýönekeý resminamalar"
   },
   createItemDialog: {
@@ -91,7 +91,7 @@ export default {
     female: "aýal"
   },
   panel: {
-    downloadScannerApp:"Klienti ýükläp almak",
+    downloadScannerApp: "Klienti ýükläp almak",
     profile: "Şahsy maglumatlary",
     logout: "çykmak"
   },

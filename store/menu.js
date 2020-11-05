@@ -2,6 +2,7 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
+import assignmentMenuByRole from "~/infrastructure/factory/assignment-menu-by-role.js";
 export const state = () => ({
   menuList: []
 });
@@ -80,50 +81,7 @@ export const actions = {
         text: this.$i18n.t("menu.assignments"),
         icon: "clock",
         path: `/assignment/${AssignmentQuery.All}`,
-        items: [
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnExicution,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onExicution"),
-            path: `/assignment/${AssignmentQuery.OnExicution}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnReview,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onReview"),
-            path: `/assignment/${AssignmentQuery.OnReview}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnAcquaintance,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onAcquaintance"),
-            path: `/assignment/${AssignmentQuery.OnAcquaintance}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnDocumentReview,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onDocumentReview"),
-            path: `/assignment/${AssignmentQuery.OnDocumentReview}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.ReviewResolution,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.reviewResolution"),
-            path: `/assignment/${AssignmentQuery.ReviewResolution}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnApproval,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onApproval"),
-            path: `/assignment/${AssignmentQuery.OnApproval}`
-          }
-        ]
+        items: [...assignmentMenuByRole(this, rootGetters)]
       },
       {
         text: this.$i18n.t("menu.tasks"),
