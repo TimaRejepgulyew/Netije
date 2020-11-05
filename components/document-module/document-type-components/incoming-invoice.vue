@@ -67,8 +67,7 @@
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
       <DxSimpleItem
         data-field="businessUnitId"
-        :editor-options="businessUnitOptions"
-        editor-type="dxSelectBox"
+        template="businessUnitSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
         <DxRequiredRule
@@ -91,16 +90,33 @@
         value-expr="id"
         :readOnly="isRegistered"
         :validatorGroup="documentValidatorName"
-        @valueChanged="setCounterparty"
+        @valueChanged="(data) => {
+                        setCounterparty(data); 
+                        setLeadingDocumentId(null)
+                    } "
         messageRequired="document.validation.counterPartRequired"
         :value="counterpartyId"
+      />
+    </template>
+    <template #businessUnitSelectBox>
+      <business-unit-select-box
+        valueExpr="id"
+        :read-only="isRegistered"
+        :validatorGroup="documentValidatorName"
+        :value="businessUnitId"
+        @valueChanged="(data) => {
+                        setBusinessUnitId(data); 
+                        setDepartamentId('')
+                    } "
       />
     </template>
   </DxForm>
 </template>
 <script>
+import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
+import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -116,19 +132,10 @@ export default {
     DxLabel,
     DxRequiredRule,
     customSelectBox,
+    BusinessUnitSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
-  methods: {
-    setCounterparty(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_COUNTERPARTY`, data);
-      this.$store.dispatch(
-        `documents/${this.documentId}/setLeadingDocumentId`,
-        null
-      );
-    },
-  },
-
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
@@ -142,6 +149,9 @@ export default {
     departmentId() {
       return this.document.departmentId;
     },
+    businessUnitId() {
+      return this.document.businessUnitId;
+    },
     numberOptions() {
       return {
         readOnly: this.isRegistered,
@@ -150,7 +160,7 @@ export default {
         }),
         value: this.document.number,
         onValueChanged: (e) => {
-          this.$store.commit(`documents/${this.documentId}/NUMBER`, e.value);
+          this.setNumber(e.value)
         },
       };
     },
@@ -162,7 +172,7 @@ export default {
         }),
         value: this.document.date,
         onValueChanged: (e) => {
-          this.$store.commit(`documents/${this.documentId}/DATE`, e.value);
+          this.setDate(e.value)
         },
       };
     },
@@ -173,16 +183,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
-          filter: this.counterpartyId
-            ? ["counterpartyId", "=", this.counterpartyId]
-            : [],
+          filter: this.counterpartyId ? ["counterpartyId", "=", this.counterpartyId] : [],
         }),
         value: this.document.leadingDocumentId,
         onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setLeadingDocumentId`,
-            e.value
-          );
+          this.setLeadingDocumentId(e.value)
         },
       };
     },
@@ -191,15 +196,12 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", 0],
+          filter: ["status", "=", Status.Active],
         }),
         readOnly: this.isRegistered,
         value: this.document.currencyId,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_CURRENCY_ID`,
-            e.value
-          );
+          this.setCurrencyId(e.value)
         },
       };
     },
@@ -209,31 +211,7 @@ export default {
         readOnly: this.isRegistered,
         value: this.document.totalAmount,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_TOTAL_AMOUNT`,
-            e.value
-          );
-        },
-      };
-    },
-    businessUnitOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0],
-        }),
-        value: this.document.businessUnitId,
-        onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
-            e.value
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-            null
-          );
+          this.setTotalAmount(e.value)
         },
       };
     },
@@ -244,20 +222,42 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", 0],
-          ],
+          filter: [["businessUnitId", "=", businessUnitId],"and",["status", "=", Status.Active]],
         }),
         value: this.document.departmentId,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-            e.value
-          );
+          this.setDepartamentId(e.value)
         },
       };
+    },
+  },
+  methods: {
+    setCounterparty(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_COUNTERPARTY`, data);
+    },
+    setBusinessUnitId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+    },
+    setDepartamentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+    },
+    setTotalAmount(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_TOTAL_AMOUNT`, data);
+    },
+    setDepartamentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+    },
+    setCurrencyId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_CURRENCY_ID`, data);
+    },
+    setLeadingDocumentId(data) {
+      this.$store.dispatch(`documents/${this.documentId}/setLeadingDocumentId`, data);
+    },
+    setDate(data) {
+      this.$store.commit(`documents/${this.documentId}/DATE`, data);
+    },
+    setNumber(data) {
+      this.$store.commit(`documents/${this.documentId}/NUMBER`, data);
     },
   },
 };

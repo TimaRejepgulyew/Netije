@@ -88,7 +88,9 @@
       <custom-select-box-contact
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
-        @valueChanged="setContact"
+        @valueChanged="(data) => {
+                        setContact(data)
+                    } "
         :value="contactId"
       />
     </template>
@@ -96,7 +98,9 @@
       <custom-select-box-contact
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
-        @valueChanged="setCounterpartySignatoryId"
+        @valueChanged="(data) => {
+                        setCounterpartySignatoryId(data)
+                    } "
         :value="counterpartySignatoryId"
       />
     </template>
@@ -143,6 +147,7 @@ import BusinessUnitSelectBox from "~/components/company/organization-structure/c
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import dataApi from "~/static/dataApi";
+import Status from "~/infrastructure/constants/status";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -227,7 +232,7 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", businessUnitId],"and",["status", "=", 0]]
+          filter: [["businessUnitId", "=", businessUnitId],"and",["status", "=", Status.Active]]
         }),
         value: this.document.departmentId,
         onValueChanged: (e) => {
@@ -283,7 +288,7 @@ export default {
           this.selectedCorrespondentType.type = null;
         }
       }
-      this.$store.dispatch(`documents/${this.documentId}/setCorrespondent`, data);
+      this.setCorrespondent(data)
       this.setContact(null);
       this.setCounterpartySignatoryId(null);
       this.setInResponseToId(null)
@@ -313,11 +318,13 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
     setDepartamentId(data) {
-      console.log(data);
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setBusinessUnitId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+    },
+    setCorrespondent(data) {
+      this.$store.dispatch(`documents/${this.documentId}/setCorrespondent`, data);
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
