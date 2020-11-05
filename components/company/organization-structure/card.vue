@@ -18,10 +18,18 @@
       <DxSimpleItem data-field="tin">
         <DxLabel :text="$t('translations.fields.tin')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="regionId">
+      <DxSimpleItem
+        data-field="regionId"
+        :editor-options="regionIdOptions"
+        editor-type="dxSelectBox"
+      >
         <DxLabel :text="$t('translations.fields.regionId')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="localityId">
+      <DxSimpleItem
+        data-field="localityId"
+        :editor-options="localityIdOptions"
+        editor-type="dxSelectBox"
+      >
         <DxLabel :text="$t('translations.fields.localityId')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="phones">
@@ -36,7 +44,11 @@
       <DxSimpleItem data-field="postalAddress">
         <DxLabel :text="$t('translations.fields.postAddress')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="ceo">
+      <DxSimpleItem
+        data-field="ceo"
+        :editor-options="ceoOptions"
+        editor-type="dxSelectBox"
+      >
         <DxLabel :text="$t('translations.fields.ceo')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="email">
@@ -48,10 +60,18 @@
       <DxSimpleItem data-field="account">
         <DxLabel :text="$t('translations.fields.account')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="bankId">
+      <DxSimpleItem
+        data-field="bankId"
+        :editor-options="bankIdOptions"
+        editor-type="dxSelectBox"
+      >
         <DxLabel :text="$t('translations.fields.bankId')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="status">
+      <DxSimpleItem
+        data-field="status"
+        :editor-options="statusOptions"
+        editor-type="dxSelectBox"
+      >
         <DxLabel :text="$t('translations.fields.status')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="note" template="textAreaEditor">
@@ -75,6 +95,11 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 export default {
   props: ["data"],
+  data() {
+    return {
+      statusDataSource: this.$store.getters["status/status"](this),
+    };
+  },
   components: {
     DxForm,
     DxSimpleItem,
@@ -83,14 +108,61 @@ export default {
     Header,
   },
   computed: {
-    headCompanyOptions() {
+    headCompanyOptions() {  
       return {
-        store: this.$dxStore({
+        dataSource: this.$dxStore({
           key: "id",
           loadUrl: dataApi.company.BusinessUnit,
         }),
         valueExpr: "id",
         displayExpr: "name",
+      };
+    },
+    regionIdOptions() {
+      return {
+        dataSource: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Region,
+        }),
+        valueExpr: "id",
+        displayExpr: "name",
+      };
+    },
+    localityIdOptions() {
+      return {
+        dataSource: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Locality,
+        }),
+        valueExpr: "id",
+        displayExpr: "name",
+      };
+    },
+    ceoOptions() {
+      return {
+        dataSource: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee,
+        }),
+        valueExpr: "id",
+        displayExpr: "name",
+      };
+    },
+    bankIdOptions() {
+      return {
+        dataSource: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.Bank,
+        }),
+        valueExpr: "id",
+        displayExpr: "name",
+      };
+    },
+    statusOptions() {
+      return {
+        dataSource: this.$store.getters["status/status"](this),
+        valueExpr: "id",
+        displayExpr: "status",
       };
     },
   },
