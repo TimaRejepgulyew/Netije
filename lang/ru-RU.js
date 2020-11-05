@@ -38,7 +38,7 @@ export default {
     all: "Все задания и уведомления",
     onExicution: "На исполнение",
     onReview: "На приемку",
-    forRework: "На доработке",
+    forRework: "На доработку",
     onDocumentReview: "На расмотрениe",
     reviewResolution: "На обработку",
     onApproval: "На согласование"
