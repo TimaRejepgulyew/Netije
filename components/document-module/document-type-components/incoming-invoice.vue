@@ -106,7 +106,7 @@
         :value="businessUnitId"
         @valueChanged="(data) => {
                         setBusinessUnitId(data); 
-                        setDepartamentId('')
+                        setDepartamentId(null)
                     } "
       />
     </template>
