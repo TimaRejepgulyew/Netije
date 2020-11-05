@@ -292,10 +292,7 @@ export default {
         readOnly: this.isRegistered,
         value: this.document.currencyId,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_CURRENCY_ID`,
-            e.value
-          );
+          this.  this.setCurrencyId(e.value)
         },
       };
     },
@@ -404,6 +401,9 @@ export default {
     },
     setIsStandard(data) {
       this.$store.commit(`documents/${this.documentId}/SET_IS_STANDARD`, data);
+    },
+    setCurrencyId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_CURRENCY_ID`, data);
     },
   },
 };
