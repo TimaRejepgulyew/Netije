@@ -8,13 +8,13 @@
       :close-on-outside-click="true"
     >
       <div>
-        <card />
+        <card :data="currentBusinessUnit" />
       </div>
     </DxPopup>
     <DxSelectBox
-      ref="employee"
+      ref="businessUnit"
       :read-only="readOnly"
-      :data-source="employeeStore"
+      :data-source="businessUnitStore"
       @valueChanged="valueChanged"
       :showClearButton="true"
       :value="value"
@@ -36,7 +36,6 @@
         <custom-field
           @openCard="showPopup"
           :read-only="readOnly"
-          @valueChanged="updateEmployee"
           :field-data="data || value"
         />
       </template>
@@ -73,11 +72,11 @@ export default {
   data() {
     return {
       isCardOpened: false,
-      currentEmployee: null,
+      currentBusinessUnit: null,
     };
   },
   computed: {
-    employeeStore() {
+    businessUnitStore() {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -87,25 +86,20 @@ export default {
         pageSize: 10,
       });
     },
-    employeeId() {
+    businessUnitId() {
       return this.valueExpr ? this.value : this.value?.id;
     },
   },
   methods: {
     async showPopup() {
-      //   const { data } = await this.$axios.get(
-      //     `${dataApi.company.Employee}/${this.employeeId}`
-      //   );
-      //   this.currentEmployee = data;
+      const { data } = await this.$axios.get(
+        `${dataApi.company.BusinessUnit}/${this.businessUnitId}`
+      );
+      this.currentBusinessUnit = data;
       this.isCardOpened = !this.isCardOpened;
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    },
-    updateEmployee(data) {
-      //   if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
-      //   else this.$emit("valueChanged", data);
-      //   this.employeeStore.reload();
     },
   },
 };

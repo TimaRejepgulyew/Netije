@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <Header :headerTitle="employee.name" :isbackButton="false"></Header>
-    <DxForm :read-only="true" :form-data="employee" id="form" :col-count="2">
+  <div v-if="data">
+    <Header :headerTitle="data.name" :isbackButton="false"></Header>
+    <DxForm :read-only="true" :form-data="data" id="form" :col-count="2">
       <DxSimpleItem data-field="name" data-type="string">
         <DxLabel :text="$t('shared.name')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="headCompanyId">
+      <DxSimpleItem
+        data-field="headCompanyId"
+        :editor-options="headCompanyOptions"
+        editor-type="dxSelectBox"
+      >
         <DxLabel :text="$t('companyStructure.fields.headCompany')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="code">
@@ -67,7 +71,10 @@
 import { DxForm, DxSimpleItem, DxLabel } from "devextreme-vue/form";
 import Header from "~/components/page/page__header";
 import textArea from "~/components/page/textArea";
+import DataSource from "devextreme/data/data_source";
+import dataApi from "~/static/dataApi";
 export default {
+  props: ["data"],
   components: {
     DxForm,
     DxSimpleItem,
@@ -75,31 +82,17 @@ export default {
     textArea,
     Header,
   },
-  data() {
-    return {
-      employee: {
-        account: null,
-        bankId: null,
-        ceo: null,
-        code: null,
-        description: null,
-        email: null,
-        headCompanyId: null,
-        homepage: null,
-        isSystem: false,
-        legalAddress: null,
-        legalName: null,
-        localityId: null,
-        name: "null",
-        note: null,
-        phones: null,
-        postalAddress: null,
-        recipientType: null,
-        regionId: null,
-        status: null,
-        tin: null,
-      },
-    };
+  computed: {
+    headCompanyOptions() {
+      return {
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.BusinessUnit,
+        }),
+        valueExpr: "id",
+        displayExpr: "name",
+      };
+    },
   },
 };
 </script>

@@ -235,8 +235,8 @@
 <script>
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DataSource from "devextreme/data/data_source";
 import Header from "~/components/page/page__header";
+import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import textArea from "~/components/page/textArea";
 import {
