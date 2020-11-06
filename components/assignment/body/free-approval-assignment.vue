@@ -1,6 +1,6 @@
 <template>
   <DxTextArea
-    v-if="inProcess&& canUpdate"
+    v-if="inProcess && canUpdate"
     :placeholder="placeholder"
     :height="height"
     :max-length="maxLength"
@@ -23,8 +23,8 @@ export default {
       //   "assignment.validation.acquaintanceAssignmentRequired"
       // ),
       placeholder: this.$t("assignment.body.freeApprovalAssignment"),
-      isRequired: true,
+      isRequired: false
     };
-  },
+  }
 };
 </script>
