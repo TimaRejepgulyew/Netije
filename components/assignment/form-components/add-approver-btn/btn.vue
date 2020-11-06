@@ -53,17 +53,4 @@ export default {
 };
 </script>
 
-<style>
-.f-column {
-  min-height: 150px;
-  display: flex;
-  flex-direction: column;
-}
-.js-space-between {
-  align-items: flex-start;
-  justify-content: space-between;
-}
-.fon-size-1-2em {
-  font-size: 1.2em;
-}
-</style>
+
