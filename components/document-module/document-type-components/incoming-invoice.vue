@@ -113,7 +113,7 @@
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import Status from "~/infrastructure/constants/status";

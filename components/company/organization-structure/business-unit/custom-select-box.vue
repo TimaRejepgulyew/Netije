@@ -50,8 +50,8 @@ import { DxPopup } from "devextreme-vue/popup";
 import dataApi from "~/static/dataApi";
 import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
-import customField from "~/components/company/organization-structure/custom-field.vue";
-import Card from "~/components/company/organization-structure/card.vue";
+import customField from "~/components/company/organization-structure/business-unit/custom-field.vue";
+import Card from "~/components/company/organization-structure/business-unit/card.vue";
 export default {
   components: {
     DxValidator,

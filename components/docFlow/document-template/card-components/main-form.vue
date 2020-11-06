@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxTabbedItem,

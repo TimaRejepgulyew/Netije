@@ -89,7 +89,7 @@
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";

@@ -10,7 +10,6 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif'),
       }"
-      @toolbar-preparing="onToolbarPreparing"
     >
       <DxSearchPanel position="after" :visible="true" />
       <DxFilterRow :visible="true" />
@@ -328,17 +327,6 @@ export default {
     };
   },
   methods: {
-    onToolbarPreparing(e) {
-      e.toolbarOptions.items.forEach((element) => {
-        if (element.name === "addRowButton") {
-          element.options.onClick = () => {
-            this.$router.push(
-              "/company/organization-structure/business-units/create"
-            );
-          };
-        }
-      });
-    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },

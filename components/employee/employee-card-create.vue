@@ -131,7 +131,7 @@
   </div>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import "devextreme-vue/text-area";
