@@ -12,19 +12,16 @@
         :form-data.sync="personalSettings"
         :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
         :show-colon-after-label="true"
+        validation-group="personalSettings"
       >
         <DxGroupItem :col-count="1">
           <DxSimpleItem
             data-field="businessUnitId"
-            :editor-options="businessUnitOptions"
-            editor-type="dxSelectBox"
+            template="businessUnitSelectBox"
           >
-            <DxLabel
-              location="top"
-              :text="$t('translations.fields.businessUnitId')"
-            />
+            <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
             <DxRequiredRule
-              :message="$t('translations.fields.businessUnitIdRequired')"
+              :message="$t('document.validation.businessUnitIdRequired')"
             />
           </DxSimpleItem>
           <DxSimpleItem
@@ -41,11 +38,23 @@
             />
           </DxSimpleItem>
         </DxGroupItem>
+        <template #businessUnitSelectBox>
+          <business-unit-select-box
+            valueExpr="id"
+            :value="businessUnitId"
+            validatorGroup="personalSettings"
+            @valueChanged=" (data) => {
+                            setBusinessUnitId(data)
+                            setDepartamentId(null)
+                        } "
+          />
+        </template>
       </DxForm>
     </div>
   </div>
 </template>
 <script>
+import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";
@@ -70,6 +79,7 @@ export default {
     DxLabel,
     DxForm,
     Toolbar,
+    BusinessUnitSelectBox,
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(dataApi.docFlow.PersonalSettings);
@@ -82,7 +92,28 @@ export default {
       entityType: EntityType.PersonalSettings,
     };
   },
+  computed: {
+    businessUnitId() {
+      return this.personalSettings.businessUnitId;
+    },
+    deparmentOptions() {
+      let businessUnitId = this.personalSettings.businessUnitId;
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.company.Department,
+          filter: [["businessUnitId", "=", businessUnitId],"and",["status", "=", Status.Active]],
+        }),
+      };
+    },
+  },
   methods: {
+    setDepartamentId(data){
+      this.personalSettings.departmentId = data
+    },
+    setBusinessUnitId(data){
+      this.personalSettings.businessUnitId = data
+    },
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
@@ -92,32 +123,6 @@ export default {
         (res) => this.$awn.success(),
         (err) => this.$awn.alert()
       );
-    },
-  },
-  computed: {
-    businessUnitOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", Status.Active],
-        }),
-      };
-    },
-    deparmentOptions() {
-      let businessUnitId = this.personalSettings.businessUnitId;
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", Status.Active],
-          ],
-        }),
-      };
     },
   },
 };
