@@ -51,7 +51,7 @@ import dataApi from "~/static/dataApi";
 import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import customField from "~/components/company/organization-structure/business-unit/custom-field.vue";
-import Card from "~/components/company/organization-structure/business-unit/card.vue";
+import Card from "~/components/company/organization-structure/departments/card.vue";
 export default {
   components: {
     DxValidator,
@@ -68,6 +68,7 @@ export default {
     "validatorGroup",
     "readOnly",
     "valueExpr",
+    "businessUnitId"
   ],
 
   data() {
@@ -81,21 +82,21 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.BusinessUnit,
+          loadUrl: this.storeApi || dataApi.company.Department,
         }),
         paginate: true,
         pageSize: 10,
-        filter: ["status", "=", Status.Active],
+        filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]]
       });
     },
-    businessUnitId() {
+    departmentId() {
       return this.valueExpr ? this.value : this.value?.id;
     },
   },
   methods: {
     async showPopup() {
       const { data } = await this.$axios.get(
-        `${dataApi.company.BusinessUnit}/${this.businessUnitId}`
+        `${dataApi.company.Department}/${this.departmentId}`
       );
       this.currentBusinessUnit = data;
       this.isCardOpened = !this.isCardOpened;

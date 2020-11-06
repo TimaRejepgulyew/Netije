@@ -5,67 +5,35 @@
       <DxSimpleItem data-field="name" data-type="string">
         <DxLabel :text="$t('shared.name')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="headCompanyId"
-        :editor-options="headCompanyOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel :text="$t('companyStructure.fields.headCompany')" />
+      <DxSimpleItem data-field="phone">
+        <DxLabel :text="$t('translations.fields.phones')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="code">
         <DxLabel :text="$t('shared.code')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="tin">
-        <DxLabel :text="$t('translations.fields.tin')" />
+      <DxSimpleItem data-field="shortName">
+        <DxLabel :text="$t('shared.shortName')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="regionId"
-        :editor-options="regionIdOptions"
+        data-field="headOfficeId"
+        :editor-options="headOfficeIdOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel :text="$t('translations.fields.regionId')" />
+        <DxLabel :text="$t('translations.fields.headOfficeId')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="localityId"
-        :editor-options="localityIdOptions"
+        data-field="managerId"
+        :editor-options="managerIdOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel :text="$t('translations.fields.localityId')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="phones">
-        <DxLabel :text="$t('translations.fields.phones')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="legalName">
-        <DxLabel :text="$t('translations.fields.legalName')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="legalAddress">
-        <DxLabel :text="$t('translations.fields.legalAddress')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="postalAddress">
-        <DxLabel :text="$t('translations.fields.postAddress')" />
+        <DxLabel :text="$t('translations.fields.managerId')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="ceo"
-        :editor-options="ceoOptions"
+        data-field="businessUnitId"
+        :editor-options="businessUnitIdOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel :text="$t('translations.fields.ceo')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="email">
-        <DxLabel :text="$t('translations.fields.email')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="homepage">
-        <DxLabel :text="$t('translations.fields.webSite')" />
-      </DxSimpleItem>
-      <DxSimpleItem data-field="account">
-        <DxLabel :text="$t('translations.fields.account')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="bankId"
-        :editor-options="bankIdOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel :text="$t('translations.fields.bankId')" />
+        <DxLabel :text="$t('translations.fields.businessUnitId')" />
       </DxSimpleItem>
       <DxSimpleItem
         data-field="status"
@@ -74,14 +42,16 @@
       >
         <DxLabel :text="$t('translations.fields.status')" />
       </DxSimpleItem>
+      <DxSimpleItem data-field="note">
+        <DxLabel :text="$t('translations.fields.note')" />
+      </DxSimpleItem>
       <DxSimpleItem data-field="note" template="textAreaEditor">
         <DxLabel :text="$t('translations.fields.note')" />
       </DxSimpleItem>
-      <template #textAreaEditor="cellInfo">
+      <template #textAreaEditor>
         <textArea
-          :value="cellInfo.data.value"
-          :on-value-changed="(value) => onValueChanged(value, cellInfo.data)"
-        ></textArea>
+          :value="data.note"
+        />
       </template>
     </DxForm>
   </div>
@@ -108,37 +78,17 @@ export default {
     Header,
   },
   computed: {
-    headCompanyOptions() {  
+    headOfficeIdOptions() {  
       return {
         dataSource: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.BusinessUnit,
+          loadUrl: dataApi.company.Department,
         }),
         valueExpr: "id",
         displayExpr: "name",
       };
     },
-    regionIdOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.sharedDirectory.Region,
-        }),
-        valueExpr: "id",
-        displayExpr: "name",
-      };
-    },
-    localityIdOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality,
-        }),
-        valueExpr: "id",
-        displayExpr: "name",
-      };
-    },
-    ceoOptions() {
+    managerIdOptions() {
       return {
         dataSource: this.$dxStore({
           key: "id",
@@ -148,11 +98,11 @@ export default {
         displayExpr: "name",
       };
     },
-    bankIdOptions() {
+    businessUnitIdOptions() {
       return {
         dataSource: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Bank,
+          loadUrl: dataApi.company.BusinessUnit,
         }),
         valueExpr: "id",
         displayExpr: "name",

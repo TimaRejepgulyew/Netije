@@ -77,11 +77,10 @@
       <DxSimpleItem data-field="note" template="textAreaEditor">
         <DxLabel :text="$t('translations.fields.note')" />
       </DxSimpleItem>
-      <template #textAreaEditor="cellInfo">
+      <template #textAreaEditor>
         <textArea
-          :value="cellInfo.data.value"
-          :on-value-changed="(value) => onValueChanged(value, cellInfo.data)"
-        ></textArea>
+          :value="data.note"
+        />
       </template>
     </DxForm>
   </div>
