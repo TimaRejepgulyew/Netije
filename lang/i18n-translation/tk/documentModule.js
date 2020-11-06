@@ -37,7 +37,7 @@ export default {
     main: "Esasy häsiýetleri",
     relations: "Gatnaşyklary",
     history: "Taryhy",
-    documentTasks: "Resminamanyň tabşyryklary"
+    tasks: "Tabşyryklary"
   },
   groups: {
     captions: {

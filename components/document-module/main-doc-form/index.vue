@@ -87,17 +87,17 @@
           </DxTab>
           <DxTab
             :col-count="8"
+            :title="$t('document.tabs.tasks')"
+            :disabled="isNew"
+          >
+            <DxSimpleItem :col-span="8" template="documentTasks"></DxSimpleItem>
+          </DxTab>
+          <DxTab
+            :col-count="8"
             :title="$t('document.tabs.history')"
             :disabled="isNew"
           >
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
-          </DxTab>
-           <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.documentTasks')"
-            :disabled="isNew"
-          >
-            <DxSimpleItem :col-span="8" template="documentTasks"></DxSimpleItem>
           </DxTab>
         </DxTabbedItem>
         <template #history>

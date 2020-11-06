@@ -2,8 +2,8 @@
   <div>
     <DxButton
       :icon="outgoingLetter.icon"
-      :hint="$t('buttons.create') + ' ' + outgoingLetter.text"
-      :text="$t('buttons.create') + ' ' + outgoingLetter.text"
+      :hint="outgoingLetter.text"
+      :text="outgoingLetter.text"
       :on-click="createOutgoingLetter"
     />
     <DxPopup

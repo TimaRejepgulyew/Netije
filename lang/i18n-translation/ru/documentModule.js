@@ -38,7 +38,7 @@ export default {
     main: "Свойства",
     relations: "Связи",
     history: "История",
-    documentTasks: "Задачи документов"
+    tasks: "Задачи"
   },
   groups: {
     captions: {
