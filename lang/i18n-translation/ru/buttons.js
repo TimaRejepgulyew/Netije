@@ -1,4 +1,5 @@
 export default {
+  createChilteExecution: "Создать подчиненное поручение",
   refresh: "Перезагрузить",
   addResolution: "Вынести резолюцию",
   returnManagersAssistant: "Вернуть помощнику",
@@ -46,7 +47,7 @@ export default {
   rotateRight: "Повернуть на право",
   orderUp: "Наверх",
   orderDown: "Вниз",
-  read:"Читать",
-  approve:"Согласовать",
-  addApprover:"Добавить согласующего"
+  read: "Читать",
+  approve: "Согласовать",
+  addApprover: "Добавить согласующего"
 };

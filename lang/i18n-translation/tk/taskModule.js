@@ -17,16 +17,14 @@ export default {
     actionItem: "Поручения"
   },
   message: {
-    message: {
-      acquaintDocumentMessage:
-        "Resminama bilen tanyşyň, jogapkäriň ýanyna bayň we şahsy goluňyzy goýuň",
-      nothaveAccessRight:
-        "ullanyjy hukugy ýok, bu meseläni işlemek üçin hukuk beriň",
-      sureAbortTask: "Siz hakykatdanam meseläni işlemegi besetjek mi ?",
-      sureRestartTask:
-        "Siz hakykatdanam bu meseläni täzeden goýmak isleýäňiz mi ?",
-      sureStartTask: "Siz hakykatdanam meseläni başlamak isleýäňizmi ?"
-    }
+    acquaintDocumentMessage:
+      "Resminama bilen tanyşyň, jogapkäriň ýanyna bayň we şahsy goluňyzy goýuň",
+    nothaveAccessRight:
+      "ullanyjy hukugy ýok, bu meseläni işlemek üçin hukuk beriň",
+    sureAbortTask: "Siz hakykatdanam meseläni işlemegi besetjek mi ?",
+    sureRestartTask:
+      "Siz hakykatdanam bu meseläni täzeden goýmak isleýäňiz mi ?",
+    sureStartTask: "Siz hakykatdanam meseläni başlamak isleýäňizmi ?"
   },
   status: {
     InProcess: "Iş dowam edýär",

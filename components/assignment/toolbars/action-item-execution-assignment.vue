@@ -16,6 +16,24 @@
         />
       </div>
     </DxPopup>
+    <DxPopup
+      :showTitle="false"
+      :visible.sync="showItemExecutionTask"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="90%"
+      :height="'auto'"
+    >
+      <div class="scrool-auto">
+        <task-card
+          @onClose="togglePopup"
+          :taskId="actionItemExecutionTaskId"
+          v-if="showItemExecutionTask"
+          :isCard="true"
+        />
+      </div>
+    </DxPopup>
     <DxToolbar>
       <DxItem
         :visible="inProcess"
@@ -28,6 +46,13 @@
         template="createOutgoingLetterBtn"
         location="after"
       />
+      <DxItem
+        locateInMenu="auto"
+        :options="btnAddExecutionOptions"
+        location="before"
+        widget="dxButton"
+      />
+
       <template #createOutgoingLetterBtn>
         <create-outgoing-letter-btn :leadingDocumentId="incomingDocumentId" />
       </template>
@@ -35,6 +60,9 @@
   </div>
 </template>
 <script>
+import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
+import taskCard from "~/components/task/index.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import createOutgoingLetterBtn from "~/components/assignment/form-components/create-outgoing-letter-btn.vue";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
@@ -42,15 +70,21 @@ import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    createOutgoingLetterBtn
+    createOutgoingLetterBtn,
+    taskCard
   },
   mixins: [toolbarMixin],
   data() {
     return {
+      actionItemExecutionTaskId: null,
+      showItemExecutionTask: false,
       incomingDocumentId: null
     };
   },
   methods: {
+    togglePopup() {
+      this.showItemExecutionTask = !this.showItemExecutionTask;
+    },
     async hasChildActionItemItems() {
       const { data: hasChildActionItemItems } = await this.$axios.get(
         dataApi.assignment.HasChildActionItemItems + this.assignmentId
@@ -59,8 +93,8 @@ export default {
     },
     async needAbortChildActionItems() {
       const needAbortChildActionItems = await this.confirm(
-        this.$t("assignment.confirmMessage.hasChildActionItem"),
-        this.$t("assignment.confirmMessage.headerHasChildActionItem")
+        this.$t("assignment.confirmMessage.headerHasChildActionItem"),
+        this.$t("assignment.confirmMessage.hasChildActionItem")
       );
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
@@ -80,6 +114,21 @@ export default {
     attachmentGroups() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .attachmentGroups;
+    },
+    btnAddExecutionOptions() {
+      return {
+        icon: actionItemExecutionIcon,
+        text: this.$t("buttons.createChilteExecution"),
+        onClick: () => {
+          this.$awn.asyncBlock(
+            CreateChildActionItemExecution(this, this.assignmentId),
+            ({ taskId }) => {
+              this.actionItemExecutionTaskId = taskId;
+              this.togglePopup();
+            }
+          );
+        }
+      };
     },
     actionItemExecutionAttachmentIsIncomingLetter() {
       if (this.attachmentGroups) {

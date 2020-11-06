@@ -1,4 +1,5 @@
 export default {
+  createChilteExecution: "Tabyn tabşyrygy döretmek",
   addResolution: "Rezolýusiýany çykarmak",
   returnManagersAssistant: "Kömekçä yzyna gaýtarmak",
   approveResolution: "Rezolýusiýanyň taslamasyny tassyklamak",
