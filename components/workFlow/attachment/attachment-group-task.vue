@@ -48,7 +48,7 @@ import {
   load
 } from "~/infrastructure/services/taskService.js";
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
-import taskField from "~/components/workFlow/field-task-attachment.vue";
+import taskField from "~/components/workFlow/attachment/field-task-attachment.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";

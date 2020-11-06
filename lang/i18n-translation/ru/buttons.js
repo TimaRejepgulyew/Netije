@@ -46,5 +46,7 @@ export default {
   rotateRight: "Повернуть на право",
   orderUp: "Наверх",
   orderDown: "Вниз",
-  read:"Читать"
+  read:"Читать",
+  approve:"Согласовать",
+  addApprover:"Добавить согласующего"
 };

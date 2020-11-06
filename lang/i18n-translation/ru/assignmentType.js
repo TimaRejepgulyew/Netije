@@ -19,8 +19,8 @@ export default {
   ReviewClerkNotification: "Уведомление о завершении рассмотрения",
   FreeApprovalAssignment: "Cогласование",
   FreeApprovalFinishAssignment: "Завершение работ по согласованию",
-  FreeApprovalReworkAssignmen: "Доработка документа",
+  FreeApprovalReworkAssignment: "Доработка документа",
   FreeApprovalNotification: "Уведомление",
   //TODO Перевести правильно 
-  FreeApprovalReworkAssignment:"Задание на доработку согласования"
+
 }

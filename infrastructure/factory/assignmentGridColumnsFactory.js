@@ -21,6 +21,8 @@ const GetColumnsByAssignmentQuery = (type, context) => {
       return CreateOnDocumentReviewAssignmentColumns(context);
     case AssignmentQuery.ReviewResolution:
       return CreateReviewResolutionAssignmentColumns(context);
+    case AssignmentQuery.OnApproval:
+      return CreateOnApprovalAssignmentColumns(context);
     default:
       return [];
   }
@@ -63,7 +65,7 @@ const isReviewDraftResolution = e => {
 const addResolution = async ({ assignmentType, id, body }, context) => {
   const response = await confirm(
     context.$t(
-      "assignment.confirmMessage.sureDocumentReviewApproveRosolutionConfirmetion"
+      "assignment.confirmMessage.sureDocumentReviewApproveRosolutionConfirmation"
     ),
     context.$t("shared.confirm")
   );
@@ -105,6 +107,9 @@ const CreateOnDocumentReviewAssignmentColumns = context => {
   return [...CreateBaseColumns(context)];
 };
 const CreateReviewResolutionAssignmentColumns = context => {
+  return [...CreateBaseColumns(context)];
+};
+const CreateOnApprovalAssignmentColumns = context => {
   return [...CreateBaseColumns(context)];
 };
 

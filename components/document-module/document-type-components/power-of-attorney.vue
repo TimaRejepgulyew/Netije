@@ -10,11 +10,12 @@
       <DxGroupItem>
         <DxSimpleItem
           data-field="businessUnitId"
-          :editor-options="businessUnitOptions"
-          editor-type="dxSelectBox"
+          template="businessUnitSelectBox"
         >
           <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-          <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.businessUnitIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
@@ -70,10 +71,27 @@
     <template #prepared>
       <employee-select-box valueExpr="id" :value="preparedById" @valueChanged="setPreparedById" />
     </template>
+    <template #businessUnitSelectBox>
+      <business-unit-select-box
+        valueExpr="id"
+        :read-only="isRegistered"
+        :validatorGroup="documentValidatorName"
+        :value="businessUnitId"
+        @valueChanged=" (data) => {
+                          setBusinessUnitId(data)
+                          setOurSignatoryId(null)
+                          setPreparedById(null)
+                          setDepartamentId(null)
+                          setIssuedToId(null)
+                    } "
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -89,6 +107,7 @@ export default {
     DxLabel,
     DxRequiredRule,
     employeeSelectBox,
+    BusinessUnitSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -97,26 +116,12 @@ export default {
       signatoryApi: dataApi.signatureSettings.Members,
     };
   },
-  methods: {
-    setPreparedById(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
-        data
-      );
-    },
-    setOurSignatoryId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
-        data
-      );
-    },
-    setIssuedToId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_ISSUED_TO_ID`, data);
-    },
-  },
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    businessUnitId() {
+      return this.document.businessUnitId;
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
@@ -139,65 +144,19 @@ export default {
     departmentId() {
       return this.document.departmentId;
     },
-    businessUnitOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit,
-          filter: ["status", "=", 0],
-        }),
-        value: this.businessUnitId,
-        onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
-            e.value
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
-            null
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
-            null
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-            null
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_ISSUED_TO_ID`,
-            null
-          );
-        },
-      };
-    },
     deparmentOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", this.businessUnitId],
-            "and",
-            ["status", "=", 0],
-          ],
+          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
         }),
         value: this.document.departmentId,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
-            null
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
-            null
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-            e.value
-          );
+          this.setDepartamentId(e.value)
+          this.setOurSignatoryId(null)
+          this.setPreparedById(null)
         },
       };
     },
@@ -206,18 +165,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Employee,
-          filter: [
-            ["businessUnitId", "=", this.businessUnitId],
-            "and",
-            ["status", "=", 0],
-          ],
+          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
         }),
         value: this.document.ourSignatoryId,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
-            e.value
-          );
+          this.setOurSignatoryId(e.value)
         },
       };
     },
@@ -226,18 +178,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Employee,
-          filter: [
-            ["departmentId", "=", this.departmentId],
-            "and",
-            ["status", "=", 0],
-          ],
+          filter: [["departmentId", "=", this.departmentId],"and",["status", "=", Status.Active]],
         }),
         value: this.document.preparedById,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_PREPARED_BY_ID`,
-            e.value
-          );
+          this.setPreparedById(e.value)
         },
       };
     },
@@ -247,18 +192,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Employee,
-          filter: [
-            ["businessUnitId", "=", this.businessUnitId],
-            "and",
-            ["status", "=", 0],
-          ],
+          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
         }),
         value: this.document.issuedToId,
         onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setIssuedToId`,
-            e.value
-          );
+          this.dispatchIssuedToId(e.value)
         },
       };
     },
@@ -270,12 +208,32 @@ export default {
         }),
         value: this.document.validTill,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_VALID_TILL`,
-            e.value
-          );
+          this.setValidTill(e.value)
         },
       };
+    },
+  },
+  methods: {
+    setPreparedById(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, data);
+    },
+    setOurSignatoryId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
+    },
+    dispatchIssuedToId(data) {
+      this.$store.dispatch(`documents/${this.documentId}/setIssuedToId`, data);
+    },
+    setIssuedToId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_ISSUED_TO_ID`, data);
+    },
+    setBusinessUnitId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+    },
+    setDepartamentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+    },
+    setValidTill(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);
     },
   },
 };

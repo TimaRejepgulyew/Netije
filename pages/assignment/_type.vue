@@ -1,6 +1,9 @@
 <template>
   <main>
-    <component :assignmentQuery="+$route.params.type" :is="generateGridComponentByAssignmentQuery" />
+    <component
+      :assignmentQuery="+$route.params.type"
+      :is="generateGridComponentByAssignmentQuery"
+    />
   </main>
 </template>
 <script>
@@ -9,7 +12,7 @@ import * as assignmentGrids from "~/components/assignment/assignment-grids/index
 
 export default {
   components: {
-    ...assignmentGrids,
+    ...assignmentGrids
   },
   computed: {
     generateGridComponentByAssignmentQuery() {
@@ -26,12 +29,14 @@ export default {
           return "onDocumentReview";
         case AssignmentQuery.ReviewResolution:
           return "reviewResolution";
+        case AssignmentQuery.OnApproval:
+          return "onApproval";
       }
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="scss" scoped >
+<style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 
