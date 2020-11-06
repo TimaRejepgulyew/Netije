@@ -65,7 +65,7 @@ import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
-import attachmentVue from "~/components/workFlow/attachment.vue";
+import attachmentVue from "~/components/workFlow/attachment/index.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";
 export default {
   components: {

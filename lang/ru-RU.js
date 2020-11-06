@@ -79,6 +79,8 @@ export default {
   createItemDialog: {
     ...DocumentType,
     ...TaskType,
+    select: "Выбрать",
+    create: "Создать",
     recordManagementGroup: "Делопроизводственные документы",
     taskGroup: "Задачи",
     accountingDocumentsGroup: "Финансовые документы",

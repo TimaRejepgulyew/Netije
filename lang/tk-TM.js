@@ -80,6 +80,8 @@ export default {
   createItemDialog: {
     ...DocumentType,
     ...TaskType,
+    select: "Saýlamak",
+    create: "Döretmek",
     recordManagementGroup: "Iş dolandyryş resminamalary",
     taskGroup: "Ýumuşlar",
     accountingDocumentsGroup: "Maliýe resminamalary",

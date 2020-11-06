@@ -69,7 +69,7 @@ import freeApprovalTask from "~/components/task/task-forms/free-approval-task.vu
 import TaskType from "~/infrastructure/constants/taskType.js";
 import toolbar from "~/components/task/task-forms/components/toolbar.vue";
 import Header from "~/components/page/page__header";
-import attachment from "~/components/workFlow/attachment.vue";
+import attachment from "~/components/workFlow/attachment/index.vue";
 import { unload } from "~/infrastructure/services/taskService.js";
 import DxForm, {
   DxGroupItem,

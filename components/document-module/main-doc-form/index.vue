@@ -187,6 +187,7 @@ export default {
   },
   destroyed() {
     unload(this, this.documentId);
+    if (!this.isNew) this.onClosed();
   },
   props: ["isCard", "documentId"],
   head() {
@@ -230,8 +231,12 @@ export default {
       this.$emit("onRemove", this.documentId);
       this.$emit("onClose", this.documentId);
     },
+    onClosed() {
+      const { documentTypeGuid, id } = this.document;
+      this.$emit("onClosed", { documentTypeGuid, id });
+    },
     onClose() {
-      this.$emit("onClose", this.documentId);
+      this.$emit("onClose");
     },
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {

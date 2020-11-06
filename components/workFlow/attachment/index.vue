@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import attachmentGroupDocument from "~/components/workFlow/attachment-group-document.vue";
-import attachmentGroupTask from "~/components/workFlow/attachment-group-task.vue";
+import attachmentGroupDocument from "~/components/workFlow/attachment/attachment-group-document.vue";
+import attachmentGroupTask from "~/components/workFlow/attachment/attachment-group-task.vue";
 import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.js";
 export default {
   components: {
