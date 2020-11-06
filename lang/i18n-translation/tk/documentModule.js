@@ -36,7 +36,8 @@ export default {
   tabs: {
     main: "Esasy häsiýetleri",
     relations: "Gatnaşyklary",
-    history: "Taryhy"
+    history: "Taryhy",
+    tasks: "Tabşyryklary"
   },
   groups: {
     captions: {

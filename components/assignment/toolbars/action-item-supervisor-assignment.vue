@@ -39,7 +39,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureActionItemAcceptConfirmetion"
+                "assignment.confirmMessage.sureActionItemAcceptConfirmation"
               ),
               this.$t("shared.confirm")
             );
@@ -59,7 +59,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureActionItemForReworkConfirmetion"
+                "assignment.confirmMessage.sureActionItemForReworkConfirmation"
               ),
               this.$t("shared.confirm")
             );

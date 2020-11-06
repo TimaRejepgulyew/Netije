@@ -27,6 +27,7 @@
     <DxForm
       ref="form"
       :col-count="12"
+       :scrolling-enabled="true"
       :form-data.sync="employee"
       :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
       :show-colon-after-label="true"

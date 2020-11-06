@@ -8,6 +8,9 @@ import toolbarReviewAssignment from "~/components/assignment/toolbars/review-ass
 import toolbarReviewDraftResolutionAssignment from "~/components/assignment/toolbars/review-draft-resolution-assignment.vue";
 import toolbarReviewManagerAssignment from "~/components/assignment/toolbars/review-manager-assignment.vue";
 import toolbarReviewResolutionAssignment from "~/components/assignment/toolbars/review-resolution-assignment.vue";
+import toolbarFreeApprovalAssignment from "~/components/assignment/toolbars/free-approval-assignment.vue";
+import toolbarFreeApprovalFinishAssignment from "~/components/assignment/toolbars/free-approval-finish-assignment.vue";
+import toolbarFreeApprovalReworkAssignment from "~/components/assignment/toolbars/free-approval-rework-assignment.vue";
 export {
   toolbarSimpleAssignment,
   toolbarAcquaintanceAssignment,
@@ -18,5 +21,8 @@ export {
   toolbarReviewAssignment,
   toolbarReviewDraftResolutionAssignment,
   toolbarReviewManagerAssignment,
-  toolbarReviewResolutionAssignment
+  toolbarReviewResolutionAssignment,
+  toolbarFreeApprovalAssignment,
+  toolbarFreeApprovalReworkAssignment,
+  toolbarFreeApprovalFinishAssignment
 };

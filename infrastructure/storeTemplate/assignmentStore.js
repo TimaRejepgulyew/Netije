@@ -4,13 +4,11 @@ import dataApi from "~/static/dataApi";
 import Importance from "~/infrastructure/constants/assignmentImportance";
 export const state = () => ({
   assignment: {},
-
   overlays: null,
   canUpdate: false
 });
 
 export const getters = {
-
   overlays({ overlays }) {
     return overlays;
   },
@@ -34,6 +32,10 @@ export const getters = {
   },
   assignment({ assignment }) {
     return assignment;
+  },
+  approvers(state) {
+    if (state.assignment.approvers)
+      return JSON.parse(JSON.stringify(state.assignment.approvers.slice()));
   }
 };
 export const mutations = {
@@ -53,6 +55,7 @@ export const mutations = {
       state[item] = payload[item];
     }
   },
+
   SET_BODY(state, payload) {
     state.assignment.body = payload;
   },
@@ -69,8 +72,10 @@ export const mutations = {
     state.assignment.newDeadline = payload;
   },
   SET_NEED_ABORT_CHILD_ACTION_ITEMS(state, payload) {
-    state.assignment.needAbortChildActionItems = payload
-
+    state.assignment.needAbortChildActionItems = payload;
+  },
+  SET_APPROVERS(state, payload) {
+    state.assignment.approvers = payload;
   }
 };
 
@@ -102,14 +107,13 @@ export const actions = {
     delete assignment.attachmentGroups;
     const assignmentJson = JSON.stringify(assignment);
     await this.$axios.post(dataApi.assignment.CompleteAssignment, {
-
       assignmentId: state.assignment.id,
       assignmentType: state.assignment.assignmentType,
       assignmentJson,
       ...params
     });
     commit("SET_STATUS", AssignmentStatus.Completed);
-    dispatch("reload")
+    dispatch("reload");
   },
 
   async pasteAttachment({ state, commit }, payload) {

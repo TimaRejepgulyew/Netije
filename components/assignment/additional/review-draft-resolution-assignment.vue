@@ -42,7 +42,7 @@ import taskCard from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { load } from "~/infrastructure/services/taskService.js";
 import AttachmentGroup from "~/infrastructure/constants/attachmentGroup.js";
-import resolutionTask from "~/components/workFlow/resolution-task-list.vue";
+import resolutionTask from "~/components/workFlow/attachment/resolution-task-list.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {

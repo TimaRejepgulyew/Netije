@@ -84,7 +84,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmetion"
+                "assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmation"
               ),
               this.$t("shared.confirm")
             );

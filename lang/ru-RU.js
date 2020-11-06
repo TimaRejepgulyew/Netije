@@ -38,9 +38,10 @@ export default {
     all: "Все задания и уведомления",
     onExicution: "На исполнение",
     onReview: "На приемку",
-    onAcquaintance: "На ознакомление",
-    onDocumentReview: "На расмотрении",
-    reviewResolution: "На обработку"
+    forRework: "На доработку",
+    onDocumentReview: "На расмотрениe",
+    reviewResolution: "На обработку",
+    onApproval: "На согласование"
   },
   validation: {
     caseFile: {
@@ -78,6 +79,8 @@ export default {
   createItemDialog: {
     ...DocumentType,
     ...TaskType,
+    select: "Выбрать",
+    create: "Создать",
     recordManagementGroup: "Делопроизводственные документы",
     taskGroup: "Задачи",
     accountingDocumentsGroup: "Финансовые документы",
@@ -119,7 +122,7 @@ export default {
     loginFailed: "Неудачный вход",
     logout: "Выход",
     version: "Версии",
-    removeVersion:"Удалене версии"
+    removeVersion: "Удалене версии"
   },
   shared: {
     name: "Наименование",

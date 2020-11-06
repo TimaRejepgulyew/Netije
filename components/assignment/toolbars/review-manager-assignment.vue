@@ -123,7 +123,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureDocumentReviewAddresolutionConfirmetion"
+                "assignment.confirmMessage.sureDocumentReviewAddresolutionConfirmation"
               ),
               this.$t("shared.confirm")
             );
@@ -143,7 +143,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmetion"
+                "assignment.confirmMessage.sureDocumentReviewSendToAssigneeConfirmation"
               ),
               this.$t("shared.confirm")
             );
@@ -163,7 +163,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureDocumentReviewExploredConfirmetion"
+                "assignment.confirmMessage.sureDocumentReviewExploredConfirmation"
               ),
               this.$t("shared.confirm")
             );
@@ -183,7 +183,7 @@ export default {
           if (this.isValidForm()) {
             const response = await this.confirm(
               this.$t(
-                "assignment.confirmMessage.sureDocumentReviewForwardConfirmetion"
+                "assignment.confirmMessage.sureDocumentReviewForwardConfirmation"
               ),
               this.$t("shared.confirm")
             );
