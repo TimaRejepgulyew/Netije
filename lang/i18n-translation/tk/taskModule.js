@@ -28,7 +28,7 @@ export default {
     InProcess : "Iş dowam edýär",
     Draft : "Garalama",
     Suspended : "Togtadylan",
-    Completed : "Gadagan edilen",
+    Completed : "Tamamlandy",
     Aborted : "Ýatyrylan",
     UnderReview : "Kabul edilişde"
   },

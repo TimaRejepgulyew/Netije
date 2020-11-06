@@ -21,6 +21,7 @@ export default {
   assignments: "Задания",
   tasks: "Задачи",
   businessUnit: "Наши организации",
+  createBusinessUnit: "Создание организации",
   department: "Подразделения",
   employee: "Сотрудники",
   addingEmployee: "Добавление сотрудника",

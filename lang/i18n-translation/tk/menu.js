@@ -19,6 +19,7 @@ export default {
   "assignments": "Tabşyryklar",
   "tasks": "Ýumuşlar",
   "businessUnit": "Gurama",
+  "createBusinessUnit": "Gurama döretmek",
   "department": "Bölümler",
   "employee": "Işgärler",
   "addingEmployee": "Işgäri goşmak",
