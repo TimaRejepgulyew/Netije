@@ -53,16 +53,6 @@
     </DxGroupItem>
 
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
-      <!-- <DxSimpleItem
-        data-field="businessUnitId"
-        :editor-options="businessUnitOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.businessUnitIdRequired')"
-        />
-      </DxSimpleItem> -->
       <DxSimpleItem
         data-field="businessUnitId"
         template="businessUnitSelectBox"
