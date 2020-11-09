@@ -18,15 +18,14 @@
         />
       </DxSimpleItem>
         <DxSimpleItem
-          data-field="departmentId"
-          :editor-options="deparmentOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-          <DxRequiredRule
-            :message="$t('document.validation.departmentIdRequired')"
-          />
-        </DxSimpleItem>
+        data-field="departmentId"
+        template="departmentSelectBox"
+      >
+        <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
+      </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
@@ -85,9 +84,24 @@
                     } "
       />
     </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="isRegistered"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="(data) => {
+                        setDepartmentId(data)
+                        setOurSignatoryId(null)
+                        setPreparedById(null)
+                    } "
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import Status from "~/infrastructure/constants/status";
@@ -106,7 +120,8 @@ export default {
     DxLabel,
     DxRequiredRule,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -142,22 +157,6 @@ export default {
     },
     departmentId() {
       return this.document.departmentId;
-    },
-    deparmentOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartmentId(e.value)
-          this.setOurSignatoryId(null)
-          this.setPreparedById(null)
-        },
-      };
     },
     ourSignatoryOptions() {
       return {
