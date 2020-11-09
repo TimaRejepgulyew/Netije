@@ -64,14 +64,13 @@
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.departmentIdRequired')"
-        />
-      </DxSimpleItem>
+        template="departmentSelectBox"
+        >
+          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+          <DxRequiredRule
+            :message="$t('document.validation.departmentIdRequired')"
+          />
+        </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
         <DxLabel location="left" :text="$t('document.fields.signatory')" />
@@ -174,9 +173,23 @@
                     } "
       />
     </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="isRegistered"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="(data) => {
+                        setDepartmentId(data)
+                        setAddresseeId(null)
+                    } "
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
@@ -200,7 +213,8 @@ export default {
     customSelectBox,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -320,21 +334,6 @@ export default {
         value: this.validTill,
         onValueChanged: (e) => {
           this.setValidTill(e.value)
-        },
-      };
-    },
-    deparmentOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", this.document.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setAddresseeId(null)
-          this.setDepartmentId(e.value)
         },
       };
     },
