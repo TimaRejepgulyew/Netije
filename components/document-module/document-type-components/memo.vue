@@ -17,14 +17,15 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-        <DxSimpleItem
-          data-field="departmentId"
-          :editor-options="deparmentOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-          <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
-        </DxSimpleItem>
+      <DxSimpleItem
+        data-field="departmentId"
+        template="departmentSelectBox"
+      >
+        <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
+      </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
