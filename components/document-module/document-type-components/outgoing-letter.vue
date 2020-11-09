@@ -35,11 +35,12 @@
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
+        template="departmentSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
@@ -100,9 +101,22 @@
                     } "
       />
     </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="(data) => {
+                        setDepartmentId(data)
+                    } "
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
@@ -126,7 +140,8 @@ export default {
     DxRequiredRule,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -172,20 +187,6 @@ export default {
     },
     correspondentId() {
       return this.document.correspondentId;
-    },
-    deparmentOptions() {
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartmentId(e.value)
-        },
-      };
     },
     inResponseToIdOptions() {
       return {
