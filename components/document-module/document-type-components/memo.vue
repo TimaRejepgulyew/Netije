@@ -94,9 +94,23 @@
                     } "
       />
     </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="isRegistered"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="(data) => {
+                        setDepartmentId(data)
+                        setAddresseeId(null)
+                    } "
+      />
+    </template>
   </DxForm>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import Status from "~/infrastructure/constants/status";
@@ -115,7 +129,8 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -149,21 +164,6 @@ export default {
     },
     departmentId() {
       return this.document.departmentId;
-    },
-    deparmentOptions() {
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
-          this.setAddresseeId(null)
-        },
-      };
     },
     ourSignatoryOptions() {
       return {
