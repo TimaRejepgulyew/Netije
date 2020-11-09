@@ -89,7 +89,7 @@
                           setBusinessUnitId(data)
                           setOurSignatoryId(null)
                           setPreparedById(null)
-                          setDepartamentId(null)
+                          setDepartmentId(null)
                           setAddresseeId(null)
                           setAssigneeId(null)
                     } "
@@ -232,7 +232,7 @@ export default {
     setAssigneeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
     },
     setBusinessUnitId(data) {

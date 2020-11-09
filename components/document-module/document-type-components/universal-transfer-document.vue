@@ -161,7 +161,7 @@
         @valueChanged="(data) => {
                         setBusinessUnitId(data); 
                         setAddresseeId(null);
-                        setDepartamentId(null)
+                        setDepartmentId(null)
                     } "
       />
     </template>
@@ -342,7 +342,7 @@ export default {
         }),
         value: this.document.departmentId,
         onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
+          this.setDepartmentId(e.value)
           this.setAddresseeId(null)
         },
       };
@@ -385,7 +385,7 @@ export default {
     setLeadingDocumentId(data) {
       this.$store.dispatch(`documents/${this.documentId}/setLeadingDocumentId`, data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setAddresseeId(data) {

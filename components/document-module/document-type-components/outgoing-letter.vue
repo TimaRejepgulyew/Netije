@@ -96,7 +96,7 @@
         :value="businessUnitId"
         @valueChanged=" (data) => {
                           setBusinessUnitId(data)
-                          setDepartamentId(null)
+                          setDepartmentId(null)
                     } "
       />
     </template>
@@ -183,7 +183,7 @@ export default {
         }),
         value: this.document.departmentId,
         onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
+          this.setDepartmentId(e.value)
         },
       };
     },
@@ -230,7 +230,7 @@ export default {
     setOurSignatoryId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
     },
     setBusinessUnitId(data) {

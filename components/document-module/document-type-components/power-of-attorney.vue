@@ -81,7 +81,7 @@
                           setBusinessUnitId(data)
                           setOurSignatoryId(null)
                           setPreparedById(null)
-                          setDepartamentId(null)
+                          setDepartmentId(null)
                           setIssuedToId(null)
                     } "
       />
@@ -154,7 +154,7 @@ export default {
         }),
         value: this.document.departmentId,
         onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
+          this.setDepartmentId(e.value)
           this.setOurSignatoryId(null)
           this.setPreparedById(null)
         },
@@ -229,7 +229,7 @@ export default {
     setBusinessUnitId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setValidTill(data) {
