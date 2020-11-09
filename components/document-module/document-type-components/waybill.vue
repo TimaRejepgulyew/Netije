@@ -11,6 +11,8 @@
       editor-type="dxSelectBox"
       :editor-options="leadingDocumentOptions"
     >
+    // TODO not work without this property
+      <!-- <DxRequiredRule :message="$t('document.validation.contractRequired')" /> -->
       <DxLabel location="left" :text="$t('document.fields.contract')" />
     </DxSimpleItem>
     <DxGroupItem
