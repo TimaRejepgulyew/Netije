@@ -119,14 +119,16 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="isRegistered && !canUpdate"
+        :read-only="isRegistered || !canUpdate"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged=" (data) => {
-                        setBusinessUnitId(data); 
-                        setAddresseeId(null);
-                        setDepartamentId('')
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+            setAddresseeId(null);
+            setDepartamentId('');
+          }
+        "
       />
     </template>
   </DxForm>
@@ -144,7 +146,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -156,13 +158,13 @@ export default {
     customSelectBox,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox,
+    BusinessUnitSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
-      selectedCorrespondentType: null,
+      selectedCorrespondentType: null
     };
   },
   computed: {
@@ -209,36 +211,50 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.MailDeliveryMethod,
+          url: dataApi.docFlow.MailDeliveryMethod
         }),
         value: this.document.deliveryMethodId,
-        onValueChanged: (e) => {
-          this.setSetDeliveryMethodId(e.value)
+        onValueChanged: e => {
+          this.setSetDeliveryMethodId(e.value);
         }
       };
     },
     deparmentOptions() {
-      let businessUnitId = this.$store.getters[`documents/${this.documentId}/document`].businessUnitId;
+      let businessUnitId = this.$store.getters[
+        `documents/${this.documentId}/document`
+      ].businessUnitId;
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", businessUnitId],"and",["status", "=", Status.Active]]
+          filter: [
+            ["businessUnitId", "=", businessUnitId],
+            "and",
+            ["status", "=", Status.Active]
+          ]
         }),
         value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
-          this.setAddresseeId(null)
+        onValueChanged: e => {
+          this.setDepartamentId(e.value);
+          this.setAddresseeId(null);
         }
       };
     },
     inResponseToIdOptions() {
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
-        .withUrl(`${dataApi.documentModule.Documents}${DocumentQuery.OutgoingLetter}`)
-        .filter(this.correspondentId ? ["correspondentId", "=", this.correspondentId] : [])
-        .acceptCustomValues((e) => {e.customItem = null})
+        .withUrl(
+          `${dataApi.documentModule.Documents}${DocumentQuery.OutgoingLetter}`
+        )
+        .filter(
+          this.correspondentId
+            ? ["correspondentId", "=", this.correspondentId]
+            : []
+        )
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
         .withoutDeferRendering()
         .focusStateDisabled()
         .clearValueExpr()
@@ -247,55 +263,71 @@ export default {
         readOnly: !this.correspondentId,
         ...options,
         value: this.document.inResponseTo,
-        onValueChanged: (e) => {
-          this.setInResponseToId(e.value?.id)
-        },
+        onValueChanged: e => {
+          this.setInResponseToId(e.value?.id);
+        }
       };
     },
     inNumberOptions() {
       return {
         readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({context: this}),
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
         value: this.document.inNumber,
-        onValueChanged: (e) => {
-          this.setInNumber(e.value)
-        },
+        onValueChanged: e => {
+          this.setInNumber(e.value);
+        }
       };
     },
     datedOptions() {
       return {
         readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({context: this}),
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this
+        }),
         value: this.document.dated,
-        onValueChanged: (e) => {
-          this.setDated(e.value)
-        },
+        onValueChanged: e => {
+          this.setDated(e.value);
+        }
       };
-    },
+    }
   },
-    methods: {
+  methods: {
     setCorrenspondent(data) {
       if (data == null) {
-        if (this.selectedCorrespondentType){
+        if (this.selectedCorrespondentType) {
           this.selectedCorrespondentType.type = null;
         }
       }
-      this.dispatchCorrespondent(data)
+      this.dispatchCorrespondent(data);
       this.setContact(null);
       this.setCounterpartySignatoryId(null);
-      this.setInResponseToId(null)
+      this.setInResponseToId(null);
     },
     setContact(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_CONTACT_ID`, data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_CONTACT_ID`,
+        data && data.id
+      );
     },
     setSetDeliveryMethodId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DELIVERY_METHOD_ID`,data)
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DELIVERY_METHOD_ID`,
+        data
+      );
     },
     setCounterpartySignatoryId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`, data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`,
+        data && data.id
+      );
     },
     setInResponseToId(data) {
-      this.$store.commit(`documents/${this.documentId}/IN_RESPONSE_TO_ID`, data)
+      this.$store.commit(
+        `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
+        data
+      );
     },
     setInNumber(data) {
       this.$store.commit(`documents/${this.documentId}/IN_NUMBER`, data);
@@ -310,18 +342,26 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
     setDepartamentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setBusinessUnitId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        data
+      );
     },
     dispatchCorrespondent(data) {
-      this.$store.dispatch(`documents/${this.documentId}/setCorrespondent`, data);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCorrespondent`,
+        data
+      );
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
-    },
-  },
+    }
+  }
 };
 </script>
-
