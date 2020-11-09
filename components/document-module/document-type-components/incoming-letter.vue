@@ -110,7 +110,7 @@
     <template #assignee>
       <employee-select-box
         valueExpr="id"
-        :read-only="!canUpdate"
+        :read-only="!readOnly"
         :value="assigneeId"
         @valueChanged="setAssigneeId"
       />
@@ -118,7 +118,7 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="isRegistered || !canUpdate"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged=" (data) => {
@@ -131,7 +131,7 @@
     <template #departmentSelectBox>
       <department-select-box
         valueExpr="id"
-        :read-only="isRegistered"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="departmentId"
         :businessUnitId="businessUnitId"
@@ -203,6 +203,9 @@ export default {
     },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];

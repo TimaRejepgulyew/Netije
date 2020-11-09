@@ -92,7 +92,7 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="readOnly || !canUpdate"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged=" (data) => {
@@ -176,11 +176,11 @@ export default {
         this.selectedCorrespondentType?.type !== "Person"
       );
     },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
-    },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
+    },
+    isRegistered() {
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];

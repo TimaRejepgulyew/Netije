@@ -82,7 +82,7 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="isRegistered || !canUpdate"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged=" (data) => {
@@ -98,7 +98,7 @@
     <template #departmentSelectBox>
       <department-select-box
         valueExpr="id"
-        :read-only="isRegistered"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="departmentId"
         :businessUnitId="businessUnitId"
@@ -165,6 +165,9 @@ export default {
     },
     departmentId() {
       return this.document.departmentId;
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     ourSignatoryOptions() {
       return {
