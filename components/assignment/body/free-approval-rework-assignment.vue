@@ -33,8 +33,15 @@
 
 <script>
 import bodyMixin from "./bodyMixin.js";
+import {
+  DxDateBox,
+  DxButton as DxDateBoxButton
+} from "devextreme-vue/date-box";
 export default {
   mixins: [bodyMixin],
+  components: {
+    DxDateBox
+  },
   data() {
     return {
       newDeadline: this.$store.getters[

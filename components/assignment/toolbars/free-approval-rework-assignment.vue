@@ -38,6 +38,7 @@
   </div>
 </template>
 <script>
+import abortIcon from "~/static/icons/stop.svg";
 import reworkedAndStartIcon from "~/static/icons/start.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
@@ -45,7 +46,7 @@ import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
   components: {
-    DxPopup,
+    DxPopup
   },
   computed: {
     btnReworkedOptions() {
@@ -72,11 +73,11 @@ export default {
     },
     btnAbortOptions() {
       return {
-        icon: "undo",
-        text: this.$t("buttons.rework"),
+        icon: abortIcon,
+        text: this.$t("buttons.abort"),
         onClick: async () => {
           const response = await this.confirm(
-            this.$t("assignment.confirmMessage.sureRework"),
+            this.$t("assignment.confirmMessage.sureAbortConfirmation"),
             this.$t("shared.confirm")
           );
           if (response) {

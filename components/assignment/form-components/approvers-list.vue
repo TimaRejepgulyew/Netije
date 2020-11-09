@@ -73,27 +73,32 @@ export default {
     DxButton,
     DxLookup
   },
-  props: ["assignemntId"],
+  props: ["assignmentId"],
+  created() {
+    console.log(
+      this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+        .approvers
+    );
+  },
   data() {
     return {
-      data: this.$store.getters[
-        `assigments/${this.assignemntId}/approvers`
-      ] || [
-        { id: 0, approverId: 18, approved: true, action: 1 },
-        { id: 1, approverId: 21, approved: false, action: 0 }
-      ]
+      data: this.$store.getters[`assignments/${this.assignmentId}/approvers`]
     };
   },
   methods: {
     updateApprovers() {
       const payload = JSON.parse(JSON.stringify(this.data.slice()));
+      
       this.$store.commit(
-        `assigments/${this.assignemntId}/SET_APPROVERS`,
+        `assignments/${this.assignmentId}/SET_APPROVERS`,
         payload
       );
     }
   },
   computed: {
+    // data() {
+    //   return this.$store.getters[`assigments/${this.assignmentId}/assignment`];
+    // },
     employeeStore() {
       return this.$dxStore({
         key: "id",
