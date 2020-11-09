@@ -26,17 +26,13 @@
           </DxSimpleItem>
           <DxSimpleItem
             data-field="departmentId"
-            :editor-options="deparmentOptions"
-            editor-type="dxSelectBox"
-          >
-            <DxLabel
-              location="top"
-              :text="$t('translations.fields.departmentId')"
-            />
-            <DxRequiredRule
-              :message="$t('translations.fields.departmentIdRequired')"
-            />
-          </DxSimpleItem>
+            template="departmentSelectBox"
+            >
+              <DxLabel location="top" :text="$t('document.fields.departmentId')" />
+              <DxRequiredRule
+                :message="$t('document.validation.departmentIdRequired')"
+              />
+            </DxSimpleItem>
         </DxGroupItem>
         <template #businessUnitSelectBox>
           <business-unit-select-box
@@ -45,7 +41,18 @@
             validatorGroup="personalSettings"
             @valueChanged=" (data) => {
                             setBusinessUnitId(data)
-                            setDepartamentId(null)
+                            setDepartmentId(null)
+                        } "
+          />
+        </template>
+        <template #departmentSelectBox>
+          <department-select-box
+            valueExpr="id"
+            :value="departmentId"
+            validatorGroup="personalSettings"
+            :businessUnitId="businessUnitId"
+            @valueChanged="(data) => {
+                            setDepartmentId(data)
                         } "
           />
         </template>
@@ -54,6 +61,7 @@
   </div>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -80,6 +88,7 @@ export default {
     DxForm,
     Toolbar,
     BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(dataApi.docFlow.PersonalSettings);
@@ -96,19 +105,12 @@ export default {
     businessUnitId() {
       return this.personalSettings.businessUnitId;
     },
-    deparmentOptions() {
-      let businessUnitId = this.personalSettings.businessUnitId;
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-      };
+    departmentId() {
+      return this.personalSettings.departmentId;
     },
   },
   methods: {
-    setDepartamentId(data){
+    setDepartmentId(data){
       this.personalSettings.departmentId = data
     },
     setBusinessUnitId(data){
