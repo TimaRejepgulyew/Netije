@@ -8,62 +8,95 @@
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
-      <div >
-        <documentGrid v-if="isOpenGrid" :documentQuery="100" @selectedDocument="pasteAttachment" />
+      <div>
+        <documentGrid
+          v-if="isOpenGrid"
+          :documentQuery="100"
+          @selectedDocument="onSelectedDocument"
+        />
       </div>
     </DxPopup>
     <DxPopup
       width="90%"
       height="95%"
       :showTitle="false"
-      :visible.sync="isOpenCard"
+      :visible.sync="isOpenShowAttacmentCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
     >
       <div>
         <document-card
           class="card"
-          v-if="isOpenCard"
           @onClose="togglePopupCard"
+          v-if="isOpenShowAttacmentCard"
+          :documentId="attachmentId"
+          :isCard="true"
+        />
+      </div>
+    </DxPopup>
+    <DxPopup
+      width="90%"
+      height="95%"
+      :showTitle="false"
+      :visible.sync="isOpenShowCreateNewAttacmentCard"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+    >
+      <div>
+        <document-card
+          class="card"
+          v-if="isOpenShowCreateNewAttacmentCard"
+          @onClosed="pasteAttachment"
+          @onClose="togglePopupCardCreateAttachment"
           :documentId="attachmentId"
           :isCard="true"
         />
       </div>
     </DxPopup>
     <div class="d-flex align-center">
-      <span class="dx-form-group-caption">{{group.groupTitle}}</span>
+      <span class="dx-form-group-caption">{{ group.groupTitle }}</span>
       <sup v-if="group.isRequired" class="red">*</sup>
-      <DxButton
-        :id="'addAttachment'+group.groupId"
-        class="btn--green"
-        :visible="group.canAddAttachments"
-        icon="plus"
-        styling-mode="text"
-        :hint="$t('buttons.add')"
-        :on-click="togglePopupGrid"
-      ></DxButton>
+      <addDocumentBtn
+        v-if="group.canAddAttachments"
+        @createDocument="createDocument"
+        @showDocumentGrid="togglePopupGrid"
+      />
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
-        <documentField @detach="detach" @showCard="showCard" :item="groupItem" />
+        <documentField
+          @detach="detach"
+          @showCard="showAttachmentCard"
+          :item="groupItem"
+        />
       </li>
     </ul>
     <div
       v-else
       class="d-flex group__description"
-      :class="{'cursor-pointer':group.canAddAttachments}"
-      @click="()=>{if(group.canAddAttachments)togglePopupGrid()}"
+      :class="{ 'cursor-pointer': group.canAddAttachments }"
+      @click="
+        () => {
+          if (group.canAddAttachments) togglePopupGrid();
+        }
+      "
     >
       <i class="dx-icon dx-icon-link"></i>
-      <label :for="'addAttachment'+group.groupId" class="f-grow-1">{{group.description}}</label>
+      <label :for="'addAttachment' + group.groupId" class="f-grow-1">{{
+        group.description
+      }}</label>
     </div>
   </div>
 </template>
 
 <script>
+import addDocumentBtn from "~/components/workFlow/attachment/attachment-components/add-document-btn.vue";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import { load } from "~/infrastructure/services/documentService.js";
-import documentField from "~/components/workFlow/field-document-attachment.vue";
+import {
+  load,
+  createDocument
+} from "~/infrastructure/services/documentService.js";
+import documentField from "~/components/workFlow/attachment/field-document-attachment.vue";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
@@ -74,34 +107,56 @@ export default {
   components: {
     DxSelectBox,
     DxButton,
+    addDocumentBtn,
     documentGrid: async () =>
       await import("~/components/document-module/document-grid.vue"),
     documentCard: async () =>
       await import("~/components/document-module/main-doc-form/index.vue"),
     DxPopup,
-    documentField,
+    documentField
   },
   data() {
     return {
-      isOpenCard: false,
+      isOpenShowCreateNewAttacmentCard: false,
+      isOpenShowAttacmentCard: false,
       isOpenGrid: false,
-      attachmentId: false,
+      attachmentId: false
     };
   },
-  props: ["group",],
+  props: ["group"],
 
   methods: {
-    showCard({ id, documentTypeGuid }) {
+    onSelectedDocument({ documentTypeGuid, id }) {
+      this.pasteAttachment({ documentTypeGuid, id });
+      this.togglePopupGrid();
+    },
+    showAttachmentCard({ id, documentTypeGuid }) {
       this.$awn.asyncBlock(
         load(this, { documentId: id, documentTypeGuid }),
         () => {
-          this.isOpenCard = true;
+          this.attachmentId = id;
+          this.togglePopupCard();
         }
       );
-      this.attachmentId = id;
+    },
+    createDocument(documentType) {
+      this.$awn.asyncBlock(
+        createDocument(this, { documentType }),
+        ({ documentId, documentTypeGuid }) => {
+          this.attachmentId = documentId;
+          this.togglePopupCardCreateAttachment();
+        },
+        e => {
+          this.$awn.alert();
+        }
+      );
+    },
+    togglePopupCardCreateAttachment() {
+      this.isOpenShowCreateNewAttacmentCard = !this
+        .isOpenShowCreateNewAttacmentCard;
     },
     togglePopupCard() {
-      this.isOpenCard = !this.isOpenCard;
+      this.isOpenShowAttacmentCard = !this.isOpenShowAttacmentCard;
     },
     togglePopupGrid() {
       this.isOpenGrid = !this.isOpenGrid;
@@ -113,16 +168,15 @@ export default {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(documentTypeGuid),
+        entityTypeGuid: mapToEntityType(documentTypeGuid)
       });
-      this.togglePopupGrid();
-    },
+    }
   },
   computed: {
     hasGroupItem() {
       return this.group.entities;
-    },
-  },
+    }
+  }
 };
 </script>
 

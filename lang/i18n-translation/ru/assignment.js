@@ -1,37 +1,69 @@
-import assignmentType from "./assignmentType"
+import assignmentType from "./assignmentType";
 export default {
+  addApprover: "Добавление согласующего",
   gridFileName: "Задание",
+  stores: {
+    doNotSend: "Не отправлять",
+    sendForApproval: "Отправить на согласование",
+    sendNotice: "Отправить уведомление"
+  },
   fields: {
+    action: "Действие",
+    approved: "Согласованно",
+    approver: "Согласующий",
+    approvers: "Согласующий",
     newDeadline: "Новый срок",
     deadline: "Срок",
     authorId: "Автор",
     status: "Статус",
     created: "Создано",
-    subject: "Содержание",
+    subject: "Содержание"
   },
   quickFilter: {
-    all: "Все", new: "Новые", inProcess: "В работе", expired: "Просроченые", monthAgo: "30 дней"
+    all: "Все",
+    new: "Новые",
+    inProcess: "В работе",
+    expired: "Просроченые",
+    monthAgo: "30 дней"
   },
   confirmMessage: {
-    sureAddResolutionAllSelection:"Вы действительно хотите утвердить резолюции по все выделенным заданиям?",
+    sureFreeApprovalAssignment: "Вы действительно хотите согласовать документ?",
+    sureFreeApprovalFinishAssignment:
+      "Вы действительно хотите завершить согласование документа?",
+    sureFreeApprovalConfirmation:
+      "Вы действительно хотите переадресовать согласование",
+    sureApprovalForwardConfirmation:
+      "Вы действительно хотите переадресовать согласование документа?",
+    sureAddResolutionAllSelection:
+      "Вы действительно хотите утвердить резолюции по все выделенным заданиям?",
     headerHasChildActionItem: "Прекратить подчиненные поручения?",
     hasChildActionItem: "Есть незавершенные подчиненные поручения.",
-    sureDocumentReviewAcceptConfirmetion: "После принятия к сведению задание завершится без исполнения",
-    sureDocumentReviewReworkConfirmetion: "Вы действительно хотите вернуть помощнику на доработку?",
-    sureDocumentReviewApproveRosolutionConfirmetion: "Вы действительно хотите утвердить проект резолюции?",
-    sureDocumentReviewSendToResolutionConfirmetion: "Вы действительно хотите отправить на резолюцию?",
-    sureDocumentReviewSendToAssigneeConfirmetion: "Вы действительно хотите отправить на исполнение?",
-    sureDocumentReviewExploredConfirmetion: "Вы действительно ознакомились с документом?",
-    sureDocumentReviewForwardConfirmetion: "Вы действительно хотите переадресовать рассмотрение документа?",
-    sureDocumentReviewAddresolutionConfirmetion: "Вы действительно вынесли резолюцию по документу?",
-    sureActionItemForReworkConfirmetion: "Вы действительно хотите отправить поручение на доработку?",
-    sureActionItemAcceptConfirmetion: "Вы действительно хотите принять работы по поручению?",
-    sureActionItemDoneConfirmetion: "Вы действительно хотите выполнить поручения?",
+    sureDocumentReviewAcceptConfirmation:
+      "После принятия к сведению задание завершится без исполнения",
+    sureDocumentReviewReworkConfirmation:
+      "Вы действительно хотите вернуть помощнику на доработку?",
+    sureDocumentReviewApproveRosolutionConfirmation:
+      "Вы действительно хотите утвердить проект резолюции?",
+    sureDocumentReviewSendToResolutionConfirmation:
+      "Вы действительно хотите отправить на резолюцию?",
+    sureDocumentReviewSendToAssigneeConfirmation:
+      "Вы действительно хотите отправить на исполнение?",
+    sureDocumentReviewExploredConfirmation:
+      "Вы действительно ознакомились с документом?",
+    sureDocumentReviewForwardConfirmation:
+      "Вы действительно хотите переадресовать рассмотрение документа?",
+    sureDocumentReviewAddresolutionConfirmation:
+      "Вы действительно вынесли резолюцию по документу?",
+    sureActionItemForReworkConfirmation:
+      "Вы действительно хотите отправить поручение на доработку?",
+    sureActionItemAcceptConfirmation:
+      "Вы действительно хотите принять работы по поручению?",
+    sureActionItemDoneConfirmation:
+      "Вы действительно хотите выполнить поручения?",
     sureReturnManagersAssistant: "Вы уверенны что хотите вернуть помощнику?",
     sureComplete: "Вы действительно хотите выполнить задание?",
     sureAcquaintance: "Вы действительно ознакомились с документом?",
-    sureFinishAcquaintance:
-      "Вы уверенны что хотите завершить ознакомление?",
+    sureFinishAcquaintance: "Вы уверенны что хотите завершить ознакомление?",
     sureCompleteSupervisor: "Подтвердите что бы завершить задачу",
     sureRework: "Вы действительно хотите отправить задачу на доработку?",
     sureAccept: "Вы действительно хотите принять задачу?"
@@ -53,7 +85,10 @@ export default {
     AddResolution: "Вынесена резолюция",
     Explored: "Принято к сведению",
     Forward: "Переадресовано",
-    ForExecution: "Отправлено на исполнения"
+    ForExecution: "Отправлено на исполнения",
+    Completed: "Завершено",
+    Approved: "Согласованно",
+    Reworked: "Исправленно"
   },
 
   status: {
@@ -77,8 +112,11 @@ export default {
   },
   comment: "Комментарий",
   body: {
-    actionItemSupervisorAssignment: "Введите комментарий к отчету исполнителя...",
-    acquaintanceAssignment: "Оставьте комментарий прежде чем выполнить задание...",
+    freeApprovalAssignment: "Введите текст задания...",
+    actionItemSupervisorAssignment:
+      "Введите комментарий к отчету исполнителя...",
+    acquaintanceAssignment:
+      "Оставьте комментарий прежде чем выполнить задание...",
     simpleAssignment: "Введите текст задания...",
     acquaintanceFinishAssignment: "Введите текст задания...",
     actionAtiemExecution: "Оставьте отчет по исполнению поручения...",
@@ -88,6 +126,6 @@ export default {
     reviewManagerAssignment: "Текст резолюции..."
   },
   validation: {
-    bodyRequired: "Введите текст задания...",
+    bodyRequired: "Введите текст задания..."
   }
-}
+};

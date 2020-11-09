@@ -2,6 +2,7 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
+import assignmentMenuByRole from "~/infrastructure/factory/assignment-menu-by-role.js";
 export const state = () => ({
   menuList: []
 });
@@ -80,43 +81,7 @@ export const actions = {
         text: this.$i18n.t("menu.assignments"),
         icon: "clock",
         path: `/assignment/${AssignmentQuery.All}`,
-        items: [
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnExicution,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onExicution"),
-            path: `/assignment/${AssignmentQuery.OnExicution}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnReview,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onReview"),
-            path: `/assignment/${AssignmentQuery.OnReview}`,
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnAcquaintance,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onAcquaintance"),
-            path: `/assignment/${AssignmentQuery.OnAcquaintance}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.OnDocumentReview,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.onDocumentReview"),
-            path: `/assignment/${AssignmentQuery.OnDocumentReview}`
-          },
-          {
-            notificationType: "assignment",
-            query: AssignmentQuery.ReviewResolution,
-            template: "assignment-item",
-            text: this.$i18n.t("AssignmentQuery.reviewResolution"),
-            path: `/assignment/${AssignmentQuery.ReviewResolution}`
-          }
-        ]
+        items: [...assignmentMenuByRole(this, rootGetters)]
       },
       {
         text: this.$i18n.t("menu.tasks"),
@@ -125,8 +90,12 @@ export const actions = {
         items: [
           {
             text: this.$i18n.t("menu.actionItemExecutionTasks"),
-            path: "/task/taskCategory/action-item-execution",
+            path: "/task/taskCategory/action-item-execution"
           },
+          {
+            text: this.$i18n.t("menu.approvals"),
+            path: "/task/taskCategory/approvals"
+          }
         ]
       },
       {
@@ -189,7 +158,9 @@ export const actions = {
       {
         text: this.$i18n.t("menu.contractors"),
         icon: "group",
-        visible: hasCounterPartyAccess(rootGetters) && hasCounterPartySettingAccess(rootGetters),
+        visible:
+          hasCounterPartyAccess(rootGetters) &&
+          hasCounterPartySettingAccess(rootGetters),
         path: "/parties",
         items: [
           {
@@ -224,7 +195,8 @@ export const actions = {
         text: this.$i18n.t("menu.company-structure"),
         path: "/company",
         icon: "hierarchy",
-        visible: hasCompanyAccess(rootGetters) && rootGetters["permissions/IsAdmin"],
+        visible:
+          hasCompanyAccess(rootGetters) && rootGetters["permissions/IsAdmin"],
         items: [
           {
             text: this.$i18n.t("menu.employee"),
@@ -267,7 +239,9 @@ export const actions = {
         text: this.$i18n.t("menu.docFlow"),
         icon: "repeat",
         path: "/docflow",
-        visible: hasDocflowAccess(rootGetters) && hasRegistrationSettingAccess(rootGetters),
+        visible:
+          hasDocflowAccess(rootGetters) &&
+          hasRegistrationSettingAccess(rootGetters),
         items: [
           {
             text: this.$i18n.t("menu.documentKind"),
@@ -299,17 +273,19 @@ export const actions = {
           },
           {
             text: this.$i18n.t("menu.documentTemplate"),
-            path: "/docflow/document-template",
+            path: "/docflow/document-template"
             // visible: rootGetters["permissions/allowReading"](
             //   EntityType.DocumentTemplate
             // )
-          },
+          }
         ]
       },
       {
         text: this.$i18n.t("menu.shared-directory"),
         icon: "inactivefolder",
-        visible: hasSharedDirectoryAccess(rootGetters) && hasCounterPartySettingAccess(rootGetters),
+        visible:
+          hasSharedDirectoryAccess(rootGetters) &&
+          hasCounterPartySettingAccess(rootGetters),
         path: "/shared-directory",
         items: [
           {
@@ -347,7 +323,7 @@ export const actions = {
           {
             text: this.$i18n.t("menu.roles"),
             path: "/admin/roles"
-          },
+          }
           // {
           //   text: this.$i18n.t("menu.logs"),
           //   path: "/admin/logs"

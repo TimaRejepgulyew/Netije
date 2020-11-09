@@ -61,20 +61,21 @@
 import { alert } from "devextreme/ui/dialog";
 import TaskTypeModel from "~/infrastructure/models/TaskType.js";
 import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
-import documentReviewTask from "~/components/task/document-review-task.vue";
-import simpleTask from "~/components/task/simple-task.vue";
-import acquaintanceTask from "~/components/task/acquaintance-task.vue";
-import actionItemExecutionTask from "~/components/task/action-item-execution-task.vue";
+import documentReviewTask from "~/components/task/task-forms/document-review-task.vue";
+import simpleTask from "~/components/task/task-forms/simple-task.vue";
+import acquaintanceTask from "~/components/task/task-forms/acquaintance-task.vue";
+import actionItemExecutionTask from "~/components/task/task-forms/action-item-execution-task.vue";
+import freeApprovalTask from "~/components/task/task-forms/free-approval-task.vue";
 import TaskType from "~/infrastructure/constants/taskType.js";
-import toolbar from "~/components/task/toolbar.vue";
+import toolbar from "~/components/task/task-forms/components/toolbar.vue";
 import Header from "~/components/page/page__header";
-import attachment from "~/components/workFlow/attachment.vue";
+import attachment from "~/components/workFlow/attachment/index.vue";
 import { unload } from "~/infrastructure/services/taskService.js";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -94,19 +95,20 @@ export default {
     DxRequiredRule,
     DxForm,
     documentReviewTask,
+    freeApprovalTask
   },
   props: {
     taskId: {
-      type: Number,
+      type: Number
     },
     isCard: {
-      default: false,
-    },
+      default: false
+    }
   },
-  provide: function () {
+  provide: function() {
     return {
       taskValidatorName: this.taskValidatorName,
-      isValidTask: this.validateForm,
+      isValidTask: this.validateForm
     };
   },
   destroyed() {
@@ -116,7 +118,7 @@ export default {
     return {
       taskValidatorName: `task/${this.taskId}`,
       commentsUrl: dataApi.task.TextsByTask,
-      threadTextsResreshTracker: false,
+      threadTextsResreshTracker: false
     };
   },
 
@@ -125,8 +127,8 @@ export default {
       let isValid = true;
       let attachments = this.$store.getters[
         `tasks/${this.taskId}/task`
-      ].attachmentGroups.filter((attachment) => attachment.isRequired);
-      attachments.forEach((attachment) => {
+      ].attachmentGroups.filter(attachment => attachment.isRequired);
+      attachments.forEach(attachment => {
         if (!attachment.entities) isValid = false;
       });
       if (!isValid) {
@@ -135,7 +137,7 @@ export default {
       return isValid;
     },
     generateHtmlError(attachments) {
-      return attachments.map((attachment) => {
+      return attachments.map(attachment => {
         if (!attachment.entities) {
           return `<li class="red">Вложите ${attachment.groupTitle.toLowerCase()}</li>`;
         }
@@ -151,13 +153,13 @@ export default {
     onSave() {
       this.$emit("onSave", {
         taskId: this.taskId,
-        taskType: this.task.taskType,
+        taskType: this.task.taskType
       });
     },
     onStart() {
       this.$emit("onStart", {
         taskId: this.taskId,
-        taskType: this.task.taskType,
+        taskType: this.task.taskType
       });
       this.$emit("onClose", this.taskId);
     },
@@ -181,7 +183,7 @@ export default {
         () => {},
         () => {}
       );
-    },
+    }
   },
   computed: {
     taskTypeModel() {
@@ -221,9 +223,11 @@ export default {
           return "action-item-execution-task";
         case TaskType.DocumentReviewTask:
           return "document-review-task";
+        case TaskType.FreeApprovalTask:
+          return "free-approval-task";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -236,4 +240,3 @@ export default {
   }
 }
 </style>
-

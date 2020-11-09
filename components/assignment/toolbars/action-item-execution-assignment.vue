@@ -16,6 +16,24 @@
         />
       </div>
     </DxPopup>
+    <DxPopup
+      :showTitle="false"
+      :visible.sync="showItemExecutionTask"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="true"
+      width="90%"
+      :height="'auto'"
+    >
+      <div class="scrool-auto">
+        <task-card
+          @onClose="togglePopup"
+          :taskId="actionItemExecutionTaskId"
+          v-if="showItemExecutionTask"
+          :isCard="true"
+        />
+      </div>
+    </DxPopup>
     <DxToolbar>
       <DxItem
         :visible="inProcess"
@@ -23,16 +41,50 @@
         location="before"
         widget="dxButton"
       />
+      <DxItem
+        :visible="actionItemExecutionAttachmentIsIncomingLetter"
+        template="createOutgoingLetterBtn"
+        location="after"
+      />
+      <DxItem
+        locateInMenu="auto"
+        :options="btnAddExecutionOptions"
+        location="before"
+        widget="dxButton"
+      />
+
+      <template #createOutgoingLetterBtn>
+        <create-outgoing-letter-btn :leadingDocumentId="incomingDocumentId" />
+      </template>
     </DxToolbar>
   </div>
 </template>
 <script>
+import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
+import taskCard from "~/components/task/index.vue";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import createOutgoingLetterBtn from "~/components/assignment/form-components/create-outgoing-letter-btn.vue";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 import dataApi from "~/static/dataApi";
 export default {
+  components: {
+    createOutgoingLetterBtn,
+    taskCard
+  },
   mixins: [toolbarMixin],
+  data() {
+    return {
+      actionItemExecutionTaskId: null,
+      showItemExecutionTask: false,
+      incomingDocumentId: null
+    };
+  },
   methods: {
+    togglePopup() {
+      this.showItemExecutionTask = !this.showItemExecutionTask;
+    },
     async hasChildActionItemItems() {
       const { data: hasChildActionItemItems } = await this.$axios.get(
         dataApi.assignment.HasChildActionItemItems + this.assignmentId
@@ -41,43 +93,92 @@ export default {
     },
     async needAbortChildActionItems() {
       const needAbortChildActionItems = await this.confirm(
-        this.$t("assignment.confirmMessage.hasChildActionItem"),
-        this.$t("assignment.confirmMessage.headerHasChildActionItem")
+        this.$t("assignment.confirmMessage.headerHasChildActionItem"),
+        this.$t("assignment.confirmMessage.hasChildActionItem")
       );
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_NEED_ABORT_CHILD_ACTION_ITEMS`,
         needAbortChildActionItems
       );
-      return needAbortChildActionItems
+      return needAbortChildActionItems;
     },
-    async sureActionItemDoneConfirmetion() {
+    async sureActionItemDoneConfirmation() {
       const response = await this.confirm(
-        this.$t("assignment.confirmMessage.sureActionItemDoneConfirmetion"),
+        this.$t("assignment.confirmMessage.sureActionItemDoneConfirmation"),
         this.$t("shared.confirm")
       );
       return response;
     }
   },
   computed: {
+    attachmentGroups() {
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+        .attachmentGroups;
+    },
+    btnAddExecutionOptions() {
+      return {
+        icon: actionItemExecutionIcon,
+        text: this.$t("buttons.createChilteExecution"),
+        onClick: () => {
+          this.$awn.asyncBlock(
+            CreateChildActionItemExecution(this, this.assignmentId),
+            ({ taskId }) => {
+              this.actionItemExecutionTaskId = taskId;
+              this.togglePopup();
+            }
+          );
+        }
+      };
+    },
+    actionItemExecutionAttachmentIsIncomingLetter() {
+      if (this.attachmentGroups) {
+        const actionItemExecutionGroupId = 4;
+
+        const currentAttachmentGroup = this.attachmentGroups.find(
+          attachmentGroup => {
+            return attachmentGroup.groupId === actionItemExecutionGroupId;
+          }
+        );
+        console.log(currentAttachmentGroup, "currentAttachmentGroup");
+        if (currentAttachmentGroup.entities) {
+          console.log(
+            currentAttachmentGroup.entities.length,
+            "currentAttachmentGroup length"
+          );
+          const currentDocument = currentAttachmentGroup.entities[0].entity;
+          console.log(currentDocument, "currentDocument");
+
+          if (
+            currentDocument.documentTypeGuid === DocumentTypeGuid.IncomingLetter
+          ) {
+            this.incomingDocumentId = currentDocument.id;
+            console.log(this.incomingDocumentId);
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+
     btnOptions() {
       return {
         icon: "check",
         text: this.$t("buttons.complete"),
         onClick: async () => {
           if (this.isValidForm()) {
-          const  hasChildActionItemItems =  await this.hasChildActionItemItems()
+            const hasChildActionItemItems = await this.hasChildActionItemItems();
             if (hasChildActionItemItems) {
-              const needAbortChildActionItems = await this.needAbortChildActionItems()
+              const needAbortChildActionItems = await this.needAbortChildActionItems();
               if (needAbortChildActionItems) {
                 this.setResult(ReviewResult.ActionItemExecution.Complete);
                 this.completeAssignment();
               }
             } else {
-              const sureActionItemDoneConfirm = await this.sureActionItemDoneConfirmetion()
+              const sureActionItemDoneConfirm = await this.sureActionItemDoneConfirmation();
               if (sureActionItemDoneConfirm) {
                 this.setResult(ReviewResult.ActionItemExecution.Complete);
                 this.completeAssignment();
-              };
+              }
             }
           }
         }

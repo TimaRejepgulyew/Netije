@@ -17,7 +17,7 @@
         :scrolling-enabled="true"
         class="mt-1"
         ref="form"
-        :read-only="!canUpdate"
+        :read-only="readOnly"
         :show-colon-after-label="true"
         :show-validation-summary="false"
         :validation-group="documentValidatorName"
@@ -87,6 +87,13 @@
           </DxTab>
           <DxTab
             :col-count="8"
+            :title="$t('document.tabs.tasks')"
+            :disabled="isNew"
+          >
+            <DxSimpleItem :col-span="8" template="documentTasks"></DxSimpleItem>
+          </DxTab>
+          <DxTab
+            :col-count="8"
             :title="$t('document.tabs.history')"
             :disabled="isNew"
           >
@@ -102,6 +109,9 @@
         </template>
         <template #relation>
           <Relation :documentId="documentId" :isCard="isCard"></Relation>
+        </template>
+        <template #documentTasks>
+          <document-tasks :documentId="documentId" :isCard="isCard" />
         </template>
         <template #lifeCycle>
           <life-cycle :documentId="documentId" :isCard="isCard" />
@@ -132,6 +142,7 @@
   </div>
 </template>
 <script>
+import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";
 import { unload } from "~/infrastructure/services/documentService.js";
 import DocumentType from "~/infrastructure/models/DocumentType.js";
 import Header from "~/components/page/page__header";
@@ -152,7 +163,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -172,20 +183,22 @@ export default {
     DxForm,
     lifeCycle,
     Header,
+    documentTasks
   },
   destroyed() {
     unload(this, this.documentId);
+    if (!this.isNew) this.onClosed();
   },
   props: ["isCard", "documentId"],
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name,
+      title: this.$store.getters[`documents/${this.documentId}/document`].name
     };
   },
-  provide: function () {
+  provide: function() {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName,
+      documentValidatorName: this.documentValidatorName
     };
   },
   created() {
@@ -208,9 +221,9 @@ export default {
         focusStateEnabled: false,
         animationEnabled: true,
         swipeEnabled: true,
-        loop: "true",
+        loop: "true"
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`,
+      documentValidatorName: `OfficialDocument/${this.documentId}`
     };
   },
   methods: {
@@ -218,8 +231,12 @@ export default {
       this.$emit("onRemove", this.documentId);
       this.$emit("onClose", this.documentId);
     },
+    onClosed() {
+      const { documentTypeGuid, id } = this.document;
+      this.$emit("onClosed", { documentTypeGuid, id });
+    },
     onClose() {
-      this.$emit("onClose", this.documentId);
+      this.$emit("onClose");
     },
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
@@ -235,7 +252,7 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    },
+    }
   },
   computed: {
     document() {
@@ -253,29 +270,32 @@ export default {
     },
     documentKindOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentKind,
           filter: [
             ["documentTypeGuid", "=", this.document.documentTypeGuid],
             "and",
-            ["status", "=", 0],
-          ],
+            ["status", "=", 0]
+          ]
         }),
         value: this.document.documentKindId,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/reevaluateDocumentName`
           );
         },
-        onSelectionChanged: (e) => {
+        onSelectionChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/setDocumentKind`,
             e.selectedItem
           );
-        },
+        }
       };
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
@@ -329,21 +349,21 @@ export default {
         value: this.document.name,
         disabled:
           this.document.documentKind?.generateDocumentName || this.isRegistered,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
-        },
+        }
       };
     },
     subjectOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.document.subject,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/setSubject`,
             e.value
           );
-        },
+        }
       };
     },
     noteOptions() {
@@ -352,15 +372,15 @@ export default {
         value: this.document.note,
         height: 70,
         autoResizeEnabled: true,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 .wrapper--relative {
   position: relative;
   height: 100%;

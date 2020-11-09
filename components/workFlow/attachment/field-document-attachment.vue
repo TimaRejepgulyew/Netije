@@ -11,7 +11,7 @@
 <script>
 import { DxPopup } from "devextreme-vue/popup";
 import DocumentService from "~/infrastructure/services/documentVersionService";
-import actionBtn from "~/components/workFlow/attachment-document-action-btn.vue";
+import actionBtn from "~/components/workFlow/attachment/attachment-document-action-btn.vue";
 import documentIcon from "~/components/page/document-icon.vue";
 export default {
   components: {

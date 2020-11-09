@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 class AccessOperation {
-  constructor() { }
+  constructor() {}
 }
 export const state = () => ({
   accessRights: {},
@@ -128,18 +128,34 @@ export const getters = {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.isResponibleForCounterParts
+    return accessRights.isResponibleForCounterParts;
   },
   isResponsibleForRegistrationSettings({ accessRights }) {
     if (accessRights.isAdmin) {
       return true;
     }
-    return accessRights.isResponsibleForRegistrationSettings
+    return accessRights.isResponsibleForRegistrationSettings;
+  },
+  isManagerAssistant({ accessRights }) {
+    return accessRights.isManagerAssistant;
+  },
+  isClerk({ accessRights }) {
+    return accessRights.isClerk;
+  },
+  isBusinessHead({ accessRights }) {
+    return accessRights.isBusinessHead;
+  },
+  isDepartmentManager({ accessRights }) {
+    return accessRights.isDepartmentManager;
   }
 };
 export const mutations = {
   PERMISSIONS(state, payload) {
     const accessRights = {
+      isManagerAssistant: payload.isManagerAssistant,
+      isClerk: payload.roles.includes("Clerk"),
+      isBusinessHead: payload.roles.includes("BusinessUnitHead"),
+      isDepartmentManager: payload.roles.includes("DepartmentManager"),
       employeeId: payload.employeeId,
       isAdmin: payload.roles.includes("Admin"),
       isAuditor: payload.roles.includes("Auditor"),
@@ -149,8 +165,12 @@ export const mutations = {
       isResponsibleForContracts: payload.roles.includes(
         "ResponsibleForContracts"
       ),
-      isResponibleForCounterParts: payload.roles.includes("ResponsibleForCounterparts"),
-      isResponsibleForRegistrationSettings: payload.roles.includes("ResponsibleForRegistrationSettings"),
+      isResponibleForCounterParts: payload.roles.includes(
+        "ResponsibleForCounterparts"
+      ),
+      isResponsibleForRegistrationSettings: payload.roles.includes(
+        "ResponsibleForRegistrationSettings"
+      ),
       Roles: payload.roles,
       operations: new Map(
         payload.accessRights.map(({ entityType, operation }) => {

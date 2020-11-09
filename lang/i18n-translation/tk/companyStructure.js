@@ -41,5 +41,13 @@ export default {
   },
   fields: {
     headCompany: "Baş guramasy"
+  },
+  imports: {
+    title: 'Import',
+    importCompanies: 'Kompaniýalary import etmek',
+    importBank: 'Bankalary import etmek',
+    importJobTitle: 'Wezipesi import etmek',
+    importPersons: 'Şahsy adamlary import etmek',
+    importEmployees: 'Işgärleri import etmek',
   }
 };

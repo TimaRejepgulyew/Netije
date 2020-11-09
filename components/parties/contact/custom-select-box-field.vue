@@ -1,12 +1,15 @@
 <template>
   <div class="d-flex">
-    <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
+    <DxTextBox
+      :placeholder="$t('shared.select')"
+      :read-only="readOnly"
+      :value="fieldData && fieldData.name"
+    />
     <contact-btn
-      
       :correspondentId="correspondentId"
       @valueChanged="valueChanged"
-      :type="fieldData ? fieldData.type:null"
-      :id="fieldData ? fieldData.id:null"
+      :type="fieldData ? fieldData.type : null"
+      :id="fieldData ? fieldData.id : null"
     />
   </div>
 </template>
@@ -22,18 +25,21 @@ export default {
     contactBtn
   },
   props: {
+    readOnly: {
+      type: Boolean
+    },
     correspondentId: {},
     fieldData: {
       type: Object,
       default: () => {}
     }
   },
-  computed:{
-     allowReadContactDetails() {
+  computed: {
+    allowReadContactDetails() {
       return this.$store.getters["permissions/allowReading"](
         EntityType.Contact
       );
-    },
+    }
   },
   methods: {
     valueChanged(data) {

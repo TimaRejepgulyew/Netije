@@ -29,7 +29,6 @@
             :editor-options="deadlineOptions"
             editor-type="dxDateBox"
           >
-            <DxRequiredRule :message="$t('task.validation.deadlineRequired')" />
             <DxLabel location="left" :text="$t('task.fields.deadLine')" />
           </DxSimpleItem>
           <DxSimpleItem

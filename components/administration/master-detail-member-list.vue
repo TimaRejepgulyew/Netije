@@ -1,6 +1,9 @@
 <template>
   <DxTabPanel :tab-panel-options="tabPanelOptions">
-    <DxItem :title="$t('translations.fields.members')" template="members-list" />
+    <DxItem
+      :title="$t('translations.fields.members')"
+      template="members-list"
+    />
     <template #members-list>
       <DxDataGrid
         id="gridContainer"
@@ -20,12 +23,20 @@
           mode="row"
         ></DxEditing>
 
-        <DxFilterRow :visible="true" />
-
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
 
         <DxColumn
+          :allowFiltering="false"
+          :allowSorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          :allow-sorting="false"
           editCellTemplate="recipientSelectBox"
           data-field="member.name"
           data-type="string"
@@ -36,7 +47,7 @@
             valueExpr="id"
             :value="cellInfo.value"
             :isRequired="true"
-            @valueChanged="(value) => onValueChanged(value, cellInfo)"
+            @valueChanged="value => onValueChanged(value, cellInfo)"
           />
         </template>
       </DxDataGrid>
@@ -62,8 +73,7 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxLookup,
-  DxFilterRow,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 import RecipientType from "~/infrastructure/constants/resipientType.js";
 export default {
@@ -78,15 +88,14 @@ export default {
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
-    DxFilterRow,
     permissions,
-    recipientSelectBox,
+    recipientSelectBox
   },
   props: {
     data: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   data() {
     let { id, immutable } = this.data.data;
@@ -98,19 +107,19 @@ export default {
         key: "memberId",
         insertUrl: dataApi.admin.RoleMembers,
         loadUrl: dataApi.admin.RoleMembers + id,
-        removeUrl: dataApi.admin.RoleMembers + id,
+        removeUrl: dataApi.admin.RoleMembers + id
       }),
       statusDataSource: this.$store.getters["status/status"],
       recipientStore: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.recipient.list,
+        loadUrl: dataApi.recipient.list
       }),
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: true,
         swipeEnabled: true,
-        loop: "true",
-      },
+        loop: "true"
+      }
     };
   },
 
@@ -143,7 +152,7 @@ export default {
         return true;
       }
       return false;
-    },
-  },
+    }
+  }
 };
 </script>
