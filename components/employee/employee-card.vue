@@ -139,7 +139,7 @@
           validatorGroup="updateEmployee"
           @valueChanged=" (data) => {
                           setBusinessUnitId(data)
-                          setDepartamentId(null)
+                          setDepartmentId(null)
                       } "
         />
       </template>
@@ -245,7 +245,7 @@ export default {
     }
   },
   methods: {
-    setDepartamentId(data){
+    setDepartmentId(data){
       this.employee.departmentId = data
     },
     setBusinessUnitId(data){

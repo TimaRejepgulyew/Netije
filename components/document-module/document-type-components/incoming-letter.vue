@@ -320,10 +320,6 @@ export default {
       this.selectedCorrespondentType = data;
     },
   },
-  created(){
-    console.log(this.isRegistered);
-    console.log(this.canUpdate);
-  }
 };
 </script>
 

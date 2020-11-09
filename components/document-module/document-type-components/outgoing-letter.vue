@@ -158,6 +158,9 @@ export default {
     businessUnitId() {
       return this.document.businessUnitId;
     },
+    departmentId() {
+      return this.document.departmentId;
+    },
     preparedById() {
       return this.document.preparedById;
     },

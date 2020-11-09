@@ -1,7 +1,7 @@
 <template>
   <div v-if="data">
     <Header :headerTitle="data.name" :isbackButton="false"></Header>
-    <DxForm :read-only="true" :form-data="data" id="form" :col-count="2">
+    <DxForm :read-only="readOnly" :form-data="data" id="form" :col-count="2">
       <DxSimpleItem data-field="name" data-type="string">
         <DxLabel :text="$t('shared.name')" />
       </DxSimpleItem>
@@ -45,14 +45,13 @@
       <DxSimpleItem data-field="note">
         <DxLabel :text="$t('translations.fields.note')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="note" template="textAreaEditor">
+      <DxSimpleItem 
+        data-field="note"
+        :editor-options="noteOptions"
+        editor-type="dxTextArea"
+      >
         <DxLabel :text="$t('translations.fields.note')" />
       </DxSimpleItem>
-      <template #textAreaEditor>
-        <textArea
-          :value="data.note"
-        />
-      </template>
     </DxForm>
   </div>
 </template>
@@ -60,21 +59,21 @@
 <script>
 import { DxForm, DxSimpleItem, DxLabel } from "devextreme-vue/form";
 import Header from "~/components/page/page__header";
-import textArea from "~/components/page/textArea";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import "devextreme/ui/text_area";
 export default {
   props: ["data"],
   data() {
     return {
       statusDataSource: this.$store.getters["status/status"](this),
+      readOnly:true,
     };
   },
   components: {
     DxForm,
     DxSimpleItem,
     DxLabel,
-    textArea,
     Header,
   },
   computed: {
@@ -113,6 +112,11 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
+      };
+    },
+    noteOptions() {
+      return {
+        height:90
       };
     },
   },
