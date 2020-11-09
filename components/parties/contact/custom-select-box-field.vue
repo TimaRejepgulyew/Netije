@@ -6,6 +6,7 @@
       :value="fieldData && fieldData.name"
     />
     <contact-btn
+      :readOnly="readOnly"
       :correspondentId="correspondentId"
       @valueChanged="valueChanged"
       :type="fieldData ? fieldData.type : null"

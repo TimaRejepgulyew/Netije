@@ -1,6 +1,7 @@
 <template>
   <DxForm
     :col-count="2"
+    :readOnly="readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="documentValidatorName"
@@ -266,7 +267,7 @@ export default {
     },
     leadingDocumentOptions() {
       return {
-        readOnly: !this.counterpartyId,
+        readOnly: !this.counterpartyId || this.readOnly,
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
