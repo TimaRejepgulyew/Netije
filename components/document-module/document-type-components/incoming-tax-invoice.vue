@@ -133,7 +133,7 @@
         @valueChanged=" (data) => {
                         setBusinessUnitId(data); 
                         setAddresseeId(null);
-                        setDepartamentId(null)
+                        setDepartmentId(null)
                     } "
       />
     </template>
@@ -355,7 +355,7 @@ export default {
     setBusinessUnitId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setValidTill(data) {
