@@ -36,6 +36,7 @@
         :useIcons="true"
         mode="form"
       />
+      
       <DxColumn
         data-field="name"
         :caption="$t('shared.name')"

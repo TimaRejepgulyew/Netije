@@ -1,133 +1,175 @@
 <template>
   <main>
-    <Header :headerTitle="$t('menu.department')"></Header>
-    <DxDataGrid
-      id="gridContainer"
-      :errorRowEnabled="false"
-      :show-borders="true"
-      :data-source="dataSource"
-      :remote-operations="true"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
-      @row-updating="onRowUpdating"
-      @init-new-row="onInitNewRow"
+    <DxPopup
+      :visible.sync="popupState"
+      :drag-enabled="false"
+      :close-on-outside-click="true"
+      :show-title="false"
+      height="auto"
+      position="top"
     >
-      <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false" />
-      <DxHeaderFilter :visible="true" />
-
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-
-      <DxFilterRow :visible="true" />
-
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('menu.department')"
-      />
-
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Department" />
-
-      <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="allowDeleting"
-        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
-        :useIcons="true"
-        mode="form"
-      />
-
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
-
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
-        <DxRequiredRule :message="$t('shared.nameRequired')" />
-      </DxColumn>
-
-      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" :visible="false" />
-
-      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-        <DxRequiredRule :message="$t('shared.codeRequired')" />
-        <DxPatternRule
-          :ignore-empty-value="false"
-          :pattern="codePattern"
-          :message="$t('validation.valueMustNotContainsSpaces')"
-        />
-        <DxAsyncRule
-          :reevaluate="false"
-          :ignore-empty-value="true"
-          :message="$t('shared.codeAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
-      </DxColumn>
-
-      <DxColumn data-field="shortName" :caption="$t('shared.shortName')"></DxColumn>
-
-      <DxColumn
-        data-field="headOfficeId"
-        :caption="$t('translations.fields.headOfficeId')"
-        :visible="false"
+      <div>
+        <div v-if="popupState" >
+          <member-list  :data="currentEmployee" />
+        </div>
+      </div>
+    </DxPopup>
+    <Header :headerTitle="$t('menu.department')"></Header>
+    <div>
+      <DxTreeList
+        parent-id-expr="headOfficeId"
+        :data-source="dataSource"
+        :errorRowEnabled="false"
+        :show-borders="true"
+        :column-auto-width="true"
+        :allow-column-reordering="true"
+        :allow-column-resizing="true"
+        :load-panel="{
+          enabled: true,
+          indicatorSrc: require('~/static/icons/loading.gif'),
+        }"
+        @row-updating="onRowUpdating"
+        @init-new-row="onInitNewRow"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getActiveHeadOffices"
-          value-expr="id"
-          display-expr="name"
+        <DxSearchPanel position="after" :visible="true" />
+        <DxFilterRow :visible="true" />
+        <DxHeaderFilter :visible="true" />
+        <DxColumnChooser :enabled="true" />
+        <DxColumnFixing :enabled="true" />
+        <DxScrolling mode="virtual" />
+        <DxStateStoring
+          :enabled="true"
+          type="localStorage"
+          storage-key="department"
         />
-      </DxColumn>
 
-      <DxColumn data-field="managerId" :caption="$t('translations.fields.managerId')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getActiveEmployees"
-          value-expr="id"
-          display-expr="name"
+        <DxEditing
+          :allow-updating="
+            $store.getters['permissions/allowUpdating'](entityType)
+          "
+          :allow-deleting="allowDeleting"
+          :allow-adding="
+            $store.getters['permissions/allowCreating'](entityType)
+          "
+          :useIcons="true"
+          mode="form"
         />
-      </DxColumn>
 
-      <DxColumn
-        data-field="businessUnitId"
-        :caption="$t('translations.fields.businessUnitId')"
-        :set-cell-value="onBusinessUnitIdChanged"
-      >
-        <DxRequiredRule :message="$t('translations.fields.businessUnitIdRequired')" />
-        <DxLookup :data-source="getActiveBussinessUnit" value-expr="id" display-expr="name" />
-      </DxColumn>
+        <DxColumn
+          data-field="name"
+          :caption="$t('shared.name')"
+          data-type="string"
+        >
+          <DxRequiredRule :message="$t('shared.nameRequired')" />
+        </DxColumn>
 
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="statusDataSource"
-          value-expr="id"
-          display-expr="status"
+        <DxColumn
+          data-field="phone"
+          :caption="$t('translations.fields.phones')"
+          :visible="false"
         />
-      </DxColumn>
 
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-        edit-cell-template="textAreaEditor"
-      ></DxColumn>
+        <DxColumn
+          data-field="code"
+          :caption="$t('shared.code')"
+          :visible="false"
+        >
+          <DxRequiredRule :message="$t('shared.codeRequired')" />
+          <DxPatternRule
+            :ignore-empty-value="false"
+            :pattern="codePattern"
+            :message="$t('validation.valueMustNotContainsSpaces')"
+          />
+          <DxAsyncRule
+            :reevaluate="false"
+            :ignore-empty-value="true"
+            :message="$t('shared.codeAlreadyExists')"
+            :validation-callback="validateEntityExists"
+          ></DxAsyncRule>
+        </DxColumn>
 
-      <DxMasterDetail
+        <DxColumn
+          data-field="shortName"
+          :caption="$t('shared.shortName')"
+        ></DxColumn>
+
+        <DxColumn
+          data-field="headOfficeId"
+          :caption="$t('translations.fields.headOfficeId')"
+          :visible="false"
+        >
+          <DxLookup
+            :allow-clearing="true"
+            :data-source="getActiveHeadOffices"
+            value-expr="id"
+            display-expr="name"
+          />
+        </DxColumn>
+
+        <DxColumn
+          data-field="managerId"
+          :caption="$t('translations.fields.managerId')"
+        >
+          <DxLookup
+            :allow-clearing="true"
+            :data-source="getActiveEmployees"
+            value-expr="id"
+            display-expr="name"
+          />
+        </DxColumn>
+
+        <DxColumn
+          data-field="businessUnitId"
+          :caption="$t('translations.fields.businessUnitId')"
+          :set-cell-value="onBusinessUnitIdChanged"
+        >
+          <DxRequiredRule
+            :message="$t('translations.fields.businessUnitIdRequired')"
+          />
+          <DxLookup
+            :data-source="getActiveBussinessUnit"
+            value-expr="id"
+            display-expr="name"
+          />
+        </DxColumn>
+
+        <DxColumn
+          data-field="status"
+          :caption="$t('translations.fields.status')"
+        >
+          <DxLookup
+            :allow-clearing="true"
+            :data-source="statusDataSource"
+            value-expr="id"
+            display-expr="status"
+          />
+        </DxColumn>
+
+        <DxColumn
+          data-field="note"
+          :caption="$t('translations.fields.note')"
+          :visible="false"
+          edit-cell-template="textAreaEditor"
+        ></DxColumn>
+        <DxColumn :width="110" :buttons="editButtons" type="buttons" />
+        <!--   <DxMasterDetail
         :enabled="$store.getters['permissions/allowReading'](employeeEntityType)"
         template="masterDetailTemplate"
-      />
+      /> -->
 
-      <template #masterDetailTemplate="data">
-        <member-list :data="data.data" />
-      </template>
-
-      <template #textAreaEditor="cellInfo">
-        <textArea
-          :value="cellInfo.data.value"
-          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
-        ></textArea>
-      </template>
-    </DxDataGrid>
+        <template #masterDetailTemplate="data">
+          <custom-popup :show="true">
+            <member-list :data="data.data" />
+          </custom-popup>
+        </template>
+        <template #textAreaEditor="cellInfo">
+          <textArea
+            :value="cellInfo.data.value"
+            :on-value-changed="(value) => onValueChanged(value, cellInfo.data)"
+          ></textArea>
+        </template>
+      </DxTreeList>
+    </div>
   </main>
 </template>
 <script>
@@ -137,41 +179,37 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import MemberList from "~/components/department/master-detail-member-list";
 import textArea from "~/components/page/textArea";
+import { DxPopup } from "devextreme-vue/popup";
 import {
-  DxMasterDetail,
-  DxSearchPanel,
-  DxDataGrid,
+  DxTreeList,
   DxColumn,
-  DxEditing,
-  DxHeaderFilter,
-  DxScrolling,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
+  DxFilterRow,
+  DxRequiredRule,
   DxAsyncRule,
   DxPatternRule,
-  DxRequiredRule,
   DxExport,
+  DxEditing,
   DxColumnChooser,
-  DxColumnFixing,
-  DxFilterRow,
+  DxHeaderFilter,
+  DxSearchPanel,
+  DxSelection,
+  DxLookup,
+  DxScrolling,
   DxStateStoring,
-} from "devextreme-vue/data-grid";
-
+  DxColumnFixing,
+} from "devextreme-vue/tree-list";
 export default {
   components: {
     MemberList,
     textArea,
-    DxMasterDetail,
+    DxColumn,
     Header,
     DxSearchPanel,
-    DxDataGrid,
+    DxTreeList,
     DxColumn,
     DxEditing,
     DxHeaderFilter,
     DxScrolling,
-    DxGrouping,
-    DxGroupPanel,
     DxLookup,
     DxRequiredRule,
     DxPatternRule,
@@ -181,9 +219,11 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
+    DxPopup,
   },
   data() {
     return {
+      currentEmployee: null,
       employeeEntityType: EntityType.Employee,
       entityType: EntityType.Department,
       dataSource: this.$dxStore({
@@ -199,9 +239,34 @@ export default {
         this.defaultSetCellValue(rowData, value);
       },
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      popupState: false,
     };
   },
+  computed: {
+    editButtons() {
+      return [
+        {
+          hint: this.$t("translations.fields.members"),
+          icon: "card",
+          visible: this.$store.getters["permissions/allowReading"](
+            this.employeeEntityType
+          ),
+          onClick: (e) => {
+            (this.currentEmployee = e.row.data),
+              console.log(this.currentEmployee);
+            this.openPopup();
+          },
+        },
+        "add",
+        "edit",
+        "delete",
+      ];
+    },
+  },
   methods: {
+    openPopup() {
+      this.popupState = !this.popupState;
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },

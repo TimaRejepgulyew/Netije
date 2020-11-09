@@ -299,7 +299,7 @@ export default {
         readOnly: this.isRegistered,
         value: this.document.currencyId,
         onValueChanged: (e) => {
-          this.  this.setCurrencyId(e.value)
+            this.setCurrencyId(e.value)
         },
       };
     },
