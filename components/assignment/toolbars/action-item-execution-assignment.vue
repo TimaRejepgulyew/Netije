@@ -86,8 +86,8 @@ export default {
     };
   },
   methods: {
-    pasteAttachment({ id, documentTypeGuid }) {
-      // this.$store.commit( `assignments/${this.assignmentId}/)
+    pasteAttachment(options) {
+      this.$emit("pasteAttachment", options);
     },
     togglePopup() {
       this.showItemExecutionTask = !this.showItemExecutionTask;
