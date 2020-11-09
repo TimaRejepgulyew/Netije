@@ -119,7 +119,7 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="isRegistered && !canUpdate"
+        :read-only="isRegistered || !canUpdate"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged=" (data) => {
@@ -322,6 +322,10 @@ export default {
       this.selectedCorrespondentType = data;
     },
   },
+  created(){
+    console.log(this.isRegistered);
+    console.log(this.canUpdate);
+  }
 };
 </script>
 
