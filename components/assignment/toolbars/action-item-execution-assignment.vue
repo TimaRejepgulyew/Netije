@@ -27,6 +27,7 @@
     >
       <div class="scrool-auto">
         <task-card
+          @onClosed="pasteAttachment"
           @onClose="togglePopup"
           :taskId="actionItemExecutionTaskId"
           v-if="showItemExecutionTask"
@@ -54,7 +55,10 @@
       />
 
       <template #createOutgoingLetterBtn>
-        <create-outgoing-letter-btn :leadingDocumentId="incomingDocumentId" />
+        <create-outgoing-letter-btn
+          @pasteAttachment="pasteAttachment"
+          :leadingDocumentId="incomingDocumentId"
+        />
       </template>
     </DxToolbar>
   </div>
@@ -82,6 +86,9 @@ export default {
     };
   },
   methods: {
+    pasteAttachment({ id, documentTypeGuid }) {
+      // this.$store.commit( `assignments/${this.assignmentId}/)
+    },
     togglePopup() {
       this.showItemExecutionTask = !this.showItemExecutionTask;
     },
@@ -139,15 +146,9 @@ export default {
             return attachmentGroup.groupId === actionItemExecutionGroupId;
           }
         );
-        console.log(currentAttachmentGroup, "currentAttachmentGroup");
-        if (currentAttachmentGroup.entities) {
-          console.log(
-            currentAttachmentGroup.entities.length,
-            "currentAttachmentGroup length"
-          );
-          const currentDocument = currentAttachmentGroup.entities[0].entity;
-          console.log(currentDocument, "currentDocument");
 
+        if (currentAttachmentGroup.entities) {
+          const currentDocument = currentAttachmentGroup.entities[0].entity;
           if (
             currentDocument.documentTypeGuid === DocumentTypeGuid.IncomingLetter
           ) {

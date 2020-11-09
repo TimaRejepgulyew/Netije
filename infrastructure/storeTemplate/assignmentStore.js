@@ -75,6 +75,14 @@ export const mutations = {
   },
   SET_NEED_ABORT_CHILD_ACTION_ITEMS(state, payload) {
     state.assignment.needAbortChildActionItems = payload;
+  },
+  ADD_RESULT_EXICUTION() {
+    const groupResultExicution = state.attachmentGroups.find(
+      attachmentGroup => {
+        return attachmentGroup.groupId === 7;
+      }
+    );
+    console.log(groupResultExicution);
   }
 };
 

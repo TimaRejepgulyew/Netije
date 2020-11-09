@@ -43,7 +43,7 @@
         />
         <DxItem
           locateInMenu="auto"
-          :visible="inProcess"
+          :visible="inProcess && false"
           template="toolbarAddApproverBtn"
           location="before"
           widget="dxButton"
@@ -67,7 +67,7 @@ export default {
   mixins: [toolbarMixin],
   components: {
     DxPopup,
-    toolbarAddApproverBtn,
+    toolbarAddApproverBtn
   },
   computed: {
     addresseeId() {
@@ -134,7 +134,7 @@ export default {
         }
       };
     }
-  },
+  }
 };
 </script>
 <style scoped>
