@@ -88,12 +88,14 @@
     <template #counterparty>
       <custom-select-box
         value-expr="id"
-        :readOnly="isRegistered"
+        :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
-        @valueChanged="(data) => {
-                        setCounterparty(data); 
-                        setLeadingDocumentId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setCounterparty(data);
+            setLeadingDocumentId(null);
+          }
+        "
         messageRequired="document.validation.counterPartRequired"
         :value="counterpartyId"
       />
@@ -101,13 +103,15 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="isRegistered"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged="(data) => {
-                        setBusinessUnitId(data); 
-                        setDepartamentId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+            setDepartamentId(null);
+          }
+        "
       />
     </template>
   </DxForm>
@@ -122,7 +126,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -140,8 +144,8 @@ export default {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     counterpartyId() {
       return this.document.counterpartyId;
@@ -154,41 +158,43 @@ export default {
     },
     numberOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
+          context: this
         }),
         value: this.document.number,
-        onValueChanged: (e) => {
-          this.setNumber(e.value)
-        },
+        onValueChanged: e => {
+          this.setNumber(e.value);
+        }
       };
     },
     dateOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
+          context: this
         }),
         value: this.document.date,
-        onValueChanged: (e) => {
-          this.setDate(e.value)
-        },
+        onValueChanged: e => {
+          this.setDate(e.value);
+        }
       };
     },
     leadingDocumentOptions() {
       return {
-        readOnly: !this.counterpartyId,
+        readOnly: !this.counterpartyId || this.readOnly,
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
-          filter: this.counterpartyId ? ["counterpartyId", "=", this.counterpartyId] : [],
+          filter: this.counterpartyId
+            ? ["counterpartyId", "=", this.counterpartyId]
+            : []
         }),
         value: this.document.leadingDocumentId,
-        onValueChanged: (e) => {
-          this.setLeadingDocumentId(e.value)
-        },
+        onValueChanged: e => {
+          this.setLeadingDocumentId(e.value);
+        }
       };
     },
     currencyIdOptions() {
@@ -196,70 +202,85 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", Status.Active],
+          filter: ["status", "=", Status.Active]
         }),
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.document.currencyId,
-        onValueChanged: (e) => {
-          this.setCurrencyId(e.value)
-        },
+        onValueChanged: e => {
+          this.setCurrencyId(e.value);
+        }
       };
     },
     totalAmountOptions() {
       return {
         format: "#,##0.00",
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.document.totalAmount,
-        onValueChanged: (e) => {
-          this.setTotalAmount(e.value)
-        },
+        onValueChanged: e => {
+          this.setTotalAmount(e.value);
+        }
       };
     },
     deparmentOptions() {
       let businessUnitId = this.document.businessUnitId;
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", businessUnitId],"and",["status", "=", Status.Active]],
+          filter: [
+            ["businessUnitId", "=", businessUnitId],
+            "and",
+            ["status", "=", Status.Active]
+          ]
         }),
         value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
-        },
+        onValueChanged: e => {
+          this.setDepartamentId(e.value);
+        }
       };
-    },
+    }
   },
   methods: {
     setCounterparty(data) {
       this.$store.commit(`documents/${this.documentId}/SET_COUNTERPARTY`, data);
     },
     setBusinessUnitId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        data
+      );
     },
     setDepartamentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setTotalAmount(data) {
       this.$store.commit(`documents/${this.documentId}/SET_TOTAL_AMOUNT`, data);
     },
     setDepartamentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setCurrencyId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_CURRENCY_ID`, data);
     },
     setLeadingDocumentId(data) {
-      this.$store.dispatch(`documents/${this.documentId}/setLeadingDocumentId`, data);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setLeadingDocumentId`,
+        data
+      );
     },
     setDate(data) {
       this.$store.commit(`documents/${this.documentId}/DATE`, data);
     },
     setNumber(data) {
       this.$store.commit(`documents/${this.documentId}/NUMBER`, data);
-    },
-  },
+    }
+  }
 };
 </script>
-

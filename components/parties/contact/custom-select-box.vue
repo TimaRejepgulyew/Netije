@@ -1,6 +1,7 @@
 <template>
   <DxSelectBox
     ref="contact"
+    :read-only="readOnly"
     :data-source="contactStore"
     @valueChanged="valueChanged"
     :showClearButton="true"
@@ -25,6 +26,7 @@
     </template>
     <template #customfield="{data}">
       <custom-field
+       :read-only="readOnly"
         @valueChanged="setContact"
         :correspondentId="correspondentId"
         :field-data="data"
@@ -45,15 +47,16 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: [
+    "readOnly",
     "validatorGroup",
     "messageRequired",
     "value",
     "filter",
     "correspondentId",
-    "disabled",
+    "disabled"
   ],
   data() {
     return {};
@@ -63,13 +66,13 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Contact,
+          loadUrl: dataApi.contragents.Contact
         }),
         paginate: true,
         pageSize: 10,
-        filter: ["companyId", "=", this.correspondentId],
+        filter: ["companyId", "=", this.correspondentId]
       });
-    },
+    }
   },
   methods: {
     valueChanged(e) {
@@ -83,10 +86,9 @@ export default {
     setContact(data) {
       this.$emit("valueChanged", data);
       this.$refs["contact"].instance.repaint();
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

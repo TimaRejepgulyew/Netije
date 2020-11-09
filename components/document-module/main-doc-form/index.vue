@@ -17,7 +17,7 @@
         :scrolling-enabled="true"
         class="mt-1"
         ref="form"
-        :read-only="!canUpdate"
+        :read-only="readOnly"
         :show-colon-after-label="true"
         :show-validation-summary="false"
         :validation-group="documentValidatorName"
@@ -270,7 +270,7 @@ export default {
     },
     documentKindOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentKind,
@@ -293,6 +293,9 @@ export default {
           );
         }
       };
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
@@ -353,7 +356,7 @@ export default {
     },
     subjectOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.document.subject,
         onValueChanged: e => {
           this.$store.dispatch(

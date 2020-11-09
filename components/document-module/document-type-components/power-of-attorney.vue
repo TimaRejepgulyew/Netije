@@ -1,6 +1,6 @@
 <template>
   <DxForm
-    :read-only="!canUpdate"
+    :read-only="readOnly"
     :col-count="1"
     :show-colon-after-label="true"
     :show-validation-summary="false"
@@ -12,7 +12,10 @@
           data-field="businessUnitId"
           template="businessUnitSelectBox"
         >
-          <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.businessUnitId')"
+          />
           <DxRequiredRule
             :message="$t('document.validation.businessUnitIdRequired')"
           />
@@ -23,7 +26,9 @@
           editor-type="dxSelectBox"
         >
           <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-          <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.departmentIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="validTill"
@@ -31,19 +36,25 @@
           editor-type="dxDateBox"
         >
           <DxLabel location="left" :text="$t('document.fields.validTill')" />
-          <DxRequiredRule :message="$t('document.validation.validTillRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.validTillRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="issuedToId" template="issuedToId">
           <DxLabel location="left" :text="$t('document.fields.issuedToId')" />
-          <DxRequiredRule :message="$t('document.validation.issuedToIdRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.issuedToIdRequired')"
+          />
         </DxSimpleItem>
       </DxGroupItem>
 
       <DxGroupItem>
         <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
-          <DxRequiredRule :message="$t('document.validation.ourSignatoryRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.ourSignatoryRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
           <DxLabel location="left" :text="$t('document.fields.preparedById')" />
@@ -52,6 +63,7 @@
     </DxGroupItem>
     <template #ourSignatory>
       <employee-select-box
+        :read-only="readOnly"
         valueExpr="id"
         :validatorGroup="documentValidatorName"
         :storeApi="signatoryApi"
@@ -62,28 +74,35 @@
     <template #issuedToId>
       <employee-select-box
         valueExpr="id"
-        :read-only="!canUpdate || isRegistered"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="issuedToId"
         @valueChanged="setIssuedToId"
       />
     </template>
     <template #prepared>
-      <employee-select-box valueExpr="id" :value="preparedById" @valueChanged="setPreparedById" />
+      <employee-select-box
+        :read-only="readOnly"
+        valueExpr="id"
+        :value="preparedById"
+        @valueChanged="setPreparedById"
+      />
     </template>
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="isRegistered"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged=" (data) => {
-                          setBusinessUnitId(data)
-                          setOurSignatoryId(null)
-                          setPreparedById(null)
-                          setDepartamentId(null)
-                          setIssuedToId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+            setOurSignatoryId(null);
+            setPreparedById(null);
+            setDepartamentId(null);
+            setIssuedToId(null);
+          }
+        "
       />
     </template>
   </DxForm>
@@ -97,7 +116,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -113,7 +132,7 @@ export default {
   inject: ["documentValidatorName"],
   data() {
     return {
-      signatoryApi: dataApi.signatureSettings.Members,
+      signatoryApi: dataApi.signatureSettings.Members
     };
   },
   computed: {
@@ -123,11 +142,8 @@ export default {
     businessUnitId() {
       return this.document.businessUnitId;
     },
-    canUpdate() {
-      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     issuedToId() {
       return this.document.issuedToId;
@@ -146,18 +162,22 @@ export default {
     },
     deparmentOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
+          filter: [
+            ["businessUnitId", "=", this.businessUnitId],
+            "and",
+            ["status", "=", Status.Active]
+          ]
         }),
         value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
-          this.setOurSignatoryId(null)
-          this.setPreparedById(null)
-        },
+        onValueChanged: e => {
+          this.setDepartamentId(e.value);
+          this.setOurSignatoryId(null);
+          this.setPreparedById(null);
+        }
       };
     },
     ourSignatoryOptions() {
@@ -165,12 +185,17 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Employee,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
+          filter: [
+            ["businessUnitId", "=", this.businessUnitId],
+            "and",
+            ["status", "=", Status.Active]
+          ]
         }),
+        readOnly: this.readOnly,
         value: this.document.ourSignatoryId,
-        onValueChanged: (e) => {
-          this.setOurSignatoryId(e.value)
-        },
+        onValueChanged: e => {
+          this.setOurSignatoryId(e.value);
+        }
       };
     },
     preparedByOptions() {
@@ -178,47 +203,62 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Employee,
-          filter: [["departmentId", "=", this.departmentId],"and",["status", "=", Status.Active]],
+          filter: [
+            ["departmentId", "=", this.departmentId],
+            "and",
+            ["status", "=", Status.Active]
+          ]
         }),
+        readOnly: this.readOnly,
         value: this.document.preparedById,
-        onValueChanged: (e) => {
-          this.setPreparedById(e.value)
-        },
+        onValueChanged: e => {
+          this.setPreparedById(e.value);
+        }
       };
     },
     issuedToIdOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.company.Employee,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
+          filter: [
+            ["businessUnitId", "=", this.businessUnitId],
+            "and",
+            ["status", "=", Status.Active]
+          ]
         }),
         value: this.document.issuedToId,
-        onValueChanged: (e) => {
-          this.dispatchIssuedToId(e.value)
-        },
+        onValueChanged: e => {
+          this.dispatchIssuedToId(e.value);
+        }
       };
     },
     validTillOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
+          context: this
         }),
         value: this.document.validTill,
-        onValueChanged: (e) => {
-          this.setValidTill(e.value)
-        },
+        onValueChanged: e => {
+          this.setValidTill(e.value);
+        }
       };
-    },
+    }
   },
   methods: {
     setPreparedById(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        data
+      );
     },
     setOurSignatoryId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
     dispatchIssuedToId(data) {
       this.$store.dispatch(`documents/${this.documentId}/setIssuedToId`, data);
@@ -227,14 +267,20 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_ISSUED_TO_ID`, data);
     },
     setBusinessUnitId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        data
+      );
     },
     setDepartamentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);
-    },
-  },
+    }
+  }
 };
 </script>

@@ -17,7 +17,11 @@
         />
       </div>
     </DxPopup>
-    <DxTextBox :placeholder="$t('shared.select')" :value="fieldData && fieldData.name" />
+    <DxTextBox
+      :placeholder="$t('shared.select')"
+      :read-only="readOnly"
+      :value="fieldData && fieldData.name"
+    />
     <DxDropDownButton
       :focusStateEnabled="false"
       :hoverStateEnabled="false"
@@ -29,7 +33,7 @@
       display-expr="name"
       :hint="$t('buttons.add')"
       stylingMode="text"
-      :style="{position:'relative',color:'green'}"
+      :style="{ position: 'relative', color: 'green' }"
       @item-click="createCounterPart"
     />
     <additional-btn :button-options="cardDetailCounterPartOptions">
@@ -42,7 +46,11 @@
       />
     </additional-btn>
     <additional-btn :button-options="cardGridBtnOptions">
-      <counter-part-grid slot="card" @valueChanged="valueChanged" :isCard="true" />
+      <counter-part-grid
+        slot="card"
+        @valueChanged="valueChanged"
+        :isCard="true"
+      />
     </additional-btn>
   </div>
 </template>
@@ -67,18 +75,17 @@ export default {
     counterPartGrid,
     company,
     bank,
-    person,
+    person
   },
   props: {
     readOnly: {
       type: Boolean,
-      default: true,
     },
     notPerson: {},
     fieldData: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
@@ -91,9 +98,9 @@ export default {
         {
           name: this.$t("counterPart.Person"),
           type: "person",
-          visible: !this.notPerson,
-        },
-      ],
+          visible: !this.notPerson
+        }
+      ]
     };
   },
   computed: {
@@ -110,14 +117,14 @@ export default {
     cardGridBtnOptions() {
       return {
         icon: "more",
-        visible: !this.readOnly && this.allowReadCounterPartDetails,
+        visible: !this.readOnly && this.allowReadCounterPartDetails
       };
     },
     cardDetailCounterPartOptions() {
       return {
         icon: "info",
         hint: this.$t("buttons.showCard"),
-        visible: this.isSelected && this.allowReadCounterPartDetails,
+        visible: this.isSelected && this.allowReadCounterPartDetails
       };
     },
     isSelected() {
@@ -125,7 +132,7 @@ export default {
     },
     showCardByType() {
       return this.fieldData?.type.toLowerCase();
-    },
+    }
   },
   methods: {
     createCounterPart(e) {
@@ -137,7 +144,7 @@ export default {
     },
     valueUpdated(data) {
       this.$emit("valueChanged", { data, updated: true });
-    },
-  },
+    }
+  }
 };
 </script>

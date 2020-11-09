@@ -119,7 +119,7 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="isRegistered || !canUpdate"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged="
