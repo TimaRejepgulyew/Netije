@@ -2,18 +2,31 @@
   <main>
     <Header :headerTitle="$t('menu.businessUnit')"></Header>
     <DxTreeList
-      :data-source="dataSource"
-      :show-borders="true"
       parent-id-expr="headCompanyId"
+      :data-source="dataSource"
+      :errorRowEnabled="false"
+      :show-borders="true"
       :column-auto-width="true"
+      :allow-column-reordering="true"
+      :allow-column-resizing="true"
       :load-panel="{
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif'),
       }"
+      @row-updating="onRowUpdating"
+      @init-new-row="onInitNewRow"
     >
       <DxSearchPanel position="after" :visible="true" />
       <DxFilterRow :visible="true" />
       <DxHeaderFilter :visible="true" />
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
+      <DxScrolling mode="virtual" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="businessUnit"
+      />
       <DxEditing
         :allow-updating="
           $store.getters['permissions/allowUpdating'](entityType)
@@ -192,43 +205,6 @@
         ></textArea>
       </template>
     </DxTreeList>
-    <!-- <DxDataGrid
-      id="gridContainer"
-      :errorRowEnabled="false"
-      :show-borders="true"
-      :data-source="dataSource"
-      :remote-operations="true"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="true"
-      :load-panel="{
-        enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
-      }"
-      @row-updating="onRowUpdating"
-      @init-new-row="onInitNewRow"
-    >
-      <DxGroupPanel :visible="true" />
-      <DxGrouping :auto-expand-all="false" />
-
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="BusinessUnit"
-      />
-      <DxEditing
-        :allow-updating="
-          $store.getters['permissions/allowUpdating'](entityType)
-        "
-        :allow-deleting="allowDeleting"
-        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
-        :useIcons="true"
-        mode="form"
-      />
-      <DxScrolling mode="virtual" />
-    </DxDataGrid> -->
   </main>
 </template>
 <script>
@@ -239,41 +215,23 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import textArea from "~/components/page/textArea";
 import {
-  // DxSearchPanel,
-  DxDataGrid,
-  // DxColumn,
-  // DxEditing,
-  // DxHeaderFilter,
-  DxScrolling,
-  // DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  // DxAsyncRule,
-  // DxPatternRule,
-  // DxRequiredRule,
-  // DxExport,
-  DxColumnChooser,
-  DxColumnFixing,
-  // DxFilterRow,
-  DxStateStoring,
-  DxEmailRule,
-} from "devextreme-vue/data-grid";
-import {
   DxTreeList,
   DxColumn,
   DxFilterRow,
-  DxHeaderFilter,
   DxRequiredRule,
   DxAsyncRule,
   DxPatternRule,
   DxExport,
   DxEditing,
-  // DxGroupPanel,
-  // DxColumnChooser,
-  // DxHeaderFilter,
+  DxColumnChooser,
+  DxHeaderFilter,
   DxSearchPanel,
-  // DxSelection,
+  DxSelection,
   DxLookup,
+  DxScrolling,
+  DxStateStoring,
+  DxEmailRule,
+  DxColumnFixing
 } from "devextreme-vue/tree-list";
 
 export default {
@@ -281,14 +239,11 @@ export default {
     textArea,
     Header,
     DxSearchPanel,
-    DxDataGrid,
     DxColumn,
     DxEditing,
     DxHeaderFilter,
     DxScrolling,
     DxLookup,
-    DxGrouping,
-    DxGroupPanel,
     DxRequiredRule,
     DxPatternRule,
     DxAsyncRule,
