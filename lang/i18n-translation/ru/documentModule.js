@@ -117,6 +117,7 @@ export default {
     whom: "Кому"
   },
   validation: {
+    stateRequired: "Введите состояние",
     issuedToIdRequired: "Введите кому выдана доверенность",
     ourSignatoryRequired: "Введите того кто подписал",
     validTillRequired: "Введите по какой срок действительна доверенность",
