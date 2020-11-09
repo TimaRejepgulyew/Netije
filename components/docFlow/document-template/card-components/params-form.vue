@@ -2,7 +2,7 @@
   <div>
     <DxDataGrid
       :data-source="data"
-      @rowUpdating="(e) => rowUpdating(e)"
+      @rowUpdated="e => rowUpdated(e)"
       :remote-operations="false"
       :allow-column-reordering="true"
       :row-alternation-enabled="true"
@@ -28,7 +28,10 @@
       >
         <DxPatternRule
           :pattern="/^[^\.:\s+]\S+[^\.:\s+]$/"
-          :message="$t('document.validation.patternRule')"
+          :message="$t('document.validation.paramsValueRule')"
+        />
+        <DxRequiredRule
+          :message="$t('document.validation.paramsValueRequired')"
         />
       </DxColumn>
     </DxDataGrid>
@@ -41,8 +44,9 @@ import {
   DxColumn,
   DxEditing,
   DxScrolling,
+  DxRequiredRule,
   DxPatternRule,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 export default {
   components: {
@@ -50,40 +54,34 @@ export default {
     DxColumn,
     DxEditing,
     DxScrolling,
+    DxRequiredRule,
     DxPatternRule,
-    DxButton,
+    DxButton
   },
   props: ["documentId", "isCard"],
+
   data() {
-    const data = JSON.parse(
-      JSON.stringify(
-        this.$store.getters[`documents/${this.documentId}/document`].params
-      )
-    );
     return {
-      data,
+      data: this.$store.getters[`documents/${this.documentId}/params`]
     };
   },
   methods: {
-    rowUpdating(e) {
-      this.$store.commit(`documents/${this.documentId}/SET_PARAM`, {
-        name: e.key.name,
-        value: e.newData.value,
-      });
+    rowUpdated(e) {
+      const payload = JSON.parse(JSON.stringify(this.data.slice()));
+      this.$store.commit(`documents/${this.documentId}/SET_PARAM`, payload);
     },
     customizeText(cellInfo) {
       return "> " + cellInfo.value.split(".").join(" > ");
-    },
+    }
   },
   computed: {
     nameOptions() {
       return {
-        readOnly: true,
+        readOnly: true
       };
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

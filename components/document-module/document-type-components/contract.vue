@@ -142,7 +142,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
-        :readOnly="isRegistered"
+        :readOnly="readOnly"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"
@@ -152,6 +152,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
@@ -160,6 +161,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setCounterpartySignatoryId"
@@ -168,6 +170,7 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
+        :readOnly="readOnly"
         valueExpr="id"
         :value="ourSignatoryId"
         :storeApi="signatoryApi"
@@ -176,6 +179,7 @@
     </template>
     <template #responsibleEmployee>
       <employee-select-box
+        :readOnly="readOnly"
         value-expr="id"
         :value="responsibleEmployeeId"
         @valueChanged="setResponsibleEmployeeId"
@@ -222,7 +226,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -242,7 +246,7 @@ export default {
   data() {
     return {
       selectedCorrespondentType: null,
-      signatoryApi: dataApi.signatureSettings.Members,
+      signatoryApi: dataApi.signatureSettings.Members
     };
   },
   computed: {
@@ -261,8 +265,8 @@ export default {
     validFromRequired() {
       return this.isAutomaticRenewal;
     },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     counterpartyId() {
       return this.document.counterpartyId;
@@ -299,11 +303,11 @@ export default {
     },
     isStandardOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.document.isStandard,
-        onValueChanged: (e) => {
-          this.setIsStandard(e.value)
-        },
+        onValueChanged: e => {
+          this.setIsStandard(e.value);
+        }
       };
     },
     currencyIdOptions() {
@@ -311,81 +315,81 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", Status.Active],
+          filter: ["status", "=", Status.Active]
         }),
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.document.currencyId,
-        onValueChanged: (e) => {
-          this.setCurrencyId(e.value)
-        },
+        onValueChanged: e => {
+          this.setCurrencyId(e.value);
+        }
       };
     },
     totalAmountOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
+          context: this
         }),
         format: "#,##0.00",
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.document.totalAmount,
-        onValueChanged: (e) => {
-          this.setTotalAmount(e.value)
-        },
+        onValueChanged: e => {
+          this.setTotalAmount(e.value);
+        }
       };
     },
     isAutomaticRenewalOptions() {
       return {
         value: this.isAutomaticRenewal,
-        onValueChanged: (e) => {
-          this.setAutomaticRenewal(e.value)
-        },
+        onValueChanged: e => {
+          this.setAutomaticRenewal(e.value);
+        }
       };
     },
     documentGroupIdOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.ContractCategories,
-          filter: ["status", "=", Status.Active],
+          filter: ["status", "=", Status.Active]
         }),
         value: this.document.documentGroupId,
-        onValueChanged: (e) => {
-          this.setDocumentGroupId(e.value)
-        },
+        onValueChanged: e => {
+          this.setDocumentGroupId(e.value);
+        }
       };
     },
     validFromOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
+          context: this
         }),
         value: this.document.validFrom,
-        onValueChanged: (e) => {
-          this.setValidFrom(e.value)
-        },
+        onValueChanged: e => {
+          this.setValidFrom(e.value);
+        }
       };
     },
     validTillOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
+          context: this
         }),
         value: this.validTill,
-        onValueChanged: (e) => {
-          this.setValidTill(e.value)
-        },
+        onValueChanged: e => {
+          this.setValidTill(e.value);
+        }
       };
     },
     daysToFinishWorksOptions() {
       return {
-        readOnly: this.isRegistered,
+        readOnly: this.readOnly,
         value: this.daysToFinishWorks,
-        onValueChanged: (e) => {
-          this.setDaysToFinishWorks(e.value)
-        },
+        onValueChanged: e => {
+          this.setDaysToFinishWorks(e.value);
+        }
       };
     },
   },
@@ -398,36 +402,57 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.dispatchCounterparty(data)
-      this.setContact(null)
-      this.setCounterpartySignatoryId(null)
+      this.dispatchCounterparty(data);
+      this.setContact(null);
+      this.setCounterpartySignatoryId(null);
     },
     setContact(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_CONTACT_ID`, data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_CONTACT_ID`,
+        data && data.id
+      );
     },
     dispatchCounterparty(data) {
-      this.$store.dispatch(`documents/${this.documentId}/setCounterparty`, data);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCounterparty`,
+        data
+      );
     },
     setCounterpartySignatoryId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`, data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_COUNTERPART_SIGNATORY_ID`,
+        data && data.id
+      );
     },
     setOurSignatoryId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
     setResponsibleEmployeeId(data) {
-      return this.$store.commit(`documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE_ID`, data);
+      return this.$store.commit(
+        `documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE_ID`,
+        data
+      );
     },
     setAddresseeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
     },
     setBusinessUnitId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        data
+      );
     },
     setDepartmentId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setDaysToFinishWorks(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DAYS_TO_FINISH_WORKS`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DAYS_TO_FINISH_WORKS`,
+        data
+      );
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);
@@ -436,10 +461,16 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_FROM`, data);
     },
     setDocumentGroupId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DOCUMENT_GROUP_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DOCUMENT_GROUP_ID`,
+        data
+      );
     },
     setAutomaticRenewal(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_AUTOMATIC_RENEWAL`, data)
+      this.$store.commit(
+        `documents/${this.documentId}/SET_AUTOMATIC_RENEWAL`,
+        data
+      );
     },
     setTotalAmount(data) {
       this.$store.commit(`documents/${this.documentId}/SET_TOTAL_AMOUNT`, data);
@@ -449,8 +480,7 @@ export default {
     },
     setIsStandard(data) {
       this.$store.commit(`documents/${this.documentId}/SET_IS_STANDARD`, data);
-    },
-  },
+    }
+  }
 };
 </script>
-

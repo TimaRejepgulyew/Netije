@@ -2,9 +2,13 @@ import additionalAcquaintanceAssignmentDescription from "~/components/assignment
 import additionalPreparingDraftResolutionAssignment from "~/components/assignment/additional/preparing-draft-resolution-assignment.vue";
 import additionalReviewManagerAssignment from "~/components/assignment/additional/review-manager-assignment.vue";
 import additionalReviewDraftResolutionAssignment from "~/components/assignment/additional/review-draft-resolution-assignment.vue";
+import additionalFreeApprovalAssignment from "~/components/assignment/additional/free-approval-assignment.vue";
+import additionalFreeApprovalReworkAssignment from "~/components/assignment/additional/free-approval-rework-assignment.vue";
 export {
   additionalPreparingDraftResolutionAssignment,
   additionalAcquaintanceAssignmentDescription,
   additionalReviewManagerAssignment,
-  additionalReviewDraftResolutionAssignment
+  additionalReviewDraftResolutionAssignment,
+  additionalFreeApprovalAssignment,
+  additionalFreeApprovalReworkAssignment
 };

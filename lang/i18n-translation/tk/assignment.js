@@ -1,7 +1,17 @@
-import assignmentType from "./assignmentType"
+import assignmentType from "./assignmentType";
 export default {
+  addApprover: "Täze ylalaşyjy",
   gridFileName: "Tabşyryklar",
+  stores: {
+    doNotSend: "Hiç zat ibermek",
+    sendForApproval: "Ylalaşyga ibermek",
+    sendNotice: "Habarnamany ibermek"
+  },
   fields: {
+    action: "Hereketi",
+    approved: "Ylalyşyldy",
+    approver: "Ylalaşyjy",
+    approvers: "Ylalaşyjylar",
     newDeadline: "Täze möhlet",
     deadline: "Möhleti",
     authorId: "Awtory",
@@ -17,20 +27,41 @@ export default {
     monthAgo: "Bir aý öň"
   },
   confirmMessage: {
-    sureAddResolutionAllSelection:"Siz hakykatdanam hemme bellenen tabşyryklaryň rezalyusiyalaryny tassyklamakçy?",
+    sureFreeApprovalAssignment:
+      "Siz hakykatdan resminama bilen ylalaşýarsyňyz?",
+    sureFreeApprovalFinishAssignment:
+      "Siz hakykatdan resminama ylalaşygy tammalajak?",
+    sureFreeApprovalConfirmation: "Siz hakykatdan resminama bilen ylalaşdyňyz?",
+    sureApprovalForwardConfirmation:
+      "Siz hakykatdan hem resminama  ylalaşygy  başga birine geçirmekçi?",
+    sureAddResolutionAllSelection:
+      "Siz resminamanyň ylalaşygy tassyklaýarsyňyz my?",
+    sureAddResolutionAllSelection:
+      "Siz hakykatdanam hemme bellenen tabşyryklaryň rezalyusiyalaryny tassyklamakçy?",
     headerHasChildActionItem: "Ikinji derejeli tabşyryklary bes etmek?",
     hasChildActionItem: "Tamamlanmadyk ikinji derejeli tabşyryklar barmy",
-    sureDocumentReviewAcceptConfirmetion: " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
-    sureDocumentReviewReworkConfirmetion: "Hakykatdan hem kömekçä işlemek üçin yzyna bermekçimi?",
-    sureDocumentReviewApproveRosolutionConfirmetion: " Hakykatdan hem rezolýusiýanyňtaslamasyny tassyklamak isleýärsiňizmi?",
-    sureDocumentReviewSendToResolutionConfirmetion: "Siz hakykatdan hem rezolýusiýa üçin ibermek isleýärsiňizmi?",
-    sureDocumentReviewSendToAssigneeConfirmetion: "Siz hakykatda hem ýerine ýetirmek üçin ibermek isleýärsiňizmi?",
-    sureDocumentReviewExploredConfirmetion: "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
-    sureDocumentReviewForwardConfirmetion: "Siz hakykatdan hem resminamany  gaýtadan seretmek üçin başga birisine geçirmek isleýärsiňizmi?",
-    sureDocumentReviewAddresolutionConfirmetion: "Siz hakykatdan hem resminama boýunça rezolýusiýa çykardyňyzmy?",
-    sureActionItemForReworkConfirmetion: "Siz hakykatdan hem tabşyrygy gaýtadan işlemek üçin ibermek isleýärsiňizmi?",
-    sureActionItemAcceptConfirmetion: "Siz hakykatdan hem tabşyryk boýunça işleri kabul etmek isleýärsiňizmi?",
-    sureActionItemDoneConfirmetion: "Siz hakykatdan hem tabşyryklary ýerien ýetirmek isleýärsiňizmi",
+    sureDocumentReviewAcceptConfirmation:
+      " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
+    sureDocumentReviewReworkConfirmation:
+      "Hakykatdan hem kömekçä işlemek üçin yzyna bermekçimi?",
+    sureDocumentReviewApproveRosolutionConfirmation:
+      " Hakykatdan hem rezolýusiýanyňtaslamasyny tassyklamak isleýärsiňizmi?",
+    sureDocumentReviewSendToResolutionConfirmation:
+      "Siz hakykatdan hem rezolýusiýa üçin ibermek isleýärsiňizmi?",
+    sureDocumentReviewSendToAssigneeConfirmation:
+      "Siz hakykatda hem ýerine ýetirmek üçin ibermek isleýärsiňizmi?",
+    sureDocumentReviewExploredConfirmation:
+      "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
+    sureDocumentReviewForwardConfirmation:
+      "Siz hakykatdan hem resminamany  seretmek üçin başga birisine geçirmek isleýärsiňizmi?",
+    sureDocumentReviewAddresolutionConfirmation:
+      "Siz hakykatdan hem resminama boýunça rezolýusiýa çykardyňyzmy?",
+    sureActionItemForReworkConfirmation:
+      "Siz hakykatdan hem tabşyrygy gaýtadan işlemek üçin ibermek isleýärsiňizmi?",
+    sureActionItemAcceptConfirmation:
+      "Siz hakykatdan hem tabşyryk boýunça işleri kabul etmek isleýärsiňizmi?",
+    sureActionItemDoneConfirmation:
+      "Siz hakykatdan hem tabşyryklary ýerien ýetirmek isleýärsiňizmi",
     sureReturnManagersAssistant: "Siz kömekçä yzyna bermek isleýärsiňizmi?",
     sureComplete: "Siz hakykatdan hem ýumuşy ýerine ýetirmek isleýärsiňizmi?",
     sureAcquaintance: "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
@@ -40,10 +71,14 @@ export default {
     sureAccept: "Ýumuşy kabul etmek isleýärsiňizmi?"
     //TODO Добавить перевод предупреждения  о том что не создано ни одного поручение : выполнить задание без создание и отправки на поручение?
   },
-  takeIntoMessage: " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
+  takeIntoMessage:
+    " Gözden geçirmäge kabul edilenden soň resminama ýerin ýetirmezden tamamlanar",
   readdressToEmployee: "Işgäriň salgysyna geçirmelimi",
 
   result: {
+    Reworked: "Düzedildi",
+    Completed: "Tamamlandy",
+    Approved: "Ylalaşyldy",
     Acquainted: "Tanyşdym",
     SendForReview: "Seretmek üçin iberildi",
     Complete: "Tamamlandy",
@@ -78,7 +113,9 @@ export default {
   },
   comment: "Bellikler",
   body: {
-    actionItemSupervisorAssignment: "Ýerine ýetirijiniň hasabaty boýunça bellikleri giriziň",
+    freeApprovalAssignment: "Tabşyrygyň tekstini giriziň...",
+    actionItemSupervisorAssignment:
+      "Ýerine ýetirijiniň hasabaty boýunça bellikleri giriziň",
     acquaintanceAssignment: "Tabşyryga başlamazdan öň bellikleri galdyryň",
     simpleAssignment: "Tabşyrygyň tekstini giriziň...",
     acquaintanceFinishAssignment: "Tabşyrygyň tekstini giriziň...",
@@ -91,4 +128,4 @@ export default {
   validation: {
     bodyRequired: "Tabşyrygyň tekstini giriziň..."
   }
-}
+};

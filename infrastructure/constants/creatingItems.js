@@ -37,6 +37,7 @@ export default function(context) {
       icon: contractIcon,
       items: contractDocumentBtns,
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
-    }
+    },
+   
   ];
 }

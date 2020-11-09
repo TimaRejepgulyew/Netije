@@ -1,31 +1,55 @@
 <template>
   <DxForm
     :col-count="1"
-    :read-only="!canUpdate"
+    :read-only="readOnly"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="2">
       <DxGroupItem>
-      <DxSimpleItem
-        data-field="businessUnitId"
-        template="businessUnitSelectBox"
-      >
-        <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.businessUnitIdRequired')"
-        />
-      </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        template="departmentSelectBox"
-      >
-        <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.departmentIdRequired')"
-        />
-      </DxSimpleItem>
+        <DxSimpleItem
+          data-field="businessUnitId"
+          template="businessUnitSelectBox"
+        >
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.businessUnitId')"
+          />
+          <DxRequiredRule
+            :message="$t('document.validation.businessUnitIdRequired')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+          <DxRequiredRule
+            :message="$t('document.validation.departmentIdRequired')"
+          />
+        </DxSimpleItem>
+        =======
+        <DxSimpleItem
+          data-field="businessUnitId"
+          template="businessUnitSelectBox"
+        >
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.businessUnitId')"
+          />
+          <DxRequiredRule
+            :message="$t('document.validation.businessUnitIdRequired')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="departmentId"
+          :editor-options="deparmentOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+          <DxRequiredRule
+            :message="$t('document.validation.departmentIdRequired')"
+          />
+        </DxSimpleItem>
+        >>>>>>> global-refactoring
       </DxGroupItem>
 
       <DxGroupItem>
@@ -33,14 +57,18 @@
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
         </DxSimpleItem>
         <DxSimpleItem template="prepared" data-field="preparedById">
-          <DxRequiredRule :message="$t('document.validation.preparedRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.preparedRequired')"
+          />
           <DxLabel location="left" :text="$t('document.fields.preparedById')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="assigneeId" template="assignee">
           <DxLabel location="left" :text="$t('document.fields.assigneeId')" />
         </DxSimpleItem>
         <DxSimpleItem template="addressee" data-field="addresseeId">
-          <DxRequiredRule :message="$t('document.validation.addresseeIdRequired')" />
+          <DxRequiredRule
+            :message="$t('document.validation.addresseeIdRequired')"
+          />
           <DxLabel location="left" :text="$t('document.fields.addresseeId')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -48,7 +76,7 @@
     <template #assignee>
       <employee-select-box
         value-expr="id"
-        :read-only="!canUpdate"
+        :read-only="readOnly"
         :value="assigneeId"
         @valueChanged="setAssigneeId"
       />
@@ -56,7 +84,7 @@
     <template #ourSignatory>
       <employee-select-box
         value-expr="id"
-        :read-only="!canUpdate"
+        :read-only="readOnly"
         :value="ourSignatoryId"
         @valueChanged="setOurSignatoryId"
       />
@@ -65,7 +93,7 @@
       <employee-select-box
         value-expr="id"
         :validatorGroup="documentValidatorName"
-        :read-only="!canUpdate"
+        :read-only="readOnly"
         :value="preparedById"
         @valueChanged="setPreparedById"
       />
@@ -74,7 +102,7 @@
       <employee-select-box
         :value="addresseeId"
         value-expr="id"
-        :read-only="!canUpdate"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         @valueChanged="setAddresseeId"
       />
@@ -85,14 +113,14 @@
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged=" (data) => {
-                          setBusinessUnitId(data)
-                          setOurSignatoryId(null)
-                          setPreparedById(null)
-                          setDepartmentId(null)
-                          setAddresseeId(null)
-                          setAssigneeId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+
+            setDepartmentId(null);
+            setAddresseeId(null);
+          }
+        "
       />
     </template>
     <template #departmentSelectBox>
@@ -102,10 +130,12 @@
         :validatorGroup="documentValidatorName"
         :value="departmentId"
         :businessUnitId="businessUnitId"
-        @valueChanged="(data) => {
-                        setDepartmentId(data)
-                        setAddresseeId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setAddresseeId(null);
+          }
+        "
       />
     </template>
   </DxForm>
@@ -120,7 +150,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -139,11 +169,8 @@ export default {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
-    canUpdate() {
-      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     businessUnitId() {
       return this.document.businessUnitId;
@@ -169,65 +196,20 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-    ourSignatoryOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Employee,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.ourSignatoryId,
-        onValueChanged: (e) => {
-          this.setOurSignatoryId(e.value)
-        },
-      };
-    },
-    assigneeOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Employee,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.assigneeId,
-        onValueChanged: (e) => {
-          this.setAssigneeId(e.value)
-        },
-      };
-    },
-    preparedByOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Employee,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.preparedById,
-        onValueChanged: (e) => {
-          this.setPreparedById(e.value)
-        },
-      };
-    },
-    addresseeOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Employee,
-          filter: [["departmentId", "=", this.departmentId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.addresseeId,
-        onValueChanged: (e) => {
-          this.setAddresseeId(e.value)
-        },
-      };
-    },
+
   },
   methods: {
     setPreparedById(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        data
+      );
     },
     setOurSignatoryId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
     setAddresseeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
@@ -239,8 +221,11 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
     },
     setBusinessUnitId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
-    },
-  },
+      this.$store.commit(
+        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        data
+      );
+    }
+  }
 };
 </script>

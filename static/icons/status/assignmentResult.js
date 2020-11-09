@@ -9,6 +9,8 @@ import ForExecution from "~/static/icons/status/addresolution.svg";
 import SendForReview from "~/static/icons/status/sendToReview.svg";
 import Complete from "~/static/icons/status/completed.svg";
 import Informed from "~/static/icons/status/explored.svg";
+import Reworked from "~/static/icons/start.svg";
+import Approved from "~/static/icons/assignment-result/success.svg";
 export {
   Accept,
   ForRework,
@@ -20,5 +22,8 @@ export {
   Complete,
   Acquainted,
   ForExecution,
-  Informed
+  Informed,
+  Reworked,
+  Approved,
+  Approved as Completed
 };

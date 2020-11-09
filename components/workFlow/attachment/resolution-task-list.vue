@@ -53,7 +53,7 @@
 <script>
 import moment from "moment";
 import DocumentService from "~/infrastructure/services/documentVersionService";
-import actionBtn from "~/components/workFlow/attachment-task-action-btn.vue";
+import actionBtn from "~/components/workFlow/attachment/attachment-task-action-btn.vue";
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 export default {
   components: {

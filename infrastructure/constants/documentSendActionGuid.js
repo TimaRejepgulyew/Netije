@@ -1,26 +1,27 @@
-
-import TaskType from "~/infrastructure/constants/taskType.js"
+import TaskType from "~/infrastructure/constants/taskType.js";
 const DocumentSendActionGuid = {
   DefaultAction: 0,
   ActionItemExecution: 1,
   Acquaintance: 2,
   ReviewManager: 3,
   FreeApproval: 4,
-  Approval: 5,
-}
-export default DocumentSendActionGuid
+  Approval: 5
+};
+export default DocumentSendActionGuid;
 
 export function mapToTaskType(documentSendActionType) {
   switch (documentSendActionType) {
     case DocumentSendActionGuid.DefaultAction:
-      return TaskType.SimpleTask
+      return TaskType.SimpleTask;
     case DocumentSendActionGuid.ActionItemExecution:
-      return TaskType.ActionItemExecutionTask
+      return TaskType.ActionItemExecutionTask;
     case DocumentSendActionGuid.Acquaintance:
-      return TaskType.AcquaintanceTask
+      return TaskType.AcquaintanceTask;
     case DocumentSendActionGuid.ReviewManager:
-      return TaskType.DocumentReviewTask
+      return TaskType.DocumentReviewTask;
+    case DocumentSendActionGuid.FreeApproval:
+      return TaskType.FreeApprovalTask;
     default:
-      // return "Unsupported DocumentSendActionGuid type " + documentSendActionType;
+    // return "Unsupported DocumentSendActionGuid type " + documentSendActionType;
   }
 }

@@ -44,9 +44,9 @@
         :close-on-outside-click="true"
         :show-title="true"
         width="90%"
-        :height="'auto'"
+       :height="'95%'"
       >
-        <div>
+        <div class="scrool-auto">
           <employee-card
             v-if="showAuthorCard"
             :data="currentEmployee"

@@ -1,10 +1,13 @@
 <template>
-  <div class="d-flex align-content-center info-message" v-if="!isElectronicAcquaintance">
+  <div
+    class="d-flex align-content-center info-message"
+    v-if="!isElectronicAcquaintance"
+  >
     <i class="dx-icon-info info-message__icon"></i>
 
     <div class="info-message__text">
-      <div>{{$t("shared.explanation")}}</div>
-      <div>{{$t("task.message.acquaintDocumentMessage")}}</div>
+      <div>{{ $t("shared.explanation") }}</div>
+      <div>{{ description }}</div>
     </div>
   </div>
 </template>
@@ -15,9 +18,12 @@ export default {
   computed: {
     isElectronicAcquaintance() {
       return (
-        this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-          .isElectronicAcquaintance !== false
+        this.$store.getters[`assignments/${this.assignmentId}/assignment`].description == ""
       );
+    },
+    description() {
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+        .description;
     },
   },
 };
@@ -25,7 +31,6 @@ export default {
 
 <style lang="scss" >
 .info-message {
-  
   font-size: 1.1em;
   font-weight: 500px;
   font-style: italic;

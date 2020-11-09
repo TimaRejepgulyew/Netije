@@ -46,7 +46,20 @@ const ReviewManager = {
 const ReviewResolution = {
   AddAssignment: 0
 };
+const FreeApprovalAssignment = {
+  ForRework: 0,
+  Approved: 1,
+  Forward: 2
+};
+const FreeApprovalFinishAssignment = {
+  Completed: 0
+};
+const FreeApprovalReworkAssignment = {
+  Reworked: 0
+};
 export default {
+  FreeApprovalFinishAssignment,
+  FreeApprovalAssignment,
   ReviewResolution,
   ReviewManager,
   ReviewDraftResolution,
@@ -57,7 +70,8 @@ export default {
   AcquaintanceFinish,
   ActionItemExecution,
   Acquaintance,
-  Simple
+  Simple,
+  FreeApprovalReworkAssignment
 };
 
 export const generateElementsResult = assignmentType => {
@@ -158,7 +172,34 @@ function reviewDraftResolutionAssignment(context) {
     iconStores: resultIcon
   });
 }
+function freeApprovalAssignment(context) {
+  return generatorMapObj({
+    Constant: FreeApprovalAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function freeApprovalFinishAssignment(context) {
+  return generatorMapObj({
+    Constant: FreeApprovalFinishAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
+function freeApprovalReworkAssignment(context) {
+  return generatorMapObj({
+    Constant: FreeApprovalReworkAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
+}
 export const resultElements = {
+  freeApprovalReworkAssignment,
+  freeApprovalFinishAssignment,
+  freeApprovalAssignment,
   preparingDraftResolutionAssignment,
   reviewDraftResolutionAssignment,
   reviewManagerAssignment,

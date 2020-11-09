@@ -85,6 +85,7 @@ export default {
   },
 
   task: {
+    GetTasksByDocument: `${url}/api/Task/GetTasksByDocument/`,
     GrantPermissions: `${url}/api/Task/GrantPermissions`,
     CheckMembersPermissions: `${url}/api/Task/CheckMembersPermissions/`,
     actionItemExecution: {
@@ -121,7 +122,8 @@ export default {
     CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
     MarkAsRead: `${url}/api/Assignment/MarkAsRead`,
     TextsByAssignment: `${url}/api/WorkflowEntityText/ByAssignment/`,
-    CompleteDraftResolutionAssignments: `${url}/api/Assignment/CompleteDraftResolutionsAssignments`
+    CompleteDraftResolutionAssignments: `${url}/api/Assignment/CompleteDraftResolutionsAssignments`,
+    AddApprover: `${url}/api/Assignment/AddApprover`
   },
   recipient: {
     list: `${url}/api/Recipient`
@@ -133,5 +135,12 @@ export default {
     Detach: `${url}/api/Attachment/Detach`,
     PasteByTask: `${url}/api/Attachment/Task/Paste`,
     PasteByAssignment: `${url}/api/Attachment/Assignment/Paste`
+  },
+  import: {
+    companies: `${url}/api/Import/Companies`,
+    banks: `${url}​/api/Import/Banks`,
+    jobTitles: `${url}​/api/Import/JobTitles`,
+    persons: `${url}​/api/Import/Persons`,
+    employees: `${url}​/api/Import/Employees`,
   }
 };

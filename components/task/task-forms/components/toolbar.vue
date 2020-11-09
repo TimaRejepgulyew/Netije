@@ -58,14 +58,14 @@
 <script>
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
-import toolbarItemStartBtn from "~/components/task/start-btn.vue";
-import toolbarItemImportanceChanger from "~/components/task/importance-changer";
+import toolbarItemStartBtn from "~/components/task/task-forms/components/start-btn.vue";
+import toolbarItemImportanceChanger from "~/components/task/task-forms/components/importance-changer.vue";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
-import attachmentVue from "../workFlow/attachment.vue";
+import attachmentVue from "~/components/workFlow/attachment/index.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";
 export default {
   components: {
@@ -73,13 +73,13 @@ export default {
     toolbarItemAccessRight,
     toolbarItemStartBtn,
     DxToolbar,
-    DxItem,
+    DxItem
   },
   props: ["taskId"],
   inject: ["isValidTask"],
   data() {
     return {
-      isPopupAccesRight: false,
+      isPopupAccesRight: false
     };
   },
   computed: {
@@ -135,7 +135,7 @@ export default {
         text: this.$t("buttons.save"),
         onClick: () => {
           this.save();
-        },
+        }
       };
     },
     abortButtonOptions() {
@@ -151,11 +151,10 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/abort`),
-            (e) => {
-            },
-            (e) => this.$awn.alert()
+            e => {},
+            e => this.$awn.alert()
           );
-        },
+        }
       };
     },
     restartButtonOptions() {
@@ -171,10 +170,10 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/restart`),
-            (e) => {},
-            (e) => this.$awn.alert()
+            e => {},
+            e => this.$awn.alert()
           );
-        },
+        }
       };
     },
     deleteButtonOptions() {
@@ -190,14 +189,14 @@ export default {
           if (response)
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/delete`),
-              (e) => {
+              e => {
                 this.$emit("onRemove");
               },
-              (e) => this.$awn.alert()
+              e => this.$awn.alert()
             );
-        },
+        }
       };
-    },
+    }
   },
   methods: {
     onStart() {
@@ -210,16 +209,16 @@ export default {
       if (this.isValidTask())
         this.$awn.asyncBlock(
           this.$store.dispatch(`tasks/${this.taskId}/save`),
-          (e) => {
+          e => {
             this.$emit("onSave");
           },
-          (e) => this.$awn.alert()
+          e => this.$awn.alert()
         );
-    },
-  },
+    }
+  }
 };
 </script>
-<style >
+<style>
 .toolbar {
   margin-bottom: 10px;
 }
