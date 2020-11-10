@@ -22,7 +22,7 @@
       />
       <DxItem
         locateInMenu="auto"
-        :visible="canRegister && !readOnly"
+        :visible="canRegister"
         location="before"
         template="toolbarItemRegistration"
       />
@@ -172,7 +172,10 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
     },
     canRegister() {
-      return this.$store.getters[`documents/${this.documentId}/canRegister`];
+      return (
+        this.$store.getters[`documents/${this.documentId}/canRegister`] &&
+        this.$store.getters[`documents/${this.documentId}/canUpdate`]
+      );
     },
     canDelete() {
       return (
