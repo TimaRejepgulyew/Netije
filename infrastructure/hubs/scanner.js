@@ -6,7 +6,7 @@ import {
 import { alert } from "devextreme/ui/dialog";
 export default function(app) {
   const connection = new HubConnectionBuilder()
-    .withUrl("http://192.168.4.170:8886/SignalR")
+    .withUrl("http://localhost:8886/SignalR")
     // .withAutomaticReconnect(0)
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Information)
