@@ -12,10 +12,7 @@ export default {
     expired: "Möhleti geçen",
     monthAgo: "30 gün"
   },
-  taskQuery: {
-    all: "Все задачи",
-    actionItem: "Поручения"
-  },
+
   message: {
     acquaintDocumentMessage:
       "Resminama bilen tanyşyň, jogapkäriň ýanyna bayň we şahsy goluňyzy goýuň",
