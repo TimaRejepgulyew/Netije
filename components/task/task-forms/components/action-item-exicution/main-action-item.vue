@@ -8,7 +8,7 @@
       :show-validation-summary="false"
       :validation-group="taskValidatorName"
     >
-      <DxGroupItem>
+
         <DxGroupItem :col-count="2">
           <DxSimpleItem template="assignee" data-field="assignee">
             <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
@@ -29,51 +29,12 @@
           >
             <DxLabel location="left" :text="$t('task.fields.coAssignees')" />
           </DxSimpleItem>
-
-        
         </DxGroupItem>
-      </DxGroupItem>
-      <DxSimpleItem
-        :visible="isDraft"
-        :col-span="3"
-        data-field="body"
-        :editor-options="bodyOptions"
-        editor-type="dxTextArea"
-      >
-        <DxLabel location="left" :text="$t('task.fields.actionItem')" />
-        <DxRequiredRule :message="$t('task.validation.actionItemRequired')" />
-      </DxSimpleItem>
-      <template #assignedBy>
-        <employee-select-box
-          :messageRequired="$t('task.validation.supervisorRequired')"
-          :validator-group="taskValidatorName"
-          :storeApi="assignedByStore"
-          :read-only="readOnly"
-          :value="assignedBy"
-          @valueChanged="setAssignedBy"
-        />
-      </template>
-      <template #actionItemObservers>
-        <recipient-tag-box
-          :read-only="readOnly"
-          :recipients="actionItemObservers"
-          @setRecipients="setActionItemObservers"
-        />
-      </template>
       <template #coAssignees>
         <employee-tag-box
           :read-only="readOnly"
           :value="coAssignees"
           @valueChanged="setCoAssignees"
-        />
-      </template>
-      <template #supervisor>
-        <employee-select-box
-          :read-only="readOnly"
-          :messageRequired="$t('task.validation.supervisorRequired')"
-          :validator-group="taskValidatorName"
-          :value="supervisor"
-          @valueChanged="setSupervisor"
         />
       </template>
       <template #assignee>

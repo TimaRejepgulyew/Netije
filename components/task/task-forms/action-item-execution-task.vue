@@ -46,27 +46,8 @@
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
+        <DxGroupItem :col-span="5" :template="isCompoundActionItem" />
         <DxGroupItem :col-count="2">
-          <DxSimpleItem template="assignee" data-field="assignee">
-            <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
-            <DxLabel location="left" :text="$t('task.fields.assignee')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="deadline"
-            :editor-options="deadlineOptions"
-            editor-type="dxDateBox"
-          >
-            <DxLabel location="left" :text="$t('task.fields.deadline')" />
-          </DxSimpleItem>
-
-          <DxSimpleItem
-            :col-span="2"
-            template="coAssignees"
-            data-field="coAssignees"
-          >
-            <DxLabel location="left" :text="$t('task.fields.coAssignees')" />
-          </DxSimpleItem>
-
           <DxSimpleItem
             :col-span="2"
             template="actionItemObservers"
@@ -140,7 +121,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -153,13 +134,13 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm,
+    DxForm
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
   data() {
     return {
-      assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`,
+      assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`
     };
   },
   inject: ["taskValidatorName"],
@@ -181,9 +162,12 @@ export default {
     },
     setAssignedBy(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
-    },
+    }
   },
   computed: {
+    isCompountActionItem() {
+      return this.task.isCompountActionItem;
+    },
     readOnly() {
       return !this.isDraft || !this.canUpdate;
     },
@@ -221,21 +205,21 @@ export default {
       return {
         readOnly: true,
         value: this.task.subject,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        },
+        }
       };
     },
     isUnderControlOptions() {
       return {
         value: this.task.isUnderControl,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(
             `tasks/${this.taskId}/SET_IS_UNDER_CONTROL`,
             e.value
           );
           this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
-        },
+        }
       };
     },
     bodyOptions() {
@@ -243,9 +227,9 @@ export default {
         placeholder: this.$t("task.validation.actionItemRequired"),
         height: 250,
         value: this.task.body,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(`tasks/${this.taskId}/setBody`, e.value);
-        },
+        }
       };
     },
     deadlineOptions() {
@@ -253,13 +237,11 @@ export default {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
         value: this.task.deadline,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
-
-
