@@ -39,7 +39,7 @@ export default {
         {
           type: "delete",
           visible: this.$store.getters[
-            `documents/${this.documentId}/canUpdate`
+            `documents/${this.documentId}/fullAccess`
           ],
           icon: "trash",
           name: this.$t("buttons.delete")

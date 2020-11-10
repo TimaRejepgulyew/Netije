@@ -14,9 +14,13 @@ export default class Base {
     canRegister: false,
     isRegistered: false,
     skipRouteHandling: true,
-    overlays: null
+    overlays: null,
+    fullAccess: false
   };
   getters = {
+    fullAccess({ fullAccess }) {
+      return fullAccess;
+    },
     overlays({ overlays }) {
       return overlays;
     },
