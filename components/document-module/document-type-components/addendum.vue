@@ -12,8 +12,13 @@
         :editor-options="leadingDocumentOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="left" :text="$t('document.fields.leadingDocumentId')" />
-        <DxRequiredRule :message="$t('document.validation.leadingDocumentIdRequired')" />
+        <DxLabel
+          location="left"
+          :text="$t('document.fields.leadingDocumentId')"
+        />
+        <DxRequiredRule
+          :message="$t('document.validation.leadingDocumentIdRequired')"
+        />
       </DxSimpleItem>
     </DxGroupItem>
   </DxForm>
@@ -24,7 +29,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -32,7 +37,7 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
-    DxRequiredRule,
+    DxRequiredRule
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -43,22 +48,35 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
+
     leadingDocumentOptions() {
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.documentModule.AllDocument)
+        .filter(
+          this.correspondentId
+            ? ["correspondentId", "=", this.correspondentId]
+            : []
+        )
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
       return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.documentModule.AllDocument,
-        }),
+        readOnly: !this.correspondentId && this.readOnly,
+        ...options,
         value: this.document.leadingDocumentId,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/setLeadingDocumentId`,
             e.value
           );
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
