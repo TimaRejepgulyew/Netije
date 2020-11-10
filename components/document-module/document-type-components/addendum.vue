@@ -24,6 +24,7 @@
   </DxForm>
 </template>
 <script>
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -53,11 +54,6 @@ export default {
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.documentModule.AllDocument)
-        .filter(
-          this.correspondentId
-            ? ["correspondentId", "=", this.correspondentId]
-            : []
-        )
         .acceptCustomValues(e => {
           e.customItem = null;
         })
@@ -66,13 +62,13 @@ export default {
         .clearValueExpr()
         .build(this);
       return {
-        readOnly: !this.correspondentId && this.readOnly,
+        readOnly: this.readOnly,
         ...options,
-        value: this.document.leadingDocumentId,
+        value: this.document.leadingDocument,
         onValueChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/setLeadingDocumentId`,
-            e.value
+            e.value.id
           );
         }
       };
