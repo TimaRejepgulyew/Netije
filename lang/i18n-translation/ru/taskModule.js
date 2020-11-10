@@ -3,7 +3,7 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа",
-  FreeApprovalTask: "Свободное согласование"
+  FreeApprovalTask: "Задача на cвободное согласование"
 };
 export default {
   sources: {
