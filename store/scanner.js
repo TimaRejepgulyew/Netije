@@ -214,6 +214,7 @@ export const actions = {
     console.log(payload);
     commit("SET_DEVICES", payload);
   },
+  setDeviceParams(params) {},
   setCurrentDevice({ commit, state }, payload) {
     commit("SET_CURRENT_DEVICE", payload);
     setDefaultParams(

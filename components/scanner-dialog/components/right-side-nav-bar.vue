@@ -89,8 +89,6 @@ export default {
     }),
     deviceOptions() {
       return {
-        valueExpr: "name",
-        displayExpr: "name",
         dataSource: this.devicesStore,
         value: this.params.deviceName,
         onValueChanged: e => {
@@ -98,6 +96,7 @@ export default {
           // this.setDpi(null);
           // this.setMode(null);
           this.setDeviceName(e.value);
+          this.setDeviceParams(e.value);
         },
         onSelectionChanged: e => {
           this.setCurrentDevice(e.selectedItem);
