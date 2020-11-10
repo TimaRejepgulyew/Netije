@@ -139,7 +139,9 @@ export default {
     generateHtmlError(attachments) {
       return attachments.map(attachment => {
         if (!attachment.entities) {
-          return `<li class="red">Вложите ${attachment.groupTitle.toLowerCase()}</li>`;
+          return `<li class="red">${this.$t(
+            "shared.attach"
+          )} ${attachment.groupTitle.toLowerCase()}</li>`;
         }
       });
     },
