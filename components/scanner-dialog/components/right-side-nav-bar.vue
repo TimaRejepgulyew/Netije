@@ -96,10 +96,9 @@ export default {
           // this.setDpi(null);
           // this.setMode(null);
           this.setDeviceName(e.value);
-          this.setDeviceParams(e.value);
         },
         onSelectionChanged: e => {
-          this.setCurrentDevice(e.selectedItem);
+          if (e.selectedItem) this.setCurrentDeviceParamsStore(e.selectedItem);
         }
       };
     },
@@ -140,7 +139,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      setCurrentDevice: "scanner/setCurrentDevice"
+      setCurrentDeviceParamsStore: "scanner/invokeCurrentDeviceParamsStore"
     }),
     ...mapMutations({
       setDpi: "scanner/SET_DPI",

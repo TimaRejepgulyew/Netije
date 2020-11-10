@@ -145,7 +145,7 @@ export const mutations = {
     state.params = payload;
     writeParamsByCurrentDevice(state.params, state.params.deviceName);
   },
-  SET_CURRENT_DEVICE(state, payload) {
+  SET_CURRENT_DEVICE_PARAMS(state, payload) {
     state.currentDevice = payload;
     localStorage.setItem("currentDevice", JSON.stringify(state.currentDevice));
   },
@@ -214,9 +214,8 @@ export const actions = {
     console.log(payload);
     commit("SET_DEVICES", payload);
   },
-  setDeviceParams(params) {},
-  setCurrentDevice({ commit, state }, payload) {
-    commit("SET_CURRENT_DEVICE", payload);
+  setCurrentDeviceParamsStore({ commit, state }, payload) {
+    commit("SET_CURRENT_DEVICE_PARAMS", payload);
     setDefaultParams(
       { state, commit },
       {
@@ -225,6 +224,9 @@ export const actions = {
         dpi: payload.defaultDpi
       }
     );
+  },
+  invokeCurrentDeviceParamsStore({ commit, state }, payload) {
+    this.$scanner.getDeviceParams(payload);
   },
   setOrderUp({ commit }) {
     commit("SET_ORDER", "up");

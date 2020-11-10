@@ -51,11 +51,11 @@ export default function(app) {
   function stopConnection() {
     connection.stop();
   }
-  function printerParams() {
+  function printerParams(handler) {
     connection.on("printerParams", handler);
   }
   function onUpdateDeviceInfo(handler) {
-    connection.on("updateDeviceInfo", handler);
+    connection.on("UpdateDeviceInfo", handler);
   }
   function onScanCompleted(handler) {
     connection.on("scanCompleted", handler);
@@ -63,8 +63,8 @@ export default function(app) {
   function onFileGenerated(handler) {
     connection.on("fileGenerated", handler);
   }
-  onUpdateDeviceInfo(devices=> {
-    console.log("device", device);
+  onUpdateDeviceInfo(devices => {
+    console.log("device", devices);
     app.store.dispatch("scanner/setDevices", devices);
   });
   onScanCompleted(document => {
@@ -79,10 +79,11 @@ export default function(app) {
     app.store.dispatch("scanner/onError", message);
     console.log("error");
   });
-  printerParams(device => {
-    app.store.dispatch("scanner/setDevices", device);
+  printerParams(currentDevice => {
+    app.store.dispatch("scanner/setCurrentDeviceParamsStore", currentDevice);
   });
   return {
+    getDeviceParams,
     tryConnect,
     scanDocument,
     generatePdf,
