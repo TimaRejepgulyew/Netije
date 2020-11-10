@@ -49,9 +49,6 @@ export default function(app) {
   function onError(handler) {
     connection.on("error", handler);
   }
-  function onNotification(handler) {
-    connection.on("notification", handler);
-  }
   function stopConnection() {
     connection.stop();
   }
@@ -79,11 +76,6 @@ export default function(app) {
     console.log(file, "scan Completed");
     app.store.dispatch("scanner/setFile", file);
   });
-  onNotification(notification => {
-    console.log(app, notification);
-    app.store.dispatch("scanner/showNotification", notification);
-  });
-
   onError(message => {
     app.store.dispatch("scanner/onError", message);
     console.log("error");

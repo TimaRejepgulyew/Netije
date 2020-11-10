@@ -234,12 +234,6 @@ export const actions = {
   setOrderDown({ commit }) {
     commit("SET_ORDER", "down");
   },
-  showNotification({}, notification) {
-    alert(
-      this.$i18n.t(`scanner.alert.${notification}`),
-      this.$i18n.t(`scanner.alert.notification`)
-    );
-  },
   onError({ commit }) {
     commit("CLOSE_LOADING");
     alert(
