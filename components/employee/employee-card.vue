@@ -27,7 +27,7 @@
     <DxForm
       ref="form"
       :col-count="12"
-       :scrolling-enabled="true"
+      :scrolling-enabled="true"
       :form-data.sync="employee"
       :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
       :show-colon-after-label="true"
@@ -35,36 +35,51 @@
       validation-group="updateEmployee"
     >
       <DxGroupItem
-        :col-span="4"
+        :col-span="6"
         :caption="$t('translations.fields.personalData')"
-      >
-        <DxSimpleItem
-          data-field="userName"
-          :editor-options="{ disabled: true }"
-          data-type="string"
+        :col-count="6"
+      > 
+        <DxGroupItem
+          :col-span="2"
         >
-          <DxLabel location="top" :text="$t('translations.fields.userName')" />
+          <DxSimpleItem
+            data-field="businessUnitId"
+            template="imageUploader"
+          >
+            <DxLabel location="top" text="Фото" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-          <DxRequiredRule
-            :message="$t('translations.fields.fullNameRequired')"
-          />
-        </DxSimpleItem>
-
-        <DxSimpleItem data-field="email">
-          <DxLabel location="top" />
-          <DxEmailRule :message="$t('translations.fields.emailRule')" />
-          <DxAsyncRule
-            :ignore-empty-value="true"
-            :reevaluate="false"
-            :validation-callback="validateEntityExists"
-            :message="$t('translations.fields.emailAlreadyExists')"
-          />
-        </DxSimpleItem>
+        </DxGroupItem>
+        <DxGroupItem
+          :col-span="4"
+        >
+          <DxSimpleItem
+            data-field="userName"
+            :editor-options="{ disabled: true }"
+            data-type="string"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.userName')" />
+          </DxSimpleItem>
+          <DxSimpleItem data-field="name">
+            <DxLabel location="top" :text="$t('translations.fields.fullName')" />
+            <DxRequiredRule
+              :message="$t('translations.fields.fullNameRequired')"
+            />
+          </DxSimpleItem>
+  
+          <DxSimpleItem data-field="email">
+            <DxLabel location="top" />
+            <DxEmailRule :message="$t('translations.fields.emailRule')" />
+            <DxAsyncRule
+              :ignore-empty-value="true"
+              :reevaluate="false"
+              :validation-callback="validateEntityExists"
+              :message="$t('translations.fields.emailAlreadyExists')"
+            />
+          </DxSimpleItem>
+        </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem
-        :col-span="5"
+        :col-span="3"
         :caption="$t('translations.fields.departmentId')"
       >
         <DxSimpleItem
@@ -144,10 +159,14 @@
                       } "
         />
       </template>
+      <template #imageUploader>
+        <image-uploader/>
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import ImageUploader from "~/components/employee/custom-image-uploader";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
@@ -189,7 +208,8 @@ export default {
     DxPopup,
     ChangePasswordPopup,
     Toolbar,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    ImageUploader
   },
   props: ["data", "isCard"],
   data() {
