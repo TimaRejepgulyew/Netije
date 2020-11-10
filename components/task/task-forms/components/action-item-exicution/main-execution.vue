@@ -30,13 +30,7 @@
             <DxLabel location="left" :text="$t('task.fields.coAssignees')" />
           </DxSimpleItem>
 
-          <DxSimpleItem
-            :col-span="2"
-            template="actionItemObservers"
-            data-field="actionItemObservers"
-          >
-            <DxLabel location="left" :text="$t('task.fields.observers')" />
-          </DxSimpleItem>
+        
         </DxGroupItem>
       </DxGroupItem>
       <DxSimpleItem
