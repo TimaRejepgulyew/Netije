@@ -27,7 +27,11 @@ export default {
     monthAgo: "30 дней"
   },
   confirmMessage: {
-    sureFreeApprovalAssignment: "Вы действительно хотите согласовать документ?",
+    sureAbortConfirmation: "Вы действительно ходтите прекратить задачу?",
+    sureApprovalReworkAssignmentConfirmation:
+      "Вы действительно исправили задачу",
+    sureFreeApprovalAssignmentConfirmation:
+      "Вы действительно хотите согласовать документ?",
     sureFreeApprovalFinishAssignment:
       "Вы действительно хотите завершить согласование документа?",
     sureFreeApprovalConfirmation:

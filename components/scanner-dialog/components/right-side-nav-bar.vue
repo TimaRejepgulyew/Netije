@@ -89,8 +89,6 @@ export default {
     }),
     deviceOptions() {
       return {
-        valueExpr: "name",
-        displayExpr: "name",
         dataSource: this.devicesStore,
         value: this.params.deviceName,
         onValueChanged: e => {
@@ -100,7 +98,7 @@ export default {
           this.setDeviceName(e.value);
         },
         onSelectionChanged: e => {
-          this.setCurrentDevice(e.selectedItem);
+          if (e.selectedItem) this.setCurrentDeviceParamsStore(e.selectedItem);
         }
       };
     },
@@ -141,7 +139,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      setCurrentDevice: "scanner/setCurrentDevice"
+      setCurrentDeviceParamsStore: "scanner/invokeCurrentDeviceParamsStore"
     }),
     ...mapMutations({
       setDpi: "scanner/SET_DPI",

@@ -23,6 +23,7 @@ export default {
   add: "Goşmak",
   complete: "Ýerine ýetirmek",
   accept: "Kabul etmek",
+  reworked: "Işlenildi",
   rework: "Gaýtadan işlemäge iberildi",
   filter: "Filtr",
   stop: "Bes etmek",

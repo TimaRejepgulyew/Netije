@@ -39,7 +39,7 @@
       </div>
     </DxPopup>
     <DxButton
-      :visible="showBtn&&allowReadContactDetails"
+      :visible="showBtn && allowReadContactDetails"
       :on-click="this.openUpdateCard"
       icon="info"
       type="default"
@@ -48,6 +48,7 @@
       :useSubmitBehavior="false"
     ></DxButton>
     <DxButton
+      :disabled="readOnly"
       :visible="allowCreateContact"
       :on-click="this.openCreateCard"
       icon="plus"
@@ -67,12 +68,12 @@ export default {
   components: {
     DxButton,
     DxPopup,
-    contact,
+    contact
   },
   data() {
     return {
       isOpenCardUpdate: false,
-      isOpenCardCreate: false,
+      isOpenCardCreate: false
     };
   },
   computed: {
@@ -88,7 +89,7 @@ export default {
       return this.$store.getters["permissions/allowCreating"](
         EntityType.Contact
       );
-    },
+    }
   },
   methods: {
     valueChanged(data) {
@@ -103,9 +104,9 @@ export default {
     },
     openCreateCard() {
       this.isOpenCardCreate = !this.isOpenCardCreate;
-    },
+    }
   },
-  props: ["id", "type", "correspondentId", "visible"],
+  props: ["id", "type", "correspondentId", "readOnly"]
 };
 </script>
 <style lang="scss">

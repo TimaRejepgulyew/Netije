@@ -59,7 +59,7 @@
       <DxItem
         template="toolbarItemUploadVersion"
         locateInMenu="auto"
-        :visible="!hasVersions"
+        :visible="!hasVersions && !readOnly"
         location="before"
       />
       <template #toolbarItemUploadVersion>
@@ -69,7 +69,7 @@
       <DxItem
         template="toolbarItemUploadVersionFromScanner"
         locateInMenu="auto"
-        :visible="!hasVersions"
+        :visible="!hasVersions && !readOnly"
         location="before"
       />
       <template #toolbarItemUploadVersionFromScanner>
@@ -144,6 +144,9 @@ export default {
     };
   },
   computed: {
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
+    },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
@@ -169,7 +172,10 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
     },
     canRegister() {
-      return this.$store.getters[`documents/${this.documentId}/canRegister`];
+      return (
+        this.$store.getters[`documents/${this.documentId}/canRegister`] &&
+        this.$store.getters[`documents/${this.documentId}/canUpdate`]
+      );
     },
     canDelete() {
       return (

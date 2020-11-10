@@ -9,6 +9,7 @@
       </Header>
       <component
         name="toolbar"
+        @pasteAttachment="pasteAttachment"
         v-if="canUpdate"
         @complete="onComplete"
         :assignmentId="assignmentId"
@@ -146,7 +147,7 @@ import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -165,14 +166,14 @@ export default {
     employeeSelectBox,
     ...toolbars,
     ...additional,
-    ...bodies,
+    ...bodies
   },
   name: "assignment",
-  props: ["assignmentId","isCard"],
-  provide: function () {
+  props: ["assignmentId", "isCard"],
+  provide: function() {
     return {
       assignmentValidatorName: this.assignmentValidatorName,
-      isValidForm: this.validateForm,
+      isValidForm: this.validateForm
     };
   },
   destroyed() {
@@ -186,8 +187,8 @@ export default {
       commentsUrl: dataApi.assignment.TextsByAssignment,
       employeeOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
-        url: dataApi.company.Employee,
-      }),
+        url: dataApi.company.Employee
+      })
     };
   },
   computed: {
@@ -208,13 +209,13 @@ export default {
     },
     subjectOptions() {
       return {
-        readOnly: true,
+        readOnly: true
       };
     },
     dateTimeOptions() {
       return {
         readOnly: true,
-        type: "datetime",
+        type: "datetime"
       };
     },
 
@@ -229,7 +230,7 @@ export default {
     },
     attachmentGroups() {
       return this.assignment.attachmentGroups;
-    },
+    }
   },
   methods: {
     changeThreadTextsResreshTracker(value) {
@@ -273,11 +274,11 @@ export default {
         () => {},
         () => {}
       );
-    },
-  },
+    }
+  }
 };
 </script>
-<style  scoped>
+<style scoped>
 .comments {
   overflow: auto;
   max-height: 50vh;
@@ -288,6 +289,3 @@ export default {
   }
 }
 </style>
-
-
-

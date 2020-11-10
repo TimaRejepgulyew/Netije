@@ -35,7 +35,7 @@ export const getters = {
   },
   approvers(state) {
     if (state.assignment.approvers)
-      return JSON.parse(JSON.stringify(state.assignment.approvers.slice()));
+      return JSON.parse(JSON.stringify(state.assignment.approvers));
   }
 };
 export const mutations = {
@@ -55,7 +55,9 @@ export const mutations = {
       state[item] = payload[item];
     }
   },
-
+  SET_APPROVERS(state, payload) {
+    state.assignment.approvers = payload;
+  },
   SET_BODY(state, payload) {
     state.assignment.body = payload;
   },
@@ -74,8 +76,13 @@ export const mutations = {
   SET_NEED_ABORT_CHILD_ACTION_ITEMS(state, payload) {
     state.assignment.needAbortChildActionItems = payload;
   },
-  SET_APPROVERS(state, payload) {
-    state.assignment.approvers = payload;
+  ADD_RESULT_EXICUTION() {
+    const groupResultExicution = state.attachmentGroups.find(
+      attachmentGroup => {
+        return attachmentGroup.groupId === 7;
+      }
+    );
+    console.log(groupResultExicution);
   }
 };
 

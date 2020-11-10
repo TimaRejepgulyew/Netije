@@ -112,6 +112,7 @@ export default {
     whom: "Kime"
   },
   validation: {
+    stateRequired: "Ýagdaýy giriziň",
     addresseeIdRequired: "Barmaly salgyny saýlaň",
     issuedToIdRequired: "Kime berildi saýlap alyň",
     ourSignatoryRequired: "Gol çekeni saýlap alyň",
