@@ -10,7 +10,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif'),
       }"
-      @toolbar-preparing="onToolbarPreparing"
+     
     >
       <DxSearchPanel position="after" :visible="true" />
       <DxFilterRow :visible="true" />
