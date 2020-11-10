@@ -21,7 +21,6 @@ export default {
   },
   alert: {
     notification: "Habarnama",
-    CurrentSourceIsNotNull: "Skaner skanerlemäne taýýar.",
     CurrentSourceIsNull:
       "Skaner skanerlemäne taýýar däl.   Skaneri Täzeden saýlaň. Yada başga skaneri saýlaň.",
     returnCodeIsNotNull: "Skanirlemekde ýalňyşlyk.",

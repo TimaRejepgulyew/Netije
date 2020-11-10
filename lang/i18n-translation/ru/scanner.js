@@ -21,7 +21,6 @@ export default {
   },
   alert: {
     notification: "Сообщение",
-    CurrentSourceIsNotNull: "Сканер готов для сканирование.",
     CurrentSourceIsNull:
       "Сканер не готов для сканирование. Попробуйте перевыбрать сканер или выбрать другой сканер.",
     returnCodeIsNotNull: "Ошибка сканирование. ",
