@@ -9,43 +9,6 @@
       :validation-group="taskValidatorName"
     >
       <DxGroupItem>
-        <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
-          <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
-          <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
-        </DxSimpleItem>
-        <DxGroupItem :col-count="5">
-          <DxGroupItem :col-span="5" :col-count="2">
-            <DxSimpleItem data-field="assignedBy" template="assignedBy">
-              <DxLabel location="left" :text="$t('task.fields.assignedBy')" />
-              <DxRequiredRule
-                :message="$t('task.validation.assignedByRequired')"
-              />
-            </DxSimpleItem>
-
-            <DxSimpleItem
-              data-field="isUnderControl"
-              :editor-options="isUnderControlOptions"
-              editor-type="dxCheckBox"
-            >
-              <DxLabel
-                location="left"
-                :text="$t('task.fields.isUnderControl')"
-              />
-            </DxSimpleItem>
-
-            <DxSimpleItem
-              :col-span="2"
-              :visible="isUnderControl"
-              template="supervisor"
-              data-field="supervisor"
-            >
-              <DxLabel location="left" :text="$t('task.fields.supervisor')" />
-              <DxRequiredRule
-                :message="$t('task.validation.supervisorRequired')"
-              />
-            </DxSimpleItem>
-          </DxGroupItem>
-        </DxGroupItem>
         <DxGroupItem :col-count="2">
           <DxSimpleItem template="assignee" data-field="assignee">
             <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
@@ -140,7 +103,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -153,13 +116,13 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm,
+    DxForm
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
   data() {
     return {
-      assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`,
+      assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`
     };
   },
   inject: ["taskValidatorName"],
@@ -181,7 +144,7 @@ export default {
     },
     setAssignedBy(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
-    },
+    }
   },
   computed: {
     readOnly() {
@@ -221,21 +184,21 @@ export default {
       return {
         readOnly: true,
         value: this.task.subject,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        },
+        }
       };
     },
     isUnderControlOptions() {
       return {
         value: this.task.isUnderControl,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(
             `tasks/${this.taskId}/SET_IS_UNDER_CONTROL`,
             e.value
           );
           this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
-        },
+        }
       };
     },
     bodyOptions() {
@@ -243,9 +206,9 @@ export default {
         placeholder: this.$t("task.validation.actionItemRequired"),
         height: 250,
         value: this.task.body,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(`tasks/${this.taskId}/setBody`, e.value);
-        },
+        }
       };
     },
     deadlineOptions() {
@@ -253,11 +216,11 @@ export default {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
         value: this.task.deadline,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
