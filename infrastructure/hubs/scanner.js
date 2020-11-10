@@ -80,10 +80,8 @@ export default function(app) {
     app.store.dispatch("scanner/setFile", file);
   });
   onNotification(notification => {
-    alert(
-      app.i18n(`scanner.alert.${notification}`),
-      app.i18n(`scanner.alert.notification`)
-    );
+    console.log(app, notification);
+    app.store.dispatch("scanner/showNotification", notification);
   });
 
   onError(message => {
