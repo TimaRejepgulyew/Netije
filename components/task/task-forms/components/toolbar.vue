@@ -52,6 +52,19 @@
           :entity-id="taskId"
         />
       </template>
+
+      <DxItem
+        v-for="(toolbarItem, index) in toolbarItemsByTaskType"
+        :key="index"
+        :visible="toolbarItem.visible"
+        :options="toolbarItemOptions"
+        :location="toolbarItem.location"
+        :widget="toolbarItem.widget"
+        :template="toolbarItem.widget"
+        :disabled="toolbarItem.disabled"
+      />
+      <template #swichToCompoundActionItem> </template>
+      <template #addAssignee></template>
     </DxToolbar>
   </div>
 </template>
