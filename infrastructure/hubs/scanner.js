@@ -3,6 +3,7 @@ import {
   LogLevel,
   HttpTransportType
 } from "@microsoft/signalr";
+import { alert } from "devextreme/ui/dialog";
 export default function(app) {
   const connection = new HubConnectionBuilder()
     .withUrl("http://192.168.4.170:8886/SignalR")
@@ -48,6 +49,9 @@ export default function(app) {
   function onError(handler) {
     connection.on("error", handler);
   }
+  function onNotification(handler) {
+    connection.on("notification", handler);
+  }
   function stopConnection() {
     connection.stop();
   }
@@ -75,6 +79,11 @@ export default function(app) {
     console.log(file, "scan Completed");
     app.store.dispatch("scanner/setFile", file);
   });
+  onNotification(notification => {
+    console.log(app, notification);
+    app.store.dispatch("scanner/showNotification", notification);
+  });
+
   onError(message => {
     app.store.dispatch("scanner/onError", message);
     console.log("error");
