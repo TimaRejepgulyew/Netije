@@ -49,8 +49,7 @@
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
+        template="departmentSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
@@ -140,19 +139,31 @@
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged="
-          data => {
-            setBusinessUnitId(data);
-            setAddresseeId(null);
-            setDepartamentId(null);
-          }
-        "
+        @valueChanged="(data) => {
+                        setBusinessUnitId(data); 
+                        setAddresseeId(null);
+                        setDepartmentId(null)
+                    } "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="(data) => {
+                        setDepartmentId(data)
+                        setAddresseeId(null)
+                    } "
       />
     </template>
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -175,7 +186,8 @@ export default {
     customSelectBox,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -188,6 +200,9 @@ export default {
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
@@ -290,26 +305,6 @@ export default {
         }
       };
     },
-    deparmentOptions() {
-      let businessUnitId = this.document.businessUnitId;
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.document.departmentId,
-        onValueChanged: e => {
-          this.setAddresseeId(null);
-          this.setDepartamentId(e.value);
-        }
-      };
-    }
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
@@ -370,11 +365,8 @@ export default {
         data
       );
     },
-    setDepartamentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartmentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

@@ -76,8 +76,7 @@
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
+        template="departmentSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
@@ -106,18 +105,29 @@
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged="
-          data => {
-            setBusinessUnitId(data);
-            setDepartamentId(null);
-          }
-        "
+        @valueChanged="(data) => {
+                        setBusinessUnitId(data); 
+                        setDepartmentId(null)
+                    } "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="(data) => {
+                        setDepartmentId(data)
+                    } "
       />
     </template>
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import Status from "~/infrastructure/constants/status";
@@ -136,7 +146,8 @@ export default {
     DxLabel,
     DxRequiredRule,
     customSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -152,6 +163,9 @@ export default {
     },
     departmentId() {
       return this.document.departmentId;
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     businessUnitId() {
       return this.document.businessUnitId;
@@ -221,25 +235,6 @@ export default {
         }
       };
     },
-    deparmentOptions() {
-      let businessUnitId = this.document.businessUnitId;
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.document.departmentId,
-        onValueChanged: e => {
-          this.setDepartamentId(e.value);
-        }
-      };
-    }
   },
   methods: {
     setCounterparty(data) {
@@ -251,20 +246,14 @@ export default {
         data
       );
     },
-    setDepartamentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartmentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setTotalAmount(data) {
       this.$store.commit(`documents/${this.documentId}/SET_TOTAL_AMOUNT`, data);
     },
-    setDepartamentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartmentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setCurrencyId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_CURRENCY_ID`, data);

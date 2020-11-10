@@ -79,15 +79,11 @@
         </DxSimpleItem>
         <DxSimpleItem
           data-field="businessUnitId"
-          :editor-options="businessUnitOptions"
-          editor-type="dxSelectBox"
+          template="businessUnitSelectBox"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.businessUnitId')"
-          />
+          <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
           <DxRequiredRule
-            :message="$t('translations.fields.businessUnitIdRequired')"
+            :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
         <DxSimpleItem
@@ -137,10 +133,22 @@
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
+      <template #businessUnitSelectBox>
+        <business-unit-select-box
+          valueExpr="id"
+          :value="businessUnitId"
+          validatorGroup="updateEmployee"
+          @valueChanged=" (data) => {
+                          setBusinessUnitId(data)
+                          setDepartmentId(null)
+                      } "
+        />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -180,10 +188,10 @@ export default {
     DxAsyncRule,
     DxPopup,
     ChangePasswordPopup,
-    Toolbar
+    Toolbar,
+    BusinessUnitSelectBox
   },
   props: ["data", "isCard"],
-
   data() {
     return {
       employee: this.data,
@@ -207,16 +215,8 @@ export default {
     };
   },
   computed: {
-    businessUnitOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit
-        }),
-        onValueChanged: e => {
-          this.employee.departmentId = null;
-        }
-      };
+    businessUnitId() {
+      return this.employee.businessUnitId;
     },
     departmentOptions() {
       return {
@@ -246,6 +246,12 @@ export default {
     }
   },
   methods: {
+    setDepartmentId(data){
+      this.employee.departmentId = data
+    },
+    setBusinessUnitId(data){
+      this.employee.businessUnitId = data
+    },
     goBack() {
       if (!this.isCard) this.$router.go(-1);
       else this.$emit("closePopup");

@@ -36,8 +36,7 @@
       </DxSimpleItem>
       <DxSimpleItem
         data-field="businessUnitId"
-        :editor-options="businessUnitOptions"
-        editor-type="dxSelectBox"
+        template="businessUnitSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
       </DxSimpleItem>
@@ -55,11 +54,22 @@
       >
         <DxLabel location="left" :text="$t('document.fields.note')" />
       </DxSimpleItem>
+      <template #businessUnitSelectBox>
+      <business-unit-select-box
+        valueExpr="id"
+        :read-only="!canUpdate"
+        :value="businessUnitId"
+        @valueChanged=" (data) => {
+                        setBusinessUnitId(data); 
+                    } "
+      />
+    </template>
     </DxForm>
   </div>
 </template>
 
 <script>
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxTabbedItem,
@@ -78,6 +88,7 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
+    BusinessUnitSelectBox
   },
   props: ["documentId", "isCard"],
   inject: ["documentValidatorName"],
@@ -88,12 +99,15 @@ export default {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
+    businessUnitId() {
+      return this.document.businessUnitId;
+    },
     nameOptions() {
       return {
         readOnly: !this.canUpdate,
         value: this.document?.name,
         onValueChanged: (e) => {
-          this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
+          this.setName(e.value)
         },
       };
     },
@@ -107,14 +121,8 @@ export default {
         valueExpr: "documentTypeGuid",
         value: this.document?.documentType,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
-            e.value
-          );
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DOCUMENT_KIND_ID`,
-            null
-          );
+          this.setDocumentType(e.value)
+          this.setDocumentKindId(null)
         },
       };
     },
@@ -124,39 +132,15 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.DocumentKind,
-          filter: [
-            ["documentTypeGuid", "=", this.document.documentType],
-            "and",
-            ["status", "=", 0],
-          ],
+          filter: [["documentTypeGuid", "=", this.document.documentType],"and",["status", "=", 0]],
         }),
-
         value: this.document?.documentKindId,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DOCUMENT_KIND_ID`,
-            e.value
-          );
+          this.setDocumentKindId(e.value)
           // this.$store.commit(
           //   `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
           //   null
           // );
-        },
-      };
-    },
-    businessUnitOptions() {
-      return {
-        readOnly: !this.canUpdate,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit,
-        }),
-        value: this.document?.businessUnitId,
-        onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
-            e.value
-          );
         },
       };
     },
@@ -169,10 +153,7 @@ export default {
         }),
         value: this.document?.departmentId,
         onValueChanged: (e) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-            e.value
-          );
+          this.setDepartmentId(e.value)
         },
       };
     },
@@ -181,11 +162,31 @@ export default {
         height: 150,
         value: this.document?.body,
         onValueChanged: (e) => {
-          this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
+          this.setNote(e.value)
         },
       };
     },
   },
+  methods:{
+    setName(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_NAME`, data);
+    },
+    setDocumentType(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DOCUMENT_TYPE`,data);
+    },
+    setDocumentKindId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DOCUMENT_KIND_ID`,data);
+    },
+    setDepartmentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
+    },
+    setNote(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_NOTE`, data);
+    },
+    setBusinessUnitId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
+    },
+  }
 };
 </script>
 

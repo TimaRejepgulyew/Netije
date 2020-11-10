@@ -35,11 +35,12 @@
       </DxSimpleItem>
       <DxSimpleItem
         data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
+        template="departmentSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
@@ -91,19 +92,32 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="readOnly && !canUpdate"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged=" (data) => {
                           setBusinessUnitId(data)
-                          setDepartamentId(null)
+                          setDepartmentId(null)
+                    } "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="(data) => {
+                        setDepartmentId(data)
                     } "
       />
     </template>
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -126,7 +140,8 @@ export default {
     DxRequiredRule,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -143,6 +158,9 @@ export default {
     businessUnitId() {
       return this.document.businessUnitId;
     },
+    departmentId() {
+      return this.document.departmentId;
+    },
     preparedById() {
       return this.document.preparedById;
     },
@@ -158,11 +176,11 @@ export default {
         this.selectedCorrespondentType?.type !== "Person"
       );
     },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
-    },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
+    },
+    isRegistered() {
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
@@ -172,20 +190,6 @@ export default {
     },
     correspondentId() {
       return this.document.correspondentId;
-    },
-    deparmentOptions() {
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
-        },
-      };
     },
     inResponseToIdOptions() {
       return {
@@ -230,7 +234,7 @@ export default {
     setOurSignatoryId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
     },
     setBusinessUnitId(data) {

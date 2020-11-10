@@ -68,11 +68,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -138,7 +134,22 @@
           data => {
             setBusinessUnitId(data);
             setAddresseeId(null);
-            setDepartamentId(null);
+            setDepartmentId(null);
+          }
+        "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setAddresseeId(null);
           }
         "
       />
@@ -146,7 +157,8 @@
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
@@ -167,7 +179,8 @@ export default {
     DxRequiredRule,
     customSelectBox,
     customSelectBoxContact,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -198,6 +211,9 @@ export default {
     },
     departmentId() {
       return this.document.departmentId;
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     contactId() {
       return this.document.contactId;
@@ -315,26 +331,6 @@ export default {
           this.setValidTill(e.value);
         }
       };
-    },
-    deparmentOptions() {
-      let businessUnitId = this.document.businessUnitId;
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.document.departmentId,
-        onValueChanged: e => {
-          this.setAddresseeId(null);
-          this.setDepartamentId(e.value);
-        }
-      };
     }
   },
   methods: {
@@ -388,7 +384,7 @@ export default {
         data
       );
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(
         `documents/${this.documentId}/SET_DEPARTMENT_ID`,
         data
