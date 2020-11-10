@@ -24,6 +24,7 @@ export default {
   add: "Добавить",
   complete: "Выполнить",
   accept: "Принять",
+  reworked: "Исправленно",
   rework: "На доработку",
   filter: "Фильтр",
   stop: "Прекратить",

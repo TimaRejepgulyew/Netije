@@ -5,7 +5,7 @@ import {
 } from "@microsoft/signalr";
 export default function(app) {
   const connection = new HubConnectionBuilder()
-    .withUrl("http://localhost:8886/SignalR")
+    .withUrl("http://192.168.4.170:8886/SignalR")
     // .withAutomaticReconnect(0)
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Information)
@@ -15,6 +15,15 @@ export default function(app) {
       await connection.start();
       return true;
     } catch {
+      return false;
+    }
+  }
+  async function getDeviceParams(name) {
+    try {
+      await connection.invoke("getDeviceParams", name);
+      return true;
+    } catch {
+      console.log("connection failed");
       return false;
     }
   }
@@ -42,8 +51,11 @@ export default function(app) {
   function stopConnection() {
     connection.stop();
   }
+  function printerParams(handler) {
+    connection.on("printerParams", handler);
+  }
   function onUpdateDeviceInfo(handler) {
-    connection.on("updateDeviceInfo", handler);
+    connection.on("UpdateDeviceInfo", handler);
   }
   function onScanCompleted(handler) {
     connection.on("scanCompleted", handler);
@@ -51,9 +63,9 @@ export default function(app) {
   function onFileGenerated(handler) {
     connection.on("fileGenerated", handler);
   }
-  onUpdateDeviceInfo(device => {
-    console.log("device", device);
-    app.store.dispatch("scanner/setDevices", device);
+  onUpdateDeviceInfo(devices => {
+    console.log("device", devices);
+    app.store.dispatch("scanner/setDevices", devices);
   });
   onScanCompleted(document => {
     app.store.dispatch("scanner/setPage", document);
@@ -67,7 +79,11 @@ export default function(app) {
     app.store.dispatch("scanner/onError", message);
     console.log("error");
   });
+  printerParams(currentDevice => {
+    app.store.dispatch("scanner/setCurrentDeviceParamsStore", currentDevice);
+  });
   return {
+    getDeviceParams,
     tryConnect,
     scanDocument,
     generatePdf,

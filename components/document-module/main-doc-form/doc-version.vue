@@ -12,10 +12,15 @@
           :onClick="refresh"
         ></DxButton>
         <btn-version-from-scanner
+          v-if="canUpdate"
           @uploadVersion="refresh"
           :documentId="documentId"
         />
-        <btn-upload-version @uploadVersion="refresh" :documentId="documentId" />
+        <btn-upload-version
+          v-if="canUpdate"
+          @uploadVersion="refresh"
+          :documentId="documentId"
+        />
       </div>
       <div class="list-container">
         <DxList

@@ -27,7 +27,10 @@ export default {
     monthAgo: "Bir aý öň"
   },
   confirmMessage: {
-    sureFreeApprovalAssignment:
+    sureAbortConfirmation: "Siz hakykatdanam ýumuşy işlemegi besetjek mi ?",
+    sureApprovalReworkAssignmentConfirmation:
+      "Siz hakykatdan ýumuşy gaýtadan işlendiňiz ",
+    sureFreeApprovalAssignmentConfirmation:
       "Siz hakykatdan resminama bilen ylalaşýarsyňyz?",
     sureFreeApprovalFinishAssignment:
       "Siz hakykatdan resminama ylalaşygy tammalajak?",

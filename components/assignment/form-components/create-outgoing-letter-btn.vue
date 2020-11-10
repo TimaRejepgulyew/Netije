@@ -18,6 +18,7 @@
       <div class="scrool-auto">
         <document-card
           v-if="isOpenDocumentCard"
+          @onClosed="pasteAttachment"
           :documentId="outgoingLetterId"
           @onClose="toggleDocumentCard"
           :isCard="true"
@@ -28,6 +29,7 @@
 </template>
 
 <script>
+import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 import { createLeadingDocument } from "~/infrastructure/services/documentService.js";
@@ -56,6 +58,13 @@ export default {
     }
   },
   methods: {
+    pasteAttachment({ id, documentTypeGuid }) {
+      this.$emit("pasteAttachment", {
+        attachmentId: id,
+        groupId: 7,
+        entityTypeGuid: mapToEntityType(documentTypeGuid)
+      });
+    },
     toggleDocumentCard() {
       this.isOpenDocumentCard = !this.isOpenDocumentCard;
     },
