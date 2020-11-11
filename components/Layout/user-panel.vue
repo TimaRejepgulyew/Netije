@@ -3,7 +3,7 @@
     <div class="user-panel">
       <div class="user-info">
         <div>
-          <icon-by-name :fullName="fullName" />
+          <icon-by-name :fullName="fullName" :path="'https://cdn.pixabay.com/photo/2018/07/08/21/35/human-3524862_1280.jpg'" />
         </div>
         <div class="user-name">{{fullName}}</div>
       </div>
@@ -61,6 +61,9 @@ export default {
   computed: {
     fullName() {
       return this.$store.getters["user/name"];
+    },
+    imagePath(){
+      return this.$store.getters["user/personalPhotoHash"];
     }
   },
   methods: {
@@ -79,6 +82,9 @@ export default {
     DxList,
     DxButton,
     iconByName
+  },
+  created(){
+    console.log(this.$store.getters)
   }
 };
 </script>

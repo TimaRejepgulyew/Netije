@@ -1,141 +1,84 @@
 <template>
-    <div class="widget-container flex-box">
-        <div 
-            id="dropzone-external" 
-            class="flex-box"
-            :class="[isDropZoneActive ? 'dx-theme-accent-as-border-color dropzone-active' : 'dx-theme-border-color']"
-        >
-            <img
-                id="dropzone-image"
-                :src="imageSource"
-                :hidden="!imageSource"
-                alt=""
-            >
-            <div
-                id="dropzone-text"
-                class="flex-box"
-            >
-                <span>Перетащите файл</span>
-                <span>…или кликните на область.</span>
-            </div>
-            <DxProgressBar
-                id="upload-progress"
-                :min="0"
-                :max="100"
-                width="30%"
-                :show-status="false"
-                :visible="progressVisible"
-                :value="progressValue"
-            />
-        </div>
-        <DxFileUploader
-            id="file-uploader"
-            dialog-trigger="#dropzone-external"
-            drop-zone="#dropzone-external"
-            :multiple="false"
-            :allowed-file-extensions="allowedFileExtensions"
-            upload-mode="instantly"
-            upload-url="https://js.devexpress.com/Content/Services/upload.aspx"
-            :visible="false"
-            @drop-zone-enter="onDropZoneEnter"
-            @drop-zone-leave="onDropZoneLeave"
-            @uploaded="onUploaded"
-            @progress="onProgress"
-            @upload-started="onUploadStarted"
-        />
+    <div class="file_uploader_wrapper">
+        <label for="custom_file_uploader_for_employee" class="image_wrapper">
+            <img class="image" ref="image" :src="fileSrc" v-if="fileSrc"/>
+            <img class="image" ref="image" src="~static/icons/user.svg" v-else />
+        </label>
+        <input @change="fileChanged" :accept="allowedFile" ref="fileUploader" type="file" id="custom_file_uploader_for_employee">
     </div>
 </template>
 
 
 <script>
-import { DxFileUploader } from 'devextreme-vue/file-uploader';
-import { DxProgressBar } from 'devextreme-vue/progress-bar';
 export default {
-    components:{
-        DxFileUploader,
-        DxProgressBar
+    props:{
+        path:{
+            type:String,
+            default:null
+        },
     },
     data() {
         return {
-            isDropZoneActive: false,
-            imageSource: '#',
-            progressVisible: false,
-            progressValue: 0,
-            allowedFileExtensions: ['.jpg', '.jpeg', '.gif', '.png']
+            allowedFileExtensions: ['.png','.jpeg','.jpg'],
+            file: null,
+            fileSrc:null,
         };
     },
+    computed:{
+        allowedFile(){
+            return this.allowedFileExtensions.join()
+        }
+    },
     methods: {
-            onDropZoneEnter(e) {
-                if(e.dropZoneElement.id === 'dropzone-external') {
-                    this.isDropZoneActive = true;
-                }
-            },
-            onDropZoneLeave(e) {
-                if(e.dropZoneElement.id === 'dropzone-external') {
-                    this.isDropZoneActive = false;
-                }
-            },
-            onUploaded(e) {
-                const file = e.file;
-                const dropZoneText = document.getElementById('dropzone-text');
-                const fileReader = new FileReader();
-                fileReader.onload = () => {
-                    this.isDropZoneActive = false;
-                    this.imageSource = fileReader.result;
+        fileChanged(e){
+            const file = this.$refs.fileUploader.files[0];
+            if(file){    
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const dataURL = reader.result;
+                    this.fileSrc = dataURL;
                 };
-                fileReader.readAsDataURL(file);
-                dropZoneText.style.display = 'none';
-                this.progressVisible = false;
-                this.progressValue = 0;
-            },
-            onProgress(e) {
-                this.progressValue = e.bytesLoaded / e.bytesTotal * 100;
-            },
-            onUploadStarted() {
-                this.imageSource = '';
-                this.progressVisible = true;
+                reader.readAsDataURL(file);
             }
+        }
+    },
+    created(){
+        if(this.path){
+            this.fileSrc = this.path
+        }
     }
-
 };
 </script>
 
 <style lang="scss">
-    #dropzone-external {
-    	width: 150px;
-    	height: 150px;
-    	background-color: rgba(183, 183, 183, 0.1);
-    	border-width: 2px;
-    	border-style: dashed;
-    	padding: 10px;
-    }
-    #dropzone-external > * {
-    	pointer-events: none;
-    }
-    #dropzone-external.dropzone-active {
-    	border-style: solid;
-    }
-    .widget-container > span {
-    	font-size: 22px;
-    	font-weight: bold;
-    	margin-bottom: 16px;
-    }
-    #dropzone-image {
-    	max-width: 100%;
-    	max-height: 100%;
-    }
-    #dropzone-text > span {
-    	font-weight: 100;
-    	opacity: 0.5;
-    }
-    #upload-progress {
-    	display: flex;
-    	margin-top: 10px;
-    }
-    .flex-box {
-    	display: flex;
-    	flex-direction: column;
-    	justify-content: center;
-    	align-items: center;
-    }
+.file_uploader_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+.image{
+    max-width: 300px;
+    height: 150px;
+    border-radius: 50%;
+}
+.user-info-avatar{
+    margin: 0;
+}
+#custom_file_uploader_for_employee{
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    z-index: -1;
+}
 </style>

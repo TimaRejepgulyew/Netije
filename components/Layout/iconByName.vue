@@ -1,10 +1,14 @@
 <template>
   <div>
     <div>
+      <div class="image_wrapper" v-if="path">
+      <img class="user_image" :src="path" >
+      </div>
       <div
         class="user-info-avatar"
         :style="{background:stringToColor}"
         id="avatar"
+        v-else
       >{{nameToWord}}{{lastNameToWord}}</div>
     </div>
   </div>
@@ -13,7 +17,16 @@
 <script>
 import axios from "axios";
 export default {
-  props: ["fullName"],
+  props: {
+    fullName:{
+      type: String,
+      default:null
+    },
+    path:{
+      type:String,
+      default:null
+    }
+  },
   computed: {
     stringToColor() {
       let hash = 0;
@@ -53,7 +66,7 @@ export default {
           .toUpperCase()
           .substr(0, 1);
     }
-  }
+  },
 };
 </script>
 
@@ -70,6 +83,24 @@ export default {
   margin-right: 10px;
   color: white;
   background: #333333;
+}
+
+.image_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    margin:0 10px 0 0;
+    overflow: hidden;
+}
+.user_image{
+  max-width: 50px;
+  height: 25px;
+  border-radius: 50%;
 }
 
 .user-info-name {

@@ -35,12 +35,12 @@
       validation-group="updateEmployee"
     >
       <DxGroupItem
-        :col-span="6"
+        :col-span="5"
         :caption="$t('translations.fields.personalData')"
-        :col-count="6"
+        :col-count="5"
       > 
         <DxGroupItem
-          :col-span="2"
+          :col-span="1"
         >
           <DxSimpleItem
             data-field="businessUnitId"
@@ -79,7 +79,7 @@
         </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem
-        :col-span="3"
+        :col-span="4"
         :caption="$t('translations.fields.departmentId')"
       >
         <DxSimpleItem
@@ -160,7 +160,7 @@
         />
       </template>
       <template #imageUploader>
-        <image-uploader/>
+        <image-uploader :src="null" :path="employee.personalPhoto" />
       </template>
     </DxForm>
   </div>
