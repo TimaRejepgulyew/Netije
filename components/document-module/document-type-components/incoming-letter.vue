@@ -110,7 +110,7 @@
     <template #assignee>
       <employee-select-box
         valueExpr="id"
-        :read-only="!readOnly"
+        :read-only="readOnly"
         :value="assigneeId"
         @valueChanged="setAssigneeId"
       />

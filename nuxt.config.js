@@ -6,9 +6,8 @@ const conf = JSON.parse(
 );
 export default {
   env: {
-    configUrl:
-      process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI-prod",
-    baseUrl: process.env.NODE_ENV !== "production" ? conf.baseUrl : ip.address()
+    oidcClientId:
+      process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI-prod"
   },
   loading: {
     color: "white"
@@ -66,6 +65,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
+
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
@@ -110,7 +110,9 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: process.env.NODE_ENV !== "production" ? conf.baseUrl : ip.address()
+  },
   /*
    ** Build configuration
    */

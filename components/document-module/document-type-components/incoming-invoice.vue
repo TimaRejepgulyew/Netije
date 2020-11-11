@@ -74,10 +74,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        template="departmentSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -105,10 +102,12 @@
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged="(data) => {
-                        setBusinessUnitId(data); 
-                        setDepartmentId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+            setDepartmentId(null);
+          }
+        "
       />
     </template>
     <template #departmentSelectBox>
@@ -118,14 +117,17 @@
         :validatorGroup="documentValidatorName"
         :value="departmentId"
         :businessUnitId="businessUnitId"
-        @valueChanged="(data) => {
-                        setDepartmentId(data)
-                    } "
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+          }
+        "
       />
     </template>
   </DxForm>
 </template>
 <script>
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -195,19 +197,30 @@ export default {
       };
     },
     leadingDocumentOptions() {
-      return {
-        readOnly: !this.counterpartyId || this.readOnly,
-        deferRendering: false,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
-          filter: this.counterpartyId
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(`${dataApi.documentModule.Documents}${DocumentQuery.Contract}`)
+        .filter(
+          this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : []
-        }),
-        value: this.document.leadingDocumentId,
+        )
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
+      return {
+        readOnly: !this.counterpartyId || this.readOnly,
+        ...options,
+        value: this.document.leadingDocument,
         onValueChanged: e => {
-          this.setLeadingDocumentId(e.value);
+          this.$store.dispatch(
+            `documents/${this.documentId}/setLeadingDocumentId`,
+            e.value?.id
+          );
         }
       };
     },
@@ -234,7 +247,7 @@ export default {
           this.setTotalAmount(e.value);
         }
       };
-    },
+    }
   },
   methods: {
     setCounterparty(data) {
@@ -247,13 +260,19 @@ export default {
       );
     },
     setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setTotalAmount(data) {
       this.$store.commit(`documents/${this.documentId}/SET_TOTAL_AMOUNT`, data);
     },
     setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setCurrencyId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_CURRENCY_ID`, data);

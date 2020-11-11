@@ -68,7 +68,7 @@ export default {
         onValueChanged: e => {
           this.$store.dispatch(
             `documents/${this.documentId}/setLeadingDocumentId`,
-            e.value.id
+            e.value?.id
           );
         }
       };

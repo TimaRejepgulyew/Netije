@@ -2,9 +2,9 @@ import dataApi from "~/static/dataApi";
 import { vuexOidcCreateStoreModule } from "vuex-oidc";
 import { WebStorageStateStore } from "oidc-client";
 
-export default async function({ store }) {
-  const res = await fetch(dataApi.OidcConfiguration);
-  const config = await res.json();
+export default async function({ store, $axios }) {
+  const { data } = await $axios.get(dataApi.OidcConfiguration);
+  const config = data;
   const storeModule = vuexOidcCreateStoreModule(
     {
       automaticSilentRenew: true,
