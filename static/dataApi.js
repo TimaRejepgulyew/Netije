@@ -1,4 +1,5 @@
-export const url = process.env.baseUrl;
+export const url =
+  process.env.NODE_ENV !== "production" ? process.env.baseUrl : "";
 export default {
   Metadata: `${url}/api/Metadata`,
   account: `${url}/Identity/Account/Manage`,
@@ -141,6 +142,6 @@ export default {
     banks: `${url}​/api/Import/Banks`,
     jobTitles: `${url}​/api/Import/JobTitles`,
     persons: `${url}​/api/Import/Persons`,
-    employees: `${url}​/api/Import/Employees`,
+    employees: `${url}​/api/Import/Employees`
   }
 };

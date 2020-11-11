@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs";
+const ip = require("ip");
 const conf = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, "configuration/config.json"))
 );
@@ -7,7 +8,7 @@ export default {
   env: {
     configUrl:
       process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI-prod",
-    baseUrl: conf.baseUrl
+    baseUrl: process.env.NODE_ENV !== "production" ? conf.baseUrl : ip.address()
   },
   loading: {
     color: "white"
