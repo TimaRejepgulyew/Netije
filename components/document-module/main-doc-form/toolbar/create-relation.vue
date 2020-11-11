@@ -10,7 +10,12 @@
       height="95%"
     >
       <div class="scrool-auto">
-        <document-card v-if="isOpenPopup"  @onClose="togglePopup" :isCard="true" :documentId="relationId" />
+        <document-card
+          v-if="isOpenPopup"
+          @onClose="togglePopup"
+          :isCard="true"
+          :documentId="relationId"
+        />
       </div>
     </DxPopup>
 
@@ -38,13 +43,13 @@ export default {
     DxDropDownButton,
     DxPopup,
     documentCard: async () =>
-      import("~/components/document-module/main-doc-form/index.vue"),
+      import("~/components/document-module/main-doc-form/index.vue")
   },
   props: ["documentId"],
   data() {
     return {
       isOpenPopup: false,
-      relationId: false,
+      relationId: false
     };
   },
   computed: {
@@ -53,7 +58,7 @@ export default {
     },
     dropDownConfigure() {
       return new RelationDropDownBtnOption({
-        items: this.items,
+        items: this.items
       });
     },
     items() {
@@ -62,7 +67,7 @@ export default {
           .init(this.document.documentTypeGuid)
           .getAll()
       );
-    },
+    }
   },
   methods: {
     showRelationDocument(relationId) {
@@ -76,17 +81,13 @@ export default {
       this.$awn.asyncBlock(
         e.itemData.create(this, {
           leadingDocumentType: this.document.documentTypeGuid,
-          leadingDocumentId: +this.documentId,
+          leadingDocumentId: +this.documentId
         }),
         ({ documentId }) => {
-          e.itemData.create(this, {
-            leadingDocumentType: this.document.documentTypeGuid,
-            leadingDocumentId: +this.documentId,
-          });
           this.showRelationDocument(documentId);
         }
       );
-    },
-  },
+    }
+  }
 };
 </script>

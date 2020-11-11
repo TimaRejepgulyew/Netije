@@ -78,6 +78,7 @@ export default {
   },
   props: ["documentId"],
   async created() {
+    console.log("this.documentrID", this.documentId);
     const { data } = await this.getData(dataApi.company.Employee);
     this.employee = data;
   },
