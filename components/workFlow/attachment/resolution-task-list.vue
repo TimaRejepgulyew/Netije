@@ -93,14 +93,14 @@ export default {
 }
 .link {
   cursor: pointer;
-  color: inherit;
+
   display: flex;
   align-items: center;
   padding: 5px;
   border-radius: 3px;
   text-decoration: none;
   &:hover {
-    color: inherit;
+
     background: darken($base-bg, 5%);
     width: auto;
   }
