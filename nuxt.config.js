@@ -1,9 +1,4 @@
-import path from "path";
-import fs from "fs";
-const ip = require("ip");
-const conf = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, "configuration/config.json"))
-);
+
 export default {
   env: {
     oidcClientId:
@@ -111,7 +106,6 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    // baseURL: process.env.NODE_ENV !== "production" ? conf.baseUrl : ip.address()
   },
   /*
    ** Build configuration
