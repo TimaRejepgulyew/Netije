@@ -47,10 +47,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        template="departmentSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -139,11 +136,13 @@
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged="(data) => {
-                        setBusinessUnitId(data); 
-                        setAddresseeId(null);
-                        setDepartmentId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+            setAddresseeId(null);
+            setDepartmentId(null);
+          }
+        "
       />
     </template>
     <template #departmentSelectBox>
@@ -153,10 +152,12 @@
         :validatorGroup="documentValidatorName"
         :value="departmentId"
         :businessUnitId="businessUnitId"
-        @valueChanged="(data) => {
-                        setDepartmentId(data)
-                        setAddresseeId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setAddresseeId(null);
+          }
+        "
       />
     </template>
   </DxForm>
@@ -204,9 +205,6 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-    readOnly() {
-      return this.$store.getters[`documents/${this.documentId}/readOnly`];
-    },
     isCompany() {
       return (
         this.selectedCorrespondentType != null &&
@@ -239,7 +237,7 @@ export default {
     },
     leadingDocumentOptions() {
       return {
-        readOnly: !this.counterpartyId || readOnly,
+        readOnly: !this.counterpartyId || this.readOnly,
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
@@ -304,7 +302,7 @@ export default {
           this.setValidTill(e.value);
         }
       };
-    },
+    }
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
@@ -366,7 +364,10 @@ export default {
       );
     },
     setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

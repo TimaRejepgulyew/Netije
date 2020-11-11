@@ -51,9 +51,9 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    "~/plugins/axios",
     "~/plugins/nuxt-client-init",
     "~plugins/vue-notifications",
-    "~/plugins/axios",
     "~/plugins/customStore",
     "~/plugins/customValidator",
     "~/plugins/signalR"
