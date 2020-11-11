@@ -125,7 +125,7 @@ export default {
     removeVersion: "Удалене версии"
   },
   shared: {
-    attach:"Вложите документ",
+    attach:"Вложите",
     name: "Наименование",
     nameRequired: "Введите наименование",
     nameAlreadyExists: "Такое имя уже существует",

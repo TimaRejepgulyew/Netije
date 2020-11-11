@@ -127,7 +127,7 @@ export default {
     removeVersion: "Versiany pozmak"
   },
   shared: {
-    attach:"Resminamany goşuň",
+    attach:"Goşuň",
     name: "Ady",
     nameRequired: "Adyny giriziň",
     nameAlreadyExists: "Şeýle ady öňden bar",

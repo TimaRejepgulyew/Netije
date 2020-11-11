@@ -48,6 +48,7 @@
             />
           </DxSimpleItem>
           <DxSimpleItem
+            :visible="false"
             :col-span="2"
             data-field="receiveNotice"
             :editor-options="receiveNoticeOptions"
@@ -171,6 +172,7 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+
         value: this.task.receiveNotice,
         onValueChanged: e => {
           this.$store.commit(
