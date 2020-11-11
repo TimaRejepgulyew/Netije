@@ -38,34 +38,34 @@
         :col-span="6"
         :caption="$t('translations.fields.personalData')"
         :col-count="6"
-      > 
-        <DxGroupItem
-          :col-span="2"
-        >
-          <DxSimpleItem
-            data-field="businessUnitId"
-            template="imageUploader"
-          >
+      >
+        <DxGroupItem     :visible="false" :col-span="2">
+          <DxSimpleItem data-field="businessUnitId" template="imageUploader">
             <DxLabel location="top" text="Фото" />
-        </DxSimpleItem>
+          </DxSimpleItem>
         </DxGroupItem>
-        <DxGroupItem
-          :col-span="4"
-        >
+        <DxGroupItem :col-span="6">
           <DxSimpleItem
+        
             data-field="userName"
             :editor-options="{ disabled: true }"
             data-type="string"
           >
-            <DxLabel location="top" :text="$t('translations.fields.userName')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.userName')"
+            />
           </DxSimpleItem>
           <DxSimpleItem data-field="name">
-            <DxLabel location="top" :text="$t('translations.fields.fullName')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.fullName')"
+            />
             <DxRequiredRule
               :message="$t('translations.fields.fullNameRequired')"
             />
           </DxSimpleItem>
-  
+
           <DxSimpleItem data-field="email">
             <DxLabel location="top" />
             <DxEmailRule :message="$t('translations.fields.emailRule')" />
@@ -96,7 +96,10 @@
           data-field="businessUnitId"
           template="businessUnitSelectBox"
         >
-          <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
+          <DxLabel
+            location="top"
+            :text="$t('document.fields.businessUnitId')"
+          />
           <DxRequiredRule
             :message="$t('document.validation.businessUnitIdRequired')"
           />
@@ -153,14 +156,16 @@
           valueExpr="id"
           :value="businessUnitId"
           validatorGroup="updateEmployee"
-          @valueChanged=" (data) => {
-                          setBusinessUnitId(data)
-                          setDepartmentId(null)
-                      } "
+          @valueChanged="
+            data => {
+              setBusinessUnitId(data);
+              setDepartmentId(null);
+            }
+          "
         />
       </template>
       <template #imageUploader>
-        <image-uploader/>
+        <image-uploader />
       </template>
     </DxForm>
   </div>
@@ -266,11 +271,11 @@ export default {
     }
   },
   methods: {
-    setDepartmentId(data){
-      this.employee.departmentId = data
+    setDepartmentId(data) {
+      this.employee.departmentId = data;
     },
-    setBusinessUnitId(data){
-      this.employee.businessUnitId = data
+    setBusinessUnitId(data) {
+      this.employee.businessUnitId = data;
     },
     goBack() {
       if (!this.isCard) this.$router.go(-1);
