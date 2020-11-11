@@ -21,7 +21,6 @@
           >
             <DxLabel location="left" :text="$t('task.fields.deadline')" />
           </DxSimpleItem>
-
           <DxSimpleItem
             :col-span="2"
             template="coAssignees"
