@@ -111,7 +111,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.NODE_ENV !== "production" ? conf.baseUrl : ip.address()
+    // baseURL: process.env.NODE_ENV !== "production" ? conf.baseUrl : ip.address()
   },
   /*
    ** Build configuration
