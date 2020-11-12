@@ -22,18 +22,14 @@ const getMenuByRole = (context, rootGetters) => {
   const isBusinessHead = rootGetters["permissions/isBusinessHead"];
   const isDepartmentManager = rootGetters["permissions/isDepartmentManager"];
   if (isManagerAssistant) {
-    console.log("managerAssistant");
     return menuForManagerAssistant(context);
   } else if (isBusinessHead) {
-    console.log("isBusinessHead");
     return menuForBusinessUnitHead(context);
   } else if (isDepartmentManager) {
-    console.log("isDepartmentManager");
     return menuForDepartmentAssistant(context);
   } else if (isClerk) {
     return menuForClerk(context);
   } else {
-    console.log("employee");
     return menuForEmployee(context);
   }
 };

@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     openDocument(e) {
-      console.log(e, "22");
       if (e.itemData !== null && typeof e.itemData !== "string") {
         this.$router.push(
           `/document-module/detail/${e.itemData.documentTypeGuid}/${e.itemData.id}`

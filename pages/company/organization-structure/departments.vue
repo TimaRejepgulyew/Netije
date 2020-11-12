@@ -253,7 +253,6 @@ export default {
           ),
           onClick: (e) => {
             (this.currentEmployee = e.row.data),
-              console.log(this.currentEmployee);
             this.openPopup();
           },
         },
