@@ -160,7 +160,6 @@ export default {
       this[popupName] = !this[popupName];
     },
     async toDetailAuthor(id) {
-      console.log(id);
       const { data } = await this.$axios.get(
         `${dataApi.company.Employee}/${id}`
       );

@@ -77,7 +77,6 @@ export default class Base {
   };
   mutations = {
     UPDATE_LAST_VERSION(state, payload) {
-      console.log(payload);
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
       else {

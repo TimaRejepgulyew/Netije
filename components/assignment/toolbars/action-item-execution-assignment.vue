@@ -153,7 +153,6 @@ export default {
             currentDocument.documentTypeGuid === DocumentTypeGuid.IncomingLetter
           ) {
             this.incomingDocumentId = currentDocument.id;
-            console.log(this.incomingDocumentId);
             return true;
           }
         }
