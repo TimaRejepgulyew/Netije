@@ -287,10 +287,7 @@ export default {
       this.employee.businessUnitId = data;
     },
     setPhoto(data){
-      console.log(data);
       this.employee.personalPhoto = data
-      console.log(this.employee);
-      // console.log(file);
     },
     goBack() {
       if (!this.isCard) this.$router.go(-1);
@@ -322,7 +319,7 @@ export default {
       file.append("departmentId",data.departmentId)
       file.append("status",data.status)
       file.append("note",data.note)
-      file.append("personalPhoto",data.personalPhoto)
+      file.append("personalPhoto",typeof data.personalPhoto ==="string" ? null : data.personalPhoto)
       return file
     },
     handleSubmit() {
