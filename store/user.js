@@ -18,7 +18,6 @@ export const mutations = {
         state.name = payload.name;
         state.employeeId = payload.employeeId;
         state.personalPhotoHash = payload.personalPhotoHash;
-        console.log(payload);
     }
 }
 

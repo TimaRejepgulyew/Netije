@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="image_wrapper" v-if="path">
-        <img class="user_image" :src="path" >
+        <img class="user_image" :src="imagePath" >
       </div>
       <div
         class="user-info-avatar"
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import dataApi from "~/static/dataApi";
 import axios from "axios";
 export default {
   props: {
@@ -28,6 +29,9 @@ export default {
     }
   },
   computed: {
+    imagePath(){
+      return dataApi.UserPhotoHash + this.path + '.png'
+    },
     stringToColor() {
       let hash = 0;
       let color = "#";
@@ -67,9 +71,6 @@ export default {
           .substr(0, 1);
     }
   },
-  created(){
-    
-  }
 };
 </script>
 

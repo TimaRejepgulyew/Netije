@@ -169,7 +169,6 @@
         />
       </template>
       <template #imageUploader>
-          <!-- :path="employee.personalPhoto"  -->
         <image-uploader
           :path="data.personalPhoto"
           @valueChanged="(data) => {
