@@ -78,7 +78,7 @@ export default {
     },
   },
   data() {
-    let { id } = this.data.data;
+    let { id } = this.data;
     return {
       entityType: EntityType.Department,
       departmentId: id,

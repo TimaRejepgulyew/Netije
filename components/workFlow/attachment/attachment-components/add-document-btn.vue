@@ -20,9 +20,6 @@ export default {
   components: {
     DxMenu
   },
-  created() {
-    console.log(this.paperWorkGroupBtns);
-  },
   computed: {
     documentTypeModel() {
       return new DocumentTypyModel(this);

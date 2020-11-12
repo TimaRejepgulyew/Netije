@@ -82,7 +82,6 @@ export const mutations = {
         return attachmentGroup.groupId === 7;
       }
     );
-    console.log(groupResultExicution);
   }
 };
 

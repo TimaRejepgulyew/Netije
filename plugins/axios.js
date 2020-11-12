@@ -1,6 +1,11 @@
 import { alert } from "devextreme/ui/dialog";
 
 export default function({ store, app: { router, $axios, i18n } }) {
+  if (process.env.NODE_ENV === "production") {
+    $axios.setBaseURL(document.location.origin);
+  } else {
+    $axios.setBaseURL("https://192.168.4.159");
+  }
   $axios.onError(error => {
     try {
       if (error.response.status === 404) {

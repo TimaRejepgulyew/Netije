@@ -24,11 +24,7 @@
       icon="refresh"
       :onClick="refresh"
     ></DxButton>
-    <DxList
-      :data-source="store"
-      :search-expr="['name', 'authorId']"
-      :search-enabled="true"
-    >
+    <DxList :data-source="store" :search-enabled="false">
       <template #item="item">
         <div
           @dblclick="
@@ -92,8 +88,7 @@ export default {
               .documentTypeGuid
           }/${this.documentId}`
         }),
-        paginate: true,
-        pageSize: 10
+        paginate: false
       }),
       documentTypes: new DocumentType(this),
       employee: [],
@@ -112,10 +107,11 @@ export default {
     togglePopup() {
       this.isOpenPopup = !this.isOpenPopup;
     },
-    async openDocumentCard({ documentTypeGuid, documentId }) {
-      await load(this, { documentTypeGuid, documentId });
-      this.currentRelationId = documentId;
-      this.togglePopup();
+    openDocumentCard({ documentTypeGuid, documentId }) {
+      this.$awn.asyncBlock(load(this, { documentTypeGuid, documentId }), () => {
+        this.currentRelationId = documentId;
+        this.togglePopup();
+      });
     },
     async getData(address) {
       const store = await this.$axios.get(address);

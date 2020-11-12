@@ -9,7 +9,9 @@
     <DxGroupItem :caption="$t('document.fields.whom')">
       <DxSimpleItem data-field="correspondentId" template="correspondent">
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
-        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.counterPartRequired')"
+        />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="contact">
@@ -33,13 +35,11 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
+        <DxRequiredRule
+          :message="$t('document.validation.departmentIdRequired')"
+        />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
@@ -63,7 +63,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
-        :disabled="!isCompany||readOnly"
+        :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setAddressee"
         :value="addresseeId"
@@ -91,19 +91,37 @@
     <template #businessUnitSelectBox>
       <business-unit-select-box
         valueExpr="id"
-        :read-only="readOnly && !canUpdate"
+        :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged=" (data) => {
-                          setBusinessUnitId(data)
-                          setDepartamentId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+            setDepartmentId(null);
+          }
+        "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+          }
+        "
       />
     </template>
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -114,7 +132,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -126,14 +144,15 @@ export default {
     DxRequiredRule,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
-      signatoryApi: dataApi.signatureSettings.Members,
+      signatoryApi: dataApi.signatureSettings.Members
     };
   },
   computed: {
@@ -142,6 +161,9 @@ export default {
     },
     businessUnitId() {
       return this.document.businessUnitId;
+    },
+    departmentId() {
+      return this.document.departmentId;
     },
     preparedById() {
       return this.document.preparedById;
@@ -158,11 +180,11 @@ export default {
         this.selectedCorrespondentType?.type !== "Person"
       );
     },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
-    },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
+    },
+    isRegistered() {
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
@@ -173,34 +195,34 @@ export default {
     correspondentId() {
       return this.document.correspondentId;
     },
-    deparmentOptions() {
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]],
-        }),
-        value: this.document.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartamentId(e.value)
-        },
-      };
-    },
+
     inResponseToIdOptions() {
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(
+          `${dataApi.documentModule.Documents}${DocumentQuery.IncomingLetter}`
+        )
+        .filter(
+          this.correspondentId
+            ? ["correspondentId", "=", this.correspondentId]
+            : []
+        )
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
       return {
         readOnly: !this.correspondentId,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.IncomingLetter}`,
-          filter: ["correspondentId", "=", this.document.correspondentId],
-        }),
-        value: this.document.inResponseToId,
-        onValueChanged: (e) => {
-          this.setInResponseToId(e.value)
-        },
+        ...options,
+        value: this.document.inResponseTo,
+        onValueChanged: e => {
+          this.setInResponseToId(e.value?.id);
+        }
       };
-    },
+    }
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
@@ -211,31 +233,52 @@ export default {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }
-      this.dispatchCorrespondent(data)
-      this.setInResponseToId(null)
-      this.setAddressee(null)
+      this.dispatchCorrespondent(data);
+      this.setInResponseToId(null);
+      this.setAddressee(null);
     },
     dispatchCorrespondent(data) {
-      this.$store.dispatch(`documents/${this.documentId}/setCorrespondent`, data);
+      this.$store.dispatch(
+        `documents/${this.documentId}/setCorrespondent`,
+        data
+      );
     },
     setInResponseToId(data) {
-      this.$store.commit(`documents/${this.documentId}/IN_RESPONSE_TO_ID`, data)
+      this.$store.commit(
+        `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
+        data
+      );
     },
     setAddressee(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data && data.id);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_ADDRESSE_ID`,
+        data && data.id
+      );
     },
     setPreparedById(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        data
+      );
     },
     setOurSignatoryId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_OUR_SIGNATORY_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        data
+      );
     },
-    setDepartamentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
+    setDepartmentId(data) {
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setBusinessUnitId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
-    },
-  },
+      this.$store.commit(
+        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        data
+      );
+    }
+  }
 };
 </script>

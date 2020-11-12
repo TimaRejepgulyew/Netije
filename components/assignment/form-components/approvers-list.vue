@@ -74,12 +74,6 @@ export default {
     DxLookup
   },
   props: ["assignmentId"],
-  created() {
-    console.log(
-      this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-        .approvers
-    );
-  },
   data() {
     return {
       data: this.$store.getters[`assignments/${this.assignmentId}/approvers`]

@@ -14,9 +14,13 @@ export default class Base {
     canRegister: false,
     isRegistered: false,
     skipRouteHandling: true,
-    overlays: null
+    overlays: null,
+    fullAccess: false
   };
   getters = {
+    fullAccess({ fullAccess }) {
+      return fullAccess;
+    },
     overlays({ overlays }) {
       return overlays;
     },
@@ -73,7 +77,6 @@ export default class Base {
   };
   mutations = {
     UPDATE_LAST_VERSION(state, payload) {
-      console.log(payload);
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
       else {
@@ -87,6 +90,9 @@ export default class Base {
       state.document.extension = payload.extension;
     },
     SET_NAME(state, payload) {
+      if (checkDataChanged(state.document.name, payload)) {
+        state.isDataChanged = true;
+      }
       state.document.name = payload;
     },
     SET_IS_NEW(state, payload) {

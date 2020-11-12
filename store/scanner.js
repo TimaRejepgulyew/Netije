@@ -15,7 +15,7 @@ const writeParamsByCurrentDevice = (params, currentDeviceName) => {
   );
 };
 const setDefaultParams = ({ state, commit }, defaultParams) => {
-  console.log(state);
+
   if (!state.params.size && defaultParams.size) {
     commit("SET_SIZE", defaultParams.size);
   }
@@ -211,7 +211,6 @@ export const actions = {
     commit("SET_DEVICE_NAME", payload);
   },
   setDevices({ commit }, payload) {
-    console.log(payload);
     commit("SET_DEVICES", payload);
   },
   setCurrentDeviceParamsStore({ commit, state }, payload) {

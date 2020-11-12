@@ -74,11 +74,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -109,7 +105,21 @@
         @valueChanged="
           data => {
             setBusinessUnitId(data);
-            setDepartamentId(null);
+            setDepartmentId(null);
+          }
+        "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
           }
         "
       />
@@ -117,7 +127,9 @@
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import Status from "~/infrastructure/constants/status";
@@ -136,7 +148,8 @@ export default {
     DxLabel,
     DxRequiredRule,
     customSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -152,6 +165,9 @@ export default {
     },
     departmentId() {
       return this.document.departmentId;
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     businessUnitId() {
       return this.document.businessUnitId;
@@ -174,6 +190,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.date,
         onValueChanged: e => {
           this.setDate(e.value);
@@ -181,19 +199,30 @@ export default {
       };
     },
     leadingDocumentOptions() {
-      return {
-        readOnly: !this.counterpartyId || this.readOnly,
-        deferRendering: false,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
-          filter: this.counterpartyId
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(`${dataApi.documentModule.Documents}${DocumentQuery.Contract}`)
+        .filter(
+          this.counterpartyId
             ? ["counterpartyId", "=", this.counterpartyId]
             : []
-        }),
-        value: this.document.leadingDocumentId,
+        )
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
+      return {
+        readOnly: !this.counterpartyId || this.readOnly,
+        ...options,
+        value: this.document.leadingDocument,
         onValueChanged: e => {
-          this.setLeadingDocumentId(e.value);
+          this.$store.dispatch(
+            `documents/${this.documentId}/setLeadingDocumentId`,
+            e.value?.id
+          );
         }
       };
     },
@@ -220,25 +249,6 @@ export default {
           this.setTotalAmount(e.value);
         }
       };
-    },
-    deparmentOptions() {
-      let businessUnitId = this.document.businessUnitId;
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.document.departmentId,
-        onValueChanged: e => {
-          this.setDepartamentId(e.value);
-        }
-      };
     }
   },
   methods: {
@@ -251,7 +261,7 @@ export default {
         data
       );
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(
         `documents/${this.documentId}/SET_DEPARTMENT_ID`,
         data
@@ -260,7 +270,7 @@ export default {
     setTotalAmount(data) {
       this.$store.commit(`documents/${this.documentId}/SET_TOTAL_AMOUNT`, data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(
         `documents/${this.documentId}/SET_DEPARTMENT_ID`,
         data

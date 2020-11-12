@@ -273,7 +273,8 @@ export const actions = {
           },
           {
             text: this.$i18n.t("menu.documentTemplate"),
-            path: "/docflow/document-template"
+            path: "/docflow/document-template",
+            visible: false
             // visible: rootGetters["permissions/allowReading"](
             //   EntityType.DocumentTemplate
             // )

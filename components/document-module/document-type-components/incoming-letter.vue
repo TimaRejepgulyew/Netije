@@ -55,11 +55,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -111,7 +107,7 @@
     <template #assignee>
       <employee-select-box
         valueExpr="id"
-        :read-only="!canUpdate"
+        :read-only="readOnly"
         :value="assigneeId"
         @valueChanged="setAssigneeId"
       />
@@ -126,7 +122,22 @@
           data => {
             setBusinessUnitId(data);
             setAddresseeId(null);
-            setDepartamentId('');
+            setDepartmentId('');
+          }
+        "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setAddresseeId(null);
           }
         "
       />
@@ -134,10 +145,11 @@
   </DxForm>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import dataApi from "~/static/dataApi";
@@ -158,7 +170,8 @@ export default {
     customSelectBox,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -192,6 +205,9 @@ export default {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
+    },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
@@ -216,28 +232,6 @@ export default {
         value: this.document.deliveryMethodId,
         onValueChanged: e => {
           this.setSetDeliveryMethodId(e.value);
-        }
-      };
-    },
-    deparmentOptions() {
-      let businessUnitId = this.$store.getters[
-        `documents/${this.documentId}/document`
-      ].businessUnitId;
-      return {
-        readOnly: this.isRegistered,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.document.departmentId,
-        onValueChanged: e => {
-          this.setDepartamentId(e.value);
-          this.setAddresseeId(null);
         }
       };
     },
@@ -286,6 +280,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.dated,
         onValueChanged: e => {
           this.setDated(e.value);
@@ -341,7 +337,7 @@ export default {
     setAssigneeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
-    setDepartamentId(data) {
+    setDepartmentId(data) {
       this.$store.commit(
         `documents/${this.documentId}/SET_DEPARTMENT_ID`,
         data

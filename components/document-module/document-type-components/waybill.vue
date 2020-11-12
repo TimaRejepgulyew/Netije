@@ -11,7 +11,7 @@
       editor-type="dxSelectBox"
       :editor-options="leadingDocumentOptions"
     >
-    // TODO not work without this property
+      // TODO not work without this property
       <!-- <DxRequiredRule :message="$t('document.validation.contractRequired')" /> -->
       <DxLabel location="left" :text="$t('document.fields.contract')" />
     </DxSimpleItem>
@@ -48,11 +48,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        :editor-options="deparmentOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -145,8 +141,23 @@
         @valueChanged="
           data => {
             setBusinessUnitId(data);
-            setAddresseeId(null);
-            setDepartamentId(null);
+            setResponsibleEmployeeId(null);
+            setDepartmentId(null);
+          }
+        "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setResponsibleEmployeeId(null);
           }
         "
       />
@@ -154,7 +165,8 @@
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -177,7 +189,8 @@ export default {
     customSelectBox,
     customSelectBoxContact,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -211,6 +224,9 @@ export default {
     },
     contactId() {
       return this.document.contactId;
+    },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     counterpartySignatoryId() {
       return this.document.counterpartySignatoryId;
@@ -292,25 +308,6 @@ export default {
         }
       };
     },
-    deparmentOptions() {
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", this.businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.document.departmentId,
-        onValueChanged: e => {
-          this.setDepartamentId(e.value);
-          this.setAddresseeId(null);
-        }
-      };
-    }
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
@@ -371,11 +368,8 @@ export default {
     setAddresseeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
     },
-    setDepartamentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartmentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

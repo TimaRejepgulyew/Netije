@@ -12,6 +12,7 @@
       :form-data.sync="employee"
       :show-colon-after-label="true"
       :show-validation-summary="true"
+      validation-group="createEmployee"
     >
       <DxGroupItem :caption="$t('translations.fields.personalData')">
         <DxSimpleItem data-field="userName" data-type="string">
@@ -81,15 +82,11 @@
         </DxSimpleItem>
         <DxSimpleItem
           data-field="businessUnitId"
-          :editor-options="businessUnitOptions"
-          editor-type="dxSelectBox"
+          template="businessUnitSelectBox"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.businessUnitId')"
-          />
+          <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
           <DxRequiredRule
-            :message="$t('translations.fields.businessUnitIdRequired')"
+            :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
         <DxSimpleItem
@@ -119,10 +116,22 @@
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
+      <template #businessUnitSelectBox>
+        <business-unit-select-box
+          valueExpr="id"
+          :value="businessUnitId"
+          validatorGroup="createEmployee"
+          @valueChanged=" (data) => {
+                          setBusinessUnitId(data)
+                          setDepartmentId(null)
+                      } "
+        />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import "devextreme-vue/text-area";
@@ -154,10 +163,10 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar
+    Toolbar,
+    BusinessUnitSelectBox
   },
   props: ["isCard"],
-
   data() {
     return {
       employee: {
@@ -185,16 +194,8 @@ export default {
     };
   },
   computed: {
-    businessUnitOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.BusinessUnit
-        }),
-        onValueChanged: e => {
-          this.employee.departmentId = null;
-        }
-      };
+    businessUnitId() {
+      return this.employee.businessUnitId;
     },
     departmentOptions() {
       return {
@@ -211,6 +212,12 @@ export default {
     }
   },
   methods: {
+    setDepartmentId(data){
+      this.employee.departmentId = data
+    },
+    setBusinessUnitId(data){
+      this.employee.businessUnitId = data
+    },
     passwordComparison() {
       return this.employee.password;
     },

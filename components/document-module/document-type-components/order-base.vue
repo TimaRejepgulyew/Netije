@@ -20,11 +20,7 @@
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="departmentId"
-          :editor-options="deparmentOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
           <DxLabel location="left" :text="$t('document.fields.departmentId')" />
           <DxRequiredRule
             :message="$t('document.validation.departmentIdRequired')"
@@ -82,10 +78,23 @@
         @valueChanged="
           data => {
             setBusinessUnitId(data);
-            setOurSignatoryId(null);
             setPreparedById(null);
-            setDepartamentId(null);
-            setAssigneeId(null);
+            setDepartmentId(null);
+          }
+        "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setPreparedById(null);
           }
         "
       />
@@ -93,7 +102,8 @@
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
@@ -111,7 +121,8 @@ export default {
     DxLabel,
     DxRequiredRule,
     employeeSelectBox,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -148,29 +159,12 @@ export default {
     businessUnitId() {
       return this.document.businessUnitId;
     },
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
+    },
     departmentId() {
       return this.document.departmentId;
     },
-    deparmentOptions() {
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", this.businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.departmentId,
-        onValueChanged: e => {
-          this.setDepartamentId(e.value);
-          this.setOurSignatoryId(null);
-          this.setPreparedById(null);
-        }
-      };
-    }
   },
   methods: {
     setBusinessUnitId(data) {
@@ -191,11 +185,8 @@ export default {
         data
       );
     },
-    setDepartamentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartmentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
     },
     setAssigneeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);

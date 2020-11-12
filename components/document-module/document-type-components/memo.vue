@@ -20,6 +20,25 @@
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
+        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+          <DxRequiredRule
+            :message="$t('document.validation.departmentIdRequired')"
+          />
+        </DxSimpleItem>
+        =======
+        <DxSimpleItem
+          data-field="businessUnitId"
+          template="businessUnitSelectBox"
+        >
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.businessUnitId')"
+          />
+          <DxRequiredRule
+            :message="$t('document.validation.businessUnitIdRequired')"
+          />
+        </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="deparmentOptions"
@@ -30,6 +49,7 @@
             :message="$t('document.validation.departmentIdRequired')"
           />
         </DxSimpleItem>
+        >>>>>>> global-refactoring
       </DxGroupItem>
 
       <DxGroupItem>
@@ -96,11 +116,24 @@
         @valueChanged="
           data => {
             setBusinessUnitId(data);
-            setOurSignatoryId(null);
-            setPreparedById(null);
-            setDepartamentId(null);
+
+            setDepartmentId(null);
             setAddresseeId(null);
-            setAssigneeId(null);
+          }
+        "
+      />
+    </template>
+    <template #departmentSelectBox>
+      <department-select-box
+        valueExpr="id"
+        :read-only="readOnly"
+        :validatorGroup="documentValidatorName"
+        :value="departmentId"
+        :businessUnitId="businessUnitId"
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setAddresseeId(null);
           }
         "
       />
@@ -108,7 +141,8 @@
   </DxForm>
 </template>
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
@@ -126,7 +160,8 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    DepartmentSelectBox
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -158,25 +193,10 @@ export default {
     departmentId() {
       return this.document.departmentId;
     },
-    deparmentOptions() {
-      return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["businessUnitId", "=", this.businessUnitId],
-            "and",
-            ["status", "=", Status.Active]
-          ]
-        }),
-        value: this.document.departmentId,
-        onValueChanged: e => {
-          this.setDepartamentId(e.value);
-          this.setAddresseeId(null);
-        }
-      };
-    }
+    readOnly() {
+      return this.$store.getters[`documents/${this.documentId}/readOnly`];
+    },
+
   },
   methods: {
     setPreparedById(data) {
@@ -197,11 +217,8 @@ export default {
     setAssigneeId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
-    setDepartamentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartmentId(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
     },
     setBusinessUnitId(data) {
       this.$store.commit(

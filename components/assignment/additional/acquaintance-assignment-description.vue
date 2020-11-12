@@ -18,18 +18,19 @@ export default {
   computed: {
     isElectronicAcquaintance() {
       return (
-        this.$store.getters[`assignments/${this.assignmentId}/assignment`].description == ""
+        this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+          .description === null
       );
     },
     description() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .description;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .info-message {
   font-size: 1.1em;
   font-weight: 500px;

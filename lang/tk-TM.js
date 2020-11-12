@@ -19,6 +19,7 @@ import paperWork from "~/lang/i18n-translation/tk/paperWork.js";
 import docFlow from "~/lang/i18n-translation/tk/docFlow.js";
 import buttons from "~/lang/i18n-translation/tk/buttons.js";
 export default {
+  scanner,
   paperWork,
   parties,
   companyStructure,
@@ -126,6 +127,7 @@ export default {
     removeVersion: "Versiany pozmak"
   },
   shared: {
+    attach:"Goşuň",
     name: "Ady",
     nameRequired: "Adyny giriziň",
     nameAlreadyExists: "Şeýle ady öňden bar",

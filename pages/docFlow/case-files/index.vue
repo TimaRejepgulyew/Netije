@@ -13,7 +13,7 @@
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
@@ -82,7 +82,6 @@
         :caption="$t('docFlow.fields.endDate')"
         data-type="date"
       >
-        <DxRequiredRule :message="$t('docFlow.validation.endDateRequired')" />
         <DxCustomRule
           :message="$t('validation.caseFile.endDateLessThanBegin')"
           :validation-callback="validEndDate"
@@ -174,7 +173,7 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxCustomRule,
-  DxPatternRule,
+  DxPatternRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -196,7 +195,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxCustomRule,
-    DxPatternRule,
+    DxPatternRule
   },
 
   data() {
@@ -207,14 +206,18 @@ export default {
         loadUrl: dataApi.docFlow.CaseFile.All,
         insertUrl: dataApi.docFlow.CaseFile.Value,
         updateUrl: dataApi.docFlow.CaseFile.Value,
-        removeUrl: dataApi.docFlow.CaseFile.Value,
+        removeUrl: dataApi.docFlow.CaseFile.Value
       }),
       indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
-      statusDataSource: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
     validEndDate(e) {
+      console.log(e);
+      if (!e.value) {
+        return true;
+      }
       if (Date.parse(e.data.startDate) < Date.parse(e.value)) {
         return true;
       }
@@ -248,7 +251,7 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Department,
+          loadUrl: dataApi.company.Department
         }),
         paginate: true,
         filter: options.data
@@ -259,16 +262,16 @@ export default {
               "or",
               "id",
               "=",
-              options.data.departmentId,
+              options.data.departmentId
             ]
-          : null,
+          : null
       };
     },
     getAvailableRetentionPeriod(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.FileRetentionPeriod,
+          loadUrl: dataApi.docFlow.FileRetentionPeriod
         }),
         paginate: true,
         filter: options.data
@@ -279,9 +282,9 @@ export default {
               "or",
               "id",
               "=",
-              options.data.retentionPeriodId,
+              options.data.retentionPeriodId
             ]
-          : null,
+          : null
       };
     },
     getAvailableRegistrationGroups(options) {
@@ -292,19 +295,19 @@ export default {
         filter.push([
           "responsibleEmployeeId",
           "=",
-          +this.$store.getters["permissions/employeeId"],
+          +this.$store.getters["permissions/employeeId"]
         ]);
       }
 
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.RegistrationGroup,
+          loadUrl: dataApi.docFlow.RegistrationGroup
         }),
         paginate: true,
-        filter: options.data ? filter : [],
+        filter: options.data ? filter : []
       };
-    },
-  },
+    }
+  }
 };
 </script>
