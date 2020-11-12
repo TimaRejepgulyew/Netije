@@ -43,7 +43,6 @@
           :col-span="1"
         >
           <DxSimpleItem
-            data-field="businessUnitId"
             template="imageUploader"
           >
             <DxLabel location="top" text="Фото" />
@@ -160,7 +159,13 @@
         />
       </template>
       <template #imageUploader>
-        <image-uploader :src="null" :path="employee.personalPhoto" />
+          <!-- :path="employee.personalPhoto"  -->
+        <image-uploader
+          :path="data.personalPhoto"
+          @valueChanged="(data) => {
+            setPhoto(data)
+                      } " 
+        />
       </template>
     </DxForm>
   </div>
@@ -272,6 +277,12 @@ export default {
     setBusinessUnitId(data){
       this.employee.businessUnitId = data
     },
+    setPhoto(data){
+      console.log(data);
+      this.employee.personalPhoto = data
+      console.log(this.employee);
+      // console.log(file);
+    },
     goBack() {
       if (!this.isCard) this.$router.go(-1);
       else this.$emit("closePopup");
@@ -292,13 +303,27 @@ export default {
         dataField
       );
     },
+    generateFormData(data){
+      const file = new FormData()
+      file.append("Id",data.id)
+      file.append("Email",data.email)
+      file.append("Name",data.name)
+      file.append("Phone",data.phone)
+      file.append("JobTitleId",data.jobTitleId)
+      file.append("DepartmentId",data.departmentId)
+      file.append("Status",data.status)
+      file.append("Note",data.note)
+      file.append("PersonalPhoto",data.personalPhoto)
+      return file
+    },
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
+      const file =  this.generateFormData(this.employee)
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
           dataApi.company.Employee + "/" + this.employee.id,
-          this.employee
+          file
         ),
         e => {
           this.$emit("valueChanged", this.employee);

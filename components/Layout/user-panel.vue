@@ -3,7 +3,7 @@
     <div class="user-panel">
       <div class="user-info">
         <div>
-          <icon-by-name :fullName="fullName" :path="'https://cdn.pixabay.com/photo/2018/07/08/21/35/human-3524862_1280.jpg'" />
+          <icon-by-name :fullName="fullName"/>
         </div>
         <div class="user-name">{{fullName}}</div>
       </div>
@@ -30,6 +30,12 @@ import DxButton from "devextreme-vue/button";
 import dataApi from "~/static/dataApi";
 import iconByName from "~/components/Layout/iconByName.vue";
 export default {
+  components: {
+    DxContextMenu,
+    DxList,
+    DxButton,
+    iconByName
+  },
   props: {
     menuMode: String
   },
@@ -77,14 +83,9 @@ export default {
       window.location.href = dataApi.account;
     }
   },
-  components: {
-    DxContextMenu,
-    DxList,
-    DxButton,
-    iconByName
-  },
   created(){
-    console.log(this.$store.getters)
+    console.log(this.imagePath);
+    console.log(this.$store.getters);
   }
 };
 </script>

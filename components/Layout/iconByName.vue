@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="image_wrapper" v-if="path">
-      <img class="user_image" :src="path" >
+        <img class="user_image" :src="path" >
       </div>
       <div
         class="user-info-avatar"
@@ -67,6 +67,9 @@ export default {
           .substr(0, 1);
     }
   },
+  created(){
+    
+  }
 };
 </script>
 

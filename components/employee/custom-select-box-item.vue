@@ -1,6 +1,6 @@
 <template>
   <div class="custom-item d-flex align-center">
-    <iconByName :fullName="itemData && itemData.name" />
+    <iconByName :fullName="itemData && itemData.name" :path="itemData && itemData.personalPhotoHash" />
     <div>
       <div>{{$t()}}{{itemData && itemData.name}}</div>
       <div class="grey">{{itemData && itemData.jobTitle}}</div>

@@ -1,8 +1,7 @@
 <template>
     <div class="file_uploader_wrapper">
         <label for="custom_file_uploader_for_employee" class="image_wrapper">
-            <img class="image" ref="image" :src="fileSrc" v-if="fileSrc"/>
-            <img class="image" ref="image" src="~static/icons/user.svg" v-else />
+            <img class="image" ref="image" :src="fileSrc"/>
         </label>
         <input @change="fileChanged" :accept="allowedFile" ref="fileUploader" type="file" id="custom_file_uploader_for_employee">
     </div>
@@ -13,7 +12,6 @@
 export default {
     props:{
         path:{
-            type:String,
             default:null
         },
     },
@@ -21,7 +19,7 @@ export default {
         return {
             allowedFileExtensions: ['.png','.jpeg','.jpg'],
             file: null,
-            fileSrc:null,
+            fileSrc: `${require("@/static/icons/user.svg")}`,
         };
     },
     computed:{
@@ -32,6 +30,7 @@ export default {
     methods: {
         fileChanged(e){
             const file = this.$refs.fileUploader.files[0];
+            this.$emit('valueChanged',file)
             if(file){    
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -44,7 +43,7 @@ export default {
     },
     created(){
         if(this.path){
-            this.fileSrc = this.path
+            this.fileSrc = 'data:image/png;base64,' + this.path
         }
     }
 };
