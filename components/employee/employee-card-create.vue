@@ -259,7 +259,9 @@ export default {
     generateFormData(data){
       const file = new FormData()
       for (const key in data) {
-        file.append(key,data[key])
+        if(data[key] !== null){
+          file.append(key,data[key])
+        }
       }
       return file
     },

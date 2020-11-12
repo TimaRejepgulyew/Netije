@@ -311,15 +311,20 @@ export default {
     },
     generateFormData(data){
       const file = new FormData()
-      file.append("id",data.id)
-      file.append("email",data.email)
-      file.append("name",data.name)
-      file.append("phone",data.phone)
-      file.append("jobTitleId",data.jobTitleId)
-      file.append("departmentId",data.departmentId)
-      file.append("status",data.status)
-      file.append("note",data.note)
-      file.append("personalPhoto",typeof data.personalPhoto ==="string" ? null : data.personalPhoto)
+      function appenFormData( key, value ){
+        if(value !== null){
+          file.append(key,value)
+        }
+      }
+      appenFormData("id",data.id)
+      appenFormData("email",data.email)
+      appenFormData("name",data.name)
+      appenFormData("phone",data.phone)
+      appenFormData("jobTitleId",data.jobTitleId)
+      appenFormData("departmentId",data.departmentId)
+      appenFormData("status",data.status)
+      appenFormData("note",data.note)
+      appenFormData("personalPhoto",typeof data.personalPhoto ==="string" ? null : data.personalPhoto)
       return file
     },
     handleSubmit() {
