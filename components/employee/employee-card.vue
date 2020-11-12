@@ -48,7 +48,7 @@
             <DxLabel location="top" text="Фото" />
           </DxSimpleItem>
         </DxGroupItem>
-        <DxGroupItem :col-span="6">
+        <DxGroupItem :col-span="4">
           <DxSimpleItem
         
             data-field="userName"
@@ -314,15 +314,15 @@ export default {
     },
     generateFormData(data){
       const file = new FormData()
-      file.append("Id",data.id)
-      file.append("Email",data.email)
-      file.append("Name",data.name)
-      file.append("Phone",data.phone)
-      file.append("JobTitleId",data.jobTitleId)
-      file.append("DepartmentId",data.departmentId)
-      file.append("Status",data.status)
-      file.append("Note",data.note)
-      file.append("PersonalPhoto",data.personalPhoto)
+      file.append("id",data.id)
+      file.append("email",data.email)
+      file.append("name",data.name)
+      file.append("phone",data.phone)
+      file.append("jobTitleId",data.jobTitleId)
+      file.append("departmentId",data.departmentId)
+      file.append("status",data.status)
+      file.append("note",data.note)
+      file.append("personalPhoto",data.personalPhoto)
       return file
     },
     handleSubmit() {
