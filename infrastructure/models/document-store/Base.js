@@ -91,6 +91,9 @@ export default class Base {
       state.document.extension = payload.extension;
     },
     SET_NAME(state, payload) {
+      if (checkDataChanged(state.document.name, payload)) {
+        state.isDataChanged = true;
+      }
       state.document.name = payload;
     },
     SET_IS_NEW(state, payload) {
