@@ -217,6 +217,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.validTill,
         onValueChanged: e => {
           this.setValidTill(e.value);

@@ -125,6 +125,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.placedToCaseFileDate,
         onValueChanged: (e) => {
           this.$store.commit(
@@ -152,6 +154,8 @@ export default {
           context: this,
           url: dataApi.docFlow.DeliveryMethod,
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.deliveryMethodId,
         onValueChanged: (e) => {
           this.$store.commit(

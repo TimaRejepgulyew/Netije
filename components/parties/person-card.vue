@@ -79,7 +79,7 @@
           <DxLabel location="top" :text="$t('translations.fields.localityId')" />
         </DxSimpleItem>
         <DxSimpleItem
-          :editor-options="localityOptions"
+          :editor-options="dateOptions"
           editor-type="dxDateBox"
           data-field="dateOfBirth"
         >
@@ -226,6 +226,12 @@ export default {
         ],
       });
     },
+    dateOptions(){
+      return{
+        useMaskBehavior: true,
+        openOnFieldClick: true,
+      }
+    }
   },
   methods: {
     validateEntityExists(params) {

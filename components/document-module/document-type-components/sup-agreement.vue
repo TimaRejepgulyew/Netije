@@ -330,6 +330,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.validFrom,
         onValueChanged: e => {
           this.setValidFrom(e.value);
@@ -342,6 +344,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.validTill,
         onValueChanged: e => {
           this.setValidTill(e.value);
