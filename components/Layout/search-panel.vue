@@ -8,9 +8,10 @@
       :show-clear-button="true"
       :min-search-length="2"
       :search-timeout="300"
+      displayValue="name"
       value-expr="name"
+      :onItemClick="openDocument"
       :placeholder="$t('shared.search')"
-      @selectionChanged="openDocument"
     ></DxAutocomplete>
   </label>
 </template>
@@ -22,7 +23,7 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    DxAutocomplete,
+    DxAutocomplete
   },
   data() {
     return {
@@ -30,24 +31,25 @@ export default {
       documents: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.documentModule.AllDocument,
+          loadUrl: dataApi.documentModule.AllDocument
         }),
         paginate: true,
-        pageSize: 10,
-      }),
+        pageSize: 10
+      })
     };
   },
   methods: {
     openDocument(e) {
-      if (e.selectedItem !== null && typeof e.selectedItem !== "string") {
+      console.log(e, "22");
+      if (e.itemData !== null && typeof e.itemData !== "string") {
         this.$router.push(
-          `/document-module/detail/${e.selectedItem.documentTypeGuid}/${e.selectedItem.id}`
+          `/document-module/detail/${e.itemData.documentTypeGuid}/${e.itemData.id}`
         );
+        this.name = null;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

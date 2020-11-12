@@ -1,12 +1,8 @@
-import path from "path";
-import fs from "fs";
-const conf = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, "configuration/config.json"))
-);
+
 export default {
   env: {
-    configUrl: process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI-prod",
-    baseUrl: conf.baseUrl
+    oidcClientId:
+      process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI-prod"
   },
   loading: {
     color: "white"
@@ -50,9 +46,9 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    "~/plugins/axios",
     "~/plugins/nuxt-client-init",
     "~plugins/vue-notifications",
-    "~/plugins/axios",
     "~/plugins/customStore",
     "~/plugins/customValidator",
     "~/plugins/signalR"
@@ -64,6 +60,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
+
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
@@ -90,6 +87,7 @@ export default {
           alwaysRedirect: true,
           fallbackLocale: "ru"
         },
+        strategy: "no_prefix",
         lazy: true,
         langDir: "lang/",
         defaultLocale: "ru",
@@ -107,7 +105,8 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+  },
   /*
    ** Build configuration
    */

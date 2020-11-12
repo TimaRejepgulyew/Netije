@@ -1,4 +1,5 @@
 export default {
+  freeApprovalTasks: "Ylalyşyk",
   addNewRecipient: "Hukuklaryň täze kabul edijilerini goşuň",
   addDocumentKind: "Resminama görnüşini goşuň",
   addendum: "Resminama goşundy",
@@ -18,7 +19,8 @@ export default {
   addDoctRegistrySucces: "Bellige alyş kitapçasyny goşmak üstünlikli geçdi",
   addDoctRegistryError: "Bellige alyş kitapçasyny goşmakda ýalňyşlyk",
   editDocumentRegister: "Bellige alyş kitapçasyna üýtgedişleri girizmek",
-  updateDocRegistrySucces: "Bellige alyş kitapçasyny täzelemek üstünlikli geçdi",
+  updateDocRegistrySucces:
+    "Bellige alyş kitapçasyny täzelemek üstünlikli geçdi",
   registrationSucceded: "Bellige almak üstünlikli geçdi",
   registrationError: "Resminamany bellige almakda ýalňyşlyk",
   updateDocRegistryError: "Bellige alyş kitapçasyny täzelemekde ýalňyşlyk",
@@ -36,4 +38,4 @@ export default {
   otherTasks: "Beýleki ýumuşlar",
   actionItemExecutionTasks: "Tabşyryklar",
   reviewTasks: "Ýumuşlara seredip geçmek"
-}
+};

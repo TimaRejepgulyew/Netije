@@ -1,7 +1,11 @@
 <template>
   <div>
     <div>
-      <Header :isNew="false" :isbackButton="true" :headerTitle=" documentKind.name"></Header>
+      <Header
+        :isNew="false"
+        :isbackButton="true"
+        :headerTitle="documentKind.name"
+      ></Header>
       <toolbar
         @saveChanges="handleSubmit"
         :canSave="$store.getters['permissions/allowUpdating'](this.entityType)"
@@ -40,7 +44,9 @@
             editor-type="dxSelectBox"
           >
             <DxLabel location="top" :text="$t('docFlow.fields.documentFlow')" />
-            <DxRequiredRule :message="$t('docFlow.validation.documentFlowRequired')" />
+            <DxRequiredRule
+              :message="$t('docFlow.validation.documentFlowRequired')"
+            />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -49,8 +55,13 @@
             :editor-options="numberingTypeOptions"
             editor-type="dxSelectBox"
           >
-            <DxLabel location="top" :text="$t('translations.fields.numberingType')" />
-            <DxRequiredRule :message="$t('translations.fields.numberingTypeRequired')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.numberingType')"
+            />
+            <DxRequiredRule
+              :message="$t('translations.fields.numberingTypeRequired')"
+            />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -59,7 +70,9 @@
             editor-type="dxSelectBox"
           >
             <DxLabel location="top" :text="$t('menu.documentType')" />
-            <DxRequiredRule :message="$t('translations.fields.documentTypeGuidRequired')" />
+            <DxRequiredRule
+              :message="$t('translations.fields.documentTypeGuidRequired')"
+            />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -67,7 +80,10 @@
             editor-type="dxTagBox"
             data-field="availableActions"
           >
-            <DxLabel location="top" :text="$t('translations.fields.availableActions')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.availableActions')"
+            />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="status"
@@ -78,7 +94,6 @@
           </DxSimpleItem>
           <DxSimpleItem
             data-field="generateDocumentName"
-            :editor-options="generateDocumentNameOptions"
             editor-type="dxCheckBox"
           >
             <DxLabel
@@ -89,10 +104,18 @@
           </DxSimpleItem>
 
           <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
-            <DxLabel location="top" alignment="left" :text="$t('docFlow.fields.isDefault')" />
+            <DxLabel
+              location="top"
+              alignment="left"
+              :text="$t('docFlow.fields.isDefault')"
+            />
           </DxSimpleItem>
 
-          <DxSimpleItem data-field="note" :col-span="2" editor-type="dxTextArea">
+          <DxSimpleItem
+            data-field="note"
+            :col-span="2"
+            editor-type="dxTextArea"
+          >
             <DxLabel location="top" :text="$t('translations.fields.note')" />
           </DxSimpleItem>
         </DxGroupItem>
@@ -117,7 +140,7 @@ import DxForm, {
   DxCompareRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule,
+  DxPatternRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -132,20 +155,20 @@ export default {
     DxPatternRule,
     DxRangeRule,
     DxForm,
-    Toolbar,
+    Toolbar
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(
       dataApi.docFlow.DocumentKind + "/" + params.id
     );
     return {
-      documentKind: res.data,
+      documentKind: res.data
     };
   },
   data() {
     return {
       entityType: EntityType.DocumentKind,
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -155,10 +178,10 @@ export default {
       const object = { ...this.documentKind };
       this.$awn.asyncBlock(
         this.$axios.put(`${dataApi.docFlow.DocumentKind}/${object.id}`, object),
-        (res) => this.$awn.success(),
-        (err) => this.$awn.alert()
+        res => this.$awn.success(),
+        err => this.$awn.alert()
       );
-    },
+    }
   },
   computed: {
     hasDependencies() {
@@ -168,20 +191,16 @@ export default {
       return {
         valueExpr: "id",
         displayExpr: "status",
-        dataSource: this.$store.getters["status/status"](this),
+        dataSource: this.$store.getters["status/status"](this)
       };
     },
-    generateDocumentNameOptions() {
-      return {
-        disabled: this.documentKind.hasDocuments,
-      };
-    },
+
     numberingTypeOptions() {
       return {
         dataSource: this.$store.getters["docflow/numberingType"](this),
         valueExpr: "id",
         displayExpr: "name",
-        disabled: this.hasDependencies,
+        disabled: this.hasDependencies
       };
     },
     documentFlowOptions() {
@@ -190,9 +209,9 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         disabled: this.hasDependencies,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.documentKind.documentTypeGuid = null;
-        },
+        }
       };
     },
     tagboxOptions() {
@@ -200,12 +219,12 @@ export default {
         dataSource: {
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.docFlow.DocumentSendAction,
+            loadUrl: dataApi.docFlow.DocumentSendAction
           }),
-          filter: ["status", "=", Status.Active],
+          filter: ["status", "=", Status.Active]
         },
         valueExpr: "id",
-        displayExpr: "name",
+        displayExpr: "name"
       };
     },
     docTypeOptions() {
@@ -213,19 +232,19 @@ export default {
         dataSource: {
           store: this.$dxStore({
             key: "documentTypeGuid",
-            loadUrl: dataApi.docFlow.DocumentType,
+            loadUrl: dataApi.docFlow.DocumentType
           }),
           filter: [
             ["status", "=", Status.Active],
             "and",
-            ["documentFlow", "=", this.documentKind.documentFlow],
-          ],
+            ["documentFlow", "=", this.documentKind.documentFlow]
+          ]
         },
         valueExpr: "documentTypeGuid",
         displayExpr: "name",
-        disabled: this.hasDependencies,
+        disabled: this.hasDependencies
       };
-    },
-  },
+    }
+  }
 };
 </script>

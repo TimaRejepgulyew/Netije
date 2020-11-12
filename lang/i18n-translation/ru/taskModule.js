@@ -3,7 +3,7 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа",
-  FreeApprovalTask: "Свободное согласование"
+  FreeApprovalTask: "Задача на cвободное согласование"
 };
 export default {
   sources: {
@@ -13,18 +13,15 @@ export default {
   quickFilter: {
     all: "Все",
     inProcess: "В работе",
-    expired: "Просроченые",
+    expired: "Просроченные",
     monthAgo: "30 дней"
   },
-  taskQuery: {
-    all: "Все задачи",
-    actionItem: "Поручения"
-  },
+
   message: {
     acquaintDocumentMessage:
       "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись",
-    nothaveAccessRight: "Не достаточно прав, добавте права для этой задачи ",
-    sureAbortTask: "Вы действительно хотите прекратить задачи?",
+    nothaveAccessRight: "Не достаточно прав, добавьте права для этой задачи ",
+    sureAbortTask: "Вы действительно хотите прекратить задачу?",
     sureRestartTask: "Вы действительно хотите рестартавать задачу?",
     sureStartTask: "Вы действительно хотите стартовать задачу?"
   },
@@ -45,8 +42,8 @@ export default {
     status: "Состояние",
     author: "Автор",
     assignedBy: "Выдал",
-    parallel: "паралельно",
-    gradually: "друг за другом",
+    parallel: "Паралельно",
+    gradually: "Друг за другом",
     performers: "Исполнители",
     start: "Старт",
     addressee: "Адресат",
@@ -78,15 +75,15 @@ export default {
   },
   validation: {
     deadlineRequired: "Заполните срок",
-    assignedByRequired: "Введите кому выдана",
+    assignedByRequired: "Введите кем выдана",
     performersRequired: "Выберите исполнителя",
     addresseeRequired: "Выберите адресата",
     actionItemRequired: "Введите поручение",
     maxDeadlineRequired: "Заполните срок",
     subjectRequired: "Введите Содержание",
-    supervisorRequired: "Введите контролера",
+    supervisorRequired: "Выберите контролера",
     acquaintMembersRequired: "Выберите кого нужно ознакомить",
-    assigneeRequired: "Введите исполнителя",
+    assigneeRequired: "Выберите исполнителя",
     approversRequired: "Выберите согласующих",
     receiveOnCompletionRequired: "Выберите что получить по завершению"
   }

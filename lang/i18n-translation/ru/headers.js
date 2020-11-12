@@ -1,4 +1,5 @@
 export default {
+  freeApprovalTasks:"Согласование",
   addNewRecipient: "Добавить субъект прав",
   addDocumentKind: "Добавление вида документа",
   addendum: "Приложение к документу",

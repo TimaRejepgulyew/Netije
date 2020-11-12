@@ -1,146 +1,145 @@
-export const url = process.env.baseUrl;
 export default {
-  Metadata: `${url}/api/Metadata`,
-  account: `${url}/Identity/Account/Manage`,
-  History: `${url}/api/History/`,
-  OidcConfiguration: `${url}/_configuration/${process.env.configUrl}`,
+  Metadata: `/api/Metadata`,
+  account: `/Identity/Account/Manage`,
+  History: `/api/History/`,
+  OidcConfiguration: `/_configuration/${process.env.oidcClientId}`,
   sharedDirectory: {
-    Country: `${url}/api/Country`,
-    Region: `${url}/api/Region`,
-    Locality: `${url}/api/Locality`,
-    Currency: `${url}/api/Currency`
+    Country: `/api/Country`,
+    Region: `/api/Region`,
+    Locality: `/api/Locality`,
+    Currency: `/api/Currency`
   },
   hubs: {
-    assignmentHub: `${url}/hubs/assignments`
+    assignmentHub: `/hubs/assignments`
   },
   contragents: {
-    Company: `${url}/api/Companies`,
-    Bank: `${url}/api/Bank`,
-    Person: `${url}/api/Person`,
-    CounterPart: `${url}/api/CounterPart`,
-    Contact: `${url}/api/Contact`
+    Company: `/api/Companies`,
+    Bank: `/api/Bank`,
+    Person: `/api/Person`,
+    CounterPart: `/api/CounterPart`,
+    Contact: `/api/Contact`
   },
   company: {
-    Department: `${url}/api/Department`,
-    DepartmentMembers: `${url}/api/DepartmentMembers/`,
-    BusinessUnit: `${url}/api/BusinessUnit`,
-    Employee: `${url}/api/Employee`,
-    ChangeEmployeePassword: `${url}/api/Employee/ChangePassword`,
-    JobTitle: `${url}/api/JobTitle`,
-    ManagersAssistant: `${url}/api/ManagersAssistant`
+    Department: `/api/Department`,
+    DepartmentMembers: `/api/DepartmentMembers/`,
+    BusinessUnit: `/api/BusinessUnit`,
+    Employee: `/api/Employee`,
+    ChangeEmployeePassword: `/api/Employee/ChangePassword`,
+    JobTitle: `/api/JobTitle`,
+    ManagersAssistant: `/api/ManagersAssistant`
   },
   admin: {
-    Roles: `${url}/api/Role`,
-    RoleMembers: `${url}/api/RoleMembers/`
+    Roles: `/api/Role`,
+    RoleMembers: `/api/RoleMembers/`
   },
   docFlow: {
     DocumentRegister: {
-      Value: `${url}/api/DocumentRegister`,
-      All: `${url}/api/DocumentRegister`,
-      СustomizableDocumentRegisters: `${url}/api/DocumentRegister/СustomizableDocumentRegisters`,
-      PreliminaryNumber: `${url}/api/DocumentRegister/PreliminaryNumber`,
-      DefaultDocumentRegister: `${url}/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
-      RegistrableDocumentRegisteres: `${url}/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`
+      Value: `/api/DocumentRegister`,
+      All: `/api/DocumentRegister`,
+      СustomizableDocumentRegisters: `/api/DocumentRegister/СustomizableDocumentRegisters`,
+      PreliminaryNumber: `/api/DocumentRegister/PreliminaryNumber`,
+      DefaultDocumentRegister: `/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
+      RegistrableDocumentRegisteres: `/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`
     },
     CaseFile: {
-      Value: `${url}/api/CaseFile`,
-      All: `${url}/api/CaseFile`,
-      AvailableForUse: `${url}/api/CaseFile/AvailableForUse`
+      Value: `/api/CaseFile`,
+      All: `/api/CaseFile`,
+      AvailableForUse: `/api/CaseFile/AvailableForUse`
     },
-    ContractCategories: `${url}/api/ContractCategory`,
-    PersonalSettings: `${url}/api/PersonalSettings`,
-    DocumentKind: `${url}/api/DocumentKind`,
-    DocumentType: `${url}/api/DocumentType`,
-    DocumentSendAction: `${url}/api/DocumentSendAction`,
-    FileRetentionPeriod: `${url}/api/FileRetentionPeriod`,
-    RegistrationGroup: `${url}/api/RegistrationGroup`,
-    ResponsibleForGroupOnMe: `${url}/api/RegistrationGroup/ResponsibleForGroupOnMe`,
-    RegistrationGroupMembers: `${url}/api/RegistrationGroupMembers/`,
-    DeliveryMethod: `${url}/api/DeliveryMethod`,
-    RegistrationSetting: `${url}/api/RegistrationSetting`,
-    AssociatedApplication: `${url}/api/AssociatedApplication`,
-    FilesType: `${url}/api/FilesType`
+    ContractCategories: `/api/ContractCategory`,
+    PersonalSettings: `/api/PersonalSettings`,
+    DocumentKind: `/api/DocumentKind`,
+    DocumentType: `/api/DocumentType`,
+    DocumentSendAction: `/api/DocumentSendAction`,
+    FileRetentionPeriod: `/api/FileRetentionPeriod`,
+    RegistrationGroup: `/api/RegistrationGroup`,
+    ResponsibleForGroupOnMe: `/api/RegistrationGroup/ResponsibleForGroupOnMe`,
+    RegistrationGroupMembers: `/api/RegistrationGroupMembers/`,
+    DeliveryMethod: `/api/DeliveryMethod`,
+    RegistrationSetting: `/api/RegistrationSetting`,
+    AssociatedApplication: `/api/AssociatedApplication`,
+    FilesType: `/api/FilesType`
   },
   documentRegistration: {
-    RegisterDocument: `${url}/api/OfficialDocument/Register`,
-    UnregisterDocument: `${url}/api/OfficialDocument/Unregister`,
-    CaseFiles: `${url}/api/DocumentRegistration/CaseFiles`,
-    Registries: `${url}/api/DocumentRegistration/Registries/`
+    RegisterDocument: `/api/OfficialDocument/Register`,
+    UnregisterDocument: `/api/OfficialDocument/Unregister`,
+    CaseFiles: `/api/DocumentRegistration/CaseFiles`,
+    Registries: `/api/DocumentRegistration/Registries/`
   },
   documentModule: {
-    Documents: `${url}/api/OfficialDocument/`,
-    AllDocument: `${url}/api/OfficialDocument/100`,
-    GetDocumentById: `${url}/api/OfficialDocument/`,
-    DeleteDocument: `${url}/api/OfficialDocument/`,
-    ReevaluateDocumentName: `${url}/api/OfficialDocument/ReevaluateDocumentName`,
-    Version: `${url}/api/OfficialDocument/Version/`,
-    DownloadLastVersion: `${url}/api/OfficialDocument/Version/DownloadLastVersion/`,
-    PreviewLastVersion: `${url}/api/OfficialDocument/Version/PreviewLastVersion/`,
-    Relation: `${url}/api/Documentrelations/Relations/`,
-    CreateVersionFromFile: `${url}/api/OfficialDocument/Version/CreateFromFile/`,
-    DownloadVersion: `${url}/api/OfficialDocument/Version/Download/`,
-    PreviewVersion: `${url}/api/OfficialDocument/Version/Preview/`,
-    RemoveVersion: `${url}/api/OfficialDocument/Version/`,
-    Last: `${url}/api/OfficialDocument/Version/Last/`
+    Documents: `/api/OfficialDocument/`,
+    AllDocument: `/api/OfficialDocument/100`,
+    GetDocumentById: `/api/OfficialDocument/`,
+    DeleteDocument: `/api/OfficialDocument/`,
+    ReevaluateDocumentName: `/api/OfficialDocument/ReevaluateDocumentName`,
+    Version: `/api/OfficialDocument/Version/`,
+    DownloadLastVersion: `/api/OfficialDocument/Version/DownloadLastVersion/`,
+    PreviewLastVersion: `/api/OfficialDocument/Version/PreviewLastVersion/`,
+    Relation: `/api/Documentrelations/Relations/`,
+    CreateVersionFromFile: `/api/OfficialDocument/Version/CreateFromFile/`,
+    DownloadVersion: `/api/OfficialDocument/Version/Download/`,
+    PreviewVersion: `/api/OfficialDocument/Version/Preview/`,
+    RemoveVersion: `/api/OfficialDocument/Version/`,
+    Last: `/api/OfficialDocument/Version/Last/`
   },
 
   task: {
-    GetTasksByDocument: `${url}/api/Task/GetTasksByDocument/`,
-    GrantPermissions: `${url}/api/Task/GrantPermissions`,
-    CheckMembersPermissions: `${url}/api/Task/CheckMembersPermissions/`,
+    GetTasksByDocument: `/api/Task/GetTasksByDocument/`,
+    GrantPermissions: `/api/Task/GrantPermissions`,
+    CheckMembersPermissions: `/api/Task/CheckMembersPermissions/`,
     actionItemExecution: {
-      GetAvailableProducers: `${url}/api/Task/ActionItemExecution/GetAvailableProducers/`
+      GetAvailableProducers: `/api/Task/ActionItemExecution/GetAvailableProducers/`
     },
-    ReevaluateTaskName: `${url}/api/Task/ComputeTaskSubject`,
-    TextsByTask: `${url}/api/WorkflowEntityText/ByTask/`,
-    Task: `${url}/api/Task/GetAllTasks/`,
-    GetTaskById: `${url}/api/Task/`,
-    Delete: `${url}/api/Task/`,
-    UpdateTask: `${url}/api/Task/`,
-    CreateTask: `${url}/api/Task/Create`,
-    СreateTaskByDocument: `${url}/api/Task/CreateTaskByDocument`,
-    CreateChildActionItemExecution: `${url}/api/Task/CreateChildActionItemExecutionTask`,
-    CreateDraftResolutionActionItemExecutionTask: `${url}/api/Task/CreateDraftResolutionActionItemExecutionTask`,
+    ReevaluateTaskName: `/api/Task/ComputeTaskSubject`,
+    TextsByTask: `/api/WorkflowEntityText/ByTask/`,
+    Task: `/api/Task/GetAllTasks/`,
+    GetTaskById: `/api/Task/`,
+    Delete: `/api/Task/`,
+    UpdateTask: `/api/Task/`,
+    CreateTask: `/api/Task/Create`,
+    СreateTaskByDocument: `/api/Task/CreateTaskByDocument`,
+    CreateChildActionItemExecution: `/api/Task/CreateChildActionItemExecutionTask`,
+    CreateDraftResolutionActionItemExecutionTask: `/api/Task/CreateDraftResolutionActionItemExecutionTask`,
 
-    Abort: `${url}/api/Task/Abort`,
-    Start: `${url}/api/Task/Start`,
-    Restart: `${url}/api/Task/Restart`,
-    Remove: `${url}/api/Task/RemoveAttachment`
+    Abort: `/api/Task/Abort`,
+    Start: `/api/Task/Start`,
+    Restart: `/api/Task/Restart`,
+    Remove: `/api/Task/RemoveAttachment`
   },
   accessRights: {
-    List: `${url}/api/AccessRights/`,
-    AddRecipient: `${url}/api/AccessRights`,
-    UpdateRecipient: `${url}/api/AccessRights/`,
-    RemoveRecipient: `${url}/api/AccessRights/`
+    List: `/api/AccessRights/`,
+    AddRecipient: `/api/AccessRights`,
+    UpdateRecipient: `/api/AccessRights/`,
+    RemoveRecipient: `/api/AccessRights/`
   },
   assignment: {
-    GrantPermissions: `${url}/api/Assignment/GrantPermissions`,
-    CheckMembersPermissions: `${url}/api/Assignment/CheckMembersPermissions/`,
-    HasChildActionItemItems: `${url}/api/Assignment/HasChildActionItemItems/`,
-    Assignments: `${url}/api/Assignment/`,
-    GetAssignmentById: `${url}/api/Assignment/GetAssignmentById/`,
-    CompleteAssignment: `${url}/api/Assignment/CompleteAssignment`,
-    MarkAsRead: `${url}/api/Assignment/MarkAsRead`,
-    TextsByAssignment: `${url}/api/WorkflowEntityText/ByAssignment/`,
-    CompleteDraftResolutionAssignments: `${url}/api/Assignment/CompleteDraftResolutionsAssignments`,
-    AddApprover: `${url}/api/Assignment/AddApprover`
+    GrantPermissions: `/api/Assignment/GrantPermissions`,
+    CheckMembersPermissions: `/api/Assignment/CheckMembersPermissions/`,
+    HasChildActionItemItems: `/api/Assignment/HasChildActionItemItems/`,
+    Assignments: `/api/Assignment/`,
+    GetAssignmentById: `/api/Assignment/GetAssignmentById/`,
+    CompleteAssignment: `/api/Assignment/CompleteAssignment`,
+    MarkAsRead: `/api/Assignment/MarkAsRead`,
+    TextsByAssignment: `/api/WorkflowEntityText/ByAssignment/`,
+    CompleteDraftResolutionAssignments: `/api/Assignment/CompleteDraftResolutionsAssignments`,
+    AddApprover: `/api/Assignment/AddApprover`
   },
   recipient: {
-    list: `${url}/api/Recipient`
+    list: `/api/Recipient`
   },
   signatureSettings: {
-    Members: `${url}/api/SignatureSettings/Members`
+    Members: `/api/SignatureSettings/Members`
   },
   attachment: {
-    Detach: `${url}/api/Attachment/Detach`,
-    PasteByTask: `${url}/api/Attachment/Task/Paste`,
-    PasteByAssignment: `${url}/api/Attachment/Assignment/Paste`
+    Detach: `/api/Attachment/Detach`,
+    PasteByTask: `/api/Attachment/Task/Paste`,
+    PasteByAssignment: `/api/Attachment/Assignment/Paste`
   },
   import: {
-    companies: `${url}/api/Import/Companies`,
-    banks: `${url}​/api/Import/Banks`,
-    jobTitles: `${url}​/api/Import/JobTitles`,
-    persons: `${url}​/api/Import/Persons`,
-    employees: `${url}​/api/Import/Employees`,
+    companies: `/api/Import/Companies`,
+    banks: `​/api/Import/Banks`,
+    jobTitles: `​/api/Import/JobTitles`,
+    persons: `​/api/Import/Persons`,
+    employees: `​/api/Import/Employees`
   }
 };

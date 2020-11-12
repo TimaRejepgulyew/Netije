@@ -7,6 +7,8 @@
       <div class="f-grow-1">
         <DxDateBox
           :readOnly="!inProcess || !canUpdate"
+          :useMaskBehavior="true"
+          :openOnFieldClick="true"
           type="datetime"
           name="newDeadLine"
           :min="new Date().getTime()"

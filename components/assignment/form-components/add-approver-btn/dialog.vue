@@ -83,6 +83,8 @@ export default {
     datedOptions() {
       return {
         type: "datetime",
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         min: new Date().getTime(),
         value: this.deadline,
         onValueChanged: this.onApproverChanged

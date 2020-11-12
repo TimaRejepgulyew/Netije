@@ -55,10 +55,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        template="departmentSelectBox"
-      >
+      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -110,7 +107,7 @@
     <template #assignee>
       <employee-select-box
         valueExpr="id"
-        :read-only="!readOnly"
+        :read-only="readOnly"
         :value="assigneeId"
         @valueChanged="setAssigneeId"
       />
@@ -121,11 +118,13 @@
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
-        @valueChanged=" (data) => {
-                        setBusinessUnitId(data); 
-                        setAddresseeId(null);
-                        setDepartmentId('')
-                    } "
+        @valueChanged="
+          data => {
+            setBusinessUnitId(data);
+            setAddresseeId(null);
+            setDepartmentId('');
+          }
+        "
       />
     </template>
     <template #departmentSelectBox>
@@ -135,10 +134,12 @@
         :validatorGroup="documentValidatorName"
         :value="departmentId"
         :businessUnitId="businessUnitId"
-        @valueChanged="(data) => {
-                        setDepartmentId(data)
-                        setAddresseeId(null)
-                    } "
+        @valueChanged="
+          data => {
+            setDepartmentId(data);
+            setAddresseeId(null);
+          }
+        "
       />
     </template>
   </DxForm>
@@ -279,6 +280,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.dated,
         onValueChanged: e => {
           this.setDated(e.value);
@@ -335,7 +338,10 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
     setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setBusinessUnitId(data) {
       this.$store.commit(

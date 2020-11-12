@@ -30,7 +30,6 @@ export default {
 
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
-@import "~assets/themes/generated/variables.base.scss";
 
 .align-center {
   align-items: center;

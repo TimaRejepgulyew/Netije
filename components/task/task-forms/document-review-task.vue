@@ -134,6 +134,8 @@ export default {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
         value: this.task.deadline,
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
         },

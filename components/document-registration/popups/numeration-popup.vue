@@ -124,6 +124,8 @@ export default {
     },
     registrationDateOptions() {
       return {
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         onValueChanged: (e) => {
           this.getPreliminaryRegistrationNumber();
         },
