@@ -190,6 +190,8 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this
         }),
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.document.date,
         onValueChanged: e => {
           this.setDate(e.value);
