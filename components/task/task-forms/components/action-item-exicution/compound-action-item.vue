@@ -8,9 +8,8 @@
       :show-validation-summary="false"
       :validation-group="taskValidatorName"
     >
-      <DxGroupItem :readOnly="readOnly" template="actionItemParts">
-      </DxGroupItem>
-      
+      <DxGroupItem template="actionItemParts"> </DxGroupItem>
+
       <DxSimpleItem
         data-field="finalDeadline"
         :editor-options="finalDeadlineOptions"
@@ -18,7 +17,9 @@
       >
         <DxLabel location="left" :text="$t('task.fields.finalDeadline')" />
       </DxSimpleItem>
-      <template #actionItemParts> </template>
+      <template #actionItemParts>
+        <actionItemParts :taskId="taskId" />
+      </template>
     </DxForm>
   </div>
 </template>
@@ -29,13 +30,14 @@ import DxForm, {
   DxLabel
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-
+import actionItemParts from "~/components/task/task-forms/components/action-item-part-list.vue";
 export default {
   components: {
     DxSimpleItem,
     DxGroupItem,
     DxLabel,
-    DxForm
+    DxForm,
+    actionItemParts
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
@@ -46,9 +48,6 @@ export default {
   },
 
   computed: {
-    readOnly() {
-      return !this.isDraft || !this.canUpdate;
-    },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
     },
@@ -62,11 +61,16 @@ export default {
     isDraft() {
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
     },
+    readOnly() {
+      return !this.isDraft || !this.canUpdate;
+    },
 
     finalDeadlineOptions() {
       return {
         type: "datetime",
         dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
+        useMaskBehavior: true,
+        openOnFieldClick: true,
         value: this.task.finalDeadline,
         onValueChanged: e => {
           this.$store.commit(

@@ -46,7 +46,8 @@
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
-        <DxGroupItem :col-span="5" :template="isCompoundActionItem" />
+        <DxGroupItem :col-span="5" :template="actionItemTypeComponent" />
+
         <DxGroupItem :col-count="2">
           <DxSimpleItem
             :col-span="2"
@@ -109,10 +110,18 @@
           @valueChanged="setAssignee"
         />
       </template>
+      <template #compound-action-item>
+        <compoundActionItemComponent :taskId="taskId" :canUpdate="canUpdate" />
+      </template>
+      <template #main-action-item>
+        <mainActionItemComponent :taskId="taskId" :canUpdate="canUpdate" />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import compoundActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/compound-action-item.vue";
+import mainActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/main-action-item.vue";
 import recipientTagBox from "~/components/page/recipient-tag-box.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
@@ -127,6 +136,8 @@ import dataApi from "~/static/dataApi";
 
 export default {
   components: {
+    compoundActionItemComponent,
+    mainActionItemComponent,
     employeeSelectBox,
     employeeTagBox,
     recipientTagBox,
@@ -166,10 +177,12 @@ export default {
   },
   computed: {
     isCompountActionItem() {
-      return this.task.isCompountActionItem;
+      return this.task.isCompoundActionItem;
     },
-    readOnly() {
-      return !this.isDraft || !this.canUpdate;
+    actionItemTypeComponent() {
+      return this.isCompountActionItem
+        ? "compound-action-item"
+        : "main-action-item";
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
@@ -200,6 +213,9 @@ export default {
     },
     isDraft() {
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
+    },
+    readOnly() {
+      return !this.isDraft || !this.canUpdate;
     },
     subjectOptions() {
       return {
@@ -239,7 +255,7 @@ export default {
         value: this.task.deadline,
         useMaskBehavior: true,
         openOnFieldClick: true,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
         }
       };

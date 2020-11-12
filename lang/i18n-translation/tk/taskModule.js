@@ -41,6 +41,7 @@ export default {
     notification: "Tanyşdyrma"
   },
   fields: {
+    finalDeadline: "Umumy möhlet",
     status: "Ýagdaýy",
     author: "Dörediji",
     assignedBy: "Berdi",

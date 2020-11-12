@@ -1,4 +1,5 @@
 export default {
+  switchToCompound:"Равноправные исполнители",
   createChilteExecution: "Создать подчиненное поручение",
   refresh: "Перезагрузить",
   addResolution: "Вынести резолюцию",

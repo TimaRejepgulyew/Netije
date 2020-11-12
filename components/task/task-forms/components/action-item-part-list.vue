@@ -10,26 +10,23 @@
       :row-alternation-enabled="true"
       :showColumnLines="false"
       :showRowLines="false"
+      :noDataText="$t('task.addNewAssineers')"
     >
       <DxEditing
         :allow-adding="true"
         :allow-updating="true"
         :allow-deleting="true"
         :useIcons="true"
-        mode="row"
+        mode="cell"
       />
-      <DxColumn data-field="assigneeId" :caption="$t('task.fields.assigneeId')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="employeeStore"
-          value-expr="id"
-          display-expr="name"
-        />
-        <DxRequiredRule :message="$t('task.validation.assigneeIdRequired')" />
+      <DxColumn data-field="assignee" :caption="$t('task.fields.assignee')">
+     
+        <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
       </DxColumn>
+
       <DxColumn
         data-field="actionItemPart"
-        :caption="$t('task.fields.actionItemPart')"
+        :caption="$t('task.fields.actionItem')"
       >
       </DxColumn>
       <DxColumn
@@ -37,13 +34,13 @@
         data-field="deadline"
         :caption="$t('task.fields.deadline')"
       >
-        <DxRequiredRule :message="$t('task.validation.deadlineRequired')" />
       </DxColumn>
     </DxDataGrid>
   </div>
 </template>
 
 <script>
+import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import FreeApprovalReworkActions from "~/infrastructure/constants/assignment/freeApproveReworkActions.js";
 import {
@@ -68,14 +65,14 @@ export default {
   props: ["taskId"],
   data() {
     return {
-      data: this.$store.getters[`task/${this.taskId}/actionItemParts `]
+      data: this.$store.getters[`tasks/${this.taskId}/actionItemParts`]
     };
   },
   methods: {
     updateActionItemParts() {
       const payload = JSON.parse(JSON.stringify(this.data.slice()));
 
-      this.$store.commit(`task/${this.taskId}/SET_ACTION_ITEM_PARTS`, payload);
+      this.$store.commit(`tasks/${this.taskId}/SET_ACTION_ITEM_PARTS`, payload);
     }
   },
   computed: {
@@ -83,9 +80,13 @@ export default {
     //   return this.$store.getters[`tasks/${this.assignmentId}/assignment`];
     // },
     employeeStore() {
-      return this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.Employee
+      return new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee
+        }),
+        paginate: true,
+        pageSize: 10
       });
     }
   }

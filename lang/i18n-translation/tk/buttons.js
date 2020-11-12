@@ -1,4 +1,5 @@
 export default {
+  switchToCompound: "Deň hukukly ýerine ýetirijiler",
   createChilteExecution: "Tabyn tabşyrygy döretmek",
   addResolution: "Rezolýusiýany çykarmak",
   returnManagersAssistant: "Kömekçä yzyna gaýtarmak",

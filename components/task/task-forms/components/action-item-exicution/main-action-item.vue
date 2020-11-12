@@ -73,7 +73,6 @@ export default {
     DxForm
   },
   props: ["taskId", "canUpdate"],
-  inject: ["taskValidatorName"],
   data() {
     return {
       assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`
@@ -81,24 +80,12 @@ export default {
   },
   inject: ["taskValidatorName"],
   methods: {
-    setActionItemObservers(value) {
-      this.$store.commit(
-        `tasks/${this.taskId}/SET_ACTION_ITEM_OBSERVERS`,
-        value
-      );
-    },
     setCoAssignees(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_CO_ASSIGNEES`, value);
     },
     setAssignee(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNEE`, value);
     },
-    setSupervisor(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, value);
-    },
-    setAssignedBy(value) {
-      this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
-    }
   },
   computed: {
     readOnly() {
@@ -107,20 +94,8 @@ export default {
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
     },
-    assignedBy() {
-      return this.task.assignedBy;
-    },
-    isUnderControl() {
-      return this.task.isUnderControl;
-    },
-    actionItemObservers() {
-      return this.task.actionItemObservers;
-    },
     coAssignees() {
       return this.task.coAssignees;
-    },
-    supervisor() {
-      return this.task.supervisor;
     },
     assignee() {
       return this.task.assignee;
@@ -133,37 +108,6 @@ export default {
     },
     isDraft() {
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
-    },
-    subjectOptions() {
-      return {
-        readOnly: true,
-        value: this.task.subject,
-        onValueChanged: e => {
-          this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
-      };
-    },
-    isUnderControlOptions() {
-      return {
-        value: this.task.isUnderControl,
-        onValueChanged: e => {
-          this.$store.commit(
-            `tasks/${this.taskId}/SET_IS_UNDER_CONTROL`,
-            e.value
-          );
-          this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
-        }
-      };
-    },
-    bodyOptions() {
-      return {
-        placeholder: this.$t("task.validation.actionItemRequired"),
-        height: 250,
-        value: this.task.body,
-        onValueChanged: e => {
-          this.$store.dispatch(`tasks/${this.taskId}/setBody`, e.value);
-        }
-      };
     },
     deadlineOptions() {
       return {

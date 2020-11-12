@@ -39,6 +39,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    finalDeadline: "Общий срок",
     status: "Состояние",
     author: "Автор",
     assignedBy: "Выдал",

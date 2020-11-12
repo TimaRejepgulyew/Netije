@@ -10,7 +10,14 @@ export const state = () => ({
   isDataChanged: false,
   skipRouteHandling: true
 });
-
+function replaceAssignee(state) {
+  state.task.actionItemParts = [];
+  state.task.actionItemParts.push({
+    assignee: state.task.assignee,
+    actionItemPart: "",
+    deadline: state.task.deadline
+  });
+}
 export const getters = {
   canUpdate({ canUpdate }) {
     return canUpdate;
@@ -45,7 +52,10 @@ export const getters = {
   task({ task }) {
     return task;
   },
-
+  actionItemParts({ task }) {
+    if (task.actionItemParts)
+      return JSON.parse(JSON.stringify(task.actionItemParts));
+  },
   taskTypeAndId({ task: { taskType, id } }) {
     return {
       taskType,
@@ -60,6 +70,22 @@ function checkDataChanged(oldValue, newValue) {
   if (oldValue !== newValue) return oldValue !== newValue;
 }
 export const mutations = {
+  SWITCH_TO_COMPOUND_ACTION_ITEM(state, payload) {
+    if (checkDataChanged(state.task.isCompoundActionItem, payload))
+      state.isDataChanged = true;
+    state.task.isCompoundActionItem = payload;
+    if (state.task.isCompoundActionItem) replaceAssignee(state);
+  },
+  SET_ACTION_ITEM_PARTS(state, payload) {
+    if (checkDataChanged(state.task.actionItemParts, payload))
+      state.isDataChanged = true;
+    state.task.actionItemParts = payload;
+  },
+  SET_FINAL_DEADLINE(state, payload) {
+    if (checkDataChanged(state.task.finalDeadline, payload))
+      state.isDataChanged = true;
+    state.task.finalDeadline = payload;
+  },
   SET_APPROVERS(state, payload) {
     if (checkDataChanged(state.task.approvers, payload))
       state.isDataChanged = true;
