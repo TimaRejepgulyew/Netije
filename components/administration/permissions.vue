@@ -4,11 +4,14 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="store"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       :ref="dataGridRefKey"
       @init-new-row="initNewRow"
     >
@@ -90,7 +93,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -110,13 +113,13 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxRequiredRule,
-    DxStateStoring,
+    DxStateStoring
   },
   props: {
     data: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
 
   data() {
@@ -127,29 +130,29 @@ export default {
           key: "memberId",
           insertUrl: dataApi.admin.RoleMembers,
           loadUrl: dataApi.admin.RoleMembers + id,
-          removeUrl: dataApi.admin.RoleMembers + id,
+          removeUrl: dataApi.admin.RoleMembers + id
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
       immutable,
       getFilteredMembers: this.$dxStore({
-        loadUrl: dataApi.admin.Recipient,
+        loadUrl: dataApi.admin.Recipient
       }),
-      initNewRow: (e) => {
+      initNewRow: e => {
         e.data.status = this.statusDataSource[0].id;
         e.data.roleId = id;
       },
       dataGridRefKey: "dataGrid",
-      statusDataSource: this.$store.getters["status/status"],
+      statusDataSource: this.$store.getters["status/status"]
     };
   },
   computed: {
-    dataGrid: function () {
+    dataGrid: function() {
       return this.$refs[this.dataGridRefKey].instance;
-    },
+    }
   },
-  methods: {},
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -79,7 +79,6 @@
       </DxColumn>
       <DxColumn
         :visible-index="1"
-        data-type="objeсt"
         :customizeText="customizeText"
         data-field="responsibleEmployee"
         :caption="$t('docFlow.fields.responsibleId')"

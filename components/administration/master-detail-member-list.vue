@@ -10,7 +10,7 @@
         :errorRowEnabled="false"
         :show-borders="true"
         :data-source="store"
-        :remote-operations="true"
+        :remote-operations="false"
         @init-new-row="onInitNewRow"
         @row-inserting="rowInserting"
       >
