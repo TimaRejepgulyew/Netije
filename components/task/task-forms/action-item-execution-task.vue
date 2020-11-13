@@ -132,7 +132,7 @@
   </div>
 </template>
 <script>
-import recipientTagBox from "~/components/page/recipient-tag-box.vue";
+import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import "devextreme-vue/text-area";
@@ -140,7 +140,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -153,13 +153,13 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm,
+    DxForm
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
   data() {
     return {
-      assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`,
+      assignedByStore: `${dataApi.task.actionItemExecution.GetAvailableProducers}${this.taskId}`
     };
   },
   inject: ["taskValidatorName"],
@@ -181,7 +181,7 @@ export default {
     },
     setAssignedBy(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_ASSIGNED_BY`, value);
-    },
+    }
   },
   computed: {
     readOnly() {
@@ -221,21 +221,21 @@ export default {
       return {
         readOnly: true,
         value: this.task.subject,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        },
+        }
       };
     },
     isUnderControlOptions() {
       return {
         value: this.task.isUnderControl,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(
             `tasks/${this.taskId}/SET_IS_UNDER_CONTROL`,
             e.value
           );
           this.$store.commit(`tasks/${this.taskId}/SET_SUPERVISOR`, null);
-        },
+        }
       };
     },
     bodyOptions() {
@@ -243,9 +243,9 @@ export default {
         placeholder: this.$t("task.validation.actionItemRequired"),
         height: 250,
         value: this.task.body,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.dispatch(`tasks/${this.taskId}/setBody`, e.value);
-        },
+        }
       };
     },
     deadlineOptions() {
@@ -255,13 +255,11 @@ export default {
         value: this.task.deadline,
         useMaskBehavior: true,
         openOnFieldClick: true,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
-
-

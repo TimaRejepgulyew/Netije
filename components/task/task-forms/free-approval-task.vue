@@ -88,7 +88,7 @@
   </div>
 </template>
 <script>
-import recipientTagBox from "~/components/page/recipient-tag-box.vue";
+import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,
