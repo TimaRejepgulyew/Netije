@@ -17,6 +17,15 @@ function replaceAssignee(state) {
     actionItemPart: "",
     deadline: state.task.deadline
   });
+  if (state.task.coAssignees)
+    state.task.coAssignees.forEach(user => {
+      console.log(user);
+      state.task.actionItemParts.push({
+        assignee: user,
+        actionItemPart: "",
+        deadline: null
+      });
+    });
 }
 export const getters = {
   canUpdate({ canUpdate }) {
@@ -71,10 +80,10 @@ function checkDataChanged(oldValue, newValue) {
 }
 export const mutations = {
   SWITCH_TO_COMPOUND_ACTION_ITEM(state, payload) {
+    if (payload) replaceAssignee(state);
     if (checkDataChanged(state.task.isCompoundActionItem, payload))
       state.isDataChanged = true;
     state.task.isCompoundActionItem = payload;
-    if (state.task.isCompoundActionItem) replaceAssignee(state);
   },
   SET_ACTION_ITEM_PARTS(state, payload) {
     if (checkDataChanged(state.task.actionItemParts, payload))

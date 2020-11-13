@@ -8,8 +8,6 @@
       :show-validation-summary="false"
       :validation-group="taskValidatorName"
     >
-      <DxGroupItem template="actionItemParts"> </DxGroupItem>
-
       <DxSimpleItem
         data-field="finalDeadline"
         :editor-options="finalDeadlineOptions"
@@ -17,8 +15,10 @@
       >
         <DxLabel location="left" :text="$t('task.fields.finalDeadline')" />
       </DxSimpleItem>
+      <DxGroupItem template="actionItemParts"> </DxGroupItem>
+
       <template #actionItemParts>
-        <actionItemParts :taskId="taskId" />
+        <actionItemParts :canUpdate="canUpdate" :taskId="taskId" />
       </template>
     </DxForm>
   </div>

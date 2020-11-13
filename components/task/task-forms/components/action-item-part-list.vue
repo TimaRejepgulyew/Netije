@@ -13,17 +13,27 @@
       :noDataText="$t('task.addNewAssineers')"
     >
       <DxEditing
-        :allow-adding="true"
-        :allow-updating="true"
-        :allow-deleting="true"
+        :allow-adding="!readOnly"
+        :allow-updating="!readOnly"
+        :allow-deleting="!readOnly"
         :useIcons="true"
         mode="cell"
       />
-      <DxColumn data-field="assignee" :caption="$t('task.fields.assignee')">
-     
-        <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
+      <DxColumn
+        data-type="string"
+        :customizeText="customizeText"
+        data-field="assignee"
+        editCellTemplate="assignee"
+        :caption="$t('task.fields.assignee')"
+      >
+        <!-- <DxRequiredRule :message="$t('task.validation.assigneeRequired')" /> -->
       </DxColumn>
-
+      <template #assignee="{ data: cellInfo }">
+        <employee-select-box
+          :value="cellInfo.value"
+          @valueChanged="value => onValueChanged(value, cellInfo)"
+        />
+      </template>
       <DxColumn
         data-field="actionItemPart"
         :caption="$t('task.fields.actionItem')"
@@ -40,6 +50,7 @@
 </template>
 
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import FreeApprovalReworkActions from "~/infrastructure/constants/assignment/freeApproveReworkActions.js";
@@ -60,9 +71,10 @@ export default {
     DxScrolling,
     DxRequiredRule,
     DxButton,
-    DxLookup
+    DxLookup,
+    employeeSelectBox
   },
-  props: ["taskId"],
+  props: ["taskId", "canUpdate"],
   data() {
     return {
       data: this.$store.getters[`tasks/${this.taskId}/actionItemParts`]
@@ -73,12 +85,22 @@ export default {
       const payload = JSON.parse(JSON.stringify(this.data.slice()));
 
       this.$store.commit(`tasks/${this.taskId}/SET_ACTION_ITEM_PARTS`, payload);
+    },
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
+    },
+    customizeText(e) {
+      if (e.value) return e.value.name;
     }
   },
   computed: {
-    // data() {
-    //   return this.$store.getters[`tasks/${this.assignmentId}/assignment`];
-    // },
+    readOnly() {
+      return !this.isDraft || !this.canUpdate;
+    },
+    isDraft() {
+      return this.$store.getters[`tasks/${this.taskId}/isDraft`];
+    },
     employeeStore() {
       return new DataSource({
         store: this.$dxStore({

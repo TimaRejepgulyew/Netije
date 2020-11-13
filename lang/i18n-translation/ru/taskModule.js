@@ -6,6 +6,7 @@ export const TaskType = {
   FreeApprovalTask: "Задача на cвободное согласование"
 };
 export default {
+  addNewAssineers: "Добавьте исполнители",
   sources: {
     assignment: "Задание",
     notification: "Уведомление"

@@ -46,8 +46,6 @@
             </DxSimpleItem>
           </DxGroupItem>
         </DxGroupItem>
-        <DxGroupItem :col-span="5" :template="actionItemTypeComponent" />
-
         <DxGroupItem :col-count="2">
           <DxSimpleItem
             :col-span="2"
@@ -57,6 +55,7 @@
             <DxLabel location="left" :text="$t('task.fields.observers')" />
           </DxSimpleItem>
         </DxGroupItem>
+        <DxGroupItem :col-span="5" :template="actionItemTypeComponent" />
       </DxGroupItem>
       <DxSimpleItem
         :visible="isDraft"
@@ -64,9 +63,10 @@
         data-field="body"
         :editor-options="bodyOptions"
         editor-type="dxTextArea"
+        :isRequired="!isCompountActionItem"
       >
         <DxLabel location="left" :text="$t('task.fields.actionItem')" />
-        <DxRequiredRule :message="$t('task.validation.actionItemRequired')" />
+        <!-- <DxRequiredRule :message="$t('task.validation.actionItemRequired')" /> -->
       </DxSimpleItem>
       <template #assignedBy>
         <employee-select-box
