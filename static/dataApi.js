@@ -141,6 +141,6 @@ export default {
     banks: `​/api/Import/Banks`,
     jobTitles: `​/api/Import/JobTitles`,
     persons: `​/api/Import/Persons`,
-    employees: `​/api/Import/Employees`
+    employees: `/api/Import/Employees`
   }
 };
