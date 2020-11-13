@@ -12,11 +12,13 @@ export const state = () => ({
 });
 function replaceAssignee(state) {
   state.task.actionItemParts = [];
-  state.task.actionItemParts.push({
-    assignee: state.task.assignee,
-    actionItemPart: "",
-    deadline: state.task.deadline
-  });
+  if (state.task.deadline) state.task.finalDeadline = state.task.deadline;
+  if (state.task.assignee)
+    state.task.actionItemParts.push({
+      assignee: state.task.assignee,
+      actionItemPart: "",
+      deadline: null
+    });
   if (state.task.coAssignees)
     state.task.coAssignees.forEach(user => {
       console.log(user);

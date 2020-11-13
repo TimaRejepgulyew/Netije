@@ -62,7 +62,9 @@
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import * as indicators from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
-import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
+import AssignmentType, {
+  assignmentTypeName
+} from "~/infrastructure/constants/assignmentType.js";
 import iconByName from "~/components/Layout/iconByName.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
@@ -100,8 +102,14 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseSubject(value) {
-    //  if(value.assignmentType == assignmentType.ActionItem)
-      return assignmentTypeName(this)[value.assignmentType]?.text;
+      if (
+        value.assignmentType == AssignmentType.AcquaintanceAssignment &&
+        value.actionItemtype === ActionItemType.Component
+      ) {
+        return this.$t("assignment.type.actionItemType.Component");
+      } else {
+        return assignmentTypeName(this)[value.assignmentType]?.text;
+      }
     },
     formatDate(date) {
       return moment(date).format("DD.MM.YYYY HH:mm");

@@ -8,7 +8,7 @@
       :remote-operations="false"
       :allow-column-reordering="true"
       :row-alternation-enabled="true"
-      :showColumnLines="false"
+      :showColumnLines="true"
       :showRowLines="false"
       :noDataText="$t('task.addNewAssineers')"
     >

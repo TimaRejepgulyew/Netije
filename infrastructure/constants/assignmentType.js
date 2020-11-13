@@ -74,3 +74,4 @@ export function assignmentTypeName(context) {
     context: context
   });
 }
+

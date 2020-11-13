@@ -65,8 +65,7 @@
         editor-type="dxTextArea"
         :isRequired="!isCompountActionItem"
       >
-        <DxLabel location="left" :text="$t('task.fields.actionItem')" />
-        <!-- <DxRequiredRule :message="$t('task.validation.actionItemRequired')" /> -->
+        <DxLabel location="top" :text="$t('task.fields.actionItem')" />
       </DxSimpleItem>
       <template #assignedBy>
         <employee-select-box
