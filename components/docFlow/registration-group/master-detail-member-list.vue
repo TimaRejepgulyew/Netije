@@ -1,13 +1,16 @@
 <template>
   <DxTabPanel :tab-panel-options="tabPanelOptions">
-    <DxItem :title="$t('translations.fields.members')" template="members-list" />
+    <DxItem
+      :title="$t('translations.fields.members')"
+      template="members-list"
+    />
     <template #members-list>
       <DxDataGrid
         id="gridContainer"
         :errorRowEnabled="false"
         :show-borders="true"
         :data-source="store"
-        :remote-operations="true"
+        :remote-operations="false"
         @init-new-row="onInitNewRow"
       >
         <DxHeaderFilter :visible="true" />
@@ -42,7 +45,7 @@
             valueExpr="id"
             :value="cellInfo.value"
             :isRequired="true"
-            @valueChanged="(value) => onValueChanged(value, cellInfo)"
+            @valueChanged="value => onValueChanged(value, cellInfo)"
           />
         </template>
       </DxDataGrid>
@@ -68,7 +71,7 @@ import {
   DxScrolling,
   DxLookup,
   DxFilterRow,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -84,13 +87,13 @@ export default {
     DxLookup,
     DxFilterRow,
     permissions,
-    recipientSelectBox,
+    recipientSelectBox
   },
   props: {
     data: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   data() {
     let { id, responsibleEmployeeId } = this.data.data;
@@ -101,15 +104,15 @@ export default {
         key: "memberId",
         insertUrl: dataApi.docFlow.RegistrationGroupMembers,
         loadUrl: dataApi.docFlow.RegistrationGroupMembers + id,
-        removeUrl: dataApi.docFlow.RegistrationGroupMembers + id,
+        removeUrl: dataApi.docFlow.RegistrationGroupMembers + id
       }),
       statusDataSource: this.$store.getters["status/status"],
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: true,
         swipeEnabled: true,
-        loop: "true",
-      },
+        loop: "true"
+      }
     };
   },
   computed: {
@@ -119,7 +122,7 @@ export default {
         this.$store.getters["permissions/employeeId"] ==
           this.responsibleEmployeeId
       );
-    },
+    }
   },
   methods: {
     onValueChanged(value, cellInfo) {
@@ -130,12 +133,12 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list,
+          loadUrl: dataApi.recipient.list
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.id]
-          : [],
+          : []
       };
     },
     onInitNewRow(e) {
@@ -150,7 +153,7 @@ export default {
         return false;
       }
       return e.row.key != this.responsibleEmployeeId;
-    },
-  },
+    }
+  }
 };
 </script>

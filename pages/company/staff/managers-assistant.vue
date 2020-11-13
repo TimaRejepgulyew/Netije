@@ -2,13 +2,17 @@
   <main>
     <Header :headerTitle="$t('menu.managersAssistant')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -27,11 +31,19 @@
         :file-name="$t('menu.managersAssistant')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="managersAssistant" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="managersAssistant"
+      />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -45,7 +57,9 @@
         :caption="$t('translations.fields.managerId')"
         :set-cell-value="onManagerIdChanged"
       >
-        <DxRequiredRule :message="$t('translations.fields.managerIdRequired')" />
+        <DxRequiredRule
+          :message="$t('translations.fields.managerIdRequired')"
+        />
         <DxLookup
           :allow-clearing="true"
           :data-source="getFilteredManager"
@@ -59,7 +73,9 @@
         :caption="$t('translations.fields.assistantId')"
         :set-cell-value="onAssistantIdChanged"
       >
-        <DxRequiredRule :message="$t('translations.fields.assistantIdRequired')" />
+        <DxRequiredRule
+          :message="$t('translations.fields.assistantIdRequired')"
+        />
         <DxLookup
           :allow-clearing="true"
           :data-source="getFilteredAssistant"
@@ -165,7 +181,15 @@ export default {
       return {
         store: this.employeeStore,
         filter: options.data
-          ? ["id", "<>", options.data.assistantId, "or", "status", "=", Status.Active]
+          ? [
+              "id",
+              "<>",
+              options.data.assistantId,
+              "or",
+              "status",
+              "=",
+              Status.Active
+            ]
           : []
       };
     },
@@ -173,7 +197,15 @@ export default {
       return {
         store: this.employeeStore,
         filter: options.data
-          ? ["id", "<>", options.data.managerId, "or", "status", "=", Status.Active]
+          ? [
+              "id",
+              "<>",
+              options.data.managerId,
+              "or",
+              "status",
+              "=",
+              Status.Active
+            ]
           : []
       };
     },

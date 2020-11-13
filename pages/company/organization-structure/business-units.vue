@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.businessUnit')"></Header>
     <DxTreeList
+      remoteOperations: { filtering: true,sorting: true,grouping: true }
       parent-id-expr="headCompanyId"
       :data-source="dataSource"
       :errorRowEnabled="false"

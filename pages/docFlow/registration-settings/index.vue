@@ -7,14 +7,14 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :errorRowEnabled="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
@@ -136,7 +136,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -157,7 +157,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton,
+    DxButton
   },
   data() {
     return {
@@ -165,7 +165,7 @@ export default {
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.docFlow.RegistrationSetting,
-        removeUrl: dataApi.docFlow.RegistrationSetting,
+        removeUrl: dataApi.docFlow.RegistrationSetting
       }),
       documentFlowDataSource: this.$store.getters["docflow/docflow"](this),
       settingTypeDataSource: SettingTypes.GetAll(this),
@@ -174,10 +174,10 @@ export default {
         store: this.$dxStore({
           key: "id",
           loadUrl:
-            dataApi.docFlow.DocumentRegister.СustomizableDocumentRegisters,
+            dataApi.docFlow.DocumentRegister.СustomizableDocumentRegisters
         }),
-        paginate: true,
-      },
+        paginate: true
+      }
     };
   },
   methods: {
@@ -197,7 +197,7 @@ export default {
       this.$router.push(`/docflow/registration-settings/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
-      const addButton = e.toolbarOptions.items.find((btn) => {
+      const addButton = e.toolbarOptions.items.find(btn => {
         return btn.name == "addRowButton";
       });
       if (addButton) {
@@ -205,7 +205,7 @@ export default {
           this.$router.push("/docflow/registration-settings/create");
         };
       }
-    },
-  },
+    }
+  }
 };
 </script>

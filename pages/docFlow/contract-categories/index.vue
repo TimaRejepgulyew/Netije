@@ -1,17 +1,23 @@
 <template>
   <main>
-    <Header :isbackButton="true" :headerTitle="$t('contractCategories.title')"></Header>
+    <Header
+      :isbackButton="true"
+      :headerTitle="$t('contractCategories.title')"
+    ></Header>
     <DxDataGrid
       width="inherit"
       id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
@@ -28,10 +34,16 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="contractCategories" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="contractCategories"
+      />
 
       <DxEditing
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
         :useIcons="true"
@@ -56,7 +68,11 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton icon="more" :text="$t('shared.more')" :onClick="contractCategoriesDetailForm"></DxButton>
+        <DxButton
+          icon="more"
+          :text="$t('shared.more')"
+          :onClick="contractCategoriesDetailForm"
+        ></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -134,4 +150,3 @@ export default {
   }
 };
 </script>
-

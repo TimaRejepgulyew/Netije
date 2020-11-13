@@ -1,20 +1,25 @@
 <template>
   <DxTabPanel :tab-panel-options="tabPanelOptions">
-    <DxItem :title="$t('translations.fields.members')" template="members-list" />
+    <DxItem
+      :title="$t('translations.fields.members')"
+      template="members-list"
+    />
     <template #members-list>
       <DxDataGrid
         id="gridContainer"
         :errorRowEnabled="false"
         :show-borders="true"
         :data-source="store"
-        :remote-operations="true"
+        :remote-operations="false"
         @init-new-row="onInitNewRow"
       >
         <DxHeaderFilter :visible="true" />
         <DxEditing
           :allow-updating="false"
           :allow-deleting="allowDeleting"
-          :allow-adding="$store.getters['permissions/allowUpdating'](entityType)"
+          :allow-adding="
+            $store.getters['permissions/allowUpdating'](entityType)
+          "
           :useIcons="true"
           mode="row"
         />
@@ -54,7 +59,7 @@ import {
   DxScrolling,
   DxLookup,
   DxFilterRow,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -69,13 +74,13 @@ export default {
     DxScrolling,
     DxLookup,
     DxFilterRow,
-    permissions,
+    permissions
   },
   props: {
     data: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   data() {
     let { id } = this.data;
@@ -86,15 +91,15 @@ export default {
         key: "employeeId",
         insertUrl: dataApi.company.DepartmentMembers,
         loadUrl: dataApi.company.DepartmentMembers + id,
-        removeUrl: dataApi.company.DepartmentMembers + id,
+        removeUrl: dataApi.company.DepartmentMembers + id
       }),
       statusDataSource: this.$store.getters["status/status"],
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: true,
         swipeEnabled: true,
-        loop: "true",
-      },
+        loop: "true"
+      }
     };
   },
   methods: {
@@ -102,12 +107,12 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee,
+          loadUrl: dataApi.company.Employee
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.id]
-          : [],
+          : []
       };
     },
     onInitNewRow(e) {
@@ -122,7 +127,7 @@ export default {
         return true;
       }
       return false;
-    },
-  },
+    }
+  }
 };
 </script>

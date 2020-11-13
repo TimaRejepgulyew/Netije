@@ -6,7 +6,7 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"

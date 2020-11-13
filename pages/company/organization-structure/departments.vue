@@ -17,6 +17,7 @@
     <Header :headerTitle="$t('menu.department')"></Header>
     <div>
       <DxTreeList
+         remoteOperations: { filtering: true,sorting: true,grouping: true }
         parent-id-expr="headOfficeId"
         :data-source="dataSource"
         :errorRowEnabled="false"

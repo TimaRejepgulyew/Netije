@@ -6,7 +6,7 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="store"
-      :remote-operations="true"
+      :remote-operations="false"
       :errorRowEnabled="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
