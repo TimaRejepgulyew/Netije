@@ -104,7 +104,7 @@ export default {
     parseSubject(value) {
       if (
         value.assignmentType == AssignmentType.AcquaintanceAssignment &&
-        value.actionItemtype === ActionItemType.Component
+        value?.actionItemtype === ActionItemType.Component
       ) {
         return this.$t("assignment.type.actionItemType.Component");
       } else {
