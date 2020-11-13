@@ -130,6 +130,7 @@ export default {
     reviewManagerAssignment: "Текст резолюции..."
   },
   validation: {
+    approversRequired: "Выберите согласующих",
     bodyRequired: "Введите текст задания..."
   }
 };

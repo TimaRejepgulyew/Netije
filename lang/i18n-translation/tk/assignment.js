@@ -129,6 +129,7 @@ export default {
     reviewManagerAssignment: "Rezolýusiýanyň teksti"
   },
   validation: {
+    approversRequired:"Ylalyşyjyny saýlaň",
     bodyRequired: "Tabşyrygyň tekstini giriziň..."
   }
 };
