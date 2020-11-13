@@ -12,8 +12,10 @@
           <div>
             <div class="d-flex js-center align-center">
               <div class="list__content d-flex align-center">
-                <resipient-icon :type="item.data.recipient.recipientType"></resipient-icon>
-                {{ item.data.recipient.name}}
+                <resipient-icon
+                  :type="item.data.recipient.recipientType"
+                ></resipient-icon>
+                {{ item.data.recipient.name }}
               </div>
               <div class="list__btn-group d-flex">
                 <attachment-action-btn
@@ -28,7 +30,7 @@
                   type="danger"
                   styling-mode="text"
                   :disabled="!item.data.canRemove"
-                  :on-click="()=>deleteRecipient(item.data.id)"
+                  :on-click="() => deleteRecipient(item.data.id)"
                 />
               </div>
             </div>
@@ -37,27 +39,20 @@
       </DxList>
     </div>
     <div>
-      <span class="dx-form-group-caption border-top">{{$t("translations.headers.addNewRecipient")}}</span>
+      <span class="dx-form-group-caption border-top">{{
+        $t("translations.headers.addNewRecipient")
+      }}</span>
       <div class="d-flex mt-2">
         <div class="dx-field-value pr-1">
-          <label>{{$t("shared.recipient")}}</label>
-          <DxSelectBox
-            v-model="newRecipient.recipientId"
-            :data-source="recipientStore"
-            :grouped="true"
-            display-expr="name"
-            value-expr="id"
-            :showClearButton="true"
-            :searchEnabled="true"
-            searchExpr="name"
-          >
-            <template #group="{ data }">
-              <recipient-grouped :data="data" />
-            </template>
-          </DxSelectBox>
+          <label>{{ $t("shared.recipient") }}</label>
+          <recipientSelectBox
+            valueExpr="id"
+            :value="newRecipient.recipientId"
+            @valueChanged="onValueChanged"
+          />
         </div>
         <div class="dx-field-value">
-          <label>{{$t("shared.accessRight")}}</label>
+          <label>{{ $t("shared.accessRight") }}</label>
           <DxSelectBox
             v-model="newRecipient.accessRightTypeId"
             :items="accessRightsStore"
@@ -82,8 +77,10 @@
 </template>
 
 <script>
+
+import recipientType from "~/infrastructure/constants/resipientType.js";
 import resipientIcon from "~/components/page/resipient-icon.vue";
-import recipientGrouped from "~/components/page/recipient-grouped.vue";
+import recipientSelectBox from "~/components/recipient/select-box/index.vue";
 import { DxSelectBox } from "devextreme-vue/select-box";
 import attachmentActionBtn from "~/components/page/access-right-action-btn";
 import DxList from "devextreme-vue/list";
@@ -96,8 +93,8 @@ export default {
     attachmentActionBtn,
     DxList,
     DxButton,
-    recipientGrouped,
     resipientIcon,
+    recipientSelectBox
   },
   props: ["entityType", "entityId"],
   async created() {
@@ -105,7 +102,7 @@ export default {
       this.$axios.get(
         `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
       ),
-      (res) => {
+      res => {
         this.accessRight = res.data;
       },
       () => this.$awn.alert()
@@ -116,11 +113,19 @@ export default {
       accessRight: {},
       newRecipient: {
         recipientId: null,
-        accessRightTypeId: null,
-      },
+        accessRightTypeId: null
+      }
     };
   },
   methods: {
+    listItemByType(type) {
+      switch (type) {
+        case recipientType.Employee:
+          return "employeeTypeComponent";
+        default:
+          return "defaultType";
+      }
+    },
     async load() {
       const { data } = await this.$axios.get(
         `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
@@ -131,14 +136,14 @@ export default {
       this.newRecipient = {
         recipientId: null,
         accessRightTypeId: null,
-        entityType: +this.entityType,
+        entityType: +this.entityType
       };
     },
     addRecipient() {
       const recipient = {
         ...this.newRecipient,
         entityId: +this.entityId,
-        entityType: +this.entityType,
+        entityType: +this.entityType
       };
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.accessRights.AddRecipient, recipient),
@@ -164,19 +169,11 @@ export default {
         }
       );
     },
+    onValueChanged(value) {
+      this.newRecipient.recipientId = value;
+    }
   },
   computed: {
-    recipientStore() {
-      return new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.recipient.list,
-        }),
-        paginate: true,
-        pageSize: 10,
-        group: [{ selector: "recipientType" }],
-      });
-    },
     accessRightsStore() {
       return this.accessRight.accessRightTypes;
     },
@@ -186,12 +183,12 @@ export default {
     },
     btnSave() {
       return this.$store.getters["globalProperties/btnSave"](this);
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
 .border-top {

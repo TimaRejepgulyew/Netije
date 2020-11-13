@@ -8,7 +8,11 @@
   >
     <DxGroupItem>
       <DxGroupItem :col-count="10">
-        <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
+        <DxSimpleItem
+          :editor-options="subjectOptions"
+          :col-span="8"
+          data-field="subject"
+        >
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
@@ -41,7 +45,11 @@
         <DxRequiredRule :message="$t('task.validation.performersRequired')" />
         <DxLabel location="left" :text="$t('task.fields.performers')" />
       </DxSimpleItem>
-      <DxSimpleItem :disabled="true" template="observers" data-field="observers">
+      <DxSimpleItem
+        :disabled="true"
+        template="observers"
+        data-field="observers"
+      >
         <DxLabel location="left" :text="$t('task.fields.observers')" />
       </DxSimpleItem>
 
@@ -73,13 +81,13 @@
   </DxForm>
 </template>
 <script>
-import recipientTagBox from "~/components/page/recipient-tag-box.vue";
+import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -89,7 +97,7 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxRequiredRule,
-    DxForm,
+    DxForm
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
@@ -99,7 +107,7 @@ export default {
     },
     setPerformers(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_PERFORMERS`, value);
-    },
+    }
   },
   computed: {
     readOnly() {
@@ -126,18 +134,18 @@ export default {
     subjectOptions() {
       return {
         value: this.task.subject,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        },
+        }
       };
     },
     bodyOptions() {
       return {
         height: 250,
         value: this.task.body,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
-        },
+        }
       };
     },
     maxDeadlineOptions() {
@@ -147,20 +155,20 @@ export default {
         value: this.task.maxDeadline,
         useMaskBehavior: true,
         openOnFieldClick: true,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
-        },
+        }
       };
     },
     needsReviewOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
+          context: this
         }),
         value: this.task.needsReview,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_NEEDS_REVIEW`, e.value);
-        },
+        }
       };
     },
     routeTypeOptions() {
@@ -169,16 +177,14 @@ export default {
         valueExpr: "id",
         dataSource: [
           { id: 0, name: this.$t("task.fields.gradually") },
-          { id: 1, name: this.$t("task.fields.parallel") },
+          { id: 1, name: this.$t("task.fields.parallel") }
         ],
         value: this.task.routeType,
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(`tasks/${this.taskId}/SET_ROUTE_TYPE`, e.value);
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
-
-
