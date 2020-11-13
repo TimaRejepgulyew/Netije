@@ -119,6 +119,8 @@
   </div>
 </template>
 <script>
+import compoundActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/compound-action-item.vue";
+import mainActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/main-action-item.vue";
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
