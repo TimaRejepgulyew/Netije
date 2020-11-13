@@ -101,15 +101,8 @@ export default {
     toDetailAuthor(id) {
       this.$emit("toDetailAuthor", id);
     },
-    parseSubject(value) {
-      if (
-        value.assignmentType == AssignmentType.AcquaintanceAssignment &&
-        value?.actionItemType === ActionItemType.Component
-      ) {
-        return this.$t("assignment.type.actionItemType.Component");
-      } else {
+    parseSubject(value) {   
         return assignmentTypeName(this)[value.assignmentType]?.text;
-      }
     },
     formatDate(date) {
       return moment(date).format("DD.MM.YYYY HH:mm");
