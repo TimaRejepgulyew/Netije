@@ -6,7 +6,7 @@ export const TaskType = {
   FreeApprovalTask: "Ekrin ylalyşyk ýumuşy"
 };
 export default {
-  addNewAssineers: "Ýerine ýetiriji goşuň",
+  addNewAssineers: "Ýerine ýetirijileri goşuň",
   quickFilter: {
     all: "Hemmesi",
     inProcess: "Işjeň ýagdaýda",
