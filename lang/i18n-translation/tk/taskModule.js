@@ -6,6 +6,9 @@ export const TaskType = {
   FreeApprovalTask: "Ekrin ylalyşyk ýumuşy"
 };
 export default {
+  actionItemType: {
+    Component: "Ýumuş elementi"
+  },
   addNewAssineers: "Ýerine ýetirijileri goşuň",
   quickFilter: {
     all: "Hemmesi",

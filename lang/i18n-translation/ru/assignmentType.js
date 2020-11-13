@@ -22,9 +22,5 @@ export default {
   FreeApprovalReworkAssignment: "Доработка документа",
   FreeApprovalNotification: "Уведомление",
   //TODO Перевести правильно
-  actionItemType: {
-    Component: "Состовное поручение",
-    Main: "Основное",
-    Additional: "Соисполнителю"
-  }
+
 };

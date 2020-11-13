@@ -13,9 +13,7 @@
         </div>
         <div>
           <div @click="() => toDetailTask(comment.entity)" class="link">
-            <span class="text-italic">{{
-              parseSubject(comment.entity.taskType)
-            }}</span>
+            <span class="text-italic">{{ parseSubject(comment.entity) }}</span>
           </div>
 
           <div class="list__content d-flex">
@@ -58,8 +56,8 @@
   </div>
 </template>
 <script>
-import ActionItemType from "~/infrastructure/constants/actionItemType.js"
-import TaskTypeGuid from "~/infrastructure/constants/taskType.js"
+import ActionItemType from "~/infrastructure/constants/actionItemType.js";
+import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
 import statusIndicator from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import TaskType from "~/infrastructure/models/TaskType.js";
@@ -88,12 +86,13 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseSubject(value) {
+      console.log(value);
       if (
         value.taskType == TaskTypeGuid.ActionItemExecutionTask &&
         value?.actionItemType === ActionItemType.Component
       ) {
-        return this.$t("assignment.type.actionItemType.Component");
-      } else return new TaskType(this).getById(value).text;
+        return this.$t("task.actionItemType.Component");
+      } else return new TaskType(this).getById(value.taskType).text;
     },
     formatDate(date) {
       return moment(date).format("DD.MM.YYYY HH:mm");

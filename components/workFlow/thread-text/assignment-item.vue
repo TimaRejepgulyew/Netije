@@ -101,8 +101,8 @@ export default {
     toDetailAuthor(id) {
       this.$emit("toDetailAuthor", id);
     },
-    parseSubject(value) {   
-        return assignmentTypeName(this)[value.assignmentType]?.text;
+    parseSubject(value) {
+      return assignmentTypeName(this)[value.assignmentType]?.text;
     },
     formatDate(date) {
       return moment(date).format("DD.MM.YYYY HH:mm");
