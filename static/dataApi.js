@@ -1,7 +1,7 @@
 export default {
   UserPhotoHash:
     process.env.NODE_ENV === "production"
-      ? document.location.origin + "StaticFiles/Employees/Thumbnails/"
+      ? document.location.origin + "/StaticFiles/Employees/Thumbnails/"
       : `${process.env.serverUrl}/StaticFiles/Employees/Thumbnails/`,
   Metadata: `/api/Metadata`,
   account: `/Identity/Account/Manage`,
