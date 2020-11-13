@@ -268,6 +268,9 @@ export default {
     },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
+      if(e.data.headOfficeId === 0){
+        e.data.headOfficeId = null
+      }  
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
