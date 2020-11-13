@@ -6,10 +6,7 @@
     >
       <div class="d-flex js-space-between">
         <div>
-          <icon-by-name
-            class="f-size-30"
-            :fullName="comment.author.name"
-          ></icon-by-name>
+          <user-icon class="f-size-30" :fullName="comment.author.name" :path="comment.author.personalPhotoHash" />
         </div>
         <div>
           <div @click="() => toDetailTask(comment.entity)" class="link">
@@ -61,14 +58,14 @@ import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
 import statusIndicator from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import TaskType from "~/infrastructure/models/TaskType.js";
-import iconByName from "~/components/Layout/iconByName.vue";
+import userIcon from "~/components/Layout/userIcon.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
     statusIndicator,
     threadTextComponentAuthor,
-    iconByName,
+    userIcon,
     treadTextMediator: () =>
       import("~/components/workFlow/thread-text/text-mediator.vue")
   },

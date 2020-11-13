@@ -29,22 +29,26 @@
       :col-count="12"
       :scrolling-enabled="true"
       :form-data.sync="employee"
-      :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
+      :read-only="readOnly"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       validation-group="updateEmployee"
     >
       <DxGroupItem
-        :col-span="6"
+        :col-span="5"
         :caption="$t('translations.fields.personalData')"
-        :col-count="6"
-      >
-        <DxGroupItem     :visible="false" :col-span="2">
-          <DxSimpleItem data-field="businessUnitId" template="imageUploader">
+        :col-count="5"
+      > 
+        <DxGroupItem
+          :col-span="1"
+        >
+          <DxSimpleItem
+            template="imageUploader"
+          >
             <DxLabel location="top" text="Фото" />
           </DxSimpleItem>
         </DxGroupItem>
-        <DxGroupItem :col-span="6">
+        <DxGroupItem :col-span="4">
           <DxSimpleItem
         
             data-field="userName"
@@ -79,7 +83,7 @@
         </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem
-        :col-span="3"
+        :col-span="4"
         :caption="$t('translations.fields.departmentId')"
       >
         <DxSimpleItem
@@ -106,8 +110,7 @@
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
-          :editor-options="departmentOptions"
-          editor-type="dxSelectBox"
+          template="departmentSelectBox"
         >
           <DxLabel
             location="top"
@@ -155,22 +158,32 @@
         <business-unit-select-box
           valueExpr="id"
           :value="businessUnitId"
+          :read-only="readOnly"
           validatorGroup="updateEmployee"
-          @valueChanged="
-            data => {
-              setBusinessUnitId(data);
-              setDepartmentId(null);
-            }
-          "
         />
       </template>
       <template #imageUploader>
-        <image-uploader />
+        <image-uploader
+          :read-only="readOnly"
+          :path="data.personalPhoto"
+          @valueChanged="(data) => {
+            setPhoto(data)
+                      } " 
+        />
+      </template>
+      <template #departmentSelectBox>
+        <department-select-box
+          valueExpr="id"
+          :read-only="readOnly"
+          :value="departmentId"
+          :businessUnitId="businessUnitId"
+        />
       </template>
     </DxForm>
   </div>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import ImageUploader from "~/components/employee/custom-image-uploader";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
@@ -214,7 +227,8 @@ export default {
     ChangePasswordPopup,
     Toolbar,
     BusinessUnitSelectBox,
-    ImageUploader
+    ImageUploader,
+    DepartmentSelectBox
   },
   props: ["data", "isCard"],
   data() {
@@ -242,6 +256,12 @@ export default {
   computed: {
     businessUnitId() {
       return this.employee.businessUnitId;
+    },
+    departmentId() {
+      return this.employee.departmentId;
+    },
+    readOnly(){
+      return !this.$store.getters['permissions/allowUpdating'](this.entityType)
     },
     departmentOptions() {
       return {
@@ -277,6 +297,9 @@ export default {
     setBusinessUnitId(data) {
       this.employee.businessUnitId = data;
     },
+    setPhoto(data){
+      this.employee.personalPhoto = data
+    },
     goBack() {
       if (!this.isCard) this.$router.go(-1);
       else this.$emit("closePopup");
@@ -297,13 +320,32 @@ export default {
         dataField
       );
     },
+    generateFormData(data){
+      const file = new FormData()
+      function appenFormData( key, value ){
+        if(value !== null){
+          file.append(key,value)
+        }
+      }
+      appenFormData("id",data.id)
+      appenFormData("email",data.email)
+      appenFormData("name",data.name)
+      appenFormData("phone",data.phone)
+      appenFormData("jobTitleId",data.jobTitleId)
+      appenFormData("departmentId",data.departmentId)
+      appenFormData("status",data.status)
+      appenFormData("note",data.note)
+      appenFormData("personalPhoto",typeof data.personalPhoto ==="string" ? null : data.personalPhoto)
+      return file
+    },
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
+      const file =  this.generateFormData(this.employee)
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
           dataApi.company.Employee + "/" + this.employee.id,
-          this.employee
+          file
         ),
         e => {
           this.$emit("valueChanged", this.employee);

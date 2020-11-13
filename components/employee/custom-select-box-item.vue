@@ -1,6 +1,6 @@
 <template>
   <div class="custom-item d-flex align-center">
-    <iconByName :fullName="itemData && itemData.name" />
+    <userIcon :fullName="itemData && itemData.name" :path="itemData && itemData.personalPhotoHash" />
     <div>
       <div>{{$t()}}{{itemData && itemData.name}}</div>
       <div class="grey">{{itemData && itemData.jobTitle}}</div>
@@ -9,11 +9,11 @@
 </template>
 <script>
 import { DxTextBox } from "devextreme-vue";
-import iconByName from "~/components/Layout/iconByName.vue";
+import userIcon from "~/components/Layout/userIcon.vue";
 export default {
   components: {
     DxTextBox,
-    iconByName
+    userIcon
   },
   props: {
     itemData: {

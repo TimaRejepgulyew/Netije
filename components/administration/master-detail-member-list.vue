@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import recipientSelectBox from "~/components/page/recipient-select-box.vue";
+import recipientSelectBox from "~/components/recipient/select-box/index.vue";
 import DxSelectBox from "devextreme-vue/select-box";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Status from "~/infrastructure/constants/status";

@@ -15,29 +15,42 @@
       validation-group="createEmployee"
     >
       <DxGroupItem :caption="$t('translations.fields.personalData')">
-        <DxSimpleItem data-field="userName" data-type="string">
-          <DxLabel location="top" :text="$t('translations.fields.userName')" />
-          <DxRequiredRule
-            :message="$t('translations.fields.userNameRequired')"
-          />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-          <DxRequiredRule
-            :message="$t('translations.fields.fullNameRequired')"
-          />
-        </DxSimpleItem>
-
-        <DxSimpleItem data-field="email">
-          <DxLabel location="top" />
-          <DxEmailRule :message="$t('translations.fields.emailRule')" />
-          <DxAsyncRule
-            :ignore-empty-value="true"
-            :reevaluate="false"
-            :validation-callback="validateEntityExists"
-            :message="$t('translations.fields.emailAlreadyExists')"
-          />
-        </DxSimpleItem>
+        <DxGroupItem
+          :col-count="5"
+        >
+          <DxSimpleItem
+            template="imageUploader"
+            :col-span="1"
+          >
+            <DxLabel location="top" text="Фото" />
+          </DxSimpleItem>
+          <DxGroupItem 
+            :col-span="4"
+          >
+              <DxSimpleItem data-field="userName" data-type="string">
+              <DxLabel location="top" :text="$t('translations.fields.userName')" />
+              <DxRequiredRule
+                :message="$t('translations.fields.userNameRequired')"
+              />
+            </DxSimpleItem>
+            <DxSimpleItem data-field="name">
+              <DxLabel location="top" :text="$t('translations.fields.fullName')" />
+              <DxRequiredRule
+                :message="$t('translations.fields.fullNameRequired')"
+              />
+            </DxSimpleItem>
+            <DxSimpleItem data-field="email">
+              <DxLabel location="top" />
+              <DxEmailRule :message="$t('translations.fields.emailRule')" />
+              <DxAsyncRule
+                :ignore-empty-value="true"
+                :reevaluate="false"
+                :validation-callback="validateEntityExists"
+                :message="$t('translations.fields.emailAlreadyExists')"
+              />
+            </DxSimpleItem>
+          </DxGroupItem>
+        </DxGroupItem>
         <DxSimpleItem :editor-options="passwordOptions" data-field="password">
           <DxLabel location="top" :text="$t('translations.fields.password')" />
           <DxPatternRule
@@ -127,10 +140,18 @@
                       } "
         />
       </template>
+      <template #imageUploader>
+        <image-uploader
+          @valueChanged="(data) => {
+            setPhoto(data)
+                      } " 
+        />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import ImageUploader from "~/components/employee/custom-image-uploader";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
@@ -146,7 +167,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -164,7 +185,8 @@ export default {
     DxForm,
     DxAsyncRule,
     Toolbar,
-    BusinessUnitSelectBox
+    BusinessUnitSelectBox,
+    ImageUploader
   },
   props: ["isCard"],
   data() {
@@ -179,7 +201,8 @@ export default {
         note: null,
         userName: null,
         password: null,
-        confirmPassword: null
+        confirmPassword: null,
+        personalPhoto:null,
       },
       passwordOptions: {
         mode: "password"
@@ -215,6 +238,9 @@ export default {
     setDepartmentId(data){
       this.employee.departmentId = data
     },
+    setPhoto(data){
+      this.employee.personalPhoto = data
+    },
     setBusinessUnitId(data){
       this.employee.businessUnitId = data
     },
@@ -230,11 +256,21 @@ export default {
         dataField
       );
     },
+    generateFormData(data){
+      const file = new FormData()
+      for (const key in data) {
+        if(data[key] !== null){
+          file.append(key,data[key])
+        }
+      }
+      return file
+    },
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
+      let file = this.generateFormData(this.employee)
       if (!res.isValid) return;
       this.$awn.asyncBlock(
-        this.$axios.post(dataApi.company.Employee, this.employee),
+        this.$axios.post(dataApi.company.Employee, file),
         e => {
           if (!this.isCard) {
             this.$router.go(-1);

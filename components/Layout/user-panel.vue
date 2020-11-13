@@ -3,7 +3,7 @@
     <div class="user-panel">
       <div class="user-info">
         <div>
-          <icon-by-name :fullName="fullName" />
+          <user-icon :fullName="fullName" :path="imagePath" />
         </div>
         <div class="user-name">{{fullName}}</div>
       </div>
@@ -23,13 +23,19 @@
 </template>
 
 <script>
- import scannerIcon from "~/static/icons/scanner/scanner_netije.svg"
+import scannerIcon from "~/static/icons/scanner/scanner_netije.svg"
 import DxContextMenu from "devextreme-vue/context-menu";
 import DxList from "devextreme-vue/list";
 import DxButton from "devextreme-vue/button";
 import dataApi from "~/static/dataApi";
-import iconByName from "~/components/Layout/iconByName.vue";
+import userIcon from "~/components/Layout/userIcon.vue";
 export default {
+  components: {
+    DxContextMenu,
+    DxList,
+    DxButton,
+    userIcon
+  },
   props: {
     menuMode: String
   },
@@ -61,6 +67,9 @@ export default {
   computed: {
     fullName() {
       return this.$store.getters["user/name"];
+    },
+    imagePath(){
+      return this.$store.getters["user/personalPhotoHash"];
     }
   },
   methods: {
@@ -74,12 +83,6 @@ export default {
       window.location.href = dataApi.account;
     }
   },
-  components: {
-    DxContextMenu,
-    DxList,
-    DxButton,
-    iconByName
-  }
 };
 </script>
 

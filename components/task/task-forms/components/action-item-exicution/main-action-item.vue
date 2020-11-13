@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import recipientTagBox from "~/components/page/recipient-tag-box.vue";
+import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import "devextreme-vue/text-area";

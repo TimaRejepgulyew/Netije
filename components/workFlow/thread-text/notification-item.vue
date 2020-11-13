@@ -3,7 +3,7 @@
     <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent}">
       <div class="d-flex js-space-between">
         <div>
-          <icon-by-name class="f-size-30" :fullName="comment.author.name"></icon-by-name>
+          <user-icon class="f-size-30" :fullName="comment.author.name" :path="comment.author.personalPhotoHash" />
         </div>
         <div>
           <div @click="()=>toDetailAssignment(comment.entity)" class="link">
@@ -40,13 +40,13 @@
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import { isReadIndicator } from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
 import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
-import iconByName from "~/components/Layout/iconByName.vue";
+import userIcon from "~/components/Layout/userIcon.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
     threadTextComponentAuthor,
-    iconByName,
+    userIcon,
     isReadIndicator,
     treadTextMediator: () =>
       import("~/components/workFlow/thread-text/text-mediator.vue"),

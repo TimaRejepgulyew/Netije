@@ -1,20 +1,37 @@
 <template>
   <div>
     <div>
+      <div class="image_wrapper" v-if="path">
+        <img class="user_image" :src="imagePath" >
+      </div>
       <div
         class="user-info-avatar"
         :style="{background:stringToColor}"
         id="avatar"
+        v-else
       >{{nameToWord}}{{lastNameToWord}}</div>
     </div>
   </div>
 </template>
 
 <script>
+import dataApi from "~/static/dataApi";
 import axios from "axios";
 export default {
-  props: ["fullName"],
+  props: {
+    fullName:{
+      type: String,
+      default:null
+    },
+    path:{
+      type:String,
+      default:null
+    }
+  },
   computed: {
+    imagePath(){
+      return dataApi.UserPhotoHash + this.path + '.png'
+    },
     stringToColor() {
       let hash = 0;
       let color = "#";
@@ -53,7 +70,7 @@ export default {
           .toUpperCase()
           .substr(0, 1);
     }
-  }
+  },
 };
 </script>
 
@@ -70,6 +87,22 @@ export default {
   margin-right: 10px;
   color: white;
   background: #333333;
+}
+
+.image_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    margin:0 10px 0 0;
+    overflow: hidden;
+}
+.user_image{
+  height: 25px;
 }
 
 .user-info-name {

@@ -6,10 +6,7 @@
     >
       <div class="d-flex js-space-between">
         <div>
-          <icon-by-name
-            class="f-size-30"
-            :fullName="comment.author.name"
-          ></icon-by-name>
+          <user-icon class="f-size-30" :fullName="comment.author.name" :path="comment.author.personalPhotoHash" />
         </div>
         <div>
           <div @click="() => toDetailAssignment(comment.entity)" class="link">
@@ -62,17 +59,15 @@
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import * as indicators from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
-import AssignmentType, {
-  assignmentTypeName
-} from "~/infrastructure/constants/assignmentType.js";
-import iconByName from "~/components/Layout/iconByName.vue";
+import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
+import userIcon from "~/components/Layout/userIcon.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
     threadTextComponentAuthor,
     ...indicators,
-    iconByName,
+    userIcon,
     treadTextMediator: () =>
       import("~/components/workFlow/thread-text/text-mediator.vue")
   },

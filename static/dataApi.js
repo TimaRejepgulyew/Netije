@@ -1,4 +1,8 @@
 export default {
+  UserPhotoHash:
+    process.env.NODE_ENV === "production"
+      ? document.location.origin + "/StaticFiles/Employees/Thumbnails/"
+      : `${process.env.serverUrl}/StaticFiles/Employees/Thumbnails/`,
   Metadata: `/api/Metadata`,
   account: `/Identity/Account/Manage`,
   History: `/api/History/`,
@@ -140,6 +144,6 @@ export default {
     banks: `​/api/Import/Banks`,
     jobTitles: `​/api/Import/JobTitles`,
     persons: `​/api/Import/Persons`,
-    employees: `​/api/Import/Employees`
+    employees: `/api/Import/Employees`
   }
 };

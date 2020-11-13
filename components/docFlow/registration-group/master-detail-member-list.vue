@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import recipientSelectBox from "~/components/page/recipient-select-box.vue";
+import recipientSelectBox from "~/components/recipient/select-box/index.vue";
 import Status from "~/infrastructure/constants/status";
 import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import permissions from "~/components/administration/permissions";

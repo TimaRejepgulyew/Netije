@@ -286,6 +286,9 @@ export default {
   methods: {
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
+      if(e.data.headCompanyId === 0){
+        e.data.headCompanyId = null
+      }  
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);

@@ -192,7 +192,8 @@ export const actions = {
       "user/initUser",
       {
         employeeId: result.data.employeeId,
-        name: result.data.name
+        name: result.data.name,
+        personalPhotoHash: result.data.personalPhotoHash
       },
       { root: true }
     );

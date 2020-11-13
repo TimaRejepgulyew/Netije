@@ -2,7 +2,6 @@
   <DxSelectBox
     :read-only="readOnly"
     :data-source="dataStore"
-    :grouped="true"
     @valueChanged="valueChanged"
     :showClearButton="true"
     :value="value"
@@ -14,17 +13,24 @@
     :page-size="10"
   >
     <DxValidator :validation-group="validatorGroup">
-      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
+      <DxRequiredRule
+        v-if="isRequired"
+        :message="$t(`translations.fields.${property}Required`)"
+      />
     </DxValidator>
-    <template #group="{ data }">
-      <recipient-grouped :data="data" />
+    <template #item="{ data }">
+      <div>
+        <component :data="data" :is="listItemByType(data.recipientType)" />
+      </div>
     </template>
   </DxSelectBox>
 </template>
 
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import recipientGrouped from "~/components/page/recipient-grouped.vue";
+import defaultType from "~/components/recipient/components/list-item/default.vue";
+import employeeTypeComponent from "~/components/recipient/components/list-item/employee-type.vue";
+import recipientType from "~/infrastructure/constants/resipientType.js";
 import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -33,7 +39,8 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
-    recipientGrouped,
+    employeeTypeComponent,
+    defaultType
   },
   props: [
     "valueExpr",
@@ -42,31 +49,37 @@ export default {
     "validatorGroup",
     "readOnly",
     "dataApi",
-    "property",
+    "property"
   ],
   created() {},
   data() {
     return {
-      dataStore:
-        new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: this.dataApi || dataApi.recipient.list,
-          }),
-          paginate: true,
-          pageSize: 10,
-          group: [{ selector: "recipientType" }],
+      dataStore: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: this.dataApi || dataApi.recipient.list
         }),
+        paginate: true,
+        pageSize: 10,
+        sort: [{ selector: "recipientType", desc: false }]
+      })
     };
   },
   methods: {
+    listItemByType(type) {
+      switch (type) {
+        case recipientType.Employee:
+          return "employeeTypeComponent";
+        default:
+          return "defaultType";
+      }
+    },
     valueChanged(e) {
       if (this.valueExpr) this.$emit("valueChanged", e.value);
       else this.$emit("valueChanged", e.value);
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
