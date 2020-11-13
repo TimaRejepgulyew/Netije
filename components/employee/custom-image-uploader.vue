@@ -3,7 +3,7 @@
         <label for="custom_file_uploader_for_employee" class="image_wrapper">
             <img class="image" ref="image" :src="fileSrc"/>
         </label>
-        <input @change="fileChanged" :accept="allowedFile" ref="fileUploader" type="file" id="custom_file_uploader_for_employee">
+        <input v-if="!readOnly" @change="fileChanged" :accept="allowedFile" ref="fileUploader" type="file" id="custom_file_uploader_for_employee">
     </div>
 </template>
 
@@ -14,6 +14,10 @@ export default {
         path:{
             default:null
         },
+        readOnly:{
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {
@@ -67,9 +71,7 @@ export default {
     overflow: hidden;
 }
 .image{
-    max-width: 300px;
-    height: 150px;
-    border-radius: 50%;
+    max-height: 150px;
 }
 .user-info-avatar{
     margin: 0;

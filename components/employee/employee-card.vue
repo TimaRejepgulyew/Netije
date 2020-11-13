@@ -29,7 +29,7 @@
       :col-count="12"
       :scrolling-enabled="true"
       :form-data.sync="employee"
-      :read-only="!$store.getters['permissions/allowUpdating'](entityType)"
+      :read-only="readOnly"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       validation-group="updateEmployee"
@@ -110,8 +110,7 @@
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
-          :editor-options="departmentOptions"
-          editor-type="dxSelectBox"
+          template="departmentSelectBox"
         >
           <DxLabel
             location="top"
@@ -159,27 +158,32 @@
         <business-unit-select-box
           valueExpr="id"
           :value="businessUnitId"
+          :read-only="readOnly"
           validatorGroup="updateEmployee"
-          @valueChanged="
-            data => {
-              setBusinessUnitId(data);
-              setDepartmentId(null);
-            }
-          "
         />
       </template>
       <template #imageUploader>
         <image-uploader
+          :read-only="readOnly"
           :path="data.personalPhoto"
           @valueChanged="(data) => {
             setPhoto(data)
                       } " 
         />
       </template>
+      <template #departmentSelectBox>
+        <department-select-box
+          valueExpr="id"
+          :read-only="readOnly"
+          :value="departmentId"
+          :businessUnitId="businessUnitId"
+        />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import ImageUploader from "~/components/employee/custom-image-uploader";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
@@ -223,7 +227,8 @@ export default {
     ChangePasswordPopup,
     Toolbar,
     BusinessUnitSelectBox,
-    ImageUploader
+    ImageUploader,
+    DepartmentSelectBox
   },
   props: ["data", "isCard"],
   data() {
@@ -251,6 +256,12 @@ export default {
   computed: {
     businessUnitId() {
       return this.employee.businessUnitId;
+    },
+    departmentId() {
+      return this.employee.departmentId;
+    },
+    readOnly(){
+      return !this.$store.getters['permissions/allowUpdating'](this.entityType)
     },
     departmentOptions() {
       return {
