@@ -99,9 +99,6 @@ export default {
       isPopupAccesRight: false
     };
   },
-  created() {
-    console.log(this.toolbarItemsByTaskType);
-  },
   computed: {
     toolbarItemsByTaskType() {
       return ToolbarByTaskType(this, this.task.taskType);

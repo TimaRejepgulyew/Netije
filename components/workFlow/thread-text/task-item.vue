@@ -83,7 +83,6 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseSubject(value) {
-      console.log(value);
       if (
         value.taskType == TaskTypeGuid.ActionItemExecutionTask &&
         value?.actionItemType === ActionItemType.Component

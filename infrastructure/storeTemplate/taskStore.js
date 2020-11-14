@@ -21,7 +21,6 @@ function replaceAssignee(state) {
     });
   if (state.task.coAssignees)
     state.task.coAssignees.forEach(user => {
-      console.log(user);
       state.task.actionItemParts.push({
         assignee: user,
         actionItemPart: "",

@@ -30,6 +30,7 @@
       </DxColumn>
       <template #assignee="{ data: cellInfo }">
         <employee-select-box
+          :showClearButton="false"
           :value="cellInfo.value"
           @valueChanged="value => onValueChanged(value, cellInfo)"
         />

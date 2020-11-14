@@ -214,7 +214,6 @@ export default {
   },
   methods: {
     validEndDate(e) {
-      console.log(e);
       if (!e.value) {
         return true;
       }

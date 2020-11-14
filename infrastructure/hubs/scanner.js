@@ -24,7 +24,6 @@ export default function(app) {
       await connection.invoke("getDeviceParams", name);
       return true;
     } catch {
-      console.log("connection failed");
       return false;
     }
   }
@@ -33,7 +32,6 @@ export default function(app) {
       await connection.invoke("startScan", params);
       return true;
     } catch {
-      console.log("connection failed");
       return false;
     }
   }
@@ -42,7 +40,6 @@ export default function(app) {
       await connection.invoke("generatePdf", files);
       return true;
     } catch {
-      console.log("connection failed");
       return false;
     }
   }
@@ -65,7 +62,6 @@ export default function(app) {
     connection.on("fileGenerated", handler);
   }
   onUpdateDeviceInfo(devices => {
-    console.log("device", devices);
     app.store.dispatch("scanner/setDevices", devices);
   });
   onScanCompleted(document => {
@@ -73,12 +69,10 @@ export default function(app) {
     app.store.commit("scanner/CLOSE_LOADING");
   });
   onFileGenerated(file => {
-    console.log(file, "scan Completed");
     app.store.dispatch("scanner/setFile", file);
   });
   onError(message => {
     app.store.dispatch("scanner/onError", message);
-    console.log("error");
   });
   printerParams(currentDevice => {
     app.store.dispatch("scanner/setCurrentDeviceParamsStore", currentDevice);

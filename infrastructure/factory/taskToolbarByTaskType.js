@@ -5,7 +5,6 @@ export default function(context, taskType) {
   return getToolbarByAssignmentType(context, taskType);
 }
 function getToolbarByAssignmentType(context, taskType) {
-  console.log("run ", taskType);
   switch (taskType) {
     case TaskType.SimpleTask:
       return simpleTaskToolbar(context);
