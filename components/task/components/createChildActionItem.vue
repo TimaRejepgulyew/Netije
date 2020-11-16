@@ -24,7 +24,7 @@
       :visible="visible"
       :on-click="createChildActionItem"
       :icon="actionItemExecutionIcon"
-      :text="$t('buttons.createChilteExecution')"
+      :text="$t('buttons.createExecution')"
       :useSubmitBehavior="false"
     ></DxButton>
   </div>

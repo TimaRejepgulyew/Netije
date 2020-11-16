@@ -64,8 +64,6 @@
   </div>
 </template>
 <script>
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
-import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
 import taskCard from "~/components/task/index.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import createOutgoingLetterBtn from "~/components/assignment/form-components/create-outgoing-letter-btn.vue";
@@ -121,21 +119,6 @@ export default {
     attachmentGroups() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .attachmentGroups;
-    },
-    btnAddExecutionOptions() {
-      return {
-        icon: actionItemExecutionIcon,
-        text: this.$t("buttons.createChilteExecution"),
-        onClick: () => {
-          this.$awn.asyncBlock(
-            CreateChildActionItemExecution(this, this.assignmentId),
-            ({ taskId }) => {
-              this.actionItemExecutionTaskId = taskId;
-              this.togglePopup();
-            }
-          );
-        }
-      };
     },
     actionItemExecutionAttachmentIsIncomingLetter() {
       if (this.attachmentGroups) {

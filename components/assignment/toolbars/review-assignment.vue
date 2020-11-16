@@ -29,15 +29,6 @@
         location="before"
         widget="dxButton"
       />
-      <DxItem
-        locateInMenu="auto"
-        :visible="inProcess"
-        location="before"
-        template="createChildActionItem"
-      />
-      <template #createChildActionItem>
-        <create-child-action-item-btn :parentAssignmentId="assignmentId" />
-      </template>
     </DxToolbar>
   </div>
 </template>

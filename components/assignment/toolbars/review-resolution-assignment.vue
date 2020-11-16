@@ -25,31 +25,18 @@
           location="before"
           widget="dxButton"
         />
-        <DxItem
-          locateInMenu="auto"
-          :visible="inProcess"
-          location="before"
-          template="createChildActionItem"
-        />
-        <template #createChildActionItem>
-          <create-child-action-item-btn :parentAssignmentId="assignmentId" />
-        </template>
+
       </DxToolbar>
     </div>
   </div>
 </template>
 <script>
-import createChildActionItemBtn from "~/components/assignment/components/create-children-action-item-btn.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import { DxPopup } from "devextreme-vue/popup";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
-  components: {
-    DxPopup,
-    createChildActionItemBtn
-  },
   data() {
     return {
       actionItemExecutionTaskId: null,
