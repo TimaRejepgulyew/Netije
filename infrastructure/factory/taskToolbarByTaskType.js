@@ -78,7 +78,8 @@ const freeApprovalTaskToolbar = context => {
 function switchToCompountBtn(context, otherOptions) {
   const toolbarItemOptions = {
     template: "toolbarItemswichToCompoundActionItem",
-    visible: context.isDraft,
+    visible: false,
+    // visible: context.isDraft,
     ...otherOptions
   };
   return new ToolbarItemTypeTemplate(context, toolbarItemOptions).options;
