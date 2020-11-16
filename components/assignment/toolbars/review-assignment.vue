@@ -17,8 +17,27 @@
       </div>
     </DxPopup>
     <DxToolbar>
-      <DxItem :visible="inProcess" :options="btnOptions" location="before" widget="dxButton" />
-      <DxItem :visible="inProcess" :options="reworkBtnOptions" location="before" widget="dxButton" />
+      <DxItem
+        :visible="inProcess"
+        :options="btnOptions"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
+        :visible="inProcess"
+        :options="reworkBtnOptions"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
+        locateInMenu="auto"
+        :visible="inProcess"
+        location="before"
+        template="createChildActionItem"
+      />
+      <template #createChildActionItem>
+        <create-child-action-item-btn :parentAssignmentId="assignmentId" />
+      </template>
     </DxToolbar>
   </div>
 </template>
@@ -44,7 +63,7 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
     },
     reworkBtnOptions() {
@@ -68,10 +87,10 @@ export default {
               );
             }
           }
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
