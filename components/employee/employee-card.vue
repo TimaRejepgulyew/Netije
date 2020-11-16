@@ -50,15 +50,16 @@
         </DxGroupItem>
         <DxGroupItem :col-span="4">
           <DxSimpleItem
-        
             data-field="userName"
-            :editor-options="{ disabled: true }"
             data-type="string"
           >
             <DxLabel
               location="top"
               :text="$t('translations.fields.userName')"
             />
+            <DxRequiredRule
+                :message="$t('translations.fields.userNameRequired')"
+              />
           </DxSimpleItem>
           <DxSimpleItem data-field="name">
             <DxLabel
@@ -328,6 +329,7 @@ export default {
         }
       }
       appenFormData("id",data.id)
+      appenFormData("userName",data.userName)
       appenFormData("email",data.email)
       appenFormData("name",data.name)
       appenFormData("phone",data.phone)
