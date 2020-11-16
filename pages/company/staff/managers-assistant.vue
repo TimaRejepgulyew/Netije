@@ -101,6 +101,7 @@
   </main>
 </template>
 <script>
+import DataSource from "devextreme/data/data_source";
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
@@ -146,12 +147,16 @@ export default {
   },
   data() {
     return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.ManagersAssistant,
-        insertUrl: dataApi.company.ManagersAssistant,
-        updateUrl: dataApi.company.ManagersAssistant,
-        removeUrl: dataApi.company.ManagersAssistant
+      dataSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.ManagersAssistant,
+          insertUrl: dataApi.company.ManagersAssistant,
+          updateUrl: dataApi.company.ManagersAssistant,
+          removeUrl: dataApi.company.ManagersAssistant
+        }),
+        paginate: true,
+        pageSize: 10
       }),
       entityType: EntityType.ManagersAssistant,
       statusDataSource: this.$store.getters["status/status"](this),
