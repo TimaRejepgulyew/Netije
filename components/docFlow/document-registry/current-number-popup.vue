@@ -31,7 +31,7 @@ import DxForm, {
   DxSimpleItem,
   DxButtonItem,
   DxLabel,
-  DxRequiredRule,
+  DxRequiredRule
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -40,7 +40,7 @@ export default {
     DxLabel,
     DxRequiredRule,
     DxForm,
-    DxButton,
+    DxButton
   },
   async created() {
     var res = await this.$axios.get(
@@ -53,18 +53,18 @@ export default {
     return {
       currentNumberData: {
         id: this.documentRegisterId,
-        value: null,
+        value: null
       },
       saveButtonOptions: {
         height: 40,
-        icon: scanner,
+        text: this.$t("buttons.save"),
         useSubmitBehavior: true,
-        text: this.$t("buttons.scanner"),
+        type: "normal"
       },
       numberBoxOptions: {
         placeholder: this.$t("translations.fields.currentNumberRequired"),
-        min: 1,
-      },
+        min: 1
+      }
     };
   },
   methods: {
@@ -74,14 +74,14 @@ export default {
           `${dataApi.docFlow.DocumentRegister.Value}/CurrentNumber/${this.documentRegisterId}`,
           this.currentNumberData
         ),
-        (res) => {
+        res => {
           this.$emit("hidePopup");
           this.$awn.success();
         },
-        (err) => this.$awn.alert()
+        err => this.$awn.alert()
       );
       e.preventDefault();
-    },
-  },
+    }
+  }
 };
 </script>
