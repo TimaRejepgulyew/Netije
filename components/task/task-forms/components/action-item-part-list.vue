@@ -26,7 +26,7 @@
         editCellTemplate="assignee"
         :caption="$t('task.fields.assignee')"
       >
-        <!-- <DxRequiredRule :message="$t('task.validation.assigneeRequired')" /> -->
+        <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
       </DxColumn>
       <template #assignee="{ data: cellInfo }">
         <employee-select-box
