@@ -11,7 +11,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
@@ -28,10 +31,16 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="documentKind" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="documentKind"
+      />
 
       <DxEditing
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         mode="form"
         :useIcons="true"
@@ -47,7 +56,10 @@
         data-type="string"
       ></DxColumn>
 
-      <DxColumn data-field="documentFlow" :caption="$t('docFlow.fields.documentFlow')">
+      <DxColumn
+        data-field="documentFlow"
+        :caption="$t('docFlow.fields.documentFlow')"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="documentFlow"
@@ -56,7 +68,10 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="numberingType" :caption="$t('translations.fields.numberingType')">
+      <DxColumn
+        data-field="numberingType"
+        :caption="$t('translations.fields.numberingType')"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="numberingType"
@@ -65,7 +80,10 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="documentTypeGuid" :caption="$t('menu.documentType')">
+      <DxColumn
+        data-field="documentTypeGuid"
+        :caption="$t('menu.documentType')"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="documentTypeDataSource"
@@ -73,6 +91,7 @@
           display-expr="name"
         />
       </DxColumn>
+      <DxColumn data-field="code" :caption="$t('shared.code')" />
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -83,7 +102,11 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton icon="more" :text="$t('shared.more')" :onClick="documentKindDetailForm"></DxButton>
+        <DxButton
+          icon="more"
+          :text="$t('shared.more')"
+          :onClick="documentKindDetailForm"
+        ></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -170,4 +193,3 @@ export default {
   }
 };
 </script>
-

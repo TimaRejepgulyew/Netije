@@ -53,6 +53,9 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn
+        data-type="string"
+        :customizeText="customizeText"
+        editCellTemplate="manager"
         data-field="managerId"
         :caption="$t('translations.fields.managerId')"
         :set-cell-value="onManagerIdChanged"
@@ -60,15 +63,19 @@
         <DxRequiredRule
           :message="$t('translations.fields.managerIdRequired')"
         />
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getFilteredManager"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
-
+      <template #manager="{ data: cellInfo }">
+        <employee-select-box
+          valueExpr="id"
+          :showClearButton="false"
+          :value="cellInfo.value"
+          @valueChanged="value => onValueChanged(value, cellInfo)"
+        />
+      </template>
       <DxColumn
+        data-type="string"
+        :customizeText="customizeText"
+        editCellTemplate="assistant"
         data-field="assistantId"
         :caption="$t('translations.fields.assistantId')"
         :set-cell-value="onAssistantIdChanged"
@@ -76,13 +83,15 @@
         <DxRequiredRule
           :message="$t('translations.fields.assistantIdRequired')"
         />
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getFilteredAssistant"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
+      <template #assistant="{ data: cellInfo }">
+        <employee-select-box
+          valueExpr="id"
+          :showClearButton="false"
+          :value="cellInfo.value"
+          @valueChanged="value => onValueChanged(value, cellInfo)"
+        />
+      </template>
       <DxColumn
         data-field="preparesResolution"
         :caption="$t('translations.fields.preparesResolution')"
@@ -101,6 +110,8 @@
   </main>
 </template>
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import DataSource from "devextreme/data/data_source";
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
@@ -142,16 +153,21 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    employeeSelectBox
   },
   data() {
     return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.ManagersAssistant,
-        insertUrl: dataApi.company.ManagersAssistant,
-        updateUrl: dataApi.company.ManagersAssistant,
-        removeUrl: dataApi.company.ManagersAssistant
+      dataSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.ManagersAssistant,
+          insertUrl: dataApi.company.ManagersAssistant,
+          updateUrl: dataApi.company.ManagersAssistant,
+          removeUrl: dataApi.company.ManagersAssistant
+        }),
+        paginate: true,
+        pageSize: 10
       }),
       entityType: EntityType.ManagersAssistant,
       statusDataSource: this.$store.getters["status/status"](this),
@@ -171,6 +187,9 @@ export default {
     };
   },
   methods: {
+    customizeText(e) {
+      if (e.value) return e.value?.name;
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },
