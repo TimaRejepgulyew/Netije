@@ -1,5 +1,6 @@
 export default {
-  switchToCompound:"Равноправные исполнители",
+  createChildTask: "Создать подзадачу",
+  switchToCompound: "Равноправные исполнители",
   createChilteExecution: "Создать подчиненное поручение",
   refresh: "Перезагрузить",
   addResolution: "Вынести резолюцию",

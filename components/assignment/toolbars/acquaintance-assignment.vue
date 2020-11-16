@@ -17,7 +17,21 @@
       </div>
     </DxPopup>
     <DxToolbar>
-      <DxItem :visible="inProcess" :options="btnOptions" location="before" widget="dxButton" />
+      <DxItem
+        :visible="inProcess"
+        :options="btnOptions"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
+        :visible="inProcess"
+        locateInMenu="auto"
+        template="createChildTask"
+        location="before"
+      />
+      <template #createChildTask>
+        <createChildTaskBtn :parentAssignmentId="assignmentId" />
+      </template>
     </DxToolbar>
   </div>
 </template>
@@ -42,10 +56,10 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

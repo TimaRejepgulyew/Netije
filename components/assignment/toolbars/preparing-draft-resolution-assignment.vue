@@ -51,6 +51,16 @@
           location="before"
           widget="dxButton"
         />
+        <DxItem
+          :visible="inProcess"
+          locateInMenu="auto"
+          template="createChildTask"
+          location="before"
+        />
+
+        <template #createChildTask>
+          <createChildTaskBtn :parentAssignmentId="assignmentId" />
+        </template>
       </DxToolbar>
     </div>
   </div>
@@ -92,7 +102,7 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
     },
     btnSendToAssigneeOptions() {
@@ -112,7 +122,7 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
     },
     btnAcceptOptions() {
@@ -132,7 +142,7 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
     },
     btnForwardOptions() {
@@ -152,10 +162,10 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

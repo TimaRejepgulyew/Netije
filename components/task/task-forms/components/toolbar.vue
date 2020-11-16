@@ -19,57 +19,23 @@
           :taskId="taskId"
         ></toolbarItemImportanceChanger>
       </template>
-      <!-- <DxItem
-        template="toolbarItemStartBtn"
-        :visible="canStart"
-        location="before"
-      />
-      <DxItem
-        :visible="canSave"
-        :disabled="!isDataChanged"
-        :options="saveButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        :visible="canAbort"
-        :options="abortButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        :visible="canRestart"
-        :options="restartButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        template="toolbarItemImportanceChanger"
-        :disabled="!isDraft"
-        location="before"
-        widget="dxCheckBox"
-      />
-     
-      <DxItem
-        :visible="canDelete"
-        :options="deleteButtonOptions"
-        location="after"
-        widget="dxButton"
-      /> -->
       <template #toolbarItemAccessRight>
         <toolbar-item-access-right
           :entity-type="entityType"
           :entity-id="taskId"
         />
       </template>
-
       <template #toolbarItemswichToCompoundActionItem>
         <toolbarItemSwitchToCompound :taskId="taskId" />
+      </template>
+      <template #toolbarCreateChildTask>
+        <toolbar-item-create-child-task :parentTaskId="taskId" />
       </template>
     </DxToolbar>
   </div>
 </template>
 <script>
+import toolbarItemCreateChildTask from "~/components/task/task-forms/components/create-children-task-btn.vue";
 import ToolbarByTaskType from "~/infrastructure/factory/taskToolbarByTaskType.js";
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
@@ -85,6 +51,7 @@ import attachmentVue from "~/components/workFlow/attachment/index.vue";
 import toolbarItemAccessRight from "~/components/page/access-right.vue";
 export default {
   components: {
+    toolbarItemCreateChildTask,
     toolbarItemSwitchToCompound,
     toolbarItemImportanceChanger,
     toolbarItemAccessRight,

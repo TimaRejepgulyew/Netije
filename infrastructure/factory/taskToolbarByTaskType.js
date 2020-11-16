@@ -25,7 +25,7 @@ const simpleTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
-    createChildActionItemBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
     deleteBtn(context)
   ];
@@ -37,7 +37,7 @@ const acquaintanceTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
-    createChildActionItemBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
     deleteBtn(context)
   ];
@@ -50,7 +50,7 @@ const actionItemExecutionTaskToolbar = context => {
     abortBtn(context),
     importanceChangerBtn(context),
     switchToCompountBtn(context),
-    createChildActionItemBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
     deleteBtn(context)
   ];
@@ -62,7 +62,7 @@ const documentReviewTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
-    createChildActionItemBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
     deleteBtn(context)
   ];
@@ -74,7 +74,7 @@ const freeApprovalTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
-    createChildActionItemBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
     deleteBtn(context)
   ];
@@ -143,9 +143,9 @@ function importanceChangerBtn(context, otherOptions) {
   };
   return new ToolbarItemTypeTemplate(context, toolbarItemOptions).options;
 }
-function createChildActionItemBtn(context, otherOptions) {
+function createChildTaskBtn(context, otherOptions) {
   const toolbarItemOptions = {
-    template: "toolbarCreateChildActionItem",
+    template: "toolbarCreateChildTask",
     location: "before",
     visible: context.isDraft || context.inProccess,
     ...otherOptions

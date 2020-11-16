@@ -47,18 +47,20 @@
         template="createOutgoingLetterBtn"
         location="after"
       />
-      <DxItem
-        locateInMenu="auto"
-        :options="btnAddExecutionOptions"
-        location="before"
-        widget="dxButton"
-      />
-
       <template #createOutgoingLetterBtn>
         <create-outgoing-letter-btn
           @pasteAttachment="pasteAttachment"
           :leadingDocumentId="incomingDocumentId"
         />
+      </template>
+      <DxItem
+        :visible="inProcess"
+        locateInMenu="auto"
+        template="createChildTask"
+        location="before"
+      />
+      <template #createChildTask>
+        <createChildTaskBtn :parentAssignmentId="assignmentId" />
       </template>
     </DxToolbar>
   </div>

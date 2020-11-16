@@ -25,7 +25,16 @@
           location="before"
           widget="dxButton"
         />
+        <DxItem
+          :visible="inProcess"
+          locateInMenu="auto"
+          template="createChildTask"
+          location="before"
+        />
 
+        <template #createChildTask>
+          <createChildTaskBtn :parentAssignmentId="assignmentId" />
+        </template>
       </DxToolbar>
     </div>
   </div>
@@ -63,8 +72,8 @@ export default {
           }
         }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

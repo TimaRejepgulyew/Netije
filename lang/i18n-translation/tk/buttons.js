@@ -1,4 +1,5 @@
 export default {
+  createChildTask: "Goşundy ýumuş",
   switchToCompound: "Deň hukukly ýerine ýetirijiler",
   createChilteExecution: "Tabyn tabşyrygy döretmek",
   addResolution: "Rezolýusiýany çykarmak",

@@ -23,8 +23,8 @@
       :disabled="disabled"
       :visible="visible"
       :on-click="createChildActionItem"
-      :icon="actionItemExecutionIcon"
-      :text="$t('buttons.createExecution')"
+      :icon="createChildTaskIcon"
+      :text="$t('buttons.createChildTask')"
       :useSubmitBehavior="false"
     ></DxButton>
   </div>
@@ -34,7 +34,7 @@
 import { DxPopup } from "devextreme-vue/popup";
 import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
 import taskCard from "~/components/task/index.vue";
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import createChildTaskIcon from "~/static/icons/create-child-task-btn-icon.svg";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      actionItemExecutionIcon,
+      createChildTaskIcon,
       currentTaskId: null,
       isOpenCard: false
     };
