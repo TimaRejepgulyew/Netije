@@ -58,6 +58,12 @@
         <DxGroupItem :col-span="5" :template="actionItemTypeComponent" />
       </DxGroupItem>
       <DxSimpleItem
+        :col-span="5"
+        :visible="isAborted"
+        template="abortingReason"
+      >
+      </DxSimpleItem>
+      <DxSimpleItem
         :visible="isDraft"
         :col-span="3"
         data-field="body"
@@ -67,6 +73,9 @@
       >
         <DxLabel location="top" :text="$t('task.fields.actionItem')" />
       </DxSimpleItem>
+      <template #abortingReason>
+        <abortingReasonMessage :data="task.abortingReason" />
+      </template>
       <template #assignedBy>
         <employee-select-box
           :messageRequired="$t('task.validation.supervisorRequired')"
@@ -119,6 +128,7 @@
   </div>
 </template>
 <script>
+import abortingReasonMessage from "~/components/task/task-forms/components/aborting-reason-form.vue";
 import compoundActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/compound-action-item.vue";
 import mainActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/main-action-item.vue";
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
@@ -135,6 +145,7 @@ import dataApi from "~/static/dataApi";
 
 export default {
   components: {
+    abortingReasonMessage,
     compoundActionItemComponent,
     mainActionItemComponent,
     employeeSelectBox,
@@ -185,6 +196,9 @@ export default {
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
+    },
+    isAborted() {
+      return this.$store.getters[`tasks/${this.taskId}/isAborted`];
     },
     assignedBy() {
       return this.task.assignedBy;

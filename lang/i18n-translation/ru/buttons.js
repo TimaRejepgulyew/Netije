@@ -1,4 +1,5 @@
 export default {
+  confirm:"Потвердите",
   switchToCompound:"Равноправные исполнители",
   createChilteExecution: "Создать подчиненное поручение",
   refresh: "Перезагрузить",

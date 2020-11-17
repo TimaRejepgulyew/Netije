@@ -16,7 +16,9 @@ export default {
     expired: "Möhleti geçen",
     monthAgo: "30 gün"
   },
-
+confirm:{
+  abortingReason:"Gutarmagyň sebäbi"
+},
   message: {
     acquaintDocumentMessage:
       "Resminama bilen tanyşyň, jogapkäriň ýanyna bayň we şahsy goluňyzy goýuň",

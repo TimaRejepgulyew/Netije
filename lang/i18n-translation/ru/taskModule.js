@@ -21,7 +21,9 @@ export default {
     expired: "Просроченные",
     monthAgo: "30 дней"
   },
-
+  confirm:{
+    abortingReason:"Причина прекращения"
+  },
   message: {
     acquaintDocumentMessage:
       "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись",
