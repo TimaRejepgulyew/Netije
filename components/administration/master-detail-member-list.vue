@@ -23,7 +23,6 @@
           mode="row"
         ></DxEditing>
 
-        <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
 
         <DxColumn
@@ -50,6 +49,22 @@
             @valueChanged="value => onValueChanged(value, cellInfo)"
           />
         </template>
+        <DxColumn
+          :allowEditing="false"
+          :allowFiltering="false"
+          :allowSorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          :allow-sorting="false"
+          data-field="member.description"
+          data-type="string"
+          :caption="$t('shared.description')"
+        ></DxColumn>
       </DxDataGrid>
     </template>
     <!-- TODO:V2.0<DxItem :title="$t('translations.fields.permissions')" template="permissions" />
@@ -66,7 +81,6 @@ import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import permissions from "~/components/administration/permissions";
 import dataApi from "~/static/dataApi";
 import {
-  DxSearchPanel,
   DxDataGrid,
   DxColumn,
   DxEditing,
@@ -81,7 +95,6 @@ export default {
     DxSelectBox,
     DxTabPanel,
     DxItem,
-    DxSearchPanel,
     DxDataGrid,
     DxColumn,
     DxEditing,

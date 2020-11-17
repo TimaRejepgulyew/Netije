@@ -162,7 +162,8 @@ export default {
     statusRequired: "Ýagdaýy saýlaň",
     code: "Kody",
     codeRequired: "Kody giriziň",
-    codeAlreadyExists: "Şeýle kody öňden bar"
+    codeAlreadyExists: "Şeýle kody öňden bar",
+    description:"Bellik"
   },
   workFlow: {
     fields: {
