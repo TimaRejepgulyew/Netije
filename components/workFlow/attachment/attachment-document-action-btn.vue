@@ -31,7 +31,6 @@
   </div>
 </template>
 <script>
-import taskCard from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
@@ -45,7 +44,7 @@ export default {
   components: {
     DxMenu,
     DxPopup,
-    taskCard
+    taskCard: () => import("~/components/task/index.vue")
   },
   props: ["attachment"],
   data() {
