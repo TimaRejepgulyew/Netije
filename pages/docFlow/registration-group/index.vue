@@ -84,15 +84,10 @@
         :caption="$t('docFlow.fields.responsibleId')"
         editCellTemplate="responsibleEmployee"
       >
-        <!-- <DxLookup
-          :allow-clearing="true"
-          :data-source="getActiveEmployees"
-          value-expr="id"
-          display-expr="name"
-        /> -->
       </DxColumn>
       <template #responsibleEmployee="{ data: cellInfo }">
         <employee-select-box
+          :showClearButton="false"
           :value="cellInfo.value"
           @valueChanged="value => onValueChanged(value, cellInfo)"
         />

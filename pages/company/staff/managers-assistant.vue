@@ -56,17 +56,14 @@
         data-type="string"
         :customizeText="customizeText"
         editCellTemplate="manager"
-        data-field="managerId"
+        data-field="manager"
         :caption="$t('translations.fields.managerId')"
         :set-cell-value="onManagerIdChanged"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.managerIdRequired')"
-        />
       </DxColumn>
       <template #manager="{ data: cellInfo }">
         <employee-select-box
-          valueExpr="id"
+        
           :showClearButton="false"
           :value="cellInfo.value"
           @valueChanged="value => onValueChanged(value, cellInfo)"
@@ -76,17 +73,13 @@
         data-type="string"
         :customizeText="customizeText"
         editCellTemplate="assistant"
-        data-field="assistantId"
+        data-field="assistant"
         :caption="$t('translations.fields.assistantId')"
         :set-cell-value="onAssistantIdChanged"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.assistantIdRequired')"
-        />
       </DxColumn>
       <template #assistant="{ data: cellInfo }">
         <employee-select-box
-          valueExpr="id"
           :showClearButton="false"
           :value="cellInfo.value"
           @valueChanged="value => onValueChanged(value, cellInfo)"
@@ -187,6 +180,10 @@ export default {
     };
   },
   methods: {
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
+    },
     customizeText(e) {
       if (e.value) return e.value?.name;
     },
