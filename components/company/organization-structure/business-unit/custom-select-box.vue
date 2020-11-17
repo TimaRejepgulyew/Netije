@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DxPopup
+    <!-- <DxPopup
       :show-title="false"
       :visible.sync="isCardOpened"
       ref="popup"
@@ -10,7 +10,7 @@
       <div>
         <card :data="currentBusinessUnit" />
       </div>
-    </DxPopup>
+    </DxPopup> -->
     <DxSelectBox
       ref="businessUnit"
       :read-only="readOnly"
@@ -94,11 +94,12 @@ export default {
   },
   methods: {
     async showPopup() {
-      const { data } = await this.$axios.get(
-        `${dataApi.company.BusinessUnit}/${this.businessUnitId}`
-      );
-      this.currentBusinessUnit = data;
-      this.isCardOpened = !this.isCardOpened;
+      this.$show.bussiniesUnitCard(this);
+      // const { data } = await this.$axios.get(
+      //   `${dataApi.company.BusinessUnit}/${this.businessUnitId}`
+      // );
+      // this.currentBusinessUnit = data;
+      // this.isCardOpened = !this.isCardOpened;
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);

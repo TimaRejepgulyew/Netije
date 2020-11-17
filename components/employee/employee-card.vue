@@ -175,7 +175,7 @@
       </template>
     </DxForm>
     <div ref="lolo">
-      <popup />
+
     </div>
   </div>
 </template>
@@ -204,8 +204,7 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
-import Popup from "../Layout/popup.vue";
-import Vue from "vue";
+// import Vue from "vue";
 export default {
   components: {
     Header,
@@ -224,15 +223,7 @@ export default {
     ChangePasswordPopup,
     Toolbar,
     BusinessUnitSelectBox,
-    ImageUploader,
-  },
-  mounted() {
-    var ComponentClass = Vue.extend(Popup);
-    var instance = new ComponentClass({});
-    instance.$mount(); // pass nothing
-    //         console.log(this.$refs)
-    this.$refs.lolo.appendChild(instance.$el);
-    console.log(this.$refs);
+    ImageUploader
   },
   props: ["data", "isCard"],
   data() {
@@ -340,25 +331,11 @@ export default {
       return file;
     },
     handleSubmit() {
-      // console.log(this.$isMobile);
-      // console.log(this.popup);
-      console.log(this);
-      // this.$refs.lolo.appendChild(this.popup.$el)
-      // this.$mount(this.popup)
-      // var res = this.$refs["form"].instance.validate();
-      // const file =  this.generateFormData(this.employee)
-      // if (!res.isValid) return;
-      // this.$awn.asyncBlock(
-      //   this.$axios.put(
-      //     dataApi.company.Employee + "/" + this.employee.id,
-      //     file
-      //   ),
-      //   e => {
-      //     this.$emit("valueChanged", this.employee);
-      //     this.$awn.success();
-      //   },
-      //   e => this.$awn.alert()
-      // );
+      this.$show.bussiniesUnitCard(this)
+      // this.$show()(ImageUploader,{
+      //   path:'https://get.wallhere.com/photo/mountains-lake-reflection-trees-1180204.jpg'
+      // })
+      
     },
   },
 };
