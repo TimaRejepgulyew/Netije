@@ -11,6 +11,7 @@
         :show-borders="true"
         :data-source="store"
         :remote-operations="false"
+        @row-inserting="rowInserting"
         @init-new-row="onInitNewRow"
       >
         <DxHeaderFilter :visible="true" />
@@ -29,25 +30,33 @@
 
         <DxColumn
           editCellTemplate="recipientSelectBox"
-          data-field="memberId"
-          displayExpr="name"
+          data-field="member.name"
           :caption="$t('shared.name')"
         >
-          <DxLookup
-            :allow-clearing="true"
-            :data-source="getActiveRecipients"
-            value-expr="id"
-            display-expr="name"
-          />
         </DxColumn>
         <template #recipientSelectBox="{ data: cellInfo }">
           <recipient-select-box
             valueExpr="id"
             :value="cellInfo.value"
-            :isRequired="true"
             @valueChanged="value => onValueChanged(value, cellInfo)"
           />
         </template>
+        <DxColumn
+          :allowEditing="false"
+          :allowFiltering="false"
+          :allowSorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          :allow-sorting="false"
+          data-field="member.description"
+          data-type="string"
+          :caption="$t('shared.description')"
+        ></DxColumn>
       </DxDataGrid>
     </template>
 
@@ -141,7 +150,13 @@ export default {
           : []
       };
     },
+    rowInserting(e) {
+      e.data.memberId = e.data.member.name;
+      delete e.data.member;
+    },
     onInitNewRow(e) {
+      console.log(e);
+      e.data.member;
       e.data.registrationGroupId = this.id;
     },
     allowDeleting(e) {

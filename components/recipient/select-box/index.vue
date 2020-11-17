@@ -75,8 +75,7 @@ export default {
       }
     },
     valueChanged(e) {
-      if (this.valueExpr) this.$emit("valueChanged", e.value);
-      else this.$emit("valueChanged", e.value);
+      this.$emit("valueChanged", e.value);
     }
   }
 };

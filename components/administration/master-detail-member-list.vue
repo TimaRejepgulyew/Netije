@@ -45,7 +45,6 @@
           <recipient-select-box
             valueExpr="id"
             :value="cellInfo.value"
-            :isRequired="true"
             @valueChanged="value => onValueChanged(value, cellInfo)"
           />
         </template>

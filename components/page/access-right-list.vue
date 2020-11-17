@@ -15,7 +15,10 @@
                 <resipient-icon
                   :type="item.data.recipient.recipientType"
                 ></resipient-icon>
-                {{ item.data.recipient.name }}
+                <div>
+                  <div>{{ item.data.recipient.name }}</div>
+                  <div class="grey">{{ item.data.recipient.description }}</div>
+                </div>
               </div>
               <div class="list__btn-group d-flex">
                 <attachment-action-btn
@@ -77,7 +80,6 @@
 </template>
 
 <script>
-
 import recipientType from "~/infrastructure/constants/resipientType.js";
 import resipientIcon from "~/components/page/resipient-icon.vue";
 import recipientSelectBox from "~/components/recipient/select-box/index.vue";
