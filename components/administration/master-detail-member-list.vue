@@ -150,8 +150,10 @@ export default {
       cellInfo.component.updateDimensions();
     },
     rowInserting(e) {
-      e.data.memberId = e.data.member.name;
-      delete e.data.member;
+      if (e.data.member) {
+        e.data.memberId = e.data.member.name;
+        delete e.data.member;
+      }
     },
     onInitNewRow(e) {
       e.data.roleId = this.roleId;

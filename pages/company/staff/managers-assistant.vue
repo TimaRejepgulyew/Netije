@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('menu.managersAssistant')"></Header>
     <DxDataGrid
       id="gridContainer"
+      :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="false"
@@ -63,7 +64,6 @@
       </DxColumn>
       <template #manager="{ data: cellInfo }">
         <employee-select-box
-        
           :showClearButton="false"
           :value="cellInfo.value"
           @valueChanged="value => onValueChanged(value, cellInfo)"
@@ -98,6 +98,7 @@
           value-expr="id"
           display-expr="status"
         />
+        <DxRequiredRule />
       </DxColumn>
     </DxDataGrid>
   </main>
