@@ -14,7 +14,7 @@
     <DxSelectBox
       ref="businessUnit"
       :read-only="readOnly"
-      :data-source="businessUnitStore"
+      :data-source="departmentUnitStore"
       @valueChanged="valueChanged"
       :showClearButton="true"
       :value="value"
@@ -78,7 +78,7 @@ export default {
     };
   },
   computed: {
-    businessUnitStore() {
+    departmentUnitStore() {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
