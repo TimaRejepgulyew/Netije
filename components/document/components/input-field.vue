@@ -8,24 +8,32 @@
     />
     <DxButton
       :visible="canShowInfo"
-      :on-click="this.openCard"
+      :on-click="openCard"
       icon="info"
       stylingMode="text"
       :hint="$t('translations.fields.moreAbout')"
       :useSubmitBehavior="false"
       type="default"
     ></DxButton>
+    <showGridBtn
+      @selectedDocument="valueChanged"
+      :readOnly="readOnly"
+      :dataSourceQuery="dataSourceQuery"
+      :dataSourceFilter="dataSourceFilter"
+    />
   </div>
 </template>
 <script>
+import showGridBtn from "~/components/document/components/show-grid-btn.vue";
 import { DxButton } from "devextreme-vue";
 import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton
+    DxButton,
+    showGridBtn
   },
-  props: ["fieldData", "readOnly"],
+  props: ["fieldData", "readOnly", "dataSourceQuery", "dataSourceFilter"],
   computed: {
     canShowInfo() {
       return this.fieldData ? true : false;

@@ -20,7 +20,7 @@
       </div>
     </DxPopup>
     <DxSelectBox
-      ref="employee"
+      ref="document"
       :read-only="readOnly"
       :data-source="documentStore"
       @valueChanged="valueChanged"
@@ -36,7 +36,6 @@
       :page-size="10"
       item-template="customSelectItem"
       field-template="customfield"
-      :deferRendering="true"
     >
       <DxValidator v-if="isRequired" :validation-group="validationGroup">
         <DxRequiredRule :messageRequired="messageRequired" />
@@ -46,6 +45,8 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          :dataSourceFilter="dataSourceFilter"
+          :dataSourceQuery="dataSourceQuery"
           @openCard="showCurrentDocument"
           :read-only="readOnly"
           @valueChanged="updateDocument"
@@ -59,7 +60,6 @@
 <script>
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import { load } from "~/infrastructure/services/documentService.js";
-import documentCard from "~/components/document-module/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
@@ -75,17 +75,16 @@ export default {
     DxSelectBox,
     customSelectItem,
     customField,
-    documentCard,
+    documentCard: () =>
+      import("~/components/document-module/main-doc-form/index.vue"),
     DxPopup,
     DxButton
   },
   props: {
-    dataSourceOptions: {
-      type: Object,
-      query: {
-        type: Number,
-        default: DocumentQuery.All
-      }
+    dataSourceFilter: {},
+    dataSourceQuery: {
+      type: Number,
+      default: DocumentQuery.All
     },
     value: {},
     isRequired: {
@@ -120,9 +119,9 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${this.dataApi.documentModule.Documents}${this.dataSourceOptions.query}`
+          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}`
         }),
-        filter: this.dataSourceOptions?.filter || [],
+        filter: this.dataSourceFilter || [],
         paginate: true,
         pageSize: 10
       });
@@ -155,6 +154,7 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.documentStore.reload();
+      this.$refs["document"].instance.repaint();
     }
   }
 };

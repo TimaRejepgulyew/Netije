@@ -155,7 +155,6 @@ export default {
       delete e.data.member;
     },
     onInitNewRow(e) {
-      console.log(e);
       e.data.member;
       e.data.registrationGroupId = this.id;
     },

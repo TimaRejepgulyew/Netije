@@ -1,11 +1,11 @@
 <template>
   <div>
     <DxButton
-      :visible="canShowInfo"
-      :on-click="this.openCard"
-      icon="info"
+      :disabled="readOnly"
+      :on-click="togglePopup"
+      icon="more"
       stylingMode="text"
-      :hint="$t('translations.fields.moreAbout')"
+    
       :useSubmitBehavior="false"
       type="default"
     ></DxButton>
@@ -19,11 +19,15 @@
     >
       <div class="scrool-auto">
         <document-grid
+          @selectedDocument="
+            params => {
+              selectedDocument(params);
+              togglePopup();
+            }
+          "
           v-if="isGridOpened"
-          @onSaved="valueChanged"
-          @onSelected="valueChanged"
           :isCard="true"
-          documentQuery:dataSourceOptions.query
+          :documentQuery="dataSourceQuery"
         />
       </div>
     </DxPopup>
@@ -31,12 +35,34 @@
 </template>
 
 <script>
+import documentGrid from "~/components/document-module/document-grid.vue";
+import { DxButton } from "devextreme-vue";
+import { DxPopup } from "devextreme-vue/popup";
 export default {
+  components: {
+    documentGrid,
+    DxButton,
+    DxPopup
+  },
+  props: {
+    readOnly: {
+      type: Boolean
+    },
+    dataSourceFilter: {},
+    dataSourceQuery: {}
+  },
   data() {
     return {
-      currentDocumentId: null,
       isGridOpened: false
     };
+  },
+  methods: {
+    togglePopup() {
+      this.isGridOpened = !this.isGridOpened;
+    },
+    selectedDocument(params) {
+      this.$emit("selectedDocument", params);
+    }
   }
 };
 </script>

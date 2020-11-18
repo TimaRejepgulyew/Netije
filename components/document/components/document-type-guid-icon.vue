@@ -12,9 +12,6 @@ export default {
       type: Number
     }
   },
-  created() {
-    console.log(this.iconByType);
-  },
   computed: {
     iconByType() {
       return new DocumentTypeModel(this).getById(this.type).icon;

@@ -7,7 +7,7 @@
     :validation-group="documentValidatorName"
   >
     <DxGroupItem>
-      <DxSimpleItem data-field="leadingDocument" template="leadingDocument">
+      <DxSimpleItem data-field="leadingDocumentId" template="leadingDocument">
         <DxLabel
           location="left"
           :text="$t('document.fields.leadingDocumentId')"
@@ -29,8 +29,6 @@
 </template>
 <script>
 import customSelectBoxDocument from "~/components/document/select-box/index.vue";
-import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
-import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -50,9 +48,10 @@ export default {
   inject: ["documentValidatorName"],
   methods: {
     setLeadingDocument(value) {
+      console.log(value, "addendum");
       this.$store.dispatch(
         `documents/${this.documentId}/setLeadingDocumentId`,
-        value?.id
+        value
       );
     }
   },
@@ -63,30 +62,6 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     }
-
-    // leadingDocumentOptions() {
-    //   const builder = new SelectBoxOptionsBuilder();
-    //   const options = builder
-    //     .withUrl(dataApi.documentModule.AllDocument)
-    //     .acceptCustomValues(e => {
-    //       e.customItem = null;
-    //     })
-    //     .withoutDeferRendering()
-    //     .focusStateDisabled()
-    //     .clearValueExpr()
-    //     .build(this);
-    //   return {
-    //     readOnly: this.readOnly,
-    //     ...options,
-    //     value: this.document.leadingDocument,
-    //     onValueChanged: e => {
-    //       this.$store.dispatch(
-    //         `documents/${this.documentId}/setLeadingDocumentId`,
-    //         e.value?.id
-    //       );
-    //     }
-    //   };
-    // }
   }
 };
 </script>

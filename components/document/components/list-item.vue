@@ -16,9 +16,6 @@ export default {
     userIcon,
     documentTypeGuidIcon
   },
-  created() {
-    console.log(this.itemData);
-  },
   props: {
     itemData: {
       default: () => {}
