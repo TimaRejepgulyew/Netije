@@ -1,6 +1,10 @@
 <template>
-  <div class="d-flex">
-    {{ data }}
+  <div class="message d-flex">
+    <label class="message__label align-content-center"
+      >{{ $t("task.confirm.abortingReason") }}:</label
+    >
+
+    <div class="message__body cursive">{{ data }}</div>
   </div>
 </template>
 

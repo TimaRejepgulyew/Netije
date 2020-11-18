@@ -128,7 +128,7 @@
   </div>
 </template>
 <script>
-import abortingReasonMessage from "~/components/task/task-forms/components/aborting-reason-form.vue";
+import abortingReasonMessage from "~/components/task/task-forms/components/action-item-exicution/aborting-reason-message.vue";
 import compoundActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/compound-action-item.vue";
 import mainActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/main-action-item.vue";
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
