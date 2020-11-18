@@ -5,7 +5,7 @@
       :visible.sync="isOpenTaskCard"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="true"
+      :show-title="false"
       width="90%"
       :height="'95%'"
     >
