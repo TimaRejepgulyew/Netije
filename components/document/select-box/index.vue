@@ -6,21 +6,23 @@
       ref="popup"
       :drag-enabled="false"
       :close-on-outside-click="true"
+      width="90%"
+      height="95%"
     >
-      <div>
+      <div class="scrool-auto">
         <document-card
           v-if="isCardOpened"
           @onSaved="valueChanged"
           @onClose="togglePopupCard"
           :isCard="true"
-          :documentId="documentId"
+          :documentId="currentDocumentId"
         />
       </div>
     </DxPopup>
     <DxSelectBox
       ref="employee"
       :read-only="readOnly"
-      :data-source="employeeStore"
+      :data-source="documentStore"
       @valueChanged="valueChanged"
       :showClearButton="showClearButton"
       :value="value"
@@ -36,15 +38,15 @@
       field-template="customfield"
       :deferRendering="true"
     >
-      <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
-        <DxRequiredRule />
+      <DxValidator v-if="isRequired" :validation-group="validationGroup">
+        <DxRequiredRule :messageRequired="messageRequired" />
       </DxValidator>
       <template #customSelectItem="{ data }">
         <custom-select-item :item-data="data" />
       </template>
       <template #customfield="{ data }">
         <custom-field
-          @openCard="showPopup"
+          @openCard="showCurrentDocument"
           :read-only="readOnly"
           @valueChanged="updateDocument"
           :field-data="data || value"
@@ -55,13 +57,14 @@
 </template>
 
 <script>
+import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import { load } from "~/infrastructure/services/documentService.js";
-import updateCard from "~/components/employee/employee-card.vue";
+import documentCard from "~/components/document-module/main-doc-form/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import customSelectItem from "~/components/employee/custom-select-box-item.vue";
-import customField from "~/components/employee/custom-employee-field";
+import customSelectItem from "~/components/document/components/list-item.vue";
+import customField from "~/components/document/components/input-field.vue";
 import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -72,21 +75,17 @@ export default {
     DxSelectBox,
     customSelectItem,
     customField,
-    updateCard,
+    documentCard,
     DxPopup,
     DxButton
   },
   props: {
-    dataSource: {
+    dataSourceOptions: {
       type: Object,
-      default: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.documentModule.AllDocument
-        }),
-        paginate: true,
-        pageSize: 10
-      })
+      query: {
+        type: Number,
+        default: DocumentQuery.All
+      }
     },
     value: {},
     isRequired: {
@@ -94,10 +93,9 @@ export default {
       default: false
     },
     messageRequired: {
-      type: String,
-      default: this.$t("document.validation.documentRequired")
+      type: String
     },
-    validatorGroup: {
+    validationGroup: {
       type: String
     },
     readOnly: {
@@ -113,12 +111,21 @@ export default {
 
   data() {
     return {
+      currentDocumentId: null,
       isCardOpened: false
     };
   },
   computed: {
     documentStore() {
-      return this.dataSource;
+      return new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${this.dataApi.documentModule.Documents}${this.dataSourceOptions.query}`
+        }),
+        filter: this.dataSourceOptions?.filter || [],
+        paginate: true,
+        pageSize: 10
+      });
     },
     documentId() {
       return this.valueExpr ? this.value : this.value?.id;
@@ -127,8 +134,11 @@ export default {
   methods: {
     async showCurrentDocument({ documentTypeGuid, id }) {
       this.$awn.asyncBlock(
-        load({ documentTypeGuid, id }),
-        () => {},
+        load(this, { documentTypeGuid, documentId: id }),
+        () => {
+          this.currentDocumentId = id;
+          this.togglePopupCard();
+        },
         () => {
           this.$awn.alert();
         }
