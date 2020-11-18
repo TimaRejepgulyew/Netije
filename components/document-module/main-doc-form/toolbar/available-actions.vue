@@ -4,13 +4,18 @@
       :visible.sync="isOpenPopup"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="true"
+      :show-title="false"
       width="90%"
       maxHeight="95%"
       height="auto"
     >
       <div class="scrool-auto">
-        <task-card @onClose="tooglePopup" :taskId="taskId" v-if="isOpenPopup" :isCard="true" />
+        <task-card
+          @onClose="tooglePopup"
+          :taskId="taskId"
+          v-if="isOpenPopup"
+          :isCard="true"
+        />
       </div>
     </DxPopup>
 
@@ -38,14 +43,14 @@ export default {
   components: {
     DxDropDownButton,
     taskCard,
-    DxPopup,
+    DxPopup
   },
   props: ["documentId"],
   data() {
     return {
       isOpenPopup: false,
       taskId: false,
-      sendIcon,
+      sendIcon
     };
   },
 
@@ -56,13 +61,13 @@ export default {
     items() {
       const availableActions = [
         ...this.document.documentKind?.availableActions,
-        TaskType.SimpleTask,
+        TaskType.SimpleTask
       ] || [TaskType.SimpleTask];
       const items = Object.values(
         new DocumentSendAction(this).init().filtering(availableActions)
       );
       return items;
-    },
+    }
   },
   methods: {
     showRelationDocument(taskId) {
@@ -76,17 +81,16 @@ export default {
       this.$awn.asyncBlock(
         e.itemData.create(this, {
           documentId: +this.documentId,
-          documentTypeGuid: this.document.documentTypeGuid,
+          documentTypeGuid: this.document.documentTypeGuid
         }),
         ({ taskType, taskId }) => {
           this.showRelationDocument(taskId);
         },
         () => {}
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
