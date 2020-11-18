@@ -1,5 +1,5 @@
 <template>
-  <div class="message d-flex">
+  <div v-if="data" class="message d-flex">
     <label class="message__label align-content-center"
       >{{ $t("task.confirm.abortingReason") }}:</label
     >
