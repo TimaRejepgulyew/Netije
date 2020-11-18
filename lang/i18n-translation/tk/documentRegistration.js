@@ -14,13 +14,12 @@ export default {
    registrationDateRequired : "Resminamany bellige alyş senesini giriziň"
   },
  buttons : {
-   numerate : "yzygider san goýmak",
-   register : "bellige almak",
-   clearNumerate : "yzygider san goýmagy pozmak",
-   cancelRegistration : "bellige almagy pozmak"
+   numerate : "Belgi goýmak",
+   register : "Bellige almak",
+   clearNumerate : "Goýulan belgini pozmak",
+   cancelRegistration : "Bellige almagy pozmak"
   },
-
- cardOfNumbering : "Resminama yzygider san goýmak",
+ cardOfNumbering : "Resminama belgi goýmak",
  cardOfRegistration : "Resminamany bellige almak",
- notFindDocumentRegistrationSetting : "Resminama yzygiderli san goýmak kitarpçasynyň sazlamasy tapylmady"
+ notFindDocumentRegistrationSetting : "Resminama belgi kitarpçasynyň sazlamasy tapylmady"
 };
