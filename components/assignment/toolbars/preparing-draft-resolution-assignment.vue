@@ -5,7 +5,7 @@
       :visible.sync="isPopupAccesRight"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="true"
+      :show-title="false"
       width="auto"
       :height="'auto'"
     >
@@ -92,7 +92,7 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
     },
     btnSendToAssigneeOptions() {
@@ -112,7 +112,7 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
     },
     btnAcceptOptions() {
@@ -132,7 +132,7 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
     },
     btnForwardOptions() {
@@ -152,10 +152,10 @@ export default {
               this.completeAssignment();
             }
           }
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

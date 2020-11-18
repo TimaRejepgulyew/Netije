@@ -1,4 +1,5 @@
 export default {
+  confirm: "Tassyklaň!",
   switchToCompound: "Deň hukukly ýerine ýetirijiler",
   createChilteExecution: "Tabyn tabşyrygy döretmek",
   addResolution: "Rezolýusiýany çykarmak",

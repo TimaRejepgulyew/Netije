@@ -11,7 +11,7 @@
       :visible.sync="openDialog"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="true"
+      :show-title="false"
       width="auto"
       height="auto"
     >

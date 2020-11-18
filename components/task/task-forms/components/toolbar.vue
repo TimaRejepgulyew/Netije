@@ -14,48 +14,14 @@
       <template #toolbarItemStartBtn>
         <toolbar-item-start-btn @onStart="onStart" :taskId="taskId" />
       </template>
+      <template #toolbarItemAbortActionItem>
+        <toolbarItemAbortActionItem :taskId="taskId" />
+      </template>
       <template #toolbarItemImportanceChanger>
         <toolbarItemImportanceChanger
           :taskId="taskId"
         ></toolbarItemImportanceChanger>
       </template>
-      <!-- <DxItem
-        template="toolbarItemStartBtn"
-        :visible="canStart"
-        location="before"
-      />
-      <DxItem
-        :visible="canSave"
-        :disabled="!isDataChanged"
-        :options="saveButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        :visible="canAbort"
-        :options="abortButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        :visible="canRestart"
-        :options="restartButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        template="toolbarItemImportanceChanger"
-        :disabled="!isDraft"
-        location="before"
-        widget="dxCheckBox"
-      />
-     
-      <DxItem
-        :visible="canDelete"
-        :options="deleteButtonOptions"
-        location="after"
-        widget="dxButton"
-      /> -->
       <template #toolbarItemAccessRight>
         <toolbar-item-access-right
           :entity-type="entityType"
@@ -70,6 +36,7 @@
   </div>
 </template>
 <script>
+import toolbarItemAbortActionItem from "~/components/task/task-forms/components/action-item-abort-btn.vue";
 import ToolbarByTaskType from "~/infrastructure/factory/taskToolbarByTaskType.js";
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
@@ -89,6 +56,7 @@ export default {
     toolbarItemImportanceChanger,
     toolbarItemAccessRight,
     toolbarItemStartBtn,
+    toolbarItemAbortActionItem,
     DxToolbar,
     DxItem
   },

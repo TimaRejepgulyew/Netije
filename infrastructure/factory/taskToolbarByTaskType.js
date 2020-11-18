@@ -45,7 +45,7 @@ const actionItemExecutionTaskToolbar = context => {
     startBtn(context),
     saveBtn(context),
     restartBtn(context),
-    abortBtn(context),
+    abortActionItemBtn(context),
     importanceChangerBtn(context),
     switchToCompountBtn(context),
     accessRightsBtn(context),
@@ -129,6 +129,14 @@ function abortBtn(context, otherOptions) {
     ...otherOptions
   };
   return new ToolbarItemTypeWidget(context, toolbarItemOptions).options;
+}
+function abortActionItemBtn(context, otherOptions) {
+  const toolbarItemOptions = {
+    visible: context.canAbort,
+    template: "toolbarItemAbortActionItem",
+    ...otherOptions
+  };
+  return new ToolbarItemTypeTemplate(context, toolbarItemOptions).options;
 }
 function importanceChangerBtn(context, otherOptions) {
   const toolbarItemOptions = {

@@ -1,31 +1,30 @@
 <template>
   <div>
     <DxButton
-      :icon="startIcon"
+      :icon="abortIcon"
       :hint="$t('buttons.abort')"
-      :text="$t('buttons.start')"
-      :on-click="validateAndStart"
+      :text="$t('buttons.abort')"
+      :on-click="togglePopup"
     />
     <DxPopup
-      :title="$t('shared.confirm')"
-      :visible.sync="isPopupAccesRight"
+      :title="$t('task.confirm.abortingReason')"
+      :visible.sync="popupOpen"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="true"
+      :show-title="false"
       width="auto"
       :height="'auto'"
     >
       <div>
-        <attachment-access-right-dialog
-          @close="tooglePopupAccessRight"
-          @selected="sendRecipientAccessRight"
-        />
+        <aborting-reason-dialog @abort="addReason" @cancel="togglePopup" />
       </div>
     </DxPopup>
   </div>
 </template>
 
 <script>
+import abortingReasonDialog from "~/components/task/task-forms/components/aborting-reason-form.vue";
+import abortIcon from "~/static/icons/stop.svg";
 import attachmentAccessRightDialog from "~/components/access-right/attachment-access-right-dialog.vue";
 import { confirm } from "devextreme/ui/dialog";
 import dataApi from "~/static/dataApi.js";
@@ -36,14 +35,15 @@ export default {
   components: {
     DxButton,
     DxPopup,
-    attachmentAccessRightDialog
+    attachmentAccessRightDialog,
+    abortingReasonDialog
   },
   props: ["taskId"],
   inject: ["isValidTask"],
   data() {
     return {
-      startIcon,
-      isPopupAccesRight: false
+      abortIcon,
+      popupOpen: false
     };
   },
   computed: {
@@ -52,59 +52,20 @@ export default {
     }
   },
   methods: {
-    async sendRecipientAccessRight(accessRightId) {
-      await this.$axios.post(dataApi.task.GrantPermissions, {
-        taskId: this.taskId,
-        taskType: this.task.taskType,
-        accessRight: accessRightId
-      });
-
-      await this.startTask();
-      this.tooglePopupAccessRight();
+    addReason(abortingReason) {
+      this.togglePopup();
+      this.abortTask({ abortingReason });
     },
-
-    tooglePopupAccessRight() {
-      this.isPopupAccesRight = !this.isPopupAccesRight;
-    },
-
-    async checkRecipientAccessRight() {
-      const {
-        data: { succeeded }
-      } = await this.$axios.get(
-        `${dataApi.task.CheckMembersPermissions}${this.task?.taskType}/${this.taskId}`
-      );
-      if (!succeeded) {
-        this.tooglePopupAccessRight();
-        return false;
-      } else return true;
-    },
-    async sureStartTaskConfirm() {
-      const response = await confirm(
-        this.$t("task.message.sureStartTask"),
-        this.$t("shared.confirm")
-      );
-      return response;
-    },
-    async validateAndStart() {
-      if (this.isValidTask()) {
-        await this.$store.dispatch(`tasks/${this.taskId}/save`);
-        if (await this.sureStartTaskConfirm()) {
-          const hasRecipientAccessRight = await this.checkRecipientAccessRight();
-          if (!hasRecipientAccessRight) return false;
-
-          this.startTask();
-        }
-      }
-    },
-
-    startTask() {
+    abortTask({ abortingReason }) {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`tasks/${this.taskId}/start`),
-        e => {
-          this.$emit("onStart");
-        },
+        this.$store.dispatch(`tasks/${this.taskId}/abort`, { abortingReason }),
+        e => {},
         e => this.$awn.alert()
       );
+    },
+
+    togglePopup() {
+      this.popupOpen = !this.popupOpen;
     }
   }
 };
