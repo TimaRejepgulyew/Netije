@@ -1,28 +1,26 @@
-import AttachmentAccessRightGuid from "~/infrastructure/constants/attachmentAccessRight.js"
+import AttachmentAccessRightGuid from "~/infrastructure/constants/attachmentAccessRight.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 export default class AttachmentAccessRight {
-    constructor(context) {
-        this.elements = generatorMapObj({
-            Constant: AttachmentAccessRightGuid,
-            translateName: "attachmentAccessRight.btns",
-            context: context,
-        });
+  constructor(context) {
+    this.elements = generatorMapObj({
+      Constant: AttachmentAccessRightGuid,
+      translateName: "attachmentAccessRight.btns",
+      context: context
+    });
+  }
+  filtering(maxOperation) {
+    const filterObj = {};
+    for (let element in this.elements) {
+      if (+element <= maxOperation) {
+        filterObj[element] = this.elements[element];
+      }
     }
-    filtering(allowTypes) {
-        const filterObj = {};
-        for (let element in this.elements) {
-            for (let allowType of allowTypes) {
-                if (+element === allowType) {
-                    filterObj[element] = this.elements[element];
-                }
-            }
-        }
-        return filterObj;
-    }
-    getAll() {
-        return this.elements;
-    }
-    getById(id) {
-        return this.elements[id];
-    }
+    return filterObj;
+  }
+  getAll() {
+    return this.elements;
+  }
+  getById(id) {
+    return this.elements[id];
+  }
 }
