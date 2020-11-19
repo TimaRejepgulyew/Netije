@@ -174,7 +174,7 @@ export default {
   },
   contractCategories: {
     title: "Şertnamalaryň toparlary",
-    documentKinds: "resminamalaryň görnüşleri"
+    documentKinds: "Resminamalaryň görnüşleri"
   },
   document: documentModule,
   documentRegistration: documentRegistration,
