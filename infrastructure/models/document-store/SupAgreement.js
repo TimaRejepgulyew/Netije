@@ -10,6 +10,12 @@ export default class SupAgreement extends ElectronicDocument {
         }
         state.document.leadingDocumentId = payload;
       },
+      SET_LEADING_DOCUMENT(state, payload) {
+        if (checkDataChanged(state.document.leadingDocument?.id, payload)) {
+          state.isDataChanged = true;
+        }
+        state.document.leadingDocument = payload;
+      },
       SET_COUNTERPARTY(state, payload) {
         if (checkDataChanged(state.document.counterpartyId, payload)) {
           state.isDataChanged = true;
@@ -91,8 +97,9 @@ export default class SupAgreement extends ElectronicDocument {
     };
     const actions = {
       ...options?.actions,
-      setLeadingDocumentId({ commit, dispatch }, payload) {
-        commit("SET_LEADING_DOCUMENT_ID", payload);
+      setLeadingDocument({ commit, dispatch }, payload) {
+        commit("SET_LEADING_DOCUMENT_ID", payload?.id);
+        commit("SET_LEADING_DOCUMENT", payload);
         dispatch("reevaluateDocumentName");
       },
       setCounterparty({ commit, dispatch }, payload) {
