@@ -174,7 +174,7 @@ export default {
   },
   contractCategories: {
     title: "Şertnamalaryň toparlary",
-    documentKinds: "resminamalaryň görnüşleri"
+    documentKinds: "Resminamalaryň görnüşleri"
   },
   document: documentModule,
   documentRegistration: documentRegistration,
@@ -183,9 +183,9 @@ export default {
   buttons,
   notification: {
     labels: {
-      info: "maglumat",
+      info: "Maglumat",
       success: "Üstünlikli",
-      alert: "Howsala signaly",
+      alert: "Şowsyz",
       warning: "Duýduryş",
       async: "Ýüklenýär..."
     },

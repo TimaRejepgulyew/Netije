@@ -1,6 +1,7 @@
 <template>
-  <div v-if="data" class="message d-flex">
-    <label class="message__label align-content-center"
+  <div v-if="data" class="message d-flex  ">
+    <i class=" dx-icon-info message__icon"></i>
+    <label class="message__label "
       >{{ $t("task.confirm.abortingReason") }}:</label
     >
 

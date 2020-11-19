@@ -121,7 +121,7 @@
 
         <DxSimpleItem
           :visible="isRegistrible"
-          data-field="registrationGroupId"
+          data-field="registrationGroup"
           :editor-options="registrationGroupOptions"
           editor-type="dxSelectBox"
         >
@@ -179,7 +179,7 @@ import Status from "~/infrastructure/constants/status";
 import RegisterType from "~/infrastructure/constants/registerTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -188,7 +188,7 @@ import DxForm, {
   DxCompareRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule,
+  DxPatternRule
 } from "devextreme-vue/form";
 
 import {
@@ -196,7 +196,7 @@ import {
   DxDataGrid,
   DxColumn,
   DxEditing,
-  DxLookup,
+  DxLookup
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -215,7 +215,7 @@ export default {
     DxColumn,
     DxEditing,
     DxLookup,
-    Toolbar,
+    Toolbar
   },
 
   data() {
@@ -235,12 +235,12 @@ export default {
         numberFormatItems: [
           {
             number: 1,
-            element: 1,
-          },
-        ],
+            element: 1
+          }
+        ]
       },
       elements: this.$store.getters["docflow/numberFormatItems"](this),
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   computed: {
@@ -251,45 +251,38 @@ export default {
       return {
         valueExpr: "id",
         displayExpr: "name",
-        dataSource: this.$store.getters["docflow/docflow"](this),
+        dataSource: this.$store.getters["docflow/docflow"](this)
       };
     },
     registrationGroupOptions() {
-      let filter = [];
-      filter.push(["status", "=", Status.Active]);
-      if (!this.$store.getters["permissions/IsAdmin"]) {
-        filter.push("and");
-        filter.push([
-          "responsibleEmployeeId",
-          "=",
-          +this.$store.getters["permissions/employeeId"],
-        ]);
-      }
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.docFlow.ResponsibleForGroupOnMe)
+        .filter(["status", "=", Status.Active])
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
+
       return {
-        valueExpr: "id",
-        displayExpr: "name",
-        dataSource: {
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.RegistrationGroup,
-          }),
-          paginate: true,
-          filter: filter,
-        },
+        ...options
       };
     },
     numberingSectionOptions() {
       return {
         valueExpr: "id",
         displayExpr: "name",
-        dataSource: this.$store.getters["docflow/numberingSection"](this),
+        dataSource: this.$store.getters["docflow/numberingSection"](this)
       };
     },
     numberingPeriodOptions() {
       return {
         valueExpr: "id",
         displayExpr: "name",
-        dataSource: this.$store.getters["docflow/numberingPeriod"](this),
+        dataSource: this.$store.getters["docflow/numberingPeriod"](this)
       };
     },
     registerTypeOptions() {
@@ -297,24 +290,24 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         dataSource: this.$store.getters["docflow/registerType"](this),
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.documentRegister.registrationGroupId = null;
-        },
+        }
       };
     },
     statusOptions() {
       return {
         valueExpr: "id",
         displayExpr: "status",
-        dataSource: this.$store.getters["status/status"](this),
+        dataSource: this.$store.getters["status/status"](this)
       };
     },
     numberOfDigitsInNumber() {
       return {
         max: 9,
-        min: 0,
+        min: 0
       };
-    },
+    }
   },
   methods: {
     handleSubmit() {
@@ -325,13 +318,13 @@ export default {
           dataApi.docFlow.DocumentRegister.Value,
           this.documentRegister
         ),
-        (res) => {
+        res => {
           this.$router.go(-1);
           this.$awn.success();
         },
-        (err) => this.$awn.alert()
+        err => this.$awn.alert()
       );
-    },
-  },
+    }
+  }
 };
 </script>
