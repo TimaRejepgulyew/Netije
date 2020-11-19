@@ -18,7 +18,10 @@ export default class SelectBoxOptionBuilder {
     this.deferRendering = false;
     return this;
   }
-
+  setValueExpr(data) {
+    this.valueExpr = data;
+    return this;
+  }
   withUrl(url) {
     this.url = url;
     return this;

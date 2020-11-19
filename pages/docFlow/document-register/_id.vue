@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Header :isNew="false" :isbackButton="true" :headerTitle="documentRegister.name"></Header>
+    <Header
+      :isNew="false"
+      :isbackButton="true"
+      :headerTitle="documentRegister.name"
+    ></Header>
     <toolbar @saveChanges="handleSubmit" :canSave="canUpdate" />
     <DxForm
       ref="form"
@@ -27,12 +31,22 @@
               mode="raw"
             />
 
-            <DxColumn data-field="number" :caption="$t('translations.fields.number')">
-              <DxRequiredRule :message="$t('translations.fields.numberRequired')" />
+            <DxColumn
+              data-field="number"
+              :caption="$t('translations.fields.number')"
+            >
+              <DxRequiredRule
+                :message="$t('translations.fields.numberRequired')"
+              />
             </DxColumn>
 
-            <DxColumn data-field="element" :caption="$t('docFlow.fields.element')">
-              <DxRequiredRule :message="$t('docFlow.validation.elementRequired')" />
+            <DxColumn
+              data-field="element"
+              :caption="$t('docFlow.fields.element')"
+            >
+              <DxRequiredRule
+                :message="$t('docFlow.validation.elementRequired')"
+              />
               <DxLookup
                 :data-source="elements"
                 :allowClearing="true"
@@ -40,7 +54,10 @@
                 displayExpr="name"
               />
             </DxColumn>
-            <DxColumn data-field="separator" :caption="$t('docFlow.fields.separator')">
+            <DxColumn
+              data-field="separator"
+              :caption="$t('docFlow.fields.separator')"
+            >
               <DxPatternRule
                 :ignore-empty-value="false"
                 :pattern="codePattern"
@@ -70,8 +87,13 @@
           :editor-options="numberOfDigitsInNumber"
           data-field="numberOfDigitsInNumber"
         >
-          <DxLabel location="top" :text="$t('docFlow.fields.numberOfDigitsInNumber')" />
-          <DxRequiredRule :message="$t('docFlow.validation.numberOfDigitsInNumberRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('docFlow.fields.numberOfDigitsInNumber')"
+          />
+          <DxRequiredRule
+            :message="$t('docFlow.validation.numberOfDigitsInNumberRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="documentFlow"
@@ -79,7 +101,9 @@
           editor-type="dxSelectBox"
         >
           <DxLabel location="top" :text="$t('docFlow.fields.documentFlow')" />
-          <DxRequiredRule :message="$t('docFlow.validation.documentFlowRequired')" />
+          <DxRequiredRule
+            :message="$t('docFlow.validation.documentFlowRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -88,19 +112,29 @@
           :editor-options="registerTypeOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.registerType')" />
-          <DxRequiredRule :message="$t('translations.fields.registerTypeRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.registerType')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.registerTypeRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
           :read-only="documentRegister.hasDependencies"
           :visible="isRegistrible"
-          data-field="registrationGroupId"
+          data-field="registrationGroup"
           :editor-options="registrationGroupOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.registrationGroupId')" />
-          <DxRequiredRule :message="$t('translations.fields.registrationGroupIdRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.registrationGroupId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.registrationGroupIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           :read-only="documentRegister.hasDependencies"
@@ -108,8 +142,13 @@
           :editor-options="numberingSectionOptions"
           data-field="numberingSection"
         >
-          <DxLabel location="top" :text="$t('translations.fields.numberingSection')" />
-          <DxRequiredRule :message="$t('translations.fields.numberingSectionRequired')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.numberingSection')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.numberingSectionRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -118,13 +157,20 @@
           :editor-options="numberingPeriodOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('docFlow.fields.numberingPeriod')" />
+          <DxLabel
+            location="top"
+            :text="$t('docFlow.fields.numberingPeriod')"
+          />
           <DxRequiredRule
             numberingPeriodOptions
             :message="$t('docFlow.validation.numberingPeriodRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="status" :editor-options="statusOptions" editor-type="dxSelectBox">
+        <DxSimpleItem
+          data-field="status"
+          :editor-options="statusOptions"
+          editor-type="dxSelectBox"
+        >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -138,7 +184,7 @@ import Status from "~/infrastructure/constants/status";
 import RegisterType from "~/infrastructure/constants/registerTypes";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import Header from "~/components/page/page__header";
-
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import dataApi from "~/static/dataApi";
 
 import DxForm, {
@@ -149,7 +195,7 @@ import DxForm, {
   DxCompareRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule,
+  DxPatternRule
 } from "devextreme-vue/form";
 
 import {
@@ -157,7 +203,7 @@ import {
   DxDataGrid,
   DxColumn,
   DxEditing,
-  DxLookup,
+  DxLookup
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -176,21 +222,21 @@ export default {
     DxColumn,
     DxEditing,
     DxLookup,
-    Toolbar,
+    Toolbar
   },
   async asyncData({ app, params }) {
     let response = await app.$axios.get(
       dataApi.docFlow.DocumentRegister.Value + `/${params.id}`
     );
     return {
-      documentRegister: response.data,
+      documentRegister: response.data
     };
   },
   data() {
     return {
       entityType: EntityType.DocumentRegister,
       elements: this.$store.getters["docflow/numberFormatItems"](this),
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   computed: {
@@ -216,32 +262,25 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         dataSource: this.$store.getters["docflow/docflow"](this),
-        readOnly: this.documentRegister.hasDependencies,
+        readOnly: this.documentRegister.hasDependencies
       };
     },
     registrationGroupOptions() {
-      let filter = [];
-      filter.push(["status", "=", Status.Active]);
-      if (!this.$store.getters["permissions/IsAdmin"]) {
-        filter.push("and");
-        filter.push([
-          "responsibleEmployeeId",
-          "=",
-          +this.$store.getters["permissions/employeeId"],
-        ]);
-      }
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.docFlow.ResponsibleForGroupOnMe)
+        .filter(["status", "=", Status.Active])
+        .acceptCustomValues(e => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
+
       return {
-        valueExpr: "id",
-        displayExpr: "name",
-        dataSource: {
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.docFlow.RegistrationGroup,
-          }),
-          paginate: true,
-          filter: filter,
-        },
         readOnly: this.documentRegister.hasDependencies,
+        ...options
       };
     },
     numberingSectionOptions() {
@@ -249,7 +288,7 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         dataSource: this.$store.getters["docflow/numberingSection"](this),
-        readOnly: this.documentRegister.hasDependencies,
+        readOnly: this.documentRegister.hasDependencies
       };
     },
     numberingPeriodOptions() {
@@ -257,7 +296,7 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         dataSource: this.$store.getters["docflow/numberingPeriod"](this),
-        readOnly: this.documentRegister.hasDependencies,
+        readOnly: this.documentRegister.hasDependencies
       };
     },
     registerTypeOptions() {
@@ -265,25 +304,25 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         dataSource: this.$store.getters["docflow/registerType"](this),
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.documentRegister.registrationGroupId = null;
         },
-        readOnly: this.documentRegister.hasDependencies,
+        readOnly: this.documentRegister.hasDependencies
       };
     },
     statusOptions() {
       return {
         valueExpr: "id",
         displayExpr: "status",
-        dataSource: this.$store.getters["status/status"](this),
+        dataSource: this.$store.getters["status/status"](this)
       };
     },
     numberOfDigitsInNumber() {
       return {
         max: 9,
-        min: 0,
+        min: 0
       };
-    },
+    }
   },
   methods: {
     handleSubmit() {
@@ -295,12 +334,12 @@ export default {
             `/${this.documentRegister.id}`,
           this.documentRegister
         ),
-        (res) => {
+        res => {
           this.$awn.success();
         },
-        (err) => this.$awn.alert()
+        err => this.$awn.alert()
       );
-    },
-  },
+    }
+  }
 };
 </script>

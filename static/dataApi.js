@@ -57,7 +57,7 @@ export default {
     DocumentSendAction: `/api/DocumentSendAction`,
     FileRetentionPeriod: `/api/FileRetentionPeriod`,
     RegistrationGroup: `/api/RegistrationGroup`,
-    ResponsibleForGroupOnMe: `/api/RegistrationGroup/ResponsibleForGroupOnMe`,
+    ResponsibleForGroupOnMe: `/api/RegistrationGroup/ResponsibleOnMe`,
     RegistrationGroupMembers: `/api/RegistrationGroupMembers/`,
     DeliveryMethod: `/api/DeliveryMethod`,
     RegistrationSetting: `/api/RegistrationSetting`,
