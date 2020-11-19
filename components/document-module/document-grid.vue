@@ -11,54 +11,57 @@
         @item-click="itemClick"
       />
     </Header>
-    <DxDataGrid
-      id="gridContainer"
-      :show-borders="true"
-      :data-source="store"
-      :remote-operations="true"
-      :columns="columns"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="false"
-      :load-panel="{
-        enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif')
-      }"
-      :onRowDblClick="selectDocument"
-      @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="false"
-    >
-      <DxGrouping :auto-expand-all="false" />
-      <DxSelection />
-      <DxHeaderFilter :visible="true" />
+      <DxDataGrid
+        id="gridContainer"
+        :show-borders="true"
+        :data-source="store"
+        :remote-operations="true"
+        :columns="columns"
+        :allow-column-reordering="true"
+        :allow-column-resizing="true"
+        :column-auto-width="false"
+        :load-panel="{
+          enabled: true,
+          indicatorSrc: require('~/static/icons/loading.gif')
+        }"
+        :onRowDblClick="selectDocument"
+        @toolbar-preparing="onToolbarPreparing($event)"
+        :focused-row-enabled="false"
+      >
+        <DxGrouping :auto-expand-all="false" />
+        <DxSelection />
+        <DxHeaderFilter :visible="true" />
 
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
+        <DxColumnChooser :enabled="true" />
+        <DxColumnFixing :enabled="true" />
 
-      <DxFilterRow :visible="true" />
-      <DxFilterPanel :visible="true" />
-      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
+        <DxFilterRow :visible="true" />
+        <DxFilterPanel :visible="true" />
+        <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
 
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('shared.documents')"
-      />
+        <DxExport
+          :enabled="true"
+          :allow-export-selected-data="true"
+          :file-name="$t('shared.documents')"
+        />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        :storage-key="'allDocument' + documentQuery"
-      />
-      <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
+        <DxStateStoring
+          :enabled="true"
+          type="localStorage"
+          :storage-key="'allDocument' + documentQuery"
+        />
+        <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
 
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
+        <DxSearchPanel position="after" :visible="true" />
+        <DxScrolling mode="virtual" />
 
-      <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value ? cell.data.value : null" />
-      </template>
-    </DxDataGrid>
+        <template #cellTemplate="cell">
+          <document-icon
+            :extension="cell.data.value ? cell.data.value : null"
+          />
+        </template>
+      </DxDataGrid>
+
   </main>
 </template>
 <script>
@@ -120,9 +123,6 @@ export default {
     DxButtonGroup
   },
   props: ["documentQuery", "isCard", "documentFilter"],
-  created() {
-    console.log(this.documentQuery);
-  },
   data() {
     return {
       activeFilter: QuiсkFilter.All,
