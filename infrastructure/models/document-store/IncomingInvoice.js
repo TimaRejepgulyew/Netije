@@ -62,8 +62,8 @@ export default class IncomingInvoice extends ElectronicDocument {
     const actions = {
       ...options?.actions,
       setLeadingDocument({ commit, dispatch }, payload) {
-        commit("SET_LEADING_DOCUMENT", payload?.id);
-        commit("SET_LEADING_DOCUMENT_ID", payload);
+        commit("SET_LEADING_DOCUMENT", payload);
+        commit("SET_LEADING_DOCUMENT_ID", payload?.id);
         dispatch("reevaluateDocumentName");
       },
       setCounterparty({ commit, dispatch }, payload) {

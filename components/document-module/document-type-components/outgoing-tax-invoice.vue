@@ -6,10 +6,9 @@
     :validation-group="documentValidatorName"
   >
     <DxSimpleItem
-      :col-span="2"
       data-field="leadingDocumentId"
-      editor-type="dxSelectBox"
-      :editor-options="leadingDocumentOptions"
+      :col-span="2"
+      template="leadingDocument"
     >
       <DxLabel location="left" :text="$t('document.fields.contract')" />
       <DxRequiredRule :message="$t('document.validation.contractRequired')" />
@@ -103,6 +102,17 @@
         <DxLabel location="left" :text="$t('document.fields.currencyId')" />
       </DxSimpleItem>
     </DxGroupItem>
+    <template #leadingDocument>
+      <customSelectBoxDocument
+        :readOnly="leadingDocumentOptions.readOnly"
+        :dataSourceFilter="leadingDocumentOptions.dataSourceFilter"
+        :dataSourceQuery="leadingDocumentOptions.dataSourceQuery"
+        :validationGroup="documentValidatorName"
+        :value="document.leadingDocument"
+        :isRequired="true"
+        @valueChanged="setLeadingDocument"
+      />
+    </template>
     <template #counterparty>
       <custom-select-box
         @selectionChanged="handlerCorrespondentSelectionChanged"
@@ -167,6 +177,7 @@
   </DxForm>
 </template>
 <script>
+import customSelectBoxDocument from "~/components/document/select-box/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
@@ -192,7 +203,8 @@ export default {
     customSelectBoxContact,
     employeeSelectBox,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
+    customSelectBoxDocument
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -275,19 +287,11 @@ export default {
     },
     leadingDocumentOptions() {
       return {
-        deferRendering: false,
-        readOnly: !this.counterpartyId,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.Contract}`,
-          filter: this.counterpartyId
-            ? ["counterpartyId", "=", this.counterpartyId]
-            : []
-        }),
-        value: this.document.leadingDocumentId,
-        onValueChanged: e => {
-          this.setLeadingDocumentId(e.value);
-        }
+        readOnly: !this.counterpartyId || this.readOnly,
+        dataSourceQuery: DocumentQuery.Contract,
+        dataSourceFilter: this.counterpartyId
+          ? ["counterpartyId", "=", this.counterpartyId]
+          : []
       };
     },
     currencyIdOptions() {
@@ -353,7 +357,7 @@ export default {
       }
       this.dispatchCounterparty(data);
       this.setCorrectedId(null);
-      this.setLeadingDocumentId(null);
+      this.setLeadingDocument(null);
       this.setContact(null);
     },
     dispatchCounterparty(data) {
@@ -365,9 +369,9 @@ export default {
     setCorrectedId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_CORRECTED_ID`, data);
     },
-    setLeadingDocumentId(data) {
+    setLeadingDocument(data) {
       this.$store.dispatch(
-        `documents/${this.documentId}/setLeadingDocumentId`,
+        `documents/${this.documentId}/setLeadingDocument`,
         data
       );
     },
