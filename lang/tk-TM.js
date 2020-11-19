@@ -183,9 +183,9 @@ export default {
   buttons,
   notification: {
     labels: {
-      info: "maglumat",
+      info: "Maglumat",
       success: "Üstünlikli",
-      alert: "Howsala signaly",
+      alert: "Şowsyz",
       warning: "Duýduryş",
       async: "Ýüklenýär..."
     },
