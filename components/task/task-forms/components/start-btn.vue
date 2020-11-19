@@ -36,27 +36,30 @@ export default {
   components: {
     DxButton,
     DxPopup,
-    attachmentAccessRightDialog,
+    attachmentAccessRightDialog
   },
   props: ["taskId"],
   inject: ["isValidTask"],
   data() {
     return {
       startIcon,
-      isPopupAccesRight: false,
+      isPopupAccesRight: false
     };
   },
   computed: {
+    isDataChanged() {
+      return this.$store.getters[`tasks/${this.taskId}/isDataChanged`];
+    },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
-    },
+    }
   },
   methods: {
     async sendRecipientAccessRight(accessRightId) {
       await this.$axios.post(dataApi.task.GrantPermissions, {
         taskId: this.taskId,
         taskType: this.task.taskType,
-        accessRight: accessRightId,
+        accessRight: accessRightId
       });
 
       await this.startTask();
@@ -69,7 +72,7 @@ export default {
 
     async checkRecipientAccessRight() {
       const {
-        data: { succeeded },
+        data: { succeeded }
       } = await this.$axios.get(
         `${dataApi.task.CheckMembersPermissions}${this.task?.taskType}/${this.taskId}`
       );
@@ -87,7 +90,8 @@ export default {
     },
     async validateAndStart() {
       if (this.isValidTask()) {
-        await this.$store.dispatch(`tasks/${this.taskId}/save`);
+        if (this.isDataChanged)
+          await this.$store.dispatch(`tasks/${this.taskId}/save`);
         if (await this.sureStartTaskConfirm()) {
           const hasRecipientAccessRight = await this.checkRecipientAccessRight();
           if (!hasRecipientAccessRight) return false;
@@ -100,13 +104,13 @@ export default {
     startTask() {
       this.$awn.asyncBlock(
         this.$store.dispatch(`tasks/${this.taskId}/start`),
-        (e) => {
+        e => {
           this.$emit("onStart");
         },
-        (e) => this.$awn.alert()
+        e => this.$awn.alert()
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
