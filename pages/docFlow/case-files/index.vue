@@ -124,6 +124,7 @@
       </DxColumn>
 
       <DxColumn
+        :customizeText="customizeText"
         data-field="registrationGroup"
         :caption="$t('translations.fields.registrationGroupId')"
       >
@@ -212,6 +213,9 @@ export default {
     };
   },
   methods: {
+    customizeText(e) {
+      if (e.value) return e.value.name;
+    },
     validEndDate(e) {
       if (!e.value) {
         return true;
