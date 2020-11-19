@@ -151,9 +151,9 @@ export default {
       this.$emit("valueChanged", e.value);
     },
     updateDocument(data) {
+      this.documentStore.reload();
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
-      this.documentStore.reload();
       this.$refs["document"].instance.repaint();
     }
   }
