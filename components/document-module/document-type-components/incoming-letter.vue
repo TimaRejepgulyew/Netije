@@ -156,7 +156,6 @@
 <script>
 import customSelectBoxDocument from "~/components/document/select-box/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
-import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
