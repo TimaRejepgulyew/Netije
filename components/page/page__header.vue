@@ -6,7 +6,7 @@
       :visible="isbackButton"
       :on-click="goBack"
     />
-    <h3 class="grid__title">
+    <h3 v-if="showTitle" class="grid__title">
       {{ headerTitle }} {{ isNew ? $t("shared.newRecord") : "" }}
     </h3>
     <slot name="indicator"></slot>
@@ -24,6 +24,9 @@ export default {
   props: {
     headerTitle: {},
     isNew: {},
+    showTitle: {
+      default: true,
+    },
     isbackButton: {
       default: true,
     },

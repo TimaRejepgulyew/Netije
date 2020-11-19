@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header
+      :showTitle="!isCard"
       :isbackButton="!isCard"
       :isNew="false"
       :headerTitle="employee.name"
@@ -174,9 +175,7 @@
         />
       </template>
     </DxForm>
-    <div ref="lolo">
-
-    </div>
+    <div ref="lolo"></div>
   </div>
 </template>
 <script>
@@ -223,7 +222,7 @@ export default {
     ChangePasswordPopup,
     Toolbar,
     BusinessUnitSelectBox,
-    ImageUploader
+    ImageUploader,
   },
   props: ["data", "isCard"],
   data() {
@@ -331,11 +330,20 @@ export default {
       return file;
     },
     handleSubmit() {
-      this.$show.bussiniesUnitCard(this)
-      // this.$show()(ImageUploader,{
-      //   path:'https://get.wallhere.com/photo/mountains-lake-reflection-trees-1180204.jpg'
-      // })
-      
+      var res = this.$refs["form"].instance.validate();
+      const file = this.generateFormData(this.employee);
+      if (!res.isValid) return;
+      this.$awn.asyncBlock(
+        this.$axios.put(
+          dataApi.company.Employee + "/" + this.employee.id,
+          file
+        ),
+        (e) => {
+          this.$emit("valueChanged", this.employee);
+          this.$awn.success();
+        },
+        (e) => this.$awn.alert()
+      );
     },
   },
 };

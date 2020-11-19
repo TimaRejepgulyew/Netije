@@ -37,5 +37,6 @@ export default {
   acquaintanceTasks: "Tanyşmak",
   otherTasks: "Beýleki ýumuşlar",
   actionItemExecutionTasks: "Tabşyryklar",
-  reviewTasks: "Ýumuşlara seredip geçmek"
+  reviewTasks: "Ýumuşlara seredip geçmek",
+  counterPart: "Kontragent"
 };

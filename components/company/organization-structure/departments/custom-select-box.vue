@@ -1,16 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :show-title="false"
-      :visible.sync="isCardOpened"
-      ref="popup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <card :data="currentBusinessUnit" />
-      </div>
-    </DxPopup>
     <DxSelectBox
       ref="businessUnit"
       :read-only="readOnly"
@@ -46,20 +35,16 @@
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxSelectBox } from "devextreme-vue";
-import { DxPopup } from "devextreme-vue/popup";
 import dataApi from "~/static/dataApi";
 import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import customField from "~/components/company/organization-structure/business-unit/custom-field.vue";
-import Card from "~/components/company/organization-structure/departments/card.vue";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
     customField,
-    Card,
-    DxPopup,
   },
   props: [
     "value",
@@ -68,7 +53,7 @@ export default {
     "validatorGroup",
     "readOnly",
     "valueExpr",
-    "businessUnitId"
+    "businessUnitId",
   ],
 
   data() {
@@ -86,7 +71,11 @@ export default {
         }),
         paginate: true,
         pageSize: 10,
-        filter: [["businessUnitId", "=", this.businessUnitId],"and",["status", "=", Status.Active]]
+        filter: [
+          ["businessUnitId", "=", this.businessUnitId],
+          "and",
+          ["status", "=", Status.Active],
+        ],
       });
     },
     departmentId() {
@@ -94,12 +83,10 @@ export default {
     },
   },
   methods: {
-    async showPopup() {
-      const { data } = await this.$axios.get(
-        `${dataApi.company.Department}/${this.departmentId}`
-      );
-      this.currentBusinessUnit = data;
-      this.isCardOpened = !this.isCardOpened;
+    showPopup() {
+      this.$popup.departmentCard(this, {
+        departmentId: this.departmentId,
+      });
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);

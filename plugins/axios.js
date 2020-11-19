@@ -1,6 +1,6 @@
 import { alert } from "devextreme/ui/dialog";
 
-export default function({ store, app: { router, $axios, i18n } }) {
+export default function ({ store, app: { router, $axios, i18n } }) {
   if (process.env.NODE_ENV === "production") {
     $axios.setBaseURL(document.location.origin);
   } else {
@@ -42,12 +42,12 @@ export default function({ store, app: { router, $axios, i18n } }) {
     }
   });
   $axios.interceptors.request.use(
-    function(config) {
+    function (config) {
       config.headers.Authorization =
         "Bearer " + store.getters["oidc/oidcAccessToken"];
       return config;
     },
-    function(error) {
+    function (error) {
       return Promise.reject(error);
     }
   );

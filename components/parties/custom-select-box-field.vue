@@ -1,22 +1,5 @@
 <template>
   <div class="d-flex">
-    <DxPopup
-      width="90%"
-      height="auto"
-      :showTitle="false"
-      :visible.sync="isOpenCardCreate"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <component
-          v-if="isOpenCardCreate"
-          :is="activeCard"
-          @valueChanged="valueChanged"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
     <DxTextBox
       :placeholder="$t('shared.select')"
       :read-only="readOnly"
@@ -36,31 +19,26 @@
       :style="{ position: 'relative', color: 'green' }"
       @item-click="createCounterPart"
     />
-    <additional-btn :button-options="cardDetailCounterPartOptions">
-      <component
-        slot="card"
-        :counterpartId="fieldData && fieldData.id"
-        :is="showCardByType"
-        @valueChanged="valueUpdated"
-        :isCard="true"
-      />
-    </additional-btn>
-    <additional-btn :button-options="cardGridBtnOptions">
-      <counter-part-grid
-        slot="card"
-        @valueChanged="valueChanged"
-        :isCard="true"
-      />
-    </additional-btn>
+    <DxButton
+      :on-click="openCard"
+      :visible="this.isSelected && this.allowReadCounterPartDetails"
+      icon="info"
+      stylingMode="text"
+      :hint="$t('buttons.showCard')"
+    />
+    <DxButton
+      :on-click="openGird"
+      :visible="!this.readOnly && this.allowReadCounterPartDetails"
+      icon="more"
+      stylingMode="text"
+    />
   </div>
 </template>
 <script>
 import { DxDropDownButton } from "devextreme-vue";
-import { DxPopup } from "devextreme-vue/popup";
 import company from "~/components/parties/company-card.vue";
 import bank from "~/components/parties/bank-card.vue";
 import person from "~/components/parties/person-card.vue";
-import additionalBtn from "~/components/shared/additional-btn-select-box.vue";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import { DxButton } from "devextreme-vue";
 import { DxTextBox } from "devextreme-vue";
@@ -69,13 +47,11 @@ export default {
   components: {
     DxTextBox,
     DxButton,
-    DxPopup,
     DxDropDownButton,
-    additionalBtn,
     counterPartGrid,
     company,
     bank,
-    person
+    person,
   },
   props: {
     readOnly: {
@@ -84,8 +60,8 @@ export default {
     notPerson: {},
     fieldData: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -94,13 +70,12 @@ export default {
       dropDownBtnItems: [
         { name: this.$t("counterPart.Company"), type: "company" },
         { name: this.$t("counterPart.Bank"), type: "bank" },
-
         {
           name: this.$t("counterPart.Person"),
           type: "person",
-          visible: !this.notPerson
-        }
-      ]
+          visible: !this.notPerson,
+        },
+      ],
     };
   },
   computed: {
@@ -117,14 +92,14 @@ export default {
     cardGridBtnOptions() {
       return {
         icon: "more",
-        visible: !this.readOnly && this.allowReadCounterPartDetails
+        visible: !this.readOnly && this.allowReadCounterPartDetails,
       };
     },
     cardDetailCounterPartOptions() {
       return {
         icon: "info",
         hint: this.$t("buttons.showCard"),
-        visible: this.isSelected && this.allowReadCounterPartDetails
+        visible: this.isSelected && this.allowReadCounterPartDetails,
       };
     },
     isSelected() {
@@ -132,19 +107,43 @@ export default {
     },
     showCardByType() {
       return this.fieldData?.type.toLowerCase();
-    }
+    },
   },
   methods: {
+    openGird() {
+      this.$popup.counterPartGrid(
+        this,
+        {
+          emits: { valueChanged: "valueChanged" },
+        },
+        {
+          showLoadingPanel: false,
+        }
+      );
+    },
+    openCard() {
+      this.$popup.counterPartCard(this, {
+        counterpartId: this.fieldData.id,
+        type: this.showCardByType,
+      });
+    },
     createCounterPart(e) {
-      this.activeCard = e.itemData.type;
-      this.isOpenCardCreate = !this.isOpenCardCreate;
+      this.$popup.counterPartCard(
+        this,
+        {
+          type: e.itemData.type,
+        },
+        {
+          showLoadingPanel: false,
+        }
+      );
     },
     valueChanged(data) {
       this.$emit("valueChanged", { data });
     },
     valueUpdated(data) {
       this.$emit("valueChanged", { data, updated: true });
-    }
-  }
+    },
+  },
 };
 </script>

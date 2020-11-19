@@ -1,6 +1,6 @@
 <template>
   <div v-if="data">
-    <Header :headerTitle="data.name" :isbackButton="false"></Header>
+    <Header :showTitle="!isCard" :headerTitle="data.name" :isbackButton="false"></Header>
     <DxForm :read-only="readOnly" :form-data="data" id="form" :col-count="2">
       <DxSimpleItem data-field="name" data-type="string">
         <DxLabel :text="$t('shared.name')" />
@@ -63,7 +63,7 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import "devextreme/ui/text_area";
 export default {
-  props: ["data"],
+  props: ["data","isCard"],
   data() {
     return {
       statusDataSource: this.$store.getters["status/status"](this),

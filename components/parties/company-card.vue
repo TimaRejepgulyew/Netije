@@ -167,15 +167,7 @@ export default {
     DxAsyncRule,
     Toolbar,
   },
-  props: ["isCard", "counterpartId"],
-  async created() {
-    if (this.counterpartId) {
-      const { data } = await this.$axios.get(
-        `${dataApi.contragents.Company}/${this.counterpartId}`
-      );
-      this.company = data;
-    }
-  },
+  props: ["isCard", "data"],
   data() {
     return {
       EntityType,
@@ -258,17 +250,17 @@ export default {
       );
     },
     submit() {
-      return this.counterpartId ? this.putRequest() : this.postRequest();
+      return this.data?.id ? this.putRequest() : this.postRequest();
     },
     postRequest() {
-      var res = this.$refs["form"].instance.validate();
+      let res = this.$refs["form"].instance.validate();
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.contragents.Company, this.company),
         ({ data }) => {
           this.$emit("valueChanged", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
+          this.$emit('close')
         },
         () => {
           this.$awn.alert();
@@ -280,19 +272,24 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
-          `${dataApi.contragents.Company}/${this.counterpartId}`,
+          `${dataApi.contragents.Company}/${this.data.id}`,
           this.company
         ),
         ({ data }) => {
           this.$emit("valueChanged", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
+          this.$emit('close')
         },
         () => {
           this.$awn.alert();
         }
       );
     },
+  },
+  created() {
+    if (this.data) {
+      this.company = this.data;
+    }
   },
 };
 </script>

@@ -2,39 +2,32 @@ import Vue from "vue"
 import Popup from "~/components/Layout/popup.vue"
 Vue.component("Popup", Popup)
 
-let karabas = Vue
+function BasePopup(template) {
+  return function (context, options, popupSettings) {
+    let popup = Vue.extend(context.$Popup);
+    let instance = new popup({
+      parent: context,
+      propsData: {
+        template: template,
+        options: options,
+        popupSettings: popupSettings,
+      },
+    });
 
-export default (context, inject) => {
-
-  const show = {
-
-    bussiniesUnitCard(context) {
-      let popup = Vue.extend(context.$Popup);
-      let instance = new popup({
-        propsData: {
-          // isComponent: component,
-          // isParams:params
-        }
-      });
-      instance.$mount();
-      context.$el.appendChild(instance.$el);
-      console.log("asdasd");
-    }
-    // return (component, params) => {
-    //   // console.log(isComponent);
-    //   var popup = this.$Vue.extend(this.$Popup);
-    //   var instance = new popup({
-    //     propsData: {
-    //       isComponent: component,
-    //       isParams:params
-    //     }
-    //   });
-    //   instance.$mount();
-    //   this.$el.appendChild(instance.$el);
-    // }
+    instance.$on('valueChanged',  (data) => {context.valueChanged(data)})
+    instance.$mount();
+    context.$el.appendChild(instance.$el);
   }
+}
 
-  inject('show', show)
-  inject('Vue', karabas)
+export default (pluginContext, inject) => {
+  const popup = {
+    bussiniesUnitCard: BasePopup("bussiniesUnitCard"),
+    departmentCard: BasePopup("departmentCard"),
+    employeeCard: BasePopup("employeeCard"),
+    counterPartCard: BasePopup("counterPartCard"),
+    counterPartGrid: BasePopup("counterPartGrid"),
+  }
+  inject('popup', popup)
   inject('Popup', Popup)
 }

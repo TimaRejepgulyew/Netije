@@ -1,9 +1,25 @@
 <template>
   <div>
-    <DxPopup :visible="visible" :dragEnabled="false">
-      <div ref="popup">
-        <button @click="destroy">close</button>
-        <!-- <component :is="isComponent" /> -->
+    <DxLoadPanel :visible.sync="isLoading" :indicatorSrc="indicatorIcon" />
+    <DxPopup
+      :closeOnOutsideClick="defaultPopupSettings.closeOnOutsideClick"
+      :dragEnabled="defaultPopupSettings.dragEnabled"
+      :showTitle="defaultPopupSettings.showTitle"
+      :width="defaultPopupSettings.width"
+      :height="defaultPopupSettings.height"
+      :onHidden="destroyComponent"
+      :visible="visible"
+      :title="title"
+    >
+      <div class="scrool-auto" ref="popup">
+        <component
+          @loadStatus="enabledLoadPanel"
+          @showTitle="setTitle"
+          @valueChanged="valueChanged"
+          @close="closePopup"
+          :is="template"
+          :options="options"
+        />
       </div>
     </DxPopup>
   </div>
@@ -11,35 +27,77 @@
 
 <script>
 import Vue from "vue";
-import ImageUploader from "~/components/employee/custom-image-uploader";
-
+import bussiniesUnitCard from "~/components/popups/business-unit-popup.vue";
+import departmentCard from "~/components/popups/department-popup.vue";
+import employeeCard from "~/components/popups/employee-popup.vue";
+import counterPartCard from "~/components/popups/counter-part-card-popup.vue";
+import counterPartGrid from "~/components/popups/counter-part-grid-popup.vue";
+import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
+import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
-  props: ["isComponent","isParams"],
   components: {
     DxPopup,
-    ImageUploader
+    DxLoadPanel,
+    bussiniesUnitCard,
+    departmentCard,
+    employeeCard,
+    counterPartCard,
+    counterPartGrid,
+  },
+  props: {
+    template: {
+      type: String,
+    },
+    options: {
+      type: Object,
+    },
+    popupSettings: {
+      type: Object,
+    },
   },
   data() {
     return {
       visible: false,
+      isLoading: false,
+      title: "",
+      indicatorIcon,
     };
   },
+  computed: {
+    defaultPopupSettings() {
+      return {
+        closeOnOutsideClick: true,
+        dragEnabled: false,
+        showTitle: true,
+        width: "90%",
+        height: "95%",
+        showLoadingPanel: true,
+        ...this.popupSettings,
+      };
+    },
+  },
   methods: {
-    destroy() {
+    destroyComponent() {
       this.$destroy();
+    },
+    closePopup() {
+      this.visible = false;
+    },
+    valueChanged(data) {
+      this.$emit("valueChanged", data);
+    },
+    enabledLoadPanel() {
+      this.isLoading = false;
+      this.visible = true;
+    },
+    setTitle(data) {
+      this.title = data;
     },
   },
   mounted() {
-    this.visible = true;
-    var popup = Vue.extend(this.isComponent);
-    var instance = new popup({
-        propsData: {
-          ...this.isParams
-        }
-      });
-    instance.$mount();
-    this.$refs.popup.appendChild(instance.$el);
+    this.isLoading = this.defaultPopupSettings.showLoadingPanel;
+    // console.log(this.template, this.options);
   },
 };
 </script>

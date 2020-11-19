@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DxPopup
+    <!-- <DxPopup
       width="90%"
       height="95%"
       :showTitle="false"
@@ -11,7 +11,7 @@
       <div class="scrool-auto">
         <slot v-if="isOpenCard" name="card" />
       </div>
-    </DxPopup>
+    </DxPopup> -->
     <DxButton
       :visible="buttonOptions.visible"
       :on-click="openCard"
