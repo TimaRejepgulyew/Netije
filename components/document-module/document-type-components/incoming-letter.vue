@@ -70,6 +70,9 @@
     </DxGroupItem>
     <template #inResponseTo>
       <customSelectBoxDocument
+        :readOnly="inResponseToOptions.readOnly"
+        :dataSourceFilter="inResponseToOptions.dataSourceFilter"
+        :dataSourceQuery="inResponseToOptions.dataSourceQuery"
         :validationGroup="documentValidatorName"
         :value="document.inResponseTo"
         @valueChanged="setInResponseTo"
@@ -243,33 +246,16 @@ export default {
         }
       };
     },
-    inResponseToIdOptions() {
-      const builder = new SelectBoxOptionsBuilder();
-      const options = builder
-        .withUrl(
-          `${dataApi.documentModule.Documents}${DocumentQuery.OutgoingLetter}`
-        )
-        .filter(
-          this.correspondentId
-            ? ["correspondentId", "=", this.correspondentId]
-            : []
-        )
-        .acceptCustomValues(e => {
-          e.customItem = null;
-        })
-        .withoutDeferRendering()
-        .focusStateDisabled()
-        .clearValueExpr()
-        .build(this);
+    inResponseToOptions() {
       return {
         readOnly: !this.correspondentId,
-        ...options,
-        value: this.document.inResponseTo,
-        onValueChanged: e => {
-          this.setInResponseTo(e.value?.id);
-        }
+        dataSourceQuery: DocumentQuery.OutgoingLetter,
+        dataSourceFilter: this.correspondentId
+          ? ["correspondentId", "=", this.correspondentId]
+          : []
       };
     },
+
     inNumberOptions() {
       return {
         readOnly: this.isRegistered,

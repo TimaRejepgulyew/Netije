@@ -5,7 +5,6 @@
       :on-click="togglePopup"
       icon="more"
       stylingMode="text"
-    
       :useSubmitBehavior="false"
       type="default"
     ></DxButton>
@@ -28,6 +27,7 @@
           v-if="isGridOpened"
           :isCard="true"
           :documentQuery="dataSourceQuery"
+          :documentFilter="dataSourceFilter"
         />
       </div>
     </DxPopup>

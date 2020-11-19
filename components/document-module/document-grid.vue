@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard">
       <DxButtonGroup
+        :visible="!isCard"
         slot="toolbar"
         :selected-item-keys="[activeFilter]"
         :items="QuiсkFilterOptions"
@@ -21,7 +22,7 @@
       :column-auto-width="false"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
@@ -89,7 +90,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
@@ -116,10 +117,10 @@ export default {
     DxStateStoring,
     DxButton,
     Header,
-    DxButtonGroup,
+    DxButtonGroup
   },
-  props: ["documentQuery", "isCard"],
-    created() {
+  props: ["documentQuery", "isCard", "documentFilter"],
+  created() {
     console.log(this.documentQuery);
   },
   data() {
@@ -128,38 +129,39 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`
         }),
+        filter: this.documentFilter,
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
       QuiсkFilterOptions: [
         {
           text: this.$t("buttons.all"),
           filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all"),
+          hint: this.$t("buttons.all")
         },
         {
           text: this.$t("buttons.new"),
           filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new"),
+          hint: this.$t("buttons.new")
         },
 
         {
           text: this.$t("buttons.obsolete"),
           filterKey: QuiсkFilter.Obsolete,
-          hint: this.$t("buttons.obsolete"),
-        },
+          hint: this.$t("buttons.obsolete")
+        }
       ],
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
-      selectDocument: (e) => {
+      selectDocument: e => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid,
+          documentTypeGuid: e.data.documentTypeGuid
         });
-      },
+      }
     };
   },
   methods: {
@@ -171,9 +173,9 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`
         }),
-        paginate: true,
+        paginate: true
       });
     },
 
@@ -185,10 +187,10 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          },
-        },
+          }
+        }
       });
-    },
+    }
   },
   computed: {
     generateHeaderTitle() {
@@ -199,8 +201,8 @@ export default {
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
