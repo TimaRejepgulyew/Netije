@@ -57,8 +57,10 @@ export default {
       this.isOpenPopup = !this.isOpenPopup;
     },
     createRelation(e) {
+      console.log(e.itemData);
       this.$popup.documentCard(this, {
         params: {
+          documentType: e.itemData.id,
           leadingDocumentType: this.document.documentTypeGuid,
           leadingDocumentId: +this.documentId
         },

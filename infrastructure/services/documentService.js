@@ -1,4 +1,5 @@
 import dataApi from "~/static/dataApi";
+import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 import DocumentStoreTemplate from "~/infrastructure/services/DocumentStoreModule.js";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 export const documentModules = new DocumentStoreTemplate({
@@ -18,20 +19,19 @@ export async function createDocumentTemplate() {
     dataApi.documentTemplate.createDocumentTemplate,
     params
   );
-  // TODO add name in this
   const documentId = data.document.id;
   const documentTypeGuid = data.document.documentTypeGuid;
   documentModules.setStoreTemplate(documentTypeGuid);
   await documentModules.registerModule(context, documentId);
   loadDocument(context, documentId, data);
-  return { documentId, documentTypeGuid, name };
 }
 export async function createDocument(context, params) {
   const { data } = await context.$axios.post(
     dataApi.documentModule.Documents,
     params
   );
-  const { id: documentId, documentTypeGuid, name } = data.document;
+  const documentId = data.document.id;
+  const documentTypeGuid = data.document.documentTypeGuid;
   documentModules.setStoreTemplate(documentTypeGuid);
   await documentModules.registerModule(context, documentId);
   loadDocument(context, documentId, data);
@@ -40,6 +40,9 @@ export async function createDocument(context, params) {
   context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, true);
   context.$store.commit(`documents/${documentId}/SKIP_ROUTE_HANDLING`, true);
+  const name = `${
+    new DocumentTypeModel(context).getById(documentTypeGuid).text
+  } ${context.$t("shared.newRecord")}`;
   return { documentId, documentTypeGuid, name };
 }
 
@@ -101,17 +104,20 @@ export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
     documentModules.setStoreTemplate(documentTypeGuid);
     documentModules.registerModule(context, documentId);
+
     const { data } = await context.$axios.get(
       `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
     );
     loadDocument(context, documentId, data);
+
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
   }
   if (!context.$store.getters[`documents/${documentId}/isNew`]) {
     context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   }
-  const name = context.$store.getters[`documents/${documentId}/document`].name;
-  return { documentTypeGuid, documentId, name };
+  const name = new DocumentTypeModel(context).getById(documentTypeGuid).text;
+  // const name = context.$store[`documents/${documentId}/document`].name;
+  return { documentId, name: name };
 }
 
 export async function refresh(context, { documentTypeGuid, documentId }) {
