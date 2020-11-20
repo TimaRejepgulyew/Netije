@@ -17,7 +17,8 @@
     >
       <div>
         <attachment-access-right-dialog
-          @close="tooglePopupAccessRight"
+          :maxOperation="maxOperation"
+          @close="hideAccessRightDialog"
           @selected="sendRecipientAccessRight"
         />
       </div>
@@ -42,6 +43,7 @@ export default {
   inject: ["isValidTask"],
   data() {
     return {
+      maxOperation: null,
       startIcon,
       isPopupAccesRight: false
     };
@@ -55,28 +57,37 @@ export default {
     }
   },
   methods: {
+    hideAccessRightDialog() {
+      this.tooglePopupAccessRight();
+      this.setMaxOperation(null);
+    },
     async sendRecipientAccessRight(accessRightId) {
-      await this.$axios.post(dataApi.task.GrantPermissions, {
-        taskId: this.taskId,
-        taskType: this.task.taskType,
-        accessRight: accessRightId
-      });
+      if (accessRightId !== undefined)
+        await this.$axios.post(dataApi.task.GrantPermissions, {
+          taskId: this.taskId,
+          taskType: this.task.taskType,
+          accessRight: accessRightId
+        });
 
       await this.startTask();
-      this.tooglePopupAccessRight();
+
+      this.hideAccessRightDialog ();
     },
 
     tooglePopupAccessRight() {
       this.isPopupAccesRight = !this.isPopupAccesRight;
     },
-
+    setMaxOperation(maxOperation) {
+      this.maxOperation = maxOperation;
+    },
     async checkRecipientAccessRight() {
       const {
-        data: { succeeded }
+        data: { succeeded, maxOperation }
       } = await this.$axios.get(
         `${dataApi.task.CheckMembersPermissions}${this.task?.taskType}/${this.taskId}`
       );
       if (!succeeded) {
+        this.setMaxOperation(maxOperation);
         this.tooglePopupAccessRight();
         return false;
       } else return true;

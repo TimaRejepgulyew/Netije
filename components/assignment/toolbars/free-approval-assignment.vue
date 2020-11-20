@@ -11,7 +11,8 @@
     >
       <div>
         <attachment-access-right-dialog
-          @close="tooglePopupAccessRight"
+          :maxOperation="maxOperation"
+          @close="hideAccessRightDialog"
           @selected="sendRecipientAccessRight"
         />
       </div>
