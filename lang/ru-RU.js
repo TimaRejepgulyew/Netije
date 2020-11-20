@@ -160,7 +160,8 @@ export default {
     statusRequired: "Введите статус",
     code: "Код",
     codeRequired: "Введите код",
-    codeAlreadyExists: "Такой код уже существует"
+    codeAlreadyExists: "Такой код уже существует",
+    description:"Описание"
   },
   workFlow: {
     fields: {

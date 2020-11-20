@@ -1,16 +1,23 @@
 <template>
   <main>
-    <Header :isNew="false" :isbackButton="true" :headerTitle="$t('menu.roles')"></Header>
+    <Header
+      :isNew="false"
+      :isbackButton="true"
+      :headerTitle="$t('menu.roles')"
+    ></Header>
     <DxDataGrid
       id="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @init-new-row="onInitNewRow"
       @row-updating="onRowUpdating"
     >
@@ -23,7 +30,11 @@
 
       <DxFilterRow :visible="true" />
 
-      <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('menu.roles')" />
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        :file-name="$t('menu.roles')"
+      />
 
       <DxStateStoring :enabled="true" type="localStorage" storage-key="roles" />
 
@@ -38,7 +49,11 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 

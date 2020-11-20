@@ -53,10 +53,6 @@
         </DxGroupItem>
         <DxSimpleItem :editor-options="passwordOptions" data-field="password">
           <DxLabel location="top" :text="$t('translations.fields.password')" />
-          <DxPatternRule
-            :pattern="passwordPattern"
-            :message="$t('translations.fields.passwordRule')"
-          />
           <DxRequiredRule
             :message="$t('translations.fields.passwordRequired')"
           />
@@ -212,8 +208,6 @@ export default {
         url: dataApi.company.JobTitle,
         filter: ["status", "=", Status.Active]
       }),
-      namePattern: /^[^0-9]+$/,
-      passwordPattern: "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$"
     };
   },
   computed: {

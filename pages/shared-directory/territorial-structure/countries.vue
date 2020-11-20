@@ -5,7 +5,7 @@
       id="gridContainer"     
       :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"

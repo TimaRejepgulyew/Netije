@@ -10,7 +10,7 @@
         :errorRowEnabled="false"
         :show-borders="true"
         :data-source="store"
-        :remote-operations="true"
+        :remote-operations="false"
         @init-new-row="onInitNewRow"
         @row-inserting="rowInserting"
       >
@@ -23,7 +23,6 @@
           mode="row"
         ></DxEditing>
 
-        <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
 
         <DxColumn
@@ -46,10 +45,25 @@
           <recipient-select-box
             valueExpr="id"
             :value="cellInfo.value"
-            :isRequired="true"
             @valueChanged="value => onValueChanged(value, cellInfo)"
           />
         </template>
+        <DxColumn
+          :allowEditing="false"
+          :allowFiltering="false"
+          :allowSorting="false"
+          :allowResizing="false"
+          :allowReordering="false"
+          :allowHiding="false"
+          :allowHeaderFiltering="false"
+          :allowGrouping="false"
+          :allowFixing="false"
+          :allowExporting="false"
+          :allow-sorting="false"
+          data-field="member.description"
+          data-type="string"
+          :caption="$t('shared.description')"
+        ></DxColumn>
       </DxDataGrid>
     </template>
     <!-- TODO:V2.0<DxItem :title="$t('translations.fields.permissions')" template="permissions" />
@@ -66,7 +80,6 @@ import { DxTabPanel, DxItem } from "devextreme-vue/tab-panel";
 import permissions from "~/components/administration/permissions";
 import dataApi from "~/static/dataApi";
 import {
-  DxSearchPanel,
   DxDataGrid,
   DxColumn,
   DxEditing,
@@ -81,7 +94,6 @@ export default {
     DxSelectBox,
     DxTabPanel,
     DxItem,
-    DxSearchPanel,
     DxDataGrid,
     DxColumn,
     DxEditing,
@@ -138,8 +150,10 @@ export default {
       cellInfo.component.updateDimensions();
     },
     rowInserting(e) {
-      e.data.memberId = e.data.member.name;
-      delete e.data.member;
+      if (e.data.member) {
+        e.data.memberId = e.data.member.name;
+        delete e.data.member;
+      }
     },
     onInitNewRow(e) {
       e.data.roleId = this.roleId;

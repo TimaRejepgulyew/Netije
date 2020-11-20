@@ -2,13 +2,18 @@
   <main>
     <Header :headerTitle="$t('menu.managersAssistant')"></Header>
     <DxDataGrid
-      id="gridContainer"      :show-borders="true"
+      id="gridContainer"
+      :errorRowEnabled="false"
+      :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -27,11 +32,19 @@
         :file-name="$t('menu.managersAssistant')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="managersAssistant" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="managersAssistant"
+      />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -41,32 +54,37 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn
-        data-field="managerId"
+        data-type="string"
+        :customizeText="customizeText"
+        editCellTemplate="manager"
+        data-field="manager"
         :caption="$t('translations.fields.managerId')"
         :set-cell-value="onManagerIdChanged"
       >
-        <DxRequiredRule :message="$t('translations.fields.managerIdRequired')" />
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getFilteredManager"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
-
+      <template #manager="{ data: cellInfo }">
+        <employee-select-box
+          :showClearButton="false"
+          :value="cellInfo.value"
+          @valueChanged="value => onValueChanged(value, cellInfo)"
+        />
+      </template>
       <DxColumn
-        data-field="assistantId"
+        data-type="string"
+        :customizeText="customizeText"
+        editCellTemplate="assistant"
+        data-field="assistant"
         :caption="$t('translations.fields.assistantId')"
         :set-cell-value="onAssistantIdChanged"
       >
-        <DxRequiredRule :message="$t('translations.fields.assistantIdRequired')" />
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getFilteredAssistant"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
+      <template #assistant="{ data: cellInfo }">
+        <employee-select-box
+          :showClearButton="false"
+          :value="cellInfo.value"
+          @valueChanged="value => onValueChanged(value, cellInfo)"
+        />
+      </template>
       <DxColumn
         data-field="preparesResolution"
         :caption="$t('translations.fields.preparesResolution')"
@@ -80,11 +98,14 @@
           value-expr="id"
           display-expr="status"
         />
+        <DxRequiredRule />
       </DxColumn>
     </DxDataGrid>
   </main>
 </template>
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import DataSource from "devextreme/data/data_source";
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
@@ -126,16 +147,21 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    employeeSelectBox
   },
   data() {
     return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.company.ManagersAssistant,
-        insertUrl: dataApi.company.ManagersAssistant,
-        updateUrl: dataApi.company.ManagersAssistant,
-        removeUrl: dataApi.company.ManagersAssistant
+      dataSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.ManagersAssistant,
+          insertUrl: dataApi.company.ManagersAssistant,
+          updateUrl: dataApi.company.ManagersAssistant,
+          removeUrl: dataApi.company.ManagersAssistant
+        }),
+        paginate: true,
+        pageSize: 10
       }),
       entityType: EntityType.ManagersAssistant,
       statusDataSource: this.$store.getters["status/status"](this),
@@ -155,6 +181,13 @@ export default {
     };
   },
   methods: {
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
+    },
+    customizeText(e) {
+      if (e.value) return e.value?.name;
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },
@@ -165,16 +198,32 @@ export default {
       return {
         store: this.employeeStore,
         filter: options.data
-          ? ["id", "<>", options.data.assistantId, "or", "status", "=", Status.Active]
-          : []
+          ? [
+              "id",
+              "<>",
+              options.data.assistantId,
+              "or",
+              "status",
+              "=",
+              Status.Active
+            ]
+          : undefined
       };
     },
     getFilteredAssistant(options) {
       return {
         store: this.employeeStore,
         filter: options.data
-          ? ["id", "<>", options.data.managerId, "or", "status", "=", Status.Active]
-          : []
+          ? [
+              "id",
+              "<>",
+              options.data.managerId,
+              "or",
+              "status",
+              "=",
+              Status.Active
+            ]
+          : undefined
       };
     },
     validateEntityExists(params) {

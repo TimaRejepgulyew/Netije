@@ -15,7 +15,10 @@
                 <resipient-icon
                   :type="item.data.recipient.recipientType"
                 ></resipient-icon>
-                {{ item.data.recipient.name }}
+                <div>
+                  <div>{{ item.data.recipient.name }}</div>
+                  <div class="grey">{{ item.data.recipient.description }}</div>
+                </div>
               </div>
               <div class="list__btn-group d-flex">
                 <attachment-action-btn

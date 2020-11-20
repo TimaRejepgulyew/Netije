@@ -2,7 +2,7 @@
   <DxTagBox
     :read-only="readOnly"
     :data-source="resipientStore"
-    :show-selection-controls="true"
+    :show-selection-controls="false"
     @valueChanged="setRecipient"
     :showClearButton="true"
     :value="recipients"

@@ -21,6 +21,6 @@ export default {
   FreeApprovalFinishAssignment: "Завершение работ по согласованию",
   FreeApprovalReworkAssignment: "Доработка документа",
   FreeApprovalNotification: "Уведомление",
-  //TODO Перевести правильно 
+  //TODO Перевести правильно
 
-}
+};

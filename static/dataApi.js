@@ -1,5 +1,8 @@
 export default {
-  UserPhotoHash:process.env.NODE_ENV ==="production" ? document.location.origin + "StaticFiles/Employees/Thumbnails/" : "https://192.168.4.159/StaticFiles/Employees/Thumbnails/",
+  UserPhotoHash:
+    process.env.NODE_ENV === "production"
+      ? document.location.origin + "/StaticFiles/Employees/Thumbnails/"
+      : `${process.env.serverUrl}/StaticFiles/Employees/Thumbnails/`,
   Metadata: `/api/Metadata`,
   account: `/Identity/Account/Manage`,
   History: `/api/History/`,
@@ -54,7 +57,7 @@ export default {
     DocumentSendAction: `/api/DocumentSendAction`,
     FileRetentionPeriod: `/api/FileRetentionPeriod`,
     RegistrationGroup: `/api/RegistrationGroup`,
-    ResponsibleForGroupOnMe: `/api/RegistrationGroup/ResponsibleForGroupOnMe`,
+    ResponsibleForGroupOnMe: `/api/RegistrationGroup/ResponsibleOnMe`,
     RegistrationGroupMembers: `/api/RegistrationGroupMembers/`,
     DeliveryMethod: `/api/DeliveryMethod`,
     RegistrationSetting: `/api/RegistrationSetting`,

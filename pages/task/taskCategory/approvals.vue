@@ -42,7 +42,7 @@
         <DxExport
           :enabled="true"
           :allow-export-selected-data="true"
-          :file-name="$t('task.taskQuery.actionItem')"
+          :file-name="$t('task.taskQuery.actionItemExicution')"
         />
 
         <DxStateStoring

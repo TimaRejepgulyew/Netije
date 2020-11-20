@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.businessUnit')"></Header>
     <DxTreeList
+      remoteOperations: { filtering: true,sorting: true,grouping: true }
       parent-id-expr="headCompanyId"
       :data-source="dataSource"
       :errorRowEnabled="false"
@@ -318,7 +319,7 @@ export default {
               "=",
               options.data.regionId,
             ]
-          : [],
+          : undefined,
       };
     },
     getActiveLocalities(options) {
@@ -342,7 +343,7 @@ export default {
               "=",
               options.data.localityId,
             ]
-          : [],
+          : undefined,
       };
     },
     getActiveBanks(options) {
@@ -354,7 +355,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
-          : [],
+          : undefined,
       };
     },
     getActiveEmployees(options) {
@@ -366,7 +367,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
-          : [],
+          : undefined,
       };
     },
     validateEntityExists(params) {

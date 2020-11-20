@@ -6,7 +6,7 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -145,7 +145,7 @@ export default {
       paginate: true,
       filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.regionId]
-          : []
+          : undefined
       };
     },
     validateLocalityName(params) {

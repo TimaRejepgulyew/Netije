@@ -21,7 +21,7 @@
       :read-only="readOnly"
       :data-source="employeeStore"
       @valueChanged="valueChanged"
-      :showClearButton="true"
+      :showClearButton="showClearButton"
       :value="value"
       :openOnFieldClick="false"
       :focusStateEnabled="false"
@@ -73,14 +73,18 @@ export default {
     DxPopup,
     DxButton,
   },
-  props: [
-    "value",
-    "storeApi",
-    "messageRequired",
-    "validatorGroup",
-    "readOnly",
-    "valueExpr",
-  ],
+  props: {
+    value: {},
+    storeApi: {},
+    messageRequired: {},
+    validatorGroup: {},
+    readOnly: {},
+    valueExpr: {},
+    showClearButton: {
+      type: Boolean,
+      default: true
+    }
+  },
 
   data() {
     return {

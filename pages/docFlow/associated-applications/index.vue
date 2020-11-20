@@ -5,14 +5,14 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
@@ -76,7 +76,10 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn data-field="filesTypeId" :caption="$t('docFlow.fields.filesType')">
+      <DxColumn
+        data-field="filesTypeId"
+        :caption="$t('docFlow.fields.filesType')"
+      >
         <DxRequiredRule :message="$t('docFlow.validation.filesTypeRequired')" />
         <DxLookup
           :allow-clearing="true"
@@ -118,7 +121,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxPatternRule,
+  DxPatternRule
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 
@@ -141,14 +144,14 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxPatternRule,
+    DxPatternRule
   },
   data() {
     return {
       extensionsPattern: /^\.[^\s]\w+$/,
       extensionOptions: {
         mask: ".cccccccccc",
-        useMaskedValue: true,
+        useMaskedValue: true
       },
       entityType: EntityType.AssociatedApplications,
       dataSource: this.$dxStore({
@@ -156,16 +159,16 @@ export default {
         loadUrl: dataApi.docFlow.AssociatedApplication,
         insertUrl: dataApi.docFlow.AssociatedApplication,
         updateUrl: dataApi.docFlow.AssociatedApplication,
-        removeUrl: dataApi.docFlow.AssociatedApplication,
+        removeUrl: dataApi.docFlow.AssociatedApplication
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       filesTypeStores: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.FilesType,
+          loadUrl: dataApi.docFlow.FilesType
         }),
-        paginate: true,
-      },
+        paginate: true
+      }
     };
   },
   methods: {
@@ -180,11 +183,11 @@ export default {
       return this.$customValidator.AssociatedApplicationDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );
-    },
-  },
+    }
+  }
 };
 </script>

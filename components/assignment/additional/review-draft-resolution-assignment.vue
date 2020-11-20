@@ -5,7 +5,7 @@
       :visible.sync="showItemExecutionTask"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="true"
+      :show-title="false"
       width="90%"
       :height="'auto'"
     >
@@ -18,7 +18,7 @@
         />
       </div>
     </DxPopup>
-    <div v-if="false" >
+    <div v-if="false">
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
         <employee-select-box
@@ -49,13 +49,13 @@ export default {
     employeeSelectBox,
     resolutionTask,
     taskCard,
-    DxPopup,
+    DxPopup
   },
   props: ["assignmentId"],
   data() {
     return {
       showItemExecutionTask: false,
-      taskId: null,
+      taskId: null
     };
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
         `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
         id
       );
-    },
+    }
   },
   computed: {
     addresseeId() {
@@ -89,11 +89,11 @@ export default {
       const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
       ].attachmentGroups;
-      return attachments.find((attachment) => {
+      return attachments.find(attachment => {
         return attachment.groupId === AttachmentGroup.Resolution;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

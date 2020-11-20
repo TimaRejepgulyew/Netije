@@ -3,7 +3,7 @@
     <recipientIcon :type="data.recipientType" />
     <div>
       <div>{{ data.name }}</div>
-      <div>{{ data.description }}</div>
+      <div class="grey">{{ data.description }}</div>
     </div>
   </div>
 </template>
@@ -18,4 +18,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.grey {
+  color: gray;
+  font-size: 14px;
+}
+.dx-state-focused,
+.dx-state-active {
+  .grey {
+    color: #fff;
+    font-size: 14px;
+  }
+}
+</style>

@@ -28,10 +28,9 @@
         <DxLabel location="left" text="№" />
       </DxSimpleItem>
       <DxSimpleItem
+        template="inResponseTo"
         :col-span="2"
         data-field="inResponseToId"
-        :editor-options="inResponseToIdOptions"
-        editor-type="dxSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.inResponseToId')" />
       </DxSimpleItem>
@@ -69,6 +68,16 @@
         <DxLabel location="left" :text="$t('document.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
+    <template #inResponseTo>
+      <customSelectBoxDocument
+        :readOnly="inResponseToOptions.readOnly"
+        :dataSourceFilter="inResponseToOptions.dataSourceFilter"
+        :dataSourceQuery="inResponseToOptions.dataSourceQuery"
+        :validationGroup="documentValidatorName"
+        :value="document.inResponseTo"
+        @valueChanged="setInResponseTo"
+      />
+    </template>
     <template #correspondent>
       <custom-select-box
         value-expr="id"
@@ -145,8 +154,8 @@
   </DxForm>
 </template>
 <script>
+import customSelectBoxDocument from "~/components/document/select-box/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
-import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
@@ -169,6 +178,7 @@ export default {
     DxRequiredRule,
     customSelectBox,
     customSelectBoxContact,
+    customSelectBoxDocument,
     employeeSelectBox,
     BusinessUnitSelectBox,
     DepartmentSelectBox
@@ -235,33 +245,16 @@ export default {
         }
       };
     },
-    inResponseToIdOptions() {
-      const builder = new SelectBoxOptionsBuilder();
-      const options = builder
-        .withUrl(
-          `${dataApi.documentModule.Documents}${DocumentQuery.OutgoingLetter}`
-        )
-        .filter(
-          this.correspondentId
-            ? ["correspondentId", "=", this.correspondentId]
-            : []
-        )
-        .acceptCustomValues(e => {
-          e.customItem = null;
-        })
-        .withoutDeferRendering()
-        .focusStateDisabled()
-        .clearValueExpr()
-        .build(this);
+    inResponseToOptions() {
       return {
         readOnly: !this.correspondentId,
-        ...options,
-        value: this.document.inResponseTo,
-        onValueChanged: e => {
-          this.setInResponseToId(e.value?.id);
-        }
+        dataSourceQuery: DocumentQuery.OutgoingLetter,
+        dataSourceFilter: this.correspondentId
+          ? ["correspondentId", "=", this.correspondentId]
+          : undefined
       };
     },
+
     inNumberOptions() {
       return {
         readOnly: this.isRegistered,
@@ -299,7 +292,7 @@ export default {
       this.dispatchCorrespondent(data);
       this.setContact(null);
       this.setCounterpartySignatoryId(null);
-      this.setInResponseToId(null);
+      this.setInResponseTo(null);
     },
     setContact(data) {
       this.$store.commit(
@@ -319,10 +312,11 @@ export default {
         data && data.id
       );
     },
-    setInResponseToId(data) {
+    setInResponseTo(data) {
+      this.$store.commit(`documents/${this.documentId}/IN_RESPONSE_TO`, data);
       this.$store.commit(
         `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
-        data
+        data?.id
       );
     },
     setInNumber(data) {

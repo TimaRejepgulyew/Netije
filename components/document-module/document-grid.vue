@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="generateHeaderTitle" :isbackButton="!isCard">
       <DxButtonGroup
+        :visible="!isCard"
         slot="toolbar"
         :selected-item-keys="[activeFilter]"
         :items="QuiсkFilterOptions"
@@ -10,54 +11,57 @@
         @item-click="itemClick"
       />
     </Header>
-    <DxDataGrid
-      id="gridContainer"
-      :show-borders="true"
-      :data-source="store"
-      :remote-operations="true"
-      :columns="columns"
-      :allow-column-reordering="true"
-      :allow-column-resizing="true"
-      :column-auto-width="false"
-      :load-panel="{
-        enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
-      }"
-      :onRowDblClick="selectDocument"
-      @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="false"
-    >
-      <DxGrouping :auto-expand-all="false" />
-      <DxSelection />
-      <DxHeaderFilter :visible="true" />
+      <DxDataGrid
+        id="gridContainer"
+        :show-borders="true"
+        :data-source="store"
+        :remote-operations="true"
+        :columns="columns"
+        :allow-column-reordering="true"
+        :allow-column-resizing="true"
+        :column-auto-width="false"
+        :load-panel="{
+          enabled: true,
+          indicatorSrc: require('~/static/icons/loading.gif')
+        }"
+        :onRowDblClick="selectDocument"
+        @toolbar-preparing="onToolbarPreparing($event)"
+        :focused-row-enabled="false"
+      >
+        <DxGrouping :auto-expand-all="false" />
+        <DxSelection />
+        <DxHeaderFilter :visible="true" />
 
-      <DxColumnChooser :enabled="true" />
-      <DxColumnFixing :enabled="true" />
+        <DxColumnChooser :enabled="true" />
+        <DxColumnFixing :enabled="true" />
 
-      <DxFilterRow :visible="true" />
-      <DxFilterPanel :visible="true" />
-      <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
+        <DxFilterRow :visible="true" />
+        <DxFilterPanel :visible="true" />
+        <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
 
-      <DxExport
-        :enabled="true"
-        :allow-export-selected-data="true"
-        :file-name="$t('shared.documents')"
-      />
+        <DxExport
+          :enabled="true"
+          :allow-export-selected-data="true"
+          :file-name="$t('shared.documents')"
+        />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        :storage-key="'allDocument' + documentQuery"
-      />
-      <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
+        <DxStateStoring
+          :enabled="true"
+          type="localStorage"
+          :storage-key="'allDocument' + documentQuery"
+        />
+        <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
 
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
+        <DxSearchPanel position="after" :visible="true" />
+        <DxScrolling mode="virtual" />
 
-      <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value ? cell.data.value : null" />
-      </template>
-    </DxDataGrid>
+        <template #cellTemplate="cell">
+          <document-icon
+            :extension="cell.data.value ? cell.data.value : null"
+          />
+        </template>
+      </DxDataGrid>
+
   </main>
 </template>
 <script>
@@ -89,7 +93,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
@@ -116,47 +120,48 @@ export default {
     DxStateStoring,
     DxButton,
     Header,
-    DxButtonGroup,
+    DxButtonGroup
   },
-  props: ["documentQuery", "isCard"],
+  props: ["documentQuery", "isCard", "documentFilter"],
   data() {
     return {
       activeFilter: QuiсkFilter.All,
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`
         }),
+        filter: this.documentFilter,
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
       QuiсkFilterOptions: [
         {
           text: this.$t("buttons.all"),
           filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all"),
+          hint: this.$t("buttons.all")
         },
         {
           text: this.$t("buttons.new"),
           filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new"),
+          hint: this.$t("buttons.new")
         },
 
         {
           text: this.$t("buttons.obsolete"),
           filterKey: QuiсkFilter.Obsolete,
-          hint: this.$t("buttons.obsolete"),
-        },
+          hint: this.$t("buttons.obsolete")
+        }
       ],
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
-      selectDocument: (e) => {
+      selectDocument: e => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid,
+          documentTypeGuid: e.data.documentTypeGuid
         });
-      },
+      }
     };
   },
   methods: {
@@ -168,9 +173,9 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`
         }),
-        paginate: true,
+        paginate: true
       });
     },
 
@@ -182,10 +187,10 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          },
-        },
+          }
+        }
       });
-    },
+    }
   },
   computed: {
     generateHeaderTitle() {
@@ -196,8 +201,8 @@ export default {
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">

@@ -3,7 +3,7 @@ import DocumentVersionService from "~/infrastructure/services/documentVersionSer
 import { ExecutionStateStore } from "~/infrastructure/constants/executionState.js";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
-import { baseStatusModel as documentTemplateStatus } from "~/infrastructure/constants/status.js"
+import { baseStatusModel as documentTemplateStatus } from "~/infrastructure/constants/status.js";
 export default {
   CreateColumns: (type, context) => {
     const columns = [GetDefaultColumn()];
@@ -37,12 +37,13 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateMemoColumns(context);
     case DocumentQuery.PowerOfAttorney:
       return CreatePowerOfAttorneyColumns(context);
+    case DocumentQuery.Contract:
     case DocumentQuery.ContractualDocuments:
       return CreateContractColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
     case "document-template":
-      return createDocumentTemplateColumns(context)
+      return createDocumentTemplateColumns(context);
     default:
       return [];
   }
@@ -207,7 +208,7 @@ const createDocumentTemplateColumns = context => {
     CreateDocumentCreatedColumn(context),
     CreateDocumentTemplateStatus(context)
   ];
-}
+};
 const GetDefaultColumn = () => {
   return {
     dataField: "extension",
@@ -229,7 +230,6 @@ const GetDefaultColumn = () => {
   };
 };
 
-
 function CreateDocumentNameColumn(context) {
   return {
     dataField: "name",
@@ -238,7 +238,12 @@ function CreateDocumentNameColumn(context) {
   };
 }
 function CreateDocumentTemplateStatus(context) {
-  return CreateArrayLookupColumn("status", context, documentTemplateStatus(context), true)
+  return CreateArrayLookupColumn(
+    "status",
+    context,
+    documentTemplateStatus(context),
+    true
+  );
 }
 function CreateInNumberColumn(context) {
   return {
