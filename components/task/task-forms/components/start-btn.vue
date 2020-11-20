@@ -18,7 +18,7 @@
       <div>
         <attachment-access-right-dialog
           :maxOperation="maxOperation"
-          @close="tooglePopupAccessRight"
+          @close="hideAccessRightDialog"
           @selected="sendRecipientAccessRight"
         />
       </div>
@@ -57,6 +57,10 @@ export default {
     }
   },
   methods: {
+    hideAccessRightDialog() {
+      this.tooglePopupAccessRight();
+      this.setMaxOperation(null);
+    },
     async sendRecipientAccessRight(accessRightId) {
       if (accessRightId !== undefined)
         await this.$axios.post(dataApi.task.GrantPermissions, {
@@ -66,7 +70,8 @@ export default {
         });
 
       await this.startTask();
-      this.tooglePopupAccessRight();
+
+      this.hideAccessRightDialog ();
     },
 
     tooglePopupAccessRight() {

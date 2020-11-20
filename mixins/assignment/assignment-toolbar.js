@@ -15,30 +15,40 @@ export default {
   data() {
     return {
       confirm,
+      maxOperation: null,
       isPopupAccesRight: false
-    }
+    };
   },
   methods: {
-    async sendRecipientAccessRight(accessRightId) {
-      await this.$axios.post(dataApi.assignment.GrantPermissions, {
-        assignmentId: this.assignmentId,
-        assignmentType: this.assignment.assignmentType,
-        accessRight: accessRightId,
-      });
-      await this.sendResult();
+    hideAccessRightDialog() {
       this.tooglePopupAccessRight();
+      this.setMaxOperation(null);
     },
+    async sendRecipientAccessRight(accessRightId) {
+      if (accessRightId !== undefined)
+        await this.$axios.post(dataApi.assignment.GrantPermissions, {
+          assignmentId: this.assignmentId,
+          assignmentType: this.assignment.assignmentType,
+          accessRight: accessRightId
+        });
 
+      await this.sendResult();
+      this.hideAccessRightDialog();
+    },
+    setMaxOperation(maxOperation) {
+      this.maxOperation = maxOperation;
+    },
     tooglePopupAccessRight() {
       this.isPopupAccesRight = !this.isPopupAccesRight;
     },
     async checkRecipientAccessRight() {
       const {
-        data: { succeeded },
+        data: { succeeded, maxOperation }
       } = await this.$axios.get(
         `${dataApi.assignment.CheckMembersPermissions}${this.assignment?.assignmentType}/${this.assignmentId}`
       );
       if (!succeeded) {
+        this.setMaxOperation(maxOperation);
         this.tooglePopupAccessRight();
         return false;
       } else return true;
@@ -51,27 +61,29 @@ export default {
     async completeAssignment(params) {
       const hasRecipientAccessRight = await this.checkRecipientAccessRight();
       if (!hasRecipientAccessRight) return false;
-      this.sendResult(params)
+      this.sendResult(params);
     },
-    //TODO remane this function 
+    //TODO remane this function
     sendResult(params) {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, params),
-        (e) => {
-          this.$listeners.complete()
+        this.$store.dispatch(
+          `assignments/${this.assignmentId}/complete`,
+          params
+        ),
+        e => {
+          this.$listeners.complete();
           this.$awn.success();
         },
-        (e) => this.$awn.alert()
+        e => this.$awn.alert()
       );
-    },
+    }
   },
   computed: {
     assignment() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
     },
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
-    },
+    }
   }
-}
+};
