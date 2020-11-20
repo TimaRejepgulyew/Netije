@@ -1,5 +1,5 @@
 <template>
-  <department-card :isCard="true" v-if="data" :data="data" />
+  <department-card @valueChanged="valueChanged" :isCard="true" v-if="data" :data="data" />
 </template>
 
 <script>

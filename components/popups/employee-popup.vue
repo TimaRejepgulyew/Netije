@@ -1,5 +1,10 @@
 <template>
-  <employee-card v-if="data" :data="data" :isCard="true" />
+  <employee-card
+    @valueChanged="valueChanged"
+    v-if="data"
+    :data="data"
+    :isCard="true"
+  />
 </template>
 
 <script>

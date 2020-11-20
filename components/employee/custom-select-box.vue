@@ -1,21 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :show-title="false"
-      :visible.sync="isCardOpened"
-      ref="popup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <updateCard
-          v-if="isCardOpened"
-          @valueChanged="valueChanged"
-          :isCard="true"
-          :data="currentEmployee"
-        />
-      </div>
-    </DxPopup>
     <DxSelectBox
       ref="employee"
       :read-only="readOnly"
@@ -54,7 +38,6 @@
 
 <script>
 import updateCard from "~/components/employee/employee-card.vue";
-import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import customSelectItem from "~/components/employee/custom-select-box-item.vue";
@@ -70,7 +53,6 @@ export default {
     customSelectItem,
     customField,
     updateCard,
-    DxPopup,
     DxButton,
   },
   props: {
