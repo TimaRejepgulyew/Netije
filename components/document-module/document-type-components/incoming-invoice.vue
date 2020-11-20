@@ -216,7 +216,7 @@ export default {
         dataSourceQuery: DocumentQuery.Contract,
         dataSourceFilter: this.counterpartyId
           ? ["counterpartyId", "=", this.counterpartyId]
-          : []
+          : undefined
       };
     },
     currencyIdOptions() {

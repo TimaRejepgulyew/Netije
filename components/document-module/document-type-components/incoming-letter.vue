@@ -251,7 +251,7 @@ export default {
         dataSourceQuery: DocumentQuery.OutgoingLetter,
         dataSourceFilter: this.correspondentId
           ? ["correspondentId", "=", this.correspondentId]
-          : []
+          : undefined
       };
     },
 

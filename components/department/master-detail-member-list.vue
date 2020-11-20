@@ -112,7 +112,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.id]
-          : []
+          : undefined
       };
     },
     onInitNewRow(e) {

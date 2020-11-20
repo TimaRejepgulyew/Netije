@@ -145,7 +145,7 @@ export default {
       paginate: true,
       filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.regionId]
-          : []
+          : undefined
       };
     },
     validateLocalityName(params) {

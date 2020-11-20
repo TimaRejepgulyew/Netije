@@ -277,7 +277,7 @@ export default {
                 ["counterpartyId", "=", this.counterpartyId],
                 ["id", "<>", this.document.id]
               ]
-            : []
+            : undefined
         }),
         value: this.document.correctedId,
         onValueChanged: e => {
@@ -291,7 +291,7 @@ export default {
         dataSourceQuery: DocumentQuery.Contract,
         dataSourceFilter: this.counterpartyId
           ? ["counterpartyId", "=", this.counterpartyId]
-          : []
+          : undefined
       };
     },
     currencyIdOptions() {
