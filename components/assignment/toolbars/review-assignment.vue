@@ -1,22 +1,5 @@
 <template>
   <div class="toolbar">
-    <DxPopup
-      :title="$t('shared.confirm')"
-      :visible.sync="isPopupAccesRight"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="auto"
-      :height="'auto'"
-    >
-      <div>
-        <attachment-access-right-dialog
-          :maxOperation="maxOperation"
-          @close="hideAccessRightDialog"
-          @selected="sendRecipientAccessRight"
-        />
-      </div>
-    </DxPopup>
     <DxToolbar>
       <DxItem
         :visible="inProcess"

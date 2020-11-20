@@ -1,46 +1,36 @@
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import { DxPopup } from "devextreme-vue/popup";
-import attachmentAccessRightDialog from "~/components/access-right/attachment-access-right-dialog.vue";
 import dataApi from "~/static/dataApi.js";
 export default {
   components: {
     DxToolbar,
     DxItem,
-    DxPopup,
-    attachmentAccessRightDialog
   },
   props: ["assignmentId"],
   inject: ["isValidForm"],
   data() {
     return {
       confirm,
-      maxOperation: null,
-      isPopupAccesRight: false
     };
   },
   methods: {
-    hideAccessRightDialog() {
-      this.tooglePopupAccessRight();
-      this.setMaxOperation(null);
-    },
-    async sendRecipientAccessRight(accessRightId) {
+    async valueChanged(accessRightId) {
       if (accessRightId !== undefined)
         await this.$axios.post(dataApi.assignment.GrantPermissions, {
           assignmentId: this.assignmentId,
           assignmentType: this.assignment.assignmentType,
           accessRight: accessRightId
         });
-
       await this.sendResult();
-      this.hideAccessRightDialog();
     },
-    setMaxOperation(maxOperation) {
-      this.maxOperation = maxOperation;
-    },
-    tooglePopupAccessRight() {
-      this.$show.attachmentAccessRightDialog(this)
-      // this.isPopupAccesRight = !this.isPopupAccesRight;
+    showAccessRightPopup(maxOperation) {
+      this.$popup.attachmentAccessRightDialog(this, {
+        maxOperation
+      }, {
+        width: "auto",
+        height: "auto",
+        showLoadingPanel: false,
+      })
     },
     async checkRecipientAccessRight() {
       const {
@@ -49,8 +39,7 @@ export default {
         `${dataApi.assignment.CheckMembersPermissions}${this.assignment?.assignmentType}/${this.assignmentId}`
       );
       if (!succeeded) {
-        this.setMaxOperation(maxOperation);
-        this.tooglePopupAccessRight();
+        this.showAccessRightPopup(maxOperation);
         return false;
       } else return true;
     },

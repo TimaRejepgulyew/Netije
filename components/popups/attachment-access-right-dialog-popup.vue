@@ -1,5 +1,6 @@
 <template>
   <attachmentAccessRightDialog
+    :maxOperation="options.maxOperation"
     @close="close"
     @selected="valueChanged"
   />
@@ -11,9 +12,14 @@ export default {
   components: {
     attachmentAccessRightDialog,
   },
+  props: {
+    options: {
+      type: Object,
+    },
+  },
   methods: {
     valueChanged(data) {
-      this.$emit("valueChanged", { data, updated: true });
+      this.$emit("valueChanged", data);
       this.$emit("close");
     },
     close() {
