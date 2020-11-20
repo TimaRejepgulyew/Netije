@@ -1,5 +1,5 @@
 import Vue from "vue"
-import Popup from "~/components/Layout/popup.vue"
+import Popup from "~/components/popups/index.vue"
 Vue.component("Popup", Popup)
 
 function BasePopup(template) {
