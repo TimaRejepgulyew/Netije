@@ -19,7 +19,7 @@ export default {
     }
   },
   methods: {
-    async sendRecipientAccessRight(accessRightId) {
+    async valueChanged(accessRightId) {
       await this.$axios.post(dataApi.assignment.GrantPermissions, {
         assignmentId: this.assignmentId,
         assignmentType: this.assignment.assignmentType,
@@ -30,7 +30,8 @@ export default {
     },
 
     tooglePopupAccessRight() {
-      this.isPopupAccesRight = !this.isPopupAccesRight;
+      this.$show.attachmentAccessRightDialog(this)
+      // this.isPopupAccesRight = !this.isPopupAccesRight;
     },
     async checkRecipientAccessRight() {
       const {

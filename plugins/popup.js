@@ -28,6 +28,7 @@ export default (pluginContext, inject) => {
     counterPartCard: BasePopup("counterPartCard"),
     counterPartGrid: BasePopup("counterPartGrid"),
     accessRight: BasePopup("accessRight"),
+    attachmentAccessRightDialog: BasePopup("attachmentAccessRightDialog"),
   }
   inject('popup', popup)
 }

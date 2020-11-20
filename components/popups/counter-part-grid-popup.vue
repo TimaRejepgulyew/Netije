@@ -11,16 +11,6 @@ export default {
   components: {
     counterPartGrid,
   },
-  props: {
-    options: {
-      type: Object,
-    },
-  },
-  data() {
-    return {
-      data: null,
-    };
-  },
   methods: {
     valueChanged(data) {
       this.$emit("valueChanged", { data });
