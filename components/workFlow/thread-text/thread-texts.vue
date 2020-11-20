@@ -37,23 +37,6 @@
           />
         </div>
       </DxPopup>
-      <DxPopup
-        :showTitle="false"
-        :visible.sync="showAuthorCard"
-        :drag-enabled="false"
-        :close-on-outside-click="true"
-        :show-title="true"
-        width="90%"
-       :height="'95%'"
-      >
-        <div class="scrool-auto">
-          <employee-card
-            v-if="showAuthorCard"
-            :data="currentEmployee"
-            :isCard="true"
-          />
-        </div>
-      </DxPopup>
       <div class="toolbar--position-top">
         <DxToolbar>
           <DxItem
@@ -93,7 +76,6 @@ import { load as taskLoad } from "~/infrastructure/services/taskService.js";
 import cardAssignment from "~/components/assignment/index.vue";
 import cardTask from "~/components/task/index.vue";
 import { DxPopup } from "devextreme-vue/popup";
-import employeeCard from "~/components/employee/employee-card.vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
@@ -104,7 +86,6 @@ export default {
     DxItem,
     cardAssignment,
     cardTask,
-    employeeCard,
     DxPopup,
     DxList,
     treadTextMediator: async () =>
@@ -159,12 +140,10 @@ export default {
     togglePopup(popupName) {
       this[popupName] = !this[popupName];
     },
-    async toDetailAuthor(id) {
-      const { data } = await this.$axios.get(
-        `${dataApi.company.Employee}/${id}`
-      );
-      this.currentEmployee = data;
-      this.togglePopup("showAuthorCard");
+    toDetailAuthor(id) {
+      this.$popup.employeeCard(this, {
+        employeeId: id
+      });
     },
     toDetailAssignment({ id, assignmentType }) {
       this.currentAssignmentId = id;

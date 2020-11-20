@@ -27,6 +27,7 @@
 
 <script>
 import Vue from "vue";
+import documentCard from "~/components/popups/document-card-popup.vue";
 import bussiniesUnitCard from "~/components/popups/business-unit-popup.vue";
 import departmentCard from "~/components/popups/department-popup.vue";
 import employeeCard from "~/components/popups/employee-popup.vue";
@@ -44,24 +45,26 @@ export default {
     employeeCard,
     counterPartCard,
     counterPartGrid,
+    documentCard
   },
+  name: "base-popup",
   props: {
     template: {
-      type: String,
+      type: String
     },
     options: {
-      type: Object,
+      type: Object
     },
     popupSettings: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   data() {
     return {
       visible: false,
       isLoading: false,
       title: "",
-      indicatorIcon,
+      indicatorIcon
     };
   },
   computed: {
@@ -73,9 +76,9 @@ export default {
         width: "90%",
         height: "95%",
         showLoadingPanel: true,
-        ...this.popupSettings,
+        ...this.popupSettings
       };
-    },
+    }
   },
   methods: {
     destroyComponent() {
@@ -93,12 +96,12 @@ export default {
     },
     setTitle(data) {
       this.title = data;
-    },
+    }
   },
   mounted() {
     this.isLoading = this.defaultPopupSettings.showLoadingPanel;
     // console.log(this.template, this.options);
-  },
+  }
 };
 </script>
 

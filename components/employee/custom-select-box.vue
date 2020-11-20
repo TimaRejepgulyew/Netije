@@ -1,21 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :show-title="false"
-      :visible.sync="isCardOpened"
-      ref="popup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <updateCard
-          v-if="isCardOpened"
-          @valueChanged="valueChanged"
-          :isCard="true"
-          :data="currentEmployee"
-        />
-      </div>
-    </DxPopup>
     <DxSelectBox
       ref="employee"
       :read-only="readOnly"
@@ -54,9 +38,8 @@
 </template>
 
 <script>
-import updateCard from "~/components/employee/employee-card.vue";
-import { DxPopup } from "devextreme-vue/popup";
-import { DxButton } from "devextreme-vue";
+
+
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import customSelectItem from "~/components/employee/custom-select-box-item.vue";
 import customField from "~/components/employee/custom-employee-field";
@@ -70,9 +53,6 @@ export default {
     DxSelectBox,
     customSelectItem,
     customField,
-    updateCard,
-    DxPopup,
-    DxButton,
   },
   props: [
     "value",
@@ -82,21 +62,6 @@ export default {
     "readOnly",
     "valueExpr",
   ],
-
-  data() {
-    return {
-      // employeeStore: new DataSource({
-      //   store: this.$dxStore({
-      //     key: "id",
-      //     loadUrl: this.storeApi || dataApi.company.Employee,
-      //   }),
-      //   paginate: true,
-      //   pageSize: 10,
-      // }),
-      isCardOpened: false,
-      currentEmployee: null,
-    };
-  },
   computed: {
     employeeStore() {
       return new DataSource({
@@ -114,15 +79,9 @@ export default {
   },
   methods: {
     async showPopup() {
-      // const { data } = await this.$axios.get(
-      //   `${dataApi.company.Employee}/${this.employeeId}`
-      // );
-      // this.currentEmployee = data;
-      // this.isCardOpened = !this.isCardOpened;
       this.$popup.employeeCard(this, {
         employeeId: this.employeeId,
       });
-      // this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
