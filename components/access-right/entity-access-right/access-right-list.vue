@@ -77,12 +77,11 @@
 </template>
 
 <script>
-
 import recipientType from "~/infrastructure/constants/resipientType.js";
 import resipientIcon from "~/components/page/resipient-icon.vue";
 import recipientSelectBox from "~/components/recipient/select-box/index.vue";
 import { DxSelectBox } from "devextreme-vue/select-box";
-import attachmentActionBtn from "~/components/page/access-right-action-btn";
+import attachmentActionBtn from "~/components/access-right/entity-access-right/access-right-action-btn";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
@@ -94,27 +93,16 @@ export default {
     DxList,
     DxButton,
     resipientIcon,
-    recipientSelectBox
+    recipientSelectBox,
   },
-  props: ["entityType", "entityId"],
-  async created() {
-    this.$awn.asyncBlock(
-      this.$axios.get(
-        `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
-      ),
-      res => {
-        this.accessRight = res.data;
-      },
-      () => this.$awn.alert()
-    );
-  },
+  props: ["data"],
   data() {
     return {
       accessRight: {},
       newRecipient: {
         recipientId: null,
-        accessRightTypeId: null
-      }
+        accessRightTypeId: null,
+      },
     };
   },
   methods: {
@@ -128,7 +116,7 @@ export default {
     },
     async load() {
       const { data } = await this.$axios.get(
-        `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
+        `${dataApi.accessRights.List}${this.data.entityType}/${this.data.entityId}`
       );
       this.accessRight = data;
     },
@@ -136,14 +124,14 @@ export default {
       this.newRecipient = {
         recipientId: null,
         accessRightTypeId: null,
-        entityType: +this.entityType
+        entityType: +this.data.entityType,
       };
     },
     addRecipient() {
       const recipient = {
         ...this.newRecipient,
-        entityId: +this.entityId,
-        entityType: +this.entityType
+        entityId: +this.data.entityId,
+        entityType: +this.data.entityType,
       };
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.accessRights.AddRecipient, recipient),
@@ -171,7 +159,7 @@ export default {
     },
     onValueChanged(value) {
       this.newRecipient.recipientId = value;
-    }
+    },
   },
   computed: {
     accessRightsStore() {
@@ -183,8 +171,11 @@ export default {
     },
     btnSave() {
       return this.$store.getters["globalProperties/btnSave"](this);
-    }
-  }
+    },
+  },
+  created() {
+    this.accessRight = this.data;
+  },
 };
 </script>
 

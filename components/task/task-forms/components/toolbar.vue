@@ -66,7 +66,7 @@ import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
 import attachmentVue from "~/components/workFlow/attachment/index.vue";
-import toolbarItemAccessRight from "~/components/page/access-right.vue";
+import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 export default {
   components: {
     toolbarItemImportanceChanger,

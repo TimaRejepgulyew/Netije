@@ -27,6 +27,7 @@ export default (pluginContext, inject) => {
     employeeCard: BasePopup("employeeCard"),
     counterPartCard: BasePopup("counterPartCard"),
     counterPartGrid: BasePopup("counterPartGrid"),
+    accessRight: BasePopup("accessRight"),
   }
   inject('popup', popup)
   inject('Popup', Popup)
