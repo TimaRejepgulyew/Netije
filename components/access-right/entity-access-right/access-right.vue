@@ -11,6 +11,7 @@ export default {
   components: {
     DxButton,
   },
+
   props: ["entityType", "entityId"],
   data() {
     return {

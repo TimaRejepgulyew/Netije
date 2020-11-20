@@ -4,7 +4,7 @@ Vue.component("Popup", Popup)
 
 function BasePopup(template) {
   return function (context, options, popupSettings) {
-    let popup = Vue.extend(context.$Popup);
+    let popup = Vue.extend(Popup);
     let instance = new popup({
       parent: context,
       propsData: {
@@ -14,7 +14,7 @@ function BasePopup(template) {
       },
     });
 
-    instance.$on('valueChanged',  (data) => {context.valueChanged(data)})
+    instance.$on('valueChanged', (data) => { context.valueChanged(data) })
     instance.$mount();
     context.$el.appendChild(instance.$el);
   }
@@ -30,5 +30,4 @@ export default (pluginContext, inject) => {
     accessRight: BasePopup("accessRight"),
   }
   inject('popup', popup)
-  inject('Popup', Popup)
 }

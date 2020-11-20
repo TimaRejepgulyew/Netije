@@ -43,7 +43,6 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
-          @openCard="showPopup"
           :read-only="readOnly"
           @valueChanged="updateEmployee"
           :field-data="data || value"
@@ -113,17 +112,6 @@ export default {
     },
   },
   methods: {
-    async showPopup() {
-      // const { data } = await this.$axios.get(
-      //   `${dataApi.company.Employee}/${this.employeeId}`
-      // );
-      // this.currentEmployee = data;
-      // this.isCardOpened = !this.isCardOpened;
-      this.$popup.employeeCard(this, {
-        employeeId: this.employeeId,
-      });
-      // this.$refs["popup"].instance.toggle();
-    },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },

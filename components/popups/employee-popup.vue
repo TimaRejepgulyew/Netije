@@ -19,6 +19,12 @@ export default {
       data: null,
     };
   },
+  methods: {
+    valueChanged(data) {
+      this.$emit("valueChanged", { data });
+      this.$emit("close");
+    },
+  },
   async created() {
     const { data } = await this.$axios.get(
       `${dataApi.company.Employee}/${this.options.employeeId}`
