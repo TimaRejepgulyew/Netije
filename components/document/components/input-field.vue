@@ -14,37 +14,37 @@
       :hint="$t('translations.fields.moreAbout')"
       :useSubmitBehavior="false"
       type="default"
-    ></DxButton>
-    <showGridBtn
-      @selectedDocument="valueChanged"
-      :readOnly="readOnly"
-      :dataSourceQuery="dataSourceQuery"
-      :dataSourceFilter="dataSourceFilter"
+    />
+    <DxButton
+      :disabled="readOnly"
+      :on-click="openGrid"
+      icon="more"
+      stylingMode="text"
+      :useSubmitBehavior="false"
+      type="default"
     />
   </div>
 </template>
 <script>
-import showGridBtn from "~/components/document/components/show-grid-btn.vue";
 import { DxButton } from "devextreme-vue";
 import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
     DxButton,
-    showGridBtn
   },
-  props: ["fieldData", "readOnly", "dataSourceQuery", "dataSourceFilter"],
+  props: ["fieldData", "readOnly"],
   computed: {
     canShowInfo() {
       return this.fieldData ? true : false;
     }
   },
   methods: {
+    openGrid() {
+      this.$emit("openGrid");
+    },
     openCard() {
       this.$emit("openCard", this.fieldData);
-    },
-    valueChanged(data) {
-      this.$emit("valueChanged", data);
     }
   }
 };

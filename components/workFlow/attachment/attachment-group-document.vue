@@ -6,7 +6,7 @@
       <addDocumentBtn
         v-if="group.canAddAttachments"
         @createDocument="createDocument"
-        @showDocumentGrid="togglePopupGrid"
+        @showDocumentGrid="showdocumentGrid"
       />
     </div>
     <ul v-if="hasGroupItem">
@@ -24,7 +24,7 @@
       :class="{ 'cursor-pointer': group.canAddAttachments }"
       @click="
         () => {
-          if (group.canAddAttachments) togglePopupGrid();
+          if (group.canAddAttachments) showdocumentGrid();
         }
       "
     >
@@ -59,14 +59,6 @@ export default {
 
     documentField
   },
-  data() {
-    return {
-      isOpenShowCreateNewAttacmentCard: false,
-      isOpenShowAttacmentCard: false,
-      isOpenGrid: false,
-      attachmentId: false
-    };
-  },
   props: ["group"],
 
   methods: {
@@ -75,6 +67,18 @@ export default {
         params: { documentId: id, documentTypeGuid },
         handler: load
       });
+    },
+    showdocumentGrid() {
+      this.$popup.documentGrid(
+        this,
+        {},
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "pasteAttachment" }
+          ],
+          showLoadingPanel: false
+        }
+      );
     },
     createDocument(documentType) {
       this.$popup.documentCard(

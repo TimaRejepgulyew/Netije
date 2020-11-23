@@ -26,11 +26,9 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
-          :dataSourceFilter="dataSourceFilter"
-          :dataSourceQuery="dataSourceQuery"
+          @openGrid="showDocumentGrid"
           @openCard="showDocumentCard"
           :read-only="readOnly"
-          @valueChanged="updateDocument"
           :field-data="data || value"
         />
       </template>
@@ -107,18 +105,43 @@ export default {
     }
   },
   methods: {
-    async showDocumentCard({ documentTypeGuid, id }) {
-      this.$popup.documentCard(this, {
-        params: { documentTypeGuid, documentId: id },
-        handler: load
-      });
+    showDocumentCard({ documentTypeGuid, id }) {
+      this.$popup.documentCard(
+        this,
+        {
+          params: { documentTypeGuid, documentId: id },
+          handler: load
+        },
+        {
+          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
+        }
+      );
     },
-
+    showDocumentGrid() {
+      this.$popup.documentGrid(
+        this,
+        {
+          documentQuery: this.dataSourceQuery,
+          documentFilter: this.dataSourceFilter
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "updateDocument" }
+          ],
+          showLoadingPanel: false
+        }
+      );
+    },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },
-    updateDocument(data) {
+    reloadStore() {
+      this.$refs["document"].instance.repaint();
       this.documentStore.reload();
+    },
+    updateDocument(data) {
+      console.log("data", data);
+      this.reloadStore();
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.$refs["document"].instance.repaint();
