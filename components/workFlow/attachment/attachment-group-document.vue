@@ -1,58 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      width="90%"
-      height="95%"
-      :showTitle="false"
-      :visible.sync="isOpenGrid"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <documentGrid
-          v-if="isOpenGrid"
-          :documentQuery="100"
-          @selectedDocument="onSelectedDocument"
-        />
-      </div>
-    </DxPopup>
-    <DxPopup
-      width="90%"
-      height="95%"
-      :showTitle="false"
-      :visible.sync="isOpenShowAttacmentCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <document-card
-          class="card"
-          @onClose="togglePopupCard"
-          v-if="isOpenShowAttacmentCard"
-          :documentId="attachmentId"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
-    <DxPopup
-      width="90%"
-      height="95%"
-      :showTitle="false"
-      :visible.sync="isOpenShowCreateNewAttacmentCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <document-card
-          class="card"
-          v-if="isOpenShowCreateNewAttacmentCard"
-          @onClosed="pasteAttachment"
-          @onClose="togglePopupCardCreateAttachment"
-          :documentId="attachmentId"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
     <div class="d-flex align-center">
       <span class="dx-form-group-caption">{{ group.groupTitle }}</span>
       <sup v-if="group.isRequired" class="red">*</sup>
@@ -102,7 +49,6 @@ import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import DxSelectBox from "devextreme-vue/select-box";
-import { DxPopup } from "devextreme-vue/popup";
 export default {
   components: {
     DxSelectBox,
@@ -110,9 +56,7 @@ export default {
     addDocumentBtn,
     documentGrid: async () =>
       await import("~/components/document-module/document-grid.vue"),
-    documentCard: async () =>
-      await import("~/components/document-module/main-doc-form/index.vue"),
-    DxPopup,
+
     documentField
   },
   data() {
@@ -140,16 +84,10 @@ export default {
       );
     },
     createDocument(documentType) {
-      this.$awn.asyncBlock(
-        createDocument(this, { documentType }),
-        ({ documentId, documentTypeGuid }) => {
-          this.attachmentId = documentId;
-          this.togglePopupCardCreateAttachment();
-        },
-        e => {
-          this.$awn.alert();
-        }
-      );
+      this.$popup.documentCard(this, {
+        params: { documentType },
+        handler: createDocument
+      });
     },
     togglePopupCardCreateAttachment() {
       this.isOpenShowCreateNewAttacmentCard = !this

@@ -36,22 +36,14 @@
 </template>
 <script>
 import { DxDropDownButton } from "devextreme-vue";
-import company from "~/components/parties/company-card.vue";
-import bank from "~/components/parties/bank-card.vue";
-import person from "~/components/parties/person-card.vue";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import { DxButton } from "devextreme-vue";
 import { DxTextBox } from "devextreme-vue";
-import counterPartGrid from "~/components/parties/counter-part-grid.vue";
 export default {
   components: {
     DxTextBox,
     DxButton,
     DxDropDownButton,
-    counterPartGrid,
-    company,
-    bank,
-    person,
   },
   props: {
     readOnly: {
