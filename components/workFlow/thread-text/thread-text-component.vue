@@ -1,8 +1,5 @@
 <template>
-  <component
-    :data="data"
-    :is="getComponentByType"
-  />
+  <component :data="data" :is="getComponentByType" />
 </template>
 
 <script>
@@ -17,9 +14,8 @@ export default {
     notificationTreadText
   },
   name: "text-mediator",
-  props: ["data","type"],
-  created() {
-  },
+  props: ["data", "type"],
+  created() {},
   computed: {
     getComponentByType() {
       switch (this.type) {
@@ -31,9 +27,8 @@ export default {
           return "assignment-tread-text";
       }
     }
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

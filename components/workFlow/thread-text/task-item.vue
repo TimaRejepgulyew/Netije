@@ -2,43 +2,43 @@
   <div>
     <div
       class="comment__item mY-1 ml-1"
-      :class="{ 'current-comment': data.isCurrent }"
+      :class="{ 'current-comment': data.item.isCurrent }"
     >
       <div class="d-flex js-space-between">
         <div>
           <user-icon
             class="f-size-30"
-            :fullName="data.author.name"
-            :path="data.author.personalPhotoHash"
+            :fullName="data.item.author.name"
+            :path="data.item.author.personalPhotoHash"
           />
         </div>
         <div>
-          <div @click="() => toDetailTask(data.entity)" class="link">
-            <span class="text-italic">{{ parseSubject(data.entity) }}</span>
+          <div @click="() => toDetailTask(data.item.entity)" class="link">
+            <span class="text-italic">{{ parseSubject(data.item.entity) }}</span>
           </div>
 
           <div class="list__content d-flex">
-            <threadTextComponentAuthor :author="data.author" />
+            <threadTextComponentAuthor :author="data.item.author" />
             <div>
               <i class="dx-icon dx-icon-event"></i>
-              {{ formatDate(data.modificationDate) }}
+              {{ formatDate(data.item.modificationDate) }}
             </div>
           </div>
         </div>
         <div class="thread-text-status">
           <div
             class="task__item"
-            v-if="data.entity.maxDeadline && displayDeadline(data.type)"
-            :class="{ expired: data.isExpired }"
+            v-if="data.item.entity.maxDeadline && displayDeadline(data.item.type)"
+            :class="{ expired: data.item.isExpired }"
           >
             {{ $t("translations.fields.deadLine") }}:
-            {{ formatDate(data.entity.maxDeadline) }}
+            {{ formatDate(data.item.entity.maxDeadline) }}
           </div>
-          <status-indicator :data="data.entity" />
+          <status-indicator :data="data.item.entity" />
         </div>
       </div>
-      <div v-if="data.entity.body" class="list__content message-body">
-        {{ data.entity.body }}
+      <div v-if="data.item.entity.body" class="list__content message-body">
+        {{ data.item.entity.body }}
       </div>
     </div>
     <tread-text-component
@@ -46,7 +46,7 @@
       :v-if="data.children && data.children.length"
       v-for="(item, index) in data.children"
       :data="item"
-      :type="item.type"
+      :type="item.item.type"
       :key="index"
     />
   </div>

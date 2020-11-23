@@ -2,37 +2,37 @@
   <div>
     <div
       class="comment__item mY-1 ml-1"
-      :class="{ 'current-comment': data.isCurrent }"
+      :class="{ 'current-comment': data.item.isCurrent }"
     >
       <div class="d-flex js-space-between">
         <div>
           <user-icon
             class="f-size-30"
-            :fullName="data.author.name"
-            :path="data.author.personalPhotoHash"
+            :fullName="data.item.author.name"
+            :path="data.item.author.personalPhotoHash"
           />
         </div>
         <div>
-          <div @click="() => toDetailAssignment(data.entity)" class="link">
+          <div @click="() => toDetailAssignment(data.item.entity)" class="link">
             <span class="text-italic">{{
-              parseSubject(data.entity.assignmentType)
+              parseSubject(data.item.entity.assignmentType)
             }}</span>
           </div>
 
           <div class="list__content d-flex">
-            <threadTextComponentAuthor :author="data.author" />
+            <threadTextComponentAuthor :author="data.item.author" />
             <div>
               <i class="dx-icon dx-icon-event"></i>
-              {{ formatDate(data.modificationDate) }}
+              {{ formatDate(data.item.modificationDate) }}
             </div>
           </div>
         </div>
         <div class="thread-text-status">
-          <is-read-indicator :data="data.entity" />
+          <is-read-indicator :data="data.item.entity" />
         </div>
       </div>
-      <div v-if="data.entity.body" class="list__content message-body">
-        {{ data.entity.body }}
+      <div v-if="data.item.entity.body" class="list__content message-body">
+        {{ data.item.entity.body }}
       </div>
     </div>
     <thread-text-component
@@ -40,7 +40,7 @@
       :v-if="data.children && data.children.length"
       v-for="(item, index) in data.children"
       :data="item"
-      :type="item.type"
+      :type="item.item.type"
       :key="index"
     />
   </div>
@@ -58,7 +58,7 @@ export default {
     userIcon,
     isReadIndicator,
     threadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue"),
+      import("~/components/workFlow/thread-text/thread-text-component.vue")
   },
   name: "task-item",
   props: ["data"],
@@ -72,7 +72,7 @@ export default {
     },
     toDetailAssignment(params) {
       this.$popup.assignmentCard(this, {
-        params: { assignmentId: params.id },
+        params: { assignmentId: params.id }
       });
     },
     parseSubject(value) {
@@ -83,8 +83,7 @@ export default {
     },
     displayDeadline(type) {
       return type !== WorkflowEntityTextType.Notice;
-    },
-  },
+    }
+  }
 };
 </script>
-
