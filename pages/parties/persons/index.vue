@@ -276,7 +276,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.regionId]
-          : []
+          : undefined
       };
     },
     getActiveLocalities(options) {
@@ -288,7 +288,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["regionId", "=", options.data.regionId, "or", "status", "=", Status.Active, "or", "id", "=", options.data.localityId]
-          : []
+          : undefined
       };
     },
     getActiveBanks(options) {
@@ -300,7 +300,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
-          : []
+          : undefined
       };
     },
     validateEntityExists(params) {

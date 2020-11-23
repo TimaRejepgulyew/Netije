@@ -306,7 +306,7 @@ export default {
               "=",
               options.data.headOfficeId,
             ]
-          : [],
+          : undefined,
       };
     },
     getActiveEmployees(options) {
@@ -318,7 +318,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
-          : [],
+          : undefined,
       };
     },
     getActiveBussinessUnit(options) {
@@ -338,7 +338,7 @@ export default {
               "=",
               options.data.businessUnitId,
             ]
-          : [],
+          : undefined,
       };
     },
     validateEntityExists(params) {

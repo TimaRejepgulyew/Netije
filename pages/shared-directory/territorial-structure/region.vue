@@ -173,7 +173,7 @@ export default {
               "=",
               options.data.countryId
             ]
-          : []
+          : undefined
       };
     },
     validateRegionName(params) {

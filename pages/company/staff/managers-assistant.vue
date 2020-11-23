@@ -207,7 +207,7 @@ export default {
               "=",
               Status.Active
             ]
-          : []
+          : undefined
       };
     },
     getFilteredAssistant(options) {
@@ -223,7 +223,7 @@ export default {
               "=",
               Status.Active
             ]
-          : []
+          : undefined
       };
     },
     validateEntityExists(params) {

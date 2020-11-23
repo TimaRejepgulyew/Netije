@@ -266,7 +266,7 @@ export default {
               "=",
               options.data.regionId,
             ]
-          : [],
+          : undefined,
       };
     },
     getActiveLocalities(options) {
@@ -290,7 +290,7 @@ export default {
               "=",
               options.data.localityId,
             ]
-          : [],
+          : undefined,
       };
     },
     validateEntityExists(params) {

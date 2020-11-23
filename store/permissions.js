@@ -147,6 +147,9 @@ export const getters = {
   },
   isDepartmentManager({ accessRights }) {
     return accessRights.isDepartmentManager;
+  },
+  isUser({ accessRights }) {
+    return accessRights.isUser;
   }
 };
 export const mutations = {
@@ -162,6 +165,7 @@ export const mutations = {
       isResponsibleForTheFinancialArchive: payload.roles.includes(
         "ResponsibleForTheFinancialArchive"
       ),
+      isUser: payload.roles.includes("User"),
       isResponsibleForContracts: payload.roles.includes(
         "ResponsibleForContracts"
       ),

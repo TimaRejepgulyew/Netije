@@ -43,6 +43,9 @@ export default function(app) {
       return false;
     }
   }
+  function onSourceDisabled(handler) {
+    connection.on("sourceDisabled", handler);
+  }
   function onError(handler) {
     connection.on("error", handler);
   }
@@ -66,6 +69,8 @@ export default function(app) {
   });
   onScanCompleted(document => {
     app.store.dispatch("scanner/setPage", document);
+  });
+  onSourceDisabled(() => {
     app.store.commit("scanner/CLOSE_LOADING");
   });
   onFileGenerated(file => {

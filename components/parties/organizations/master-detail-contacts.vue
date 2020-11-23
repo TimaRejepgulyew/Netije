@@ -199,7 +199,7 @@ export default {
               "=",
               options.data.companyId
             ]
-          : []
+          : undefined
       };
     },
     onValueChanged(value, cellInfo) {
