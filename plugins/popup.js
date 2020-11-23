@@ -13,7 +13,7 @@ function BasePopup(template) {
         popupSettings: popupSettings
       }
     });
-    if (popupSettings.listeners) {
+    if (popupSettings?.listeners) {
       popupSettings.listeners.forEach(({ eventName, handlerName }) => {
         instance.$on(eventName, data => {
           context[handlerName](data);

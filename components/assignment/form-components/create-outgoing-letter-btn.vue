@@ -18,8 +18,7 @@ import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
-    DxButton,
-   
+    DxButton
   },
   props: ["leadingDocumentId"],
   data() {
@@ -37,7 +36,7 @@ export default {
   },
   methods: {
     // to popupComponent
-    valueChanged({ id, documentTypeGuid }) {
+    pasteAttachment({ id, documentTypeGuid }) {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: 7,
@@ -45,14 +44,22 @@ export default {
       });
     },
     createOutgoingLetter() {
-      this.$popup.documentCard(this, {
-        params: {
-          documentType: DocumentTypeGuid.OutgoingLetter,
-          leadingDocumentType: DocumentTypeGuid.IncomingLetter,
-          leadingDocumentId: this.leadingDocumentId
+      this.$popup.documentCard(
+        this,
+        {
+          params: {
+            documentType: DocumentTypeGuid.OutgoingLetter,
+            leadingDocumentType: DocumentTypeGuid.IncomingLetter,
+            leadingDocumentId: this.leadingDocumentId
+          },
+          handler: createLeadingDocument
         },
-        handler: createLeadingDocument
-      });
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "pasteAttachment" }
+          ]
+        }
+      );
     }
   }
 };

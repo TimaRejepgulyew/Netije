@@ -22,7 +22,6 @@ export default {
         documentId: +params.id
       }
     );
-    console.log(app.store.getters[`documents/${+params.id}/document`]);
   },
   async beforeRouteLeave(to, from, next) {
     let result = true;

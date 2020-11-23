@@ -70,22 +70,11 @@ export default {
   props: ["group"],
 
   methods: {
-    onSelectedDocument({ documentTypeGuid, id }) {
-      this.valueChanged({ documentTypeGuid, id });
-      this.togglePopupGrid();
-    },
     showAttachmentCard({ id, documentTypeGuid }) {
       this.$popup.documentCard(this, {
-        params: { documentType },
-        handler: createDocument
+        params: { documentId: id, documentTypeGuid },
+        handler: load
       });
-      this.$awn.asyncBlock(
-        load(this, { documentId: id, documentTypeGuid }),
-        () => {
-          this.attachmentId = id;
-          this.togglePopupCard();
-        }
-      );
     },
     createDocument(documentType) {
       this.$popup.documentCard(
@@ -100,16 +89,6 @@ export default {
           ]
         }
       );
-    },
-    togglePopupCardCreateAttachment() {
-      this.isOpenShowCreateNewAttacmentCard = !this
-        .isOpenShowCreateNewAttacmentCard;
-    },
-    togglePopupCard() {
-      this.isOpenShowAttacmentCard = !this.isOpenShowAttacmentCard;
-    },
-    togglePopupGrid() {
-      this.isOpenGrid = !this.isOpenGrid;
     },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
