@@ -2,13 +2,13 @@
   <div>
     <DxButton
       :disabled="readOnly"
-      :on-click="togglePopup"
+      :on-click="showPopup"
       icon="more"
       stylingMode="text"
       :useSubmitBehavior="false"
       type="default"
-    ></DxButton>
-    <DxPopup
+    />
+    <!-- <DxPopup
       :show-title="false"
       :visible.sync="isGridOpened"
       :drag-enabled="false"
@@ -19,7 +19,7 @@
       <div class="scrool-auto">
         <document-grid
           @selectedDocument="
-            params => {
+            (params) => {
               selectedDocument(params);
               togglePopup();
             }
@@ -30,40 +30,47 @@
           :documentFilter="dataSourceFilter"
         />
       </div>
-    </DxPopup>
+    </DxPopup> -->
   </div>
 </template>
 
 <script>
 import documentGrid from "~/components/document-module/document-grid.vue";
 import { DxButton } from "devextreme-vue";
-import { DxPopup } from "devextreme-vue/popup";
 export default {
   components: {
     documentGrid,
     DxButton,
-    DxPopup
   },
   props: {
     readOnly: {
-      type: Boolean
+      type: Boolean,
     },
     dataSourceFilter: {},
-    dataSourceQuery: {}
+    dataSourceQuery: {},
   },
   data() {
     return {
-      isGridOpened: false
+      isGridOpened: false,
     };
   },
   methods: {
-    togglePopup() {
-      this.isGridOpened = !this.isGridOpened;
+    showPopup() {
+      this.$popup.documentGrid(
+        this,
+        {
+          documentQuery: this.dataSourceQuery,
+          documentFilter: this.dataSourceFilter,
+        },
+        {
+          showLoadingPanel: false,
+        }
+      );
     },
     selectedDocument(params) {
       this.$emit("selectedDocument", params);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -37,6 +37,7 @@ import counterPartGrid from "~/components/popups/counter-part-grid-popup.vue";
 import accessRight from "~/components/popups/access-right-popup.vue";
 import attachmentAccessRightDialog from "~/components/popups/attachment-access-right-dialog-popup.vue";
 import assignmentCard from "~/components/popups/assignment-card-popup.vue";
+import documentGrid from "~/components/popups/document-grid-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -52,7 +53,8 @@ export default {
     documentCard,
     accessRight,
     attachmentAccessRightDialog,
-    assignmentCard
+    assignmentCard,
+    documentGrid
   },
   name: "base-popup",
   props: {
