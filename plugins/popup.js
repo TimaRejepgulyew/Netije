@@ -1,23 +1,25 @@
-import Vue from "vue"
-import Popup from "~/components/popups/index.vue"
-Vue.component("Popup", Popup)
+import Vue from "vue";
+import Popup from "~/components/popups/index.vue";
+Vue.component("Popup", Popup);
 
 function BasePopup(template) {
-  return function (context, options, popupSettings) {
+  return function(context, options, popupSettings) {
     let popup = Vue.extend(Popup);
     let instance = new popup({
       parent: context,
       propsData: {
         template: template,
         options: options,
-        popupSettings: popupSettings,
-      },
+        popupSettings: popupSettings
+      }
     });
 
-    instance.$on('valueChanged', (data) => { context.valueChanged(data) })
+    instance.$on("valueChanged", data => {
+      context.valueChanged(data);
+    });
     instance.$mount();
     context.$el.appendChild(instance.$el);
-  }
+  };
 }
 
 export default (pluginContext, inject) => {
@@ -30,6 +32,7 @@ export default (pluginContext, inject) => {
     accessRight: BasePopup("accessRight"),
     attachmentAccessRightDialog: BasePopup("attachmentAccessRightDialog"),
     assignmentCard: BasePopup("assignmentCard"),
-  }
-  inject('popup', popup)
-}
+    documentCard: BasePopup("documentCard")
+  };
+  inject("popup", popup);
+};
