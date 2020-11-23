@@ -129,7 +129,7 @@ export default {
       );
     },
     valueChanged(data) {
-      this.$emit("valueChanged", { data });
+      this.$emit("valueChanged", data);
     },
   },
 };
