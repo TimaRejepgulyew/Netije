@@ -26,12 +26,10 @@
 import createChildActionItemBtn from "~/components/assignment/components/create-children-action-item-btn.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { DxPopup } from "devextreme-vue/popup";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
   components: {
-    DxPopup,
     createChildActionItemBtn
   },
   data() {

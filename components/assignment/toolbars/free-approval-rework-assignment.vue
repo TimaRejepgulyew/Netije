@@ -24,13 +24,10 @@
 import abortIcon from "~/static/icons/stop.svg";
 import reworkedAndStartIcon from "~/static/icons/start.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { DxPopup } from "devextreme-vue/popup";
+
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
-  components: {
-    DxPopup
-  },
   computed: {
     btnReworkedOptions() {
       return {
