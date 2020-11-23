@@ -29,7 +29,8 @@ export default (pluginContext, inject) => {
     counterPartCard: BasePopup("counterPartCard"),
     counterPartGrid: BasePopup("counterPartGrid"),
     accessRight: BasePopup("accessRight"),
-    documentCard: BasePopup("documentCard")
+    documentCard: BasePopup("documentCard"),
+    attachmentAccessRightDialog: BasePopup("attachmentAccessRightDialog")
   };
   inject("popup", popup);
 };
