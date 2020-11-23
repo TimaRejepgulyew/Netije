@@ -2,6 +2,7 @@
   <div>
     <div class="list-container">
       <DxList
+        pageLoadMode="scrollBottom"
         :data-source="accessRight.entries"
         :focusStateEnabled="false"
         :activeStateEnabled="false"
