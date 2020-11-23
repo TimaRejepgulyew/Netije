@@ -70,34 +70,25 @@ export default {
   props: ["group"],
 
   methods: {
-    onSelectedDocument({ documentTypeGuid, id }) {
-      this.pasteAttachment({ documentTypeGuid, id });
-      this.togglePopupGrid();
-    },
     showAttachmentCard({ id, documentTypeGuid }) {
-      this.$awn.asyncBlock(
-        load(this, { documentId: id, documentTypeGuid }),
-        () => {
-          this.attachmentId = id;
-          this.togglePopupCard();
-        }
-      );
-    },
-    createDocument(documentType) {
       this.$popup.documentCard(this, {
-        params: { documentType },
-        handler: createDocument
+        params: { documentId: id, documentTypeGuid },
+        handler: load
       });
     },
-    togglePopupCardCreateAttachment() {
-      this.isOpenShowCreateNewAttacmentCard = !this
-        .isOpenShowCreateNewAttacmentCard;
-    },
-    togglePopupCard() {
-      this.isOpenShowAttacmentCard = !this.isOpenShowAttacmentCard;
-    },
-    togglePopupGrid() {
-      this.isOpenGrid = !this.isOpenGrid;
+    createDocument(documentType) {
+      this.$popup.documentCard(
+        this,
+        {
+          params: { documentType },
+          handler: createDocument
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "pasteAttachment" }
+          ]
+        }
+      );
     },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);

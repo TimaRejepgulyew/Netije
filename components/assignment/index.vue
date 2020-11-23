@@ -1,8 +1,11 @@
 <template>
   <div>
-  
     <div>
-      <Header :isbackButton="!isCard" :showTitle="!isCard" :headerTitle="headerTitle">
+      <Header
+        :isbackButton="!isCard"
+        :showTitle="!isCard"
+        :headerTitle="headerTitle"
+      >
         <important-indicator
           :isImportant="isImportant"
           slot="indicator"
