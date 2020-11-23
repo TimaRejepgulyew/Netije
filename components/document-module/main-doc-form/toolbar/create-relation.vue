@@ -58,14 +58,20 @@ export default {
     },
     createRelation(e) {
       console.log(e.itemData);
-      this.$popup.documentCard(this, {
+      e.itemData.create(this, {
         params: {
-          documentType: e.itemData.id,
           leadingDocumentType: this.document.documentTypeGuid,
           leadingDocumentId: +this.documentId
-        },
-        handler: createLeadingDocument
+        }
       });
+      // this.$popup.documentCard(this, {
+      //   params: {
+      //     documentType: e.itemData.id,
+      //     leadingDocumentType: this.document.documentTypeGuid,
+      //     leadingDocumentId: +this.documentId
+      //   },
+      //   handler: createLeadingDocument
+      // });
     }
   }
 };
