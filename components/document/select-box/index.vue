@@ -47,7 +47,7 @@
         <custom-field
           :dataSourceFilter="dataSourceFilter"
           :dataSourceQuery="dataSourceQuery"
-          @openCard="showCurrentDocument"
+          @openCard="showDocumentCard"
           :read-only="readOnly"
           @valueChanged="updateDocument"
           :field-data="data || value"
@@ -131,17 +131,11 @@ export default {
     }
   },
   methods: {
-    async showCurrentDocument({ documentTypeGuid, id }) {
-      this.$awn.asyncBlock(
-        load(this, { documentTypeGuid, documentId: id }),
-        () => {
-          this.currentDocumentId = id;
-          this.togglePopupCard();
-        },
-        () => {
-          this.$awn.alert();
-        }
-      );
+    async showDocumentCard({ documentTypeGuid, id }) {
+      this.$popup.documentCard(this, {
+        params: { documentTypeGuid, documentId: id },
+        handler: load
+      });
     },
 
     togglePopupCard() {

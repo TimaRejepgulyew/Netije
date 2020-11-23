@@ -48,7 +48,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: [
     "validatorGroup",
@@ -56,19 +56,19 @@ export default {
     "value",
     "notPerson",
     "disabled",
-    "readOnly",
+    "readOnly"
   ],
   data() {
     return {
       counterPartStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.CounterPart,
+          loadUrl: dataApi.contragents.CounterPart
         }),
         paginate: true,
         pageSize: 10,
-        filter: this.notPerson ? ["type", "<>", "Person"] : null,
-      }),
+        filter: this.notPerson ? ["type", "<>", "Person"] : null
+      })
     };
   },
   methods: {
@@ -79,12 +79,12 @@ export default {
       this.$emit("selectionChanged", e.selectedItem);
     },
     setCounterPart({ data, updated }) {
+     
       this.$emit("valueChanged", data.id);
       if (updated) this.$refs["counterPart"].instance.repaint();
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

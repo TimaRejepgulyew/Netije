@@ -71,7 +71,7 @@ export default {
 
   methods: {
     onSelectedDocument({ documentTypeGuid, id }) {
-      this.pasteAttachment({ documentTypeGuid, id });
+      this.valueChanged({ documentTypeGuid, id });
       this.togglePopupGrid();
     },
     showAttachmentCard({ id, documentTypeGuid }) {
@@ -102,7 +102,7 @@ export default {
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
     },
-    pasteAttachment({ documentTypeGuid, id }) {
+    valueChanged({ documentTypeGuid, id }) {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: this.group.groupId,
