@@ -246,11 +246,9 @@ export const actions = {
     dispatch("reevaluateTaskName");
   },
   async reevaluateTaskName({ state, commit }) {
-    const payload = { id: state.task.id, body: state.task.body };
-    const { data } = await this.$axios.post(
-      dataApi.task.ReevaluateTaskName,
-      payload
-    );
+    const { data } = await this.$axios.post(dataApi.task.ReevaluateTaskName, {
+      ...state.task
+    });
     commit("SET_SUBJECT", data);
   },
   async save({ state, commit }) {
