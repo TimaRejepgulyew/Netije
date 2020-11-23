@@ -104,7 +104,7 @@ import toolbarItemRegistration from "~/components/document-registration/registra
 import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
-import toolbarItemAccessRight from "~/components/page/access-right.vue";
+import toolbarItemAccessRight from "~/components/access-right/entity-access-right/index.vue";
 import toolbarItemAvailableActions from "~/components/document-module/main-doc-form/toolbar/available-actions.vue";
 //constants
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";

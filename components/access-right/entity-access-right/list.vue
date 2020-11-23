@@ -84,7 +84,7 @@ import recipientType from "~/infrastructure/constants/resipientType.js";
 import resipientIcon from "~/components/page/resipient-icon.vue";
 import recipientSelectBox from "~/components/recipient/select-box/index.vue";
 import { DxSelectBox } from "devextreme-vue/select-box";
-import attachmentActionBtn from "~/components/page/access-right-action-btn";
+import attachmentActionBtn from "./list-action-btn";
 import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
@@ -223,5 +223,18 @@ export default {
 }
 .mt-2 {
   padding-top: 20px;
+}
+.grey {
+  color: gray;
+  font-size: 14px;
+}
+.list-container {
+  .dx-state-focused,
+  .dx-state-active {
+    .grey {
+      color: gray;
+      font-size: 14px;
+    }
+  }
 }
 </style>

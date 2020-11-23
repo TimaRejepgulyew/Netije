@@ -21,7 +21,7 @@
 <script>
 import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
-import accessRightList from "~/components/page/access-right-list.vue";
+import accessRightList from "./list.vue";
 import icon from "~/static/icons/access-right.svg";
 export default {
   components: {

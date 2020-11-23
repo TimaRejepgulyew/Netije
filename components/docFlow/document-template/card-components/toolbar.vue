@@ -75,7 +75,7 @@ import { DxButton } from "devextreme-vue";
 
 import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
-import toolbarItemAccessRight from "~/components/page/access-right.vue";
+import toolbarItemAccessRight from "~/components/access-right/entity-access-right/index.vue";
 //constants
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
