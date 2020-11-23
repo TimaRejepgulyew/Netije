@@ -12,12 +12,12 @@
           :onClick="refresh"
         ></DxButton>
         <btn-version-from-scanner
-          v-if="canUpdate"
+          v-if="uploadVersionVisible"
           @uploadVersion="refresh"
           :documentId="documentId"
         />
         <btn-upload-version
-          v-if="canUpdate"
+          v-if="uploadVersionVisible"
           @uploadVersion="refresh"
           :documentId="documentId"
         />
@@ -98,8 +98,15 @@ export default {
     };
   },
   computed: {
+    uploadVersionVisible() {
+      return this.canUpdate && !this.document.hasVersions && this.isNew;
+    },
+
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    isNew() {
+      return this.$store.getters[`documents/${this.documentId}/isNew`];
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];

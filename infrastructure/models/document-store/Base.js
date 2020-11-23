@@ -51,6 +51,7 @@ export default class Base {
     canDelete({ canDelete }) {
       return canDelete;
     },
+    
     isRegistered({ document }) {
       return document.registrationState == RegistrationState.Registered;
     },
