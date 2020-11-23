@@ -21,15 +21,18 @@ export default class RelationDocumentType extends DocumentType {
   }
   withMethodCreate() {
     for (let element in this.elements) {
-      this.elements[element].create = async (context, params) => {
-        const { documentId, documentTypeGuid } = await createLeadingDocument(
-          context,
-          {
+      this.elements[element].create = (
+        context,
+        { params, handler = createLeadingDocument },
+        popupSettings
+      ) => {
+        context.$popup.documentCard(context, {
+          params: {
             documentType: +element,
             ...params
-          }
-        );
-        return { documentId, documentTypeGuid };
+          },
+          handler
+        });
       };
     }
     return this;

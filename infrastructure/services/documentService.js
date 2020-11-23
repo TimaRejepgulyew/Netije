@@ -1,5 +1,4 @@
 import dataApi from "~/static/dataApi";
-import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 import DocumentStoreTemplate from "~/infrastructure/services/DocumentStoreModule.js";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 export const documentModules = new DocumentStoreTemplate({
@@ -40,9 +39,6 @@ export async function createDocument(context, params) {
   context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, true);
   context.$store.commit(`documents/${documentId}/SKIP_ROUTE_HANDLING`, true);
-  const name = `${
-    new DocumentTypeModel(context).getById(documentTypeGuid).text
-  } ${context.$t("shared.newRecord")}`;
   return { documentId, documentTypeGuid, name };
 }
 
@@ -102,6 +98,7 @@ export async function loadDocumentTemplate(
 }
 export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
+    console.log("requiest");
     documentModules.setStoreTemplate(documentTypeGuid);
     documentModules.registerModule(context, documentId);
 
@@ -115,9 +112,8 @@ export async function load(context, { documentTypeGuid, documentId }) {
   if (!context.$store.getters[`documents/${documentId}/isNew`]) {
     context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   }
-  const name = new DocumentTypeModel(context).getById(documentTypeGuid).text;
-  // const name = context.$store[`documents/${documentId}/document`].name;
-  return { documentId, name: name };
+
+  return { documentId, documentTypeGuid };
 }
 
 export async function refresh(context, { documentTypeGuid, documentId }) {
@@ -139,6 +135,8 @@ export async function refresh(context, { documentTypeGuid, documentId }) {
 export function unload(context, documentId) {
   const overlays = context.$store.getters[`documents/${documentId}/overlays`];
   if (overlays === 0) {
+    context.$store.commit(`documents/${documentId}/CLEAN_STATE`);
+
     documentModules.unregisterModule(context, documentId);
   } else context.$store.commit(`documents/${documentId}/DECREMENT_OVERLAYS`);
 }

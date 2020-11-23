@@ -14,7 +14,7 @@ function BasePopup(template) {
     });
 
     instance.$on("valueChanged", data => {
-      context.valueChanged(data);
+      if (context.valueChanged) context.valueChanged(data);
     });
     instance.$mount();
     context.$el.appendChild(instance.$el);

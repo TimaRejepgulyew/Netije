@@ -10,6 +10,7 @@
 
 <script>
 import dataApi from "~/static/dataApi";
+import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 export default {
   components: {
     documentCard: () =>
@@ -28,15 +29,14 @@ export default {
     };
   },
   async created() {
-    console.log("popupCreated", this.options);
-
-    const { documentId, name } = await this.options.handler(
+    const documentTypeModel = new DocumentTypeModel(this);
+    const { documentId, documentTypeGuid } = await this.options.handler(
       this,
       this.options.params
     );
     this.documentId = documentId;
     this.$emit("loadStatus");
-    this.$emit("showTitle", name);
+    this.$emit("showTitle", documentTypeModel.getById(documentTypeGuid).text);
   },
   methods: {
     close() {

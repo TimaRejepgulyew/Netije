@@ -14,14 +14,15 @@ export default {
   components: {
     mainDocumentForm
   },
-  async asyncData({ app, params, router, $axios, $i18n }) {
+  async asyncData({ app, params, router, $axios }) {
     await load(
-      { $store: app.store, $axios, $t: $i18n },
+      { $store: app.store, $axios },
       {
         documentTypeGuid: +params.type,
         documentId: +params.id
       }
     );
+    console.log(app.store.getters[`documents/${+params.id}/document`]);
   },
   async beforeRouteLeave(to, from, next) {
     let result = true;
