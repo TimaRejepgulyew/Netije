@@ -6,7 +6,11 @@
     >
       <div class="d-flex js-space-between">
         <div>
-          <user-icon class="f-size-30" :fullName="comment.author.name" :path="comment.author.personalPhotoHash" />
+          <user-icon
+            class="f-size-30"
+            :fullName="comment.author.name"
+            :path="comment.author.personalPhotoHash"
+          />
         </div>
         <div>
           <div @click="() => toDetailTask(comment.entity)" class="link">
@@ -83,11 +87,11 @@ export default {
       this.$emit("toDetailAuthor", id);
     },
     parseSubject(value) {
-      if (
-        value.taskType == TaskTypeGuid.ActionItemExecutionTask &&
-        value?.actionItemType === ActionItemType.Component
-      ) {
-        return this.$t("task.actionItemType.Component");
+      if (value.taskType == TaskTypeGuid.ActionItemExecutionTask) {
+        if (value.isCompoundActionItem)
+          return this.$t("task.compoundActionItem");
+        else if (value?.actionItemType === ActionItemType.Component)
+          return this.$t("task.actionItemType.Component");
       } else return new TaskType(this).getById(value.taskType).text;
     },
     formatDate(date) {

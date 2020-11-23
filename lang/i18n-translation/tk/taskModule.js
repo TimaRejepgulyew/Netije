@@ -6,6 +6,7 @@ export const TaskType = {
   FreeApprovalTask: "Ekrin ylalyşyk ýumuşy"
 };
 export default {
+  compoundActionItem: "Birleşdirilen tabşyryk",
   actionItemType: {
     Component: "Ýumuş elementi"
   },
@@ -16,9 +17,9 @@ export default {
     expired: "Möhleti geçen",
     monthAgo: "30 gün"
   },
-confirm:{
-  abortingReason:"Gutarmagyň sebäbi"
-},
+  confirm: {
+    abortingReason: "Gutarmagyň sebäbi"
+  },
   message: {
     acquaintDocumentMessage:
       "Resminama bilen tanyşyň, jogapkäriň ýanyna bayň we şahsy goluňyzy goýuň",

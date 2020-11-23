@@ -7,6 +7,7 @@ export const TaskType = {
  
 };
 export default {
+  compoundActionItem:"Состовное поручение",
   actionItemType: {
     Component: "Пункт поручения",
   },
