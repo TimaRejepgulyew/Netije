@@ -1,5 +1,9 @@
 <template>
-  <assignment-card @complete="backToRoute" :assignmentId="+$route.params.id" :isCard="false" />
+  <assignment-card
+    @complete="backToRoute"
+    :assignmentId="+$route.params.id"
+    :isCard="false"
+  />
 </template>
 
 <script>
@@ -8,18 +12,15 @@ import assignmentCard from "~/components/assignment/index.vue";
 
 export default {
   components: {
-    assignmentCard,
+    assignmentCard
   },
-  async asyncData(context) {
-    await load({ $store: context.store }, context.params.id);
+  async asyncData({ app, params, router, $axios }) {
+    await load({ $store: app.store, $axios }, +params.id);
   },
   methods: {
     backToRoute() {
       this.$router.go(-1);
-    },
-  },
+    }
+  }
 };
 </script>
-
-<style>
-</style>

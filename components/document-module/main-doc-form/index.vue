@@ -3,6 +3,7 @@
     <Header
       :headerTitle="generateHeaderTitle"
       :isbackButton="!isCard"
+      :showTitle="!isCard"
       :isNew="isNew"
     ></Header>
     <toolbar
@@ -185,6 +186,7 @@ export default {
     Header,
     documentTasks
   },
+  name: "document-card",
   destroyed() {
     unload(this, this.documentId);
     if (!this.isNew) this.onClosed();

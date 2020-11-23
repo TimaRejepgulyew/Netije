@@ -60,10 +60,12 @@ export default {
   },
   methods: {
     openTaskCard({ taskId, taskType }) {
+      this.$popup.taskCard(this,{ taskId, taskType },)
       this.$awn.asyncBlock(load(this, { taskId, taskType }), () => {
         this.taskId = taskId;
         this.tooglePopup();
       });
+
     },
     tooglePopup() {
       this.showItemExecutionTask = !this.showItemExecutionTask;

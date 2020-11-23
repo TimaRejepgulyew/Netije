@@ -1,16 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :show-title="false"
-      :visible.sync="isCardOpened"
-      ref="popup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <card :data="currentBusinessUnit" />
-      </div>
-    </DxPopup>
     <DxSelectBox
       ref="businessUnit"
       :read-only="readOnly"
@@ -34,7 +23,7 @@
       </DxValidator>
       <template #customfield="{ data }">
         <custom-field
-          @openCard="showPopup"
+          @openCard="showPopup(data)"
           :read-only="readOnly"
           :field-data="data || value"
         />
@@ -46,20 +35,16 @@
 <script>
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import { DxSelectBox } from "devextreme-vue";
-import { DxPopup } from "devextreme-vue/popup";
 import dataApi from "~/static/dataApi";
 import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import customField from "~/components/company/organization-structure/business-unit/custom-field.vue";
-import Card from "./card.vue";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
     customField,
-    Card,
-    DxPopup,
   },
   props: [
     "value",
@@ -69,13 +54,6 @@ export default {
     "readOnly",
     "valueExpr",
   ],
-
-  data() {
-    return {
-      isCardOpened: false,
-      currentBusinessUnit: null,
-    };
-  },
   computed: {
     businessUnitStore() {
       return new DataSource({
@@ -93,12 +71,10 @@ export default {
     },
   },
   methods: {
-    async showPopup() {
-      const { data } = await this.$axios.get(
-        `${dataApi.company.BusinessUnit}/${this.businessUnitId}`
-      );
-      this.currentBusinessUnit = data;
-      this.isCardOpened = !this.isCardOpened;
+    showPopup() {
+      this.$popup.bussiniesUnitCard(this, {
+        businessUnitId: this.businessUnitId,
+      });
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);

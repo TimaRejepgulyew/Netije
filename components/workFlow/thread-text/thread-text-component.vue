@@ -1,9 +1,6 @@
 <template>
   <component
-    @toDetailAuthor="(id)=>toDetail('toDetailAuthor',id)"
-    @toDetailTask="(params)=>toDetail('toDetailTask',params)"
-    @toDetailAssignment="(params)=>toDetail('toDetailAssignment',params)"
-    :comment="comment"
+    :data="data"
     :is="getComponentByType"
   />
 </template>
@@ -20,12 +17,12 @@ export default {
     notificationTreadText
   },
   name: "text-mediator",
-  props: ["comment"],
+  props: ["data","type"],
   created() {
   },
   computed: {
     getComponentByType() {
-      switch (this.comment.type) {
+      switch (this.type) {
         case WorkflowEntityTextType.Task:
           return "task-tread-text";
         case WorkflowEntityTextType.Notice:
@@ -35,11 +32,6 @@ export default {
       }
     }
   },
-  methods: {
-    toDetail(emitName, params) {
-      this.$emit(emitName, params);
-    }
-  }
 };
 </script>
 

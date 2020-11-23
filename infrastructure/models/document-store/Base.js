@@ -3,6 +3,7 @@ import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
+import { Log } from "oidc-client";
 export default class Base {
   state = {
     document: {},
@@ -77,6 +78,12 @@ export default class Base {
     }
   };
   mutations = {
+    CLEAN_STATE(state) {
+      for (let prop in state) {
+        state[prop] = null;
+      }
+      state = {} ;
+    },
     UPDATE_LAST_VERSION(state, payload) {
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;

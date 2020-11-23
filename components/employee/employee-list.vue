@@ -116,7 +116,6 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxPopup,
   DxButton
 } from "devextreme-vue/data-grid";
 import { DxItem } from "devextreme-vue/form";
@@ -136,7 +135,6 @@ export default {
     DxGroupPanel,
     DxFilterRow,
     DxStateStoring,
-    DxPopup,
     DxButton,
     DxLookup
   },

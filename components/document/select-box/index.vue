@@ -1,24 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :show-title="false"
-      :visible.sync="isCardOpened"
-      ref="popup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      width="90%"
-      height="95%"
-    >
-      <div class="scrool-auto">
-        <document-card
-          v-if="isCardOpened"
-          @onSaved="valueChanged"
-          @onClose="togglePopupCard"
-          :isCard="true"
-          :documentId="currentDocumentId"
-        />
-      </div>
-    </DxPopup>
     <DxSelectBox
       ref="document"
       :read-only="readOnly"
@@ -45,11 +26,9 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
-          :dataSourceFilter="dataSourceFilter"
-          :dataSourceQuery="dataSourceQuery"
-          @openCard="showCurrentDocument"
+          @openGrid="showDocumentGrid"
+          @openCard="showDocumentCard"
           :read-only="readOnly"
-          @valueChanged="updateDocument"
           :field-data="data || value"
         />
       </template>
@@ -60,7 +39,6 @@
 <script>
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import { load } from "~/infrastructure/services/documentService.js";
-import { DxPopup } from "devextreme-vue/popup";
 import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import customSelectItem from "~/components/document/components/list-item.vue";
@@ -74,11 +52,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
-    documentCard: () =>
-      import("~/components/document-module/main-doc-form/index.vue"),
-    DxPopup,
-    DxButton
+    customField
   },
   props: {
     dataSourceFilter: {},
@@ -131,27 +105,43 @@ export default {
     }
   },
   methods: {
-    async showCurrentDocument({ documentTypeGuid, id }) {
-      this.$awn.asyncBlock(
-        load(this, { documentTypeGuid, documentId: id }),
-        () => {
-          this.currentDocumentId = id;
-          this.togglePopupCard();
+    showDocumentCard({ documentTypeGuid, id }) {
+      this.$popup.documentCard(
+        this,
+        {
+          params: { documentTypeGuid, documentId: id },
+          handler: load
         },
-        () => {
-          this.$awn.alert();
+        {
+          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
         }
       );
     },
-
-    togglePopupCard() {
-      this.isCardOpened = !this.isCardOpened;
+    showDocumentGrid() {
+      this.$popup.documentGrid(
+        this,
+        {
+          documentQuery: this.dataSourceQuery,
+          documentFilter: this.dataSourceFilter
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "updateDocument" }
+          ],
+          showLoadingPanel: false
+        }
+      );
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },
-    updateDocument(data) {
+    reloadStore() {
+      this.$refs["document"].instance.repaint();
       this.documentStore.reload();
+    },
+    updateDocument(data) {
+      console.log("data", data);
+      this.reloadStore();
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.$refs["document"].instance.repaint();

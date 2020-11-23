@@ -51,7 +51,8 @@ export default {
     "~plugins/vue-notifications",
     "~/plugins/customStore",
     "~/plugins/customValidator",
-    "~/plugins/signalR"
+    "~/plugins/signalR",
+    '~/plugins/popup',
   ],
   /*
    ** Nuxt.js dev-modules
