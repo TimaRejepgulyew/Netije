@@ -44,12 +44,10 @@ import toolbarAddApproverBtn from "~/components/assignment/form-components/add-a
 import approveIcon from "~/static/icons/assignment-result/success.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { DxPopup } from "devextreme-vue/popup";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
   components: {
-    DxPopup,
     toolbarAddApproverBtn
   },
   computed: {
