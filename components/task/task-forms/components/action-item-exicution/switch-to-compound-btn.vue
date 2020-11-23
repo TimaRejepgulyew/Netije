@@ -36,7 +36,7 @@ export default {
   methods: {
     itemClick() {
         this.$store.commit(`tasks/${this.taskId}/SWITCH_TO_COMPOUND_ACTION_ITEM`,!this.isCompoundActionItem);
-        this.$store.dispatch("reevaluateTaskName");
+        this.$store.dispatch(`tasks/${this.taskId}/reevaluateTaskName`);
     },
   },
 };
