@@ -21,16 +21,8 @@ import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
     DxDropDownButton,
-    documentCard: async () =>
-      import("~/components/document-module/main-doc-form/index.vue")
   },
   props: ["documentId"],
-  data() {
-    return {
-      isOpenPopup: false,
-      relationId: false
-    };
-  },
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
@@ -49,29 +41,13 @@ export default {
     }
   },
   methods: {
-    showRelationDocument(relationId) {
-      this.relationId = relationId;
-      this.togglePopup();
-    },
-    togglePopup() {
-      this.isOpenPopup = !this.isOpenPopup;
-    },
     createRelation(e) {
-      console.log(e.itemData);
       e.itemData.create(this, {
         params: {
           leadingDocumentType: this.document.documentTypeGuid,
           leadingDocumentId: +this.documentId
         }
       });
-      // this.$popup.documentCard(this, {
-      //   params: {
-      //     documentType: e.itemData.id,
-      //     leadingDocumentType: this.document.documentTypeGuid,
-      //     leadingDocumentId: +this.documentId
-      //   },
-      //   handler: createLeadingDocument
-      // });
     }
   }
 };

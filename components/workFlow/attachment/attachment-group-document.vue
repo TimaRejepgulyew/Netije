@@ -75,6 +75,10 @@ export default {
       this.togglePopupGrid();
     },
     showAttachmentCard({ id, documentTypeGuid }) {
+      this.$popup.documentCard(this, {
+        params: { documentType },
+        handler: createDocument
+      });
       this.$awn.asyncBlock(
         load(this, { documentId: id, documentTypeGuid }),
         () => {
@@ -84,10 +88,18 @@ export default {
       );
     },
     createDocument(documentType) {
-      this.$popup.documentCard(this, {
-        params: { documentType },
-        handler: createDocument
-      });
+      this.$popup.documentCard(
+        this,
+        {
+          params: { documentType },
+          handler: createDocument
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "pasteAttachment" }
+          ]
+        }
+      );
     },
     togglePopupCardCreateAttachment() {
       this.isOpenShowCreateNewAttacmentCard = !this
@@ -102,7 +114,7 @@ export default {
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
     },
-    valueChanged({ documentTypeGuid, id }) {
+    pasteAttachment({ documentTypeGuid, id }) {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: this.group.groupId,

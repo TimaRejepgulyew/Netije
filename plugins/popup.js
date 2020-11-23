@@ -13,10 +13,14 @@ function BasePopup(template) {
         popupSettings: popupSettings
       }
     });
+    if (popupSettings.listeners) {
+      popupSettings.listeners.forEach(({ eventName, handlerName }) => {
+        instance.$on(eventName, data => {
+          context[handlerName](data);
+        });
+      });
+    }
 
-    instance.$on("valueChanged", data => {
-      if (context.valueChanged) context.valueChanged(data);
-    });
     instance.$mount();
     context.$el.appendChild(instance.$el);
   };
