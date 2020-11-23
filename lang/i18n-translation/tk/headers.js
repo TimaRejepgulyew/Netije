@@ -30,7 +30,7 @@ export default {
   simpleAssignment: "Ýönekeý tabşyryk",
   actionItemExicutionAssignment: "Ýerine ýetirmek üçin tabşyryk",
   acquaintanceAssignment: "Tanyşmak boýunça tabşyryk",
-  versions: "wersiýalar",
+  versions: "Wersiýalar",
   attachment: "Içlikler",
   moreAbout: "Has giňişleýin",
   tasks: "Ýumuşlar",

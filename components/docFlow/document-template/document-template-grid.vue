@@ -8,14 +8,14 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="store"
-      :remote-operations="true"
+      :remote-operations="false"
       :columns="columns"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="false"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       :onRowDblClick="selected"
       @toolbar-preparing="onToolbarPreparing($event)"
@@ -74,7 +74,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 export default {
@@ -96,7 +96,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxButton,
-    Header,
+    Header
   },
   props: ["isCard"],
   data() {
@@ -104,17 +104,17 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.DocumentTemplate,
+          loadUrl: dataApi.docFlow.DocumentTemplate
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
 
-      selected: (e) => {
+      selected: e => {
         this.$emit("selected", {
-          id: e.key,
+          id: e.key
         });
-      },
+      }
     };
   },
   methods: {
@@ -126,16 +126,16 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          },
-        },
+          }
+        }
       });
-    },
+    }
   },
   computed: {
     columns() {
       return ColumnFactory.CreateColumns("document-template", this);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">

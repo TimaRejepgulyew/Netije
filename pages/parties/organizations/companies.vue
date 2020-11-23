@@ -314,7 +314,7 @@ export default {
     getActiveHeadOffices(options) {
       return {
         store: this.dataSource,
-        filter: options.data ? ["status", "=", Status.Active] : [],
+        filter: options.data ? ["status", "=", Status.Active] : undefined,
       };
     },
     getActiveRegions(options) {
@@ -334,7 +334,7 @@ export default {
               "=",
               options.data.regionId,
             ]
-          : [],
+          : undefined,
       };
     },
     getActiveLocalities(options) {
@@ -358,7 +358,7 @@ export default {
               "=",
               options.data.localityId,
             ]
-          : [],
+          : undefined,
       };
     },
     getActiveBanks(options) {
@@ -370,7 +370,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
-          : [],
+          : undefined,
       };
     },
     validateEntityExists(params) {

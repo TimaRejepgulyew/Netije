@@ -22,10 +22,10 @@
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #customSelectItem="{data}">
+    <template #customSelectItem="{ data }">
       <custom-select-item :item-data="data" />
     </template>
-    <template #customfield="{data}">
+    <template #customfield="{ data }">
       <custom-field
         :read-only="readOnly"
         @valueChanged="setCounterPart"
@@ -73,9 +73,7 @@ export default {
   },
   methods: {
     valueChanged(e) {
-      if (e.event) {
-        this.$emit("valueChanged", e.value);
-      }
+      this.$emit("valueChanged", e.value);
     },
     selectionChanged(e) {
       this.$emit("selectionChanged", e.selectedItem);

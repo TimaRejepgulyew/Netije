@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <div class="link d-flex f-grow-1" @dblclick="showAttachment">
+    <div class="attachment--link d-flex f-grow-1" @dblclick="showAttachment">
       <documentIcon :extension="item.entity.extension" />
       <div class="max-width-5vw">{{item.entity.name}}</div>
     </div>
@@ -62,7 +62,7 @@ export default {
   align-content: stretch;
 }
 
-.link {
+.attachment--link {
   cursor: pointer;
 
   display: flex;

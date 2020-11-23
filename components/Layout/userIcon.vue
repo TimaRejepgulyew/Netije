@@ -102,9 +102,7 @@ export default {
     overflow: hidden;
 }
 .user_image{
-  max-width: 50px;
   height: 25px;
-  border-radius: 50%;
 }
 
 .user-info-name {

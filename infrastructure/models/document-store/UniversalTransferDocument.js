@@ -46,7 +46,7 @@ export default class UniversalTransferDocument extends ElectronicDocument {
         }
         state.document.ourSignatoryId = payload;
       },
-      
+
       SET_CORRECTED_ID(state, payload) {
         if (checkDataChanged(state.document.correctedId, payload)) {
           state.isDataChanged = true;
@@ -64,12 +64,19 @@ export default class UniversalTransferDocument extends ElectronicDocument {
           state.isDataChanged = true;
         }
         state.document.leadingDocumentId = payload;
+      },
+      SET_LEADING_DOCUMENT(state, payload) {
+        if (checkDataChanged(state.document.leadingDocument?.id, payload)) {
+          state.isDataChanged = true;
+        }
+        state.document.leadingDocument = payload;
       }
     };
     const actions = {
       ...options?.actions,
-      setLeadingDocumentId({ commit, dispatch }, payload) {
-        commit("SET_LEADING_DOCUMENT_ID", payload);
+      setLeadingDocument({ commit, dispatch }, payload) {
+        commit("SET_LEADING_DOCUMENT", payload);
+        commit("SET_LEADING_DOCUMENT_ID", payload?.id);
         dispatch("reevaluateDocumentName");
       },
       setCounterparty({ commit, dispatch }, payload) {

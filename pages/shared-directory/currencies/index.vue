@@ -5,14 +5,14 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="store"
-      :remote-operations="true"
+      :remote-operations="false"
       :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
@@ -173,7 +173,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxStateStoring,
-  DxFilterRow,
+  DxFilterRow
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -195,7 +195,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxStateStoring,
-    DxFilterRow,
+    DxFilterRow
   },
   data() {
     return {
@@ -204,10 +204,10 @@ export default {
         loadUrl: dataApi.sharedDirectory.Currency,
         insertUrl: dataApi.sharedDirectory.Currency,
         updateUrl: dataApi.sharedDirectory.Currency,
-        removeUrl: dataApi.sharedDirectory.Currency,
+        removeUrl: dataApi.sharedDirectory.Currency
       }),
       entityType: EntityType.Currencies,
-      statusDataSource: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
@@ -220,7 +220,7 @@ export default {
     validateCurrencyName(params) {
       return this.$customValidator.isCurrencyNameNotExists({
         id: params.data.id,
-        name: params.value,
+        name: params.value
       });
     },
     validateEntityExists(params) {
@@ -228,11 +228,11 @@ export default {
       return this.$customValidator.CurrencyDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );
-    },
-  },
+    }
+  }
 };
 </script>

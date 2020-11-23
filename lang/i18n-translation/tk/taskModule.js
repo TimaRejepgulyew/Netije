@@ -6,13 +6,19 @@ export const TaskType = {
   FreeApprovalTask: "Ekrin ylalyşyk ýumuşy"
 };
 export default {
+  actionItemType: {
+    Component: "Ýumuş elementi"
+  },
+  addNewAssineers: "Ýerine ýetirijileri goşuň",
   quickFilter: {
     all: "Hemmesi",
     inProcess: "Işjeň ýagdaýda",
     expired: "Möhleti geçen",
     monthAgo: "30 gün"
   },
-
+confirm:{
+  abortingReason:"Gutarmagyň sebäbi"
+},
   message: {
     acquaintDocumentMessage:
       "Resminama bilen tanyşyň, jogapkäriň ýanyna bayň we şahsy goluňyzy goýuň",
@@ -41,6 +47,7 @@ export default {
     notification: "Tanyşdyrma"
   },
   fields: {
+    finalDeadline: "Umumy möhlet",
     status: "Ýagdaýy",
     author: "Dörediji",
     assignedBy: "Berdi",

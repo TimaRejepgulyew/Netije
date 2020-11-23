@@ -104,7 +104,7 @@ import toolbarItemRegistration from "~/components/document-registration/registra
 import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
-import toolbarItemAccessRight from "~/components/page/access-right.vue";
+import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 import toolbarItemAvailableActions from "~/components/document-module/main-doc-form/toolbar/available-actions.vue";
 //constants
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
@@ -163,10 +163,7 @@ export default {
       return mapToEntityType(this.document.documentTypeGuid);
     },
     canUpdate() {
-      return (
-        this.isDataChanged &&
-        this.$store.getters[`documents/${this.documentId}/canUpdate`]
-      );
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     isDataChanged() {
       return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
@@ -196,7 +193,7 @@ export default {
     saveButtonOptions() {
       return {
         icon: saveIcon,
-        disabled: !this.canUpdate,
+        disabled: !this.canUpdate || !this.isDataChanged,
         onClick: async () => {
           await this.trySaveDocument();
         }
@@ -216,7 +213,7 @@ export default {
       return {
         icon: saveAndCloseIcon,
         hint: this.$t("buttons.saveAndBack"),
-        disabled: !this.canUpdate,
+        disabled: !this.canUpdate || !this.isDataChanged,
         onClick: async () => {
           if (await this.trySaveDocument()) this.$emit("onClose");
         }

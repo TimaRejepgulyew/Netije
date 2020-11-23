@@ -105,9 +105,7 @@ export default {
     openGird() {
       this.$popup.counterPartGrid(
         this,
-        {
-          emits: { valueChanged: "valueChanged" },
-        },
+        {},
         {
           showLoadingPanel: false,
         }
@@ -132,9 +130,6 @@ export default {
     },
     valueChanged(data) {
       this.$emit("valueChanged", { data });
-    },
-    valueUpdated(data) {
-      this.$emit("valueChanged", { data, updated: true });
     },
   },
 };

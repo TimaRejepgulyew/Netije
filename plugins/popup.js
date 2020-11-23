@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Popup from "~/components/popups/index.vue";
 
-
 function BasePopup(template) {
   return function(context, options, popupSettings) {
     let popup = Vue.extend(Popup);
@@ -29,6 +28,7 @@ export default (pluginContext, inject) => {
     employeeCard: BasePopup("employeeCard"),
     counterPartCard: BasePopup("counterPartCard"),
     counterPartGrid: BasePopup("counterPartGrid"),
+    accessRight: BasePopup("accessRight"),
     documentCard: BasePopup("documentCard")
   };
   inject("popup", popup);

@@ -5,7 +5,7 @@
       :read-only="readOnly"
       :data-source="employeeStore"
       @valueChanged="valueChanged"
-      :showClearButton="true"
+      :showClearButton="showClearButton"
       :value="value"
       :openOnFieldClick="false"
       :focusStateEnabled="false"
@@ -27,7 +27,6 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
-          @openCard="showPopup"
           :read-only="readOnly"
           @valueChanged="updateEmployee"
           :field-data="data || value"

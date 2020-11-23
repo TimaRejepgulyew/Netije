@@ -9,7 +9,7 @@
 .d-flex {
   display: flex;
 }
-.justify-flex-end{
+.justify-flex-end {
   justify-content: flex-end;
 }
 .list__content {
@@ -117,4 +117,23 @@
     color: darken($base-border-color, 20%);
     font-size: 0.9em;
   }
+}
+.message {
+  box-sizing: border-box;
+  padding: 8px 0;
+  font-size: 15px;
+  align-items: center;
+  .message__label {
+    display: block;
+
+    padding-right: 8px;
+  }
+  .message__icon {
+    display: block;
+    font-size: 18px;
+    padding-right: 8px;
+  }
+}
+.cursive {
+  font-style: italic;
 }

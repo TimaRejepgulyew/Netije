@@ -6,7 +6,7 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="store"
-      :remote-operations="true"
+      :remote-operations="false"
       :errorRowEnabled="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
@@ -124,13 +124,13 @@
       </DxColumn>
 
       <DxColumn
-        data-field="registrationGroupId"
+        :customizeText="customizeText"
+        data-field="registrationGroup"
         :caption="$t('translations.fields.registrationGroupId')"
       >
         <DxLookup
           :allow-clearing="true"
           :data-source="getAvailableRegistrationGroups"
-          value-expr="id"
           display-expr="name"
         />
       </DxColumn>
@@ -213,8 +213,10 @@ export default {
     };
   },
   methods: {
+    customizeText(e) {
+      if (e.value) return e.value.name;
+    },
     validEndDate(e) {
-      console.log(e);
       if (!e.value) {
         return true;
       }
@@ -288,24 +290,13 @@ export default {
       };
     },
     getAvailableRegistrationGroups(options) {
-      let filter = [];
-      filter.push(["status", "=", Status.Active]);
-      if (!this.$store.getters["permissions/IsAdmin"]) {
-        filter.push("and");
-        filter.push([
-          "responsibleEmployeeId",
-          "=",
-          +this.$store.getters["permissions/employeeId"]
-        ]);
-      }
-
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.RegistrationGroup
+          loadUrl: dataApi.docFlow.ResponsibleForGroupOnMe
         }),
         paginate: true,
-        filter: options.data ? filter : []
+        filter: ["status", "=", Status.Active]
       };
     }
   }

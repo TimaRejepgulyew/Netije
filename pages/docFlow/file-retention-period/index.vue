@@ -5,12 +5,15 @@
       id="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :errorRowEnabled="false"
       :allow-column-reordering="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -28,11 +31,19 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="FileRetentionPeriod" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="FileRetentionPeriod"
+      />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -41,13 +52,24 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
-      <DxColumn data-field="retentionPeriod" :caption="$t('docFlow.fields.retentionPeriodId')"></DxColumn>
+      <DxColumn
+        data-field="retentionPeriod"
+        :caption="$t('docFlow.fields.retentionPeriodId')"
+      ></DxColumn>
 
-      <DxColumn data-field="note" :caption="$t('translations.fields.note')" data-type="string"></DxColumn>
+      <DxColumn
+        data-field="note"
+        :caption="$t('translations.fields.note')"
+        data-type="string"
+      ></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -81,7 +103,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -101,7 +123,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring,
+    DxStateStoring
   },
   data() {
     return {
@@ -110,10 +132,10 @@ export default {
         loadUrl: dataApi.docFlow.FileRetentionPeriod,
         insertUrl: dataApi.docFlow.FileRetentionPeriod,
         updateUrl: dataApi.docFlow.FileRetentionPeriod,
-        removeUrl: dataApi.docFlow.FileRetentionPeriod,
+        removeUrl: dataApi.docFlow.FileRetentionPeriod
       }),
       entityType: EntityType.FileRetentionPeriod,
-      statusDataSource: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
@@ -122,8 +144,7 @@ export default {
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
-    },
-  },
+    }
+  }
 };
 </script>
-

@@ -1,5 +1,10 @@
 <template>
-  <employee-card v-if="data" :data="data" :isCard="true" />
+  <employee-card
+    @valueChanged="valueChanged"
+    v-if="data"
+    :data="data"
+    :isCard="true"
+  />
 </template>
 
 <script>
@@ -18,6 +23,12 @@ export default {
     return {
       data: null,
     };
+  },
+  methods: {
+    valueChanged(data) {
+      this.$emit("valueChanged", { data });
+      this.$emit("close");
+    },
   },
   async created() {
     const { data } = await this.$axios.get(

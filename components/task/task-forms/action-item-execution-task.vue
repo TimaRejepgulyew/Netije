@@ -47,26 +47,6 @@
           </DxGroupItem>
         </DxGroupItem>
         <DxGroupItem :col-count="2">
-          <DxSimpleItem template="assignee" data-field="assignee">
-            <DxRequiredRule :message="$t('task.validation.assigneeRequired')" />
-            <DxLabel location="left" :text="$t('task.fields.assignee')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="deadline"
-            :editor-options="deadlineOptions"
-            editor-type="dxDateBox"
-          >
-            <DxLabel location="left" :text="$t('task.fields.deadline')" />
-          </DxSimpleItem>
-
-          <DxSimpleItem
-            :col-span="2"
-            template="coAssignees"
-            data-field="coAssignees"
-          >
-            <DxLabel location="left" :text="$t('task.fields.coAssignees')" />
-          </DxSimpleItem>
-
           <DxSimpleItem
             :col-span="2"
             template="actionItemObservers"
@@ -75,17 +55,27 @@
             <DxLabel location="left" :text="$t('task.fields.observers')" />
           </DxSimpleItem>
         </DxGroupItem>
+        <DxGroupItem :col-span="5" :template="actionItemTypeComponent" />
       </DxGroupItem>
+      <DxSimpleItem
+        :col-span="5"
+        :visible="isAborted"
+        template="abortingReason"
+      >
+      </DxSimpleItem>
       <DxSimpleItem
         :visible="isDraft"
         :col-span="3"
         data-field="body"
         :editor-options="bodyOptions"
         editor-type="dxTextArea"
+        :isRequired="!isCompountActionItem"
       >
-        <DxLabel location="left" :text="$t('task.fields.actionItem')" />
-        <DxRequiredRule :message="$t('task.validation.actionItemRequired')" />
+        <DxLabel location="top" :text="$t('task.fields.actionItem')" />
       </DxSimpleItem>
+      <template #abortingReason>
+        <abortingReasonMessage :data="task.abortingReason" />
+      </template>
       <template #assignedBy>
         <employee-select-box
           :messageRequired="$t('task.validation.supervisorRequired')"
@@ -128,10 +118,19 @@
           @valueChanged="setAssignee"
         />
       </template>
+      <template #compound-action-item>
+        <compoundActionItemComponent :taskId="taskId" :canUpdate="canUpdate" />
+      </template>
+      <template #main-action-item>
+        <mainActionItemComponent :taskId="taskId" :canUpdate="canUpdate" />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import abortingReasonMessage from "~/components/task/task-forms/components/action-item-exicution/aborting-reason-message.vue";
+import compoundActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/compound-action-item.vue";
+import mainActionItemComponent from "~/components/task/task-forms/components/action-item-exicution/main-action-item.vue";
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
@@ -146,6 +145,9 @@ import dataApi from "~/static/dataApi";
 
 export default {
   components: {
+    abortingReasonMessage,
+    compoundActionItemComponent,
+    mainActionItemComponent,
     employeeSelectBox,
     employeeTagBox,
     recipientTagBox,
@@ -184,11 +186,19 @@ export default {
     }
   },
   computed: {
-    readOnly() {
-      return !this.isDraft || !this.canUpdate;
+    isCompountActionItem() {
+      return this.task.isCompoundActionItem;
+    },
+    actionItemTypeComponent() {
+      return this.isCompountActionItem
+        ? "compound-action-item"
+        : "main-action-item";
     },
     task() {
       return this.$store.getters[`tasks/${this.taskId}/task`];
+    },
+    isAborted() {
+      return this.$store.getters[`tasks/${this.taskId}/isAborted`];
     },
     assignedBy() {
       return this.task.assignedBy;
@@ -216,6 +226,9 @@ export default {
     },
     isDraft() {
       return this.$store.getters[`tasks/${this.taskId}/isDraft`];
+    },
+    readOnly() {
+      return !this.isDraft || !this.canUpdate;
     },
     subjectOptions() {
       return {

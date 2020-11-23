@@ -6,11 +6,14 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -28,7 +31,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="RegistrationGroup"
+      />
 
       <DxEditing
         :allow-updating="$store.getters['permissions/IsAdmin']"
@@ -72,20 +79,29 @@
       </DxColumn>
       <DxColumn
         :visible-index="1"
-        data-field="responsibleEmployeeId"
+        :customizeText="customizeText"
+        data-field="responsibleEmployee"
         :caption="$t('docFlow.fields.responsibleId')"
+        editCellTemplate="responsibleEmployee"
       >
-        <DxRequiredRule :message="$t('docFlow.validation.responsibleIdRequired')" />
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="getActiveEmployees"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
-      <DxColumn :visible-index="2" data-field="index" :caption="$t('translations.fields.index')">
+      <template #responsibleEmployee="{ data: cellInfo }">
+        <employee-select-box
+          :showClearButton="false"
+          :value="cellInfo.value"
+          @valueChanged="value => onValueChanged(value, cellInfo)"
+        />
+      </template>
+      <DxColumn
+        :visible-index="2"
+        data-field="index"
+        :caption="$t('translations.fields.index')"
+      >
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
-        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
+        <DxPatternRule
+          :pattern="indexPattern"
+          :message="$t('translations.fields.indexRule')"
+        />
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -104,6 +120,7 @@
   </main>
 </template>
 <script>
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import MemberList from "~/components/docFlow/registration-group/master-detail-member-list";
@@ -150,7 +167,8 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring
+    DxStateStoring,
+    employeeSelectBox
   },
   data() {
     return {
@@ -167,6 +185,13 @@ export default {
     };
   },
   methods: {
+    onValueChanged(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
+    },
+    customizeText(e) {
+      if (e.value) return e.value.name;
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },
@@ -190,10 +215,9 @@ export default {
               "=",
               options.data.responsibleEmployeeId
             ]
-          : []
+          : undefined
       };
     }
   }
 };
 </script>
-

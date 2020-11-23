@@ -7,6 +7,7 @@
       :showTitle="defaultPopupSettings.showTitle"
       :width="defaultPopupSettings.width"
       :height="defaultPopupSettings.height"
+      :position="defaultPopupSettings.position"
       :onHidden="destroyComponent"
       :visible="visible"
       :title="title"
@@ -33,6 +34,7 @@ import departmentCard from "~/components/popups/department-popup.vue";
 import employeeCard from "~/components/popups/employee-popup.vue";
 import counterPartCard from "~/components/popups/counter-part-card-popup.vue";
 import counterPartGrid from "~/components/popups/counter-part-grid-popup.vue";
+import accessRight from "~/components/popups/access-right-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -45,7 +47,8 @@ export default {
     employeeCard,
     counterPartCard,
     counterPartGrid,
-    documentCard
+    documentCard,
+    accessRight
   },
   name: "base-popup",
   props: {
@@ -75,6 +78,7 @@ export default {
         showTitle: true,
         width: "90%",
         height: "95%",
+        position: { my: "center", at: "center" },
         showLoadingPanel: true,
         ...this.popupSettings
       };

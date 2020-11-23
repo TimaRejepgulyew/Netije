@@ -17,6 +17,7 @@
     <Header :headerTitle="$t('menu.department')"></Header>
     <div>
       <DxTreeList
+         remoteOperations: { filtering: true,sorting: true,grouping: true }
         parent-id-expr="headOfficeId"
         :data-source="dataSource"
         :errorRowEnabled="false"
@@ -305,7 +306,7 @@ export default {
               "=",
               options.data.headOfficeId,
             ]
-          : [],
+          : undefined,
       };
     },
     getActiveEmployees(options) {
@@ -317,7 +318,7 @@ export default {
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.ceo]
-          : [],
+          : undefined,
       };
     },
     getActiveBussinessUnit(options) {
@@ -337,7 +338,7 @@ export default {
               "=",
               options.data.businessUnitId,
             ]
-          : [],
+          : undefined,
       };
     },
     validateEntityExists(params) {

@@ -53,11 +53,11 @@
           :message="$t('document.validation.counterPartRequired')"
         />
       </DxSimpleItem>
+      >
       <DxSimpleItem
-        :col-span="2"
         data-field="leadingDocumentId"
-        editor-type="dxSelectBox"
-        :editor-options="leadingDocumentOptions"
+        :col-span="2"
+        template="leadingDocument"
       >
         <DxLabel location="left" :text="$t('document.fields.contract')" />
         <DxRequiredRule :message="$t('document.validation.contractRequired')" />
@@ -81,6 +81,17 @@
         />
       </DxSimpleItem>
     </DxGroupItem>
+    <template #leadingDocument>
+      <customSelectBoxDocument
+        :readOnly="leadingDocumentOptions.readOnly"
+        :dataSourceFilter="leadingDocumentOptions.dataSourceFilter"
+        :dataSourceQuery="leadingDocumentOptions.dataSourceQuery"
+        :validationGroup="documentValidatorName"
+        :value="document.leadingDocument"
+        :isRequired="true"
+        @valueChanged="setLeadingDocument"
+      />
+    </template>
     <template #counterparty>
       <custom-select-box
         value-expr="id"
@@ -89,7 +100,7 @@
         @valueChanged="
           data => {
             setCounterparty(data);
-            setLeadingDocumentId(null);
+            setLeadingDocument(null);
           }
         "
         messageRequired="document.validation.counterPartRequired"
@@ -127,7 +138,7 @@
   </DxForm>
 </template>
 <script>
-import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
+import customSelectBoxDocument from "~/components/document/select-box/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
@@ -149,7 +160,8 @@ export default {
     DxRequiredRule,
     customSelectBox,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
+    customSelectBoxDocument
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -199,31 +211,12 @@ export default {
       };
     },
     leadingDocumentOptions() {
-      const builder = new SelectBoxOptionsBuilder();
-      const options = builder
-        .withUrl(`${dataApi.documentModule.Documents}${DocumentQuery.Contract}`)
-        .filter(
-          this.counterpartyId
-            ? ["counterpartyId", "=", this.counterpartyId]
-            : []
-        )
-        .acceptCustomValues(e => {
-          e.customItem = null;
-        })
-        .withoutDeferRendering()
-        .focusStateDisabled()
-        .clearValueExpr()
-        .build(this);
       return {
         readOnly: !this.counterpartyId || this.readOnly,
-        ...options,
-        value: this.document.leadingDocument,
-        onValueChanged: e => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setLeadingDocumentId`,
-            e.value?.id
-          );
-        }
+        dataSourceQuery: DocumentQuery.Contract,
+        dataSourceFilter: this.counterpartyId
+          ? ["counterpartyId", "=", this.counterpartyId]
+          : undefined
       };
     },
     currencyIdOptions() {
@@ -279,9 +272,9 @@ export default {
     setCurrencyId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_CURRENCY_ID`, data);
     },
-    setLeadingDocumentId(data) {
+    setLeadingDocument(data) {
       this.$store.dispatch(
-        `documents/${this.documentId}/setLeadingDocumentId`,
+        `documents/${this.documentId}/setLeadingDocument`,
         data
       );
     },

@@ -8,7 +8,7 @@
     />
     <DxButton
       :visible="showBtn"
-      :on-click="this.openCard"
+      :on-click="openCard"
       icon="info"
       stylingMode="text"
       :hint="$t('translations.fields.moreAbout')"
@@ -24,23 +24,31 @@ import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton
+    DxButton,
   },
-  props: ["fieldData","readOnly"],
+  props: ["fieldData", "readOnly"],
   computed: {
     showBtn() {
       return this.fieldData?.id
         ? this.$store.getters["permissions/allowReading"](EntityType.Employee)
         : false;
-    }
+    },
   },
   methods: {
     openCard() {
-      this.$emit("openCard");
+      this.$popup.employeeCard(
+        this,
+        {
+          employeeId: this.fieldData?.id,
+        },
+        {
+          height: "auto",
+        }
+      );
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
-    }
-  }
+    },
+  },
 };
 </script>

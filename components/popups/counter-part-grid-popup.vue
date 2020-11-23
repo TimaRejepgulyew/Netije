@@ -26,7 +26,6 @@ export default {
       this.$emit("valueChanged", { data });
       this.$emit("close");
     },
-
   },
   mounted() {
     this.$emit("loadStatus");

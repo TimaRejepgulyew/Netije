@@ -2,62 +2,45 @@
   <div class="toolbar">
     <DxToolbar>
       <DxItem
-        template="toolbarItemStartBtn"
-        :visible="canStart"
-        location="before"
+        v-for="(toolbarItem, index) in toolbarItemsByTaskType"
+        :key="index"
+        :visible="toolbarItem.visible"
+        :options="toolbarItem.options"
+        :location="toolbarItem.location"
+        :widget="toolbarItem.widget"
+        :template="toolbarItem.template"
+        :disabled="toolbarItem.disabled"
       />
       <template #toolbarItemStartBtn>
         <toolbar-item-start-btn @onStart="onStart" :taskId="taskId" />
       </template>
-      <DxItem
-        :visible="canSave"
-        :disabled="!isDataChanged"
-        :options="saveButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        :visible="canAbort"
-        :options="abortButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        :visible="canRestart"
-        :options="restartButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
-      <DxItem
-        template="toolbarItemImportanceChanger"
-        :disabled="!isDraft"
-        location="before"
-        widget="dxCheckBox"
-      />
+      <template #toolbarItemAbortActionItem>
+        <toolbarItemAbortActionItem :taskId="taskId" />
+      </template>
       <template #toolbarItemImportanceChanger>
         <toolbarItemImportanceChanger
           :taskId="taskId"
         ></toolbarItemImportanceChanger>
       </template>
-      <DxItem
-        :visible="canDelete"
-        :options="deleteButtonOptions"
-        location="after"
-        widget="dxButton"
-      />
-      <DxItem location="after" template="toolbarItemAccessRight" />
       <template #toolbarItemAccessRight>
         <toolbar-item-access-right
           :entity-type="entityType"
           :entity-id="taskId"
         />
       </template>
+
+      <template #toolbarItemswichToCompoundActionItem>
+        <toolbarItemSwitchToCompound :taskId="taskId" />
+      </template>
     </DxToolbar>
   </div>
 </template>
 <script>
+import toolbarItemAbortActionItem from "~/components/task/task-forms/components/action-item-abort-btn.vue";
+import ToolbarByTaskType from "~/infrastructure/factory/taskToolbarByTaskType.js";
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
+import toolbarItemSwitchToCompound from "~/components/task/task-forms/components/action-item-exicution/switch-to-compound-btn.vue";
 import toolbarItemStartBtn from "~/components/task/task-forms/components/start-btn.vue";
 import toolbarItemImportanceChanger from "~/components/task/task-forms/components/importance-changer.vue";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -66,12 +49,14 @@ import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
 import attachmentVue from "~/components/workFlow/attachment/index.vue";
-import toolbarItemAccessRight from "~/components/page/access-right.vue";
+import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 export default {
   components: {
+    toolbarItemSwitchToCompound,
     toolbarItemImportanceChanger,
     toolbarItemAccessRight,
     toolbarItemStartBtn,
+    toolbarItemAbortActionItem,
     DxToolbar,
     DxItem
   },
@@ -83,6 +68,9 @@ export default {
     };
   },
   computed: {
+    toolbarItemsByTaskType() {
+      return ToolbarByTaskType(this, this.task.taskType);
+    },
     entityType() {
       return mapToEntityType(this.task.taskType);
     },

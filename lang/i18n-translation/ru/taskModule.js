@@ -3,9 +3,14 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа",
-  FreeApprovalTask: "Задача на cвободное согласование"
+  FreeApprovalTask: "Задача на cвободное согласование",
+ 
 };
 export default {
+  actionItemType: {
+    Component: "Пункт поручения",
+  },
+  addNewAssineers: "Добавьте исполнителей",
   sources: {
     assignment: "Задание",
     notification: "Уведомление"
@@ -16,7 +21,9 @@ export default {
     expired: "Просроченные",
     monthAgo: "30 дней"
   },
-
+  confirm:{
+    abortingReason:"Причина прекращения"
+  },
   message: {
     acquaintDocumentMessage:
       "Ознакомьтесь с документом, подойдите к ответственному и поставьте личную подпись",
@@ -39,6 +46,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    finalDeadline: "Общий срок",
     status: "Состояние",
     author: "Автор",
     assignedBy: "Выдал",
