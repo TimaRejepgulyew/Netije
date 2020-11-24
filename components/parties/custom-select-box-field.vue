@@ -108,8 +108,6 @@ export default {
         {},
         {
           showLoadingPanel: false,
-        },
-        {
           listeners: [
             { eventName: "valueChanged", handlerName: "valueChanged" },
           ],
@@ -145,6 +143,7 @@ export default {
       );
     },
     valueChanged(data) {
+      console.log(data);
       this.$emit("valueChanged", data);
     },
   },
