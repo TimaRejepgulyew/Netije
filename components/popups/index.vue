@@ -39,6 +39,7 @@ import accessRight from "./access-right-popup.vue";
 import attachmentAccessRightDialog from "./attachment-access-right-dialog-popup.vue";
 import assignmentCard from "./assignment-card-popup.vue";
 import documentGrid from "./document-grid-popup.vue";
+import pdfFileReader from "./pdf-file-reader-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -56,26 +57,27 @@ export default {
     attachmentAccessRightDialog,
     assignmentCard,
     documentGrid,
-    taskCard
+    taskCard,
+    pdfFileReader,
   },
   name: "base-popup",
   props: {
     template: {
-      type: String
+      type: String,
     },
     options: {
-      type: Object
+      type: Object,
     },
     popupSettings: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
       visible: false,
       isLoading: false,
       title: "",
-      indicatorIcon
+      indicatorIcon,
     };
   },
   computed: {
@@ -88,9 +90,9 @@ export default {
         height: "95%",
         position: { my: "center", at: "center" },
         showLoadingPanel: true,
-        ...this.popupSettings
+        ...this.popupSettings,
       };
-    }
+    },
   },
   methods: {
     destroyComponent() {
@@ -108,11 +110,11 @@ export default {
     },
     setTitle(data) {
       this.title = data;
-    }
+    },
   },
   mounted() {
     this.isLoading = this.defaultPopupSettings.showLoadingPanel;
-  }
+  },
 };
 </script>
 

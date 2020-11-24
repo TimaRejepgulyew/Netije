@@ -349,6 +349,7 @@ export default {
       return file;
     },
     handleSubmit() {
+      this.$popup.pdfFileReader(this, {}, { showLoadingPanel: false });
       // var res = this.$refs["form"].instance.validate();
       // const file = this.generateFormData(this.employee);
       // if (!res.isValid) return;
