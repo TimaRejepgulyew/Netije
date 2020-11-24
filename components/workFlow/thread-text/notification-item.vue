@@ -31,8 +31,8 @@
           <is-read-indicator :data="data.item.entity" />
         </div>
       </div>
-      <div v-if="data.item.entity.body" class="list__content message-body">
-        {{ data.item.entity.body }}
+      <div v-if="data.item.body" class="list__content message-body">
+        {{ data.item.body }}
       </div>
     </div>
     <thread-text-component

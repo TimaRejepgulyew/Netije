@@ -14,7 +14,9 @@
         </div>
         <div>
           <div @click="() => toDetailTask(data.item.entity)" class="link">
-            <span class="text-italic">{{ parseSubject(data.item.entity) }}</span>
+            <span class="text-italic">{{
+              parseSubject(data.item.entity)
+            }}</span>
           </div>
 
           <div class="list__content d-flex">
@@ -28,7 +30,9 @@
         <div class="thread-text-status">
           <div
             class="task__item"
-            v-if="data.item.entity.maxDeadline && displayDeadline(data.item.type)"
+            v-if="
+              data.item.entity.maxDeadline && displayDeadline(data.item.type)
+            "
             :class="{ expired: data.item.isExpired }"
           >
             {{ $t("translations.fields.deadLine") }}:
@@ -37,8 +41,8 @@
           <status-indicator :data="data.item.entity" />
         </div>
       </div>
-      <div v-if="data.item.entity.body" class="list__content message-body">
-        {{ data.item.entity.body }}
+      <div v-if="data.item.body" class="list__content message-body">
+        {{ data.item.body }}
       </div>
     </div>
     <tread-text-component
@@ -73,9 +77,9 @@ export default {
   props: ["data"],
 
   methods: {
-    toDetailTask({ taskId: id, taskType }) {
+    toDetailTask({ id, taskType }) {
       this.$popup.taskCard(this, {
-        params: { taskId, taskType },
+        params: { taskId: id, taskType },
         handler: load
       });
     },
@@ -85,6 +89,7 @@ export default {
           return this.$t("task.compoundActionItem");
         else if (value?.actionItemType === ActionItemType.Component)
           return this.$t("task.actionItemType.Component");
+        else return new TaskType(this).getById(value.taskType).text;
       } else return new TaskType(this).getById(value.taskType).text;
     },
     formatDate(date) {
