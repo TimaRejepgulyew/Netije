@@ -110,7 +110,6 @@ export default {
   },
   mounted() {
     this.isLoading = this.defaultPopupSettings.showLoadingPanel;
-    // console.log(this.template, this.options);
   }
 };
 </script>
