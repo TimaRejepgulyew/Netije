@@ -22,10 +22,10 @@
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #customSelectItem="{data}">
+    <template #customSelectItem="{ data }">
       <custom-select-item :item-data="data" />
     </template>
-    <template #customfield="{data}">
+    <template #customfield="{ data }">
       <custom-field
         :read-only="readOnly"
         @valueChanged="setCounterPart"
@@ -48,7 +48,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: [
     "validatorGroup",
@@ -56,37 +56,35 @@ export default {
     "value",
     "notPerson",
     "disabled",
-    "readOnly",
+    "readOnly"
   ],
   data() {
     return {
       counterPartStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.CounterPart,
+          loadUrl: dataApi.contragents.CounterPart
         }),
         paginate: true,
         pageSize: 10,
-        filter: this.notPerson ? ["type", "<>", "Person"] : null,
-      }),
+        filter: this.notPerson ? ["type", "<>", "Person"] : null
+      })
     };
   },
   methods: {
     valueChanged(e) {
-      if (e.event) {
-        this.$emit("valueChanged", e.value);
-      }
+      this.$emit("valueChanged", e.value);
     },
     selectionChanged(e) {
       this.$emit("selectionChanged", e.selectedItem);
     },
     setCounterPart({ data, updated }) {
+     
       this.$emit("valueChanged", data.id);
       if (updated) this.$refs["counterPart"].instance.repaint();
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

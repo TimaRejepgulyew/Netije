@@ -52,7 +52,8 @@ export default {
     "~/plugins/customStore",
     "~/plugins/customValidator",
     "~/plugins/signalR",
-    "~/plugins/pdf"
+    '~/plugins/popup',
+    '~/plugins/pdf',
   ],
   /*
    ** Nuxt.js dev-modules

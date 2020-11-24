@@ -1,37 +1,46 @@
 <template>
   <div>
-    <div class="comment__item mY-1 ml-1" :class="{'current-comment':comment.isCurrent}">
+    <div
+      class="comment__item mY-1 ml-1"
+      :class="{ 'current-comment': data.isCurrent }"
+    >
       <div class="d-flex js-space-between">
         <div>
-          <user-icon class="f-size-30" :fullName="comment.author.name" :path="comment.author.personalPhotoHash" />
+          <user-icon
+            class="f-size-30"
+            :fullName="data.author.name"
+            :path="data.author.personalPhotoHash"
+          />
         </div>
         <div>
-          <div @click="()=>toDetailAssignment(comment.entity)" class="link">
-            <span class="text-italic">{{parseSubject(comment.entity.assignmentType)}}</span>
+          <div @click="() => toDetailAssignment(data.entity)" class="link">
+            <span class="text-italic">{{
+              parseSubject(data.entity.assignmentType)
+            }}</span>
           </div>
 
           <div class="list__content d-flex">
-            <threadTextComponentAuthor :author="comment.author" @toDetailAuthor="toDetailAuthor" />
+            <threadTextComponentAuthor :author="data.author" />
             <div>
               <i class="dx-icon dx-icon-event"></i>
-              {{formatDate(comment.modificationDate)}}
+              {{ formatDate(data.modificationDate) }}
             </div>
           </div>
         </div>
-        <div class="task-state">
-          <is-read-indicator :data="comment.entity" />
+        <div class="thread-text-status">
+          <is-read-indicator :data="data.entity" />
         </div>
       </div>
-      <div v-if="comment.entity.body" class="list__content message-body">{{comment.entity.body}}</div>
+      <div v-if="data.entity.body" class="list__content message-body">
+        {{ data.entity.body }}
+      </div>
     </div>
-    <tread-text-mediator
+    <thread-text-component
       class="ml-1"
-      @toDetailAuthor="(id)=>toDetail('toDetailAuthor',id)"
-      @toDetailTask="(params)=>toDetail('toDetailTask',params)"
-      @toDetailAssignment="(params)=>toDetail('toDetailAssignment',params)"
-      :v-if="comment.children && comment.children.length"
-      v-for="(item,index) in comment.children"
-      :comment="item"
+      :v-if="data.children && data.children.length"
+      v-for="(item, index) in data.children"
+      :data="item"
+      :type="item.type"
       :key="index"
     />
   </div>
@@ -48,11 +57,11 @@ export default {
     threadTextComponentAuthor,
     userIcon,
     isReadIndicator,
-    treadTextMediator: () =>
-      import("~/components/workFlow/thread-text/text-mediator.vue"),
+    threadTextComponent: () =>
+      import("~/components/workFlow/thread-text/thread-text-component.vue"),
   },
   name: "task-item",
-  props: ["comment"],
+  props: ["data"],
 
   methods: {
     isReadStatusText(isRead) {
@@ -61,14 +70,18 @@ export default {
     isReadStatusIcon(isRead) {
       return isRead ? this.readIcon : this.unreadIcon;
     },
-    toDetail(emitName, params) {
-      this.$emit(emitName, params);
-    },
     toDetailAssignment(params) {
-      this.$emit("toDetailAssignment", params);
-    },
-    toDetailAuthor(id) {
-      this.$emit("toDetailAuthor", id);
+      this.$popup.assignmentCard(
+        this,
+        {
+          params: { assignmentId: params.id },
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
     parseSubject(value) {
       return assignmentTypeName(this)[value]?.text;
@@ -77,12 +90,7 @@ export default {
       return moment(date).format("DD.MM.YYYY HH:mm");
     },
     displayDeadline(type) {
-      switch (type) {
-        case WorkflowEntityTextType.Notice:
-          return false;
-        default:
-          return true;
-      }
+      return type !== WorkflowEntityTextType.Notice;
     },
   },
 };

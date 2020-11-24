@@ -1,45 +1,48 @@
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import { DxPopup } from "devextreme-vue/popup";
-import attachmentAccessRightDialog from "~/components/access-right/attachment-access-right-dialog.vue";
 import dataApi from "~/static/dataApi.js";
 export default {
   components: {
     DxToolbar,
     DxItem,
-    DxPopup,
-    attachmentAccessRightDialog
   },
   props: ["assignmentId"],
   inject: ["isValidForm"],
   data() {
     return {
       confirm,
-      isPopupAccesRight: false
-    }
+    };
   },
   methods: {
-    async sendRecipientAccessRight(accessRightId) {
-      await this.$axios.post(dataApi.assignment.GrantPermissions, {
-        assignmentId: this.assignmentId,
-        assignmentType: this.assignment.assignmentType,
-        accessRight: accessRightId,
-      });
+    async valueChanged(accessRightId) {
+      if (accessRightId !== undefined)
+        await this.$axios.post(dataApi.assignment.GrantPermissions, {
+          assignmentId: this.assignmentId,
+          assignmentType: this.assignment.assignmentType,
+          accessRight: accessRightId
+        });
       await this.sendResult();
-      this.tooglePopupAccessRight();
     },
-
-    tooglePopupAccessRight() {
-      this.isPopupAccesRight = !this.isPopupAccesRight;
+    showAccessRightPopup(maxOperation) {
+      this.$popup.attachmentAccessRightDialog(this, {
+        maxOperation
+      }, {
+        width: "auto",
+        height: "auto",
+        showLoadingPanel: false,
+        listeners: [
+          { eventName: "valueChanged", handlerName: "valueChanged" },
+        ],
+      })
     },
     async checkRecipientAccessRight() {
       const {
-        data: { succeeded },
+        data: { succeeded, maxOperation }
       } = await this.$axios.get(
         `${dataApi.assignment.CheckMembersPermissions}${this.assignment?.assignmentType}/${this.assignmentId}`
       );
       if (!succeeded) {
-        this.tooglePopupAccessRight();
+        this.showAccessRightPopup(maxOperation);
         return false;
       } else return true;
     },
@@ -51,27 +54,29 @@ export default {
     async completeAssignment(params) {
       const hasRecipientAccessRight = await this.checkRecipientAccessRight();
       if (!hasRecipientAccessRight) return false;
-      this.sendResult(params)
+      this.sendResult(params);
     },
-    //TODO remane this function 
+    //TODO remane this function
     sendResult(params) {
       this.$awn.asyncBlock(
-        this.$store.dispatch(`assignments/${this.assignmentId}/complete`, params),
-        (e) => {
-          this.$listeners.complete()
+        this.$store.dispatch(
+          `assignments/${this.assignmentId}/complete`,
+          params
+        ),
+        e => {
+          this.$listeners.complete();
           this.$awn.success();
         },
-        (e) => this.$awn.alert()
+        e => this.$awn.alert()
       );
-    },
+    }
   },
   computed: {
     assignment() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-
+      return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
     },
     inProcess() {
       return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
-    },
+    }
   }
-}
+};

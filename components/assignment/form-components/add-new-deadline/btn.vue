@@ -26,12 +26,11 @@
 import dialog from "./dialog.vue";
 import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
-import { DxPopup } from "devextreme-vue/popup";
+
 import addApproverBtnIcon from "~/static/icons/assignment-result/addApprover.svg";
 export default {
   components: {
     DxButton,
-    DxPopup,
     dialog
   },
   props: ["assignmentId"],

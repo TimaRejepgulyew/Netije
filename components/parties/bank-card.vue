@@ -3,11 +3,15 @@
     <toolbar
       :isCard="isCard"
       @saveChanges="submit"
-      :canSave="$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
+      :canSave="
+        $store.getters['permissions/allowUpdating'](EntityType.Counterparty)
+      "
     />
     <DxForm
       ref="form"
-      :read-only="!$store.getters['permissions/allowUpdating'](EntityType.Counterparty)"
+      :read-only="
+        !$store.getters['permissions/allowUpdating'](EntityType.Counterparty)
+      "
       :col-count="2"
       :form-data.sync="company"
       :show-colon-after-label="true"
@@ -61,16 +65,28 @@
           editor-type="dxSelectBox"
           data-field="localityId"
         >
-          <DxLabel location="top" :text="$t('translations.fields.localityId')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.localityId')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="postAddress">
-          <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.postAddress')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalAddress">
-          <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.legalAddress')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
-          <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.nonresident')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="webSite">
           <DxLabel location="top" :text="$t('translations.fields.webSite')" />
@@ -78,12 +94,20 @@
         <DxSimpleItem data-field="correspondentAccount">
           <DxLabel location="top" :text="$t('translations.fields.account')" />
         </DxSimpleItem>
-        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
+        <DxSimpleItem
+          :editor-options="statusOptions"
+          editor-type="dxSelectBox"
+          data-field="status"
+        >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem data-field="note" :editor-options="{height: 90}" editor-type="dxTextArea">
+        <DxSimpleItem
+          data-field="note"
+          :editor-options="{ height: 90 }"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -123,15 +147,7 @@ export default {
     DxAsyncRule,
     Toolbar,
   },
-  props: ["isCard", "counterpartId"],
-  async created() {
-    if (this.counterpartId) {
-      const { data } = await this.$axios.get(
-        `${dataApi.contragents.Bank}/${this.counterpartId}`
-      );
-      this.company = data;
-    }
-  },
+  props: ["isCard", "data"],
   data() {
     return {
       EntityType,
@@ -200,7 +216,7 @@ export default {
       );
     },
     submit() {
-      return this.counterpartId ? this.putRequest() : this.postRequest();
+      return this.data.id ? this.putRequest() : this.postRequest();
     },
     postRequest() {
       var res = this.$refs["form"].instance.validate();
@@ -222,7 +238,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
-          `${dataApi.contragents.Bank}/${this.counterpartId}`,
+          `${dataApi.contragents.Bank}/${this.data.id}`,
           this.company
         ),
         ({ data }) => {
@@ -235,6 +251,11 @@ export default {
         }
       );
     },
+  },
+  created() {
+    if (this.data) {
+      this.company = this.data;
+    }
   },
 };
 </script>

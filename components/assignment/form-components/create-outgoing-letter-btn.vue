@@ -6,25 +6,6 @@
       :text="outgoingLetter.text"
       :on-click="createOutgoingLetter"
     />
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="isOpenDocumentCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      :height="'95%'"
-    >
-      <div class="scrool-auto">
-        <document-card
-          v-if="isOpenDocumentCard"
-          @onClosed="pasteAttachment"
-          :documentId="outgoingLetterId"
-          @onClose="toggleDocumentCard"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
   </div>
 </template>
 
@@ -33,15 +14,11 @@ import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 import { createLeadingDocument } from "~/infrastructure/services/documentService.js";
-import { DxPopup } from "devextreme-vue/popup";
-import documentCard from "~/components/document-module/main-doc-form/index.vue";
 import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
-    DxButton,
-    DxPopup,
-    documentCard
+    DxButton
   },
   props: ["leadingDocumentId"],
   data() {
@@ -58,6 +35,7 @@ export default {
     }
   },
   methods: {
+    // to popupComponent
     pasteAttachment({ id, documentTypeGuid }) {
       this.$emit("pasteAttachment", {
         attachmentId: id,
@@ -65,22 +43,21 @@ export default {
         entityTypeGuid: mapToEntityType(documentTypeGuid)
       });
     },
-    toggleDocumentCard() {
-      this.isOpenDocumentCard = !this.isOpenDocumentCard;
-    },
     createOutgoingLetter() {
-      this.$awn.asyncBlock(
-        createLeadingDocument(this, {
-          documentType: DocumentTypeGuid.OutgoingLetter,
-          leadingDocumentType: DocumentTypeGuid.IncomingLetter,
-          leadingDocumentId: this.leadingDocumentId
-        }),
-        ({ documentId }) => {
-          this.outgoingLetterId = documentId;
-          this.toggleDocumentCard();
+      this.$popup.documentCard(
+        this,
+        {
+          params: {
+            documentType: DocumentTypeGuid.OutgoingLetter,
+            leadingDocumentType: DocumentTypeGuid.IncomingLetter,
+            leadingDocumentId: this.leadingDocumentId
+          },
+          handler: createLeadingDocument
         },
-        e => {
-          this.$awn.alert();
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "pasteAttachment" }
+          ]
         }
       );
     }

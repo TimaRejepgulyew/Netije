@@ -1,24 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      position="{ my: 'center', at: 'center', of: window }"
-      :visible.sync="isOpenPopup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      height="95%"
-    >
-      <div class="scrool-auto">
-        <document-card
-          v-if="isOpenPopup"
-          @onClose="togglePopup"
-          :isCard="true"
-          :documentId="relationId"
-        />
-      </div>
-    </DxPopup>
-
     <DxDropDownButton
       :use-select-mode="dropDownConfigure.useSelectMode"
       :split-button="dropDownConfigure.splitButton"
@@ -33,25 +14,15 @@
   </div>
 </template>
 <script>
+import { createLeadingDocument } from "~/infrastructure/services/documentService.js";
 import RelationDocumentType from "~/infrastructure/models/RelationDocumentType.js";
-import { DxPopup } from "devextreme-vue/popup";
 import RelationDropDownBtnOption from "~/infrastructure/builders/relationDropDown.js";
 import { DxDropDownButton } from "devextreme-vue";
-import { createLeadingDocument } from "~/infrastructure/constants/creatingItems.js";
 export default {
   components: {
     DxDropDownButton,
-    DxPopup,
-    documentCard: async () =>
-      import("~/components/document-module/main-doc-form/index.vue")
   },
   props: ["documentId"],
-  data() {
-    return {
-      isOpenPopup: false,
-      relationId: false
-    };
-  },
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
@@ -70,23 +41,13 @@ export default {
     }
   },
   methods: {
-    showRelationDocument(relationId) {
-      this.relationId = relationId;
-      this.togglePopup();
-    },
-    togglePopup() {
-      this.isOpenPopup = !this.isOpenPopup;
-    },
     createRelation(e) {
-      this.$awn.asyncBlock(
-        e.itemData.create(this, {
+      e.itemData.create(this, {
+        params: {
           leadingDocumentType: this.document.documentTypeGuid,
           leadingDocumentId: +this.documentId
-        }),
-        ({ documentId }) => {
-          this.showRelationDocument(documentId);
         }
-      );
+      });
     }
   }
 };

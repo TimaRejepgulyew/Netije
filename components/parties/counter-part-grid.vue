@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :headerTitle="$t('menu.counterPart')" :isbackButton="false" :isNew="false"></Header>
+    <Header :showTitle="!isCard" :headerTitle="$t('menu.counterPart')"  :isbackButton="false" :isNew="false"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -156,6 +156,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
   },
+  props:['isCard'],
   data() {
     return {
       dataSource: this.$dxStore({

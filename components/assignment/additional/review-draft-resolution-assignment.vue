@@ -49,17 +49,26 @@ export default {
     employeeSelectBox,
     resolutionTask,
     taskCard,
-    DxPopup
+    DxPopup,
   },
   props: ["assignmentId"],
   data() {
     return {
       showItemExecutionTask: false,
-      taskId: null
+      taskId: null,
     };
   },
   methods: {
     openTaskCard({ taskId, taskType }) {
+      this.$popup.taskCard(
+        this,
+        { taskId, taskType },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
       this.$awn.asyncBlock(load(this, { taskId, taskType }), () => {
         this.taskId = taskId;
         this.tooglePopup();
@@ -73,7 +82,7 @@ export default {
         `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
         id
       );
-    }
+    },
   },
   computed: {
     addresseeId() {
@@ -87,11 +96,11 @@ export default {
       const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
       ].attachmentGroups;
-      return attachments.find(attachment => {
+      return attachments.find((attachment) => {
         return attachment.groupId === AttachmentGroup.Resolution;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

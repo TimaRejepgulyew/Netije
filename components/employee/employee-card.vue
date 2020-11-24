@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header
+      :showTitle="!isCard"
       :isbackButton="!isCard"
       :isNew="false"
       :headerTitle="employee.name"
@@ -184,6 +185,7 @@
         />
       </template>
     </DxForm>
+    <div ref="lolo"></div>
   </div>
 </template>
 <script>
@@ -212,7 +214,7 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
-
+// import Vue from "vue";
 export default {
   components: {
     Header,

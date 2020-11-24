@@ -2,27 +2,29 @@
   <div class="d-flex align-stretch align-items-center">
     <div class="attachment--link d-flex f-grow-1" @dblclick="showAttachment">
       <documentIcon :extension="item.entity.extension" />
-      <div class="max-width-5vw">{{item.entity.name}}</div>
+      <div class="max-width-5vw">{{ item.entity.name }}</div>
     </div>
-    <actionBtn @detach="detach" @showCard="()=>showCard(item.entity)" :attachment="item" />
+    <actionBtn
+      @detach="detach"
+      @showCard="() => showCard(item.entity)"
+      :attachment="item"
+    />
   </div>
 </template>
 
 <script>
-import { DxPopup } from "devextreme-vue/popup";
 import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment/attachment-document-action-btn.vue";
 import documentIcon from "~/components/page/document-icon.vue";
 export default {
   components: {
     documentIcon,
-    actionBtn,
-    DxPopup,
+    actionBtn
   },
   props: ["item"],
   data() {
     return {
-      isOpenCard: false,
+      isOpenCard: false
     };
   },
   methods: {
@@ -36,7 +38,7 @@ export default {
       DocumentService.downloadDocument(
         {
           ...this.item.entity,
-          extension: this.item.entity.extension,
+          extension: this.item.entity.extension
         },
         this
       );
@@ -50,8 +52,8 @@ export default {
       if (canPreview) this.previewVersion();
       else if (this.item.entity.hasVersions) this.downloadVersion();
       else this.showCard(this.item.entity);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -71,7 +73,6 @@ export default {
   border-radius: 3px;
   text-decoration: none;
   &:hover {
-
     background: darken($base-bg, 5%);
     width: auto;
   }

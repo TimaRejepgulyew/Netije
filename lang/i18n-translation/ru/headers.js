@@ -40,4 +40,5 @@ export default {
   otherTasks: "Другие задачи",
   actionItemExecutionTasks: "Поручения",
   reviewTasks: "Рассмотрение",
+  counterPart:"Контрагент"
 }

@@ -1,22 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :title="$t('shared.confirm')"
-      :visible.sync="isPopupAccesRight"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="auto"
-      :height="'auto'"
-    >
-      <div>
-        <attachment-access-right-dialog
-          @close="tooglePopupAccessRight"
-          @selected="sendRecipientAccessRight"
-        />
-      </div>
-    </DxPopup>
-
     <div class="toolbar">
       <DxToolbar>
         <DxItem
@@ -61,12 +44,10 @@ import toolbarAddApproverBtn from "~/components/assignment/form-components/add-a
 import approveIcon from "~/static/icons/assignment-result/success.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import { DxPopup } from "devextreme-vue/popup";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
   components: {
-    DxPopup,
     toolbarAddApproverBtn
   },
   computed: {

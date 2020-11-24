@@ -1,21 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :show-title="false"
-      :visible.sync="isCardOpened"
-      ref="popup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div>
-        <updateCard
-          v-if="isCardOpened"
-          @valueChanged="valueChanged"
-          :isCard="true"
-          :data="currentEmployee"
-        />
-      </div>
-    </DxPopup>
     <DxSelectBox
       ref="employee"
       :read-only="readOnly"
@@ -38,12 +22,12 @@
       <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
         <DxRequiredRule />
       </DxValidator>
+
       <template #customSelectItem="{ data }">
         <custom-select-item :item-data="data" />
       </template>
       <template #customfield="{ data }">
         <custom-field
-          @openCard="showPopup"
           :read-only="readOnly"
           @valueChanged="updateEmployee"
           :field-data="data || value"
@@ -54,9 +38,6 @@
 </template>
 
 <script>
-import updateCard from "~/components/employee/employee-card.vue";
-import { DxPopup } from "devextreme-vue/popup";
-import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import customSelectItem from "~/components/employee/custom-select-box-item.vue";
 import customField from "~/components/employee/custom-employee-field";
@@ -70,60 +51,44 @@ export default {
     DxSelectBox,
     customSelectItem,
     customField,
-    updateCard,
-    DxPopup,
-    DxButton
   },
-  props: {
-    value: {},
-    storeApi: {},
-    messageRequired: {},
-    validatorGroup: {},
-    readOnly: {},
-    valueExpr: {},
-    showClearButton: {
-      type: Boolean,
-      default: true
-    }
-  },
-
-  data() {
-    return {
-      // employeeStore: new DataSource({
-      //   store: this.$dxStore({
-      //     key: "id",
-      //     loadUrl: this.storeApi || dataApi.company.Employee,
-      //   }),
-      //   paginate: true,
-      //   pageSize: 10,
-      // }),
-      isCardOpened: false,
-      currentEmployee: null
-    };
-  },
+  props: [
+    "showClearButton",
+    "value",
+    "storeApi",
+    "messageRequired",
+    "validatorGroup",
+    "readOnly",
+    "valueExpr",
+  ],
   computed: {
     employeeStore() {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
+          loadUrl: this.storeApi || dataApi.company.Employee,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
     async showPopup() {
-      const { data } = await this.$axios.get(
-        `${dataApi.company.Employee}/${this.employeeId}`
+      this.$popup.employeeCard(
+        this,
+        {
+          employeeId: this.employeeId,
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
       );
-      this.currentEmployee = data;
-      this.isCardOpened = !this.isCardOpened;
-      // this.$refs["popup"].instance.toggle();
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
@@ -132,8 +97,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.employeeStore.reload();
-    }
-  }
+    },
+  },
 };
 </script>
 

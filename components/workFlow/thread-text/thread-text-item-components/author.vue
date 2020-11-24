@@ -1,7 +1,14 @@
 <template>
-  <div :class="{link:isRecipient}" @click="()=>{if(isRecipient)toDetailAuthor()}">
+  <div
+    :class="{ link: isRecipient }"
+    @click="
+      () => {
+        if (isRecipient) toDetailAuthor();
+      }
+    "
+  >
     <i class="dx-icon dx-icon-user"></i>
-    {{ author.name}}
+    {{ author.name }}
   </div>
 </template>
 
@@ -16,7 +23,18 @@ export default {
   },
   methods: {
     toDetailAuthor() {
-      this.$emit("toDetailAuthor", this.author.id);
+      this.$popup.employeeCard(
+        this,
+        {
+          employeeId: this.author.id,
+        },
+        {
+          height: "auto",
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
   },
   computed: {

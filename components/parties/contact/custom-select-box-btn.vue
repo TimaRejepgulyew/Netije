@@ -70,6 +70,7 @@ export default {
     DxPopup,
     contact
   },
+  props: ["id", "type", "correspondentId", "readOnly"],
   data() {
     return {
       isOpenCardUpdate: false,
@@ -106,7 +107,6 @@ export default {
       this.isOpenCardCreate = !this.isOpenCardCreate;
     }
   },
-  props: ["id", "type", "correspondentId", "readOnly"]
 };
 </script>
 <style lang="scss">
