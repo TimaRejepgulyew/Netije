@@ -5,6 +5,12 @@ import caseFileSettingIcon from "~/static/icons/doc-flow-icon/caseFileSettingIco
 import associatedAppSettingIcon from "~/static/icons/doc-flow-icon/associatedAppSettingIcon.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
 export default function(context) {
+  function mySettingVisible() {
+    return (
+      context.$store.getters["permissions/isUser"] &&
+      isVisible(EntityType.PersonalSettings)
+    );
+  }
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
@@ -15,13 +21,13 @@ export default function(context) {
     {
       icon: personalSettingIcon,
       title: context.$t("docFlow.personalSetting.title"),
-      visible: isVisible(EntityType.PersonalSettings),
+      visible: mySettingVisible(),
       items: [
         {
           name: context.$t("docFlow.personalSetting.mySetting"),
           description: context.$t("docFlow.personalSetting.mySettingDescr"),
           path: pathGenerate("personal-settings"),
-          visible: isVisible(EntityType.PersonalSettings)
+          visible: mySettingVisible()
         }
       ]
     },
@@ -68,15 +74,15 @@ export default function(context) {
         },
         {
           name: context.$t("docFlow.regSetting.registrationSettings"),
-          description: context.$t("docFlow.regSetting.registrationSettingsDescr"),
+          description: context.$t(
+            "docFlow.regSetting.registrationSettingsDescr"
+          ),
           path: pathGenerate("registration-settings"),
           visible: isVisible(EntityType.RegistrationSetting)
         },
         {
           name: context.$t("docFlow.regSetting.deliveriMethods"),
-          description: context.$t(
-            "docFlow.regSetting.deliveriMethodsDescr"
-          ),
+          description: context.$t("docFlow.regSetting.deliveriMethodsDescr"),
           path: pathGenerate("delivery-method"),
           visible: isVisible(EntityType.DeliveryMethod)
         }
