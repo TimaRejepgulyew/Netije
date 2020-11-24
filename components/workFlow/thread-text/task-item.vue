@@ -52,6 +52,7 @@
   </div>
 </template>
 <script>
+import { load } from "~/infrastructure/services/taskService.js";
 import ActionItemType from "~/infrastructure/constants/actionItemType.js";
 import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
 import statusIndicator from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";
@@ -66,14 +67,17 @@ export default {
     threadTextComponentAuthor,
     userIcon,
     treadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue"),
+      import("~/components/workFlow/thread-text/thread-text-component.vue")
   },
   name: "task-item",
   props: ["data"],
 
   methods: {
-    toDetailTask(params) {
-      this.$emit("toDetailTask", params);
+    toDetailTask({ taskId: id, taskType }) {
+      this.$popup.taskCard(this, {
+        params: { taskId, taskType },
+        handler: load
+      });
     },
     parseSubject(value) {
       if (
@@ -88,8 +92,8 @@ export default {
     },
     displayDeadline(type) {
       return type !== WorkflowEntityTextType.Notice;
-    },
-  },
+    }
+  }
 };
 </script>
 

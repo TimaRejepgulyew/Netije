@@ -1,49 +1,24 @@
 <template>
-  <div>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="isOpenCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="true"
-      width="90%"
-      :height="'auto'"
-    >
-      <div class="scrool-auto">
-        <task-card
-          @onClosed="emitData"
-          @onClose="togglePopup"
-          :taskId="currentTaskId"
-          v-if="isOpenCard"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
-    <DxButton
-      :disabled="disabled"
-      :visible="visible"
-      :on-click="createChildActionItem"
-      :icon="createChildTaskIcon"
-      :text="$t('buttons.createChildTask')"
-      :useSubmitBehavior="false"
-    ></DxButton>
-  </div>
+  <DxButton
+    :disabled="disabled"
+    :visible="visible"
+    :on-click="createChildTaskByTask"
+    :icon="createChildTaskIcon"
+    :text="$t('buttons.createChildTask')"
+    :useSubmitBehavior="false"
+  ></DxButton>
 </template>
 
 <script>
-import { DxPopup } from "devextreme-vue/popup";
-import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
-import taskCard from "~/components/task/index.vue";
+import { createSubTaskByTask } from "~/infrastructure/services/taskService.js";
 import createChildTaskIcon from "~/static/icons/create-child-task-btn-icon.svg";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    taskCard,
-    DxButton,
-    DxPopup
+    DxButton
   },
   props: {
-    parentAssignmentId: {
+    parentTaskId: {
       type: Number
     },
     visible: {
@@ -54,26 +29,26 @@ export default {
   },
   data() {
     return {
-      createChildTaskIcon,
-      currentTaskId: null,
-      isOpenCard: false
+      createChildTaskIcon
     };
   },
   methods: {
     createChildActionItem() {
-      this.$awn.asyncBlock(
-        CreateChildActionItemExecution(this, this.parentAssignmentId),
-        ({ taskId }) => {
-          this.currentTaskId = taskId;
-          this.togglePopup();
+      this.$popup.taskCard(
+        this,
+        {
+          params: this.parentTaskId,
+          handler: createSubTaskByTask
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" }
+          ]
         }
       );
     },
-    emitData({ taskId, taskType }) {
-      this.$emit("onClosed", { taskId, taskType });
-    },
-    togglePopup() {
-      this.isOpenCard = !this.isOpenCard;
+    valueChanged({ taskId, taskType }) {
+      this.$emit("valueChanged", { taskId, taskType });
     }
   }
 };

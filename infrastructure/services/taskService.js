@@ -52,22 +52,22 @@ export async function CreateChildActionItemExecution(
     dataApi.task.CreateChildActionItemExecution
   );
 }
-export async function CreateChildTaskByAssignment(context, parentAssignmentId) {
+export async function createSubTaskByAssignment(context, parentAssignmentId) {
   return await createTask(
     context,
     {
       parentAssignmentId
     },
-    dataApi.task.CreateChildTaskByAssignment
+    dataApi.task.CreateSubTaskByAssignment
   );
 }
-export async function CreateChildTaskByTask(context, parentTaskId) {
+export async function createSubTaskByTask(context, parentTaskId) {
   return await createTask(
     context,
     {
       parentTaskId
     },
-    dataApi.task.CreateChildTaskByAssignment
+    dataApi.task.CreateSubTaskByTask
   );
 }
 export async function createTaskByDocument(context, params) {
@@ -90,6 +90,7 @@ export async function load(context, { taskType, taskId }) {
 export function unload(context, taskId) {
   const overlays = context.$store.getters[`tasks/${taskId}/overlays`];
   if (overlays === 0) {
+    context.$store.commit(`tasks/${taskId}/CLEAN_STATE`);
     taskModules.unregisterModule(context, taskId);
   } else context.$store.commit(`tasks/${taskId}/DECREMENT_OVERLAYS`);
 }
