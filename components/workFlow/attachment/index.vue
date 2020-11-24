@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-for="groupItem in attachmentGroups.filter(el=>el.isVisible)" :key="groupItem.groupId">
+    <div
+      v-for="groupItem in attachmentGroups.filter(el => el.isVisible)"
+      :key="groupItem.groupId"
+    >
       <component
         :is="componentByAttachmentType(groupItem.attachmentGroupType)"
         :assignmentId="assignmentId"
@@ -14,14 +17,15 @@
 </template>
 
 <script>
-import attachmentGroupDocument from "~/components/workFlow/attachment/attachment-group-document.vue";
-import attachmentGroupTask from "~/components/workFlow/attachment/attachment-group-task.vue";
 import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.js";
 export default {
   components: {
-    attachmentGroupDocument,
-    attachmentGroupTask,
+    attachmentGroupDocument: () =>
+      import("~/components/workFlow/attachment/attachment-group-document.vue"),
+    attachmentGroupTask: () =>
+      import("~/components/workFlow/attachment/attachment-group-task.vue")
   },
+  name: "attachment",
   props: ["attachmentGroups", "assignmentId"],
   methods: {
     detach(attachmentId) {
@@ -40,11 +44,10 @@ export default {
         case GroupAttachmentType.Task:
           return "attachmentGroupTask";
       }
-    },
+    }
   },
-  computed: {},
+  computed: {}
 };
 </script>
 
-<style>
-</style>
+<style></style>

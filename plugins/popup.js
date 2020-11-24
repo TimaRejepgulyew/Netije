@@ -37,7 +37,8 @@ export default (pluginContext, inject) => {
     attachmentAccessRightDialog: BasePopup("attachmentAccessRightDialog"),
     assignmentCard: BasePopup("assignmentCard"),
     documentGrid: BasePopup("documentGrid"),
-    documentCard: BasePopup("documentCard")
-  }
-  inject('popup', popup)
+    documentCard: BasePopup("documentCard"),
+    taskCard: BasePopup("taskCard")
+  };
+  inject("popup", popup);
 };

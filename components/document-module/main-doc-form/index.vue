@@ -230,7 +230,6 @@ export default {
   },
   methods: {
     onRemove() {
-      this.$emit("onRemove", this.documentId);
       this.$emit("onClose", this.documentId);
     },
     onClosed() {

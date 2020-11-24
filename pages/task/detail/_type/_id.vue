@@ -8,7 +8,7 @@ import cardTask from "~/components/task/index.vue";
 import { load, taskModules } from "~/infrastructure/services/taskService.js";
 export default {
   components: {
-    cardTask,
+    cardTask
   },
   async asyncData({ app, params, $axios, store }) {
     await load(
@@ -17,11 +17,10 @@ export default {
     );
 
     return {
-      taskId: +params.id,
+      taskId: +params.id
     };
   },
   async beforeRouteLeave(to, from, next) {
-
     let result = true;
     if (!this.$store.getters[`tasks/${+this.taskId}/skipRouteHandling`]) {
     }
@@ -35,7 +34,7 @@ export default {
       if (result) {
         await load(this, {
           taskType: +this.$route.params.type,
-          taskId: +this.taskId,
+          taskId: +this.taskId
         });
       }
     }
@@ -44,7 +43,7 @@ export default {
   methods: {
     closeTask() {
       this.$router.push(`/task`);
-    },
-  },
+    }
+  }
 };
 </script>

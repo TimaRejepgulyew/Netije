@@ -28,16 +28,17 @@
 
 <script>
 import Vue from "vue";
-import documentCard from "~/components/popups/document-card-popup.vue";
-import bussiniesUnitCard from "~/components/popups/business-unit-popup.vue";
-import departmentCard from "~/components/popups/department-popup.vue";
-import employeeCard from "~/components/popups/employee-popup.vue";
-import counterPartCard from "~/components/popups/counter-part-card-popup.vue";
-import counterPartGrid from "~/components/popups/counter-part-grid-popup.vue";
-import accessRight from "~/components/popups/access-right-popup.vue";
-import attachmentAccessRightDialog from "~/components/popups/attachment-access-right-dialog-popup.vue";
-import assignmentCard from "~/components/popups/assignment-card-popup.vue";
-import documentGrid from "~/components/popups/document-grid-popup.vue";
+import taskCard from "./task-card-popup.vue";
+import documentCard from "./document-card-popup.vue";
+import bussiniesUnitCard from "./business-unit-popup.vue";
+import departmentCard from "./department-popup.vue";
+import employeeCard from "./employee-popup.vue";
+import counterPartCard from "./counter-part-card-popup.vue";
+import counterPartGrid from "./counter-part-grid-popup.vue";
+import accessRight from "./access-right-popup.vue";
+import attachmentAccessRightDialog from "./attachment-access-right-dialog-popup.vue";
+import assignmentCard from "./assignment-card-popup.vue";
+import documentGrid from "./document-grid-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -54,7 +55,8 @@ export default {
     accessRight,
     attachmentAccessRightDialog,
     assignmentCard,
-    documentGrid
+    documentGrid,
+    taskCard
   },
   name: "base-popup",
   props: {

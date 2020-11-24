@@ -5,7 +5,7 @@ const DocumentSendActionGuid = {
   Acquaintance: 2,
   ReviewManager: 3,
   FreeApproval: 4,
-  Approval: 5
+  // Approval: 5
 };
 export default DocumentSendActionGuid;
 

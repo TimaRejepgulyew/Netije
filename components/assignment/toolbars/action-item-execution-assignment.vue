@@ -1,24 +1,5 @@
 <template>
   <div class="toolbar">
-    <!-- <DxPopup
-      :showTitle="false"
-      :visible.sync="showItemExecutionTask"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      :height="'auto'"
-    >
-      <div class="scrool-auto">
-        <task-card
-          @onClosed="pasteAttachment"
-          @onClose="togglePopup"
-          :taskId="actionItemExecutionTaskId"
-          v-if="showItemExecutionTask"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup> -->
     <DxToolbar>
       <DxItem
         :visible="inProcess"
@@ -50,7 +31,6 @@
 <script>
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
-import taskCard from "~/components/task/index.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import createOutgoingLetterBtn from "~/components/assignment/form-components/create-outgoing-letter-btn.vue";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
@@ -59,7 +39,6 @@ import dataApi from "~/static/dataApi";
 export default {
   components: {
     createOutgoingLetterBtn,
-    taskCard
   },
   mixins: [toolbarMixin],
   data() {
@@ -111,13 +90,10 @@ export default {
         icon: actionItemExecutionIcon,
         text: this.$t("buttons.createChilteExecution"),
         onClick: () => {
-          this.$awn.asyncBlock(
-            CreateChildActionItemExecution(this, this.assignmentId),
-            ({ taskId }) => {
-              this.actionItemExecutionTaskId = taskId;
-              this.togglePopup();
-            }
-          );
+          this.$popup.taskCard(this, {
+            params: this.assignmentId,
+            handler: CreateChildActionItemExecution
+          });
         }
       };
     },

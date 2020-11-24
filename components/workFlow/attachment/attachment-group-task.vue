@@ -1,28 +1,16 @@
 <template>
   <div>
-    <DxPopup
-      width="90%"
-      height="90%"
-      :showTitle="false"
-      :visible.sync="isOpenCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-    >
-      <div class="scrool-auto">
-        <task-card v-if="isOpenCard" :taskId="taskId" :isCard="true" @onSave="reloadAttachmment" />
-      </div>
-    </DxPopup>
     <div class="d-flex align-center">
-      <span class="dx-form-group-caption">{{group.groupTitle}}</span>
+      <span class="dx-form-group-caption">{{ group.groupTitle }}</span>
       <sup v-if="group.isRequired" class="red">*</sup>
       <DxButton
-        :id="'addAttachment'+group.groupId"
+        :id="'addAttachment' + group.groupId"
         class="btn--green"
         :visible="group.canAddAttachments"
         icon="plus"
         styling-mode="text"
         :hint="$t('buttons.add')"
-        :on-click="openPopup"
+        :on-click="createTask"
       ></DxButton>
     </div>
     <ul v-if="hasGroupItem">
@@ -32,12 +20,18 @@
     </ul>
     <div
       class="d-flex group__description"
-      :class="{'cursor-pointer':group.canAddAttachments}"
-      @click="()=>{if(group.canAddAttachments)openPopup()}"
+      :class="{ 'cursor-pointer': group.canAddAttachments }"
+      @click="
+        () => {
+          if (group.canAddAttachments) createTask();
+        }
+      "
       v-else
     >
       <i class="dx-icon dx-icon-link"></i>
-      <label :for="'addAttachment'+group.groupId" class="f-grow-1">{{group.description}}</label>
+      <label :for="'addAttachment' + group.groupId" class="f-grow-1">{{
+        group.description
+      }}</label>
     </div>
   </div>
 </template>
@@ -54,17 +48,13 @@ import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import DxSelectBox from "devextreme-vue/select-box";
-import { DxPopup } from "devextreme-vue/popup";
-import taskCard from "~/components/task/index.vue";
+
 export default {
   components: {
     DxSelectBox,
     DxButton,
-    DxPopup,
     taskField,
-    taskCard: async () => {
-      return await import("~/components/task/index.vue");
-    }
+   
   },
   name: "attachment-group-task",
   data() {
@@ -77,20 +67,31 @@ export default {
   props: ["group", "assignmentId"],
   methods: {
     showCard({ id, taskType }) {
-      this.$awn.asyncBlock(load(this, { taskType, taskId: id }), () => {
-        this.taskId = id;
-        this.tooglePopup();
-      });
+      this.$popup.taskCard(
+        this,
+        {
+          params: { taskType, taskId: id },
+          handler: load
+        },
+        {
+          listeners: [
+            { evenName: "valueChanged", handlerName: "reloadAttachmment" }
+          ]
+        }
+      );
     },
-    tooglePopup() {
-      this.isOpenCard = !this.isOpenCard;
-    },
-    openPopup() {
-      this.$awn.asyncBlock(
-        createActionItemExicutionTask(this, this.assignmentId),
-        ({ taskId, taskType }) => {
-          this.taskId = taskId;
-          this.tooglePopup();
+
+    createTask() {
+      this.$popup.taskCard(
+        this,
+        {
+          params: this.assignmentId,
+          handler: createActionItemExicutionTask
+        },
+        {
+          listeners: [
+            { evenName: "valueChanged", handlerName: "reloadAttachmment" }
+          ]
         }
       );
     },
@@ -99,7 +100,6 @@ export default {
     },
     reloadAttachmment() {
       this.$emit("reloadAttachment");
-      this.isOpenCard = false;
     }
   },
   computed: {

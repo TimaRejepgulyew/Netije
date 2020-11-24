@@ -144,7 +144,6 @@ import { ComponentsByAssignmentType } from "~/infrastructure/services/generatorC
 import AssignmentType from "~/infrastructure/constants/assignmentType.js";
 import acquaintanceAssignmentDescription from "~/components/assignment/additional/acquaintance-assignment-description.vue";
 import Header from "~/components/page/page__header";
-import attachment from "~/components/workFlow/attachment/index.vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import "devextreme-vue/text-area";
 import dataApi from "~/static/dataApi";
@@ -163,7 +162,7 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxForm,
-    attachment,
+    attachment: () => import("~/components/workFlow/attachment/index.vue"),
     Header,
     acquaintanceAssignmentDescription,
     importantIndicator,

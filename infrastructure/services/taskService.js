@@ -68,6 +68,7 @@ export async function load(context, { taskType, taskId }) {
   if (!context.$store.getters[`tasks/${taskId}/isNew`]) {
     context.$store.commit(`tasks/${taskId}/INCREMENT_OVERLAYS`);
   }
+  return { taskType, taskId };
 }
 export function unload(context, taskId) {
   const overlays = context.$store.getters[`tasks/${taskId}/overlays`];
