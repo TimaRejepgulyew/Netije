@@ -97,55 +97,16 @@ export default {
     isSelected() {
       return this.fieldData?.id ? true : false;
     },
-    showCardByType() {
-      return this.fieldData?.type.toLowerCase();
-    },
   },
   methods: {
     openGird() {
-      this.$popup.counterPartGrid(
-        this,
-        {},
-        {
-          showLoadingPanel: false,
-        },
-        {
-          listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
-        }
-      );
+      this.$emit("openGridPopup");
     },
     openCard() {
-      this.$popup.counterPartCard(
-        this,
-        {
-          counterpartId: this.fieldData.id,
-          type: this.showCardByType,
-        },
-        {
-          listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
-        }
-      );
+      this.$emit("openCounterPartPopup");
     },
     createCounterPart(e) {
-      this.$popup.counterPartCard(
-        this,
-        {
-          type: e.itemData.type,
-        },
-        {
-          showLoadingPanel: false,
-          listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
-        }
-      );
-    },
-    valueChanged(data) {
-      this.$emit("valueChanged", data);
+      this.$emit("openCreateCounterPartPopup",e.itemData.type);
     },
   },
 };
