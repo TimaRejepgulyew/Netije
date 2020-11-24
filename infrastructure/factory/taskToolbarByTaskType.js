@@ -25,8 +25,9 @@ const simpleTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
-    deletetBtn(context)
+    deleteBtn(context)
   ];
 };
 const acquaintanceTaskToolbar = context => {
@@ -36,8 +37,9 @@ const acquaintanceTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
-    deletetBtn(context)
+    deleteBtn(context)
   ];
 };
 const actionItemExecutionTaskToolbar = context => {
@@ -48,8 +50,9 @@ const actionItemExecutionTaskToolbar = context => {
     abortActionItemBtn(context),
     importanceChangerBtn(context),
     switchToCompountBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
-    deletetBtn(context)
+    deleteBtn(context)
   ];
 };
 const documentReviewTaskToolbar = context => {
@@ -59,8 +62,9 @@ const documentReviewTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
-    deletetBtn(context)
+    deleteBtn(context)
   ];
 };
 const freeApprovalTaskToolbar = context => {
@@ -70,8 +74,9 @@ const freeApprovalTaskToolbar = context => {
     restartBtn(context),
     abortBtn(context),
     importanceChangerBtn(context),
+    createChildTaskBtn(context),
     accessRightsBtn(context),
-    deletetBtn(context)
+    deleteBtn(context)
   ];
 };
 
@@ -146,7 +151,16 @@ function importanceChangerBtn(context, otherOptions) {
   };
   return new ToolbarItemTypeTemplate(context, toolbarItemOptions).options;
 }
-function deletetBtn(context, otherOptions) {
+function createChildTaskBtn(context, otherOptions) {
+  const toolbarItemOptions = {
+    template: "toolbarCreateChildTask",
+    location: "before",
+    visible: context.isDraft || context.inProccess,
+    ...otherOptions
+  };
+  return new ToolbarItemTypeTemplate(context, toolbarItemOptions).options;
+}
+function deleteBtn(context, otherOptions) {
   const toolbarItemOptions = {
     location: "after",
     visible: context.canDelete,

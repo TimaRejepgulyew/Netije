@@ -12,25 +12,26 @@
         template="createOutgoingLetterBtn"
         location="after"
       />
-      <DxItem
-        locateInMenu="auto"
-        :options="btnAddExecutionOptions"
-        location="before"
-        widget="dxButton"
-      />
-
       <template #createOutgoingLetterBtn>
         <create-outgoing-letter-btn
           @pasteAttachment="pasteAttachment"
           :leadingDocumentId="incomingDocumentId"
         />
       </template>
+      <DxItem
+        :visible="inProcess"
+        locateInMenu="auto"
+        template="createChildTask"
+        location="before"
+      />
+      <template #createChildTask>
+        <createChildTaskBtn :parentAssignmentId="assignmentId" />
+      </template>
     </DxToolbar>
   </div>
 </template>
 <script>
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
-import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
+import taskCard from "~/components/task/index.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import createOutgoingLetterBtn from "~/components/assignment/form-components/create-outgoing-letter-btn.vue";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
@@ -84,18 +85,6 @@ export default {
     attachmentGroups() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .attachmentGroups;
-    },
-    btnAddExecutionOptions() {
-      return {
-        icon: actionItemExecutionIcon,
-        text: this.$t("buttons.createChilteExecution"),
-        onClick: () => {
-          this.$popup.taskCard(this, {
-            params: this.assignmentId,
-            handler: CreateChildActionItemExecution
-          });
-        }
-      };
     },
     actionItemExecutionAttachmentIsIncomingLetter() {
       if (this.attachmentGroups) {

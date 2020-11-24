@@ -1,5 +1,6 @@
 export default {
   confirm: "Tassyklaň!",
+  createChildTask: "Goşundy ýumuş",
   switchToCompound: "Deň hukukly ýerine ýetirijiler",
   createChilteExecution: "Tabyn tabşyrygy döretmek",
   addResolution: "Rezolýusiýany çykarmak",

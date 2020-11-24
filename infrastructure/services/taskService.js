@@ -52,7 +52,24 @@ export async function CreateChildActionItemExecution(
     dataApi.task.CreateChildActionItemExecution
   );
 }
-
+export async function CreateChildTaskByAssignment(context, parentAssignmentId) {
+  return await createTask(
+    context,
+    {
+      parentAssignmentId
+    },
+    dataApi.task.CreateChildTaskByAssignment
+  );
+}
+export async function CreateChildTaskByTask(context, parentTaskId) {
+  return await createTask(
+    context,
+    {
+      parentTaskId
+    },
+    dataApi.task.CreateChildTaskByAssignment
+  );
+}
 export async function createTaskByDocument(context, params) {
   return await createTask(context, params, dataApi.task.СreateTaskByDocument);
 }
