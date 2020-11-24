@@ -1,22 +1,21 @@
 <template>
-  <documentCard
+  <task-card
     :isCard="true"
     @onClose="close"
     @onClosed="valueChanged"
-    v-if="documentId"
-    :documentId="documentId"
+    v-if="taskId"
+    :taskId="taskId"
   />
 </template>
 
 <script>
 import dataApi from "~/static/dataApi";
-import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
+import TaskTypeModel from "~/infrastructure/models/TaskType.js";
 export default {
   components: {
-    documentCard: () =>
-      import("~/components/document-module/main-doc-form/index.vue")
+    taskCard: () => import("~/components/task/index.vue")
   },
-  name: "document-popup",
+  name: "task-popup",
   props: {
     options: {
       type: Object
@@ -24,18 +23,18 @@ export default {
   },
   data() {
     return {
-      documentId: null
+      taskId: null
     };
   },
   async created() {
-    const documentTypeModel = new DocumentTypeModel(this);
-    const { documentId, documentTypeGuid } = await this.options.handler(
+    const taskTypeModel = new TaskTypeModel(this);
+    const { taskId, taskType } = await this.options.handler(
       this,
       this.options.params
     );
-    this.documentId = documentId;
+    this.taskId = taskId;
     this.$emit("loadStatus");
-    this.$emit("showTitle", documentTypeModel.getById(documentTypeGuid).text);
+    this.$emit("showTitle", taskTypeModel.getById(taskType).text);
   },
   methods: {
     close() {

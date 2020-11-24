@@ -1,23 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showItemExecutionTask"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      :height="'auto'"
-    >
-      <div class="scrool-auto">
-        <task-card
-          @onClose="tooglePopup"
-          :taskId="taskId"
-          v-if="showItemExecutionTask"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
     <div v-if="false">
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
@@ -36,10 +18,7 @@
     </ul>
   </div>
 </template>
-
 <script>
-import taskCard from "~/components/task/index.vue";
-import { DxPopup } from "devextreme-vue/popup";
 import { load } from "~/infrastructure/services/taskService.js";
 import AttachmentGroup from "~/infrastructure/constants/attachmentGroup.js";
 import resolutionTask from "~/components/workFlow/attachment/resolution-task-list.vue";
@@ -47,42 +26,23 @@ import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {
     employeeSelectBox,
-    resolutionTask,
-    taskCard,
-    DxPopup,
+    resolutionTask
   },
   props: ["assignmentId"],
-  data() {
-    return {
-      showItemExecutionTask: false,
-      taskId: null,
-    };
-  },
   methods: {
     openTaskCard({ taskId, taskType }) {
-      this.$popup.taskCard(
-        this,
-        { taskId, taskType },
-        {
-          listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
-        }
-      );
-      this.$awn.asyncBlock(load(this, { taskId, taskType }), () => {
-        this.taskId = taskId;
-        this.tooglePopup();
+      this.$popup.taskCard(this, {
+        params: { taskId, taskType },
+        handler: load
       });
     },
-    tooglePopup() {
-      this.showItemExecutionTask = !this.showItemExecutionTask;
-    },
+
     valueChanged(id) {
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
         id
       );
-    },
+    }
   },
   computed: {
     addresseeId() {
@@ -96,11 +56,11 @@ export default {
       const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
       ].attachmentGroups;
-      return attachments.find((attachment) => {
+      return attachments.find(attachment => {
         return attachment.groupId === AttachmentGroup.Resolution;
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

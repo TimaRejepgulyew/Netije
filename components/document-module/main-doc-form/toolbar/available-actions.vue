@@ -1,24 +1,5 @@
 <template>
   <div>
-    <DxPopup
-      :visible.sync="isOpenPopup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      maxHeight="95%"
-      height="auto"
-    >
-      <div class="scrool-auto">
-        <task-card
-          @onClose="tooglePopup"
-          :taskId="taskId"
-          v-if="isOpenPopup"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
-
     <DxDropDownButton
       :use-select-mode="false"
       :split-button="false"
@@ -33,23 +14,17 @@
   </div>
 </template>
 <script>
-import taskCard from "~/components/task/index.vue";
-import { DxPopup } from "devextreme-vue/popup";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
 import DocumentSendAction from "~/infrastructure/models/DocumentSendAction.js";
 import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
-    DxDropDownButton,
-    taskCard,
-    DxPopup
+    DxDropDownButton
   },
   props: ["documentId"],
   data() {
     return {
-      isOpenPopup: false,
-      taskId: false,
       sendIcon
     };
   },
@@ -70,24 +45,11 @@ export default {
     }
   },
   methods: {
-    showRelationDocument(taskId) {
-      this.taskId = taskId;
-      this.tooglePopup();
-    },
-    tooglePopup() {
-      this.isOpenPopup = !this.isOpenPopup;
-    },
     createTask(e) {
-      this.$awn.asyncBlock(
-        e.itemData.create(this, {
-          documentId: +this.documentId,
-          documentTypeGuid: this.document.documentTypeGuid
-        }),
-        ({ taskType, taskId }) => {
-          this.showRelationDocument(taskId);
-        },
-        () => {}
-      );
+      e.itemData.create(this, {
+        documentId: +this.documentId,
+        documentTypeGuid: this.document.documentTypeGuid
+      });
     }
   }
 };

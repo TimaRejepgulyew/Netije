@@ -28,9 +28,11 @@
     <template #customfield="{ data }">
       <custom-field
         :read-only="readOnly"
-        @valueChanged="setCounterPart"
         :notPerson="notPerson"
         :field-data="data"
+        @openGridPopup="openGridPopup(data)"
+        @openCounterPartPopup="openCounterPartPopup(data)"
+        @openCreateCounterPartPopup="openCreateCounterPartPopup"
       />
     </template>
   </DxSelectBox>
@@ -48,7 +50,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: [
     "validatorGroup",
@@ -56,34 +58,76 @@ export default {
     "value",
     "notPerson",
     "disabled",
-    "readOnly"
+    "readOnly",
   ],
   data() {
     return {
       counterPartStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.CounterPart
+          loadUrl: dataApi.contragents.CounterPart,
         }),
         paginate: true,
         pageSize: 10,
-        filter: this.notPerson ? ["type", "<>", "Person"] : null
-      })
+        filter: this.notPerson ? ["type", "<>", "Person"] : null,
+      }),
     };
   },
   methods: {
+    openGridPopup(data) {
+      this.$popup.counterPartGrid(
+        this,
+        {},
+        {
+          showLoadingPanel: false,
+          listeners: [
+            { eventName: "valueChanged", handlerName: "setCounterPart" },
+          ],
+        }
+      );
+    },
+    openCounterPartPopup(data) {
+      this.$popup.counterPartCard(
+        this,
+        {
+          counterpartId: data.id,
+          type: data.type.toLowerCase(),
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "setCounterPart" },
+          ],
+        }
+      );
+    },
+    openCreateCounterPartPopup(data) {
+      this.$popup.counterPartCard(
+        this,
+        {
+          type: data,
+        },
+        {
+          showLoadingPanel: false,
+          listeners: [
+            { eventName: "valueChanged", handlerName: "setCounterPart" },
+          ],
+        }
+      );
+    },
+    reloadStore() {
+      this.$refs["counterPart"].instance.repaint();
+    },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },
     selectionChanged(e) {
       this.$emit("selectionChanged", e.selectedItem);
     },
-    setCounterPart({ data, updated }) {
-     
+    setCounterPart(data) {
       this.$emit("valueChanged", data.id);
-      if (updated) this.$refs["counterPart"].instance.repaint();
-    }
-  }
+      this.reloadStore();
+    },
+  },
 };
 </script>
 

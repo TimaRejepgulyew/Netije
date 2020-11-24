@@ -1,37 +1,16 @@
 <template>
-  <div>
-    <DxPopup
-      :visible.sync="isOpenPopup"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      maxHeight="95%"
-      height="auto"
-    >
-      <div class="scrool-auto">
-        <task-card
-          @onClose="tooglePopup"
-          :taskId="taskId"
-          v-if="isOpenPopup"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
-    <DxMenu
-      :adaptivityEnabled="true"
-      :data-source="menuOptions"
-      show-first-submenu-mode="onHover"
-      orientation="vertical"
-      submenu-direction="auto"
-      :hide-submenu-on-mouse-leave="true"
-      display-expr="text"
-      @item-click="onItemClick"
-    />
-  </div>
+  <DxMenu
+    :adaptivityEnabled="true"
+    :data-source="menuOptions"
+    show-first-submenu-mode="onHover"
+    orientation="vertical"
+    submenu-direction="auto"
+    :hide-submenu-on-mouse-leave="true"
+    display-expr="text"
+    @item-click="onItemClick"
+  />
 </template>
 <script>
-import { DxPopup } from "devextreme-vue/popup";
 import TaskType from "~/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
 import DocumentSendAction from "~/infrastructure/models/DocumentSendAction.js";
@@ -42,17 +21,9 @@ import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    DxMenu,
-    DxPopup,
-    taskCard: () => import("~/components/task/index.vue")
+    DxMenu
   },
   props: ["attachment"],
-  data() {
-    return {
-      isOpenPopup: false,
-      taskId: false
-    };
-  },
   computed: {
     menuOptions() {
       const canPreview =
@@ -130,24 +101,12 @@ export default {
         }
     },
     createTask(itemData) {
-      this.$awn.asyncBlock(
-        itemData.create(this, {
-          documentId: this.attachment.entity.id,
-          documentTypeGuid: this.attachment.entity.documentTypeGuid
-        }),
-        ({ taskType, taskId }) => {
-          this.showRelationDocument(taskId);
-        },
-        () => {}
-      );
+      itemData.create(this, {
+        documentId: this.attachment.entity.id,
+        documentTypeGuid: this.attachment.entity.documentTypeGuid
+      });
     },
-    showRelationDocument(taskId) {
-      this.taskId = taskId;
-      this.tooglePopup();
-    },
-    tooglePopup() {
-      this.isOpenPopup = !this.isOpenPopup;
-    },
+
     detachLink() {
       this.$emit("detach", this.attachment.attachmentId);
     },
