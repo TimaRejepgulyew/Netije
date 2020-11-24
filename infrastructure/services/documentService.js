@@ -128,9 +128,9 @@ export async function refresh(context, { documentTypeGuid, documentId }) {
       break;
   }
   let { data } = await context.$axios.get(requiestApi);
+  loadDocument(context, documentId, data);
   context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
-  loadDocument(context, documentId, data);
 }
 export function unload(context, documentId) {
   const overlays = context.$store.getters[`documents/${documentId}/overlays`];

@@ -8,7 +8,7 @@
     />
     <DxButton
       :visible="showBtn"
-      :on-click="openCard"
+      :on-click="showCard"
       icon="info"
       stylingMode="text"
       :hint="$t('translations.fields.moreAbout')"
@@ -35,19 +35,8 @@ export default {
     },
   },
   methods: {
-    openCard() {
-      this.$popup.employeeCard(
-        this,
-        {
-          employeeId: this.fieldData?.id,
-        },
-        {
-          height: "auto",
-          listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
-        }
-      );
+    showCard() {
+      this.$emit("showCard");
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);

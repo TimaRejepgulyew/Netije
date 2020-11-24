@@ -28,6 +28,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @showCard="showCard"
           :read-only="readOnly"
           @valueChanged="updateEmployee"
           :field-data="data || value"
@@ -77,16 +78,17 @@ export default {
     },
   },
   methods: {
-    async showPopup() {
+    showCard() {
       this.$popup.employeeCard(
         this,
         {
           employeeId: this.employeeId,
         },
         {
-          listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
+          height:"auto"
+          // listeners: [
+          //   { eventName: "valueChanged", handlerName: "updateEmployee" },
+          // ],
         }
       );
     },
