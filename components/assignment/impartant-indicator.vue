@@ -1,18 +1,26 @@
 <template>
-  <div>
-    <img v-if="isImportant" :src="fireIcon" class="icon--important" />
-  </div>
+  <DxButton
+    :hoverStateEnabled="false"
+    :activeStateEnabled="false"
+    :focusStateEnabled="false"
+    :icon="fireIcon"
+    :readOnly="true"
+  />
 </template>
 
 <script>
+import DxButton from "devextreme-vue/button";
 import fireIcon from "~/static/icons/fire.png";
 export default {
+  components: {
+    DxButton
+  },
   props: ["isImportant"],
   data() {
     return {
-      fireIcon,
+      fireIcon
     };
-  },
+  }
 };
 </script>
 

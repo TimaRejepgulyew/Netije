@@ -35,6 +35,10 @@
           location="before"
           widget="dxButton"
         />
+        <DxItem location="after" template="importanceIndicator" />
+        <template #importanceIndicator>
+          <slot name="importanceIndicator" />
+        </template>
       </DxToolbar>
     </div>
   </div>

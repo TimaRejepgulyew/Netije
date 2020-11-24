@@ -6,11 +6,8 @@
         :showTitle="!isCard"
         :headerTitle="headerTitle"
       >
-        <important-indicator
-          :isImportant="isImportant"
-          slot="indicator"
-        ></important-indicator>
       </Header>
+
       <component
         name="toolbar"
         @pasteAttachment="pasteAttachment"
@@ -18,7 +15,15 @@
         @complete="onComplete"
         :assignmentId="assignmentId"
         :is="componentByType('toolbar')"
-      />
+      >
+        <important-indicator
+          tag="span"
+          slot="importanceIndicator"
+          v-if="isImportant"
+          :isImportant="isImportant"
+        ></important-indicator>
+      </component>
+
       <form class="d-flex">
         <div class="item f-grow-3">
           <DxForm

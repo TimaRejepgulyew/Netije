@@ -44,6 +44,10 @@
           :leadingDocumentId="incomingDocumentId"
         />
       </template>
+      <DxItem location="after" template="importanceIndicator" />
+      <template #importanceIndicator>
+        <slot name="importanceIndicator" />
+      </template>
     </DxToolbar>
   </div>
 </template>

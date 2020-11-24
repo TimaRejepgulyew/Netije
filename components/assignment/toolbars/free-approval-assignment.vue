@@ -24,6 +24,7 @@
           location="before"
           widget="dxButton"
         />
+
         <DxItem
           locateInMenu="auto"
           :visible="inProcess && false"
@@ -33,6 +34,10 @@
         />
         <template #toolbarAddApproverBtn>
           <toolbarAddApproverBtn :assignmentId="assignmentId" />
+        </template>
+        <DxItem location="after" template="importanceIndicator" />
+        <template #importanceIndicator>
+          <slot name="importanceIndicator" />
         </template>
       </DxToolbar>
     </div>

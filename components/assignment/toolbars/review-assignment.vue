@@ -13,6 +13,7 @@
         location="before"
         widget="dxButton"
       />
+
       <DxItem
         locateInMenu="auto"
         :visible="inProcess"
@@ -21,6 +22,10 @@
       />
       <template #createChildActionItem>
         <create-child-action-item-btn :parentAssignmentId="assignmentId" />
+      </template>
+      <DxItem location="after" template="importanceIndicator" />
+      <template #importanceIndicator>
+        <slot name="importanceIndicator" />
       </template>
     </DxToolbar>
   </div>
