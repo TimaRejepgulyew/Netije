@@ -3,18 +3,19 @@
     :disabled="disabled"
     :visible="visible"
     :on-click="createChildActionItem"
-    :icon="actionItemExecutionIcon"
-    :text="$t('buttons.createExecution')"
+    :icon="createChildTaskIcon"
+    :text="$t('buttons.createChildTask')"
     :useSubmitBehavior="false"
   ></DxButton>
 </template>
+
 <script>
-import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import { createSubTaskByAssignment } from "~/infrastructure/services/taskService.js";
+import createChildTaskIcon from "~/static/icons/create-child-task-btn-icon.svg";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    DxButton,
+    DxButton
   },
   props: {
     parentAssignmentId: {
@@ -28,7 +29,7 @@ export default {
   },
   data() {
     return {
-      actionItemExecutionIcon,
+      createChildTaskIcon
     };
   },
   methods: {
@@ -36,8 +37,8 @@ export default {
       this.$popup.taskCard(
         this,
         {
-          params: this.parentAssignmentId,
-          handler: CreateChildActionItemExecution
+          params: this.assignmentId,
+          handler: createSubTaskByAssignment
         },
         {
           listeners: [
@@ -48,8 +49,7 @@ export default {
     },
     valueChanged({ taskId, taskType }) {
       this.$emit("valueChanged", { taskId, taskType });
-    },
-  
+    }
   }
 };
 </script>

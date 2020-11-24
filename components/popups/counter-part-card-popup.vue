@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     valueChanged(data) {
-      this.$emit("valueChanged", { data, updated: true });
+      this.$emit("valueChanged", data);
       this.$emit("close");
     },
     close() {

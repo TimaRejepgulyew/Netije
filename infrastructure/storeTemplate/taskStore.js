@@ -80,6 +80,12 @@ function checkDataChanged(oldValue, newValue) {
   if (oldValue !== newValue) return oldValue !== newValue;
 }
 export const mutations = {
+  CLEAN_STATE(state) {
+    for (let prop in state) {
+      state[prop] = null;
+    }
+    state = {};
+  },
   SWITCH_TO_COMPOUND_ACTION_ITEM(state, payload) {
     if (payload) replaceAssignee(state);
     if (checkDataChanged(state.task.isCompoundActionItem, payload))

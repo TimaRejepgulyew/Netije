@@ -1,24 +1,5 @@
 <template>
   <div class="toolbar">
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="showItemExecutionTask"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      :height="'auto'"
-    >
-      <div class="scrool-auto">
-        <task-card
-          @onClosed="pasteAttachment"
-          @onClose="togglePopup"
-          :taskId="actionItemExecutionTaskId"
-          v-if="showItemExecutionTask"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
     <DxToolbar>
       <DxItem
         :visible="inProcess"
@@ -31,18 +12,20 @@
         template="createOutgoingLetterBtn"
         location="after"
       />
-      <DxItem
-        locateInMenu="auto"
-        :options="btnAddExecutionOptions"
-        location="before"
-        widget="dxButton"
-      />
-
       <template #createOutgoingLetterBtn>
         <create-outgoing-letter-btn
           @pasteAttachment="pasteAttachment"
           :leadingDocumentId="incomingDocumentId"
         />
+      </template>
+      <DxItem
+        :visible="inProcess"
+        locateInMenu="auto"
+        template="createChildTask"
+        location="before"
+      />
+      <template #createChildTask>
+        <createChildTaskBtn :parentAssignmentId="assignmentId" />
       </template>
       <DxItem location="after" template="importanceIndicator" />
       <template #importanceIndicator>
@@ -52,8 +35,6 @@
   </div>
 </template>
 <script>
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
-import { CreateChildActionItemExecution } from "~/infrastructure/services/taskService.js";
 import taskCard from "~/components/task/index.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import createOutgoingLetterBtn from "~/components/assignment/form-components/create-outgoing-letter-btn.vue";
@@ -62,8 +43,7 @@ import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    createOutgoingLetterBtn,
-    taskCard
+    createOutgoingLetterBtn
   },
   mixins: [toolbarMixin],
   data() {
@@ -109,21 +89,6 @@ export default {
     attachmentGroups() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .attachmentGroups;
-    },
-    btnAddExecutionOptions() {
-      return {
-        icon: actionItemExecutionIcon,
-        text: this.$t("buttons.createChilteExecution"),
-        onClick: () => {
-          this.$awn.asyncBlock(
-            CreateChildActionItemExecution(this, this.assignmentId),
-            ({ taskId }) => {
-              this.actionItemExecutionTaskId = taskId;
-              this.togglePopup();
-            }
-          );
-        }
-      };
     },
     actionItemExecutionAttachmentIsIncomingLetter() {
       if (this.attachmentGroups) {

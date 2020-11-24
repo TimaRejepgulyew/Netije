@@ -15,13 +15,14 @@
       />
 
       <DxItem
-        locateInMenu="auto"
         :visible="inProcess"
+        locateInMenu="auto"
+        template="createChildTask"
         location="before"
-        template="createChildActionItem"
       />
-      <template #createChildActionItem>
-        <create-child-action-item-btn :parentAssignmentId="assignmentId" />
+
+      <template #createChildTask>
+        <createChildTaskBtn :parentAssignmentId="assignmentId" />
       </template>
       <DxItem location="after" template="importanceIndicator" />
       <template #importanceIndicator>

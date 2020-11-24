@@ -102,6 +102,8 @@ export default {
     UpdateTask: `/api/Task/`,
     CreateTask: `/api/Task/Create`,
     СreateTaskByDocument: `/api/Task/CreateTaskByDocument`,
+    CreateSubTaskByTask: "/api/Task/CreateSubTaskByTask",
+    CreateSubTaskByAssignment: "/api/Task/CreateSubTaskByAssignment",
     CreateChildActionItemExecution: `/api/Task/CreateChildActionItemExecutionTask`,
     CreateDraftResolutionActionItemExecutionTask: `/api/Task/CreateDraftResolutionActionItemExecutionTask`,
 

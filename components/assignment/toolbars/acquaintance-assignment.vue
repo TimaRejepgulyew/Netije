@@ -11,6 +11,15 @@
       <template #importanceIndicator>
         <slot name="importanceIndicator" />
       </template>
+      <DxItem
+        :visible="inProcess"
+        locateInMenu="auto"
+        template="createChildTask"
+        location="before"
+      />
+      <template #createChildTask>
+        <createChildTaskBtn :parentAssignmentId="assignmentId" />
+      </template>
     </DxToolbar>
   </div>
 </template>

@@ -27,15 +27,15 @@
           location="before"
           widget="dxButton"
         />
-
         <DxItem
-          locateInMenu="auto"
           :visible="inProcess"
+          locateInMenu="auto"
+          template="createChildTask"
           location="before"
-          template="createChildActionItem"
         />
-        <template #createChildActionItem>
-          <create-child-action-item-btn :parentAssignmentId="assignmentId" />
+
+        <template #createChildTask>
+          <createChildTaskBtn :parentAssignmentId="assignmentId" />
         </template>
         <DxItem location="after" template="importanceIndicator" />
         <template #importanceIndicator>
@@ -46,7 +46,6 @@
   </div>
 </template>
 <script>
-import createChildActionItemBtn from "~/components/assignment/components/create-children-action-item-btn.vue";
 import returnManagersAssistantIcon from "~/static/icons/status/forrework.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import informedIcon from "~/static/icons/status/explored.svg";
@@ -55,9 +54,6 @@ import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
-  components: {
-    createChildActionItemBtn
-  },
   data() {
     return {
       actionItemExecutionTaskId: null,

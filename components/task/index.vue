@@ -1,6 +1,11 @@
 <template>
   <div id="form-demo">
-    <Header :headerTitle="headerTitle" :isNew="isNew" :isbackButton="!isCard" />
+    <Header
+      :headerTitle="headerTitle"
+      :showTitle="!isCard"
+      :isNew="isNew"
+      :isbackButton="!isCard"
+    />
     <toolbar
       v-if="canUpdate"
       :taskId="taskId"
@@ -113,6 +118,7 @@ export default {
   },
   destroyed() {
     unload(this, this.taskId);
+    if (!this.isNew) this.onClosed();
   },
   data() {
     return {
@@ -150,7 +156,13 @@ export default {
         return this.$refs["form"].instance.validate().isValid;
     },
     onClose() {
-      this.$emit("onClose", this.taskId);
+      this.$emit("onClose");
+    },
+    onClosed() {
+      this.$emit("onClosed", {
+        taskId: this.taskId,
+        taskType: this.task.taskType
+      });
     },
     onSave() {
       this.$emit("onSave", {
@@ -163,11 +175,11 @@ export default {
         taskId: this.taskId,
         taskType: this.task.taskType
       });
-      this.$emit("onClose", this.taskId);
+      this.$emit("onClose");
     },
     onRemove() {
-      this.$emit("onRemove", this.taskId);
-      this.$emit("onClose", this.taskId);
+      this.$emit("onRemove");
+      this.$emit("onClose");
     },
     detach(attachmentId) {
       this.$awn.async(

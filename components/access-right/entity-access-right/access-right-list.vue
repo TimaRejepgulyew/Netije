@@ -99,7 +99,7 @@ export default {
     resipientIcon,
     recipientSelectBox,
   },
-  props: ["data"],
+  props: ["data", "entityType", "entityId"],
   data() {
     return {
       accessRight: {},
@@ -120,7 +120,7 @@ export default {
     },
     async load() {
       const { data } = await this.$axios.get(
-        `${dataApi.accessRights.List}${this.data.entityType}/${this.data.entityId}`
+        `${dataApi.accessRights.List}${this.entityType}/${this.entityId}`
       );
       this.accessRight = data;
     },
@@ -128,14 +128,14 @@ export default {
       this.newRecipient = {
         recipientId: null,
         accessRightTypeId: null,
-        entityType: +this.data.entityType,
+        entityType: +this.entityType,
       };
     },
     addRecipient() {
       const recipient = {
         ...this.newRecipient,
-        entityId: +this.data.entityId,
-        entityType: +this.data.entityType,
+        entityId: +this.entityId,
+        entityType: +this.entityType,
       };
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.accessRights.AddRecipient, recipient),

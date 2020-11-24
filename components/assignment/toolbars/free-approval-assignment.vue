@@ -35,6 +35,16 @@
         <template #toolbarAddApproverBtn>
           <toolbarAddApproverBtn :assignmentId="assignmentId" />
         </template>
+
+        <DxItem
+          :visible="inProcess"
+          locateInMenu="auto"
+          template="createChildTask"
+          location="before"
+        />
+        <template #createChildTask>
+          <createChildTaskBtn :parentAssignmentId="assignmentId" />
+        </template>
         <DxItem location="after" template="importanceIndicator" />
         <template #importanceIndicator>
           <slot name="importanceIndicator" />

@@ -39,6 +39,12 @@ export const getters = {
   }
 };
 export const mutations = {
+  CLEAN_STATE(state) {
+    for (let prop in state) {
+      state[prop] = null;
+    }
+    state = {};
+  },
   SET_STATUS(state, payload) {
     state.assignment.status = payload;
   },

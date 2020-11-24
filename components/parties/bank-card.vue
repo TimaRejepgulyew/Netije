@@ -216,7 +216,7 @@ export default {
       );
     },
     submit() {
-      return this.data.id ? this.putRequest() : this.postRequest();
+      return this.data?.id ? this.putRequest() : this.postRequest();
     },
     postRequest() {
       var res = this.$refs["form"].instance.validate();
@@ -226,7 +226,7 @@ export default {
         ({ data }) => {
           this.$emit("valueChanged", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
+          this.$emit("close");
         },
         () => {
           this.$awn.alert();
@@ -244,7 +244,7 @@ export default {
         ({ data }) => {
           this.$emit("valueChanged", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
+          this.$emit("close");
         },
         () => {
           this.$awn.alert();

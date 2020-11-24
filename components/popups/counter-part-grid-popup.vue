@@ -1,8 +1,5 @@
 <template>
-  <counter-part-grid
-    @valueChanged="valueChanged"
-    :isCard="true"
-  />
+  <counter-part-grid @valueChanged="valueChanged" :isCard="true" />
 </template>
 
 <script>
@@ -13,7 +10,7 @@ export default {
   },
   methods: {
     valueChanged(data) {
-      this.$emit("valueChanged", { data });
+      this.$emit("valueChanged", data);
       this.$emit("close");
     },
   },

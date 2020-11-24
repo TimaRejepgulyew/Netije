@@ -52,40 +52,40 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: {
     dataSourceFilter: {},
     dataSourceQuery: {
       type: Number,
-      default: DocumentQuery.All
+      default: DocumentQuery.All,
     },
     value: {},
     isRequired: {
       type: Boolean,
-      default: false
+      default: false,
     },
     messageRequired: {
-      type: String
+      type: String,
     },
     validationGroup: {
-      type: String
+      type: String,
     },
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     valueExpr: {},
     showClearButton: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
 
   data() {
     return {
       currentDocumentId: null,
-      isCardOpened: false
+      isCardOpened: false,
     };
   },
   computed: {
@@ -93,16 +93,16 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}`
+          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}`,
         }),
         filter: this.dataSourceFilter || [],
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
     },
     documentId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
     showDocumentCard({ documentTypeGuid, id }) {
@@ -145,8 +145,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.$refs["document"].instance.repaint();
-    }
-  }
+    },
+  },
 };
 </script>
 

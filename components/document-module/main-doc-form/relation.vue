@@ -12,7 +12,7 @@
           @dblclick="
             openDocumentCard({
               documentTypeGuid: item.data.documentTypeGuid,
-              documentId: item.data.id
+              documentId: item.data.id,
             })
           "
         >
@@ -64,19 +64,19 @@ export default {
           loadUrl: `${dataApi.documentModule.Relation}${
             this.$store.getters[`documents/${this.documentId}/document`]
               .documentTypeGuid
-          }/${this.documentId}`
+          }/${this.documentId}`,
         }),
-        paginate: false
+        paginate: false,
       }),
       documentTypes: new DocumentType(this),
       employee: [],
-      currentRelationId: false
+      currentRelationId: false,
     };
   },
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
-    }
+    },
   },
   methods: {
     refresh() {
@@ -86,10 +86,18 @@ export default {
       this.isOpenPopup = !this.isOpenPopup;
     },
     openDocumentCard({ documentTypeGuid, documentId }) {
-      this.$popup.documentCard(this, {
-        params: { documentTypeGuid, documentId },
-        handler: load
-      });
+      this.$popup.documentCard(
+        this,
+        {
+          params: { documentTypeGuid, documentId },
+          handler: load,
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
     async getData(address) {
       const store = await this.$axios.get(address);
@@ -99,12 +107,12 @@ export default {
       return this.documentTypes.getById(value).icon;
     },
     getUserById(id) {
-      const author = this.employee.find(employeeId => {
+      const author = this.employee.find((employeeId) => {
         return employeeId === id;
       });
       if (author) return author.name;
       else return "";
-    }
+    },
   },
   filters: {
     formatDate(value) {
@@ -113,8 +121,8 @@ export default {
       } else {
         return "";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

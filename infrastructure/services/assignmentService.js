@@ -20,17 +20,21 @@ export function unload(context, assignmentId) {
   const overlays =
     context.$store.getters[`assignments/${assignmentId}/overlays`];
   if (overlays === 0) {
+    context.$store.commit(`assignments/${assignmentId}/CLEAN-STATE`);
     assignmentModules.unregisterModule(context, assignmentId);
   } else
     context.$store.commit(`assignments/${assignmentId}/DECREMENT_OVERLAYS`);
 }
-export async function sendResult(context, { id, assignmentType, result, body }, params) {
-  const assignmentJson = JSON.stringify({ id, result, body })
+export async function sendResult(
+  context,
+  { id, assignmentType, result, body },
+  params
+) {
+  const assignmentJson = JSON.stringify({ id, result, body });
   await context.$axios.post(dataApi.assignment.CompleteAssignment, {
     assignmentId: id,
     assignmentType,
     assignmentJson,
     ...params
-  })
-
+  });
 }

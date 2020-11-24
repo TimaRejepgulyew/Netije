@@ -50,7 +50,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: [
     "showClearButton",
@@ -59,28 +59,36 @@ export default {
     "messageRequired",
     "validatorGroup",
     "readOnly",
-    "valueExpr"
+    "valueExpr",
   ],
   computed: {
     employeeStore() {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
+          loadUrl: this.storeApi || dataApi.company.Employee,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
     async showPopup() {
-      this.$popup.employeeCard(this, {
-        employeeId: this.employeeId
-      });
+      this.$popup.employeeCard(
+        this,
+        {
+          employeeId: this.employeeId,
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
@@ -89,8 +97,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.employeeStore.reload();
-    }
-  }
+    },
+  },
 };
 </script>
 

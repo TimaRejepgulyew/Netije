@@ -1,24 +1,5 @@
 <template>
   <main>
-    <DxPopup
-      :showTitle="false"
-      :visible.sync="isOpenTaskCard"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      width="90%"
-      :height="'95%'"
-    >
-      <div class="scrool-auto">
-        <card-task
-          v-if="isOpenTaskCard"
-          :taskId="currentTaskCardId"
-          @onClose="toggleTaskCard"
-          :isCard="true"
-        />
-      </div>
-    </DxPopup>
-
     <div class="grid">
       <DxDataGrid
         id="gridContainer"
@@ -151,17 +132,11 @@
   </main>
 </template>
 <script>
-import { DxPopup } from "devextreme-vue/popup";
-import cardTask from "~/components/task/index.vue";
 import { load } from "~/infrastructure/services/taskService.js";
 import taskStoreMixin from "~/mixins/task/taskСategories.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 export default {
-  components: {
-    cardTask,
-    DxPopup
-  },
   props: ["documentId", "isCard"],
   mixins: [taskStoreMixin],
   data() {
@@ -173,19 +148,24 @@ export default {
         }),
         paginate: true,
         pageSize: 10
-      }),
-      currentTaskCardId: null,
-      isOpenTaskCard: false
+      })
     };
   },
   methods: {
-    toggleTaskCard() {
-      this.isOpenTaskCard = !this.isOpenTaskCard;
+    reloadStore() {
+      this.store.reload();
     },
     async showCard({ data }) {
-      await load(this, { taskType: data.taskType, taskId: data.id });
-      this.currentTaskCardId = data.id;
-      this.toggleTaskCard();
+      this.$popup.taskCard(
+        this,
+        {
+          params: { taskType: data.taskType, taskId: data.id },
+          handler: load
+        },
+        {
+          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
+        }
+      );
     }
   }
 };

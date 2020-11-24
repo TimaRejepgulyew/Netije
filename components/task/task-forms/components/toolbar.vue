@@ -28,15 +28,18 @@
           :entity-id="taskId"
         />
       </template>
-
       <template #toolbarItemswichToCompoundActionItem>
         <toolbarItemSwitchToCompound :taskId="taskId" />
+      </template>
+      <template #toolbarCreateChildTask>
+        <toolbar-item-create-child-task :parentTaskId="taskId" />
       </template>
     </DxToolbar>
   </div>
 </template>
 <script>
 import toolbarItemAbortActionItem from "~/components/task/task-forms/components/action-item-abort-btn.vue";
+import toolbarItemCreateChildTask from "~/components/task/task-forms/components/create-children-task-btn.vue";
 import ToolbarByTaskType from "~/infrastructure/factory/taskToolbarByTaskType.js";
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import { confirm } from "devextreme/ui/dialog";
@@ -52,6 +55,7 @@ import attachmentVue from "~/components/workFlow/attachment/index.vue";
 import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 export default {
   components: {
+    toolbarItemCreateChildTask,
     toolbarItemSwitchToCompound,
     toolbarItemImportanceChanger,
     toolbarItemAccessRight,
