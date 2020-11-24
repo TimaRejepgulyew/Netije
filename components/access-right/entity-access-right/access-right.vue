@@ -30,6 +30,9 @@ export default {
           position: { my: "top", at: "top" },
           width: "60%",
           height: "auto",
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },

@@ -64,6 +64,9 @@ export default {
         },
         {
           showLoadingPanel: false,
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },

@@ -84,9 +84,17 @@ export default {
   },
   methods: {
     showPopup() {
-      this.$popup.departmentCard(this, {
-        departmentId: this.departmentId,
-      });
+      this.$popup.departmentCard(
+        this,
+        {
+          departmentId: this.departmentId,
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);

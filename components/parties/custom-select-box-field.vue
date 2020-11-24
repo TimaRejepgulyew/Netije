@@ -43,17 +43,17 @@ export default {
   components: {
     DxTextBox,
     DxButton,
-    DxDropDownButton
+    DxDropDownButton,
   },
   props: {
     readOnly: {
-      type: Boolean
+      type: Boolean,
     },
     notPerson: {},
     fieldData: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -65,9 +65,9 @@ export default {
         {
           name: this.$t("counterPart.Person"),
           type: "person",
-          visible: !this.notPerson
-        }
-      ]
+          visible: !this.notPerson,
+        },
+      ],
     };
   },
   computed: {
@@ -84,14 +84,14 @@ export default {
     cardGridBtnOptions() {
       return {
         icon: "more",
-        visible: !this.readOnly && this.allowReadCounterPartDetails
+        visible: !this.readOnly && this.allowReadCounterPartDetails,
       };
     },
     cardDetailCounterPartOptions() {
       return {
         icon: "info",
         hint: this.$t("buttons.showCard"),
-        visible: this.isSelected && this.allowReadCounterPartDetails
+        visible: this.isSelected && this.allowReadCounterPartDetails,
       };
     },
     isSelected() {
@@ -99,7 +99,7 @@ export default {
     },
     showCardByType() {
       return this.fieldData?.type.toLowerCase();
-    }
+    },
   },
   methods: {
     openGird() {
@@ -107,30 +107,46 @@ export default {
         this,
         {},
         {
-          showLoadingPanel: false
+          showLoadingPanel: false,
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },
     openCard() {
-      this.$popup.counterPartCard(this, {
-        counterpartId: this.fieldData.id,
-        type: this.showCardByType
-      });
+      this.$popup.counterPartCard(
+        this,
+        {
+          counterpartId: this.fieldData.id,
+          type: this.showCardByType,
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
     createCounterPart(e) {
       this.$popup.counterPartCard(
         this,
         {
-          type: e.itemData.type
+          type: e.itemData.type,
         },
         {
-          showLoadingPanel: false
+          showLoadingPanel: false,
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
-    }
-  }
+    },
+  },
 };
 </script>

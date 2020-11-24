@@ -30,6 +30,9 @@ export default {
         width: "auto",
         height: "auto",
         showLoadingPanel: false,
+        listeners: [
+          { eventName: "valueChanged", handlerName: "valueChanged" },
+        ],
       })
     },
     async checkRecipientAccessRight() {

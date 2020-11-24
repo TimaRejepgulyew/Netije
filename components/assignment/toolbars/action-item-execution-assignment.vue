@@ -1,6 +1,6 @@
 <template>
   <div class="toolbar">
-    <DxPopup
+    <!-- <DxPopup
       :showTitle="false"
       :visible.sync="showItemExecutionTask"
       :drag-enabled="false"
@@ -18,7 +18,7 @@
           :isCard="true"
         />
       </div>
-    </DxPopup>
+    </DxPopup> -->
     <DxToolbar>
       <DxItem
         :visible="inProcess"

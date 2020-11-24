@@ -71,9 +71,17 @@ export default {
       return isRead ? this.readIcon : this.unreadIcon;
     },
     toDetailAssignment(params) {
-      this.$popup.assignmentCard(this, {
-        params: { assignmentId: params.id },
-      });
+      this.$popup.assignmentCard(
+        this,
+        {
+          params: { assignmentId: params.id },
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
     parseSubject(value) {
       return assignmentTypeName(this)[value]?.text;

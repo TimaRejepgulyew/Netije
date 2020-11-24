@@ -72,9 +72,12 @@ export default {
   },
   methods: {
     showPopup() {
-      this.$popup.bussiniesUnitCard(this, {
-        businessUnitId: this.businessUnitId,
-      });
+      this.$popup.bussiniesUnitCard(
+        this,
+        {
+          businessUnitId: this.businessUnitId,
+        }
+      );
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);

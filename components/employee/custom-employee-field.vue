@@ -43,6 +43,9 @@ export default {
         },
         {
           height: "auto",
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },

@@ -41,7 +41,7 @@ import addDocumentBtn from "~/components/workFlow/attachment/attachment-componen
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import {
   load,
-  createDocument
+  createDocument,
 } from "~/infrastructure/services/documentService.js";
 import documentField from "~/components/workFlow/attachment/field-document-attachment.vue";
 import { DxButton } from "devextreme-vue";
@@ -57,36 +57,44 @@ export default {
     documentGrid: async () =>
       await import("~/components/document-module/document-grid.vue"),
 
-    documentField
+    documentField,
   },
   data() {
     return {
       isOpenShowCreateNewAttacmentCard: false,
       isOpenShowAttacmentCard: false,
       isOpenGrid: false,
-      attachmentId: false
+      attachmentId: false,
     };
   },
   props: ["group"],
 
   methods: {
     showAttachmentCard({ id, documentTypeGuid }) {
-      this.$popup.documentCard(this, {
-        params: { documentId: id, documentTypeGuid },
-        handler: load
-      });
+      this.$popup.documentCard(
+        this,
+        {
+          params: { documentId: id, documentTypeGuid },
+          handler: load,
+        },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
     },
     createDocument(documentType) {
       this.$popup.documentCard(
         this,
         {
           params: { documentType },
-          handler: createDocument
+          handler: createDocument,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "pasteAttachment" }
-          ]
+            { eventName: "valueChanged", handlerName: "pasteAttachment" },
+          ],
         }
       );
     },
@@ -97,15 +105,15 @@ export default {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(documentTypeGuid)
+        entityTypeGuid: mapToEntityType(documentTypeGuid),
       });
-    }
+    },
   },
   computed: {
     hasGroupItem() {
       return this.group.entities;
-    }
-  }
+    },
+  },
 };
 </script>
 
