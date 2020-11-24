@@ -188,8 +188,8 @@ export default {
   },
   name: "document-card",
   destroyed() {
-    unload(this, this.documentId);
     if (!this.isNew) this.onClosed();
+    unload(this, this.documentId);
   },
   props: ["isCard", "documentId"],
   head() {
@@ -234,6 +234,7 @@ export default {
     },
     onClosed() {
       const { documentTypeGuid, id } = this.document;
+      console.log(documentTypeGuid);
       this.$emit("onClosed", { documentTypeGuid, id });
     },
     onClose() {

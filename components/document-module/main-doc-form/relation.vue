@@ -94,7 +94,7 @@ export default {
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
+            { eventName: "valueChanged", handlerName: "refresh" },
           ],
         }
       );

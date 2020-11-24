@@ -81,7 +81,7 @@ export default {
   computed: {
     defaultPopupSettings() {
       return {
-        closeOnOutsideClick: true,
+        closeOnOutsideClick: false,
         dragEnabled: false,
         showTitle: true,
         width: "90%",
