@@ -70,9 +70,7 @@ export default {
           handler: load,
         },
         {
-          listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
+          // TODO listeners refresh attachments
         }
       );
     },
@@ -82,9 +80,9 @@ export default {
         {},
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "pasteAttachment" }
+            { eventName: "valueChanged", handlerName: "pasteAttachment" },
           ],
-          showLoadingPanel: false
+          showLoadingPanel: false,
         }
       );
     },
