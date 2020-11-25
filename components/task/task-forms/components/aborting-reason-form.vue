@@ -1,9 +1,8 @@
 <template>
   <form @submit.prevent="abort" action="custom">
     <DxTextArea
-      :placeholder="$t('task.confirm.abortingReason')"
-      :height="90"
-      :width="500"
+      :height="120"
+      :width="600"
       v-model="abortingReason"
     />
     <DxButton

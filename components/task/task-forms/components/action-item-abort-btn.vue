@@ -11,7 +11,7 @@
       :visible.sync="popupOpen"
       :drag-enabled="false"
       :close-on-outside-click="true"
-      :show-title="false"
+      :show-title="true"
       width="auto"
       :height="'auto'"
     >
