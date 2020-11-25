@@ -28,13 +28,17 @@ export default {
   },
   async created() {
     const taskTypeModel = new TaskTypeModel(this);
-    const { taskId, taskType } = await this.options.handler(
-      this,
-      this.options.params
-    );
-    this.taskId = taskId;
-    this.$emit("loadStatus");
-    this.$emit("showTitle", taskTypeModel.getById(taskType).text);
+    try {
+      const { taskId, taskType } = await this.options.handler(
+        this,
+        this.options.params
+      );
+      this.taskId = taskId;
+      this.$emit("loadStatus");
+      this.$emit("showTitle", taskTypeModel.getById(taskType).text);
+    } catch (e) {
+      this.$emit("accessDenied", e);
+    }
   },
   methods: {
     close() {
