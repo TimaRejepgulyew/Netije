@@ -125,7 +125,10 @@ export default {
     removeVersion: "Удалене версии"
   },
   shared: {
-    attach:"Вложите",
+    alert: {
+      notHaveAccessRightToRead: "У вас не достаточно прав на данный обьект"
+    },
+    attach: "Вложите",
     name: "Наименование",
     nameRequired: "Введите наименование",
     nameAlreadyExists: "Такое имя уже существует",
@@ -161,7 +164,7 @@ export default {
     code: "Код",
     codeRequired: "Введите код",
     codeAlreadyExists: "Такой код уже существует",
-    description:"Описание"
+    description: "Описание"
   },
   workFlow: {
     fields: {

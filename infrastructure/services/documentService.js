@@ -98,13 +98,12 @@ export async function loadDocumentTemplate(
 }
 export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
-    console.log("requiest");
-    documentModules.setStoreTemplate(documentTypeGuid);
-    documentModules.registerModule(context, documentId);
-
     const { data } = await context.$axios.get(
       `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
     );
+    documentModules.setStoreTemplate(documentTypeGuid);
+    documentModules.registerModule(context, documentId);
+
     loadDocument(context, documentId, data);
 
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);

@@ -29,13 +29,17 @@ export default {
   },
   async created() {
     const documentTypeModel = new DocumentTypeModel(this);
-    const { documentId, documentTypeGuid } = await this.options.handler(
-      this,
-      this.options.params
-    );
-    this.documentId = documentId;
-    this.$emit("loadStatus");
-    this.$emit("showTitle", documentTypeModel.getById(documentTypeGuid).text);
+    try {
+      const { documentId, documentTypeGuid } = await this.options.handler(
+        this,
+        this.options.params
+      );
+      this.documentId = documentId;
+      this.$emit("loadStatus");
+      this.$emit("showTitle", documentTypeModel.getById(documentTypeGuid).text);
+    } catch (e) {
+      this.$emit("accessDenied", e);
+    }
   },
   methods: {
     close() {

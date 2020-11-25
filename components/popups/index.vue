@@ -14,7 +14,8 @@
     >
       <div class="scrool-auto" ref="popup">
         <component
-          @loadStatus="enabledLoadPanel"
+          @accessDenied="accessDenied"
+          @loadStatus="showComponent"
           @showTitle="setTitle"
           @valueChanged="valueChanged"
           @close="closePopup"
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import { alert } from "devextreme/ui/dialog";
 import Vue from "vue";
 import taskCard from "./task-card-popup.vue";
 import documentCard from "./document-card-popup.vue";
@@ -102,8 +104,21 @@ export default {
     valueChanged(data) {
       this.$emit("valueChanged", data);
     },
-    enabledLoadPanel() {
+    hideLoadIndicator() {
       this.isLoading = false;
+    },
+    showLoadIndicator() {
+      this.isLoading = this.defaultPopupSettings.showLoadingPanel;
+    },
+    accessDenied(e) {
+      this.hideLoadIndicator();
+      alert(
+        this.$t("shared.alert.notHaveAccessRightToRead"),
+        this.$t(`scanner.alert.error`)
+      );
+    },
+    showComponent() {
+      this.hideLoadIndicator();
       this.visible = true;
     },
     setTitle(data) {
@@ -111,7 +126,7 @@ export default {
     }
   },
   mounted() {
-    this.isLoading = this.defaultPopupSettings.showLoadingPanel;
+    this.showLoadIndicator();
   }
 };
 </script>
