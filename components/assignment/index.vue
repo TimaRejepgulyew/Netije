@@ -185,6 +185,7 @@ export default {
     };
   },
   destroyed() {
+    this.onClosed();
     unload(this, this.assignmentId);
   },
   data() {
@@ -200,6 +201,12 @@ export default {
     };
   },
   computed: {
+    onClosed() {
+      this.$emit("onClosed", {
+        assignmentId: this.assignmentId,
+        assignmentType: this.assignment.assignmentType
+      });
+    },
     body() {
       return this.$store.getters[`assignments/${this.assignmentId}/body`];
     },

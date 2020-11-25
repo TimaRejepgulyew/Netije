@@ -20,7 +20,7 @@ export function unload(context, assignmentId) {
   const overlays =
     context.$store.getters[`assignments/${assignmentId}/overlays`];
   if (overlays === 0) {
-    context.$store.commit(`assignments/${assignmentId}/CLEAN-STATE`);
+    context.$store.commit(`assignments/${assignmentId}/CLEAN_STATE`);
     assignmentModules.unregisterModule(context, assignmentId);
   } else
     context.$store.commit(`assignments/${assignmentId}/DECREMENT_OVERLAYS`);
