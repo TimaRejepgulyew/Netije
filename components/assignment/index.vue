@@ -201,12 +201,6 @@ export default {
     };
   },
   computed: {
-    onClosed() {
-      this.$emit("onClosed", {
-        assignmentId: this.assignmentId,
-        assignmentType: this.assignment.assignmentType
-      });
-    },
     body() {
       return this.$store.getters[`assignments/${this.assignmentId}/body`];
     },
@@ -250,6 +244,12 @@ export default {
   methods: {
     changeThreadTextsResreshTracker(value) {
       this.threadTextsResreshTracker = value;
+    },
+    onClosed() {
+      this.$emit("onClosed", {
+        assignmentId: this.assignmentId,
+        assignmentType: this.assignment.assignmentType
+      });
     },
     onComplete(res) {
       this.changeThreadTextsResreshTracker(true);
