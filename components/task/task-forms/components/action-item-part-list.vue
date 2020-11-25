@@ -17,7 +17,7 @@
         :allow-updating="!readOnly"
         :allow-deleting="!readOnly"
         :useIcons="true"
-        mode="cell"
+        mode="row"
       />
       <DxColumn
         data-type="string"

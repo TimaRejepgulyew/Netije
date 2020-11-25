@@ -117,8 +117,8 @@ export default {
     };
   },
   destroyed() {
-    unload(this, this.taskId);
     if (!this.isNew) this.onClosed();
+    unload(this, this.taskId);
   },
   data() {
     return {
