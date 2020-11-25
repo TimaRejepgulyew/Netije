@@ -142,7 +142,7 @@ import DxForm, {
   DxRequiredRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-
+// TODO Рендерит коспонент когда не надо связанно скорее всего с свойством isCompound
 export default {
   components: {
     abortingReasonMessage,

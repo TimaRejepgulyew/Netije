@@ -12,6 +12,15 @@
         <DxItem
           :visible="inProcess"
           locateInMenu="auto"
+          template="createChildActionItemBtn"
+          location="before"
+        />
+        <template #createChildActionItemBtn>
+          <createChildActionItemBtn :parentAssignmentId="assignmentId" />
+        </template>
+        <DxItem
+          :visible="inProcess"
+          locateInMenu="auto"
           template="createChildTask"
           location="before"
         />
@@ -28,11 +37,15 @@
   </div>
 </template>
 <script>
+import createChildActionItemBtn from "~/components/assignment/components/create-children-action-item-btn.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 export default {
   mixins: [toolbarMixin],
+  components: {
+    createChildActionItemBtn
+  },
   computed: {
     btnSendToAssigneeOptions() {
       return {

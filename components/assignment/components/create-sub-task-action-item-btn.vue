@@ -4,7 +4,7 @@
     :visible="visible"
     :on-click="createChildActionItem"
     :icon="actionItemExecutionIcon"
-    :text="$t('buttons.createChiltActionItemExecution')"
+    :text="$t('buttons.createSubTaskActionItem')"
     :useSubmitBehavior="false"
   ></DxButton>
 </template>

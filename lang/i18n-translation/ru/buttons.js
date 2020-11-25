@@ -1,8 +1,9 @@
 export default {
-  confirm:"Потвердите",
-  createChildTask: "Создать подзадачу",
+  confirm: "Потвердите",
   switchToCompound: "Равноправные исполнители",
-  createChilteExecution: "Создать подчиненное поручение",
+  createChildTask: "Создать подзадачу",
+  createChiltActionItemExecution: "Создать поручение",
+  createSubTaskActionItem: "Создать подчиненное поручение",
   refresh: "Перезагрузить",
   addResolution: "Вынести резолюцию",
   returnManagersAssistant: "Вернуть помощнику",
@@ -11,7 +12,7 @@ export default {
   sendToAssignee: "Отправить на исполнение",
   takeInto: "Принять к сведению",
   readdress: "Переадресовать",
-  createExecution: "Создать поручение",
+
   new: "Новые",
   obsolete: "Архив",
   all: "Все",

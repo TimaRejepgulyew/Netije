@@ -82,9 +82,7 @@ export default {
     refresh() {
       this.store.reload();
     },
-    togglePopup() {
-      this.isOpenPopup = !this.isOpenPopup;
-    },
+
     openDocumentCard({ documentTypeGuid, documentId }) {
       this.$popup.documentCard(
         this,

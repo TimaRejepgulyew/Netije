@@ -3,7 +3,7 @@
     <DxToolbar>
       <DxItem
         :visible="inProcess"
-        :options="btnOptions"
+        :options="completebBtnOptions"
         location="before"
         widget="dxButton"
       />
@@ -17,6 +17,15 @@
           @pasteAttachment="pasteAttachment"
           :leadingDocumentId="incomingDocumentId"
         />
+      </template>
+      <DxItem
+        :visible="inProcess"
+        locateInMenu="auto"
+        template="createSubTaskActionItemBtn"
+        location="before"
+      />
+      <template #createSubTaskActionItemBtn>
+        <createSubTaskActionItemBtn :parentAssignmentId="assignmentId" />
       </template>
       <DxItem
         :visible="inProcess"
@@ -35,30 +44,19 @@
   </div>
 </template>
 <script>
-import taskCard from "~/components/task/index.vue";
+import createSubTaskActionItemBtn from "~/components/assignment/components/create-sub-task-action-item-btn.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-import createOutgoingLetterBtn from "~/components/assignment/form-components/create-outgoing-letter-btn.vue";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
 import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    createOutgoingLetterBtn
+    createSubTaskActionItemBtn
   },
   mixins: [toolbarMixin],
-  data() {
-    return {
-      actionItemExecutionTaskId: null,
-      showItemExecutionTask: false,
-      incomingDocumentId: null
-    };
-  },
   methods: {
     pasteAttachment(options) {
       this.$emit("pasteAttachment", options);
-    },
-    togglePopup() {
-      this.showItemExecutionTask = !this.showItemExecutionTask;
     },
     async hasChildActionItemItems() {
       const { data: hasChildActionItemItems } = await this.$axios.get(
@@ -113,7 +111,7 @@ export default {
       return false;
     },
 
-    btnOptions() {
+    completebBtnOptions() {
       return {
         icon: "check",
         text: this.$t("buttons.complete"),

@@ -2,6 +2,7 @@ export default {
   confirm: "Tassyklaň!",
   createChildTask: "Goşundy ýumuş",
   switchToCompound: "Deň hukukly ýerine ýetirijiler",
+  createChiltActionItemExecution: "Tabşyrygy döretmek",
   createChilteExecution: "Tabyn tabşyrygy döretmek",
   addResolution: "Rezolýusiýany çykarmak",
   returnManagersAssistant: "Kömekçä yzyna gaýtarmak",
@@ -10,7 +11,7 @@ export default {
   sendToAssignee: "Ýerine ýetirijä ibermeli",
   takeInto: "Maglumat üçin kabul etmeli",
   readdress: "Goşmaça salga ibermeli",
-  createExecution: "Tabşyrygy döretmek",
+
   new: "Täzeler",
   obsolete: "Ulanyşdan aýrylan",
   all: "Hemmesi",
