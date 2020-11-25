@@ -2,7 +2,7 @@
   <DxButton
     :disabled="disabled"
     :visible="visible"
-    :on-click="createChildTaskByTask"
+    :on-click="createChildActionItem"
     :icon="createChildTaskIcon"
     :text="$t('buttons.createChildTask')"
     :useSubmitBehavior="false"

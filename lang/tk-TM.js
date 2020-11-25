@@ -127,7 +127,10 @@ export default {
     removeVersion: "Versiany pozmak"
   },
   shared: {
-    attach:"Goşuň",
+    alert: {
+      notHaveAccessRightToRead: "Sizde obýekde doly däl rugsat"
+    },
+    attach: "Goşuň",
     name: "Ady",
     nameRequired: "Adyny giriziň",
     nameAlreadyExists: "Şeýle ady öňden bar",
@@ -163,7 +166,7 @@ export default {
     code: "Kody",
     codeRequired: "Kody giriziň",
     codeAlreadyExists: "Şeýle kody öňden bar",
-    description:"Bellik"
+    description: "Bellik"
   },
   workFlow: {
     fields: {
