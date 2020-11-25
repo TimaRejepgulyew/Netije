@@ -32,6 +32,7 @@ export default (pluginContext, inject) => {
     departmentCard: BasePopup("departmentCard"),
     employeeCard: BasePopup("employeeCard"),
     counterPartCard: BasePopup("counterPartCard"),
+    contactCard: BasePopup("contactCard"),
     counterPartGrid: BasePopup("counterPartGrid"),
     accessRight: BasePopup("accessRight"),
     attachmentAccessRightDialog: BasePopup("attachmentAccessRightDialog"),

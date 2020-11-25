@@ -30,6 +30,7 @@
 <script>
 import { alert } from "devextreme/ui/dialog";
 import Vue from "vue";
+import contactCard from "./contact-card-popup.vue";
 import taskCard from "./task-card-popup.vue";
 import documentCard from "./document-card-popup.vue";
 import bussiniesUnitCard from "./business-unit-popup.vue";
@@ -58,7 +59,8 @@ export default {
     attachmentAccessRightDialog,
     assignmentCard,
     documentGrid,
-    taskCard
+    taskCard,
+    contactCard
   },
   name: "base-popup",
   props: {
@@ -118,8 +120,9 @@ export default {
       );
     },
     showComponent() {
-      this.hideLoadIndicator();
+      this.isLoading = false;
       this.visible = true;
+      this.hideLoadIndicator();
     },
     setTitle(data) {
       this.title = data;

@@ -7,7 +7,9 @@
     />
     <DxForm
       ref="form"
-      :read-only="!$store.getters['permissions/allowReading'](EntityType.Contact)"
+      :read-only="
+        !$store.getters['permissions/allowReading'](EntityType.Contact)
+      "
       :form-data.sync="contact"
       :show-colon-after-label="true"
       :show-validation-summary="true"
@@ -27,10 +29,16 @@
           <DxRequiredRule :message="$t('parties.validation.companyRequired')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="department">
-          <DxLabel location="top" :text="$t('translations.fields.department')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.department')"
+          />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="jobTitle">
-          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.jobTitleId')"
+          />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="homepage">
           <DxLabel location="top" :text="$t('translations.fields.homepage')" />
@@ -45,12 +53,20 @@
           <DxLabel location="top" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
         </DxSimpleItem>
-        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
+        <DxSimpleItem
+          :editor-options="statusOptions"
+          editor-type="dxSelectBox"
+          data-field="status"
+        >
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem data-field="note" :editor-options="{height: 90}" editor-type="dxTextArea">
+        <DxSimpleItem
+          data-field="note"
+          :editor-options="{ height: 90 }"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -82,7 +98,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule,
+  DxAsyncRule
 } from "devextreme-vue/form";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
@@ -99,9 +115,9 @@ export default {
     DxForm,
     DxAsyncRule,
     Toolbar,
-    customSelectBox,
+    customSelectBox
   },
-  props: ["isCard", "contactId", "correspondentId"],
+  props: ["isCard", "data"],
   async created() {
     if (this.contactId) {
       const { data } = await this.$axios.get(
@@ -113,52 +129,40 @@ export default {
   data() {
     return {
       EntityType,
-      contact: {
-        name: "",
-        companyId: this.correspondentId,
-        department: "",
-        jobTitle: "",
-        phone: "",
-        fax: "",
-        email: "",
-        note: "",
-        homepage: "",
-        id: null,
-        status: this.$store.getters["status/status"](this)[0].id,
-      },
+      contact: this.data,
       correspondentOptions: {
         dataSource: new DataSource({
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.contragents.CounterPart,
+            loadUrl: dataApi.contragents.CounterPart
           }),
           paginate: true,
-          pageSize: 10,
+          pageSize: 10
         }),
         valueExpr: "id",
         displayExpr: "name",
         value: this.correspondentId,
-        readOnly: true,
+        readOnly: true
       },
       sexOptions: {
         dataSource: [
           { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") },
+          { id: 1, name: this.$t("sex.female") }
         ],
         displayExpr: "name",
-        valueExpr: "id",
+        valueExpr: "id"
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       headCompanyOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Company,
-        filter: ["status", "=", Status.Active],
+        filter: ["status", "=", Status.Active]
       }),
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active],
+        filter: ["status", "=", Status.Active]
       }),
 
       statusOptions: {
@@ -166,8 +170,8 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true,
-      },
+        showClearButton: true
+      }
     };
   },
   computed: {
@@ -176,11 +180,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active],
+          filter: ["status", "=", Status.Active]
         }),
         onValueChanged: () => {
           this.contact.localityId = null;
-        },
+        }
       };
     },
     localityOptions() {
@@ -189,10 +193,10 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.contact.regionId],
-        ],
+          ["regionId", "=", this.contact.regionId]
+        ]
       });
-    },
+    }
   },
   methods: {
     setCorrenspondent(data) {
@@ -209,7 +213,6 @@ export default {
         ({ data }) => {
           this.$emit("valueChanged", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
         },
         () => {
           this.$awn.alert();
@@ -227,14 +230,12 @@ export default {
         ({ data }) => {
           this.$emit("valueChanged", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
         },
         () => {
           this.$awn.alert();
         }
       );
-    },
-  },
+    }
+  }
 };
 </script>
-
