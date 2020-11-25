@@ -53,15 +53,18 @@ export default {
     customSelectItem,
     customField
   },
-  props: [
-    "showClearButton",
-    "value",
-    "storeApi",
-    "messageRequired",
-    "validatorGroup",
-    "readOnly",
-    "valueExpr"
-  ],
+  props: {
+    showClearButton: {
+      type: Boolean,
+      default: true
+    },
+    value: {},
+    storeApi: {},
+    messageRequired: {},
+    validatorGroup: {},
+    readOnly: {},
+    valueExpr: {}
+  },
   computed: {
     employeeStore() {
       return new DataSource({
