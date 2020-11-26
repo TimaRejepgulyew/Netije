@@ -12,17 +12,19 @@
       :visible="visible"
       :title="title"
     >
-      <DxScrollView width="100%" height="100%">
-        <component
-          @accessDenied="accessDenied"
-          @loadStatus="showComponent"
-          @showTitle="setTitle"
-          @valueChanged="valueChanged"
-          @close="closePopup"
-          :is="template"
-          :options="options"
-        />
-      </DxScrollView>
+      <div class="scrool-auto" ref="popup">
+        <DxScrollView width="100%" height="100%">
+          <component
+            @accessDenied="accessDenied"
+            @loadStatus="showComponent"
+            @showTitle="setTitle"
+            @valueChanged="valueChanged"
+            @close="closePopup"
+            :is="template"
+            :options="options"
+          />
+        </DxScrollView>
+      </div>
     </DxPopup>
   </div>
 </template>
