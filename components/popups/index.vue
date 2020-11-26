@@ -12,7 +12,7 @@
       :visible="visible"
       :title="title"
     >
-      <div class="scrool-auto" ref="popup">
+      <DxScrollView width="100%" height="100%">
         <component
           @accessDenied="accessDenied"
           @loadStatus="showComponent"
@@ -22,12 +22,13 @@
           :is="template"
           :options="options"
         />
-      </div>
+      </DxScrollView>
     </DxPopup>
   </div>
 </template>
 
 <script>
+import { DxScrollView } from "devextreme-vue/scroll-view";
 import { alert } from "devextreme/ui/dialog";
 import Vue from "vue";
 import contactCard from "./contact-card-popup.vue";
@@ -60,7 +61,8 @@ export default {
     assignmentCard,
     documentGrid,
     taskCard,
-    contactCard
+    contactCard,
+    DxScrollView
   },
   name: "base-popup",
   props: {
@@ -135,6 +137,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.text {
+  width: 100%;
+  height: 100%;
+}
 .popup_wrapper {
   position: absolute;
   z-index: 1000;

@@ -1,5 +1,5 @@
 export default {
-  freeApprovalTasks:"Согласование",
+  freeApprovalTasks: "Согласование",
   addNewRecipient: "Добавить субъект прав",
   addDocumentKind: "Добавление вида документа",
   addendum: "Приложение к документу",
@@ -17,11 +17,9 @@ export default {
   editDocumentKind: "Редактирование вида документа",
   addDocumentRegister: "Добавление журнала регистрации",
   addDoctRegistrySucces: "Добавление журнала регистрации прошло успешно",
-  addDoctRegistryError:
-    "При добавлении  журнала регистрации  произошла ошибка",
+  addDoctRegistryError: "При добавлении  журнала регистрации  произошла ошибка",
   editDocumentRegister: "Редактирование журнала регистрации",
-  updateDocRegistrySucces:
-    "Редактирование журнала регистрации  прошло успешно",
+  updateDocRegistrySucces: "Редактирование журнала регистрации  прошло успешно",
   registrationSucceded: "Документ успешно зарегистрирован",
   registrationError: "При регистрации документа произошла ошибка",
   updateDocRegistryError:
@@ -40,5 +38,6 @@ export default {
   otherTasks: "Другие задачи",
   actionItemExecutionTasks: "Поручения",
   reviewTasks: "Рассмотрение",
-  counterPart:"Контрагент"
-}
+  counterPart: "Контрагент",
+  contact: "Контакт"
+};

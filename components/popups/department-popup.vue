@@ -1,5 +1,9 @@
 <template>
-  <department-card @valueChanged="valueChanged" :isCard="true" v-if="data" :data="data" />
+  <department-card
+    :isCard="true"
+    v-if="data"
+    :data="data"
+  />
 </template>
 
 <script>
@@ -7,16 +11,16 @@ import dataApi from "~/static/dataApi";
 import departmentCard from "~/components/company/organization-structure/departments/card.vue";
 export default {
   components: {
-    departmentCard,
+    departmentCard
   },
   props: {
     options: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   data() {
     return {
-      data: null,
+      data: null
     };
   },
   async created() {
@@ -27,8 +31,10 @@ export default {
     this.$emit("loadStatus");
     this.$emit("showTitle", data.name);
   },
+  methods: {
+    
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
