@@ -12,7 +12,7 @@
       :visible="visible"
       :title="title"
     >
-      <div class="scrool-auto" ref="popup">
+      <DxScrollView :useNative="true" width="100%" height="100%">
         <component
           @loadStatus="enabledLoadPanel"
           @showTitle="setTitle"
@@ -21,7 +21,7 @@
           :is="template"
           :options="options"
         />
-      </div>
+      </DxScrollView>
     </DxPopup>
   </div>
 </template>
@@ -43,6 +43,8 @@ import pdfFileReader from "./pdf-file-reader-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
+import { DxScrollView } from "devextreme-vue/scroll-view";
+
 export default {
   components: {
     DxPopup,
@@ -59,6 +61,7 @@ export default {
     documentGrid,
     taskCard,
     pdfFileReader,
+    DxScrollView,
   },
   name: "base-popup",
   props: {

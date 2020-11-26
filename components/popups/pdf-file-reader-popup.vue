@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import pdfFileReader from "~/components/file-readers/pdf-reader.vue";
+import pdfFileReader from "~/components/file-readers/pdf-reader/index.vue";
 export default {
   components: {
     pdfFileReader,
