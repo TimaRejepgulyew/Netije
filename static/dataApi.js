@@ -147,5 +147,8 @@ export default {
     jobTitles: `​/api/Import/JobTitles`,
     persons: `​/api/Import/Persons`,
     employees: `/api/Import/Employees`
+  },
+  fileEditors: {
+    PdfViewer: process.env.NODE_ENV === "production" ? "/api/pdfViewer" : `${process.env.serverUrl}/api/pdfViewer`,
   }
 };

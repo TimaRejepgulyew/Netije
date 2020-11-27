@@ -40,7 +40,8 @@ export default (pluginContext, inject) => {
     assignmentCard: BasePopup("assignmentCard"),
     documentGrid: BasePopup("documentGrid"),
     documentCard: BasePopup("documentCard"),
-    taskCard: BasePopup("taskCard")
+    taskCard: BasePopup("taskCard"),
+    pdfFileReader: BasePopup("pdfFileReader"),
   };
   inject("popup", popup);
 };
