@@ -2,7 +2,7 @@
   <div>
     <ejs-pdfviewer
       id="pdfViewer"
-      height="86vh"
+      height="85vh"
       :serviceUrl="serviceUrl"
       :locale="$i18n.locale"
       :documentPath="documentPath"

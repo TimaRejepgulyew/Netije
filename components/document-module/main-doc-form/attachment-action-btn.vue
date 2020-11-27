@@ -76,7 +76,7 @@ export default {
             documentId: this.document.id
           },
           handler: DocumentVersionService.previewVersion,
-          extension: this.version.extension,
+          extension: this.version.extension
         },
         { showLoadingPanel: false }
       );
