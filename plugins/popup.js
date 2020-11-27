@@ -40,6 +40,7 @@ export default (pluginContext, inject) => {
     documentCard: BasePopup("documentCard"),
     taskCard: BasePopup("taskCard"),
     pdfFileReader: BasePopup("pdfFileReader"),
+    imageViewer: BasePopup("imageViewer"),
   };
   inject("popup", popup);
 };
