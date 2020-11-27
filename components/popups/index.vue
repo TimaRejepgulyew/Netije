@@ -12,7 +12,12 @@
       :visible="visible"
       :title="title"
     >
-      <DxScrollView :useNative="true" width="100%" height="100%">
+      <DxScrollView
+        :useNative="true"
+        width="100%"
+        height="100%"
+        ref="DxScrollView"
+      >
         <component
           @loadStatus="enabledLoadPanel"
           @showTitle="setTitle"
@@ -86,7 +91,7 @@ export default {
   computed: {
     defaultPopupSettings() {
       return {
-        closeOnOutsideClick: true,
+        closeOnOutsideClick: false,
         dragEnabled: false,
         showTitle: true,
         width: "90%",
@@ -121,7 +126,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .popup_wrapper {
   position: absolute;
   z-index: 1000;
@@ -130,5 +135,16 @@ export default {
   width: 50%;
   height: 50vh;
   background-color: rgba($color: #000000, $alpha: 0.6);
+}
+.dx-popup-content {
+  overflow-y: auto;
+}
+.dx-scrollable-native.dx-scrollable-vertical,
+.dx-scrollable-native.dx-scrollable-vertical
+  > .dx-scrollable-wrapper
+  > .dx-scrollable-container {
+  touch-action: pan-y;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

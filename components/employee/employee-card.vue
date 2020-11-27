@@ -349,21 +349,20 @@ export default {
       return file;
     },
     handleSubmit() {
-      this.$popup.pdfFileReader(this, {}, { showLoadingPanel: false });
-      // var res = this.$refs["form"].instance.validate();
-      // const file = this.generateFormData(this.employee);
-      // if (!res.isValid) return;
-      // this.$awn.asyncBlock(
-      //   this.$axios.put(
-      //     dataApi.company.Employee + "/" + this.employee.id,
-      //     file
-      //   ),
-      //   (e) => {
-      //     this.$emit("valueChanged", this.employee);
-      //     this.$awn.success();
-      //   },
-      //   (e) => this.$awn.alert()
-      // );
+      var res = this.$refs["form"].instance.validate();
+      const file = this.generateFormData(this.employee);
+      if (!res.isValid) return;
+      this.$awn.asyncBlock(
+        this.$axios.put(
+          dataApi.company.Employee + "/" + this.employee.id,
+          file
+        ),
+        (e) => {
+          this.$emit("valueChanged", this.employee);
+          this.$awn.success();
+        },
+        (e) => this.$awn.alert()
+      );
     },
   },
 };
