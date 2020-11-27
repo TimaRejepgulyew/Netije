@@ -45,8 +45,8 @@ import accessRight from "./access-right-popup.vue";
 import attachmentAccessRightDialog from "./attachment-access-right-dialog-popup.vue";
 import assignmentCard from "./assignment-card-popup.vue";
 import documentGrid from "./document-grid-popup.vue";
-import documentEditor from "./document-editor-popup";
-import documentViewers from "./document-viewrs.vue";
+import documentEditor from "./document-editor-popup.vue";
+import documentViewers from "./document-viewers.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
@@ -132,7 +132,7 @@ export default {
       );
     },
     showComponent() {
-      this.isLoading = false;
+      console.log("work");
       this.visible = true;
       this.hideLoadIndicator();
     },

@@ -1,10 +1,7 @@
 <template>
   <div>
-    <!-- <docx-toolbar
-    readOnly
-      @save="valueChanged"
-    /> -->
     <ejs-documenteditorcontainer
+      :headers="headers"
       :locale="$i18n.locale"
       :toolbarClick="onToolbarClick"
       :toolbarItems="toolbarItems"
@@ -23,7 +20,7 @@
 
 <script>
 import saveIcon from "~/static/icons/save.svg";
-import docxToolbar from "./components/toolbar.vue";
+
 import dataApi from "~/static/dataApi";
 import Vue from "vue";
 import {
@@ -43,7 +40,7 @@ L10n.load({
     DocumentEditor: {
       ...DocumentEditorTranslateRu
     },
-      documenteditorcontainer: documentEditorContainerTranslateRu
+    documenteditorcontainer: documentEditorContainerTranslateRu
   },
   tk: {
     DocumentEditor: {
@@ -54,9 +51,6 @@ L10n.load({
 });
 Vue.use(DocumentEditorContainerPlugin);
 export default {
-  components: {
-    docxToolbar
-  },
   props: {
     file: null,
     options: {
@@ -65,6 +59,11 @@ export default {
   },
   data() {
     return {
+      headers: [
+        {
+          authorization: "Bearer " + this.$store.getters["oidc/oidcAccessToken"]
+        }
+      ],
       toolbarItems: [
         {
           prefixIcon: "e-de-save-icon",
@@ -98,8 +97,7 @@ export default {
       ],
       mounted: false,
       documentName: "",
-      serviceUrl:
-        "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/"
+      serviceUrl: "https://192.168.4.159/api/documentEditor/"
     };
   },
   provide: {
@@ -113,32 +111,60 @@ export default {
       this.mounted = true;
     }, 500);
   },
+  computed: {},
   methods: {
     onCreated(e) {
-      console.log(this.$refs);
       const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
-      //   documenteditor = container.documentEditor;
-      console.log(documentEditor);
       documentEditor.resize();
       this.file = documentEditor;
-      console.log("created", documentEditor);
     },
     onToolbarClick: function(args) {
       switch (args.item.id) {
         case "save":
           this.valueChanged();
-          this.close();
+          // this.close();
           break;
       }
     },
+
     close() {
       this.$emit("onClose");
     },
     async valueChanged() {
-      const blob = await this.file.saveAsBlob("Docx");
-      console.log(this.$refs["documentEditordocx"].ej2Instances);
-      console.log(blob);
-      this.$emit("valueChanged", { file: blob });
+      // let sfdt = `{
+      //       "sections": [
+      //           {
+      //               "blocks": [
+      //                   {
+      //                       "inlines": [
+      //                           {
+      //                               "characterFormat": {
+      //                                   "bold": true,
+      //                                   "italic": true
+      //                               },
+      //                               "text": "Hello World"
+      //                           }
+      //                       ]
+      //                   }
+      //               ],
+      //               "headersFooters": {
+      //               }
+      //           }
+      //       ]
+      //   }`;
+      const { data } = await this.$axios.post(
+        "/api/documentEditor/loadDefault",
+        {},
+        {
+          headers: { id: 118, lastVersion: true }
+        }
+      );
+      console.log(data);
+      this.file.open(data);
+
+      // const blob = await this.file.saveAsBlob("Docx");
+      // console.log(this.$refs["documentEditordocx"].ej2Instances);
+      // this.$emit("valueChanged", { file: blob });
     }
   }
 };

@@ -66,6 +66,7 @@ export default {
       }
     },
     previewVersion() {
+      console.log("preýiew");
       this.$popup.documentViewers(
         this,
         {
@@ -75,7 +76,7 @@ export default {
           extension: this.version.extension,
           versionId: this.version.id
         },
-        { showLoading: false }
+        { showLoadingPanel: false }
       );
       // DocumentService.previewVersion(
       //   this.version.id,

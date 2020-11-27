@@ -1,27 +1,36 @@
 <template>
-  <component
-    @close="close"
-    @valueChanged="valueChanged"
-    @loadStatus="loadStatus"
-    :options="options"
-    :is="viewersByType"
-  ></component>
+  <div>
+    <!-- <pdfFileReader
+      @close="close"
+      @valueChanged="valueChanged"
+      @loadStatus="loadStatus"
+      :options="options"
+    ></pdfFileReader> -->
+    <component
+      @close="close"
+      @valueChanged="valueChanged"
+      @loadStatus="loadStatus"
+      :options="options"
+      :is="viewersByType"
+    ></component>
+  </div>
 </template>
 
 <script>
 import documentEditor from "./document-editor-popup";
-import pdfFileReader from "./pdf-file-reader-popup";
+import pdfFileReader from "./pdf-file-reader-popup.vue";
 export default {
   components: {
     documentEditor,
-    pdfEditor
+    pdfFileReader
   },
   props: {
     options: {}
   },
   computed: {
     viewersByType() {
-      const extension = this.options.extencion;
+      const extension = this.options.extension;
+      console.log(extension);
       console.log();
       switch (extension) {
         case ".docx":
