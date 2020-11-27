@@ -12,13 +12,10 @@
       :visible="visible"
       :title="title"
     >
-      <DxScrollView
-        :useNative="true"
-        width="100%"
-        height="100%"
-        ref="DxScrollView"
-      >
+      <DxScrollView :useNative="true" width="100%" height="100%">
+        <div class="space" @click="alignToXenter"></div>
         <component
+          ref="content"
           @loadStatus="enabledLoadPanel"
           @showTitle="setTitle"
           @valueChanged="valueChanged"
@@ -26,6 +23,7 @@
           :is="template"
           :options="options"
         />
+        <div class="space"></div>
       </DxScrollView>
     </DxPopup>
   </div>
@@ -121,9 +119,18 @@ export default {
     setTitle(data) {
       this.title = data;
     },
+    alignToXenter() {
+      this.$refs.content.$el.scrollIntoView({ block: "center" });
+    },
   },
   mounted() {
     this.isLoading = this.defaultPopupSettings.showLoadingPanel;
+    setTimeout(() => {
+      this.$refs.content.$el.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+      });
+    }, 500);
   },
 };
 </script>
@@ -137,5 +144,14 @@ export default {
   width: 50%;
   height: 50vh;
   background-color: rgba($color: #000000, $alpha: 0.6);
+}
+.space {
+  min-height: 100px;
+}
+.dx-scrollable-native.dx-scrollable-vertical,
+.dx-scrollable-native.dx-scrollable-vertical
+  > .dx-scrollable-wrapper
+  > .dx-scrollable-container {
+  overflow-y: hidden;
 }
 </style>

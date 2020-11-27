@@ -66,14 +66,22 @@ export default {
       }
     },
     previewVersion() {
-      DocumentService.previewVersion(
-        this.version.id,
+      this.$popup.pdfFileReader(
+        this,
         {
-          id: this.documentId,
-          documentTypeGuid: this.document.documentTypeGuid,
+          id: this.version.id,
+          lastVersion: false,
         },
-        this
+        { showLoadingPanel: false }
       );
+      // DocumentService.previewVersion(
+      //   this.version.id,
+      //   {
+      //     id: this.documentId,
+      //     documentTypeGuid: this.document.documentTypeGuid,
+      //   },
+      //   this
+      // );
     },
     downloadVersion() {
       DocumentService.downloadVersion(
