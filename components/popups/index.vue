@@ -12,9 +12,10 @@
       :visible="visible"
       :title="title"
     >
-      <div class="scrool-auto" ref="popup">
-        <DxScrollView width="100%" height="100%">
+      <div >
+        <DxScrollView width="100%" height="85vh">
           <component
+            style="min-height : 100vh"
             @accessDenied="accessDenied"
             @loadStatus="showComponent"
             @showTitle="setTitle"
@@ -45,6 +46,7 @@ import accessRight from "./access-right-popup.vue";
 import attachmentAccessRightDialog from "./attachment-access-right-dialog-popup.vue";
 import assignmentCard from "./assignment-card-popup.vue";
 import documentGrid from "./document-grid-popup.vue";
+import documentEditor from "./document-editor-popup";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -64,7 +66,8 @@ export default {
     documentGrid,
     taskCard,
     contactCard,
-    DxScrollView
+    DxScrollView,
+    documentEditor
   },
   name: "base-popup",
   props: {
@@ -92,8 +95,8 @@ export default {
         closeOnOutsideClick: false,
         dragEnabled: false,
         showTitle: true,
-        width: "90%",
-        height: "95%",
+        width: "90vw",
+        height: "95vh",
         position: { my: "center", at: "center" },
         showLoadingPanel: true,
         ...this.popupSettings

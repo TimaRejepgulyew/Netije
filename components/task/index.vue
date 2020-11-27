@@ -52,6 +52,7 @@
       </template>
       <template #comments>
         <thread-texts
+          class="comments"
           :isRefreshing="threadTextsResreshTracker"
           @refreshed="() => changeThreadTextsResreshTracker(false)"
           v-if="!isDraft"

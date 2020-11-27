@@ -28,6 +28,7 @@ function BasePopup(template) {
 
 export default (pluginContext, inject) => {
   const popup = {
+    documentEditor: BasePopup("documentEditor"),
     bussiniesUnitCard: BasePopup("bussiniesUnitCard"),
     departmentCard: BasePopup("departmentCard"),
     employeeCard: BasePopup("employeeCard"),

@@ -1,14 +1,9 @@
 <template>
-  <ejs-documenteditorcontainer
-    ref="documenteditor"
-    :serviceUrl="serviceUrl"
-    style="height:800px;"
-    id="container"
-    :enableToolbar="true"
-  ></ejs-documenteditorcontainer>
+  <docx-editor @valueChanged="valueChanged" @onClose="close" />
 </template>
 
 <script>
+import docxEditor from "~/components/editors/docx/index.vue";
 import dataApi from "~/static/dataApi";
 import Vue from "vue";
 import {
@@ -19,21 +14,12 @@ import {
 
 Vue.use(DocumentEditorContainerPlugin);
 export default {
-  components: {},
-  name: "document-editor",
+  components: { docxEditor },
+  name: "document-editor-popup",
   props: {
     options: {
       type: Object
     }
-  },
-  data() {
-    return {
-      serviceUrl:
-        "https://ej2services.syncfusion.com/production/web-services/api/documenteditor/"
-    };
-  },
-  provide: {
-    DocumentEditorContainer: [Toolbar]
   },
   created() {
     this.$emit("loadStatus");

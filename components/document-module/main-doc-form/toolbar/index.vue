@@ -76,6 +76,15 @@
         <toolbar-item-upload-version-from-scanner :documentId="documentId" />
       </template>
       <DxItem
+        template="toolbarItemCreateFromFile"
+        locateInMenu="auto"
+        :visible="!hasVersions && canUpdate"
+        location="before"
+      />
+      <template #toolbarItemCreateFromFile>
+        <toolbarItemCreateFromFile :documentId="documentId" />
+      </template>
+      <DxItem
         :options="previewButtonOptions"
         locateInMenu="auto"
         :visible="canBeOpenedWithPreview"
@@ -99,7 +108,7 @@ import documentService from "~/infrastructure/services/documentVersionService.js
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
-
+import toolbarItemCreateFromFile from "~/components/document-module/main-doc-form/toolbar/create-from-file-btn.vue";
 import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
 import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
@@ -124,6 +133,7 @@ export default {
     toolbarItemRegistration,
     toolbarItemAvailableActions,
     toolbarItemRelation,
+    toolbarItemCreateFromFile,
     DxButton,
     DxToolbar,
     DxItem
