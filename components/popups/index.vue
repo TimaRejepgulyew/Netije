@@ -46,6 +46,7 @@ import attachmentAccessRightDialog from "./attachment-access-right-dialog-popup.
 import assignmentCard from "./assignment-card-popup.vue";
 import documentGrid from "./document-grid-popup.vue";
 import documentEditor from "./document-editor-popup";
+import documentViewers from "./document-viewrs.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
@@ -70,7 +71,8 @@ export default {
     contactCard,
     DxScrollView,
     documentEditor,
-    pdfFileReader
+    pdfFileReader,
+    documentViewers
   },
   name: "base-popup",
   props: {

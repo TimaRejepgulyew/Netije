@@ -1,5 +1,9 @@
 <template>
-  <docx-editor @valueChanged="valueChanged" @onClose="close" />
+  <docx-editor
+    :readOnly="options.readOnly"
+    @valueChanged="valueChanged"
+    @onClose="close"
+  />
 </template>
 
 <script>
@@ -23,7 +27,7 @@ export default {
   },
   created() {
     this.$emit("loadStatus");
-    this.$emit("showTitle", "Document editor");
+    this.$emit("showTitle", this.$t("document.headers.documentEditor"));
   },
   methods: {
     close() {

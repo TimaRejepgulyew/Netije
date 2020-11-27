@@ -28,7 +28,6 @@ function BasePopup(template) {
 
 export default (pluginContext, inject) => {
   const popup = {
-    documentEditor: BasePopup("documentEditor"),
     bussiniesUnitCard: BasePopup("bussiniesUnitCard"),
     departmentCard: BasePopup("departmentCard"),
     employeeCard: BasePopup("employeeCard"),
@@ -42,6 +41,8 @@ export default (pluginContext, inject) => {
     documentCard: BasePopup("documentCard"),
     taskCard: BasePopup("taskCard"),
     pdfFileReader: BasePopup("pdfFileReader"),
+    documentEditor: BasePopup("documentEditor"),
+    documentViewers: BasePopup("documentViewers")
   };
   inject("popup", popup);
 };
