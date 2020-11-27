@@ -26,6 +26,9 @@ import { sizes, subscribe, unsubscribe } from "./media-query";
 import tkMessages from "../lang/devExtremeLocalization/tk.json";
 import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
+import syncfusionLocalizationRu from "@/lang/syncfusionLocalization/ru";
+import syncfusionLocalizationTk from "@/lang/syncfusionLocalization/tk";
+import { L10n, setCulture } from "@syncfusion/ej2-base";
 
 function getScreenSizeInfo() {
   const screenSizes = sizes();
@@ -61,6 +64,14 @@ export default {
     loadMessages(tkMessages);
     loadMessages(ruMessages);
     locale(this.$i18n.locale);
+    L10n.load({
+      ru: {
+        ...syncfusionLocalizationRu,
+      },
+      tk: {
+        ...syncfusionLocalizationTk,
+      },
+    });
   },
 
   created() {

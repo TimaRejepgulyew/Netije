@@ -5,14 +5,14 @@ export default {
   async uploadVersion(document, file, context, fileName) {
     return await upload(document, file, context, fileName);
   },
-  previewVersion(versionId, document, context) {
-    preview(
+  async previewVersion(versionId, document, context) {
+    return await preview(
       `${dataApi.documentModule.PreviewVersion}${document.documentTypeGuid}/${document.id}/${versionId}`,
       context
     );
   },
-  previewDocument(document, context) {
-    preview(
+  async previewDocument(document, context) {
+    return await preview(
       `${dataApi.documentModule.PreviewLastVersion}${document.documentTypeGuid}/${document.id}`,
       context
     );
@@ -50,22 +50,16 @@ export function base64toBlob(base64Data, contentType) {
   }
   return new Blob(byteArrays, { type: contentType });
 }
-const preview = (endpoint, context) => {
-  context.$awn.async(
-    context.$axios
-      .get(endpoint, {
-        responseType: "blob"
-      })
-      .then(response => {
-        var x = screen.width * 0.25;
-        var offset = screen.height * 0.2;
-        let params = `height=${screen.height - offset},width=${screen.width *
-          0.5},left=${x},top=${50}`;
-        window.open(URL.createObjectURL(response.data), "Preview", params);
-      }),
-    e => { },
-    e => context.$awn.alert()
-  );
+const preview = async (endpoint, context) => {
+
+  const { data } = await context.$axios
+    .get(endpoint, {
+      responseType: "blob"
+    })
+  return data
+
+
+
 };
 const upload = async (document, file, context, fileName) => {
   let formData = new FormData();

@@ -48,6 +48,7 @@ import documentGrid from "./document-grid-popup.vue";
 import documentEditor from "./document-editor-popup.vue";
 import documentViewers from "./document-viewers.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
+import imageViewer from "./image-viewer-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -57,6 +58,7 @@ export default {
   components: {
     DxPopup,
     DxLoadPanel,
+    DxScrollView,
     bussiniesUnitCard,
     departmentCard,
     employeeCard,
@@ -72,7 +74,8 @@ export default {
     DxScrollView,
     documentEditor,
     pdfFileReader,
-    documentViewers
+    documentViewers,
+     imageViewer,
   },
   name: "base-popup",
   props: {
@@ -155,16 +158,5 @@ export default {
   width: 50%;
   height: 50vh;
   background-color: rgba($color: #000000, $alpha: 0.6);
-}
-.dx-popup-content {
-  overflow-y: auto;
-}
-.dx-scrollable-native.dx-scrollable-vertical,
-.dx-scrollable-native.dx-scrollable-vertical
-  > .dx-scrollable-wrapper
-  > .dx-scrollable-container {
-  touch-action: pan-y;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 </style>

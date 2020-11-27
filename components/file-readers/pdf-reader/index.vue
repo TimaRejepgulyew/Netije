@@ -4,6 +4,7 @@
       id="pdfViewer"
       height="86vh"
       :serviceUrl="serviceUrl"
+      :locale="$i18n.locale"
       :documentPath="documentPath"
       :toolbarSettings="toolbarSettings"
       :ajaxRequestSettings="ajaxSettings"
@@ -14,16 +15,6 @@
 </template>
 
 <script>
-// this.$popup.pdfFileReader(this, {}, { showLoadingPanel: false });
-      // this.$popup.pdfFileReader(
-      //   this,
-      //   {
-      //     id: this.version.id,
-      //     lastVersion: false,
-      //   },
-      //   { showLoadingPanel: false }
-      // );
-
 import Vue from "vue";
 import {
   PdfViewerPlugin,
@@ -39,21 +30,6 @@ import {
 } from "@syncfusion/ej2-vue-pdfviewer";
 Vue.use(PdfViewerPlugin);
 import dataApi from "~/static/dataApi";
-// import PdfViewerTranslateRu from "@/lang/i18n-translation/ru/pdfViewer";
-// import PdfViewerTranslateTk from "@/lang/i18n-translation/tk/pdfViewer";
-// import { L10n, setCulture } from "@syncfusion/ej2-base";
-// L10n.load({
-//   ru: {
-//     PdfViewer: {
-//       ...PdfViewerTranslateRu,
-//     },
-//   },
-//   tk: {
-//     PdfViewer: {
-//       ...PdfViewerTranslateTk,
-//     },
-//   },
-// });
 export default {
   props: {
     id: {
