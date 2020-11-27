@@ -12,19 +12,22 @@
       :visible="visible"
       :title="title"
     >
-      <DxScrollView :useNative="true" width="100%" height="100%">
-        <div class="space" @click="alignToXenter"></div>
-        <component
-          ref="content"
-          @loadStatus="enabledLoadPanel"
-          @showTitle="setTitle"
-          @valueChanged="valueChanged"
-          @close="closePopup"
-          :is="template"
-          :options="options"
-        />
-        <div class="space"></div>
-      </DxScrollView>
+      <div>
+        <DxScrollView :useNative="true" width="100%" height="100%">
+          <div class="space"></div>
+
+          <component
+            ref="content"
+            @loadStatus="showComponent"
+            @showTitle="setTitle"
+            @valueChanged="valueChanged"
+            @close="closePopup"
+            :is="template"
+            :options="options"
+          />
+          <div class="space"></div>
+        </DxScrollView>
+      </div>
     </DxPopup>
   </div>
 </template>
@@ -140,20 +143,17 @@ export default {
     },
     setTitle(data) {
       this.title = data;
-    },
-    alignToXenter() {
-      this.$refs.content.$el.scrollIntoView({ block: "center" });
-    },
+    }
   },
   mounted() {
     this.isLoading = this.defaultPopupSettings.showLoadingPanel;
     setTimeout(() => {
       this.$refs.content.$el.scrollIntoView({
         block: "center",
-        behavior: "smooth",
+        behavior: "smooth"
       });
     }, 500);
-  },
+  }
 };
 </script>
 
