@@ -40,21 +40,6 @@ import {
 } from "@syncfusion/ej2-vue-pdfviewer";
 Vue.use(PdfViewerPlugin);
 import dataApi from "~/static/dataApi";
-import PdfViewerTranslateRu from "@/lang/i18n-translation/ru/pdfViewer";
-import PdfViewerTranslateTk from "@/lang/i18n-translation/tk/pdfViewer";
-import { L10n, setCulture } from "@syncfusion/ej2-base";
-L10n.load({
-  ru: {
-    PdfViewer: {
-      ...PdfViewerTranslateRu,
-    },
-  },
-  tk: {
-    PdfViewer: {
-      ...PdfViewerTranslateTk,
-    },
-  },
-});
 export default {
   props: {
     id: {
