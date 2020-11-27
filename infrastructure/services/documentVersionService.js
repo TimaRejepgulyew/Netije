@@ -5,15 +5,15 @@ export default {
   async uploadVersion(document, file, context, fileName) {
     return await upload(document, file, context, fileName);
   },
-  async previewVersion(versionId, document, context) {
+  async previewVersion(context, { documetnId, versionId }) {
     return await preview(
-      `${dataApi.documentModule.PreviewVersion}${document.documentTypeGuid}/${document.id}/${versionId}`,
+      `${dataApi.documentEditor.loadVersion}/${documetnId}/${versionId}`,
       context
     );
   },
-  async previewDocument(document, context) {
+  async previewDocument(context, { documentId }) {
     return await preview(
-      `${dataApi.documentModule.PreviewLastVersion}${document.documentTypeGuid}/${document.id}`,
+      `${dataApi.documentEditor.loadDocument}/${documentId}`,
       context
     );
   },
@@ -51,15 +51,8 @@ export function base64toBlob(base64Data, contentType) {
   return new Blob(byteArrays, { type: contentType });
 }
 const preview = async (endpoint, context) => {
-
-  const { data } = await context.$axios
-    .get(endpoint, {
-      responseType: "blob"
-    })
-  return data
-
-
-
+  const { data } = await context.$axios.get(endpoint);
+  return data;
 };
 const upload = async (document, file, context, fileName) => {
   let formData = new FormData();
@@ -74,7 +67,6 @@ const upload = async (document, file, context, fileName) => {
       }
     }
   );
-
 };
 const download = (endpoint, obj, context) => {
   context.$awn.async(

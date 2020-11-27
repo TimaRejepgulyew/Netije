@@ -148,7 +148,12 @@ export default {
     persons: `​/api/Import/Persons`,
     employees: `/api/Import/Employees`
   },
-  fileEditors: {
-    PdfViewer: process.env.NODE_ENV === "production" ? "/api/pdfViewer" : `${process.env.serverUrl}/api/pdfViewer`,
+  documentEditor: {
+    PdfViewer:
+      process.env.NODE_ENV === "production"
+        ? "/api/pdfViewer"
+        : `${process.env.serverUrl}/api/pdfViewer`,
+    loadDocument: "/api/DocumentEditor/loadDocument/",
+    loadVersion: "/api/DocumentEditor/loadVersion/"
   }
 };

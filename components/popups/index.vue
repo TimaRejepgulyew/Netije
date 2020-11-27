@@ -12,20 +12,18 @@
       :visible="visible"
       :title="title"
     >
-      <div>
-        <DxScrollView width="100%" height="85vh">
-          <component
-            style="min-height : 100vh"
-            @accessDenied="accessDenied"
-            @loadStatus="showComponent"
-            @showTitle="setTitle"
-            @valueChanged="valueChanged"
-            @close="closePopup"
-            :is="template"
-            :options="options"
-          />
-        </DxScrollView>
-      </div>
+      <DxScrollView width="100%" height="100%">
+        <component
+          style="min-height : 100vh"
+          @accessDenied="accessDenied"
+          @loadStatus="showComponent"
+          @showTitle="setTitle"
+          @valueChanged="valueChanged"
+          @close="closePopup"
+          :is="template"
+          :options="options"
+        />
+      </DxScrollView>
     </DxPopup>
   </div>
 </template>
@@ -75,7 +73,7 @@ export default {
     documentEditor,
     pdfFileReader,
     documentViewers,
-     imageViewer,
+    imageViewer
   },
   name: "base-popup",
   props: {
@@ -150,13 +148,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popup_wrapper {
-  position: absolute;
-  z-index: 1000;
-  top: 50%;
-  left: 0;
-  width: 50%;
-  height: 50vh;
-  background-color: rgba($color: #000000, $alpha: 0.6);
-}
+// .popup_wrapper {
+//   position: absolute;
+//   z-index: 1000;
+//   top: 50%;
+//   left: 0;
+//   width: 50%;
+//   height: 50vh;
+//   background-color: rgba($color: #000000, $alpha: 0.6);
+// }
 </style>

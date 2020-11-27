@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       show: false,
-      serviceUrl: dataApi.fileEditors.PdfViewer,
+      serviceUrl: dataApi.documentEditor.PdfViewer,
       documentPath: "file.pdf",
       locale: "ru-RU",
       toolbarSettings: {
