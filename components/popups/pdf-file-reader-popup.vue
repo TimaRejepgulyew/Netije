@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pdf-file-reader/>
+    <pdf-file-reader :id="options.id" :lastVersion="options.lastVersion" />
   </div>
 </template>
 
@@ -16,8 +16,7 @@ export default {
     },
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {},
   async created() {
