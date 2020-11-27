@@ -16,6 +16,15 @@
 
 <script>
 // this.$popup.pdfFileReader(this, {}, { showLoadingPanel: false });
+      // this.$popup.pdfFileReader(
+      //   this,
+      //   {
+      //     id: this.version.id,
+      //     lastVersion: false,
+      //   },
+      //   { showLoadingPanel: false }
+      // );
+
 import Vue from "vue";
 import {
   PdfViewerPlugin,
@@ -47,6 +56,14 @@ L10n.load({
   },
 });
 export default {
+  props: {
+    id: {
+      type: Number,
+    },
+    lastVersion: {
+      type: Boolean,
+    },
+  },
   data() {
     return {
       show: false,
@@ -63,16 +80,28 @@ export default {
           "DownloadOption",
         ],
       },
-      ajaxSettings: {
+    };
+  },
+  computed: {
+    ajaxSettings() {
+      return {
         ajaxHeaders: [
           {
             headerName: "authorization",
             headerValue:
               "Bearer " + this.$store.getters["oidc/oidcAccessToken"],
           },
+          {
+            headerName: "id",
+            headerValue: this.id,
+          },
+          {
+            headerName: "lastVersion",
+            headerValue: this.lastVersion,
+          },
         ],
-      },
-    };
+      };
+    },
   },
   provide: {
     PdfViewer: [
