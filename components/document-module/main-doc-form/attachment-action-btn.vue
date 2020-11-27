@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import DocumentService from "~/infrastructure/services/documentVersionService";
+import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import { confirm } from "devextreme/ui/dialog";
 export default {
   components: {
-    DxDropDownButton,
+    DxDropDownButton
   },
   props: ["version", "documentId"],
   data() {
@@ -29,12 +29,12 @@ export default {
           type: "preview",
           visible: this.version.canBeOpenedWithPreview,
           icon: "pdffile",
-          name: this.$t("buttons.preview"),
+          name: this.$t("buttons.preview")
         },
         {
           type: "download",
           icon: "download",
-          name: this.$t("buttons.download"),
+          name: this.$t("buttons.download")
         },
         {
           type: "delete",
@@ -42,15 +42,15 @@ export default {
             `documents/${this.documentId}/fullAccess`
           ],
           icon: "trash",
-          name: this.$t("buttons.delete"),
-        },
-      ],
+          name: this.$t("buttons.delete")
+        }
+      ]
     };
   },
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
-    },
+    }
   },
   methods: {
     onItemClick(e) {
@@ -71,14 +71,16 @@ export default {
         this,
         {
           readOnly: true,
-          documentId: this.document.id,
-          documentTypeGuid: this.document.documentTypeGuid,
+          params: {
+            versionId: this.version.id,
+            documentId: this.document.id
+          },
+          handler: DocumentVersionService.previewVersion,
           extension: this.version.extension,
-          versionId: this.version.id
         },
         { showLoadingPanel: false }
       );
-      // DocumentService.previewVersion(
+      // DocumentVersionService.previewVersion(
       //   this.version.id,
       //   {
       //     id: this.documentId,
@@ -88,15 +90,15 @@ export default {
       // );
     },
     downloadVersion() {
-      DocumentService.downloadVersion(
+      DocumentVersionService.downloadVersion(
         {
           id: this.documentId,
-          documentTypeGuid: this.document.documentTypeGuid,
+          documentTypeGuid: this.document.documentTypeGuid
         },
         {
           id: this.version.id,
           name: this.document.name,
-          extension: this.version.extension,
+          extension: this.version.extension
         },
         this
       );
@@ -121,8 +123,8 @@ export default {
               this.$emit("updateVersions");
           }
         );
-    },
-  },
+    }
+  }
 };
 </script>
 

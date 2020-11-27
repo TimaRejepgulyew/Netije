@@ -24,8 +24,8 @@ export default {
     },
     id() {
       return this.lastVersion
-        ? this.options.documentId
-        : this.options.versionId;
+        ? this.options.params.documentId
+        : this.options.params.versionId;
     }
   },
   methods: {},

@@ -1,6 +1,7 @@
 <template>
   <div>
     <ejs-documenteditorcontainer
+      :restrictEditing="readOnly"
       :headers="headers"
       :locale="$i18n.locale"
       :toolbarClick="onToolbarClick"
@@ -13,7 +14,7 @@
       style="height:800px;"
       id="documentEditordocx"
       :documentName.sync="documentName"
-      :enableToolbar="true"
+      :enableToolbar="!readOnly"
     ></ejs-documenteditorcontainer>
   </div>
 </template>
@@ -28,37 +29,18 @@ import {
   DocumentEditorContainerComponent,
   Toolbar
 } from "@syncfusion/ej2-vue-documenteditor";
-import DocumentEditorTranslateRu, {
-  documentEditorContainer as documentEditorContainerTranslateRu
-} from "~/lang/i18n-translation/ru/documentEditor.js";
-import DocumentEditorTranslateTk, {
-  documentEditorContainer as documentEditorContainerTranslateTk
-} from "@/lang/i18n-translation/tk/documentEditor";
-import { L10n, setCulture } from "@syncfusion/ej2-base";
-L10n.load({
-  ru: {
-    DocumentEditor: {
-      ...DocumentEditorTranslateRu
-    },
-    documenteditorcontainer: documentEditorContainerTranslateRu
-  },
-  tk: {
-    DocumentEditor: {
-      ...DocumentEditorTranslateTk
-    },
-    documenteditorcontainer: documentEditorContainerTranslateTk
-  }
-});
+
 Vue.use(DocumentEditorContainerPlugin);
 export default {
   props: {
-    file: null,
-    options: {
-      type: Object
+    readOnly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
+      file: null,
       headers: [
         {
           authorization: "Bearer " + this.$store.getters["oidc/oidcAccessToken"]
@@ -103,20 +85,29 @@ export default {
   provide: {
     DocumentEditorContainer: [Toolbar]
   },
-  created() {
-    console.log(this.$refs["container"]);
-  },
   mounted() {
     setTimeout(() => {
       this.mounted = true;
     }, 500);
   },
-  computed: {},
   methods: {
+    async loadDocument(documentEditor) {
+      if (this.handler && this.params) {
+        //  const { data } = await this.handler(this, params);
+        const { data } = await this.$axios.post(
+          "/api/documentEditor/loadDefault",
+          {},
+          {
+            headers: { id: 118, lastVersion: true }
+          }
+        );
+        documentEditor.open(data);
+      }
+    },
     onCreated(e) {
       const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
       documentEditor.resize();
-      this.file = documentEditor;
+      this.loadDocument(documentEditor);
     },
     onToolbarClick: function(args) {
       switch (args.item.id) {
@@ -131,40 +122,9 @@ export default {
       this.$emit("onClose");
     },
     async valueChanged() {
-      // let sfdt = `{
-      //       "sections": [
-      //           {
-      //               "blocks": [
-      //                   {
-      //                       "inlines": [
-      //                           {
-      //                               "characterFormat": {
-      //                                   "bold": true,
-      //                                   "italic": true
-      //                               },
-      //                               "text": "Hello World"
-      //                           }
-      //                       ]
-      //                   }
-      //               ],
-      //               "headersFooters": {
-      //               }
-      //           }
-      //       ]
-      //   }`;
-      const { data } = await this.$axios.post(
-        "/api/documentEditor/loadDefault",
-        {},
-        {
-          headers: { id: 118, lastVersion: true }
-        }
-      );
-      console.log(data);
-      this.file.open(data);
-
-      // const blob = await this.file.saveAsBlob("Docx");
-      // console.log(this.$refs["documentEditordocx"].ej2Instances);
-      // this.$emit("valueChanged", { file: blob });
+      const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
+      const blob = await documentEditor.saveAsBlob("Docx");
+      this.$emit("valueChanged", { file: blob });
     }
   }
 };

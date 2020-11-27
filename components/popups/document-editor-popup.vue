@@ -1,5 +1,7 @@
 <template>
   <docx-editor
+    :params="options.params"
+    :handler="options.handler"
     :readOnly="options.readOnly"
     @valueChanged="valueChanged"
     @onClose="close"
