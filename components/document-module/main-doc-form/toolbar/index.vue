@@ -76,13 +76,13 @@
         <toolbar-item-upload-version-from-scanner :documentId="documentId" />
       </template>
       <DxItem
-        template="toolbarItemCreateFromFile"
+        template="toolbarItemCreateVersion"
         locateInMenu="auto"
         :visible="!hasVersions && canUpdate"
         location="before"
       />
-      <template #toolbarItemCreateFromFile>
-        <toolbarItemCreateFromFile :documentId="documentId" />
+      <template #toolbarItemCreateVersion>
+        <toolbarItemCreateVersion :documentId="documentId" />
       </template>
       <DxItem
         :options="previewButtonOptions"
@@ -102,13 +102,16 @@
 </template>
 <script>
 //servises
-import { load, refresh } from "~/infrastructure/services/documentService.js";
-import documentService from "~/infrastructure/services/documentVersionService.js";
+import {
+  load,
+  refresh
+} from "~/infrastructure/services/DocumentVersionService.js";
+import DocumentVersionService from "~/infrastructure/services/documentVersionService.js";
 //components
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
-import toolbarItemCreateFromFile from "~/components/document-module/main-doc-form/toolbar/create-from-file-btn.vue";
+import toolbarItemCreateVersion from "~/components/document-module/main-doc-form/toolbar/create-version-btn.vue";
 import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
 import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
@@ -133,7 +136,7 @@ export default {
     toolbarItemRegistration,
     toolbarItemAvailableActions,
     toolbarItemRelation,
-    toolbarItemCreateFromFile,
+    toolbarItemCreateVersion,
     DxButton,
     DxToolbar,
     DxItem
@@ -196,7 +199,31 @@ export default {
         hint: this.$t("buttons.read"),
         icon: "pdffile",
         onClick: () => {
-          documentService.previewDocument(this.document, this);
+          if (this.document.extension === ".pdf") {
+            this.$popup.pdfFileReader(
+              this,
+              {
+                readOnly: true,
+                params: {
+                  documentId: this.documentId
+                },
+                extension: this.document.extension
+              },
+              { showLoadingPanel: false }
+            );
+          } else
+            this.$popup.documentViewers(
+              this,
+              {
+                readOnly: true,
+                params: {
+                  documentId: this.documentId
+                },
+                handler: DocumentVersionService.previewDocument,
+                extension: this.document.extension
+              },
+              { showLoadingPanel: true }
+            );
         }
       };
     },

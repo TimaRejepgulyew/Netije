@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import documentService from "~/infrastructure/services/documentVersionService.js";
+import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 
 import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";
@@ -54,7 +54,7 @@ export default {
       }
 
       this.$awn.async(
-        documentService.uploadVersion(this.document,file , this),
+        documentVersionService.importFileVersion(this.document,file , this),
         (res) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,

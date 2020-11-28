@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     lastVersion() {
-      return this.options.versionId ? false : true;
+      return this.options.params.versionId ? false : true;
     },
     id() {
       return this.lastVersion

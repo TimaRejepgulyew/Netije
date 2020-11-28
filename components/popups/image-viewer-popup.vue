@@ -9,31 +9,27 @@ import imageViewer from "~/components/file-readers/image-viewer/index.vue";
 import DocumentService from "~/infrastructure/services/documentVersionService";
 export default {
   components: {
-    imageViewer,
+    imageViewer
   },
   props: {
     options: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   data() {
     return {
-      file: null,
+      file: null
     };
   },
   methods: {},
   async created() {
-    let file = await DocumentService.previewVersion(
-      this.options.versionId,
-      {
-        id: this.options.documentId,
-        documentTypeGuid: this.options.documentTypeGuid,
-      },
-      this
-    );
+    if (this.options.handler && this.options.params)
+      this.file = await this.options.handler(this, this.options.params);
+    this.$emit("showTitle", this.$t("document.headers.imageEditor"));
+    this.$emit("loadStatus");
     this.file = file;
     this.$emit("loadStatus");
-  },
+  }
 };
 </script>
 

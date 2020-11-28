@@ -386,6 +386,7 @@ export default {
 .wrapper--relative {
   position: relative;
   height: 100%;
+  overflow: hidden;
   .item--drawer {
     position: absolute;
     top: 0;

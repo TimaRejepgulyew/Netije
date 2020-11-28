@@ -1,37 +1,83 @@
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
-
 export default {
-  async uploadVersion(document, file, context, fileName) {
-    return await upload(document, file, context, fileName);
+  async importFileVersion(document, file, context, fileName) {
+    return await importFile(document, file, context, fileName);
   },
-  async previewVersion(context, { documetnId, versionId }) {
-    return await preview(
-      `${dataApi.documentEditor.loadVersion}/${documetnId}/${versionId}`,
-      context
+
+  async exportVersionDocumentEditor(context, { versionId }) {
+    return await exportFile(
+      context,
+      `${dataApi.documentEditor.loadVersion}${versionId}`
     );
   },
-  async previewDocument(context, { documentId }) {
-    return await preview(
-      `${dataApi.documentEditor.loadDocument}/${documentId}`,
-      context
+
+  async exportLastVersionDocumentEditor(context, { documentId }) {
+    return await exportFile(
+      context,
+      `${dataApi.documentEditor.loadDocument}${documentId}`
     );
   },
-  downloadDocument(document, context) {
+  async exportFileVersion(context, { versionId }) {
+    return exportFile(
+      context,
+      `dataApi.documentModule.ExportVersion${versionId}`
+    );
+  },
+
+  async exportFileLastVersion(context, { documentId }) {
+    return exportFile(
+      context,
+      `dataApi.documentModule.ExportLastVersion${documentId}`
+    );
+  },
+
+  downloadLastVersion(context, document) {
     download(
-      `${dataApi.documentModule.DownloadLastVersion}${document.documentTypeGuid}/${document.id}`,
-      document,
-      context
+      context,
+      `${dataApi.documentModule.ExportLastVersion}${document.id}`,
+      document
     );
   },
-  downloadVersion(document, version, context) {
+
+  downloadVersion(context, version) {
     download(
-      `${dataApi.documentModule.DownloadVersion}${document.documentTypeGuid}/${document.id}/${version.id}`,
-      version,
-      context
+      context,
+      `${dataApi.documentModule.ExportVersion}${version.id}`,
+      version
     );
   }
 };
+
+const importFile = async (document, file, context, fileName) => {
+  let formData = new FormData();
+  formData.append("file", file, fileName);
+  formData.append("documentId", document.id);
+  return await context.$axios.post(
+    dataApi.documentModule.CreateVersionFromFile,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+  );
+};
+
+const exportFile = async (context, endpoint) => {
+  const { data } = await context.$axios.get(endpoint, { responseType: "blob" });
+  return data;
+};
+
+const download = (context, endpoint, obj) => {
+  context.$awn.asyncBlock(exportFile(context, endpoint), response => {
+    const blob = new Blob([response], {
+      type: `data:${response.type}`
+    });
+    saveAs(blob, `${obj.name}${obj.extension.toLowerCase()}`);
+  });
+};
+
 export function base64toBlob(base64Data, contentType) {
   contentType = contentType || "";
   var sliceSize = 1024;
@@ -50,35 +96,3 @@ export function base64toBlob(base64Data, contentType) {
   }
   return new Blob(byteArrays, { type: contentType });
 }
-const preview = async (endpoint, context) => {
-  const { data } = await context.$axios.get(endpoint);
-  return data;
-};
-const upload = async (document, file, context, fileName) => {
-  let formData = new FormData();
-  formData.append("file", file, fileName);
-  formData.append("documentId", document.id);
-  return await context.$axios.post(
-    dataApi.documentModule.CreateVersionFromFile + document.documentTypeGuid,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    }
-  );
-};
-const download = (endpoint, obj, context) => {
-  context.$awn.async(
-    context.$axios
-      .get(endpoint, {
-        responseType: "blob"
-      })
-      .then(response => {
-        var blob = new Blob([response.data], {
-          type: `data:${response.data.type}`
-        });
-        saveAs(blob, `${obj.name}${obj.extension.toLowerCase()}`);
-      })
-  );
-};

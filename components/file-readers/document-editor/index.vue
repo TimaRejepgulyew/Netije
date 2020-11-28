@@ -36,11 +36,11 @@ export default {
     readOnly: {
       type: Boolean,
       default: false
-    }
+    },
+    file: {}
   },
   data() {
     return {
-      file: null,
       headers: [
         {
           authorization: "Bearer " + this.$store.getters["oidc/oidcAccessToken"]
@@ -79,7 +79,7 @@ export default {
       ],
       mounted: false,
       documentName: "",
-      serviceUrl: "https://192.168.4.159/api/documentEditor/"
+      serviceUrl: dataApi.documentEditor.DocumentEditor
     };
   },
   provide: {
@@ -91,29 +91,19 @@ export default {
     }, 500);
   },
   methods: {
-    async loadDocument(documentEditor) {
-      if (this.handler && this.params) {
-        //  const { data } = await this.handler(this, params);
-        const { data } = await this.$axios.post(
-          "/api/documentEditor/loadDefault",
-          {},
-          {
-            headers: { id: 118, lastVersion: true }
-          }
-        );
-        documentEditor.open(data);
-      }
+    async openDocument(documentEditor) {
+      if (this.file) documentEditor.open(this.file);
     },
     onCreated(e) {
       const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
       documentEditor.resize();
-      this.loadDocument(documentEditor);
+      this.openDocument(documentEditor);
     },
     onToolbarClick: function(args) {
       switch (args.item.id) {
         case "save":
           this.valueChanged();
-          // this.close();
+          this.close();
           break;
       }
     },

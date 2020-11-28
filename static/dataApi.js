@@ -77,12 +77,10 @@ export default {
     DeleteDocument: `/api/OfficialDocument/`,
     ReevaluateDocumentName: `/api/OfficialDocument/ReevaluateDocumentName`,
     Version: `/api/OfficialDocument/Version/`,
-    DownloadLastVersion: `/api/OfficialDocument/Version/DownloadLastVersion/`,
-    PreviewLastVersion: `/api/OfficialDocument/Version/PreviewLastVersion/`,
     Relation: `/api/Documentrelations/Relations/`,
-    CreateVersionFromFile: `/api/OfficialDocument/Version/CreateFromFile/`,
-    DownloadVersion: `/api/OfficialDocument/Version/Download/`,
-    PreviewVersion: `/api/OfficialDocument/Version/Preview/`,
+    CreateVersionFromFile: `/api/OfficialDocument/Version/ImportFromFile/`,
+    ExportVersion: `/api/OfficialDocument/Version/Export/`,
+    ExportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
     Last: `/api/OfficialDocument/Version/Last/`
   },
@@ -153,6 +151,10 @@ export default {
       process.env.NODE_ENV === "production"
         ? "/api/pdfViewer"
         : `${process.env.serverUrl}/api/pdfViewer`,
+    DocumentEditor:
+      process.env.NODE_ENV === "production"
+        ? "/api/documentEditor"
+        : `${process.env.serverUrl}/api/documentEditor`,
     loadDocument: "/api/DocumentEditor/loadDocument/",
     loadVersion: "/api/DocumentEditor/loadVersion/"
   }

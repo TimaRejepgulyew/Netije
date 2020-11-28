@@ -1,7 +1,7 @@
 <template>
   <docx-editor
-    :params="options.params"
-    :handler="options.handler"
+    v-if="file"
+    :file="file"
     :readOnly="options.readOnly"
     @valueChanged="valueChanged"
     @onClose="close"
@@ -27,9 +27,18 @@ export default {
       type: Object
     }
   },
-  created() {
-    this.$emit("loadStatus");
+
+  async created() {
+    if (this.options.handler && this.options.params)
+      this.file = await this.options.handler(this, this.options.params);
+
     this.$emit("showTitle", this.$t("document.headers.documentEditor"));
+    this.$emit("loadStatus");
+  },
+  data() {
+    return {
+      file: null
+    };
   },
   methods: {
     close() {

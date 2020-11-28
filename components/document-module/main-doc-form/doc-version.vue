@@ -84,12 +84,7 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl:
-            dataApi.documentModule.Version +
-            `${
-              this.$store.getters[`documents/${this.documentId}/document`]
-                .documentTypeGuid
-            }/${this.documentId}`
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
         }),
         paginate: true,
         pageSize: 7,
@@ -99,7 +94,7 @@ export default {
   },
   computed: {
     uploadVersionVisible() {
-      return this.canUpdate && !this.document.hasVersions && this.isNew;
+      return this.canUpdate;
     },
 
     document() {

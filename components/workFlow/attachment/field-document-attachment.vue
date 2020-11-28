@@ -44,7 +44,8 @@ export default {
       );
     },
     previewVersion() {
-      DocumentService.previewDocument(this.item.entity, this);
+      
+      DocumentService.loadLastVersionDocumentEditor(this.item.entity, this);
     },
     showAttachment() {
       const canPreview =

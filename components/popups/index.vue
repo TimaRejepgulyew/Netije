@@ -48,7 +48,6 @@ import attachmentAccessRightDialog from "./attachment-access-right-dialog-popup.
 import assignmentCard from "./assignment-card-popup.vue";
 import documentGrid from "./document-grid-popup.vue";
 import documentEditor from "./document-editor-popup.vue";
-import documentViewers from "./document-viewers.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
 import imageViewer from "./image-viewer-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
@@ -76,7 +75,6 @@ export default {
     DxScrollView,
     documentEditor,
     pdfFileReader,
-    documentViewers,
     imageViewer
   },
   name: "base-popup",
@@ -137,7 +135,6 @@ export default {
       );
     },
     showComponent() {
-      console.log("work");
       this.visible = true;
       this.hideLoadIndicator();
     },
@@ -147,12 +144,6 @@ export default {
   },
   mounted() {
     this.isLoading = this.defaultPopupSettings.showLoadingPanel;
-    setTimeout(() => {
-      this.$refs.content.$el.scrollIntoView({
-        block: "center",
-        behavior: "smooth"
-      });
-    }, 500);
   }
 };
 </script>
@@ -167,9 +158,9 @@ export default {
   height: 50vh;
   background-color: rgba($color: #000000, $alpha: 0.6);
 }
-.space {
-  min-height: 100px;
-}
+// .space {
+//   min-height: 100px;
+// }
 .dx-scrollable-native.dx-scrollable-vertical,
 .dx-scrollable-native.dx-scrollable-vertical
   > .dx-scrollable-wrapper

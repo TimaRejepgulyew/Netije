@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionVewer.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
@@ -66,42 +67,47 @@ export default {
       }
     },
     previewVersion() {
-      console.log("preýiew");
-      this.$popup.documentViewers(
-        this,
-        {
-          readOnly: true,
-          params: {
-            versionId: this.version.id,
-            documentId: this.document.id
-          },
-          handler: DocumentVersionService.previewVersion,
-          extension: this.version.extension
+      DocumentVersionViewer({
+        context: this,
+        options: {
+          readOnly: false,
+          extension: this.version.extension,
+          params: { versionId: this.version.id }
         },
-        { showLoadingPanel: false }
-      );
-      // DocumentVersionService.previewVersion(
-      //   this.version.id,
-      //   {
-      //     id: this.documentId,
-      //     documentTypeGuid: this.document.documentTypeGuid
-      //   },
-      //   this
-      // );
+        lastVersion: false
+      });
+      // if (this.version.extension === ".pdf") {
+      //   this.$popup.pdfFileReader(
+      //     this,
+      //     {
+      //       readOnly: true,
+      //       params: {
+      //         versionId: this.version.id
+      //       },
+      //       extension: this.version.extension
+      //     },
+      //     { showLoadingPanel: false }
+      //   );
+      // } else
+      //   this.$popup.documentViewers(
+      //     this,
+      //     {
+      //       readOnly: true,
+      //       params: {
+      //         versionId: this.version.id
+      //       },
+      //       handler: DocumentVersionService.loadVersionDocumentEditor,
+      //       extension: this.version.extension
+      //     },
+      //     { showLoadingPanel: true }
+      //   );
     },
     downloadVersion() {
-      DocumentVersionService.downloadVersion(
-        {
-          id: this.documentId,
-          documentTypeGuid: this.document.documentTypeGuid
-        },
-        {
-          id: this.version.id,
-          name: this.document.name,
-          extension: this.version.extension
-        },
-        this
-      );
+      DocumentVersionService.downloadVersion(this, {
+        id: this.version.id,
+        name: this.document.name,
+        extension: this.version.extension
+      });
     },
     async deleteVersion() {
       const response = await confirm(
