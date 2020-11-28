@@ -14,17 +14,17 @@ import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 export default {
   components: {
     documentCard: () =>
-      import("~/components/document-module/main-doc-form/index.vue")
+      import("~/components/document-module/main-doc-form/index.vue"),
   },
   name: "document-popup",
   props: {
     options: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      documentId: null
+      documentId: null,
     };
   },
   async created() {
@@ -38,7 +38,7 @@ export default {
       this.$emit("loadStatus");
       this.$emit("showTitle", documentTypeModel.getById(documentTypeGuid).text);
     } catch (e) {
-      this.$emit("accessDenied", e);
+      this.$emit("onError", e.response);
     }
   },
   methods: {
@@ -47,8 +47,8 @@ export default {
     },
     valueChanged(params) {
       this.$emit("valueChanged", params);
-    }
-  }
+    },
+  },
 };
 </script>
 

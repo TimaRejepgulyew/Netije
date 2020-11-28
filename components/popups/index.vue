@@ -1,34 +1,41 @@
 <template>
-  <div>
-    <DxLoadPanel :visible.sync="isLoading" :indicatorSrc="indicatorIcon" />
-    <DxPopup
-      :closeOnOutsideClick="defaultPopupSettings.closeOnOutsideClick"
-      :dragEnabled="defaultPopupSettings.dragEnabled"
-      :showTitle="defaultPopupSettings.showTitle"
-      :width="defaultPopupSettings.width"
-      :height="defaultPopupSettings.height"
-      :position="defaultPopupSettings.position"
-      :onHidden="destroyComponent"
-      :visible="visible"
-      :title="title"
+  <div v-if="visible">
+    <DxLoadPanel
+      @click="destroyComponent"
+      :visible.sync="isLoading"
+      :indicatorSrc="indicatorIcon"
+    />
+    <div
+      class="popup_color_wrapper"
+      :style="`align-items:${defaultPopupSettings.position}`"
     >
-      <div>
-        <DxScrollView :useNative="true" width="100%" height="100%">
-          <div class="space"></div>
-
-          <component
-            ref="content"
-            @loadStatus="showComponent"
-            @showTitle="setTitle"
-            @valueChanged="valueChanged"
-            @close="closePopup"
-            :is="template"
-            :options="options"
-          />
-          <div class="space"></div>
-        </DxScrollView>
-      </div>
-    </DxPopup>
+      <transition name="popup-fade">
+        <div
+          v-show="showPopup"
+          class="custom_popup"
+          :style="`min-height:${defaultPopupSettings.height}; min-width:${defaultPopupSettings.width}`"
+        >
+          <div class="title">
+            <div class="text">{{ title }}</div>
+            <div class="icon" @click="destroyComponent">
+              <i class="dx-icon dx-icon-close"></i>
+            </div>
+          </div>
+          <div class="content">
+            <component
+              ref="content"
+              @loadStatus="showComponent"
+              @showTitle="setTitle"
+              @valueChanged="valueChanged"
+              @close="destroyComponent"
+              @onError="onError"
+              :is="template"
+              :options="options"
+            />
+          </div>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -52,15 +59,10 @@ import documentViewers from "./document-viewers.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
 import imageViewer from "./image-viewer-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
-import { DxPopup } from "devextreme-vue/popup";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
-import { DxScrollView } from "devextreme-vue/scroll-view";
-
 export default {
   components: {
-    DxPopup,
     DxLoadPanel,
-    DxScrollView,
     bussiniesUnitCard,
     departmentCard,
     employeeCard,
@@ -73,30 +75,30 @@ export default {
     documentGrid,
     taskCard,
     contactCard,
-    DxScrollView,
     documentEditor,
     pdfFileReader,
     documentViewers,
-    imageViewer
+    imageViewer,
   },
   name: "base-popup",
   props: {
     template: {
-      type: String
+      type: String,
     },
     options: {
-      type: Object
+      type: Object,
     },
     popupSettings: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      visible: false,
+      visible: true,
       isLoading: false,
       title: "",
-      indicatorIcon
+      indicatorIcon,
+      showPopup: false,
     };
   },
   computed: {
@@ -107,18 +109,36 @@ export default {
         showTitle: true,
         width: "90vw",
         height: "95vh",
-        position: { my: "center", at: "center" },
+        position: "center",
         showLoadingPanel: true,
-        ...this.popupSettings
+        ...this.popupSettings,
       };
-    }
+    },
   },
   methods: {
-    destroyComponent() {
-      this.$destroy();
+    onError(error) {
+      console.log("error", error);
+      switch (error.status) {
+        case 403:
+          this.accessDenied();
+          break;
+        default:
+          this.defaultError();
+          break;
+      }
+      this.destroyComponent();
     },
-    closePopup() {
+    defaultError() {
+      alert(
+        this.$t("shared.alert.serverError"),
+        this.$t(`scanner.alert.error`)
+      );
+    },
+    destroyComponent() {
       this.visible = false;
+      this.$nextTick(() => {
+        this.$destroy();
+      });
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
@@ -137,43 +157,87 @@ export default {
       );
     },
     showComponent() {
-      console.log("work");
-      this.visible = true;
+      this.showPopup = true;
       this.hideLoadIndicator();
     },
     setTitle(data) {
       this.title = data;
-    }
+    },
   },
   mounted() {
-    this.isLoading = this.defaultPopupSettings.showLoadingPanel;
-    setTimeout(() => {
-      this.$refs.content.$el.scrollIntoView({
-        block: "center",
-        behavior: "smooth"
-      });
-    }, 500);
-  }
+    this.showLoadIndicator();
+  },
 };
 </script>
 
 <style lang="scss">
-.popup_wrapper {
-  position: absolute;
+@import "@/assets/themes/generated/variables.base.scss";
+.popup-fade-enter-active,
+.popup-fade-leave-active {
+  transition: 0.5s;
+}
+.popup-fade-enter,
+.popup-fade-leave-to {
+  transform: scale(0);
+}
+.popup_color_wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: fixed;
+  top: 0%;
+  left: 0%;
   z-index: 1000;
-  top: 50%;
-  left: 0;
-  width: 50%;
-  height: 50vh;
-  background-color: rgba($color: #000000, $alpha: 0.6);
-}
-.space {
-  min-height: 100px;
-}
-.dx-scrollable-native.dx-scrollable-vertical,
-.dx-scrollable-native.dx-scrollable-vertical
-  > .dx-scrollable-wrapper
-  > .dx-scrollable-container {
-  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  .custom_popup {
+    border-radius: 6px;
+    position: relative;
+    background-color: white;
+    max-width: 90vw;
+    max-height: 95vh;
+    z-index: 1001;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    .title {
+      width: 100%;
+      padding: 6px 20px;
+      background-color: white;
+      border-bottom: 1px solid $base-border-color;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100px;
+        flex-grow: 1;
+        font-size: 20px;
+        font-weight: 400;
+        font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana,
+          sans-serif;
+      }
+      .icon {
+        cursor: pointer;
+        padding: 7px;
+        i {
+          font-size: 15px;
+        }
+      }
+    }
+    .content {
+      overflow-y: scroll;
+      padding: 20px 20px 20px 20px;
+      height: 90vh;
+      font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+      -ms-overflow-style: none;
+    }
+  }
 }
 </style>
