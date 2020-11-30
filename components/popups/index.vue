@@ -159,9 +159,6 @@ export default {
     },
     showComponent() {
       this.showPopup = true;
-      // setTimeout(() => {
-      //   this.componentKey = new Date().getHours();
-      // }, 200);
       this.hideLoadIndicator();
     },
     setTitle(data) {
