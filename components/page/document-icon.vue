@@ -1,5 +1,5 @@
 <template>
-  <i :class="slicedExtension"></i>
+  <i :class="slicedExtension + ' icons_style'"></i>
 </template>
 
 <script>
@@ -10,17 +10,26 @@ export default {
       if (this.extension) {
         return "flaticon-" + this.extension.slice(1);
       } else {
-        return "dx-icon-file";
+        return "flaticon-blank";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style scoped>
-.dx-icon-file {
+<style lang="scss">
+[class^="flaticon-"]:before,
+[class*=" flaticon-"]:before,
+[class^="flaticon-"]:after,
+[class*=" flaticon-"]:after {
+  width: 18px;
+  height: 18px;
+  background-position: 0 0;
+  background-size: 18px 18px;
+  padding: 0;
   font-size: 30px;
-  font-style: normal;
-  margin: 0 7.5px;
+  text-align: center;
+  line-height: 18px;
+  margin: 0;
 }
 </style>
