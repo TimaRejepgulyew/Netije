@@ -1,7 +1,7 @@
 <template>
-  <div v-if="mounted">
-
+  <div>
     <ejs-pdfviewer
+      v-if="mounted"
       height="85vh"
       :serviceUrl="serviceUrl"
       :locale="$i18n.locale"

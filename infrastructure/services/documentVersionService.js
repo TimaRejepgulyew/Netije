@@ -21,14 +21,14 @@ export default {
   async exportFileVersion(context, { versionId }) {
     return exportFile(
       context,
-      `dataApi.documentModule.ExportVersion${versionId}`
+      `${dataApi.documentModule.ExportVersion}${versionId}`
     );
   },
 
   async exportFileLastVersion(context, { documentId }) {
     return exportFile(
       context,
-      `dataApi.documentModule.ExportLastVersion${documentId}`
+      `${dataApi.documentModule.ExportLastVersion}${documentId}`
     );
   },
 

@@ -1,27 +1,20 @@
 <template>
-  <img class="image_viewer" :src="url" />
+  <img class="image_viewer" v-if="url" :src="url" />
 </template>
 
 <script>
-
-      // this.$popup.imageViewer(this, {
-      //   versionId: this.version.id,
-      //   documentTypeGuid: this.document.documentTypeGuid,
-      //   documentId: this.documentId,
-      // });
-
 export default {
   props: {
-    file: {},
+    file: {
+      default: false
+    }
   },
-  data() {
-    return {
-      url: null,
-    };
-  },
-  mounted() {
-    this.url = URL.createObjectURL(this.file);
-  },
+
+  computed: {
+    url() {
+      if (this.file) return URL.createObjectURL(this.file);
+    }
+  }
 };
 </script>
 
@@ -30,4 +23,3 @@ export default {
   max-width: 80vw;
 }
 </style>
-

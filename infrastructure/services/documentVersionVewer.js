@@ -48,8 +48,8 @@ const documentEditor = ({ context, options, lastVersion, listeners }) => {
 };
 const imageViewer = ({ context, options, lastVersion, listeners }) => {
   const handler = lastVersion
-    ? DocumentVersionService.exportLastVersion
-    : DocumentVersionService.exportVersion;
+    ? DocumentVersionService.exportFileLastVersion
+    : DocumentVersionService.exportFileVersion;
   context.$popup.imageViewer(
     context,
     {
