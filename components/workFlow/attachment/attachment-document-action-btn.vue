@@ -112,13 +112,13 @@ export default {
       this.$emit("detach", this.attachment.attachmentId);
     },
     downloadDocument() {
-      DocumentVersionService.downloadLastVersion(context, {
+      DocumentVersionService.downloadLastVersion(this, {
         ...this.attachment.entity
       });
     },
     previewDocument() {
       DocumentVersionViewer({
-        context: context,
+        context: this,
         options: {
           readOnly: true,
           extension: this.attachment.entity.extension,
