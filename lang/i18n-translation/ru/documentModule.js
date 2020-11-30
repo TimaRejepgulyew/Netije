@@ -134,7 +134,8 @@ export default {
     contractRequired: "Выберите договор",
     documentTypeRequired: "Выберите тип документа"
   },
-  header: {
+  headers: {
+    documentEditor: "Редактор документов",
     documentTemplate: "Шаблон документа"
   }
 };

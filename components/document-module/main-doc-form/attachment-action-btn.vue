@@ -70,37 +70,12 @@ export default {
       DocumentVersionViewer({
         context: this,
         options: {
-          readOnly: false,
+          readOnly: true,
           extension: this.version.extension,
           params: { versionId: this.version.id }
         },
         lastVersion: false
       });
-      // if (this.version.extension === ".pdf") {
-      //   this.$popup.pdfFileReader(
-      //     this,
-      //     {
-      //       readOnly: true,
-      //       params: {
-      //         versionId: this.version.id
-      //       },
-      //       extension: this.version.extension
-      //     },
-      //     { showLoadingPanel: false }
-      //   );
-      // } else
-      //   this.$popup.documentViewers(
-      //     this,
-      //     {
-      //       readOnly: true,
-      //       params: {
-      //         versionId: this.version.id
-      //       },
-      //       handler: DocumentVersionService.loadVersionDocumentEditor,
-      //       extension: this.version.extension
-      //     },
-      //     { showLoadingPanel: true }
-      //   );
     },
     downloadVersion() {
       DocumentVersionService.downloadVersion(this, {

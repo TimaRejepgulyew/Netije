@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pdf-file-reader :id="id" :lastVersion="lastVersion" />
+    <pdf-file-reader v-if="id" :id="id" :lastVersion="lastVersion" />
   </div>
 </template>
 

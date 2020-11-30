@@ -6,14 +6,14 @@ export default {
   },
 
   async exportVersionDocumentEditor(context, { versionId }) {
-    return await exportFile(
+    return await exportFileJson(
       context,
       `${dataApi.documentEditor.loadVersion}${versionId}`
     );
   },
 
   async exportLastVersionDocumentEditor(context, { documentId }) {
-    return await exportFile(
+    return await exportFileJson(
       context,
       `${dataApi.documentEditor.loadDocument}${documentId}`
     );
@@ -64,6 +64,10 @@ const importFile = async (document, file, context, fileName) => {
   );
 };
 
+const exportFileJson = async (context, endpoint) => {
+  const { data } = await context.$axios.get(endpoint);
+  return data;
+};
 const exportFile = async (context, endpoint) => {
   const { data } = await context.$axios.get(endpoint, { responseType: "blob" });
   return data;

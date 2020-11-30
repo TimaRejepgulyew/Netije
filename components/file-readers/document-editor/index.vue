@@ -3,17 +3,14 @@
     <ejs-documenteditorcontainer
       :restrictEditing="readOnly"
       :headers="headers"
-      :locale="$i18n.locale"
       :toolbarClick="onToolbarClick"
       :toolbarItems="toolbarItems"
-      v-if="mounted"
       @created="onCreated"
       ref="documentEditordocx"
       :serviceUrl="serviceUrl"
       height="85vh"
-      style="height:800px;"
-      id="documentEditordocx"
-      :documentName.sync="documentName"
+      v-if="mounted"
+      :documentName="documentName"
       :enableToolbar="!readOnly"
     ></ejs-documenteditorcontainer>
   </div>
@@ -102,7 +99,7 @@ export default {
     onToolbarClick: function(args) {
       switch (args.item.id) {
         case "save":
-          this.valueChanged();
+          this.saveDocument();
           this.close();
           break;
       }
@@ -111,7 +108,7 @@ export default {
     close() {
       this.$emit("onClose");
     },
-    async valueChanged() {
+    async saveDocument() {
       const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
       const blob = await documentEditor.saveAsBlob("Docx");
       this.$emit("valueChanged", { file: blob });

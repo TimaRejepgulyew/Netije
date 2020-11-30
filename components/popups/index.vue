@@ -105,7 +105,7 @@ export default {
         closeOnOutsideClick: false,
         dragEnabled: false,
         showTitle: true,
-        width: "90vw",
+        width: "95vw",
         height: "95vh",
         position: "center",
         showLoadingPanel: true,

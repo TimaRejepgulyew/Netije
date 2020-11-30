@@ -126,5 +126,9 @@ export default {
     counterPartRequired: "Kontragenti saýlap alyň",
     documentGroupIdRequired: "Resminama toparyny saýlap alyň",
     leadingDocumentIdRequired: "Esasy resminamany saýlap alyň"
+  },
+  headers: {
+    documentEditor: "Resminamanyň redaklory",
+    documentTemplate: "Resminamanyň nusgasy"
   }
 };

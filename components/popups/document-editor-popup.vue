@@ -31,7 +31,7 @@ export default {
   async created() {
     if (this.options.handler && this.options.params)
       this.file = await this.options.handler(this, this.options.params);
-
+    console.log(this.file, "file");
     this.$emit("showTitle", this.$t("document.headers.documentEditor"));
     this.$emit("loadStatus");
   },
