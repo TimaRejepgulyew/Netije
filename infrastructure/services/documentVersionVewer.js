@@ -1,8 +1,8 @@
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 export default ({ context, options, lastVersion, listeners }) => {
-  console.log("preview",options);
+  console.log("preview", options);
   switch (options.extension) {
-    case "pdf":
+    case ".pdf":
       pdfViewer({ context, options, lastVersion, listeners });
       break;
     case ".docx":
