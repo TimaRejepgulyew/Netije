@@ -16,9 +16,9 @@ import sendIcon from "~/static/icons/send.svg";
 import DocumentSendAction from "~/infrastructure/models/DocumentSendAction.js";
 import DxMenu from "devextreme-vue/menu";
 import cardIcon from "~/static/icons/card.svg";
-import DocumentService from "~/infrastructure/services/documentVersionService";
+import DocumentVersionService from "~/infrastructure/services/documentVersionService";
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 import { DxDropDownButton } from "devextreme-vue";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxMenu
@@ -111,16 +111,20 @@ export default {
       this.$emit("detach", this.attachment.attachmentId);
     },
     downloadDocument() {
-      DocumentService.downloadDocument(
-        {
-          ...this.attachment.entity,
-          extension: this.attachment.entity.extension
-        },
-        this
-      );
+      DocumentVersionService.downloadLastVersion(this, {
+        ...this.attachment.entity
+      });
     },
     previewDocument() {
-      DocumentService.previewDocument(this.attachment.entity, this);
+      DocumentVersionViewer({
+        context: this,
+        options: {
+          readOnly: true,
+          extension: this.attachment.entity.extension,
+          params: { documentId: this.attachment.entity.id }
+        },
+        lastVersion: true
+      });
     }
   }
 };

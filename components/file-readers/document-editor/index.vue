@@ -1,6 +1,7 @@
 <template>
   <div>
     <ejs-documenteditorcontainer
+     
       :restrictEditing="readOnly"
       :headers="headers"
       :toolbarClick="onToolbarClick"

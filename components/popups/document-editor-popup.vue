@@ -11,14 +11,10 @@
 <script>
 import docxEditor from "~/components/file-readers/document-editor/index.vue";
 import dataApi from "~/static/dataApi";
-import Vue from "vue";
-import {
-  DocumentEditorContainerPlugin,
-  DocumentEditorContainerComponent,
-  Toolbar
-} from "@syncfusion/ej2-vue-documenteditor";
 
-Vue.use(DocumentEditorContainerPlugin);
+
+
+
 export default {
   components: { docxEditor },
   name: "document-editor-popup",

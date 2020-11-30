@@ -146,7 +146,16 @@ export default {
     persons: `​/api/Import/Persons`,
     employees: `/api/Import/Employees`
   },
+
   documentEditor: {
+    importVersion:
+      process.env.NODE_ENV === "production"
+        ? "/api/spreadSheet/importVersion"
+        : `${process.env.serverUrl}/api/spreadSheet/importVersion`,
+    importDocument:
+      process.env.NODE_ENV === "production"
+        ? "/api/spreadSheet/importVersion"
+        : `${process.env.serverUrl}/api/spreadSheet/importDocument`,
     PdfViewer:
       process.env.NODE_ENV === "production"
         ? "/api/pdfViewer"
