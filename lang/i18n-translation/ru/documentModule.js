@@ -136,6 +136,7 @@ export default {
   },
   headers: {
     documentEditor: "Редактор документов",
-    documentTemplate: "Шаблон документа"
+    documentTemplate: "Шаблон документа",
+    imageViewer: "Просмотр изображений"
   }
 };

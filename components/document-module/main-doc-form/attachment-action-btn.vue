@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import DocumentVersionViewer from "~/infrastructure/services/documentVersionVewer.js";
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";

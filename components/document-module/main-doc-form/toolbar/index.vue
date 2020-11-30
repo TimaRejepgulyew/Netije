@@ -102,11 +102,8 @@
 </template>
 <script>
 //servises
-import {
-  load,
-  refresh
-} from "~/infrastructure/services/DocumentVersionService.js";
-import DocumentVersionService from "~/infrastructure/services/documentVersionService.js";
+import { refresh } from "~/infrastructure/services/DocumentService.js";
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 //components
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -199,31 +196,15 @@ export default {
         hint: this.$t("buttons.read"),
         icon: "pdffile",
         onClick: () => {
-          if (this.document.extension === ".pdf") {
-            this.$popup.pdfFileReader(
-              this,
-              {
-                readOnly: true,
-                params: {
-                  documentId: this.documentId
-                },
-                extension: this.document.extension
-              },
-              { showLoadingPanel: false }
-            );
-          } else
-            this.$popup.documentViewers(
-              this,
-              {
-                readOnly: true,
-                params: {
-                  documentId: this.documentId
-                },
-                handler: DocumentVersionService.previewDocument,
-                extension: this.document.extension
-              },
-              { showLoadingPanel: true }
-            );
+          DocumentVersionViewer({
+            context: this,
+            options: {
+              readOnly: true,
+              extension: this.document.extension,
+              params: { documentId: this.documentId }
+            },
+            lastVersion: true
+          });
         }
       };
     },

@@ -26,7 +26,7 @@ export default {
     if (this.options.handler && this.options.params)
       this.file = await this.options.handler(this, this.options.params);
     console.log(this.file, this.options.params);
-    this.$emit("showTitle", this.$t("document.headers.imageEditor"));
+    this.$emit("showTitle", this.$t("document.headers.imageViewer"));
     this.$emit("loadStatus");
   }
 };

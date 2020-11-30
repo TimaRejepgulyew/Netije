@@ -129,6 +129,7 @@ export default {
   },
   headers: {
     documentEditor: "Resminamanyň redaklory",
-    documentTemplate: "Resminamanyň nusgasy"
+    documentTemplate: "Resminamanyň nusgasy",
+    imageViewer: "Просмотр изображений"
   }
 };
