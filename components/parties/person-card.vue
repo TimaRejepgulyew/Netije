@@ -300,7 +300,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
-          `${dataApi.contragents.Person}/${this.data}`,
+          `${dataApi.contragents.Person}/${this.data.id}`,
           this.person
         ),
         ({ data }) => {

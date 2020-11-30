@@ -13,9 +13,7 @@
         <div
           v-show="showPopup"
           class="custom_popup"
-          :style="
-            `min-height:${defaultPopupSettings.height}; min-width:${defaultPopupSettings.width}`
-          "
+          :style="`height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`"
         >
           <div class="title">
             <div class="text">{{ title }}</div>
@@ -78,19 +76,19 @@ export default {
     contactCard,
     documentEditor,
     pdfFileReader,
-    imageViewer
+    imageViewer,
   },
   name: "base-popup",
   props: {
     template: {
-      type: String
+      type: String,
     },
     options: {
-      type: Object
+      type: Object,
     },
     popupSettings: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -98,7 +96,7 @@ export default {
       isLoading: false,
       title: "",
       indicatorIcon,
-      showPopup: false
+      showPopup: false,
     };
   },
   computed: {
@@ -111,9 +109,9 @@ export default {
         height: "95vh",
         position: "center",
         showLoadingPanel: true,
-        ...this.popupSettings
+        ...this.popupSettings,
       };
-    }
+    },
   },
   methods: {
     onError(error) {
@@ -163,11 +161,11 @@ export default {
     },
     setTitle(data) {
       this.title = data;
-    }
+    },
   },
   mounted() {
     this.showLoadIndicator();
-  }
+  },
 };
 </script>
 
@@ -223,7 +221,7 @@ export default {
       }
       .icon {
         cursor: pointer;
-        padding: 7px;
+        padding: 10px;
         i {
           font-size: 15px;
         }
@@ -234,10 +232,14 @@ export default {
       padding: 20px 20px 20px 20px;
       height: 90vh;
       font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
-      &::-webkit-scrollbar {
-        width: 0;
-      }
-      -ms-overflow-style: none;
+      // &::-webkit-scrollbar {
+      //   width: 8px;
+      // }
+      // &::-webkit-scrollbar-thumb {
+      //   border-radius: 10px;
+      //   background-color: $base-border-color;
+      //   cursor: pointer;
+      // }
     }
   }
 }

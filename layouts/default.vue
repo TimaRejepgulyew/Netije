@@ -120,6 +120,14 @@ body {
 
 * {
   box-sizing: border-box;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    cursor: pointer;
+  }
 }
 .text--error {
   color: red;

@@ -28,7 +28,7 @@ export default {
         },
         {
           position: "flex-start",
-          width: "60%",
+          width: "60vw",
           height: "auto",
           listeners: [
             { eventName: "valueChanged", handlerName: "valueChanged" },
