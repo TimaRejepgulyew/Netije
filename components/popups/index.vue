@@ -13,7 +13,9 @@
         <div
           v-show="showPopup"
           class="custom_popup"
-          :style="`height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`"
+          :style="
+            `height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`
+          "
         >
           <div class="title">
             <div class="text">{{ title }}</div>
@@ -57,6 +59,7 @@ import documentGrid from "./document-grid-popup.vue";
 import documentEditor from "./document-editor-popup.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
 import imageViewer from "./image-viewer-popup.vue";
+import spreadSheet from "./spread-sheet-popup";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
@@ -77,18 +80,19 @@ export default {
     documentEditor,
     pdfFileReader,
     imageViewer,
+    spreadSheet
   },
   name: "base-popup",
   props: {
     template: {
-      type: String,
+      type: String
     },
     options: {
-      type: Object,
+      type: Object
     },
     popupSettings: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   data() {
     return {
@@ -96,7 +100,7 @@ export default {
       isLoading: false,
       title: "",
       indicatorIcon,
-      showPopup: false,
+      showPopup: false
     };
   },
   computed: {
@@ -109,9 +113,9 @@ export default {
         height: "95vh",
         position: "center",
         showLoadingPanel: true,
-        ...this.popupSettings,
+        ...this.popupSettings
       };
-    },
+    }
   },
   methods: {
     onError(error) {
@@ -161,11 +165,11 @@ export default {
     },
     setTitle(data) {
       this.title = data;
-    },
+    }
   },
   mounted() {
     this.showLoadIndicator();
-  },
+  }
 };
 </script>
 

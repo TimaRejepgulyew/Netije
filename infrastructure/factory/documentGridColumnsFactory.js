@@ -116,7 +116,7 @@ const CreateIncomingLetterColumns = context => {
     CreateInNumberColumn(context),
     CreateDatedColumn(context),
     CreateInResponseToIdColumn(context),
-    CreateIndexColumn(context),
+    CreateOrderColumn(context),
     CreateCounterpartySignatoryColumn(context)
   ];
 };
@@ -348,9 +348,9 @@ function CreateTotalAmountColumn(context, visible) {
     visible
   };
 }
-function CreateIndexColumn(context) {
+function CreateOrderColumn(context) {
   return {
-    dataField: "index",
+    dataField: "order",
     caption: context.$t("document.fields.index"),
     visible: false
   };

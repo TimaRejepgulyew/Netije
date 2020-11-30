@@ -17,7 +17,8 @@ export default ({ context, options, lastVersion, listeners }) => {
       imageViewer({ context, options, lastVersion, listeners });
       break;
     case ".lsx":
-      lsxDocumentEditor({ context, options, lastVersion, listeners });
+    case ".xlsx":
+      spreadSheet({ context, options, lastVersion, listeners });
       break;
   }
 };
@@ -60,17 +61,14 @@ const imageViewer = ({ context, options, lastVersion, listeners }) => {
     { showLoadingPanel: true, listeners }
   );
 };
-const lsxDocumentEditor = ({ context, options, lastVersion }) => {
-  //   const handler = lastVersion
-  //     ? DocumentVersionService.downloadLastVersion
-  //     : DocumentVersionService.downloadVersion;
-  //   context.$popup.documentEditor(
-  //     context,
-  //     {
-  //       readOnly: options.readOnly,
-  //       params: options.params,
-  //       handler: handler
-  //     },
-  //     { showLoadingPanel: true }
-  //   );
+const spreadSheet = ({ context, options, lastVersion, listeners }) => {
+
+  context.$popup.spreadSheet(
+    context,
+    {
+      readOnly: options.readOnly,
+      params: options.params
+    },
+    { showLoadingPanel: false }
+  );
 };

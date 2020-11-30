@@ -19,7 +19,6 @@ import cardIcon from "~/static/icons/card.svg";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 import { DxDropDownButton } from "devextreme-vue";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxMenu

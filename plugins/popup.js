@@ -3,7 +3,7 @@ import Popup from "~/components/popups/index.vue";
 Vue.component("Popup", Popup);
 
 function BasePopup(template) {
-  return function (context, options, popupSettings) {
+  return function(context, options, popupSettings) {
     let popup = Vue.extend(Popup);
     let instance = new popup({
       parent: context,
@@ -43,7 +43,7 @@ export default (pluginContext, inject) => {
     pdfFileReader: BasePopup("pdfFileReader"),
     documentEditor: BasePopup("documentEditor"),
     imageViewer: BasePopup("imageViewer"),
-
+    spreadSheet: BasePopup("spreadSheet")
   };
   inject("popup", popup);
 };
