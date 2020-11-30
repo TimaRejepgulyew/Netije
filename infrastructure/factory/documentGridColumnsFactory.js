@@ -1,5 +1,6 @@
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 import { ExecutionStateStore } from "~/infrastructure/constants/executionState.js";
 import dataApi from "~/static/dataApi";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
@@ -80,16 +81,20 @@ const hasVersion = e => {
   return e.row.data.hasVersions;
 };
 const downloadDocument = (e, context) => {
-  DocumentVersionService.downloadDocument(
-    {
-      ...e.row.data,
-      extension: e.row.data.extension
-    },
-    context
-  );
+  DocumentVersionService.downloadLastVersion(context, {
+    ...e.row.data
+  });
 };
 const previewDocument = (e, context) => {
-  DocumentVersionService.previewDocument(e.row.data, context);
+  DocumentVersionViewer({
+    context,
+    options: {
+      readOnly: true,
+      extension: e.row.data.extension,
+      params: { documentId: e.row.data.id }
+    },
+    lastVersion: true
+  });
 };
 
 const CreateElectronicDocumentColumns = context => {
