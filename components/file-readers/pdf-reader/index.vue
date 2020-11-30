@@ -8,7 +8,6 @@
       :documentPath="documentPath"
       :toolbarSettings="toolbarSettings"
       :ajaxRequestSettings="ajaxSettings"
-      v-if="show"
     >
     </ejs-pdfviewer>
   </div>
@@ -90,11 +89,6 @@ export default {
       TextSelection,
       TextSearch,
     ],
-  },
-  mounted() {
-    setTimeout(() => {
-      this.show = true;
-    }, 300);
   },
 };
 </script>

@@ -3,7 +3,7 @@ import Popup from "~/components/popups/index.vue";
 Vue.component("Popup", Popup);
 
 function BasePopup(template) {
-  return function(context, options, popupSettings) {
+  return function (context, options, popupSettings) {
     let popup = Vue.extend(Popup);
     let instance = new popup({
       parent: context,
@@ -22,7 +22,7 @@ function BasePopup(template) {
     }
 
     instance.$mount();
-    context.$el.appendChild(instance.$el);
+    context.$root.$el.appendChild(instance.$el);
   };
 }
 

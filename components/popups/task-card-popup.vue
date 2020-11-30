@@ -13,17 +13,17 @@ import dataApi from "~/static/dataApi";
 import TaskTypeModel from "~/infrastructure/models/TaskType.js";
 export default {
   components: {
-    taskCard: () => import("~/components/task/index.vue")
+    taskCard: () => import("~/components/task/index.vue"),
   },
   name: "task-popup",
   props: {
     options: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      taskId: null
+      taskId: null,
     };
   },
   async created() {
@@ -37,7 +37,7 @@ export default {
       this.$emit("loadStatus");
       this.$emit("showTitle", taskTypeModel.getById(taskType).text);
     } catch (e) {
-      this.$emit("accessDenied", e);
+      this.$emit("onError", e.response);
     }
   },
   methods: {
@@ -46,8 +46,8 @@ export default {
     },
     valueChanged(params) {
       this.$emit("valueChanged", params);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -27,7 +27,7 @@ export default {
           entityId: this.entityId,
         },
         {
-          position: { my: "top", at: "top" },
+          position: "flex-start",
           width: "60%",
           height: "auto",
           listeners: [

@@ -8,6 +8,7 @@
         :activeStateEnabled="false"
         search-expr="recipient.name"
         :search-enabled="true"
+        height="50vh"
       >
         <template #item="item">
           <div>

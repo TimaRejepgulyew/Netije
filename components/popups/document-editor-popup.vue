@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import docxEditor from "~/components/editors/docx/index.vue";
+import docxEditor from "~/components/file-readers/document-editor/index.vue";
 import dataApi from "~/static/dataApi";
 import Vue from "vue";
 import {

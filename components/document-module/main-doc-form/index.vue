@@ -164,7 +164,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -184,7 +184,7 @@ export default {
     DxForm,
     lifeCycle,
     Header,
-    documentTasks
+    documentTasks,
   },
   name: "document-card",
   destroyed() {
@@ -194,13 +194,13 @@ export default {
   props: ["isCard", "documentId"],
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name
+      title: this.$store.getters[`documents/${this.documentId}/document`].name,
     };
   },
-  provide: function() {
+  provide: function () {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName
+      documentValidatorName: this.documentValidatorName,
     };
   },
   created() {
@@ -223,9 +223,9 @@ export default {
         focusStateEnabled: false,
         animationEnabled: true,
         swipeEnabled: true,
-        loop: "true"
+        loop: "true",
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`
+      documentValidatorName: `OfficialDocument/${this.documentId}`,
     };
   },
   methods: {
@@ -254,7 +254,7 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    }
+    },
   },
   computed: {
     document() {
@@ -279,21 +279,21 @@ export default {
           filter: [
             ["documentTypeGuid", "=", this.document.documentTypeGuid],
             "and",
-            ["status", "=", 0]
-          ]
+            ["status", "=", 0],
+          ],
         }),
         value: this.document.documentKindId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.dispatch(
             `documents/${this.documentId}/reevaluateDocumentName`
           );
         },
-        onSelectionChanged: e => {
+        onSelectionChanged: (e) => {
           this.$store.dispatch(
             `documents/${this.documentId}/setDocumentKind`,
             e.selectedItem
           );
-        }
+        },
       };
     },
     readOnly() {
@@ -351,21 +351,21 @@ export default {
         value: this.document.name,
         disabled:
           this.document.documentKind?.generateDocumentName || this.isRegistered,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
-        }
+        },
       };
     },
     subjectOptions() {
       return {
         readOnly: this.readOnly,
         value: this.document.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.dispatch(
             `documents/${this.documentId}/setSubject`,
             e.value
           );
-        }
+        },
       };
     },
     noteOptions() {
@@ -374,12 +374,12 @@ export default {
         value: this.document.note,
         height: 70,
         autoResizeEnabled: true,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

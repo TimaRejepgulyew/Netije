@@ -17,6 +17,7 @@
           :focusStateEnabled="false"
           :data-source="comments"
           :search-enabled="false"
+          height="50vh"
         >
           <template #item="item">
             <div class="list-container">
@@ -44,17 +45,17 @@ export default {
     threadTextComponent: async () =>
       await import(
         "~/components/workFlow/thread-text/thread-text-component.vue"
-      )
+      ),
   },
   name: "thread-texts",
   props: ["id", "entityType", "isRefreshing"],
   watch: {
-    isRefreshing: function(value) {
+    isRefreshing: function (value) {
       if (value) {
         this.$data.comments.reload();
         this.$emit("refreshed");
       }
-    }
+    },
   },
   data() {
     const url =
@@ -65,11 +66,11 @@ export default {
       comments: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: url + this.id
+          loadUrl: url + this.id,
         }),
         paginate: true,
-        pageSize: 10
-      })
+        pageSize: 10,
+      }),
     };
   },
   computed: {
@@ -78,10 +79,10 @@ export default {
         icon: "refresh",
         onClick: () => {
           this.comments.reload();
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -95,7 +96,6 @@ export default {
 }
 .toolbar--position-top {
   z-index: 5;
-  position: sticky;
   top: 0;
   overflow: hidden;
 }
