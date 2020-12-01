@@ -2,7 +2,7 @@ import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 export default {
   async createVersionFromFile(document, file, context, fileName) {
-    return await importFile(document, file, context, fileName);
+    return await exportFile(document, file, context, fileName);
   },
 
   async importVersionSpreadSheet(context, { versionId }) {

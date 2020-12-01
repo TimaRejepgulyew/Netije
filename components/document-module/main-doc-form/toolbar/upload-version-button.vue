@@ -23,7 +23,7 @@ export default {
     },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
-    }
+    },
   },
   methods: {
     uploadVersionFromFile(e) {
@@ -31,22 +31,21 @@ export default {
       if (!this.document.subject) {
         this.$store.dispatch(
           `documents/${this.documentId}/setSubject`,
-          file.name
-            .split(".")
-            .slice(0, -1)
-            .join(".")
+          file.name.split(".").slice(0, -1).join(".")
         );
       }
       this.$awn.async(
         documentVersionService.createVersionFromFile(this.document, file, this),
-        res => {
+        (res) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,
             res.data
           );
           this.$emit("uploadVersion");
         },
-        () => {}
+        () => {},
+       
+        
       );
       e.target.value = "";
     },
