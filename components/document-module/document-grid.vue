@@ -226,4 +226,21 @@ export default {
 .dx-row.dx-data-row.dx-column-lines:hover {
   color: forestgreen;
 }
+
+.dx-datagrid
+  .dx-datagrid-content
+  .dx-datagrid-table
+  .dx-row
+  .dx-command-edit-with-icons
+  .dx-link {
+  width: 18px;
+  height: 18px;
+  background-position: 0 0;
+  background-size: 18px 18px;
+  padding: 0;
+  font-size: 18px;
+  text-align: center;
+  line-height: 18px;
+  margin: 2px 3px;
+}
 </style>

@@ -12,22 +12,23 @@ import dataApi from "~/static/dataApi";
 import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
 export default {
   components: {
-    documentGrid: () => import("~/components/document-module/document-grid.vue")
+    documentGrid: () =>
+      import("~/components/document-module/document-grid.vue"),
   },
   props: {
     options: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      data: null
+      show: false,
     };
   },
   computed: {
     generateHeaderTitle() {
       return generateNameByDocQuery(this.options.documentQuery, this);
-    }
+    },
   },
   methods: {
     close() {
@@ -36,12 +37,12 @@ export default {
     valueChanged(params) {
       this.$emit("valueChanged", params);
       this.$emit("close");
-    }
+    },
   },
-  async created() {
+  mounted() {
     this.$emit("loadStatus");
     this.$emit("showTitle", this.generateHeaderTitle);
-  }
+  },
 };
 </script>
 

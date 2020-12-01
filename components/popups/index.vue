@@ -17,13 +17,13 @@
             `height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`
           "
         >
-          <div class="title">
+          <div class="custom_popup_title">
             <div class="text">{{ title }}</div>
             <div class="icon" @click="destroyComponent">
               <i class="dx-icon dx-icon-close"></i>
             </div>
           </div>
-          <div class="content">
+          <div class="custom_popup_content">
             <component
               ref="content"
               @loadStatus="showComponent"
@@ -33,6 +33,7 @@
               @onError="onError"
               :is="template"
               :options="options"
+              :key="componentKey"
             />
           </div>
         </div>
@@ -100,7 +101,9 @@ export default {
       isLoading: false,
       title: "",
       indicatorIcon,
-      showPopup: false
+      showPopup: false,
+      isLoaded: false,
+      componentKey: new Date().getSeconds(),
     };
   },
   computed: {
@@ -159,7 +162,6 @@ export default {
       );
     },
     showComponent() {
-      this.visible = true;
       this.showPopup = true;
       this.hideLoadIndicator();
     },
@@ -204,7 +206,7 @@ export default {
     z-index: 1001;
     overflow: hidden;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    .title {
+    .custom_popup_title {
       width: 100%;
       padding: 6px 20px;
       background-color: white;
@@ -231,7 +233,7 @@ export default {
         }
       }
     }
-    .content {
+    .custom_popup_content {
       overflow-y: scroll;
       padding: 20px 20px 20px 20px;
       height: 90vh;
