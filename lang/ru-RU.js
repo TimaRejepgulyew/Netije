@@ -126,6 +126,7 @@ export default {
   },
   shared: {
     alert: {
+      serverError: "Ошибка сервера",
       notHaveAccessRightToRead: "У вас не достаточно прав на данный обьект"
     },
     attach: "Вложите",

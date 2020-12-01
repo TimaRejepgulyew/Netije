@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { createSubTaskByTask } from "~/infrastructure/services/taskService.js";
+import { createSubtaskByTask } from "~/infrastructure/services/taskService.js";
 import createChildTaskIcon from "~/static/icons/create-child-task-btn-icon.svg";
 import { DxButton } from "devextreme-vue";
 export default {
@@ -38,7 +38,7 @@ export default {
         this,
         {
           params: this.parentTaskId,
-          handler: createSubTaskByTask
+          handler: createSubtaskByTask
         },
         {
           listeners: [

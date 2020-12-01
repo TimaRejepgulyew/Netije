@@ -61,13 +61,13 @@ export async function createSubTaskByAssignment(context, parentAssignmentId) {
     dataApi.task.CreateSubTaskByAssignment
   );
 }
-export async function createSubTaskByTask(context, parentTaskId) {
+export async function createSubtaskByTask(context, taskId) {
   return await createTask(
     context,
     {
-      parentTaskId
+      taskId
     },
-    dataApi.task.CreateSubTaskByTask
+    dataApi.task.CreateSubtaskByTask
   );
 }
 export async function createTaskByDocument(context, params) {
