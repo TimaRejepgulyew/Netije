@@ -53,5 +53,11 @@ export default {
   orderUp: "Ýokaryk",
   orderDown: "Aşag",
   approve: "Ylalyşmak",
-  addApprover: "Ylalyşýanyny goşmak"
+  addApprover: "Ylalyşýanyny goşmak",
+  createVersion: "Wersiýa dörediň",
+  upload: "Ýüklemek",
+  fromScaner: "Skanerden",
+  fromTemplate: "Nusgadan",
+  fromDocx: "Word dokument",
+  fromXlsx: "Excel dokument",
 };

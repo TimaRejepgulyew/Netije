@@ -43,6 +43,7 @@ export default (pluginContext, inject) => {
     pdfFileReader: BasePopup("pdfFileReader"),
     documentEditor: BasePopup("documentEditor"),
     imageViewer: BasePopup("imageViewer"),
+    scannerDialog: BasePopup("scannerDialog"),
     spreadSheet: BasePopup("spreadSheet")
   };
   inject("popup", popup);

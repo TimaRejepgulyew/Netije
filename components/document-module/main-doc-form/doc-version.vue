@@ -11,16 +11,7 @@
           icon="refresh"
           :onClick="refresh"
         ></DxButton>
-        <btn-version-from-scanner
-          v-if="uploadVersionVisible"
-          @uploadVersion="refresh"
-          :documentId="documentId"
-        />
-        <btn-upload-version
-          v-if="uploadVersionVisible"
-          @uploadVersion="refresh"
-          :documentId="documentId"
-        />
+        <createVersionBtn @uploadVersion="refresh" :documentId="documentId" />
       </div>
       <div class="list-container">
         <DxList
@@ -59,8 +50,7 @@
   </div>
 </template>
 <script>
-import btnUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
-import btnVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
+import createVersionBtn from "~/components/document-module/main-doc-form/toolbar/create-version-btn.vue";
 import DataSource from "devextreme/data/data_source";
 import DocumentIcon from "~/components/page/document-icon";
 import DxList from "devextreme-vue/list";
@@ -75,8 +65,7 @@ export default {
     DocumentIcon,
     DxList,
     DxButton,
-    btnUploadVersion,
-    btnVersionFromScanner
+    createVersionBtn,
   },
   props: ["documentId"],
   data() {
@@ -84,19 +73,18 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`,
         }),
         paginate: true,
         pageSize: 7,
-        sort: [{ selector: "number", desc: true }]
-      })
+        sort: [{ selector: "number", desc: true }],
+      }),
     };
   },
   computed: {
     uploadVersionVisible() {
       return this.canUpdate;
     },
-
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
@@ -105,18 +93,18 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    }
+    },
   },
   methods: {
     refresh() {
       this.versions.reload();
-    }
+    },
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

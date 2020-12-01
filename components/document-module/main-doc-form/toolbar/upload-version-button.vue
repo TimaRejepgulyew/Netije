@@ -1,43 +1,25 @@
 <template>
-  <div>
-    <DxFileUploader
-      class="uploadButton"
-      ref="fileUploader"
-      :selectButtonText="$t('buttons.downloadFile')"
-      label-text=" "
-      :multiple="false"
-      :accept="acceptExtension"
-      :allowed-file-extensions="extension"
-      @valueChanged="uploadVersionFromFile"
-      :showFileList="false"
-      :invalid-fileextension-message="$t('document.fields.invalidExeption')"
-    />
-  </div>
+  <input
+    type="file"
+    :accept="acceptExtension"
+    id="versionFileUploader"
+    @change="uploadVersionFromFile"
+  />
 </template>
 
 <script>
 import documentVersionService from "~/infrastructure/services/documentVersionService.js";
-
-import DxFileUploader from "devextreme-vue/file-uploader";
 import dataApi from "~/static/dataApi";
-
 export default {
-  components: {
-    DxFileUploader
-  },
   props: ["documentId"],
   data() {
     return {
       associatedApplication: [],
-      popup: false
     };
   },
   computed: {
     acceptExtension() {
       return this.$store.getters["cache/acceptExtension"];
-    },
-    extension() {
-      return this.$store.getters["cache/extension"];
     },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
@@ -45,7 +27,7 @@ export default {
   },
   methods: {
     uploadVersionFromFile(e) {
-      const file = e.value[0];
+      const file = e.target.files[0];
       if (!this.document.subject) {
         this.$store.dispatch(
           `documents/${this.documentId}/setSubject`,
@@ -55,7 +37,6 @@ export default {
             .join(".")
         );
       }
-
       this.$awn.async(
         documentVersionService.createVersionFromFile(this.document, file, this),
         res => {
@@ -67,37 +48,18 @@ export default {
         },
         () => {}
       );
-    }
-  }
+      e.target.value = "";
+    },
+  },
 };
 </script>
 
-<style lang="scss">
-.dx-fileuploader-input-wrapper::after {
-  padding: 3px 0;
-}
-.uploadButton {
-  padding: 0;
-  margin: 0;
-  .dx-fileuploader-input-wrapper {
-    width: auto;
-    padding: 5px 0;
-    margin: 0;
-  }
-  .dx-fileuploader-files-container {
-    display: none;
-  }
-  .dx-fileuploader-wrapper {
-    max-width: 150px;
-    width: auto;
-    padding: 0;
-    border: none;
-  }
-  .file-upload-button {
-    display: none;
-  }
-  .dx-fileuploader-input-container {
-    display: none;
-  }
+ <style lang="scss">
+#versionFileUploader {
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  z-index: -1;
 }
 </style>
