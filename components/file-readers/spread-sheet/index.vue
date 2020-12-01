@@ -1,11 +1,13 @@
 <template>
   <div>
     <ejs-spreadsheet
-      @created="openFile"
+      :created="openFile"
       ref="spreadSheet"
       height="85vh"
       v-if="mounted"
       :openUrl="openUrl"
+      :saveUrl="saveUrl"
+      :allowSave="true"
       :allowOpen="true"
     ></ejs-spreadsheet>
   </div>
@@ -34,19 +36,49 @@ export default {
   computed: {
     openUrl() {
       const url = this.params.versionId
-        ? `${dataApi.documentEditor.importVersion}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&vesionId=${this.params.versionId}`
+        ? `${dataApi.documentEditor.importVersion}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
         : `${dataApi.documentEditor.importDocument}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
       return url;
     },
     saveUrl() {
-      return "dawdaw";
+       const url = this.params.versionId
+        ? `${dataApi.documentEditor.importVersion}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
+        : `${dataApi.documentEditor.importDocument}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
+      return url;
     }
   },
   methods: {
     openFile(e) {
       const element = this.$refs["spreadSheet"].ej2Instances;
-      element.open({ file: null });
-      console.log(element, e);
+      console.log(element);
+      element.openFromJson({
+        file: JSON.stringify({
+          Workbook: {
+            definedNames: [],
+            sheets: [
+              {
+                columns: [{}, {}, {}, {}],
+                name: "Лист1",
+                rows: [
+                  { cells: [{}, {}, {}, {}] },
+                  { cells: [{}, {}, {}, {}] },
+                  { cells: [{}, {}, {}, { value: "dawdawdaw" }] },
+                  { cells: [{}, {}, {}, {}] },
+                  { cells: [{}, {}, {}, {}] },
+                  { cells: [{}, {}, {}, {}] },
+                  { cells: [{}, {}, {}, {}] },
+                  { cells: [{}, {}, {}, {}] },
+                  { cells: [{}, {}, {}, { value: "dawdawd" }] },
+                  { cells: [{}, {}, {}, { value: "dawdawd" }] },
+                  { cells: [{}, {}, {}, {}] }
+                ],
+                selectedRange: "D3",
+                usedRange: { colIndex: 4, rowIndex: 10 }
+              }
+            ]
+          }
+        })
+      });
     },
     close() {
       this.$emit("close");

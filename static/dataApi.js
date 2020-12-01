@@ -156,6 +156,14 @@ export default {
       process.env.NODE_ENV === "production"
         ? "/api/spreadSheet/importVersion"
         : `${process.env.serverUrl}/api/spreadSheet/importDocument`,
+    exportVersion:
+      process.env.NODE_ENV === "production"
+        ? "/api/spreadSheet/importVersion"
+        : `${process.env.serverUrl}/api/spreadSheet/exportVersion`,
+    exportDocument:
+      process.env.NODE_ENV === "production"
+        ? "/api/spreadSheet/importVersion"
+        : `${process.env.serverUrl}/api/spreadSheet/exportDocument`,
     PdfViewer:
       process.env.NODE_ENV === "production"
         ? "/api/pdfViewer"
