@@ -158,7 +158,7 @@ export default {
         : `${process.env.serverUrl}/api/spreadSheet/importDocument`,
     exportVersion:
       process.env.NODE_ENV === "production"
-        ? "/api/spreadSheet/importVersion"
+        ? "/api/spreadSheet/exportVersion"
         : `${process.env.serverUrl}/api/spreadSheet/exportVersion`,
     exportDocument:
       process.env.NODE_ENV === "production"

@@ -1,6 +1,9 @@
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 export default {
+  async importFileVersionXlsx(context, params) {
+    context.$axios
+  },
   async importFileVersion(document, file, context, fileName) {
     return await importFile(document, file, context, fileName);
   },

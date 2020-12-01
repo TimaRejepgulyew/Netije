@@ -21,7 +21,8 @@ Vue.use(SpreadsheetPlugin);
 export default {
   props: {
     readOnly: { type: Boolean },
-    params: {}
+    params: {},
+    file: {}
   },
   data() {
     return {
@@ -41,7 +42,7 @@ export default {
       return url;
     },
     saveUrl() {
-       const url = this.params.versionId
+      const url = this.params.versionId
         ? `${dataApi.documentEditor.importVersion}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
         : `${dataApi.documentEditor.importDocument}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
       return url;
@@ -52,32 +53,7 @@ export default {
       const element = this.$refs["spreadSheet"].ej2Instances;
       console.log(element);
       element.openFromJson({
-        file: JSON.stringify({
-          Workbook: {
-            definedNames: [],
-            sheets: [
-              {
-                columns: [{}, {}, {}, {}],
-                name: "Лист1",
-                rows: [
-                  { cells: [{}, {}, {}, {}] },
-                  { cells: [{}, {}, {}, {}] },
-                  { cells: [{}, {}, {}, { value: "dawdawdaw" }] },
-                  { cells: [{}, {}, {}, {}] },
-                  { cells: [{}, {}, {}, {}] },
-                  { cells: [{}, {}, {}, {}] },
-                  { cells: [{}, {}, {}, {}] },
-                  { cells: [{}, {}, {}, {}] },
-                  { cells: [{}, {}, {}, { value: "dawdawd" }] },
-                  { cells: [{}, {}, {}, { value: "dawdawd" }] },
-                  { cells: [{}, {}, {}, {}] }
-                ],
-                selectedRange: "D3",
-                usedRange: { colIndex: 4, rowIndex: 10 }
-              }
-            ]
-          }
-        })
+        file: this.file
       });
     },
     close() {

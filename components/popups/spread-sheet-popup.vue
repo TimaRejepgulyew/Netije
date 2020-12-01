@@ -2,6 +2,7 @@
   <div>
     <spreadSheet
       v-if="mounted"
+      :file="file"
       :params="options.params"
       :readOnly="options.readOnly"
       @valueChanged="valueChanged"
@@ -21,6 +22,12 @@ export default {
     options: {
       type: Object
     }
+  },
+  async created() {
+    if (this.options.handler && this.options.params)
+      this.file = await this.options.handler(this, this.options.params);
+    this.$emit("showTitle", this.$t("document.headers.xlsxEditor"));
+    this.$emit("loadStatus");
   },
   mounted() {
     setTimeout(() => {
