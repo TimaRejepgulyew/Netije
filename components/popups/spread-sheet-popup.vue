@@ -1,7 +1,7 @@
 <template>
   <div>
     <spreadSheet
-      v-if="options.params"
+      v-if="file"
       :file="file"
       :params="options.params"
       :readOnly="options.readOnly"
@@ -24,9 +24,10 @@ export default {
     }
   },
   async created() {
+    
     if (this.options.handler && this.options.params)
       this.file = await this.options.handler(this, this.options.params);
-
+    console.log(this.file);
     this.$emit("showTitle", this.$t("document.headers.xlsxEditor"));
     this.$emit("loadStatus");
   },

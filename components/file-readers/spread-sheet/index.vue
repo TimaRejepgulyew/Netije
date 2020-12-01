@@ -1,16 +1,15 @@
 <template>
   <div>
     <ejs-spreadsheet
-      :contextMenuItemSelect="contextMenuItemSelect"
-      addToolbarItems="addToolbarItems"
+      :showRibbon="!readOnly"
+      :allowEditing="!readOnly"
       :created="openFile"
       ref="spreadSheet"
       height="85vh"
       v-if="mounted"
       :openUrl="openUrl"
       :saveUrl="saveUrl"
-      :allowSave="true"
-      :allowOpen="true"
+      :allowSave="false"
     ></ejs-spreadsheet>
   </div>
 </template>
@@ -51,48 +50,38 @@ export default {
     }
   },
   methods: {
-    contextMenuItemSelect(arg) {
-      console.log(arg);
-    },
-    addToolbarItems(e) {
-      return [
-        {
-          prefixIcon: "e-de-save-icon",
-          tooltipText: this.$t("buttons.save"),
-          text: this.$t("buttons.save"),
-          id: "save"
-        }
-      ];
-    },
     openFile(e) {
       const element = this.$refs["spreadSheet"].ej2Instances;
-      console.log(element.contextMenuItemSelect());
-      element.addToolbarItems(
-        "Home",
-        [
-          {
-            click: async () => {
-              const data = await element.saveAsJson();
-              console.log("click", data);
-            },
-            prefixIcon: "e-de-save-icon",
-            tooltipText: this.$t("buttons.save"),
-            text: this.$t("buttons.save"),
-            id: "save"
-          }
-        ],
-        2
-      );
+      console.log(this.file);
       element.openFromJson({
         file: this.file
       });
+      // element.addToolbarItems(
+      //   "Home",
+      //   [
+      //     {
+      //       click: this.saveJsonFile,
+      //       prefixIcon: "e-de-save-icon",
+      //       tooltipText: this.$t("buttons.save"),
+      //       text: this.$t("buttons.save"),
+      //       id: "save"
+      //     }
+      //   ],
+      //   0
+      // );
     },
     close() {
-      this.$emit("close");
+      this.$emit("onClose");
     },
-    valueChanged(params) {
-      console.log(params);
-      this.$emit("valueChanged");
+    // async saveJsonFile() {
+    //   console.log("close");
+    //   const element = this.$refs["spreadSheet"].ej2Instances;
+    //   const { jsonObject } = await element.saveAsJson();
+    //   this.valueChanged(jsonObject);
+    //   this.close();
+    // },
+    valueChanged(file) {
+      this.$emit("valueChanged", { file });
     }
   }
 };
