@@ -1,7 +1,6 @@
 <template>
   <div>
     <ejs-documenteditorcontainer
-     
       :restrictEditing="readOnly"
       :headers="headers"
       :toolbarClick="onToolbarClick"
@@ -77,7 +76,7 @@ export default {
       ],
       mounted: false,
       documentName: "",
-      serviceUrl: dataApi.documentEditor.DocumentEditor
+      serviceUrl: dataApi.documentEditor.ServerUrl
     };
   },
   provide: {

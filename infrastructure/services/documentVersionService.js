@@ -1,44 +1,55 @@
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 export default {
-  async importFileVersionXlsx(context, params) {
-    context.$axios
-  },
-  async importFileVersion(document, file, context, fileName) {
+  async createVersionFromFile(document, file, context, fileName) {
     return await importFile(document, file, context, fileName);
   },
 
-  async exportVersionDocumentEditor(context, { versionId }) {
-    return await exportFileJson(
+  async importVersionSpreadSheet(context, { versionId }) {
+    return await importFileJson(
       context,
-      `${dataApi.documentEditor.loadVersion}${versionId}`
+      `${dataApi.spreadSheet.ImportVersion}${versionId}`
     );
   },
 
-  async exportLastVersionDocumentEditor(context, { documentId }) {
-    return await exportFileJson(
+  async importLastVersionSpreadSheet(context, { documentId }) {
+    return await importFileJson(
       context,
-      `${dataApi.documentEditor.loadDocument}${documentId}`
-    );
-  },
-  async exportFileVersion(context, { versionId }) {
-    return exportFile(
-      context,
-      `${dataApi.documentModule.ExportVersion}${versionId}`
+      `${dataApi.spreadSheet.ImportDocument}${documentId}`
     );
   },
 
-  async exportFileLastVersion(context, { documentId }) {
-    return exportFile(
+  async importVersionDocumentEditor(context, { versionId }) {
+    return await importFileJson(
       context,
-      `${dataApi.documentModule.ExportLastVersion}${documentId}`
+      `${dataApi.documentEditor.ImportVersion}${versionId}`
+    );
+  },
+
+  async importLastVersionDocumentEditor(context, { documentId }) {
+    return await importFileJson(
+      context,
+      `${dataApi.documentEditor.ImportDocument}${documentId}`
+    );
+  },
+  async importFileVersion(context, { versionId }) {
+    return importFile(
+      context,
+      `${dataApi.documentModule.ImportVersion}${versionId}`
+    );
+  },
+
+  async importFileLastVersion(context, { documentId }) {
+    return importFile(
+      context,
+      `${dataApi.documentModule.ImportLastVersion}${documentId}`
     );
   },
 
   downloadLastVersion(context, document) {
     download(
       context,
-      `${dataApi.documentModule.ExportLastVersion}${document.id}`,
+      `${dataApi.documentModule.ImportLastVersion}${document.id}`,
       document
     );
   },
@@ -46,13 +57,13 @@ export default {
   downloadVersion(context, version) {
     download(
       context,
-      `${dataApi.documentModule.ExportVersion}${version.id}`,
+      `${dataApi.documentModule.ImportVersion}${version.id}`,
       version
     );
   }
 };
 
-const importFile = async (document, file, context, fileName) => {
+const exportFile = async (document, file, context, fileName) => {
   let formData = new FormData();
   formData.append("file", file, fileName);
   formData.append("documentId", document.id);
@@ -67,17 +78,17 @@ const importFile = async (document, file, context, fileName) => {
   );
 };
 
-const exportFileJson = async (context, endpoint) => {
+const importFileJson = async (context, endpoint) => {
   const { data } = await context.$axios.get(endpoint);
   return data;
 };
-const exportFile = async (context, endpoint) => {
+const importFile = async (context, endpoint) => {
   const { data } = await context.$axios.get(endpoint, { responseType: "blob" });
   return data;
 };
 
 const download = (context, endpoint, obj) => {
-  context.$awn.asyncBlock(exportFile(context, endpoint), response => {
+  context.$awn.asyncBlock(importFile(context, endpoint), response => {
     const blob = new Blob([response], {
       type: `data:${response.type}`
     });

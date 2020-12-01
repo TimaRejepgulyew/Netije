@@ -35,8 +35,8 @@ const pdfViewer = ({ context, options, lastVersion, listeners }) => {
 };
 const documentEditor = ({ context, options, lastVersion, listeners }) => {
   const handler = lastVersion
-    ? DocumentVersionService.exportLastVersionDocumentEditor
-    : DocumentVersionService.exportVersionDocumentEditor;
+    ? DocumentVersionService.importLastVersionDocumentEditor
+    : DocumentVersionService.importVersionDocumentEditor;
   context.$popup.documentEditor(
     context,
     {
@@ -49,8 +49,8 @@ const documentEditor = ({ context, options, lastVersion, listeners }) => {
 };
 const imageViewer = ({ context, options, lastVersion, listeners }) => {
   const handler = lastVersion
-    ? DocumentVersionService.exportFileLastVersion
-    : DocumentVersionService.exportFileVersion;
+    ? DocumentVersionService.importFileLastVersion
+    : DocumentVersionService.importFileVersion;
   context.$popup.imageViewer(
     context,
     {
@@ -62,13 +62,16 @@ const imageViewer = ({ context, options, lastVersion, listeners }) => {
   );
 };
 const spreadSheet = ({ context, options, lastVersion, listeners }) => {
-
+  const handler = lastVersion
+    ? DocumentVersionService.importLastVersionSpreadSheet
+    : DocumentVersionService.importVersionSpreadSheet;
   context.$popup.spreadSheet(
     context,
     {
       readOnly: options.readOnly,
-      params: options.params
+      params: options.params,
+      handler
     },
-    { showLoadingPanel: false }
+    { showLoadingPanel: true }
   );
 };

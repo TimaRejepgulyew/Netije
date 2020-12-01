@@ -23,16 +23,16 @@ import dataApi from "~/static/dataApi";
 
 export default {
   components: {
-    DxFileUploader,
+    DxFileUploader
   },
   props: ["documentId"],
   data() {
     return {
       associatedApplication: [],
-      popup: false,
+      popup: false
     };
   },
-  computed: {  
+  computed: {
     acceptExtension() {
       return this.$store.getters["cache/acceptExtension"];
     },
@@ -41,7 +41,7 @@ export default {
     },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
-    },
+    }
   },
   methods: {
     uploadVersionFromFile(e) {
@@ -49,13 +49,16 @@ export default {
       if (!this.document.subject) {
         this.$store.dispatch(
           `documents/${this.documentId}/setSubject`,
-          file.name.split(".").slice(0, -1).join(".")
+          file.name
+            .split(".")
+            .slice(0, -1)
+            .join(".")
         );
       }
 
       this.$awn.async(
-        documentVersionService.importFileVersion(this.document,file , this),
-        (res) => {
+        documentVersionService.createVersionFromFile(this.document, file, this),
+        res => {
           this.$store.commit(
             `documents/${this.documentId}/SET_VERSION`,
             res.data
@@ -64,8 +67,8 @@ export default {
         },
         () => {}
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

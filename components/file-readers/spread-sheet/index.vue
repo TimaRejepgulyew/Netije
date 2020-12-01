@@ -1,6 +1,8 @@
 <template>
   <div>
     <ejs-spreadsheet
+      :contextMenuItemSelect="contextMenuItemSelect"
+      addToolbarItems="addToolbarItems"
       :created="openFile"
       ref="spreadSheet"
       height="85vh"
@@ -37,21 +39,50 @@ export default {
   computed: {
     openUrl() {
       const url = this.params.versionId
-        ? `${dataApi.documentEditor.importVersion}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
-        : `${dataApi.documentEditor.importDocument}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
+        ? `${dataApi.spreadSheet.ImportVersionWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
+        : `${dataApi.spreadSheet.ImportDocumentWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
       return url;
     },
     saveUrl() {
       const url = this.params.versionId
-        ? `${dataApi.documentEditor.importVersion}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
-        : `${dataApi.documentEditor.importDocument}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
+        ? `${dataApi.spreadSheet.ExportVersionWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
+        : `${dataApi.spreadSheet.ExportDocumentWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
       return url;
     }
   },
   methods: {
+    contextMenuItemSelect(arg) {
+      console.log(arg);
+    },
+    addToolbarItems(e) {
+      return [
+        {
+          prefixIcon: "e-de-save-icon",
+          tooltipText: this.$t("buttons.save"),
+          text: this.$t("buttons.save"),
+          id: "save"
+        }
+      ];
+    },
     openFile(e) {
       const element = this.$refs["spreadSheet"].ej2Instances;
-      console.log(element);
+      console.log(element.contextMenuItemSelect());
+      element.addToolbarItems(
+        "Home",
+        [
+          {
+            click: async () => {
+              const data = await element.saveAsJson();
+              console.log("click", data);
+            },
+            prefixIcon: "e-de-save-icon",
+            tooltipText: this.$t("buttons.save"),
+            text: this.$t("buttons.save"),
+            id: "save"
+          }
+        ],
+        2
+      );
       element.openFromJson({
         file: this.file
       });

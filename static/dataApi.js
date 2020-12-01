@@ -79,8 +79,8 @@ export default {
     Version: `/api/OfficialDocument/Version/`,
     Relation: `/api/Documentrelations/Relations/`,
     CreateVersionFromFile: `/api/OfficialDocument/Version/ImportFromFile/`,
-    ExportVersion: `/api/OfficialDocument/Version/Export/`,
-    ExportLastVersion: `/api/OfficialDocument/Export/`,
+    ImportVersion: `/api/OfficialDocument/Version/Export/`,
+    ImportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
     Last: `/api/OfficialDocument/Version/Last/`
   },
@@ -146,33 +146,37 @@ export default {
     persons: `​/api/Import/Persons`,
     employees: `/api/Import/Employees`
   },
-
-  documentEditor: {
-    importVersion:
+  spreadSheet: {
+    OpenDocument: "/api/spreadSheet/open",
+    ExportDocument: "/api/spreadSheet/exportDocument/",
+    ExportDocumentWithUrl:
+      process.env.NODE_ENV === "production"
+        ? "/api/spreadSheet/exportDocument"
+        : `${process.env.serverUrl}/api/spreadSheet/exportDocument`,
+    ImportVersion: "/api/spreadSheet/importVersion/",
+    ImportDocument: "/api/spreadSheet/importDocument/",
+    ImportVersionWithUrl:
       process.env.NODE_ENV === "production"
         ? "/api/spreadSheet/importVersion"
         : `${process.env.serverUrl}/api/spreadSheet/importVersion`,
-    importDocument:
+    ImportDocumentWithUrl:
       process.env.NODE_ENV === "production"
         ? "/api/spreadSheet/importVersion"
-        : `${process.env.serverUrl}/api/spreadSheet/importDocument`,
-    exportVersion:
-      process.env.NODE_ENV === "production"
-        ? "/api/spreadSheet/exportVersion"
-        : `${process.env.serverUrl}/api/spreadSheet/exportVersion`,
-    exportDocument:
-      process.env.NODE_ENV === "production"
-        ? "/api/spreadSheet/importVersion"
-        : `${process.env.serverUrl}/api/spreadSheet/exportDocument`,
-    PdfViewer:
+        : `${process.env.serverUrl}/api/spreadSheet/importDocument`
+  },
+  pdfViewer: {
+    ServerUrl:
       process.env.NODE_ENV === "production"
         ? "/api/pdfViewer"
-        : `${process.env.serverUrl}/api/pdfViewer`,
-    DocumentEditor:
+        : `${process.env.serverUrl}/api/pdfViewer`
+  },
+  documentEditor: {
+    ServerUrl:
       process.env.NODE_ENV === "production"
         ? "/api/documentEditor"
         : `${process.env.serverUrl}/api/documentEditor`,
-    loadDocument: "/api/DocumentEditor/loadDocument/",
-    loadVersion: "/api/DocumentEditor/loadVersion/"
+    ImportDocument: "/api/DocumentEditor/importDocument/",
+    ImportVersion: "/api/DocumentEditor/importVersion/",
+    ExportDocument: "/api/DocumentEditor/Export/"
   }
 };
