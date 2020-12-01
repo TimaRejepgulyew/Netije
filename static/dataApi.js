@@ -148,7 +148,7 @@ export default {
   },
   spreadSheet: {
     OpenDocument: "/api/spreadSheet/open",
-    ExportDocument: "/api/spreadSheet/exportDocument/",
+    ExportDocument: "/api/spreadSheet/exportDocument",
     ExportDocumentWithUrl:
       process.env.NODE_ENV === "production"
         ? "/api/spreadSheet/exportDocument"

@@ -70,7 +70,7 @@ export default {
       DocumentVersionViewer({
         context: this,
         options: {
-          readOnly: true,
+          readOnly: false,
           extension: this.version.extension,
           params: { versionId: this.version.id }
         },

@@ -1,8 +1,9 @@
 <template>
   <div>
     <spreadSheet
-      v-if="file"
+      v-if="file && mounted"
       :file="file"
+      :isNew="options.isNew"
       :params="options.params"
       :readOnly="options.readOnly"
       @valueChanged="valueChanged"
@@ -24,9 +25,12 @@ export default {
     }
   },
   async created() {
-    if (!this.isNew) {
+    console.log(this.options);
+    if (!this.options.isNew) {
       if (this.options.handler && this.options.params)
         this.file = await this.options.handler(this, this.options.params);
+    } else {
+      this.file = true;
     }
     this.$emit("showTitle", this.$t("document.headers.xlsxEditor"));
     this.$emit("loadStatus");
@@ -46,6 +50,7 @@ export default {
   },
   methods: {
     close() {
+      console.log("close");
       this.$emit("close");
     },
     valueChanged(params) {

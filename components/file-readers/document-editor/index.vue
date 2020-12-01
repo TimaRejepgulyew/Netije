@@ -34,7 +34,8 @@ export default {
       type: Boolean,
       default: false
     },
-    file: {}
+    file: {},
+    isNew: { type: Boolean }
   },
   data() {
     return {
@@ -94,7 +95,7 @@ export default {
     onCreated(e) {
       const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
       documentEditor.resize();
-      this.openDocument(documentEditor);
+      if (!this.isNew) this.openDocument(documentEditor);
     },
     onToolbarClick: function(args) {
       switch (args.item.id) {

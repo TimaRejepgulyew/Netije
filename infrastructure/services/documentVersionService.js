@@ -4,7 +4,24 @@ export default {
   async createVersionFromFile(document, file, context, fileName) {
     return await exportFile(document, file, context, fileName);
   },
-
+  async createVersionFromSpreadSheet(context, document, file) {
+    const payload = {
+      saveUrl: "test",
+      jsonData: JSON.stringify(file),
+      saveType: 0,
+      versionType: 5,
+      fileName: `test${document.extension}`,
+      contentType: 6
+    };
+    return await exportFileAsJson(
+      context,
+      `${dataApi.spreadSheet.ExportDocument}?documentId=${document.id}`,
+      payload
+    );
+  },
+  async createVersionFromDocumentEditor(document, file, context, fileName) {
+    return await exportFile(document, file, context, fileName);
+  },
   async importVersionSpreadSheet(context, { versionId }) {
     return await importFileJson(
       context,
@@ -62,7 +79,9 @@ export default {
     );
   }
 };
-
+const exportFileAsJson = async (context, endPoint, file) => {
+  return await context.$axios.post(endPoint, file);
+};
 const exportFile = async (document, file, context, fileName) => {
   let formData = new FormData();
   formData.append("file", file, fileName);

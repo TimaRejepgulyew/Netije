@@ -2,6 +2,7 @@
   <docx-editor
     v-if="file"
     :file="file"
+    :isNew="options.isNew"
     :readOnly="options.readOnly"
     @valueChanged="valueChanged"
     @onClose="close"
@@ -22,7 +23,7 @@ export default {
   },
 
   async created() {
-    if (!this.isNew) {
+    if (!this.options.isNew) {
       if (this.options.handler && this.options.params)
         this.file = await this.options.handler(this, this.options.params);
     } else {

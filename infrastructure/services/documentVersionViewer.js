@@ -1,13 +1,13 @@
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
-export default ({ context, options, lastVersion, listeners }) => {
-  console.log("preview", options);
+export default ({ context, options, lastVersion, listeners, isNew }) => {
+  console.log("preview", isNew);
   switch (options.extension) {
     case ".pdf":
       pdfViewer({ context, options, lastVersion, listeners });
       break;
     case ".docx":
     case ".txt":
-      documentEditor({ context, options, lastVersion, listeners });
+      documentEditor({ context, options, lastVersion, listeners, isNew });
       break;
     case ".jpg":
     case ".jpeg":
@@ -18,7 +18,7 @@ export default ({ context, options, lastVersion, listeners }) => {
       break;
     case ".lsx":
     case ".xlsx":
-      spreadSheet({ context, options, lastVersion, listeners });
+      spreadSheet({ context, options, lastVersion, listeners, isNew });
       break;
   }
 };
@@ -71,7 +71,7 @@ const imageViewer = ({ context, options, lastVersion, listeners }) => {
 const spreadSheet = ({
   context,
   options,
-  lastVersion,
+  lastVersion = false,
   listeners,
   isNew = false
 }) => {

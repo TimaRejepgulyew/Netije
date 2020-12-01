@@ -9,7 +9,7 @@
       v-if="mounted"
       :openUrl="openUrl"
       :saveUrl="saveUrl"
-      :allowSave="false"
+      :allowSave="true"
     ></ejs-spreadsheet>
   </div>
 </template>
@@ -38,52 +38,53 @@ export default {
   },
   computed: {
     openUrl() {
-      const url = this.params.versionId
+      const url = this.params?.versionId
         ? `${dataApi.spreadSheet.ImportVersionWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
         : `${dataApi.spreadSheet.ImportDocumentWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
       return url;
     },
     saveUrl() {
-      const url = this.params.versionId
+      const url = this.params?.versionId
         ? `${dataApi.spreadSheet.ExportVersionWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
         : `${dataApi.spreadSheet.ExportDocumentWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
       return url;
     }
   },
   methods: {
+    async saveJsonFile() {
+      const element = this.$refs["spreadSheet"].ej2Instances;
+   
+      const { jsonObject } = await element.saveAsJson();
+    
+      this.valueChanged(jsonObject);
+      this.close();
+    },
     openFile(e) {
       const element = this.$refs["spreadSheet"].ej2Instances;
+      element.addToolbarItems(
+        "Home",
+        [
+          {
+            click: this.saveJsonFile,
+            prefixIcon: "e-de-save-icon",
+            tooltipText: this.$t("buttons.save"),
+            text: this.$t("buttons.save"),
+            id: "save"
+          }
+        ],
+        2
+      );
       if (!this.isNew) {
         element.openFromJson({
           file: this.file
         });
       }
-      if (!this.readOnly) {
-        element.addToolbarItems(
-          "Home",
-          [
-            {
-              click: this.saveJsonFile,
-              prefixIcon: "e-de-save-icon",
-              tooltipText: this.$t("buttons.save"),
-              text: this.$t("buttons.save"),
-              id: "save"
-            }
-          ],
-          0
-        );
-      }
     },
     close() {
+      console.log("close");
       this.$emit("onClose");
     },
-    async saveJsonFile() {
-      console.log("close");
-      const element = this.$refs["spreadSheet"].ej2Instances;
-      const { jsonObject } = await element.saveAsJson();
-      this.valueChanged(jsonObject);
-      this.close();
-    },
+
     valueChanged(file) {
       this.$emit("valueChanged", { file });
     }

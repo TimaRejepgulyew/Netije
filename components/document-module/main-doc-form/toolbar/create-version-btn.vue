@@ -8,7 +8,7 @@
       display-expr="name"
       key-expr="id"
       :dropDownOptions="{
-        width: '200px',
+        width: '200px'
       }"
       @item-click="onItemClick"
     >
@@ -28,12 +28,12 @@ import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import { click } from "@syncfusion/ej2-vue-spreadsheet";
-
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 export default {
   components: {
     DxButton,
     DxDropDownButton,
-    toolbarItemUploadVersion,
+    toolbarItemUploadVersion
   },
   props: ["documentId"],
   computed: {
@@ -46,39 +46,70 @@ export default {
           id: 1,
           type: "upload",
           name: this.$t("buttons.upload"),
-          icon: "upload",
+          icon: "upload"
         },
         {
           id: 2,
           temp: "toolbarItemUploadVersion",
           type: "scaner",
           name: this.$t("buttons.fromScaner"),
-          icon: "print",
+          icon: "print"
         },
         {
           id: 3,
           type: "doc",
           name: this.$t("buttons.fromTemplate"),
-          icon: "doc",
+          icon: "doc"
         },
         {
           id: 4,
           type: "docxfile",
           name: this.$t("buttons.fromDocx"),
-          icon: "docxfile",
+          icon: "docxfile"
         },
         {
           id: 5,
           type: "xlsxfile",
           name: this.$t("buttons.fromXlsx"),
-          icon: "xlsxfile",
-        },
+          icon: "xlsxfile"
+        }
       ];
-    },
+    }
   },
   methods: {
     uploadVersion() {
       this.$emit("uploadVersion");
+    },
+    pasteXlsXVersion({ file }) {
+      console.log(file);
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromSpreadSheet(
+          this,
+          this.document,
+          file
+        ),
+        () => {
+          this.uploadVersion();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    pasteDocxVersion(file) {
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromDocumentEditor(
+          this.document,
+          file,
+          this
+        ),
+        () => {
+          this.uploadVersion();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
     },
     onItemClick(e) {
       const type = e.itemData.type;
@@ -88,30 +119,47 @@ export default {
           break;
         case "scaner":
           this.$popup.scannerDialog(this, {
-            documentId: this.documentId,
+            documentId: this.documentId
           });
           break;
         case "docxfile":
-          this.$popup.documentEditor(
-            this,
-            {},
-            {
-              showLoadingPanel: false,
-              listeners: [
-                {
-                  eventName: "valueChanged",
-                  handlerName: "uploadVersionFromFile",
-                },
-              ],
-            }
-          );
+          DocumentVersionViewer({
+            context: this,
+            options: {
+              readOnly: false,
+              extension: ".docx",
+              params: {
+                documentId: this.documentId
+              }
+            },
+            isNew: true,
+            listeners: [
+              { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
+            ]
+          });
+          break;
+        case "xlsxfile":
+          DocumentVersionViewer({
+            context: this,
+            options: {
+              readOnly: false,
+              extension: ".xlsx",
+              params: {
+                documentId: this.documentId
+              }
+            },
+            isNew: true,
+            listeners: [
+              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
+            ]
+          });
           break;
         default:
           console.log(type);
           break;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
