@@ -40,15 +40,6 @@
       </template>
 
       <DxItem
-        template="toolbarItemUploadVersionFromScanner"
-        locateInMenu="auto"
-        :visible="!hasVersions"
-        location="before"
-      />
-      <template #toolbarItemUploadVersionFromScanner>
-        <toolbar-item-upload-version-from-scanner :documentId="documentId" />
-      </template>
-      <DxItem
         :options="previewButtonOptions"
         locateInMenu="auto"
         :visible="canBeOpenedWithPreview"
@@ -73,7 +64,6 @@ import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 
-import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 //constants
@@ -88,7 +78,6 @@ import saveIcon from "~/static/icons/save.svg";
 import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
 export default {
   components: {
-    toolbarItemUploadVersionFromScanner,
     toolbarItemUploadVersion,
     toolbarItemAccessRight,
     DxButton,

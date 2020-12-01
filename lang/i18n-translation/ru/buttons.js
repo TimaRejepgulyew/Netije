@@ -12,7 +12,6 @@ export default {
   sendToAssignee: "Отправить на исполнение",
   takeInto: "Принять к сведению",
   readdress: "Переадресовать",
-
   new: "Новые",
   obsolete: "Архив",
   all: "Все",
@@ -54,5 +53,11 @@ export default {
   orderDown: "Вниз",
   read: "Читать",
   approve: "Согласовать",
-  addApprover: "Добавить согласующего"
-};
+  addApprover: "Добавить согласующего",
+  createVersion: "Создать версию",
+  upload: "Загрузить",
+  fromScaner: "Со сканера",
+  fromTemplate: "Из шаблона",
+  fromDocx: "Word документ",
+  fromXlsx: "Таблица Excel",
+}

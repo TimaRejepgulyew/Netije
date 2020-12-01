@@ -57,25 +57,6 @@
         />
       </template>
       <DxItem
-        template="toolbarItemUploadVersion"
-        locateInMenu="auto"
-        :visible="!hasVersions && canUpdate"
-        location="before"
-      />
-      <template #toolbarItemUploadVersion>
-        <toolbar-item-upload-version :documentId="documentId" />
-      </template>
-
-      <DxItem
-        template="toolbarItemUploadVersionFromScanner"
-        locateInMenu="auto"
-        :visible="!hasVersions && canUpdate"
-        location="before"
-      />
-      <template #toolbarItemUploadVersionFromScanner>
-        <toolbar-item-upload-version-from-scanner :documentId="documentId" />
-      </template>
-      <DxItem
         template="toolbarItemCreateVersion"
         locateInMenu="auto"
         :visible="!hasVersions && canUpdate"
@@ -110,7 +91,6 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
 import toolbarItemCreateVersion from "~/components/document-module/main-doc-form/toolbar/create-version-btn.vue";
 import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
-import toolbarItemUploadVersionFromScanner from "~/components/scanner-dialog/upload-version-from-scanner";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
 import toolbarItemRelation from "~/components/document-module/main-doc-form//toolbar/create-relation.vue";
 import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
@@ -127,7 +107,6 @@ import saveIcon from "~/static/icons/save.svg";
 import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
 export default {
   components: {
-    toolbarItemUploadVersionFromScanner,
     toolbarItemUploadVersion,
     toolbarItemAccessRight,
     toolbarItemRegistration,
