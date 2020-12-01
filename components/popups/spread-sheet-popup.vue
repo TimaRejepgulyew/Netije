@@ -24,10 +24,10 @@ export default {
     }
   },
   async created() {
-    
-    if (this.options.handler && this.options.params)
-      this.file = await this.options.handler(this, this.options.params);
-    console.log(this.file);
+    if (!this.isNew) {
+      if (this.options.handler && this.options.params)
+        this.file = await this.options.handler(this, this.options.params);
+    }
     this.$emit("showTitle", this.$t("document.headers.xlsxEditor"));
     this.$emit("loadStatus");
   },

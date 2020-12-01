@@ -12,9 +12,6 @@
 import docxEditor from "~/components/file-readers/document-editor/index.vue";
 import dataApi from "~/static/dataApi";
 
-
-
-
 export default {
   components: { docxEditor },
   name: "document-editor-popup",
@@ -25,9 +22,12 @@ export default {
   },
 
   async created() {
-    if (this.options.handler && this.options.params)
-      this.file = await this.options.handler(this, this.options.params);
-    console.log(this.file, "file");
+    if (!this.isNew) {
+      if (this.options.handler && this.options.params)
+        this.file = await this.options.handler(this, this.options.params);
+    } else {
+      this.file = true;
+    }
     this.$emit("showTitle", this.$t("document.headers.documentEditor"));
     this.$emit("loadStatus");
   },

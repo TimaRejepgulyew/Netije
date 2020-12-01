@@ -33,7 +33,13 @@ const pdfViewer = ({ context, options, lastVersion, listeners }) => {
     { showLoadingPanel: false, listeners }
   );
 };
-const documentEditor = ({ context, options, lastVersion, listeners }) => {
+const documentEditor = ({
+  context,
+  options,
+  lastVersion,
+  listeners,
+  isNew = false
+}) => {
   const handler = lastVersion
     ? DocumentVersionService.importLastVersionDocumentEditor
     : DocumentVersionService.importVersionDocumentEditor;
@@ -42,9 +48,10 @@ const documentEditor = ({ context, options, lastVersion, listeners }) => {
     {
       readOnly: options.readOnly,
       params: options.params,
-      handler: handler
+      handler: handler,
+      isNew
     },
-    { showLoadingPanel: true, listeners }
+    { showLoadingPanel: !isNew, listeners }
   );
 };
 const imageViewer = ({ context, options, lastVersion, listeners }) => {
@@ -61,7 +68,13 @@ const imageViewer = ({ context, options, lastVersion, listeners }) => {
     { showLoadingPanel: true, listeners }
   );
 };
-const spreadSheet = ({ context, options, lastVersion, listeners }) => {
+const spreadSheet = ({
+  context,
+  options,
+  lastVersion,
+  listeners,
+  isNew = false
+}) => {
   const handler = lastVersion
     ? DocumentVersionService.importLastVersionSpreadSheet
     : DocumentVersionService.importVersionSpreadSheet;
@@ -70,8 +83,9 @@ const spreadSheet = ({ context, options, lastVersion, listeners }) => {
     {
       readOnly: options.readOnly,
       params: options.params,
-      handler
+      handler,
+      isNew
     },
-    { showLoadingPanel: true }
+    { showLoadingPanel: !isNew, listeners }
   );
 };

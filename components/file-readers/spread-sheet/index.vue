@@ -23,7 +23,8 @@ export default {
   props: {
     readOnly: { type: Boolean },
     params: {},
-    file: {}
+    file: {},
+    isNew: { type: Boolean }
   },
   data() {
     return {
@@ -52,34 +53,37 @@ export default {
   methods: {
     openFile(e) {
       const element = this.$refs["spreadSheet"].ej2Instances;
-      console.log(this.file);
-      element.openFromJson({
-        file: this.file
-      });
-      // element.addToolbarItems(
-      //   "Home",
-      //   [
-      //     {
-      //       click: this.saveJsonFile,
-      //       prefixIcon: "e-de-save-icon",
-      //       tooltipText: this.$t("buttons.save"),
-      //       text: this.$t("buttons.save"),
-      //       id: "save"
-      //     }
-      //   ],
-      //   0
-      // );
+      if (!this.isNew) {
+        element.openFromJson({
+          file: this.file
+        });
+      }
+      if (!this.readOnly) {
+        element.addToolbarItems(
+          "Home",
+          [
+            {
+              click: this.saveJsonFile,
+              prefixIcon: "e-de-save-icon",
+              tooltipText: this.$t("buttons.save"),
+              text: this.$t("buttons.save"),
+              id: "save"
+            }
+          ],
+          0
+        );
+      }
     },
     close() {
       this.$emit("onClose");
     },
-    // async saveJsonFile() {
-    //   console.log("close");
-    //   const element = this.$refs["spreadSheet"].ej2Instances;
-    //   const { jsonObject } = await element.saveAsJson();
-    //   this.valueChanged(jsonObject);
-    //   this.close();
-    // },
+    async saveJsonFile() {
+      console.log("close");
+      const element = this.$refs["spreadSheet"].ej2Instances;
+      const { jsonObject } = await element.saveAsJson();
+      this.valueChanged(jsonObject);
+      this.close();
+    },
     valueChanged(file) {
       this.$emit("valueChanged", { file });
     }
