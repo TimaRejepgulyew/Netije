@@ -154,7 +154,7 @@ function createChildTaskBtn(context, otherOptions) {
   const toolbarItemOptions = {
     template: "toolbarCreateChildTask",
     location: "before",
-    visible: context.isDraft || context.inProccess,
+    visible: !context.isNew,
     ...otherOptions
   };
   return new ToolbarItemTypeTemplate(context, toolbarItemOptions).options;

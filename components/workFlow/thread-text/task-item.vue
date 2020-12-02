@@ -84,7 +84,9 @@ export default {
       });
     },
     parseSubject(value) {
-      if (value.taskType == TaskTypeGuid.ActionItemExecutionTask) {
+      if (value.taskType === TaskTypeGuid.SimpleTask) {
+        return value.subject;
+      } else if (value.taskType === TaskTypeGuid.ActionItemExecutionTask) {
         if (value.isCompoundActionItem)
           return this.$t("task.compoundActionItem");
         else if (value?.actionItemType === ActionItemType.Component)
