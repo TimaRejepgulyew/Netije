@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import EventBus from "~/plugins/eventBus.js";
 import { alert } from "devextreme/ui/dialog";
 import Vue from "vue";
 import contactCard from "./contact-card-popup.vue";
@@ -94,6 +95,7 @@ export default {
     popupSettings: {
       type: Object,
     },
+    dialogId: {},
   },
   data() {
     return {
@@ -168,9 +170,16 @@ export default {
     setTitle(data) {
       this.title = data;
     },
+    closeDialog(dialogId) {
+      if (dialogId == this.dialogId) {
+        EventBus.$off("close-dialog", this.closeDialog);
+        this.destroyComponent();
+      }
+    },
   },
   mounted() {
     this.showLoadIndicator();
+    EventBus.$on("close-dialog", this.closeDialog);
   },
 };
 </script>

@@ -1,13 +1,26 @@
 import Vue from "vue";
 import Popup from "~/components/popups/index.vue";
+import EventBus from "~/plugins/eventBus.js"
 Vue.component("Popup", Popup);
 
+let popups = [];
+document.addEventListener("keydown", function (e) {
+  if (e.key == "Escape" && popups.length > 0) {
+    var currentDialogId = popups.pop();
+    EventBus.$emit("close-dialog",currentDialogId);
+    console.log(currentDialogId+" destroyed");
+  }
+})
+
 function BasePopup(template) {
-  return function(context, options, popupSettings) {
+  return function (context, options, popupSettings) {
+    let dialogId = new Date().getTime();
+    popups.push(dialogId);
     let popup = Vue.extend(Popup);
     let instance = new popup({
       parent: context,
       propsData: {
+        dialogId,
         template: template,
         options: options,
         popupSettings: popupSettings
@@ -23,10 +36,12 @@ function BasePopup(template) {
 
     instance.$mount();
     context.$root.$el.appendChild(instance.$el);
+
   };
 }
 
 export default (pluginContext, inject) => {
+ 
   const popup = {
     bussiniesUnitCard: BasePopup("bussiniesUnitCard"),
     departmentCard: BasePopup("departmentCard"),
