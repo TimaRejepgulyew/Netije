@@ -174,7 +174,7 @@ export default {
     ServerUrl:
       process.env.NODE_ENV === "production"
         ? "/api/documentEditor"
-        : `${process.env.serverUrl}/api/documentEditor`,
+        : `${process.env.serverUrl}/api/documentEditor/`,
     ImportDocument: "/api/DocumentEditor/importDocument/",
     ImportVersion: "/api/DocumentEditor/importVersion/",
     ExportDocument: "/api/DocumentEditor/Export/"

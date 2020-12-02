@@ -1,18 +1,6 @@
 <template>
   <form @submit.prevent="scanDocument">
     <DxLoadPanel :visible.sync="isLoading" :indicatorSrc="indicatorIcon" />
-    <Header
-      :headerTitle="$t('scanner.header')"
-      :isbackButton="false"
-      :isNew="false"
-    >
-      <DxButton
-        slot="toolbar"
-        icon="close"
-        styling-mode="text"
-        @click="closeScanDialog"
-      />
-    </Header>
     <toolbar
       class="toolbar-scanner"
       :documentValidatorName="documentValidatorName"

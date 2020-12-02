@@ -57,6 +57,7 @@ export default {
         },
         {
           id: 3,
+          disabled: true,
           type: "doc",
           name: this.$t("buttons.fromTemplate"),
           icon: "doc"
@@ -96,12 +97,14 @@ export default {
         }
       );
     },
-    pasteDocxVersion(file) {
+    pasteDocxVersion({ file }) {
+      console.log(file);
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromDocumentEditor(
           this.document,
           file,
-          this
+          this,
+          "test.docx"
         ),
         () => {
           this.uploadVersion();

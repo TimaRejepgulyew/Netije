@@ -128,8 +128,10 @@ export default {
     leadingDocumentIdRequired: "Esasy resminamany saýlap alyň"
   },
   headers: {
-    documentEditor: "Resminamanyň redaklory",
+    pdfFileReader: "Resminamany pdf formatyň okyjysy",
+    documentEditor: "Resminamanyň word formatyň redaktory",
     documentTemplate: "Resminamanyň nusgasy",
-    imageViewer: "Просмотр изображений"
+    imageViewer: "Suratlaryň okyjysy",
+    xlsxEditor: "Resminamanyň exel formatyň redaktory"
   }
 };

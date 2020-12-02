@@ -135,8 +135,10 @@ export default {
     documentTypeRequired: "Выберите тип документа"
   },
   headers: {
+    pdfFileReader: "Просмотр pdf файлов",
     documentEditor: "Редактор документов",
     documentTemplate: "Шаблон документа",
-    imageViewer: "Просмотр изображений"
+    imageViewer: "Просмотр изображений",
+    xlsxEditor: "Редактор Exel документов"
   }
 };

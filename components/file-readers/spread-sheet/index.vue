@@ -53,14 +53,15 @@ export default {
   methods: {
     async saveJsonFile() {
       const element = this.$refs["spreadSheet"].ej2Instances;
-   
+
       const { jsonObject } = await element.saveAsJson();
-    
+
       this.valueChanged(jsonObject);
       this.close();
     },
     openFile(e) {
       const element = this.$refs["spreadSheet"].ej2Instances;
+      element.hideFileMenuItems(["File"], true);
       element.addToolbarItems(
         "Home",
         [
