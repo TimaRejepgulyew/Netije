@@ -65,7 +65,7 @@ export default {
     DocumentIcon,
     DxList,
     DxButton,
-    createVersionBtn,
+    createVersionBtn
   },
   props: ["documentId"],
   data() {
@@ -73,12 +73,10 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`,
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
         }),
-        paginate: true,
-        pageSize: 7,
-        sort: [{ selector: "number", desc: true }],
-      }),
+        sort: [{ selector: "number", desc: true }]
+      })
     };
   },
   computed: {
@@ -93,18 +91,18 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    },
+    }
   },
   methods: {
     refresh() {
       this.versions.reload();
-    },
+    }
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
