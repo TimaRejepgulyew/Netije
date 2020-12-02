@@ -36,7 +36,7 @@ export function InternalApprovalStateStore(context) {
     },
     {
       id: InternalApprovalState.Reviewed,
-      name: context.$t("lifeCycleState.signed")
+      name: context.$t("lifeCycleState.reviewed")
     }
   ];
 }
