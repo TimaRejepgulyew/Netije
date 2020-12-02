@@ -52,13 +52,13 @@ export async function CreateChildActionItemExecution(
     dataApi.task.CreateChildActionItemExecution
   );
 }
-export async function createSubTaskByAssignment(context, parentAssignmentId) {
+export async function createSubtaskByAssignment(context, assignmentId) {
   return await createTask(
     context,
     {
-      parentAssignmentId
+      assignmentId
     },
-    dataApi.task.CreateSubTaskByAssignment
+    dataApi.assignment.CreateSubtask
   );
 }
 export async function createSubtaskByTask(context, taskId) {
