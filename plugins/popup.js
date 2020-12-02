@@ -24,15 +24,14 @@ function BasePopup(template) {
         });
       });
     }
-
     instance.$mount();
     context.$root.$el.appendChild(instance.$el);
 
   };
 }
 
-export default ({app}, inject) => {
- 
+export default ({ app }, inject) => {
+
   const popup = {
     bussiniesUnitCard: BasePopup("bussiniesUnitCard"),
     departmentCard: BasePopup("departmentCard"),
@@ -53,13 +52,12 @@ export default ({app}, inject) => {
     spreadSheet: BasePopup("spreadSheet")
   };
 
-console.log(app);
-document.addEventListener("keydown", function (e) {
-  if (e.key == "Escape" && popups.length > 0) {
-    var currentDialogId = popups.pop();
-    app.$eventBus.$emit("close-dialog",currentDialogId);
-  }
-})
+  document.addEventListener("keydown", function (e) {
+    if (e.key == "Escape" && popups.length > 0) {
+      var currentDialogId = popups.pop();
+      app.$eventBus.$emit("close-dialog", currentDialogId);
+    }
+  })
 
   inject("popup", popup);
 };
