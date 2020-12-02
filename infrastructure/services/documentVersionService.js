@@ -6,12 +6,12 @@ export default {
   },
   async createVersionFromSpreadSheet(context, document, file) {
     const payload = {
-      saveUrl: "test",
-      jsonData: JSON.stringify(file),
+      jsonData: JSON.stringify(file.Workbook),
       saveType: 0,
       versionType: 5,
       fileName: `test.xlsx`,
       contentType: 6
+
     };
     return await exportFileAsJson(
       context,
