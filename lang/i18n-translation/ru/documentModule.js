@@ -139,6 +139,6 @@ export default {
     documentEditor: "Редактор документов",
     documentTemplate: "Шаблон документа",
     imageViewer: "Просмотр изображений",
-    xlsxEditor: "Редактор Exel документов"
+    xlsxEditor: "Редактор Exсel документов"
   }
 };

@@ -126,6 +126,8 @@ export default {
   },
   shared: {
     alert: {
+      notification: "Предупреждение",
+      limitUsers: "Превышен лимит пользователей",
       serverError: "Ошибка сервера",
       notHaveAccessRightToRead: "У вас не достаточно прав на данный обьект"
     },
