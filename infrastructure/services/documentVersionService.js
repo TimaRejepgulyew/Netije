@@ -10,7 +10,7 @@ export default {
       jsonData: JSON.stringify(file),
       saveType: 0,
       versionType: 5,
-      fileName: `test${document.extension}`,
+      fileName: `test.xlsx`,
       contentType: 6
     };
     return await exportFileAsJson(
