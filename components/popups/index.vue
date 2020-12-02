@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible">
+  <div v-if="visible" tabindex="-1" class="superwrapper">
     <DxLoadPanel
       @click="destroyComponent"
       :visible.sync="isLoading"
@@ -181,7 +181,10 @@ export default {
   mounted() {
     this.showLoadIndicator();
     this.$eventBus.$on("close-dialog", this.closeDialog);
-  }
+    setTimeout(() => {
+      this.$el.focus();
+    }, 200);
+  },
 };
 </script>
 
@@ -194,6 +197,11 @@ export default {
 .popup-fade-enter,
 .popup-fade-leave-to {
   transform: scale(0);
+}
+.superwrapper {
+  &:focus {
+    background-color: red;
+  }
 }
 .popup_color_wrapper {
   width: 100vw;
