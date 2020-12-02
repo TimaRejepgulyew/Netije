@@ -31,6 +31,7 @@ export default {
   methods: {},
   created() {
     this.$emit("loadStatus");
+    this.$emit("showTitle", this.$t("document.headers.pdfFileReader"));
   }
 };
 </script>

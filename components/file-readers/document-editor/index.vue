@@ -10,6 +10,7 @@
       :serviceUrl="serviceUrl"
       height="85vh"
       v-if="mounted"
+      :currentUser="userName"
       :documentName="documentName"
       :enableToolbar="!readOnly"
     ></ejs-documenteditorcontainer>
@@ -39,6 +40,7 @@ export default {
   },
   data() {
     return {
+      userName: this.$store.getters["oidc/oidcUser"].preferred_username,
       headers: [
         {
           authorization: "Bearer " + this.$store.getters["oidc/oidcAccessToken"]
@@ -84,6 +86,7 @@ export default {
     DocumentEditorContainer: [Toolbar]
   },
   mounted() {
+    console.log(this);
     setTimeout(() => {
       this.mounted = true;
     }, 500);
@@ -97,10 +100,10 @@ export default {
       documentEditor.resize();
       if (!this.isNew) this.openDocument(documentEditor);
     },
-    onToolbarClick: function(args) {
+    onToolbarClick: async function(args) {
       switch (args.item.id) {
         case "save":
-          this.saveDocument();
+          await this.saveDocument();
           this.close();
           break;
       }
@@ -112,6 +115,7 @@ export default {
     async saveDocument() {
       const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
       const blob = await documentEditor.saveAsBlob("Docx");
+      console.log(blob);
       this.$emit("valueChanged", { file: blob });
     }
   }

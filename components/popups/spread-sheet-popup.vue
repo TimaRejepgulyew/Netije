@@ -38,8 +38,6 @@ export default {
   mounted() {
     setTimeout(() => {
       this.mounted = true;
-      this.$emit("showTitle", this.$t("document.headers.documentEditor"));
-      this.$emit("loadStatus");
     }, 500);
   },
   data() {
