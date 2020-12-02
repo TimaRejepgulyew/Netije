@@ -1,17 +1,8 @@
 import Vue from "vue";
 import Popup from "~/components/popups/index.vue";
-import EventBus from "~/plugins/eventBus.js"
 Vue.component("Popup", Popup);
 
 let popups = [];
-document.addEventListener("keydown", function (e) {
-  if (e.key == "Escape" && popups.length > 0) {
-    var currentDialogId = popups.pop();
-    EventBus.$emit("close-dialog",currentDialogId);
-    console.log(currentDialogId+" destroyed");
-  }
-})
-
 function BasePopup(template) {
   return function (context, options, popupSettings) {
     let dialogId = new Date().getTime();
@@ -40,7 +31,7 @@ function BasePopup(template) {
   };
 }
 
-export default (pluginContext, inject) => {
+export default ({app}, inject) => {
  
   const popup = {
     bussiniesUnitCard: BasePopup("bussiniesUnitCard"),
@@ -61,5 +52,14 @@ export default (pluginContext, inject) => {
     scannerDialog: BasePopup("scannerDialog"),
     spreadSheet: BasePopup("spreadSheet")
   };
+
+console.log(app);
+document.addEventListener("keydown", function (e) {
+  if (e.key == "Escape" && popups.length > 0) {
+    var currentDialogId = popups.pop();
+    app.$eventBus.$emit("close-dialog",currentDialogId);
+  }
+})
+
   inject("popup", popup);
 };

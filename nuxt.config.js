@@ -46,6 +46,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    "~/plugins/eventBus",
     "~/plugins/axios",
     "~/plugins/nuxt-client-init",
     "~plugins/vue-notifications",
