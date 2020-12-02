@@ -14,7 +14,14 @@ export default {
     Currency: `/api/Currency`
   },
   hubs: {
-    assignmentHub: `/hubs/assignments`
+    assignmentHub:
+      process.env.NODE_ENV === "production"
+        ? `/hubs/assignments`
+        : `${process.env.serverUrl}/hubs/assignments`,
+    UserOnline:
+      process.env.NODE_ENV === "production"
+        ? `/hubs/online`
+        : `${process.env.serverUrl}/hubs/online`
   },
   contragents: {
     Company: `/api/Companies`,
