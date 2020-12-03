@@ -234,7 +234,6 @@ export default {
     },
     onClosed() {
       const { documentTypeGuid, id } = this.document;
-      console.log(documentTypeGuid);
       this.$emit("onClosed", { documentTypeGuid, id });
     },
     onClose() {

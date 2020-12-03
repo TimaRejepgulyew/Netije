@@ -1,5 +1,6 @@
 import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/ru/administration.js";
+import licensing from "~/lang/i18n-translation/ru/licensing.js";
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
 import documentRegistration, {
   DocumentType
@@ -31,6 +32,7 @@ export default {
   sharedDirectory,
   administration,
   documentSendAction,
+  licensing,
   status: {
     active: "Активный",
     closed: "Закрытый"

@@ -62,6 +62,7 @@ import pdfFileReader from "./pdf-file-reader-popup.vue";
 import imageViewer from "./image-viewer-popup.vue";
 import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
+import licenseInfo from "./license-info-popup";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
@@ -83,7 +84,8 @@ export default {
     pdfFileReader,
     imageViewer,
     spreadSheet,
-    scannerDialog
+    scannerDialog,
+    licenseInfo
   },
   name: "base-popup",
   props: {

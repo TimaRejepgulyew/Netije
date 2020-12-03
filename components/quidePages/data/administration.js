@@ -1,7 +1,8 @@
+import licensingIcon from "~/static/icons/quide-page/licensing.svg";
 import usersIcon from "~/static/icons/quide-page/users.svg";
 import importIcon from "~/static/icons/quide-page/import-icon.svg";
 import dataApi from "~/static/dataApi";
-export default function(context) {
+export default function (context) {
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
@@ -105,6 +106,18 @@ export default function(context) {
           path: pathGenerate("online-users"),
           visible: true
         }
+      ]
+    },
+    {
+      icon: licensingIcon,
+      title: context.$t("licensing.headerTitle"),
+      items: [
+        {
+          name: context.$t("licensing.information.title"),
+          path: pathGenerate("roles"),
+          visible: true,
+          componentType: "licenseInformationBtn",
+        },
       ]
     }
   ];

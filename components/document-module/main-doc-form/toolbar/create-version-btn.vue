@@ -7,8 +7,9 @@
       :icon="profileSettings.icon"
       display-expr="name"
       key-expr="id"
+      :visible="canUpdate"
       :dropDownOptions="{
-        width: '200px'
+        width: '200px',
       }"
       @item-click="onItemClick"
     >
@@ -33,12 +34,15 @@ export default {
   components: {
     DxButton,
     DxDropDownButton,
-    toolbarItemUploadVersion
+    toolbarItemUploadVersion,
   },
   props: ["documentId"],
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    canUpdate() {
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
     profileSettings() {
       return [
@@ -46,43 +50,42 @@ export default {
           id: 1,
           type: "upload",
           name: this.$t("buttons.upload"),
-          icon: "upload"
+          icon: "upload",
         },
         {
           id: 2,
           temp: "toolbarItemUploadVersion",
           type: "scaner",
           name: this.$t("buttons.fromScaner"),
-          icon: "print"
+          icon: "print",
         },
         {
           id: 3,
           disabled: true,
           type: "doc",
           name: this.$t("buttons.fromTemplate"),
-          icon: "doc"
+          icon: "doc",
         },
         {
           id: 4,
           type: "docxfile",
           name: this.$t("buttons.fromDocx"),
-          icon: "docxfile"
+          icon: "docxfile",
         },
         {
           id: 5,
           type: "xlsxfile",
           name: this.$t("buttons.fromXlsx"),
-          icon: "xlsxfile"
-        }
+          icon: "xlsxfile",
+        },
       ];
-    }
+    },
   },
   methods: {
     uploadVersion() {
       this.$emit("uploadVersion");
     },
     pasteXlsXVersion({ file }) {
-      console.log(file);
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromSpreadSheet(
           this,
@@ -98,7 +101,6 @@ export default {
       );
     },
     pasteDocxVersion({ file }) {
-      console.log(file);
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromDocumentEditor(
           this.document,
@@ -122,7 +124,7 @@ export default {
           break;
         case "scaner":
           this.$popup.scannerDialog(this, {
-            documentId: this.documentId
+            documentId: this.documentId,
           });
           break;
         case "docxfile":
@@ -132,13 +134,13 @@ export default {
               readOnly: false,
               extension: ".docx",
               params: {
-                documentId: this.documentId
-              }
+                documentId: this.documentId,
+              },
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
-            ]
+              { eventName: "valueChanged", handlerName: "pasteDocxVersion" },
+            ],
           });
           break;
         case "xlsxfile":
@@ -148,21 +150,20 @@ export default {
               readOnly: false,
               extension: ".xlsx",
               params: {
-                documentId: this.documentId
-              }
+                documentId: this.documentId,
+              },
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
-            ]
+              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" },
+            ],
           });
           break;
         default:
-          console.log(type);
           break;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

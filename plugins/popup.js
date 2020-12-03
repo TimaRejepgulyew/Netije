@@ -49,7 +49,8 @@ export default ({ app }, inject) => {
     documentEditor: BasePopup("documentEditor"),
     imageViewer: BasePopup("imageViewer"),
     scannerDialog: BasePopup("scannerDialog"),
-    spreadSheet: BasePopup("spreadSheet")
+    spreadSheet: BasePopup("spreadSheet"),
+    licenseInfo: BasePopup("licenseInfo"),
   };
 
   document.addEventListener("keydown", function (e) {

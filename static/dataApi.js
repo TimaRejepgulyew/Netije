@@ -1,3 +1,5 @@
+import licensing from "../lang/i18n-translation/ru/licensing";
+
 export default {
   UserPhotoHash:
     process.env.NODE_ENV === "production"
@@ -189,6 +191,9 @@ export default {
   },
   activeUser: {
     GetActiveUsers: `/api/ActiveUser`,
-    EndSession: `/api/ActiveUser/EndSession`
+    EndSession: `/api/ActiveUser/EndSession/`
+  },
+  licensing: {
+    getLicense: "/api/License"
   }
 };
