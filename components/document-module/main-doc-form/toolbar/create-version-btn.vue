@@ -86,7 +86,6 @@ export default {
       this.$emit("uploadVersion");
     },
     pasteXlsXVersion({ file }) {
-      console.log(file);
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromSpreadSheet(
           this,
@@ -102,7 +101,6 @@ export default {
       );
     },
     pasteDocxVersion({ file }) {
-      console.log(file);
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromDocumentEditor(
           this.document,
@@ -162,13 +160,9 @@ export default {
           });
           break;
         default:
-          console.log(type);
           break;
       }
     },
-  },
-  mounted() {
-    console.log(this.canUpdate);
   },
 };
 </script>
