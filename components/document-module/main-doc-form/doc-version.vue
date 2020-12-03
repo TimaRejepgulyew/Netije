@@ -20,46 +20,11 @@
           :focusStateEnabled="false"
         >
           <template #item="item">
-            <div>
-              <div class="d-flex align-center">
-                <div class="list__content">
-                  <div>
-                    <document-icon
-                      :extension="item.data.extension"
-                    ></document-icon>
-                    {{ item.data.note }}
-
-                    <div>
-                      <i class="dx-icon dx-icon-clock"></i
-                      ><small>{{ item.data.created | formatDate }}</small>
-                    </div>
-
-                    <div class="max-width-5vw">
-                      <i class="dx-icon dx-icon-user"></i>
-                      <small>{{ item.data.author }}</small>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  v-if="item.data.malwareScanResult !== undefined"
-                  class="malware_scan_result"
-                >
-                  <img
-                    class="shield_img"
-                    :src="getById(item.data.malwareScanResult).icon"
-                  />
-                  {{ getById(item.data.malwareScanResult).text }}
-                </div>
-                <div class="list__btn-group">
-                  <attachment-action-btn
-                    @updateVersions="refresh"
-                    :documentId="documentId"
-                    :version="item.data"
-                    :isProtected="isProtected(item.data.malwareScanResult)"
-                  />
-                </div>
-              </div>
-            </div>
+            <docVersionListItem
+              @refresh="refresh"
+              :documentId="documentId"
+              :item="item"
+            />
           </template>
         </DxList>
       </div>
@@ -67,24 +32,18 @@
   </div>
 </template>
 <script>
-import MalwareScanResultModel from "~/infrastructure/models/MalwareScanResults.js";
 import createVersionBtn from "~/components/document-module/main-doc-form/toolbar/create-version-btn.vue";
-import DataSource from "devextreme/data/data_source";
-import DocumentIcon from "~/components/page/document-icon";
-import DxList from "devextreme-vue/list";
+import docVersionListItem from "~/components/document-module/main-doc-form/doc-version-list-item.vue";
 import dataApi from "~/static/dataApi";
-import documentService from "~/infrastructure/services/documentVersionService.js";
-import AttachmentActionBtn from "~/components/document-module/main-doc-form/attachment-action-btn";
-import malwareScanResultsVariable from "~/infrastructure/constants/malwareScanResults.js";
-import moment from "moment";
+import DataSource from "devextreme/data/data_source";
+import DxList from "devextreme-vue/list";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    AttachmentActionBtn,
-    DocumentIcon,
     DxList,
     DxButton,
-    createVersionBtn
+    createVersionBtn,
+    docVersionListItem,
   },
   props: ["documentId"],
   data() {
@@ -92,100 +51,26 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`,
         }),
-        sort: [{ selector: "number", desc: true }]
-      })
+        sort: [{ selector: "number", desc: true }],
+      }),
     };
   },
   computed: {
-    malwareScanResultModel() {
-      return new MalwareScanResultModel(this);
-    },
-    uploadVersionVisible() {
-      return this.canUpdate;
-    },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
-    isNew() {
-      return this.$store.getters[`documents/${this.documentId}/isNew`];
-    },
-    canUpdate() {
-      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    }
   },
   methods: {
     refresh() {
       this.versions.reload();
     },
-    getById(id) {
-      return this.malwareScanResultModel.getById(id);
-    },
-    isProtected(malwareScanResult) {
-      let result =
-        malwareScanResult !== malwareScanResultsVariable.VirusDetected
-          ? true
-          : false;
-      return result;
-    }
   },
-  filters: {
-    formatDate(value) {
-      return moment(value).format("MM.DD.YYYY HH:mm");
-    }
-  }
 };
 </script>
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
-.max-width-5vw {
-  height: auto;
-  width: 6vw;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-}
-.uploadButton {
-  padding: 0;
-  margin: 0;
-  .dx-fileuploader-input-wrapper::before {
-    padding: 3px 0;
-  }
-  .dx-fileuploader-input-wrapper {
-    width: auto;
-    padding: 6px 0;
-    margin: 0;
-  }
-  .dx-fileuploader-files-container {
-    display: none;
-  }
-  .dx-fileuploader-wrapper {
-    max-width: 150px;
-    width: auto;
-    padding: 0;
-    border: none;
-  }
-  .file-upload-button {
-    display: none;
-  }
-  .dx-fileuploader-input-container {
-    display: none;
-  }
-}
-
-.malware_scan_result {
-  min-width: 70px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 0 0 20px;
-  .shield_img {
-    max-height: 25px;
-  }
-}
-
 .file-uploader-block {
   background: $base-bg;
   display: block;
@@ -214,13 +99,6 @@ export default {
     }
   }
 }
-.file-uploader {
-  margin-top: 20px;
-  padding: 10px 0;
-  border: 0.5px solid $base-border-color;
-  border-radius: 5px;
-}
-
 .refresh-btn {
   margin-bottom: 10px;
 }
