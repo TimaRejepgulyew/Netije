@@ -130,6 +130,8 @@ export default {
   },
   shared: {
     alert: {
+      notification: "Duýduryş",
+      serverError: "Serwer ýalňyşlygy",
       notHaveAccessRightToRead: "Sizde obýekde doly däl rugsat"
     },
     attach: "Goşuň",

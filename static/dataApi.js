@@ -108,7 +108,7 @@ export default {
     CreateTask: `/api/Task/Create`,
     СreateTaskByDocument: `/api/Task/CreateTaskByDocument`,
     CreateSubtaskByTask: "/api/Task/CreateSubtask",
-    
+
     CreateChildActionItemExecution: `/api/Task/CreateChildActionItemExecutionTask`,
     CreateDraftResolutionActionItemExecutionTask: `/api/Task/CreateDraftResolutionActionItemExecutionTask`,
 
@@ -186,5 +186,9 @@ export default {
     ImportDocument: "/api/DocumentEditor/importDocument/",
     ImportVersion: "/api/DocumentEditor/importVersion/",
     ExportDocument: "/api/DocumentEditor/Export/"
+  },
+  activeUser: {
+    GetActiveUsers: `/api/ActiveUser`,
+    EndSession: `/api/ActiveUser/EndSession/`
   }
 };

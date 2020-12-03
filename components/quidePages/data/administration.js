@@ -1,8 +1,7 @@
-
-import usersIcon from "~/static/icons/quide-page/users.svg"
-import importIcon from "~/static/icons/quide-page/import-icon.svg"
+import usersIcon from "~/static/icons/quide-page/users.svg";
+import importIcon from "~/static/icons/quide-page/import-icon.svg";
 import dataApi from "~/static/dataApi";
-export default function (context) {
+export default function(context) {
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
@@ -19,7 +18,7 @@ export default function (context) {
           path: "import-btn",
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.companies, file)
+              await context.$axios.post(dataApi.import.companies, file);
             }
           },
           visible: true,
@@ -30,42 +29,45 @@ export default function (context) {
           path: "import-btn",
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.banks, file)
-            }
-          },
-          visible: true,
-          componentType: "uploadBtn"
-        }, {
-          name: context.$t("companyStructure.imports.importJobTitle"),
-          path: "import-btn",
-          params: {
-            async onChange(context, file) {
-              await context.$axios.post(dataApi.import.jobTitles, file)
-            }
-          },
-          visible: true,
-          componentType: "uploadBtn"
-        }, {
-          name: context.$t("companyStructure.imports.importEmployees"),
-          path: "import-btn",
-          params: {
-            async onChange(context, file) {
-              await context.$axios.post(dataApi.import.employees, file)
-            }
-          },
-          visible: true,
-          componentType: "uploadBtn"
-        }, {
-          name: context.$t("companyStructure.imports.importPersons"),
-          path: "import-btn",
-          params: {
-            async onChange(context, file) {
-              await context.$axios.post(dataApi.import.persons, file)
+              await context.$axios.post(dataApi.import.banks, file);
             }
           },
           visible: true,
           componentType: "uploadBtn"
         },
+        {
+          name: context.$t("companyStructure.imports.importJobTitle"),
+          path: "import-btn",
+          params: {
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.import.jobTitles, file);
+            }
+          },
+          visible: true,
+          componentType: "uploadBtn"
+        },
+        {
+          name: context.$t("companyStructure.imports.importEmployees"),
+          path: "import-btn",
+          params: {
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.import.employees, file);
+            }
+          },
+          visible: true,
+          componentType: "uploadBtn"
+        },
+        {
+          name: context.$t("companyStructure.imports.importPersons"),
+          path: "import-btn",
+          params: {
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.import.persons, file);
+            }
+          },
+          visible: true,
+          componentType: "uploadBtn"
+        }
       ]
     },
     {
@@ -90,11 +92,21 @@ export default function (context) {
         },
         {
           name: context.$t("administration.usersAndGroups.usersAccount"),
-          description: context.$t("administration.usersAndGroups.usersAccountDescr"),
+          description: context.$t(
+            "administration.usersAndGroups.usersAccountDescr"
+          ),
           visible: false
         },
+        {
+          name: context.$t("administration.usersAndGroups.activeUsers"),
+          description: context.$t(
+            "administration.usersAndGroups.activeUsersDescr"
+          ),
+          path: pathGenerate("online-users"),
+          visible: true
+        }
       ]
-    },
+    }
   ];
   return administration;
 }

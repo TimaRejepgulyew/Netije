@@ -19,8 +19,10 @@ import paperWork from "~/lang/i18n-translation/ru/paperWork.js";
 import docFlow from "~/lang/i18n-translation/ru/docFlow.js";
 import scanner from "~/lang/i18n-translation/ru/scanner.js";
 import malwareScanResults from "~/lang/i18n-translation/ru/malwareScanResults.js";
+import onlineUsers from "~/lang/i18n-translation/ru/onlineUsers.js";
 export default {
   malwareScanResults,
+  onlineUsers,
   scanner,
   paperWork,
   parties,
@@ -129,7 +131,6 @@ export default {
   shared: {
     alert: {
       notification: "Предупреждение",
-      limitUsers: "Превышен лимит пользователей",
       serverError: "Ошибка сервера",
       notHaveAccessRightToRead: "У вас не достаточно прав на данный обьект"
     },
