@@ -14,7 +14,7 @@
 
 <script>
 import DocumentVersionViewer, {
-  documentEditor
+  documentEditing
 } from "~/infrastructure/services/documentVersionViewer.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
@@ -121,7 +121,7 @@ export default {
       );
     },
     editVersion() {
-      documentEditor({
+      documentEditing({
         context: this,
         options: {
           readOnly: false,
