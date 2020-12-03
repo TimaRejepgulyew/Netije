@@ -1,6 +1,6 @@
 export default {
   confirm: "Потвердите",
-  diactivate: "Диактивировать",
+  diactivate: "Отключить",
   switchToCompound: "Равноправные исполнители",
   createChildTask: "Создать подзадачу",
   createChiltActionItemExecution: "Создать поручение",

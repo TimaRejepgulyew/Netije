@@ -189,6 +189,6 @@ export default {
   },
   activeUser: {
     GetActiveUsers: `/api/ActiveUser`,
-    EndSession: `/api/ActiveUser/EndSession/`
+    EndSession: `/api/ActiveUser/EndSession`
   }
 };
