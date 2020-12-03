@@ -54,6 +54,9 @@
       data-type="string"
       :caption="$t('onlineUsers.fields.description')"
     ></DxColumn>
+    <DxSummary>
+      <DxTotalItem column="name" summary-type="count" />
+    </DxSummary>
   </DxDataGrid>
 </template>
 
@@ -78,6 +81,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
+  DxSummary,
+  DxTotalItem,
   DxButton
 } from "devextreme-vue/data-grid";
 export default {
@@ -97,14 +102,18 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
+    DxSummary,
+    DxTotalItem
   },
   data() {
     return {
       turnOfIcon,
-      onlineUsersStore: this.$dxStore({
-        key: "userId",
-        loadUrl: dataApi.activeUser.GetActiveUsers
+      onlineUsersStore: new DataSource({
+        store: this.$dxStore({
+          key: "userId",
+          loadUrl: dataApi.activeUser.GetActiveUsers
+        })
       })
     };
   },

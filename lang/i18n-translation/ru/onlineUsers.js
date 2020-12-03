@@ -11,7 +11,5 @@ export default {
   confirm:{
     sureTurnOffUser:"Вы уверены что хотите отключить пользователя?"
   },
-  alert: {
-    limitUsers: "Превышен лимит польвателей"
-  }
+
 };

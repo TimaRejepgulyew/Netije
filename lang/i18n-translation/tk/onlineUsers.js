@@ -11,7 +11,4 @@ export default {
   confirm:{
     sureTurnOffUser:"Siz hakykatanam ulanyjyny öçürjekmi?"
   },
-  alert: {
-    limitUsers: "Ulanyjynyň çäkleri geçdi"
-  }
 };

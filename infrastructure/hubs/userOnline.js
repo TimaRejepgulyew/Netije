@@ -1,6 +1,5 @@
 import dataApi from "~/static/dataApi";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { alert } from "devextreme/ui/dialog";
 export default function(app) {
   const connection = new HubConnectionBuilder()
     .withUrl(dataApi.hubs.UserOnline, {
@@ -10,10 +9,6 @@ export default function(app) {
     .build();
 
   connection.on("EndSession", async () => {
-    await alert(
-      app.i18n.t("onlineUsers.alert.limitUsers"),
-      app.i18n.t("shared.alert.notification")
-    );
     app.store.dispatch("oidc/signOutOidc");
   });
 
