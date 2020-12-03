@@ -14,17 +14,19 @@
 
 <script>
 import DocumentService from "~/infrastructure/services/documentVersionService";
+import DocumentVersionService from "~/infrastructure/services/documentVersionService";
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 import actionBtn from "~/components/workFlow/attachment/attachment-document-action-btn.vue";
 import documentIcon from "~/components/page/document-icon.vue";
 export default {
   components: {
     documentIcon,
-    actionBtn
+    actionBtn,
   },
   props: ["item"],
   data() {
     return {
-      isOpenCard: false
+      isOpenCard: false,
     };
   },
   methods: {
@@ -35,17 +37,20 @@ export default {
       this.$emit("showCard", document);
     },
     downloadVersion() {
-      DocumentService.downloadDocument(
-        {
-          ...this.item.entity,
-          extension: this.item.entity.extension
-        },
-        this
-      );
+      DocumentVersionService.downloadLastVersion(this, {
+        ...this.item.entity,
+      });
     },
     previewVersion() {
-      
-      DocumentService.loadLastVersionDocumentEditor(this.item.entity, this);
+      DocumentVersionViewer({
+        context: this,
+        options: {
+          readOnly: true,
+          extension: this.item.entity.extension,
+          params: { documentId: this.item.entity.id },
+        },
+        lastVersion: true,
+      });
     },
     showAttachment() {
       const canPreview =
@@ -53,8 +58,8 @@ export default {
       if (canPreview) this.previewVersion();
       else if (this.item.entity.hasVersions) this.downloadVersion();
       else this.showCard(this.item.entity);
-    }
-  }
+    },
+  },
 };
 </script>
 
