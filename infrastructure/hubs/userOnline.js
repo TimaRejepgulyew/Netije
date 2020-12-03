@@ -11,7 +11,7 @@ export default function(app) {
 
   connection.on("EndSession", async () => {
     await alert(
-      app.i18n.t("shared.alert.limitUsers"),
+      app.i18n.t("onlineUsers.alert.limitUsers"),
       app.i18n.t("shared.alert.notification")
     );
     app.store.dispatch("oidc/signOutOidc");
@@ -21,7 +21,6 @@ export default function(app) {
     if (process.env.NODE_ENV === "production") {
       try {
         await connection.start();
-        console.log("SignalR Connected.");
       } catch (err) {
         console.log(err);
         setTimeout(connectHub, 5000);

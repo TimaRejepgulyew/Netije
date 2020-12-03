@@ -1,5 +1,6 @@
 export default {
   confirm: "Потвердите",
+  diactivate: "Диактивировать",
   switchToCompound: "Равноправные исполнители",
   createChildTask: "Создать подзадачу",
   createChiltActionItemExecution: "Создать поручение",
@@ -59,5 +60,5 @@ export default {
   fromScaner: "Со сканера",
   fromTemplate: "Из шаблона",
   fromDocx: "Word документ",
-  fromXlsx: "Таблица Excel",
-}
+  fromXlsx: "Таблица Excel"
+};

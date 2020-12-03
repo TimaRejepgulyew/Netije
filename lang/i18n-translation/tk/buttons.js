@@ -11,7 +11,7 @@ export default {
   sendToAssignee: "Ýerine ýetirijä ibermeli",
   takeInto: "Maglumat üçin kabul etmeli",
   readdress: "Goşmaça salga ibermeli",
-
+  diactivate: "ýapyň",
   new: "Täzeler",
   obsolete: "Ulanyşdan aýrylan",
   all: "Hemmesi",
@@ -59,5 +59,5 @@ export default {
   fromScaner: "Skanerden",
   fromTemplate: "Nusgadan",
   fromDocx: "Word dokument",
-  fromXlsx: "Excel dokument",
+  fromXlsx: "Excel dokument"
 };
