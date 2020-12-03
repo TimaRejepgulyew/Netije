@@ -51,10 +51,10 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`,
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
         }),
-        sort: [{ selector: "number", desc: true }],
-      }),
+        sort: [{ selector: "number", desc: true }]
+      })
     };
   },
   computed: {

@@ -5,8 +5,15 @@ export default ({ context, options, lastVersion, listeners, isNew }) => {
     case ".pdf":
       pdfViewer({ context, options, lastVersion, listeners });
       break;
+    case ".docm":
+    case ".dotm":
+    case ".dot":
+    case ".doc":
+    case ".rtf":
     case ".docx":
     case ".txt":
+    case ".xml":
+    case ".html":
       documentEditor({ context, options, lastVersion, listeners, isNew });
       break;
     case ".jpg":
@@ -18,8 +25,39 @@ export default ({ context, options, lastVersion, listeners, isNew }) => {
       break;
     case ".lsx":
     case ".xlsx":
+    case ".csv":
       spreadSheet({ context, options, lastVersion, listeners, isNew });
       break;
+    default:
+      throw "EJ2 DocumentEditor does not support this file";
+  }
+};
+export const documentEditor = ({
+  context,
+  options,
+  lastVersion,
+  listeners,
+  isNew
+}) => {
+  switch (options.extension) {
+    case ".docm":
+    case ".dotm":
+    case ".dot":
+    case ".doc":
+    case ".rtf":
+    case ".docx":
+    case ".txt":
+    case ".xml":
+    case ".html":
+      documentEditor({ context, options, lastVersion, listeners, isNew });
+      break;
+    case ".lsx":
+    case ".xlsx":
+    case ".csv":
+      spreadSheet({ context, options, lastVersion, listeners, isNew });
+      break;
+    default:
+      throw "EJ2 DocumentEditor does not support this file";
   }
 };
 const pdfViewer = ({ context, options, lastVersion, listeners }) => {

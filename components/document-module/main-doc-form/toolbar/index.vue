@@ -216,19 +216,6 @@ export default {
         }
       };
     },
-    createAddendumOptions() {
-      return {
-        icon: this.addendumIcon,
-        type: "normal",
-        hint: this.$t("buttons.createAddendum"),
-        onClick: () => {
-          this.$router.push({
-            path: `/paper-work/create/${DocumentTypeGuid.Addendum}`,
-            query: { leadingDocument: this.$route.params.id }
-          });
-        }
-      };
-    },
     removeDocumentButtonOptions() {
       return {
         icon: "trash",

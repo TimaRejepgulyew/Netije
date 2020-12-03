@@ -11,7 +11,10 @@
         <DxLabel location="top" :text="$t('translations.fields.password')" />
         <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
       </DxSimpleItem>
-      <DxButtonItem :button-options="saveButtonOptions" horizontal-alignment="right" />
+      <DxButtonItem
+        :button-options="saveButtonOptions"
+        horizontal-alignment="right"
+      />
     </DxForm>
   </form>
 </template>
@@ -37,11 +40,11 @@ export default {
     DxForm,
     DxAsyncRule
   },
-
+  inject: ["employeeId"],
   data() {
     return {
       formData: {
-        id: parseInt(this.$route.params.id),
+        id: this.employeeId,
         newPassword: ""
       },
       saveButtonOptions: {
@@ -74,4 +77,3 @@ export default {
   }
 };
 </script>
-
