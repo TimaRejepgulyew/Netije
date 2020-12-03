@@ -1,5 +1,6 @@
 import sharedDirectory from "~/lang/i18n-translation/tk/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/tk/administration.js";
+import licensing from "~/lang/i18n-translation/tk/licensing.js";
 import documentModule from "~/lang/i18n-translation/tk/documentModule.js";
 import scanner from "~/lang/i18n-translation/tk/scanner.js";
 import documentRegistration, {
@@ -29,6 +30,7 @@ export default {
   sharedDirectory,
   administration,
   documentSendAction,
+  licensing,
   status: {
     active: "Işjeň",
     closed: "Ýapyk"

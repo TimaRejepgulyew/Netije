@@ -16,12 +16,8 @@
 </template>
 
 <script>
-import { DxFileUploader } from "devextreme-vue/file-uploader";
 export default {
   props: ["item"],
-  components: {
-    DxFileUploader
-  },
   data() {
     return {
       file: null,
@@ -33,14 +29,14 @@ export default {
         "application/vnd.ms-excel.sheet.macroEnabled.12",
         "application/vnd.ms-excel.template.macroEnabled.12",
         "application/vnd.ms-excel.addin.macroEnabled.12",
-        "application/vnd.ms-excel.sheet.binary.macroEnabled.12"
-      ]
+        "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
+      ],
     };
   },
   computed: {
     acceptFiles() {
       return this.fileTypes.join();
-    }
+    },
   },
   methods: {
     changeFile(e) {
@@ -48,17 +44,16 @@ export default {
       file.append("file", e.target.files[0]);
       this.$awn.asyncBlock(
         this.item.params.onChange(this, file),
-        res => {
+        (res) => {
           this.$awn.success();
         },
-        e => {
+        (e) => {
           this.$awn.alert();
         }
       );
       e.target.value = "";
-    }
+    },
   },
-  mounted() {}
 };
 </script>
 
