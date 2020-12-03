@@ -124,8 +124,7 @@ export default {
     },
     isProtected(malwareScanResult) {
       let result =
-        malwareScanResult === malwareScanResultsVariable.Clean ||
-        malwareScanResultsVariable.Unknown||   malwareScanResultsVariable.Error
+        malwareScanResult !== malwareScanResultsVariable.VirusDetected
           ? true
           : false;
       return result;
