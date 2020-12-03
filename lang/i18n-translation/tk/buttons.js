@@ -1,4 +1,5 @@
 export default {
+  edit: "Ütgetmek",
   confirm: "Tassyklaň!",
   createChildTask: "Goşundy ýumuş",
   switchToCompound: "Deň hukukly ýerine ýetirijiler",
