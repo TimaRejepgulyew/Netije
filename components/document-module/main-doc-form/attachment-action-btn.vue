@@ -13,14 +13,16 @@
 </template>
 
 <script>
-import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
+import DocumentVersionViewer, {
+  documentEditor
+} from "~/infrastructure/services/documentVersionViewer.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import { confirm } from "devextreme/ui/dialog";
 export default {
   components: {
-    DxDropDownButton,
+    DxDropDownButton
   },
   props: ["version", "documentId", "isProtected"],
   computed: {
@@ -30,16 +32,22 @@ export default {
     btnType() {
       return [
         {
+          type: "edit",
+          visible: this.isProtected,
+          icon: "edit",
+          name: this.$t("buttons.edit")
+        },
+        {
           type: "preview",
           visible: this.version.canBeOpenedWithPreview && this.isProtected,
           icon: "pdffile",
-          name: this.$t("buttons.preview"),
+          name: this.$t("buttons.preview")
         },
         {
           type: "download",
           visible: this.isProtected,
           icon: "download",
-          name: this.$t("buttons.download"),
+          name: this.$t("buttons.download")
         },
         {
           type: "delete",
@@ -47,14 +55,17 @@ export default {
             `documents/${this.documentId}/fullAccess`
           ],
           icon: "trash",
-          name: this.$t("buttons.delete"),
-        },
+          name: this.$t("buttons.delete")
+        }
       ];
-    },
+    }
   },
   methods: {
     onItemClick(e) {
       switch (e.itemData.type) {
+        case "edit":
+          this.editVersion();
+          break;
         case "preview":
           this.previewVersion();
           break;
@@ -65,22 +76,78 @@ export default {
           this.deleteVersion();
       }
     },
+    pasteVersion({ file, extension }) {
+      switch (extension) {
+        case ".docx":
+          this.pasteDocxVersion({ file });
+        case ".xlsx":
+          this.pasteXlsXVersion({ file });
+        default:
+          throw "can't paste this file ";
+      }
+    },
+    pasteXlsXVersion({ file }) {
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromSpreadSheet(
+          this,
+          this.document,
+          file
+        ),
+        () => {
+          this.uploadVersion();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    uploadVersion() {
+      this.$emit("uploadVersion");
+    },
+    pasteDocxVersion({ file }) {
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromDocumentEditor(
+          this.document,
+          file,
+          this,
+          "test.docx"
+        ),
+        () => {
+          this.uploadVersion();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    editVersion() {
+      documentEditor({
+        context: this,
+        options: {
+          readOnly: false,
+          extension: this.version.extension,
+          params: { versionId: this.version.id }
+        },
+        lastVersion: false,
+        listeners: [{ eventName: "valueChanged", handlerName: "pasteVersion" }]
+      });
+    },
     previewVersion() {
       DocumentVersionViewer({
         context: this,
         options: {
           readOnly: true,
           extension: this.version.extension,
-          params: { versionId: this.version.id },
+          params: { versionId: this.version.id }
         },
-        lastVersion: false,
+        lastVersion: false
       });
     },
     downloadVersion() {
       DocumentVersionService.downloadVersion(this, {
         id: this.version.id,
         name: this.document.name,
-        extension: this.version.extension,
+        extension: this.version.extension
       });
     },
     async deleteVersion() {
@@ -103,8 +170,8 @@ export default {
               this.$emit("updateVersions");
           }
         );
-    },
-  },
+    }
+  }
 };
 </script>
 
