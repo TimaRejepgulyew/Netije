@@ -32,7 +32,7 @@ export default ({ context, options, lastVersion, listeners, isNew }) => {
       throw "EJ2 DocumentEditor does not support this file";
   }
 };
-export const documentEditor = ({
+export const documentEditing = ({
   context,
   options,
   lastVersion,
