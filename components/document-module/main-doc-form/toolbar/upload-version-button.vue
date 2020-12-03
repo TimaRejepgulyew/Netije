@@ -37,15 +37,9 @@ export default {
       this.$awn.async(
         documentVersionService.createVersionFromFile(this.document, file, this),
         (res) => {
-          this.$store.commit(
-            `documents/${this.documentId}/SET_VERSION`,
-            res.data
-          );
-          this.$emit("uploadVersion");
+          this.$emit("uploadVersion", res.data);
         },
-        () => {},
-       
-        
+        () => {}
       );
       e.target.value = "";
     },

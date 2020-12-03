@@ -82,8 +82,10 @@ export default {
     },
   },
   methods: {
-    uploadVersion() {
+    uploadVersion(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_VERSION`, data);
       this.$emit("uploadVersion");
+      this.$awn.success();
     },
     pasteXlsXVersion({ file }) {
       this.$awn.asyncBlock(
@@ -92,8 +94,8 @@ export default {
           this.document,
           file
         ),
-        () => {
-          this.uploadVersion();
+        (res) => {
+          this.uploadVersion(res.data);
         },
         () => {
           this.$awn.alert();
@@ -108,8 +110,8 @@ export default {
           this,
           "test.docx"
         ),
-        () => {
-          this.uploadVersion();
+        (res) => {
+          this.uploadVersion(res.data);
         },
         () => {
           this.$awn.alert();
