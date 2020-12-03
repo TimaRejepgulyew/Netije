@@ -11,7 +11,7 @@ export default {
   sendToAssignee: "Ýerine ýetirijä ibermeli",
   takeInto: "Maglumat üçin kabul etmeli",
   readdress: "Goşmaça salga ibermeli",
-  diactivate: "ýapyň",
+  diactivate: "Öçürjek",
   new: "Täzeler",
   obsolete: "Ulanyşdan aýrylan",
   all: "Hemmesi",

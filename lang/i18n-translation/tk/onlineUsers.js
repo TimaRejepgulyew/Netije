@@ -8,7 +8,7 @@ export default {
   heders: {
     onlineUsers: "Işjeň ulanyjylar"
   },
-  alert: {
-    limitUsers: "Ulanyjynyň çäkleri geçdi"
-  }
+  confirm:{
+    sureTurnOffUser:"Siz hakykatanam ulanyjyny öçürjekmi?"
+  },
 };

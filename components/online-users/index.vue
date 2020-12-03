@@ -39,16 +39,11 @@
     <DxScrolling mode="virtual" />
     <DxColumn type="buttons">
       <DxButton
-        icon="trash"
+        :icon="turnOfIcon"
         :hint="$t('buttons.diactivate')"
         :onClick="diactivateUser"
       ></DxButton>
     </DxColumn>
-    <DxColumn
-      data-field="userId"
-      data-type="string"
-      :caption="$t('onlineUsers.fields.userId')"
-    ></DxColumn>
     <DxColumn
       data-field="name"
       data-type="string"
@@ -59,10 +54,16 @@
       data-type="string"
       :caption="$t('onlineUsers.fields.description')"
     ></DxColumn>
+    <DxSummary>
+      <DxTotalItem column="name" summary-type="count" />
+    </DxSummary>
   </DxDataGrid>
 </template>
 
 <script>
+import DataSource from "devextreme/data/data_source";
+import { confirm } from "devextreme/ui/dialog";
+import turnOfIcon from "~/static/icons/turn-off.svg";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import {
@@ -80,6 +81,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
+  DxSummary,
+  DxTotalItem,
   DxButton
 } from "devextreme-vue/data-grid";
 export default {
@@ -99,17 +102,21 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
+    DxSummary,
+    DxTotalItem
   },
   data() {
     return {
-      onlineUsersStore: this.$dxStore({
-        key: "userId",
-        loadUrl: dataApi.activeUser.GetActiveUsers
+      turnOfIcon,
+      onlineUsersStore: new DataSource({
+        store: this.$dxStore({
+          key: "userId",
+          loadUrl: dataApi.activeUser.GetActiveUsers
+        })
       })
     };
   },
-
   methods: {
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
@@ -123,9 +130,29 @@ export default {
         }
       });
     },
-    diactivateUser(e) {
-      console.log(e);
+    async diactivateUser(e) {
+      console.log(e.row.key);
+      const result = await confirm(
+        this.$t("onlineUsers.confirm.sureTurnOffUser"),
+        this.$t("shared.areYouSure")
+      );
+      if (!result) return;
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.activeUser.EndSession, {
+          userId: e.row.key
+        }),
+        () => {
+          this.onlineUsersStore.reload();
+        }
+      );
     }
   }
 };
 </script>
+<style lang="scss">
+img.dx-icon {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+}
+</style>

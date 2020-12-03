@@ -8,7 +8,8 @@ export default {
   heders: {
     onlineUsers: "Активные пользователи"
   },
-  alert: {
-    limitUsers: "Превышен лимит польвателей"
-  }
+  confirm:{
+    sureTurnOffUser:"Вы уверены что хотите отключить пользователя?"
+  },
+
 };
