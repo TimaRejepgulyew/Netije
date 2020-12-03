@@ -30,6 +30,7 @@ export default {
       this.$store.commit(
         `tasks/${this.taskId}/SET_IMPORTANCE`,
         e.value ? Important.High : Important.Normal
+        
       );
     },
   },

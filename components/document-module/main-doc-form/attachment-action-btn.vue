@@ -20,22 +20,26 @@ import dataApi from "~/static/dataApi";
 import { confirm } from "devextreme/ui/dialog";
 export default {
   components: {
-    DxDropDownButton
+    DxDropDownButton,
   },
-  props: ["version", "documentId"],
-  data() {
-    return {
-      btnType: [
+  props: ["version", "documentId", "isProtected"],
+  computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+    btnType() {
+      return [
         {
           type: "preview",
-          visible: this.version.canBeOpenedWithPreview,
+          visible: this.version.canBeOpenedWithPreview && this.isProtected,
           icon: "pdffile",
-          name: this.$t("buttons.preview")
+          name: this.$t("buttons.preview"),
         },
         {
           type: "download",
+          visible: this.isProtected,
           icon: "download",
-          name: this.$t("buttons.download")
+          name: this.$t("buttons.download"),
         },
         {
           type: "delete",
@@ -43,15 +47,10 @@ export default {
             `documents/${this.documentId}/fullAccess`
           ],
           icon: "trash",
-          name: this.$t("buttons.delete")
-        }
-      ]
-    };
-  },
-  computed: {
-    document() {
-      return this.$store.getters[`documents/${this.documentId}/document`];
-    }
+          name: this.$t("buttons.delete"),
+        },
+      ];
+    },
   },
   methods: {
     onItemClick(e) {
@@ -72,16 +71,16 @@ export default {
         options: {
           readOnly: true,
           extension: this.version.extension,
-          params: { versionId: this.version.id }
+          params: { versionId: this.version.id },
         },
-        lastVersion: false
+        lastVersion: false,
       });
     },
     downloadVersion() {
       DocumentVersionService.downloadVersion(this, {
         id: this.version.id,
         name: this.document.name,
-        extension: this.version.extension
+        extension: this.version.extension,
       });
     },
     async deleteVersion() {
@@ -104,8 +103,8 @@ export default {
               this.$emit("updateVersions");
           }
         );
-    }
-  }
+    },
+  },
 };
 </script>
 

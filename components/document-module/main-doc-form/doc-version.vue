@@ -34,11 +34,22 @@
                     <small>{{ item.data.author }}</small>
                   </div>
                 </div>
+                <div
+                  v-if="item.data.malwareScanResult !== null || undefined"
+                  class="malware_scan_result"
+                >
+                  <img
+                    class="shield_img"
+                    :src="getById(item.data.malwareScanResult).icon"
+                  />
+                  {{ getById(item.data.malwareScanResult).text }}
+                </div>
                 <div class="list__btn-group">
                   <attachment-action-btn
                     @updateVersions="refresh"
                     :documentId="documentId"
                     :version="item.data"
+                    :isProtected="isProtected(item.data.malwareScanResult)"
                   />
                 </div>
               </div>
@@ -50,6 +61,7 @@
   </div>
 </template>
 <script>
+import MalwareScanResultModel from "~/infrastructure/models/MalwareScanResults.js";
 import createVersionBtn from "~/components/document-module/main-doc-form/toolbar/create-version-btn.vue";
 import DataSource from "devextreme/data/data_source";
 import DocumentIcon from "~/components/page/document-icon";
@@ -57,6 +69,7 @@ import DxList from "devextreme-vue/list";
 import dataApi from "~/static/dataApi";
 import documentService from "~/infrastructure/services/documentVersionService.js";
 import AttachmentActionBtn from "~/components/document-module/main-doc-form/attachment-action-btn";
+import malwareScanResultsVariable from "~/infrastructure/constants/malwareScanResults.js";
 import moment from "moment";
 import { DxButton } from "devextreme-vue";
 export default {
@@ -65,7 +78,7 @@ export default {
     DocumentIcon,
     DxList,
     DxButton,
-    createVersionBtn
+    createVersionBtn,
   },
   props: ["documentId"],
   data() {
@@ -73,13 +86,16 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`,
         }),
-        sort: [{ selector: "number", desc: true }]
-      })
+        sort: [{ selector: "number", desc: true }],
+      }),
     };
   },
   computed: {
+    malwareScanResultModel() {
+      return new MalwareScanResultModel(this);
+    },
     uploadVersionVisible() {
       return this.canUpdate;
     },
@@ -91,18 +107,29 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    }
+    },
   },
   methods: {
     refresh() {
       this.versions.reload();
-    }
+    },
+    getById(id) {
+      return this.malwareScanResultModel.getById(id);
+    },
+    isProtected(malwareScanResult) {
+      let result =
+        malwareScanResult === malwareScanResultsVariable.Clean ||
+        malwareScanResultsVariable.Unknown
+          ? true
+          : false;
+      return result;
+    },
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -133,6 +160,17 @@ export default {
   }
   .dx-fileuploader-input-container {
     display: none;
+  }
+}
+
+.malware_scan_result {
+  min-width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 0 20px;
+  .shield_img {
+    max-height: 25px;
   }
 }
 

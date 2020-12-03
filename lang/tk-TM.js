@@ -18,7 +18,9 @@ import parties from "~/lang/i18n-translation/tk/parties.js";
 import paperWork from "~/lang/i18n-translation/tk/paperWork.js";
 import docFlow from "~/lang/i18n-translation/tk/docFlow.js";
 import buttons from "~/lang/i18n-translation/tk/buttons.js";
+import malwareScanResults from "~/lang/i18n-translation/tk/malwareScanResults.js";
 export default {
+  malwareScanResults,
   scanner,
   paperWork,
   parties,

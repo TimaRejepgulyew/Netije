@@ -18,7 +18,9 @@ import parties from "~/lang/i18n-translation/ru/parties.js";
 import paperWork from "~/lang/i18n-translation/ru/paperWork.js";
 import docFlow from "~/lang/i18n-translation/ru/docFlow.js";
 import scanner from "~/lang/i18n-translation/ru/scanner.js";
+import malwareScanResults from "~/lang/i18n-translation/ru/malwareScanResults.js";
 export default {
+  malwareScanResults,
   scanner,
   paperWork,
   parties,
