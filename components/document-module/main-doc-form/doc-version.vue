@@ -21,21 +21,27 @@
         >
           <template #item="item">
             <div>
-              <div class="d-flex">
-                <document-icon :extension="item.data.extension"></document-icon>
+              <div class="d-flex align-center">
                 <div class="list__content">
-                  {{ item.data.note }}
                   <div>
-                    <i class="dx-icon dx-icon-clock"></i>
-                    <small>{{ item.data.created | formatDate }}</small>
-                  </div>
-                  <div>
-                    <i class="dx-icon dx-icon-user"></i>
-                    <small>{{ item.data.author }}</small>
+                    <document-icon
+                      :extension="item.data.extension"
+                    ></document-icon>
+                    {{ item.data.note }}
+
+                    <div>
+                      <i class="dx-icon dx-icon-clock"></i
+                      ><small>{{ item.data.created | formatDate }}</small>
+                    </div>
+
+                    <div class="max-width-5vw">
+                      <i class="dx-icon dx-icon-user"></i>
+                      <small>{{ item.data.author }}</small>
+                    </div>
                   </div>
                 </div>
                 <div
-                  v-if="item.data.malwareScanResult !== null || undefined"
+                  v-if="item.data.malwareScanResult !== undefined"
                   class="malware_scan_result"
                 >
                   <img
@@ -78,7 +84,7 @@ export default {
     DocumentIcon,
     DxList,
     DxButton,
-    createVersionBtn,
+    createVersionBtn
   },
   props: ["documentId"],
   data() {
@@ -86,10 +92,10 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`,
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
         }),
-        sort: [{ selector: "number", desc: true }],
-      }),
+        sort: [{ selector: "number", desc: true }]
+      })
     };
   },
   computed: {
@@ -107,7 +113,7 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    },
+    }
   },
   methods: {
     refresh() {
@@ -119,22 +125,31 @@ export default {
     isProtected(malwareScanResult) {
       let result =
         malwareScanResult === malwareScanResultsVariable.Clean ||
-        malwareScanResultsVariable.Unknown
+        malwareScanResultsVariable.Unknown||   malwareScanResultsVariable.Error
           ? true
           : false;
       return result;
-    },
+    }
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
+.max-width-5vw {
+  height: auto;
 
+  width: 6vw;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
 .uploadButton {
   padding: 0;
   margin: 0;
@@ -208,13 +223,7 @@ export default {
   border: 0.5px solid $base-border-color;
   border-radius: 5px;
 }
-.popup__img {
-  object-fit: contain;
-  display: block;
-  position: relative;
-  width: 80%;
-  height: 100%;
-}
+
 .refresh-btn {
   margin-bottom: 10px;
 }
