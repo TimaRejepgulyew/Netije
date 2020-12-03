@@ -108,7 +108,7 @@ export default {
     CreateTask: `/api/Task/Create`,
     СreateTaskByDocument: `/api/Task/CreateTaskByDocument`,
     CreateSubtaskByTask: "/api/Task/CreateSubtask",
-    CreateSubTaskByAssignment: "/api/Task/CreateSubTaskByAssignment",
+    
     CreateChildActionItemExecution: `/api/Task/CreateChildActionItemExecutionTask`,
     CreateDraftResolutionActionItemExecutionTask: `/api/Task/CreateDraftResolutionActionItemExecutionTask`,
 
@@ -124,6 +124,7 @@ export default {
     RemoveRecipient: `/api/AccessRights/`
   },
   assignment: {
+    CreateSubtask: `api/Assignment/CreateSubtask`,
     GrantPermissions: `/api/Assignment/GrantPermissions`,
     CheckMembersPermissions: `/api/Assignment/CheckMembersPermissions/`,
     HasChildActionItemItems: `/api/Assignment/HasChildActionItemItems/`,

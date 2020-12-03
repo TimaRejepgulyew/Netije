@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { createSubTaskByAssignment } from "~/infrastructure/services/taskService.js";
+import { createSubtaskByAssignment } from "~/infrastructure/services/taskService.js";
 import createChildTaskIcon from "~/static/icons/create-child-task-btn-icon.svg";
 import { DxButton } from "devextreme-vue";
 export default {
@@ -37,8 +37,8 @@ export default {
       this.$popup.taskCard(
         this,
         {
-          params: this.assignmentId,
-          handler: createSubTaskByAssignment
+          params: this.parentAssignmentId,
+          handler: createSubtaskByAssignment
         },
         {
           listeners: [

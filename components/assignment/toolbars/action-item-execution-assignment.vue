@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import createOutgoingLetterBtn from "~/components/assignment/components/create-outgoing-letter-btn.vue";
 import createSubTaskActionItemBtn from "~/components/assignment/components/create-sub-task-action-item-btn.vue";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
@@ -51,9 +52,15 @@ import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    createSubTaskActionItemBtn
+    createSubTaskActionItemBtn,
+    createOutgoingLetterBtn
   },
   mixins: [toolbarMixin],
+  data() {
+    return {
+      incomingDocumentId: null
+    };
+  },
   methods: {
     pasteAttachment(options) {
       this.$emit("pasteAttachment", options);
