@@ -141,9 +141,7 @@ export default {
 @import "~assets/themes/generated/variables.base.scss";
 .max-width-5vw {
   height: auto;
-
   width: 6vw;
-
   overflow: hidden;
   text-overflow: ellipsis;
 
