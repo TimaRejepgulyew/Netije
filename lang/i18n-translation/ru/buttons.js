@@ -1,4 +1,5 @@
 export default {
+  edit: "Редактировать",
   confirm: "Потвердите",
   diactivate: "Завершить сеанс",
   switchToCompound: "Равноправные исполнители",

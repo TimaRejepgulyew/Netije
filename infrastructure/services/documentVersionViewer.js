@@ -1,4 +1,6 @@
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
+import { alert } from "devextreme/ui/dialog";
+
 export default ({ context, options, lastVersion, listeners, isNew }) => {
   console.log("preview", isNew);
   switch (options.extension) {
@@ -32,14 +34,8 @@ export default ({ context, options, lastVersion, listeners, isNew }) => {
       throw "EJ2 DocumentEditor does not support this file";
   }
 };
-export const documentEditing = ({
-  context,
-  options,
-  lastVersion,
-  listeners,
-  isNew
-}) => {
-  switch (options.extension) {
+export const canEdit = extension => {
+  switch (extension) {
     case ".docm":
     case ".dotm":
     case ".dot":
@@ -49,15 +45,12 @@ export const documentEditing = ({
     case ".txt":
     case ".xml":
     case ".html":
-      documentEditor({ context, options, lastVersion, listeners, isNew });
-      break;
     case ".lsx":
     case ".xlsx":
     case ".csv":
-      spreadSheet({ context, options, lastVersion, listeners, isNew });
-      break;
+      return true;
     default:
-      throw "EJ2 DocumentEditor does not support this file";
+      return false;
   }
 };
 const pdfViewer = ({ context, options, lastVersion, listeners }) => {

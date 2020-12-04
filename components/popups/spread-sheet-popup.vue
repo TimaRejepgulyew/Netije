@@ -52,7 +52,7 @@ export default {
       this.$emit("close");
     },
     valueChanged(params) {
-      this.$emit("valueChanged", { ...paramse, extension: ".xlsx" });
+      this.$emit("valueChanged", { ...params, extension: ".xlsx" });
     }
   }
 };

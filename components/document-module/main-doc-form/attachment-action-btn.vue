@@ -14,8 +14,9 @@
 
 <script>
 import DocumentVersionViewer, {
-  documentEditing
+  canEdit
 } from "~/infrastructure/services/documentVersionViewer.js";
+import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import { DxDropDownButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
@@ -33,7 +34,7 @@ export default {
       return [
         {
           type: "edit",
-          visible: this.isProtected,
+          visible: this.isProtected && canEdit(this.version.extension),
           icon: "edit",
           name: this.$t("buttons.edit")
         },
@@ -77,11 +78,14 @@ export default {
       }
     },
     pasteVersion({ file, extension }) {
+      console.log(extension);
       switch (extension) {
         case ".docx":
           this.pasteDocxVersion({ file });
+          break;
         case ".xlsx":
           this.pasteXlsXVersion({ file });
+          break;
         default:
           throw "can't paste this file ";
       }
@@ -121,7 +125,7 @@ export default {
       );
     },
     editVersion() {
-      documentEditing({
+      DocumentVersionViewer({
         context: this,
         options: {
           readOnly: false,
