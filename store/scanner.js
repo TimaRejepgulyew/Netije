@@ -27,7 +27,7 @@ const setDefaultParams = ({ state, commit }, defaultParams) => {
   }
 };
 function sortFiles(files) {
-  return files.sort(function(prevEl, currentEl) {
+  return files.sort(function (prevEl, currentEl) {
     if (prevEl.order > currentEl.oder) {
       return 1;
     }

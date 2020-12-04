@@ -75,7 +75,7 @@ export default {
 
   display: flex;
   align-items: center;
-  padding: 5px;
+  padding: 10px 5px;
   border-radius: 3px;
   text-decoration: none;
   &:hover {

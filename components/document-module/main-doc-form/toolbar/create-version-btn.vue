@@ -9,7 +9,7 @@
       key-expr="id"
       :visible="canUpdate"
       :dropDownOptions="{
-        width: '200px',
+        width: '200px'
       }"
       @item-click="onItemClick"
     >
@@ -34,7 +34,7 @@ export default {
   components: {
     DxButton,
     DxDropDownButton,
-    toolbarItemUploadVersion,
+    toolbarItemUploadVersion
   },
   props: ["documentId"],
   computed: {
@@ -50,42 +50,56 @@ export default {
           id: 1,
           type: "upload",
           name: this.$t("buttons.upload"),
-          icon: "upload",
+          icon: "upload"
         },
         {
           id: 2,
           temp: "toolbarItemUploadVersion",
           type: "scaner",
           name: this.$t("buttons.fromScaner"),
-          icon: "print",
+          icon: "print"
         },
         {
           id: 3,
           disabled: true,
           type: "doc",
           name: this.$t("buttons.fromTemplate"),
-          icon: "doc",
+          icon: "doc"
         },
         {
           id: 4,
           type: "docxfile",
           name: this.$t("buttons.fromDocx"),
-          icon: "docxfile",
+          icon: "docxfile"
         },
         {
           id: 5,
           type: "xlsxfile",
           name: this.$t("buttons.fromXlsx"),
-          icon: "xlsxfile",
-        },
+          icon: "xlsxfile"
+        }
       ];
-    },
+    }
   },
   methods: {
     uploadVersion(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VERSION`, data);
       this.$emit("uploadVersion");
       this.$awn.success();
+    },
+    pasteVersionFromScanner({ file }) {
+      this.$awn.async(
+        documentVersionService.createVersionFromFile(
+          this.document,
+          file,
+          this,
+          "test.pdf"
+        ),
+        res => {
+          this.uploadVersion(res.data);
+        },
+        () => {}
+      );
     },
     pasteXlsXVersion({ file }) {
       this.$awn.asyncBlock(
@@ -94,7 +108,7 @@ export default {
           this.document,
           file
         ),
-        (res) => {
+        res => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -110,7 +124,7 @@ export default {
           this,
           "test.docx"
         ),
-        (res) => {
+        res => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -125,9 +139,20 @@ export default {
           this.$refs.toolbarItemUploadVersion.$el.click();
           break;
         case "scaner":
-          this.$popup.scannerDialog(this, {
-            documentId: this.documentId,
-          });
+          this.$popup.scannerDialog(
+            this,
+            {
+              documentId: this.documentId
+            },
+            {
+              listeners: [
+                {
+                  eventName: "valueChanged",
+                  handlerName: "pasteVersionFromScanner"
+                }
+              ]
+            }
+          );
           break;
         case "docxfile":
           DocumentVersionViewer({
@@ -136,13 +161,13 @@ export default {
               readOnly: false,
               extension: ".docx",
               params: {
-                documentId: this.documentId,
-              },
+                documentId: this.documentId
+              }
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteDocxVersion" },
-            ],
+              { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
+            ]
           });
           break;
         case "xlsxfile":
@@ -152,20 +177,20 @@ export default {
               readOnly: false,
               extension: ".xlsx",
               params: {
-                documentId: this.documentId,
-              },
+                documentId: this.documentId
+              }
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" },
-            ],
+              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
+            ]
           });
           break;
         default:
           break;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

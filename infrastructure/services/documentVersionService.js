@@ -11,7 +11,6 @@ export default {
       versionType: 5,
       fileName: `test.xlsx`,
       contentType: 6
-
     };
     return await exportFileAsJson(
       context,
@@ -108,9 +107,15 @@ const importFile = async (context, endpoint) => {
 
 const download = (context, endpoint, obj) => {
   context.$awn.asyncBlock(importFile(context, endpoint), response => {
-    const blob = new Blob([response], {
-      type: `data:${response.type}`
-    });
+    const blob = new Blob(
+      [response],
+      {
+        type: `data:${response.type}`
+      },
+      e => {
+        console.error(e.response);
+      }
+    );
     saveAs(blob, `${obj.name}${obj.extension.toLowerCase()}`);
   });
 };

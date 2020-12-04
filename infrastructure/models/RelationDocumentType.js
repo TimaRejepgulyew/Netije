@@ -18,7 +18,7 @@ export default class RelationDocumentType extends DocumentType {
         break;
       case DocumentTypeGuid.OutgoingLetter:
         allowTypes = [
-          DocumentTypeGuid.OutgoingLetter,
+          DocumentTypeGuid.IncomingLetter,
           DocumentTypeGuid.Addendum
         ];
         break;
