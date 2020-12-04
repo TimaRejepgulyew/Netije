@@ -34,19 +34,19 @@ export default {
       return [
         {
           type: "edit",
-          visible: this.isProtected && canEdit(this.version.extension),
+          visible: !this.virusDetected && canEdit(this.version.extension),
           icon: "edit",
           name: this.$t("buttons.edit")
         },
         {
           type: "preview",
-          visible: this.version.canBeOpenedWithPreview && this.isProtected,
+          visible: !this.virusDetected &&this.version.canBeOpenedWithPreview,
           icon: "pdffile",
           name: this.$t("buttons.preview")
         },
         {
           type: "download",
-          visible: this.isProtected,
+          visible: !this.virusDetected,
           icon: "download",
           name: this.$t("buttons.download")
         },

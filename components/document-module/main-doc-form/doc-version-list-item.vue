@@ -38,7 +38,7 @@
         @updateVersions="refresh"
         :documentId="documentId"
         :version="item.data"
-        :isProtected="isProtected(item.data.malwareScanResult)"
+        :virusDetected="virusDetected(item.data.malwareScanResult)"
       />
     </div>
   </div>
@@ -86,13 +86,8 @@ export default {
     getById(id) {
       return this.malwareScanResultModel.getById(id);
     },
-    isProtected(malwareScanResult) {
-      let result =
-        malwareScanResult === malwareScanResultsVariable.Clean ||
-        malwareScanResultsVariable.Unknown
-          ? true
-          : false;
-      return result;
+    virusDetected(malwareScanResult) {
+     return  malwareScanResult === malwareScanResultsVariable.VirusDetected
     },
     toDetailAuthor() {
       this.$popup.employeeCard(

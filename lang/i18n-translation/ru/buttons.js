@@ -11,7 +11,7 @@ export default {
   returnManagersAssistant: "Вернуть помощнику",
   approveResolution: "Утвердить проект резолюции",
   sendToReview: "Отправить на расмотрение",
-  sendToAssignee: "Отправить на исполнение",
+  sendToAssignee: "Отправлено на исполнение",
   takeInto: "Принять к сведению",
   readdress: "Переадресовать",
   new: "Новые",

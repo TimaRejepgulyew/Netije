@@ -42,12 +42,12 @@ import AttachmentAccessRightModel from "~/infrastructure/models/AttachmentAccess
 import attachmentAccessRight from "~/infrastructure/constants/attachmentAccessRight.js";
 export default {
   components: {
-    DxButton
+    DxButton,
   },
   props: {
     maxOperation: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   methods: {
     selected(attachmentAccessRightId) {
@@ -58,19 +58,28 @@ export default {
     },
     closeDialog() {
       this.$emit("close");
-    }
+    },
   },
   computed: {
     avaliableAccessRight() {
       return Object.values(
         new AttachmentAccessRightModel(this).filtering(this.maxOperation)
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
+.f-column {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+}
+.js-space-between {
+  align-items: flex-start;
+  justify-content: space-around;
+}
 .avaliableAccessRightBtn {
   display: block;
   padding: 0 5px;
