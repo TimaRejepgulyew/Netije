@@ -19,7 +19,7 @@
           "
         >
           <i class="dx-icon dx-icon-user"></i>
-          <small @click="showEmployeeCard">{{ item.data.author.name }}</small>
+          <small>{{ item.data.author.name }}</small>
         </div>
       </div>
     </div>
