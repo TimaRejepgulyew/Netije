@@ -23,7 +23,7 @@ export default {
   restart: "Рестартовать",
   abort: "Прекратить",
   start: "Запустить",
-  acquaintance: "Ознакомиться",
+  acquaintance: "Ознакомлен",
   changePassword: "Сменить пароль",
   save: "Сохранить",
   add: "Добавить",
