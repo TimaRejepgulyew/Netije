@@ -93,8 +93,8 @@ export default {
       type: Object,
     },
     popupSettings: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -187,9 +187,9 @@ export default {
   created() {
     this.$eventBus.$emit("popup-created", {
       id: this.id,
-      closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress
+      closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress,
     });
-  }
+  },
 };
 </script>
 
@@ -260,6 +260,7 @@ export default {
       overflow-y: scroll;
       padding: 20px 20px 20px 20px;
       font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
+      max-height: 90vh;
     }
   }
 }
