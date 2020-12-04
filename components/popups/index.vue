@@ -1,5 +1,5 @@
 <template>
-  <div tabindex="-1" v-show="showPopup" class="superwrapper">
+  <div v-if="visible" tabindex="-1" class="superwrapper">
     <DxLoadPanel
       @click="destroyComponent"
       :visible.sync="isLoading"
@@ -11,6 +11,7 @@
     >
       <transition name="popup-fade">
         <div
+          v-show="showPopup"
           class="custom_popup"
           :style="
             `height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`
@@ -32,6 +33,7 @@
               @onError="onError"
               :is="template"
               :options="options"
+              :key="componentKey"
             />
           </div>
         </div>
@@ -94,24 +96,24 @@ export default {
       type: Object
     },
     popupSettings: {
-      type: Object,
+      type: Object
     },
+    dialogId: {}
   },
   data() {
     return {
-      id: new Date().getTime(),
       visible: true,
       isLoading: false,
       title: "",
       indicatorIcon,
       showPopup: false,
-      isLoaded: false
+      isLoaded: false,
+      componentKey: new Date().getSeconds()
     };
   },
   computed: {
     defaultPopupSettings() {
       return {
-        closeOnEscapePress: true,
         closeOnOutsideClick: false,
         dragEnabled: false,
         showTitle: true,
@@ -125,6 +127,7 @@ export default {
   },
   methods: {
     onError(error) {
+      console.log("error", error);
       switch (error?.status) {
         case 403:
           this.accessDenied();
@@ -142,12 +145,10 @@ export default {
       );
     },
     destroyComponent() {
-      this.showPopup = false;
-      this.$eventBus.$emit("popup-destroyed");
-
-      setTimeout(() => {
+      this.visible = false;
+      this.$nextTick(() => {
         this.$destroy();
-      }, 1000);
+      });
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
@@ -172,26 +173,20 @@ export default {
     setTitle(data) {
       this.title = data;
     },
-    closePopup(id) {
-      if (id == this.id) {
-        this.$eventBus.$off("close-popup", this.closePopup);
+    closeDialog(dialogId) {
+      if (dialogId == this.dialogId) {
+        this.$eventBus.$off("close-dialog", this.closeDialog);
         this.destroyComponent();
       }
     }
   },
   mounted() {
     this.showLoadIndicator();
-    this.$eventBus.$on("close-popup", this.closePopup);
+    this.$eventBus.$on("close-dialog", this.closeDialog);
     setTimeout(() => {
       this.$el.focus();
     }, 200);
-  },
-  created() {
-    this.$eventBus.$emit("popup-created", {
-      id: this.id,
-      closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress,
-    });
-  },
+  }
 };
 </script>
 
@@ -261,8 +256,16 @@ export default {
     .custom_popup_content {
       overflow-y: scroll;
       padding: 20px 20px 20px 20px;
+      height: 90vh;
       font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
-      max-height: 90vh;
+      // &::-webkit-scrollbar {
+      //   width: 8px;
+      // }
+      // &::-webkit-scrollbar-thumb {
+      //   border-radius: 10px;
+      //   background-color: $base-border-color;
+      //   cursor: pointer;
+      // }
     }
   }
 }
