@@ -238,9 +238,8 @@ export default {
   background-position: 0 0;
   background-size: 18px 18px;
   padding: 0;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
-  line-height: 18px;
-  margin: 2px 3px;
+  line-height: 20px;
 }
 </style>

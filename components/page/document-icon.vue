@@ -27,9 +27,9 @@ export default {
   background-position: 0 0;
   background-size: 18px 18px;
   padding: 0;
-  font-size: 30px;
+  font-size: 20px;
   text-align: center;
-  line-height: 18px;
+  line-height: 20px;
   margin: 0;
 }
 </style>
