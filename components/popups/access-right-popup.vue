@@ -31,7 +31,6 @@ export default {
     },
   },
   async created() {
-    console.log(this.options);
     const { data } = await this.$axios.get(
       `${dataApi.accessRights.List}${this.options.entityType}/${this.options.entityId}`
     );

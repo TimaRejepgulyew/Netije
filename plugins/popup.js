@@ -57,7 +57,6 @@ export default ({ app }, inject) => {
   });
 
   document.addEventListener("keydown", function(e) {
-    console.log(popups);
     if (e.key == "Escape" && popups.length > 0) {
       var lastPopup = popups[popups.length - 1];
       if (lastPopup.closeOnEscapePress) {

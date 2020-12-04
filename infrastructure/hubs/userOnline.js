@@ -17,7 +17,6 @@ export default function(app) {
       try {
         await connection.start();
       } catch (err) {
-        console.log(err);
         setTimeout(connectHub, 5000);
       }
     }

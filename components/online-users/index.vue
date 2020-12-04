@@ -131,7 +131,6 @@ export default {
       });
     },
     async diactivateUser(e) {
-      console.log(e.row.key);
       const result = await confirm(
         this.$t("onlineUsers.confirm.sureTurnOffUser"),
         this.$t("shared.areYouSure")

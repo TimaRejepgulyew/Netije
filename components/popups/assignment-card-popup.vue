@@ -33,7 +33,6 @@ export default {
     };
   },
   async created() {
-    console.log(this.options);
     const assignmentId = this.options.params.assignmentId;
     await assignmentLoad(this, assignmentId);
     this.assignmentId = assignmentId;

@@ -2,7 +2,6 @@ import DocumentVersionService from "~/infrastructure/services/documentVersionSer
 import { alert } from "devextreme/ui/dialog";
 
 export default ({ context, options, lastVersion, listeners, isNew }) => {
-  console.log("preview", isNew);
   switch (options.extension) {
     case ".pdf":
       pdfViewer({ context, options, lastVersion, listeners });

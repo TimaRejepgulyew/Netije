@@ -124,7 +124,6 @@ export default {
   },
   methods: {
     onError(error) {
-      console.log("error", error);
       switch (error?.status) {
         case 403:
           this.accessDenied();

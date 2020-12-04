@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     valueChanged(data) {
-      console.log("data", data);
       this.$emit("valueChanged", data);
       this.$emit("close");
     },

@@ -86,7 +86,6 @@ export default {
     DocumentEditorContainer: [Toolbar]
   },
   mounted() {
-    console.log(this);
     setTimeout(() => {
       this.mounted = true;
     }, 500);
@@ -115,7 +114,6 @@ export default {
     async saveDocument() {
       const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
       const blob = await documentEditor.saveAsBlob("Docx");
-      console.log(blob);
       this.$emit("valueChanged", { file: blob });
     }
   }
