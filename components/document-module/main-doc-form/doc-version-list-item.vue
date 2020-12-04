@@ -35,7 +35,7 @@
     </div>
     <div class="list__btn-group">
       <attachment-action-btn
-        @updateVersions="refresh"
+        @uploadVersion="refresh"
         :documentId="documentId"
         :version="item.data"
         :virusDetected="virusDetected(item.data.malwareScanResult)"
