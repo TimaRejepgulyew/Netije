@@ -98,6 +98,7 @@ export default {
           this.setDeviceName(e.value);
         },
         onSelectionChanged: e => {
+          console.log(e);
           if (e.selectedItem) this.setCurrentDeviceParamsStore(e.selectedItem);
         }
       };

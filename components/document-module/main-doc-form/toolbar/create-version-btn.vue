@@ -87,6 +87,20 @@ export default {
       this.$emit("uploadVersion");
       this.$awn.success();
     },
+    pasteVersionFromScanner({ file }) {
+      this.$awn.async(
+        documentVersionService.createVersionFromFile(
+          this.document,
+          file,
+          this,
+          "test.pdf"
+        ),
+        (res) => {
+          this.$emit("uploadVersion", res.data);
+        },
+        () => {}
+      );
+    },
     pasteXlsXVersion({ file }) {
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromSpreadSheet(
@@ -125,9 +139,20 @@ export default {
           this.$refs.toolbarItemUploadVersion.$el.click();
           break;
         case "scaner":
-          this.$popup.scannerDialog(this, {
-            documentId: this.documentId,
-          });
+          this.$popup.scannerDialog(
+            this,
+            {
+              documentId: this.documentId,
+            },
+            {
+              listeners: [
+                {
+                  eventName: "valueChanged",
+                  handlerName: "pasteVersionFromScanner",
+                },
+              ],
+            }
+          );
           break;
         case "docxfile":
           DocumentVersionViewer({
