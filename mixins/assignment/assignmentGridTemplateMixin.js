@@ -104,8 +104,8 @@ export default {
         style.textDecoration = "line-through";
       }
     },
-    showIsNotReadAssignment({ isRead, status }, style) {
-      if (!isRead && status !== AssignmentStatusGuid.Aborted && status !== AssignmentStatusGuid.Completed) {
+    showIsNotReadAssignment({ isRead, status, assignmentType }, style) {
+      if (!isRead && status !== AssignmentStatusGuid.Aborted && (status !== AssignmentStatusGuid.Completed || isNotification(assignmentType))) {
         style.fontWeight = "bolder";
       }
     },
