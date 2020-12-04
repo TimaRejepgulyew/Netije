@@ -13,9 +13,7 @@
         <div
           v-show="showPopup"
           class="custom_popup"
-          :style="
-            `height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`
-          "
+          :style="`height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`"
         >
           <div class="custom_popup_title">
             <div class="text">{{ title }}</div>
@@ -33,7 +31,6 @@
               @onError="onError"
               :is="template"
               :options="options"
-              :key="componentKey"
             />
           </div>
         </div>
@@ -85,15 +82,15 @@ export default {
     imageViewer,
     spreadSheet,
     scannerDialog,
-    licenseInfo
+    licenseInfo,
   },
   name: "base-popup",
   props: {
     template: {
-      type: String
+      type: String,
     },
     options: {
-      type: Object
+      type: Object,
     },
     popupSettings: {
       type: Object
@@ -108,7 +105,6 @@ export default {
       indicatorIcon,
       showPopup: false,
       isLoaded: false,
-      componentKey: new Date().getSeconds()
     };
   },
   computed: {
@@ -122,9 +118,9 @@ export default {
         height: "95vh",
         position: "center",
         showLoadingPanel: true,
-        ...this.popupSettings
+        ...this.popupSettings,
       };
-    }
+    },
   },
   methods: {
     onError(error) {
@@ -180,7 +176,7 @@ export default {
         this.$eventBus.$off("close-popup", this.closePopup);
         this.destroyComponent();
       }
-    }
+    },
   },
   mounted() {
     this.showLoadIndicator();
@@ -264,16 +260,7 @@ export default {
     .custom_popup_content {
       overflow-y: scroll;
       padding: 20px 20px 20px 20px;
-      height: 90vh;
       font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
-      // &::-webkit-scrollbar {
-      //   width: 8px;
-      // }
-      // &::-webkit-scrollbar-thumb {
-      //   border-radius: 10px;
-      //   background-color: $base-border-color;
-      //   cursor: pointer;
-      // }
     }
   }
 }

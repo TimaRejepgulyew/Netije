@@ -2,10 +2,10 @@ export default {
   headerTitle: "Лицензирование",
   information: {
     title: "Информация о линцензии",
-    expiration:"Истечение срока",
+    expiration:"Срок действия",
     isTrial:"Бессрочно",
     id:"Номер",
     name:"Название",
-    usersCount:"Колличество пользователей",
+    usersCount:"Количество пользователей",
   }
 }
