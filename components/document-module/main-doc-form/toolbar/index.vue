@@ -73,6 +73,13 @@
         widget="dxButton"
       />
       <DxItem
+        :options="editButtonOptions"
+        locateInMenu="auto"
+        :visible="canEditVersion"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
         :visible="canDelete"
         :options="removeDocumentButtonOptions"
         location="after"
@@ -84,7 +91,11 @@
 <script>
 //servises
 import { refresh } from "~/infrastructure/services/DocumentService.js";
-import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
+import DocumentVersionViewer, {
+  canEdit,
+} from "~/infrastructure/services/documentVersionViewer.js";
+import documentVersionService from "~/infrastructure/services/documentVersionService.js";
+import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 //components
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -115,7 +126,7 @@ export default {
     toolbarItemCreateVersion,
     DxButton,
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["isCard", "documentId"],
   inject: ["trySaveDocument"],
@@ -128,19 +139,25 @@ export default {
         type: "back",
         onClick: () => {
           this.$router.go(-1);
-        }
-      }
+        },
+      },
     };
   },
   computed: {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
+    canUpdate() {
+      return this.$store.getters[`documents/${this.document.id}/canUpdate`];
+    },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
     canBeOpenedWithPreview() {
       return this.document.canBeOpenedWithPreview;
+    },
+    canEditVersion() {
+      return canEdit(this.document.extension) && this.canUpdate;
     },
     hasVersions() {
       return this.document.hasVersions;
@@ -180,11 +197,32 @@ export default {
             options: {
               readOnly: true,
               extension: this.document.extension,
-              params: { documentId: this.documentId }
+              params: { documentId: this.documentId },
             },
-            lastVersion: true
+            lastVersion: true,
           });
-        }
+        },
+      };
+    },
+    editButtonOptions() {
+      return {
+        text: this.$t("buttons.edit"),
+        hint: this.$t("buttons.edit"),
+        icon: "edit",
+        onClick: () => {
+          DocumentVersionViewer({
+            context: this,
+            options: {
+              readOnly: false,
+              extension: this.document.extension,
+              params: { documentId: this.document.id },
+            },
+            lastVersion: true,
+            listeners: [
+              { eventName: "valueChanged", handlerName: "pasteVersion" },
+            ],
+          });
+        },
       };
     },
     saveButtonOptions() {
@@ -193,7 +231,7 @@ export default {
         disabled: !this.canUpdate || !this.isDataChanged,
         onClick: async () => {
           await this.trySaveDocument();
-        }
+        },
       };
     },
     versionOptions() {
@@ -203,7 +241,7 @@ export default {
         text: this.$t("buttons.versions"),
         onClick: () => {
           this.$emit("openVersion");
-        }
+        },
       };
     },
     saveAndBackButtonOptions() {
@@ -213,7 +251,7 @@ export default {
         disabled: !this.canUpdate || !this.isDataChanged,
         onClick: async () => {
           if (await this.trySaveDocument()) this.$emit("onClose");
-        }
+        },
       };
     },
     removeDocumentButtonOptions() {
@@ -226,21 +264,21 @@ export default {
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then(dialogResult => {
+          result.then((dialogResult) => {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$store.dispatch(`documents/${this.documentId}/delete`),
-                e => {
+                (e) => {
                   this.$emit("onRemove");
                   this.$awn.success();
                 },
-                e => {
+                (e) => {
                   this.$awn.alert();
                 }
               );
             }
           });
-        }
+        },
       };
     },
     refreshButtonOptions() {
@@ -252,10 +290,55 @@ export default {
             refresh(this, { documentTypeGuid, documentId: id }),
             () => {}
           );
-        }
+        },
       };
-    }
-  }
+    },
+  },
+  methods: {
+    pasteVersion({ file, extension }) {
+      switch (extension) {
+        case ".docx":
+          this.pasteDocxVersion({ file });
+          break;
+        case ".xlsx":
+          this.pasteXlsXVersion({ file });
+          break;
+        default:
+          throw "can't paste this file ";
+      }
+    },
+    pasteXlsXVersion({ file }) {
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromSpreadSheet(
+          this,
+          this.document,
+          file
+        ),
+        () => {
+          this.$awn.success();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    pasteDocxVersion({ file }) {
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromDocumentEditor(
+          this.document,
+          file,
+          this,
+          "test.docx"
+        ),
+        () => {
+          this.$awn.success();
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+  },
 };
 </script>
 <style scoped>
