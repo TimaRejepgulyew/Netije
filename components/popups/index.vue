@@ -31,7 +31,6 @@
               @onError="onError"
               :is="template"
               :options="options"
-              :key="componentKey"
             />
           </div>
         </div>
@@ -106,7 +105,6 @@ export default {
       indicatorIcon,
       showPopup: false,
       isLoaded: false,
-      componentKey: new Date().getSeconds(),
     };
   },
   computed: {
@@ -179,7 +177,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.defaultPopupSettings);
     this.showLoadIndicator();
     this.$eventBus.$on("close-dialog", this.closeDialog);
     setTimeout(() => {
