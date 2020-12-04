@@ -118,7 +118,8 @@ export default {
     };
   },
   destroyed() {
-    if (!this.isNew) this.onClosed();
+    console.log("destroy");
+    this.onClosed();
     unload(this, this.taskId);
   },
   data() {

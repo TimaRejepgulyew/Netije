@@ -41,6 +41,7 @@ import {
   createActionItemExicutionTask,
   load
 } from "~/infrastructure/services/taskService.js";
+
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
 import taskField from "~/components/workFlow/attachment/field-task-attachment.vue";
 import { DxButton } from "devextreme-vue";
@@ -53,8 +54,7 @@ export default {
   components: {
     DxSelectBox,
     DxButton,
-    taskField,
-   
+    taskField
   },
   name: "attachment-group-task",
   data() {
@@ -90,13 +90,20 @@ export default {
         },
         {
           listeners: [
-            { evenName: "valueChanged", handlerName: "reloadAttachmment" }
+            { eventName: "valueChanged", handlerName: "pasteAttachment" }
           ]
         }
       );
     },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
+    },
+    pasteAttachment({ taskType, taskId }) {
+      this.$emit("pasteAttachment", {
+        attachmentId: taskId,
+        groupId: this.group.groupId,
+        entityTypeGuid: mapToEntityType(taskType)
+      });
     },
     reloadAttachmment() {
       this.$emit("reloadAttachment");
