@@ -51,7 +51,7 @@ export default {
     sureDocumentReviewSendToResolutionConfirmation:
       "Вы действительно хотите отправить на резолюцию?",
     sureDocumentReviewSendToAssigneeConfirmation:
-      "Вы действительно хотите отправить на исполнение?",
+      "Вы действительно отправили документ на исполнение?",
     sureDocumentReviewExploredConfirmation:
       "Вы действительно ознакомились с документом?",
     sureDocumentReviewForwardConfirmation:

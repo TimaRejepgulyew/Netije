@@ -52,7 +52,7 @@ export default {
     sureDocumentReviewSendToResolutionConfirmation:
       "Siz hakykatdan hem rezolýusiýa üçin ibermek isleýärsiňizmi?",
     sureDocumentReviewSendToAssigneeConfirmation:
-      "Siz hakykatda hem ýerine ýetirmek üçin ibermek isleýärsiňizmi?",
+      "Siz hakykatda hem ýerine ýetirmek üçin ibermekçi?",
     sureDocumentReviewExploredConfirmation:
       "Siz hakykatdan hem resminama bilen tanyş bolduňyzmy?",
     sureDocumentReviewForwardConfirmation:
