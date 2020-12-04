@@ -61,7 +61,7 @@ const pdfViewer = ({ context, options, lastVersion, listeners }) => {
       readOnly: options.readOnly,
       params: options.params
     },
-    { showLoadingPanel: false, listeners }
+    { showLoadingPanel: false, closeOnEscapePress: false, listeners }
   );
 };
 const documentEditor = ({
@@ -82,7 +82,7 @@ const documentEditor = ({
       handler: handler,
       isNew
     },
-    { showLoadingPanel: !isNew, listeners }
+    { showLoadingPanel: !isNew, closeOnEscapePress: false, listeners }
   );
 };
 const imageViewer = ({ context, options, lastVersion, listeners }) => {
@@ -117,6 +117,6 @@ const spreadSheet = ({
       handler,
       isNew
     },
-    { showLoadingPanel: !isNew, listeners }
+    { showLoadingPanel: !isNew, closeOnEscapePress: false, listeners }
   );
 };

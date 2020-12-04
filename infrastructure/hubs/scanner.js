@@ -3,7 +3,7 @@ import {
   LogLevel,
   HttpTransportType
 } from "@microsoft/signalr";
-import { alert } from "devextreme/ui/dialog";
+
 export default function(app) {
   const connection = new HubConnectionBuilder()
     .withUrl("http://localhost:8886/SignalR")

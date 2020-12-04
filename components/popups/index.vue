@@ -97,11 +97,11 @@ export default {
     },
     popupSettings: {
       type: Object
-    },
-    dialogId: {}
+    }
   },
   data() {
     return {
+      id: new Date().getTime(),
       visible: true,
       isLoading: false,
       title: "",
@@ -114,6 +114,7 @@ export default {
   computed: {
     defaultPopupSettings() {
       return {
+        closeOnEscapePress: true,
         closeOnOutsideClick: false,
         dragEnabled: false,
         showTitle: true,
@@ -147,6 +148,7 @@ export default {
     destroyComponent() {
       this.visible = false;
       this.$nextTick(() => {
+        this.$eventBus.$emit("popup-destroyed");
         this.$destroy();
       });
     },
@@ -173,20 +175,26 @@ export default {
     setTitle(data) {
       this.title = data;
     },
-    closeDialog(dialogId) {
-      if (dialogId == this.dialogId) {
-        this.$eventBus.$off("close-dialog", this.closeDialog);
+    closePopup(id) {
+      if (id == this.id) {
+        this.$eventBus.$off("close-popup", this.closePopup);
         this.destroyComponent();
       }
     }
   },
   mounted() {
     this.showLoadIndicator();
-    this.$eventBus.$on("close-dialog", this.closeDialog);
+    this.$eventBus.$on("close-popup", this.closePopup);
     setTimeout(() => {
       this.$el.focus();
     }, 200);
   },
+  created() {
+    this.$eventBus.$emit("popup-created", {
+      id: this.id,
+      closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress
+    });
+  }
 };
 </script>
 
