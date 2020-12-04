@@ -118,8 +118,8 @@ export default {
       statusDataSource: this.$store.getters["status/status"],
       tabPanelOptions: {
         focusStateEnabled: false,
-        animationEnabled: true,
-        swipeEnabled: true,
+        animationEnabled: false,
+        swipeEnabled: false,
         loop: "true"
       }
     };

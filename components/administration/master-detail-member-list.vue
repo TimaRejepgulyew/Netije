@@ -129,7 +129,7 @@ export default {
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: true,
-        swipeEnabled: true,
+        swipeEnabled: false,
         loop: "true"
       }
     };

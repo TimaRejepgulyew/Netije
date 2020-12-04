@@ -88,7 +88,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import { unload } from "~/infrastructure/services/documentService.js";
 import dataApi from "~/static/dataApi";
@@ -112,7 +112,7 @@ export default {
     DxRequiredRule,
     DxLabel,
     mainForm,
-    paramsForm,
+    paramsForm
   },
   props: ["documentId", "isCard"],
   data() {
@@ -121,11 +121,11 @@ export default {
       entityTypeGuid: 234,
       tabPanelOptions: {
         focusStateEnabled: false,
-        animationEnabled: true,
-        swipeEnabled: true,
-        loop: "true",
+        animationEnabled: false,
+        swipeEnabled: false,
+        loop: "true"
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`,
+      documentValidatorName: `OfficialDocument/${this.documentId}`
     };
   },
   destroyed() {
@@ -142,13 +142,13 @@ export default {
   },
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name,
+      title: this.$store.getters[`documents/${this.documentId}/document`].name
     };
   },
-  provide: function () {
+  provide: function() {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName,
+      documentValidatorName: this.documentValidatorName
     };
   },
   methods: {
@@ -172,7 +172,7 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    },
+    }
   },
   computed: {
     headerTitle() {
@@ -192,8 +192,8 @@ export default {
     },
     isNew() {
       return this.$store.getters[`documents/${this.documentId}/isNew`];
-    },
-  },
+    }
+  }
 };
 </script>
 
