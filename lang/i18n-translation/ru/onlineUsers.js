@@ -5,7 +5,7 @@ export default {
     name: "Имя",
     description: "Описание"
   },
-  heders: {
+  headers: {
     onlineUsers: "Активные пользователи"
   },
   confirm:{

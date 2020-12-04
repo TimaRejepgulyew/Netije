@@ -72,7 +72,6 @@ export default {
   async created() {
     let { data } = await this.$axios.get(dataApi.licensing.getLicense);
     this.license = data;
-    console.log(data);
     this.$emit("showTitle", this.$t("licensing.information.title"));
     this.$emit("loadStatus");
   },
