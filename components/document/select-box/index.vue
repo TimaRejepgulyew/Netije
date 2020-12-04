@@ -140,7 +140,6 @@ export default {
       this.documentStore.reload();
     },
     updateDocument(data) {
-      console.log("data", data);
       this.reloadStore();
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);

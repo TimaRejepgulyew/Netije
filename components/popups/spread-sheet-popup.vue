@@ -25,7 +25,6 @@ export default {
     }
   },
   async created() {
-    console.log(this.options);
     if (!this.options.isNew) {
       if (this.options.handler && this.options.params)
         this.file = await this.options.handler(this, this.options.params);
@@ -48,7 +47,6 @@ export default {
   },
   methods: {
     close() {
-      console.log("close");
       this.$emit("close");
     },
     valueChanged(params) {

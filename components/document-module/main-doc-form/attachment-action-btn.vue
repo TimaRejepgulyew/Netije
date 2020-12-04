@@ -78,7 +78,6 @@ export default {
       }
     },
     pasteVersion({ file, extension }) {
-      console.log(extension);
       switch (extension) {
         case ".docx":
           this.pasteDocxVersion({ file });

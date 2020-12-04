@@ -48,7 +48,6 @@ export default {
   inject: ["documentValidatorName"],
   methods: {
     setLeadingDocument(value) {
-      console.log(value, "addendum");
       this.$store.dispatch(
         `documents/${this.documentId}/setLeadingDocumentId`,
         value

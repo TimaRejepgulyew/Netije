@@ -1,63 +1,71 @@
 <template>
-  <DxDataGrid
-    id="gridContainer"
-    :errorRowEnabled="false"
-    :show-borders="true"
-    :data-source="onlineUsersStore"
-    :remote-operations="false"
-    @toolbar-preparing="onToolbarPreparing($event)"
-  >
-    <DxHeaderFilter :visible="true" />
-    <DxGroupPanel :visible="true" />
-    <DxGrouping :auto-expand-all="false" />
-    <DxExport
-      :enabled="true"
-      :allow-export-selected-data="true"
-      :file-name="$t('onlineUsers.fileName')"
-    />
-    <DxFilterRow :visible="true" />
+  <div>
+    <Header
+      :headerTitle="$t('onlineUsers.headers.onlineUsers')"
+      :showTitle="true"
+      :isbackButton="true"
+    >
+    </Header>
+    <DxDataGrid
+      id="gridContainer"
+      :errorRowEnabled="false"
+      :show-borders="true"
+      :data-source="onlineUsersStore"
+      :remote-operations="false"
+      @toolbar-preparing="onToolbarPreparing($event)"
+    >
+      <DxHeaderFilter :visible="true" />
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
+      <DxExport
+        :enabled="true"
+        :allow-export-selected-data="true"
+        :file-name="$t('onlineUsers.fileName')"
+      />
+      <DxFilterRow :visible="true" />
 
-    <DxHeaderFilter :visible="true" />
+      <DxHeaderFilter :visible="true" />
 
-    <DxColumnChooser :enabled="true" />
-    <DxColumnFixing :enabled="true" />
+      <DxColumnChooser :enabled="true" />
+      <DxColumnFixing :enabled="true" />
 
-    <DxStateStoring
-      :enabled="true"
-      type="localStorage"
-      storage-key="onlineUsers"
-    />
-    <DxSearchPanel position="after" :visible="true" />
-    <DxEditing
-      :allow-updating="false"
-      :allow-deleting="false"
-      :allow-adding="false"
-      :useIcons="true"
-      mode="row"
-    ></DxEditing>
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="onlineUsers"
+      />
+      <DxSearchPanel position="after" :visible="true" />
+      <DxEditing
+        :allow-updating="false"
+        :allow-deleting="false"
+        :allow-adding="false"
+        :useIcons="true"
+        mode="row"
+      ></DxEditing>
 
-    <DxScrolling mode="virtual" />
-    <DxColumn type="buttons">
-      <DxButton
-        :icon="turnOfIcon"
-        :hint="$t('buttons.diactivate')"
-        :onClick="diactivateUser"
-      ></DxButton>
-    </DxColumn>
-    <DxColumn
-      data-field="name"
-      data-type="string"
-      :caption="$t('onlineUsers.fields.name')"
-    ></DxColumn>
-    <DxColumn
-      data-field="name"
-      data-type="string"
-      :caption="$t('onlineUsers.fields.description')"
-    ></DxColumn>
-    <DxSummary>
-      <DxTotalItem column="name" summary-type="count" />
-    </DxSummary>
-  </DxDataGrid>
+      <DxScrolling mode="virtual" />
+      <DxColumn type="buttons">
+        <DxButton
+          :icon="turnOfIcon"
+          :hint="$t('buttons.diactivate')"
+          :onClick="diactivateUser"
+        ></DxButton>
+      </DxColumn>
+      <DxColumn
+        data-field="name"
+        data-type="string"
+        :caption="$t('onlineUsers.fields.name')"
+      ></DxColumn>
+      <DxColumn
+        data-field="name"
+        data-type="string"
+        :caption="$t('onlineUsers.fields.description')"
+      ></DxColumn>
+      <DxSummary>
+        <DxTotalItem column="name" summary-type="count" />
+      </DxSummary>
+    </DxDataGrid>
+  </div>
 </template>
 
 <script>
@@ -131,7 +139,6 @@ export default {
       });
     },
     async diactivateUser(e) {
-      console.log(e.row.key);
       const result = await confirm(
         this.$t("onlineUsers.confirm.sureTurnOffUser"),
         this.$t("shared.areYouSure")

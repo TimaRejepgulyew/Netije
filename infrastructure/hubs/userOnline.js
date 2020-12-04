@@ -13,11 +13,10 @@ export default function(app) {
   });
 
   async function connectHub() {
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV === "production") {
       try {
         await connection.start();
       } catch (err) {
-        console.log(err);
         setTimeout(connectHub, 5000);
       }
     }
