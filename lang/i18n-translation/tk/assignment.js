@@ -50,7 +50,7 @@ export default {
     sureDocumentReviewApproveRosolutionConfirmation:
       " Hakykatdan hem rezolýusiýanyňtaslamasyny tassyklamak isleýärsiňizmi?",
     sureDocumentReviewSendToResolutionConfirmation:
-      "Siz hakykatdan hem rezolýusiýa üçin ibermek isleýärsiňizmi?",
+      "Hakykattanam rezalýusiýany garalmaga  ibermek isleýärsiňizmi?",
     sureDocumentReviewSendToAssigneeConfirmation:
       "Siz hakykatda hem ýerine ýetirmek üçin ibermekçi?",
     sureDocumentReviewExploredConfirmation:
