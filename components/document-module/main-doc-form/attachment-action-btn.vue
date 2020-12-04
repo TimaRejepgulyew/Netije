@@ -27,6 +27,9 @@ export default {
   },
   props: ["version", "documentId", "isProtected"],
   computed: {
+    canUpdate() {
+      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
+    },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
@@ -34,7 +37,10 @@ export default {
       return [
         {
           type: "edit",
-          visible: !this.virusDetected && canEdit(this.version.extension),
+          visible:
+            !this.virusDetected &&
+            canEdit(this.version.extension) &&
+            this.canUpdate,
           icon: "edit",
           name: this.$t("buttons.edit"),
         },
