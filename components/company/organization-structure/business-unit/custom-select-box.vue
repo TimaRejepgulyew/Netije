@@ -76,6 +76,9 @@ export default {
         this,
         {
           businessUnitId: this.businessUnitId,
+        },
+        {
+          height:'auto'
         }
       );
     },

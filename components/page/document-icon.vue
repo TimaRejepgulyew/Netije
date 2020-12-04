@@ -14,6 +14,9 @@ export default {
       }
     },
   },
+  mounted() {
+    console.log(this.extension);
+  },
 };
 </script>
 

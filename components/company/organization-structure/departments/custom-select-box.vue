@@ -90,6 +90,7 @@ export default {
           departmentId: this.departmentId,
         },
         {
+          height: "auto",
           listeners: [
             { eventName: "valueChanged", handlerName: "valueChanged" },
           ],
