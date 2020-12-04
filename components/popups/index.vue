@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" tabindex="-1" class="superwrapper">
+  <div tabindex="-1" v-show="showPopup" class="superwrapper">
     <DxLoadPanel
       @click="destroyComponent"
       :visible.sync="isLoading"
@@ -11,9 +11,10 @@
     >
       <transition name="popup-fade">
         <div
-          v-show="showPopup"
           class="custom_popup"
-          :style="`height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`"
+          :style="
+            `height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`
+          "
         >
           <div class="custom_popup_title">
             <div class="text">{{ title }}</div>
@@ -82,15 +83,15 @@ export default {
     imageViewer,
     spreadSheet,
     scannerDialog,
-    licenseInfo,
+    licenseInfo
   },
   name: "base-popup",
   props: {
     template: {
-      type: String,
+      type: String
     },
     options: {
-      type: Object,
+      type: Object
     },
     popupSettings: {
       type: Object
@@ -104,7 +105,7 @@ export default {
       title: "",
       indicatorIcon,
       showPopup: false,
-      isLoaded: false,
+      isLoaded: false
     };
   },
   computed: {
@@ -118,9 +119,9 @@ export default {
         height: "95vh",
         position: "center",
         showLoadingPanel: true,
-        ...this.popupSettings,
+        ...this.popupSettings
       };
-    },
+    }
   },
   methods: {
     onError(error) {
@@ -141,11 +142,12 @@ export default {
       );
     },
     destroyComponent() {
-      this.visible = false;
-      this.$nextTick(() => {
-        this.$eventBus.$emit("popup-destroyed");
+      this.showPopup = false;
+      this.$eventBus.$emit("popup-destroyed");
+
+      setTimeout(() => {
         this.$destroy();
-      });
+      }, 1000);
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
@@ -175,7 +177,7 @@ export default {
         this.$eventBus.$off("close-popup", this.closePopup);
         this.destroyComponent();
       }
-    },
+    }
   },
   mounted() {
     this.showLoadIndicator();
