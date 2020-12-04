@@ -99,11 +99,11 @@ export default {
       documentEditor.resize();
       if (!this.isNew) this.openDocument(documentEditor);
     },
-    onToolbarClick: async function(args) {
+    onToolbarClick: function(args) {
       switch (args.item.id) {
         case "save":
-          await this.saveDocument();
-          this.close();
+          this.saveDocument();
+
           break;
       }
     },
