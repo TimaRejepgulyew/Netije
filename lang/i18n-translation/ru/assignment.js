@@ -49,7 +49,7 @@ export default {
     sureDocumentReviewApproveRosolutionConfirmation:
       "Вы действительно хотите утвердить проект резолюции?",
     sureDocumentReviewSendToResolutionConfirmation:
-      "Вы действительно хотите отправить на резолюцию?",
+      "Вы действительно хотите отправить резолюцию на рассмотрение?",
     sureDocumentReviewSendToAssigneeConfirmation:
       "Вы действительно отправили документ на исполнение?",
     sureDocumentReviewExploredConfirmation:

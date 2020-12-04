@@ -14,7 +14,7 @@
 
 <script>
 import DocumentVersionViewer, {
-  canEdit
+  canEdit,
 } from "~/infrastructure/services/documentVersionViewer.js";
 import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
@@ -23,7 +23,7 @@ import dataApi from "~/static/dataApi";
 import { confirm } from "devextreme/ui/dialog";
 export default {
   components: {
-    DxDropDownButton
+    DxDropDownButton,
   },
   props: ["version", "documentId", "isProtected"],
   computed: {
@@ -42,19 +42,19 @@ export default {
             canEdit(this.version.extension) &&
             this.canUpdate,
           icon: "edit",
-          name: this.$t("buttons.edit")
+          name: this.$t("buttons.edit"),
         },
         {
           type: "preview",
           visible: !this.virusDetected && this.version.canBeOpenedWithPreview,
           icon: "pdffile",
-          name: this.$t("buttons.preview")
+          name: this.$t("buttons.preview"),
         },
         {
           type: "download",
           visible: !this.virusDetected,
           icon: "download",
-          name: this.$t("buttons.download")
+          name: this.$t("buttons.download"),
         },
         {
           type: "delete",
@@ -62,10 +62,10 @@ export default {
             `documents/${this.documentId}/fullAccess`
           ],
           icon: "trash",
-          name: this.$t("buttons.delete")
-        }
+          name: this.$t("buttons.delete"),
+        },
       ];
-    }
+    },
   },
   methods: {
     onItemClick(e) {
@@ -135,10 +135,10 @@ export default {
         options: {
           readOnly: false,
           extension: this.version.extension,
-          params: { versionId: this.version.id }
+          params: { versionId: this.version.id },
         },
         lastVersion: false,
-        listeners: [{ eventName: "valueChanged", handlerName: "pasteVersion" }]
+        listeners: [{ eventName: "valueChanged", handlerName: "pasteVersion" }],
       });
     },
     previewVersion() {
@@ -147,16 +147,16 @@ export default {
         options: {
           readOnly: true,
           extension: this.version.extension,
-          params: { versionId: this.version.id }
+          params: { versionId: this.version.id },
         },
-        lastVersion: false
+        lastVersion: false,
       });
     },
     downloadVersion() {
       DocumentVersionService.downloadVersion(this, {
         id: this.version.id,
         name: this.document.name,
-        extension: this.version.extension
+        extension: this.version.extension,
       });
     },
     async deleteVersion() {
@@ -179,8 +179,8 @@ export default {
               this.$emit("updateVersions");
           }
         );
-    }
-  }
+    },
+  },
 };
 </script>
 
