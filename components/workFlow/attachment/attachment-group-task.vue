@@ -75,7 +75,7 @@ export default {
         },
         {
           listeners: [
-            { evenName: "valueChanged", handlerName: "reloadAttachmment" }
+            { eventName: "valueChanged", handlerName: "reloadAttachmment" }
           ]
         }
       );
@@ -90,20 +90,13 @@ export default {
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "pasteAttachment" }
+            { eventName: "valueChanged", handlerName: "reloadAttachmment" }
           ]
         }
       );
     },
     detach(attachmentId) {
       this.$emit("detach", attachmentId);
-    },
-    pasteAttachment({ taskType, taskId }) {
-      this.$emit("pasteAttachment", {
-        attachmentId: taskId,
-        groupId: this.group.groupId,
-        entityTypeGuid: mapToEntityType(taskType)
-      });
     },
     reloadAttachmment() {
       this.$emit("reloadAttachment");
