@@ -9,7 +9,7 @@
       key-expr="id"
       :visible="canUpdate"
       :dropDownOptions="{
-        width: '200px'
+        width: '200px',
       }"
       @item-click="onItemClick"
     >
@@ -34,7 +34,7 @@ export default {
   components: {
     DxButton,
     DxDropDownButton,
-    toolbarItemUploadVersion
+    toolbarItemUploadVersion,
   },
   props: ["documentId"],
   computed: {
@@ -42,7 +42,17 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
     canUpdate() {
-      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
+      let canUpdate = this.$store.getters[
+        `documents/${this.documentId}/canUpdate`
+      ];
+      let isNew = this.$store.getters[`documents/${this.documentId}/isNew`];
+      if (isNew) {
+        let hasVersions = this.$store.getters[
+          `documents/${this.documentId}/document`
+        ].hasVersions;
+        return canUpdate && !hasVersions;
+      }
+      return canUpdate;
     },
     profileSettings() {
       return [
@@ -50,36 +60,36 @@ export default {
           id: 1,
           type: "upload",
           name: this.$t("buttons.upload"),
-          icon: "upload"
+          icon: "upload",
         },
         {
           id: 2,
           temp: "toolbarItemUploadVersion",
           type: "scaner",
           name: this.$t("buttons.fromScaner"),
-          icon: "print"
+          icon: "print",
         },
         {
           id: 3,
           disabled: true,
           type: "doc",
           name: this.$t("buttons.fromTemplate"),
-          icon: "doc"
+          icon: "doc",
         },
         {
           id: 4,
           type: "docxfile",
           name: this.$t("buttons.fromDocx"),
-          icon: "docxfile"
+          icon: "docxfile",
         },
         {
           id: 5,
           type: "xlsxfile",
           name: this.$t("buttons.fromXlsx"),
-          icon: "xlsxfile"
-        }
+          icon: "xlsxfile",
+        },
       ];
-    }
+    },
   },
   methods: {
     uploadVersion(data) {
@@ -95,7 +105,7 @@ export default {
           this,
           "test.pdf"
         ),
-        res => {
+        (res) => {
           this.uploadVersion(res.data);
         },
         () => {}
@@ -108,7 +118,7 @@ export default {
           this.document,
           file
         ),
-        res => {
+        (res) => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -124,7 +134,7 @@ export default {
           this,
           "test.docx"
         ),
-        res => {
+        (res) => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -142,15 +152,15 @@ export default {
           this.$popup.scannerDialog(
             this,
             {
-              documentId: this.documentId
+              documentId: this.documentId,
             },
             {
               listeners: [
                 {
                   eventName: "valueChanged",
-                  handlerName: "pasteVersionFromScanner"
-                }
-              ]
+                  handlerName: "pasteVersionFromScanner",
+                },
+              ],
             }
           );
           break;
@@ -161,13 +171,13 @@ export default {
               readOnly: false,
               extension: ".docx",
               params: {
-                documentId: this.documentId
-              }
+                documentId: this.documentId,
+              },
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
-            ]
+              { eventName: "valueChanged", handlerName: "pasteDocxVersion" },
+            ],
           });
           break;
         case "xlsxfile":
@@ -177,20 +187,20 @@ export default {
               readOnly: false,
               extension: ".xlsx",
               params: {
-                documentId: this.documentId
-              }
+                documentId: this.documentId,
+              },
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
-            ]
+              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" },
+            ],
           });
           break;
         default:
           break;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
