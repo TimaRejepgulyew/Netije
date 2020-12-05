@@ -189,7 +189,6 @@ export default {
     }, 200);
   },
   created() {
-    console.log(this.template);
     this.$eventBus.$emit("popup-created", {
       id: this.id,
       closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress,
