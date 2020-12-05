@@ -13,6 +13,7 @@
       :currentUser="userName"
       :documentName="documentName"
       :enableToolbar="!readOnly"
+      @contentChange="checkAllowSave"
     ></ejs-documenteditorcontainer>
   </div>
 </template>
@@ -25,7 +26,7 @@ import Vue from "vue";
 import {
   DocumentEditorContainerPlugin,
   DocumentEditorContainerComponent,
-  Toolbar
+  Toolbar,
 } from "@syncfusion/ej2-vue-documenteditor";
 
 Vue.use(DocumentEditorContainerPlugin);
@@ -33,25 +34,27 @@ export default {
   props: {
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     file: {},
-    isNew: { type: Boolean }
+    isNew: { type: Boolean },
   },
   data() {
     return {
+      allowSave: false,
       userName: this.$store.getters["oidc/oidcUser"].preferred_username,
       headers: [
         {
-          authorization: "Bearer " + this.$store.getters["oidc/oidcAccessToken"]
-        }
+          authorization:
+            "Bearer " + this.$store.getters["oidc/oidcAccessToken"],
+        },
       ],
       toolbarItems: [
         {
           prefixIcon: "e-de-save-icon",
           tooltipText: this.$t("buttons.save"),
           text: this.$t("buttons.save"),
-          id: "save"
+          id: "save",
         },
         "New",
         "Open",
@@ -75,15 +78,15 @@ export default {
         "Find",
         "Separator",
         "LocalClipboard",
-        "RestrictEditing"
+        "RestrictEditing",
       ],
       mounted: false,
       documentName: "",
-      serviceUrl: dataApi.documentEditor.ServerUrl
+      serviceUrl: dataApi.documentEditor.ServerUrl,
     };
   },
   provide: {
-    DocumentEditorContainer: [Toolbar]
+    DocumentEditorContainer: [Toolbar],
   },
   mounted() {
     setTimeout(() => {
@@ -91,6 +94,9 @@ export default {
     }, 500);
   },
   methods: {
+    checkAllowSave(e) {
+      this.allowSave = true;
+    },
     async openDocument(documentEditor) {
       if (this.file) documentEditor.open(this.file);
     },
@@ -99,7 +105,7 @@ export default {
       documentEditor.resize();
       if (!this.isNew) this.openDocument(documentEditor);
     },
-    onToolbarClick: function(args) {
+    onToolbarClick: function (args) {
       switch (args.item.id) {
         case "save":
           this.saveDocument();
@@ -112,11 +118,16 @@ export default {
       this.$emit("onClose");
     },
     async saveDocument() {
-      const { documentEditor } = this.$refs["documentEditordocx"].ej2Instances;
-      const blob = await documentEditor.saveAsBlob("Docx");
-      this.$emit("valueChanged", { file: blob });
-    }
-  }
+      if (this.allowSave) {
+        const { documentEditor } = this.$refs[
+          "documentEditordocx"
+        ].ej2Instances;
+        const blob = await documentEditor.saveAsBlob("Docx");
+        this.$emit("valueChanged", { file: blob });
+        this.allowSave = false;
+      }
+    },
+  },
 };
 </script>
 

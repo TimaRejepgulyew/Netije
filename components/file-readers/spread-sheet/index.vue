@@ -9,7 +9,8 @@
       v-if="mounted"
       :openUrl="openUrl"
       :saveUrl="saveUrl"
-      :allowSave="true"
+      :allowSave="allowSave"
+      @beforeCellSave="checkAllowSave"
     ></ejs-spreadsheet>
   </div>
 </template>
@@ -24,11 +25,12 @@ export default {
     readOnly: { type: Boolean },
     params: {},
     file: {},
-    isNew: { type: Boolean }
+    isNew: { type: Boolean },
   },
   data() {
     return {
-      mounted: false
+      allowSave: false,
+      mounted: false,
     };
   },
   mounted() {
@@ -48,13 +50,20 @@ export default {
         ? `${dataApi.spreadSheet.ExportVersionWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&versionId=${this.params.versionId}`
         : `${dataApi.spreadSheet.ExportDocumentWithUrl}?access_token=${this.$store.getters["oidc/oidcAccessToken"]}&documentId=${this.params.documentId}`;
       return url;
-    }
+    },
   },
   methods: {
     async saveJsonFile() {
-      const element = this.$refs["spreadSheet"].ej2Instances;
-      const { jsonObject } = await element.saveAsJson();
-      this.valueChanged(jsonObject);
+      if (this.allowSave) {
+        const element = this.$refs["spreadSheet"].ej2Instances;
+        const { jsonObject } = await element.saveAsJson();
+        this.valueChanged(jsonObject);
+      }
+    },
+    checkAllowSave(e) {
+      if (e.value !== e.oldValue) {
+        return (this.allowSave = true);
+      }
     },
     openFile(e) {
       const element = this.$refs["spreadSheet"].ej2Instances;
@@ -67,14 +76,14 @@ export default {
             prefixIcon: "e-de-save-icon",
             tooltipText: this.$t("buttons.save"),
             text: this.$t("buttons.save"),
-            id: "save"
-          }
+            id: "save",
+          },
         ],
         2
       );
       if (!this.isNew) {
         element.openFromJson({
-          file: this.file
+          file: this.file,
         });
       }
     },
@@ -84,8 +93,8 @@ export default {
 
     valueChanged(file) {
       this.$emit("valueChanged", { file });
-    }
-  }
+    },
+  },
 };
 </script>
 
