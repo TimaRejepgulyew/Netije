@@ -157,7 +157,11 @@ export default {
       return this.document.canBeOpenedWithPreview;
     },
     canEditVersion() {
-      return canEdit(this.document.extension) && this.canUpdate;
+      return (
+        canEdit(this.document.extension) &&
+        this.canUpdate &&
+        this.document.canBeOpenedWithPreview
+      );
     },
     hasVersions() {
       return this.document.hasVersions;

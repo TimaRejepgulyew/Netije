@@ -176,7 +176,7 @@ export default {
             this.$store.dispatch(
               `documents/${this.documentId}/updateLastVersion`
             ),
-              this.$emit("updateVersions");
+              this.$emit("uploadVersion");
           }
         );
     },
