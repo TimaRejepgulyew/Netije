@@ -18,8 +18,8 @@ export default {
   name: "document-editor-popup",
   props: {
     options: {
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   async created() {
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      file: null
+      file: null,
     };
   },
   methods: {
@@ -43,8 +43,9 @@ export default {
     },
     valueChanged(params) {
       this.$emit("valueChanged", { ...params, extension: ".docx" });
-    }
-  }
+      this.close();
+    },
+  },
 };
 </script>
 

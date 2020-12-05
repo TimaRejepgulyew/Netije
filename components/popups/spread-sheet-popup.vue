@@ -21,8 +21,8 @@ export default {
   name: "spread-sheet-popup",
   props: {
     options: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   async created() {
     if (!this.options.isNew) {
@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       mounted: false,
-      file: null
+      file: null,
     };
   },
   methods: {
@@ -51,8 +51,9 @@ export default {
     },
     valueChanged(params) {
       this.$emit("valueChanged", { ...params, extension: ".xlsx" });
-    }
-  }
+      this.close();
+    },
+  },
 };
 </script>
 
