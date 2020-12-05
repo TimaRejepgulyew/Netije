@@ -13,9 +13,7 @@
         <div
           v-show="showPopup"
           class="custom_popup"
-          :style="
-            `height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`
-          "
+          :style="`height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`"
         >
           <div class="custom_popup_title">
             <div class="text">{{ title }}</div>
@@ -85,35 +83,37 @@ export default {
     imageViewer,
     spreadSheet,
     scannerDialog,
-    licenseInfo
+    licenseInfo,
   },
   name: "base-popup",
   props: {
     template: {
-      type: String
+      type: String,
     },
     options: {
-      type: Object
+      type: Object,
     },
     popupSettings: {
-      type: Object
+      type: Object,
     },
-    dialogId: {}
+    dialogId: {},
   },
   data() {
     return {
+      id: new Date().getTime(),
       visible: true,
       isLoading: false,
       title: "",
       indicatorIcon,
       showPopup: false,
       isLoaded: false,
-      componentKey: new Date().getSeconds()
+      componentKey: new Date().getSeconds(),
     };
   },
   computed: {
     defaultPopupSettings() {
       return {
+        closeOnEscapePress: true,
         closeOnOutsideClick: false,
         dragEnabled: false,
         showTitle: true,
@@ -121,9 +121,9 @@ export default {
         height: "95vh",
         position: "center",
         showLoadingPanel: true,
-        ...this.popupSettings
+        ...this.popupSettings,
       };
-    }
+    },
   },
   methods: {
     onError(error) {
@@ -145,6 +145,7 @@ export default {
       );
     },
     destroyComponent() {
+      this.$eventBus.$emit("popup-destroyed");
       this.visible = false;
       this.$nextTick(() => {
         this.$destroy();
@@ -173,20 +174,26 @@ export default {
     setTitle(data) {
       this.title = data;
     },
-    closeDialog(dialogId) {
-      if (dialogId == this.dialogId) {
-        this.$eventBus.$off("close-dialog", this.closeDialog);
+    closePopup(id) {
+      if (id == this.id) {
+        this.$eventBus.$off("close-popup", this.closePopup);
         this.destroyComponent();
       }
-    }
+    },
   },
   mounted() {
     this.showLoadIndicator();
-    this.$eventBus.$on("close-dialog", this.closeDialog);
+    this.$eventBus.$on("close-popup", this.closePopup);
     setTimeout(() => {
       this.$el.focus();
     }, 200);
-  }
+  },
+  created() {
+    this.$eventBus.$emit("popup-created", {
+      id: this.id,
+      closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress,
+    });
+  },
 };
 </script>
 
