@@ -256,16 +256,8 @@ export default {
     .custom_popup_content {
       overflow-y: scroll;
       padding: 20px 20px 20px 20px;
-      height: 90vh;
+      max-height: 90vh;
       font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
-      // &::-webkit-scrollbar {
-      //   width: 8px;
-      // }
-      // &::-webkit-scrollbar-thumb {
-      //   border-radius: 10px;
-      //   background-color: $base-border-color;
-      //   cursor: pointer;
-      // }
     }
   }
 }
