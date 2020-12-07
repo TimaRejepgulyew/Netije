@@ -183,7 +183,7 @@ export default {
   documentEditor: {
     ServerUrl:
       process.env.NODE_ENV === "production"
-        ? "/api/documentEditor"
+        ? "/api/documentEditor/"
         : `${process.env.serverUrl}/api/documentEditor/`,
     ImportDocument: "/api/DocumentEditor/importDocument/",
     ImportVersion: "/api/DocumentEditor/importVersion/",
