@@ -93,7 +93,11 @@ export default {
     RemoveVersion: `/api/OfficialDocument/Version/`,
     Last: `/api/OfficialDocument/Version/Last/`
   },
-
+  documentTemplate: {
+    Documents: `/api/DocumentTemplate/`,
+    GetDocumentById: `/api/DocumentTemplate/`
+    
+  },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,
     GrantPermissions: `/api/Task/GrantPermissions`,

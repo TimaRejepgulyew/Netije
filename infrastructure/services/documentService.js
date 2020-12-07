@@ -1,13 +1,14 @@
 import dataApi from "~/static/dataApi";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DocumentStoreTemplate from "~/infrastructure/services/DocumentStoreModule.js";
-import docmentKindService from "~/infrastructure/services/documentKind.js";
+import documentKindService from "~/infrastructure/services/documentKind.js";
+import documentSaveService from "~/infrastructure/services/documentModuleServices/saveDocument.js";
 export const documentModules = new DocumentStoreTemplate({
   moduleName: "documents"
 });
 
 export function loadDocument(context, documentId, payload) {
-  payload.document.documentKind = docmentKindService.emptyDocumentKind();
+  payload.document.documentKind = documentKindService.emptyDocumentKind();
   context.$store.commit(
     `documents/${documentId}/IS_REGISTERED`,
     payload.document.registrationState
@@ -136,10 +137,17 @@ export async function refresh(context, { documentTypeGuid, documentId }) {
       requiestApi = `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`;
       break;
   }
+
   let { data } = await context.$axios.get(requiestApi);
   loadDocument(context, documentId, data);
   context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
   context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
+}
+
+export async function saveDocument(context, { documentTypeGuid, documentId }) {
+  switch (documentTypeGuid) {
+    case DocumentTypeGuid.DocumentTemplate:
+  }
 }
 export function unload(context, documentId) {
   const overlays = context.$store.getters[`documents/${documentId}/overlays`];

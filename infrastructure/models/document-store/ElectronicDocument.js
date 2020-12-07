@@ -141,7 +141,8 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
           );
           commit("REVALUATE_NAME", data);
         }
-      }
+      },
+      
     };
     super({ actions, mutations });
   }
