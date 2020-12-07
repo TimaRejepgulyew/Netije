@@ -5,7 +5,10 @@ export const documentModules = new DocumentStoreTemplate({
 });
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 export default async function(context, { documentId, documentTypeGuid }) {
-  
+  switch (documentTypeGuid) {
+    default:
+      load(context, { documentId, documentTypeGuid });
+  }
 }
 
 export async function load(context, { documentTypeGuid, documentId }) {
