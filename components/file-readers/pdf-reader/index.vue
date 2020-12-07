@@ -26,18 +26,18 @@ import {
   ThumbnailView,
   Print,
   TextSelection,
-  TextSearch
+  TextSearch,
 } from "@syncfusion/ej2-vue-pdfviewer";
 Vue.use(PdfViewerPlugin);
 import dataApi from "~/static/dataApi";
 export default {
   props: {
     id: {
-      type: Number
+      type: Number,
     },
     lastVersion: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -50,10 +50,11 @@ export default {
           "PageNavigationTool",
           "PanTool",
           "SelectionTool",
+          "PrintOption",
           "SearchOption",
-          "DownloadOption"
-        ]
-      }
+          "DownloadOption",
+        ],
+      },
     };
   },
   mounted() {
@@ -67,19 +68,20 @@ export default {
         ajaxHeaders: [
           {
             headerName: "authorization",
-            headerValue: "Bearer " + this.$store.getters["oidc/oidcAccessToken"]
+            headerValue:
+              "Bearer " + this.$store.getters["oidc/oidcAccessToken"],
           },
           {
             headerName: "id",
-            headerValue: this.id
+            headerValue: this.id,
           },
           {
             headerName: "lastVersion",
-            headerValue: this.lastVersion
-          }
-        ]
+            headerValue: this.lastVersion,
+          },
+        ],
       };
-    }
+    },
   },
   provide: {
     PdfViewer: [
@@ -91,9 +93,9 @@ export default {
       ThumbnailView,
       Print,
       TextSelection,
-      TextSearch
-    ]
-  }
+      TextSearch,
+    ],
+  },
 };
 </script>
 
