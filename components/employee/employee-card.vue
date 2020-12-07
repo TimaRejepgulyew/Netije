@@ -153,7 +153,7 @@
           :read-only="readOnly"
           validatorGroup="updateEmployee"
           @valueChanged="
-            data => {
+            (data) => {
               setBusinessUnitId(data);
               setDepartmentId(null);
             }
@@ -165,7 +165,7 @@
           :read-only="readOnly"
           :path="data.personalPhoto"
           @valueChanged="
-            data => {
+            (data) => {
               setPhoto(data);
             }
           "
@@ -178,14 +178,13 @@
           :value="departmentId"
           :businessUnitId="businessUnitId"
           @valueChanged="
-            data => {
+            (data) => {
               setDepartmentId(data);
             }
           "
         />
       </template>
     </DxForm>
-    <div ref="lolo"></div>
   </div>
 </template>
 <script>
@@ -210,7 +209,7 @@ import DxForm, {
   DxPatternRule,
   DxEmailRule,
   DxAsyncRule,
-  DxButtonItem
+  DxButtonItem,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
@@ -234,10 +233,10 @@ export default {
     Toolbar,
     BusinessUnitSelectBox,
     ImageUploader,
-    DepartmentSelectBox
+    DepartmentSelectBox,
   },
   props: ["data", "isCard"],
-  provide: function() {
+  provide: function () {
     return { employeeId: this.employee.id };
   },
 
@@ -249,18 +248,18 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
+        showClearButton: true,
       },
       jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.JobTitle,
-        filter: ["status", "=", 0]
+        filter: ["status", "=", 0],
       }),
       passwordOptions: {
-        mode: "password"
+        mode: "password",
       },
       changePasswordPupupVisible: false,
-      namePattern: /^[^0-9]+$/
+      namePattern: /^[^0-9]+$/,
     };
   },
   computed: {
@@ -280,10 +279,10 @@ export default {
           url: dataApi.company.Department,
           filter: [
             ["status", "=", 0],
-            ["businessUnitId", "=", this.employee.businessUnitId]
-          ]
+            ["businessUnitId", "=", this.employee.businessUnitId],
+          ],
         }),
-        value: this.employee.departmentId
+        value: this.employee.departmentId,
       };
     },
     popupPasswordOpt() {
@@ -296,9 +295,9 @@ export default {
         },
         height: 40,
         icon: "key",
-        text: this.$t("buttons.changePassword")
+        text: this.$t("buttons.changePassword"),
       };
-    }
+    },
   },
   methods: {
     setDepartmentId(data) {
@@ -325,7 +324,7 @@ export default {
       return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
           id: this.employee.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -367,8 +366,8 @@ export default {
         },
         e => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
