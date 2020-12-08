@@ -1,13 +1,19 @@
-import documentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
-export const documentModules = new DocumentStoreTemplate({
-  moduleName: "documents"
-});
+import documentKindService from "~/infrastructure/services/documentKind.js";
+import { documentModules } from "~/infrastructure/services/documentService.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+
 export default async function(context, { documentId, documentTypeGuid }) {
   switch (documentTypeGuid) {
+    case DocumentTypeGuid.DocumentTemplate:
+      return await loadDocumentTemplate(context, {
+        documentId,
+        documentTypeGuid
+      });
+      break;
     default:
-      load(context, { documentId, documentTypeGuid });
+      return await load(context, { documentId, documentTypeGuid });
+      break;
   }
 }
 
@@ -19,7 +25,7 @@ export async function load(context, { documentTypeGuid, documentId }) {
     documentModules.setStoreTemplate(documentTypeGuid);
     documentModules.registerModule(context, documentId);
 
-    loadDocument(context, documentId, data);
+    loadDocumentToStore(context, documentId, data);
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
   }
   if (!context.$store.getters[`documents/${documentId}/isNew`]) {
@@ -70,7 +76,7 @@ export async function loadDocumentTemplate(
     //   skipRouteHandling: true,
     //   overlays: null
     // };
-    loadDocument(context, documentId, data);
+    loadDocumentToStore(context, documentId, data);
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
   }
   if (!context.$store.getters[`documents/${documentId}/isNew`]) {

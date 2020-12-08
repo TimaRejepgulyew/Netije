@@ -1,0 +1,19 @@
+import dataApi from "~/static/dataApi";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+export default async function(context, { documentTypeGuid, documentId }) {
+  let requiestApi;
+  switch (documentTypeGuid) {
+    case DocumentTypeGuid.DocumentTemplate:
+      requiestApi = `${dataApi.documentTemplate.GetDocumentById}${documentId}`;
+    default:
+      requiestApi = `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`;
+      break;
+  }
+  refresh(context, requiestApi);
+}
+export async function refresh(context, requiestApi) {
+  let { data } = await context.$axios.get(requiestApi);
+  loadDocumentToStore(context, documentId, data);
+  context.$store.commit(`documents/${documentId}/SET_IS_NEW`, false);
+  context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
+}

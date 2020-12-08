@@ -1,9 +1,9 @@
+import * as documentService from "~/infrastructure/services/documentService.js";
 import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
-import { Log } from "oidc-client";
 export default class Base {
   state = {
     document: {},
@@ -52,7 +52,7 @@ export default class Base {
     canDelete({ canDelete }) {
       return canDelete;
     },
-    
+
     isRegistered({ document }) {
       return document.registrationState == RegistrationState.Registered;
     },
@@ -82,7 +82,7 @@ export default class Base {
       for (let prop in state) {
         state[prop] = null;
       }
-      state = {} ;
+      state = {};
     },
     UPDATE_LAST_VERSION(state, payload) {
       if (payload)
@@ -121,6 +121,7 @@ export default class Base {
       state.isRegistered = payload === RegistrationState.Registered;
     },
     DATA_CHANGED(state, payload) {
+      console.log("testdawdaw");
       state.isDataChanged = payload;
     },
     SKIP_ROUTE_HANDLING(state, payload) {
@@ -170,26 +171,10 @@ export default class Base {
       );
     },
     async save({ dispatch, commit, state }) {
-      const document = JSON.stringify(state.document);
-      const res = await this.$axios.put(
-        dataApi.documentModule.Documents + state.document.id,
-        {
-          documentJson: document,
-          documentTypeGuid: state.document.documentTypeGuid
-        }
+      await documentService.save(
+        this,
+        { commit, dispatch, state },
       );
-      if (state.isNew) {
-        // dispatch("loadDocument", res.data);
-        commit("SET_IS_NEW", false);
-      }
-      commit("DATA_CHANGED", false);
-      return;
-    },
-    loadDocument({ commit }, payload) {
-      //  TODO:  Создать функццю глубокого копирования
-      payload.document.documentKind = docmentKindService.emptyDocumentKind();
-      commit("IS_REGISTERED", payload.document.registrationState);
-      commit("SET_DOCUMENT", payload);
     }
   };
   constructor(options) {

@@ -1,36 +1,39 @@
 import dataApi from "~/static/dataApi";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-export default async function(context, document) {
-  switch (document.documentTypeGuid) {
+export default async function(context, store) {
+  switch (store.state.document.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
-      saveDocumentTemplate(context, document);
+      await saveDocumentTemplate(context, store);
       break;
     default:
-      saveDocument(context, document);
+      await saveDocument(context, store);
       break;
   }
 }
 
-export async function saveDocument(context, document) {
-  const storePath = `documents/${document.id}/`;
-  const documentJson = JSON.stringify(document);
-  const response = await this.$axios.put(
-    dataApi.documentModule.Documents + document.id,
+export async function saveDocument(context, { commit, state, dispatch }) {
+  const documentJson = JSON.stringify(state.document);
+  const response = await context.$axios.put(
+    dataApi.documentModule.Documents + state.document.id,
     {
       documentJson,
-      documentTypeGuid: document.documentTypeGuid
+      documentTypeGuid: state.document.documentTypeGuid
     }
   );
 
-  const isNew = context.$store.getters[`${storePath}isNew`];
+  const isNew = state.isNew;
   if (isNew) {
-    commit(`${storePath}SET_IS_NEW`, false);
+    commit(`SET_IS_NEW`, false);
   }
-  commit(`${storePath}DATA_CHANGED`, false);
+  commit(`DATA_CHANGED`, false);
   return response;
 }
 
-export async function saveDocumentTemplate(context, document) {
+export async function saveDocumentTemplate(
+  context,
+  { commit, state, dispatch },
+  document
+) {
   const storePath = `documents/${document.id}/`;
   const documentJson = JSON.stringify(document);
   const response = await this.$axios.put(
@@ -41,10 +44,10 @@ export async function saveDocumentTemplate(context, document) {
     }
   );
 
-  const isNew = context.$store.getters[`${storePath}isNew`];
+  const isNew = context.state.isNew;
   if (isNew) {
-    commit(`${storePath}SET_IS_NEW`, false);
+    context.commit(`SET_IS_NEW`, false);
   }
-  commit(`${storePath}DATA_CHANGED`, false);
+  context.commit(`DATA_CHANGED`, false);
   return response;
 }

@@ -4,20 +4,20 @@
 
 <script>
 import DocumentType from "~/infrastructure/constants/documentType.js";
-import { loadDocumentTemplate } from "~/infrastructure/services/documentService.js";
+import { load } from "~/infrastructure/services/documentService.js";
 import { confirm } from "devextreme/ui/dialog";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
 import documentTemplateCard from "~/components/docFlow/document-template/card.vue";
 export default {
   components: {
-    documentTemplateCard,
+    documentTemplateCard
   },
   async asyncData({ app, params, router, $axios }) {
     await loadDocumentTemplate(
       { $store: app.store, $axios },
       {
         documentTypeGuid: DocumentType.DocumentTemplate,
-        documentId: +params.id,
+        documentId: +params.id
       }
     );
   },
@@ -49,7 +49,7 @@ export default {
       if (result) {
         await loadDocumentTemplate(this, {
           documentTypeGuid: 18,
-          documentId: +this.$route.params.id,
+          documentId: +this.$route.params.id
         });
       }
     }
@@ -58,10 +58,9 @@ export default {
   methods: {
     onClose() {
       this.$router.push(`/docFlow/document-template/`);
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
