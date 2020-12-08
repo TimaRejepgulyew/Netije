@@ -16,7 +16,6 @@ export default function (context) {
       items: [
         {
           name: context.$t("companyStructure.imports.importCompanies"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
               await context.$axios.post(dataApi.import.companies, file);
@@ -27,7 +26,6 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importBank"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
               await context.$axios.post(dataApi.import.banks, file);
@@ -38,7 +36,6 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importJobTitle"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
               await context.$axios.post(dataApi.import.jobTitles, file);
@@ -49,7 +46,6 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importEmployees"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
               await context.$axios.post(dataApi.import.employees, file);
@@ -60,7 +56,6 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importPersons"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
               await context.$axios.post(dataApi.import.persons, file);
@@ -114,9 +109,11 @@ export default function (context) {
       items: [
         {
           name: context.$t("licensing.information.title"),
-          path: pathGenerate("roles"),
           visible: true,
-          componentType: "licenseInformationBtn",
+          componentType: "popup",
+          params: {
+            popupName: "licenseInfo",
+          }
         },
       ]
     }

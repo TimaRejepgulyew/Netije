@@ -19,13 +19,13 @@
 <script>
 import isLink from "./component-type-links";
 import uploadBtn from "./component-type-import-btn";
-import licenseInformationBtn from "./component-type-license-information.vue";
+import Popup from "./component-type-popup.vue";
 export default {
   props: ["data"],
   components: {
     isLink,
     uploadBtn,
-    licenseInformationBtn,
+    Popup,
   },
 };
 </script>

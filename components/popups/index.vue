@@ -58,6 +58,7 @@ import documentGrid from "./document-grid-popup.vue";
 import documentEditor from "./document-editor-popup.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
 import imageViewer from "./image-viewer-popup.vue";
+import documentReports from "./document-reports-popup.vue";
 import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
@@ -84,6 +85,7 @@ export default {
     spreadSheet,
     scannerDialog,
     licenseInfo,
+    documentReports
   },
   name: "base-popup",
   props: {
