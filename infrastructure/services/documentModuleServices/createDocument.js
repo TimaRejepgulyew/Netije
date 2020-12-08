@@ -3,12 +3,14 @@ import dataApi from "~/static/dataApi";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { documentModules } from "~/infrastructure/services/documentService.js";
 export default async function(context, params) {
+  console.log(params);
   switch (params.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await createDocumentTemplate(context);
       break;
     default:
       return await createDocument(context, params);
+      break;
   }
 }
 
@@ -31,10 +33,12 @@ export async function createDocument(context, params) {
 
 export async function createDocumentTemplate(context) {
   const { data } = await context.$axios.post(
-    dataApi.documentTemplate.createDocumentTemplate
+    dataApi.documentTemplate.Documents,
+    {}
   );
-  const documentId = data.document.id;
-  const documentTypeGuid = data.document.documentTypeGuid;
+
+  const { id: documentId, documentTypeGuid } = data.document;
+
   documentModules.setStoreTemplate(documentTypeGuid);
   await documentModules.registerModule(context, documentId);
   loadDocumentToStore(context, documentId, data);

@@ -96,8 +96,7 @@ export default {
   documentTemplate: {
     Documents: `/api/DocumentTemplate`,
     GetDocumentById: `/api/DocumentTemplate/`,
-    CreateDocumentTemplate:``
-    
+    GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`
   },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,

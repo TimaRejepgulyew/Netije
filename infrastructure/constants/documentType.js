@@ -16,7 +16,7 @@ const DocumentTypeGuid = {
   Waybill: 14,
   Contract: 15,
   SupAgreement: 16,
-  DocumentTemplate: 17
+  DocumentTemplate: 100
 };
 export const mapToEntityType = documentTypeGuid => {
   switch (documentTypeGuid) {
@@ -60,6 +60,3 @@ export const mapToEntityType = documentTypeGuid => {
   }
 };
 export default DocumentTypeGuid;
-
-
-

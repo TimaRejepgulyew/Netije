@@ -13,7 +13,9 @@
         <div
           v-show="showPopup"
           class="custom_popup"
-          :style="`height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`"
+          :style="
+            `height:${defaultPopupSettings.height}; width:${defaultPopupSettings.width}`
+          "
         >
           <div class="custom_popup_title">
             <div class="text">{{ title }}</div>
@@ -61,6 +63,7 @@ import imageViewer from "./image-viewer-popup.vue";
 import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
+import documentTemplateGrid from "./document-template-grid.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
@@ -84,19 +87,20 @@ export default {
     spreadSheet,
     scannerDialog,
     licenseInfo,
+    documentTemplateGrid
   },
   name: "base-popup",
   props: {
     template: {
-      type: String,
+      type: String
     },
     options: {
-      type: Object,
+      type: Object
     },
     popupSettings: {
-      type: Object,
+      type: Object
     },
-    dialogId: {},
+    dialogId: {}
   },
   data() {
     return {
@@ -107,7 +111,7 @@ export default {
       indicatorIcon,
       showPopup: false,
       isLoaded: false,
-      componentKey: new Date().getSeconds(),
+      componentKey: new Date().getSeconds()
     };
   },
   computed: {
@@ -121,9 +125,9 @@ export default {
         height: "95vh",
         position: "center",
         showLoadingPanel: true,
-        ...this.popupSettings,
+        ...this.popupSettings
       };
-    },
+    }
   },
   methods: {
     onError(error) {
@@ -179,7 +183,7 @@ export default {
         this.$eventBus.$off("close-popup", this.closePopup);
         this.destroyComponent();
       }
-    },
+    }
   },
   mounted() {
     this.showLoadIndicator();
@@ -191,9 +195,9 @@ export default {
   created() {
     this.$eventBus.$emit("popup-created", {
       id: this.id,
-      closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress,
+      closeOnEscapePress: this.defaultPopupSettings.closeOnEscapePress
     });
-  },
+  }
 };
 </script>
 
