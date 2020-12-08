@@ -59,6 +59,7 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import documentIcon from "~/components/page/document-icon";
 import {
+  DxFilterPanel,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -77,6 +78,8 @@ import {
   DxButton
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import { createDocument } from "~/infrastructure/services/documentService.js";
 export default {
   components: {
     documentIcon,
@@ -104,7 +107,7 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.docFlow.DocumentTemplate
+          loadUrl: dataApi.documentTemplate.Documents
         }),
         paginate: true,
         pageSize: 10
@@ -126,6 +129,31 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
+          }
+        }
+      });
+      e.toolbarOptions.items.unshift({
+        widget: "button",
+        location: "after",
+        options: {
+          icon: "plus",
+          onClick: () => {
+            this.$awn.asyncBlock(
+              createDocument(
+                this,
+                {
+                  documentDocumentTypeGuid: DocumentTypeGuid.DocumentTemplate
+                },
+                ({ documentTypeGuid, documentId }) => {
+                  this.$router.push(
+                    `/docFlow/document-template/detail/${documentId}`
+                  );
+                },
+                () => {
+                  this.$awn.alert();
+                }
+              )
+            );
           }
         }
       });

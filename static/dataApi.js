@@ -94,8 +94,9 @@ export default {
     Last: `/api/OfficialDocument/Version/Last/`
   },
   documentTemplate: {
-    Documents: `/api/DocumentTemplate/`,
-    GetDocumentById: `/api/DocumentTemplate/`
+    Documents: `/api/DocumentTemplate`,
+    GetDocumentById: `/api/DocumentTemplate/`,
+    CreateDocumentTemplate:``
     
   },
   task: {

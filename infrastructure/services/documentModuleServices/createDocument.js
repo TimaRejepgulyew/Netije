@@ -5,7 +5,7 @@ import { documentModules } from "~/infrastructure/services/documentService.js";
 export default async function(context, params) {
   switch (params.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
-      return await createDocumentTemplate(context, params);
+      return await createDocumentTemplate(context);
       break;
     default:
       return await createDocument(context, params);
@@ -29,16 +29,16 @@ export async function createDocument(context, params) {
   return { documentId, documentTypeGuid };
 }
 
-export async function createDocumentTemplate(context, params) {
+export async function createDocumentTemplate(context) {
   const { data } = await context.$axios.post(
-    dataApi.documentTemplate.createDocumentTemplate,
-    params
+    dataApi.documentTemplate.createDocumentTemplate
   );
   const documentId = data.document.id;
   const documentTypeGuid = data.document.documentTypeGuid;
   documentModules.setStoreTemplate(documentTypeGuid);
   await documentModules.registerModule(context, documentId);
   loadDocumentToStore(context, documentId, data);
+  return { documentId, documentTypeGuid };
 }
 
 export async function createLeadingDocument(context, params) {
