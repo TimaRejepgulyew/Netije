@@ -1,13 +1,13 @@
 
 export default ({ app }, inject) => {
   let audio = new Audio();
-  audio.src = "/notification.wav";
+  audio.src = "/notification.mp3";
 
   function allowNotification() {
     Notification.requestPermission()
   }
 
-  function notify(title, body) {
+  function notify(title, body, params) {
     let options = {
       body: body,
       icon: "/favicon.ico",
@@ -15,9 +15,19 @@ export default ({ app }, inject) => {
     audio.play();
     audio.currentTime = 0;
     let notification = new Notification(title, options);
-    setTimeout(() => {
-      notification.close();
-    }, 3000);
+    notification.onclick = function () {
+      // app.$popup.
+      console.log(notification);
+      app.$popup.assignmentCard(this,
+        // {
+        // params: { assignmentId: params.id }
+        // }
+      );
+      window.focus()
+    }
+    // setTimeout(() => {
+    //   notification.close();
+    // }, 4000);
   }
 
   inject("notify", notify);
