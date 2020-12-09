@@ -9,7 +9,13 @@
           location="before"
           widget="dxButton"
         />
-
+        <DxItem
+          locateInMenu="auto"
+          :visible="tollbarItemVisible"
+          :options="btnForReworOptions"
+          location="before"
+          widget="dxButton"
+        />
         <DxItem
           locateInMenu="auto"
           :disabled="btnForwardDisabled"
@@ -111,7 +117,7 @@ export default {
         }
       };
     },
-    btnAddResolutionOptions() {
+    btnForReworOptions() {
       return {
         icon: returnManagersAssistantIcon,
         text: this.$t("buttons.returnManagersAssistant"),
