@@ -1,14 +1,12 @@
 <template>
   <div class="d-flex align-stretch align-items-center">
-    <div class="link d-flex f-grow-1" @dblclick="()=>showCard(item.entity)">
+    <div class="link d-flex f-grow-1" @dblclick="() => showCard(item.entity)">
       <div class="icon">
         <img :src="actionItemExecutionIcon" />
       </div>
-      <div
-        class="max-width-5vw"
-      >{{$t("task.prefixes.actionItemExecutionTask")}}: {{item.entity.subject}}</div>
+      <div class="max-width-5vw">{{ item.entity.subject }}</div>
     </div>
-    <actionBtn @showCard="()=>showCard(item.entity)" :attachment="item" />
+    <actionBtn @showCard="() => showCard(item.entity)" :attachment="item" />
   </div>
 </template>
 
@@ -56,7 +54,6 @@ export default {
   border-radius: 3px;
   text-decoration: none;
   &:hover {
-
     background: darken($base-bg, 5%);
     width: auto;
   }

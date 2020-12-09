@@ -2,33 +2,32 @@
   <div class="d-flex align-stretch align-items-center">
     <div
       class="link d-flex f-grow-1"
-      @dblclick="()=>showCard({taskId:task.entity.id,taskType:task.entity.taskType})"
+      @dblclick="
+        () =>
+          showCard({ taskId: task.entity.id, taskType: task.entity.taskType })
+      "
     >
       <div class="icon">
         <img :src="actionItemExecutionIcon" />
       </div>
       <div>
-        <div
-          class="max-width-5vw"
-        >{{$t("task.prefixes.actionItemExecutionTask")}}: {{task.entity.subject}}</div>
+        <div class="max-width-5vw">{{ task.entity.subject }}</div>
 
         <div>
           <div class="d-flex">
             <div v-if="task.entity.assignee">
-              {{$t("shared.whom")}}:
-              {{task.entity.assignee.name}},
-              <span
-                v-if="task.entity.maxDeadline"
-              >
-                {{$t("shared.deadLine")}}
-                {{task.entity.maxDeadline|formatDate}}
+              {{ $t("shared.whom") }}: {{ task.entity.assignee.name }},
+              <span v-if="task.entity.maxDeadline">
+                {{ $t("shared.deadLine") }}
+                {{ task.entity.maxDeadline | formatDate }}
               </span>
             </div>
           </div>
           <div class="d-flex">
-            <div
-              v-if="task.entity.isUnderControl"
-            >{{$t("workFlow.fields.supervisor")}}: {{task.entity.supervisor.name}}</div>
+            <div v-if="task.entity.isUnderControl">
+              {{ $t("workFlow.fields.supervisor") }}:
+              {{ task.entity.supervisor.name }}
+            </div>
           </div>
           <!-- <div class="d-flex">
             <div
@@ -40,9 +39,9 @@
               v-if="task.entity.actionItemObservers.length >0"
             >{{$t("workFlow.fields.observers")}}: {{task.entity.actionItemObservers.map(recipient=>recipient.name).join(", ")}}</div>
           </div> -->
-         
+
           <div class="d-flex ">
-            <i>{{task.entity.body}}</i>
+            <i>{{ task.entity.body }}</i>
           </div>
         </div>
       </div>
@@ -57,24 +56,24 @@ import actionBtn from "~/components/workFlow/attachment/attachment-task-action-b
 import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 export default {
   components: {
-    actionBtn,
+    actionBtn
   },
   props: ["task"],
   data() {
     return {
-      actionItemExecutionIcon,
+      actionItemExecutionIcon
     };
   },
   methods: {
     showCard(task) {
       this.$emit("showCard", task);
-    },
+    }
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -100,7 +99,6 @@ export default {
   border-radius: 3px;
   text-decoration: none;
   &:hover {
-
     background: darken($base-bg, 5%);
     width: auto;
   }
