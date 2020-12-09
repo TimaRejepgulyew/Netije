@@ -146,6 +146,9 @@ export default class Base {
     }
   };
   actions = {
+    async save({ dispatch, commit, state }) {
+      await documentService.save(this, { commit, dispatch, state });
+    },
     async removeVersion({ state, commit }, versionId) {
       await this.$axios.delete(
         dataApi.documentModule.RemoveVersion + versionId
@@ -161,19 +164,9 @@ export default class Base {
       if (!payload) payload = docmentKindService.emptyDocumentKind();
       commit("SET_DOCUMENT_KIND", payload);
     },
-    setSubject({ commit, dispatch }, payload) {
-      commit("SET_SUBJECT", payload);
-      dispatch("reevaluateDocumentName");
-    },
     async delete({ state }) {
       await this.$axios.delete(
         `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
-      );
-    },
-    async save({ dispatch, commit, state }) {
-      await documentService.save(
-        this,
-        { commit, dispatch, state },
       );
     }
   };
@@ -187,10 +180,6 @@ export default class Base {
       setDocumentKind({ commit }, payload) {
         if (!payload) payload = docmentKindService.emptyDocumentKind();
         commit("SET_DOCUMENT_KIND", payload);
-      },
-      setSubject({ commit, dispatch }, payload) {
-        commit("SET_SUBJECT", payload);
-        dispatch("reevaluateDocumentName");
       }
     };
   }

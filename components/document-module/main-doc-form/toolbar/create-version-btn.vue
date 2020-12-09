@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     uploadVersion(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_VERSION`, data);
+      this.$store.dispatch(`documents/${this.documentId}/setVersion`, data);
       this.$emit("uploadVersion");
       this.$awn.success();
     },

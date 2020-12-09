@@ -31,23 +31,18 @@ export async function saveDocument(context, { commit, state, dispatch }) {
 
 export async function saveDocumentTemplate(
   context,
-  { commit, state, dispatch },
-  document
+  { commit, state, dispatch }
 ) {
-  const storePath = `documents/${document.id}/`;
-  const documentJson = JSON.stringify(document);
-  const response = await this.$axios.put(
-    dataApi.DocumentTemplate.GetDocumentById + document.id,
-    {
-      documentJson,
-      documentTypeGuid: document.documentTypeGuid
-    }
+  const documentJson = JSON.stringify(state.document);
+  const response = await context.$axios.put(
+    `${dataApi.documentTemplate.Documents}/${state.document.id}`,
+    state.document
   );
 
-  const isNew = context.state.isNew;
+  const isNew = state.isNew;
   if (isNew) {
-    context.commit(`SET_IS_NEW`, false);
+    commit(`SET_IS_NEW`, false);
   }
-  context.commit(`DATA_CHANGED`, false);
+  commit(`DATA_CHANGED`, false);
   return response;
 }

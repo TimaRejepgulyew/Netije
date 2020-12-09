@@ -8,7 +8,7 @@
       :validation-group="documentValidatorName"
     >
       <DxSimpleItem data-field="name" :editor-options="nameOptions">
-        <DxLabel location="left" :text="$t('document.fields.name')" />
+        <DxLabel location="top" :text="$t('document.fields.name')" />
         <DxRequiredRule :message="$t('document.validation.nameRequired')" />
       </DxSimpleItem>
       <DxSimpleItem
@@ -20,56 +20,46 @@
           location="left"
           :text="$t('document.fields.documentTypeGuid')"
         />
-        <DxRequiredRule
-          :message="$t('document.validation.documentTypeRequired')"
-        />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="documentKindId"
-        :editor-options="documentKindOptions"
-        editor-type="dxSelectBox"
+        :isRequired="true"
+        :col-span="2"
+        :editor-options="documentKindsOptions"
+        editor-type="dxTagBox"
+        data-field="documentKinds"
       >
-        <DxLabel location="left" :text="$t('document.fields.documentKindId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.documentKindIdRequired')"
-        />
+        <DxLabel location="top" :text="$t('document.fields.documentKinds')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="businessUnitId"
-        template="businessUnitSelectBox"
+        :col-span="2"
+        :editor-options="businessUnitsOptions"
+        editor-type="dxTagBox"
+        data-field="businessUnits"
       >
-        <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
+        <DxLabel location="top" :text="$t('document.fields.businessUnits')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="departmentId"
-        :editor-options="departmentOptions"
-        editor-type="dxSelectBox"
+        :col-span="2"
+        :editor-options="departmentsOptions"
+        editor-type="dxTagBox"
+        data-field="departments"
       >
-        <DxLabel location="left" :text="$t('document.fields.departmentId')" />
+        <DxLabel location="top" :text="$t('document.fields.departments')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="note"
-        :editor-options="noteOptions"
+        data-field="description"
+        :editor-options="descriptionOptions"
         editor-type="dxTextArea"
       >
-        <DxLabel location="left" :text="$t('document.fields.note')" />
+        <DxLabel location="top" :text="$t('document.fields.description')" />
       </DxSimpleItem>
-      <template #businessUnitSelectBox>
-      <business-unit-select-box
-        valueExpr="id"
-        :read-only="!canUpdate"
-        :value="businessUnitId"
-        @valueChanged=" (data) => {
-                        setBusinessUnitId(data); 
-                    } "
-      />
-    </template>
     </DxForm>
   </div>
 </template>
 
 <script>
-import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
+import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxTabbedItem,
@@ -77,7 +67,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -87,8 +77,7 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,
-    DxLabel,
-    BusinessUnitSelectBox
+    DxLabel
   },
   props: ["documentId", "isCard"],
   inject: ["documentValidatorName"],
@@ -99,96 +88,141 @@ export default {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
-    businessUnitId() {
-      return this.document.businessUnitId;
+    documentTypeGuid() {
+      return this.document.documentTypeGuid;
+    },
+    documentKinds() {
+      return this.document.documentKinds;
+    },
+    businessUnits() {
+      return this.document.businessUnits;
+    },
+    departments() {
+      return this.document.departments;
+    },
+    description() {
+      return this.document.description;
     },
     nameOptions() {
       return {
-        readOnly: !this.canUpdate,
         value: this.document?.name,
-        onValueChanged: (e) => {
-          this.setName(e.value)
-        },
+        onValueChanged: this.setName
       };
     },
     documentTypeOptions() {
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.docFlow.DocumentType)
+        .withoutDeferRendering()
+        .build(this);
       return {
-        readOnly: !this.canUpdate,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.DocumentType,
-        }),
-        valueExpr: "documentTypeGuid",
-        value: this.document?.documentType,
-        onValueChanged: (e) => {
-          this.setDocumentType(e.value)
-          this.setDocumentKindId(null)
-        },
+        ...options,
+        value: this.documentTypeId,
+        onValueChanged: this.setDocumentTypeId
       };
     },
-    documentKindOptions() {
+    documentKindsOptions() {
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.docFlow.DocumentKind)
+        .filter([
+          ["status", "=", Status.Active]
+          // "and",
+          // ["documentTypeGuid", "=", this.documentTypeGuid]
+        ])
+        .withoutDeferRendering()
+        .build(this);
       return {
-        readOnly: !this.canUpdate,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.DocumentKind,
-          filter: [["documentTypeGuid", "=", this.document.documentType],"and",["status", "=", 0]],
-        }),
-        value: this.document?.documentKindId,
-        onValueChanged: (e) => {
-          this.setDocumentKindId(e.value)
-          // this.$store.commit(
-          //   `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
-          //   null
-          // );
-        },
+        ...options,
+        value: this.documentKinds,
+        onValueChanged: this.setDocumentKinds
       };
     },
-    departmentOptions() {
+    businessUnitsOptions() {
+      console.log("filter");
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.company.BusinessUnit)
+        .filter(["status", "=", Status.Active])
+        .build(this);
       return {
-        readOnly: !this.canUpdate,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-        }),
-        value: this.document?.departmentId,
-        onValueChanged: (e) => {
-          this.setDepartmentId(e.value)
-        },
+        ...options,
+        value: this.businessUnits,
+        onValueChanged: this.setBusinessUnits
       };
     },
-    noteOptions() {
+    departmentsOptions() {
+      let departmentByBusinessUnitFilter = [];
+      this.businessUnits.map(item => {
+        departmentByBusinessUnitFilter.push(["businessUnitId", "=", item]);
+        departmentByBusinessUnitFilter.push("or");
+      });
+      let filter = [["status", "=", Status.Active], "and"];
+      if (departmentByBusinessUnitFilter.length)
+        filter.push(departmentByBusinessUnitFilter);
+      console.log(filter, "filter");
+
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.company.Department)
+        .filter(filter)
+        .build(this);
+      return {
+        ...options,
+        onValueChanged: this.setDepartments,
+        value: this.departments
+      };
+    },
+    descriptionOptions() {
       return {
         height: 150,
-        value: this.document?.body,
-        onValueChanged: (e) => {
-          this.setNote(e.value)
-        },
+        value: this.document?.description,
+        onValueChanged: this.setDescription
       };
-    },
+    }
   },
-  methods:{
-    setName(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_NAME`, data);
+  methods: {
+    setName(e) {
+      this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
     },
-    setDocumentType(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DOCUMENT_TYPE`,data);
+    setDocumentTypeId(e) {
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
+        e.value
+      );
     },
-    setDocumentKindId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DOCUMENT_KIND_ID`,data);
+    setDocumentKinds(e) {
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DOCUMENT_KINDS`,
+        e.value
+      );
     },
-    setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
+    setBusinessUnits(e) {
+      if (e.event) {
+        console.log(e);
+        this.$store.commit(
+          `documents/${this.documentId}/SET_BUSINESS_UNITS`,
+          e.value
+        );
+        this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENTS`, []);
+      }
     },
-    setNote(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_NOTE`, data);
+    setDepartments(e) {
+      if (e.event) {
+        this.$store.commit(
+          `documents/${this.documentId}/SET_DEPARTMENTS`,
+          e.value
+        );
+      }
     },
-    setBusinessUnitId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,data);
-    },
+    setDescription(e) {
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DESCRIPTION`,
+        e.value
+      );
+    }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

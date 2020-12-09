@@ -162,8 +162,9 @@ export default {
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
         if (this.isDataChanged) {
-          await this.$awn.asyncBlock;
-          this.$store.dispatch(`documents/${this.documentId}/save`)();
+          await this.$awn.asyncBlock(
+            this.$store.dispatch(`documents/${this.documentId}/save`)
+          );
         }
         return true;
       } else {

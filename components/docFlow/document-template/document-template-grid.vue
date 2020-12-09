@@ -143,20 +143,17 @@ export default {
           icon: "plus",
           onClick: () => {
             this.$awn.asyncBlock(
-              createDocument(
-                this,
-                {
-                  documentTypeGuid: DocumentTypeGuid.DocumentTemplate
-                },
-                ({ documentTypeGuid, documentId }) => {
-                  this.$router.push(
-                    `/docFlow/document-template/detail/${documentId}`
-                  );
-                },
-                () => {
-                  this.$awn.alert();
-                }
-              )
+              createDocument(this, {
+                documentTypeGuid: DocumentTypeGuid.DocumentTemplate
+              }),
+              ({ documentTypeGuid, documentId }) => {
+                this.$router.push(
+                  `/docFlow/document-template/detail/${documentId}`
+                );
+              },
+              () => {
+                this.$awn.alert();
+              }
             );
           }
         }

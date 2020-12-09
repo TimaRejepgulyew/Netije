@@ -96,7 +96,8 @@ export default {
   documentTemplate: {
     Documents: `/api/DocumentTemplate`,
     GetDocumentById: `/api/DocumentTemplate/`,
-    GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`
+    GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
+    GetAllMergeFieldName :`/api/DocumentTemplate/getAllMergeFieldName/`
   },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,

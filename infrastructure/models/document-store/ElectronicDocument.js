@@ -1,6 +1,7 @@
 import dataApi from "~/static/dataApi";
 import BaseDocumentStore from "~/infrastructure/models/document-store/Base.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
+
 export default class ElectronicDocumnent extends BaseDocumentStore {
   constructor(options) {
     const documentRegistrationActions = () => {
@@ -125,6 +126,10 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
     const actions = {
       ...options?.actions,
       ...documentRegistrationActions(),
+      setVersion({ commit }, payload) {
+        commit("SET_VERSION", payload);
+        console.log("base");
+      },
       setDocumentKind({ commit }, payload) {
         if (!payload) payload = docmentKindService.emptyDocumentKind();
         commit("SET_DOCUMENT_KIND", payload);
@@ -141,8 +146,7 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
           );
           commit("REVALUATE_NAME", data);
         }
-      },
-      
+      }
     };
     super({ actions, mutations });
   }

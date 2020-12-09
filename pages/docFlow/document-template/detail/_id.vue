@@ -13,14 +13,15 @@ export default {
     documentTemplateCard
   },
   async asyncData({ app, params, router, $axios }) {
-    await loadDocumentTemplate(
-      { $store: app.store, $axios },
-      {
-        documentTypeGuid: DocumentType.DocumentTemplate,
-        documentId: +params.id
-      }
-    );
+    // await load(
+    //   { $store: app.store, $axios },
+    //   {
+    //     documentTypeGuid: DocumentType.DocumentTemplate,
+    //     documentId: +params.id
+    //   }
+    // );
   },
+
   async beforeRouteLeave(to, from, next) {
     let result = true;
     if (
@@ -47,8 +48,8 @@ export default {
         +this.$route.params.id
       );
       if (result) {
-        await loadDocumentTemplate(this, {
-          documentTypeGuid: 18,
+        await load(this, {
+          documentTypeGuid: DocumentType.DocumentTemplate,
           documentId: +this.$route.params.id
         });
       }

@@ -47,35 +47,6 @@ export async function loadDocumentTemplate(
       `${dataApi.documentTemplate.GetDocumentById}${documentId}`
     );
 
-    // const data = {
-    //   document: {
-    //     params: [
-    //       { name: "wdawdaw", value: "value.test" },
-    //       { name: "Test", value: "value.test" },
-    //       { name: "best", value: "value.test" },
-    //       { name: "gest", value: "value.test" },
-    //       { name: "mwast", value: "value.test" },
-    //       { name: "fest", value: "value.test" }
-    //     ],
-    //     id: 1,
-    //     name: "Test",
-    //     note: "note",
-    //     documentKindId: null,
-    //     documentType: null,
-    //     documentTypeId: null,
-    //     documentTypeGuid: 17,
-    //     businessUnitId: null,
-    //     departmentId: null
-    //   },
-    //   isNew: false,
-    //   isDataChanged: false,
-    //   canUpdate: true,
-    //   canDelete: true,
-    //   canRegister: false,
-    //   isRegistered: false,
-    //   skipRouteHandling: true,
-    //   overlays: null
-    // };
     loadDocumentToStore(context, documentId, data);
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
   }
