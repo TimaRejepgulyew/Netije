@@ -126,6 +126,18 @@ export default {
         }
       );
     },
+    pasteFromTemplate({ id: templateId }) {
+      const params = { templateId, documentId: this.documentId };
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromTemplate(this, params),
+        res => {
+          this.uploadVersion(res.data);
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
     pasteDocxVersion({ file }) {
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromDocumentEditor(
@@ -187,13 +199,13 @@ export default {
               documentId: this.documentId
             },
             {
-              showLoadingPanel: false
-              // listeners: [
-              //   {
-              //     eventName: "valueChanged",
-              //     handlerName: "pasteVersionFromScanner"
-              //   }
-              // ]
+              showLoadingPanel: false,
+              listeners: [
+                {
+                  eventName: "valueChanged",
+                  handlerName: "pasteFromTemplate"
+                }
+              ]
             }
           );
           break;

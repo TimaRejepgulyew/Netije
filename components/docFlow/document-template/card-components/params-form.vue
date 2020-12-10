@@ -48,17 +48,6 @@ import {
   DxPatternRule,
   DxButton
 } from "devextreme-vue/data-grid";
-function sortParametrs(parametrs) {
-  return parametrs.sort(function(prevEl, currentEl) {
-    if (prevEl.id > currentEl.id) {
-      return 1;
-    }
-    if (prevEl.id < currentEl.id) {
-      return -1;
-    }
-    return 0;
-  });
-}
 export default {
   components: {
     DxDataGrid,
@@ -73,9 +62,7 @@ export default {
 
   data() {
     return {
-      data: sortParametrs(
-        this.$store.getters[`documents/${this.documentId}/parameters`]
-      )
+      data: this.$store.getters[`documents/${this.documentId}/parameters`]
     };
   },
   methods: {

@@ -88,6 +88,7 @@ export default {
     Version: `/api/OfficialDocument/Version/`,
     Relation: `/api/Documentrelations/Relations/`,
     CreateVersionFromFile: `/api/OfficialDocument/Version/ImportFromFile/`,
+    CreateVersionFromTemplate: `/api/OfficialDocument/Version/CreateFromTemplate`,
     ImportVersion: `/api/OfficialDocument/Version/Export/`,
     ImportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
@@ -97,7 +98,7 @@ export default {
     Documents: `/api/DocumentTemplate`,
     GetDocumentById: `/api/DocumentTemplate/`,
     GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
-    GetAllMergeFieldName :`/api/DocumentTemplate/getAllMergeFieldName/`
+    GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
   },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,

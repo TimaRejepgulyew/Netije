@@ -60,7 +60,7 @@ export default class DocumentTemplate extends BaseDocumentStore {
         //     payload
         //   )
         // )
-        //   state.isDataChanged = true;
+        state.isDataChanged = true;
         state.document.parameters = payload;
       },
       SET_DESCRIPTION(state, payload) {
@@ -77,7 +77,7 @@ export default class DocumentTemplate extends BaseDocumentStore {
           state.document.parameters.filter(item => {
             return payload.includes(item.name);
           });
-          payload.map
+          payload.map();
         }
       },
       async setVersion({ state, commit }, payload) {
