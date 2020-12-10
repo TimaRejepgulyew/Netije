@@ -120,7 +120,13 @@ export default {
         endDateRequired: "Выберите конец",
         startDateRequired: "Выберите начало",
         documentFlowRequired: "Выберите документопоток",
+        journalRequired: "Выберите журнал",
         filesTypeRequired: "Тип файла не может быть пустым",
         responsibleIdRequired: "Введите ответственного за группу регистрации",
+    },
+    reports: {
+        Incoming: "Входящий",
+        Outcoming: "Исходящий",
+        Inner: "Внутренний",
     }
 }

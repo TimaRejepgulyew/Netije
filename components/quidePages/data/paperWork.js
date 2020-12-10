@@ -66,7 +66,7 @@ export default function (context) {
                     params: {
                         popupName: "documentReports",
                         options: {
-                            reportId: "incomingDocument",
+                            reportId: "Incoming",
                             popupTitle: 'paperWork.reports.incomingDocument'
                         },
                         popupOptions: {
@@ -85,7 +85,7 @@ export default function (context) {
                     params: {
                         popupName: "documentReports",
                         options: {
-                            reportId: "outgoingDocument",
+                            reportId: "Outgoing",
                             popupTitle: 'paperWork.reports.outgoingDocument'
                         },
                         popupOptions: {
@@ -105,7 +105,7 @@ export default function (context) {
                     params: {
                         popupName: "documentReports",
                         options: {
-                            reportId: "internalDocument",
+                            reportId: "Internal",
                             popupTitle: 'paperWork.reports.internalDocument'
                         },
                         popupOptions: {

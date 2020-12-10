@@ -108,7 +108,13 @@ export default {
         "endDateRequired": "Soňlaýjy senäni saýlaň",
         "startDateRequired": "Başlangyç senäni saýlaň",
         "documentFlowRequired": "Resminama dolanyşygyny saýlaň",
+        "journalRequired": "Zurnal saýlaň",
         "filesTypeIdRequired": "Faýlyň görnüşi boş bolmaly däldir",
         "responsibleIdRequired": "Bellige alyş topary üçin jogapkäri saýlaň"
+    },
+    "reports": {
+        "Incoming": "Giriş",
+        "Outcoming": "Çykyş",
+        "Inner": "Içki",
     }
 }

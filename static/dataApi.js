@@ -52,7 +52,12 @@ export default {
       СustomizableDocumentRegisters: `/api/DocumentRegister/СustomizableDocumentRegisters`,
       PreliminaryNumber: `/api/DocumentRegister/PreliminaryNumber`,
       DefaultDocumentRegister: `/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
-      RegistrableDocumentRegisteres: `/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`
+      RegistrableDocumentRegisteres: `/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`,
+      UserDocumentRegistersForRegistration: "/api/DocumentRegister/UserDocumentRegistersForRegistration"
+    },
+    DocumentRegisterReport: {
+      UploadDocumentRegisterReportTemplate: "/api/DocumentRegisterReport/UploadDocumentRegisterReportTemplate",
+      Generate: "/api/DocumentRegisterReport/Generate"
     },
     CaseFile: {
       Value: `/api/CaseFile`,
