@@ -56,7 +56,7 @@ export default {
       UserDocumentRegistersForRegistration: "/api/DocumentRegister/UserDocumentRegistersForRegistration"
     },
     DocumentRegisterReport: {
-      UploadDocumentRegisterReportTemplate: "/api/DocumentRegisterReport/UploadDocumentRegisterReportTemplate",
+      UploadTemplate: "/api/DocumentRegisterReport/UploadDocumentRegisterReportTemplate",
       Generate: "/api/DocumentRegisterReport/Generate"
     },
     CaseFile: {

@@ -25,6 +25,12 @@ export default {
         internalDocumentDescription: "Список внутренних зарегистрированных документов.",
         beginDate: "Дата начала",
         endDate: "Дата завершения",
-        journal:"Журнал"
+        journal: "Журнал",
+        Incoming: "Входящий",
+        Outcoming: "Исходящий",
+        Inner: "Внутренний",
+        endDateRequired: "Выберите конец",
+        startDateRequired: "Выберите начало",
+        saveBtn: "Сохранить"
     }
 }

@@ -1,6 +1,7 @@
 import licensingIcon from "~/static/icons/quide-page/licensing.svg";
 import usersIcon from "~/static/icons/quide-page/users.svg";
 import importIcon from "~/static/icons/quide-page/import-icon.svg";
+import reportIcon from "~/static/icons/quide-page/report-icon.svg"
 import dataApi from "~/static/dataApi";
 export default function (context) {
   function isVisible(accessKey) {
@@ -101,6 +102,45 @@ export default function (context) {
           path: pathGenerate("online-users"),
           visible: true
         }
+      ]
+    },
+    {
+      icon: reportIcon,
+      title: context.$t("reports.title"),
+      items: [
+        {
+          name: context.$t("reports.importIncomingReportTemplate"),
+          visible: true,
+          componentType: "reportUploadBtn",
+          params: {
+            docFlowId: "Incoming",
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.docFlow.DocumentRegisterReport.UploadTemplate, file);
+            }
+          }
+        },
+        {
+          name: context.$t("reports.importOutgoingReportTemplate"),
+          visible: true,
+          componentType: "reportUploadBtn",
+          params: {
+            docFlowId: "Outgoing",
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.docFlow.DocumentRegisterReport.UploadTemplate, file);
+            }
+          }
+        },
+        {
+          name: context.$t("reports.importInternalReportTemplate"),
+          visible: true,
+          componentType: "reportUploadBtn",
+          params: {
+            docFlowId: "Internal",
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.docFlow.DocumentRegisterReport.UploadTemplate, file);
+            }
+          }
+        },
       ]
     },
     {

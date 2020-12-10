@@ -60,7 +60,7 @@ export default {
   computed: {
     buttonOptions() {
       return {
-        text: "Получить",
+        text: this.$t(`paperWork.reports.saveBtn`),
         useSubmitBehavior: true
       };
     },
@@ -87,19 +87,18 @@ export default {
         startDateRequired: [
           {
             type: "required",
-            message: this.$t("docFlow.validation.startDateRequired")
+            message: this.$t("paperWork.validation.startDateRequired")
           }
         ],
         endDateRequired: [
           {
             type: "required",
-            message: this.$t("docFlow.validation.endDateRequired")
+            message: this.$t("paperWork.validation.endDateRequired")
           }
         ],
         journalRequired: [
           {
-            type: "required",
-            message: this.$t("docFlow.validation.journalRequired")
+            type: "required"
           }
         ]
       };
@@ -122,7 +121,7 @@ export default {
       );
       saveAs(
         blob,
-        `${this.$t(`docFlow.reports.${this.options.reportId}`)}.docx`
+        `${this.$t(`paperWork.reports.${this.options.reportId}`)}.docx`
       );
     },
     generateReport() {
