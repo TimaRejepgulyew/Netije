@@ -38,7 +38,7 @@ export async function createDocumentTemplate(context) {
   );
 
   const { id: documentId, documentTypeGuid } = data.document;
-
+  data.document.parameters = [];
   documentModules.setStoreTemplate(documentTypeGuid);
   await documentModules.registerModule(context, documentId);
   loadDocumentToStore(context, documentId, data);

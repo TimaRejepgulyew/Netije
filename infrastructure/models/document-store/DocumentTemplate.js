@@ -27,15 +27,17 @@ export default class DocumentTemplate extends BaseDocumentStore {
     const mutations = {
       ...options?.mutations,
       SET_DOCUMENT_KINDS(state, payload) {
-        // if (checkArrayChanged(state.document.documentKinds, payload))
-        state.isDataChanged = true;
-        state.document.documentKindId = payload;
+        if (checkArrayChanged(state.document.documentKinds, payload)) {
+          state.isDataChanged = true;
+          state.document.documentKinds = payload;
+        }
       },
       SET_DOCUMENT_TYPE(state, payload) {
         if (checkDataChanged(state.document.documentTypeId, payload)) {
           state.isDataChanged = true;
+          state.document.documentTypeId = payload;
+          console.log(state.document.documentTypeId, payload);
         }
-        state.document.documentTypeId = payload;
       },
       SET_BUSINESS_UNITS(state, payload) {
         console.log(state.document.businessUnits, payload);
@@ -51,15 +53,15 @@ export default class DocumentTemplate extends BaseDocumentStore {
           state.document.departments = payload;
         }
       },
-      SET_ELECTRONIC_DOCUMENT_TEMPLATE_PARAMETERS(state, payload) {
-        if (
-          checkParamsChanged(
-            state.document.electronicDocumentTemplateParameters,
-            payload
-          )
-        )
-          state.isDataChanged = true;
-        state.document.electronicDocumentTemplateParameters = payload;
+      SET_PARAMETERS(state, payload) {
+        // if (
+        //   checkParamsChanged(
+        //     state.document.parameters,
+        //     payload
+        //   )
+        // )
+        //   state.isDataChanged = true;
+        state.document.parameters = payload;
       },
       SET_DESCRIPTION(state, payload) {
         if (checkDataChanged(state.document.description, payload)) {
@@ -71,18 +73,23 @@ export default class DocumentTemplate extends BaseDocumentStore {
 
     const actions = {
       mergeFieldNameParams({ state, commit }, payload) {
-        if (state.electronicDocumentTemplateParameters) {
-          state.electronicDocumentTemplateParameters.filter(item => {
-            payload.include(item.name);
+        if (state.document.parameters) {
+          state.document.parameters.filter(item => {
+            return payload.includes(item.name);
           });
+          payload.map
         }
       },
       async setVersion({ state, commit }, payload) {
         const { data } = await this.$axios.get(
           dataApi.documentTemplate.GetAllMergeFieldName + state.document.id
         );
-        commit("SET_ELECTRONIC_DOCUMENT_TEMPLATE_PARAMETERS", data);
+        const parseObj = data.map(item => {
+          return { name: item, dataSource: "" };
+        });
+        commit("SET_PARAMETERS", parseObj);
 
+        console.log(state.document.parameters);
         commit("SET_VERSION", payload);
       },
       setDocumentKind({ commit }, payload) {
@@ -93,13 +100,9 @@ export default class DocumentTemplate extends BaseDocumentStore {
     };
     const getters = {
       ...options?.getters,
-      electronicDocumentTemplateParameters(state) {
-        if (state.document.electronicDocumentTemplateParameters)
-          return JSON.parse(
-            JSON.stringify(
-              state.document.electronicDocumentTemplateParameters.slice()
-            )
-          );
+      parameters(state) {
+        if (state.document.parameters)
+          return JSON.parse(JSON.stringify(state.document.parameters.slice()));
       }
     };
     super({ actions, mutations, getters });

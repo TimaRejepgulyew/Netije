@@ -13,13 +13,13 @@ export default {
     documentTemplateCard
   },
   async asyncData({ app, params, router, $axios }) {
-    // await load(
-    //   { $store: app.store, $axios },
-    //   {
-    //     documentTypeGuid: DocumentType.DocumentTemplate,
-    //     documentId: +params.id
-    //   }
-    // );
+    await load(
+      { $store: app.store, $axios },
+      {
+        documentTypeGuid: DocumentType.DocumentTemplate,
+        documentId: +params.id
+      }
+    );
   },
 
   async beforeRouteLeave(to, from, next) {

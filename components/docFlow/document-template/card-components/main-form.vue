@@ -17,12 +17,11 @@
         editor-type="dxSelectBox"
       >
         <DxLabel
-          location="left"
+          location="top"
           :text="$t('document.fields.documentTypeGuid')"
         />
       </DxSimpleItem>
       <DxSimpleItem
-        :isRequired="true"
         :col-span="2"
         :editor-options="documentKindsOptions"
         editor-type="dxTagBox"
@@ -91,6 +90,9 @@ export default {
     documentTypeGuid() {
       return this.document.documentTypeGuid;
     },
+    documentTypeId() {
+      return this.document.documentTypeId;
+    },
     documentKinds() {
       return this.document.documentKinds;
     },
@@ -114,6 +116,7 @@ export default {
       const options = builder
         .withUrl(dataApi.docFlow.DocumentType)
         .withoutDeferRendering()
+        .setValueExpr("documentTypeGuid")
         .build(this);
       return {
         ...options,
@@ -126,10 +129,11 @@ export default {
       const options = builder
         .withUrl(dataApi.docFlow.DocumentKind)
         .filter([
-          ["status", "=", Status.Active]
-          // "and",
-          // ["documentTypeGuid", "=", this.documentTypeGuid]
+          ["status", "=", Status.Active],
+          "and",
+          ["documentTypeGuid", "=", this.documentTypeId]
         ])
+        .clearValueExpr()
         .withoutDeferRendering()
         .build(this);
       return {
@@ -143,6 +147,7 @@ export default {
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.BusinessUnit)
+        .clearValueExpr()
         .filter(["status", "=", Status.Active])
         .build(this);
       return {
@@ -154,17 +159,18 @@ export default {
     departmentsOptions() {
       let departmentByBusinessUnitFilter = [];
       this.businessUnits.map(item => {
-        departmentByBusinessUnitFilter.push(["businessUnitId", "=", item]);
+        departmentByBusinessUnitFilter.push(["businessUnitId", "=", item.id]);
         departmentByBusinessUnitFilter.push("or");
       });
       let filter = [["status", "=", Status.Active], "and"];
       if (departmentByBusinessUnitFilter.length)
         filter.push(departmentByBusinessUnitFilter);
+      else filter.push([]);
       console.log(filter, "filter");
-
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.Department)
+        .clearValueExpr()
         .filter(filter)
         .build(this);
       return {
@@ -186,6 +192,7 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
     },
     setDocumentTypeId(e) {
+      console.log(e);
       this.$store.commit(
         `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
         e.value

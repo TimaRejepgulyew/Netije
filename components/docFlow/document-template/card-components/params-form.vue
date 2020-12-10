@@ -23,7 +23,7 @@
       />
       <DxColumn
         :customizeText="customizeText"
-        data-field="value"
+        data-field="dataSource"
         :caption="$t('document.fields.value')"
       >
         <DxPatternRule
@@ -48,6 +48,17 @@ import {
   DxPatternRule,
   DxButton
 } from "devextreme-vue/data-grid";
+function sortParametrs(parametrs) {
+  return parametrs.sort(function(prevEl, currentEl) {
+    if (prevEl.id > currentEl.id) {
+      return 1;
+    }
+    if (prevEl.id < currentEl.id) {
+      return -1;
+    }
+    return 0;
+  });
+}
 export default {
   components: {
     DxDataGrid,
@@ -62,16 +73,23 @@ export default {
 
   data() {
     return {
-      data: this.$store.getters[`documents/${this.documentId}/params`]
+      data: sortParametrs(
+        this.$store.getters[`documents/${this.documentId}/parameters`]
+      )
     };
   },
   methods: {
     rowUpdated(e) {
       const payload = JSON.parse(JSON.stringify(this.data.slice()));
-      this.$store.commit(`documents/${this.documentId}/SET_PARAM`, payload);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_PARAMETERS`,
+        payload
+      );
     },
     customizeText(cellInfo) {
-      return "> " + cellInfo.value.split(".").join(" > ");
+      console.log(cellInfo);
+      if (cellInfo.value) return "> " + cellInfo.value.split(".").join(" > ");
+      else return "";
     }
   },
   computed: {
@@ -79,6 +97,16 @@ export default {
       return {
         readOnly: true
       };
+    },
+    parameters() {
+      return this.$store.getters[`documents/${this.documentId}/document`]
+        .parameters;
+    }
+  },
+  watch: {
+    parameters: function(newValue) {
+      console.log(newValue);
+      this.data = newValue;
     }
   }
 };
