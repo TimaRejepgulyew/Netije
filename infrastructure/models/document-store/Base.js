@@ -85,6 +85,7 @@ export default class Base {
       state = {};
     },
     UPDATE_LAST_VERSION(state, payload) {
+      console.log(payload);
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
       else {
@@ -121,7 +122,6 @@ export default class Base {
       state.isRegistered = payload === RegistrationState.Registered;
     },
     DATA_CHANGED(state, payload) {
-      console.log("testdawdaw");
       state.isDataChanged = payload;
     },
     SKIP_ROUTE_HANDLING(state, payload) {
@@ -153,12 +153,6 @@ export default class Base {
       await this.$axios.delete(
         dataApi.documentModule.RemoveVersion + versionId
       );
-    },
-    async updateLastVersion({ state, commit }) {
-      const { data } = await this.$axios.get(
-        dataApi.documentModule.Last + state.document.id
-      );
-      commit("UPDATE_LAST_VERSION", data);
     },
     setDocumentKind({ commit }, payload) {
       if (!payload) payload = docmentKindService.emptyDocumentKind();

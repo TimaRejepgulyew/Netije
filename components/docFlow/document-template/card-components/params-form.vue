@@ -74,7 +74,6 @@ export default {
       );
     },
     customizeText(cellInfo) {
-      console.log(cellInfo);
       if (cellInfo.value) return "> " + cellInfo.value.split(".").join(" > ");
       else return "";
     }
@@ -92,8 +91,7 @@ export default {
   },
   watch: {
     parameters: function(newValue) {
-      console.log(newValue);
-      this.data = newValue;
+      this.data = JSON.parse(JSON.stringify(newValue.slice()));
     }
   }
 };

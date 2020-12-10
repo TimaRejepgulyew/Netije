@@ -128,7 +128,12 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
       ...documentRegistrationActions(),
       setVersion({ commit }, payload) {
         commit("SET_VERSION", payload);
-        console.log("base");
+      },
+      async updateLastVersion({ state, commit }) {
+        const { data } = await this.$axios.get(
+          dataApi.documentModule.Last + state.document.id
+        );
+        commit("UPDATE_LAST_VERSION", data);
       },
       setDocumentKind({ commit }, payload) {
         if (!payload) payload = docmentKindService.emptyDocumentKind();

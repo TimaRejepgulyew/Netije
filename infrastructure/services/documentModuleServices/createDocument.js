@@ -3,7 +3,6 @@ import dataApi from "~/static/dataApi";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { documentModules } from "~/infrastructure/services/documentService.js";
 export default async function(context, params) {
-  console.log(params);
   switch (params.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await createDocumentTemplate(context);

@@ -116,6 +116,7 @@ export default {
       const options = builder
         .withUrl(dataApi.docFlow.DocumentType)
         .withoutDeferRendering()
+        .setKey("documentTypeGuid")
         .setValueExpr("documentTypeGuid")
         .build(this);
       return {
@@ -143,7 +144,6 @@ export default {
       };
     },
     businessUnitsOptions() {
-      console.log("filter");
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.BusinessUnit)
@@ -166,7 +166,6 @@ export default {
       if (departmentByBusinessUnitFilter.length)
         filter.push(departmentByBusinessUnitFilter);
       else filter.push([]);
-      console.log(filter, "filter");
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.Department)
@@ -192,11 +191,11 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
     },
     setDocumentTypeId(e) {
-      console.log(e);
       this.$store.commit(
         `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
         e.value
       );
+      this.$store.commit(`documents/${this.documentId}/SET_DOCUMENT_KINDS`, []);
     },
     setDocumentKinds(e) {
       this.$store.commit(
@@ -206,7 +205,6 @@ export default {
     },
     setBusinessUnits(e) {
       if (e.event) {
-        console.log(e);
         this.$store.commit(
           `documents/${this.documentId}/SET_BUSINESS_UNITS`,
           e.value

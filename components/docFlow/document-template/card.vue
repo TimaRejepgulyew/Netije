@@ -129,6 +129,7 @@ export default {
     };
   },
   destroyed() {
+    if (!this.isNew) this.onClosed();
     unload(this, this.documentId);
   },
   created() {
@@ -157,7 +158,11 @@ export default {
       this.$emit("onClose", this.documentId);
     },
     onClose() {
-      this.$emit("onClose", this.documentId);
+      this.$emit("onClose");
+    },
+    onClosed() {
+      const { documentTypeGuid, id } = this.document;
+      this.$emit("onClosed", { documentTypeGuid, id });
     },
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
@@ -202,6 +207,7 @@ export default {
 .wrapper--relative {
   position: relative;
   height: 100%;
+
   .item--drawer {
     position: absolute;
     top: 0;

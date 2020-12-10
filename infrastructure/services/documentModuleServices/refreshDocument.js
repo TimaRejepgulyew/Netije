@@ -6,6 +6,7 @@ export default async function(context, { documentTypeGuid, documentId }) {
   switch (documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       requiestApi = `${dataApi.documentTemplate.GetDocumentById}${documentId}`;
+      break;
     default:
       requiestApi = `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`;
       break;
