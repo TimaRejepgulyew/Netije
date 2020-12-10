@@ -57,7 +57,6 @@
         />
       </DxColumn>
       <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-        <DxRequiredRule :message="$t('shared.codeRequired')" />
         <DxPatternRule
           :ignore-empty-value="false"
           :pattern="codePattern"
