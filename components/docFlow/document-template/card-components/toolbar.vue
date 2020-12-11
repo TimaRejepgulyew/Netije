@@ -105,12 +105,6 @@ export default {
     return {
       saveIcon,
       saveAndCloseIcon,
-      backButtonOptions: {
-        type: "back",
-        onClick: () => {
-          this.$router.go(-1);
-        }
-      }
     };
   },
   computed: {

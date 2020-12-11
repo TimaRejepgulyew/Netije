@@ -1,5 +1,9 @@
 <template>
-  <document-template-card :documentId="+$route.params.id" :isCard="false" />
+  <document-template-card
+    @onClose="$router.go(-1)"
+    :documentId="+$route.params.id"
+    :isCard="false"
+  />
 </template>
 
 <script>
