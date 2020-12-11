@@ -205,7 +205,6 @@ export default {
     },
     setDocumentKinds(e) {
       if (e.event) {
-        console.log("doc");
         this.$store.commit(
           `documents/${this.documentId}/SET_DOCUMENT_KINDS`,
           e.value
@@ -214,7 +213,6 @@ export default {
     },
     setBusinessUnits(e) {
       if (e.event) {
-        console.log("bussi");
         this.$store.commit(
           `documents/${this.documentId}/SET_BUSINESS_UNITS`,
           e.value
@@ -224,7 +222,6 @@ export default {
     },
     setDepartments(e) {
       if (e.event) {
-        console.log("deppi");
         this.$store.commit(
           `documents/${this.documentId}/SET_DEPARTMENTS`,
           e.value

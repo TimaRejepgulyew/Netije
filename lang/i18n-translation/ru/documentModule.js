@@ -142,6 +142,7 @@ export default {
     documentTypeRequired: "Выберите тип документа"
   },
   headers: {
+    documentTemplate: "Шаблон документа",
     pdfFileReader: "Просмотр pdf файлов",
     documentEditor: "Редактор документов",
     documentTemplate: "Шаблон документа",

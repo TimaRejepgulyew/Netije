@@ -134,6 +134,7 @@ export default {
     leadingDocumentIdRequired: "Esasy resminamany saýlap alyň"
   },
   headers: {
+    documentTemplate: "Resminamalar nusgalary",
     pdfFileReader: "Resminamany Pdf formatyň okyjysy",
     documentEditor: "Resminamanyň Word formatyň redaktory",
     documentTemplate: "Resminamanyň nusgasy",

@@ -29,7 +29,6 @@
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
-      <DxFilterPanel :visible="true" />
 
       <DxExport
         :enabled="true"
@@ -48,11 +47,24 @@
       <DxScrolling mode="virtual" />
       <DxColumn
         data-field="name"
-        :caption="$t('documents.fields.name')"
+        :caption="$t('document.fields.name')"
       ></DxColumn>
-      <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value ? cell.data.value : null" />
-      </template>
+      <DxColumn
+        data-field="modified"
+        :caption="$t('document.fields.modified')"
+      ></DxColumn>
+      <DxColumn data-field="authorId" :caption="$t('document.fields.authorId')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="employeeSource"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
+      <DxColumn
+        data-field="description"
+        :caption="$t('document.fields.description')"
+      ></DxColumn>
     </DxDataGrid>
   </main>
 </template>
@@ -62,7 +74,6 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import documentIcon from "~/components/page/document-icon";
 import {
-  DxFilterPanel,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -87,7 +98,6 @@ export default {
   components: {
     documentIcon,
     DxSearchPanel,
-    DxFilterPanel,
     DxDataGrid,
     DxColumn,
     DxEditing,
@@ -116,7 +126,14 @@ export default {
         paginate: true,
         pageSize: 10
       }),
-
+      employeeSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee
+        }),
+        paginate: true,
+        pageSize: 10
+      }),
       selected: e => {
         this.$emit("selected", {
           id: e.key
@@ -158,11 +175,6 @@ export default {
           }
         }
       });
-    }
-  },
-  computed: {
-    columns() {
-      return ColumnFactory.CreateColumns("document-template", this);
     }
   }
 };
