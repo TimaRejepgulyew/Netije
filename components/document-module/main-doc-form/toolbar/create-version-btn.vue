@@ -36,6 +36,7 @@ export default {
     DxDropDownButton,
     toolbarItemUploadVersion
   },
+  inject: ["trySaveDocument"],
   props: ["documentId"],
   computed: {
     document() {
@@ -154,6 +155,56 @@ export default {
         }
       );
     },
+    async createDocumentTemplate() {
+      await this.trySaveDocument();
+      this.$popup.documentTemplateGrid(
+        this,
+        {
+          documentId: this.documentId
+        },
+        {
+          showLoadingPanel: false,
+          listeners: [
+            {
+              eventName: "valueChanged",
+              handlerName: "pasteFromTemplate"
+            }
+          ]
+        }
+      );
+    },
+    createDocxFile() {
+      DocumentVersionViewer({
+        context: this,
+        options: {
+          readOnly: false,
+          extension: ".docx",
+          params: {
+            documentId: this.documentId
+          }
+        },
+        isNew: true,
+        listeners: [
+          { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
+        ]
+      });
+    },
+    createExcelFile() {
+      DocumentVersionViewer({
+        context: this,
+        options: {
+          readOnly: false,
+          extension: ".xlsx",
+          params: {
+            documentId: this.documentId
+          }
+        },
+        isNew: true,
+        listeners: [
+          { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
+        ]
+      });
+    },
     onItemClick(e) {
       const type = e.itemData.type;
       switch (type) {
@@ -193,39 +244,13 @@ export default {
           );
           break;
         case "documentTemplate":
-          this.$popup.documentTemplateGrid(
-            this,
-            {
-              documentId: this.documentId
-            },
-            {
-              showLoadingPanel: false,
-              listeners: [
-                {
-                  eventName: "valueChanged",
-                  handlerName: "pasteFromTemplate"
-                }
-              ]
-            }
-          );
+          this.createDocumentTemplate();
           break;
         case "docxfile":
-          DocumentVersionViewer({
-            context: this,
-            options: {
-              readOnly: false,
-              extension: ".docx",
-              params: {
-                documentId: this.documentId
-              }
-            },
-            isNew: true,
-            listeners: [
-              { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
-            ]
-          });
+          this.createDocxFile();
           break;
         case "xlsxfile":
+          this.createExcelFile();
           DocumentVersionViewer({
             context: this,
             options: {
