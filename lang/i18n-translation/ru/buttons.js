@@ -1,4 +1,5 @@
 export default {
+ elExchange: "Эл. обмен", 
   edit: "Редактировать",
   confirm: "Потвердите",
   diactivate: "Завершить сеанс",

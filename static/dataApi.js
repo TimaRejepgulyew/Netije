@@ -91,7 +91,8 @@ export default {
     ImportVersion: `/api/OfficialDocument/Version/Export/`,
     ImportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
-    Last: `/api/OfficialDocument/Version/Last/`
+    Last: `/api/OfficialDocument/Version/Last/`,
+    Exchange: `/api/OfficialDocument/Exchange`
   },
 
   task: {

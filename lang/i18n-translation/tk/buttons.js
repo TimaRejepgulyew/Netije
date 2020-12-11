@@ -1,4 +1,5 @@
 export default {
+  elExchange: "El. alyş-çalyş",
   edit: "Ütgetmek",
   confirm: "Tassyklaň!",
   createChildTask: "Goşundy ýumuş",
