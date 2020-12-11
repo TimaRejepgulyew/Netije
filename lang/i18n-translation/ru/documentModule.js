@@ -30,6 +30,7 @@ export default {
   externalApprovalState: "Согл. с контрагентом",
   executionState: "Исполнение",
   controlExecutionState: "Контроль исполнения",
+  refreshMergeFieldParams:"Обновить параметры",
   type: DocumentType,
   confirmMessage: {
     sureDeleteVersion: "Удаление версии необратимо"

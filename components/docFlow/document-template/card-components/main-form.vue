@@ -165,7 +165,7 @@ export default {
       let filter = [["status", "=", Status.Active], "and"];
       if (departmentByBusinessUnitFilter.length)
         filter.push(departmentByBusinessUnitFilter);
-      else filter.push([]);
+      else filter.push(["businessUnitId", "=", null]);
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.Department)
@@ -191,20 +191,30 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
     },
     setDocumentTypeId(e) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
-        e.value
-      );
-      this.$store.commit(`documents/${this.documentId}/SET_DOCUMENT_KINDS`, []);
+      if (e.event) {
+        console.log("typeGuid");
+        this.$store.commit(
+          `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
+          e.value
+        );
+        this.$store.commit(
+          `documents/${this.documentId}/SET_DOCUMENT_KINDS`,
+          []
+        );
+      }
     },
     setDocumentKinds(e) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DOCUMENT_KINDS`,
-        e.value
-      );
+      if (e.event) {
+        console.log("doc");
+        this.$store.commit(
+          `documents/${this.documentId}/SET_DOCUMENT_KINDS`,
+          e.value
+        );
+      }
     },
     setBusinessUnits(e) {
       if (e.event) {
+        console.log("bussi");
         this.$store.commit(
           `documents/${this.documentId}/SET_BUSINESS_UNITS`,
           e.value
@@ -214,6 +224,7 @@ export default {
     },
     setDepartments(e) {
       if (e.event) {
+        console.log("deppi");
         this.$store.commit(
           `documents/${this.documentId}/SET_DEPARTMENTS`,
           e.value

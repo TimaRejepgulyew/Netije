@@ -20,6 +20,12 @@
         location="before"
         widget="dxButton"
       />
+      <DxItem
+        locateInMenu="auto"
+        :options="refreshMergeFieldParamsButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="toolbarItemAccessRight" location="after" />
       <template #toolbarItemAccessRight>
@@ -256,6 +262,20 @@ export default {
           const { documentTypeGuid, id } = this.document;
           this.$awn.asyncBlock(
             refresh(this, { documentTypeGuid, documentId: id }),
+            () => {}
+          );
+        }
+      };
+    },
+    refreshMergeFieldParamsButtonOptions() {
+      return {
+        icon: "refresh",
+        text: this.$t("document.refreshMergeFieldParams"),
+        onClick: () => {
+          this.$awn.asyncBlock(
+            this.$store.dispatch(
+              `documents/${this.documentId}/mergeFieldNameParams`
+            ),
             () => {}
           );
         }
