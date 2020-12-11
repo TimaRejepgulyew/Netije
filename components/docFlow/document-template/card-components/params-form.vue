@@ -4,8 +4,8 @@
       :data-source="data"
       @rowUpdated="e => rowUpdated(e)"
       :remote-operations="false"
-      :allow-column-reordering="true"
-      :row-alternation-enabled="true"
+      :allow-column-reordering="false"
+      :row-alternation-enabled="false"
       :showColumnLines="false"
       :showRowLines="false"
     >

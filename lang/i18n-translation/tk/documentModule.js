@@ -45,7 +45,8 @@ export default {
       numberAndDate: "BELGISI WE SENESI",
       storing: "SAKLAMAK",
       lifeCycle: "ÝAŞAÝYŞ AÝLAWY",
-      versions: "Wersiýalar"
+      versions: "Wersiýalar",
+      params: "Parametriler"
     }
   },
   fields: {
@@ -109,7 +110,12 @@ export default {
     ourSide: "Biziň tarapymyz",
     responsibleEmployeeId: "Jogapkär işgär",
     conditions: "Şertleri",
-    whom: "Kime"
+    whom: "Kime",
+    documentKinds: "Resminamalaryň görnüşleri",
+    businessUnits: "Guramalar",
+    departments: "Bölümler",
+    description: "Bellik",
+    value: "Manysy"
   },
   validation: {
     stateRequired: "Ýagdaýy giriziň",

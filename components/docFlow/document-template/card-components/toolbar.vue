@@ -270,7 +270,7 @@ export default {
     refreshMergeFieldParamsButtonOptions() {
       return {
         icon: "refresh",
-        text: this.$t("document.refreshMergeFieldParams"),
+        text: this.$t("buttons.refreshMergeFieldParams"),
         onClick: () => {
           this.$awn.asyncBlock(
             this.$store.dispatch(
