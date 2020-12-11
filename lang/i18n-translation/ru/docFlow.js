@@ -124,5 +124,8 @@ export default {
     documentFlowRequired: "Выберите документопоток",
     filesTypeRequired: "Тип файла не может быть пустым",
     responsibleIdRequired: "Введите ответственного за группу регистрации"
+  },
+  automaticAssignmentRules:{
+    
   }
 };

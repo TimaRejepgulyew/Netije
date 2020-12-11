@@ -100,6 +100,9 @@ export default {
     GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
     GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
   },
+  accessRightRule:{
+    getAccessRightRule:"/api/AccessRightRule"
+  },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,
     GrantPermissions: `/api/Task/GrantPermissions`,
