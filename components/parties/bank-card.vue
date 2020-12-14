@@ -88,6 +88,9 @@
             :text="$t('translations.fields.nonresident')"
           />
         </DxSimpleItem>
+        <DxSimpleItem data-field="canExchange" editor-type="dxCheckBox">
+          <DxLabel location="top" :text="$t('parties.fields.canExchange')" />
+        </DxSimpleItem>
         <DxSimpleItem data-field="webSite">
           <DxLabel location="top" :text="$t('translations.fields.webSite')" />
         </DxSimpleItem>
@@ -129,7 +132,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule,
+  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -145,7 +148,7 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar,
+    Toolbar
   },
   props: ["isCard", "data"],
   data() {
@@ -168,7 +171,7 @@ export default {
         nonresident: true,
         name: "",
         id: null,
-        status: this.$store.getters["status/status"](this)[0].id,
+        status: this.$store.getters["status/status"](this)[0].id
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
@@ -177,8 +180,8 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true,
-      },
+        showClearButton: true
+      }
     };
   },
   computed: {
@@ -187,11 +190,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active],
+          filter: ["status", "=", Status.Active]
         }),
         onValueChanged: () => {
           this.company.localityId = null;
-        },
+        }
       };
     },
     localityOptions() {
@@ -200,17 +203,17 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.company.regionId],
-        ],
+          ["regionId", "=", this.company.regionId]
+        ]
       });
-    },
+    }
   },
   methods: {
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.BankDataFieldValueNotExists(
         {
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );
@@ -250,13 +253,12 @@ export default {
           this.$awn.alert();
         }
       );
-    },
+    }
   },
   created() {
     if (this.data) {
       this.company = this.data;
     }
-  },
+  }
 };
 </script>
-

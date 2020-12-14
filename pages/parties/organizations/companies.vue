@@ -13,7 +13,7 @@
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
@@ -42,8 +42,8 @@
       />
 
       <DxEditing
-        :allow-updating="(e) => allowUpdating(e)"
-        :allow-deleting="(e) => allowDeleting(e)"
+        :allow-updating="e => allowUpdating(e)"
+        :allow-deleting="e => allowDeleting(e)"
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -184,9 +184,7 @@
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-         <DxRequiredRule
-          :message="$t('shared.statusRequired')"
-        />
+        <DxRequiredRule :message="$t('shared.statusRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="statusDataSource"
@@ -194,6 +192,12 @@
           display-expr="status"
         />
       </DxColumn>
+      <DxColumn
+        data-type="boolean"
+        data-field="canExchange"
+        :caption="$t('parties.fields.canExchange')"
+        :visible="true"
+      ></DxColumn>
       <DxColumn
         data-field="note"
         :caption="$t('translations.fields.note')"
@@ -213,7 +217,7 @@
       <template #textAreaEditor="cellInfo">
         <textArea
           :value="cellInfo.data.value"
-          :on-value-changed="(value) => onValueChanged(value, cellInfo.data)"
+          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
         ></textArea>
       </template>
     </DxDataGrid>
@@ -245,7 +249,7 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxMasterDetail,
-  DxEmailRule,
+  DxEmailRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -271,7 +275,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxMasterDetail,
-    DxEmailRule,
+    DxEmailRule
   },
   data() {
     return {
@@ -282,14 +286,14 @@ export default {
         loadUrl: dataApi.contragents.Company,
         insertUrl: dataApi.contragents.Company,
         updateUrl: dataApi.contragents.Company,
-        removeUrl: dataApi.contragents.Company,
+        removeUrl: dataApi.contragents.Company
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -314,14 +318,14 @@ export default {
     getActiveHeadOffices(options) {
       return {
         store: this.dataSource,
-        filter: options.data ? ["status", "=", Status.Active] : undefined,
+        filter: options.data ? ["status", "=", Status.Active] : undefined
       };
     },
     getActiveRegions(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region,
+          loadUrl: dataApi.sharedDirectory.Region
         }),
         paginate: true,
         filter: options.data
@@ -332,16 +336,16 @@ export default {
               "or",
               "id",
               "=",
-              options.data.regionId,
+              options.data.regionId
             ]
-          : undefined,
+          : undefined
       };
     },
     getActiveLocalities(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality,
+          loadUrl: dataApi.sharedDirectory.Locality
         }),
         paginate: true,
         filter: options.data
@@ -356,21 +360,21 @@ export default {
               "or",
               "id",
               "=",
-              options.data.localityId,
+              options.data.localityId
             ]
-          : undefined,
+          : undefined
       };
     },
     getActiveBanks(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Bank,
+          loadUrl: dataApi.contragents.Bank
         }),
         paginate: true,
         filter: options.data
           ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
-          : undefined,
+          : undefined
       };
     },
     validateEntityExists(params) {
@@ -378,7 +382,7 @@ export default {
       return this.$customValidator.CompanyDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );
@@ -386,7 +390,7 @@ export default {
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
-    },
-  },
+    }
+  }
 };
 </script>
