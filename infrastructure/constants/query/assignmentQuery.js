@@ -5,7 +5,7 @@ const assignmentQuery = {
   OnDocumentReview: 3,
   ReviewResolution: 4,
   OnApproval: 5,
-  onForRework: 6
+  ForRework: 6
 };
 export default assignmentQuery;
 export function generateAssignmentQueryName(key, context) {

@@ -1,8 +1,12 @@
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 export default {
+  async createVersionFromTemplate(context, params) {
+    const endpoint = dataApi.documentModule.CreateVersionFromTemplate;
+    return await exportFile(context, endpoint, params);
+  },
   async createVersionFromFile(document, file, context, fileName) {
-    return await exportFile(document, file, context, fileName);
+    return await exportFileAsFormData(document, file, context, fileName);
   },
   async createVersionFromSpreadSheet(context, document, file) {
     const payload = {
@@ -12,14 +16,14 @@ export default {
       fileName: `test.xlsx`,
       contentType: 6
     };
-    return await exportFileAsJson(
+    return await exportFile(
       context,
       `${dataApi.spreadSheet.ExportDocument}?documentId=${document.id}`,
       payload
     );
   },
   async createVersionFromDocumentEditor(document, file, context, fileName) {
-    return await exportFile(document, file, context, fileName);
+    return await exportFileAsFormData(document, file, context, fileName);
   },
   async importVersionSpreadSheet(context, { versionId }) {
     return await importFileJson(
@@ -78,10 +82,10 @@ export default {
     );
   }
 };
-const exportFileAsJson = async (context, endPoint, file) => {
-  return await context.$axios.post(endPoint, file);
+const exportFile = async (context, endPoint, payload) => {
+  return await context.$axios.post(endPoint, payload);
 };
-const exportFile = async (document, file, context, fileName) => {
+const exportFileAsFormData = async (document, file, context, fileName) => {
   let formData = new FormData();
   formData.append("file", file, fileName);
   formData.append("documentId", document.id);

@@ -1,6 +1,7 @@
 import dataApi from "~/static/dataApi";
 import BaseDocumentStore from "~/infrastructure/models/document-store/Base.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
+
 export default class ElectronicDocumnent extends BaseDocumentStore {
   constructor(options) {
     const documentRegistrationActions = () => {
@@ -47,14 +48,14 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         SET_CASE_FILE_ID(state, payload) {
           if (checkDataChanged(state.document.caseFileId, payload)) {
             state.isDataChanged = true;
+            state.document.caseFileId = payload;
           }
-          state.document.caseFileId = payload;
         },
         SET_PLACE_TO_CASE_FILE_DATE_ID(state, payload) {
           if (checkDataChanged(state.document.placedToCaseFileDate, payload)) {
             state.isDataChanged = true;
+            state.document.placedToCaseFileDate = payload;
           }
-          state.document.placedToCaseFileDate = payload;
         }
       };
     };
@@ -63,32 +64,32 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         SET_LIFE_CYCLE_STATE(state, payload) {
           if (checkDataChanged(state.document.lifeCycleState, payload)) {
             state.isDataChanged = true;
+            state.document.lifeCycleState = payload;
           }
-          state.document.lifeCycleState = payload;
         },
         SET_INTERNAL_APPROVAL_STATE(state, payload) {
           if (checkDataChanged(state.document.internalApprovalState, payload)) {
             state.isDataChanged = true;
+            state.document.internalApprovalState = payload;
           }
-          state.document.internalApprovalState = payload;
         },
         SET_EXTERNAL_APPROVAL_STATE(state, payload) {
           if (checkDataChanged(state.document.externalApprovalState, payload)) {
             state.isDataChanged = true;
+            state.document.externalApprovalState = payload;
           }
-          state.document.externalApprovalState = payload;
         },
         SET_EXECUTION_STATE(state, payload) {
           if (checkDataChanged(state.document.executionState, payload)) {
             state.isDataChanged = true;
+            state.document.executionState = payload;
           }
-          state.document.executionState = payload;
         },
         SET_CONTROL_EXECUTION_STATE(state, payload) {
           if (checkDataChanged(state.document.controlExecutionState, payload)) {
             state.isDataChanged = true;
+            state.document.controlExecutionState = payload;
           }
-          state.document.controlExecutionState = payload;
         }
       };
     };
@@ -125,6 +126,15 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
     const actions = {
       ...options?.actions,
       ...documentRegistrationActions(),
+      setVersion({ commit }, payload) {
+        commit("SET_VERSION", payload);
+      },
+      async updateLastVersion({ state, commit }) {
+        const { data } = await this.$axios.get(
+          dataApi.documentModule.Last + state.document.id
+        );
+        commit("UPDATE_LAST_VERSION", data);
+      },
       setDocumentKind({ commit }, payload) {
         if (!payload) payload = docmentKindService.emptyDocumentKind();
         commit("SET_DOCUMENT_KIND", payload);

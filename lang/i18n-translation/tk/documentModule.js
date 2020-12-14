@@ -45,7 +45,8 @@ export default {
       numberAndDate: "BELGISI WE SENESI",
       storing: "SAKLAMAK",
       lifeCycle: "ÝAŞAÝYŞ AÝLAWY",
-      versions: "Wersiýalar"
+      versions: "Wersiýalar",
+      params: "Parametriler"
     }
   },
   fields: {
@@ -109,9 +110,16 @@ export default {
     ourSide: "Biziň tarapymyz",
     responsibleEmployeeId: "Jogapkär işgär",
     conditions: "Şertleri",
-    whom: "Kime"
+    whom: "Kime",
+    documentKinds: "Resminamalaryň görnüşleri",
+    businessUnits: "Guramalar",
+    departments: "Bölümler",
+    description: "Bellik",
+    value: "Manysy"
   },
   validation: {
+    paramsValueRequired: "Manysy giriziň",
+    paramsValueRule: "Many nädogry girizildi",
     stateRequired: "Ýagdaýy giriziň",
     addresseeIdRequired: "Barmaly salgyny saýlaň",
     issuedToIdRequired: "Kime berildi saýlap alyň",
@@ -128,6 +136,7 @@ export default {
     leadingDocumentIdRequired: "Esasy resminamany saýlap alyň"
   },
   headers: {
+    documentTemplate: "Resminamalar nusgalary",
     pdfFileReader: "Resminamany Pdf formatyň okyjysy",
     documentEditor: "Resminamanyň Word formatyň redaktory",
     documentTemplate: "Resminamanyň nusgasy",

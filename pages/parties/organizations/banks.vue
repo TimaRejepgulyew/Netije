@@ -10,7 +10,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -31,8 +34,12 @@
       <DxStateStoring :enabled="true" type="localStorage" storage-key="Bank" />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -41,7 +48,11 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        data-type="string"
+      >
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
@@ -69,16 +80,26 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')"></DxColumn>
+      <DxColumn
+        data-field="phones"
+        :caption="$t('translations.fields.phones')"
+      ></DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
+      <DxColumn
+        data-field="email"
+        :caption="$t('translations.fields.email')"
+      ></DxColumn>
       <DxColumn
         data-field="legalName"
         :caption="$t('translations.fields.legalName')"
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="bic" :caption="$t('parties.fields.bic')" :visible="false">
+      <DxColumn
+        data-field="bic"
+        :caption="$t('parties.fields.bic')"
+        :visible="false"
+      >
         <DxAsyncRule
           :ignore-empty-value="true"
           :reevaluate="false"
@@ -120,7 +141,10 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
+      <DxColumn
+        data-field="webSite"
+        :caption="$t('translations.fields.webSite')"
+      ></DxColumn>
 
       <DxColumn
         data-field="nonresident"
@@ -136,9 +160,7 @@
       ></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('shared.status')">
-          <DxRequiredRule
-          :message="$t('shared.statusRequired')"
-        />
+        <DxRequiredRule :message="$t('shared.statusRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="statusDataSource"
@@ -146,6 +168,12 @@
           display-expr="status"
         />
       </DxColumn>
+      <DxColumn
+        data-type="boolean"
+        data-field="canExchange"
+        :caption="$t('parties.fields.canExchange')"
+        :visible="true"
+      ></DxColumn>
       <DxColumn
         data-field="note"
         :caption="$t('translations.fields.note')"
@@ -196,7 +224,7 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxMasterDetail,
-  DxPatternRule,
+  DxPatternRule
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -221,7 +249,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxPatternRule,
-    DxMasterDetail,
+    DxMasterDetail
   },
   data() {
     return {
@@ -232,14 +260,14 @@ export default {
         loadUrl: dataApi.contragents.Bank,
         insertUrl: dataApi.contragents.Bank,
         updateUrl: dataApi.contragents.Bank,
-        removeUrl: dataApi.contragents.Bank,
+        removeUrl: dataApi.contragents.Bank
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
       },
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
     };
   },
   methods: {
@@ -253,7 +281,7 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region,
+          loadUrl: dataApi.sharedDirectory.Region
         }),
         paginate: true,
         filter: options.data
@@ -264,16 +292,16 @@ export default {
               "or",
               "id",
               "=",
-              options.data.regionId,
+              options.data.regionId
             ]
-          : undefined,
+          : undefined
       };
     },
     getActiveLocalities(options) {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality,
+          loadUrl: dataApi.sharedDirectory.Locality
         }),
         paginate: true,
         filter: options.data
@@ -288,9 +316,9 @@ export default {
               "or",
               "id",
               "=",
-              options.data.localityId,
+              options.data.localityId
             ]
-          : undefined,
+          : undefined
       };
     },
     validateEntityExists(params) {
@@ -298,7 +326,7 @@ export default {
       return this.$customValidator.BankDataFieldValueNotExists(
         {
           id: params.data.id,
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );
@@ -306,8 +334,7 @@ export default {
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
-    },
-  },
+    }
+  }
 };
 </script>
-

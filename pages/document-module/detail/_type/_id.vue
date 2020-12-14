@@ -15,6 +15,7 @@ export default {
     mainDocumentForm
   },
   async asyncData({ app, params, router, $axios }) {
+  
     await load(
       { $store: app.store, $axios },
       {

@@ -128,6 +128,9 @@
             :text="$t('translations.fields.nonresident')"
           />
         </DxSimpleItem>
+        <DxSimpleItem data-field="canExchange" editor-type="dxCheckBox">
+          <DxLabel location="top" :text="$t('parties.fields.canExchange')" />
+        </DxSimpleItem>
         <DxSimpleItem data-field="webSite">
           <DxLabel location="top" :text="$t('translations.fields.webSite')" />
         </DxSimpleItem>
@@ -169,7 +172,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule,
+  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import EntityType from "~/infrastructure/constants/entityTypes";
@@ -185,7 +188,7 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar,
+    Toolbar
   },
   props: ["isCard", "data"],
   data() {
@@ -210,22 +213,22 @@ export default {
         tin: null,
         note: "",
         nonresident: true,
-        status: this.$store.getters["status/status"](this)[0].id,
+        status: this.$store.getters["status/status"](this)[0].id
       },
       sexOptions: {
         dataSource: [
           { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") },
+          { id: 1, name: this.$t("sex.female") }
         ],
         displayExpr: "name",
-        valueExpr: "id",
+        valueExpr: "id"
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active],
+        filter: ["status", "=", Status.Active]
       }),
 
       statusOptions: {
@@ -233,8 +236,8 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true,
-      },
+        showClearButton: true
+      }
     };
   },
   computed: {
@@ -243,11 +246,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active],
+          filter: ["status", "=", Status.Active]
         }),
         onValueChanged: () => {
           this.person.localityId = null;
-        },
+        }
       };
     },
     localityOptions() {
@@ -256,23 +259,23 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.person?.regionId],
-        ],
+          ["regionId", "=", this.person?.regionId]
+        ]
       });
     },
     dateOptions() {
       return {
         useMaskBehavior: true,
-        openOnFieldClick: true,
+        openOnFieldClick: true
       };
-    },
+    }
   },
   methods: {
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.PersonDataFieldValueNotExists(
         {
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );
@@ -312,13 +315,12 @@ export default {
           this.$awn.alert();
         }
       );
-    },
+    }
   },
   created() {
     if (this.data) {
       this.person = this.data;
     }
-  },
+  }
 };
 </script>
-

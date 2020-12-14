@@ -49,6 +49,14 @@ export default function(context) {
           description: context.$t("docFlow.documentSetting.categoriesDescr"),
           path: pathGenerate("contract-categories"),
           visible: isVisible(EntityType.DocumentGroupBase)
+        },
+        {
+          name: context.$t("docFlow.documentSetting.documentTemplate"),
+          description: context.$t(
+            "docFlow.documentSetting.documentTemplateDescr"
+          ),
+          path: pathGenerate("document-template"),
+          visible: isVisible(EntityType.DocumentTemplate)
         }
       ]
     },

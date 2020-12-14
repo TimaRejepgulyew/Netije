@@ -23,6 +23,7 @@ export default {
     DxDropDownButton,
   },
   props: ["documentId"],
+  
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];

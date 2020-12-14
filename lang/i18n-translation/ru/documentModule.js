@@ -30,6 +30,7 @@ export default {
   externalApprovalState: "Согл. с контрагентом",
   executionState: "Исполнение",
   controlExecutionState: "Контроль исполнения",
+  refreshMergeFieldParams: "Обновить параметры",
   type: DocumentType,
   confirmMessage: {
     sureDeleteVersion: "Удаление версии необратимо"
@@ -114,9 +115,15 @@ export default {
     responsibleEmployeeId: "Ответственный",
     conditions: "Условия",
     accountDate: "Дата счета",
-    whom: "Кому"
+    whom: "Кому",
+    documentKinds: "Виды документов",
+    businessUnits: "Огранизации",
+    departments: "Отделы",
+    description: "Описание"
   },
   validation: {
+    paramsValueRequired: "Введите значение",
+    paramsValueRule: "Значение введенно не корректно",
     stateRequired: "Введите состояние",
     issuedToIdRequired: "Введите кому выдана доверенность",
     ourSignatoryRequired: "Введите того кто подписал",
@@ -135,6 +142,7 @@ export default {
     documentTypeRequired: "Выберите тип документа"
   },
   headers: {
+    documentTemplate: "Шаблон документа",
     pdfFileReader: "Просмотр pdf файлов",
     documentEditor: "Редактор документов",
     documentTemplate: "Шаблон документа",

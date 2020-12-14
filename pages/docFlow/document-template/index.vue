@@ -8,17 +8,14 @@
 import documentTemplateGrid from "~/components/docFlow/document-template/document-template-grid.vue";
 export default {
   components: {
-    documentTemplateGrid,
+    documentTemplateGrid
   },
   methods: {
-    toDetail(documentTemplateId) {
-      this.$router.push(
-        `/docFlow/document-template/detail/${documentTemplateId}`
-      );
-    },
-  },
+    toDetail({ id }) {
+      this.$router.push(`/docFlow/document-template/detail/${id}`);
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>
