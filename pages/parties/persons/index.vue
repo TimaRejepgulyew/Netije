@@ -2,7 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.person')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -10,7 +10,10 @@
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
-      :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :load-panel="{
+        enabled: true,
+        indicatorSrc: require('~/static/icons/loading.gif')
+      }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -29,11 +32,19 @@
         :file-name="$t('parties.fields.person')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="Person" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="Person"
+      />
 
       <DxEditing
-        :allow-updating="$store.getters['permissions/allowUpdating'](entityType)"
-        :allow-deleting="$store.getters['permissions/allowDeleting'](entityType)"
+        :allow-updating="
+          $store.getters['permissions/allowUpdating'](entityType)
+        "
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
         :useIcons="true"
         mode="form"
@@ -46,7 +57,9 @@
         :caption="$t('translations.fields.firstName')"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.firstNameRequired')" />
+        <DxRequiredRule
+          :message="$t('translations.fields.firstNameRequired')"
+        />
       </DxColumn>
 
       <DxColumn
@@ -68,13 +81,20 @@
         data-type="date"
       ></DxColumn>
 
-      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')"></DxColumn>
+      <DxColumn
+        data-field="phones"
+        :caption="$t('translations.fields.phones')"
+      ></DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
         <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
 
-      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="webSite"
+        :caption="$t('translations.fields.webSite')"
+        :visible="false"
+      ></DxColumn>
 
       <DxColumn
         data-field="sex"
@@ -82,7 +102,12 @@
         data-type="string"
         :visible="false"
       >
-        <DxLookup :allow-clearing="true" :data-source="sex" value-expr="id" display-expr="name"></DxLookup>
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="sex"
+          value-expr="id"
+          display-expr="name"
+        ></DxLookup>
       </DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
@@ -92,7 +117,7 @@
           :message="$t('translations.fields.tinRule')"
         />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :ignore-empty-value="true"
           :message="$t('translations.fields.tinAlreadyExists')"
           :validation-callback="validateEntityExists"
@@ -152,9 +177,17 @@
         :caption="$t('translations.fields.nonresident')"
       ></DxColumn>
 
-      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
+      <DxColumn
+        data-field="account"
+        :caption="$t('translations.fields.account')"
+        :visible="false"
+      ></DxColumn>
 
-      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')" :visible="false">
+      <DxColumn
+        data-field="bankId"
+        :caption="$t('translations.fields.bankId')"
+        :visible="false"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveBanks"
@@ -171,7 +204,12 @@
           display-expr="status"
         />
       </DxColumn>
-
+      <DxColumn
+        data-type="boolean"
+        data-field="canExchange"
+        :caption="$t('parties.fields.canExchange')"
+        :visible="true"
+      ></DxColumn>
       <DxColumn
         data-field="note"
         :caption="$t('translations.fields.note')"
@@ -257,7 +295,7 @@ export default {
       onRegionIdChanged(rowData, value) {
         rowData.localityId = null;
         this.defaultSetCellValue(rowData, value);
-     }
+      }
     };
   },
   methods: {
@@ -275,7 +313,15 @@ export default {
         }),
         paginate: true,
         filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.regionId]
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.regionId
+            ]
           : undefined
       };
     },
@@ -287,7 +333,19 @@ export default {
         }),
         paginate: true,
         filter: options.data
-          ? ["regionId", "=", options.data.regionId, "or", "status", "=", Status.Active, "or", "id", "=", options.data.localityId]
+          ? [
+              "regionId",
+              "=",
+              options.data.regionId,
+              "or",
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.localityId
+            ]
           : undefined
       };
     },
@@ -320,4 +378,3 @@ export default {
   }
 };
 </script>
-

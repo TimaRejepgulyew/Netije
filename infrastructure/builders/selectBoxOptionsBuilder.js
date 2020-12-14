@@ -12,6 +12,7 @@ export default class SelectBoxOptionBuilder {
     this.pageSize = 10;
     this.acceptCustomValue = false;
     this.focusStateEnabled = false;
+    this.key = "id";
   }
 
   withoutDeferRendering() {
@@ -31,7 +32,10 @@ export default class SelectBoxOptionBuilder {
     this.focusStateEnabled = false;
     return this;
   }
-
+  setKey(key) {
+    this.key = key;
+    return this;
+  }
   acceptCustomValues(callback) {
     this.acceptCustomValue = true;
     this.onCustomItemCreating = callback;
@@ -52,7 +56,7 @@ export default class SelectBoxOptionBuilder {
     const obj = {
       dataSource: new DataSource({
         store: context.$dxStore({
-          key: "id",
+          key: this.key,
           loadUrl: this.url
         }),
         paginate: true,

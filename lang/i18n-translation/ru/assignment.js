@@ -24,7 +24,8 @@ export default {
     new: "Новые",
     inProcess: "В работе",
     expired: "Просроченые",
-    monthAgo: "30 дней"
+    monthAgo: "30 дней",
+    today: "Сегодня"
   },
   confirmMessage: {
     sureAbortConfirmation: "Вы действительно ходтите прекратить задачу?",

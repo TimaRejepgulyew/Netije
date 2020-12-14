@@ -1,8 +1,8 @@
 <template>
   <main>
     <Header
-      :showTitle="!isCard"
       :headerTitle="$t('document.headers.documentTemplate')"
+      :showTitle="!isCard"
       :isbackButton="!isCard"
     />
     <DxDataGrid
@@ -17,15 +17,15 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
-      :onRowDblClick="selected"
+      :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="false"
     >
-      <DxGrouping :auto-expand-all="false" />
       <DxSelection />
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
+
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
@@ -69,7 +69,6 @@
   </main>
 </template>
 <script>
-import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import documentIcon from "~/components/page/document-icon";
@@ -108,6 +107,7 @@ export default {
     DxLookup,
     DxGrouping,
     DxGroupPanel,
+
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
@@ -115,13 +115,15 @@ export default {
     DxButton,
     Header
   },
-  props: ["isCard"],
+  props: ["isCard", "documentId"],
   data() {
     return {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.documentTemplate.Documents
+          loadUrl:
+            dataApi.documentTemplate.GetDocumentTemplateByParams +
+            this.documentId
         }),
         paginate: true,
         pageSize: 10
@@ -134,9 +136,10 @@ export default {
         paginate: true,
         pageSize: 10
       }),
-      selected: e => {
-        this.$emit("selected", {
-          id: e.key
+      selectDocument: e => {
+        this.$emit("selectedDocument", {
+          id: e.key,
+          documentTypeGuid: DocumentTypeGuid.DocumentTemplate
         });
       }
     };
@@ -150,28 +153,6 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          }
-        }
-      });
-      e.toolbarOptions.items.unshift({
-        widget: "button",
-        location: "after",
-        options: {
-          icon: "plus",
-          onClick: () => {
-            this.$awn.asyncBlock(
-              createDocument(this, {
-                documentTypeGuid: DocumentTypeGuid.DocumentTemplate
-              }),
-              ({ documentTypeGuid, documentId }) => {
-                this.$router.push(
-                  `/docFlow/document-template/detail/${documentId}`
-                );
-              },
-              () => {
-                this.$awn.alert();
-              }
-            );
           }
         }
       });

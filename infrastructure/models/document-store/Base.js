@@ -1,9 +1,9 @@
+import * as documentService from "~/infrastructure/services/documentService.js";
 import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
-import { Log } from "oidc-client";
 export default class Base {
   state = {
     document: {},
@@ -52,7 +52,7 @@ export default class Base {
     canDelete({ canDelete }) {
       return canDelete;
     },
-    
+
     isRegistered({ document }) {
       return document.registrationState == RegistrationState.Registered;
     },
@@ -82,9 +82,10 @@ export default class Base {
       for (let prop in state) {
         state[prop] = null;
       }
-      state = {} ;
+      state = {};
     },
     UPDATE_LAST_VERSION(state, payload) {
+      console.log(payload);
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
       else {
@@ -145,51 +146,22 @@ export default class Base {
     }
   };
   actions = {
+    async save({ dispatch, commit, state }) {
+      await documentService.save(this, { commit, dispatch, state });
+    },
     async removeVersion({ state, commit }, versionId) {
       await this.$axios.delete(
         dataApi.documentModule.RemoveVersion + versionId
       );
     },
-    async updateLastVersion({ state, commit }) {
-      const { data } = await this.$axios.get(
-        dataApi.documentModule.Last + state.document.id
-      );
-      commit("UPDATE_LAST_VERSION", data);
-    },
     setDocumentKind({ commit }, payload) {
       if (!payload) payload = docmentKindService.emptyDocumentKind();
       commit("SET_DOCUMENT_KIND", payload);
-    },
-    setSubject({ commit, dispatch }, payload) {
-      commit("SET_SUBJECT", payload);
-      dispatch("reevaluateDocumentName");
     },
     async delete({ state }) {
       await this.$axios.delete(
         `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
       );
-    },
-    async save({ dispatch, commit, state }) {
-      const document = JSON.stringify(state.document);
-      const res = await this.$axios.put(
-        dataApi.documentModule.Documents + state.document.id,
-        {
-          documentJson: document,
-          documentTypeGuid: state.document.documentTypeGuid
-        }
-      );
-      if (state.isNew) {
-        // dispatch("loadDocument", res.data);
-        commit("SET_IS_NEW", false);
-      }
-      commit("DATA_CHANGED", false);
-      return;
-    },
-    loadDocument({ commit }, payload) {
-      //  TODO:  Создать функццю глубокого копирования
-      payload.document.documentKind = docmentKindService.emptyDocumentKind();
-      commit("IS_REGISTERED", payload.document.registrationState);
-      commit("SET_DOCUMENT", payload);
     }
   };
   constructor(options) {
@@ -202,10 +174,6 @@ export default class Base {
       setDocumentKind({ commit }, payload) {
         if (!payload) payload = docmentKindService.emptyDocumentKind();
         commit("SET_DOCUMENT_KIND", payload);
-      },
-      setSubject({ commit, dispatch }, payload) {
-        commit("SET_SUBJECT", payload);
-        dispatch("reevaluateDocumentName");
       }
     };
   }

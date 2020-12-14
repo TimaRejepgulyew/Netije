@@ -19,7 +19,7 @@ function setQuickfilter(value, oldvalue, context) {
 }
 export default {
   components: {
-    DxButtonGroup,
+    DxButtonGroup
   },
   props: ["assignmentQuery"],
   data() {
@@ -33,29 +33,34 @@ export default {
         {
           text: this.$t("assignment.quickFilter.all"),
           filterKey: QuiсkFilter.All,
-          hint: this.$t("assignment.quickFilter.all"),
+          hint: this.$t("assignment.quickFilter.all")
         },
         {
           text: this.$t("assignment.quickFilter.new"),
           filterKey: QuiсkFilter.New,
-          hint: this.$t("assignment.quickFilter.new"),
+          hint: this.$t("assignment.quickFilter.new")
         },
         {
           text: this.$t("assignment.quickFilter.inProcess"),
           filterKey: QuiсkFilter.InProcess,
-          hint: this.$t("assignment.quickFilter.inProcess"),
+          hint: this.$t("assignment.quickFilter.inProcess")
         },
         {
           text: this.$t("assignment.quickFilter.expired"),
           filterKey: QuiсkFilter.Expired,
-          hint: this.$t("assignment.quickFilter.expired"),
+          hint: this.$t("assignment.quickFilter.expired")
         },
         {
           text: this.$t("assignment.quickFilter.monthAgo"),
           filterKey: QuiсkFilter.MonthAgo,
-          hint: this.$t("assignment.quickFilter.monthAgo"),
+          hint: this.$t("assignment.quickFilter.monthAgo")
         },
-      ],
+        {
+          text: this.$t("assignment.quickFilter.today"),
+          filterKey: QuiсkFilter.Today,
+          hint: this.$t("assignment.quickFilter.today")
+        }
+      ]
     };
   },
   methods: {
@@ -65,18 +70,17 @@ export default {
         `assignmentQuickFilter${this.assignmentQuery}`,
         this.currentQuickFilter
       );
-    },
+    }
   },
   watch: {
     currentQuickFilter: {
-      handler: function (value, oldValue) {
+      handler: function(value, oldValue) {
         setQuickfilter(value, oldValue, this);
       },
-      immediate: true,
-    },
-  },
+      immediate: true
+    }
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

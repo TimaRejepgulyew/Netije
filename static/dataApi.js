@@ -88,13 +88,19 @@ export default {
     Version: `/api/OfficialDocument/Version/`,
     Relation: `/api/Documentrelations/Relations/`,
     CreateVersionFromFile: `/api/OfficialDocument/Version/ImportFromFile/`,
+    CreateVersionFromTemplate: `/api/OfficialDocument/Version/CreateFromTemplate`,
     ImportVersion: `/api/OfficialDocument/Version/Export/`,
     ImportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
     Last: `/api/OfficialDocument/Version/Last/`,
     Exchange: `/api/OfficialDocument/Exchange`
   },
-
+  documentTemplate: {
+    Documents: `/api/DocumentTemplate`,
+    GetDocumentById: `/api/DocumentTemplate/`,
+    GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
+    GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
+  },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,
     GrantPermissions: `/api/Task/GrantPermissions`,

@@ -9,7 +9,7 @@
       key-expr="id"
       :visible="canUpdate"
       :dropDownOptions="{
-        width: '200px',
+        width: '200px'
       }"
       @item-click="onItemClick"
     >
@@ -34,8 +34,9 @@ export default {
   components: {
     DxButton,
     DxDropDownButton,
-    toolbarItemUploadVersion,
+    toolbarItemUploadVersion
   },
+  inject: ["trySaveDocument"],
   props: ["documentId"],
   computed: {
     document() {
@@ -60,40 +61,40 @@ export default {
           id: 1,
           type: "upload",
           name: this.$t("buttons.upload"),
-          icon: "upload",
+          icon: "upload"
         },
         {
           id: 2,
           temp: "toolbarItemUploadVersion",
           type: "scaner",
           name: this.$t("buttons.fromScaner"),
-          icon: "print",
+          icon: "print"
         },
         {
           id: 3,
-          disabled: true,
-          type: "doc",
+          disabled: this.isNew,
+          type: "documentTemplate",
           name: this.$t("buttons.fromTemplate"),
-          icon: "doc",
+          icon: "doc"
         },
         {
           id: 4,
           type: "docxfile",
           name: this.$t("buttons.fromDocx"),
-          icon: "docxfile",
+          icon: "docxfile"
         },
         {
           id: 5,
           type: "xlsxfile",
           name: this.$t("buttons.fromXlsx"),
-          icon: "xlsxfile",
-        },
+          icon: "xlsxfile"
+        }
       ];
-    },
+    }
   },
   methods: {
     uploadVersion(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_VERSION`, data);
+      this.$store.dispatch(`documents/${this.documentId}/setVersion`, data);
       this.$emit("uploadVersion");
       this.$awn.success();
     },
@@ -105,7 +106,7 @@ export default {
           this,
           "test.pdf"
         ),
-        (res) => {
+        res => {
           this.uploadVersion(res.data);
         },
         () => {}
@@ -118,7 +119,19 @@ export default {
           this.document,
           file
         ),
-        (res) => {
+        res => {
+          this.uploadVersion(res.data);
+        },
+        () => {
+          this.$awn.alert();
+        }
+      );
+    },
+    pasteFromTemplate({ id: templateId }) {
+      const params = { templateId, documentId: this.documentId };
+      this.$awn.asyncBlock(
+        documentVersionService.createVersionFromTemplate(this, params),
+        res => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -134,13 +147,64 @@ export default {
           this,
           "test.docx"
         ),
-        (res) => {
+        res => {
           this.uploadVersion(res.data);
         },
         () => {
           this.$awn.alert();
         }
       );
+    },
+    async createDocumentTemplate() {
+      if (await this.trySaveDocument()) {
+        this.$popup.documentTemplateGrid(
+          this,
+          {
+            documentId: this.documentId
+          },
+          {
+            showLoadingPanel: false,
+            listeners: [
+              {
+                eventName: "valueChanged",
+                handlerName: "pasteFromTemplate"
+              }
+            ]
+          }
+        );
+      }
+    },
+    createDocxFile() {
+      DocumentVersionViewer({
+        context: this,
+        options: {
+          readOnly: false,
+          extension: ".docx",
+          params: {
+            documentId: this.documentId
+          }
+        },
+        isNew: true,
+        listeners: [
+          { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
+        ]
+      });
+    },
+    createExcelFile() {
+      DocumentVersionViewer({
+        context: this,
+        options: {
+          readOnly: false,
+          extension: ".xlsx",
+          params: {
+            documentId: this.documentId
+          }
+        },
+        isNew: true,
+        listeners: [
+          { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
+        ]
+      });
     },
     onItemClick(e) {
       const type = e.itemData.type;
@@ -152,55 +216,62 @@ export default {
           this.$popup.scannerDialog(
             this,
             {
-              documentId: this.documentId,
+              documentId: this.documentId
             },
             {
               listeners: [
                 {
                   eventName: "valueChanged",
-                  handlerName: "pasteVersionFromScanner",
-                },
-              ],
+                  handlerName: "pasteVersionFromScanner"
+                }
+              ]
             }
           );
           break;
-        case "docxfile":
-          DocumentVersionViewer({
-            context: this,
-            options: {
-              readOnly: false,
-              extension: ".docx",
-              params: {
-                documentId: this.documentId,
-              },
+        case "scaner":
+          this.$popup.scannerDialog(
+            this,
+            {
+              documentId: this.documentId
             },
-            isNew: true,
-            listeners: [
-              { eventName: "valueChanged", handlerName: "pasteDocxVersion" },
-            ],
-          });
+            {
+              listeners: [
+                {
+                  eventName: "valueChanged",
+                  handlerName: "pasteVersionFromScanner"
+                }
+              ]
+            }
+          );
+          break;
+        case "documentTemplate":
+          this.createDocumentTemplate();
+          break;
+        case "docxfile":
+          this.createDocxFile();
           break;
         case "xlsxfile":
+          this.createExcelFile();
           DocumentVersionViewer({
             context: this,
             options: {
               readOnly: false,
               extension: ".xlsx",
               params: {
-                documentId: this.documentId,
-              },
+                documentId: this.documentId
+              }
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" },
-            ],
+              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
+            ]
           });
           break;
         default:
           break;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

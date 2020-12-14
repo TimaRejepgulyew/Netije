@@ -1,5 +1,7 @@
 export default {
   elExchange: "El. alyş-çalyş",
+  today: "Şu gün",
+  refreshMergeFieldParams: "Parametri täzeden ýüklemek",
   edit: "Ütgetmek",
   confirm: "Tassyklaň!",
   createChildTask: "Goşundy ýumuş",

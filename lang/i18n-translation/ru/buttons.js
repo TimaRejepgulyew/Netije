@@ -1,5 +1,7 @@
 export default {
  elExchange: "Эл. обмен", 
+  today:"Сегодня",
+  refreshMergeFieldParams: "Обновить параметры",
   edit: "Редактировать",
   confirm: "Потвердите",
   diactivate: "Завершить сеанс",

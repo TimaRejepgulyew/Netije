@@ -101,7 +101,7 @@
 </template>
 <script>
 //servises
-import { refresh } from "~/infrastructure/services/DocumentService.js";
+import { refresh } from "~/infrastructure/services/documentService.js";
 import DocumentVersionViewer, {
   canEdit
 } from "~/infrastructure/services/documentVersionViewer.js";

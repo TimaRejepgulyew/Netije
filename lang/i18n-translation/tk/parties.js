@@ -43,7 +43,8 @@ export default {
     bic: "Bankyň üýtgeşik kesgitleýjisi",
     type: "Görnüş",
     company: "Kärhana",
-    headCompanyId: "Baş guramasy"
+    headCompanyId: "Baş guramasy",
+    canExchange :"Elektron alyş-çalyş"
   },
   validation: {
     companyRequired: "Kärhanany saýlaň",

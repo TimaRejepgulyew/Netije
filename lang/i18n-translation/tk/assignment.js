@@ -24,7 +24,8 @@ export default {
     new: "Täzeler",
     inProcess: "Işlenýäni",
     expired: "Möhleti gijikdirilen",
-    monthAgo: "Bir aý öň"
+    monthAgo: "Bir aý öň",
+    today: "Şu gün"
   },
   confirmMessage: {
     sureAbortConfirmation: "Siz hakykatdanam ýumuşy işlemegi besetjek mi ?",
@@ -129,7 +130,7 @@ export default {
     reviewManagerAssignment: "Rezolýusiýanyň teksti"
   },
   validation: {
-    approversRequired:"Ylalyşyjyny saýlaň",
+    approversRequired: "Ylalyşyjyny saýlaň",
     bodyRequired: "Tabşyrygyň tekstini giriziň..."
   }
 };
