@@ -3,13 +3,12 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа",
-  FreeApprovalTask: "Задача на cвободное согласование",
- 
+  FreeApprovalTask: "Задача на cвободное согласование"
 };
 export default {
-  compoundActionItem:"Состовное поручение",
+  compoundActionItem: "Состовное поручение",
   actionItemType: {
-    Component: "Пункт поручения",
+    Component: "Пункт поручения"
   },
   addNewAssineers: "Добавьте исполнителей",
   sources: {
@@ -20,10 +19,11 @@ export default {
     all: "Все",
     inProcess: "В работе",
     expired: "Просроченные",
-    monthAgo: "30 дней"
+    monthAgo: "30 дней",
+    today: "Сегодня"
   },
-  confirm:{
-    abortingReason:"Причина прекращения"
+  confirm: {
+    abortingReason: "Причина прекращения"
   },
   message: {
     acquaintDocumentMessage:

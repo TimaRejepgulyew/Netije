@@ -50,6 +50,11 @@ export default {
           filterKey: QuiсkFilter.MonthAgo,
           hint: this.$t("task.quickFilter.monthAgo"),
         },
+         {
+          text: this.$t("task.quickFilter.today"),
+          filterKey: QuiсkFilter.Today,
+          hint: this.$t("task.quickFilter.today"),
+        },
       ],
     };
   },

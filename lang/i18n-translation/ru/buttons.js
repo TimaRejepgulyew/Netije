@@ -1,4 +1,6 @@
 export default {
+  today:"Сегодня",
+  refreshMergeFieldParams: "Обновить параметры",
   edit: "Редактировать",
   confirm: "Потвердите",
   diactivate: "Завершить сеанс",

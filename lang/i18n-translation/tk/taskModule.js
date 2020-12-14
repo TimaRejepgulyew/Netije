@@ -15,7 +15,8 @@ export default {
     all: "Hemmesi",
     inProcess: "Işjeň ýagdaýda",
     expired: "Möhleti geçen",
-    monthAgo: "30 gün"
+    monthAgo: "30 gün",
+    today: "Şu gün"
   },
   confirm: {
     abortingReason: "Gutarmagyň sebäbi"

@@ -164,6 +164,12 @@ export default {
           filterKey: QuiсkFilter.Obsolete,
           hint: this.$t("buttons.obsolete"),
         },
+         {
+          text: this.$t("buttons.today"),
+          filterKey: QuiсkFilter.Today,
+          hint: this.$t("buttons.today"),
+        },
+
       ],
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
