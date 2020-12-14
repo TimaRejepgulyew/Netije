@@ -1,7 +1,7 @@
 <template>
   <main>
     <Header
-      :headerTitle="$t('docFlow.documentTemplate.header')"
+      :headerTitle="$t('document.headers.documentTemplate')"
       :showTitle="!isCard"
       :isbackButton="!isCard"
     />

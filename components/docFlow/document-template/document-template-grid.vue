@@ -2,7 +2,7 @@
   <main>
     <Header
       :showTitle="!isCard"
-      :headerTitle="$t('docFlow.documentTemplate.header')"
+      :headerTitle="$t('document.headers.documentTemplate')"
       :isbackButton="!isCard"
     />
     <DxDataGrid

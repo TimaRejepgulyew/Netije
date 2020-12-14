@@ -37,7 +37,7 @@ export default {
   },
   mounted() {
     this.$emit("loadStatus");
-    this.$emit("showTitle", this.$t("docFlow.documentTemplate.header"));
+    this.$emit("showTitle", this.$t("document.headers.documentTemplate"));
   }
 };
 </script>

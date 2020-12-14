@@ -156,22 +156,23 @@ export default {
       );
     },
     async createDocumentTemplate() {
-      await this.trySaveDocument();
-      this.$popup.documentTemplateGrid(
-        this,
-        {
-          documentId: this.documentId
-        },
-        {
-          showLoadingPanel: false,
-          listeners: [
-            {
-              eventName: "valueChanged",
-              handlerName: "pasteFromTemplate"
-            }
-          ]
-        }
-      );
+      if (await this.trySaveDocument()) {
+        this.$popup.documentTemplateGrid(
+          this,
+          {
+            documentId: this.documentId
+          },
+          {
+            showLoadingPanel: false,
+            listeners: [
+              {
+                eventName: "valueChanged",
+                handlerName: "pasteFromTemplate"
+              }
+            ]
+          }
+        );
+      }
     },
     createDocxFile() {
       DocumentVersionViewer({
