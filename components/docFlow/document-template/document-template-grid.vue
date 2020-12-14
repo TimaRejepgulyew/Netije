@@ -33,7 +33,7 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('shared.documentTemplates')"
+        :file-name="$t('document.headers.documentTemplate')"
       />
 
       <DxStateStoring
