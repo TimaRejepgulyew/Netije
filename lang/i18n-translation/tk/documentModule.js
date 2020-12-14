@@ -118,6 +118,8 @@ export default {
     value: "Manysy"
   },
   validation: {
+    paramsValueRequired: "Manysy giriziň",
+    paramsValueRule: "Many nädogry girizildi",
     stateRequired: "Ýagdaýy giriziň",
     addresseeIdRequired: "Barmaly salgyny saýlaň",
     issuedToIdRequired: "Kime berildi saýlap alyň",
