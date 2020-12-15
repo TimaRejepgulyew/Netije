@@ -5,14 +5,13 @@
       :showTitle="!isCard"
       :isbackButton="!isCard"
     >
-      <DxButtonGroup
+      <QuickFilter
         :visible="!isCard"
         slot="toolbar"
-        :selected-item-keys="[activeFilter]"
-        :items="QuiсkFilterOptions"
-        key-expr="filterKey"
-        styling-mode="text"
-        @item-click="itemClick"
+        :defaultValue="defaultFilter"
+        :dataSource="QuiсkFilterItems"
+        storeKey="document"
+        @valueChanged="setStore"
       />
     </Header>
     <DxDataGrid
@@ -26,7 +25,7 @@
       :column-auto-width="false"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
@@ -66,6 +65,9 @@
   </main>
 </template>
 <script>
+import QuickFilter from "~/components/quick-filter/index.vue";
+import DocumentQuickFilterModel from "~/infrastructure/models/quickFilter/document.js";
+import DocumentQuickFilterGuid from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import { DxButtonGroup } from "devextreme-vue";
 import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
@@ -94,7 +96,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DataSource from "devextreme/data/data_source";
@@ -123,16 +125,17 @@ export default {
     DxButton,
     Header,
     DxButtonGroup,
+    QuickFilter
   },
   props: {
     documentQuery: {
       type: Number,
-      default: DocumentQuery.All,
+      default: DocumentQuery.All
     },
     isCard: {
-      type: Boolean,
+      type: Boolean
     },
-    documentFilter: {},
+    documentFilter: {}
   },
 
   data() {
@@ -141,59 +144,32 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`
         }),
         filter: this.documentFilter,
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
-      QuiсkFilterOptions: [
-        {
-          text: this.$t("buttons.all"),
-          filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all"),
-        },
-        {
-          text: this.$t("buttons.new"),
-          filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new"),
-        },
-
-        {
-          text: this.$t("buttons.obsolete"),
-          filterKey: QuiсkFilter.Obsolete,
-          hint: this.$t("buttons.obsolete"),
-        },
-         {
-          text: this.$t("buttons.today"),
-          filterKey: QuiсkFilter.Today,
-          hint: this.$t("buttons.today"),
-        },
-
-      ],
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
-      selectDocument: (e) => {
+      selectDocument: e => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid,
+          documentTypeGuid: e.data.documentTypeGuid
         });
       },
+      defaultFilter: DocumentQuickFilterGuid.All
     };
   },
   methods: {
-    itemClick(e) {
-      this.activeFilter = e.itemIndex;
-      this.setStore(this.activeFilter);
-    },
     setStore(filter) {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`
         }),
-        paginate: true,
+        paginate: true
       });
     },
 
@@ -205,12 +181,16 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          },
-        },
+          }
+        }
       });
-    },
+    }
   },
   computed: {
+    QuiсkFilterItems() {
+      return Object.values(new DocumentQuickFilterModel(this).getAll());
+    },
+
     generateHeaderTitle() {
       return generateNameByDocQuery(this.documentQuery, this);
     },
@@ -219,8 +199,8 @@ export default {
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">

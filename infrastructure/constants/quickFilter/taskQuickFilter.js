@@ -3,6 +3,6 @@ const QuickFilter = {
     InProcess: 1,
     Expired: 2,
     MonthAgo: 3,
-    MonthAgo: 4,
+    Today: 4,
   }
   export default QuickFilter
