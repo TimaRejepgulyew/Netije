@@ -31,6 +31,7 @@ export default {
   administration,
   documentSendAction,
   licensing,
+  notificationMessage: "Habarnama",
   status: {
     active: "Işjeň",
     closed: "Ýapyk"

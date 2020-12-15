@@ -7,21 +7,19 @@ export default ({ app }, inject) => {
     Notification.requestPermission()
   }
 
-  function notify(title, body, params) {
+  function notify(body, id, context) {
     let options = {
       body: body,
       icon: "/favicon.ico",
     };
     audio.play();
     audio.currentTime = 0;
-    let notification = new Notification(title, options);
+    let notification = new Notification(context.$t('notificationMessage'), options);
     notification.onclick = function () {
-      // app.$popup.
-      console.log(notification);
-      app.$popup.assignmentCard(this,
-        // {
-        // params: { assignmentId: params.id }
-        // }
+      app.$popup.assignmentCard(context,
+        {
+          params: { assignmentId: id }
+        }
       );
       window.focus()
     }

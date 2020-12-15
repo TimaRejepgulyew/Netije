@@ -33,6 +33,7 @@ export default {
   administration,
   documentSendAction,
   licensing,
+  notificationMessage: "Уведомление",
   status: {
     active: "Активный",
     closed: "Закрытый"
