@@ -194,7 +194,7 @@ export default {
     };
   },
   methods: {
-    toDetail(id) {
+    selectDocument({ key: id }) {
       this.$router.push(`/parties/bank/${id}`);
     },
     createCounterPart() {

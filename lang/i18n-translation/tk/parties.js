@@ -5,7 +5,9 @@ export default {
   organizations: {
     title: "Guramalar",
     company: "Edara-kärhanalar",
-    createcompany: "Edara-kärhanalar döretmek",
+    createBank: "Bank döretmek",
+    createPerson: "Fiziki şahsy döretmek",
+    createСompany: "Edara-kärhanalar döretmek",
     companyDescr:
       "Salgylanma kitaby, biziň kompaniýamyz bilen aragatnaşygy we hyzmatdaşlygy saklaýan guramalaryň maglumatlaryny saklamaga niýetlenendir",
     createEmployee: "Guramany döretmek",
@@ -44,7 +46,7 @@ export default {
     type: "Görnüş",
     company: "Kärhana",
     headCompanyId: "Baş guramasy",
-    canExchange :"Elektron alyş-çalyş"
+    canExchange: "Elektron alyş-çalyş"
   },
   validation: {
     companyRequired: "Kärhanany saýlaň",

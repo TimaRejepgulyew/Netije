@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import personCard from "~/components/parties/person-card.vue";
-import companyCard from "~/components/parties/company-card.vue";
-import bankCard from "~/components/parties/bank-card.vue";
+import personCard from "~/components/parties/person/card.vue";
+import companyCard from "~/components/parties/company/card.vue";
+import bankCard from "~/components/parties/bank/card.vue";
 export default {
   components: {
     personCard,

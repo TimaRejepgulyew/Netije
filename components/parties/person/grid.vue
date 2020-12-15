@@ -1,11 +1,10 @@
 <template>
   <main>
-    <Header :headerTitle="$t('menu.companies')"></Header>
-
+    <Header :headerTitle="$t('menu.person')"></Header>
     <DxDataGrid
       id="gridContainer"
-      :errorRowEnabled="false"
       :show-borders="true"
+      :errorRowEnabled="false"
       :data-source="dataSource"
       :remote-operations="true"
       :allow-column-reordering="true"
@@ -15,16 +14,14 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
-      :onRowDblClick="selectDocument"
+      :onRowDblClick="selected"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-
       <DxHeaderFilter :visible="true" />
 
       <DxColumnChooser :enabled="true" />
-
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
@@ -32,65 +29,83 @@
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
-        :file-name="$t('parties.fields.company')"
+        :file-name="$t('parties.fields.person')"
       />
 
       <DxStateStoring
         :enabled="$store.getters['permissions/allowReading'](entityType)"
         type="localStorage"
-        storage-key="Company"
+        storage-key="Person"
       />
 
       <DxEditing
         :allow-updating="false"
-        :allow-deleting="e => allowDeleting(e)"
+        :allow-deleting="
+          $store.getters['permissions/allowDeleting'](entityType)
+        "
         :allow-adding="false"
         :useIcons="true"
         mode="form"
       />
 
       <DxSearchPanel position="after" :visible="true" />
-
       <DxScrolling mode="virtual" />
-
       <DxColumn
-        data-field="name"
-        :caption="$t('shared.name')"
+        data-field="firstName"
+        :caption="$t('translations.fields.firstName')"
         data-type="string"
       >
       </DxColumn>
 
       <DxColumn
-        data-field="headCompanyId"
-        :caption="$t('parties.fields.headCompanyId')"
-        :visible="false"
+        data-field="lastName"
+        :caption="$t('translations.fields.lastName')"
+        data-type="string"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="dataSource"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
-
       <DxColumn
-        data-field="legalName"
-        :caption="$t('translations.fields.legalName')"
-        :visible="false"
+        data-field="middleName"
+        :caption="$t('translations.fields.middleName')"
+        data-type="string"
       ></DxColumn>
 
       <DxColumn
-        data-field="tin"
-        :caption="$t('translations.fields.tin')"
-        :visible="true"
-      >
-      </DxColumn>
+        data-field="dateOfBirth"
+        :caption="$t('translations.fields.dateOfBirth')"
+        data-type="date"
+      ></DxColumn>
+
       <DxColumn
         data-field="phones"
         :caption="$t('translations.fields.phones')"
       ></DxColumn>
+
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
       </DxColumn>
+
+      <DxColumn
+        data-field="webSite"
+        :caption="$t('translations.fields.webSite')"
+        :visible="false"
+      ></DxColumn>
+
+      <DxColumn
+        data-field="sex"
+        :caption="$t('translations.fields.sex')"
+        data-type="string"
+        :visible="false"
+      >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="sex"
+          value-expr="id"
+          display-expr="name"
+        ></DxLookup>
+      </DxColumn>
+
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
+      </DxColumn>
+
       <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
       </DxColumn>
 
@@ -132,16 +147,10 @@
       ></DxColumn>
 
       <DxColumn
-        data-field="webSite"
-        :caption="$t('translations.fields.webSite')"
-        :visible="false"
-      ></DxColumn>
-
-      <DxColumn
         data-field="nonresident"
-        :caption="$t('translations.fields.nonresident')"
         :visible="false"
         data-type="boolean"
+        :caption="$t('translations.fields.nonresident')"
       ></DxColumn>
 
       <DxColumn
@@ -182,15 +191,6 @@
         :caption="$t('translations.fields.note')"
         :visible="false"
       ></DxColumn>
-
-      <DxMasterDetail
-        :enabled="$store.getters['permissions/allowReading'](contactEntityType)"
-        template="masterDetailTemplate"
-      />
-
-      <template #masterDetailTemplate="company">
-        <master-detail-contacts :company="company.data" />
-      </template>
     </DxDataGrid>
   </main>
 </template>
@@ -202,28 +202,31 @@ export default {
   mixins: [partiesGridMixin],
   data() {
     return {
-      contactEntityType: EntityType.Contact,
-      entityType: EntityType.Counterparty,
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.contragents.Company,
-        insertUrl: dataApi.contragents.Company,
-        updateUrl: dataApi.contragents.Company,
-        removeUrl: dataApi.contragents.Company
+        loadUrl: dataApi.contragents.Person,
+        insertUrl: dataApi.contragents.Person,
+        updateUrl: dataApi.contragents.Person,
+        removeUrl: dataApi.contragents.Person
       }),
+      entityType: EntityType.Counterparty,
+      statusDataSource: this.$store.getters["status/status"](this),
       bankStore: this.$dxStore({
         key: "id",
         loadUrl: dataApi.contragents.Bank
       }),
-      statusDataSource: this.$store.getters["status/status"](this)
+      sex: [
+        { id: 0, name: this.$t("sex.male") },
+        { id: 1, name: this.$t("sex.female") }
+      ]
     };
   },
   methods: {
-    selectDocument({ key: id }) {
-      this.$router.push(`/parties/company/${id}`);
+    selected({ key: id }) {
+      this.$emit("selected", { id, type: "person" });
     },
     createCounterPart() {
-      this.$router.push(`/parties/company/create`);
+      this.$emit("create", { type: "person" });
     }
   }
 };

@@ -15,7 +15,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
-      :onRowDblClick="selectDocument"
+      :onRowDblClick="selected"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
@@ -219,11 +219,11 @@ export default {
     };
   },
   methods: {
-    selectDocument({ key: id }) {
-      this.$router.push(`/parties/company/${id}`);
+    selected({ key: id }) {
+      this.$emit("selected", { id, type: "company" });
     },
     createCounterPart() {
-      this.$router.push(`/parties/company/create`);
+      this.$emit("create", { type: "company" });
     }
   }
 };

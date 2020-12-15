@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import personCard from "~/components/parties/person-card.vue";
-import companyCard from "~/components/parties/company-card.vue";
-import bankCard from "~/components/parties/bank-card.vue";
+import personCard from "~/components/parties/person/card.vue";
+import companyCard from "~/components/parties/company/card.vue";
+import bankCard from "~/components/parties/bank/card.vue";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
@@ -27,7 +27,7 @@ export default {
           getRequiestUrl = `${dataApi.contragents.Company}/${params.id}`;
           break;
         default:
-          throw "Unsupport counterPart type";
+          throw "Unsupport counterPart type in load by id";
       }
       const { data } = await $axios.get(getRequiestUrl);
       return { data };
