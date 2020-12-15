@@ -2,59 +2,46 @@
   <main>
     <Header
       :showTitle="!isCard"
-      :headerTitle="$t('docFlow.automaticAssignmentRules.header')"
+      :headerTitle="$t('docFlow.automaticAssignmentRules.automaticAssignmentRulesTitle')"
       :isbackButton="!isCard"
     />
     <DxDataGrid
-      id="gridContainer"
-      :show-borders="true"
+      @toolbar-preparing="onToolbarPreparing($event)"
+      :onRowDblClick="toDetail"
       :data-source="store"
+      :show-borders="true"
       :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="false"
+      :focused-row-enabled="false"
       :load-panel="{
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
-      :onRowDblClick="selected"
-      @toolbar-preparing="onToolbarPreparing($event)"
-      :focused-row-enabled="false"
     >
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="document-template" />
+      <DxEditing :allow-adding="false" :allow-deleting="true" :useIcons="true" />
+      <DxSearchPanel position="after" :visible="true" />
       <DxGrouping :auto-expand-all="false" />
-      <DxSelection />
       <DxHeaderFilter :visible="true" />
-
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
-
       <DxFilterRow :visible="true" />
-
+      <DxScrolling mode="virtual" />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
         :file-name="$t('shared.documentTemplates')"
       />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="document-template" />
-      <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
-
-      <DxSearchPanel position="after" :visible="true" />
-      <DxScrolling mode="virtual" />
-      <DxColumn data-field="name" :caption="$t('docFlow.automaticAssignmentRules.fields.name')"></DxColumn>
-      <template #cellTemplate="cell">
-        <document-icon :extension="cell.data.value ? cell.data.value : null" />
-      </template>
+      <DxColumn data-field="name" :caption="$t('docFlow.automaticAssignmentRules.fields.name')" />
     </DxDataGrid>
   </main>
 </template>
+
 <script>
-import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
-import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
-import documentIcon from "~/components/page/document-icon";
 import {
-  DxFilterPanel,
   DxSearchPanel,
   DxDataGrid,
   DxColumn,
@@ -62,53 +49,49 @@ import {
   DxHeaderFilter,
   DxScrolling,
   DxExport,
-  DxSelection,
-  DxLookup,
   DxGrouping,
-  DxGroupPanel,
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
-  DxButton
+  DxStateStoring
 } from "devextreme-vue/data-grid";
+import dataApi from "~/static/dataApi";
+import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
-import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 export default {
   components: {
-    documentIcon,
     DxSearchPanel,
-    DxFilterPanel,
     DxDataGrid,
     DxColumn,
     DxEditing,
     DxHeaderFilter,
     DxScrolling,
     DxExport,
-    DxSelection,
-    DxLookup,
     DxGrouping,
-    DxGroupPanel,
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton,
     Header
   },
-  props: ["isCard"],
+  props: {
+    isCard: {
+      type: Boolean
+    }
+  },
   data() {
     return {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.accessRightRule.getAccessRightRule
+          loadUrl: dataApi.accessRightRule.getAccessRightRule,
+          removeUrl: dataApi.accessRightRule.getAccessRightRule
         }),
         paginate: true,
         pageSize: 10
       }),
-      selected: e => {
-        this.$emit("selected", {
+      toDetail: e => {
+        this.$emit("toDetail", {
           id: e.key
         });
       }
@@ -132,8 +115,7 @@ export default {
         options: {
           icon: "plus",
           onClick: () => {
-            this.$router.push(`/docFlow/automatic-assignment-rules/detail/1`);
-            console.log(123);
+            this.$router.push(`/docFlow/automatic-assignment-rules/detail`);
           }
         }
       });
@@ -141,13 +123,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-.dx-row.dx-data-row.dx-column-lines {
-  -webkit-user-select: none;
-}
-.dx-row.dx-data-row.dx-column-lines:hover {
-  color: forestgreen;
-}
-</style>

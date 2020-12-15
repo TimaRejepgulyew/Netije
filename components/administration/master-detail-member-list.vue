@@ -1,9 +1,6 @@
 <template>
   <DxTabPanel :tab-panel-options="tabPanelOptions">
-    <DxItem
-      :title="$t('translations.fields.members')"
-      template="members-list"
-    />
+    <DxItem :title="$t('translations.fields.members')" template="members-list" />
     <template #members-list>
       <DxDataGrid
         id="gridContainer"
@@ -44,6 +41,7 @@
         <template #recipientSelectBox="{ data: cellInfo }">
           <recipient-select-box
             valueExpr="id"
+            displayExpr="name"
             :value="cellInfo.value"
             @valueChanged="value => onValueChanged(value, cellInfo)"
           />

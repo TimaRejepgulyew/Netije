@@ -14,6 +14,9 @@ export default function (context) {
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
+  function isAdmin() {
+    return context.$store.getters["permissions/IsAdmin"];
+  }
   const pathGenerate = detail => {
     return `/docFlow/${detail}`;
   };
@@ -64,7 +67,7 @@ export default function (context) {
             "docFlow.automaticAssignmentRules.automaticAssignmentRulesDescription"
           ),
           path: pathGenerate("automatic-assignment-rules"),
-          visible: isVisible(EntityType.DocumentTemplate)
+          visible: isVisible(EntityType.isAdmin)
         }
       ]
     },

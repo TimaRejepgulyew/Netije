@@ -1,6 +1,6 @@
 <template>
   <div>
-    <automaticAssignmentRulesGrid :isCard="false" @selected="toDetail" />
+    <automaticAssignmentRulesGrid :isCard="false" @toDetail="toDetail" />
   </div>
 </template>
 

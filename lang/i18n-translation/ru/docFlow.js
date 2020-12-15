@@ -125,7 +125,28 @@ export default {
     filesTypeRequired: "Тип файла не может быть пустым",
     responsibleIdRequired: "Введите ответственного за группу регистрации"
   },
-  automaticAssignmentRules:{
-    
+  automaticAssignmentRules: {
+    automaticAssignmentRulesTitle: "Правила автоматического назначения прав",
+    automaticAssignmentRulesDescription: "Перечень правил автоматического назначения прав доступа на документы",
+    name: "Имя",
+    documentKinds: "Виды документов",
+    businessUnits: "Наши организации",
+    departments: "Подразделения",
+    grantRightsOnLeadingDocument: "Предоставить права на исходный документ",
+    grantRightsOnExistingDocuments: "Предоставить права на существующие документы",
+    note: "Заметка",
+    validation: {
+      requireName: "Введите имя",
+      requireDocumentKinds: "Выберите виды документов",
+    },
+    groups: {
+      main: "Основные",
+      members: "Участники"
+    },
+    fields: {
+      name: "Имя",
+      member: "Участник",
+      rightType: "Права"
+    }
   }
 };

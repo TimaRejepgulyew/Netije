@@ -1,141 +1,152 @@
 <template>
   <div>
-    <Header :headerTitle="$t('docFlow.automaticAssignmentRules.header')" :isbackButton="!isCard"></Header>
-    <toolbar :isCard="isCard"></toolbar>
-    <DxForm
-      :scrolling-enabled="true"
-      :form-data="accessRightRule"
-      ref="form"
-      :show-colon-after-label="true"
-      :show-validation-summary="false"
-      validation-group="accessRightRule"
-      col-count="2"
-    >
-      <DxGroupItem>
-        <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.name')" />
-        </DxSimpleItem>
+    <Header :headerTitle="headerTitle" :isbackButton="!isCard" :isNew="isNew" />
+    <toolbar @trySave="saveAccessRightRule" :isCard="isCard" />
+    <form>
+      <DxForm
+        :form-data="accessRightRule"
+        ref="form"
+        col-count="2"
+        :scrolling-enabled="true"
+        :show-colon-after-label="true"
+        :show-validation-summary="false"
+        validation-group="accessRightRule"
+      >
+        <DxGroupItem :caption="$t('docFlow.automaticAssignmentRules.groups.main')">
+          <DxSimpleItem data-field="name">
+            <DxRequiredRule
+              :message="$t('docFlow.automaticAssignmentRules.validation.requireName')"
+            />
+            <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.name')" />
+          </DxSimpleItem>
 
-        <DxSimpleItem
-          :editor-options="documentKindsOptions"
-          editor-type="dxTagBox"
-          data-field="documentKinds"
-        >
-          <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.documentKinds')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          :editor-options="businessUnitsOptions"
-          editor-type="dxTagBox"
-          data-field="businessUnits"
-        >
-          <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.businessUnits')" />
-        </DxSimpleItem>
-        <DxSimpleItem
-          :col-span="2"
-          :editor-options="departmentsOptions"
-          editor-type="dxTagBox"
-          data-field="departments"
-        >
-          <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.departments')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="grantRightsOnLeadingDocument" editor-type="dxCheckBox">
-          <DxLabel
-            location="left"
-            :text="$t('docFlow.automaticAssignmentRules.grantRightsOnLeadingDocument')"
-          />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="grantRightsOnExistingDocuments" editor-type="dxCheckBox">
-          <DxLabel
-            location="left"
-            :text="$t('docFlow.automaticAssignmentRules.grantRightsOnExistingDocuments')"
-          />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="note" editor-type="dxTextArea">
-          <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.note')" />
-        </DxSimpleItem>
-      </DxGroupItem>
-      <DxGroupItem>
-        <DxSimpleItem :col-count="1" template="params-form"></DxSimpleItem>
-      </DxGroupItem>
-      <template #params-form>
-        <paramsForm @updateMembers="updateMembers" :isCard="isCard"></paramsForm>
-      </template>
-    </DxForm>
+          <DxSimpleItem
+            :editor-options="documentKindsOptions"
+            editor-type="dxTagBox"
+            data-field="documentKinds"
+          >
+            <DxRequiredRule
+              :message="$t('docFlow.automaticAssignmentRules.validation.requireDocumentKinds')"
+            />
+            <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.documentKinds')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            :editor-options="businessUnitsOptions"
+            editor-type="dxTagBox"
+            data-field="businessUnits"
+          >
+            <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.businessUnits')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            :editor-options="departmentsOptions"
+            editor-type="dxTagBox"
+            data-field="departments"
+          >
+            <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.departments')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem data-field="grantRightsOnLeadingDocument" editor-type="dxCheckBox">
+            <DxLabel
+              location="left"
+              :text="$t('docFlow.automaticAssignmentRules.grantRightsOnLeadingDocument')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem data-field="grantRightsOnExistingDocuments" editor-type="dxCheckBox">
+            <DxLabel
+              location="left"
+              :text="$t('docFlow.automaticAssignmentRules.grantRightsOnExistingDocuments')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem data-field="note" editor-type="dxTextArea">
+            <DxLabel location="top" :text="$t('docFlow.automaticAssignmentRules.note')" />
+          </DxSimpleItem>
+        </DxGroupItem>
+
+        <DxGroupItem :caption="$t('docFlow.automaticAssignmentRules.groups.members')">
+          <DxSimpleItem template="params-form"></DxSimpleItem>
+        </DxGroupItem>
+
+        <template #params-form>
+          <membersForm
+            :currentMembers="accessRightRule.members"
+            @updateMembers="updateMembers"
+            :isCard="isCard"
+          ></membersForm>
+        </template>
+      </DxForm>
+    </form>
   </div>
 </template>
 
 <script>
 import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
-import paramsForm from "./card-components/params-form.vue";
+import membersForm from "./card-components/members-form.vue";
 import Status from "~/infrastructure/constants/status";
-import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import toolbar from "./card-components/toolbar.vue";
+import dataApi from "~/static/dataApi";
 import DxForm, {
-  DxTabbedItem,
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
-  DxButtonItem
+  DxLabel
 } from "devextreme-vue/form";
 export default {
   components: {
     Header,
     toolbar,
     DxForm,
-    DxTabbedItem,
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,
-    DxButtonItem,
     DxLabel,
-    paramsForm
+    membersForm
   },
   props: {
     isCard: {
       type: Boolean
+    },
+    currentRule: {
+      type: Object,
+      default: {}
     }
   },
+
   data() {
     return {
-      accessRightRule: {
-        id: 0,
-        name: "",
-        grantRightsOnLeadingDocument: true,
-        grantRightsOnExistingDocuments: true,
-        note: "",
-        documentKinds: [],
-        businessUnits: [],
-        departments: [],
-        members: [
-          {
-            id: 0,
-            rightType: 0
-          }
-        ]
-      }
+      id: Number(this.$route.params.id)
     };
   },
   computed: {
-    saveBtnOptions() {
+    accessRightRule() {
       return {
-        text: "Сохранить",
-        onClick: this.saveAccessRightRule
+        name: "",
+        note: "",
+        grantRightsOnLeadingDocument: true,
+        grantRightsOnExistingDocuments: true,
+        documentKinds: [],
+        businessUnits: [],
+        departments: [],
+        members: [],
+        ...this.currentRule
       };
     },
-    documentTypeOptions() {
-      const builder = new SelectBoxOptionsBuilder();
-      const options = builder
-        .withUrl(dataApi.docFlow.DocumentType)
-        .withoutDeferRendering()
-        .setValueExpr("documentTypeGuid")
-        .build(this);
-      return {
-        ...options,
-        value: this.documentTypeId,
-        onValueChanged: this.setDocumentTypeId
-      };
+    isNew() {
+      if (this.id) {
+        this.accessRightRule.id = this.id;
+      }
+      return this.id ? false : true;
+    },
+    headerTitle() {
+      return this.isNew
+        ? this.$t(
+            "docFlow.automaticAssignmentRules.automaticAssignmentRulesTitle"
+          )
+        : this.accessRightRule.name;
     },
     documentKindsOptions() {
       const builder = new SelectBoxOptionsBuilder();
@@ -150,7 +161,6 @@ export default {
       };
     },
     businessUnitsOptions() {
-      console.log("filter");
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.BusinessUnit)
@@ -178,8 +188,45 @@ export default {
     updateMembers(members) {
       this.accessRightRule.members = members;
     },
+    updateRule() {
+      this.$awn.asyncBlock(
+        this.$axios.put(
+          dataApi.accessRights.UpdateRecipient + this.id,
+          this.accessRightRule
+        ),
+        e => {
+          this.$awn.success();
+          this.$emit("close");
+        },
+        e => {
+          this.$awn.alert();
+        }
+      );
+    },
+
+    createRule() {
+      this.$awn.asyncBlock(
+        this.$axios.post(
+          dataApi.accessRights.AddRecipient,
+          this.accessRightRule
+        ),
+        e => {
+          this.$awn.success();
+          this.$emit("close");
+        },
+        e => {
+          this.$awn.alert();
+        }
+      );
+    },
     saveAccessRightRule() {
-      console.log(this.accessRightRule);
+      if (this.$refs["form"].instance.validate().isValid) {
+        if (this.isNew) {
+          this.createRule();
+        } else {
+          this.updateRule();
+        }
+      }
     }
   }
 };

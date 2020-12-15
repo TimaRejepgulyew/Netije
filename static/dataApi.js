@@ -129,10 +129,11 @@ export default {
     Remove: `/api/Task/RemoveAttachment`
   },
   accessRights: {
-    List: `/api/AccessRights/`,
-    AddRecipient: `/api/AccessRights`,
-    UpdateRecipient: `/api/AccessRights/`,
-    RemoveRecipient: `/api/AccessRights/`
+    List: `/api/AccessRightRule`,
+    getById: `/api/AccessRightRule/`,
+    AddRecipient: `/api/AccessRightRule`,
+    UpdateRecipient: `/api/AccessRightRule/`,
+    RemoveRecipient: `/api/AccessRightRule/`
   },
   assignment: {
     CreateSubtask: `api/Assignment/CreateSubtask`,
