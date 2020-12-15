@@ -33,6 +33,12 @@ export default {
   confirmMessage: {
     sureDeleteVersion: "Aýyrlan wersiyany yzyna gaýtaryp bolmaýar"
   },
+  quickFilter: {
+    All: "Hemmesi",
+    New: "Täze",
+    Obsolete: "Ulanyşdan aýrylan",
+    Today: "Şu gün"
+  },
   tabs: {
     main: "Esasy häsiýetleri",
     relations: "Gatnaşyklary",

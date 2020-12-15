@@ -23,8 +23,11 @@ const GetColumnsByAssignmentQuery = (type, context) => {
       return CreateReviewResolutionAssignmentColumns(context);
     case AssignmentQuery.OnApproval:
       return CreateOnApprovalAssignmentColumns(context);
+    case AssignmentQuery.ForRework:
+      return CreateForReworkAssignmentColumns(context);
+
     default:
-      return [];
+      throw "Unsuported assignment grid component";
   }
 };
 export default {
@@ -59,9 +62,7 @@ const isReviewDraftResolution = e => {
     e.row.data.status === AssignmentStatusGuid.InProcess
   );
 };
-// const inProcess = e => {
-//   return e.row.data.status === AssignmentStatus.InProcess;
-// }
+
 const addResolution = async ({ assignmentType, id, body }, context) => {
   const response = await confirm(
     context.$t(
@@ -90,6 +91,9 @@ const CreateBaseColumns = context => {
     CreateAuthorColumn(context),
     CreateStatusColumn(context)
   ];
+};
+const CreateForReworkAssignmentColumns = context => {
+  return [...CreateBaseColumns(context)];
 };
 const CreateAllAssignmentColumns = context => {
   return [...CreateBaseColumns(context)];

@@ -38,7 +38,8 @@ export default {
   quickFilter: {
     All: "Все",
     New: "Новый",
-    Obsolete: ""
+    Obsolete: "Архив",
+    Today: "Сегодня"
   },
   tabs: {
     main: "Свойства",

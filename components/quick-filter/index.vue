@@ -23,9 +23,7 @@ export default {
   },
   data() {
     return {
-      value: localStorage.hasOwnProperty(
-        `assignmentQuickFilter${this.assignmentQuery}`
-      )
+      value: localStorage.hasOwnProperty(`quick-filter-${this.storeKey}`)
         ? +localStorage.getItem(`quick-filter-${this.storeKey}`)
         : this.defaultValue
     };

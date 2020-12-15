@@ -10,7 +10,7 @@
         slot="toolbar"
         :defaultValue="defaultFilter"
         :dataSource="QuiсkFilterItems"
-        storeKey="document"
+        :storeKey="'document-' + documentQuery"
         @valueChanged="setStore"
       />
     </Header>
@@ -188,7 +188,12 @@ export default {
   },
   computed: {
     QuiсkFilterItems() {
-      return Object.values(new DocumentQuickFilterModel(this).getAll());
+      return Object.values(new DocumentQuickFilterModel(this).getAll()).map(
+        item => {
+          item.hint = item.text;
+          return item;
+        }
+      );
     },
 
     generateHeaderTitle() {
