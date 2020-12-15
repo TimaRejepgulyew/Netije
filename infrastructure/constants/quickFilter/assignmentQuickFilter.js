@@ -4,6 +4,6 @@ const QuickFilter = {
   InProcess: 2,
   Expired: 3,
   MonthAgo: 4,
-}
-export default QuickFilter
-
+  Today: 5
+};
+export default QuickFilter;

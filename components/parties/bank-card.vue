@@ -228,6 +228,7 @@ export default {
         this.$axios.post(dataApi.contragents.Bank, this.company),
         ({ data }) => {
           this.$emit("valueChanged", data);
+          this.$emit("created", data);
           this.$awn.success();
           this.$emit("close");
         },

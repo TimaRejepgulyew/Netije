@@ -26,7 +26,7 @@
       :column-auto-width="false"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif'),
+        indicatorSrc: require('~/static/icons/loading.gif')
       }"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
@@ -94,7 +94,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton,
+  DxButton
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DataSource from "devextreme/data/data_source";
@@ -122,17 +122,17 @@ export default {
     DxStateStoring,
     DxButton,
     Header,
-    DxButtonGroup,
+    DxButtonGroup
   },
   props: {
     documentQuery: {
       type: Number,
-      default: DocumentQuery.All,
+      default: DocumentQuery.All
     },
     isCard: {
-      type: Boolean,
+      type: Boolean
     },
-    documentFilter: {},
+    documentFilter: {}
   },
 
   data() {
@@ -141,60 +141,59 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`
         }),
         filter: this.documentFilter,
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       }),
       QuiсkFilterOptions: [
         {
           text: this.$t("buttons.all"),
           filterKey: QuiсkFilter.All,
-          hint: this.$t("buttons.all"),
+          hint: this.$t("buttons.all")
         },
         {
           text: this.$t("buttons.new"),
           filterKey: QuiсkFilter.New,
-          hint: this.$t("buttons.new"),
+          hint: this.$t("buttons.new")
         },
 
         {
           text: this.$t("buttons.obsolete"),
           filterKey: QuiсkFilter.Obsolete,
-          hint: this.$t("buttons.obsolete"),
+          hint: this.$t("buttons.obsolete")
         },
-         {
+        {
           text: this.$t("buttons.today"),
           filterKey: QuiсkFilter.Today,
-          hint: this.$t("buttons.today"),
-        },
-
+          hint: this.$t("buttons.today")
+        }
       ],
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
-      selectDocument: (e) => {
+      selectDocument: e => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid,
+          documentTypeGuid: e.data.documentTypeGuid
         });
-      },
+      }
     };
   },
   methods: {
-    itemClick(e) {
-      this.activeFilter = e.itemIndex;
-      this.setStore(this.activeFilter);
-    },
     setStore(filter) {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`
         }),
-        paginate: true,
+        paginate: true
       });
+    },
+    itemClick(e) {
+      this.activeFilter = e.itemIndex;
+      this.setStore(this.activeFilter);
     },
 
     onToolbarPreparing(e) {
@@ -205,10 +204,10 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          },
-        },
+          }
+        }
       });
-    },
+    }
   },
   computed: {
     generateHeaderTitle() {
@@ -219,8 +218,8 @@ export default {
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Header
+      :showTitle="!isCard"
+      :isbackButton="!isCard"
+      :headerTitle="$t('translations.headers.counterPart')"
+    ></Header>
     <toolbar
       :isCard="isCard"
       @saveChanges="submit"
@@ -174,6 +179,7 @@ import DxForm, {
   DxEmailRule,
   DxAsyncRule
 } from "devextreme-vue/form";
+import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
 import EntityType from "~/infrastructure/constants/entityTypes";
 export default {
@@ -188,9 +194,15 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar
+    Toolbar,
+    Header
   },
   props: ["isCard", "data"],
+  created() {
+    if (this.data) {
+      this.person = this.data;
+    }
+  },
   data() {
     return {
       EntityType,
@@ -289,9 +301,10 @@ export default {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.contragents.Person, this.person),
         ({ data }) => {
+          this.person = data;
           this.$emit("valueChanged", data);
+          this.$emit("created", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
         },
         () => {
           this.$awn.alert();
@@ -309,17 +322,11 @@ export default {
         ({ data }) => {
           this.$emit("valueChanged", data);
           this.$awn.success();
-          this.$parent.$parent.closeCard();
         },
         () => {
           this.$awn.alert();
         }
       );
-    }
-  },
-  created() {
-    if (this.data) {
-      this.person = this.data;
     }
   }
 };
