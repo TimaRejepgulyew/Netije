@@ -8,6 +8,11 @@ export default {
   Metadata: `/api/Metadata`,
   account: `/Identity/Account/Manage`,
   History: `/api/History/`,
+  DocumentTracking: {
+    getDocumentTracking: "/api/DocumentTracking/",
+    postDocumentTracking: "/api/DocumentTracking",
+    putDocumentTracking: "/api/DocumentTracking/"
+  },
   OidcConfiguration: `/_configuration/${process.env.oidcClientId}`,
   sharedDirectory: {
     Country: `/api/Country`,

@@ -21,7 +21,9 @@ import docFlow from "~/lang/i18n-translation/ru/docFlow.js";
 import scanner from "~/lang/i18n-translation/ru/scanner.js";
 import malwareScanResults from "~/lang/i18n-translation/ru/malwareScanResults.js";
 import onlineUsers from "~/lang/i18n-translation/ru/onlineUsers.js";
+import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
 export default {
+  documentTracking,
   malwareScanResults,
   onlineUsers,
   scanner,
