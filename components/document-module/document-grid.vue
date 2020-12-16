@@ -68,7 +68,6 @@
 import QuickFilter from "~/components/quick-filter/index.vue";
 import DocumentQuickFilterModel from "~/infrastructure/models/quickFilter/document.js";
 import DocumentQuickFilterGuid from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
-import { DxButtonGroup } from "devextreme-vue";
 import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
@@ -96,7 +95,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton
+  
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DataSource from "devextreme/data/data_source";
@@ -122,9 +121,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton,
+
     Header,
-    DxButtonGroup,
     QuickFilter
   },
   props: {

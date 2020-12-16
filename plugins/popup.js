@@ -45,7 +45,8 @@ export default ({ app }, inject) => {
     scannerDialog: BasePopup("scannerDialog"),
     spreadSheet: BasePopup("spreadSheet"),
     licenseInfo: BasePopup("licenseInfo"),
-    documentTemplateGrid: BasePopup("documentTemplateGrid")
+    documentTemplateGrid: BasePopup("documentTemplateGrid"),
+    searchSetting : BasePopup("searchSetting")
   };
 
   const popups = [];
