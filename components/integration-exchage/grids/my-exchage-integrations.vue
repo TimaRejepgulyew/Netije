@@ -11,13 +11,12 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :selection="{ mode: 'single' }"
       :hover-state-enabled="true"
-      :onRowDblClick="selected"
       @toolbar-preparing="onToolbarPreparing($event)"
       :load-panel="{
         enabled: true,
@@ -32,7 +31,7 @@
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
-
+      <DxPaginate />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"

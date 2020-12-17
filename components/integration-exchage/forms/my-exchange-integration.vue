@@ -39,15 +39,15 @@
           />
         </DxSimpleItem>
         <DxSimpleItem
-          data-field="businessUnit"
-          template="businessUnitSelectBox"
+          data-field="businessUnitId"
+          template="businessUnitIdSelectBox"
         >
           <DxLabel location="top" :text="$t('exchange.fields.businessUnit')" />
           <DxRequiredRule
             :message="$t('exchange.validation.businessUnitRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="responsible" template="responsible">
+        <DxSimpleItem data-field="responsibleId" template="responsibleId">
           <DxLabel location="top" :text="$t('exchange.fields.responsible')" />
           <DxRequiredRule
             :message="$t('exchange.validation.responsibleRequired')"
@@ -76,20 +76,22 @@
           <DxLabel location="top" :text="$t('exchange.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <template #businessUnitSelectBox>
+      <template #businessUnitIdSelectBox>
         <business-unit-select-box
-          :value="box.businessUnit"
+          valueExpr="id"
+          :value="box.businessUnitId"
           :read-only="readOnly"
           validatorGroup="integration-box-form"
-          @valueChanged="setBusinessUnit"
+          @valueChanged="setBusinessUnitId"
         />
       </template>
-      <template #responsible>
+      <template #responsibleId>
         <employee-select-box
-          :value="box.responsible"
+          valueExpr="id"
+          :value="box.responsibleId"
           :read-only="readOnly"
           validatorGroup="integration-box-form"
-          @valueChanged="setResponsible"
+          @valueChanged="setResponsibleId"
         />
       </template>
       <template #certificate>
@@ -140,8 +142,8 @@ export default {
         name: null,
         note: null,
         organizationId: null,
-        businessUnit: null,
-        responsible: null,
+        businessUnitId: null,
+        responsibleId: null,
         routing: RoutingTypeGuid.BoxResponsible,
         certificate: null,
         password: null,
@@ -183,11 +185,11 @@ export default {
     setCertificate(value) {
       this.box.certificate = value;
     },
-    setBusinessUnit(data) {
-      this.box.businessUnit = data;
+    setBusinessUnitId(data) {
+      this.box.businessUnitId = data;
     },
-    setResponsible(data) {
-      this.box.responsible = data;
+    setResponsibleId(data) {
+      this.box.responsibleId = data;
     },
     goBack() {
       this.$emit("close");
