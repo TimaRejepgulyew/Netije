@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     valueChanged({ value }) {
-      this.$emit("valueChanged", value);
+      this.$emit("valueChanged", value[0]);
     },
   },
 };
@@ -26,6 +26,5 @@ export default {
 <style >
 .fileuploader-container {
   border: 1px solid #d3d3d3;
-  
 }
 </style>

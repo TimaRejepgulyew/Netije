@@ -1,6 +1,6 @@
 import additionalInfoIcon from "~/static/icons/quide-page/additionalInfo.svg";
 import companyStructureIcon from "~/static/icons/quide-page/company-structure.svg";
-
+import integrationIcon from "~/static/icons/quide-page/integration.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import employeeIcon from "~/static/icons/parties/person.svg";
 
@@ -72,14 +72,6 @@ export default function(context) {
           description: context.$t("companyStructure.additionalInfo.rolesDescr"),
           path: "/admin/roles",
           visible: isVisible(EntityType.Roles)
-        },
-        {
-          name: context.$t("companyStructure.additionalInfo.integration"),
-          description: context.$t(
-            "companyStructure.additionalInfo.integrationDescr"
-          ),
-          path: pathGenerate("integration-exchange"),
-          visible: isAdmin()
         }
       ]
     },
@@ -107,6 +99,19 @@ export default function(context) {
           description: context.$t("companyStructure.company.departmentDescr"),
           path: pathGenerate("organization-structure/departments"),
           visible: isVisible(EntityType.BusinessUnit)
+        }
+      ]
+    },
+    {
+      icon: integrationIcon,
+      title: context.$t("companyStructure.integration.title"),
+      visible: isAdmin(),
+      items: [
+        {
+          name: context.$t("companyStructure.integration.exchange"),
+          description: context.$t("companyStructure.integration.exchangeDescr"),
+          path: pathGenerate("integration-exchange"),
+          visible: true
         }
       ]
     }
