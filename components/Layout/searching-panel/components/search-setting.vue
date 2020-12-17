@@ -16,10 +16,8 @@ export default {
   components: {
     DxButtonGroup
   },
-
   props: {
     value: {
-      type: "number"
     }
   },
   computed: {
@@ -29,7 +27,8 @@ export default {
   },
   methods: {
     valueChanged(e) {
-      if (e.itemIndex !== null) this.$emit("valueChanged", e.itemIndex);
+      if (e.itemIndex !== null)
+        this.$emit("valueChanged", { searchingType: e.itemIndex });
     }
   }
 };

@@ -12,7 +12,7 @@
       :search-timeout="300"
       displayValue="name"
       value-expr="name"
-      :onItemClick="openDocument"
+      :onItemClick="openEntity"
       :placeholder="$t('shared.search')"
     >
     </DxAutocomplete>
@@ -24,10 +24,11 @@ import settingIcon from "./infrastructure/icon/setting.svg";
 import { DxAutocomplete } from "devextreme-vue/autocomplete";
 import DataSource from "devextreme/data/data_source";
 import searchingTypes from "./infrastructure/constant/searchingTypes.js";
+import SearchingTypesModel from "./infrastructure/model/searchingTypes.js";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    DxAutocomplete,
+    DxAutocomplete
   },
   data() {
     return {
@@ -46,6 +47,9 @@ export default {
     };
   },
   computed: {
+    searchingModel() {
+      return new SearchingTypesModel(this).getById(this.searchingType);
+    },
     searchButtons() {
       return [
         {
@@ -61,26 +65,39 @@ export default {
         },
         {
           location: "after",
+          name: "searchTypeIcon",
+          options: {
+            icon: this.searchingModel.icon,
+            hint: this.searchingModel.text,
+            stylingMode: "text",
+            hoverStateEnabled: false,
+            activeStateEnabled: false,
+            focusStateEnabled: false
+          }
+        },
+        {
+          location: "after",
           name: "setting",
           options: {
             icon: settingIcon,
+            hint: this.$t("searching.searchSetting"),
             stylingMode: "text",
             onClick: () => {
               this.$popup.searchSetting(
                 this,
                 {
-                  entityTypeSearching: this.entityTypeSearching
+                  searchingType: this.searchingType
                 },
                 {
                   width: "auto",
                   height: "auto",
                   showLoadingPanel: false,
-                  // listeners: [
-                  //   {
-                  //     eventName: "valueChanged",
-                  //     handlerName: "setEntityTypeSearching"
-                  //   }
-                  // ]
+                  listeners: [
+                    {
+                      eventName: "valueChanged",
+                      handlerName: "setSearchingType"
+                    }
+                  ]
                 }
               );
             }
@@ -89,14 +106,41 @@ export default {
       ];
     }
   },
+
   methods: {
-    openDocument(e) {
+    setSearchingType({ searchingType }) {
+      this.searchingType = searchingType;
+      localStorage.setItem("searching-by-entity", this.searchingType);
+      this.name = null;
+    },
+    openEntity(e) {
       if (e.itemData !== null && typeof e.itemData !== "string") {
-        this.$router.push(
-          `/document-module/detail/${e.itemData.documentTypeGuid}/${e.itemData.id}`
-        );
+        switch (this.searchingType) {
+          case searchingTypes.Document:
+            this.openDocument(e);
+            break;
+          case searchingTypes.Assignment:
+            this.openAssignment(e);
+            break;
+          case searchingTypes.Task:
+            this.openTask(e);
+            break;
+        }
         this.name = null;
       }
+    },
+    openTask(e) {
+      this.$router.push(`/task/detail/${e.itemData.taskType}/${e.itemData.id}`);
+    },
+    openAssignment(e) {
+      this.$router.push(
+        `/assignment/more/${e.itemData.assignmentType}/${e.itemData.id}`
+      );
+    },
+    openDocument(e) {
+      this.$router.push(
+        `/document-module/detail/${e.itemData.documentTypeGuid}/${e.itemData.id}`
+      );
     }
   }
 };

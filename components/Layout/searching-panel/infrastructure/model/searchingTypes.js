@@ -1,7 +1,6 @@
 import SearchingTypes from "../constant/searchingTypes";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as searchingTypesIcon from "../icon/search-by-items-icons/index.js";
-console.log(searchingTypesIcon);
 export default class TaskStatus {
   constructor(context, options) {
     this.elements = generatorMapObj({

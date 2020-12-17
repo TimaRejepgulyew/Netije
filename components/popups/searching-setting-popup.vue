@@ -1,6 +1,6 @@
 <template>
   <searching-setting
-    :value="options.entityTypeSearching"
+    :value="options.searchingType"
     @valueChanged="valueChanged"
   />
 </template>
@@ -27,7 +27,7 @@ export default {
   },
   async created() {
     this.$emit("loadStatus");
-    this.$emit("showTitle", this.$t("searchingPanel.searchSetting"));
+    this.$emit("showTitle", this.$t("searching.searchSetting"));
   }
 };
 </script>
