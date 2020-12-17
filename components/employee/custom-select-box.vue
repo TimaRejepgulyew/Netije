@@ -65,6 +65,11 @@ export default {
     readOnly: {},
     valueExpr: {}
   },
+  data() {
+    return {
+      localEmployeeId: null
+    };
+  },
   computed: {
     employeeStore() {
       return new DataSource({
@@ -89,7 +94,7 @@ export default {
       this.$popup.employeeCard(
         this,
         {
-          employeeId: this.employeeId
+          employeeId: this.employeeId || this.localEmployeeId
         },
         {
           height: "auto",
@@ -98,6 +103,7 @@ export default {
       );
     },
     valueChanged(e) {
+      this.localEmployeeId = e.value;
       this.$emit("valueChanged", e.value);
     },
     updateEmployee(data) {

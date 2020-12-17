@@ -1,19 +1,5 @@
 <template>
   <main>
-    <DxPopup
-      :visible.sync="popupState"
-      :drag-enabled="false"
-      :close-on-outside-click="true"
-      :show-title="false"
-      height="auto"
-      position="top"
-    >
-      <div>
-        <div v-if="popupState" >
-          <member-list  :data="currentEmployee" />
-        </div>
-      </div>
-    </DxPopup>
     <Header :headerTitle="$t('menu.department')"></Header>
     <div>
       <DxTreeList
@@ -153,16 +139,6 @@
           edit-cell-template="textAreaEditor"
         ></DxColumn>
         <DxColumn :width="110" :buttons="editButtons" type="buttons" />
-        <!--   <DxMasterDetail
-        :enabled="$store.getters['permissions/allowReading'](employeeEntityType)"
-        template="masterDetailTemplate"
-      /> -->
-
-        <template #masterDetailTemplate="data">
-          <custom-popup :show="true">
-            <member-list :data="data.data" />
-          </custom-popup>
-        </template>
         <template #textAreaEditor="cellInfo">
           <textArea
             :value="cellInfo.data.value"
@@ -180,7 +156,6 @@ import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import MemberList from "~/components/department/master-detail-member-list";
 import textArea from "~/components/page/textArea";
-import { DxPopup } from "devextreme-vue/popup";
 import {
   DxTreeList,
   DxColumn,
@@ -220,7 +195,6 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxPopup,
   },
   data() {
     return {
@@ -240,7 +214,6 @@ export default {
         this.defaultSetCellValue(rowData, value);
       },
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
-      popupState: false,
     };
   },
   computed: {
@@ -265,7 +238,15 @@ export default {
   },
   methods: {
     openPopup() {
-      this.popupState = !this.popupState;
+      this.$popup.memberList(this,
+      {
+        currentEmployee:this.currentEmployee
+      },
+      {
+        showLoadingPanel: false,
+        height:"auto",
+        position: "flex-start",
+      })
     },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
