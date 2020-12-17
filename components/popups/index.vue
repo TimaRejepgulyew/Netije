@@ -56,7 +56,7 @@ import imageViewer from "./image-viewer-popup.vue";
 import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
-import documentExtradition from "./document-extradition-popup";
+import documentTracking from "./document-tracking-popup";
 import documentTemplateGrid from "./document-template-grid.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -82,7 +82,7 @@ export default {
     scannerDialog,
     licenseInfo,
     documentTemplateGrid,
-    documentExtradition
+    documentTracking
   },
   name: "base-popup",
   props: {
@@ -150,6 +150,7 @@ export default {
       });
     },
     valueChanged(data) {
+      console.log(data);
       this.$emit("valueChanged", data);
     },
     hideLoadIndicator() {
