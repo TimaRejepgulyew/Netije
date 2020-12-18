@@ -1,4 +1,5 @@
 export default {
+  uploadKey: "Açary ýüklemek",
   elExchange: "El. alyş-çalyş",
   today: "Şu gün",
   refreshMergeFieldParams: "Parametri täzeden ýüklemek",

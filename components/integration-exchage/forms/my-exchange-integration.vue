@@ -30,7 +30,9 @@
             location="top"
             :text="$t('exchange.fields.organizationId')"
           />
-          <DxRequiredRule :message="$t('exchange.validation.organizationId')" />
+          <DxRequiredRule
+            :message="$t('exchange.validation.organizationIdRequired')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="businessUnitId"
@@ -47,7 +49,7 @@
           editor-type="dxSelectBox"
         >
           <DxRequiredRule
-            :message="$t('exchange.validation.requiredRequired')"
+            :message="$t('exchange.validation.routingRequired')"
           />
           <DxLabel location="top" :text="$t('exchange.fields.routing')" />
         </DxSimpleItem>

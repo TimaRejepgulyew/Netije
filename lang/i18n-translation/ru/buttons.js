@@ -1,6 +1,7 @@
 export default {
- elExchange: "Эл. обмен", 
-  today:"Сегодня",
+  uploadKey: "Загрузить ключ",
+  elExchange: "Эл. обмен",
+  today: "Сегодня",
   refreshMergeFieldParams: "Обновить параметры",
   edit: "Редактировать",
   confirm: "Потвердите",
