@@ -88,7 +88,7 @@
       <DxColumn type="buttons">
         <DxButton
           icon="key"
-          @onClick="uploadKey"
+          :onClick="uploadKey"
           :text="$t('buttons.uploadKey')"
         />
         <DxButton name="delete" />
@@ -106,6 +106,7 @@ import { download } from "~/infrastructure/services/documentVersionService.js";
 import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import { saveAs } from "file-saver";
 import Header from "~/components/page/page__header";
 import RoutingTypeGuid from "../infrastructure/constants/routing.js";
 import {
@@ -151,8 +152,8 @@ export default {
     return {
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.Boxes,
-        removeUrl: dataApi.Boxes,
+        loadUrl: dataApi.boxes.Boxes,
+        removeUrl: dataApi.boxes.Boxes,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       responsibleStore: new DataSource({
@@ -172,7 +173,26 @@ export default {
     };
   },
   methods: {
-    uploadKey() {},
+    uploadKey(e) {
+      console.log(e);
+      this.$awn.asyncBlock(
+        this.$axios.get(`${dataApi.boxes.PublickKey}${e.row.key}`, {
+          responseType: "blob",
+        }),
+        ({ data }) => {
+          const blob = new Blob(
+            [data],
+            {
+              type: `data:${data.type}`,
+            },
+            (e) => {
+              console.error(e.data);
+            }
+          );
+          saveAs(blob, `"public.txt`);
+        }
+      );
+    },
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
         widget: "button",

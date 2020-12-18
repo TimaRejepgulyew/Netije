@@ -205,6 +205,6 @@ export default {
   },
   boxes: {
     Boxes: `/api/Boxes`,
-    PublickKey:`/`
+    PublickKey: `/api/Boxes/PublicKey/`
   }
 };

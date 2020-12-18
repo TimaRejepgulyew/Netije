@@ -19,7 +19,7 @@ export default {
     noteRequired: "Введите примечание",
     organizationIdRequired: "Введите ид организации",
     businessUnitRequired: "Введите нашу организацию",
-    resposibleRequired: "Выберите Отвественный",
+    responsibleRequired: "Выберите Отвественный",
     passwordRequired: "Введите Пароль",
     certificateRequired: "Сертификат",
     routingRequired: "Выберите кому отправить задание на обработку",

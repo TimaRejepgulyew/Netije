@@ -19,7 +19,7 @@ export default {
     noteRequired: "Bellikleri giriziň",
     organizationIdRequired: "Guramanyň belgisi giriziň",
     businessUnitRequired: "Guramany saýlaň",
-    resposibleRequired: "Jogapkäri saýlaň",
+    responsibleRequired: "Jogapkäri saýlaň",
     passwordRequired: "Açarsöz giriziň",
     certificateRequired: "Sertifikat goşuň",
     routingRequired: "Tabşyryg işlemek üçin giriziň",

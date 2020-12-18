@@ -4,7 +4,7 @@
       :showTitle="!isCard"
       :isbackButton="!isCard"
       :isNew="isNew"
-      :headerTitle="box.name"
+      :headerTitle="$t('exchange.headers.myExchangeIntegration')"
     ></Header>
     <toolbar
       @saveChanges="handleSubmit"
@@ -12,7 +12,7 @@
     />
     <DxForm
       ref="form"
-      :col-count="1"
+      :col-count="3"
       :scrolling-enabled="true"
       :form-data.sync="box"
       :read-only="readOnly"
@@ -31,12 +31,6 @@
             :text="$t('exchange.fields.organizationId')"
           />
           <DxRequiredRule :message="$t('exchange.validation.organizationId')" />
-        </DxSimpleItem>
-        <DxSimpleItem :editor-options="passwordOptions" data-field="password">
-          <DxLabel location="top" :text="$t('exchange.fields.password')" />
-          <DxRequiredRule
-            :message="$t('exchange.validation.passwordRequired')"
-          />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="businessUnitId"
@@ -63,6 +57,7 @@
             :message="$t('exchange.validation.responsibleRequired')"
           />
         </DxSimpleItem>
+
         <DxSimpleItem
           :col-span="3"
           data-field="status"
@@ -72,20 +67,26 @@
           <DxLabel location="top" :text="$t('exchange.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :col-count="2" :col-span="2">
+      <DxGroupItem :col-count="1" :col-span="2">
+        <DxSimpleItem :editor-options="passwordOptions" data-field="password">
+          <DxLabel location="top" :text="$t('exchange.fields.password')" />
+          <DxRequiredRule
+            :message="$t('exchange.validation.passwordRequired')"
+          />
+        </DxSimpleItem>
         <DxSimpleItem template="certificate">
           <DxLabel location="top" :text="$t('exchange.fields.certificate')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          :col-span="3"
-          :col-count="2"
-          data-field="note"
-          :editor-options="{ height: 90 }"
-          editor-type="dxTextArea"
-        >
-          <DxLabel location="top" :text="$t('exchange.fields.note')" />
-        </DxSimpleItem>
       </DxGroupItem>
+      <DxSimpleItem
+        :col-span="3"
+        :col-count="2"
+        data-field="note"
+        :editor-options="{ height: 90 }"
+        editor-type="dxTextArea"
+      >
+        <DxLabel location="top" :text="$t('exchange.fields.note')" />
+      </DxSimpleItem>
       <template #businessUnitIdSelectBox>
         <business-unit-select-box
           valueExpr="id"
@@ -220,10 +221,11 @@ export default {
     },
     postRequest() {
       var res = this.$refs["form"].instance.validate();
-      if (!res.isValid) return;
+      console.log(this.box.certificate);
+      if (!res.isValid || !this.box.certificate) return;
       const file = this.generateFormData(this.box);
       this.$awn.asyncBlock(
-        this.$axios.post(dataApi.Boxes, file),
+        this.$axios.post(dataApi.boxes.Boxes, file),
         (e) => {
           this.$emit("create", this.box);
           this.$awn.success();
@@ -233,10 +235,10 @@ export default {
     },
     putRequest() {
       var res = this.$refs["form"].instance.validate();
-      if (!res.isValid) return;
+      if (!res.isValid || !this.box.certificate) return;
       const file = this.generateFormData(this.box);
       this.$awn.asyncBlock(
-        this.$axios.put(dataApi.Boxes + "/" + this.box.id, file),
+        this.$axios.put(dataApi.boxes.Boxes + "/" + this.box.id, file),
         (e) => {
           this.$emit("valueChanged", this.box);
           this.$awn.success();
