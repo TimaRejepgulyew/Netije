@@ -85,7 +85,14 @@
           display-expr="status"
         />
       </DxColumn>
-      <DxColumn type="buttons"> <DxButton name="delete" /> </DxColumn>
+      <DxColumn type="buttons">
+        <DxButton
+          icon="key"
+          @onClick="uploadKey"
+          :text="$t('buttons.uploadKey')"
+        />
+        <DxButton name="delete" />
+      </DxColumn>
       <DxColumn
         data-field="note"
         :caption="$t('exchange.fields.note')"
@@ -95,6 +102,7 @@
   </main>
 </template>
 <script>
+import { download } from "~/infrastructure/services/documentVersionService.js";
 import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -164,6 +172,7 @@ export default {
     };
   },
   methods: {
+    uploadKey() {},
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
         widget: "button",

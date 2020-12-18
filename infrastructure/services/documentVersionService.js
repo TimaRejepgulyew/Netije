@@ -109,7 +109,7 @@ const importFile = async (context, endpoint) => {
   return data;
 };
 
-const download = (context, endpoint, obj) => {
+export const download = (context, endpoint, obj) => {
   context.$awn.asyncBlock(importFile(context, endpoint), response => {
     const blob = new Blob(
       [response],
