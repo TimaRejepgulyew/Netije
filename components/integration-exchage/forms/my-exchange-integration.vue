@@ -47,6 +47,16 @@
             :message="$t('exchange.validation.businessUnitRequired')"
           />
         </DxSimpleItem>
+        <DxSimpleItem
+          data-field="routing"
+          :editor-options="routingOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxRequiredRule
+            :message="$t('exchange.validation.requiredRequired')"
+          />
+          <DxLabel location="top" :text="$t('exchange.fields.routing')" />
+        </DxSimpleItem>
         <DxSimpleItem data-field="responsibleId" template="responsibleId">
           <DxLabel location="top" :text="$t('exchange.fields.responsible')" />
           <DxRequiredRule
@@ -155,12 +165,26 @@ export default {
         displayExpr: "status",
         showClearButton: true,
       },
+      routingDataSource: [
+        {
+          name: this.$t("exchange.routingType.BoxResponsible"),
+          id: RoutingTypeGuid.BoxResponsible,
+        },
+      ],
       passwordOptions: {
         mode: "password",
       },
     };
   },
   computed: {
+    routingOptions() {
+      return {
+        dataSource: this.routingDataSource,
+        valueExpr: "id",
+        displayExpr: "name",
+        showClearButton: true,
+      };
+    },
     isNew() {
       return this.data ? false : true;
     },

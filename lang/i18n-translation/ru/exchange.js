@@ -1,10 +1,14 @@
 export default {
+  uploadCertificate: "Загрузить сертификат",
+  routingType: {
+    BoxResponsible: "Отв. за аб. ящик"
+  },
   fields: {
     name: "Имя",
     note: "Примечание",
     organizationId: "Ид огранизации",
     businessUnit: "Наша организация",
-    resposible: "Отвественный",
+    responsible: "Отвественный",
     password: "Пароль",
     certificate: "Сертификат",
     routing: "Задание на обработку",
@@ -13,15 +17,16 @@ export default {
   validation: {
     nameRequired: "Введите имя",
     noteRequired: "Введите примечание",
-    organizationIdRequired: "Ввведите ид организации",
-    businessUnitRequired: "Ввведите нашу организацию",
+    organizationIdRequired: "Введите ид организации",
+    businessUnitRequired: "Введите нашу организацию",
     resposibleRequired: "Выберите Отвественный",
-    passwordRequired: "Ввведите Пароль",
+    passwordRequired: "Введите Пароль",
     certificateRequired: "Сертификат",
     routingRequired: "Выберите кому отправить задание на обработку",
     statusRequired: "Выберите статус"
   },
   headers: {
-    myExchaneIntegrations: "Почтовые ящики наших организаций"
+    myExchangeIntegrations: "Абонентские ящики наших организаций",
+    myExchangeIntegration: "Абонентский ящик"
   }
 };

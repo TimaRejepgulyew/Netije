@@ -85,8 +85,7 @@ import {
   DxEditing,
   DxHeaderFilter,
   DxScrolling,
-  DxLookup,
-  DxButton
+  DxLookup,  
 } from "devextreme-vue/data-grid";
 import RecipientType from "~/infrastructure/constants/resipientType.js";
 export default {

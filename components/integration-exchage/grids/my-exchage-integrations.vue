@@ -2,7 +2,7 @@
   <main>
     <Header
       :showTitle="!isCard"
-      :headerTitle="$t('exchange.headers.myExchangeIntegration')"
+      :headerTitle="$t('exchange.headers.myExchangeIntegrations')"
       :isbackButton="!isCard"
       :isNew="false"
     ></Header>
@@ -23,6 +23,13 @@
         indicatorSrc: require('~/static/icons/loading.gif'),
       }"
     >
+      <DxEditing
+        :allow-updating="false"
+        :allow-deleting="true"
+        :allow-adding="false"
+        :useIcons="true"
+        mode="row"
+      ></DxEditing>
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
@@ -31,7 +38,6 @@
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
-      <DxPaginate />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -52,13 +58,9 @@
         data-type="string"
       ></DxColumn>
       <DxColumn
-        data-field="organizationId"
-        :caption="$t('exchange.fields.organizationId')"
-      />
-      <DxColumn
         data-field="routing"
         :caption="$t('exchange.fields.routing')"
-        :visible="false"
+        :visible="true"
       >
         <DxLookup
           :allow-clearing="true"
@@ -68,16 +70,11 @@
         />
       </DxColumn>
       <DxColumn
-        data-field="businessUnitId"
-        :caption="$t('exchange.fields.businessUnitId')"
-        :visible="false"
+        dataType="object"
+        data-field="responsible.name"
+        :caption="$t('exchange.fields.responsible')"
+        :visible="true"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="businessUnitStore"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('exchange.fields.status')">
@@ -88,6 +85,7 @@
           display-expr="status"
         />
       </DxColumn>
+      <DxColumn type="buttons"> <DxButton name="delete" /> </DxColumn>
       <DxColumn
         data-field="note"
         :caption="$t('exchange.fields.note')"
@@ -117,6 +115,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
+  DxButton,
+  DxEditing,
 } from "devextreme-vue/data-grid";
 export default {
   components: {
@@ -135,6 +135,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
+    DxButton,
+    DxEditing,
   },
   props: ["isCard"],
   data() {
@@ -142,12 +144,13 @@ export default {
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.Boxes,
+        removeUrl: dataApi.Boxes,
       }),
       statusDataSource: this.$store.getters["status/status"](this),
-      businessUnitStore: new DataSource({
+      responsibleStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.businessUnit,
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         pageSize: 10,

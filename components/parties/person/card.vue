@@ -65,14 +65,6 @@
         >
           <DxLabel location="top" :text="$t('translations.fields.bankId')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="sex"
-          :editor-options="sexOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.sex')" />
-          <DxRequiredRule />
-        </DxSimpleItem>
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
 
@@ -227,14 +219,6 @@ export default {
         nonresident: true,
         status: this.$store.getters["status/status"](this)[0].id
       },
-      sexOptions: {
-        dataSource: [
-          { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") }
-        ],
-        displayExpr: "name",
-        valueExpr: "id"
-      },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
@@ -242,7 +226,6 @@ export default {
         url: dataApi.contragents.Bank,
         filter: ["status", "=", Status.Active]
       }),
-
       statusOptions: {
         value: this.$store.getters["status/status"](this)[0].id,
         dataSource: this.$store.getters["status/status"](this),
