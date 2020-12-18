@@ -17,6 +17,7 @@
       :column-auto-width="true"
       :selection="{ mode: 'single' }"
       :hover-state-enabled="true"
+      @dblclick="selected"
       @toolbar-preparing="onToolbarPreparing($event)"
       :load-panel="{
         enabled: true,

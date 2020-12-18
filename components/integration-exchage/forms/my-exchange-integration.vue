@@ -8,7 +8,7 @@
     ></Header>
     <toolbar
       @saveChanges="handleSubmit"
-      :canSave="$store.getters['permissions/IsAdmin']"
+      :canSave="isNew && $store.getters['permissions/IsAdmin']"
     />
     <DxForm
       ref="form"
