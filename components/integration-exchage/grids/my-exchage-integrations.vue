@@ -150,10 +150,12 @@ export default {
   props: ["isCard"],
   data() {
     return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.boxes.Boxes,
-        removeUrl: dataApi.boxes.Boxes,
+      dataSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.boxes.Boxes,
+          removeUrl: dataApi.boxes.Boxes,
+        }),
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       responsibleStore: new DataSource({
