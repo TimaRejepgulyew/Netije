@@ -17,7 +17,7 @@
       :column-auto-width="true"
       :selection="{ mode: 'single' }"
       :hover-state-enabled="true"
-      @dblclick="selected"
+      :onRowDblClick="selected"
       @toolbar-preparing="onToolbarPreparing($event)"
       :load-panel="{
         enabled: true,
@@ -76,6 +76,12 @@
         :caption="$t('exchange.fields.responsible')"
         :visible="true"
       >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="responsibleStore"
+          value-expr="id"
+          display-expr="name"
+        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('exchange.fields.status')">

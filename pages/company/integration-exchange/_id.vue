@@ -10,7 +10,7 @@ export default {
     MyExchangeIntegration,
   },
   async asyncData({ $axios, params }) {
-    const { data } = $axios.get(`${dataApi.Box}/${+params.id}`);
+    const { data } = await $axios.get(`${dataApi.boxes.Boxes}/${+params.id}`);
     return {
       data,
     };
