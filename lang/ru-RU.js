@@ -15,6 +15,7 @@ import headers from "~/lang/i18n-translation/ru/headers.js";
 import documentSendAction from "~/lang/i18n-translation/ru/documentSendAction.js";
 import attachmentAccessRight from "~/lang/i18n-translation/ru/attachmentAccessRight.js";
 import companyStructure from "~/lang/i18n-translation/ru/companyStructure.js";
+import exchange from "~/lang/i18n-translation/ru/exchange.js";
 import parties from "~/lang/i18n-translation/ru/parties.js";
 import paperWork from "~/lang/i18n-translation/ru/paperWork.js";
 import docFlow from "~/lang/i18n-translation/ru/docFlow.js";
@@ -22,6 +23,7 @@ import scanner from "~/lang/i18n-translation/ru/scanner.js";
 import malwareScanResults from "~/lang/i18n-translation/ru/malwareScanResults.js";
 import onlineUsers from "~/lang/i18n-translation/ru/onlineUsers.js";
 export default {
+  exchange,
   malwareScanResults,
   onlineUsers,
   scanner,

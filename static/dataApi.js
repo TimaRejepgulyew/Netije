@@ -32,6 +32,10 @@ export default {
     CounterPart: `/api/CounterPart`,
     Contact: `/api/Contact`
   },
+  exchange: {
+    GetExchangeInfoByCounterPartId: "/api/CounterPart/ExchangeInfo",
+    UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo",
+  },
   company: {
     Department: `/api/Department`,
     DepartmentMembers: `/api/DepartmentMembers/`,

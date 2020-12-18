@@ -1,8 +1,18 @@
 export default {
+  exchangeOptions: "Настройка электронного обмена",
+  providers: {
+    netije: "Netije",
+    srd: "Srd",
+  },
   fields: {
+    reception: "Приём",
+    dispatch: "Отправка",
     name: "Имя",
     note: "Примечание",
     organizationId: "Ид огранизации",
+    publicKey: "Публичный ключ",
+    exchangeBoxType: "Провайдер",
+    canExchange: "Ращрешить отправку",
     businessUnit: "Наша организация",
     resposible: "Отвественный",
     password: "Пароль",
