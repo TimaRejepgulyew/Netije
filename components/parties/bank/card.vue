@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Header
+      :showTitle="!isCard"
+      :isbackButton="!isCard"
+      :headerTitle="$t('translations.headers.counterPart')"
+    ></Header>
     <toolbar
       :isCard="isCard"
       @saveChanges="submit"
@@ -65,28 +70,16 @@
           editor-type="dxSelectBox"
           data-field="localityId"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.localityId')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.localityId')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="postAddress">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.postAddress')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalAddress">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.legalAddress')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.nonresident')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="canExchange" editor-type="dxCheckBox">
           <DxLabel location="top" :text="$t('parties.fields.canExchange')" />
@@ -97,20 +90,12 @@
         <DxSimpleItem data-field="correspondentAccount">
           <DxLabel location="top" :text="$t('translations.fields.account')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          :editor-options="statusOptions"
-          editor-type="dxSelectBox"
-          data-field="status"
-        >
+        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem
-          data-field="note"
-          :editor-options="{ height: 90 }"
-          editor-type="dxTextArea"
-        >
+        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -118,6 +103,7 @@
   </div>
 </template>
 <script>
+import Header from "~/components/page/page__header";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import "devextreme-vue/text-area";
@@ -148,7 +134,8 @@ export default {
     DxEmailRule,
     DxForm,
     DxAsyncRule,
-    Toolbar
+    Toolbar,
+    Header
   },
   props: ["isCard", "data"],
   data() {

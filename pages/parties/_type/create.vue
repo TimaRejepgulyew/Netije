@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component @created="backTo" :is="counterPartType" :data="data" />
+    <component :isCard="false" @created="backTo" :is="counterPartType" :data="data" />
   </div>
 </template>
 
