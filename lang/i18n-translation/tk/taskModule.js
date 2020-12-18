@@ -12,11 +12,11 @@ export default {
   },
   addNewAssineers: "Ýerine ýetirijileri goşuň",
   quickFilter: {
-    all: "Hemmesi",
-    inProcess: "Işjeň ýagdaýda",
-    expired: "Möhleti geçen",
-    monthAgo: "30 gün",
-    today: "Şu gün"
+    All: "Hemmesi",
+    InProcess: "Işjeň ýagdaýda",
+    Expired: "Möhleti geçen",
+    MonthAgo: "30 gün",
+    Today: "Şu gün"
   },
   confirm: {
     abortingReason: "Gutarmagyň sebäbi"

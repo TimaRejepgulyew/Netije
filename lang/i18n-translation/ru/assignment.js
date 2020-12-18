@@ -20,12 +20,12 @@ export default {
     subject: "Содержание"
   },
   quickFilter: {
-    all: "Все",
-    new: "Новые",
-    inProcess: "В работе",
-    expired: "Просроченые",
-    monthAgo: "30 дней",
-    today: "Сегодня"
+    All: "Все",
+    New: "Новые",
+    InProcess: "В работе",
+    Expired: "Просроченые",
+    MonthAgo: "30 дней",
+    Today: "Сегодня"
   },
   confirmMessage: {
     sureAbortConfirmation: "Вы действительно ходтите прекратить задачу?",

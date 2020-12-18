@@ -31,6 +31,8 @@ export default {
           return "reviewResolution";
         case AssignmentQuery.OnApproval:
           return "onApproval";
+        case AssignmentQuery.ForRework:
+          return "forRework";
       }
     }
   }

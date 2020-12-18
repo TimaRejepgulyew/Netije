@@ -57,18 +57,6 @@
         />
       </DxColumn>
       <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-        <DxRequiredRule :message="$t('shared.codeRequired')" />
-        <DxPatternRule
-          :ignore-empty-value="false"
-          :pattern="codePattern"
-          :message="$t('validation.valueMustNotContainsSpaces')"
-        />
-        <DxAsyncRule
-          :reevaluate="false"
-          :ignore-empty-value="true"
-          :message="$t('shared.codeAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
       <DxColumn
         data-field="tin"
@@ -80,12 +68,6 @@
           :pattern="codePattern"
           :message="$t('translations.fields.tinRule')"
         />
-        <DxAsyncRule
-          :reevaluate="false"
-          :ignore-empty-value="true"
-          :message="$t('translations.fields.tinAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
       <DxColumn
         data-field="regionId"

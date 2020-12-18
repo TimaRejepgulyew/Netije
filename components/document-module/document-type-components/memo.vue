@@ -20,25 +20,6 @@
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
-          <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-          <DxRequiredRule
-            :message="$t('document.validation.departmentIdRequired')"
-          />
-        </DxSimpleItem>
-        =======
-        <DxSimpleItem
-          data-field="businessUnitId"
-          template="businessUnitSelectBox"
-        >
-          <DxLabel
-            location="left"
-            :text="$t('document.fields.businessUnitId')"
-          />
-          <DxRequiredRule
-            :message="$t('document.validation.businessUnitIdRequired')"
-          />
-        </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="deparmentOptions"
@@ -49,7 +30,6 @@
             :message="$t('document.validation.departmentIdRequired')"
           />
         </DxSimpleItem>
-        >>>>>>> global-refactoring
       </DxGroupItem>
 
       <DxGroupItem>

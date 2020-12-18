@@ -16,11 +16,11 @@ export default {
     notification: "Уведомление"
   },
   quickFilter: {
-    all: "Все",
-    inProcess: "В работе",
-    expired: "Просроченные",
-    monthAgo: "30 дней",
-    today: "Сегодня"
+    All: "Все",
+    InProcess: "В работе",
+    Expired: "Просроченные",
+    MonthAgo: "30 дней",
+    Today: "Сегодня"
   },
   confirm: {
     abortingReason: "Причина прекращения"

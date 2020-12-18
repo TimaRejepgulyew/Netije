@@ -75,18 +75,6 @@
           :caption="$t('shared.code')"
           :visible="false"
         >
-          <DxRequiredRule :message="$t('shared.codeRequired')" />
-          <DxPatternRule
-            :ignore-empty-value="false"
-            :pattern="codePattern"
-            :message="$t('validation.valueMustNotContainsSpaces')"
-          />
-          <DxAsyncRule
-            :reevaluate="false"
-            :ignore-empty-value="true"
-            :message="$t('shared.codeAlreadyExists')"
-            :validation-callback="validateEntityExists"
-          ></DxAsyncRule>
         </DxColumn>
 
         <DxColumn
@@ -253,8 +241,7 @@ export default {
             this.employeeEntityType
           ),
           onClick: (e) => {
-            (this.currentEmployee = e.row.data),
-            this.openPopup();
+            (this.currentEmployee = e.row.data), this.openPopup();
           },
         },
         "add",
@@ -269,9 +256,9 @@ export default {
     },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
-      if(e.data.headOfficeId === 0){
-        e.data.headOfficeId = null
-      }  
+      if (e.data.headOfficeId === 0) {
+        e.data.headOfficeId = null;
+      }
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
@@ -340,18 +327,6 @@ export default {
             ]
           : undefined,
       };
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      var businessUnitId = params.data.businessUnitId;
-      return this.$customValidator.DepartmentDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value,
-          businessUnitId,
-        },
-        dataField
-      );
     },
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);

@@ -121,6 +121,7 @@
     </template>
     <template #counterparty>
       <custom-select-box
+        :readOnly="readOnly"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"
@@ -165,7 +166,7 @@
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged="
-          data => {
+          (data) => {
             setBusinessUnitId(data);
             setResponsibleEmployeeId(null);
             setDepartmentId(null);
@@ -181,7 +182,7 @@
         :value="departmentId"
         :businessUnitId="businessUnitId"
         @valueChanged="
-          data => {
+          (data) => {
             setDepartmentId(data);
             setResponsibleEmployeeId(null);
           }
@@ -204,7 +205,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -218,14 +219,14 @@ export default {
     employeeSelectBox,
     BusinessUnitSelectBox,
     DepartmentSelectBox,
-    customSelectBoxDocument
+    customSelectBoxDocument,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
-      signatoryApi: dataApi.signatureSettings.Members
+      signatoryApi: dataApi.signatureSettings.Members,
     };
   },
   computed: {
@@ -275,10 +276,10 @@ export default {
       return {
         readOnly: this.isRegistered,
         value: this.isAdjustment,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setIsAdjustment(e.value);
           this.setCorrectedId(null);
-        }
+        },
       };
     },
     correctedIdOptions() {
@@ -291,14 +292,14 @@ export default {
           filter: this.counterpartyId
             ? [
                 ["counterpartyId", "=", this.counterpartyId],
-                ["id", "<>", this.document.id]
+                ["id", "<>", this.document.id],
               ]
-            : undefined
+            : undefined,
         }),
         value: this.document.correctedId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setCorrectedId(e.value);
-        }
+        },
       };
     },
     leadingDocumentOptions() {
@@ -307,7 +308,7 @@ export default {
         dataSourceQuery: DocumentQuery.Contract,
         dataSourceFilter: this.counterpartyId
           ? ["counterpartyId", "=", this.counterpartyId]
-          : undefined
+          : undefined,
       };
     },
     currencyIdOptions() {
@@ -315,52 +316,52 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         readOnly: this.isRegistered,
         value: this.document.currencyId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setCurrencyId(e.value);
-        }
+        },
       };
     },
     totalAmountOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         format: "#,##0.00",
         readOnly: this.isRegistered,
         value: this.document.totalAmount,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setTotalAmount(e.value);
-        }
+        },
       };
     },
     validFromOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.document.validFrom,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setValidFrom(e.value);
-        }
+        },
       };
     },
     validTillOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.validTill,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setValidTill(e.value);
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
@@ -445,7 +446,7 @@ export default {
         `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
         data
       );
-    }
-  }
+    },
+  },
 };
 </script>

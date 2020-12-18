@@ -20,12 +20,12 @@ export default {
     subject: "Mazmuny"
   },
   quickFilter: {
-    all: "Hemmesi",
-    new: "Täzeler",
-    inProcess: "Işlenýäni",
-    expired: "Möhleti gijikdirilen",
-    monthAgo: "Bir aý öň",
-    today: "Şu gün"
+    All: "Hemmesi",
+    New: "Täzeler",
+    InProcess: "Işlenýäni",
+    Expired: "Möhleti gijikdirilen",
+    MonthAgo: "Bir aý öň",
+    Today: "Şu gün"
   },
   confirmMessage: {
     sureAbortConfirmation: "Siz hakykatdanam ýumuşy işlemegi besetjek mi ?",

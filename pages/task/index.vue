@@ -1,7 +1,14 @@
 <template>
   <main>
-    <Header :isbackButton="true" :headerTitle="$t(`translations.headers.tasks`)">
-      <toolbar-item-quick-filter slot="toolbar" @getQuickFilter="setFilter" :taskQuery="taskQuery" />
+    <Header
+      :isbackButton="true"
+      :headerTitle="$t(`translations.headers.tasks`)"
+    >
+      <toolbar-item-quick-filter
+        slot="toolbar"
+        @valueChanged="setFilter"
+        :taskQuery="taskQuery"
+      />
     </Header>
     <div class="grid">
       <DxDataGrid
@@ -13,7 +20,10 @@
         :allow-column-resizing="true"
         :column-auto-width="false"
         :show-column-lines="false"
-        :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+        :load-panel="{
+          enabled: true,
+          indicatorSrc: require('~/static/icons/loading.gif')
+        }"
         :onRowDblClick="toDetail"
         :on-row-prepared="onRowPrepared"
         @toolbar-preparing="onToolbarPreparing($event)"
@@ -28,9 +38,17 @@
 
         <DxFilterRow :visible="true" />
 
-        <DxExport :enabled="true" :allow-export-selected-data="true" :file-name="$t('task.taskQuery.all')" />
+        <DxExport
+          :enabled="true"
+          :allow-export-selected-data="true"
+          :file-name="$t('task.taskQuery.all')"
+        />
 
-        <DxStateStoring :enabled="true" type="localStorage" :storage-key="'task'+taskQuery" />
+        <DxStateStoring
+          :enabled="true"
+          type="localStorage"
+          :storage-key="'task' + taskQuery"
+        />
 
         <DxEditing
           :allow-updating="false"
@@ -78,9 +96,16 @@
           data-field="importance"
         ></DxColumn>
 
-        <DxColumn data-field="subject" :caption="$t('task.fields.subjectTask')"></DxColumn>
+        <DxColumn
+          data-field="subject"
+          :caption="$t('task.fields.subjectTask')"
+        ></DxColumn>
 
-        <DxColumn data-field="maxDeadline" :caption="$t('task.fields.deadLine')" data-type="date" />
+        <DxColumn
+          data-field="maxDeadline"
+          :caption="$t('task.fields.deadLine')"
+          data-type="date"
+        />
 
         <DxColumn
           data-field="created"
@@ -95,7 +120,10 @@
           data-type="string"
         />
 
-        <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxColumn
+          data-field="status"
+          :caption="$t('translations.fields.status')"
+        >
           <DxLookup
             :allow-clearing="true"
             :data-source="statusDataSource"
@@ -127,16 +155,16 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.task.Task + taskQuery,
+          loadUrl: dataApi.task.Task + taskQuery
         }),
         paginate: true,
-        pageSize: 10,
-      }),
+        pageSize: 10
+      })
     };
-  },
+  }
 };
 </script>
-<style >
+<style>
 #gridContainer .dx-data-row {
   -webkit-user-select: none;
 }
@@ -144,4 +172,3 @@ export default {
   color: forestgreen;
 }
 </style>
-
