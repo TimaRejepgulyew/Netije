@@ -4,6 +4,7 @@ export default {
     netije: "Netije",
     srd: "Srd",
   },
+  uploadCertificate: "Загрузить сертификат",
   routingType: {
     BoxResponsible: "Отв. за аб. ящик"
   },
@@ -15,7 +16,7 @@ export default {
     organizationId: "Ид огранизации",
     publicKey: "Публичный ключ",
     exchangeBoxType: "Провайдер",
-    canExchange: "Ращрешить отправку",
+    canExchange: "Разрешить отправку",
     businessUnit: "Наша организация",
     responsible: "Отвественный",
     password: "Пароль",
