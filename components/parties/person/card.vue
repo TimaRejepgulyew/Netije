@@ -7,6 +7,8 @@
     ></Header>
     <toolbar
       :isCard="isCard"
+      :canExchange="canExchange"
+      @openExchangeOptions="openExchangeOptions"
       @saveChanges="submit"
       :canSave="
         $store.getters['permissions/allowUpdating'](EntityType.Counterparty)
@@ -25,14 +27,10 @@
       <DxGroupItem>
         <DxSimpleItem data-field="firstName">
           <DxLabel location="top" :text="$t('translations.fields.firstName')" />
-          <DxRequiredRule
-            :message="$t('translations.fields.firstNameRequired')"
-          />
+          <DxRequiredRule :message="$t('translations.fields.firstNameRequired')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="lastName">
-          <DxRequiredRule
-            :message="$t('translations.fields.lastNameRequired')"
-          />
+          <DxRequiredRule :message="$t('translations.fields.lastNameRequired')" />
           <DxLabel location="top" :text="$t('translations.fields.lastName')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="tin">
@@ -48,21 +46,14 @@
             :validation-callback="validateEntityExists"
           ></DxAsyncRule>
           <DxSimpleItem data-field="middleName">
-            <DxLabel
-              location="top"
-              :text="$t('translations.fields.middleName')"
-            />
+            <DxLabel location="top" :text="$t('translations.fields.middleName')" />
           </DxSimpleItem>
           <DxLabel location="top" :text="$t('translations.fields.tin')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="bankId"
-          :editor-options="bankOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="bankId" :editor-options="bankOptions" editor-type="dxSelectBox">
           <DxLabel location="top" :text="$t('translations.fields.bankId')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="email">
@@ -92,41 +83,23 @@
           editor-type="dxSelectBox"
           data-field="localityId"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.localityId')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.localityId')" />
         </DxSimpleItem>
         <DxSimpleItem
           :editor-options="dateOptions"
           editor-type="dxDateBox"
           data-field="dateOfBirth"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.dateOfBirth')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.dateOfBirth')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="postAddress">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.postAddress')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalAddress">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.legalAddress')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.nonresident')"
-          />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="canExchange" editor-type="dxCheckBox">
-          <DxLabel location="top" :text="$t('parties.fields.canExchange')" />
+          <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="webSite">
           <DxLabel location="top" :text="$t('translations.fields.webSite')" />
@@ -134,20 +107,12 @@
         <DxSimpleItem data-field="account">
           <DxLabel location="top" :text="$t('translations.fields.account')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          :editor-options="statusOptions"
-          editor-type="dxSelectBox"
-          data-field="status"
-        >
+        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem
-          data-field="note"
-          :editor-options="{ height: 90 }"
-          editor-type="dxTextArea"
-        >
+        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -236,6 +201,9 @@ export default {
     };
   },
   computed: {
+    canExchange() {
+      return this.$store.getters["permissions/IsAdmin"] && this.person.id;
+    },
     regionOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -266,6 +234,19 @@ export default {
     }
   },
   methods: {
+    openExchangeOptions() {
+      console.log("openExchangeSettings");
+      this.$popup.exchangeOptions(
+        this,
+        {
+          counterPartId: this.person.id
+        },
+        {
+          height: "auto",
+          width: "60vw"
+        }
+      );
+    },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.PersonDataFieldValueNotExists(

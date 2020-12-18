@@ -1,12 +1,22 @@
 export default {
+  exchangeOptions: "Настройка электронного обмена",
+  providers: {
+    netije: "Netije",
+    srd: "Srd",
+  },
   uploadCertificate: "Загрузить сертификат",
   routingType: {
     BoxResponsible: "Отв. за аб. ящик"
   },
   fields: {
+    reception: "Приём",
+    dispatch: "Отправка",
     name: "Имя",
     note: "Примечание",
     organizationId: "Ид огранизации",
+    publicKey: "Публичный ключ",
+    exchangeBoxType: "Провайдер",
+    canExchange: "Разрешить отправку",
     businessUnit: "Наша организация",
     responsible: "Отвественный",
     password: "Пароль",

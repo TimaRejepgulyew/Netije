@@ -1,4 +1,9 @@
 export default {
+  exchangeOptions: "Настройка электронного обмена",
+  providers: {
+    netije: "Netije",
+    srd: "Srd",
+  },
   uploadCertificate: "Sertifikaty ýüklemek",
   routingType: {
     BoxResponsible: "Poçta gutusy jogapkäri"
@@ -7,12 +12,15 @@ export default {
     name: "Ady",
     note: "Bellikler",
     organizationId: "Guramanyň belgisi",
+    publicKey: "Açyk açar",
+    exchangeBoxType: "Prowaýder",
+    canExchange: "Rugsat bermek",
     businessUnit: "Guramamyz",
     responsible: "Jogapkär",
     password: "Açarsöz",
     certificate: "Sertifikat",
     routing: "Tabşyryg işlemek üçin",
-    status: "Ýagdaýy"
+    status: "Ýagdaýy",
   },
   validation: {
     nameRequired: "Adyny giriziň",

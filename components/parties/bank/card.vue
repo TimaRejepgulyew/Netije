@@ -7,6 +7,8 @@
     ></Header>
     <toolbar
       :isCard="isCard"
+      :canExchange="canExchange"
+      @openExchangeOptions="openExchangeOptions"
       @saveChanges="submit"
       :canSave="
         $store.getters['permissions/allowUpdating'](EntityType.Counterparty)
@@ -80,9 +82,6 @@
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
           <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="canExchange" editor-type="dxCheckBox">
-          <DxLabel location="top" :text="$t('parties.fields.canExchange')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="webSite">
           <DxLabel location="top" :text="$t('translations.fields.webSite')" />
@@ -172,6 +171,9 @@ export default {
     };
   },
   computed: {
+    canExchange() {
+      return this.$store.getters["permissions/IsAdmin"] && this.company.id;
+    },
     regionOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -196,6 +198,19 @@ export default {
     }
   },
   methods: {
+    openExchangeOptions() {
+      console.log("openExchangeSettings");
+      this.$popup.exchangeOptions(
+        this,
+        {
+          counterPartId: this.company.id
+        },
+        {
+          height: "auto",
+          width: "60vw"
+        }
+      );
+    },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.BankDataFieldValueNotExists(
