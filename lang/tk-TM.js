@@ -15,7 +15,6 @@ import headers from "~/lang/i18n-translation/tk/headers.js";
 import documentSendAction from "~/lang/i18n-translation/tk/documentSendAction.js";
 import attachmentAccessRight from "~/lang/i18n-translation/tk/attachmentAccessRight.js";
 import companyStructure from "~/lang/i18n-translation/tk/companyStructure.js";
-import exchange from "~/lang/i18n-translation/ru/exchange.js";
 import parties from "~/lang/i18n-translation/tk/parties.js";
 import paperWork from "~/lang/i18n-translation/tk/paperWork.js";
 import docFlow from "~/lang/i18n-translation/tk/docFlow.js";

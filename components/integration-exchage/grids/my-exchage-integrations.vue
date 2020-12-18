@@ -71,8 +71,7 @@
         />
       </DxColumn>
       <DxColumn
-        dataType="object"
-        data-field="responsible.name"
+        data-field="responsibleId"
         :caption="$t('exchange.fields.responsible')"
         :visible="true"
       >
