@@ -40,10 +40,10 @@ export default {
   },
   methods: {
     toDetail({ id }) {
-      this.$router.push(id);
+      this.$router.push(`${this.$route.params.type}/${id}`);
     },
     createCounterPart() {
-      this.$router.push(create);
+      this.$router.push(`${this.$route.params.type}/create`);
     }
   }
 };
