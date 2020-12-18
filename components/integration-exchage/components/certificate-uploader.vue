@@ -3,6 +3,7 @@
     <DxFileUploader
       :select-button-text="$t('exchange.uploadCertificate')"
       label-text=""
+      :allowed-file-extensions="['.pfx']"
       upload-mode="useForm"
       @value-changed="valueChanged"
     />

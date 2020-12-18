@@ -35,6 +35,12 @@ export default {
   confirmMessage: {
     sureDeleteVersion: "Удаление версии необратимо"
   },
+  quickFilter: {
+    All: "Все",
+    New: "Новый",
+    Obsolete: "Архив",
+    Today: "Сегодня"
+  },
   tabs: {
     main: "Свойства",
     relations: "Связи",

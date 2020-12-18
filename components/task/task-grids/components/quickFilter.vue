@@ -1,81 +1,42 @@
 <template>
-  <DxButtonGroup
-    slot="toolbar"
-    :selected-item-keys="[currentQuickFilter]"
-    :items="QuiсkFilterOptions"
-    key-expr="filterKey"
-    styling-mode="text"
-    @item-click="itemClick"
-  />
+  <div>
+    <QuickFilter
+      :defaultValue="defaultFilter"
+      :dataSource="QuiсkFilterItems"
+      :storeKey="'task-' + taskQuery"
+      @valueChanged="valueChanged"
+    />
+  </div>
 </template>
 
 <script>
-import QuiсkFilter from "~/infrastructure/constants/quickFilter/taskQuickFilter.js";
-import { DxButtonGroup } from "devextreme-vue";
-function setQuickfilter(value, oldvalue, context) {
-  if (value !== null) {
-    context.$emit("getQuickFilter", value);
-  }
-}
+import QuickFilter from "~/components/quick-filter/index.vue";
+import QuiсkFilterGuid from "~/infrastructure/constants/quickFilter/taskQuickFilter.js";
+import TaskQuickFilterModel from "~/infrastructure/models/quickFilter/task.js";
 export default {
-  components: {
-    DxButtonGroup,
-  },
+  components: { QuickFilter },
   props: ["taskQuery"],
   data() {
     return {
-      currentQuickFilter: localStorage.hasOwnProperty(
-        `taskQuickFilter${this.taskQuery}`
-      )
-        ? +localStorage.getItem(`taskQuickFilter${this.taskQuery}`)
-        : QuiсkFilter.InProcess,
-      QuiсkFilterOptions: [
-        {
-          text: this.$t("task.quickFilter.all"),
-          filterKey: QuiсkFilter.All,
-          hint: this.$t("task.quickFilter.all"),
-        },
-        {
-          text: this.$t("task.quickFilter.inProcess"),
-          filterKey: QuiсkFilter.InProcess,
-          hint: this.$t("task.quickFilter.inProcess"),
-        },
-        {
-          text: this.$t("task.quickFilter.expired"),
-          filterKey: QuiсkFilter.Expired,
-          hint: this.$t("task.quickFilter.expired"),
-        },
-        {
-          text: this.$t("task.quickFilter.monthAgo"),
-          filterKey: QuiсkFilter.MonthAgo,
-          hint: this.$t("task.quickFilter.monthAgo"),
-        },
-         {
-          text: this.$t("task.quickFilter.today"),
-          filterKey: QuiсkFilter.Today,
-          hint: this.$t("task.quickFilter.today"),
-        },
-      ],
+      defaultFilter: QuiсkFilterGuid.InProcess
     };
   },
-  methods: {
-    itemClick(e) {
-      this.currentQuickFilter = e.itemIndex;
-      localStorage.setItem(
-        `taskQuickFilter${this.taskQuery}`,
-        this.currentQuickFilter
+  computed: {
+    QuiсkFilterItems() {
+      return Object.values(new TaskQuickFilterModel(this).getAll()).map(
+        item => {
+          item.hint = item.text;
+          return item;
+        }
       );
-    },
+    }
   },
-  watch: {
-    currentQuickFilter: {
-      handler: function (value, oldValue) {
-        setQuickfilter(value, oldValue, this);
-      },
-      immediate: true,
-    },
-  },
+  methods: {
+    valueChanged(data) {
+      this.$emit("valueChanged", data);
+    }
+  }
 };
 </script>
 
-<style>
+<style></style>

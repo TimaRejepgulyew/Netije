@@ -3,7 +3,7 @@
     <Header :isbackButton="true" :headerTitle="headerTitle">
       <toolbar-item-quick-filter
         slot="toolbar"
-        @getQuickFilter="setFilter"
+        @valueChanged="setFilter"
         :assignmentQuery="+assignmentQuery"
       />
     </Header>
@@ -20,7 +20,7 @@
         :show-column-lines="false"
         :load-panel="{
           enabled: true,
-          indicatorSrc: require('~/static/icons/loading.gif'),
+          indicatorSrc: require('~/static/icons/loading.gif')
         }"
         :onRowDblClick="showAssignment"
         :on-row-prepared="onRowPrepared"
@@ -56,7 +56,6 @@
         </template>
         <template #assignnmentTypeIconColumn="cell">
           <assignnmentTypeIconColumn
-         
             :assignmentType="cell.data.value"
             :assignmentTypes="assignmentTypes"
           />
@@ -73,8 +72,8 @@ export default {
   props: {
     assignmentQuery: {
       type: Number,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   computed: {
     columns() {
@@ -82,12 +81,11 @@ export default {
         this.assignmentQuery,
         this
       );
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
-
 .forExecutionBtn {
   width: auto;
   height: 20px;

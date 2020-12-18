@@ -6,7 +6,7 @@
     >
       <toolbar-item-quick-filter
         slot="toolbar"
-        @getQuickFilter="setFilter"
+        @valueChanged="setFilter"
         :taskQuery="taskQuery"
       />
     </Header>
