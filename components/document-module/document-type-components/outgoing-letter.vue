@@ -62,7 +62,7 @@
     </template>
     <template #correspondent>
       <custom-select-box
-        :disabled="readOnly"
+        :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
@@ -104,7 +104,7 @@
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged="
-          data => {
+          (data) => {
             setBusinessUnitId(data);
             setDepartmentId(null);
           }
@@ -119,7 +119,7 @@
         :value="departmentId"
         :businessUnitId="businessUnitId"
         @valueChanged="
-          data => {
+          (data) => {
             setDepartmentId(data);
           }
         "
@@ -141,7 +141,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -155,14 +155,14 @@ export default {
     customSelectBoxDocument,
     employeeSelectBox,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
-      signatoryApi: dataApi.signatureSettings.Members
+      signatoryApi: dataApi.signatureSettings.Members,
     };
   },
   computed: {
@@ -211,9 +211,9 @@ export default {
         dataSourceQuery: DocumentQuery.IncomingLetter,
         dataSourceFilter: this.correspondentId
           ? ["correspondentId", "=", this.correspondentId]
-          : undefined
+          : undefined,
       };
-    }
+    },
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
@@ -270,7 +270,7 @@ export default {
         `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
         data
       );
-    }
-  }
+    },
+  },
 };
 </script>

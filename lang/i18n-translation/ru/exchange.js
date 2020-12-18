@@ -18,10 +18,10 @@ export default {
     resposibleRequired: "Выберите Отвественный",
     passwordRequired: "Ввведите Пароль",
     certificateRequired: "Сертификат",
-    routingRequired: "",
-    statusRequired: ""
+    routingRequired: "Выберите кому отправить задание на обработку",
+    statusRequired: "Выберите статус"
   },
-  headers:{
-      myExchaneIntegration:""
+  headers: {
+    myExchaneIntegrations: "Почтовые ящики наших организаций"
   }
 };
