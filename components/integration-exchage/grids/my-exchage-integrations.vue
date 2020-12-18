@@ -2,7 +2,7 @@
   <main>
     <Header
       :showTitle="!isCard"
-      :headerTitle="$t('exchange.headers.myExchangeIntegration')"
+      :headerTitle="$t('exchange.headers.myExchangeIntegrations')"
       :isbackButton="!isCard"
       :isNew="false"
     ></Header>
@@ -23,6 +23,13 @@
         indicatorSrc: require('~/static/icons/loading.gif'),
       }"
     >
+      <DxEditing
+        :allow-updating="false"
+        :allow-deleting="true"
+        :allow-adding="false"
+        :useIcons="true"
+        mode="row"
+      ></DxEditing>
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
       <DxHeaderFilter :visible="true" />
@@ -31,7 +38,6 @@
       <DxColumnFixing :enabled="true" />
 
       <DxFilterRow :visible="true" />
-      <DxPaginate />
       <DxExport
         :enabled="true"
         :allow-export-selected-data="true"
@@ -52,13 +58,9 @@
         data-type="string"
       ></DxColumn>
       <DxColumn
-        data-field="organizationId"
-        :caption="$t('exchange.fields.organizationId')"
-      />
-      <DxColumn
         data-field="routing"
         :caption="$t('exchange.fields.routing')"
-        :visible="false"
+        :visible="true"
       >
         <DxLookup
           :allow-clearing="true"
@@ -68,16 +70,11 @@
         />
       </DxColumn>
       <DxColumn
-        data-field="businessUnitId"
-        :caption="$t('exchange.fields.businessUnitId')"
-        :visible="false"
+        dataType="object"
+        data-field="responsible.name"
+        :caption="$t('exchange.fields.responsible')"
+        :visible="true"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="businessUnitStore"
-          value-expr="id"
-          display-expr="name"
-        />
       </DxColumn>
 
       <DxColumn data-field="status" :caption="$t('exchange.fields.status')">
@@ -88,6 +85,14 @@
           display-expr="status"
         />
       </DxColumn>
+      <DxColumn type="buttons">
+        <DxButton
+          icon="key"
+          :onClick="uploadKey"
+          :text="$t('buttons.uploadKey')"
+        />
+        <DxButton name="delete" />
+      </DxColumn>
       <DxColumn
         data-field="note"
         :caption="$t('exchange.fields.note')"
@@ -97,9 +102,11 @@
   </main>
 </template>
 <script>
+import { download } from "~/infrastructure/services/documentVersionService.js";
 import Status from "~/infrastructure/constants/status";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
+import { saveAs } from "file-saver";
 import Header from "~/components/page/page__header";
 import RoutingTypeGuid from "../infrastructure/constants/routing.js";
 import {
@@ -117,6 +124,8 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
+  DxButton,
+  DxEditing,
 } from "devextreme-vue/data-grid";
 export default {
   components: {
@@ -135,19 +144,24 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
+    DxButton,
+    DxEditing,
   },
   props: ["isCard"],
   data() {
     return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.Boxes,
-      }),
-      statusDataSource: this.$store.getters["status/status"](this),
-      businessUnitStore: new DataSource({
+      dataSource: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.businessUnit,
+          loadUrl: dataApi.boxes.Boxes,
+          removeUrl: dataApi.boxes.Boxes,
+        }),
+      }),
+      statusDataSource: this.$store.getters["status/status"](this),
+      responsibleStore: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         pageSize: 10,
@@ -161,6 +175,26 @@ export default {
     };
   },
   methods: {
+    uploadKey(e) {
+      console.log(e);
+      this.$awn.asyncBlock(
+        this.$axios.get(`${dataApi.boxes.PublickKey}${e.row.key}`, {
+          responseType: "blob",
+        }),
+        ({ data }) => {
+          const blob = new Blob(
+            [data],
+            {
+              type: `data:${data.type}`,
+            },
+            (e) => {
+              console.error(e.data);
+            }
+          );
+          saveAs(blob, `"public.txt`);
+        }
+      );
+    },
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
         widget: "button",

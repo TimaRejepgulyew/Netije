@@ -4,6 +4,9 @@ export default {
     netije: "Netije",
     srd: "Srd",
   },
+  routingType: {
+    BoxResponsible: "Отв. за аб. ящик"
+  },
   fields: {
     reception: "Приём",
     dispatch: "Отправка",
@@ -14,7 +17,7 @@ export default {
     exchangeBoxType: "Провайдер",
     canExchange: "Ращрешить отправку",
     businessUnit: "Наша организация",
-    resposible: "Отвественный",
+    responsible: "Отвественный",
     password: "Пароль",
     certificate: "Сертификат",
     routing: "Задание на обработку",
@@ -23,15 +26,16 @@ export default {
   validation: {
     nameRequired: "Введите имя",
     noteRequired: "Введите примечание",
-    organizationIdRequired: "Ввведите ид организации",
-    businessUnitRequired: "Ввведите нашу организацию",
-    resposibleRequired: "Выберите Отвественный",
-    passwordRequired: "Ввведите Пароль",
+    organizationIdRequired: "Введите ид организации",
+    businessUnitRequired: "Введите нашу организацию",
+    responsibleRequired: "Выберите Отвественный",
+    passwordRequired: "Введите Пароль",
     certificateRequired: "Сертификат",
     routingRequired: "Выберите кому отправить задание на обработку",
     statusRequired: "Выберите статус"
   },
   headers: {
-    myExchaneIntegrations: "Почтовые ящики наших организаций"
+    myExchangeIntegrations: "Абонентские ящики наших организаций",
+    myExchangeIntegration: "Абонентский ящик"
   }
 };

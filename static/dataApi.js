@@ -207,5 +207,8 @@ export default {
   licensing: {
     getLicense: "/api/License"
   },
-  Boxes: `/api/Boxes`
+  boxes: {
+    Boxes: `/api/Boxes`,
+    PublickKey: `/api/Boxes/PublicKey/`
+  }
 };
