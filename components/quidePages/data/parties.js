@@ -72,7 +72,7 @@ export default function(context) {
           name: context.$t("parties.contactPerson.contact"),
           description: context.$t("parties.contactPerson.contactDescr"),
           path: pathGenerate("organizations/contacts"),
-          visible: isVisible(EntityType.BusinessUnit)
+          visible: isVisible(EntityType.Contact)
         }
       ]
     },

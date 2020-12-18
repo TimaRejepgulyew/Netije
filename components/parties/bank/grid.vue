@@ -38,7 +38,7 @@
       />
 
       <DxEditing
-        :allow-updating="false"
+        :allow-updating="true"
         :allow-deleting="
           $store.getters['permissions/allowDeleting'](entityType)
         "
@@ -50,18 +50,9 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('shared.name')"
-        data-type="string"
-      >
-      </DxColumn>
-      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
-      </DxColumn>
-      <DxColumn
-        data-field="regionId"
-        :caption="$t('translations.fields.regionId')"
-      >
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')"></DxColumn>
+      <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
         <DxLookup
           :allow-clearing="true"
           :data-source="regionStore"
@@ -69,30 +60,18 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn
-        data-field="phones"
-        :caption="$t('translations.fields.phones')"
-      ></DxColumn>
+      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')"></DxColumn>
 
-      <DxColumn
-        data-field="email"
-        :caption="$t('translations.fields.email')"
-      ></DxColumn>
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
       <DxColumn
         data-field="legalName"
         :caption="$t('translations.fields.legalName')"
         :visible="false"
       ></DxColumn>
 
-      <DxColumn
-        data-field="bic"
-        :caption="$t('parties.fields.bic')"
-        :visible="false"
-      >
-      </DxColumn>
+      <DxColumn data-field="bic" :caption="$t('parties.fields.bic')" :visible="false"></DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-      </DxColumn>
+      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false"></DxColumn>
 
       <DxColumn
         data-field="localityId"
@@ -119,10 +98,7 @@
         :visible="false"
       ></DxColumn>
 
-      <DxColumn
-        data-field="webSite"
-        :caption="$t('translations.fields.webSite')"
-      ></DxColumn>
+      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')"></DxColumn>
 
       <DxColumn
         data-field="nonresident"
@@ -157,6 +133,7 @@
         :visible="false"
         edit-cell-template="textAreaEditor"
       ></DxColumn>
+      <DxColumn :buttons="editButtons" type="buttons" />
 
       <DxMasterDetail
         :enabled="$store.getters['permissions/allowReading'](contactEntityType)"
@@ -185,10 +162,20 @@ export default {
         removeUrl: dataApi.contragents.Bank
       }),
       statusDataSource: this.$store.getters["status/status"](this),
+      editButtons: [
+        {
+          name: "edit",
+          onClick: this.selected
+        },
+        {
+          name: "delete"
+        }
+      ]
     };
   },
   methods: {
-    selected({ key: id }) {
+    selected(e) {
+      const id = e.key || e.row.key;
       this.$emit("selected", { id, type: "bank" });
     },
     createCounterPart() {

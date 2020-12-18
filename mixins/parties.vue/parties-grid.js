@@ -21,7 +21,8 @@ import {
   DxFilterRow,
   DxStateStoring,
   DxMasterDetail,
-  DxEmailRule
+  DxEmailRule,
+  DxButton
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -47,7 +48,8 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxMasterDetail,
-    DxEmailRule
+    DxEmailRule,
+    DxButton
   },
   data() {
     return {
