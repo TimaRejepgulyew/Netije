@@ -22,8 +22,10 @@ import buttons from "~/lang/i18n-translation/tk/buttons.js";
 import malwareScanResults from "~/lang/i18n-translation/tk/malwareScanResults.js";
 import reports from "~/lang/i18n-translation/tk/reports.js";
 import exchange from "~/lang/i18n-translation/tk/exchange.js";
+import searching from "~/lang/i18n-translation/tk/searchingPanel.js";
 export default {
   exchange,
+  searching,
   malwareScanResults,
   reports,
   scanner,

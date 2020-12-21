@@ -95,7 +95,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton,
+  
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DataSource from "devextreme/data/data_source";
@@ -121,7 +121,6 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton,
     Header,
     QuickFilter,
   },
