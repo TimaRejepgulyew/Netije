@@ -5,7 +5,7 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -18,7 +18,7 @@
       <DxEditing mode="row" :allow-adding="true" :use-icons="true" :allow-updating="true" />
       <DxColumn :width="110" :buttons="editButtons" type="buttons" />
       <DxColumn
-        data-field="deliveryToEmployeeId"
+        data-field="deliveryTo.name"
         :caption="$t('documentTracking.fileds.deliveryToEmployee')"
       ></DxColumn>
       <DxColumn data-field="isOriginal" :caption="$t('documentTracking.fileds.isOriginal')"></DxColumn>
@@ -32,7 +32,7 @@
         data-field="returnDeadline"
         :caption="$t('documentTracking.fileds.returnDeadline')"
       ></DxColumn>
-      <DxColumn data-field="returnResult" :caption="$t('documentTracking.fileds.returnResult')"></DxColumn>
+      <!-- <DxColumn data-field="returnResult" :caption="$t('documentTracking.fileds.returnResult')"></DxColumn> -->
       <DxColumn
         data-type="date"
         data-field="returnDate"

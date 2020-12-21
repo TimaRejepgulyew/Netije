@@ -11,10 +11,9 @@
       </DxSimpleItem>
       <template #employee>
         <employee-select-box
-          valueExpr="id"
           displayExpr="name"
           :readOnly="isCard"
-          :value="documentTracking.deliveryToEmployeeId"
+          :value="documentTracking.deliveryTo"
           @valueChanged="onEmployeeChanged"
         ></employee-select-box>
       </template>
@@ -78,11 +77,6 @@ export default {
       type: Object
     }
   },
-  data() {
-    return {
-      // show: false
-    };
-  },
   computed: {
     isCard() {
       return this.options.isCard ? true : false;
@@ -92,7 +86,7 @@ export default {
         officialDocumentId: this.options.documentId,
         action: 0,
         returnDate: null,
-        deliveryToEmployeeId: null,
+        deliveryTo: null,
         isOriginal: false,
         deliveryDate: null,
         returnDeadline: null,
@@ -130,7 +124,7 @@ export default {
       this.$emit("close");
     },
     onEmployeeChanged(e) {
-      this.documentTracking.deliveryToEmployeeId = e;
+      this.documentTracking.deliveryTo = e;
     },
     saveExtradition() {
       if (this.$refs["form"].instance.validate().isValid) {
@@ -154,7 +148,7 @@ export default {
           this.close();
         },
         e => {
-          this.$awn.$alert();
+          this.$awn.alert();
         }
       );
     },
@@ -169,7 +163,7 @@ export default {
           this.close();
         },
         e => {
-          this.$awn.$alert();
+          this.$awn.alert();
         }
       );
     }
