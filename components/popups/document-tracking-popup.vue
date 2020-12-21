@@ -11,10 +11,8 @@
       </DxSimpleItem>
       <template #employee>
         <employee-select-box
-          valueExpr="id"
           displayExpr="name"
-          :readOnly="isCard"
-          :value="documentTracking.deliveryToEmployeeId"
+          :value="documentTracking.deliveryTo"
           @valueChanged="onEmployeeChanged"
         ></employee-select-box>
       </template>
@@ -38,11 +36,9 @@
       </DxSimpleItem>
       <DxGroupItem :col-count="4" :visible="isCard">
         <DxSimpleItem :col-span="1" data-field="returnResult" editor-type="dxCheckBox">
-          <DxRequiredRule />
           <DxLabel location="left" :text="$t('documentTracking.fileds.returnResult')" />
         </DxSimpleItem>
         <DxSimpleItem :col-span="3" data-field="returnDate" editor-type="dxDateBox">
-          <DxRequiredRule />
           <DxLabel location="left" :text="$t('documentTracking.fileds.returnDate')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -78,11 +74,6 @@ export default {
       type: Object
     }
   },
-  data() {
-    return {
-      // show: false
-    };
-  },
   computed: {
     isCard() {
       return this.options.isCard ? true : false;
@@ -92,18 +83,16 @@ export default {
         officialDocumentId: this.options.documentId,
         action: 0,
         returnDate: null,
-        deliveryToEmployeeId: null,
+        deliveryTo: null,
         isOriginal: false,
         deliveryDate: null,
         returnDeadline: null,
         note: null,
-        ...this.options?.currentExtradition
+        ...this.options?.currentDocumentTracking
       };
     },
     cardOptions() {
-      return {
-        disabled: this.isCard
-      };
+      return {};
     },
     returnDateOptions() {
       return {
@@ -113,15 +102,14 @@ export default {
     noteOptions() {
       return {
         height: 70,
-        autoResizeEnabled: true,
-        disabled: this.isCard
+        autoResizeEnabled: true
       };
     },
     buttonOptions() {
       return {
         text: "Сохранить",
         useSubmitBehavior: true,
-        onClick: this.saveExtradition
+        onClick: this.saveDocumentTracking
       };
     }
   },
@@ -130,46 +118,49 @@ export default {
       this.$emit("close");
     },
     onEmployeeChanged(e) {
-      this.documentTracking.deliveryToEmployeeId = e;
+      this.documentTracking.deliveryTo = e;
     },
-    saveExtradition() {
+    saveDocumentTracking() {
       if (this.$refs["form"].instance.validate().isValid) {
         if (this.isCard) {
-          this.updateExtradition();
+          this.updateDocumentTracking();
         } else {
-          this.registerExtradition();
+          this.registerDocumentTracking();
         }
       } else {
         return false;
       }
     },
-    updateExtradition() {
+    updateDocumentTracking() {
       this.$awn.asyncBlock(
         this.$axios.put(
-          dataApi.DocumentTracking.putDocumentTracking,
+          dataApi.DocumentTracking.putDocumentTracking +
+            this.documentTracking.id,
           this.documentTracking
         ),
         e => {
+          this.$emit("valueChanged");
           this.$awn.success();
           this.close();
         },
         e => {
-          this.$awn.$alert();
+          this.$awn.alert();
         }
       );
     },
-    registerExtradition() {
+    registerDocumentTracking() {
       this.$awn.asyncBlock(
         this.$axios.post(
           dataApi.DocumentTracking.postDocumentTracking,
           this.documentTracking
         ),
         e => {
+          this.$emit("valueChanged");
           this.$awn.success();
           this.close();
         },
         e => {
-          this.$awn.$alert();
+          this.$awn.alert();
         }
       );
     }

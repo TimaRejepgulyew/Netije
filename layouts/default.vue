@@ -81,7 +81,7 @@ export default {
   },
   mounted() {
     this.$online.connectHub();
-    this.$notification.connectHub();
+    this.$notification.connectHub(this);
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
 
