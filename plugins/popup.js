@@ -46,7 +46,8 @@ export default ({ app }, inject) => {
     spreadSheet: BasePopup("spreadSheet"),
     licenseInfo: BasePopup("licenseInfo"),
     documentTemplateGrid: BasePopup("documentTemplateGrid"),
-    documentReports: BasePopup("documentReports")
+    documentReports: BasePopup("documentReports"),
+    memberList: BasePopup("memberList"),
   };
 
   const popups = [];

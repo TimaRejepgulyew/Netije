@@ -1,14 +1,7 @@
 <template>
   <div v-if="visible" tabindex="-1" class="superwrapper">
-    <DxLoadPanel
-      @click="destroyComponent"
-      :visible.sync="isLoading"
-      :indicatorSrc="indicatorIcon"
-    />
-    <div
-      class="popup_color_wrapper"
-      :style="`align-items:${defaultPopupSettings.position}`"
-    >
+    <DxLoadPanel @click="destroyComponent" :visible.sync="isLoading" :indicatorSrc="indicatorIcon" />
+    <div class="popup_color_wrapper" :style="`align-items:${defaultPopupSettings.position}`">
       <transition name="popup-fade">
         <div
           v-show="showPopup"
@@ -65,6 +58,7 @@ import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
 import documentTemplateGrid from "./document-template-grid.vue";
+import memberList from "./member-list-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
@@ -89,7 +83,8 @@ export default {
     scannerDialog,
     licenseInfo,
     documentTemplateGrid,
-    documentReports
+    documentReports,
+    memberList,
   },
   name: "base-popup",
   props: {
