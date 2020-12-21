@@ -5,11 +5,13 @@ import {
   HttpTransportType
 } from "@microsoft/signalr";
 
+let context
+
 function setTitle(titleName, count) {
   if (titleName) {
     document.title = `(${count})  ${titleName}`
   } else {
-    document.title = `Netije`
+    document.title = `netije`
   }
 }
 
@@ -22,21 +24,24 @@ export default function (app) {
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Information)
     .build();
-
+  connection.on("AssignmentCreated", (id, type, subject) => {
+    app.$notify(subject, id, context)
+  })
   connection.on("AssignmentCounterUpdated", array => {
     app.store.commit("notificationHub/ASSIGNMENT_COUNTER_UPDATE", array);
     if (array.length) {
       let count = array.map((el) => {
         return el.count
       }).reduce((accumulator, currentValue) => accumulator + currentValue)
-      setTitle("Входящ уведомление", count)
-      app.$notify("Входящие уведомления", "Входящие уведомления", params)
+      setTitle(context.$t('notificationMessage'), count)
     } else {
       setTitle()
     }
   });
-  function connectHub() {
-    if (process.env.NODE_ENV !== "production") {
+
+  function connectHub(contxt) {
+    context = contxt
+    if (process.env.NODE_ENV === "production") {
       connection
         .start()
         .then(e => { })
