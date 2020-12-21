@@ -12,7 +12,15 @@ export default {
   props: ["item"],
   methods: {
     showInformation() {
-      this.$popup.licenseInfo(this)
+      this.$popup[this.item.params?.popupName](
+        this,
+        {
+          ...this.item.params?.options,
+        },
+        {
+          ...this.item.params?.popupOptions,
+        }
+      );
     },
   },
 };

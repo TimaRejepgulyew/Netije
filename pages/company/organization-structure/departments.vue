@@ -75,6 +75,17 @@
           :caption="$t('shared.code')"
           :visible="false"
         >
+          <DxPatternRule
+            :ignore-empty-value="false"
+            :pattern="codePattern"
+            :message="$t('validation.valueMustNotContainsSpaces')"
+          />
+          <DxAsyncRule
+            :reevaluate="false"
+            :ignore-empty-value="true"
+            :message="$t('shared.codeAlreadyExists')"
+            :validation-callback="validateEntityExists"
+          ></DxAsyncRule>
         </DxColumn>
 
         <DxColumn

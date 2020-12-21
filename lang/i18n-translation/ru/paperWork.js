@@ -15,4 +15,22 @@ export default {
         actionItemExicution: "Поручения",
         actionItemExicutionDescr: "Контроль выданных поручений.",
     },
+    reports: {
+        title: "Отчёты",
+        incomingDocument: "Журнал входящих документов",
+        incomingDocumentDescription: "Список входящих зарегистрированных документов.",
+        outgoingDocument: "Журнал исходящих документов",
+        outgoingDocumentDescription: "Список исходящих зарегистрированных документов.",
+        internalDocument: "Журнал внутренних документов",
+        internalDocumentDescription: "Список внутренних зарегистрированных документов.",
+        beginDate: "Дата начала",
+        endDate: "Дата завершения",
+        journal: "Журнал",
+        Incoming: "Входящий",
+        Outcoming: "Исходящий",
+        Inner: "Внутренний",
+        endDateRequired: "Выберите конец",
+        startDateRequired: "Выберите начало",
+        saveBtn: "Сохранить"
+    }
 }
