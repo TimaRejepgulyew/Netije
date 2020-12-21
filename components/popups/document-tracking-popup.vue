@@ -92,9 +92,7 @@ export default {
       };
     },
     cardOptions() {
-      return {
-        // disabled: this.isCard
-      };
+      return {};
     },
     returnDateOptions() {
       return {
@@ -105,7 +103,6 @@ export default {
       return {
         height: 70,
         autoResizeEnabled: true
-        // disabled: this.isCard
       };
     },
     buttonOptions() {
@@ -135,7 +132,6 @@ export default {
       }
     },
     updateDocumentTracking() {
-      console.log(this.options);
       this.$awn.asyncBlock(
         this.$axios.put(
           dataApi.DocumentTracking.putDocumentTracking +

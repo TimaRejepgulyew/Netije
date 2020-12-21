@@ -167,6 +167,9 @@ export default {
         }
       );
     },
+    valueChanged() {
+      this.refresh();
+    },
     refresh() {
       this.dataSource.reload();
     }

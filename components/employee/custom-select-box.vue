@@ -103,7 +103,8 @@ export default {
       );
     },
     valueChanged(e) {
-      this.localEmployeeId = e.value;
+      console.log(e);
+      this.localEmployeeId = e.value.id;
       this.$emit("valueChanged", e.value);
     },
     updateEmployee(data) {
