@@ -66,12 +66,7 @@
             :pattern="codePattern"
             :message="$t('validation.valueMustNotContainsSpaces')"
           />
-          <DxAsyncRule
-            :reevaluate="false"
-            :ignore-empty-value="true"
-            :message="$t('shared.codeAlreadyExists')"
-            :validation-callback="validateEntityExists"
-          ></DxAsyncRule>
+
         </DxColumn>
 
         <DxColumn

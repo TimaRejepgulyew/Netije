@@ -226,16 +226,6 @@ export default {
           : undefined
       };
     },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.ManagerAssistantDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
-    }
   }
 };
 </script>
