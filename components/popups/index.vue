@@ -57,8 +57,10 @@ import documentReports from "./document-reports-popup.vue";
 import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
+import searchSetting  from "./searching-setting-popup";
 import documentTemplateGrid from "./document-template-grid.vue";
 import memberList from "./member-list-popup.vue";
+import exchangeOptions from "./exchange-options-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
@@ -85,6 +87,8 @@ export default {
     documentTemplateGrid,
     documentReports,
     memberList,
+    exchangeOptions,
+    searchSetting ,
   },
   name: "base-popup",
   props: {

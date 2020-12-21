@@ -28,6 +28,11 @@ export default {
     rolesDescr:
       "Wezipeler işgärleri jogapkärçilikli toparlara bölmek üçin düzülendir"
   },
+  integration: {
+    title: "Integrasiýa",
+    exchange: "Poçta gutulary",
+    exchangeDescr: "Poçta gutulary guramalarymyzyň elektron alyş-çalşygy üçin"
+  },
   company: {
     title: "Guramaçylyk düzüm birligi",
     createBusinessUnit: "Biziň guramalarymyz",
@@ -43,11 +48,11 @@ export default {
     headCompany: "Baş guramasy"
   },
   imports: {
-    title: 'Import',
-    importCompanies: 'Kompaniýalary import etmek',
-    importBank: 'Bankalary import etmek',
-    importJobTitle: 'Wezipesi import etmek',
-    importPersons: 'Şahsy adamlary import etmek',
-    importEmployees: 'Işgärleri import etmek',
+    title: "Import",
+    importCompanies: "Kompaniýalary import etmek",
+    importBank: "Bankalary import etmek",
+    importJobTitle: "Wezipesi import etmek",
+    importPersons: "Şahsy adamlary import etmek",
+    importEmployees: "Işgärleri import etmek"
   }
 };

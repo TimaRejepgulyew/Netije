@@ -25,7 +25,7 @@
       :column-auto-width="false"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif')
+        indicatorSrc: require('~/static/icons/loading.gif'),
       }"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
@@ -68,7 +68,6 @@
 import QuickFilter from "~/components/quick-filter/index.vue";
 import DocumentQuickFilterModel from "~/infrastructure/models/quickFilter/document.js";
 import DocumentQuickFilterGuid from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
-import { DxButtonGroup } from "devextreme-vue";
 import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
@@ -96,7 +95,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton
+  
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DataSource from "devextreme/data/data_source";
@@ -122,20 +121,18 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton,
     Header,
-    DxButtonGroup,
-    QuickFilter
+    QuickFilter,
   },
   props: {
     documentQuery: {
       type: Number,
-      default: DocumentQuery.All
+      default: DocumentQuery.All,
     },
     isCard: {
-      type: Boolean
+      type: Boolean,
     },
-    documentFilter: {}
+    documentFilter: {},
   },
 
   data() {
@@ -144,22 +141,22 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
         }),
         filter: this.documentFilter,
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       }),
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
-      selectDocument: e => {
+      selectDocument: (e) => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid
+          documentTypeGuid: e.data.documentTypeGuid,
         });
       },
-      defaultFilter: DocumentQuickFilterGuid.All
+      defaultFilter: DocumentQuickFilterGuid.All,
     };
   },
   methods: {
@@ -167,10 +164,14 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
         }),
-        paginate: true
+        paginate: true,
       });
+    },
+    itemClick(e) {
+      this.activeFilter = e.itemIndex;
+      this.setStore(this.activeFilter);
     },
 
     onToolbarPreparing(e) {
@@ -181,15 +182,15 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          }
-        }
+          },
+        },
       });
-    }
+    },
   },
   computed: {
     QuiсkFilterItems() {
       return Object.values(new DocumentQuickFilterModel(this).getAll()).map(
-        item => {
+        (item) => {
           item.hint = item.text;
           return item;
         }
@@ -204,8 +205,8 @@ export default {
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

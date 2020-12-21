@@ -14,8 +14,8 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
-      @row-updating="onRowUpdating"
-      @init-new-row="onInitNewRow"
+      :onRowDblClick="selected"
+      @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
       <DxGrouping :auto-expand-all="false" />
@@ -33,19 +33,17 @@
       />
 
       <DxStateStoring
-        :enabled="true"
+        :enabled="$store.getters['permissions/allowReading'](entityType)"
         type="localStorage"
         storage-key="Person"
       />
 
       <DxEditing
-        :allow-updating="
-          $store.getters['permissions/allowUpdating'](entityType)
-        "
+        :allow-updating="false"
         :allow-deleting="
           $store.getters['permissions/allowDeleting'](entityType)
         "
-        :allow-adding="$store.getters['permissions/allowCreating'](entityType)"
+        :allow-adding="false"
         :useIcons="true"
         mode="form"
       />
@@ -57,9 +55,6 @@
         :caption="$t('translations.fields.firstName')"
         data-type="string"
       >
-        <DxRequiredRule
-          :message="$t('translations.fields.firstNameRequired')"
-        />
       </DxColumn>
 
       <DxColumn
@@ -67,7 +62,6 @@
         :caption="$t('translations.fields.lastName')"
         data-type="string"
       >
-        <DxRequiredRule :message="$t('translations.fields.lastNameRequired')" />
       </DxColumn>
       <DxColumn
         data-field="middleName"
@@ -87,7 +81,6 @@
       ></DxColumn>
 
       <DxColumn data-field="email" :caption="$t('translations.fields.email')">
-        <DxEmailRule :message="$t('translations.fields.emailRule')" />
       </DxColumn>
 
       <DxColumn
@@ -111,35 +104,18 @@
       </DxColumn>
 
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
-        <DxPatternRule
-          :ignore-empty-value="false"
-          :pattern="codePattern"
-          :message="$t('translations.fields.tinRule')"
-        />
-        <DxAsyncRule
-          :reevaluate="false"
-          :ignore-empty-value="true"
-          :message="$t('translations.fields.tinAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
       </DxColumn>
 
       <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-        <DxPatternRule
-          :ignore-empty-value="false"
-          :pattern="codePattern"
-          :message="$t('validation.valueMustNotContainsSpaces')"
-        />
       </DxColumn>
 
       <DxColumn
         data-field="regionId"
         :caption="$t('translations.fields.regionId')"
-        :set-cell-value="onRegionIdChanged"
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getActiveRegions"
+          :data-source="regionStore"
           value-expr="id"
           display-expr="name"
         />
@@ -152,7 +128,7 @@
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getActiveLocalities"
+          :data-source="localityStore"
           value-expr="id"
           display-expr="name"
         />
@@ -190,7 +166,7 @@
       >
         <DxLookup
           :allow-clearing="true"
-          :data-source="getActiveBanks"
+          :data-source="bankStore"
           value-expr="id"
           display-expr="name"
         />
@@ -214,68 +190,16 @@
         data-field="note"
         :caption="$t('translations.fields.note')"
         :visible="false"
-        edit-cell-template="textAreaEditor"
       ></DxColumn>
-
-      <template #textAreaEditor="cellInfo">
-        <textArea
-          :value="cellInfo.data.value"
-          :on-value-changed="value => onValueChanged(value, cellInfo.data)"
-        ></textArea>
-      </template>
     </DxDataGrid>
   </main>
 </template>
 <script>
-import Status from "~/infrastructure/constants/status";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
-import textArea from "~/components/page/textArea";
-import {
-  DxSearchPanel,
-  DxDataGrid,
-  DxColumn,
-  DxEditing,
-  DxHeaderFilter,
-  DxScrolling,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  DxAsyncRule,
-  DxRequiredRule,
-  DxExport,
-  DxColumnChooser,
-  DxColumnFixing,
-  DxFilterRow,
-  DxStateStoring,
-  DxEmailRule,
-  DxPatternRule
-} from "devextreme-vue/data-grid";
-
+import partiesGridMixin from "~/mixins/parties.vue/parties-grid.js";
 export default {
-  components: {
-    textArea,
-    Header,
-    DxSearchPanel,
-    DxDataGrid,
-    DxColumn,
-    DxEditing,
-    DxHeaderFilter,
-    DxScrolling,
-    DxLookup,
-    DxGrouping,
-    DxGroupPanel,
-    DxRequiredRule,
-    DxAsyncRule,
-    DxExport,
-    DxColumnChooser,
-    DxColumnFixing,
-    DxFilterRow,
-    DxStateStoring,
-    DxEmailRule,
-    DxPatternRule
-  },
+  mixins: [partiesGridMixin],
   data() {
     return {
       dataSource: this.$dxStore({
@@ -287,93 +211,22 @@ export default {
       }),
       entityType: EntityType.Counterparty,
       statusDataSource: this.$store.getters["status/status"](this),
+      bankStore: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.contragents.Bank
+      }),
       sex: [
         { id: 0, name: this.$t("sex.male") },
         { id: 1, name: this.$t("sex.female") }
-      ],
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
-      onRegionIdChanged(rowData, value) {
-        rowData.localityId = null;
-        this.defaultSetCellValue(rowData, value);
-      }
+      ]
     };
   },
   methods: {
-    onInitNewRow(e) {
-      e.data.status = this.statusDataSource[Status.Active].id;
+    selected({ key: id }) {
+      this.$emit("selected", { id, type: "person" });
     },
-    onRowUpdating(e) {
-      e.newData = Object.assign(e.oldData, e.newData);
-    },
-    getActiveRegions(options) {
-      return {
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.sharedDirectory.Region
-        }),
-        paginate: true,
-        filter: options.data
-          ? [
-              "status",
-              "=",
-              Status.Active,
-              "or",
-              "id",
-              "=",
-              options.data.regionId
-            ]
-          : undefined
-      };
-    },
-    getActiveLocalities(options) {
-      return {
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality
-        }),
-        paginate: true,
-        filter: options.data
-          ? [
-              "regionId",
-              "=",
-              options.data.regionId,
-              "or",
-              "status",
-              "=",
-              Status.Active,
-              "or",
-              "id",
-              "=",
-              options.data.localityId
-            ]
-          : undefined
-      };
-    },
-    getActiveBanks(options) {
-      return {
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.contragents.Bank
-        }),
-        paginate: true,
-        filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.bankId]
-          : undefined
-      };
-    },
-    validateEntityExists(params) {
-      var dataField = params.column.dataField;
-      return this.$customValidator.PersonDataFieldValueNotExists(
-        {
-          id: params.data.id,
-          [dataField]: params.value
-        },
-        dataField
-      );
-    },
-    onValueChanged(value, cellInfo) {
-      cellInfo.setValue(value);
-      cellInfo.component.updateDimensions();
+    createCounterPart() {
+      this.$emit("create", { type: "person" });
     }
   }
 };

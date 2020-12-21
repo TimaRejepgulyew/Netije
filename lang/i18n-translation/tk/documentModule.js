@@ -148,5 +148,9 @@ export default {
     documentTemplate: "Resminamanyň nusgasy",
     imageViewer: "Suratlaryň okyjysy",
     xlsxEditor: "Resminamanyň Excel formatyň redaktory"
+  },
+  confirm: {
+    sureSendToElectronExchangeService:
+      "Siz hakykatdanam resminamamy alyş-çalyş ulgamyna ugratjaksyňyz"
   }
 };

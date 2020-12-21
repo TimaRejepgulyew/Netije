@@ -1,7 +1,14 @@
 <template>
   <div>
+    <Header
+      :showTitle="!isCard"
+      :isbackButton="!isCard"
+      :headerTitle="$t('translations.headers.counterPart')"
+    ></Header>
     <toolbar
       :isCard="isCard"
+      :canExchange="canExchange"
+      @openExchangeOptions="openExchangeOptions"
       @saveChanges="submit"
       :canSave="
         $store.getters['permissions/allowUpdating'](EntityType.Counterparty) &&
@@ -51,11 +58,7 @@
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="bankId"
-          :editor-options="bankOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="bankId" :editor-options="bankOptions" editor-type="dxSelectBox">
           <DxLabel location="top" :text="$t('translations.fields.bankId')" />
         </DxSimpleItem>
 
@@ -86,49 +89,26 @@
           editor-type="dxSelectBox"
           data-field="localityId"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.localityId')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.localityId')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="postAddress">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.postAddress')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="legalAddress">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.legalAddress')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.nonresident')"
-          />
-        </DxSimpleItem>
-        <DxSimpleItem data-field="canExchange" editor-type="dxCheckBox">
-          <DxLabel location="top" :text="$t('parties.fields.canExchange')" />
+          <DxLabel location="left" :text="$t('translations.fields.nonresident')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="account">
           <DxLabel location="top" :text="$t('translations.fields.account')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          :editor-options="statusOptions"
-          editor-type="dxSelectBox"
-          data-field="status"
-        >
+        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem
-          data-field="note"
-          :editor-options="{ height: 90 }"
-          editor-type="dxTextArea"
-        >
+        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -136,6 +116,7 @@
   </div>
 </template>
 <script>
+import Header from "~/components/page/page__header";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import "devextreme-vue/text-area";
@@ -154,7 +135,6 @@ import DxForm, {
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import Header from "~/components/page/page__header";
 export default {
   components: {
     Header,
@@ -219,6 +199,9 @@ export default {
     };
   },
   computed: {
+    canExchange() {
+      return this.$store.getters["permissions/IsAdmin"] && this.company.id;
+    },
     regionOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -243,6 +226,19 @@ export default {
     }
   },
   methods: {
+    openExchangeOptions() {
+      console.log("openExchangeSettings");
+      this.$popup.exchangeOptions(
+        this,
+        {
+          counterPartId: this.company.id
+        },
+        {
+          height: "auto",
+          width: "60vw"
+        }
+      );
+    },
     validateEntityExists(params) {
       var dataField = params.formItem.dataField;
       return this.$customValidator.CompanyDataFieldValueNotExists(
@@ -262,6 +258,7 @@ export default {
         this.$axios.post(dataApi.contragents.Company, this.company),
         ({ data }) => {
           this.$emit("valueChanged", data);
+          this.$emit("created", data);
           this.$awn.success();
           this.$emit("close");
         },
