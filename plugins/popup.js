@@ -49,7 +49,8 @@ export default ({ app }, inject) => {
     documentReports: BasePopup("documentReports"),
     memberList: BasePopup("memberList"),
     exchangeOptions: BasePopup("exchangeOptions"),
-    searchSetting : BasePopup("searchSetting")
+    searchSetting : BasePopup("searchSetting"),
+    documentExtradition: BasePopup("documentExtradition"),
   };
 
   const popups = [];

@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="file-uploader-block">
-      <span class="dx-form-group-caption border-b">{{
+      <span class="dx-form-group-caption border-b">
+        {{
         $t("document.groups.captions.versions")
-      }}</span>
+        }}
+      </span>
       <div class="d-flex">
         <DxButton
           :hint="$t('buttons.refresh')"
@@ -14,17 +16,9 @@
         <createVersionBtn @uploadVersion="refresh" :documentId="documentId" />
       </div>
       <div class="list-container">
-        <DxList
-          :data-source="versions"
-          :activeStateEnabled="false"
-          :focusStateEnabled="false"
-        >
+        <DxList :data-source="versions" :activeStateEnabled="false" :focusStateEnabled="false">
           <template #item="item">
-            <docVersionListItem
-              @refresh="refresh"
-              :documentId="documentId"
-              :item="item"
-            />
+            <docVersionListItem @refresh="refresh" :documentId="documentId" :item="item" />
           </template>
         </DxList>
       </div>
@@ -43,7 +37,7 @@ export default {
     DxList,
     DxButton,
     createVersionBtn,
-    docVersionListItem,
+    docVersionListItem
   },
   props: ["documentId"],
   data() {
@@ -51,29 +45,28 @@ export default {
       versions: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`,
+          loadUrl: `${dataApi.documentModule.Version}${this.documentId}`
         }),
-        sort: [{ selector: "number", desc: true }],
-      }),
+        sort: [{ selector: "number", desc: true }]
+      })
     };
   },
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
-    },
+    }
   },
   methods: {
     refresh() {
       this.versions.reload();
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
 .file-uploader-block {
   background: $base-bg;
-  display: block;
   padding: 20px;
   margin: 0;
   border: 0.5px solid $base-border-color;

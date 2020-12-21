@@ -58,6 +58,7 @@ import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
 import searchSetting  from "./searching-setting-popup";
+import documentExtradition from "./document-extradition-popup";
 import documentTemplateGrid from "./document-template-grid.vue";
 import memberList from "./member-list-popup.vue";
 import exchangeOptions from "./exchange-options-popup.vue";
@@ -89,6 +90,7 @@ export default {
     memberList,
     exchangeOptions,
     searchSetting ,
+    documentExtradition
   },
   name: "base-popup",
   props: {
