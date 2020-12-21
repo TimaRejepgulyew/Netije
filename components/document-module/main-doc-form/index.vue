@@ -32,22 +32,15 @@
             >
               <DxSimpleItem data-field="name" :editor-options="nameOptions">
                 <DxLabel location="left" :text="$t('document.fields.name')" />
-                <DxRequiredRule
-                  :message="$t('document.validation.nameRequired')"
-                />
+                <DxRequiredRule :message="$t('document.validation.nameRequired')" />
               </DxSimpleItem>
               <DxSimpleItem
                 data-field="documentKindId"
                 :editor-options="documentKindOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel
-                  location="left"
-                  :text="$t('document.fields.documentKindId')"
-                />
-                <DxRequiredRule
-                  :message="$t('document.validation.documentKindIdRequired')"
-                />
+                <DxLabel location="left" :text="$t('document.fields.documentKindId')" />
+                <DxRequiredRule :message="$t('document.validation.documentKindIdRequired')" />
               </DxSimpleItem>
 
               <DxSimpleItem
@@ -55,13 +48,8 @@
                 :editor-options="subjectOptions"
                 editor-type="dxTextArea"
               >
-                <DxLabel
-                  location="left"
-                  :text="$t('document.fields.subject')"
-                />
-                <DxRequiredRule
-                  :message="$t('document.validation.subjectRequired')"
-                />
+                <DxLabel location="left" :text="$t('document.fields.subject')" />
+                <DxRequiredRule :message="$t('document.validation.subjectRequired')" />
               </DxSimpleItem>
               <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
               <DxSimpleItem
@@ -79,34 +67,24 @@
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.relations')"
-            :disabled="isDataChanged"
-          >
+          <DxTab :col-count="8" :title="$t('document.tabs.relations')" :disabled="isDataChanged">
             <DxSimpleItem :col-span="8" template="relation"></DxSimpleItem>
           </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.tasks')"
-            :disabled="isNew"
-          >
+          <DxTab :col-count="8" :title="$t('document.tabs.tasks')" :disabled="isNew">
             <DxSimpleItem :col-span="8" template="documentTasks"></DxSimpleItem>
           </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.history')"
-            :disabled="isNew"
-          >
+          <DxTab :col-count="8" :title="$t('document.tabs.history')" :disabled="isNew">
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
+          <DxTab :col-count="8" title="Выдача документов" :disabled="isNew">
+            <DxSimpleItem :col-span="8" template="DocumentExtradition"></DxSimpleItem>
+          </DxTab>
         </DxTabbedItem>
+        <template #DocumentExtradition>
+          <DocumentExtradition :entityTypeGuid="entityTypeGuid" :id="documentId" slot="history" />
+        </template>
         <template #history>
-          <History
-            :entityTypeGuid="entityTypeGuid"
-            :id="documentId"
-            slot="history"
-          ></History>
+          <History :entityTypeGuid="entityTypeGuid" :id="documentId" slot="history"></History>
         </template>
         <template #relation>
           <Relation :documentId="documentId" :isCard="isCard"></Relation>
@@ -118,17 +96,10 @@
           <life-cycle :documentId="documentId" :isCard="isCard" />
         </template>
         <template #registrationBlock>
-          <doc-registration
-            :documentId="documentId"
-            :isCard="isCard"
-          ></doc-registration>
+          <doc-registration :documentId="documentId" :isCard="isCard"></doc-registration>
         </template>
         <template #formByTypeGuid>
-          <component
-            :documentId="documentId"
-            :isCard="isCard"
-            :is="formByTypeGuid"
-          ></component>
+          <component :documentId="documentId" :isCard="isCard" :is="formByTypeGuid"></component>
         </template>
       </DxForm>
       <transition name="fade">
@@ -137,7 +108,7 @@
           :isCard="isCard"
           class="item--drawer"
           v-if="versionOpenState"
-        ></docVersion>
+        />
       </transition>
     </div>
   </div>
@@ -150,6 +121,7 @@ import Header from "~/components/page/page__header";
 import lifeCycle from "~/components/document-module/main-doc-form/life-cycle.vue";
 import Relation from "~/components/document-module/main-doc-form/relation";
 import History from "~/components/page/history.vue";
+import DocumentExtradition from "~/components/page/document-extradition.vue";
 import docVersion from "~/components/document-module/main-doc-form/doc-version";
 import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
@@ -174,6 +146,7 @@ export default {
     DxTab,
     Relation,
     History,
+    DocumentExtradition,
     docVersion,
     docRegistration,
     Toolbar,
@@ -384,7 +357,7 @@ export default {
 <style lang="scss">
 .wrapper--relative {
   position: relative;
-  height: 100%;
+  min-height: 79vh;
   overflow: hidden;
   .item--drawer {
     position: absolute;

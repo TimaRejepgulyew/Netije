@@ -47,8 +47,10 @@ export default ({ app }, inject) => {
     licenseInfo: BasePopup("licenseInfo"),
     documentTemplateGrid: BasePopup("documentTemplateGrid"),
     documentReports: BasePopup("documentReports"),
+    memberList: BasePopup("memberList"),
     exchangeOptions: BasePopup("exchangeOptions"),
-    searchSetting : BasePopup("searchSetting")
+    searchSetting : BasePopup("searchSetting"),
+    documentExtradition: BasePopup("documentExtradition"),
   };
 
   const popups = [];

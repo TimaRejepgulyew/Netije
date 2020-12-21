@@ -24,9 +24,11 @@ import onlineUsers from "~/lang/i18n-translation/ru/onlineUsers.js";
 import reports from "~/lang/i18n-translation/ru/reports.js";
 import exchange from "~/lang/i18n-translation/ru/exchange.js";
 import searching from "~/lang/i18n-translation/ru/searchingPanel.js";
+import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
 export default {
   searching,
   exchange,
+  documentTracking,
   malwareScanResults,
   reports,
   onlineUsers,

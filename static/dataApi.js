@@ -8,6 +8,11 @@ export default {
   Metadata: `/api/Metadata`,
   account: `/Identity/Account/Manage`,
   History: `/api/History/`,
+  DocumentTracking: {
+    getDocumentTracking: "/api/DocumentTracking/",
+    postDocumentTracking: "/api/DocumentTracking",
+    putDocumentTracking: "/api/DocumentTracking/"
+  },
   OidcConfiguration: `/_configuration/${process.env.oidcClientId}`,
   sharedDirectory: {
     Country: `/api/Country`,
@@ -110,6 +115,9 @@ export default {
     GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
     GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
   },
+  accessRightRule:{
+    getAccessRightRule:"/api/AccessRightRule"
+  },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,
     GrantPermissions: `/api/Task/GrantPermissions`,
@@ -136,10 +144,11 @@ export default {
     Remove: `/api/Task/RemoveAttachment`
   },
   accessRights: {
-    List: `/api/AccessRights/`,
-    AddRecipient: `/api/AccessRights`,
-    UpdateRecipient: `/api/AccessRights/`,
-    RemoveRecipient: `/api/AccessRights/`
+    List: `/api/AccessRightRule`,
+    getById: `/api/AccessRightRule/`,
+    AddRecipient: `/api/AccessRightRule`,
+    UpdateRecipient: `/api/AccessRightRule/`,
+    RemoveRecipient: `/api/AccessRightRule/`
   },
   assignment: {
     CreateSubtask: `api/Assignment/CreateSubtask`,
