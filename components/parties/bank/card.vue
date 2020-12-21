@@ -199,7 +199,6 @@ export default {
   },
   methods: {
     openExchangeOptions() {
-      console.log("openExchangeSettings");
       this.$popup.exchangeOptions(
         this,
         {

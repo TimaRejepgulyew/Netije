@@ -78,7 +78,7 @@ export default {
     allowDeleting(e) {
       return (
         this.$store.getters["permissions/allowDeleting"](this.entityType) &&
-        !e.row.data.isCardReadOnly
+        !e.row.data.isCardReadOnly && !e.row.data.isSystem
       );
     },
 

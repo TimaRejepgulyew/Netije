@@ -144,8 +144,6 @@ export default {
               ]
             }
           );
-          //   console.log(123);
-          //   this.$router.push("/docflow/document-kind/create");
         };
       }
     },

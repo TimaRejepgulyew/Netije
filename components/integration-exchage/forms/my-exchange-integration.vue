@@ -223,7 +223,6 @@ export default {
     },
     postRequest() {
       var res = this.$refs["form"].instance.validate();
-      console.log(this.box.certificate);
       if (!res.isValid || !this.box.certificate) return;
       const file = this.generateFormData(this.box);
       this.$awn.asyncBlock(

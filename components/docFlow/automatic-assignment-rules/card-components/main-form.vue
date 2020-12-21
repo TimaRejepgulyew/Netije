@@ -136,7 +136,6 @@ export default {
       };
     },
     businessUnitsOptions() {
-      console.log("filter");
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.BusinessUnit)
@@ -159,7 +158,6 @@ export default {
       if (departmentByBusinessUnitFilter.length)
         filter.push(departmentByBusinessUnitFilter);
       else filter.push([]);
-      console.log(filter, "filter");
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.company.Department)

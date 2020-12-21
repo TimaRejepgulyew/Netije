@@ -37,11 +37,9 @@ export default {
       this.$awn.asyncBlock(
         this.item.params.onChange(this, file),
         res => {
-          console.log(this.item.params);
           this.$awn.success();
         },
         e => {
-          console.log(e);
           this.$awn.alert();
         }
       );

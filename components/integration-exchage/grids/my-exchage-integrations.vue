@@ -182,7 +182,6 @@ export default {
   },
   methods: {
     uploadKey(e) {
-      console.log(e);
       this.$awn.asyncBlock(
         this.$axios.get(`${dataApi.boxes.PublickKey}${e.row.key}`, {
           responseType: "blob",

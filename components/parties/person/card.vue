@@ -10,15 +10,11 @@
       :canExchange="canExchange"
       @openExchangeOptions="openExchangeOptions"
       @saveChanges="submit"
-      :canSave="
-        $store.getters['permissions/allowUpdating'](EntityType.Counterparty)
-      "
+      :canSave="!readOnly"
     />
     <DxForm
       ref="form"
-      :read-only="
-        !$store.getters['permissions/allowUpdating'](EntityType.Counterparty)
-      "
+      :read-only="readOnly"
       :col-count="2"
       :form-data.sync="person"
       :show-colon-after-label="true"
@@ -33,6 +29,9 @@
           <DxRequiredRule :message="$t('translations.fields.lastNameRequired')" />
           <DxLabel location="top" :text="$t('translations.fields.lastName')" />
         </DxSimpleItem>
+        <DxSimpleItem data-field="middleName">
+          <DxLabel location="top" :text="$t('translations.fields.middleName')" />
+        </DxSimpleItem>
         <DxSimpleItem data-field="tin">
           <DxPatternRule
             :ignore-empty-value="false"
@@ -45,9 +44,6 @@
             :message="$t('translations.fields.tinAlreadyExists')"
             :validation-callback="validateEntityExists"
           ></DxAsyncRule>
-          <DxSimpleItem data-field="middleName">
-            <DxLabel location="top" :text="$t('translations.fields.middleName')" />
-          </DxSimpleItem>
           <DxLabel location="top" :text="$t('translations.fields.tin')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
@@ -204,6 +200,15 @@ export default {
     canExchange() {
       return this.$store.getters["permissions/IsAdmin"] && this.person.id;
     },
+    readOnly() {
+      if (this.person.isSystem) {
+        return !this.$store.getters["permissions/IsAdmin"];
+      } else {
+        return !this.$store.getters["permissions/allowUpdating"](
+          this.EntityType.Counterparty
+        );
+      }
+    },
     regionOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -235,7 +240,6 @@ export default {
   },
   methods: {
     openExchangeOptions() {
-      console.log("openExchangeSettings");
       this.$popup.exchangeOptions(
         this,
         {
@@ -292,6 +296,6 @@ export default {
         }
       );
     }
-  }
+  },
 };
 </script>

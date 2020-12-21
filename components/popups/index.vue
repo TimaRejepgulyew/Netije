@@ -158,7 +158,6 @@ export default {
       });
     },
     valueChanged(data) {
-      console.log(data);
       this.$emit("valueChanged", data);
     },
     hideLoadIndicator() {

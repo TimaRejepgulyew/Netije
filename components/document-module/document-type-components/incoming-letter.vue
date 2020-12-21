@@ -7,37 +7,20 @@
     :validation-group="documentValidatorName"
   >
     <DxGroupItem :col-count="2" :caption="$t('shared.fromWhom')">
-      <DxSimpleItem
-        :col-span="2"
-        data-field="correspondentId"
-        template="correspondent"
-      >
+      <DxSimpleItem :col-span="2" data-field="correspondentId" template="correspondent">
         <DxLabel location="left" :text="$t('document.fields.counterPart')" />
-        <DxRequiredRule
-          :message="$t('document.validation.counterPartRequired')"
-        />
+        <DxRequiredRule :message="$t('document.validation.counterPartRequired')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="dated"
-        :editor-options="datedOptions"
-        editor-type="dxDateBox"
-      >
+      <DxSimpleItem data-field="dated" :editor-options="datedOptions" editor-type="dxDateBox">
         <DxLabel location="left" :text="$t('document.fields.dated')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="inNumber" :editor-options="inNumberOptions">
         <DxLabel location="left" text="№" />
       </DxSimpleItem>
-      <DxSimpleItem
-        template="inResponseTo"
-        :col-span="2"
-        data-field="inResponseToId"
-      >
+      <DxSimpleItem template="inResponseTo" :col-span="2" data-field="inResponseToId">
         <DxLabel location="left" :text="$t('document.fields.inResponseToId')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="counterpartySignatoryId"
-        template="counterPartSignatury"
-      >
+      <DxSimpleItem data-field="counterpartySignatoryId" template="counterPartSignatury">
         <DxLabel location="left" :text="$t('document.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="contactId" template="contact">
@@ -45,20 +28,13 @@
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('shared.whom')">
-      <DxSimpleItem
-        data-field="businessUnitId"
-        template="businessUnitSelectBox"
-      >
+      <DxSimpleItem data-field="businessUnitId" template="businessUnitSelectBox">
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.businessUnitIdRequired')"
-        />
+        <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.departmentIdRequired')"
-        />
+        <DxRequiredRule :message="$t('document.validation.departmentIdRequired')" />
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addresseeId" template="addressee">
@@ -277,6 +253,7 @@ export default {
         openOnFieldClick: true,
         value: this.document.dated,
         onValueChanged: e => {
+          console.log(e);
           this.setDated(e.value);
         }
       };

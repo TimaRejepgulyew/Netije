@@ -39,10 +39,8 @@
       />
 
       <DxEditing
-        :allow-updating="false"
-        :allow-deleting="
-          $store.getters['permissions/allowDeleting'](entityType)
-        "
+        :allow-updating="true"
+        :allow-deleting="(e)=>allowDeleting(e)"
         :allow-adding="false"
         :useIcons="true"
         mode="form"
@@ -54,15 +52,13 @@
         data-field="firstName"
         :caption="$t('translations.fields.firstName')"
         data-type="string"
-      >
-      </DxColumn>
+      ></DxColumn>
 
       <DxColumn
         data-field="lastName"
         :caption="$t('translations.fields.lastName')"
         data-type="string"
-      >
-      </DxColumn>
+      ></DxColumn>
       <DxColumn
         data-field="middleName"
         :caption="$t('translations.fields.middleName')"
@@ -75,19 +71,11 @@
         data-type="date"
       ></DxColumn>
 
-      <DxColumn
-        data-field="phones"
-        :caption="$t('translations.fields.phones')"
-      ></DxColumn>
+      <DxColumn data-field="phones" :caption="$t('translations.fields.phones')"></DxColumn>
 
-      <DxColumn data-field="email" :caption="$t('translations.fields.email')">
-      </DxColumn>
+      <DxColumn data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
 
-      <DxColumn
-        data-field="webSite"
-        :caption="$t('translations.fields.webSite')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="webSite" :caption="$t('translations.fields.webSite')" :visible="false"></DxColumn>
 
       <DxColumn
         data-field="sex"
@@ -95,24 +83,14 @@
         data-type="string"
         :visible="false"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="sex"
-          value-expr="id"
-          display-expr="name"
-        ></DxLookup>
+        <DxLookup :allow-clearing="true" :data-source="sex" value-expr="id" display-expr="name"></DxLookup>
       </DxColumn>
 
-      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')">
-      </DxColumn>
+      <DxColumn data-field="tin" :caption="$t('translations.fields.tin')"></DxColumn>
 
-      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
-      </DxColumn>
+      <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false"></DxColumn>
 
-      <DxColumn
-        data-field="regionId"
-        :caption="$t('translations.fields.regionId')"
-      >
+      <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
         <DxLookup
           :allow-clearing="true"
           :data-source="regionStore"
@@ -153,17 +131,9 @@
         :caption="$t('translations.fields.nonresident')"
       ></DxColumn>
 
-      <DxColumn
-        data-field="account"
-        :caption="$t('translations.fields.account')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="account" :caption="$t('translations.fields.account')" :visible="false"></DxColumn>
 
-      <DxColumn
-        data-field="bankId"
-        :caption="$t('translations.fields.bankId')"
-        :visible="false"
-      >
+      <DxColumn data-field="bankId" :caption="$t('translations.fields.bankId')" :visible="false">
         <DxLookup
           :allow-clearing="true"
           :data-source="bankStore"
@@ -186,11 +156,8 @@
         :caption="$t('parties.fields.canExchange')"
         :visible="true"
       ></DxColumn>
-      <DxColumn
-        data-field="note"
-        :caption="$t('translations.fields.note')"
-        :visible="false"
-      ></DxColumn>
+      <DxColumn data-field="note" :caption="$t('translations.fields.note')" :visible="false"></DxColumn>
+      <DxColumn :buttons="editButtons" type="buttons" />
     </DxDataGrid>
   </main>
 </template>
@@ -218,12 +185,28 @@ export default {
       sex: [
         { id: 0, name: this.$t("sex.male") },
         { id: 1, name: this.$t("sex.female") }
+      ],
+      editButtons: [
+        {
+          name: "edit",
+          onClick: this.selected
+        },
+        {
+          name: "delete"
+        }
       ]
     };
   },
   methods: {
-    selected({ key: id }) {
+    selected(e) {
+      const id = e.key || e.row.key;
       this.$emit("selected", { id, type: "person" });
+    },
+    allowDeleting(e) {
+      return (
+        this.$store.getters["permissions/allowDeleting"](this.entityType) &&
+        !e.row.data.isSystem
+      );
     },
     createCounterPart() {
       this.$emit("create", { type: "person" });

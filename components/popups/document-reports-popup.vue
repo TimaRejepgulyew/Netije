@@ -109,7 +109,6 @@ export default {
       this.$emit("close");
     },
     downloadFile(response) {
-      console.log(response);
       const blob = new Blob(
         [response],
         {

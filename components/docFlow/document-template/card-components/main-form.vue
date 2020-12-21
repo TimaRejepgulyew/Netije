@@ -192,7 +192,6 @@ export default {
     },
     setDocumentTypeId(e) {
       if (e.event) {
-        console.log("typeGuid");
         this.$store.commit(
           `documents/${this.documentId}/SET_DOCUMENT_TYPE`,
           e.value
