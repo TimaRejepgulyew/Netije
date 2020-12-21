@@ -1,5 +1,5 @@
 export default {
-  exchangeOptions: "Настройка электронного обмена",
+  exchangeOptions: "Elektron alyş-çalyş sazlamasy",
   providers: {
     netije: "Netije",
     srd: "Srd",
@@ -9,6 +9,8 @@ export default {
     BoxResponsible: "Poçta gutusy jogapkäri"
   },
   fields: {
+    reception: "Kabul etmek üçin",
+    dispatch: "Urgratmak üçin",
     name: "Ady",
     note: "Bellikler",
     organizationId: "Guramanyň belgisi",

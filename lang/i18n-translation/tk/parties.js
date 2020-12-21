@@ -4,10 +4,10 @@ export default {
     "Bu modul guramalar we şahsyýetleriň maglumatlaryny dolandyrmak üçin, kontragent guramalaryň adamlary bilen habarlaşmak üçin niýetlenendir",
   organizations: {
     title: "Guramalar",
+    createCompany: "Edara-kärhanalar döretmek",
     company: "Edara-kärhanalar",
     createBank: "Bank döretmek",
     createPerson: "Fiziki şahsy döretmek",
-    createСompany: "Edara-kärhanalar döretmek",
     companyDescr:
       "Salgylanma kitaby, biziň kompaniýamyz bilen aragatnaşygy we hyzmatdaşlygy saklaýan guramalaryň maglumatlaryny saklamaga niýetlenendir",
     createEmployee: "Guramany döretmek",
