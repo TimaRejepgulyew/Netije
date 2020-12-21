@@ -32,6 +32,10 @@ export default {
     CounterPart: `/api/CounterPart`,
     Contact: `/api/Contact`
   },
+  exchange: {
+    GetExchangeInfoByCounterPartId: "/api/CounterPart/ExchangeInfo",
+    UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo",
+  },
   company: {
     Department: `/api/Department`,
     DepartmentMembers: `/api/DepartmentMembers/`,
@@ -97,7 +101,8 @@ export default {
     ImportVersion: `/api/OfficialDocument/Version/Export/`,
     ImportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
-    Last: `/api/OfficialDocument/Version/Last/`
+    Last: `/api/OfficialDocument/Version/Last/`,
+    Exchange: `/api/OfficialDocument/Exchange`
   },
   documentTemplate: {
     Documents: `/api/DocumentTemplate`,
@@ -206,5 +211,9 @@ export default {
   },
   licensing: {
     getLicense: "/api/License"
+  },
+  boxes: {
+    Boxes: `/api/Boxes`,
+    PublickKey: `/api/Boxes/PublicKey/`
   }
 };

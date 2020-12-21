@@ -1,6 +1,7 @@
 <template>
   <DxToolbar class="toolbar">
     <DxItem :options="saveButtonOptions" location="before" widget="dxButton" />
+    <DxItem :options="exchangeOptions" location="before" widget="dxButton" />
   </DxToolbar>
 </template>
 <script>
@@ -11,7 +12,7 @@ export default {
     DxToolbar,
     DxItem
   },
-  props: ["canSave", "isCard"],
+  props: ["canSave", "canExchange", "isCard"],
   computed: {
     saveButtonOptions() {
       return {
@@ -21,6 +22,17 @@ export default {
         useSubmitBehavior: true,
         onClick: e => {
           this.$emit("saveChanges");
+        }
+      };
+    },
+    exchangeOptions() {
+      return {
+        icon: "preferences",
+        visible: this.canExchange,
+        hint: this.$t("exchange.exchangeOptions"),
+        useSubmitBehavior: true,
+        onClick: e => {
+          this.$emit("openExchangeOptions");
         }
       };
     }

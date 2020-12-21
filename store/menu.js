@@ -165,7 +165,7 @@ export const actions = {
         items: [
           {
             text: this.$i18n.t("menu.companies"),
-            path: "/parties/organizations/companies",
+            path: "/parties/company",
             visible: rootGetters["permissions/allowReading"](
               EntityType.Counterparty
             )
@@ -177,14 +177,14 @@ export const actions = {
           },
           {
             text: this.$i18n.t("menu.person"),
-            path: "/parties/persons/",
+            path: "/parties/person",
             visible: rootGetters["permissions/allowReading"](
               EntityType.Counterparty
             )
           },
           {
             text: this.$i18n.t("menu.banks"),
-            path: "/parties/organizations/banks",
+            path: "/parties/bank",
             visible: rootGetters["permissions/allowReading"](
               EntityType.Counterparty
             )
@@ -270,14 +270,6 @@ export const actions = {
             visible: rootGetters["permissions/allowReading"](
               EntityType.CaseFile
             )
-          },
-          {
-            text: this.$i18n.t("menu.documentTemplate"),
-            path: "/docflow/document-template",
-            visible: false
-            // visible: rootGetters["permissions/allowReading"](
-            //   EntityType.DocumentTemplate
-            // )
           }
         ]
       },

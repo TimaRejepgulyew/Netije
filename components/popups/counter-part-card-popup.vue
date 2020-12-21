@@ -19,9 +19,9 @@
 
 <script>
 import dataApi from "~/static/dataApi";
-import person from "~/components/parties/person-card.vue";
-import company from "~/components/parties/company-card.vue";
-import bank from "~/components/parties/bank-card.vue";
+import person from "~/components/parties/person/card.vue";
+import company from "~/components/parties/company/card.vue";
+import bank from "~/components/parties/bank/card.vue";
 export default {
   components: {
     person,

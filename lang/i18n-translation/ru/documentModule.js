@@ -154,5 +154,9 @@ export default {
     documentTemplate: "Шаблон документа",
     imageViewer: "Просмотр изображений",
     xlsxEditor: "Редактор Exсel документов"
+  },
+  confirm: {
+    sureSendToElectronExchangeService:
+      "Вы действительно хотите отправить документ в сервис электронного обмена"
   }
 };

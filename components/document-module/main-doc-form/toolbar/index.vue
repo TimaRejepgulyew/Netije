@@ -48,6 +48,16 @@
       <template #toolbarItemavailableActions>
         <toolbar-item-available-actions :documentId="documentId" />
       </template>
+      <DxItem
+        locateInMenu="auto"
+        template="toolbarItemElExchange"
+        :visible="canElExchage"
+        location="before"
+        widget="dxButton"
+      />
+      <template #toolbarItemElExchange>
+        <toolbarItemElExchange :documentId="documentId" />
+      </template>
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="toolbarItemAccessRight" location="after" />
       <template #toolbarItemAccessRight>
@@ -92,7 +102,7 @@
 //servises
 import { refresh } from "~/infrastructure/services/documentService.js";
 import DocumentVersionViewer, {
-  canEdit
+  canEdit,
 } from "~/infrastructure/services/documentVersionViewer.js";
 import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
@@ -100,6 +110,7 @@ import DocumentVersionService from "~/infrastructure/services/documentVersionSer
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
+import toolbarItemElExchange from "~/components/document-module/main-doc-form/toolbar/electron-exchange-btn.vue";
 import toolbarItemCreateVersion from "~/components/document-module/main-doc-form/toolbar/create-version-btn.vue";
 import toolbarItemRegistration from "~/components/document-registration/registration-button.vue";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
@@ -107,6 +118,7 @@ import toolbarItemRelation from "~/components/document-module/main-doc-form//too
 import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 import toolbarItemAvailableActions from "~/components/document-module/main-doc-form/toolbar/available-actions.vue";
 //constants
+import DocumentFlow from "~/infrastructure/constants/docflows.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import dataApi from "~/static/dataApi";
@@ -124,9 +136,10 @@ export default {
     toolbarItemAvailableActions,
     toolbarItemRelation,
     toolbarItemCreateVersion,
+    toolbarItemElExchange,
     DxButton,
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["isCard", "documentId"],
   inject: ["trySaveDocument"],
@@ -139,11 +152,25 @@ export default {
         type: "back",
         onClick: () => {
           this.$router.go(-1);
-        }
-      }
+        },
+      },
     };
   },
   computed: {
+    canElExchage() {
+      const isOutgoingDocument =
+        this.document.documentKind?.documentFlow === DocumentFlow.Outgoing;
+      const canExchangeCorespondent = this.document?.correspondent?.canExchange;
+
+      return (
+        this.isRegistered,
+        isOutgoingDocument &&
+          // !canExchangeCorespondent &&
+          this.canUpdate &&
+          !this.isNew &&
+          !this.isDataChanged
+      );
+    },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
@@ -190,6 +217,9 @@ export default {
         !this.isNew
       );
     },
+    isRegistered() {
+      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
+    },
     previewButtonOptions() {
       return {
         text: this.$t("buttons.read"),
@@ -201,11 +231,11 @@ export default {
             options: {
               readOnly: true,
               extension: this.document.extension,
-              params: { documentId: this.documentId }
+              params: { documentId: this.documentId },
             },
-            lastVersion: true
+            lastVersion: true,
           });
-        }
+        },
       };
     },
     editButtonOptions() {
@@ -219,14 +249,14 @@ export default {
             options: {
               readOnly: false,
               extension: this.document.extension,
-              params: { documentId: this.document.id }
+              params: { documentId: this.document.id },
             },
             lastVersion: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteVersion" }
-            ]
+              { eventName: "valueChanged", handlerName: "pasteVersion" },
+            ],
           });
-        }
+        },
       };
     },
     saveButtonOptions() {
@@ -235,7 +265,7 @@ export default {
         disabled: !this.canUpdate || !this.isDataChanged,
         onClick: async () => {
           await this.trySaveDocument();
-        }
+        },
       };
     },
     versionOptions() {
@@ -245,7 +275,7 @@ export default {
         text: this.$t("buttons.versions"),
         onClick: () => {
           this.$emit("openVersion");
-        }
+        },
       };
     },
     saveAndBackButtonOptions() {
@@ -255,7 +285,7 @@ export default {
         disabled: !this.canUpdate || !this.isDataChanged,
         onClick: async () => {
           if (await this.trySaveDocument()) this.$emit("onClose");
-        }
+        },
       };
     },
     removeDocumentButtonOptions() {
@@ -268,21 +298,21 @@ export default {
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then(dialogResult => {
+          result.then((dialogResult) => {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$store.dispatch(`documents/${this.documentId}/delete`),
-                e => {
+                (e) => {
                   this.$emit("onRemove");
                   this.$awn.success();
                 },
-                e => {
+                (e) => {
                   this.$awn.alert();
                 }
               );
             }
           });
-        }
+        },
       };
     },
     refreshButtonOptions() {
@@ -294,9 +324,9 @@ export default {
             refresh(this, { documentTypeGuid, documentId: id }),
             () => {}
           );
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     pasteVersion({ file, extension }) {
@@ -341,8 +371,8 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
