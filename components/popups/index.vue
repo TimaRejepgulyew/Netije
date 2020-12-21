@@ -59,6 +59,7 @@ import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
 import searchSetting  from "./searching-setting-popup";
 import documentExtradition from "./document-extradition-popup";
+import documentTracking from "./document-tracking-popup";
 import documentTemplateGrid from "./document-template-grid.vue";
 import memberList from "./member-list-popup.vue";
 import exchangeOptions from "./exchange-options-popup.vue";
@@ -90,7 +91,8 @@ export default {
     memberList,
     exchangeOptions,
     searchSetting ,
-    documentExtradition
+    documentExtradition,
+    documentTracking
   },
   name: "base-popup",
   props: {
@@ -158,6 +160,7 @@ export default {
       });
     },
     valueChanged(data) {
+      console.log(data);
       this.$emit("valueChanged", data);
     },
     hideLoadIndicator() {
