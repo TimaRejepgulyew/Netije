@@ -115,12 +115,6 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         }
         state.document.subject = payload;
       },
-      SET_NOTE(state, payload) {
-        if (checkDataChanged(state.document.note, payload)) {
-          state.isDataChanged = true;
-        }
-        state.document.note = payload;
-      }
     };
 
     const actions = {

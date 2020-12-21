@@ -171,10 +171,6 @@ export default class Base {
     this.actions = {
       ...options?.actions,
       ...this.actions,
-      setDocumentKind({ commit }, payload) {
-        if (!payload) payload = docmentKindService.emptyDocumentKind();
-        commit("SET_DOCUMENT_KIND", payload);
-      }
     };
   }
   stateOptions() {
