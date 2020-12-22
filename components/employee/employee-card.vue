@@ -269,18 +269,12 @@ export default {
       return {
         useMaskBehavior: true,
         openOnFieldClick: true,
-        onValueChanged: e => {
-          let value = new Date(e.value).toJSON();
-          this.employee.dateOfAppointment = value;
-        }
+        dateSerializationFormat: "yyyy-MM-dd"
       };
     },
     dateOfDismissal() {
       return {
-        onValueChanged: e => {
-          let value = new Date(e.value).toJSON();
-          this.employee.dateOfDismissal = value;
-        }
+        dateSerializationFormat: "yyyy-MM-dd"
       };
     },
     departmentOptions() {

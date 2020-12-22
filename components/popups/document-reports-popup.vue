@@ -66,7 +66,8 @@ export default {
     },
     dateBoxOptions() {
       return {
-        openOnFieldClick: true
+        openOnFieldClick: true,
+        dateSerializationFormat: "yyyy-MM-dd"
       };
     },
     reportSelectBoxOptions() {
@@ -124,6 +125,7 @@ export default {
       );
     },
     generateReport() {
+      console.log(this.reportParams);
       this.$awn.asyncBlock(
         this.$axios.post(
           dataApi.docFlow.DocumentRegisterReport.Generate,
