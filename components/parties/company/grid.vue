@@ -54,6 +54,7 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
+      <DxColumn data-field="categoryId" :caption="$t('shared.category')" data-type="string"></DxColumn>
 
       <DxColumn
         data-field="headCompanyId"
