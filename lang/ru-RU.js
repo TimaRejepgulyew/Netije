@@ -147,6 +147,7 @@ export default {
     },
     attach: "Вложите",
     name: "Наименование",
+    id:"Идентификатор",
     nameRequired: "Введите наименование",
     nameAlreadyExists: "Такое имя уже существует",
     nameShouldNotBeMoreThan: "Не должно быть больше 60 символов",

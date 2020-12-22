@@ -44,6 +44,7 @@
         :useIcons="true"
         mode="inline"
       />
+      <DxColumn data-field="id" :caption="$t('shared.id')" data-type="string"></DxColumn>
       <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
       <DxColumn
         data-field="userName"

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <Header
-      :headerTitle="this.$t('menu.addingEmployee')"
-      :isbackButton="!isCard"
-      :isNew="true"
-    ></Header>
+    <Header :headerTitle="this.$t('menu.addingEmployee')" :isbackButton="!isCard" :isNew="true"></Header>
     <toolbar @saveChanges="handleSubmit" :canSave="true" />
     <DxForm
       ref="form"
@@ -15,29 +11,25 @@
       validation-group="createEmployee"
     >
       <DxGroupItem :caption="$t('translations.fields.personalData')">
-        <DxGroupItem
-          :col-count="5"
-        >
-          <DxSimpleItem
-            template="imageUploader"
-            :col-span="1"
-          >
+        <DxGroupItem :col-count="5">
+          <DxSimpleItem template="imageUploader" :col-span="1">
             <DxLabel location="top" text="Фото" />
           </DxSimpleItem>
-          <DxGroupItem 
-            :col-span="4"
-          >
-              <DxSimpleItem data-field="userName" data-type="string">
+          <DxGroupItem :col-span="4">
+            <DxSimpleItem data-field="userName" data-type="string">
               <DxLabel location="top" :text="$t('translations.fields.userName')" />
-              <DxRequiredRule
-                :message="$t('translations.fields.userNameRequired')"
-              />
+              <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
             </DxSimpleItem>
-            <DxSimpleItem data-field="name">
-              <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-              <DxRequiredRule
-                :message="$t('translations.fields.fullNameRequired')"
-              />
+            <DxSimpleItem data-field="firstName">
+              <DxLabel location="top" :text="$t('translations.fields.firstName')" />
+              <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+            </DxSimpleItem>
+            <DxSimpleItem data-field="lastName">
+              <DxLabel location="top" :text="$t('translations.fields.lastName')" />
+              <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+            </DxSimpleItem>
+            <DxSimpleItem data-field="middleName">
+              <DxLabel location="top" :text="$t('translations.fields.middleName')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
               <DxLabel location="top" />
@@ -53,22 +45,15 @@
         </DxGroupItem>
         <DxSimpleItem :editor-options="passwordOptions" data-field="password">
           <DxLabel location="top" :text="$t('translations.fields.password')" />
-          <DxRequiredRule
-            :message="$t('translations.fields.passwordRequired')"
-          />
+          <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           :editor-options="passwordOptions"
           editor-type="dxTextBox"
           data-field="confirmPassword"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.confirmPassword')"
-          />
-          <DxRequiredRule
-            :message="$t('translations.fields.confirmPasswordRequired')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.confirmPassword')" />
+          <DxRequiredRule :message="$t('translations.fields.confirmPasswordRequired')" />
           <DxCompareRule
             :comparison-target="passwordComparison"
             :message="$t('translations.fields.confirmPasswordRule')"
@@ -81,35 +66,20 @@
           :editor-options="jobTitleOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.jobTitleId')"
-          />
-          <DxRequiredRule
-            :message="$t('translations.fields.jobTitleIdRequired')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+          <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="businessUnitId"
-          template="businessUnitSelectBox"
-        >
+        <DxSimpleItem data-field="businessUnitId" template="businessUnitSelectBox">
           <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
-          <DxRequiredRule
-            :message="$t('document.validation.businessUnitIdRequired')"
-          />
+          <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
           :editor-options="departmentOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.departmentId')"
-          />
-          <DxRequiredRule
-            :message="$t('translations.fields.departmentIdRequired')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="phone">
@@ -117,11 +87,7 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem
-          data-field="note"
-          :editor-options="{ height: 90 }"
-          editor-type="dxTextArea"
-        >
+        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -140,7 +106,7 @@
         <image-uploader
           @valueChanged="(data) => {
             setPhoto(data)
-                      } " 
+                      } "
         />
       </template>
     </DxForm>
@@ -163,7 +129,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule,
+  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -189,7 +155,9 @@ export default {
     return {
       employee: {
         email: null,
-        name: null,
+        firstName: null,
+        lastName: null,
+        middleName: null,
         phone: null,
         jobTitleId: null,
         businessUnitId: null,
@@ -198,7 +166,7 @@ export default {
         userName: null,
         password: null,
         confirmPassword: null,
-        personalPhoto:null,
+        personalPhoto: null
       },
       passwordOptions: {
         mode: "password"
@@ -207,7 +175,7 @@ export default {
         context: this,
         url: dataApi.company.JobTitle,
         filter: ["status", "=", Status.Active]
-      }),
+      })
     };
   },
   computed: {
@@ -229,14 +197,14 @@ export default {
     }
   },
   methods: {
-    setDepartmentId(data){
-      this.employee.departmentId = data
+    setDepartmentId(data) {
+      this.employee.departmentId = data;
     },
-    setPhoto(data){
-      this.employee.personalPhoto = data
+    setPhoto(data) {
+      this.employee.personalPhoto = data;
     },
-    setBusinessUnitId(data){
-      this.employee.businessUnitId = data
+    setBusinessUnitId(data) {
+      this.employee.businessUnitId = data;
     },
     passwordComparison() {
       return this.employee.password;
@@ -250,18 +218,18 @@ export default {
         dataField
       );
     },
-    generateFormData(data){
-      const file = new FormData()
+    generateFormData(data) {
+      const file = new FormData();
       for (const key in data) {
-        if(data[key] !== null){
-          file.append(key,data[key])
+        if (data[key] !== null) {
+          file.append(key, data[key]);
         }
       }
-      return file
+      return file;
     },
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
-      let file = this.generateFormData(this.employee)
+      let file = this.generateFormData(this.employee);
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.company.Employee, file),

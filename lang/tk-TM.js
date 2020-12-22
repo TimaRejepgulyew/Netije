@@ -145,6 +145,7 @@ export default {
     },
     attach: "Goşuň",
     name: "Ady",
+    id: "Kesgitleýji",
     nameRequired: "Adyny giriziň",
     nameAlreadyExists: "Şeýle ady öňden bar",
     nameShouldNotBeMoreThan: "At 60 belgiden uzyn bolmaly däldir",
