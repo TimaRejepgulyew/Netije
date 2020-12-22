@@ -270,15 +270,16 @@ export default {
         useMaskBehavior: true,
         openOnFieldClick: true,
         onValueChanged: e => {
-          console.log(e);
-          this.employee.dateOfAppointment = e.value;
+          let value = new Date(e.value).toJSON();
+          this.employee.dateOfAppointment = value;
         }
       };
     },
     dateOfDismissal() {
       return {
         onValueChanged: e => {
-          this.employee.dateOfDismissal = e.value;
+          let value = new Date(e.value).toJSON();
+          this.employee.dateOfDismissal = value;
         }
       };
     },
@@ -343,7 +344,6 @@ export default {
       );
     },
     generateFormData(data) {
-      console.log(data);
       const file = new FormData();
       function appenFormData(key, value) {
         if (value !== null) {
@@ -368,7 +368,6 @@ export default {
       return file;
     },
     handleSubmit() {
-      console.log(this.employee);
       let res = this.$refs["form"].instance.validate();
       const file = this.generateFormData(this.employee);
       if (!res.isValid) return;
