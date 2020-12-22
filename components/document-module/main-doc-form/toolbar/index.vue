@@ -160,16 +160,20 @@ export default {
     canElExchage() {
       const isOutgoingDocument =
         this.document.documentKind?.documentFlow === DocumentFlow.Outgoing;
-      const canExchangeCorespondent = this.document?.correspondent?.canExchange;
+      const canExchange = this.document.canExchange;
 
-      return (
-        this.isRegistered,
-        isOutgoingDocument &&
-          // !canExchangeCorespondent &&
+      if (
+        (isOutgoingDocument &&
+          !canExchange &&
           this.canUpdate &&
           !this.isNew &&
-          !this.isDataChanged
-      );
+          !this.isDataChanged,
+        this.isRegistered)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];

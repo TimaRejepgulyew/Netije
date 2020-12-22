@@ -1,7 +1,7 @@
 import dataApi from "~/static/dataApi";
 import BaseDocumentStore from "~/infrastructure/models/document-store/Base.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
-
+import docmentKindService from "~/infrastructure/services/documentKind.js";
 export default class ElectronicDocumnent extends BaseDocumentStore {
   constructor(options) {
     const documentRegistrationActions = () => {
@@ -14,7 +14,7 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
           dispatch("loadDocument", data);
         },
         async unRegister({ dispatch, state }) {
-          var { data } = await this.$axios.post(
+          const { data } = await this.$axios.post(
             dataApi.documentRegistration.UnregisterDocument,
             {
               documentTypeGuid: state.document.documentTypeGuid,
@@ -115,12 +115,6 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         }
         state.document.subject = payload;
       },
-      SET_NOTE(state, payload) {
-        if (checkDataChanged(state.document.note, payload)) {
-          state.isDataChanged = true;
-        }
-        state.document.note = payload;
-      }
     };
 
     const actions = {
@@ -151,6 +145,12 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
           );
           commit("REVALUATE_NAME", data);
         }
+      },
+      loadDocument({ commit }, payload) {
+        //  TODO:  Создать функццю глубокого копирования
+        payload.document.documentKind = docmentKindService.emptyDocumentKind();
+        commit("IS_REGISTERED", payload.document.registrationState);
+        commit("SET_DOCUMENT", payload);
       }
     };
     super({ actions, mutations });
