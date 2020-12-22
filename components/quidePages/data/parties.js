@@ -3,7 +3,7 @@ import organizationIcon from "~/static/icons/parties/company.svg";
 import contactIcon from "~/static/icons/quide-page/contact-person.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import personIcon from "~/static/icons/parties/person.svg";
-export default function(context) {
+export default function (context) {
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
@@ -97,6 +97,12 @@ export default function(context) {
           description: context.$t("parties.additionalInfo.countriesDescr"),
           path: "/shared-directory/territorial-structure/countries",
           visible: isVisible(EntityType.Country)
+        },
+        {
+          name: context.$t("parties.additionalInfo.categories"),
+          description: context.$t("parties.additionalInfo.categoriesDescr"),
+          path: "/shared-directory/territorial-structure/categories",
+          visible: true
         }
       ]
     }

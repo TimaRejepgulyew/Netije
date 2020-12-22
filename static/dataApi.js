@@ -35,7 +35,8 @@ export default {
     Bank: `/api/Bank`,
     Person: `/api/Person`,
     CounterPart: `/api/CounterPart`,
-    Contact: `/api/Contact`
+    Contact: `/api/Contact`,
+    Category:"/api/CounterpartCategory"
   },
   exchange: {
     GetExchangeInfoByCounterPartId: "/api/CounterPart/ExchangeInfo",
@@ -115,8 +116,8 @@ export default {
     GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
     GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
   },
-  accessRightRule:{
-    getAccessRightRule:"/api/AccessRightRule"
+  accessRightRule: {
+    getAccessRightRule: "/api/AccessRightRule"
   },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,

@@ -54,8 +54,15 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
-      <DxColumn data-field="categoryId" :caption="$t('shared.category')" data-type="string"></DxColumn>
 
+      <DxColumn data-field="categoryId" :caption="$t('shared.category')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="categoryStore"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
       <DxColumn
         data-field="headCompanyId"
         :caption="$t('parties.fields.headCompanyId')"
@@ -177,6 +184,10 @@ export default {
         insertUrl: dataApi.contragents.Company,
         updateUrl: dataApi.contragents.Company,
         removeUrl: dataApi.contragents.Company
+      }),
+      categoryStore: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.contragents.Category
       }),
       bankStore: this.$dxStore({
         key: "id",

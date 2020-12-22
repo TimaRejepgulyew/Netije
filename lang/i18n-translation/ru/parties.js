@@ -21,7 +21,9 @@ export default {
     regions: "Банки",
     regionsDescr: "Открытие справочника банков-контрагентов.",
     countries: "Страны",
-    countriesDescr: "Открытие справочника стран."
+    countriesDescr: "Открытие справочника стран.",
+    categories: "Категории контрагентов",
+    categoriesDescr: "Открытие справочника категорий контрагентов",
   },
   contactPerson: {
     title: "Контактные лица",

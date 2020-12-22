@@ -94,6 +94,13 @@
         <DxSimpleItem data-field="legalAddress">
           <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
         </DxSimpleItem>
+        <DxSimpleItem
+          :editor-options="categoryIdOptions"
+          editor-type="dxSelectBox"
+          data-field="categoryId"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.category')" />
+        </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
           <DxLabel location="top" :text="$t('translations.fields.nonresident')" />
         </DxSimpleItem>
@@ -236,6 +243,14 @@ export default {
         useMaskBehavior: true,
         openOnFieldClick: true
       };
+    },
+    categoryIdOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.Category
+        })
+      };
     }
   },
   methods: {
@@ -296,6 +311,6 @@ export default {
         }
       );
     }
-  },
+  }
 };
 </script>

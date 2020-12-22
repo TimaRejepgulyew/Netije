@@ -64,7 +64,6 @@
 
         <DxSimpleItem data-field="email">
           <DxLabel location="top" />
-
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="code">
@@ -96,6 +95,13 @@
         </DxSimpleItem>
         <DxSimpleItem data-field="legalAddress">
           <DxLabel location="top" :text="$t('translations.fields.legalAddress')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :editor-options="categoryIdOptions"
+          editor-type="dxSelectBox"
+          data-field="categoryId"
+        >
+          <DxLabel location="top" :text="$t('translations.fields.category')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="nonresident" editor-type="dxCheckBox">
           <DxLabel location="left" :text="$t('translations.fields.nonresident')" />
@@ -212,6 +218,14 @@ export default {
         onValueChanged: () => {
           this.company.localityId = null;
         }
+      };
+    },
+    categoryIdOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.contragents.Category
+        })
       };
     },
     localityOptions() {

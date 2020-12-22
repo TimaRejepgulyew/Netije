@@ -64,7 +64,14 @@
         :caption="$t('translations.fields.middleName')"
         data-type="string"
       ></DxColumn>
-
+      <DxColumn data-field="categoryId" :caption="$t('shared.category')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="categoryStore"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
       <DxColumn
         data-field="dateOfBirth"
         :caption="$t('translations.fields.dateOfBirth')"
@@ -175,6 +182,10 @@ export default {
         insertUrl: dataApi.contragents.Person,
         updateUrl: dataApi.contragents.Person,
         removeUrl: dataApi.contragents.Person
+      }),
+      categoryStore: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.contragents.Category
       }),
       entityType: EntityType.Counterparty,
       statusDataSource: this.$store.getters["status/status"](this),

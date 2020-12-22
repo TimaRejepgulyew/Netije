@@ -236,6 +236,7 @@ export default {
       dateOfBirth: "Дата рождения",
       dateOfBirthRequired: "Выберите дату рождения",
       sex: "Пол",
+      category:"Категория",
       APN: "Должность, место работы и номер телефона",
       legalAddress: "Юридический адрес",
       postAddress: "Почтовый адрес",

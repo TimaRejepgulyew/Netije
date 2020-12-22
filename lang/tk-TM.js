@@ -235,6 +235,7 @@ export default {
       dateOfBirth: "Doglan senesi",
       dateOfBirthRequired: "Doglan senesini giriziň",
       sex: "jynsy",
+      category: "Kategoriýa",
       APN: "Wezipesi, iş orny we telefon belgisi (APN)",
       legalAddress: "Hukuk salgysy",
       postAddress: "Poçta salgysy",
