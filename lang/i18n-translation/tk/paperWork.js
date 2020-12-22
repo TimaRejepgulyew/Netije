@@ -31,6 +31,6 @@ export default {
         Inner: "Içki",
         endDateRequired: "Soňlaýjy senäni saýlaň",
         startDateRequired: "Başlangyç senäni saýlaň",
-        saveBtn: "Ýatda saklatmak"
+        saveBtn: "Düzmek"
     }
 }

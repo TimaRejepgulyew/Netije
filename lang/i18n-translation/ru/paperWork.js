@@ -31,6 +31,6 @@ export default {
         Inner: "Внутренний",
         endDateRequired: "Выберите конец",
         startDateRequired: "Выберите начало",
-        saveBtn: "Сохранить"
+        saveBtn: "Сформировать"
     }
 }
