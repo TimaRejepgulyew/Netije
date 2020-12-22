@@ -27,8 +27,8 @@ export default {
         endDate: "Tamamlanan senesi",
         journal: "Zurnal",
         Incoming: "Giriş",
-        Outcoming: "Çykyş",
-        Inner: "Içki",
+        Outgoing: "Çykyş",
+        Internal: "Içki",
         endDateRequired: "Soňlaýjy senäni saýlaň",
         startDateRequired: "Başlangyç senäni saýlaň",
         saveBtn: "Düzmek"
