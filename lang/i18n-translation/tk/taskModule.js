@@ -12,11 +12,10 @@ export default {
   },
   addNewAssineers: "Ýerine ýetirijileri goşuň",
   quickFilter: {
-    All: "Hemmesi",
-    InProcess: "Işjeň ýagdaýda",
-    Expired: "Möhleti geçen",
-    MonthAgo: "30 gün",
-    Today: "Şu gün"
+    all: "Hemmesi",
+    inProcess: "Işjeň ýagdaýda",
+    expired: "Möhleti geçen",
+    monthAgo: "30 gün"
   },
   confirm: {
     abortingReason: "Gutarmagyň sebäbi"
@@ -54,7 +53,7 @@ export default {
     author: "Dörediji",
     assignedBy: "Berdi",
     parallel: "Parallel",
-    gradually: "biri-biriniň yzyndan",
+    gradually: "Biri-biriniň yzyndan",
     performers: "Ýerine ýetirijiler",
     start: "Başla",
     addressee: "Barmaly ýeri",
@@ -67,7 +66,9 @@ export default {
     needsReview: "Göz astynda",
     deadLine: "Soňky senesi",
     isElectronicAcquaintance: "Elektron görnüşinde tanyşmak",
-    observers: "Gözegçiler",
+    observers: "Gözegçiler",  
+
+    
     acquaintMembers: "Kime tanyşdyrmaly",
     excludedPerformers: "Mundan başga",
     comment: "Teswir",
