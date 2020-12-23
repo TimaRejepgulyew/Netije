@@ -20,7 +20,9 @@ import paperWork from "~/lang/i18n-translation/tk/paperWork.js";
 import docFlow from "~/lang/i18n-translation/tk/docFlow.js";
 import buttons from "~/lang/i18n-translation/tk/buttons.js";
 import malwareScanResults from "~/lang/i18n-translation/tk/malwareScanResults.js";
+import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
 export default {
+  onlineUsers,
   malwareScanResults,
   scanner,
   paperWork,
@@ -31,6 +33,7 @@ export default {
   administration,
   documentSendAction,
   licensing,
+  notificationMessage: "Habarnama",
   status: {
     active: "Işjeň",
     closed: "Ýapyk"
@@ -138,6 +141,8 @@ export default {
     },
     attach: "Goşuň",
     name: "Ady",
+    id: "Kesgitleýji",
+    category: "Kategoriýa",
     nameRequired: "Adyny giriziň",
     nameAlreadyExists: "Şeýle ady öňden bar",
     nameShouldNotBeMoreThan: "At 60 belgiden uzyn bolmaly däldir",
@@ -226,6 +231,7 @@ export default {
       dateOfBirth: "Doglan senesi",
       dateOfBirthRequired: "Doglan senesini giriziň",
       sex: "jynsy",
+      category: "Kategoriýa",
       APN: "Wezipesi, iş orny we telefon belgisi (APN)",
       legalAddress: "Hukuk salgysy",
       postAddress: "Poçta salgysy",
@@ -233,6 +239,9 @@ export default {
       userName: "Ulanyjynyň ady (Login)",
       userNameRequired: "Ulanyjynyň loginini giriziň",
       email: "email",
+      photo: "Surat",
+      dateOfAppointment: "Işe giren wagt",
+      dateOfDismissal: "Işden çykan wagt",
       emailRule: "email ýalňyş girizildi",
       emailAlreadyExists: "Şeýle email öňden bar",
       webSite: "Web-saýt",

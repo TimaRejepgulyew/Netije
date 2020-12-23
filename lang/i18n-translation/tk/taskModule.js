@@ -3,7 +3,7 @@ export const TaskType = {
   AcquaintanceTask: "Resminama bilen tanyşmak ýumuşy",
   ActionItemExecutionTask: "Tabşyrygy ýerine ýetirmek üçin ýumuşy",
   DocumentReviewTask: "Resminamany gözden geçirmek ýumuşy",
-  FreeApprovalTask: "Ekrin ylalyşyk ýumuşy"
+  FreeApprovalTask: "Erkin ylalyşyk ýumuşy"
 };
 export default {
   compoundActionItem: "Birleşdirilen tabşyryk",
@@ -12,10 +12,11 @@ export default {
   },
   addNewAssineers: "Ýerine ýetirijileri goşuň",
   quickFilter: {
-    all: "Hemmesi",
-    inProcess: "Işjeň ýagdaýda",
-    expired: "Möhleti geçen",
-    monthAgo: "30 gün"
+    All: "Hemmesi",
+    InProcess: "Işjeň ýagdaýda",
+    Expired: "Möhleti geçen",
+    MonthAgo: "30 gün",
+    Today: "Şu gün"
   },
   confirm: {
     abortingReason: "Gutarmagyň sebäbi"
@@ -52,7 +53,7 @@ export default {
     status: "Ýagdaýy",
     author: "Dörediji",
     assignedBy: "Berdi",
-    parallel: "Paralel",
+    parallel: "Parallel",
     gradually: "biri-biriniň yzyndan",
     performers: "Ýerine ýetirijiler",
     start: "Başla",
