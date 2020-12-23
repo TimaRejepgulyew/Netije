@@ -1,4 +1,5 @@
 export default {
+  manual: "Руководство",
   edit: "Редактировать",
   confirm: "Потвердите",
   diactivate: "Завершить сеанс",

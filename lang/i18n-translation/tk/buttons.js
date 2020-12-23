@@ -1,4 +1,5 @@
 export default {
+  manual: "Gollanma",
   edit: "Ütgetmek",
   confirm: "Tassyklaň!",
   createChildTask: "Goşundy ýumuş",
