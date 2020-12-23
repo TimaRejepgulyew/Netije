@@ -23,7 +23,9 @@ import malwareScanResults from "~/lang/i18n-translation/tk/malwareScanResults.js
 import reports from "~/lang/i18n-translation/tk/reports.js";
 import exchange from "~/lang/i18n-translation/tk/exchange.js";
 import searching from "~/lang/i18n-translation/tk/searchingPanel.js";
+import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
 export default {
+  onlineUsers,
   exchange,
   searching,
   malwareScanResults,
