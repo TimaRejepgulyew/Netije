@@ -44,11 +44,11 @@ import formByType from "../../../infrastructure/mixins/form-types";
 import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
 export default {
-  name: "review-assignment",
+  name: "acquaintance-finish-assignment",
   mixins: [formByType],
   components: {
     Toolbar,
-    AdditionalInfo
+    AdditionalInfo,
   },
 };
 </script>
