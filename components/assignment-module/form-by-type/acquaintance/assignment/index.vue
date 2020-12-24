@@ -27,8 +27,7 @@
       <DxGroupItem template="attachments" :col-span="3" />
       <template #description>
         <div>
-          dawdawdaw
-          <Description :assignmentId="assignmentId" />
+          <Descriptions :assignmentId="assignmentId"></Descriptions>
         </div>
       </template>
       <template #info>
@@ -49,7 +48,7 @@
 </template>
 <script>
 import formByType from "../../../infrastructure/mixins/form-types";
-import Description from "./components/description.vue";
+import Descriptions from "./components/description.vue";
 import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
 export default {
@@ -58,7 +57,7 @@ export default {
   components: {
     Toolbar,
     AdditionalInfo,
-    Description,
+    Descriptions,
   },
 };
 </script>
