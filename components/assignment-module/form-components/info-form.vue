@@ -5,7 +5,6 @@
       :form-data.sync="assignment"
       :show-colon-after-label="true"
       :show-validation-summary="true"
-      :validation-group="assignmentValidatorName"
     >
       <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
         <DxLabel location="left" :text="$t('assignment.fields.subject')" />
@@ -61,7 +60,6 @@ export default {
   },
   name: "info-form",
   props: ["assignmentId"],
-  inject: ["assignmentValidatorName", "isValidForm"],
   computed: {
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
@@ -86,14 +84,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.comments {
-  overflow: auto;
-  max-height: 50vh;
-}
-@media screen and (min-device-height: 910px) {
-  .comments {
-    max-height: 60vh;
-  }
-}
-</style>

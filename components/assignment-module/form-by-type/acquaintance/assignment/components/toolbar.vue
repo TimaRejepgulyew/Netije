@@ -15,7 +15,7 @@
       />
 
       <template #createChildTask>
-        <slot name="createChildTask"  />
+        <slot name="createChildTask" />
       </template>
       <DxItem location="after" template="importanceIndicator" />
       <template #importanceIndicator>
@@ -33,15 +33,15 @@ export default {
     btnOptions() {
       return {
         icon: "check",
-        text: this.$t("buttons.complete"),
+        text: this.$t("buttons.acquaintance"),
         onClick: async () => {
           if (this.isValidForm()) {
             const response = await this.confirm(
-              this.$t("assignment.confirmMessage.sureComplete"),
+              this.$t("assignment.confirmMessage.sureAcquaintance"),
               this.$t("shared.confirm")
             );
             if (response) {
-              this.setResult(ReviewResult.Complete);
+              this.setResult(assignmentResult.Acquainted);
               this.completeAssignment();
             }
           }

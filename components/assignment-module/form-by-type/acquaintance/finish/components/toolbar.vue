@@ -7,6 +7,7 @@
         location="before"
         widget="dxButton"
       />
+
       <DxItem
         :visible="inProcess"
         locateInMenu="auto"
@@ -15,7 +16,7 @@
       />
 
       <template #createChildTask>
-        <slot name="createChildTask"  />
+        <slot name="createChildTask" />
       </template>
       <DxItem location="after" template="importanceIndicator" />
       <template #importanceIndicator>
@@ -37,11 +38,11 @@ export default {
         onClick: async () => {
           if (this.isValidForm()) {
             const response = await this.confirm(
-              this.$t("assignment.confirmMessage.sureComplete"),
+              this.$t("assignment.confirmMessage.sureFinishAcquaintance"),
               this.$t("shared.confirm")
             );
             if (response) {
-              this.setResult(ReviewResult.Complete);
+              this.setResult(ReviewResult.Accept);
               this.completeAssignment();
             }
           }

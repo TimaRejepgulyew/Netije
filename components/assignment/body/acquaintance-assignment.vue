@@ -19,9 +19,6 @@ export default {
   mixins: [bodyMixin],
   data() {
     return {
-      // validationmMesssage: this.$t(
-      //   "assignment.validation.acquaintanceAssignmentRequired"
-      // ),
       placeholder: this.$t("assignment.body.acquaintanceAssignment"),
       isRequired: false,
     };

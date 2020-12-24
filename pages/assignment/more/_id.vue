@@ -8,11 +8,12 @@
 
 <script>
 import { load } from "~/infrastructure/services/assignmentService.js";
-import assignmentCard from "~/components/assignment/index.vue";
+import assignmentCard from "~/components/assignment-module/main-form.vue";
+// import assignmentCard from "~/components/assignment/index.vue";
 
 export default {
   components: {
-    assignmentCard
+    assignmentCard,
   },
   async asyncData({ app, params, router, $axios }) {
     await load({ $store: app.store, $axios }, +params.id);
@@ -20,7 +21,7 @@ export default {
   methods: {
     backToRoute() {
       this.$router.go(-1);
-    }
-  }
+    },
+  },
 };
 </script>

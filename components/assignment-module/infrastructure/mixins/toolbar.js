@@ -1,12 +1,11 @@
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import dataApi from "~/static/dataApi.js";
-import createChildTaskBtn from "~/components/assignment/components/create-children-task-btn.vue";
+
 export default {
   components: {
     DxToolbar,
     DxItem,
-    createChildTaskBtn
   },
   props: ["assignmentId"],
   inject: ["isValidForm", "assignmentValidatorName"],

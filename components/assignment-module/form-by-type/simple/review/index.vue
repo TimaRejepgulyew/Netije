@@ -20,9 +20,7 @@
     >
       <DxGroupItem :col-span="7" :col-count="4">
         <DxGroupItem template="info" :col-span="4"> </DxGroupItem>
-        <!-- <DxGroupItem template="description" :col-span="2"> </DxGroupItem> -->
         <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>
-        <DxGroupItem template="additional-info" :col-span="4"> </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem template="attachments" :col-span="3" />
       <template #info>
@@ -32,9 +30,6 @@
       <template #thread-texts>
         <slot name="thread-texts" />
       </template>
-      <template #additional-info>
-        <Additional-info :assignmentId="assignmentId" />
-      </template>
       <template #attachments>
         <slot name="attachments" />
       </template>
@@ -43,14 +38,12 @@
 </template>
 <script>
 import formByType from "../../../infrastructure/mixins/form-types";
-import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
 export default {
-  name: "simple-assignment",
+  name: "review-assignment",
   mixins: [formByType],
   components: {
     Toolbar,
-    AdditionalInfo,
   },
 };
 </script>

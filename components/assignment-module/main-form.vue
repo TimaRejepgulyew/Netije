@@ -1,5 +1,5 @@
 <template>
-  <form class="d-flex">
+  <form>
     <Header
       :isbackButton="!isCard"
       :showTitle="!isCard"
@@ -12,67 +12,59 @@
       :assignmentId="assignmentId"
       :isCard="isCard"
     >
+      <CreateChildTaskBtn
+        slot="createChildTask"
+        :parentAssignmentId="assignmentId"
+      />
       <important-indicator
         tag="span"
         slot="importanceIndicator"
         v-if="isImportant"
         :isImportant="isImportant"
       ></important-indicator>
+      <Info slot="info" :assignmentId="assignmentId" />
+      <thread-texts
+        slot="thread-texts"
+        :isRefreshing="threadTextsResreshTracker"
+        @refreshed="() => changeThreadTextsResreshTracker(false)"
+        class="comments"
+        :id="assignmentId"
+        entityType="assignment"
+      ></thread-texts>
+      <attachment
+        slot="attachments"
+        :assignmentId="assignmentId"
+        @detach="detach"
+        @pasteAttachment="pasteAttachment"
+        @reloadAttachment="reload"
+        :attachmentGroups="attachmentGroups"
+      />
     </simple-assignment>
-
-    <thread-texts
-      slot="thread-texts"
-      :isRefreshing="threadTextsResreshTracker"
-      @refreshed="() => changeThreadTextsResreshTracker(false)"
-      class="comments"
-      :id="assignmentId"
-      entityType="assignment"
-    ></thread-texts>
-
-    <attachment
-      slot="attachment"
-      :assignmentId="assignmentId"
-      @detach="detach"
-      @pasteAttachment="pasteAttachment"
-      @reloadAttachment="reload"
-      :attachmentGroups="attachmentGroups"
-    />
   </form>
 </template>
 <script>
+import CreateChildTaskBtn from "~/components/assignment/components/create-children-task-btn.vue";
+import Info from "./form-components/info-form.vue";
 import { unload } from "~/infrastructure/services/assignmentService.js";
-import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
 import Importance from "~/infrastructure/constants/assignmentImportance.js";
-
-
-
-
 import Header from "~/components/page/page__header";
-import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-import "devextreme-vue/text-area";
 import dataApi from "~/static/dataApi";
-import DxForm, {
-  DxGroupItem,
-  DxSimpleItem,
-  DxLabel,
-} from "devextreme-vue/form";
+import DxForm, { DxGroupItem } from "devextreme-vue/form";
 export default {
   components: {
+    simpleAssignment: () =>
+      import("./form-by-type/acquaintance/finish/index.vue"),
     threadTexts: () =>
       import("~/components/workFlow/thread-text/thread-texts.vue"),
     attachment: () => import("~/components/workFlow/attachment/index.vue"),
+    Info,
     Header,
     importantIndicator,
+    CreateChildTaskBtn,
   },
   name: "assignment",
   props: ["assignmentId", "isCard"],
-  provide: function () {
-    return {
-      assignmentValidatorName: this.assignmentValidatorName,
-      isValidForm: this.validateForm,
-    };
-  },
   destroyed() {
     this.onClosed();
     unload(this, this.assignmentId);
@@ -80,43 +72,17 @@ export default {
   data() {
     return {
       threadTextsResreshTracker: false,
-      assignmentValidatorName: `assignment/${this.assignmentId}`,
     };
   },
   computed: {
-
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
-    },
-    canUpdate() {
-      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
-    },
-    performerId() {
-      return this.assignment.performerId;
-    },
-    authorId() {
-      return this.assignment.authorId;
-    },
-    subjectOptions() {
-      return {
-        readOnly: true,
-      };
-    },
-    dateTimeOptions() {
-      return {
-        readOnly: true,
-        type: "datetime",
-      };
-    },
-
-    inProcess() {
-      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
     },
     isImportant() {
       return this.assignment.importance === Importance.High;
     },
     headerTitle() {
-      return this.assignment.subject;
+      return this.assignment?.subject;
     },
     attachmentGroups() {
       return this.assignment.attachmentGroups;
@@ -134,13 +100,6 @@ export default {
     },
     onComplete(res) {
       this.changeThreadTextsResreshTracker(true);
-    },
-    validateForm() {
-      if (this.$refs["form"].instance.validate().isValid) {
-        return true;
-      } else {
-        return false;
-      }
     },
     reload() {
       this.$store.dispatch(`assignments/${this.assignmentId}/reload`);

@@ -9,13 +9,20 @@
       />
       <DxItem
         :visible="inProcess"
+        :options="reworkBtnOptions"
+        location="before"
+        widget="dxButton"
+      />
+
+      <DxItem
+        :visible="inProcess"
         locateInMenu="auto"
         template="createChildTask"
         location="before"
       />
 
       <template #createChildTask>
-        <slot name="createChildTask"  />
+        <slot name="createChildTask" />
       </template>
       <DxItem location="after" template="importanceIndicator" />
       <template #importanceIndicator>
@@ -33,16 +40,40 @@ export default {
     btnOptions() {
       return {
         icon: "check",
-        text: this.$t("buttons.complete"),
+        text: this.$t("buttons.accept"),
         onClick: async () => {
           if (this.isValidForm()) {
             const response = await this.confirm(
-              this.$t("assignment.confirmMessage.sureComplete"),
+              this.$t("assignment.confirmMessage.sureAccept"),
               this.$t("shared.confirm")
             );
             if (response) {
-              this.setResult(ReviewResult.Complete);
+              this.setResult(ReviewResult.Accept);
               this.completeAssignment();
+            }
+          }
+        },
+      };
+    },
+    reworkBtnOptions() {
+      return {
+        icon: "undo",
+        text: this.$t("buttons.rework"),
+        onClick: async () => {
+          if (this.isValidForm()) {
+            const response = await this.confirm(
+              this.$t("assignment.confirmMessage.sureRework"),
+              this.$t("shared.confirm")
+            );
+            if (response) {
+              this.setResult(ReviewResult.ReviewAssignment.ForRework);
+              await this.completeAssignment();
+              const { taskId } = this.$store.getters[
+                `assignments/${this.assignmentId}/assignment`
+              ];
+              this.$router.push(
+                `/task/detail/${TaskType.SimpleTask}/${taskId}`
+              );
             }
           }
         },

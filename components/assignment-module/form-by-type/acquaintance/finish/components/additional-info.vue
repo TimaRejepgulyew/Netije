@@ -1,6 +1,6 @@
 <template>
   <DxTextArea
-    v-if="inProcess&& canUpdate"
+    v-if="inProcess && canUpdate"
     :placeholder="placeholder"
     :height="height"
     :max-length="maxLength"
@@ -14,15 +14,17 @@
 </template>
 
 <script>
-import bodyMixin from "./bodyMixin.js";
+import additionalInfo from "../../../../infrastructure/mixins/additionalnfo.js";
+
 export default {
-  mixins: [bodyMixin],
+  mixins: [additionalInfo],
   data() {
     return {
-      
       placeholder: this.$t("assignment.body.acquaintanceFinishAssignment"),
       isRequired: false,
     };
   },
 };
 </script>
+
+
