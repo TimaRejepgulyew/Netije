@@ -54,9 +54,7 @@ import DxForm, { DxGroupItem } from "devextreme-vue/form";
 export default {
   components: {
     simpleAssignment: () =>
-      import(
-        "./form-by-type/document-review/review-resolution/index.vue"
-      ),
+      import("./form-by-type/free-approval/assignment/index.vue"),
     threadTexts: () =>
       import("~/components/workFlow/thread-text/thread-texts.vue"),
     attachment: () => import("~/components/workFlow/attachment/index.vue"),

@@ -30,25 +30,26 @@
 import approveDialog from "./dialog.vue";
 import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
-
+import { DxPopup } from "devextreme-vue/popup";
 import addApproverBtnIcon from "~/static/icons/assignment-result/addApprover.svg";
 export default {
   components: {
     DxButton,
-    approveDialog
+    DxPopup,
+    approveDialog,
   },
   props: ["assignmentId"],
   data() {
     return {
       addApproverBtnIcon,
-      openDialog: false
+      openDialog: false,
     };
   },
   methods: {
     toggleDialog() {
       this.openDialog = !this.openDialog;
-    }
-  }
+    },
+  },
 };
 </script>
 
