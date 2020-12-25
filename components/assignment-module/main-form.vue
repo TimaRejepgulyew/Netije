@@ -55,7 +55,7 @@ export default {
   components: {
     simpleAssignment: () =>
       import(
-        "./form-by-type/document-review/review-draft-resolution/index.vue"
+        "./form-by-type/document-review/review-resolution/index.vue"
       ),
     threadTexts: () =>
       import("~/components/workFlow/thread-text/thread-texts.vue"),

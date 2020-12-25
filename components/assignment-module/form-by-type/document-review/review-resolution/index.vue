@@ -20,16 +20,10 @@
     >
       <DxGroupItem :col-span="7" :col-count="4">
         <DxGroupItem template="info" :col-span="4"> </DxGroupItem>
-        <DxGroupItem template="description" :col-span="4"> </DxGroupItem>
         <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>
         <DxGroupItem template="additional-info" :col-span="4"> </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem template="attachments" :col-span="3" />
-      <template #description>
-        <div>
-          <Descriptions :assignmentId="assignmentId"></Descriptions>
-        </div>
-      </template>
       <template #info>
         <slot name="info"></slot>
       </template>
@@ -48,16 +42,14 @@
 </template>
 <script>
 import formByType from "../../../infrastructure/mixins/form-types";
-import Descriptions from "./components/description.vue";
 import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
 export default {
-  name: "review-draft-resolution-assignment",
+  name: "review-resolution-assignment",
   mixins: [formByType],
   components: {
     Toolbar,
     AdditionalInfo,
-    Descriptions,
   },
 };
 </script>

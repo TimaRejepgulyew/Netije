@@ -52,7 +52,7 @@ import Descriptions from "./components/description.vue";
 import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
 export default {
-  name: "review-draft-resolution-assignment",
+  name: "review-manager-assignment",
   mixins: [formByType],
   components: {
     Toolbar,
