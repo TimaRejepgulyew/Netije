@@ -54,7 +54,7 @@ import DxForm, { DxGroupItem } from "devextreme-vue/form";
 export default {
   components: {
     simpleAssignment: () =>
-      import("./form-by-type/free-approval/assignment/index.vue"),
+      import("./form-by-type/free-approval/rework/index.vue"),
     threadTexts: () =>
       import("~/components/workFlow/thread-text/thread-texts.vue"),
     attachment: () => import("~/components/workFlow/attachment/index.vue"),
@@ -128,10 +128,7 @@ export default {
 };
 </script>
 <style scoped>
-.comments {
-  overflow: auto;
-  max-height: 50vh;
-}
+
 @media screen and (min-device-height: 910px) {
   .comments {
     max-height: 60vh;

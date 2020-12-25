@@ -34,15 +34,12 @@
 </template>
 
 <script>
-import bodyMixin from "./bodyMixin.js";
-import {
-  DxDateBox,
-  DxButton as DxDateBoxButton
-} from "devextreme-vue/date-box";
+import { DxDateBox } from "devextreme-vue/date-box";
+import additionalInfo from "../../../../infrastructure/mixins/additionalnfo.js";
 export default {
-  mixins: [bodyMixin],
+  mixins: [additionalInfo],
   components: {
-    DxDateBox
+    DxDateBox,
   },
   data() {
     return {
@@ -50,7 +47,7 @@ export default {
         `assignments/${this.assignmentId}/assignment`
       ].newDeadline,
       placeholder: this.$t("assignment.body.freeApprovalAssignment"),
-      isRequired: false
+      isRequired: false,
     };
   },
   methods: {
@@ -59,8 +56,8 @@ export default {
         `assignments/${this.assignmentId}/SET_NEW_DEADLINE`,
         e.value
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -69,3 +66,5 @@ export default {
   padding: 15px 15px;
 }
 </style>
+
+
