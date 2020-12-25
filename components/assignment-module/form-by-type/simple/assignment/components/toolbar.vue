@@ -15,7 +15,7 @@
       />
 
       <template #createChildTask>
-        <slot name="createChildTask"  />
+        <slot name="createChildTask" />
       </template>
       <DxItem location="after" template="importanceIndicator" />
       <template #importanceIndicator>
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import ReviewResult from "../infrastructure.js";
+import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {
   mixins: [toolbarMixin],

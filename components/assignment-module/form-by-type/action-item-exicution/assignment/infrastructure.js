@@ -1,3 +1,3 @@
-export const ReviewResult = {
-  Acquainted: 0
+export const ReviewResultconst  = {
+  Complete: 0
 };

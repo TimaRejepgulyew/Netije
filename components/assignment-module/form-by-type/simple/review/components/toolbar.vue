@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-import ReviewResult from "../infrastructure.js";
+import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {
   mixins: [toolbarMixin],

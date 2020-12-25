@@ -20,8 +20,8 @@ export default {
   mixins: [additionalInfo],
   data() {
     return {
-      placeholder: this.$t("assignment.body.acquaintanceAssignment"),
-      isRequired: false,
+      placeholder: this.$t("assignment.body.actionAtiemExecution"),
+      isRequired: true,
     };
   },
 };
