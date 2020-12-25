@@ -15,7 +15,6 @@
 
 <script>
 import additionalInfo from "../../../../infrastructure/mixins/additionalnfo.js";
-
 export default {
   mixins: [additionalInfo],
   data() {

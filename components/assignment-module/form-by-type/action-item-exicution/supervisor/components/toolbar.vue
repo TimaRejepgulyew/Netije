@@ -19,8 +19,9 @@
         template="createChildTask"
         location="before"
       />
+
       <template #createChildTask>
-        <createChildTaskBtn :parentAssignmentId="assignmentId" />
+        <slot name="createChildTask" />
       </template>
       <DxItem location="after" template="importanceIndicator" />
       <template #importanceIndicator>
@@ -30,14 +31,11 @@
   </div>
 </template>
 <script>
-import ReviewResult from "~/infrastructure/constants/assignmentResult.js";
-import toolbarMixin from "~/mixins/assignment/assignment-toolbar.js";
+import { ReviewResult } from "../infrastructure.js";
+import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {
   mixins: [toolbarMixin],
   computed: {
-    inProcess() {
-      return this.$store.getters[`assignments/${this.assignmentId}/inProcess`];
-    },
     btnOptions() {
       return {
         icon: "check",
@@ -55,7 +53,7 @@ export default {
               this.completeAssignment();
             }
           }
-        }
+        },
       };
     },
     reworkBtnOptions() {
@@ -75,10 +73,10 @@ export default {
               this.completeAssignment();
             }
           }
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

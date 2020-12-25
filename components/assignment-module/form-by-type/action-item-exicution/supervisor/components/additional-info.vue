@@ -1,13 +1,12 @@
 <template>
   <div>
     <div class="d-flex align-center">
-      <label
-        class="control__label align-content-center"
-        for="newDeadLine"
-      >{{$t("assignment.fields.newDeadline")}}</label>
+      <label class="control__label align-content-center" for="newDeadLine">{{
+        $t("assignment.fields.newDeadline")
+      }}</label>
       <div class="f-grow-1">
         <DxDateBox
-          :readOnly="!inProcess|| !canUpdate"
+          :readOnly="!inProcess || !canUpdate"
           :useMaskBehavior="true"
           :openOnFieldClick="true"
           type="datetime"
@@ -35,24 +34,21 @@
 </template>
 
 <script>
+import additionalInfo from "../../../../infrastructure/mixins/additionalnfo.js";
+import { DxDateBox } from "devextreme-vue/date-box";
 const millisecondsInDay = 24 * 60 * 60 * 1000;
-import bodyMixin from "./bodyMixin.js";
-import {
-  DxDateBox,
-} from "devextreme-vue/date-box";
 export default {
-  mixins: [bodyMixin],
   components: {
     DxDateBox,
   },
+  mixins: [additionalInfo],
   data() {
     return {
       newDeadline: this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
       ].newDeadline,
-      // validationMessage: $t("assignment.validation.actionItemRequired"),
-      placeholder: this.$t("assignment.body.actionItemSupervisorAssignment"),
-      isRequired: false,
+      placeholder: this.$t("assignment.body.actionAtiemExecution"),
+      isRequired: true,
       todayButton: {
         text: "Today",
         onClick: () => {
@@ -64,7 +60,6 @@ export default {
       },
     };
   },
-
   methods: {
     newDeadlineChanged(e) {
       this.$store.commit(
@@ -75,9 +70,11 @@ export default {
   },
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 .control__label {
   display: block;
   padding: 15px 15px;
 }
 </style>
+
+

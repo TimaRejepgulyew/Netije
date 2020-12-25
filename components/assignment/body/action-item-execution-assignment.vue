@@ -19,7 +19,6 @@ export default {
   mixins: [bodyMixin],
   data() {
     return {
-      // validationMessage: $t("assignment.validation.actionItemRequired"),
       placeholder: this.$t("assignment.body.actionAtiemExecution"),
       isRequired: true,
     };

@@ -1,3 +1,4 @@
 export const ReviewResult = {
-  Complete: 0
+  Accept: 0,
+  ForRework: 1
 };

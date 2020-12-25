@@ -49,7 +49,7 @@ import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import dataApi from "~/static/dataApi";
 import CreateOutgoingLetterBtn from "~/components/assignment/components/create-outgoing-letter-btn.vue";
 import CreateSubTaskActionItemBtn from "~/components/assignment/components/create-sub-task-action-item-btn.vue";
-import ReviewResult from "../infrastructure.js";
+import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {
   components: {
