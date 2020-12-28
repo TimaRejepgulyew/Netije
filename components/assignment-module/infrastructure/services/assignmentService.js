@@ -6,7 +6,6 @@ const assignmentModules = new StoreModule({
   storeTemplate: assignmentStoreTemplate
 });
 
-
 export async function load(context, assignmentId) {
   if (!assignmentModules.hasModule(assignmentId)) {
     assignmentModules.registerModule(context, assignmentId);

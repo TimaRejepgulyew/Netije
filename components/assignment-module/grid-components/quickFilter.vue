@@ -11,31 +11,31 @@
 
 <script>
 import QuickFilter from "~/components/quick-filter/index.vue";
-import QuiсkFilterGuid from "~/infrastructure/constants/quickFilter/assignmentQuickFilter.js";
-import AssignmentQuickFilterModel from "~/infrastructure/models/quickFilter/assignment.js";
+import QuiсkFilterGuid from "../infrastructure/constans/quickFilter";
+import AssignmentQuickFilterModel from "../infrastructure/models/QuickFilter";
 export default {
   components: { QuickFilter },
   props: ["assignmentQuery"],
   data() {
     return {
-      defaultFilter: QuiсkFilterGuid.InProcess
+      defaultFilter: QuiсkFilterGuid.InProcess,
     };
   },
   computed: {
     QuiсkFilterItems() {
       return Object.values(new AssignmentQuickFilterModel(this).getAll()).map(
-        item => {
+        (item) => {
           item.hint = item.text;
           return item;
         }
       );
-    }
+    },
   },
   methods: {
     valueChanged(data) {
       this.$emit("valueChanged", data);
-    }
-  }
+    },
+  },
 };
 </script>
 

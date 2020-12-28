@@ -44,15 +44,16 @@
   </form>
 </template>
 <script>
-import AssignmentFormComponent from "./form-by-type/free-approval/AssignmentFormComponent.js";
-import CreateChildTaskBtn from "~/components/assignment/components/create-children-task-btn.vue";
-import Info from "./form-components/info-form.vue";
-import { unload } from "~/infrastructure/services/assignmentService.js";
-import importantIndicator from "~/components/assignment/impartant-indicator.vue";
-import Importance from "~/infrastructure/constants/taskImportance.js";
+import DxForm, { DxGroupItem } from "devextreme-vue/form";
 import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
-import DxForm, { DxGroupItem } from "devextreme-vue/form";
+import Importance from "~/infrastructure/constants/taskImportance.js";
+import { unload } from "./infrastructure/services/assignmentService.js";
+
+import CreateChildTaskBtn from "./form-components/toolbar-components/create-children-task-btn";
+import AssignmentFormComponent from "./form-by-type/free-approval/AssignmentFormComponent.js";
+import Info from "./form-components/info-form.vue";
+import importantIndicator from "./form-components/impartant-indicator";
 export default {
   components: {
     threadTexts: () =>

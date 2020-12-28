@@ -138,7 +138,7 @@
   </div>
 </template>
 <script>
-import { unload } from "~/infrastructure/services/assignmentService.js";
+import { unload } from "~/components/assignment-module/infrastructure/services/assignmentService.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
 import Importance from "~/infrastructure/constants/taskImportance.js";

@@ -1,13 +1,14 @@
-import AssignmentType from "../models/AssignmentType";
-import { isNotification } from "~/infrastructure/constants/assignmentType.js";
-import importanceIconColumn from "~/components/page/task-important.vue";
-import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
-import Important from "~/infrastructure/constants/taskImportance.js";
-import { generateAssignmentQueryName } from "../constans/assignmentQuery";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-import assignnmentTypeIconColumn from "~/components/assignment/icon-by-assignment-type.vue";
+import importanceIconColumn from "~/components/page/task-important.vue";
+import Important from "~/infrastructure/constants/taskImportance.js";
+
+import AssignmentType from "../models/AssignmentType";
+import { isNotification } from "../constans/assignmentType";
+import AssignmentStatusGuid from "../constans/assignmentStatus";
+import { generateAssignmentQueryName } from "../constans/assignmentQuery";
+import assignnmentTypeIconColumn from "../../grid-components/icon-by-assignment-type.vue";
 
 import {
   DxSearchPanel,
