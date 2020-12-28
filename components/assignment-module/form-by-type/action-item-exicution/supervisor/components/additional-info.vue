@@ -34,14 +34,14 @@
 </template>
 
 <script>
-import additionalInfo from "../../../../infrastructure/mixins/additionalnfo.js";
+import assignmentComment from "../../../../infrastructure/mixins/assignmentComment.js";
 import { DxDateBox } from "devextreme-vue/date-box";
 const millisecondsInDay = 24 * 60 * 60 * 1000;
 export default {
   components: {
     DxDateBox,
   },
-  mixins: [additionalInfo],
+  mixins: [assignmentComment],
   data() {
     return {
       newDeadline: this.$store.getters[

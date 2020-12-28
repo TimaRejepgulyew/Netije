@@ -6,7 +6,8 @@
       :headerTitle="headerTitle"
     >
     </Header>
-    <simple-assignment
+    <component
+      :is="assignmentFormByType"
       @onComplete="onComplete"
       @pasteAttachment="pasteAttachment"
       :assignmentId="assignmentId"
@@ -39,10 +40,11 @@
         @reloadAttachment="reload"
         :attachmentGroups="attachmentGroups"
       />
-    </simple-assignment>
+    </component>
   </form>
 </template>
 <script>
+import ApprovalFormComponent from "./form-by-type/free-approval/AssignmentFormComponent.js";
 import CreateChildTaskBtn from "~/components/assignment/components/create-children-task-btn.vue";
 import Info from "./form-components/info-form.vue";
 import { unload } from "~/infrastructure/services/assignmentService.js";
@@ -75,6 +77,9 @@ export default {
     };
   },
   computed: {
+    assignmentFormByType() {
+      return ApprovalFormComponent(this.assignment.assignmentType);
+    },
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
     },
@@ -128,7 +133,6 @@ export default {
 };
 </script>
 <style scoped>
-
 @media screen and (min-device-height: 910px) {
   .comments {
     max-height: 60vh;

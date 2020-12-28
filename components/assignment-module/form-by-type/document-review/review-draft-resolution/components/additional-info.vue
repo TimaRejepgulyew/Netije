@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import additionalInfo from "../../../../infrastructure/mixins/additionalnfo.js";
+import assignmentComment from "../../../../infrastructure/mixins/assignmentComment.js";
 
 export default {
-  mixins: [additionalInfo],
+  mixins: [assignmentComment],
   data() {
     return {
       placeholder: this.$t(

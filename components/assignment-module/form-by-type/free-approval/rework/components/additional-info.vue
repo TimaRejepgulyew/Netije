@@ -35,9 +35,9 @@
 
 <script>
 import { DxDateBox } from "devextreme-vue/date-box";
-import additionalInfo from "../../../../infrastructure/mixins/additionalnfo.js";
+import assignmentComment from "../../../../infrastructure/mixins/assignmentComment.js";
 export default {
-  mixins: [additionalInfo],
+  mixins: [assignmentComment],
   components: {
     DxDateBox,
   },
