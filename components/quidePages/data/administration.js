@@ -19,7 +19,7 @@ export default function (context) {
           name: context.$t("companyStructure.imports.importCompanies"),
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.companies, file);
+              return await context.$axios.post(dataApi.import.companies, file);
             }
           },
           visible: true,
@@ -29,7 +29,7 @@ export default function (context) {
           name: context.$t("companyStructure.imports.importBank"),
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.banks, file);
+              return await context.$axios.post(dataApi.import.banks, file);
             }
           },
           visible: true,
@@ -39,7 +39,7 @@ export default function (context) {
           name: context.$t("companyStructure.imports.importJobTitle"),
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.jobTitles, file);
+              return await context.$axios.post(dataApi.import.jobTitles, file);
             }
           },
           visible: true,
@@ -49,7 +49,7 @@ export default function (context) {
           name: context.$t("companyStructure.imports.importEmployees"),
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.employees, file);
+              return await context.$axios.post(dataApi.import.employees, file);
             }
           },
           visible: true,
@@ -59,7 +59,7 @@ export default function (context) {
           name: context.$t("companyStructure.imports.importPersons"),
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.persons, file);
+              return await context.$axios.post(dataApi.import.persons, file);
             }
           },
           visible: true,
