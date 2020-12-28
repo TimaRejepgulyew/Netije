@@ -1,7 +1,7 @@
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus";
 import { isActionItemExicutionAssignment } from "~/infrastructure/constants/assignmentType.js";
 import dataApi from "~/static/dataApi";
-import Importance from "~/infrastructure/constants/assignmentImportance";
+import Importance from "~/infrastructure/constants/taskImportance";
 export const state = () => ({
   assignment: {},
   overlays: null,

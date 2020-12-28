@@ -9,7 +9,7 @@
 </template>
 <script>
 import fireIcon from "~/static/icons/fire.png";
-import Important from "~/infrastructure/constants/assignmentImportance.js";
+import Important from "~/infrastructure/constants/taskImportance.js";
 import { DxButtonGroup } from "devextreme-vue";
 export default {
   components: {

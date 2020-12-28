@@ -44,19 +44,17 @@
   </form>
 </template>
 <script>
-import ApprovalFormComponent from "./form-by-type/free-approval/AssignmentFormComponent.js";
+import AssignmentFormComponent from "./form-by-type/free-approval/AssignmentFormComponent.js";
 import CreateChildTaskBtn from "~/components/assignment/components/create-children-task-btn.vue";
 import Info from "./form-components/info-form.vue";
 import { unload } from "~/infrastructure/services/assignmentService.js";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
-import Importance from "~/infrastructure/constants/assignmentImportance.js";
+import Importance from "~/infrastructure/constants/taskImportance.js";
 import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
 import DxForm, { DxGroupItem } from "devextreme-vue/form";
 export default {
   components: {
-    simpleAssignment: () =>
-      import("./form-by-type/free-approval/rework/index.vue"),
     threadTexts: () =>
       import("~/components/workFlow/thread-text/thread-texts.vue"),
     attachment: () => import("~/components/workFlow/attachment/index.vue"),
@@ -78,7 +76,7 @@ export default {
   },
   computed: {
     assignmentFormByType() {
-      return ApprovalFormComponent(this.assignment.assignmentType);
+      return AssignmentFormComponent(this.assignment.assignmentType);
     },
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];

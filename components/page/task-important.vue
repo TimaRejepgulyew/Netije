@@ -6,7 +6,7 @@
 
 <script>
 import importantIcon from "~/static/icons/iconAssignment/important.svg";
-import Important from "~/infrastructure/constants/assignmentImportance.js";
+import Important from "~/infrastructure/constants/taskImportance.js";
 export default {
   props: ["state"],
   computed: {

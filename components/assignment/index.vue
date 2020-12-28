@@ -141,7 +141,7 @@
 import { unload } from "~/infrastructure/services/assignmentService.js";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import importantIndicator from "~/components/assignment/impartant-indicator.vue";
-import Importance from "~/infrastructure/constants/assignmentImportance.js";
+import Importance from "~/infrastructure/constants/taskImportance.js";
 import * as bodies from "~/components/assignment/body/index.js";
 import * as toolbars from "~/components/assignment/toolbars/index.js";
 import * as additional from "~/components/assignment/additional/index.js";

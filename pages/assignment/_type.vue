@@ -8,7 +8,7 @@
 </template>
 <script>
 import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
-import * as assignmentGrids from "~/components/assignment/assignment-grids/index.js";
+import * as assignmentGrids from "~/components/assignment-module/grid-by-query/index.js";
 
 export default {
   components: {

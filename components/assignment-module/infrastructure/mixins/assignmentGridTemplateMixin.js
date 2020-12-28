@@ -1,10 +1,9 @@
-
-import AssignmentType from "~/infrastructure/models/AssignmentType.js";
+import AssignmentType from "../models/AssignmentType";
 import { isNotification } from "~/infrastructure/constants/assignmentType.js";
 import importanceIconColumn from "~/components/page/task-important.vue";
 import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
 import Important from "~/infrastructure/constants/taskImportance.js";
-import { generateAssignmentQueryName } from "~/infrastructure/constants/query/assignmentQuery.js";
+import { generateAssignmentQueryName } from "../constans/assignmentQuery";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -25,7 +24,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 export default {
   components: {
@@ -47,6 +46,8 @@ export default {
     DxStateStoring,
     assignnmentTypeIconColumn,
     importanceIconColumn,
+    toolbarItemQuickFilter: () =>
+      import("../../grid-components/quickFilter.vue")
   },
   props: ["assignmentQuery"],
   data() {
@@ -54,13 +55,12 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl:
-            dataApi.assignment.Assignments + (this.assignmentQuery || 0),
+          loadUrl: dataApi.assignment.Assignments + (this.assignmentQuery || 0)
         }),
         paginate: true,
         pageSize: 10,
-        sort: [{ selector: "created", desc: true }],
-      }),
+        sort: [{ selector: "created", desc: true }]
+      })
     };
   },
   computed: {
@@ -69,25 +69,24 @@ export default {
     },
     headerTitle() {
       return generateAssignmentQueryName(this.assignmentQuery, this);
-    },
+    }
   },
   methods: {
     setFilter(filter) {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}?quickFilter=${filter}&`
         }),
         paginate: true,
-        sort: [{ selector: "created", desc: true }],
-      })
-
+        sort: [{ selector: "created", desc: true }]
+      });
     },
     addButtonToGrid(header) {
       header.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
-        options: { icon: "refresh", onClick: this.reload },
+        options: { icon: "refresh", onClick: this.reload }
       });
     },
     reload() {
@@ -103,7 +102,12 @@ export default {
       }
     },
     showIsNotReadAssignment({ isRead, status, assignmentType }, style) {
-      if (!isRead && status !== AssignmentStatusGuid.Aborted && (status !== AssignmentStatusGuid.Completed || isNotification(assignmentType))) {
+      if (
+        !isRead &&
+        status !== AssignmentStatusGuid.Aborted &&
+        (status !== AssignmentStatusGuid.Completed ||
+          isNotification(assignmentType))
+      ) {
         style.fontWeight = "bolder";
       }
     },
@@ -114,8 +118,8 @@ export default {
     },
     onRowPrepared(e) {
       if (e.data != undefined) {
-        this.showIsNotReadAssignment(e.data, e.rowElement.style)
-        this.showExipiredAssignmnet(e.data, e.rowElement.style)
+        this.showIsNotReadAssignment(e.data, e.rowElement.style);
+        this.showExipiredAssignmnet(e.data, e.rowElement.style);
         this.showCompleteAssignment(e.data, e.rowElement.style);
       }
     },
@@ -131,7 +135,6 @@ export default {
         case Important.High:
           return require("~/static/icons/iconAssignment/important.svg");
       }
-    },
-  },
+    }
+  }
 };
-
