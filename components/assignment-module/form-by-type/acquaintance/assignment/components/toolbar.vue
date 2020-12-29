@@ -41,7 +41,6 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              console.log(ReviewResult);
               this.setResult(ReviewResult.Acquainted);
               this.completeAssignment();
             }

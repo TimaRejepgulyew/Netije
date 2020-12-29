@@ -125,7 +125,6 @@ export default {
       );
     },
     generateReport() {
-      console.log(this.reportParams);
       this.$awn.asyncBlock(
         this.$axios.post(
           dataApi.docFlow.DocumentRegisterReport.Generate,

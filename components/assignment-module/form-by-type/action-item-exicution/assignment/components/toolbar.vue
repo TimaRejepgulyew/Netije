@@ -76,7 +76,6 @@ export default {
             return attachmentGroup.groupId === actionItemExecutionGroupId;
           }
         );
-        console.log(currentAttachmentGroup);
         if (currentAttachmentGroup.entities) {
           const currentDocument = currentAttachmentGroup.entities[0].entity;
           if (

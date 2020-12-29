@@ -85,7 +85,6 @@ export default class Base {
       state = {};
     },
     UPDATE_LAST_VERSION(state, payload) {
-      console.log(payload);
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
       else {
