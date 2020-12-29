@@ -2,7 +2,7 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
-import assignmentMenuByRole from "~/infrastructure/factory/assignment-menu-by-role.js";
+import assignmentMenuByRole from "~/components/assignment-module/infrastructure/factory/assignmentMenuByRole.js";
 export const state = () => ({
   menuList: []
 });

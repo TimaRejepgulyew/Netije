@@ -67,7 +67,7 @@
 </template>
 <script>
 import assignmentMixin from "../infrastructure/mixins/assignmentGridTemplateMixin.js";
-import AssignmentgGridColumnFactory from "~/infrastructure/factory/assignmentGridColumnsFactory.js";
+import AssignmentgGridColumnFactory from "../infrastructure/factory/assignmentGridFactory";
 export default {
   mixins: [assignmentMixin],
   props: {

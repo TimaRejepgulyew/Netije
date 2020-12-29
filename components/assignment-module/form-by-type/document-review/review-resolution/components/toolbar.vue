@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import createChildActionItemBtn from "~/components/assignment/components/create-children-action-item-btn.vue";
+import createChildActionItemBtn from "../../../../form-components/toolbar-components/create-children-action-item-btn.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";

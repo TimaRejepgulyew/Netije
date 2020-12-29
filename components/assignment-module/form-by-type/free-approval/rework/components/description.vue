@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import approversList from "~/components/assignment/form-components/approvers-list.vue";
+import approversList from "../../../../form-components/approvers-list";
 import customExpander from "~/components/custom-expander/index.vue";
 export default {
   components: {

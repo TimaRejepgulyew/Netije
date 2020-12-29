@@ -61,7 +61,7 @@
   </div>
 </template>
 <script>
-import createChildActionItemBtn from "~/components/assignment/components/create-children-action-item-btn.vue";
+import createChildActionItemBtn from "../../../../form-components/toolbar-components/create-children-action-item-btn.vue";
 import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";

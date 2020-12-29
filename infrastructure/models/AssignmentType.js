@@ -1,4 +1,4 @@
-import AssignmentTypeGuid from "~/infrastructure/constants/assignmentType.js"
+import AssignmentTypeGuid from "~/components/assignment-module/infrastructure/constans/assignmentType.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as assignmentTypeGroupIcon from "~/static/icons/assignmentType/index.js"
 export default class AssignmentType {

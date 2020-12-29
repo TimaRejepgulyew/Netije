@@ -13,7 +13,7 @@ const documentReviewAssignmentForms = {
 export class DocumentReviewFormAssignment extends ActionItemExicutionFormAssignment {
   constructor() {
     super();
-    // this.formTypes = { ...documentReviewAssignmentForms, ...this.formTypes };
+    this.formTypes = { ...documentReviewAssignmentForms, ...this.formTypes };
   }
 }
 export default function(type) {

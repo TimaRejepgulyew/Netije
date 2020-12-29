@@ -1,10 +1,10 @@
-import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
-import AssignmentStatus from "~/infrastructure/models/AssignmentStatus.js";
-import AssignmentStatusGuid from "~/infrastructure/constants/assignmentStatus.js";
-import AssignmentType from "~/infrastructure/constants/assignmentType.js";
-import AssignmentResult from "~/infrastructure/constants/assignmentResult.js";
+import AssignmentQuery from "../constans/assignmentQuery";
+import AssignmentStatus from "../models/AssignmentStatus.js";
+import AssignmentStatusGuid from "../constans/assignmentStatus";
+import AssignmentType from "../constans/assignmentType";
+import AssignmentResult from "../constans/assignmentResult.js";
 import dataApi from "~/static/dataApi";
-import { sendResult } from "~/infrastructure/services/assignmentService.js";
+import { sendResult } from "../services/assignmentService.js";
 import { ForExecution as forExecutionIcon } from "~/static/icons/status/assignmentResult.js";
 import { confirm } from "devextreme/ui/dialog";
 const GetColumnsByAssignmentQuery = (type, context) => {

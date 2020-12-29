@@ -53,7 +53,7 @@
   </div>
 </template>
 <script>
-import toolbarAddApproverBtn from "~/components/assignment/form-components/add-approver-btn/btn.vue";
+import toolbarAddApproverBtn from "../../../../form-components/add-approver-btn/btn.vue";
 import approveIcon from "~/static/icons/assignment-result/success.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import { ReviewResult } from "../infrastructure.js";

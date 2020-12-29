@@ -60,7 +60,7 @@
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
 import * as indicators from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
-import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
+import { assignmentTypeName } from "~/components/assignment-module/infrastructure/constans/assignmentType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
