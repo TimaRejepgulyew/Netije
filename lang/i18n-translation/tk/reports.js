@@ -1,6 +1,6 @@
 export default {
     title: "Hasabat",
-    importOutgoingReportTemplate: "Çykýan hasabat şablony import etmek ",
-    importIncomingReportTemplate: "Giriş hasabat şablony import etmek ",
-    importInternalReportTemplate: "Içerki hasabat şablony import etmek ",
+    importOutgoingReportTemplate: "Çykýan resminamalaryň gündeligi hasabatynyň şablony import etmek",
+    importIncomingReportTemplate: "Giriş resminamalaryň gündeligi hasabatynyň şablony import etmek ",
+    importInternalReportTemplate: "Içerki resminamalaryň gündeligi hasabatynyň şablony import etmek ",
 }
