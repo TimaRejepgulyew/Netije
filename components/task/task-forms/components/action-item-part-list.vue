@@ -54,7 +54,7 @@
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
-import FreeApprovalReworkActions from "~/infrastructure/constants/assignment/freeApproveReworkActions.js";
+import FreeApprovalReworkActions from "~/components/assignment-module/infrastructure/constants/freeApproveReworkActions.js";
 import {
   DxDataGrid,
   DxColumn,

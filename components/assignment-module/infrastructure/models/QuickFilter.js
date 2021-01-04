@@ -1,4 +1,4 @@
-import QuiсkFilter from "~/infrastructure/constants/quickFilter/assignmentQuickFilter.js";
+import QuiсkFilter from "../constants/quickFilter.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 export default class Documents {
   constructor(context, options) {

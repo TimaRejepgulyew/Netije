@@ -70,7 +70,7 @@ export const mutations = {
     state.menuList = payload;
   }
 };
-import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
+import AssignmentQuery from "~/components/assignment-module/infrastructure/constants/assignmentQuery.js";
 export const actions = {
   initialize({ commit, rootGetters }) {
     const data = [
