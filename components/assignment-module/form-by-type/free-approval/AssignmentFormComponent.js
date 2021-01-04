@@ -1,5 +1,5 @@
 import { DocumentReviewFormAssignment } from "../document-review/AssignmentFormComponent.js";
-import AssignmentType from "../../infrastructure/constans/assignmentType";
+import AssignmentType from "../../infrastructure/constants/assignmentType";
 import assignment from "./assignment/index.vue";
 import finish from "./finish/index.vue";
 import rework from "./rework/index.vue";

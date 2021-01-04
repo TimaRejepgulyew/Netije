@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { generateElementsResult } from "~/components/assignment-module/infrastructure/constans/assignmentResult.js";
+import { generateElementsResult } from "~/components/assignment-module/infrastructure/constants/assignmentResult.js";
 export default {
   props: ["data"],
 

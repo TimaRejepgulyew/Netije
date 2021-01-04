@@ -1,5 +1,5 @@
 import { BaseFormNotification } from "../../infrastructure/models/BaseAssignmentForm.js";
-import AssignmentType from "../../infrastructure/constans/assignmentType";
+import AssignmentType from "../../infrastructure/constants/assignmentType";
 import assignment from "./assignment/index.vue";
 import review from "./review/index.vue";
 const simpleAssignmentForms = {

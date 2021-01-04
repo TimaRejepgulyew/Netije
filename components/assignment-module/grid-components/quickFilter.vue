@@ -11,7 +11,7 @@
 
 <script>
 import QuickFilter from "~/components/quick-filter/index.vue";
-import QuiсkFilterGuid from "../infrastructure/constans/quickFilter";
+import QuiсkFilterGuid from "../infrastructure/constants/quickFilter";
 import AssignmentQuickFilterModel from "../infrastructure/models/QuickFilter";
 export default {
   components: { QuickFilter },

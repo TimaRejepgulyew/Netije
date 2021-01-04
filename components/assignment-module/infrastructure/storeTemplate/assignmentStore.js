@@ -1,5 +1,5 @@
-import AssignmentStatus from "../constans/assignmentStatus";
-import { isActionItemExicutionAssignment } from "../constans/assignmentType.js";
+import AssignmentStatus from "../constants/assignmentStatus";
+import { isActionItemExicutionAssignment } from "../constants/assignmentType.js";
 import dataApi from "~/static/dataApi";
 import Importance from "~/infrastructure/constants/taskImportance";
 export const state = () => ({

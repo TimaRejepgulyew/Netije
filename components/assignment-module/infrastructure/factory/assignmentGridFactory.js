@@ -1,8 +1,8 @@
-import AssignmentQuery from "../constans/assignmentQuery";
+import AssignmentQuery from "../constants/assignmentQuery";
 import AssignmentStatus from "../models/AssignmentStatus.js";
-import AssignmentStatusGuid from "../constans/assignmentStatus";
-import AssignmentType from "../constans/assignmentType";
-import AssignmentResult from "../constans/assignmentResult.js";
+import AssignmentStatusGuid from "../constants/assignmentStatus";
+import AssignmentType from "../constants/assignmentType";
+import AssignmentResult from "../constants/assignmentResult.js";
 import dataApi from "~/static/dataApi";
 import { sendResult } from "../services/assignmentService.js";
 import { ForExecution as forExecutionIcon } from "~/static/icons/status/assignmentResult.js";

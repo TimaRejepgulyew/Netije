@@ -53,7 +53,7 @@
 
 <script>
 import dataApi from "~/static/dataApi";
-import FreeApprovalReworkActions from "../infrastructure/constans/freeApproveReworkActions.js";
+import FreeApprovalReworkActions from "../infrastructure/constants/freeApproveReworkActions.js";
 import {
   DxDataGrid,
   DxColumn,

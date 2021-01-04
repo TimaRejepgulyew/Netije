@@ -1,5 +1,5 @@
 import { SimpleFormAssignment } from "../simple/AssignmentFormComponent.js";
-import AssignmentType from "../../infrastructure/constans/assignmentType";
+import AssignmentType from "../../infrastructure/constants/assignmentType";
 import assignment from "./assignment/index.vue";
 import finish from "./finish/index.vue";
 const acquaintanceAssignmentForms = {

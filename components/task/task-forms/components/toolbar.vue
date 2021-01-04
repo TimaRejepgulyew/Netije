@@ -47,7 +47,7 @@ import toolbarItemSwitchToCompound from "~/components/task/task-forms/components
 import toolbarItemStartBtn from "~/components/task/task-forms/components/start-btn.vue";
 import toolbarItemImportanceChanger from "~/components/task/task-forms/components/importance-changer.vue";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import AssignmentType from "~/components/assignment-module/infrastructure/constans/assignmentType.js";
+import AssignmentType from "~/components/assignment-module/infrastructure/constants/assignmentType.js";
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";

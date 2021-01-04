@@ -1,4 +1,4 @@
-import AssignmentStatusGuid from "../constans/assignmentStatus";
+import AssignmentStatusGuid from "../constants/assignmentStatus";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as assignmentStatusIcons from "~/static/icons/status/assignmentStatus.js";
 export default class TaskStatus {

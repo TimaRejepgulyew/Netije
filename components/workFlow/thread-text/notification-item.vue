@@ -48,7 +48,7 @@
 <script>
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
 import { isReadIndicator } from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
-import { assignmentTypeName } from "~/components/assignment-module/infrastructure/constans/assignmentType.js";
+import { assignmentTypeName } from "~/components/assignment-module/infrastructure/constants/assignmentType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
 import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
 import moment from "moment";

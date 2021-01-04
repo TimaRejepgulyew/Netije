@@ -5,9 +5,9 @@ import importanceIconColumn from "~/components/page/task-important.vue";
 import Important from "~/infrastructure/constants/taskImportance.js";
 
 import AssignmentType from "../models/AssignmentType";
-import { isNotification } from "../constans/assignmentType";
-import AssignmentStatusGuid from "../constans/assignmentStatus";
-import { generateAssignmentQueryName } from "../constans/assignmentQuery";
+import { isNotification } from "../constants/assignmentType";
+import AssignmentStatusGuid from "../constants/assignmentStatus";
+import { generateAssignmentQueryName } from "../constants/assignmentQuery";
 import assignnmentTypeIconColumn from "../../grid-components/icon-by-assignment-type.vue";
 
 import {
