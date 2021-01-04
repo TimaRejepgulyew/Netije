@@ -5,9 +5,9 @@ import dataApi from "~/static/dataApi.js";
 export default {
   components: {
     DxToolbar,
-    DxItem,
+    DxItem
   },
-  props: ["assignmentId"],
+  props: ["assignmentId", "isCard"],
   inject: ["isValidForm", "assignmentValidatorName"],
   data() {
     return {

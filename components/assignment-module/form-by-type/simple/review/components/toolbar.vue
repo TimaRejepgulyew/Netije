@@ -32,6 +32,8 @@
   </div>
 </template>
 <script>
+import { load } from "~/infrastructure/services/taskService.js";
+import TaskType from "~/infrastructure/constants/taskType.js";
 import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {
@@ -66,14 +68,21 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.setResult(ReviewResult.ReviewAssignment.ForRework);
+              this.setResult(ReviewResult.ForRework);
               await this.completeAssignment();
               const { taskId } = this.$store.getters[
                 `assignments/${this.assignmentId}/assignment`
               ];
-              this.$router.push(
-                `/task/detail/${TaskType.SimpleTask}/${taskId}`
-              );
+              if (!this.isCard) {
+                this.$router.push(
+                  `/task/detail/${TaskType.SimpleTask}/${taskId}`
+                );
+              } else {
+                this.$popup.taskCard(this, {
+                  params: { taskId, taskType:TaskType.SimpleTask },
+                  handler: load,
+                });
+              }
             }
           }
         },
