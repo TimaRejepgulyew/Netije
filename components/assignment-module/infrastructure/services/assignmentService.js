@@ -1,5 +1,5 @@
 import dataApi from "~/static/dataApi";
-import * as assignmentStoreTemplate from "~/infrastructure/storeTemplate/assignmentStore.js";
+import * as assignmentStoreTemplate from "../storeTemplate/assignmentStore.js";
 import StoreModule from "~/infrastructure/services/StoreModule.js";
 const assignmentModules = new StoreModule({
   moduleName: "assignments",

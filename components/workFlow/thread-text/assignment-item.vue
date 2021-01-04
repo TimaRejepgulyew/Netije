@@ -58,7 +58,7 @@
 </template>
 <script>
 import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
-import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
+import AssignmentStatus from "~/components/assignment-module/infrastructure/constans/assignmentStatus.js";
 import * as indicators from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
 import { assignmentTypeName } from "~/components/assignment-module/infrastructure/constans/assignmentType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
@@ -70,7 +70,7 @@ export default {
     ...indicators,
     userIcon,
     threadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue")
+      import("~/components/workFlow/thread-text/thread-text-component.vue"),
   },
   name: "task-item",
   props: ["data"],
@@ -90,7 +90,7 @@ export default {
     },
     toDetailAssignment(params) {
       this.$popup.assignmentCard(this, {
-        params: { assignmentId: params.id }
+        params: { assignmentId: params.id },
       });
     },
     parseSubject(value) {
@@ -101,8 +101,8 @@ export default {
     },
     displayDeadline(type) {
       return type !== WorkflowEntityTextType.Notice;
-    }
-  }
+    },
+  },
 };
 </script>
 <style></style>
