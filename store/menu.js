@@ -2,7 +2,7 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
-import assignmentMenuByRole from "~/components/assignment-module/infrastructure/factory/assignmentMenuByRole.js";
+import assignmentMenuByRole from "~/components/workFlow/assignment-module/infrastructure/factory/assignmentMenuByRole.js";
 export const state = () => ({
   menuList: []
 });
@@ -70,7 +70,7 @@ export const mutations = {
     state.menuList = payload;
   }
 };
-import AssignmentQuery from "~/components/assignment-module/infrastructure/constants/assignmentQuery.js";
+import AssignmentQuery from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentQuery.js";
 export const actions = {
   initialize({ commit, rootGetters }) {
     const data = [

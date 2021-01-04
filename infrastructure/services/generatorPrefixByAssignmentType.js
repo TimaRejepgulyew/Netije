@@ -1,4 +1,4 @@
-import AssignmentType from "~/components/assignment-module/infrastructure/constans/assignmentType.js";
+import AssignmentType from "~/components/workFlow/assignment-module/infrastructure/constans/assignmentType.js";
 export default function(type, context) {
   switch (type) {
     case AssignmentType.ActionItemSupervisorAssignment:

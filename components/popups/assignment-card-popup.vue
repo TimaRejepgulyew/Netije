@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import { load as assignmentLoad } from "~/components/assignment-module/infrastructure/services/assignmentService.js";
+import { load as assignmentLoad } from "~/components/workFlow/assignment-module/infrastructure/services/assignmentService.js";
 export default {
   components: {
     cardAssignment: () =>
-      import("~/components/assignment-module/main-form.vue"),
+      import("~/components/workFlow/assignment-module/main-form.vue"),
   },
   name: "assignment-popup",
   props: {

@@ -57,8 +57,8 @@ import importantIndicator from "./form-components/impartant-indicator";
 export default {
   components: {
     threadTexts: () =>
-      import("~/components/workFlow/thread-text/thread-texts.vue"),
-    attachment: () => import("~/components/workFlow/attachment/index.vue"),
+      import("../thread-text/thread-texts.vue"),
+    attachment: () => import("../attachment/index.vue"),
     Info,
     Header,
     importantIndicator,

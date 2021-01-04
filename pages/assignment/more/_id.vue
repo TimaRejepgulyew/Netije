@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import { load } from "~/components/assignment-module/infrastructure/services/assignmentService.js";
-import assignmentCard from "~/components/assignment-module/main-form.vue";
+import { load } from "~/components/workFlow/assignment-module/infrastructure/services/assignmentService.js";
+import assignmentCard from "~/components/workFlow/assignment-module/main-form.vue";
 
 export default {
   components: {

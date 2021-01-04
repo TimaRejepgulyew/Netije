@@ -62,13 +62,13 @@ export default {
     toolbarItemStartBtn,
     toolbarItemAbortActionItem,
     DxToolbar,
-    DxItem
+    DxItem,
   },
   props: ["taskId"],
   inject: ["isValidTask"],
   data() {
     return {
-      isPopupAccesRight: false
+      isPopupAccesRight: false,
     };
   },
   computed: {
@@ -127,7 +127,7 @@ export default {
         text: this.$t("buttons.save"),
         onClick: () => {
           this.save();
-        }
+        },
       };
     },
     abortButtonOptions() {
@@ -143,10 +143,10 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/abort`),
-            e => {},
-            e => this.$awn.alert()
+            (e) => {},
+            (e) => this.$awn.alert()
           );
-        }
+        },
       };
     },
     restartButtonOptions() {
@@ -162,10 +162,10 @@ export default {
           if (!response) return false;
           this.$awn.asyncBlock(
             this.$store.dispatch(`tasks/${this.taskId}/restart`),
-            e => {},
-            e => this.$awn.alert()
+            (e) => {},
+            (e) => this.$awn.alert()
           );
-        }
+        },
       };
     },
     deleteButtonOptions() {
@@ -181,14 +181,14 @@ export default {
           if (response)
             this.$awn.asyncBlock(
               this.$store.dispatch(`tasks/${this.taskId}/delete`),
-              e => {
+              (e) => {
                 this.$emit("onRemove");
               },
-              e => this.$awn.alert()
+              (e) => this.$awn.alert()
             );
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     onStart() {
@@ -201,13 +201,13 @@ export default {
       if (this.isValidTask())
         this.$awn.asyncBlock(
           this.$store.dispatch(`tasks/${this.taskId}/save`),
-          e => {
+          (e) => {
             this.$emit("onSave");
           },
-          e => this.$awn.alert()
+          (e) => this.$awn.alert()
         );
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
