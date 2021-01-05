@@ -12,16 +12,17 @@
       </div>
     </div>
     <ul>
-      <li v-for="item in projectResolutions.entities" :key="item.attachmentId">
+      <!-- <li v-for="item in projectResolutions.entities" :key="item.attachmentId">
         <resolutionTask :key="item.attachmentId" :task="item" />
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
 <script>
-import { load } from "~/infrastructure/services/taskService.js";
-import AttachmentGroup from "~/infrastructure/constants/attachmentGroup.js";
-import resolutionTask from "~/components/workFlow/attachment/resolution-task-list.vue";
+import { load } from "../../../../../infrastructure/services/taskService.js";
+import AttachmentGroup from "../../../../../infrastructure/constants/attachmentGroup.js";
+import resolutionTask from "../../../../../attachment/resolution-task-list.vue";
+
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
   components: {
@@ -65,7 +66,7 @@ export default {
 </script>
 
 <style>
-.pr-2 { 
+.pr-2 {
   padding-right: 20px;
 }
 </style>

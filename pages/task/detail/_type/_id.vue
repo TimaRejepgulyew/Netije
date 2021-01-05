@@ -5,7 +5,7 @@
 import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
 import dataApi from "~/static/dataApi";
 import cardTask from "~/components/workFlow/task-module/main-form.vue";
-import { load } from "~/infrastructure/services/taskService.js";
+import { load } from "~/components/workFlow/infrastructure/services/taskService.js";
 export default {
   components: {
     cardTask,

@@ -1,5 +1,5 @@
 
-import TaskTypeGuid from "./!ddcawwconstants/taskType.js";
+import TaskTypeGuid from "../constants/taskType.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as taskTypeIcons from "~/static/icons/taskType.js";
 export default class TaskType {

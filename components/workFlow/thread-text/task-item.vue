@@ -56,7 +56,7 @@
   </div>
 </template>
 <script>
-import { load } from "~/infrastructure/services/taskService.js";
+import { load } from "~/components/workFlow/infrastructure/services/taskService.js";
 import ActionItemType from "~/infrastructure/constants/actionItemType.js";
 import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
 import statusIndicator from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";

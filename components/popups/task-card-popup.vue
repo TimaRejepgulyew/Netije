@@ -10,7 +10,7 @@
 
 <script>
 import dataApi from "~/static/dataApi";
-import TaskTypeModel from "~/infrastructure/models/TaskType.js";
+import TaskTypeModel from "~/components/workFlow/infrastructure/models/TaskType.js";
 export default {
   components: {
     taskCard: () => import("~/components/workFlow/task-module/main-form.vue"),
