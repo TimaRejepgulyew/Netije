@@ -23,14 +23,17 @@
 </template>
 
 <script>
-import abortingReasonDialog from "~/components/task/task-forms/components/aborting-reason-form.vue";
-import abortIcon from "~/static/icons/stop.svg";
+import abortingReasonDialog from "./form.vue";
 import attachmentAccessRightDialog from "~/components/access-right/attachment-access-right-dialog.vue";
-import { confirm } from "devextreme/ui/dialog";
-import dataApi from "~/static/dataApi.js";
+
 import DxButton from "devextreme-vue/button";
 import { DxPopup } from "devextreme-vue/popup";
+
+import abortIcon from "~/static/icons/stop.svg";
 import startIcon from "~/static/icons/start.svg";
+
+import { confirm } from "devextreme/ui/dialog";
+import dataApi from "~/static/dataApi.js";
 export default {
   components: {
     DxButton,

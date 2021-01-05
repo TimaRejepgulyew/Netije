@@ -44,12 +44,16 @@
   </form>
 </template>
 <script>
+//devExtreme components
 import DxForm, { DxGroupItem } from "devextreme-vue/form";
-import Header from "~/components/page/page__header";
-import dataApi from "~/static/dataApi";
-import Importance from "~/infrastructure/constants/taskImportance.js";
-import { unload } from "./infrastructure/services/assignmentService.js";
 
+//services and constants
+import dataApi from "~/static/dataApi";
+import Importance from "../infrastructure/constants/taskImportance.js";
+import { unload } from "../infrastructure/services/assignmentService.js";
+
+//components
+import Header from "~/components/page/page__header";
 import CreateChildTaskBtn from "./form-components/toolbar-components/create-children-task-btn";
 import AssignmentFormComponent from "./form-by-type/free-approval/AssignmentFormComponent.js";
 import Info from "./form-components/info-form.vue";

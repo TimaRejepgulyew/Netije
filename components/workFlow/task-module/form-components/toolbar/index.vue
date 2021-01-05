@@ -38,21 +38,24 @@
   </div>
 </template>
 <script>
-import toolbarItemAbortActionItem from "~/components/task/task-forms/components/action-item-abort-btn.vue";
-import toolbarItemCreateChildTask from "~/components/task/task-forms/components/create-children-task-btn.vue";
+//toolbar item components
+import toolbarItemAbortActionItem from "./action-item-abort-btn/btn";
+import toolbarItemCreateChildTask from "./create-children-task-btn.vue";
+import toolbarItemSwitchToCompound from "./switch-to-compound-btn.vue";
+import toolbarItemStartBtn from "./start-btn.vue";
+import toolbarItemImportanceChanger from "./importance-changer.vue";
+import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
+// services and constants
+import AssignmentType from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentType.js";
 import ToolbarByTaskType from "~/infrastructure/factory/taskToolbarByTaskType.js";
 import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
-import { confirm } from "devextreme/ui/dialog";
-import toolbarItemSwitchToCompound from "~/components/task/task-forms/components/action-item-exicution/switch-to-compound-btn.vue";
-import toolbarItemStartBtn from "~/components/task/task-forms/components/start-btn.vue";
-import toolbarItemImportanceChanger from "~/components/task/task-forms/components/importance-changer.vue";
-import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
-import AssignmentType from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentType.js";
+//toolbar btn icon
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";
 import restartIcon from "~/static/icons/restart.svg";
-import attachmentVue from "~/components/workFlow/attachment/index.vue";
-import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
+//devextreme components
+import { confirm } from "devextreme/ui/dialog";
+import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 export default {
   components: {
     toolbarItemCreateChildTask,

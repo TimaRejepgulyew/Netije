@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { createSubtaskByAssignment } from "~/infrastructure/services/taskService.js";
+import { createSubtaskByAssignment } from "../../../infrastructure/services/taskService.js";
 import createChildTaskIcon from "~/static/icons/create-child-task-btn-icon.svg";
 import { DxButton } from "devextreme-vue";
 export default {

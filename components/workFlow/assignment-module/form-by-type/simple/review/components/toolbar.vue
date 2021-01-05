@@ -32,8 +32,8 @@
   </div>
 </template>
 <script>
-import { load } from "~/infrastructure/services/taskService.js";
-import TaskType from "~/infrastructure/constants/taskType.js";
+import { load } from "../../../../../infrastructure/services/taskService";
+import TaskType from "../../../../../infrastructure/constants/taskType.js";
 import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {

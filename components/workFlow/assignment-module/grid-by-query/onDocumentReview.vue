@@ -84,14 +84,16 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi";
-import { confirm } from "devextreme/ui/dialog";
-import addResolution from "~/static/icons/status/addresolution.svg";
-import DxButton from "devextreme-vue/button";
-import AssignmentStatus from "../infrastructure/constants/assignmentStatus";
-import AssignmentType from "../infrastructure/constants/assignmentType";
-import { DxSelection } from "devextreme-vue/data-grid";
-import assignmentMixin from "../infrastructure/mixins/assignmentGridTemplateMixin.js";
+import AssignmentStatus from "../../infrastructure/constants/assignmentStatus";
+import AssignmentType from "../../infrastructure/constants/assignmentType";
 import AssignmentgGridColumnFactory from "../infrastructure/factory/assignmentGridFactory";
+
+import assignmentMixin from "../infrastructure/mixins/assignmentGridTemplateMixin.js";
+import addResolution from "~/static/icons/status/addresolution.svg";
+
+import DxButton from "devextreme-vue/button";
+import { confirm } from "devextreme/ui/dialog";
+import { DxSelection } from "devextreme-vue/data-grid";
 export default {
   components: {
     DxSelection,

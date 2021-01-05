@@ -30,7 +30,7 @@ import DxForm, {
   DxLabel
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import actionItemParts from "~/components/task/task-forms/components/action-item-part-list.vue";
+import actionItemParts from "../action-item-part-list.vue";
 export default {
   components: {
     DxSimpleItem,

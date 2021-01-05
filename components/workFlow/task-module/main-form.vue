@@ -65,17 +65,17 @@
 </template>
 <script>
 //infrastructure constants services and etc...
-import { unload } from "~/infrastructure/services/taskService.js";
+import { unload } from "../infrastructure/services/taskService.js";
 import TaskTypeModel from "~/infrastructure/models/TaskType.js";
-import TaskType from "~/infrastructure/constants/taskType.js";
-import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
+import TaskType from "../infrastructure/constants/taskType";
+import taskChangeTracker from "./infrastructure/services/taskChangeTracker.js";
 
 //components taskType
-import documentReviewTask from "../form-by-type/document-review/index.vue";
-import simpleTask from "../form-by-type/simple/index.vue";
-import acquaintanceTask from "../form-by-type/acquaintance/index.vue";
-import actionItemExecutionTask from "../form-by-type/action-item-execution/index.vue";
-import freeApprovalTask from "../form-by-type/free-approval/index.vue";
+import documentReviewTask from "./form-by-type/document-review/index.vue";
+import simpleTask from "./form-by-type/simple/index.vue";
+import acquaintanceTask from "./form-by-type/acquaintance/index.vue";
+import actionItemExecutionTask from "./form-by-type/action-item-execution/index.vue";
+import freeApprovalTask from "./form-by-type/free-approval/index.vue";
 
 //components formComponents
 import toolbar from "./form-components/toolbar/index.vue";

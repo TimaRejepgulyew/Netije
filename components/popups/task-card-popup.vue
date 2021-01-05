@@ -13,17 +13,17 @@ import dataApi from "~/static/dataApi";
 import TaskTypeModel from "~/infrastructure/models/TaskType.js";
 export default {
   components: {
-    taskCard: () => import("~/components/task/index.vue")
+    taskCard: () => import("~/components/workFlow/task-module/main-form.vue"),
   },
   name: "task-popup",
   props: {
     options: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      taskId: null
+      taskId: null,
     };
   },
   async created() {
@@ -46,8 +46,8 @@ export default {
     },
     valueChanged(params) {
       this.$emit("valueChanged", params);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AssignmentType from "~/infrastructure/models/AssignmentType.js";
+import AssignmentType from "../../infrastructure/models/AssignmentType";
 
 export default {
   props: ["assignmentType", "assignmentTypes"],
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style scoped>
-.assignment-icon{
+.assignment-icon {
   min-width: 25px;
   height: 20px;
 }
