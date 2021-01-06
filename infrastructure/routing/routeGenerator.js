@@ -1,5 +1,4 @@
 import TaskType from "~/components/workFlow/infrastructure/constants/taskType.js";
-import DocumentType from "~/infrastructure/constants/documentType.js";
 export default {
   generateTaskDetailRoute(taskType, taskId) {
     switch (taskType) {
@@ -13,27 +12,5 @@ export default {
         throw "unknown task type";
     }
   },
-  // generateDocumentDetailRoute(typeGuid, documentId) {
-  //   return `/document-module/detail/${typeGuid}/${documentId}`;
-  // },
-  // generateRouteByTypeGuid(typeGuid) {
-  //   switch (typeGuid) {
-  //     case DocumentType.IncommingDocument:
-  //       return "incomming-letter";
-  //     case DocumentType.OutgoingDocument:
-  //       return "outgoing-letter";
-  //     case DocumentType.Order:
-  //       return "order";
-  //     case DocumentType.CompanyDirective:
-  //       return "company-directive";
-  //     case DocumentType.SimpleDocument:
-  //       return "simple-document";
-  //     case DocumentType.Addendum:
-  //       return "addendum";
-  //     case DocumentType.Memo:
-  //       return "memo";
-  //     case DocumentType.PowerOfAttorney:
-  //       return "power-of-attorney";
-  //   }
-  // }
+ 
 };
