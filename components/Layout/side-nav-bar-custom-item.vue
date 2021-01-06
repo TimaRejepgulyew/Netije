@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import AssignmentQuery from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentQuery.js";
+import AssignmentQuery from "~/components/workFlow/infrastructure/constants/query/assignmentQuery.js";
 export default {
   props: ["item"],
   computed: {

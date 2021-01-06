@@ -1,5 +1,5 @@
 import { AcquaintanceFormAssignment } from "../acquaintance/AssignmentFormComponent.js";
-import AssignmentType from "../../infrastructure/constants/assignmentType";
+import AssignmentType from "../../../infrastructure/constants/assignmentType";
 import assignment from "./assignment/index.vue";
 import supervisor from "./supervisor/index.vue";
 const actionItemExicutionAssignmentForms = {

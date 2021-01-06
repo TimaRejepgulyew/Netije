@@ -12,9 +12,9 @@
       </div>
     </div>
     <ul>
-      <!-- <li v-for="item in projectResolutions.entities" :key="item.attachmentId">
+      <li v-for="item in projectResolutions.entities" :key="item.attachmentId">
         <resolutionTask :key="item.attachmentId" :task="item" />
-      </li> -->
+      </li>
     </ul>
   </div>
 </template>

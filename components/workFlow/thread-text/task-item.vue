@@ -56,14 +56,14 @@
   </div>
 </template>
 <script>
-import { load } from "~/components/workFlow/infrastructure/services/taskService.js";
-import ActionItemType from "~/infrastructure/constants/actionItemType.js";
-import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
-import statusIndicator from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";
-import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
-import TaskType from "~/infrastructure/models/TaskType.js";
+import { load } from "../infrastructure/services/taskService.js";
+import ActionItemType from "../infrastructure/constants/actionItemType.js";
+import TaskTypeGuid from "../infrastructure/constants/taskType.js";
+import statusIndicator from "./indicator-state/task-indicators/status-indicator.vue";
+import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
+import TaskType from "../infrastructure/models/TaskType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
+import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
@@ -71,7 +71,7 @@ export default {
     threadTextComponentAuthor,
     userIcon,
     treadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue")
+      import("./thread-text-component.vue")
   },
   name: "task-item",
   props: ["data"],

@@ -133,7 +133,7 @@
 </template>
 <script>
 import { load } from "~/components/workFlow/infrastructure/services/taskService.js";
-import taskStoreMixin from "~/mixins/task/taskСategories.js";
+import taskStoreMixin from "~/components/workFlow/task-module/infrastructure/mixins/gridСategories.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 export default {

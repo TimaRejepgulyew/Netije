@@ -1,4 +1,4 @@
-import TaskType from "~/infrastructure/constants/taskType.js";
+import TaskType from "~/components/workFlow/infrastructure/constants/taskType.js";
 import ToolbarItemTypeWidget from "~/infrastructure/models/ToolbarItem/ToolbarItemTypeWidget.js";
 import ToolbarItemTypeTemplate from "~/infrastructure/models/ToolbarItem/ToolbarItemTypeTemplate.js";
 export default function(context, taskType) {

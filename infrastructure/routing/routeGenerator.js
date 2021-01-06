@@ -1,4 +1,4 @@
-import TaskType from "../constants/taskType";
+import TaskType from "~/components/workFlow/infrastructure/constants/taskType.js";
 import DocumentType from "~/infrastructure/constants/documentType.js";
 export default {
   generateTaskDetailRoute(taskType, taskId) {

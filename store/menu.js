@@ -70,7 +70,7 @@ export const mutations = {
     state.menuList = payload;
   }
 };
-import AssignmentQuery from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentQuery.js";
+import AssignmentQuery from "~/components/workFlow/infrastructure/constants/query/assignmentQuery.js";
 export const actions = {
   initialize({ commit, rootGetters }) {
     const data = [

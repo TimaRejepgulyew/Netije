@@ -46,11 +46,11 @@
   </div>
 </template>
 <script>
-import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
-import { isReadIndicator } from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
-import { assignmentTypeName } from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentType.js";
+import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
+import { isReadIndicator } from "./indicator-state/assignment-indicators/indicators.js";
+import { assignmentTypeName } from "../infrastructure/constants/assignmentType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
+import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
@@ -58,7 +58,7 @@ export default {
     userIcon,
     isReadIndicator,
     threadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue")
+      import("./thread-text-component.vue"),
   },
   name: "task-item",
   props: ["data"],
@@ -72,7 +72,7 @@ export default {
     },
     toDetailAssignment(params) {
       this.$popup.assignmentCard(this, {
-        params: { assignmentId: params.id }
+        params: { assignmentId: params.id },
       });
     },
     parseSubject(value) {
@@ -83,7 +83,7 @@ export default {
     },
     displayDeadline(type) {
       return type !== WorkflowEntityTextType.Notice;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -11,8 +11,8 @@
 
 <script>
 import QuickFilter from "~/components/quick-filter/index.vue";
-import QuiсkFilterGuid from "~/infrastructure/constants/quickFilter/taskQuickFilter.js";
-import TaskQuickFilterModel from "~/infrastructure/models/quickFilter/task.js";
+import QuiсkFilterGuid from "../../infrastructure/constants/quickFilter/taskQuickFilter.js";
+import TaskQuickFilterModel from "../../infrastructure/models/TaskQuickFilter.js";
 export default {
   components: { QuickFilter },
   props: ["taskQuery"],

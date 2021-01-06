@@ -141,8 +141,8 @@
   </main>
 </template>
 <script>
-import TaskQuery from "~/infrastructure/constants/query/taskQuery.js";
-import taskStoreMixin from "~/mixins/task/taskСategories.js";
+import TaskQuery from "../../infrastructure/constants/query/taskQuery.js";
+import taskStoreMixin from "../infrastructure/mixins/gridСategories.js";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 export default {

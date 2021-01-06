@@ -2,12 +2,12 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import importanceIconColumn from "~/components/page/task-important.vue";
-import Important from "~/infrastructure/constants/taskImportance.js";
+import Important from "../../../infrastructure/constants/taskImportance.js";
 
-import AssignmentType from "../models/AssignmentType";
-import { isNotification } from "../constants/assignmentType";
-import AssignmentStatusGuid from "../constants/assignmentStatus";
-import { generateAssignmentQueryName } from "../constants/assignmentQuery";
+import AssignmentType from "../../../infrastructure/models/AssignmentType";
+import { isNotification } from "../../../infrastructure/constants/assignmentType";
+import AssignmentStatusGuid from "../../../infrastructure/constants/assignmentStatus";
+import { generateAssignmentQueryName } from "../../../infrastructure/constants/query/assignmentQuery";
 import assignnmentTypeIconColumn from "../../grid-components/icon-by-assignment-type.vue";
 
 import {

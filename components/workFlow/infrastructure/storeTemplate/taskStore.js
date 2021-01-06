@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 import TaskStatus from "../constants/taskStatus";
-import TaskType from "../constants/taskType";
+import TaskType from "../../infrastructure/constants/taskType";
 export const state = () => ({
   task: {},
   canDelete: false,

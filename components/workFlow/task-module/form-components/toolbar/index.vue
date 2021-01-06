@@ -46,9 +46,9 @@ import toolbarItemStartBtn from "./start-btn.vue";
 import toolbarItemImportanceChanger from "./importance-changer.vue";
 import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 // services and constants
-import AssignmentType from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentType.js";
-import ToolbarByTaskType from "~/infrastructure/factory/taskToolbarByTaskType.js";
-import { mapToEntityType } from "~/infrastructure/constants/taskType.js";
+import AssignmentType from "../../../infrastructure/constants/assignmentType";
+import ToolbarByTaskType from "../../infrastructure/factory/taskToolbarByTaskType.js";
+import { mapToEntityType } from "../../../infrastructure/constants/taskType.js";
 //toolbar btn icon
 import saveIcon from "~/static/icons/save.svg";
 import abortIcon from "~/static/icons/stop.svg";

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TaskType from "~/infrastructure/models/TaskType.js";
+import TaskType from "~/components/workFlow/infrastructure/models/TaskType.js";
 export default {
   props: ["taskTypeGuid"],
   computed: {

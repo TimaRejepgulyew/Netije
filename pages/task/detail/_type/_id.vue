@@ -2,7 +2,7 @@
   <card-task @onClose="closeTask" :taskId="taskId" />
 </template>
 <script>
-import taskChangeTracker from "~/infrastructure/services/taskChangeTracker.js";
+import taskChangeTracker from "~/components/workFlow/task-module/infrastructure/services/taskChangeTracker.js";
 import dataApi from "~/static/dataApi";
 import cardTask from "~/components/workFlow/task-module/main-form.vue";
 import { load } from "~/components/workFlow/infrastructure/services/taskService.js";

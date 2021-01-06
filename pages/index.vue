@@ -7,7 +7,7 @@
   </main>
 </template>
 <script>
-import AssignmentQuery from "~/components/workFlow/assignment-module/infrastructure/constants/assignmentQuery.js";
+import AssignmentQuery from "~/components/workFlow//infrastructure/constants/query/assignmentQuery.js";
 import * as assignmentGrids from "~/components/workFlow/assignment-module/grid-by-query/index.js";
 export default {
   components: {

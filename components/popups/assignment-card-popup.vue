@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { load as assignmentLoad } from "~/components/workFlow/assignment-module/infrastructure/services/assignmentService.js";
+import { load as assignmentLoad } from "~/components/workFlow/infrastructure/services/assignmentService.js";
 export default {
   components: {
     cardAssignment: () =>

@@ -66,7 +66,7 @@
 <script>
 //infrastructure constants services and etc...
 import { unload } from "../infrastructure/services/taskService.js";
-import TaskTypeModel from "~/infrastructure/models/TaskType.js";
+import TaskTypeModel from "../infrastructure/models/TaskType.js";
 import TaskType from "../infrastructure/constants/taskType";
 import taskChangeTracker from "./infrastructure/services/taskChangeTracker.js";
 

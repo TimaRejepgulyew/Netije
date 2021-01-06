@@ -1,4 +1,4 @@
-import AssignmentQuery from "../constants/assignmentQuery";
+import AssignmentQuery from "../../../infrastructure/constants/query/assignmentQuery";
 
 const menuForBusinessUnitHead = context => {
   return [onReview(context), onDocumentReview(context), onApproval(context)];

@@ -11,7 +11,7 @@
   />
 </template>
 <script>
-import TaskType from "~/infrastructure/constants/taskType.js";
+import TaskType from "../infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
 import DocumentSendAction from "~/infrastructure/models/DocumentSendAction.js";
 import DxMenu from "devextreme-vue/menu";

@@ -1,19 +1,19 @@
 import * as resultIcon from "~/static/icons/status/assignmentResult.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import AssignmentType from "./assignmentType.js";
-import { ReviewResult as Simple } from "../../form-by-type/simple/assignment/infrastructure";
-import { ReviewResult as ReviewAssignment } from "../../form-by-type/simple/review/infrastructure";
-import { ReviewResult as Acquaintance } from "../../form-by-type/acquaintance/assignment/infrastructure";
-import { ReviewResult as AcquaintanceFinish } from "../../form-by-type/acquaintance/finish/infrastructure";
-import { ReviewResult as ActionItemExecution } from "../../form-by-type/action-item-exicution/assignment/infrastructure";
-import { ReviewResult as ActionItemSupervisor } from "../../form-by-type/action-item-exicution/supervisor/infrastructure";
-import { ReviewResult as PrepareDraftResolution } from "../../form-by-type/document-review/prepare-draft-resolution/infrastructure";
-import { ReviewResult as ReviewDraftResolution } from "../../form-by-type/document-review/review-draft-resolution/infrastructure";
-import { ReviewResult as ReviewManager } from "../../form-by-type/document-review/review-manager/infrastructure";
-import { ReviewResult as ReviewResolution } from "../../form-by-type/document-review/review-resolution/infrastructure";
-import { ReviewResult as FreeApprovalAssignment } from "../../form-by-type/free-approval/assignment/infrastructure";
-import { ReviewResult as FreeApprovalReworkAssignment } from "../../form-by-type/free-approval/rework/infrastructure";
-import { ReviewResult as FreeApprovalFinishAssignment } from "../../form-by-type/free-approval/finish/infrastructure";
+import { ReviewResult as Simple } from "../../assignment-module/form-by-type/simple/assignment/infrastructure";
+import { ReviewResult as ReviewAssignment } from "../../assignment-module/form-by-type/simple/review/infrastructure";
+import { ReviewResult as Acquaintance } from "../../assignment-module/form-by-type/acquaintance/assignment/infrastructure";
+import { ReviewResult as AcquaintanceFinish } from "../../assignment-module/form-by-type/acquaintance/finish/infrastructure";
+import { ReviewResult as ActionItemExecution } from "../../assignment-module/form-by-type/action-item-exicution/assignment/infrastructure";
+import { ReviewResult as ActionItemSupervisor } from "../../assignment-module/form-by-type/action-item-exicution/supervisor/infrastructure";
+import { ReviewResult as PrepareDraftResolution } from "../../assignment-module/form-by-type/document-review/prepare-draft-resolution/infrastructure";
+import { ReviewResult as ReviewDraftResolution } from "../../assignment-module/form-by-type/document-review/review-draft-resolution/infrastructure";
+import { ReviewResult as ReviewManager } from "../../assignment-module/form-by-type/document-review/review-manager/infrastructure";
+import { ReviewResult as ReviewResolution } from "../../assignment-module/form-by-type/document-review/review-resolution/infrastructure";
+import { ReviewResult as FreeApprovalAssignment } from "../../assignment-module/form-by-type/free-approval/assignment/infrastructure";
+import { ReviewResult as FreeApprovalReworkAssignment } from "../../assignment-module/form-by-type/free-approval/rework/infrastructure";
+import { ReviewResult as FreeApprovalFinishAssignment } from "../../assignment-module/form-by-type/free-approval/finish/infrastructure";
 const BaseResult = {
     Accept: 0,
     ForRework: 1

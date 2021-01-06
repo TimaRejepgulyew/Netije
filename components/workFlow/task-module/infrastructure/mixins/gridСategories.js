@@ -22,8 +22,8 @@ import {
   DxFilterRow,
   DxStateStoring,
 } from "devextreme-vue/data-grid";
-import toolbarItemQuickFilter from "~/components/task/task-grids/components/quickFilter.vue"
-import taskStatus, { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
+import toolbarItemQuickFilter from "../../grid-components/quickFilter.vue"
+import taskStatus, { taskStatusGeneratorObj } from "../../../infrastructure/constants/taskStatus.js";
 export default {
   components: {
     DxCheckBox,

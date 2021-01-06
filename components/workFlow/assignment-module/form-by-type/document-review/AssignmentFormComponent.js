@@ -1,5 +1,5 @@
 import { ActionItemExicutionFormAssignment } from "../action-item-exicution/AssignmentFormComponent.js";
-import AssignmentType from "../../infrastructure/constants/assignmentType";
+import AssignmentType from "../../../infrastructure/constants/assignmentType";
 import prepareDraftResolution from "./prepare-draft-resolution/index.vue";
 import reviewDraftResolution from "./review-draft-resolution/index.vue";
 import reviewManager from "./review-manager/index.vue";
