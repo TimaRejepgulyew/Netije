@@ -1,10 +1,20 @@
 <template>
-  <DxButton
-    :icon="elexchangeIcon"
-    :text="$t('buttons.elExchange')"
-    :hint="$t('buttons.elExchange')"
-    :on-click="sendToElExchange"
-  />
+  <div>
+    <DxButton
+      :visible="canIntranetExchange"
+      :icon="elexchangeIcon"
+      :text="$t('buttons.intranetExchange')"
+      :hint="$t('buttons.intranetExchange')"
+      :on-click="sendToElExchange"
+    />
+    <DxButton
+      :visible="canElExchange"
+      :icon="elexchangeIcon"
+      :text="$t('buttons.elExchange')"
+      :hint="$t('buttons.elExchange')"
+      :on-click="sendToElExchange"
+    />
+  </div>
 </template>
 
 <script>
@@ -14,19 +24,26 @@ import DxButton from "devextreme-vue/button";
 import { confirm } from "devextreme/ui/dialog";
 export default {
   components: {
-    DxButton
+    DxButton,
   },
   props: {
     documentId: {
-      type: Number
-    }
+      type: Number,
+    },
+    canIntranetExchange: {
+      type: Boolean,
+    },
+    canElExchange: {
+      type: Boolean,
+    },
   },
   data() {
     return {
-      elexchangeIcon
+      elexchangeIcon,
     };
   },
   methods: {
+    sendToIntranetExchange() {},
     async sendToElExchange() {
       const result = await confirm(
         this.$t("document.confirm.sureSendToElectronExchangeService"),
@@ -35,7 +52,7 @@ export default {
       if (result)
         this.$awn.asyncBlock(
           this.$axios.post(dataApi.documentModule.Exchange, {
-            documentId: this.documentId
+            documentId: this.documentId,
           }),
           () => {
             this.$awn.success();
@@ -44,8 +61,8 @@ export default {
             this.$awn.alert();
           }
         );
-    }
-  }
+    },
+  },
 };
 </script>
 

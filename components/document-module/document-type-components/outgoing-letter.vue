@@ -217,10 +217,15 @@ export default {
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
+      console.log(data);
       this.selectedCorrespondentType = data;
+      this.$store.commit(
+        `documents/${this.documentId}/SET_CORRESPONDENT`,
+        data
+      );
     },
     setCorrenspondent(data) {
-      if (data == null) {
+      if (data === null) {
         if (this.selectedCorrespondentType)
           this.selectedCorrespondentType.type = null;
       }

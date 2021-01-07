@@ -1,5 +1,9 @@
 <template>
   <div>
+    <Toolbar :assignmentId="assignmentId" :isCard="isCard" v-if="canUpdate">
+      <slot name="createChildTask" slot="createChildTask"> </slot>
+      <slot name="importanceIndicator" slot="importanceIndicator"> </slot>
+    </Toolbar>
     <DxForm
       ref="form"
       :col-count="10"
@@ -26,10 +30,14 @@
   </div>
 </template>
 <script>
+import Toolbar from "./components/toolbar";
 import formByType from "../../infrastructure/mixins/form-types.js";
 export default {
   name: "base-notification",
   mixins: [formByType],
+  components: {
+    Toolbar,
+  },
 };
 </script>
 

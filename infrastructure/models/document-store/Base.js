@@ -10,6 +10,7 @@ export default class Base {
     documentState: {},
     isNew: false,
     isDataChanged: false,
+    canExchange: false,
     canUpdate: false,
     canDelete: false,
     canRegister: false,
@@ -38,6 +39,9 @@ export default class Base {
       }
     }) {
       return canRegister && numberingType != NumberingType.NotNumerable;
+    },
+    canExchange({ canExchange }) {
+      return canExchange;
     },
     isRegistrable({
       document: {
@@ -169,7 +173,7 @@ export default class Base {
     this.state = { ...this.state, ...options?.state };
     this.actions = {
       ...options?.actions,
-      ...this.actions,
+      ...this.actions
     };
   }
   stateOptions() {

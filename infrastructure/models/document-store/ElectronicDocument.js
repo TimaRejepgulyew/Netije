@@ -114,9 +114,14 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
           state.isDataChanged = true;
         }
         state.document.subject = payload;
-      },
+      }
     };
-
+    const state = {
+      ...options?.state
+    };
+    const getters = {
+      ...options?.getters
+    };
     const actions = {
       ...options?.actions,
       ...documentRegistrationActions(),
@@ -153,6 +158,6 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         commit("SET_DOCUMENT", payload);
       }
     };
-    super({ actions, mutations });
+    super({ actions, mutations, state, getters });
   }
 }

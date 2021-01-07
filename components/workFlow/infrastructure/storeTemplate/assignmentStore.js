@@ -25,7 +25,7 @@ export const getters = {
     return isActionItemExicutionAssignment(assignment.assignmentType);
   },
   canUpdate({ assignment, canUpdate }) {
-    return assignment.status === AssignmentStatus.InProcess && canUpdate;
+    return canUpdate;
   },
   isImportant({ assignment }) {
     return assignment.importance === Importance.High;

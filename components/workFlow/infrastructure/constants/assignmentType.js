@@ -21,7 +21,11 @@ const AssignmentType = {
   FreeApprovalReworkAssignment: 18,
   ActionItemObserversNotification: 19,
   ActionItemSupervisorNotification: 20,
-  FreeApprovalNotification: 21
+  FreeApprovalNotification: 21,
+  ExchangeDocumentProcessingAssignment: 29,
+  IntranetExchangeDocumentProcessingAssignment: 30,
+  IntranetExchangeDocumentNotification: 31,
+  IntranetExchangeDocumentTerminatedAssignment: 32
 };
 export default AssignmentType;
 export function isAssignment(assignmenType) {
@@ -34,10 +38,9 @@ export function isAssignment(assignmenType) {
     AssignmentTypeGuid.ReviewManagerAssignment,
     AssignmentTypeGuid.ReviewResolutionAssignment,
     AssignmentTypeGuid.FreeApprovalAssignment,
-    AssignmentTypeGuid.FreeApprovalReworkAssignment,
-  ]
-  return allowTypes.some((el) => assignmenType === el)
-
+    AssignmentTypeGuid.FreeApprovalReworkAssignment
+  ];
+  return allowTypes.some(el => assignmenType === el);
 }
 export function isNotification(assignmenType) {
   const allowTypes = [
@@ -49,20 +52,18 @@ export function isNotification(assignmenType) {
     AssignmentType.ReviewObserverNotification,
     AssignmentType.ReviewObserversNotification,
     AssignmentType.ReviewClerkNotification,
-    AssignmentType.FreeApprovalNotification,
-  ]
-  return allowTypes.some((el) => assignmenType === el)
-
+    AssignmentType.FreeApprovalNotification
+  ];
+  return allowTypes.some(el => assignmenType === el);
 }
 export function isReviewAssignment(assignmenType) {
   const allowTypes = [
     AssignmentTypeGuid.AcquaintanceFinishAssignment,
     AssignmentTypeGuid.ActionItemSupervisorAssignment,
     AssignmentTypeGuid.ReviewAssignment,
-    AssignmentTypeGuid.FreeApprovalFinishAssignment,
-  ]
-  return allowTypes.some((el) => assignmenType === el)
-
+    AssignmentTypeGuid.FreeApprovalFinishAssignment
+  ];
+  return allowTypes.some(el => assignmenType === el);
 }
 export function isActionItemExicutionAssignment(type) {
   return type === AssignmentType.ActionItemExecutionAssignment;
@@ -74,4 +75,3 @@ export function assignmentTypeName(context) {
     context: context
   });
 }
-
