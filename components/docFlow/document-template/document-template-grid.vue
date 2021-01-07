@@ -36,23 +36,13 @@
         :file-name="$t('document.headers.documentTemplate')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="document-template"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="document-template" />
       <DxEditing :allow-adding="false" :useIcons="true" mode="popup" />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
-      <DxColumn
-        data-field="name"
-        :caption="$t('document.fields.name')"
-      ></DxColumn>
-      <DxColumn
-        data-field="modified"
-        :caption="$t('document.fields.modified')"
-      ></DxColumn>
+      <DxColumn data-field="name" :caption="$t('document.fields.name')"></DxColumn>
+      <DxColumn data-field="modified" data-type="date" :caption="$t('document.fields.modified')"></DxColumn>
       <DxColumn data-field="authorId" :caption="$t('document.fields.authorId')">
         <DxLookup
           :allow-clearing="true"
@@ -61,10 +51,7 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn
-        data-field="description"
-        :caption="$t('document.fields.description')"
-      ></DxColumn>
+      <DxColumn data-field="description" :caption="$t('document.fields.description')"></DxColumn>
     </DxDataGrid>
   </main>
 </template>

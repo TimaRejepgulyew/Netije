@@ -5,13 +5,13 @@
       :buttons="searchButtons"
       width="20vw"
       id="search-panel"
-      :data-source="documents"
+      :data-source="dataSource"
       :value.sync="name"
       :show-clear-button="true"
-      :min-search-length="2"
-      :search-timeout="300"
-      displayValue="name"
-      value-expr="name"
+      :min-search-length="3"
+      :search-timeout="1000"
+      :displayValue="valueExpr"
+      :value-expr="valueExpr"
       :onItemClick="openEntity"
       :placeholder="$t('shared.search')"
     >
@@ -28,25 +28,53 @@ import SearchingTypesModel from "./infrastructure/model/searchingTypes.js";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
-    DxAutocomplete
+    DxAutocomplete,
   },
   data() {
     return {
       name: null,
-      documents: new DataSource({
+      documentStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.documentModule.AllDocument
+          loadUrl: dataApi.documentModule.AllDocument,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
+      }),
+      taskStore: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.task.Task + 0,
+        }),
+        paginate: true,
+        pageSize: 10,
+      }),
+      assignmentStore: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.assignment.Assignments + 0,
+        }),
+        paginate: true,
+        pageSize: 10,
+      }),
+      dataSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.documentModule.AllDocument,
+        }),
+        paginate: true,
+        pageSize: 10,
       }),
       searchingType: localStorage.hasOwnProperty("searching-by-entity")
         ? +localStorage.getItem("searching-by-entity")
-        : searchingTypes.Document
+        : searchingTypes.Document,
     };
   },
   computed: {
+    valueExpr() {
+      if (this.searchingType === searchingTypes.Document) return "name";
+      else return "subject";
+    },
     searchingModel() {
       return new SearchingTypesModel(this).getById(this.searchingType);
     },
@@ -60,8 +88,8 @@ export default {
             stylingMode: "text",
             hoverStateEnabled: false,
             activeStateEnabled: false,
-            focusStateEnabled: false
-          }
+            focusStateEnabled: false,
+          },
         },
         {
           location: "after",
@@ -72,8 +100,8 @@ export default {
             stylingMode: "text",
             hoverStateEnabled: false,
             activeStateEnabled: false,
-            focusStateEnabled: false
-          }
+            focusStateEnabled: false,
+          },
         },
         {
           location: "after",
@@ -83,10 +111,11 @@ export default {
             hint: this.$t("searching.searchSetting"),
             stylingMode: "text",
             onClick: () => {
+              console.log(this.searchingType);
               this.$popup.searchSetting(
                 this,
                 {
-                  searchingType: this.searchingType
+                  searchingType: this.searchingType,
                 },
                 {
                   width: "auto",
@@ -95,20 +124,35 @@ export default {
                   listeners: [
                     {
                       eventName: "valueChanged",
-                      handlerName: "setSearchingType"
-                    }
-                  ]
+                      handlerName: "setSearchingType",
+                    },
+                  ],
                 }
               );
-            }
-          }
-        }
+            },
+          },
+        },
       ];
-    }
+    },
   },
 
   methods: {
+    setStore(searchingType) {
+      switch (searchingType) {
+        case searchingTypes.Document:
+          this.dataSource = this.documentStore;
+          break;
+        case searchingTypes.Task:
+          this.dataSource = this.taskStore;
+          break;
+        case searchingTypes.Assignment:
+          this.dataSource = this.assignmentStore;
+          break;
+      }
+      this;
+    },
     setSearchingType({ searchingType }) {
+      this.setStore(searchingType);
       this.searchingType = searchingType;
       localStorage.setItem("searching-by-entity", this.searchingType);
       this.name = null;
@@ -133,16 +177,14 @@ export default {
       this.$router.push(`/task/detail/${e.itemData.taskType}/${e.itemData.id}`);
     },
     openAssignment(e) {
-      this.$router.push(
-        `/assignment/more/${e.itemData.assignmentType}/${e.itemData.id}`
-      );
+      this.$router.push(`/assignment/more/${e.itemData.id}`);
     },
     openDocument(e) {
       this.$router.push(
         `/document-module/detail/${e.itemData.documentTypeGuid}/${e.itemData.id}`
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

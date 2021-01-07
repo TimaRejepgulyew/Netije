@@ -3,7 +3,7 @@ export const TaskType = {
   AcquaintanceTask: "Resminama bilen tanyşmak ýumuşy",
   ActionItemExecutionTask: "Tabşyrygy ýerine ýetirmek üçin ýumuşy",
   DocumentReviewTask: "Resminamany gözden geçirmek ýumuşy",
-  FreeApprovalTask: "Ekrin ylalyşyk ýumuşy"
+  FreeApprovalTask: "Erkin ylalyşyk ýumuşy"
 };
 export default {
   compoundActionItem: "Birleşdirilen tabşyryk",
@@ -53,7 +53,7 @@ export default {
     status: "Ýagdaýy",
     author: "Dörediji",
     assignedBy: "Berdi",
-    parallel: "Paralel",
+    parallel: "Parallel",
     gradually: "biri-biriniň yzyndan",
     performers: "Ýerine ýetirijiler",
     start: "Başla",

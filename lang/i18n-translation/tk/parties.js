@@ -40,6 +40,8 @@ export default {
       "Salgylanma kitaby ähli şahsy raýatlar-müşderiler barada maglumatlary saklamak üçin niýetlenendir"
   },
   fields: {
+    contactInformation: "Şahsy maglumatlar",
+    bankDetail: "Bank maglumatlary",
     correspondentAccount: "Hasap",
     contactName: "Belginiň ady",
     fax: "Faks",

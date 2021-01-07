@@ -44,7 +44,7 @@
             <DxLabel location="top" :text="$t('translations.fields.userName')" />
             <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
           </DxSimpleItem>
-          <DxSimpleItem data-field="name">
+          <DxSimpleItem :editorOptions="{readOnly:true}" data-field="name">
             <DxLabel location="top" :text="$t('translations.fields.fullName')" />
             <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
           </DxSimpleItem>
@@ -257,6 +257,7 @@ export default {
       return this.employee.businessUnitId;
     },
     personId() {
+      console.log("personId", this.employee);
       return this.employee.personId;
     },
     departmentId() {

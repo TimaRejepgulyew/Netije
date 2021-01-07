@@ -23,7 +23,9 @@ import malwareScanResults from "~/lang/i18n-translation/tk/malwareScanResults.js
 import reports from "~/lang/i18n-translation/tk/reports.js";
 import exchange from "~/lang/i18n-translation/tk/exchange.js";
 import searching from "~/lang/i18n-translation/tk/searchingPanel.js";
+import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
 export default {
+  onlineUsers,
   exchange,
   searching,
   malwareScanResults,
@@ -237,6 +239,7 @@ export default {
       sex: "jynsy",
       category: "Kategoriýa",
       APN: "Wezipesi, iş orny we telefon belgisi (APN)",
+      registrationAddress: "Hasaba alyş salgysy",
       legalAddress: "Hukuk salgysy",
       postAddress: "Poçta salgysy",
       phones: "Telefon belgileri",
@@ -255,6 +258,7 @@ export default {
       tinAlreadyExists: "Şeýle HSB öňden bar",
       tinRule: "HSB arasynda boşluklar bolmaly däldir",
       account: "Hasabyň belgisi",
+      correspondentAccount: "Habarçy hasaby",
       accountRequired: "Hasabyň belgisini giriziň",
       permissions: "Rugsatnamalar",
       nonresident: "Raýatlyga dahylly däl",

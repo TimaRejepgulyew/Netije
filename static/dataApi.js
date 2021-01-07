@@ -177,9 +177,9 @@ export default {
   },
   import: {
     companies: `/api/Import/Companies`,
-    banks: `​/api/Import/Banks`,
-    jobTitles: `​/api/Import/JobTitles`,
-    persons: `​/api/Import/Persons`,
+    banks: `/api/Import/Banks`,
+    jobTitles: `/api/Import/JobTitles`,
+    persons: `/api/Import/Persons`,
     employees: `/api/Import/Employees`
   },
   spreadSheet: {

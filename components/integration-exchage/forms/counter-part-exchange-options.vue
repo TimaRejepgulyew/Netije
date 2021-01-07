@@ -21,8 +21,13 @@
         <DxSimpleItem editor-type="dxTextArea" data-field="url">
           <DxLabel location="left" text="URL" />
         </DxSimpleItem>
+        <DxGroupItem :visible="ifEResminama">
+          <DxSimpleItem data-field="eId"></DxSimpleItem>
+          <DxSimpleItem data-field="ePass" :editor-options="{mode:'password'}"></DxSimpleItem>
+        </DxGroupItem>
       </DxGroupItem>
-      <DxSimpleItem data-field="canExchange">
+
+      <DxSimpleItem :col-span="2" data-field="canExchange">
         <DxLabel location="left" :text="$t('exchange.fields.canExchange')" />
       </DxSimpleItem>
     </DxForm>
@@ -56,6 +61,11 @@ export default {
       default: {}
     }
   },
+  data() {
+    return {
+      exchangeBoxType: null
+    };
+  },
   computed: {
     counterPart() {
       return {
@@ -71,8 +81,14 @@ export default {
     exchangeBoxTypeOptions() {
       return {
         dataSource: Object.values(counterpartyExchangeBoxType),
-        displayExpr: this.customizeText
+        displayExpr: this.customizeText,
+        onValueChanged: e => {
+          this.exchangeBoxType = e.value;
+        }
       };
+    },
+    ifEResminama() {
+      return this.exchangeBoxType == counterpartyExchangeBoxType.eResminama;
     }
   },
   methods: {

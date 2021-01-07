@@ -3,6 +3,7 @@ export default {
   providers: {
     netije: "Netije",
     srd: "Srd",
+    eResminama: "eResminama"
   },
   uploadCertificate: "Sertifikaty ýüklemek",
   routingType: {

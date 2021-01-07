@@ -27,8 +27,8 @@ export default {
         endDate: "Дата завершения",
         journal: "Журнал",
         Incoming: "Входящий",
-        Outcoming: "Исходящий",
-        Inner: "Внутренний",
+        Outgoing: "Исходящий",
+        Internal: "Внутренний",
         endDateRequired: "Выберите конец",
         startDateRequired: "Выберите начало",
         saveBtn: "Сформировать"
