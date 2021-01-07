@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     getManual() {
-      window.open("/Manual.pdf", "_blank");
+      window.open(`/Manual-${this.$i18n.locale}.pdf`, "_blank");
     },
   },
 };
