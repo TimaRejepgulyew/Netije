@@ -29,4 +29,15 @@ export default class TaskType {
   getById(id) {
     return this.elements[id];
   }
+  getExcludeBy(excludeTypes){
+    const filterObj = {};
+    for (let element in this.elements) {
+      for (let excludeType of excludeTypes) {
+        if (+element !== excludeType) {
+          filterObj[element] = this.elements[element];
+        }
+      }
+    }
+    return filterObj;
+  }
 }

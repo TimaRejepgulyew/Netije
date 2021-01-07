@@ -22,7 +22,9 @@
     >
       <DxSimpleItem :col-span="2" data-field="firstName">
         <DxLabel location="top" :text="$t('translations.fields.firstName')" />
-        <DxRequiredRule :message="$t('translations.fields.firstNameRequired')" />
+        <DxRequiredRule
+          :message="$t('translations.fields.firstNameRequired')"
+        />
       </DxSimpleItem>
       <DxSimpleItem :col-span="2" data-field="lastName">
         <DxRequiredRule :message="$t('translations.fields.lastNameRequired')" />
@@ -47,8 +49,15 @@
       >
         <DxLabel location="top" :text="$t('translations.fields.category')" />
       </DxSimpleItem>
-      <DxSimpleItem :col-span="1" data-field="nonresident" editor-type="dxCheckBox">
-        <DxLabel location="left" :text="$t('translations.fields.nonresident')" />
+      <DxSimpleItem
+        :col-span="1"
+        data-field="nonresident"
+        editor-type="dxCheckBox"
+      >
+        <DxLabel
+          location="left"
+          :text="$t('translations.fields.nonresident')"
+        />
       </DxSimpleItem>
       <DxSimpleItem :col-span="2" data-field="tin">
         <DxPatternRule
@@ -80,14 +89,21 @@
         />
         <DxLabel location="top" :text="$t('shared.code')" />
       </DxSimpleItem>
-      <DxGroupItem :col-count="2" :col-span="2" :caption="$t('parties.fields.contactInformation')">
+      <DxGroupItem
+        :col-count="2"
+        :col-span="2"
+        :caption="$t('parties.fields.contactInformation')"
+      >
         <DxSimpleItem
           :col-span="1"
           :editor-options="localityOptions"
           editor-type="dxSelectBox"
           data-field="localityId"
         >
-          <DxLabel location="top" :text="$t('translations.fields.localityId')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.localityId')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           :col-span="1"
@@ -98,10 +114,16 @@
           <DxLabel location="top" :text="$t('translations.fields.regionId')" />
         </DxSimpleItem>
         <DxSimpleItem :col-span="2" data-field="legalAddress">
-          <DxLabel location="top" :text="$t('translations.fields.registrationAddress')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.registrationAddress')"
+          />
         </DxSimpleItem>
         <DxSimpleItem :col-span="2" data-field="postAddress">
-          <DxLabel location="top" :text="$t('translations.fields.postAddress')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.postAddress')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem :col-span="2" editor-type="dxTextBox" data-field="phones">
@@ -116,8 +138,16 @@
           <DxLabel location="top" :text="$t('translations.fields.webSite')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :col-span="2" :col-count="2" :caption="$t('parties.fields.bankDetail')">
-        <DxSimpleItem data-field="bankId" :editor-options="bankOptions" editor-type="dxSelectBox">
+      <DxGroupItem
+        :col-span="2"
+        :col-count="2"
+        :caption="$t('parties.fields.bankDetail')"
+      >
+        <DxSimpleItem
+          data-field="bankId"
+          :editor-options="bankOptions"
+          editor-type="dxSelectBox"
+        >
           <DxLabel location="top" :text="$t('translations.fields.bankId')" />
         </DxSimpleItem>
         <DxSimpleItem :col-span="1" data-field="account">
@@ -125,7 +155,11 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
+        <DxSimpleItem
+          data-field="note"
+          :editor-options="{ height: 90 }"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -147,7 +181,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 import Header from "~/components/page/page__header";
 import dataApi from "~/static/dataApi";
@@ -165,7 +199,7 @@ export default {
     DxForm,
     DxAsyncRule,
     Toolbar,
-    Header
+    Header,
   },
   props: ["isCard", "data"],
   created() {
@@ -195,27 +229,31 @@ export default {
         tin: null,
         note: "",
         nonresident: true,
-        status: this.$store.getters["status/status"](this)[0].id
+        status: this.$store.getters["status/status"](this)[0].id,
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
       statusOptions: {
         value: this.$store.getters["status/status"](this)[0].id,
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
-      }
+        showClearButton: true,
+      },
     };
   },
   computed: {
     canExchange() {
-      return this.$store.getters["permissions/IsAdmin"] && this.person.id;
+      return (
+        this.$store.getters["permissions/IsAdmin"] &&
+        this.person.id &&
+        !this.person.isCardReadOnly
+      );
     },
     readOnly() {
       if (this.person.isSystem) {
@@ -231,11 +269,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         onValueChanged: () => {
           this.person.localityId = null;
-        }
+        },
       };
     },
     localityOptions() {
@@ -244,35 +282,35 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.person?.regionId]
-        ]
+          ["regionId", "=", this.person?.regionId],
+        ],
       });
     },
     dateOptions() {
       return {
         useMaskBehavior: true,
-        openOnFieldClick: true
+        openOnFieldClick: true,
       };
     },
     categoryIdOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.contragents.Category
-        })
+          url: dataApi.contragents.Category,
+        }),
       };
-    }
+    },
   },
   methods: {
     openExchangeOptions() {
       this.$popup.exchangeOptions(
         this,
         {
-          counterPartId: this.person.id
+          counterPartId: this.person.id,
         },
         {
           height: "auto",
-          width: "60vw"
+          width: "60vw",
         }
       );
     },
@@ -280,7 +318,7 @@ export default {
       var dataField = params.formItem.dataField;
       return this.$customValidator.PersonDataFieldValueNotExists(
         {
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -320,7 +358,7 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
