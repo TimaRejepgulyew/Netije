@@ -1,4 +1,5 @@
-import TaskType from "../models/TaskType.js";
+import TaskType from "./TaskType";
+import TaskTypeGuid from "../constants/taskType.js";
 import { createTask } from "../services/taskService.js";
 import toRouter from "~/infrastructure/services/toRouterDetail.js";
 async function create(context, params) {
@@ -17,6 +18,9 @@ async function create(context, params) {
 }
 export default class CreateTaskBtn extends TaskType {
   init() {
+    this.elements = this.getExcludeBy([
+      TaskTypeGuid.IntranetExchangeDocumentProcessingTask
+    ]);
     for (let element in this.elements) {
       this.elements[element].create = context =>
         create(context, { taskType: +element });
