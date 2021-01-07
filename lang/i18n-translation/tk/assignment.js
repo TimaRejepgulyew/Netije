@@ -28,9 +28,14 @@ export default {
     Today: "Şu gün"
   },
   confirmMessage: {
+    sureTerminatedAssignmentConfirmation:
+      "Вы действительно хотите отказать в обработке входящего документа",
+    sureProcessedAssignmentConfirmation:
+      "Вы действительно хотите обработать входящий документ",
+    sureInformedAssignmentConfirmation: "Вы действительно приняли к сведению",
     sureAbortConfirmation: "Siz hakykatdanam ýumuşy işlemegi besetjek mi ?",
     sureApprovalReworkAssignmentConfirmation:
-      "Siz hakykatdan ýumuşy gaýtadan işlendiňiz ",
+      "Siz hakykatdan ýumuşy gaýtadan işlendiňiz",
     sureFreeApprovalAssignmentConfirmation:
       "Siz hakykatdan resminama bilen ylalaşýarsyňyz?",
     sureFreeApprovalFinishAssignment:

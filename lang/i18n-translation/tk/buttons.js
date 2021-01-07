@@ -1,4 +1,7 @@
 export default {
+  informed: "Kabul etmek",
+  processed: "Işlemek",
+  terminated: "Gaýtarmak",
   uploadKey: "Açary ýüklemek",
   elExchange: "El. alyş-çalyş",
   today: "Şu gün",

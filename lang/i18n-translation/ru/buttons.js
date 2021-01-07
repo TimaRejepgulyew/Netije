@@ -1,4 +1,7 @@
 export default {
+  informed: "Принять к сведению",
+  processed: "Обработать",
+  terminated: "Отказать",
   uploadKey: "Загрузить ключ",
   elExchange: " Внешний эл. обмен",
   intranetExchange: "Внутренний эл обмен",

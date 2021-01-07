@@ -28,6 +28,11 @@ export default {
     Today: "Сегодня"
   },
   confirmMessage: {
+    sureTerminatedAssignmentConfirmation:
+      "Вы действительно хотите отказать в обработке входящего документа",
+    sureProcessedAssignmentConfirmation:
+      "Вы действительно хотите обработать входящий документ",
+    sureInformedAssignmentConfirmation: "Вы действительно приняли к сведению",
     sureAbortConfirmation: "Вы действительно ходтите прекратить задачу?",
     sureApprovalReworkAssignmentConfirmation:
       "Вы действительно исправили задачу",
