@@ -8,7 +8,7 @@ export default {
   headers: {
     onlineUsers: "Işjeň ulanyjylar"
   },
-  confirm:{
-    sureTurnOffUser:"Siz hakykatanam ulanyjyny öçürjekmi?"
-  },
+  confirm: {
+    sureTurnOffUser: "Siz hakykatanam ulanyjyny öçürjekmi?"
+  }
 };

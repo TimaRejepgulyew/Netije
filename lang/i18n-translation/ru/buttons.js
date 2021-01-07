@@ -7,6 +7,7 @@ export default {
   intranetExchange: "Внутренний эл обмен",
   today: "Сегодня",
   refreshMergeFieldParams: "Обновить параметры",
+  manual: "Руководство",
   edit: "Редактировать",
   confirm: "Потвердите",
   diactivate: "Завершить сеанс",

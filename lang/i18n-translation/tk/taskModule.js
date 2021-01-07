@@ -54,7 +54,7 @@ export default {
     author: "Dörediji",
     assignedBy: "Berdi",
     parallel: "Parallel",
-    gradually: "biri-biriniň yzyndan",
+    gradually: "Biri-biriniň yzyndan",
     performers: "Ýerine ýetirijiler",
     start: "Başla",
     addressee: "Barmaly ýeri",
@@ -67,7 +67,9 @@ export default {
     needsReview: "Göz astynda",
     deadLine: "Soňky senesi",
     isElectronicAcquaintance: "Elektron görnüşinde tanyşmak",
-    observers: "Gözegçiler",
+    observers: "Gözegçiler",  
+
+    
     acquaintMembers: "Kime tanyşdyrmaly",
     excludedPerformers: "Mundan başga",
     comment: "Teswir",
