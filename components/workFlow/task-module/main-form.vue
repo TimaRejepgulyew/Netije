@@ -97,8 +97,7 @@ export default {
     simpleTask,
     acquaintanceTask,
     actionItemExecutionTask,
-    threadTexts: () =>
-      import("../thread-text/thread-texts.vue"),
+    threadTexts: () => import("../thread-text/thread-texts.vue"),
     toolbar,
     attachment,
     Header,
@@ -173,7 +172,7 @@ export default {
       });
     },
     onSave() {
-      this.$emit("onSave", {
+      this.$emit("onClose", {
         taskId: this.taskId,
         taskType: this.task.taskType,
       });

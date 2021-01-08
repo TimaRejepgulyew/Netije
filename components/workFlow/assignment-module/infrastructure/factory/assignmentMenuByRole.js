@@ -7,7 +7,7 @@ const menuForDepartmentAssistant = context => {
   return [onApproval(context), onExicution(context), onReview(context)];
 };
 const menuForClerk = context => {
-  return [onExicution(context), onReview(context)];
+  return [onExicution(context), onReview(context), reviewResolution(context)];
 };
 const menuForManagerAssistant = context => {
   return [onApproval(context), onReview(context), reviewResolution(context)];

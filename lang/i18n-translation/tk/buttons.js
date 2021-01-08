@@ -12,7 +12,7 @@ export default {
   createChildTask: "Goşundy ýumuş",
   switchToCompound: "Deň hukukly ýerine ýetirijiler",
   createChiltActionItemExecution: "Tabşyrygy döretmek",
-  createChilteExecution: "Tabyn tabşyrygy döretmek",
+  createSubTaskActionItem: "Tabyn tabşyrygy döretmek",
   addResolution: "Rezolýusiýany çykarmak",
   returnManagersAssistant: "Kömekçä yzyna gaýtarmak",
   approveResolution: "Rezolýusiýanyň taslamasyny tassyklamak",

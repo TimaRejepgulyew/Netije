@@ -24,6 +24,7 @@ export default {
       this.$emit("pasteAttachment", options);
     },
     onComplete() {
+      console.log("form-by-type");
       this.$emit("onComplete");
     }
   },

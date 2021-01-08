@@ -60,8 +60,7 @@ import Info from "./form-components/info-form.vue";
 import importantIndicator from "./form-components/impartant-indicator";
 export default {
   components: {
-    threadTexts: () =>
-      import("../thread-text/thread-texts.vue"),
+    threadTexts: () => import("../thread-text/thread-texts.vue"),
     attachment: () => import("../attachment/index.vue"),
     Info,
     Header,
@@ -98,7 +97,13 @@ export default {
   },
   methods: {
     changeThreadTextsResreshTracker(value) {
-      this.threadTextsResreshTracker = value;
+      console.log(value);
+      if (value) {
+        setTimeout(() => {
+          this.threadTextsResreshTracker = value;
+          console.log("log", this.threadTextsResreshTracker);
+        }, 3000);
+      } else this.threadTextsResreshTracker = value;
     },
     onClosed() {
       this.$emit("onClosed", {
@@ -107,6 +112,7 @@ export default {
       });
     },
     onComplete(res) {
+      console.log("main-form");
       this.changeThreadTextsResreshTracker(true);
     },
     reload() {

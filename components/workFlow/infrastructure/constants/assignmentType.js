@@ -23,9 +23,9 @@ const AssignmentType = {
   ActionItemSupervisorNotification: 20,
   FreeApprovalNotification: 21,
   ExchangeDocumentProcessingAssignment: 29,
-  IntranetExchangeDocumentProcessingAssignment: 30,
+ IntranetExchangeDocumentProcessingAssignment: 30,
   IntranetExchangeDocumentNotification: 31,
-  IntranetExchangeDocumentTerminatedAssignment: 32
+  IntranetExchangeDocumentTerminatedAssignment: 32 
 };
 export default AssignmentType;
 export function isAssignment(assignmenType) {

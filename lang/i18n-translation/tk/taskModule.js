@@ -3,7 +3,8 @@ export const TaskType = {
   AcquaintanceTask: "Resminama bilen tanyşmak ýumuşy",
   ActionItemExecutionTask: "Tabşyrygy ýerine ýetirmek üçin ýumuşy",
   DocumentReviewTask: "Resminamany gözden geçirmek ýumuşy",
-  FreeApprovalTask: "Erkin ylalyşyk ýumuşy"
+  FreeApprovalTask: "Erkin ylalyşyk ýumuşy",
+  IntranetExchangeDocumentProcessingTask:"Içerki alyş-çalşygy"
 };
 export default {
   compoundActionItem: "Birleşdirilen tabşyryk",

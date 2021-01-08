@@ -23,9 +23,17 @@ export default {
   FreeApprovalFinishAssignment: "Ylalaşmak boýunça işleri tamamlamak",
   FreeApprovalReworkAssignment: "Resminama ylalaşylan üýtgetmeleri girizmek",
   FreeApprovalNotification: "Habarnama bermek",
+  ExchangeDocumentProcessingAssignment:
+    "Elektron alyş-çalyşyň daşky resminmany işläp-taýýarlamak",
+  IntranetExchangeDocumentProcessingAssignment:
+    "Içki elektron alyş-çalyşyň resminamasyny işläp-taýýarlamak  ",
+  IntranetExchangeDocumentNotification:
+    "Resminamanyň içläp-taýýarlanmagyň tammalandygy boýunça habar",
+  IntranetExchangeDocumentTerminatedAssignment:
+    "Içki elektron alyş-çalyşyň resminamasynyň ret edilmegini işläp-taýýarlamak",
   actionItemType: {
-    Component: "Состовное поручение",
-    Main: "Основное",
-    Additional: "Соисполнителю"
+    Component: "Birleşdirilen tabşyryk",
+    Main: "Esasy",
+    Additional: "Bilelikdäki ýerine ýetiriji"
   }
 };

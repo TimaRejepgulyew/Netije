@@ -29,10 +29,10 @@ export default {
   },
   confirmMessage: {
     sureTerminatedAssignmentConfirmation:
-      "Вы действительно хотите отказать в обработке входящего документа",
+      "Hakykatdanam hem giriş resminamany işläp- taýýarlamakdan ret etmekçimi",
     sureProcessedAssignmentConfirmation:
-      "Вы действительно хотите обработать входящий документ",
-    sureInformedAssignmentConfirmation: "Вы действительно приняли к сведению",
+      "Hakykatdanam hem giriş resminamany işläp-taýýarlamakçy",
+    sureInformedAssignmentConfirmation: " Hakykatdan hem garalmaga kabul ettiňiz",
     sureAbortConfirmation: "Siz hakykatdanam ýumuşy işlemegi besetjek mi ?",
     sureApprovalReworkAssignmentConfirmation:
       "Siz hakykatdan ýumuşy gaýtadan işlendiňiz",

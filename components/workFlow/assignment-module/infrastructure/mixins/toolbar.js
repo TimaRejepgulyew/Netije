@@ -72,7 +72,9 @@ export default {
           params
         ),
         e => {
-          this.$listeners.complete();
+          this.$emit("onComplete")
+          console.log("onComplete","toolbar");
+          // this.$listeners.complete();
           this.$awn.success();
         },
         e => this.$awn.alert()
