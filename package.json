@@ -9,8 +9,7 @@
     "build": "nuxt build",
     "start": "nuxt build && nuxt start",
     "generate": "nuxt generate",
-    "build-themes": "devextreme build",
-    "postinstall": "npm run build-themes"
+    "build-themes": "devextreme build"
   },
   "dependencies": {
     "@syncfusion/ej2-vue-calendars": "^18.3.51",
