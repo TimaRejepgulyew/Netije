@@ -16,46 +16,69 @@
       validation-group="contact"
     >
       <DxGroupItem :col-count="2">
-        <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('parties.fields.contactName')" />
+        <DxSimpleItem :col-span="2" data-field="name">
+          <DxLabel location="left" :text="$t('parties.fields.contactName')" />
           <DxRequiredRule :message="$t('shared.nameRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
+          :col-span="2"
+          template="personSelectBox"
+          data-field="personId"
+        >
+          <DxLabel location="left" :text="$t('counterPart.Person')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :col-span="2"
           editor-type="dxSelectBox"
           :editor-options="correspondentOptions"
           data-field="companyId"
         >
-          <DxLabel location="top" :text="$t('parties.fields.company')" />
+          <DxLabel location="left" :text="$t('parties.fields.company')" />
           <DxRequiredRule :message="$t('parties.validation.companyRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="department">
-          <DxLabel location="top" :text="$t('translations.fields.department')" />
+        <DxSimpleItem
+          editor-type="dxTextBox"
+          :col-span="2"
+          data-field="jobTitle"
+        >
+          <DxLabel
+            location="left"
+            :text="$t('translations.fields.jobTitleId')"
+          />
         </DxSimpleItem>
-        <DxSimpleItem editor-type="dxTextBox" data-field="jobTitle">
-          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
-        </DxSimpleItem>
-        <DxSimpleItem editor-type="dxTextBox" data-field="homepage">
-          <DxLabel location="top" :text="$t('translations.fields.homepage')" />
-        </DxSimpleItem>
-        <DxSimpleItem editor-type="dxTextBox" data-field="fax">
-          <DxLabel location="top" :text="$t('parties.fields.fax')" />
+        <DxSimpleItem :col-span="2" data-field="department">
+          <DxLabel
+            location="left"
+            :text="$t('translations.fields.department')"
+          />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="phones">
-          <DxLabel location="top" :text="$t('translations.fields.phones')" />
+          <DxLabel location="left" :text="$t('translations.fields.phones')" />
+        </DxSimpleItem>
+        <DxSimpleItem editor-type="dxTextBox" data-field="fax">
+          <DxLabel location="left" :text="$t('parties.fields.fax')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="email">
-          <DxLabel location="top" />
+          <DxLabel location="left" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
         </DxSimpleItem>
-        <DxSimpleItem template="personSelectBox" data-field="personId">
-          <DxLabel location="top" :text="$t('counterPart.Person')" />
+        <DxSimpleItem editor-type="dxTextBox" data-field="homepage">
+          <DxLabel location="left" :text="$t('translations.fields.homepage')" />
         </DxSimpleItem>
-        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
-          <DxLabel location="top" :text="$t('translations.fields.status')" />
+        <DxSimpleItem
+          :editor-options="statusOptions"
+          editor-type="dxSelectBox"
+          data-field="status"
+        >
+          <DxLabel location="left" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
+        <DxSimpleItem
+          data-field="note"
+          :editor-options="{ height: 90 }"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -74,7 +97,7 @@
           :read-only="false"
           :isPerson="true"
           :value="contact.personId"
-          @valueChanged="value => personChanged(value)"
+          @valueChanged="(value) => personChanged(value)"
         />
       </template>
     </DxForm>
@@ -97,7 +120,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
@@ -115,7 +138,7 @@ export default {
     DxAsyncRule,
     Toolbar,
     customSelectBox,
-    PersonSelectBox
+    PersonSelectBox,
   },
   props: ["isCard", "data"],
   async created() {
@@ -134,35 +157,35 @@ export default {
         dataSource: new DataSource({
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.contragents.CounterPart
+            loadUrl: dataApi.contragents.CounterPart,
           }),
           paginate: true,
-          pageSize: 10
+          pageSize: 10,
         }),
         valueExpr: "id",
         displayExpr: "name",
         value: this.correspondentId,
-        readOnly: true
+        readOnly: true,
       },
       sexOptions: {
         dataSource: [
           { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") }
+          { id: 1, name: this.$t("sex.female") },
         ],
         displayExpr: "name",
-        valueExpr: "id"
+        valueExpr: "id",
       },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
       headCompanyOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Company,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
       bankOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
 
       statusOptions: {
@@ -170,8 +193,8 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
-      }
+        showClearButton: true,
+      },
     };
   },
   computed: {
@@ -183,11 +206,11 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         onValueChanged: () => {
           this.contact.localityId = null;
-        }
+        },
       };
     },
     localityOptions() {
@@ -196,10 +219,10 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.contact.regionId]
-        ]
+          ["regionId", "=", this.contact.regionId],
+        ],
       });
-    }
+    },
   },
   methods: {
     async personChanged(value) {
@@ -243,7 +266,7 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
