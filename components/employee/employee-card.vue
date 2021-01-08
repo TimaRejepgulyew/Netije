@@ -160,16 +160,7 @@
       </template>
       <!-- :notPerson="true" -->
       <template #personSelectBox>
-        <person-select-box
-          valueExpr="id"
-          :read-only="true"
-          :value="personId"
-          @valueChanged="
-            (data) => {
-              reload(data);
-            }
-          "
-        />
+        <person-select-box valueExpr="id" :read-only="true" :value="personId" />
         <!-- :businessUnitId="businessUnitId" -->
       </template>
     </DxForm>
@@ -257,7 +248,6 @@ export default {
       return this.employee.businessUnitId;
     },
     personId() {
-      console.log("personId", this.employee);
       return this.employee.personId;
     },
     departmentId() {

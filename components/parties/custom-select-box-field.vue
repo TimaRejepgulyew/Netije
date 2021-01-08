@@ -5,7 +5,15 @@
       :read-only="readOnly"
       :value="fieldData && fieldData.name"
     />
+    <DxButton
+      v-if="isPerson"
+      :on-click="()=>createCounterPart('person')"
+      icon="plus"
+      stylingMode="text"
+      :hint="$t('buttons.add')"
+    />
     <DxDropDownButton
+      v-else
       :focusStateEnabled="false"
       :hoverStateEnabled="false"
       :showArrowIcon="false"
@@ -47,6 +55,9 @@ export default {
   },
   props: {
     readOnly: {
+      type: Boolean
+    },
+    isPerson: {
       type: Boolean
     },
     notPerson: {},
@@ -108,7 +119,7 @@ export default {
       this.$emit("openCounterPartPopup");
     },
     createCounterPart(e) {
-      this.$emit("openCreateCounterPartPopup", e.itemData.type);
+      this.$emit("openCreateCounterPartPopup", e.itemData?.type || e);
     }
   }
 };

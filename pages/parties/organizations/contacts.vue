@@ -42,11 +42,7 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('parties.fields.contactName')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('parties.fields.contactName')" data-type="string">
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
@@ -85,10 +81,20 @@
         :caption="$t('translations.fields.homepage')"
         :visible="false"
       ></DxColumn>
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-         <DxRequiredRule
-          :message="$t('shared.statusRequired')"
+      <DxColumn
+        :caption="$t('counterPart.Person')"
+        data-field="personId"
+        edit-cell-template="personSelectBox"
+      >
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="personIdDataSource"
+          value-expr="id"
+          display-expr="name"
         />
+      </DxColumn>
+      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
+        <DxRequiredRule :message="$t('shared.statusRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="statusDataSource"
@@ -110,6 +116,15 @@
           :on-value-changed="value => onValueChanged(value, cellInfo.data)"
         ></textArea>
       </template>
+      <template #personSelectBox="cellInfo">
+        <person-select-box
+          valueExpr="id"
+          :read-only="false"
+          :value="cellInfo.data.value"
+          :isPerson="true"
+          @valueChanged="value => onValueChanged(value, cellInfo.data)"
+        />
+      </template>
     </DxDataGrid>
   </main>
 </template>
@@ -119,6 +134,8 @@ import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import textArea from "~/components/page/textArea";
+import PersonSelectBox from "~/components/parties/custom-select-box.vue";
+
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -157,7 +174,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxEmailRule
+    DxEmailRule,
+    PersonSelectBox
   },
   data() {
     return {
@@ -168,6 +186,10 @@ export default {
         insertUrl: dataApi.contragents.Contact,
         updateUrl: dataApi.contragents.Contact,
         removeUrl: dataApi.contragents.Contact
+      }),
+      personIdDataSource: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.contragents.CounterPart
       }),
       companiesDataSource: {
         store: this.$dxStore({
@@ -187,9 +209,9 @@ export default {
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
     },
-    onValueChanged(value, cellInfo) {
-      cellInfo.setValue(value);
-      cellInfo.component.updateDimensions();
+    async onValueChanged(value, cellInfo) {
+      await cellInfo.setValue(value);
+      cellInfo.component.repaint();
     }
   }
 };

@@ -29,16 +29,10 @@
           <DxRequiredRule :message="$t('parties.validation.companyRequired')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="department">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.department')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.department')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="jobTitle">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.jobTitleId')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
         </DxSimpleItem>
         <DxSimpleItem editor-type="dxTextBox" data-field="homepage">
           <DxLabel location="top" :text="$t('translations.fields.homepage')" />
@@ -53,20 +47,15 @@
           <DxLabel location="top" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          :editor-options="statusOptions"
-          editor-type="dxSelectBox"
-          data-field="status"
-        >
+        <DxSimpleItem template="personSelectBox" data-field="personId">
+          <DxLabel location="top" :text="$t('counterPart.Person')" />
+        </DxSimpleItem>
+        <DxSimpleItem :editor-options="statusOptions" editor-type="dxSelectBox" data-field="status">
           <DxLabel location="top" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem
-          data-field="note"
-          :editor-options="{ height: 90 }"
-          editor-type="dxTextArea"
-        >
+        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -79,10 +68,20 @@
           :notPerson="true"
         />
       </template>
+      <template #personSelectBox>
+        <person-select-box
+          valueExpr="id"
+          :read-only="false"
+          :isPerson="true"
+          :value="contact.personId"
+          @valueChanged="value => personChanged(value)"
+        />
+      </template>
     </DxForm>
   </div>
 </template>
 <script>
+import PersonSelectBox from "~/components/parties/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
@@ -115,7 +114,8 @@ export default {
     DxForm,
     DxAsyncRule,
     Toolbar,
-    customSelectBox
+    customSelectBox,
+    PersonSelectBox
   },
   props: ["isCard", "data"],
   async created() {
@@ -175,6 +175,9 @@ export default {
     };
   },
   computed: {
+    counterpartId() {
+      return this.data.id;
+    },
     regionOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
@@ -199,10 +202,15 @@ export default {
     }
   },
   methods: {
+    async personChanged(value) {
+      this.contact.personId = await value;
+      var res = this.$refs["form"].instance.repaint();
+    },
     setCorrenspondent(data) {
       this.$set(this.contact, "companyId", data.id);
     },
     submit() {
+      console.log(this.counterpartId);
       return this.counterpartId ? this.putRequest() : this.postRequest();
     },
     postRequest() {
