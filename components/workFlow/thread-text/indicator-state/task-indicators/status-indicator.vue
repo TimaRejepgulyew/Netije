@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { taskStatusGeneratorObj } from "~/infrastructure/constants/taskStatus.js";
+import { taskStatusGeneratorObj } from "../../../infrastructure/constants/taskStatus.js";
 export default {
   props: ["data"],
   data() {

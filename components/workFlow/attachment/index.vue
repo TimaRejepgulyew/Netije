@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import GroupAttachmentType from "~/infrastructure/constants/groupAttachmentType.js";
+import GroupAttachmentType from "../infrastructure/constants/groupAttachmentType.js";
 export default {
   components: {
     attachmentGroupDocument: () =>

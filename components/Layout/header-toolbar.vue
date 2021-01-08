@@ -51,7 +51,13 @@
         </div>
       </dx-item>
       <!-- eslint-disable vue/no-unused-vars -->
-
+      <dx-item location="after">
+        <!-- eslint-disable vue/no-unused-vars -->
+        <div slot-scope="_">
+          <!-- eslint-enable -->
+          <info-panel />
+        </div>
+      </dx-item>
       <!-- eslint-enable -->
       <dx-item location="after">
         <!-- eslint-disable vue/no-unused-vars -->
@@ -68,6 +74,7 @@
 
 <script>
 import SearchingPanel from "~/components/Layout/searching-panel/index.vue";
+import infoPanel from "./info-panel";
 import DxButton from "devextreme-vue/button";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import UserPanel from "./user-panel";
@@ -91,7 +98,8 @@ export default {
     DxItem,
     UserPanel,
     LangPanel,
-    CreateBtnPanel
+    CreateBtnPanel,
+    infoPanel,
   }
 };
 </script>

@@ -51,12 +51,16 @@
       <DxItem
         locateInMenu="auto"
         template="toolbarItemElExchange"
-        :visible="canElExchage"
+        :visible="canElExchange || canIntranetExchange"
         location="before"
         widget="dxButton"
       />
       <template #toolbarItemElExchange>
-        <toolbarItemElExchange :documentId="documentId" />
+        <toolbarItemElExchange
+          :canIntranetExchange="canIntranetExchange"
+          :canElExchange="canElExchange"
+          :documentId="documentId"
+        />
       </template>
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="toolbarItemAccessRight" location="after" />
@@ -157,18 +161,28 @@ export default {
     };
   },
   computed: {
-    canElExchage() {
+    correspondent() {
+      return this.$store.getters[`documents/${this.documentId}/correspondent`];
+    },
+    canIntranetExchange() {
+      console.log(this.correspondent?.type, this.correspondent?.isSystem);
+      return (
+        this.correspondent?.type === "Company" && this.correspondent?.isSystem
+      );
+    },
+    documentCanExchange() {
+      return this.$store.getters[`documents/${this.documentId}/canExchange`];
+    },
+    canElExchange() {
       const isOutgoingDocument =
         this.document.documentKind?.documentFlow === DocumentFlow.Outgoing;
-      const canExchange = this.document.canExchange;
-
       if (
-        (isOutgoingDocument &&
-          !canExchange &&
-          this.canUpdate &&
-          !this.isNew &&
-          !this.isDataChanged,
-        this.isRegistered)
+        isOutgoingDocument &&
+        this.documentCanExchange &&
+        this.canUpdate &&
+        !this.isNew &&
+        !this.isDataChanged &&
+        this.isRegistered
       ) {
         return true;
       } else {

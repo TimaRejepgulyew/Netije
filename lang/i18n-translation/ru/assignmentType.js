@@ -21,6 +21,13 @@ export default {
   FreeApprovalFinishAssignment: "Завершение работ по согласованию",
   FreeApprovalReworkAssignment: "Доработка документа",
   FreeApprovalNotification: "Уведомление",
+  ExchangeDocumentProcessingAssignment:
+    "Обработка внешнего док-та эл. обмена ",
+  IntranetExchangeDocumentProcessingAssignment:
+    "Обработка документа внутреннего эл. обмена",
+  IntranetExchangeDocumentNotification:
+    "Уведомление о завершении обработки документа",
+  IntranetExchangeDocumentTerminatedAssignment:
+    "Обработка отказа документа внутреннего эл. обмена"
   //TODO Перевести правильно
-
 };

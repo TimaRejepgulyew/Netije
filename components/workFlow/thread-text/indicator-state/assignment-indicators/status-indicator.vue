@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { assignmentStatusLocalization } from "~/infrastructure/constants/assignmentStatus.js";
+import { assignmentStatusLocalization } from "../../../infrastructure/constants/assignmentStatus.js";
 export default {
   props: ["data"],
   data() {

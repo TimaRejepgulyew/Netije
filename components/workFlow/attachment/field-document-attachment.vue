@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import DocumentService from "~/infrastructure/services/documentVersionService";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 import actionBtn from "~/components/workFlow/attachment/attachment-document-action-btn.vue";

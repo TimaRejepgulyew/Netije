@@ -4,6 +4,7 @@ export default class OutgoingLetter extends ElectronicDocument {
   constructor(options) {
     const mutations = {
       ...options?.mutations,
+
       SET_CORRESPONDENT_ID(state, payload) {
         if (checkDataChanged(state.document.correspondentId, payload)) {
           state.isDataChanged = true;
@@ -11,10 +12,7 @@ export default class OutgoingLetter extends ElectronicDocument {
         }
       },
       SET_CORRESPONDENT(state, payload) {
-        if (checkDataChanged(state.document.correspondent, payload)) {
-          state.isDataChanged = true;
-          state.document.correspondent = payload;
-        }
+        state.correspondent = payload;
       },
       SET_DELIVERY_METHOD_ID(state, payload) {
         if (checkDataChanged(state.document.deliveryMethodId, payload)) {
@@ -59,14 +57,23 @@ export default class OutgoingLetter extends ElectronicDocument {
         }
       }
     };
+    const state = {
+      ...options?.state,
+      correspondent: null
+    };
+    const getters = {
+      ...options?.getters,
+      correspondent({ correspondent }) {
+        return correspondent;
+      }
+    };
     const actions = {
       ...options?.actions,
       setCorrespondent({ commit, dispatch }, payload) {
-        commit("SET_CORRESPONDENT", payload);
         commit("SET_CORRESPONDENT_ID", payload);
         dispatch("reevaluateDocumentName");
       }
     };
-    super({ mutations, actions });
+    super({ mutations, actions, state, getters });
   }
 }

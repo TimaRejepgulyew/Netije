@@ -253,7 +253,6 @@ export default {
         openOnFieldClick: true,
         value: this.document.dated,
         onValueChanged: e => {
-          console.log(e);
           this.setDated(e.value);
         }
       };

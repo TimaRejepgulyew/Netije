@@ -145,7 +145,7 @@ export default {
     Remove: `/api/Task/RemoveAttachment`
   },
   accessRights: {
-    List: `/api/AccessRightRule`,
+    List: `/api/AccessRightRule/`,
     getById: `/api/AccessRightRule/`,
     AddRecipient: `/api/AccessRightRule`,
     UpdateRecipient: `/api/AccessRightRule/`,

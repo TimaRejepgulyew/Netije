@@ -3,7 +3,7 @@ import DocumentSendActionGuid, {
 } from "~/infrastructure/constants/documentSendActionGuid.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as documentSendActionGuidIcon from "~/static/icons/documentSendActionGuidIcon.js";
-import { createTaskByDocument } from "~/infrastructure/services/taskService.js";
+import { createTaskByDocument } from "~/components/workFlow/infrastructure/services/taskService.js";
 export default class DocumentSendAction {
   constructor(context) {
     this.elements = generatorMapObj({

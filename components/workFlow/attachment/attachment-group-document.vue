@@ -37,26 +37,23 @@
 </template>
 
 <script>
-import addDocumentBtn from "~/components/workFlow/attachment/attachment-components/add-document-btn.vue";
+import addDocumentBtn from "./attachment-components/add-document-btn.vue";
+  import documentField from "./field-document-attachment.vue";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import {
   load,
   createDocument,
 } from "~/infrastructure/services/documentService.js";
-import documentField from "~/components/workFlow/attachment/field-document-attachment.vue";
+import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import { DxButton } from "devextreme-vue";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
-import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import DxSelectBox from "devextreme-vue/select-box";
 export default {
   components: {
     DxSelectBox,
     DxButton,
     addDocumentBtn,
-    documentGrid: async () =>
-      await import("~/components/document-module/document-grid.vue"),
-
     documentField,
   },
   props: ["group"],

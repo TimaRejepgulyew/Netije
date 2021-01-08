@@ -326,7 +326,7 @@ export default {
       currentNumberRequired: "Häzirki tertip belgisini giriziň",
       regionAlreadyExists: "şeýle sebit öňden bar",
       localityAlreadyExists: "şeýle ilatly nokat öňden bar",
-      me: "Men"
+      me: "Men",
     },
     headers: headers
   },

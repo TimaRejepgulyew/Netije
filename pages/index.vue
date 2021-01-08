@@ -1,11 +1,14 @@
 <template>
   <main>
-    <component :assignmentQuery="AssignmentQuery.All" :is="generateGridComponentByAssignmentQuery" />
+    <component
+      :assignmentQuery="AssignmentQuery.All"
+      :is="generateGridComponentByAssignmentQuery"
+    />
   </main>
 </template>
 <script>
-import AssignmentQuery from "~/infrastructure/constants/query/assignmentQuery.js";
-import * as assignmentGrids from "~/components/assignment/assignment-grids/index.js";
+import AssignmentQuery from "~/components/workFlow//infrastructure/constants/query/assignmentQuery.js";
+import * as assignmentGrids from "~/components/workFlow/assignment-module/grid-by-query/index.js";
 export default {
   components: {
     ...assignmentGrids,

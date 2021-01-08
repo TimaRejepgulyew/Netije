@@ -51,8 +51,10 @@ export default {
   props: ["id", "entityType", "isRefreshing"],
   watch: {
     isRefreshing: function (value) {
+      console.log("ssdfg");
       if (value) {
-        this.$data.comments.reload();
+        console.log("refreshed", this.comments);
+        this.comments.reload();
         this.$emit("refreshed");
       }
     },

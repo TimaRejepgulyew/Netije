@@ -38,5 +38,6 @@ export default {
   otherTasks: "Beýleki ýumuşlar",
   actionItemExecutionTasks: "Tabşyryklar",
   reviewTasks: "Ýumuşlara seredip geçmek",
-  counterPart: "Kontragent"
+  counterPart: "Kontragent",
+  contact: "Habarlaşmak üçin salgy"
 };

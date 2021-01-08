@@ -13,7 +13,10 @@
           />
         </div>
         <div>
-          <div @click="() => toDetailTask(data.item.entity)" class="link">
+          <div
+            @click="() => toDetailTask(data.item.entity)"
+            :class="{ link: isLinkTask(data.item.entity) }"
+          >
             <span class="text-italic">{{
               parseSubject(data.item.entity)
             }}</span>
@@ -56,32 +59,40 @@
   </div>
 </template>
 <script>
-import { load } from "~/infrastructure/services/taskService.js";
-import ActionItemType from "~/infrastructure/constants/actionItemType.js";
-import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
-import statusIndicator from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";
-import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
-import TaskType from "~/infrastructure/models/TaskType.js";
+import { load } from "../infrastructure/services/taskService.js";
+import ActionItemType from "../infrastructure/constants/actionItemType.js";
+import TaskTypeGuid from "../infrastructure/constants/taskType.js";
+import statusIndicator from "./indicator-state/task-indicators/status-indicator.vue";
+import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
+import TaskType from "../infrastructure/models/TaskType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
+import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
     statusIndicator,
     threadTextComponentAuthor,
     userIcon,
-    treadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue")
+    treadTextComponent: () => import("./thread-text-component.vue"),
   },
   name: "task-item",
   props: ["data"],
 
   methods: {
+    isLinkTask({ taskType }) {
+      switch (taskType) {
+        case TaskTypeGuid.IntranetExchangeDocumentProcessingTask:
+          return false;
+        default:
+          return true;
+      }
+    },
     toDetailTask({ id, taskType }) {
-      this.$popup.taskCard(this, {
-        params: { taskId: id, taskType },
-        handler: load
-      });
+      if (this.isLinkTask({ taskType }))
+        this.$popup.taskCard(this, {
+          params: { taskId: id, taskType },
+          handler: load,
+        });
     },
     parseSubject(value) {
       if (value.taskType === TaskTypeGuid.SimpleTask) {
@@ -99,8 +110,8 @@ export default {
     },
     displayDeadline(type) {
       return type !== WorkflowEntityTextType.Notice;
-    }
-  }
+    },
+  },
 };
 </script>
 

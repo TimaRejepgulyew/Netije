@@ -1,4 +1,4 @@
-import TaskType from "~/infrastructure/constants/taskType.js";
+import TaskType from "~/components/workFlow/infrastructure/constants/taskType.js";
 const DocumentSendActionGuid = {
   DefaultAction: 0,
   ActionItemExecution: 1,
