@@ -61,7 +61,7 @@ export default function (context) {
                 {
                     name: context.$t("paperWork.reports.incomingDocument"),
                     description: context.$t("paperWork.reports.incomingDocumentDescription"),
-                    visible: isVisible(EntityType.ActionItemExecutionTask),
+                    visible: isVisible(EntityType.IncomingDocumentRegisterReport),
                     componentType: "popup",
                     params: {
                         popupName: "documentReports",
@@ -79,8 +79,7 @@ export default function (context) {
                 {
                     name: context.$t("paperWork.reports.outgoingDocument"),
                     description: context.$t("paperWork.reports.outgoingDocumentDescription"),
-                    visible: isVisible(EntityType.ActionItemExecutionTask),
-                    params: 'incomingDocument',
+                    visible: isVisible(EntityType.OutgoingDocumentRegisterReport),
                     componentType: "popup",
                     params: {
                         popupName: "documentReports",
@@ -98,9 +97,7 @@ export default function (context) {
                 {
                     name: context.$t("paperWork.reports.internalDocument"),
                     description: context.$t("paperWork.reports.internalDocumentDescription"),
-                    path: "/task/taskCategory/action-item-execution",
-                    visible: isVisible(EntityType.ActionItemExecutionTask),
-                    params: 'incomingDocument',
+                    visible: isVisible(EntityType.InnerDocumentRegisterReport),
                     componentType: "popup",
                     params: {
                         popupName: "documentReports",

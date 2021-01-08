@@ -67,7 +67,8 @@ export default function (context) {
             "docFlow.automaticAssignmentRules.automaticAssignmentRulesDescription"
           ),
           path: pathGenerate("automatic-assignment-rules"),
-          visible: isVisible(EntityType.isAdmin)
+          //TODO:Fix when realize
+          visible: false
         }
       ]
     },
