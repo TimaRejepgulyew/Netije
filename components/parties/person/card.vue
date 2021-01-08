@@ -105,6 +105,14 @@
         :col-span="2"
         :caption="$t('parties.fields.contactInformation')"
       >
+       <DxSimpleItem
+          :col-span="1"
+          :editor-options="regionOptions"
+          editor-type="dxSelectBox"
+          data-field="regionId"
+        >
+          <DxLabel location="left" :text="$t('translations.fields.regionId')" />
+        </DxSimpleItem>
         <DxSimpleItem
           :col-span="1"
           :editor-options="localityOptions"
@@ -116,14 +124,7 @@
             :text="$t('translations.fields.localityId')"
           />
         </DxSimpleItem>
-        <DxSimpleItem
-          :col-span="1"
-          :editor-options="regionOptions"
-          editor-type="dxSelectBox"
-          data-field="regionId"
-        >
-          <DxLabel location="left" :text="$t('translations.fields.regionId')" />
-        </DxSimpleItem>
+       
         <DxSimpleItem :col-span="2" data-field="legalAddress">
           <DxLabel
             location="left"
@@ -171,7 +172,7 @@
           :editor-options="{ height: 90 }"
           editor-type="dxTextArea"
         >
-          <DxLabel location="left" :text="$t('translations.fields.note')" />
+          <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxForm>
@@ -239,7 +240,6 @@ export default {
         webSite: "",
         tin: null,
         note: "",
-        nonresident: true,
         status: this.$store.getters["status/status"](this)[0].id,
       },
       namePattern: /^[^0-9]+$/,

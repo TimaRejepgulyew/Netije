@@ -26,70 +26,73 @@
       :show-validation-summary="true"
       :col-count="2"
     >
-      <DxSimpleItem :col-span="2" data-field="name">
-        <DxLabel location="top" :text="$t('shared.name')" />
-        <DxRequiredRule :message="$t('shared.nameRequired')" />
-      </DxSimpleItem>
-      <DxSimpleItem :col-span="2" data-field="legalName">
-        <DxLabel location="top" :text="$t('translations.fields.legalName')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        :col-span="1"
-        data-field="headCompanyId"
-        :editor-options="headCompanyOptions"
-        editor-type="dxSelectBox"
-      >
-        <DxLabel location="top" :text="$t('parties.fields.headCompanyId')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        :col-span="1"
-        data-field="nonresident"
-        editor-type="dxCheckBox"
-      >
-        <DxLabel
-          location="left"
-          :text="$t('translations.fields.nonresident')"
-        />
-      </DxSimpleItem>
-      <DxSimpleItem
-        :col-span="2"
-        :editor-options="categoryIdOptions"
-        editor-type="dxSelectBox"
-        data-field="categoryId"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.category')" />
-      </DxSimpleItem>
-      <DxSimpleItem :col-span="2" data-field="tin">
-        <DxPatternRule
-          :ignore-empty-value="false"
-          :pattern="codePattern"
-          :message="$t('translations.fields.tinRule')"
-        />
-        <DxAsyncRule
-          :reevaluate="false"
-          :ignore-empty-value="true"
-          :message="$t('translations.fields.tinAlreadyExists')"
-          :validation-callback="validateEntityExists"
-        ></DxAsyncRule>
-        <DxLabel location="top" :text="$t('translations.fields.tin')" />
-      </DxSimpleItem>
-      <DxSimpleItem
-        :col-span="1"
-        :editor-options="statusOptions"
-        editor-type="dxSelectBox"
-        data-field="status"
-      >
-        <DxLabel location="top" :text="$t('translations.fields.status')" />
-      </DxSimpleItem>
-      <DxSimpleItem :col-span="1" data-field="code">
-        <DxPatternRule
-          :ignore-empty-value="false"
-          :pattern="codePattern"
-          :message="$t('validation.valueMustNotContainsSpaces')"
-        />
-        <DxLabel location="top" :text="$t('shared.code')" />
-      </DxSimpleItem>
-
+      <DxGroupItem :col-count="2" :col-span="2">
+        <DxSimpleItem :col-span="2" data-field="name">
+          <DxLabel location="left" :text="$t('shared.name')" />
+          <DxRequiredRule :message="$t('shared.nameRequired')" />
+        </DxSimpleItem>
+        <DxSimpleItem :col-span="2" data-field="legalName">
+          <DxLabel
+            location="left"
+            :text="$t('translations.fields.legalName')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :col-span="1"
+          data-field="headCompanyId"
+          :editor-options="headCompanyOptions"
+          editor-type="dxSelectBox"
+        >
+          <DxLabel location="left" :text="$t('parties.fields.headCompanyId')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :col-span="1"
+          data-field="nonresident"
+          editor-type="dxCheckBox"
+        >
+          <DxLabel
+            location="left"
+            :text="$t('translations.fields.nonresident')"
+          />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :editor-options="categoryIdOptions"
+          editor-type="dxSelectBox"
+          data-field="categoryId"
+        >
+          <DxLabel location="left" :text="$t('translations.fields.category')" />
+        </DxSimpleItem>
+        <DxSimpleItem data-field="tin">
+          <DxPatternRule
+            :ignore-empty-value="false"
+            :pattern="codePattern"
+            :message="$t('translations.fields.tinRule')"
+          />
+          <DxAsyncRule
+            :reevaluate="false"
+            :ignore-empty-value="true"
+            :message="$t('translations.fields.tinAlreadyExists')"
+            :validation-callback="validateEntityExists"
+          ></DxAsyncRule>
+          <DxLabel location="left" :text="$t('translations.fields.tin')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :col-span="1"
+          :editor-options="statusOptions"
+          editor-type="dxSelectBox"
+          data-field="status"
+        >
+          <DxLabel location="left" :text="$t('translations.fields.status')" />
+        </DxSimpleItem>
+        <DxSimpleItem :col-span="1" data-field="code">
+          <DxPatternRule
+            :ignore-empty-value="false"
+            :pattern="codePattern"
+            :message="$t('validation.valueMustNotContainsSpaces')"
+          />
+          <DxLabel location="left" :text="$t('shared.code')" />
+        </DxSimpleItem>
+      </DxGroupItem>
       <DxGroupItem
         :col-count="2"
         :col-span="2"
@@ -97,41 +100,45 @@
       >
         <DxSimpleItem
           :col-span="1"
+          :editor-options="regionOptions"
+          editor-type="dxSelectBox"
+          data-field="regionId"
+        >
+          <DxLabel location="left" :text="$t('translations.fields.regionId')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          :col-span="1"
           :editor-options="localityOptions"
           editor-type="dxSelectBox"
           data-field="localityId"
         >
           <DxLabel
-            location="top"
+            location="left"
             :text="$t('translations.fields.localityId')"
           />
         </DxSimpleItem>
-        <DxSimpleItem
-          :col-span="1"
-          :editor-options="regionOptions"
-          editor-type="dxSelectBox"
-          data-field="regionId"
-        >
-          <DxLabel location="top" :text="$t('translations.fields.regionId')" />
-        </DxSimpleItem>
+
         <DxSimpleItem :col-span="2" data-field="legalAddress">
           <DxLabel
-            location="top"
+            location="left"
             :text="$t('translations.fields.legalAddress')"
           />
         </DxSimpleItem>
         <DxSimpleItem :col-span="2" data-field="postAddress">
           <DxLabel
-            location="top"
+            location="left"
             :text="$t('translations.fields.postAddress')"
           />
         </DxSimpleItem>
         <DxSimpleItem :col-span="2" editor-type="dxTextBox" data-field="phones">
-          <DxLabel location="top" :text="$t('translations.fields.phones')" />
+          <DxLabel location="left" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-        <DxSimpleItem :col-span="2" data-field="email">
-          <DxLabel location="top" />
+        <DxSimpleItem :col-span="1" data-field="email">
+          <DxLabel location="left" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
+        </DxSimpleItem>
+        <DxSimpleItem :col-span="1" data-field="webSite">
+          <DxLabel location="left" :text="$t('translations.fields.webSite')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem
@@ -139,16 +146,16 @@
         :col-count="2"
         :caption="$t('parties.fields.bankDetail')"
       >
+        <DxSimpleItem :col-span="1" data-field="account">
+          <DxLabel location="left" :text="$t('translations.fields.account')" />
+        </DxSimpleItem>
         <DxSimpleItem
           :col-span="1"
           data-field="bankId"
           :editor-options="bankOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.bankId')" />
-        </DxSimpleItem>
-        <DxSimpleItem :col-span="1" data-field="account">
-          <DxLabel location="top" :text="$t('translations.fields.account')" />
+          <DxLabel location="left" :text="$t('translations.fields.bankId')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
@@ -217,7 +224,7 @@ export default {
         email: "",
         webSite: "",
         note: "",
-        nonresident: true,
+        nonresident: false,
         account: "",
         bankId: null,
         type: "",
