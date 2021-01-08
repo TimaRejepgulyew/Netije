@@ -56,7 +56,7 @@ export default function (context) {
           name: context.$t("parties.person.persons"),
           description: context.$t("parties.person.personsDescr"),
           path: pathGenerate("person"),
-          visible: isVisible(EntityType.BusinessUnit)
+          visible: isVisible(EntityType.Counterparty)
         }
       ]
     },

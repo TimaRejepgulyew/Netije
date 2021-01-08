@@ -58,13 +58,13 @@ export default function(context) {
           description: context.$t(
             "companyStructure.additionalInfo.companiesDescr"
           ),
-          path: "/parties/organizations/companies",
+          path: "/parties/company",
           visible: isVisible(EntityType.Counterparty)
         },
         {
-          name: context.$t("companyStructure.additionalInfo.banks"),
-          description: context.$t("companyStructure.additionalInfo.banksDescr"),
-          path: "/parties/organizations/banks",
+          name: context.$t("parties.person.persons"),
+          description: context.$t("parties.person.personsDescr"),
+          path: "/parties/person",
           visible: isVisible(EntityType.Counterparty)
         },
         {
