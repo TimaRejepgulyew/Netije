@@ -8,6 +8,9 @@ export default function (context) {
     function isVisible(accessKey) {
         return context.$store.getters["permissions/allowReading"](accessKey);
     }
+    function hasAccess(accessKey) {
+        return context.$store.getters["permissions/has"](accessKey);
+    }
     const pathGenerate = detail => {
         return `/document-module/${detail}`;
     };
@@ -61,7 +64,7 @@ export default function (context) {
                 {
                     name: context.$t("paperWork.reports.incomingDocument"),
                     description: context.$t("paperWork.reports.incomingDocumentDescription"),
-                    visible: isVisible(EntityType.IncomingDocumentRegisterReport),
+                    visible: hasAccess(EntityType.IncomingDocumentRegisterReport),
                     componentType: "popup",
                     params: {
                         popupName: "documentReports",
@@ -79,7 +82,7 @@ export default function (context) {
                 {
                     name: context.$t("paperWork.reports.outgoingDocument"),
                     description: context.$t("paperWork.reports.outgoingDocumentDescription"),
-                    visible: isVisible(EntityType.OutgoingDocumentRegisterReport),
+                    visible: hasAccess(EntityType.OutgoingDocumentRegisterReport),
                     componentType: "popup",
                     params: {
                         popupName: "documentReports",
@@ -97,7 +100,7 @@ export default function (context) {
                 {
                     name: context.$t("paperWork.reports.internalDocument"),
                     description: context.$t("paperWork.reports.internalDocumentDescription"),
-                    visible: isVisible(EntityType.InnerDocumentRegisterReport),
+                    visible: hasAccess(EntityType.InnerDocumentRegisterReport),
                     componentType: "popup",
                     params: {
                         popupName: "documentReports",

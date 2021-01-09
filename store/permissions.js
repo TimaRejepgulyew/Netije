@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 class AccessOperation {
-  constructor() {}
+  constructor() { }
 }
 export const state = () => ({
   accessRights: {},
@@ -55,6 +55,12 @@ export const state = () => ({
         create: false,
         update: false
       }
+    ],
+    [
+      3,
+      {
+        has: true
+      }
     ]
   ])
 });
@@ -70,6 +76,16 @@ export const getters = {
     let obj = accessRights.operations.get(entityType);
     if (obj) {
       return obj.update;
+    }
+    return false;
+  },
+  has: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin || accessRights.isAuditor) {
+      return true;
+    }
+    let obj = accessRights.operations.get(entityType);
+    if (obj) {
+      return obj.has;
     }
     return false;
   },
