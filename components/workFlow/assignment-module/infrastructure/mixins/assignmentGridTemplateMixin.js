@@ -25,7 +25,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxPaging
 } from "devextreme-vue/data-grid";
 export default {
   components: {
@@ -45,6 +46,7 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
+    DxPaging,
     assignnmentTypeIconColumn,
     importanceIconColumn,
     toolbarItemQuickFilter: () =>
@@ -53,15 +55,7 @@ export default {
   props: ["assignmentQuery"],
   data() {
     return {
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.assignment.Assignments + (this.assignmentQuery || 0)
-        }),
-        paginate: true,
-        pageSize: 10,
-        sort: [{ selector: "created", desc: true }]
-      })
+      store: null
     };
   },
   computed: {
@@ -74,14 +68,13 @@ export default {
   },
   methods: {
     setFilter(filter) {
-      this.store = new DataSource({
+      this.store = {
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}?quickFilter=${filter}&`
+          loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}/${filter}`
         }),
-        paginate: true,
         sort: [{ selector: "created", desc: true }]
-      });
+      };
     },
     addButtonToGrid(header) {
       header.toolbarOptions.items.unshift({

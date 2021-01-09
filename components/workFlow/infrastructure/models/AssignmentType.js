@@ -1,27 +1,27 @@
 import AssignmentTypeGuid from "../constants/assignmentType.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
-import * as assignmentTypeGroupIcon from "~/static/icons/assignmentType/index.js"
+import * as assignmentTypeGroupIcon from "~/static/icons/assignmentType/index.js";
 export default class AssignmentType {
-
   constructor(context) {
     this.elements = generatorMapObj({
       Constant: AssignmentTypeGuid,
       translateName: "assignment.type",
-      context: context,
+      context: context
     });
   }
   withIconGroup() {
     for (let element in this.filterAssignment()) {
-      this.elements[element].icon = assignmentTypeGroupIcon.assignmentIcon
+      this.elements[element].icon = assignmentTypeGroupIcon.assignmentIcon;
     }
     for (let element in this.filteringNotification()) {
-      this.elements[element].icon = assignmentTypeGroupIcon.noticeIcon
+      this.elements[element].icon = assignmentTypeGroupIcon.noticeIcon;
     }
     for (let element in this.filteringReviewAssignment()) {
-      this.elements[element].icon = assignmentTypeGroupIcon.underreviewIcon
+      this.elements[element].icon = assignmentTypeGroupIcon.underreviewIcon;
     }
-    this.elements[AssignmentTypeGuid.AcquaintanceAssignment].icon = assignmentTypeGroupIcon.acquintanceIcon
-    return this
+    this.elements[AssignmentTypeGuid.AcquaintanceAssignment].icon =
+      assignmentTypeGroupIcon.acquintanceIcon;
+    return this;
   }
   filtering(allowTypes) {
     const filterObj = {};
@@ -51,7 +51,9 @@ export default class AssignmentType {
       AssignmentTypeGuid.ReviewResolutionAssignment,
       AssignmentTypeGuid.FreeApprovalAssignment,
       AssignmentTypeGuid.FreeApprovalReworkAssignment,
-    ]
+      AssignmentTypeGuid.IntranetExchangeDocumentProcessingAssignment,
+      AssignmentTypeGuid.IntranetExchangeDocumentTerminatedAssignment
+    ];
     return this.filtering(allowTypes);
   }
   filteringNotification() {
@@ -65,7 +67,8 @@ export default class AssignmentType {
       AssignmentTypeGuid.ReviewObserversNotification,
       AssignmentTypeGuid.ReviewClerkNotification,
       AssignmentTypeGuid.FreeApprovalNotification,
-    ]
+      AssignmentTypeGuid.IntranetExchangeDocumentNotification
+    ];
     return this.filtering(allowTypes);
   }
   filteringReviewAssignment() {
@@ -73,12 +76,8 @@ export default class AssignmentType {
       AssignmentTypeGuid.AcquaintanceFinishAssignment,
       AssignmentTypeGuid.ActionItemSupervisorAssignment,
       AssignmentTypeGuid.ReviewAssignment,
-      AssignmentTypeGuid.FreeApprovalFinishAssignment,
-    ]
+      AssignmentTypeGuid.FreeApprovalFinishAssignment
+    ];
     return this.filtering(allowTypes);
   }
-
-
-
-
 }

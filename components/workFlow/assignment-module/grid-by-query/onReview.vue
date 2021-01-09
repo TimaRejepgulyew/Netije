@@ -9,6 +9,7 @@
     </Header>
     <div class="grid">
       <DxDataGrid
+        id="gridContainer"
         :columns="columns"
         :show-borders="true"
         :data-source="store"
@@ -20,7 +21,7 @@
         :show-column-lines="false"
         :load-panel="{
           enabled: true,
-          indicatorSrc: require('~/static/icons/loading.gif')
+          indicatorSrc: require('~/static/icons/loading.gif'),
         }"
         :onRowDblClick="showAssignment"
         :on-row-prepared="onRowPrepared"
@@ -73,8 +74,8 @@ export default {
   props: {
     assignmentQuery: {
       type: Number,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   computed: {
     columns() {
@@ -82,8 +83,8 @@ export default {
         this.assignmentQuery,
         this
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

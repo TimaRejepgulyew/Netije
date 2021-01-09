@@ -9,6 +9,7 @@
     </Header>
     <div class="grid">
       <DxDataGrid
+        id="gridContainer"
         :columns="columns"
         :show-borders="true"
         :data-source="store"
@@ -21,7 +22,7 @@
         @selection-changed="onSelectionChanged"
         :load-panel="{
           enabled: true,
-          indicatorSrc: require('~/static/icons/loading.gif')
+          indicatorSrc: require('~/static/icons/loading.gif'),
         }"
         :onRowDblClick="showAssignment"
         :on-row-prepared="onRowPrepared"
@@ -53,7 +54,8 @@
           :storage-key="'assignment' + assignmentQuery"
         />
         <DxSearchPanel position="after" :visible="true" />
-        <DxScrolling mode="virtual" />
+        <DxScrolling mode="virtual" row-rendering-mode="virtual" />
+        <DxPaging :page-size="20" />
         <template #importanceIconColumn="cell">
           <importanceIconColumn
             v-if="cell.data.value"
@@ -97,20 +99,20 @@ import { DxSelection } from "devextreme-vue/data-grid";
 export default {
   components: {
     DxSelection,
-    DxButton
+    DxButton,
   },
   mixins: [assignmentMixin],
   props: {
     assignmentQuery: {
       type: Number,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   data() {
     return {
       addResolution,
       canAddResolution: false,
-      selectedAssignemnts: []
+      selectedAssignemnts: [],
     };
   },
   methods: {
@@ -120,15 +122,15 @@ export default {
         location: "after",
         options: {
           icon: "refresh",
-          onClick: this.reload
-        }
+          onClick: this.reload,
+        },
       });
       header.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
         options: {
-          template: "test"
-        }
+          template: "test",
+        },
       });
     },
     async addResolutionAll(e) {
@@ -138,7 +140,7 @@ export default {
       );
       if (!result) return;
       const assignments = [];
-      this.selectedAssignemnts.forEach(element => {
+      this.selectedAssignemnts.forEach((element) => {
         assignments.push(element.id);
       });
       this.$awn.asyncBlock(
@@ -164,7 +166,7 @@ export default {
       this.selectedAssignemnts = selectedRowsData;
       if (this.selectedAssignemnts.length !== 0) {
         this.canAddResolution = this.selectedAssignemnts.every(
-          selectedItemData => {
+          (selectedItemData) => {
             return (
               this.checkIsReviewDraftResolutionAssignment(
                 selectedItemData.assignmentType
@@ -175,7 +177,7 @@ export default {
       } else {
         this.canAddResolution = false;
       }
-    }
+    },
   },
   computed: {
     test() {
@@ -186,8 +188,8 @@ export default {
         this.assignmentQuery,
         this
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

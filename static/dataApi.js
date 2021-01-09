@@ -95,8 +95,8 @@ export default {
     Registries: `/api/DocumentRegistration/Registries/`
   },
   documentModule: {
-    Documents: `/api/OfficialDocument/`,
-    AllDocument: `/api/OfficialDocument/100`,
+    Documents: `/api/OfficialDocument/GetAll/`,
+    AllDocument: `/api/OfficialDocument/GetAll/100`,
     GetDocumentById: `/api/OfficialDocument/`,
     DeleteDocument: `/api/OfficialDocument/`,
     ReevaluateDocumentName: `/api/OfficialDocument/ReevaluateDocumentName`,

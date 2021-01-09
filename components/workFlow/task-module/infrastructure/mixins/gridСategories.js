@@ -20,10 +20,12 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
-import toolbarItemQuickFilter from "../../grid-components/quickFilter.vue"
-import taskStatus, { taskStatusGeneratorObj } from "../../../infrastructure/constants/taskStatus.js";
+import toolbarItemQuickFilter from "../../grid-components/quickFilter.vue";
+import taskStatus, {
+  taskStatusGeneratorObj
+} from "../../../infrastructure/constants/taskStatus.js";
 export default {
   components: {
     DxCheckBox,
@@ -50,26 +52,25 @@ export default {
   },
   data() {
     return {
-      statusDataSource: [...Object.values(taskStatusGeneratorObj(this))],
+      statusDataSource: [...Object.values(taskStatusGeneratorObj(this))]
     };
   },
   methods: {
     setFilter(filter) {
-      this.store = new DataSource({
+      this.store = {
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.task.Task}${this.taskQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.task.Task}${this.taskQuery}/${filter}`
         }),
-        paginate: true,
-        pageSize: 10,
-        sort: [{ selector: "created", desc: true }],
-      })
+
+        sort: [{ selector: "created", desc: true }]
+      };
     },
     onToolbarPreparing(header) {
       header.toolbarOptions.items.unshift({
         widget: "button",
         location: "after",
-        options: { icon: "refresh", onClick: this.reload },
+        options: { icon: "refresh", onClick: this.reload }
       });
     },
     reload() {
@@ -81,7 +82,7 @@ export default {
     onRowPrepared(e) {
       if (e.data != undefined) {
         this.showCompletedTask(e.data, e.rowElement.style);
-        this.showDraftTask(e.data, e.rowElement.style)
+        this.showDraftTask(e.data, e.rowElement.style);
       }
     },
     showCompletedTask(data, style) {
@@ -94,5 +95,5 @@ export default {
         style.fontStyle = "italic";
       }
     }
-  },
-}
+  }
+};

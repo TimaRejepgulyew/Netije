@@ -23,22 +23,24 @@ const AssignmentType = {
   ActionItemSupervisorNotification: 20,
   FreeApprovalNotification: 21,
   ExchangeDocumentProcessingAssignment: 29,
- IntranetExchangeDocumentProcessingAssignment: 30,
+  IntranetExchangeDocumentProcessingAssignment: 30,
   IntranetExchangeDocumentNotification: 31,
-  IntranetExchangeDocumentTerminatedAssignment: 32 
+  IntranetExchangeDocumentTerminatedAssignment: 32
 };
 export default AssignmentType;
 export function isAssignment(assignmenType) {
   const allowTypes = [
-    AssignmentTypeGuid.AcquaintanceAssignment,
-    AssignmentTypeGuid.ReviewDraftResolutionAssignment,
-    AssignmentTypeGuid.SimpleAssignment,
-    AssignmentTypeGuid.ActionItemExecutionAssignment,
-    AssignmentTypeGuid.PreparingDraftResolutionAssignment,
-    AssignmentTypeGuid.ReviewManagerAssignment,
-    AssignmentTypeGuid.ReviewResolutionAssignment,
-    AssignmentTypeGuid.FreeApprovalAssignment,
-    AssignmentTypeGuid.FreeApprovalReworkAssignment
+    AssignmentType.AcquaintanceAssignment,
+    AssignmentType.ReviewDraftResolutionAssignment,
+    AssignmentType.SimpleAssignment,
+    AssignmentType.ActionItemExecutionAssignment,
+    AssignmentType.PreparingDraftResolutionAssignment,
+    AssignmentType.ReviewManagerAssignment,
+    AssignmentType.ReviewResolutionAssignment,
+    AssignmentType.FreeApprovalAssignment,
+    AssignmentType.FreeApprovalReworkAssignment,
+    AssignmentType.IntranetExchangeDocumentProcessingAssignment,
+    AssignmentType.IntranetExchangeDocumentTerminatedAssignment
   ];
   return allowTypes.some(el => assignmenType === el);
 }
@@ -52,16 +54,17 @@ export function isNotification(assignmenType) {
     AssignmentType.ReviewObserverNotification,
     AssignmentType.ReviewObserversNotification,
     AssignmentType.ReviewClerkNotification,
-    AssignmentType.FreeApprovalNotification
+    AssignmentType.FreeApprovalNotification,
+    AssignmentType.IntranetExchangeDocumentNotification
   ];
   return allowTypes.some(el => assignmenType === el);
 }
 export function isReviewAssignment(assignmenType) {
   const allowTypes = [
-    AssignmentTypeGuid.AcquaintanceFinishAssignment,
-    AssignmentTypeGuid.ActionItemSupervisorAssignment,
-    AssignmentTypeGuid.ReviewAssignment,
-    AssignmentTypeGuid.FreeApprovalFinishAssignment
+    AssignmentType.AcquaintanceFinishAssignment,
+    AssignmentType.ActionItemSupervisorAssignment,
+    AssignmentType.ReviewAssignment,
+    AssignmentType.FreeApprovalFinishAssignment
   ];
   return allowTypes.some(el => assignmenType === el);
 }

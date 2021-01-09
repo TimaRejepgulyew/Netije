@@ -15,7 +15,7 @@ export default async function(context, params) {
 
 export async function createDocument(context, params) {
   const { data } = await context.$axios.post(
-    dataApi.documentModule.Documents,
+    dataApi.documentModule.GetDocumentById,
     params
   );
   const { id: documentId, documentTypeGuid } = data.document;

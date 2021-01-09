@@ -3,12 +3,13 @@
     <Header :isbackButton="true" :headerTitle="headerTitle">
       <toolbar-item-quick-filter
         slot="toolbar"
-       @valueChanged="setFilter"
+        @valueChanged="setFilter"
         :assignmentQuery="+assignmentQuery"
       />
     </Header>
     <div class="grid">
       <DxDataGrid
+        id="gridContainer"
         :columns="columns"
         :show-borders="true"
         :data-source="store"
@@ -18,7 +19,10 @@
         :hover-state-enabled="true"
         :column-auto-width="false"
         :show-column-lines="false"
-        :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+        :load-panel="{
+          enabled: true,
+          indicatorSrc: require('~/static/icons/loading.gif'),
+        }"
         :onRowDblClick="showAssignment"
         :on-row-prepared="onRowPrepared"
         @toolbar-preparing="addButtonToGrid($event)"
@@ -41,12 +45,15 @@
         <DxStateStoring
           :enabled="true"
           type="localStorage"
-          :storage-key="'assignment'+assignmentQuery"
+          :storage-key="'assignment' + assignmentQuery"
         />
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
         <template #importanceIconColumn="cell">
-          <importanceIconColumn v-if="cell.data.value" :state="cell.data.value" />
+          <importanceIconColumn
+            v-if="cell.data.value"
+            :state="cell.data.value"
+          />
         </template>
         <template #assignnmentTypeIconColumn="cell">
           <assignnmentTypeIconColumn

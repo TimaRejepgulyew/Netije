@@ -152,14 +152,7 @@ export default {
     const taskQuery = TaskQuery.All;
     return {
       taskQuery,
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.task.Task + taskQuery,
-        }),
-        paginate: true,
-        pageSize: 10,
-      }),
+      store: null,
     };
   },
 };

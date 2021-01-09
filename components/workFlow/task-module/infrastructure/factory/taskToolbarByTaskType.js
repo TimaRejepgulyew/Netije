@@ -16,6 +16,8 @@ function getToolbarByAssignmentType(context, taskType) {
       return documentReviewTaskToolbar(context);
     case TaskType.FreeApprovalTask:
       return freeApprovalTaskToolbar(context);
+    case TaskType.IntranetExchangeDocumentProcessingTask:
+      return intranetExchangeTaskToolbar(context);
   }
 }
 const simpleTaskToolbar = context => {
@@ -79,7 +81,9 @@ const freeApprovalTaskToolbar = context => {
     deleteBtn(context)
   ];
 };
-
+const intranetExchangeTaskToolbar = context => {
+  return [createChildTaskBtn(context)];
+};
 function switchToCompountBtn(context, otherOptions) {
   const toolbarItemOptions = {
     template: "toolbarItemswichToCompoundActionItem",

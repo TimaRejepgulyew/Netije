@@ -165,19 +165,21 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/correspondent`];
     },
     canIntranetExchange() {
-      console.log(this.correspondent?.type, this.correspondent?.isSystem);
       return (
-        this.correspondent?.type === "Company" && this.correspondent?.isSystem
+        this.correspondent?.type === "Company" &&
+        this.correspondent?.isSystem &&
+        this.canElExchange
       );
+    },
+    isOutgoingDocument() {
+      return this.document.documentKind?.documentFlow === DocumentFlow.Outgoing;
     },
     documentCanExchange() {
       return this.$store.getters[`documents/${this.documentId}/canExchange`];
     },
     canElExchange() {
-      const isOutgoingDocument =
-        this.document.documentKind?.documentFlow === DocumentFlow.Outgoing;
       if (
-        isOutgoingDocument &&
+        this.isOutgoingDocument &&
         this.documentCanExchange &&
         this.canUpdate &&
         !this.isNew &&

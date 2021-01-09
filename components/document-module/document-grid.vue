@@ -95,7 +95,6 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DataSource from "devextreme/data/data_source";
@@ -138,15 +137,7 @@ export default {
   data() {
     return {
       activeFilter: QuiсkFilter.All,
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}`,
-        }),
-        filter: this.documentFilter,
-        paginate: true,
-        pageSize: 10,
-      }),
+      store: null,
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
@@ -161,13 +152,12 @@ export default {
   },
   methods: {
     setStore(filter) {
-      this.store = new DataSource({
+      this.store = {
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}?quickFilter=${filter}&`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}/${filter}`,
         }),
-        paginate: true,
-      });
+      };
     },
     itemClick(e) {
       this.activeFilter = e.itemIndex;

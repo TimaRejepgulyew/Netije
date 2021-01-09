@@ -23,7 +23,7 @@
         :show-column-lines="false"
         :load-panel="{
           enabled: true,
-          indicatorSrc: require('~/static/icons/loading.gif')
+          indicatorSrc: require('~/static/icons/loading.gif'),
         }"
         :onRowDblClick="toDetail"
         :on-row-prepared="onRowPrepared"
@@ -151,16 +151,9 @@ export default {
     const taskQuery = TaskQuery.ActionItems;
     return {
       taskQuery,
-      store: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.task.Task + taskQuery
-        }),
-        paginate: true,
-        pageSize: 10
-      })
+      store: null,
     };
-  }
+  },
 };
 </script>
 <style>

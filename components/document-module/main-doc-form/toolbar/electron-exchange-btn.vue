@@ -8,7 +8,7 @@
       :on-click="sendToElExchange"
     />
     <DxButton
-      :visible="canElExchange"
+      :visible="canElExchange && !canIntranetExchange"
       :icon="elexchangeIcon"
       :text="$t('buttons.elExchange')"
       :hint="$t('buttons.elExchange')"
@@ -19,7 +19,7 @@
 
 <script>
 import dataApi from "~/static/dataApi.js";
-import elexchangeIcon from "~/static/icons/document-module/el-exchage.svg";
+import elexchangeIcon from "~/static/icons/document-module/el-exchange.svg";
 import DxButton from "devextreme-vue/button";
 import { confirm } from "devextreme/ui/dialog";
 export default {

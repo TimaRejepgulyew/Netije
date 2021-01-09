@@ -9,6 +9,7 @@
     </Header>
     <div class="grid">
       <DxDataGrid
+        id="gridContainer"
         :columns="columns"
         :show-borders="true"
         :data-source="store"
