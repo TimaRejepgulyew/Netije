@@ -30,9 +30,7 @@
         <div class="thread-text-status">
           <div
             class="task__item"
-            v-if="
-              data.item.entity.maxDeadline && displayDeadline(data.item.type)
-            "
+            v-if="data.item.entity.maxDeadline"
             :class="{ expired: data.item.isExpired }"
           >
             {{ $t("translations.fields.deadLine") }}:
@@ -81,6 +79,7 @@ export default {
     },
   },
   methods: {
+    // TODO maybe in future need to  use this functionality
     // isLinkTask({ taskType }) {
     //   switch (taskType) {
     //     case TaskTypeGuid.IntranetExchangeDocumentProcessingTask:
@@ -90,34 +89,14 @@ export default {
     //   }
     // },
     toDetailTask({ id, taskType }) {
-      this.taskThreadText.showTask(this, { id, taskType });
-      // if (this.isLinkTask({ taskType }))
-      // this.$popup.taskCard(this, {
-      //   params: { taskId: id, taskType },
-      //   handler: load,
-      // });
+      this.taskThreadText.showCard(this, { id, taskType });
     },
     parseSubject(entity) {
       return this.taskThreadText.generateSubject(entity);
-      // if (value.taskType === TaskTypeGuid.SimpleTask) {
-      //   return value.subject;
-      // } else if (
-      //   value.taskType === TaskTypeGuid.IntranetExchangeDocumentProcessingTask
-      // ) {
-      //   return value.subject;
-      // } else if (value.taskType === TaskTypeGuid.ActionItemExecutionTask) {
-      //   if (value.isCompoundActionItem)
-      //     return this.$t("task.compoundActionItem");
-      //   else if (value?.actionItemType === ActionItemType.Component)
-      //     return this.$t("task.actionItemType.Component");
-      //   else return new TaskType(this).getById(value.taskType).text;
-      // } else return new TaskType(this).getById(value.taskType).text;
     },
     formatDate(date) {
-      return TaskThreadTextModel.formatDate(date);
-    },
-    displayDeadline(taskType) {
-      return this.taskThreadText.displayDeadline(taskType);
+      console.log(date);
+      if (date) return this.taskThreadText.formatDate(date);
     },
   },
 };

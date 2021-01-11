@@ -15,7 +15,7 @@
         <div>
           <div @click="() => toDetailAssignment(data.item.entity)" class="link">
             <span class="text-italic">{{
-              parseSubject(data.item.entity.assignmentType)
+              parseSubject(data.item.entity)
             }}</span>
           </div>
 
@@ -46,6 +46,7 @@
   </div>
 </template>
 <script>
+import NotificationThreadTextModel from "../infrastructure/models/ThreadText/NotificationThreadText.js";
 import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
 import { isReadIndicator } from "./indicator-state/assignment-indicators/indicators.js";
 import { assignmentTypeName } from "../infrastructure/constants/assignmentType.js";
@@ -57,32 +58,24 @@ export default {
     threadTextComponentAuthor,
     userIcon,
     isReadIndicator,
-    threadTextComponent: () =>
-      import("./thread-text-component.vue"),
+    threadTextComponent: () => import("./thread-text-component.vue"),
   },
   name: "task-item",
   props: ["data"],
-
+  computed: {
+    notificationThreadText() {
+      return new NotificationThreadTextModel(this);
+    },
+  },
   methods: {
-    isReadStatusText(isRead) {
-      return isRead ? this.$t("shared.read") : this.$t("shared.unread");
-    },
-    isReadStatusIcon(isRead) {
-      return isRead ? this.readIcon : this.unreadIcon;
-    },
     toDetailAssignment(params) {
-      this.$popup.assignmentCard(this, {
-        params: { assignmentId: params.id },
-      });
+      this.notificationThreadText.showCard(this, params);
     },
-    parseSubject(value) {
-      return assignmentTypeName(this)[value]?.text;
+    parseSubject(entity) {
+      return this.notificationThreadText.generateSubject(entity);
     },
     formatDate(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
-    },
-    displayDeadline(type) {
-      return type !== WorkflowEntityTextType.Notice;
+      return this.notificationThreadText.formatDate(date);
     },
   },
 };
