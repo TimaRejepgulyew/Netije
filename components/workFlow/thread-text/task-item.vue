@@ -56,6 +56,7 @@
   </div>
 </template>
 <script>
+import TaskThreadTextModel from "../infrastructure/models/ThreadText/TaskThreadText.js";
 import { load } from "../infrastructure/services/taskService.js";
 import ActionItemType from "../infrastructure/constants/actionItemType.js";
 import TaskTypeGuid from "../infrastructure/constants/taskType.js";
@@ -74,7 +75,11 @@ export default {
   },
   name: "task-item",
   props: ["data"],
-
+  computed: {
+    taskThreadText() {
+      return new TaskThreadTextModel(this);
+    },
+  },
   methods: {
     // isLinkTask({ taskType }) {
     //   switch (taskType) {
@@ -85,32 +90,34 @@ export default {
     //   }
     // },
     toDetailTask({ id, taskType }) {
+      this.taskThreadText.showTask(this, { id, taskType });
       // if (this.isLinkTask({ taskType }))
-      this.$popup.taskCard(this, {
-        params: { taskId: id, taskType },
-        handler: load,
-      });
+      // this.$popup.taskCard(this, {
+      //   params: { taskId: id, taskType },
+      //   handler: load,
+      // });
     },
-    parseSubject(value) {
-      if (value.taskType === TaskTypeGuid.SimpleTask) {
-        return value.subject;
-      } else if (
-        value.taskType === TaskTypeGuid.IntranetExchangeDocumentProcessingTask
-      ) {
-        return value.subject;
-      } else if (value.taskType === TaskTypeGuid.ActionItemExecutionTask) {
-        if (value.isCompoundActionItem)
-          return this.$t("task.compoundActionItem");
-        else if (value?.actionItemType === ActionItemType.Component)
-          return this.$t("task.actionItemType.Component");
-        else return new TaskType(this).getById(value.taskType).text;
-      } else return new TaskType(this).getById(value.taskType).text;
+    parseSubject(entity) {
+      return this.taskThreadText.generateSubject(entity);
+      // if (value.taskType === TaskTypeGuid.SimpleTask) {
+      //   return value.subject;
+      // } else if (
+      //   value.taskType === TaskTypeGuid.IntranetExchangeDocumentProcessingTask
+      // ) {
+      //   return value.subject;
+      // } else if (value.taskType === TaskTypeGuid.ActionItemExecutionTask) {
+      //   if (value.isCompoundActionItem)
+      //     return this.$t("task.compoundActionItem");
+      //   else if (value?.actionItemType === ActionItemType.Component)
+      //     return this.$t("task.actionItemType.Component");
+      //   else return new TaskType(this).getById(value.taskType).text;
+      // } else return new TaskType(this).getById(value.taskType).text;
     },
     formatDate(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return TaskThreadTextModel.formatDate(date);
     },
-    displayDeadline(type) {
-      return type !== WorkflowEntityTextType.Notice;
+    displayDeadline(taskType) {
+      return this.taskThreadText.displayDeadline(taskType);
     },
   },
 };

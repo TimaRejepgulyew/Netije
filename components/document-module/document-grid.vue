@@ -152,12 +152,12 @@ export default {
   },
   methods: {
     setStore(filter) {
-      this.store = {
+      this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}/${filter}`,
         }),
-      };
+      });
     },
     itemClick(e) {
       this.activeFilter = e.itemIndex;

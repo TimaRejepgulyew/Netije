@@ -22,7 +22,7 @@
         </DxSimpleItem>
         <DxSimpleItem
           data-field="departmentId"
-          :editor-options="deparmentOptions"
+          template="departmentSelectBox"
           editor-type="dxSelectBox"
         >
           <DxLabel location="left" :text="$t('document.fields.departmentId')" />
@@ -94,7 +94,7 @@
         :validatorGroup="documentValidatorName"
         :value="businessUnitId"
         @valueChanged="
-          data => {
+          (data) => {
             setBusinessUnitId(data);
 
             setDepartmentId(null);
@@ -111,7 +111,7 @@
         :value="departmentId"
         :businessUnitId="businessUnitId"
         @valueChanged="
-          data => {
+          (data) => {
             setDepartmentId(data);
             setAddresseeId(null);
           }
@@ -130,7 +130,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -141,7 +141,7 @@ export default {
     DxLabel,
     DxRequiredRule,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -176,7 +176,6 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-
   },
   methods: {
     setPreparedById(data) {
@@ -198,14 +197,17 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
     },
     setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
+        data
+      );
     },
     setBusinessUnitId(data) {
       this.$store.commit(
         `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
         data
       );
-    }
-  }
+    },
+  },
 };
 </script>

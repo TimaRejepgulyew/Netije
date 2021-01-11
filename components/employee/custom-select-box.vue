@@ -51,23 +51,23 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: {
     showClearButton: {
       type: Boolean,
-      default: true
+      default: true,
     },
     value: {},
     storeApi: {},
     messageRequired: {},
     validatorGroup: {},
     readOnly: {},
-    valueExpr: {}
+    valueExpr: {},
   },
   data() {
     return {
-      localEmployeeId: null
+      localEmployeeId: null,
     };
   },
   computed: {
@@ -75,15 +75,15 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
+          loadUrl: this.storeApi || dataApi.company.Employee,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
     async reloadStore() {
@@ -94,24 +94,26 @@ export default {
       this.$popup.employeeCard(
         this,
         {
-          employeeId: this.employeeId || this.localEmployeeId
+          employeeId: this.employeeId || this.localEmployeeId,
         },
         {
           height: "auto",
-          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
+          listeners: [
+            { eventName: "valueChanged", handlerName: "reloadStore" },
+          ],
         }
       );
     },
     valueChanged(e) {
-      this.localEmployeeId = e.value.id;
+      this.localEmployeeId = this.employeeId;
       this.$emit("valueChanged", e.value);
     },
     updateEmployee(data) {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.reloadStore();
-    }
-  }
+    },
+  },
 };
 </script>
 
