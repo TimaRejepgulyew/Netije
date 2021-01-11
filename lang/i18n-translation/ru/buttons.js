@@ -1,6 +1,6 @@
 export default {
   informed: "Принять к сведению",
-  processed: "Обработать",
+  processed: "Принять",
   terminated: "Отказать",
   uploadKey: "Загрузить ключ",
   elExchange: " Внешний эл. обмен",
@@ -36,7 +36,7 @@ export default {
   changePassword: "Сменить пароль",
   save: "Сохранить",
   add: "Добавить",
-  complete: "Выполнить",
+  complete: "Выполнено",
   accept: "Принять",
   reworked: "Исправленно",
   rework: "На доработку",

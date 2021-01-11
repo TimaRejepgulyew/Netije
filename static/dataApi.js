@@ -99,6 +99,8 @@ export default {
   documentModule: {
     Documents: `/api/OfficialDocument/GetAll/`,
     AllDocument: `/api/OfficialDocument/GetAll/100/0`,
+    SaveDocument: `/api/OfficialDocument/`,
+    CreateDocument: `/api/OfficialDocument/`,
     GetDocumentById: `/api/OfficialDocument/`,
     DeleteDocument: `/api/OfficialDocument/`,
     ReevaluateDocumentName: `/api/OfficialDocument/ReevaluateDocumentName`,

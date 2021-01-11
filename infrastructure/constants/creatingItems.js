@@ -13,7 +13,6 @@ export default function(context) {
     new DocumentCreateBtn(context).init().filterContract()
   );
   const taskBtn = Object.values(new TaskCreateBtn(context).init().getAll());
-  console.log(taskBtn, TaskCreateBtn);
   return [
     {
       text: context.$t("createItemDialog.recordManagementGroup"),

@@ -1,6 +1,7 @@
 export default {
+  intranetExchange: "Içerki el. alyş-çalyş",
   informed: "Kabul etmek",
-  processed: "Işlemek",
+  processed: "Kabul etmek",
   terminated: "Gaýtarmak",
   uploadKey: "Açary ýüklemek",
   elExchange: "El. alyş-çalyş",
@@ -34,7 +35,7 @@ export default {
   changePassword: "Açarsözi çalyşmak",
   save: "Ýatda saklatmak",
   add: "Goşmak",
-  complete: "Ýerine ýetirmek",
+  complete: "Ýerine ýetirildi",
   accept: "Kabul etmek",
   reworked: "Işlenildi",
   rework: "Gaýtadan işlemäge iberildi",

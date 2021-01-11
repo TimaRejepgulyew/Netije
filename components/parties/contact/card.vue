@@ -233,7 +233,6 @@ export default {
       this.$set(this.contact, "companyId", data.id);
     },
     submit() {
-      console.log(this.counterpartId);
       return this.counterpartId ? this.putRequest() : this.postRequest();
     },
     postRequest() {

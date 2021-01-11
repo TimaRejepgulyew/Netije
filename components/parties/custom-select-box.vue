@@ -95,7 +95,7 @@ export default {
       );
     },
     openCounterPartPopup(data) {
-      console.log(data.id);
+
       this.$popup.counterPartCard(
         this,
         {

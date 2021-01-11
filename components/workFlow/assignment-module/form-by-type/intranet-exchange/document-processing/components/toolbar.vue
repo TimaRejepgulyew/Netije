@@ -58,12 +58,6 @@ export default {
           attachment.entity.documentTypeGuid === DocumentTypeGuid.IncomingLetter
         );
       }).entity;
-      console.log(
-        currentAttachmentGroup,
-        documentTypeGuid,
-        documentId,
-        "proçessing"
-      );
       this.$popup.documentCard(this, {
         params: { documentTypeGuid, documentId },
         handler: load,

@@ -217,7 +217,6 @@ export default {
   },
   methods: {
     handlerCorrespondentSelectionChanged(data) {
-      console.log(data);
       this.selectedCorrespondentType = data;
       this.$store.commit(
         `documents/${this.documentId}/SET_CORRESPONDENT`,

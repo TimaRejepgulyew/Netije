@@ -60,7 +60,7 @@ export default {
           this.$awn.success();
         },
         e => {
-          console.log(e);
+
           this.$awn.alert();
         }
       );

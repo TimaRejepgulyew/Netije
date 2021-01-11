@@ -62,23 +62,27 @@ export default {
     async completeAssignment(params) {
       const hasRecipientAccessRight = await this.checkRecipientAccessRight();
       if (!hasRecipientAccessRight) return false;
-      this.sendResult(params);
+      await this.sendResult(params);
     },
     //TODO remane this function
     sendResult(params) {
-      this.$awn.asyncBlock(
-        this.$store.dispatch(
-          `assignments/${this.assignmentId}/complete`,
-          params
-        ),
-        e => {
-          this.$emit("onComplete")
-          console.log("onComplete","toolbar");
-          // this.$listeners.complete();
-          this.$awn.success();
-        },
-        e => this.$awn.alert()
-      );
+      return new Promise((resolve, reject) => {
+        this.$awn.asyncBlock(
+          this.$store.dispatch(
+            `assignments/${this.assignmentId}/complete`,
+            params
+          ),
+          e => {
+            this.$emit("onComplete");
+            this.$awn.success();
+            resolve();
+          },
+          e => {
+            this.$awn.alert();
+            reject();
+          }
+        );
+      });
     }
   },
   computed: {

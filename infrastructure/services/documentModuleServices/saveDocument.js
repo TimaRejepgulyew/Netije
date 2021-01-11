@@ -14,7 +14,7 @@ export default async function(context, store) {
 export async function saveDocument(context, { commit, state, dispatch }) {
   const documentJson = JSON.stringify(state.document);
   const response = await context.$axios.put(
-    dataApi.documentModule.Documents + state.document.id,
+    dataApi.documentModule.SaveDocument + state.document.id,
     {
       documentJson,
       documentTypeGuid: state.document.documentTypeGuid
@@ -35,7 +35,7 @@ export async function saveDocumentTemplate(
 ) {
   const documentJson = JSON.stringify(state.document);
   const response = await context.$axios.put(
-    `${dataApi.documentTemplate.Documents}/${state.document.id}`,
+    `${dataApi.documentTemplate.SaveDocument}/${state.document.id}`,
     state.document
   );
 

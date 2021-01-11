@@ -97,11 +97,9 @@ export default {
   },
   methods: {
     changeThreadTextsResreshTracker(value) {
-      console.log(value);
       if (value) {
         setTimeout(() => {
           this.threadTextsResreshTracker = value;
-          console.log("log", this.threadTextsResreshTracker);
         }, 3000);
       } else this.threadTextsResreshTracker = value;
     },
@@ -112,7 +110,6 @@ export default {
       });
     },
     onComplete(res) {
-      console.log("main-form");
       this.changeThreadTextsResreshTracker(true);
     },
     reload() {

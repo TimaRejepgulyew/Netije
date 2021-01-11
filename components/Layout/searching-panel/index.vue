@@ -115,7 +115,6 @@ export default {
             hint: this.$t("searching.searchSetting"),
             stylingMode: "text",
             onClick: () => {
-              console.log(this.searchingType);
               this.$popup.searchSetting(
                 this,
                 {
