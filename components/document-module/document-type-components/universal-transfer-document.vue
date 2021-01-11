@@ -201,6 +201,7 @@ import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
+import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter"
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -288,7 +289,7 @@ export default {
         deferRendering: false,
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.AccountingDocuments}`,
+          url: `${dataApi.documentModule.Documents}${DocumentQuery.AccountingDocuments}/${QuickFilter}`,
           filter: this.counterpartyId
             ? [
                 ["counterpartyId", "=", this.counterpartyId],

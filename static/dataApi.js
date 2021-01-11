@@ -36,11 +36,11 @@ export default {
     Person: `/api/Person`,
     CounterPart: `/api/CounterPart`,
     Contact: `/api/Contact`,
-    Category:"/api/CounterpartCategory"
+    Category: "/api/CounterpartCategory"
   },
   exchange: {
     GetExchangeInfoByCounterPartId: "/api/CounterPart/ExchangeInfo",
-    UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo",
+    UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo"
   },
   company: {
     Department: `/api/Department`,
@@ -63,10 +63,12 @@ export default {
       PreliminaryNumber: `/api/DocumentRegister/PreliminaryNumber`,
       DefaultDocumentRegister: `/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
       RegistrableDocumentRegisteres: `/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`,
-      UserDocumentRegistersForRegistration: "/api/DocumentRegister/UserDocumentRegistersForRegistration"
+      UserDocumentRegistersForRegistration:
+        "/api/DocumentRegister/UserDocumentRegistersForRegistration"
     },
     DocumentRegisterReport: {
-      UploadTemplate: "/api/DocumentRegisterReport/UploadDocumentRegisterReportTemplate",
+      UploadTemplate:
+        "/api/DocumentRegisterReport/UploadDocumentRegisterReportTemplate",
       Generate: "/api/DocumentRegisterReport/Generate"
     },
     CaseFile: {
@@ -96,7 +98,7 @@ export default {
   },
   documentModule: {
     Documents: `/api/OfficialDocument/GetAll/`,
-    AllDocument: `/api/OfficialDocument/GetAll/100`,
+    AllDocument: `/api/OfficialDocument/GetAll/100/0`,
     GetDocumentById: `/api/OfficialDocument/`,
     DeleteDocument: `/api/OfficialDocument/`,
     ReevaluateDocumentName: `/api/OfficialDocument/ReevaluateDocumentName`,

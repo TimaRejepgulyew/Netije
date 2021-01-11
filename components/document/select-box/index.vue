@@ -46,6 +46,7 @@ import customField from "~/components/document/components/input-field.vue";
 import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
+import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter"
 export default {
   components: {
     DxValidator,
@@ -93,7 +94,7 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}/${QuickFilter.All}`,
         }),
         filter: this.dataSourceFilter || [],
         paginate: true,
