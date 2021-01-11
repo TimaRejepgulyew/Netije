@@ -26,6 +26,10 @@ import DataSource from "devextreme/data/data_source";
 import searchingTypes from "./infrastructure/constant/searchingTypes.js";
 import SearchingTypesModel from "./infrastructure/model/searchingTypes.js";
 import dataApi from "~/static/dataApi";
+import AssignmentQuery from "~/components/workFlow/infrastructure/constants/query/assignmentQuery.js";
+import AssignmentQuickFilter from "~/components/workFlow/infrastructure/constants/quickFilter/assignmentQuickFilter.js";
+import TaskQuery from "~/components/workFlow/infrastructure/constants/query/taskQuery.js";
+import TaskQuickFilter from "~/components/workFlow/infrastructure/constants/quickFilter/taskQuickFilter.js";
 export default {
   components: {
     DxAutocomplete,
@@ -44,7 +48,7 @@ export default {
       taskStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.task.Task + 0,
+          loadUrl: `${dataApi.task.Task}${TaskQuery.All}/${TaskQuickFilter.All}`,
         }),
         paginate: true,
         pageSize: 10,
@@ -52,7 +56,7 @@ export default {
       assignmentStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.assignment.Assignments + 0,
+          loadUrl: `${dataApi.assignment.Assignments}${AssignmentQuery.All}/${AssignmentQuickFilter.All}`,
         }),
         paginate: true,
         pageSize: 10,

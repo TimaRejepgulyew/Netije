@@ -4,7 +4,7 @@ export const TaskType = {
   ActionItemExecutionTask: "Tabşyrygy ýerine ýetirmek üçin ýumuşy",
   DocumentReviewTask: "Resminamany gözden geçirmek ýumuşy",
   FreeApprovalTask: "Erkin ylalyşyk ýumuşy",
-  IntranetExchangeDocumentProcessingTask:"Içerki alyş-çalşygy"
+  IntranetExchangeDocumentProcessingTask: "Içerki alyş-çalşygy"
 };
 export default {
   compoundActionItem: "Birleşdirilen tabşyryk",
@@ -50,6 +50,7 @@ export default {
     notification: "Tanyşdyrma"
   },
   fields: {
+    sender: "Iberiji",
     finalDeadline: "Umumy möhlet",
     status: "Ýagdaýy",
     author: "Dörediji",
@@ -68,9 +69,8 @@ export default {
     needsReview: "Göz astynda",
     deadLine: "Soňky senesi",
     isElectronicAcquaintance: "Elektron görnüşinde tanyşmak",
-    observers: "Gözegçiler",  
+    observers: "Gözegçiler",
 
-    
     acquaintMembers: "Kime tanyşdyrmaly",
     excludedPerformers: "Mundan başga",
     comment: "Teswir",

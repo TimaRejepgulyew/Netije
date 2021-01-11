@@ -57,14 +57,13 @@ export default {
   },
   methods: {
     setFilter(filter) {
-      this.store = {
+      this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: `${dataApi.task.Task}${this.taskQuery}/${filter}`
         }),
-
         sort: [{ selector: "created", desc: true }]
-      };
+      });
     },
     onToolbarPreparing(header) {
       header.toolbarOptions.items.unshift({

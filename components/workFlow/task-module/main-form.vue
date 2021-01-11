@@ -76,6 +76,7 @@ import simpleTask from "./form-by-type/simple/index.vue";
 import acquaintanceTask from "./form-by-type/acquaintance/index.vue";
 import actionItemExecutionTask from "./form-by-type/action-item-execution/index.vue";
 import freeApprovalTask from "./form-by-type/free-approval/index.vue";
+import intranetExchangeDocumentProcessingTask from "./form-by-type/intranet-exchange/index.vue";
 
 //components formComponents
 import toolbar from "./form-components/toolbar/index.vue";
@@ -108,6 +109,7 @@ export default {
     DxForm,
     documentReviewTask,
     freeApprovalTask,
+    intranetExchangeDocumentProcessingTask
   },
   props: {
     taskId: {
@@ -246,6 +248,8 @@ export default {
           return "document-review-task";
         case TaskType.FreeApprovalTask:
           return "free-approval-task";
+        case TaskType.IntranetExchangeDocumentProcessingTask:
+          return "intranet-exchange-document-processing-task";
       }
     },
   },

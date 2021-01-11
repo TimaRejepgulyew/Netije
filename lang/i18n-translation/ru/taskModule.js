@@ -3,7 +3,8 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа",
-  FreeApprovalTask: "Задача на cвободное согласование"
+  FreeApprovalTask: "Задача на cвободное согласование",
+  IntranetExchangeDocumentProcessingTask:"Задача на внутренний эл. обмен"
 };
 export default {
   compoundActionItem: "Состовное поручение",
@@ -47,6 +48,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    sender:"Отправитель",
     finalDeadline: "Общий срок",
     status: "Состояние",
     author: "Автор",

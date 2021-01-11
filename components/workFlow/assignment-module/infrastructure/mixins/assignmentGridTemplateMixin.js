@@ -68,13 +68,13 @@ export default {
   },
   methods: {
     setFilter(filter) {
-      this.store = {
+      this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}/${filter}`
         }),
         sort: [{ selector: "created", desc: true }]
-      };
+      });
     },
     addButtonToGrid(header) {
       header.toolbarOptions.items.unshift({

@@ -13,10 +13,7 @@
           />
         </div>
         <div>
-          <div
-            @click="() => toDetailTask(data.item.entity)"
-            :class="{ link: isLinkTask(data.item.entity) }"
-          >
+          <div @click="() => toDetailTask(data.item.entity)" class="link">
             <span class="text-italic">{{
               parseSubject(data.item.entity)
             }}</span>
@@ -79,23 +76,27 @@ export default {
   props: ["data"],
 
   methods: {
-    isLinkTask({ taskType }) {
-      switch (taskType) {
-        case TaskTypeGuid.IntranetExchangeDocumentProcessingTask:
-          return false;
-        default:
-          return true;
-      }
-    },
+    // isLinkTask({ taskType }) {
+    //   switch (taskType) {
+    //     case TaskTypeGuid.IntranetExchangeDocumentProcessingTask:
+    //       return false;
+    //     default:
+    //       return true;
+    //   }
+    // },
     toDetailTask({ id, taskType }) {
-      if (this.isLinkTask({ taskType }))
-        this.$popup.taskCard(this, {
-          params: { taskId: id, taskType },
-          handler: load,
-        });
+      // if (this.isLinkTask({ taskType }))
+      this.$popup.taskCard(this, {
+        params: { taskId: id, taskType },
+        handler: load,
+      });
     },
     parseSubject(value) {
       if (value.taskType === TaskTypeGuid.SimpleTask) {
+        return value.subject;
+      } else if (
+        value.taskType === TaskTypeGuid.IntranetExchangeDocumentProcessingTask
+      ) {
         return value.subject;
       } else if (value.taskType === TaskTypeGuid.ActionItemExecutionTask) {
         if (value.isCompoundActionItem)

@@ -38,13 +38,14 @@ import processedIcon from "~/static/icons/assignment-result/success.svg";
 import terminatedIcon from "~/static/icons/status/aborted.svg";
 import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType";
 export default {
   mixins: [toolbarMixin],
   methods: {
-    openIncomingDocument() {
+    openOutgoingDocument() {
       const withoutGroupId = 0;
 
-      const currentAttachmentGroup = this.attachmentGroups.find(
+      const currentAttachmentGroup = this.assignment.attachmentGroups.find(
         (attachmentGroup) => {
           return attachmentGroup.groupId === withoutGroupId;
         }
@@ -52,7 +53,11 @@ export default {
       const {
         id: documentId,
         documentTypeGuid,
-      } = currentAttachmentGroup.entities[0].entity;
+      } = currentAttachmentGroup.entities.find((attachment) => {
+        return (
+          attachment.entity.documentTypeGuid === DocumentTypeGuid.IncomingLetter
+        );
+      }).entity;
       console.log(
         currentAttachmentGroup,
         documentTypeGuid,
@@ -81,7 +86,7 @@ export default {
             if (response) {
               this.setResult(ReviewResult.Processed);
               await this.completeAssignment();
-              this.openIncomingDocument();
+              this.openOutgoingDocument();
             }
           }
         },

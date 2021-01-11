@@ -85,6 +85,8 @@ export default {
   readdressToEmployee: "Переадресовать сотруднику",
 
   result: {
+    Terminated: "Отказан",
+    Processed: "Обработан",
     Acquainted: "Ознакомлен",
     SendForReview: "Отправлено на рассмотрение",
     Complete: "Завершено",

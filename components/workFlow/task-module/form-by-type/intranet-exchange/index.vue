@@ -17,17 +17,17 @@
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="assignee" template="assignee">
-          <DxLabel location="left" :text="$t('task.fields.approvers')" />
+          <DxLabel location="left" :text="$t('task.fields.assignee')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="sender" template="sender">
           <DxLabel location="left" :text="$t('task.fields.sender')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <template #sender>
-        <employee-select-box :read-only="readOnly" :value="sender" />
-      </template>
       <template #assignee>
-        <business-unit-select-box :read-only="readOnly" :value="assignee" />
+        <employee-select-box :read-only="readOnly" :value="assignee" />
+      </template>
+      <template #sender>
+        <business-unit-select-box :read-only="readOnly" :value="sender" />
       </template>
     </DxForm>
   </div>

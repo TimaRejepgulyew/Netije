@@ -32,7 +32,8 @@ export default {
       "Hakykatdanam hem giriş resminamany işläp- taýýarlamakdan ret etmekçimi",
     sureProcessedAssignmentConfirmation:
       "Hakykatdanam hem giriş resminamany işläp-taýýarlamakçy",
-    sureInformedAssignmentConfirmation: " Hakykatdan hem garalmaga kabul ettiňiz",
+    sureInformedAssignmentConfirmation:
+      " Hakykatdan hem garalmaga kabul ettiňiz",
     sureAbortConfirmation: "Siz hakykatdanam ýumuşy işlemegi besetjek mi ?",
     sureApprovalReworkAssignmentConfirmation:
       "Siz hakykatdan ýumuşy gaýtadan işlendiňiz",
@@ -85,6 +86,8 @@ export default {
   readdressToEmployee: "Işgäriň salgysyna geçirmelimi",
 
   result: {
+    Terminated: "Inkär edildi",
+    Processed: "Işlenildi",
     Reworked: "Düzedildi",
     Completed: "Tamamlandy",
     Approved: "Ylalaşyldy",
