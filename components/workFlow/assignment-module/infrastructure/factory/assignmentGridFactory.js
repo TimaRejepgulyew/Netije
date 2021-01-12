@@ -133,7 +133,7 @@ function CreateAssignmentCreatedColumn(context) {
     sortOrder: "desc",
     caption: context.$t("assignment.fields.created"),
     width: "auto",
-    visible: false,
+    visible: true,
     dataType: "date",
     format: "dd.MM.yyyy HH:mm"
   };
