@@ -1,6 +1,7 @@
 import BaseThreadText from "./Base";
 import TaskTypeModel from "../TaskType";
 import TaskTypeGuid from "../../constants/taskType";
+import ActionItemType from "../../constants/actionItemType";
 import { load } from "../../services/taskService";
 
 export default class TaskTreadText extends BaseThreadText {
