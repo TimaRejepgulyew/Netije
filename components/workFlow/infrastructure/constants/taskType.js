@@ -4,6 +4,7 @@ const TaskType = {
   ActionItemExecutionTask: 2,
   DocumentReviewTask: 3,
   FreeApprovalTask: 5,
+  ExchangeDocumentProcessingTask: 9,
   IntranetExchangeDocumentProcessingTask: 10
 };
 export default TaskType;

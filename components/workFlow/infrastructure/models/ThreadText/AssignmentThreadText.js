@@ -18,10 +18,10 @@ export default class AssignmentThreadText extends BaseThreadText {
   }
   __getInProcessIndicator(entity) {
     if (entity.isRead) {
-        return AssignmentThreadText.indicators.statusIndicator;
-      } else {
-        return AssignmentThreadText.indicators.isReadIndicator;
-      }
+      return AssignmentThreadText.indicators.statusIndicator;
+    } else {
+      return AssignmentThreadText.indicators.isReadIndicator;
+    }
   }
   getIndicatorByStatus(entity) {
     switch (entity.status) {
@@ -30,7 +30,7 @@ export default class AssignmentThreadText extends BaseThreadText {
       case AssignmentStatus.Aborted:
         return AssignmentThreadText.indicators.statusIndicator;
       case AssignmentStatus.InProcess:
-        return __getInProcessIndicator(entity);
+        return this.__getInProcessIndicator(entity);
     }
   }
 }

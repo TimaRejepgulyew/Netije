@@ -16,6 +16,7 @@ import { ReviewResult as FreeApprovalReworkAssignment } from "../../assignment-m
 import { ReviewResult as FreeApprovalFinishAssignment } from "../../assignment-module/form-by-type/free-approval/finish/infrastructure";
 import { ReviewResult as IntranetExchangeDocumentProcessingAssignment } from "../../assignment-module/form-by-type/intranet-exchange/document-processing/infrastructure";
 import { ReviewResult as IntranetExchangeDocumentTerminatedAssignment } from "../../assignment-module/form-by-type/intranet-exchange/document-terminated/infrastructure";
+import { ReviewResult as ExtranetExchangeDocumentProcessingAssignment } from "../../assignment-module/form-by-type/extranet-exchange/document-processing/infrastructure";
 const BaseResult = {
   Accept: 0,
   ForRework: 1
@@ -36,7 +37,8 @@ export default {
   Simple,
   FreeApprovalReworkAssignment,
   IntranetExchangeDocumentProcessingAssignment,
-  IntranetExchangeDocumentTerminatedAssignment
+  IntranetExchangeDocumentTerminatedAssignment,
+  ExtranetExchangeDocumentProcessingAssignment
 };
 
 export const generateElementsResult = assignmentType => {
@@ -177,6 +179,9 @@ function intranetExchangeDocumentTerminatedAssignment(context) {
     context: context,
     iconStores: resultIcon
   });
+}
+function  extranetExchangeDocumentProcessingAssignment(context){
+  
 }
 export const resultElements = {
   intranetExchangeDocumentProcessingAssignment,
