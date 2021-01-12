@@ -8,6 +8,7 @@ export default {
     sendNotice: "Habarnamany ibermek"
   },
   fields: {
+    counterParty: "Kontragent",
     action: "Hereketi",
     approved: "Ylalyşyldy",
     approver: "Ylalaşyjy",
@@ -86,6 +87,7 @@ export default {
   readdressToEmployee: "Işgäriň salgysyna geçirmelimi",
 
   result: {
+    ReAddress: "Iberilen",
     Terminated: "Inkär edildi",
     Processed: "Işlenildi",
     Reworked: "Düzedildi",

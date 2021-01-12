@@ -39,6 +39,7 @@ export function isAssignment(assignmenType) {
     AssignmentType.ReviewResolutionAssignment,
     AssignmentType.FreeApprovalAssignment,
     AssignmentType.FreeApprovalReworkAssignment,
+    AssignmentType.ExchangeDocumentProcessingAssignment,
     AssignmentType.IntranetExchangeDocumentProcessingAssignment,
     AssignmentType.IntranetExchangeDocumentTerminatedAssignment
   ];

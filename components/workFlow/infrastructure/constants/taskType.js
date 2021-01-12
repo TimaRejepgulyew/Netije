@@ -22,6 +22,11 @@ export const mapToEntityType = taskType => {
       return entityTypes.DocumentReviewTask;
     case TaskType.FreeApprovalTask:
       return entityTypes.FreeApprovalTask;
+    case TaskType.ExchangeDocumentProcessingTask:
+      return entityTypes.ExchangeDocumentProcessingTask;
+    case TaskType.IntranetExchangeDocumentProcessingTask:
+      return entityTypes.IntranetExchangeDocumentProcessingTask;
+
     default:
       throw "Unsupported task type";
   }

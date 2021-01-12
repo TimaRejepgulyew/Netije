@@ -19,8 +19,10 @@ async function create(context, params) {
 export default class CreateTaskBtn extends TaskType {
   init() {
     this.elements = this.getExcludeBy([
+      TaskTypeGuid.ExchangeDocumentProcessingTask,
       TaskTypeGuid.IntranetExchangeDocumentProcessingTask
     ]);
+
     for (let element in this.elements) {
       this.elements[element].create = context =>
         create(context, { taskType: +element });

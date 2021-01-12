@@ -19,6 +19,17 @@
     >
       <DxGroupItem :col-span="7" :col-count="4">
         <DxGroupItem template="info" :col-span="4"> </DxGroupItem>
+        <DxSimpleItem
+          :col-span="4"
+          editor-type="dxSelectBox"
+          :editor-options="counterPartyOptions"
+          data-field="counterParty"
+        >
+          <DxLabel
+            location="left"
+            :text="$t('assignment.fields.counterParty')"
+          />
+        </DxSimpleItem>
         <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>
         <DxGroupItem template="additional-info" :col-span="4"> </DxGroupItem>
       </DxGroupItem>
@@ -39,15 +50,32 @@
   </div>
 </template>
 <script>
+import dataApi from "~/static/dataApi.js";
+import { DxLabel } from "devextreme-vue/chart";
 import formByType from "../../../infrastructure/mixins/form-types";
 import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
+import { DxSimpleItem } from "devextreme-vue/form";
 export default {
   name: "document-processing",
   mixins: [formByType],
   components: {
+    DxSimpleItem,
     Toolbar,
     AdditionalInfo,
+  },
+  computed: {
+    counterPartyOptions() {
+      return {
+        readOnly: true,
+        dataSource: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.CounterPart,
+        }),
+        value: this.assignment.counterParty,
+        displayExpr: "name",
+      };
+    },
   },
 };
 </script>

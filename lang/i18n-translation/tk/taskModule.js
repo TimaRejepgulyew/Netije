@@ -4,7 +4,8 @@ export const TaskType = {
   ActionItemExecutionTask: "Tabşyrygy ýerine ýetirmek üçin ýumuşy",
   DocumentReviewTask: "Resminamany gözden geçirmek ýumuşy",
   FreeApprovalTask: "Erkin ylalyşyk ýumuşy",
-  IntranetExchangeDocumentProcessingTask: "Içerki alyş-çalşygy"
+  IntranetExchangeDocumentProcessingTask: "Içerki alyş-çalşygy",
+  ExchangeDocumentProcessingTask: "Elektron alyş-çalşygy"
 };
 export default {
   compoundActionItem: "Birleşdirilen tabşyryk",
@@ -50,6 +51,7 @@ export default {
     notification: "Tanyşdyrma"
   },
   fields: {
+    counterParty: "Kontragent",
     sender: "Iberiji",
     finalDeadline: "Umumy möhlet",
     status: "Ýagdaýy",

@@ -55,7 +55,7 @@ import { unload } from "../infrastructure/services/assignmentService.js";
 //components
 import Header from "~/components/page/page__header";
 import CreateChildTaskBtn from "./form-components/toolbar-components/create-children-task-btn";
-import AssignmentFormComponent from "./form-by-type/intranet-exchange/AssignmentFormComponent.js";
+import AssignmentFormComponent from "./form-by-type/exchange/AssignmentFormComponent";
 import Info from "./form-components/info-form.vue";
 import importantIndicator from "./form-components/impartant-indicator";
 export default {

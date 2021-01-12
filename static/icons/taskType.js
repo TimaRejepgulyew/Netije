@@ -10,5 +10,6 @@ export {
   ActionItemExecutionTask,
   DocumentReviewTask,
   FreeApprovalTask,
-  ExchangeIcon as IntranetExchangeDocumentProcessingTask
+  ExchangeIcon as IntranetExchangeDocumentProcessingTask,
+  ExchangeIcon as ExchangeDocumentProcessingTask
 };

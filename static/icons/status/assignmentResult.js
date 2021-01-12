@@ -27,5 +27,6 @@ export {
   Approved,
   Approved as Completed,
   Complete as Processed,
-  Terminated
+  Terminated,
+  Forward as ReAddress,
 };

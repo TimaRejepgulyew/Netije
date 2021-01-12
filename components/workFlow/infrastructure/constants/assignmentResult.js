@@ -16,12 +16,12 @@ import { ReviewResult as FreeApprovalReworkAssignment } from "../../assignment-m
 import { ReviewResult as FreeApprovalFinishAssignment } from "../../assignment-module/form-by-type/free-approval/finish/infrastructure";
 import { ReviewResult as IntranetExchangeDocumentProcessingAssignment } from "../../assignment-module/form-by-type/intranet-exchange/document-processing/infrastructure";
 import { ReviewResult as IntranetExchangeDocumentTerminatedAssignment } from "../../assignment-module/form-by-type/intranet-exchange/document-terminated/infrastructure";
-import { ReviewResult as ExtranetExchangeDocumentProcessingAssignment } from "../../assignment-module/form-by-type/extranet-exchange/document-processing/infrastructure";
+import { ReviewResult as ExchangeDocumentProcessingAssignment } from "../../assignment-module/form-by-type/exchange/document-processing/infrastructure";
 const BaseResult = {
   Accept: 0,
   ForRework: 1
 };
-export default {
+const ReviewResults = {
   FreeApprovalFinishAssignment,
   FreeApprovalAssignment,
   ReviewResolution,
@@ -36,10 +36,11 @@ export default {
   Acquaintance,
   Simple,
   FreeApprovalReworkAssignment,
+  ExchangeDocumentProcessingAssignment,
   IntranetExchangeDocumentProcessingAssignment,
-  IntranetExchangeDocumentTerminatedAssignment,
-  ExtranetExchangeDocumentProcessingAssignment
+  IntranetExchangeDocumentTerminatedAssignment
 };
+export default ReviewResults;
 
 export const generateElementsResult = assignmentType => {
   const resultByType = {};
@@ -180,10 +181,37 @@ function intranetExchangeDocumentTerminatedAssignment(context) {
     iconStores: resultIcon
   });
 }
-function  extranetExchangeDocumentProcessingAssignment(context){
-  
+function exchangeDocumentProcessingAssignment(context) {
+  return generatorMapObj({
+    Constant: ExchangeDocumentProcessingAssignment,
+    translateName: "assignment.result",
+    context: context,
+    iconStores: resultIcon
+  });
 }
+//TODO refactoring add pattern factory to result model as class
+// class AssignmentReviewResultsModel {
+//   constructor() {
+//     this.elements = {};
+//     for (assignmentType in ReviewResults) {
+//       this.elements[assignmentType] = context => {
+//         return generatorMapObj({
+//           Constant: ReviewResults[assignmentType],
+//           translateName: "assignment.result",
+//           context: context,
+//           iconStores: resultIcon
+//         });
+//       };
+//     }
+//   }
+//   getAll() {
+//     return this.elements;
+//   }
+// }
+// export const resultElements = new AssignmentReviewResultsModel().getAll();
+
 export const resultElements = {
+  exchangeDocumentProcessingAssignment,
   intranetExchangeDocumentProcessingAssignment,
   intranetExchangeDocumentTerminatedAssignment,
   freeApprovalReworkAssignment,

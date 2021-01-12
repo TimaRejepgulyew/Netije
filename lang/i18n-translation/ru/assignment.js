@@ -8,6 +8,7 @@ export default {
     sendNotice: "Отправить уведомление"
   },
   fields: {
+    counterParty: "Контагент",
     action: "Действие",
     approved: "Согласованно",
     approver: "Согласующий",
@@ -85,6 +86,7 @@ export default {
   readdressToEmployee: "Переадресовать сотруднику",
 
   result: {
+    ReAddress: "Переадресовано",
     Terminated: "Отказан",
     Processed: "Обработан",
     Acquainted: "Ознакомлен",
