@@ -45,11 +45,12 @@
           :file-name="$t('task.taskQuery.actionItemExicution')"
         />
 
-        <DxStateStoring
+       // TODO Remove state storing because save scroling
+        <!-- <DxStateStoring
           :enabled="true"
           type="localStorage"
           :storage-key="'task' + taskQuery"
-        />
+        /> -->
 
         <DxEditing
           :allow-updating="false"
