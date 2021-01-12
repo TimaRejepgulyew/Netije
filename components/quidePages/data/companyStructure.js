@@ -102,19 +102,19 @@ export default function(context) {
         }
       ]
     },
-    // {
-    //   icon: integrationIcon,
-    //   title: context.$t("companyStructure.integration.title"),
-    //   visible: isAdmin(),
-    //   items: [
-    //     {
-    //       name: context.$t("companyStructure.integration.exchange"),
-    //       description: context.$t("companyStructure.integration.exchangeDescr"),
-    //       path: pathGenerate("integration-exchange"),
-    //       visible: true
-    //     }
-    //   ]
-    // }
+    {
+      icon: integrationIcon,
+      title: context.$t("companyStructure.integration.title"),
+      visible: isAdmin(),
+      items: [
+        {
+          name: context.$t("companyStructure.integration.exchange"),
+          description: context.$t("companyStructure.integration.exchangeDescr"),
+          path: pathGenerate("integration-exchange"),
+          visible: true
+        }
+      ]
+    }
   ];
   return companyStructure;
 }
