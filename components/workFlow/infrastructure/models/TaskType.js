@@ -1,4 +1,3 @@
-
 import TaskTypeGuid from "../constants/taskType.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
 import * as taskTypeIcons from "~/static/icons/taskType.js";
@@ -29,15 +28,12 @@ export default class TaskType {
   getById(id) {
     return this.elements[id];
   }
-  getExcludeBy(excludeTypes){
-    const filterObj = {};
-    for (let element in this.elements) {
-      for (let excludeType of excludeTypes) {
-        if (+element !== excludeType) {
-          filterObj[element] = this.elements[element];
-        }
-      }
+  getExcludeBy(excludeTypes) {
+    const filterObj = this.elements;
+    for (let excludeType of excludeTypes) {
+      delete filterObj[excludeType];
     }
+
     return filterObj;
   }
 }
