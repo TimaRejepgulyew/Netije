@@ -100,12 +100,8 @@
           >
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
-          <DxTab :col-count="8" title="Выдача документов" :disabled="isNew">
-            <DxSimpleItem
-              :col-span="8"
-              template="DocumentExtradition"
-            ></DxSimpleItem>
-          </DxTab>
+               <DxTab :col-count="8" :title="$t('document.tabs.extradition')" :disabled="isNew">
+            <DxSimpleItem :col-span="8" template="DocumentExtradition"></DxSimpleItem>
           <DxTab
             :col-count="8"
             :title="$t('document.tabs.elExchange')"
