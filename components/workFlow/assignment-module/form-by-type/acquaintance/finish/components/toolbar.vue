@@ -9,7 +9,6 @@
       />
 
       <DxItem
-        :visible="inProcess"
         locateInMenu="auto"
         template="createChildTask"
         location="before"

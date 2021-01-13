@@ -21,6 +21,7 @@ export default class TaskTreadText extends BaseThreadText {
     switch (entity.taskType) {
       case TaskTypeGuid.SimpleTask:
       case TaskTypeGuid.IntranetExchangeDocumentProcessingTask:
+      case TaskTypeGuid.ExchangeDocumentProcessingTask:
         return entity.subject;
 
       case TaskTypeGuid.ActionItemExecutionTask:

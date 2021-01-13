@@ -80,7 +80,7 @@ export default {
     approvers: "Согласующие",
     receiveOnCompletion: "По завершению получить",
     receiveNotice: "Уведомлять о замечаниях",
-    copies: "Копия"
+    copies: "Копии"
   },
   importance: {
     highImportance: "Высокая важность",

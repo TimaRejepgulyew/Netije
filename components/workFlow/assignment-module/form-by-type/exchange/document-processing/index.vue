@@ -21,8 +21,7 @@
         <DxGroupItem template="info" :col-span="4"> </DxGroupItem>
         <DxSimpleItem
           :col-span="4"
-          editor-type="dxSelectBox"
-          :editor-options="counterPartyOptions"
+          template="counterparty"
           data-field="counterpartyId"
         >
           <DxLabel
@@ -30,10 +29,17 @@
             :text="$t('assignment.fields.counterParty')"
           />
         </DxSimpleItem>
+
         <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>
         <DxGroupItem template="additional-info" :col-span="4"> </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem template="attachments" :col-span="3" />
+      <template #counterparty>
+        <counterparty-custom-select-box
+          :readOnly="true"
+          :value="correspondentId"
+        />
+      </template>
       <template #info>
         <slot name="info"></slot>
       </template>
@@ -55,6 +61,7 @@ import formByType from "../../../infrastructure/mixins/form-types";
 import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
 import { DxSimpleItem, DxLabel } from "devextreme-vue/form";
+import counterpartyCustomSelectBox from "~/components/parties/custom-select-box.vue";
 export default {
   name: "document-processing",
   mixins: [formByType],
@@ -63,19 +70,11 @@ export default {
     DxSimpleItem,
     Toolbar,
     AdditionalInfo,
+    counterpartyCustomSelectBox,
   },
   computed: {
-    counterPartyOptions() {
-      return {
-        readOnly: true,
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.contragents.CounterPart,
-        }),
-        value: this.assignment.counterpartyId,
-        displayExpr: "name",
-        valueExpr: "id",
-      };
+    correspondentId() {
+      return this.assignment.counterpartyId;
     },
   },
 };
