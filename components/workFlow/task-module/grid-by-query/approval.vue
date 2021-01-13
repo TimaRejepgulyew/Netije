@@ -45,7 +45,7 @@
           :file-name="$t('task.taskQuery.actionItemExicution')"
         />
 
-       // TODO Remove state storing because save scroling
+        // TODO Remove state storing because save scroling
         <!-- <DxStateStoring
           :enabled="true"
           type="localStorage"
@@ -106,6 +106,7 @@
           data-field="maxDeadline"
           :caption="$t('translations.fields.deadLine')"
           data-type="date"
+          format="dd.MM.yyyy HH:mm"
         />
 
         <DxColumn
@@ -113,6 +114,7 @@
           :caption="$t('task.fields.createdDate')"
           sort-order="desc"
           data-type="date"
+          format="dd.MM.yyyy HH:mm"
         />
         <DxColumn
           data-field="author.name"

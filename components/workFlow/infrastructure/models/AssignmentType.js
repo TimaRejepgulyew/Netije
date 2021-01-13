@@ -51,6 +51,7 @@ export default class AssignmentType {
       AssignmentTypeGuid.ReviewResolutionAssignment,
       AssignmentTypeGuid.FreeApprovalAssignment,
       AssignmentTypeGuid.FreeApprovalReworkAssignment,
+      AssignmentTypeGuid.ExchangeDocumentProcessingAssignment,
       AssignmentTypeGuid.IntranetExchangeDocumentProcessingAssignment,
       AssignmentTypeGuid.IntranetExchangeDocumentTerminatedAssignment
     ];

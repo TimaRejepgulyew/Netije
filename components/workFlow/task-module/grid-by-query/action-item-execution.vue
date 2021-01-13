@@ -105,6 +105,7 @@
           data-field="maxDeadline"
           :caption="$t('translations.fields.deadLine')"
           data-type="date"
+          format="dd.MM.yyyy HH:mm"
         />
 
         <DxColumn
@@ -112,6 +113,7 @@
           :caption="$t('task.fields.createdDate')"
           sort-order="desc"
           data-type="date"
+          format="dd.MM.yyyy HH:mm"
         />
         <DxColumn
           data-field="author.name"
