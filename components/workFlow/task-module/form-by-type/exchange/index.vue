@@ -35,34 +35,24 @@
         >
           <DxLabel location="left" :text="$t('task.fields.deadLine')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="assignee" template="assignee">
-          <DxLabel location="left" :text="$t('task.fields.assignee')" />
-        </DxSimpleItem>
       </DxGroupItem>
-      <template #assignee>
-        <employee-select-box :read-only="readOnly" :value="assignee" />
-      </template>
     </DxForm>
   </div>
 </template>
 <script>
 import businessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box.vue";
-import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxGroupItem,
     DxSimpleItem,
     DxLabel,
     DxForm,
-    employeeSelectBox,
     businessUnitSelectBox,
   },
   props: ["taskId", "canUpdate"],

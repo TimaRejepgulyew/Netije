@@ -23,7 +23,7 @@
           :col-span="4"
           editor-type="dxSelectBox"
           :editor-options="counterPartyOptions"
-          data-field="counterParty"
+          data-field="counterpartyId"
         >
           <DxLabel
             location="left"
@@ -51,15 +51,15 @@
 </template>
 <script>
 import dataApi from "~/static/dataApi.js";
-import { DxLabel } from "devextreme-vue/chart";
 import formByType from "../../../infrastructure/mixins/form-types";
 import AdditionalInfo from "./components/additional-info.vue";
 import Toolbar from "./components/toolbar.vue";
-import { DxSimpleItem } from "devextreme-vue/form";
+import { DxSimpleItem, DxLabel } from "devextreme-vue/form";
 export default {
   name: "document-processing",
   mixins: [formByType],
   components: {
+    DxLabel,
     DxSimpleItem,
     Toolbar,
     AdditionalInfo,
@@ -72,8 +72,9 @@ export default {
           key: "id",
           loadUrl: dataApi.contragents.CounterPart,
         }),
-        value: this.assignment.counterParty,
+        value: this.assignment.counterpartyId,
         displayExpr: "name",
+        valueExpr: "id",
       };
     },
   },
