@@ -37,7 +37,8 @@ export default {
     main: "Esasy häsiýetleri",
     relations: "Gatnaşyklary",
     history: "Taryhy",
-    tasks: "Tabşyryklary"
+    tasks: "Tabşyryklary",
+    extradition: "Resminamalaryň berilmegi"
   },
   groups: {
     captions: {

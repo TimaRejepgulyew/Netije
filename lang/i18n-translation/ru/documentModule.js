@@ -39,7 +39,8 @@ export default {
     main: "Свойства",
     relations: "Связи",
     history: "История",
-    tasks: "Задачи"
+    tasks: "Задачи",
+    extradition:"Выдача вокументов"
   },
   groups: {
     captions: {
