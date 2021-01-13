@@ -4,6 +4,7 @@ import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
+import { load } from "~/infrastructure/services/documentService";
 export default class Base {
   state = {
     document: {},
@@ -149,6 +150,14 @@ export default class Base {
     }
   };
   actions = {
+    async updateExchange({ state }) {
+      console.log(state);
+      const data = await load(this, {
+        documentId: state.document.id,
+        documentTypeGuid: state.document.documentTypeGuid
+      });
+      console.log("data", data);
+    },
     async save({ dispatch, commit, state }) {
       await documentService.save(this, { commit, dispatch, state });
     },

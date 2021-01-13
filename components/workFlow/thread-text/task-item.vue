@@ -95,7 +95,6 @@ export default {
       return this.taskThreadText.generateSubject(entity);
     },
     formatDate(date) {
-      console.log(date);
       if (date) return this.taskThreadText.formatDate(date);
     },
   },

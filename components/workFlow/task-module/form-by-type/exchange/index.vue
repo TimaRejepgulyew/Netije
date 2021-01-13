@@ -56,9 +56,6 @@ export default {
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
-  created() {
-    console.log(this.task.boxBaseId);
-  },
   computed: {
     readOnly() {
       return !this.isDraft || !this.canUpdate;

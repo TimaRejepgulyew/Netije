@@ -7,7 +7,6 @@ export default class NotificationThreadText extends BaseThreadText {
     NotificationThreadText.elements = new AssignmentTypeModel(context).getAll();
   }
   generateSubject(entity) {
-    console.log(entity);
     return NotificationThreadText.elements[entity.assignmentType]?.text;
   }
   showCard(context, { id }) {

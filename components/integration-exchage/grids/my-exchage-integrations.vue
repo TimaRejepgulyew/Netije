@@ -104,7 +104,6 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 import Header from "~/components/page/page__header";
-import RoutingTypeGuid from "../infrastructure/constants/routing.js";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -158,13 +157,6 @@ export default {
         key: "id",
         loadUrl: dataApi.company.Employee,
       }),
-
-      routingDataSource: [
-        {
-          name: this.$t("exchange.routingType.BoxResponsible"),
-          id: RoutingTypeGuid.BoxResponsible,
-        },
-      ],
     };
   },
   methods: {
