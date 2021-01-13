@@ -11,6 +11,7 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
             dataApi.documentRegistration.RegisterDocument,
             payload
           );
+          
           dispatch("loadDocument", data);
         },
         async unRegister({ dispatch, state }) {

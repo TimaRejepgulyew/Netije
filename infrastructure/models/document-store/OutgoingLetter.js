@@ -1,5 +1,6 @@
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
+import dataApi from "~/static/dataApi";
 export default class OutgoingLetter extends ElectronicDocument {
   constructor(options) {
     const mutations = {
@@ -60,6 +61,9 @@ export default class OutgoingLetter extends ElectronicDocument {
           state.isDataChanged = true;
           state.document.addresseeId = payload;
         }
+      },
+      SET_CAN_EXCHANGE(state, payload) {
+        state.canExchange = payload;
       }
     };
     const state = {
@@ -74,6 +78,15 @@ export default class OutgoingLetter extends ElectronicDocument {
     };
     const actions = {
       ...options?.actions,
+      async updateExchange(
+        { state, commit },
+        { documentTypeGuid, documentId }
+      ) {
+        const { data } = await this.$axios.get(
+          `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
+        );
+        commit("SET_CAN_EXCHANGE", data.canExchange);
+      },
       setCorrespondent({ commit, dispatch }, payload) {
         commit("SET_CORRESPONDENT_ID", payload);
         dispatch("reevaluateDocumentName");

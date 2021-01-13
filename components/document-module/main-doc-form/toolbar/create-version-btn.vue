@@ -95,7 +95,11 @@ export default {
   methods: {
     uploadVersion(data) {
       this.$store.dispatch(`documents/${this.documentId}/setVersion`, data);
-      this.$store.dispatch(`documents/${this.documentId}/updateExchange`);
+      if (!this.isNew)
+        this.$store.dispatch(`documents/${this.documentId}/updateExchange`, {
+          documentId: this.document.id,
+          documentTypeGuid: this.document.documentTypeGuid,
+        });
       this.$emit("uploadVersion");
       this.$awn.success();
     },
