@@ -3,7 +3,7 @@
     <DxForm
       ref="form"
       :scrolling-enabled="true"
-      :read-only="readOnly"
+      :read-only="false"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
@@ -21,7 +21,6 @@
           <DxLabel location="left" :text="$t('task.fields.counterParty')" />
         </DxSimpleItem>
         <DxSimpleItem
-          :col-span="5"
           editor-type="dxSelectBox"
           :editor-options="boxBaseIdOptions"
           data-field="boxBaseId"
@@ -57,6 +56,9 @@ export default {
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
+  created() {
+    console.log(this.task.boxBaseId);
+  },
   computed: {
     readOnly() {
       return !this.isDraft || !this.canUpdate;
@@ -82,7 +84,7 @@ export default {
     subjectOptions() {
       return {
         readOnly: true,
-        value: this.task.subject,
+        value: this.task?.subject,
       };
     },
     deadlineOptions() {
@@ -96,15 +98,16 @@ export default {
       };
     },
     boxBaseIdOptions() {
+      
       return {
-        readOnly: true,
+        readOnly: false,
         dataSource: this.$dxStore({
           key: "id",
-          ladUrl: dataApi.boxes.Boxes,
+          loadUrl: dataApi.boxes.Boxes,
         }),
-        value: this.task.boxBaseId,
-        displayExpr: "name",
+        value: 1,
         valueExpr: "id",
+        displayExpr: "name",
       };
     },
     counterPartyOptions() {

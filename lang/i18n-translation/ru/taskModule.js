@@ -49,7 +49,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
-    boxBase: "Почтовый ящик",
+    boxBase: "Абонентский ящик",
     counterParty: "Контрагент",
     sender: "Отправитель",
     finalDeadline: "Общий срок",

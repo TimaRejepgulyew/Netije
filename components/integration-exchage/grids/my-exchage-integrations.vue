@@ -58,18 +58,7 @@
         :caption="$t('exchange.fields.name')"
         data-type="string"
       ></DxColumn>
-      <DxColumn
-        data-field="routing"
-        :caption="$t('exchange.fields.routing')"
-        :visible="true"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="routingDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
+
       <DxColumn
         data-field="responsibleId"
         :caption="$t('exchange.fields.responsible')"
@@ -97,6 +86,7 @@
           :onClick="uploadKey"
           :text="$t('buttons.uploadKey')"
         />
+
         <DxButton name="delete" />
       </DxColumn>
       <DxColumn
@@ -164,14 +154,11 @@ export default {
         }),
       }),
       statusDataSource: this.$store.getters["status/status"](this),
-      responsibleStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee,
-        }),
-        paginate: true,
-        pageSize: 10,
+      responsibleStore: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.Employee,
       }),
+
       routingDataSource: [
         {
           name: this.$t("exchange.routingType.BoxResponsible"),
