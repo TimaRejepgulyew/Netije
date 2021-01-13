@@ -4,7 +4,7 @@ export const TaskType = {
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа",
   FreeApprovalTask: "Задача на cвободное согласование",
-  ExchangeDocumentProcessingTask: "Задача на внешний эл. обмен",
+  ExchangeDocumentProcessingTask: "Задача на эл. обмен",
   IntranetExchangeDocumentProcessingTask: "Задача на внутренний эл. обмен"
 };
 export default {

@@ -16,7 +16,7 @@
           :col-span="5"
           editor-type="dxSelectBox"
           :editor-options="counterPartyOptions"
-          data-field="counterParty"
+          data-field="counterparty"
         >
           <DxLabel location="left" :text="$t('task.fields.counterParty')" />
         </DxSimpleItem>
@@ -124,7 +124,7 @@ export default {
           key: "id",
           loadUrl: dataApi.contragents.CounterPart,
         }),
-        value: this.task.counterParty,
+        value: this.task.counterparty,
         displayExpr: "name",
       };
     },

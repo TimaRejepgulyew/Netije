@@ -77,7 +77,7 @@ import acquaintanceTask from "./form-by-type/acquaintance/index.vue";
 import actionItemExecutionTask from "./form-by-type/action-item-execution/index.vue";
 import freeApprovalTask from "./form-by-type/free-approval/index.vue";
 import intranetExchangeDocumentProcessingTask from "./form-by-type/intranet-exchange/index.vue";
-import exchangeDocumentProcessingTask from "./form-by-type/intranet-exchange/index.vue";
+import exchangeDocumentProcessingTask from "./form-by-type/exchange/index.vue";
 
 //components formComponents
 import toolbar from "./form-components/toolbar/index.vue";

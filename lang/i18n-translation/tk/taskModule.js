@@ -51,6 +51,7 @@ export default {
     notification: "Tanyşdyrma"
   },
   fields: {
+    boxBase: "Poçta salgysy",
     counterParty: "Kontragent",
     sender: "Iberiji",
     finalDeadline: "Umumy möhlet",
