@@ -2,7 +2,7 @@ export default {
   exchangeOptions: "Elektron alyş-çalyş sazlamasy",
   providers: {
     netije: "Netije",
-    srd: "Srd",
+    srd: "Srd, eResminama",
     eResminama: "eResminama"
   },
   uploadCertificate: "Sertifikaty ýüklemek",

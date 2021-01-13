@@ -21,10 +21,10 @@
         <DxSimpleItem editor-type="dxTextArea" data-field="url">
           <DxLabel location="left" text="URL" />
         </DxSimpleItem>
-        <DxGroupItem :visible="ifEResminama">
+        <!-- <DxGroupItem :visible="ifEResminama">
           <DxSimpleItem data-field="eId"></DxSimpleItem>
           <DxSimpleItem data-field="ePass" :editor-options="{mode:'password'}"></DxSimpleItem>
-        </DxGroupItem>
+        </DxGroupItem> -->
       </DxGroupItem>
 
       <DxSimpleItem :col-span="2" data-field="canExchange">
