@@ -2,7 +2,7 @@ export default {
   exchangeOptions: "Настройка электронного обмена",
   providers: {
     netije: "Netije",
-    srd: "Srd",
+    srd: "Srd, eResminama",
     eResminama: "eResminama"
   },
   uploadCertificate: "Загрузить сертификат",
