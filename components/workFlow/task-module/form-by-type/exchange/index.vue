@@ -3,7 +3,7 @@
     <DxForm
       ref="form"
       :scrolling-enabled="true"
-      :read-only="false"
+      :read-only="true"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
@@ -95,7 +95,6 @@ export default {
       };
     },
     boxBaseIdOptions() {
-      
       return {
         readOnly: false,
         dataSource: this.$dxStore({

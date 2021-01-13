@@ -21,7 +21,7 @@
 import dataApi from "~/static/dataApi.js";
 import elexchangeIcon from "~/static/icons/document-module/el-exchange.svg";
 import DxButton from "devextreme-vue/button";
-import { confirm } from "devextreme/ui/dialog";
+import { confirm, alert } from "devextreme/ui/dialog";
 export default {
   components: {
     DxButton,
@@ -42,9 +42,21 @@ export default {
       elexchangeIcon,
     };
   },
+  computed: {
+    document() {
+      return this.$store.getters[`documents/${this.documentId}/document`];
+    },
+  },
   methods: {
     sendToIntranetExchange() {},
     async sendToElExchange() {
+      if (!this.document?.ourSignatoryId) {
+        alert(
+          this.$t("document.validation.ourSignatoryRequired"),
+          this.$t("shared.error")
+        );
+        return;
+      }
       const result = await confirm(
         this.$t("document.confirm.sureSendToElectronExchangeService"),
         this.$t("shared.areYouSure")
