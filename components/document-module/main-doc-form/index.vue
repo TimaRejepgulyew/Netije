@@ -114,7 +114,7 @@
             :col-count="8"
             :title="$t('document.tabs.exchangeLogs')"
             :disabled="false"
-            v-if="canExchange || isAdmin"
+            :visible="canExchange || isAdmin"
           >
             <DxSimpleItem :col-span="8" template="ElExchangeLogs">
             </DxSimpleItem>
