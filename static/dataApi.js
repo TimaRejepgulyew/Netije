@@ -112,7 +112,8 @@ export default {
     ImportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
     Last: `/api/OfficialDocument/Version/Last/`,
-    Exchange: `/api/OfficialDocument/Exchange`
+    Exchange: `/api/OfficialDocument/Exchange`,
+    ExchangeLogs: `/api/OfficialDocument/ExchangeLogs/`
   },
   documentTemplate: {
     Documents: `/api/DocumentTemplate`,

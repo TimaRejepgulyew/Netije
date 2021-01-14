@@ -5,11 +5,21 @@ export default {
     srd: "Srd, eResminama",
     eResminama: "eResminama"
   },
+  exchangeState: {
+    Recived: "Получен",
+    Sent: "Отправлен контрагенту",
+    Terminated: "Аннулирован",
+    Processed: "Обработан"
+  },
   uploadCertificate: "Загрузить сертификат",
   routingType: {
     BoxResponsible: "Отв. за аб. ящик"
   },
   fields: {
+    lastUpdate: "Последнее обновление",
+    counterparty: "Контрагент",
+    exchangeState: "Состояние обмена",
+    author: "Автор",
     reception: "Приём",
     dispatch: "Отправка",
     name: "Имя",

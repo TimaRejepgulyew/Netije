@@ -110,15 +110,15 @@
               template="DocumentExtradition"
             ></DxSimpleItem>
           </DxTab>
-          <!-- <DxTab
+          <DxTab
             :col-count="8"
             :title="$t('document.tabs.elExchange')"
-            :disabled="canExchange"
+            :disabled="!exchanged"
           >
             <DxSimpleItem :col-span="8" template="ElExchange"> </DxSimpleItem>
-          </DxTab> -->
+          </DxTab>
         </DxTabbedItem>
-        <template>
+        <template #ElExchange>
           <El-exchange :documentId="documentId" />
         </template>
         <template #DocumentExtradition>
@@ -287,8 +287,8 @@ export default {
     },
   },
   computed: {
-    canExchange() {
-      return this.$store.getters[`documents/${this.documentId}/canExchange`];
+    exchanged() {
+      return this.document.exchanged;
     },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];

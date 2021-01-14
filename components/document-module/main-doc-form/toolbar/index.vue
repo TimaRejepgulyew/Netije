@@ -51,7 +51,7 @@
       <DxItem
         locateInMenu="auto"
         template="toolbarItemElExchange"
-        :visible="canElExchange || canIntranetExchange"
+        :visible="(canElExchange || canIntranetExchange) && !exchanged"
         location="before"
         widget="dxButton"
       />
@@ -161,6 +161,9 @@ export default {
     };
   },
   computed: {
+    exchanged() {
+      return this.document.exchanged;
+    },
     correspondent() {
       return this.$store.getters[`documents/${this.documentId}/correspondent`];
     },

@@ -21,40 +21,32 @@
       <DxScrolling mode="virtual" />
       <DxColumn
         sort-order="desc"
-        data-field="historyDate"
+        data-field="lastUpdate"
         data-type="datetime"
-        :caption="$t('history.historyDate')"
+        :caption="$t('exchange.lastUpdate')"
       ></DxColumn>
-      <DxColumn data-field="user" :caption="$t('history.userName')"></DxColumn>
-      <DxColumn data-field="action" :caption="$t('history.action')">
+      <DxColumn
+        data-field="author.name"
+        :caption="$t('exchange.author')"
+      ></DxColumn>
+      <DxColumn data-field="exchangeState" :caption="$t('exchange.author')">
         <DxLookup
-          :allow-clearing="true"
-          :data-source="actions"
-          value-expr="id"
-          display-expr="name"
-        />
+          valueExpr="id"
+          displayExpr="name"
+          :data-source="exchangeStateSource"
+      /></DxColumn>
+
+      <DxColumn
+        data-field="counterparty.name"
+        :caption="$t('exchange.counterparty')"
+      >
       </DxColumn>
-      <DxColumn
-        data-field="version"
-        :caption="$t('history.version')"
-      ></DxColumn>
-      <DxColumn
-        data-field="hostName"
-        :caption="$t('history.hostName')"
-      ></DxColumn>
-      <DxColumn
-        data-field="userAgent"
-        :caption="$t('history.userAgent')"
-      ></DxColumn>
-      <DxColumn
-        data-field="comment"
-        :caption="$t('history.comment')"
-      ></DxColumn>
+      <DxColumn data-field="note" :caption="$t('exchange.note')"></DxColumn>
     </DxDataGrid>
   </main>
 </template>
 <script>
-import Actions from "~/infrastructure/constants/historyActions.js";
+import ExchangeState from "~/components/integration-exchage/infrastructure/models/ExchangeState.js";
 import dataApi from "~/static/dataApi";
 import { DxButton } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
@@ -71,7 +63,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxLookup
+  DxLookup,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -89,28 +81,27 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    DxButton
+    DxButton,
   },
-  props: ["id"],
+  props: ["documentId"],
   data() {
     return {
       dataSource: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.History}${this.entityTypeGuid}/${this.id}`
+          loadUrl: `${dataApi.documentModule.ExchangeLogs}${this.documentId}`,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       }),
-
-      actions: Actions(this)
+      exchangeStateSource: Object.values(new ExchangeState(this).getAll()),
     };
   },
   methods: {
     refresh() {
       this.dataSource.reload();
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
