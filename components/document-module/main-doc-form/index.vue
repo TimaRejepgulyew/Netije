@@ -110,13 +110,13 @@
               template="DocumentExtradition"
             ></DxSimpleItem>
           </DxTab>
-          <DxTab
+          <!-- <DxTab
             :col-count="8"
             :title="$t('document.tabs.elExchange')"
             :disabled="canExchange"
           >
             <DxSimpleItem :col-span="8" template="ElExchange"> </DxSimpleItem>
-          </DxTab>
+          </DxTab> -->
         </DxTabbedItem>
         <template>
           <El-exchange :documentId="documentId" />
