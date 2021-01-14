@@ -34,6 +34,7 @@ export default {
   acquaintance: "Tanyşmak",
   changePassword: "Açarsözi çalyşmak",
   save: "Ýatda saklatmak",
+  unlock: "Blokdan çykar",
   add: "Goşmak",
   complete: "Ýerine ýetirildi",
   accept: "Kabul etmek",

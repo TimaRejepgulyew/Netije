@@ -35,6 +35,7 @@ export default {
   acquaintance: "Ознакомлен",
   changePassword: "Сменить пароль",
   save: "Сохранить",
+  unlock: "Разблокировать",
   add: "Добавить",
   complete: "Выполнено",
   accept: "Принять",

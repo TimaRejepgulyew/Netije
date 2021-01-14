@@ -47,6 +47,9 @@ export default {
     DepartmentMembers: `/api/DepartmentMembers/`,
     BusinessUnit: `/api/BusinessUnit`,
     Employee: `/api/Employee`,
+    employeeLockInfoById: "/api/Employee/GetLockInfo/",
+    lockEmployee: "/api/Employee/Lock",
+    unlockEmployee: "/api/Employee/Unlock",
     ChangeEmployeePassword: `/api/Employee/ChangePassword`,
     JobTitle: `/api/JobTitle`,
     ManagersAssistant: `/api/ManagersAssistant`
