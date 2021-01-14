@@ -113,8 +113,8 @@
           <DxTab
             :col-count="8"
             :title="$t('document.tabs.exchangeLogs')"
-            :disabled="false"
-            :visible="canExchange || isAdmin"
+            :disabled="isNew"
+            :visible="canExchangePermission && isExchangeble"
           >
             <DxSimpleItem :col-span="8" template="ElExchangeLogs">
             </DxSimpleItem>
@@ -289,15 +289,21 @@ export default {
     },
   },
   computed: {
-    isAdmin() {
-      return this.$store.getters["permissions/IsAdmin"];
+    isExchangeble() {
+      switch (this.document.documentTypeGuid) {
+        case DocumentTypeGuid.IncomingLetter:
+        case DocumentTypeGuid.OutgoingLetter:
+          return true;
+        default:
+          false;
+      }
     },
-    canExchange() {
-      return this.$store.getters[`documents/${this.documentId}/canExchange`];
+    canExchangePermission() {
+      return this.$store.getters["permissions/canExchange"](
+        EntityTypes.OfficialDocument
+      );
     },
-    exchanged() {
-      return this.document.exchanged;
-    },
+
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
