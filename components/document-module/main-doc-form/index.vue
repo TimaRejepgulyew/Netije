@@ -114,7 +114,7 @@
             :col-count="8"
             :title="$t('document.tabs.exchangeLogs')"
             :disabled="false"
-            v-if="canExchange"
+            v-if="canExchange || isAdmin"
           >
             <DxSimpleItem :col-span="8" template="ElExchangeLogs">
             </DxSimpleItem>
@@ -289,6 +289,9 @@ export default {
     },
   },
   computed: {
+    isAdmin() {
+      return context.$store.getters["permissions/IsAdmin"];
+    },
     canExchange() {
       return this.$store.getters[`documents/${this.documentId}/canExchange`];
     },
