@@ -37,7 +37,7 @@ export default {
     statusRequired: "Ýagdaýy saýlaň"
   },
   headers: {
-    myExchangeIntegrations: "Guramalarymyzyň poçta gutulary",
-    myExchangeIntegration: "Poçta gutusy"
+    myExchangeIntegrations: "Guramalarymyzyň abuna gutulary",
+    myExchangeIntegration: "Abuna gutusy"
   }
 };
