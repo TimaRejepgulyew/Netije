@@ -290,7 +290,7 @@ export default {
   },
   computed: {
     isAdmin() {
-      return context.$store.getters["permissions/IsAdmin"];
+      return this.$store.getters["permissions/IsAdmin"];
     },
     canExchange() {
       return this.$store.getters[`documents/${this.documentId}/canExchange`];
