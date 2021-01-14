@@ -67,6 +67,10 @@ export default {
             documentId: this.documentId,
           }),
           () => {
+            this.$store.commit(
+              `documents/${this.documentId}/SET_EXCHANGED`,
+              true
+            );
             this.$awn.success();
           },
           () => {

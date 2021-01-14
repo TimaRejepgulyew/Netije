@@ -64,6 +64,9 @@ export default class OutgoingLetter extends ElectronicDocument {
       },
       SET_CAN_EXCHANGE(state, payload) {
         state.canExchange = payload;
+      },
+      SET_EXCHANGED(state, payload) {
+        state.document.exchanged = payload;
       }
     };
     const state = {
