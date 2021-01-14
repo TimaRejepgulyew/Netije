@@ -10,7 +10,7 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-reordering="true"
       :allow-column-resizing="true"
       :column-auto-width="true"
@@ -25,12 +25,15 @@
         data-type="datetime"
         :caption="$t('exchange.fields.lastUpdate')"
       ></DxColumn>
-      <DxColumn data-field="authorId" :caption="$t('exchange.fields.author')">
-        <DxLookup
-          valueExpr="id"
-          displayExpr="name"
-          :data-source="employeeSource"
-        />
+      <DxColumn
+        :allowFiltering="false"
+        :allowSorting="false"
+      
+        :customizeText="customizeText"
+        data-field="author"
+        :caption="$t('exchange.fields.author')"
+      >
+        <DxLookup displayExpr="name" :data-source="employeeSource" />
       </DxColumn>
       <DxColumn
         data-field="exchangeState"
@@ -121,6 +124,10 @@ export default {
     };
   },
   methods: {
+    customizeText(cellInfo) {
+      console.log(cellInfo);
+      return cellInfo.value?.name;
+    },
     refresh() {
       this.dataSource.reload();
     },
