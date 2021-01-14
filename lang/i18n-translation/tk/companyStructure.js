@@ -30,8 +30,8 @@ export default {
   },
   integration: {
     title: "Integrasiýa",
-    exchange: "Poçta gutulary",
-    exchangeDescr: "Poçta gutulary guramalarymyzyň elektron alyş-çalşygy üçin"
+    exchange: "Abuna gutulary",
+    exchangeDescr: "Abuna gutulary guramalarymyzyň elektron alyş-çalşygy üçin"
   },
   company: {
     title: "Guramaçylyk düzüm birligi",
