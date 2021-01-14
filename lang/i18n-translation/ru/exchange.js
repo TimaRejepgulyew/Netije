@@ -18,7 +18,7 @@ export default {
   fields: {
     lastUpdate: "Последнее обновление",
     counterparty: "Контрагент",
-    exchangeState: "Состояние обмена",
+    exchangeState: "Состояние эл. обмена",
     author: "Автор",
     reception: "Приём",
     dispatch: "Отправка",

@@ -112,14 +112,16 @@
           </DxTab>
           <DxTab
             :col-count="8"
-            :title="$t('document.tabs.elExchange')"
-            :disabled="!exchanged"
+            :title="$t('document.tabs.exchangeLogs')"
+            :disabled="false"
+            v-if="canExchange"
           >
-            <DxSimpleItem :col-span="8" template="ElExchange"> </DxSimpleItem>
+            <DxSimpleItem :col-span="8" template="ElExchangeLogs">
+            </DxSimpleItem>
           </DxTab>
         </DxTabbedItem>
-        <template #ElExchange>
-          <El-exchange :documentId="documentId" />
+        <template #ElExchangeLogs>
+          <El-exchange-logs :documentId="documentId" />
         </template>
         <template #DocumentExtradition>
           <DocumentExtradition
@@ -170,7 +172,7 @@
   </div>
 </template>
 <script>
-import ElExchange from "~/components/document-module/main-doc-form/el-exchange";
+import ElExchangeLogs from "~/components/document-module/main-doc-form/el-exchange";
 import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";
 import { unload } from "~/infrastructure/services/documentService.js";
 import DocumentType from "~/infrastructure/models/DocumentType.js";
@@ -215,7 +217,7 @@ export default {
     lifeCycle,
     Header,
     documentTasks,
-    ElExchange,
+    ElExchangeLogs,
   },
   name: "document-card",
   destroyed() {
@@ -287,6 +289,9 @@ export default {
     },
   },
   computed: {
+    canExchange() {
+      return this.$store.getters[`documents/${this.documentId}/canExchange`];
+    },
     exchanged() {
       return this.document.exchanged;
     },

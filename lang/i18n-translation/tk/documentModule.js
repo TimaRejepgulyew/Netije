@@ -44,7 +44,8 @@ export default {
     relations: "Gatnaşyklary",
     history: "Taryhy",
     tasks: "Tabşyryklary",
-    extradition: "Resminamalaryň berilmegi"
+    extradition: "Resminamalaryň berilmegi",
+    exchangeLogs: "El. alyş-çalyş"
   },
   groups: {
     captions: {

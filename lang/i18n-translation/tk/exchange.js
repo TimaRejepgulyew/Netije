@@ -5,11 +5,21 @@ export default {
     srd: "Srd, eResminama",
     eResminama: "eResminama"
   },
+  exchangeState: {
+    Recived: "Kabul edilen  ",
+    Sent: "Konturagenda iberilen",
+    Terminated: "Ýatyryldy",
+    Processed: "Işlenip-taýarlandy"
+  },
   uploadCertificate: "Sertifikaty ýüklemek",
   routingType: {
     BoxResponsible: "Poçta gutusy jogapkäri"
   },
   fields: {
+    lastUpdate: "Soňky ütgeme",
+    counterparty: "Kontragent",
+    exchangeState: "Elektron alyş-çalşyň ýagdaýy",
+    author: "Awtory",
     reception: "Kabul etmek üçin",
     dispatch: "Urgratmak üçin",
     name: "Ady",
@@ -23,7 +33,7 @@ export default {
     password: "Açarsöz",
     certificate: "Sertifikat",
     routing: "Tabşyryg işlemek üçin",
-    status: "Ýagdaýy",
+    status: "Ýagdaýy"
   },
   validation: {
     nameRequired: "Adyny giriziň",

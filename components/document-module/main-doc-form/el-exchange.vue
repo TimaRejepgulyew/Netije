@@ -20,28 +20,40 @@
       <DxFilterRow :visible="true" />
       <DxScrolling mode="virtual" />
       <DxColumn
-        sort-order="desc"
+        sort-order="asc"
         data-field="lastUpdate"
         data-type="datetime"
-        :caption="$t('exchange.lastUpdate')"
+        :caption="$t('exchange.fields.lastUpdate')"
       ></DxColumn>
-      <DxColumn
-        data-field="author.name"
-        :caption="$t('exchange.author')"
-      ></DxColumn>
-      <DxColumn data-field="exchangeState" :caption="$t('exchange.author')">
+      <DxColumn data-field="authorId" :caption="$t('exchange.fields.author')">
         <DxLookup
           valueExpr="id"
           displayExpr="name"
+          :data-source="employeeSource"
+        />
+      </DxColumn>
+      <DxColumn
+        data-field="exchangeState"
+        :caption="$t('exchange.fields.exchangeState')"
+      >
+        <DxLookup
+          valueExpr="id"
+          displayExpr="text"
           :data-source="exchangeStateSource"
       /></DxColumn>
 
       <DxColumn
-        data-field="counterparty.name"
-        :caption="$t('exchange.counterparty')"
+        data-field="counterpartyId"
+        :caption="$t('exchange.fields.counterparty')"
       >
+        <DxLookup
+          valueExpr="id"
+          displayExpr="name"
+          :data-source="counterpartySource"
+        />
       </DxColumn>
-      <DxColumn data-field="note" :caption="$t('exchange.note')"></DxColumn>
+      <DxColumn data-field="note" :caption="$t('exchange.fields.note')">
+      </DxColumn>
     </DxDataGrid>
   </main>
 </template>
@@ -84,6 +96,9 @@ export default {
     DxButton,
   },
   props: ["documentId"],
+  created() {
+    console.log(this.exchangeStateSource);
+  },
   data() {
     return {
       dataSource: new DataSource({
@@ -95,6 +110,14 @@ export default {
         pageSize: 10,
       }),
       exchangeStateSource: Object.values(new ExchangeState(this).getAll()),
+      employeeSource: this.$dxStore({
+        id: "key",
+        loadUrl: dataApi.company.Employee,
+      }),
+      counterpartySource: this.$dxStore({
+        id: "key",
+        loadUrl: dataApi.contragents.CounterPart,
+      }),
     };
   },
   methods: {

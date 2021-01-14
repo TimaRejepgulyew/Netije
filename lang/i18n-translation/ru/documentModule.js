@@ -46,7 +46,8 @@ export default {
     relations: "Связи",
     history: "История",
     tasks: "Задачи",
-    extradition:"Выдача вокументов"
+    extradition: "Выдача вокументов",
+    exchangeLogs: "Эл. обмен"
   },
   groups: {
     captions: {
