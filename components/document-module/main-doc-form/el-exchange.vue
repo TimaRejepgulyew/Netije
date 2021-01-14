@@ -99,9 +99,6 @@ export default {
     DxButton,
   },
   props: ["documentId"],
-  created() {
-    console.log(this.exchangeStateSource);
-  },
   data() {
     return {
       dataSource: new DataSource({
@@ -125,7 +122,6 @@ export default {
   },
   methods: {
     customizeText(cellInfo) {
-      console.log(cellInfo);
       return cellInfo.value?.name;
     },
     refresh() {
