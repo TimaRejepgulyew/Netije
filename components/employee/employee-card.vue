@@ -99,16 +99,57 @@
           <DxLabel location="top" :text="$t('translations.fields.dateOfDismissal')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.moreSettings')">
-        <DxSimpleItem
+      <DxGroupItem :col-span="3" :col-count="1">
+        <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.moreSettings')">
+          <DxSimpleItem
+            :col-span="3"
+            data-field="status"
+            :editor-options="statusOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.status')" />
+          </DxSimpleItem>
+          <DxButtonItem
+            :col-span="3"
+            :button-options="popupPasswordOpt"
+            horizontal-alignment="left"
+          />
+        </DxGroupItem>
+        <DxGroupItem
+          :visible="isAdmin"
           :col-span="3"
-          data-field="status"
-          :editor-options="statusOptions"
-          editor-type="dxSelectBox"
+          :col-count="2"
+          :caption="$t('translations.fields.userBlocking')"
         >
-          <DxLabel location="top" :text="$t('translations.fields.status')" />
-        </DxSimpleItem>
-        <DxButtonItem :col-span="3" :button-options="popupPasswordOpt" horizontal-alignment="left" />
+          <DxSimpleItem
+            editor-type="dxCheckBox"
+            :col-span="2"
+            :editor-options="allowBlockingCheckBoxOptions"
+          />
+
+          <DxSimpleItem
+            :visible="lockoutEnabled"
+            editor-type="dxDateBox"
+            :editor-options="lockoutEndDateOptions"
+            :col-span="2"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.lockoutEndDate')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            :col-span="1"
+            editor-type="dxButton"
+            :editor-options="saveBlockingButtonOptions"
+            horizontal-alignment="left"
+          />
+          <DxSimpleItem
+            :col-span="1"
+            editor-type="dxButton"
+            :visible="isLockedOut"
+            :editor-options="unlockButtonOptions"
+            horizontal-alignment="right"
+          />
+        </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem :col-count="12" :col-span="12">
         <DxSimpleItem
@@ -178,6 +219,7 @@ import ChangePasswordPopup from "~/components/employee/change-password-popup";
 import Header from "~/components/page/page__header";
 import "devextreme-vue/text-area";
 import { DxPopup } from "devextreme-vue/popup";
+import { confirm } from "devextreme/ui/dialog";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
@@ -189,7 +231,8 @@ import DxForm, {
   DxPatternRule,
   DxEmailRule,
   DxAsyncRule,
-  DxButtonItem
+  DxButtonItem,
+  DxCheckBox
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import notify from "devextreme/ui/notify";
@@ -209,6 +252,7 @@ export default {
     DxForm,
     DxAsyncRule,
     DxPopup,
+    DxCheckBox,
     ChangePasswordPopup,
     Toolbar,
     BusinessUnitSelectBox,
@@ -240,10 +284,81 @@ export default {
         mode: "password"
       },
       changePasswordPupupVisible: false,
-      namePattern: /^[^0-9]+$/
+      namePattern: /^[^0-9]+$/,
+      lockoutEnabled: false,
+      isLockedOut: false,
+      lockoutEndDate: null
     };
   },
   computed: {
+    isAdmin() {
+      return this.$store.getters["permissions/IsAdmin"];
+    },
+    lockoutEndDateOptions() {
+      return {
+        value: this.lockoutEndDate,
+        dateSerializationFormat: "yyyy-MM-ddTHH:mm:ssx",
+        showClearButton: true,
+        openOnFieldClick: true,
+        type: "datetime",
+        min: new Date().getTime(),
+        onValueChanged: e => {
+          this.lockoutEndDate = e.value;
+        }
+      };
+    },
+    allowBlockingCheckBoxOptions() {
+      return {
+        value: this.lockoutEnabled,
+        text: this.$t("translations.fields.allowBlocking"),
+        onValueChanged: e => {
+          this.lockoutEnabled = e.value;
+        }
+      };
+    },
+    saveBlockingButtonOptions() {
+      return {
+        text: this.$t("buttons.save"),
+        onClick: () => {
+          let result = confirm(
+            this.$t("shared.areYouSure"),
+            this.$t("shared.confirm")
+          );
+          result.then(async dialogResult => {
+            if (dialogResult) {
+              await this.$axios.post(dataApi.company.lockEmployee, {
+                id: this.employee.id,
+                lockoutEndDate: this.lockoutEndDate,
+                lockoutEnabled: this.lockoutEnabled
+              });
+            }
+          });
+        }
+      };
+    },
+    unlockButtonOptions() {
+      return {
+        text: this.$t("buttons.unlock"),
+        onClick: () => {
+          let result = confirm(
+            this.$t("shared.areYouSure"),
+            this.$t("shared.confirm")
+          );
+          result.then(async dialogResult => {
+            if (dialogResult) {
+              try {
+                await this.$axios.post(dataApi.company.unlockEmployee, {
+                  id: this.employee.id
+                });
+                this.getLockInfo();
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          });
+        }
+      };
+    },
     businessUnitId() {
       return this.employee.businessUnitId;
     },
@@ -377,7 +492,24 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    async getLockInfo() {
+      if (this.employee.id) {
+        try {
+          let { data } = await this.$axios.get(
+            dataApi.company.employeeLockInfoById + this.employee.id
+          );
+          this.isLockedOut = data.isLockedOut;
+          this.lockoutEnabled = data.isLockoutEnabled;
+          this.lockoutEndDate = data.lockoutEndDate;
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
+  },
+  created() {
+    this.getLockInfo();
   }
 };
 </script>
