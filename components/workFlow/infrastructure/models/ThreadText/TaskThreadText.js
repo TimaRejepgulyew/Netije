@@ -8,12 +8,14 @@ export default class TaskTreadText extends BaseThreadText {
   elements = {};
   constructor(context) {
     TaskTreadText.elements = new TaskTypeModel(context).getAll();
-    super();
+    super(context);
   }
   __generateActionItemExecutionTaskSubject(entity) {
-    if (entity.isCompoundActionItem) return this.$t("task.compoundActionItem");
+    console.log(this._instance);
+    if (entity.isCompoundActionItem)
+      return this._instance.$t("task.compoundActionItem");
     else if (entity?.actionItemType === ActionItemType.Component)
-      return this.$t("task.actionItemType.Component");
+      return this._instance.$t("task.actionItemType.Component");
     else
       return TaskTreadText.elements[TaskTypeGuid.ActionItemExecutionTask]?.text;
   }

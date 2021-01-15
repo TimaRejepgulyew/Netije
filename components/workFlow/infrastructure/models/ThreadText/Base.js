@@ -1,9 +1,9 @@
 import moment from "moment";
 export default class BaseThreadText {
   constructor(context) {
-    BaseThreadText._instance;
+    this._instance = context;
   }
-   formatDate(date) {
+  formatDate(date) {
     return moment(date).format("DD.MM.YYYY HH:mm");
   }
 }
