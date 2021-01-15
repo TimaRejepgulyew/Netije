@@ -161,7 +161,7 @@ export default {
     DxFilterRow,
     DxStateStoring
   },
-  props: ["isCard", "isPerson"],
+  props: ["isCard", "isPerson", "notPerson"],
   data() {
     return {
       dataSource: new DataSource({
@@ -171,7 +171,11 @@ export default {
         }),
         paginate: true,
         pageSize: 10,
-        filter: this.isPerson ? ["type", "=", "Person"] : []
+        filter: this.notPerson
+          ? ["type", "<>", "Person"]
+          : this.isPerson
+          ? ["type", "=", "Person"]
+          : null
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       regionsDataSource: {

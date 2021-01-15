@@ -3,7 +3,7 @@ import AssignmentTypeModel from "../AssignmentType";
 import AssignmentStatus from "../../constants/assignmentStatus";
 export default class NotificationThreadText extends BaseThreadText {
   constructor(context) {
-    super();
+    super(context);
     NotificationThreadText.elements = new AssignmentTypeModel(context).getAll();
   }
   generateSubject(entity) {

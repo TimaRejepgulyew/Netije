@@ -1,5 +1,10 @@
 <template>
-  <counter-part-grid @valueChanged="valueChanged" :isPerson="options.isPerson" :isCard="true" />
+  <counter-part-grid
+    @valueChanged="valueChanged"
+    :notPerson="options.notPerson"
+    :isPerson="options.isPerson"
+    :isCard="true"
+  />
 </template>
 
 <script>

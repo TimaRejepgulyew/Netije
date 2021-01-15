@@ -25,6 +25,7 @@ export default {
   department: "Подразделения",
   employee: "Сотрудники",
   addingEmployee: "Добавление сотрудника",
+  addingContact: "Добавление контакта",
   managersAssistant: "Помощники руководителей",
   countries: "Страны",
   region: "Регионы",

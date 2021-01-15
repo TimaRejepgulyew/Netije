@@ -4,7 +4,7 @@ import AssignmentTypeModel from "../AssignmentType";
 import AssignmentStatus from "../../constants/assignmentStatus";
 export default class AssignmentThreadText extends BaseThreadText {
   constructor(context) {
-    super();
+    super(context);
     AssignmentThreadText.elements = new AssignmentTypeModel(context).getAll();
     AssignmentThreadText.indicators = indicators;
   }

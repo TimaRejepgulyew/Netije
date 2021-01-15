@@ -51,7 +51,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: [
     "validatorGroup",
@@ -60,14 +60,14 @@ export default {
     "notPerson",
     "isPerson",
     "disabled",
-    "readOnly",
+    "readOnly"
   ],
   data() {
     return {
       counterPartStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.CounterPart,
+          loadUrl: dataApi.contragents.CounterPart
         }),
         paginate: true,
         pageSize: 10,
@@ -75,8 +75,8 @@ export default {
           ? ["type", "<>", "Person"]
           : this.isPerson
           ? ["type", "=", "Person"]
-          : null,
-      }),
+          : null
+      })
     };
   },
   methods: {
@@ -85,28 +85,28 @@ export default {
         this,
         {
           isPerson: this.isPerson,
+          notPerson: this.notPerson
         },
         {
           showLoadingPanel: false,
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" },
-          ],
+            { eventName: "valueChanged", handlerName: "setCounterPart" }
+          ]
         }
       );
     },
     openCounterPartPopup(data) {
-
       this.$popup.counterPartCard(
         this,
         {
           counterpartId: data.id,
           type: data.type.toLowerCase(),
-          isCard: true,
+          isCard: true
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" },
-          ],
+            { eventName: "valueChanged", handlerName: "setCounterPart" }
+          ]
         }
       );
     },
@@ -115,13 +115,13 @@ export default {
         this,
         {
           type: data,
-          isCard: true,
+          isCard: true
         },
         {
           showLoadingPanel: false,
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" },
-          ],
+            { eventName: "valueChanged", handlerName: "setCounterPart" }
+          ]
         }
       );
     },
@@ -137,8 +137,8 @@ export default {
     setCounterPart(data) {
       this.$emit("valueChanged", data.id);
       this.reloadStore();
-    },
-  },
+    }
+  }
 };
 </script>
 
