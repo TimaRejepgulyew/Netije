@@ -7,7 +7,7 @@
     :validation-group="documentValidatorName"
   >
     <DxGroupItem>
-      <DxSimpleItem data-field="leadingDocumentId" template="leadingDocument">
+      <DxSimpleItem data-field="leadingDocument" template="leadingDocument">
         <DxLabel
           location="left"
           :text="$t('document.fields.leadingDocumentId')"

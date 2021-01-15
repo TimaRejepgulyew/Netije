@@ -17,21 +17,21 @@
         >
           <DxLabel location="left" :text="$t('translations.fields.deadLine')" />
         </DxSimpleItem>
-        <DxSimpleItem template="authorId" data-field="authorId">
+        <DxSimpleItem template="author" data-field="author">
           <DxLabel location="left" :text="$t('shared.from')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="performerId" template="performerId">
+        <DxSimpleItem data-field="performer" template="performer">
           <DxLabel location="left" :text="$t('shared.whom')" />
         </DxSimpleItem>
       </DxGroupItem>
 
-      <template #authorId>
+      <template #author>
         <employee-select-box
           :value="author"
           :readOnly="true"
         />
       </template>
-      <template #performerId>
+      <template #performer>
         <employee-select-box
           :readOnly="true"
           :value="performer"
@@ -65,7 +65,7 @@ export default {
     performer() {
       return this.assignment.performer;
     },
-    authorId() {
+    author() {
       return this.assignment.author;
     },
     subjectOptions() {
