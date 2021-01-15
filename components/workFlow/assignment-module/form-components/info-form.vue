@@ -27,16 +27,14 @@
 
       <template #authorId>
         <employee-select-box
-          valueExpr="id"
-          :value="authorId"
+          :value="author"
           :readOnly="true"
         />
       </template>
       <template #performerId>
         <employee-select-box
-          valueExpr="id"
           :readOnly="true"
-          :value="performerId"
+          :value="performer"
         />
       </template>
     </DxForm>
@@ -64,11 +62,11 @@ export default {
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
     },
-    performerId() {
-      return this.assignment.performerId;
+    performer() {
+      return this.assignment.performer;
     },
     authorId() {
-      return this.assignment.authorId;
+      return this.assignment.author;
     },
     subjectOptions() {
       return {

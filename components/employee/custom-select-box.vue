@@ -10,6 +10,7 @@
       :openOnFieldClick="false"
       :focusStateEnabled="false"
       :valueExpr="valueExpr"
+      :acceptCustomValue="true"
       displayExpr="name"
       :searchEnabled="true"
       searchExpr="name"
