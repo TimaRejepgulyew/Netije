@@ -114,7 +114,7 @@
             :col-count="8"
             :title="$t('document.tabs.exchangeLogs')"
             :disabled="isNew"
-            :visible="canExchangePermission && isExchangeble"
+            v-if="canExchangePermission && isExchangeble"
           >
             <DxSimpleItem :col-span="8" template="ElExchangeLogs">
             </DxSimpleItem>

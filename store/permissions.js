@@ -104,14 +104,16 @@ export const getters = {
       return true;
     }
     let obj = accessRights.operations.get(entityType);
-    return obj.exchange === true;
+    if (obj?.exchange) return true;
+    else return false;
   },
   canExecute: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin || accessRights.isAuditor) {
       return true;
     }
     let obj = accessRights.operations.get(entityType);
-    return obj.execute === true;
+    if (obj?.execute) return true
+    else return false;
   },
   allowReading: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin || accessRights.isAuditor) {
@@ -224,11 +226,9 @@ export const mutations = {
         const entry = operations.get(entityType);
         obj = { ...obj, ...entry };
       }
-      console.log(obj);
       operations.set(entityType, obj);
     });
     accessRights.operations = operations;
-    console.log(operations);
     state.accessRights = accessRights;
     state.isLoaded = true;
   }
