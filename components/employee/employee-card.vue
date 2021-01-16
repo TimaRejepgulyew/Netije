@@ -352,7 +352,6 @@ export default {
                 });
                 this.getLockInfo();
               } catch (error) {
-                console.log(error);
               }
             }
           });
@@ -503,7 +502,7 @@ export default {
           this.lockoutEnabled = data.isLockoutEnabled;
           this.lockoutEndDate = data.lockoutEndDate;
         } catch (error) {
-          console.log(error);
+
         }
       }
     }

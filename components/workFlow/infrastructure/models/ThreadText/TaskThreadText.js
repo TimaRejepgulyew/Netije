@@ -11,7 +11,6 @@ export default class TaskTreadText extends BaseThreadText {
     super(context);
   }
   __generateActionItemExecutionTaskSubject(entity) {
-    console.log(this._instance);
     if (entity.isCompoundActionItem)
       return this._instance.$t("task.compoundActionItem");
     else if (entity?.actionItemType === ActionItemType.Component)
