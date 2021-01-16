@@ -49,7 +49,7 @@ export default {
   methods: {
     setLeadingDocument(value) {
       this.$store.dispatch(
-        `documents/${this.documentId}/setLeadingDocumentId`,
+        `documents/${this.documentId}/setLeadingDocument`,
         value
       );
     }

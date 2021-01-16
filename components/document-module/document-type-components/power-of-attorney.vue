@@ -9,7 +9,7 @@
     <DxGroupItem :col-count="2">
       <DxGroupItem>
         <DxSimpleItem
-          data-field="businessUnitId"
+          data-field="businessUnit"
           template="businessUnitSelectBox"
         >
           <DxLabel
@@ -20,7 +20,7 @@
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+        <DxSimpleItem data-field="department" template="departmentSelectBox">
           <DxLabel location="left" :text="$t('document.fields.departmentId')" />
           <DxRequiredRule
             :message="$t('document.validation.departmentIdRequired')"
@@ -46,13 +46,13 @@
       </DxGroupItem>
 
       <DxGroupItem>
-        <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
+        <DxSimpleItem data-field="ourSignatory" template="ourSignatory">
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
           <DxRequiredRule
             :message="$t('document.validation.ourSignatoryRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem template="prepared" data-field="preparedById">
+        <DxSimpleItem template="prepared" data-field="preparedBy">
           <DxLabel location="left" :text="$t('document.fields.preparedById')" />
         </DxSimpleItem>
       </DxGroupItem>

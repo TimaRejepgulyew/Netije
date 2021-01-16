@@ -9,7 +9,7 @@
     <DxGroupItem :col-count="2">
       <DxGroupItem>
         <DxSimpleItem
-          data-field="businessUnitId"
+          data-field="businessUnit"
           template="businessUnitSelectBox"
         >
           <DxLabel
@@ -20,7 +20,7 @@
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+        <DxSimpleItem data-field="department" template="departmentSelectBox">
           <DxLabel location="left" :text="$t('document.fields.departmentId')" />
           <DxRequiredRule
             :message="$t('document.validation.departmentIdRequired')"
@@ -29,72 +29,67 @@
       </DxGroupItem>
 
       <DxGroupItem>
-        <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
+        <DxSimpleItem data-field="ourSignatory" template="ourSignatory">
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
         </DxSimpleItem>
-        <DxSimpleItem template="prepared" data-field="preparedById">
+        <DxSimpleItem template="prepared" data-field="preparedBy">
           <DxRequiredRule
             :message="$t('document.validation.preparedRequired')"
           />
           <DxLabel location="left" :text="$t('document.fields.preparedById')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="assigneeId" template="assignee">
+        <DxSimpleItem data-field="assignee" template="assignee">
           <DxLabel location="left" :text="$t('document.fields.assigneeId')" />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
     <template #assignee>
       <employee-select-box
-        valueExpr="id"
         :read-only="readOnly"
-        :value="assigneeId"
-        @valueChanged="setAssigneeId"
+        :value="assignee"
+        @valueChanged="setAssignee"
       />
     </template>
     <template #ourSignatory>
       <employee-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :storeApi="signatoryApi"
-        :value="ourSignatoryId"
-        @valueChanged="setOurSignatoryId"
+        :value="ourSignatory"
+        @valueChanged="setOurSignatory"
       />
     </template>
     <template #prepared>
       <employee-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="preparedById"
-        @valueChanged="setPreparedById"
+        :value="preparedBy"
+        @valueChanged="setPreparedBy"
       />
     </template>
     <template #businessUnitSelectBox>
       <business-unit-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="businessUnitId"
+        :value="businessUnit"
         @valueChanged="
-          data => {
-            setBusinessUnitId(data);
-            setPreparedById(null);
-            setDepartmentId(null);
+          (data) => {
+            setBusinessUnit(data);
+            setPreparedBy(null);
+            setDepartment(null);
           }
         "
       />
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="departmentId"
+        :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
-          data => {
-            setDepartmentId(data);
-            setPreparedById(null);
+          (data) => {
+            setDepartment(data);
+            setPreparedBy(null);
           }
         "
       />
@@ -111,7 +106,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -122,13 +117,13 @@ export default {
     DxRequiredRule,
     employeeSelectBox,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
-      signatoryApi: dataApi.signatureSettings.Members
+      signatoryApi: dataApi.signatureSettings.Members,
     };
   },
   computed: {
@@ -144,53 +139,56 @@ export default {
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
-    businessUnitId() {
-      return this.document.businessUnitId;
-    },
-    preparedById() {
-      return this.document.preparedById;
-    },
-    ourSignatoryId() {
-      return this.document.ourSignatoryId;
-    },
-    assigneeId() {
-      return this.document.assigneeId;
+    businessUnit() {
+      return this.document.businessUnit;
     },
     businessUnitId() {
-      return this.document.businessUnitId;
+      return this.document.businessUnit?.id;
+    },
+    preparedBy() {
+      return this.document.preparedBy;
+    },
+    ourSignatory() {
+      return this.document.ourSignatory;
+    },
+    assignee() {
+      return this.document.assignee;
     },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-    departmentId() {
-      return this.document.departmentId;
+    department() {
+      return this.document.department;
     },
   },
   methods: {
-    setBusinessUnitId(data) {
+    setBusinessUnit(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        `documents/${this.documentId}/SET_BUSINESS_UNIT`,
         data
       );
     },
-    setOurSignatoryId(data) {
+    setOurSignatory(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        `documents/${this.documentId}/SET_OUR_SIGNATORY`,
         data
       );
     },
-    setPreparedById(data) {
+    setPreparedBy(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        `documents/${this.documentId}/SET_PREPARED_BY`,
         data
       );
     },
-    setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`, data);
+    setDepartment(data) {
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT`,
+        data
+      );
     },
-    setAssigneeId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
-    }
-  }
+    setAssignee(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE`, data);
+    },
+  },
 };
 </script>
