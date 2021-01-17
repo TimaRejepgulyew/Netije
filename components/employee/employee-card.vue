@@ -194,7 +194,7 @@
           :businessUnitId="businessUnitId"
           @valueChanged="
             (data) => {
-              reload(data);
+              setDepartmentId(data);
             }
           "
         />
