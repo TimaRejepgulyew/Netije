@@ -34,18 +34,9 @@ export default {
     return {
       tagBoxMaxWidth: 300,
       value: "",
-      tex: "aasd",
       autocompleteTextItems: [
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt.",
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt.",
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt.",
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt.",
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt.",
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt.",
-        "два",
-        "три",
-        "четыре",
-        "пять"
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt."
       ]
     };
   },
