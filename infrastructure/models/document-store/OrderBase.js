@@ -1,44 +1,50 @@
-import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js"
-import checkDataChanged from "~/infrastructure/services/checkDataChanged.js"
+import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
 export default class OrderBase extends ElectronicDocument {
-    constructor(options) {
-        const mutations = {
-            ...options?.mutations,
-
-            SET_BUSINESS_UNIT_ID(state, payload) {
-                if (checkDataChanged(state.document.businessUnitId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.businessUnitId = payload;
-            },
-            SET_DEPARTMENT_ID(state, payload) {
-                if (checkDataChanged(state.document.departmentId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.departmentId = payload;
-            },
-            SET_ASSIGNEE_ID(state, payload) {
-                if (checkDataChanged(state.document.assigneeId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.assigneeId = payload;
-            },
-            SET_OUR_SIGNATORY_ID(state, payload) {
-                if (checkDataChanged(state.document.ourSignatoryId, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.ourSignatoryId = payload;
-            },
-            SET_PREPARED_BY_ID(state, payload) {
-                if (checkDataChanged(state.document.preparedById, payload)) {
-                    state.isDataChanged = true;
-                }
-                state.document.preparedById = payload;
-            },
+  constructor(options) {
+    const mutations = {
+      ...options?.mutations,
+      SET_BUSINESS_UNIT(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.businessUnit, payload)
+        ) {
+          state.isDataChanged = true;
+          state.document.businessUnit = payload;
         }
-        const actions = {
-            ...options?.actions,
+      },
+      SET_DEPARTMENT(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.department, payload)
+        ) {
+          state.isDataChanged = true;
+          state.document.department = payload;
         }
-        super({ mutations, actions })
-    }
+      },
+      SET_ASSIGNEE(state, payload) {
+        if (this._checkDataAsObjectChanged(state.document.assignee, payload)) {
+          state.isDataChanged = true;
+          state.document.assignee = payload;
+        }
+      },
+      SET_OUR_SIGNATORY(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.ourSignatory, payload)
+        ) {
+          state.isDataChanged = true;
+          state.document.ourSignatory = payload;
+        }
+      },
+      SET_PREPARED_BY(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.preparedBy, payload)
+        ) {
+          state.isDataChanged = true;
+          state.document.preparedBy = payload;
+        }
+      }
+    };
+    const actions = {
+      ...options?.actions
+    };
+    super({ mutations, actions });
+  }
 }
