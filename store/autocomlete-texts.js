@@ -2,30 +2,49 @@ import dataApi from "~/static/dataApi";
 
 const obj = {
     state: {
-        texts: [
+        allTexts: [
             {
                 id: 1,
                 text: "BlaBla",
-                type: "Document",
-            }
-        ]
+                category: 1,
+                entityType: 1
+            },
+            {
+                id: 2,
+                text: "Blahuy",
+                category: 1,
+                entityType: 1
+            },
+            {
+                id: 2,
+                text: "AzaAza",
+                category: 0,
+                entityType: 2
+            },
+
+        ],
+        documentTexts: {}
     },
     getters: {
-        getTextsByType(state, options) {
-
-            return state.texts
-        }
+        getAll: ({ allTexts }) => ({ category, entityType }) => {
+            console.log(allTexts);
+            return allTexts.filter(el => {
+                console.log(el, category, entityType);
+                return el.category === category && el.entityType === entityType
+            })
+        },
     },
     mutations: {
         SET_AUTOCOMLETE_TEXTS(state, payload) {
-            state.texts = payload
-        }
+            state.allTexts = payload
+        },
     },
     actions: {
         async loadTexts({ commit }) {
             let { data } = await this.$axios.get(dataApi.autocompleteTexts.load)
             commit("SET_AUTOCOMLETE_TEXTS", data)
-        }
+        },
+
     }
 }
 

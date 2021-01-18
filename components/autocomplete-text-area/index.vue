@@ -20,6 +20,7 @@
 <script>
 import DxTextArea from "devextreme-vue/text-area";
 import DxButton from "devextreme-vue/button";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   components: {
     DxTextArea,
@@ -28,6 +29,12 @@ export default {
   props: {
     options: {
       type: Object
+    },
+    category: {
+      type: String
+    },
+    entityType: {
+      type: Number
     }
   },
   data() {
@@ -41,6 +48,12 @@ export default {
     };
   },
   computed: {
+    autoText() {
+      return this.$store.getters["autocomlete-texts/getAll"]({
+        category: 1,
+        entityType: 1
+      });
+    },
     filteredText() {
       return this.autocompleteTextItems.filter(item => {
         return item.indexOf(this.value) !== -1;
@@ -54,6 +67,9 @@ export default {
     removeText() {
       console.log("removed");
     }
+  },
+  created() {
+    // console.log(this.autoText, "auto", this.entityType);
   },
   mounted() {
     setTimeout(() => {

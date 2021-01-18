@@ -47,7 +47,6 @@
                 data-field="subject"
                 :editor-options="subjectOptions"
                 editor-type="dxTextArea"
-                template="autocomlete"
               >
                 <DxLabel location="left" :text="$t('document.fields.subject')" />
                 <DxRequiredRule :message="$t('document.validation.subjectRequired')" />
@@ -57,6 +56,7 @@
                 data-field="note"
                 :editor-options="noteOptions"
                 editor-type="dxTextArea"
+                template="autocomlete"
               >
                 <DxLabel location="left" :text="$t('document.fields.note')" />
               </DxSimpleItem>
@@ -114,7 +114,10 @@
           <component :documentId="documentId" :isCard="isCard" :is="formByTypeGuid"></component>
         </template>
         <template #autocomlete>
-          <AutocomleteTextArea />
+          <AutocomleteTextArea
+            :category="'Category.Document'"
+            :entityType="document.documentTypeGuid"
+          />
         </template>
       </DxForm>
       <transition name="fade">
