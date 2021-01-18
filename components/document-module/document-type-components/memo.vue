@@ -145,8 +145,8 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-    businessUnitId() {
-      return this.document.businessUnitId;
+    businessUnit() {
+      return this.document.businessUnit;
     },
     businessUnitId() {
       return this.document.businessUnit?.id;

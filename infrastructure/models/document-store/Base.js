@@ -5,6 +5,22 @@ import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
 export default class Base {
+  _setValueAsObject(value, stateProperty, dataChanged) {
+    if (this._checkDataAsObjectChanged(value, stateProperty)) {
+      stateProperty = value;
+      dataChanged = true;
+    }
+  }
+  _setValue(value, stateProperty, dataChanged) {
+    if (this._checkDataChanged(value, stateProperty)) {
+      stateProperty = value;
+      dataChanged = true;
+    }
+  }
+  _checkDataChanged = checkDataChanged;
+  _checkDataAsObjectChanged = (newValue, oldValue) => {
+    return checkDataChanged(newValue, oldValue);
+  };
   state = {
     document: {},
     documentState: {},
@@ -102,19 +118,13 @@ export default class Base {
       state.document.extension = payload.extension;
     },
     SET_NAME(state, payload) {
-      if (checkDataChanged(state.document.name, payload)) {
-        state.isDataChanged = true;
-      }
-      state.document.name = payload;
+      this._setValue(payload, state.document.name, state.isDataChanged);
     },
     SET_IS_NEW(state, payload) {
       state.isNew = payload;
     },
     SET_NOTE(state, payload) {
-      if (checkDataChanged(state.document.note, payload)) {
-        state.isDataChanged = true;
-      }
-      state.document.note = payload;
+      this._setValue(payload, state.document.note, state.isDataChanged);
     },
     SET_DOCUMENT(state, payload) {
       for (let item in payload) {
