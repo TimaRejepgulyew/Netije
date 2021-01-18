@@ -194,7 +194,7 @@
           :businessUnitId="businessUnitId"
           @valueChanged="
             (data) => {
-              reload(data);
+              setDepartmentId(data);
             }
           "
         />
@@ -351,9 +351,7 @@ export default {
                   id: this.employee.id
                 });
                 this.getLockInfo();
-              } catch (error) {
-                console.log(error);
-              }
+              } catch (error) {}
             }
           });
         }
@@ -494,7 +492,7 @@ export default {
       }
     },
     async getLockInfo() {
-      if (this.employee.id) {
+      if (this.employee.id && this.isAdmin) {
         try {
           let { data } = await this.$axios.get(
             dataApi.company.employeeLockInfoById + this.employee.id
@@ -502,9 +500,7 @@ export default {
           this.isLockedOut = data.isLockedOut;
           this.lockoutEnabled = data.isLockoutEnabled;
           this.lockoutEndDate = data.lockoutEndDate;
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     }
   },
