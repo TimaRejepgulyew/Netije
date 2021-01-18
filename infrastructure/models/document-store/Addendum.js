@@ -5,7 +5,15 @@ export default class Addendum extends ElectronicDocument {
     const mutations = {
       ...options?.mutations,
       SET_LEADING_DOCUMENT(state, payload) {
-        state.document.leadingDocument = payload;
+        if (
+          this._checkDataAsObjectChanged(
+            payload,
+            state.document.leadingDocument
+          )
+        ) {
+          state.isDataChanged = true;
+          state.document.leadingDocument = payload;
+        }
       }
     };
     const actions = {

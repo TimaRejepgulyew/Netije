@@ -277,16 +277,16 @@ export default {
       return this.document.businessUnit;
     },
     businessUnitId() {
-      return this.document.businessUnit?.id;
+      return this.businessUnit?.id;
     },
     counterpartySignatoryId() {
       return this.document.counterpartySignatoryId;
     },
-    ourSignatoryId() {
-      return this.document.ourSignatoryId;
+    ourSignatory() {
+      return this.document.ourSignatory;
     },
-    responsibleEmployeeId() {
-      return this.document.responsibleEmployeeId;
+    responsibleEmployee() {
+      return this.document.responsibleEmployee;
     },
     daysToFinishWorks() {
       return this.document.daysToFinishWorks;
@@ -446,10 +446,7 @@ export default {
       );
     },
     setDepartment(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setDaysToFinishWorks(data) {
       this.$store.commit(

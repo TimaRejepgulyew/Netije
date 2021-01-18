@@ -5,49 +5,49 @@ export default class IncomingTaxInvoice extends ElectronicDocument {
     const mutations = {
       ...options?.mutations,
       SET_IS_ADJUSTMENT(state, payload) {
-        if (checkDataChanged(state.document.isAdjustment, payload)) {
+        if (this._checkDataChanged(state.document.isAdjustment, payload)) {
           state.isDataChanged = true;
+          state.document.isAdjustment = payload;
         }
-        state.document.isAdjustment = payload;
-      },
-      SET_LEADING_DOCUMENT_ID(state, payload) {
-        if (checkDataChanged(state.document.leadingDocumentId, payload)) {
-          state.isDataChanged = true;
-        }
-        state.document.leadingDocumentId = payload;
       },
       SET_LEADING_DOCUMENT(state, payload) {
-        if (checkDataChanged(state.document.leadingDocument?.id, payload)) {
+        if (
+          this._checkDataAsObjectChanged(
+            state.document.leadingDocument,
+            payload
+          )
+        ) {
           state.isDataChanged = true;
+          state.document.leadingDocument = payload;
         }
-        state.document.leadingDocument = payload;
       },
       SET_COUNTERPARTY(state, payload) {
-        if (checkDataChanged(state.document.counterpartyId, payload)) {
+        if (this._checkDataChanged(state.document.counterpartyId, payload)) {
           state.isDataChanged = true;
+          state.document.counterpartyId = payload;
         }
-        state.document.counterpartyId = payload;
       },
       SET_CONTACT_ID(state, payload) {
-        if (checkDataChanged(state.document.contactId, payload)) {
+        if (this._checkDataChanged(state.document.contactId, payload)) {
           state.isDataChanged = true;
+          state.document.contactId = payload;
         }
-        state.document.contactId = payload;
       },
       SET_COUNTERPART_SIGNATORY_ID(state, payload) {
-        if (checkDataChanged(state.document.counterpartySignatoryId, payload)) {
+        if (this._checkDataChanged(state.document.counterpartySignatoryId, payload)) {
           state.isDataChanged = true;
+          state.document.counterpartySignatoryId = payload;
         }
-        state.document.counterpartySignatoryId = payload;
       },
       SET_CURRENCY_ID(state, payload) {
-        if (checkDataChanged(state.document.currencyId, payload)) {
+        if (this._checkDataChanged(state.document.currencyId, payload)) {
           state.isDataChanged = true;
         }
         state.document.currencyId = payload;
       },
       SET_TOTAL_AMOUNT(state, payload) {
-        if (checkDataChanged(state.document.totalAmount, payload)) {
+        if (this._checkDataChanged(state.document.isAdjustment, payload)) {
+          
           state.isDataChanged = true;
         }
         state.document.totalAmount = payload;
