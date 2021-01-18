@@ -4,97 +4,105 @@ export default class OutgoingTaxInvoice extends ElectronicDocument {
   constructor(options) {
     const mutations = {
       ...options?.mutations,
-      SET_LEADING_DOCUMENT_ID(state, payload) {
-        if (checkDataChanged(state.document.leadingDocumentId, payload)) {
-          state.isDataChanged = true;
-        }
-        state.document.leadingDocumentId = payload;
-      },
       SET_LEADING_DOCUMENT(state, payload) {
-        if (checkDataChanged(state.document.leadingDocument?.id, payload)) {
+        if (
+          this._checkDataAsObjectChanged(
+            state.document.leadingDocument,
+            payload
+          )
+        ) {
           state.isDataChanged = true;
+          state.document.leadingDocument = payload;
         }
-        state.document.leadingDocument = payload;
       },
-      SET_ADDRESSE_ID(state, payload) {
-        if (checkDataChanged(state.document.addresseeId, payload)) {
+
+      SET_ADDRESSE(state, payload) {
+        if (this._checkDataChanged(state.document.addressee, payload)) {
           state.isDataChanged = true;
+          state.document.addressee = payload;
         }
-        state.document.addresseeId = payload;
       },
       SET_COUNTERPARTY(state, payload) {
-        if (checkDataChanged(state.document.counterpartyId, payload)) {
+        if (this._checkDataChanged(state.document.counterpartyId, payload)) {
           state.isDataChanged = true;
+          state.document.counterpartyId = payload;
         }
-        state.document.counterpartyId = payload;
       },
       SET_CONTACT_ID(state, payload) {
-        if (checkDataChanged(state.document.contactId, payload)) {
+        if (this._checkDataChanged(state.document.contactId, payload)) {
           state.isDataChanged = true;
+          state.document.contactId = payload;
         }
-        state.document.contactId = payload;
       },
 
       SET_CURRENCY_ID(state, payload) {
         if (checkDataChanged(state.document.currencyId, payload)) {
           state.isDataChanged = true;
+          state.document.currencyId = payload;
         }
-        state.document.currencyId = payload;
       },
       SET_TOTAL_AMOUNT(state, payload) {
         if (checkDataChanged(state.document.totalAmount, payload)) {
           state.isDataChanged = true;
+          state.document.totalAmount = payload;
         }
-        state.document.totalAmount = payload;
       },
       SET_VALID_FROM(state, payload) {
         if (checkDataChanged(state.document.validFrom, payload)) {
           state.isDataChanged = true;
+          state.document.validFrom = payload;
         }
-        state.document.validFrom = payload;
       },
       SET_VALID_TILL(state, payload) {
         if (checkDataChanged(state.document.validTill, payload)) {
           state.isDataChanged = true;
+          state.document.validTill = payload;
         }
-        state.document.validTill = payload;
       },
-      SET_BUSINESS_UNIT_ID(state, payload) {
-        if (checkDataChanged(state.document.businessUnitId, payload)) {
+      SET_BUSINESS_UNIT(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.businessUnit, payload)
+        ) {
           state.isDataChanged = true;
+          state.document.businessUnit = payload;
         }
-        state.document.businessUnitId = payload;
       },
-      SET_DEPARTMENT_ID(state, payload) {
-        if (checkDataChanged(state.document.departmentId, payload)) {
+      SET_DEPARTMENT(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.department, payload)
+        ) {
           state.isDataChanged = true;
+          state.document.department = payload;
         }
-        state.document.departmentId = payload;
       },
       SET_CORRECTED_ID(state, payload) {
-        if (checkDataChanged(state.document.correctedId, payload)) {
+        if (this._checkDataChanged(state.document.correctedId, payload)) {
           state.isDataChanged = true;
+          state.document.correctedId = payload;
         }
-        state.document.correctedId = payload;
       },
-      SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
-        if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
+      SET_RESPONSIBLE_EMPLOYEE(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(
+            state.document.responsibleEmployee,
+            payload
+          )
+        ) {
           state.isDataChanged = true;
+          state.document.responsibleEmployee = payload;
         }
-        state.document.responsibleEmployeeId = payload;
       },
       SET_IS_ADJUSTMENT(state, payload) {
-        if (checkDataChanged(state.document.isAdjustment, payload)) {
+        if (this._checkDataChanged(state.document.isAdjustment, payload)) {
           state.isDataChanged = true;
+          state.document.isAdjustment = payload;
         }
-        state.document.isAdjustment = payload;
       }
     };
     const actions = {
       ...options?.actions,
       setLeadingDocument({ commit, dispatch }, payload) {
         commit("SET_LEADING_DOCUMENT", payload);
-        commit("SET_LEADING_DOCUMENT_ID", payload?.id);
         dispatch("reevaluateDocumentName");
       },
       setCounterparty({ commit, dispatch }, payload) {

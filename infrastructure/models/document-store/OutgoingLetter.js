@@ -1,5 +1,4 @@
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
-import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
 import dataApi from "~/static/dataApi";
 export default class OutgoingLetter extends ElectronicDocument {
   constructor(options) {
