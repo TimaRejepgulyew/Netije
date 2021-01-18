@@ -34,7 +34,12 @@ export default class IncomingTaxInvoice extends ElectronicDocument {
         }
       },
       SET_COUNTERPART_SIGNATORY_ID(state, payload) {
-        if (this._checkDataChanged(state.document.counterpartySignatoryId, payload)) {
+        if (
+          this._checkDataChanged(
+            state.document.counterpartySignatoryId,
+            payload
+          )
+        ) {
           state.isDataChanged = true;
           state.document.counterpartySignatoryId = payload;
         }
@@ -47,40 +52,42 @@ export default class IncomingTaxInvoice extends ElectronicDocument {
       },
       SET_TOTAL_AMOUNT(state, payload) {
         if (this._checkDataChanged(state.document.isAdjustment, payload)) {
-          
           state.isDataChanged = true;
         }
         state.document.totalAmount = payload;
       },
-      SET_BUSINESS_UNIT_ID(state, payload) {
-        if (checkDataChanged(state.document.businessUnitId, payload)) {
+      SET_BUSINESS_UNIT(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.businessUnit, payload)
+        ) {
           state.isDataChanged = true;
+          state.document.businessUnit = payload;
         }
-        state.document.businessUnitId = payload;
       },
-      SET_DEPARTMENT_ID(state, payload) {
-        if (checkDataChanged(state.document.departmentId, payload)) {
+      SET_DEPARTMENT(state, payload) {
+        if (
+          this._checkDataAsObjectChanged(state.document.department, payload)
+        ) {
           state.isDataChanged = true;
+          state.document.department = payload;
         }
-        state.document.departmentId = payload;
       },
-      SET_CORRECTED_ID(state, payload) {
-        if (checkDataChanged(state.document.correctedId, payload)) {
+      SET_CORRECTED(state, payload) {
+        if (checkDataChanged(state.document.corrected, payload)) {
           state.isDataChanged = true;
+          state.document.corrected = payload;
         }
-        state.document.correctedId = payload;
       },
-      SET_RESPONSIBLE_EMPLOYEE_ID(state, payload) {
-        if (checkDataChanged(state.document.responsibleEmployeeId, payload)) {
+      SET_RESPONSIBLE_EMPLOYEE(state, payload) {
+        if (checkDataChanged(state.document.responsibleEmployee, payload)) {
           state.isDataChanged = true;
+          state.document.responsibleEmployee = payload;
         }
-        state.document.responsibleEmployeeId = payload;
       }
     };
     const actions = {
       ...options?.actions,
       setLeadingDocument({ commit, dispatch }, payload) {
-        commit("SET_LEADING_DOCUMENT_ID", payload?.id);
         commit("SET_LEADING_DOCUMENT", payload);
         dispatch("reevaluateDocumentName");
       },
