@@ -14,7 +14,7 @@ export default class OutgoingLetter extends ElectronicDocument {
         }
       },
       SET_CORRESPONDENT_ID(state, payload) {
-        if (checkDataChanged(state.document.correspondentId, payload)) {
+        if (this._checkDataChanged(state.document.correspondentId, payload)) {
           state.isDataChanged = true;
           state.document.correspondentId = payload;
         }
@@ -23,7 +23,7 @@ export default class OutgoingLetter extends ElectronicDocument {
         state.correspondent = payload;
       },
       SET_DELIVERY_METHOD_ID(state, payload) {
-        if (checkDataChanged(state.document.deliveryMethodId, payload)) {
+        if (this._checkDataChanged(state.document.deliveryMethodId, payload)) {
           state.isDataChanged = true;
           state.document.deliveryMethodId = payload;
         }
