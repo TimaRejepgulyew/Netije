@@ -1,5 +1,5 @@
 import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
-import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
+
 export default class OutgoingTaxInvoice extends ElectronicDocument {
   constructor(options) {
     const mutations = {
@@ -17,7 +17,7 @@ export default class OutgoingTaxInvoice extends ElectronicDocument {
       },
 
       SET_ADDRESSE(state, payload) {
-        if (this._checkDataChanged(state.document.addressee, payload)) {
+        if (this._checkDataAsObjectChanged(state.document.addressee, payload)) {
           state.isDataChanged = true;
           state.document.addressee = payload;
         }
@@ -36,25 +36,25 @@ export default class OutgoingTaxInvoice extends ElectronicDocument {
       },
 
       SET_CURRENCY_ID(state, payload) {
-        if (checkDataChanged(state.document.currencyId, payload)) {
+        if (this._checkDataChanged(state.document.currencyId, payload)) {
           state.isDataChanged = true;
           state.document.currencyId = payload;
         }
       },
       SET_TOTAL_AMOUNT(state, payload) {
-        if (checkDataChanged(state.document.totalAmount, payload)) {
+        if (this._checkDataChanged(state.document.totalAmount, payload)) {
           state.isDataChanged = true;
           state.document.totalAmount = payload;
         }
       },
       SET_VALID_FROM(state, payload) {
-        if (checkDataChanged(state.document.validFrom, payload)) {
+        if (this._checkDataChanged(state.document.validFrom, payload)) {
           state.isDataChanged = true;
           state.document.validFrom = payload;
         }
       },
       SET_VALID_TILL(state, payload) {
-        if (checkDataChanged(state.document.validTill, payload)) {
+        if (this._checkDataChanged(state.document.validTill, payload)) {
           state.isDataChanged = true;
           state.document.validTill = payload;
         }
