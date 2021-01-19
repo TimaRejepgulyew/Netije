@@ -31,6 +31,7 @@
         :notPerson="notPerson"
         :isPerson="isPerson"
         :field-data="data"
+        @openFields="openFields"
         @openGridPopup="openGridPopup(data)"
         @openCounterPartPopup="openCounterPartPopup(data)"
         @openCreateCounterPartPopup="openCreateCounterPartPopup"
@@ -80,6 +81,9 @@ export default {
     };
   },
   methods: {
+    openFields() {
+      this.$refs["counterPart"].instance.open();
+    },
     openGridPopup(data) {
       this.$popup.counterPartGrid(
         this,
