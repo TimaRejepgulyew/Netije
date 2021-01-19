@@ -1,16 +1,47 @@
 <template>
   <div>
-    <DxTextArea ref="textArea" valueChangeEvent="input" :height="90" :value.sync="value" />
-    <div class="tag_box" :style="`maxWidth:${tagBoxMaxWidth}px`">
-      <div class="tag" v-for="(text,index) in filteredText" :key="index" :title="text">
-        <div class="text" @click="setText(text)">{{text}}</div>
+    <DxTextArea
+      ref="textArea"
+      valueChangeEvent="input"
+      :value.sync="text"
+      :readOnly="options.readOnly || false"
+      :height="options.height || 90"
+      :placeholder="options.placeholder || ''"
+      :max-length="options.maxLength || null"
+      :autoResizeEnabled="options.autoResizeEnabled || true"
+      @focusOut="valueChanged"
+      @focusIn="focusIn"
+    >
+      <DxValidator
+        v-if="options.isRequired || false"
+        :validationGroup="options.validationGroup || null"
+      >
+        <DxRequiredRule :message="options.requiredMessage || null" />
+      </DxValidator>
+    </DxTextArea>
+
+    <div
+      tabindex="0"
+      @focus="focusIn"
+      @blur="focusOut"
+      class="tag_box"
+      :style="`maxWidth:${tagBoxMaxWidth}px`"
+    >
+      <div
+        v-show="inFocus"
+        class="tag"
+        v-for="(item,index) in filteredText"
+        :key="index"
+        :title="text"
+      >
+        <div class="text" @click="()=>setText(item.text)">{{item.text}}</div>
         <DxButton
           icon="clear"
           styling-mode="text"
           :focusStateEnabled="false"
           :activeStateEnabled="false"
           :hoverStateEnabled="false"
-          @click="removeText"
+          @click="deleteText(item.id)"
         />
       </div>
     </div>
@@ -18,60 +49,70 @@
 </template>
 
 <script>
+import AutoTextCategory from "~/components/autocomplete-text-area/infrastructure/constants/autoTextCategory.js";
+
+import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import DxTextArea from "devextreme-vue/text-area";
 import DxButton from "devextreme-vue/button";
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions } from "vuex";
+
 export default {
   components: {
     DxTextArea,
+    DxValidator,
+    DxRequiredRule,
     DxButton
   },
   props: {
+    value: {
+      type: String,
+      default: ""
+    },
     options: {
-      type: Object
-    },
-    category: {
-      type: String
-    },
-    entityType: {
-      type: Number
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
-      tagBoxMaxWidth: 300,
-      value: "",
-      autocompleteTextItems: [
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt.",
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et quo perspiciatis fuga commodi assumenda qui quisquam esse eos dolore? Iste dolorem beatae ipsum adipisci, quisquam ullam hic optio nesciunt."
-      ]
+      tagBoxMaxWidth: 100,
+      text: this.value || "",
+      inFocus: false
     };
   },
   computed: {
     autoText() {
       return this.$store.getters["autocomlete-texts/getAll"]({
-        category: 1,
-        entityType: 1
+        category: AutoTextCategory[this.options.category],
+        entityType: this.options.entityType
       });
     },
     filteredText() {
-      return this.autocompleteTextItems.filter(item => {
-        return item.indexOf(this.value) !== -1;
+      return this.autoText.filter(item => {
+        return item.text.toLowerCase().indexOf(this.text.toLowerCase()) !== -1;
       });
     }
   },
   methods: {
-    setText(text) {
-      this.value = text;
+    ...mapActions({
+      deleteText: "autocomlete-texts/deleteText"
+    }),
+    valueChanged(text) {
+      this.$emit("valueChanged", this.text);
+      this.focusOut();
     },
-    removeText() {
-      console.log("removed");
+    focusOut() {
+      this.inFocus = false;
+    },
+    focusIn() {
+      this.inFocus = true;
+    },
+    setText(text) {
+      this.text = text;
     }
   },
-  created() {
-    // console.log(this.autoText, "auto", this.entityType);
-  },
   mounted() {
+    console.log(this.options);
     setTimeout(() => {
       this.tagBoxMaxWidth = this.$refs.textArea.$el.offsetWidth;
     }, 0);
@@ -87,8 +128,9 @@ export default {
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 5px;
   grid-row-gap: 5px;
-  min-height: 30px;
-  max-height: 70px;
+  height: 30px;
+  overflow: hidden;
+  outline: none;
   .tag {
     cursor: pointer;
     height: 29px;

@@ -33,8 +33,7 @@
         <slot name="thread-texts" />
       </template>
       <template #additional-info>
-        <slot name="autoText" />
-        <!-- <Additional-info :assignmentId="assignmentId" /> -->
+        <Additional-info :assignmentId="assignmentId" />
       </template>
       <template #attachments>
         <slot name="attachments" />

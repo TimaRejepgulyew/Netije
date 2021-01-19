@@ -43,7 +43,8 @@ export default {
     UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo"
   },
   autocompleteTexts: {
-    load:"",
+    load: "/api/AutoText",
+    delete: "/api/AutoText/"
   },
   company: {
     Department: `/api/Department`,
