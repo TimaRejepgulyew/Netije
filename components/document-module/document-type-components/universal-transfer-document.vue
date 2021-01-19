@@ -24,11 +24,11 @@
       </DxSimpleItem>
       <DxSimpleItem
         :visible="isAdjustment"
-        data-field="correctedId"
-        :editor-options="correctedIdOptions"
+        data-field="corrected"
+        :editor-options="correctedOptions"
         editor-type="dxSelectBox"
       >
-        <DxLabel location="left" :text="$t('document.fields.correctedId')" />
+        <DxLabel location="left" :text="$t('document.fields.corrected')" />
         <DxRequiredRule
           :message="$t('document.validation.businessUnitIdRequired')"
         />
@@ -279,11 +279,11 @@ export default {
         value: this.isAdjustment,
         onValueChanged: (e) => {
           this.setIsAdjustment(e.value);
-          this.setCorrectedId(null);
+          this.setCorrected(null);
         },
       };
     },
-    correctedIdOptions() {
+    correctedOptions() {
       return {
         readOnly: !this.counterpartyId,
         deferRendering: false,
@@ -297,9 +297,9 @@ export default {
               ]
             : undefined,
         }),
-        value: this.document.correctedId,
+        value: this.document.corrected,
         onValueChanged: (e) => {
-          this.setCorrectedId(e.value);
+          this.setCorrected(e.value);
         },
       };
     },
@@ -374,7 +374,7 @@ export default {
           this.selectedCorrespondentType.type = null;
       }
       this.dispatchCounterparty(data);
-      this.setCorrectedId(null);
+      this.setCorrected(null);
       this.setContact(null);
       this.setLeadingDocument(null);
       this.setCounterpartySignatoryId(null);
@@ -409,8 +409,8 @@ export default {
         data
       );
     },
-    setCorrectedId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED_ID`, data);
+    setCorrected(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED`, data);
     },
     setLeadingDocument(data) {
       this.$store.dispatch(

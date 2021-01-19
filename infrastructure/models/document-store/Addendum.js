@@ -4,7 +4,7 @@ export default class Addendum extends ElectronicDocument {
   constructor(options) {
     const mutations = {
       ...options?.mutations,
-      SET_LEADING_DOCUMENT(state, payload) {
+      SET_LEADING_DOCUMENT:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(
             payload,

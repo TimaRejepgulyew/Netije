@@ -3,7 +3,7 @@ export default class SupAgreement extends ElectronicDocument {
   constructor(options) {
     const mutations = {
       ...options?.mutations,
-      SET_LEADING_DOCUMENT(state, payload) {
+      SET_LEADING_DOCUMENT:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(
             state.document.leadingDocument,
@@ -14,19 +14,19 @@ export default class SupAgreement extends ElectronicDocument {
           state.document.leadingDocument = payload;
         }
       },
-      SET_COUNTERPARTY(state, payload) {
+      SET_COUNTERPARTY:(state, payload)=> {
         if (this._checkDataChanged(state.document.counterpartyId, payload)) {
           state.isDataChanged = true;
           state.document.counterpartyId = payload;
         }
       },
-      SET_CONTACT_ID(state, payload) {
+      SET_CONTACT_ID:(state, payload)=> {
         if (this._checkDataChanged(state.document.contactId, payload)) {
           state.isDataChanged = true;
           state.document.contactId = payload;
         }
       },
-      SET_COUNTERPART_SIGNATORY_ID(state, payload) {
+      SET_COUNTERPART_SIGNATORY_ID:(state, payload)=> {
         if (
           this._checkDataChanged(
             state.document.counterpartySignatoryId,
@@ -37,31 +37,31 @@ export default class SupAgreement extends ElectronicDocument {
           state.document.counterpartySignatoryId = payload;
         }
       },
-      SET_CURRENCY_ID(state, payload) {
+      SET_CURRENCY_ID:(state, payload)=> {
         if (this._checkDataChanged(state.document.currencyId, payload)) {
           state.isDataChanged = true;
           state.document.currencyId = payload;
         }
       },
-      SET_TOTAL_AMOUNT(state, payload) {
+      SET_TOTAL_AMOUNT:(state, payload)=> {
         if (this._checkDataChanged(state.document.totalAmount, payload)) {
           state.isDataChanged = true;
           state.document.totalAmount = payload;
         }
       },
-      SET_VALID_TILL(state, payload) {
+      SET_VALID_TILL:(state, payload)=> {
         if (this._checkDataChanged(state.document.validTill, payload)) {
           state.isDataChanged = true;
           state.document.validTill = payload;
         }
       },
-      SET_VALID_FROM(state, payload) {
+      SET_VALID_FROM:(state, payload)=> {
         if (this._checkDataChanged(state.document.validFrom, payload)) {
           state.isDataChanged = true;
           state.document.validFrom = payload;
         }
       },
-      SET_BUSINESS_UNIT(state, payload) {
+      SET_BUSINESS_UNIT:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(state.document.businessUnit, payload)
         ) {
@@ -69,7 +69,7 @@ export default class SupAgreement extends ElectronicDocument {
           state.document.businessUnit = payload;
         }
       },
-      SET_DEPARTMENT(state, payload) {
+      SET_DEPARTMENT:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(state.document.department, payload)
         ) {
@@ -77,19 +77,19 @@ export default class SupAgreement extends ElectronicDocument {
           state.document.department = payload;
         }
       },
-      SET_ADDRESSE(state, payload) {
+      SET_ADDRESSE:(state, payload)=> {
         if (this._checkDataAsObjectChanged(state.document.addressee, payload)) {
           state.isDataChanged = true;
           state.document.addressee = payload;
         }
       },
-      SET_IS_STANDARD(state, payload) {
+      SET_IS_STANDARD:(state, payload)=> {
         if (this._checkDataChanged(state.document.isStandard, payload)) {
           state.isDataChanged = true;
           state.document.isStandard = payload;
         }
       },
-      SET_RESPONSIBLE_EMPLOYEE(state, payload) {
+      SET_RESPONSIBLE_EMPLOYEE:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(
             state.document.responsibleEmployee,
@@ -100,7 +100,7 @@ export default class SupAgreement extends ElectronicDocument {
           state.document.responsibleEmployee = payload;
         }
       },
-      SET_OUR_SIGNATORY(state, payload) {
+      SET_OUR_SIGNATORY:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(state.document.ourSignatory, payload)
         ) {

@@ -5,7 +5,7 @@ export default class Memo extends ElectronicDocument {
     const mutations = {
       ...options?.mutations,
 
-      SET_BUSINESS_UNIT(state, payload) {
+      SET_BUSINESS_UNIT: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(state.document.businessUnit, payload)
         ) {
@@ -13,7 +13,7 @@ export default class Memo extends ElectronicDocument {
           state.document.businessUnit = payload;
         }
       },
-      SET_DEPARTMENT(state, payload) {
+      SET_DEPARTMENT: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(state.document.department, payload)
         ) {
@@ -21,19 +21,19 @@ export default class Memo extends ElectronicDocument {
           state.document.department = payload;
         }
       },
-      SET_ADDRESSE(state, payload) {
+      SET_ADDRESSE: (state, payload) => {
         if (this._checkDataAsObjectChanged(state.document.addressee, payload)) {
           state.isDataChanged = true;
           state.document.addressee = payload;
         }
       },
-      SET_ASSIGNEE(state, payload) {
-        if (checkDataChanged(state.document.assignee, payload)) {
+      SET_ASSIGNEE: (state, payload) => {
+        if (this._checkDataAsObjectChanged(state.document.assignee, payload)) {
           state.isDataChanged = true;
           state.document.assignee = payload;
         }
       },
-      SET_OUR_SIGNATORY(state, payload) {
+      SET_OUR_SIGNATORY: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(state.document.ourSignatory, payload)
         ) {
@@ -41,7 +41,7 @@ export default class Memo extends ElectronicDocument {
           state.document.ourSignatory = payload;
         }
       },
-      SET_PREPARED_BY(state, payload) {
+      SET_PREPARED_BY: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(state.document.preparedBy, payload)
         ) {

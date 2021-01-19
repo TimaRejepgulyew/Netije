@@ -72,7 +72,7 @@
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setAddressee"
-        :value="addresseeId"
+        :value="addressee"
       />
     </template>
 

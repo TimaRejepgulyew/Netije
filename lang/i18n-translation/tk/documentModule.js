@@ -69,7 +69,7 @@ export default {
     invalidExeption: "Ýol berilmeýän giňeltme",
     isStandardSupAgreement: "Birkysmy goşmaça ylalaşyk",
     isAdjustment: "Düzedişler",
-    correctedId: "Düzedilýär",
+    corrected: "Düzedilýär",
     isAutomaticRenewal: "Awtomatik täzelenme",
     currencyId: "Walýutasy",
     accountNumber: "Hasabyň belgisi",

@@ -73,7 +73,7 @@ export default {
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",
     isAdjustment: "Корректировочный",
-    correctedId: "Корректирует",
+    corrected: "Корректирует",
     isAutomaticRenewal: "С автопролонгацией",
     currencyId: "Валюта",
     accountNumber: "Номер счета",

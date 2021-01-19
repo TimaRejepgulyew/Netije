@@ -163,7 +163,7 @@ export default {
     addressee() {
       return this.document.addressee;
     },
-    departmentId() {
+    department() {
       return this.document.department;
     },
     readOnly() {

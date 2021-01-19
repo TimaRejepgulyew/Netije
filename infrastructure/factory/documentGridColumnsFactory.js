@@ -41,8 +41,13 @@ const GetColumnsByDocumentType = (type, context) => {
     case DocumentQuery.Contract:
     case DocumentQuery.ContractualDocuments:
       return CreateContractColumns(context);
+    case DocumentQuery.IncomingTaxInvoice:
+      return CreateAccountingDocumentsColumns(context);
+    case DocumentQuery.OutgoingTaxInvoice:
+      return CreateAccountingDocumentsColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
+
     case "document-template":
       return createDocumentTemplateColumns(context);
     default:

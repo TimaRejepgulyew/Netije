@@ -117,7 +117,7 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
       ...caseFileMutations(),
       ...documentRegistrationMutations(),
       SET_DOCUMENT_KIND: (state, payload) => {
-        if (checkDataChanged(state.document.documentKindId, payload.id))
+        if (this._checkDataChanged(state.document.documentKindId, payload.id))
           state.isDataChanged = true;
 
         state.document.documentKind = payload;

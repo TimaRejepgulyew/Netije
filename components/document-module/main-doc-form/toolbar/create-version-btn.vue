@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DxDropDownButton from "devextreme-vue/drop-down-button";
 import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 import { DxButton } from "devextreme-vue";
@@ -96,10 +97,11 @@ export default {
     uploadVersion(data) {
       this.$store.dispatch(`documents/${this.documentId}/setVersion`, data);
       if (!this.isNew)
-        this.$store.dispatch(`documents/${this.documentId}/updateExchange`, {
-          documentId: this.document.id,
-          documentTypeGuid: this.document.documentTypeGuid,
-        });
+        if (DocumentTypeGuid.OutgoingLetter === this.document.documentTypeGuid)
+          this.$store.dispatch(`documents/${this.documentId}/updateExchange`, {
+            documentId: this.document.id,
+            documentTypeGuid: this.document.documentTypeGuid,
+          });
       this.$emit("uploadVersion");
       this.$awn.success();
     },

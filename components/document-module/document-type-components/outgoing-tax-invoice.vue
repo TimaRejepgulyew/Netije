@@ -23,15 +23,12 @@
         <DxLabel location="left" :text="$t('document.fields.isAdjustment')" />
       </DxSimpleItem>
       <DxSimpleItem
+        data-field="corrected"
         :visible="isAdjustment"
-        data-field="correctedId"
-        :editor-options="correctedIdOptions"
-        editor-type="dxSelectBox"
+        :isRequired="isAdjustment"
+        template="corrected"
       >
-        <DxLabel location="left" :text="$t('document.fields.correctedId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.correctedIdRequired')"
-        />
+        <DxLabel location="left" :text="$t('document.fields.corrected')" />
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem
@@ -108,6 +105,17 @@
         :value="document.leadingDocument"
         :isRequired="true"
         @valueChanged="setLeadingDocument"
+      />
+    </template>
+    <template #corrected>
+      <customSelectBoxDocument
+        :readOnly="correctedOptions.readOnly"
+        :dataSourceFilter="correctedOptions.dataSourceFilter"
+        :dataSourceQuery="correctedOptions.dataSourceQuery"
+        :validationGroup="documentValidatorName"
+        :value="document.corrected"
+        :isRequired="isAdjustment"
+        @valueChanged="setCorrected"
       />
     </template>
     <template #counterparty>
@@ -246,7 +254,7 @@ export default {
     ourSignatory() {
       return this.document.ourSignatory;
     },
-    responsibleEmploye() {
+    responsibleEmployee() {
       return this.document.responsibleEmployee;
     },
     isAdjustment() {
@@ -258,28 +266,17 @@ export default {
         value: this.isAdjustment,
         onValueChanged: (e) => {
           this.setIsAdjustment(e.value);
-          this.setCorrectedId(null);
+          this.setCorrected(null);
         },
       };
     },
-    correctedIdOptions() {
+    correctedOptions() {
       return {
-        deferRendering: false,
-        readOnly: !this.counterpartyId,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.OutgoingTaxInvoice}/${QuickFilter.All}`,
-          filter: this.counterpartyId
-            ? [
-                ["counterpartyId", "=", this.counterpartyId],
-                ["id", "<>", this.document.id],
-              ]
-            : undefined,
-        }),
-        value: this.document.correctedId,
-        onValueChanged: (e) => {
-          this.setCorrectedId(e.value);
-        },
+        readOnly: !this.counterpartyId || this.readOnly,
+        dataSourceQuery: DocumentQuery.OutgoingTaxInvoice,
+        dataSourceFilter: this.counterpartyId
+          ? ["counterpartyId", "=", this.counterpartyId]
+          : undefined,
       };
     },
     leadingDocumentOptions() {
@@ -353,7 +350,7 @@ export default {
           this.selectedCorrespondentType.type = null;
       }
       this.dispatchCounterparty(data);
-      this.setCorrectedId(null);
+      this.setCorrected(null);
       this.setLeadingDocument(null);
       this.setContact(null);
     },
@@ -363,8 +360,8 @@ export default {
         data
       );
     },
-    setCorrectedId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED_ID`, data);
+    setCorrected(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED`, data);
     },
     setLeadingDocument(data) {
       this.$store.dispatch(
@@ -406,10 +403,7 @@ export default {
       );
     },
     setDepartment(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

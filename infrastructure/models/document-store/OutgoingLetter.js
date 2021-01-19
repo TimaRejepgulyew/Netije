@@ -4,7 +4,7 @@ export default class OutgoingLetter extends ElectronicDocument {
   constructor(options) {
     const mutations = {
       ...options?.mutations,
-      SET_OUR_SIGNATORY(state, payload) {
+      SET_OUR_SIGNATORY:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(state.document.ourSignatory, payload)
         ) {
@@ -12,22 +12,22 @@ export default class OutgoingLetter extends ElectronicDocument {
           state.document.ourSignatory = payload;
         }
       },
-      SET_CORRESPONDENT_ID(state, payload) {
+      SET_CORRESPONDENT_ID:(state, payload)=> {
         if (this._checkDataChanged(state.document.correspondentId, payload)) {
           state.isDataChanged = true;
           state.document.correspondentId = payload;
         }
       },
-      SET_CORRESPONDENT(state, payload) {
+      SET_CORRESPONDENT:(state, payload)=> {
         state.correspondent = payload;
       },
-      SET_DELIVERY_METHOD_ID(state, payload) {
+      SET_DELIVERY_METHOD_ID:(state, payload)=> {
         if (this._checkDataChanged(state.document.deliveryMethodId, payload)) {
           state.isDataChanged = true;
           state.document.deliveryMethodId = payload;
         }
       },
-      SET_BUSINESS_UNIT(state, payload) {
+      SET_BUSINESS_UNIT:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(state.document.businessUnit, payload)
         ) {
@@ -35,7 +35,7 @@ export default class OutgoingLetter extends ElectronicDocument {
           state.document.businessUnit = payload;
         }
       },
-      SET_DEPARTMENT(state, payload) {
+      SET_DEPARTMENT:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(state.document.department, payload)
         ) {
@@ -43,7 +43,7 @@ export default class OutgoingLetter extends ElectronicDocument {
           state.document.department = payload;
         }
       },
-      SET_PREPARED_BY(state, payload) {
+      SET_PREPARED_BY:(state, payload)=> {
         if (
           this._checkDataAsObjectChanged(state.document.preparedBy, payload)
         ) {
@@ -51,22 +51,22 @@ export default class OutgoingLetter extends ElectronicDocument {
           state.document.preparedBy = payload;
         }
       },
-      IN_RESPONSE_TO(state, payload) {
+      IN_RESPONSE_TO:(state, payload)=> {
         if (this._checkDataAsObjectChanged(state.document.inResponseTo, payload)) {
           state.isDataChanged = true;
           state.document.inResponseTo = payload;
         }
       },
-      SET_ADDRESSE(state, payload) {
+      SET_ADDRESSE:(state, payload)=> {
         if (this._checkDataAsObjectChanged(state.document.addressee, payload)) {
           state.isDataChanged = true;
           state.document.addressee = payload;
         }
       },
-      SET_CAN_EXCHANGE(state, payload) {
+      SET_CAN_EXCHANGE:(state, payload)=> {
         state.canExchange = payload;
       },
-      SET_EXCHANGED(state, payload) {
+      SET_EXCHANGED:(state, payload)=> {
         state.document.exchanged = payload;
       }
     };
