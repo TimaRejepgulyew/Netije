@@ -366,6 +366,12 @@ export default {
       return {
         ...options,
         value: this.document.documentKind,
+        onValueChanged: (e) => {
+          this.$store.dispatch(
+            `documents/${this.documentId}/setDocumentKind`,
+            e.value
+          );
+        },
       };
     },
     readOnly() {

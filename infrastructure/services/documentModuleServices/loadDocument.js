@@ -22,7 +22,7 @@ export async function load(context, { documentTypeGuid, documentId }) {
     const { data } = await context.$axios.get(
       `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
     );
-    const store = DocumentTemplateStoreFactory().createStore(documentTypeGuid);
+    const store = DocumentTemplateStoreFactory.createStore(documentTypeGuid);
     documentModules.registerDocumentModule(context, documentId, store);
     loadDocumentToStore(context, documentId, data);
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
@@ -56,7 +56,6 @@ export async function loadDocumentTemplate(
 }
 
 export function loadDocumentToStore(context, documentId, payload) {
-  payload.document.documentKind = documentKindService.emptyDocumentKind();
   context.$store.commit(
     `documents/${documentId}/IS_REGISTERED`,
     payload.document.registrationState

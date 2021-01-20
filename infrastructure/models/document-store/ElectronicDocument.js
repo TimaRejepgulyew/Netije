@@ -1,7 +1,6 @@
 import dataApi from "~/static/dataApi";
 import BaseDocumentStore from "~/infrastructure/models/document-store/Base.js";
-import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
-import docmentKindService from "~/infrastructure/services/documentKind.js";
+
 export default class ElectronicDocumnent extends BaseDocumentStore {
   constructor(options) {
     const documentRegistrationActions = () => {
@@ -118,10 +117,11 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
       ...documentRegistrationMutations(),
       SET_DOCUMENT_KIND: (state, payload) => {
         if (
-          this._checkDataChangedAsObject(state.document.documentKind, payload)
-        )
+          this._checkDataAsObjectChanged(state.document.documentKind, payload)
+        ) {
           state.isDataChanged = true;
-        state.document.documentKind = payload;
+          state.document.documentKind = payload;
+        }
       },
       REVALUATE_NAME: (state, payload) => {
         state.document.name = payload;
@@ -151,16 +151,16 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         );
         commit("UPDATE_LAST_VERSION", data);
       },
-      setDocumentKind({ commit }, payload) {
-        if (!payload) payload = docmentKindService.emptyDocumentKind();
+      setDocumentKind({ commit, dispatch }, payload) {
         commit("SET_DOCUMENT_KIND", payload);
+        dispatch("reevaluateDocumentName");
       },
       setSubject({ commit, dispatch }, payload) {
         commit("SET_SUBJECT", payload);
         dispatch("reevaluateDocumentName");
       },
       async reevaluateDocumentName({ state, commit }) {
-        if (state.document.documentKind.generateDocumentName) {
+        if (state.document.documentKind?.generateDocumentName) {
           const { data } = await this.$axios.post(
             dataApi.documentModule.ReevaluateDocumentName,
             state.document
@@ -169,9 +169,7 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         }
       },
       loadDocument({ commit }, payload) {
-        //  TODO:  Создать функццю глубокого копирования
-        payload.document.documentKind = docmentKindService.emptyDocumentKind();
-        commit("IS_REGISTERED", payload.document.registrationState);
+        // commit("IS_REGISTERED", payload.document.registrationState);
         commit("SET_DOCUMENT", payload);
       }
     };

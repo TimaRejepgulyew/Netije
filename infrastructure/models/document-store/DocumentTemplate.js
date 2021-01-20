@@ -113,7 +113,6 @@ export default class DocumentTemplate extends BaseDocumentStore {
         commit("SET_VERSION", payload);
       },
       setDocumentKind({ commit }, payload) {
-        if (!payload) payload = docmentKindService.emptyDocumentKind();
         commit("SET_DOCUMENT_KIND", payload);
       },
       ...options?.actions
