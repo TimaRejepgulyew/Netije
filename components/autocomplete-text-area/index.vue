@@ -114,7 +114,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.options);
     setTimeout(() => {
       this.tagBoxMaxWidth = this.$refs.textArea.$el.offsetWidth;
     }, 0);
