@@ -98,7 +98,9 @@ export default {
       deleteText: "autocomlete-texts/deleteText"
     }),
     valueChanged(text) {
-      this.$emit("valueChanged", this.text);
+      setTimeout(() => {
+        this.$emit("valueChanged", this.text);
+      }, 100);
       this.focusOut();
     },
     focusOut() {
