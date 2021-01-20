@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('menu.mailDeliveryMethod')"></Header>
     <DxDataGrid
       id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="false"
@@ -11,6 +12,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :onRowDblClick="edit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -79,7 +81,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -99,7 +101,7 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring,
+    DxStateStoring
   },
 
   data() {
@@ -109,20 +111,23 @@ export default {
         loadUrl: dataApi.docFlow.DeliveryMethod,
         insertUrl: dataApi.docFlow.DeliveryMethod,
         updateUrl: dataApi.docFlow.DeliveryMethod,
-        removeUrl: dataApi.docFlow.DeliveryMethod,
+        removeUrl: dataApi.docFlow.DeliveryMethod
       }),
       entityType: EntityType.DeliveryMethod,
-      statusDataSource: this.$store.getters["status/status"](this),
+      statusDataSource: this.$store.getters["status/status"](this)
     };
   },
   methods: {
+    edit(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },
     onRowUpdating(e) {
       e.newData = Object.assign(e.oldData, e.newData);
-    },
-  },
+    }
+  }
 };
 </script>
 

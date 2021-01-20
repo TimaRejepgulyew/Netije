@@ -1,9 +1,10 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex field_padding">
     <DxTextBox
       :placeholder="$t('shared.select')"
       :read-only="readOnly"
       :value="fieldData && fieldData.name"
+      @focusIn="openField"
     />
     <DxButton
       v-if="isPerson"
@@ -112,6 +113,9 @@ export default {
     }
   },
   methods: {
+    openField() {
+      this.$emit("openFields");
+    },
     openGird() {
       this.$emit("openGridPopup");
     },

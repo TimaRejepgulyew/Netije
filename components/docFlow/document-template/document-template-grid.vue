@@ -44,12 +44,12 @@
       <DxColumn data-field="name" :caption="$t('document.fields.name')"></DxColumn>
       <DxColumn data-field="modified" data-type="date" :caption="$t('document.fields.modified')"></DxColumn>
       <DxColumn data-field="authorId" :caption="$t('document.fields.authorId')">
-        <DxLookup
+        <!-- <DxLookup
           :allow-clearing="true"
           :data-source="employeeSource"
           value-expr="id"
           display-expr="name"
-        />
+        />-->
       </DxColumn>
       <DxColumn data-field="description" :caption="$t('document.fields.description')"></DxColumn>
     </DxDataGrid>
@@ -120,15 +120,13 @@ export default {
         }),
         paginate: true,
         pageSize: 10
-      }),
-      selected: e => {
-        this.$emit("selected", {
-          id: e.key
-        });
-      }
+      })
     };
   },
   methods: {
+    selected(e) {
+      this.$emit("selected", { id: e.key });
+    },
     onToolbarPreparing(e) {
       e.toolbarOptions.items.unshift({
         widget: "button",

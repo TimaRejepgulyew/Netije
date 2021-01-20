@@ -42,6 +42,10 @@ export default {
     GetExchangeInfoByCounterPartId: "/api/CounterPart/ExchangeInfo",
     UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo"
   },
+  autocompleteTexts: {
+    load: "/api/AutoText",
+    delete: "/api/AutoText/"
+  },
   company: {
     Department: `/api/Department`,
     DepartmentMembers: `/api/DepartmentMembers/`,

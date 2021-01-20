@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('menu.associatedApp')"></Header>
     <DxDataGrid
       id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="false"
@@ -14,6 +15,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
+      :onRowDblClick="edit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -30,11 +32,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="RegistrationGroup"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
 
       <DxEditing
         :allow-updating="
@@ -51,11 +49,7 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('shared.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
@@ -76,10 +70,7 @@
           :validation-callback="validateEntityExists"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn
-        data-field="filesTypeId"
-        :caption="$t('docFlow.fields.filesType')"
-      >
+      <DxColumn data-field="filesTypeId" :caption="$t('docFlow.fields.filesType')">
         <DxRequiredRule :message="$t('docFlow.validation.filesTypeRequired')" />
         <DxLookup
           :allow-clearing="true"
@@ -172,6 +163,9 @@ export default {
     };
   },
   methods: {
+    edit(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },

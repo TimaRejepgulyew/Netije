@@ -7,8 +7,8 @@
       v-if="canUpdate"
       @onComplete="onComplete"
     >
-      <slot name="createChildTask" slot="createChildTask"> </slot>
-      <slot name="importanceIndicator" slot="importanceIndicator"> </slot>
+      <slot name="createChildTask" slot="createChildTask"></slot>
+      <slot name="importanceIndicator" slot="importanceIndicator"></slot>
     </Toolbar>
 
     <DxForm
@@ -19,10 +19,10 @@
       :validation-group="assignmentValidatorName"
     >
       <DxGroupItem :col-span="7" :col-count="4">
-        <DxGroupItem template="info" :col-span="4"> </DxGroupItem>
+        <DxGroupItem template="info" :col-span="4"></DxGroupItem>
         <!-- <DxGroupItem template="description" :col-span="2"> </DxGroupItem> -->
-        <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>
-        <DxGroupItem template="additional-info" :col-span="4"> </DxGroupItem>
+        <DxGroupItem template="thread-texts" :col-span="4"></DxGroupItem>
+        <DxGroupItem template="additional-info" :col-span="4"></DxGroupItem>
       </DxGroupItem>
       <DxGroupItem template="attachments" :col-span="3" />
       <template #info>
@@ -50,8 +50,8 @@ export default {
   mixins: [formByType],
   components: {
     Toolbar,
-    AdditionalInfo,
-  },
+    AdditionalInfo
+  }
 };
 </script>
 

@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('menu.jobTitle')"></Header>
     <DxDataGrid
       id="gridContainer"
+      ref="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -14,6 +15,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
+      :onRowDblClick="selectJobTitle"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -32,11 +34,7 @@
         :file-name="$t('menu.jobTitle')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="JobTitle"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="JobTitle" />
 
       <DxEditing
         :allow-updating="
@@ -53,11 +51,7 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('shared.name')"
-        data-type="string"
-      >
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string">
         <DxRequiredRule :message="$t('shared.nameRequired')" />
       </DxColumn>
 
@@ -128,6 +122,9 @@ export default {
     };
   },
   methods: {
+    selectJobTitle(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },

@@ -9,19 +9,13 @@
       :validation-group="taskValidatorName"
     >
       <DxGroupItem>
-        <DxSimpleItem
-          :editor-options="subjectOptions"
-          :col-span="10"
-          data-field="subject"
-        >
+        <DxSimpleItem :editor-options="subjectOptions" :col-span="10" data-field="subject">
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="approvers" template="approvers">
-          <DxRequiredRule
-            :message="$t('task.validation.approversRerquired ')"
-          />
+          <DxRequiredRule :message="$t('task.validation.approversRerquired ')" />
           <DxLabel location="left" :text="$t('task.fields.approvers')" />
         </DxSimpleItem>
         <DxGroupItem :col-count="9">
@@ -39,13 +33,8 @@
             :editor-options="receiveOnCompletionOptions"
             editor-type="dxSelectBox"
           >
-            <DxRequiredRule
-              :message="$t('task.validation.receiveOnCompletionRequired')"
-            />
-            <DxLabel
-              location="left"
-              :text="$t('task.fields.receiveOnCompletion')"
-            />
+            <DxRequiredRule :message="$t('task.validation.receiveOnCompletionRequired')" />
+            <DxLabel location="left" :text="$t('task.fields.receiveOnCompletion')" />
           </DxSimpleItem>
           <DxSimpleItem
             :visible="false"
@@ -60,15 +49,13 @@
         <DxSimpleItem template="observers" data-field="observers">
           <DxLabel location="left" :text="$t('task.fields.copies')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          v-if="isDraft"
-          data-field="body"
-          :editor-options="bodyOptions"
-          editor-type="dxTextArea"
-        >
+        <DxSimpleItem v-if="isDraft" data-field="body" editor-type="dxTextArea" template="autoText">
           <DxLabel location="left" :text="$t('task.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
+      <template #autoText>
+        <auto-text :value="body" :options="autoComleteOptions" @valueChanged="setBody" />
+      </template>
       <template #approvers>
         <recipient-tag-box
           :read-only="readOnly"
@@ -89,6 +76,7 @@
 </template>
 <script>
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
+import AutoText from "~/components/autocomplete-text-area/index.vue";
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,
@@ -105,7 +93,8 @@ export default {
     DxLabel,
     DxRequiredRule,
     DxForm,
-    recipientTagBox
+    recipientTagBox,
+    AutoText
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
@@ -115,6 +104,9 @@ export default {
     },
     setApprovers(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_APPROVERS`, value);
+    },
+    setBody(value) {
+      this.$store.commit(`tasks/${this.taskId}/SET_BODY`, value);
     }
   },
   computed: {
@@ -129,6 +121,9 @@ export default {
     },
     approvers() {
       return this.task.approvers;
+    },
+    body() {
+      return this.task.body;
     },
     inProcess() {
       return this.$store.getters[`tasks/${this.taskId}/inProcess`];
@@ -148,13 +143,11 @@ export default {
         }
       };
     },
-    bodyOptions() {
+    autoComleteOptions() {
       return {
-        height: 250,
-        value: this.task.body,
-        onValueChanged: e => {
-          this.$store.commit(`tasks/${this.taskId}/SET_BODY`, e.value);
-        }
+        category: "Task",
+        entityType: this.task.taskType,
+        height: 250
       };
     },
     maxDeadlineOptions() {

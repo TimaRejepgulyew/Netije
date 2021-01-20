@@ -26,6 +26,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @openFields="openFields"
           @openGrid="showDocumentGrid"
           @openCard="showDocumentCard"
           :read-only="readOnly"
@@ -46,47 +47,47 @@ import customField from "~/components/document/components/input-field.vue";
 import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
-import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter"
+import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: {
     dataSourceFilter: {},
     dataSourceQuery: {
       type: Number,
-      default: DocumentQuery.All,
+      default: DocumentQuery.All
     },
     value: {},
     isRequired: {
       type: Boolean,
-      default: false,
+      default: false
     },
     messageRequired: {
-      type: String,
+      type: String
     },
     validationGroup: {
-      type: String,
+      type: String
     },
     readOnly: {
       type: Boolean,
-      default: false,
+      default: false
     },
     valueExpr: {},
     showClearButton: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
 
   data() {
     return {
       currentDocumentId: null,
-      isCardOpened: false,
+      isCardOpened: false
     };
   },
   computed: {
@@ -94,18 +95,21 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}/${QuickFilter.All}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}/${QuickFilter.All}`
         }),
         filter: this.dataSourceFilter || [],
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       });
     },
     documentId() {
       return this.valueExpr ? this.value : this.value?.id;
-    },
+    }
   },
   methods: {
+    openFields() {
+      this.$refs["document"].instance.open();
+    },
     showDocumentCard({ documentTypeGuid, id }) {
       this.$popup.documentCard(
         this,
@@ -145,8 +149,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.$refs["document"].instance.repaint();
-    },
-  },
+    }
+  }
 };
 </script>
 

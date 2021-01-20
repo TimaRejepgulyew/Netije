@@ -3,8 +3,9 @@
     <Header :headerTitle="$t('menu.department')"></Header>
     <div>
       <DxTreeList
-         remoteOperations: { filtering: true,sorting: true,grouping: true }
+        remoteOperations: { filtering: true,sorting: true,grouping: true }
         parent-id-expr="headOfficeId"
+        ref="department"
         :data-source="dataSource"
         :errorRowEnabled="false"
         :show-borders="true"
@@ -15,6 +16,7 @@
           enabled: true,
           indicatorSrc: require('~/static/icons/loading.gif'),
         }"
+        :onRowDblClick="selectDepartment"
         @row-updating="onRowUpdating"
         @init-new-row="onInitNewRow"
       >
@@ -230,6 +232,9 @@ export default {
     },
   },
   methods: {
+    selectDepartment(e){
+      this.$refs["department"].instance.editRow(e.rowIndex);
+    },
     openPopup() {
       this.$popup.memberList(this,
       {

@@ -2,7 +2,8 @@
   <main>
     <Header :headerTitle="$t('menu.countries')"></Header>
     <DxDataGrid
-      id="gridContainer"     
+      id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="false"
@@ -11,6 +12,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :onRowDblClick="edit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -44,7 +46,7 @@
         <DxRequiredRule :message="$t('shared.nameRequired')" />
         <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :message="$t('shared.nameAlreadyExists')"
           :validation-callback="validateCountryName"
         ></DxAsyncRule>
@@ -121,6 +123,9 @@ export default {
     };
   },
   methods: {
+    edit(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },

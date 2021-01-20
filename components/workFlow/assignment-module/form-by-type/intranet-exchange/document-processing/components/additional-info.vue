@@ -1,20 +1,14 @@
 <template>
-  <DxTextArea
+  <auto-text
     v-if="inProcess && canUpdate"
-    :placeholder="placeholder"
-    :height="height"
-    :max-length="maxLength"
-    :value.sync="value"
+    :value="value"
+    :options="autoComleteOptions"
     @valueChanged="onValueChanged"
-  >
-    <DxValidator v-if="isRequired" :validationGroup="assignmentValidatorName">
-      <DxRequiredRule :message="placeholder" />
-    </DxValidator>
-  </DxTextArea>
+  />
 </template>
 
 <script>
-import assignmentComment from "../../../../infrastructure/mixins/assignmentComment.js";
+import assignmentComment from "~/components/workFlow/assignment-module/infrastructure/mixins/assignmentComment.js";
 export default {
   mixins: [assignmentComment],
   data() {
@@ -23,6 +17,20 @@ export default {
       isRequired: false
     };
   },
+  computed: {
+    autoComleteOptions() {
+      return {
+        category: "Assignment",
+        entityType: this.assignment.assignmentType,
+        placeholder: this.placeholder,
+        height: this.height,
+        maxLength: this.maxLength,
+        validationGroup: this.assignmentValidatorName,
+        isRequired: this.isRequired,
+        requiredMessage: this.placeholder
+      };
+    }
+  }
 };
 </script>
 

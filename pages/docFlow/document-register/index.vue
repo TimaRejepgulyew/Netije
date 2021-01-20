@@ -33,6 +33,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
+      :onRowDblClick="select"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
@@ -49,11 +50,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="DocumentRegister"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegister" />
 
       <DxEditing
         :allow-deleting="allowDeleting"
@@ -65,16 +62,9 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('shared.name')"
-        data-type="string"
-      ></DxColumn>
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
 
-      <DxColumn
-        data-field="index"
-        :caption="$t('translations.fields.index')"
-      ></DxColumn>
+      <DxColumn data-field="index" :caption="$t('translations.fields.index')"></DxColumn>
 
       <DxColumn
         data-field="documentFlow"
@@ -88,10 +78,7 @@
           display-expr="name"
         />
       </DxColumn>
-      <DxColumn
-        data-field="registerType"
-        :caption="$t('translations.fields.registerType')"
-      >
+      <DxColumn data-field="registerType" :caption="$t('translations.fields.registerType')">
         <DxLookup
           :allow-clearing="true"
           :data-source="registerTypeDataSource"
@@ -119,11 +106,7 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton
-          icon="more"
-          :text="$t('shared.more')"
-          :onClick="showDocumentRegisterEditForm"
-        ></DxButton>
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="showDocumentRegisterEditForm"></DxButton>
         <DxButton
           icon="orderedlist"
           :text="$t('translations.fields.currentNumber')"
@@ -208,6 +191,9 @@ export default {
     };
   },
   methods: {
+    select(e) {
+      this.$router.push(`/docflow/document-register/${e.data.id}`);
+    },
     canUpdate(e) {
       return this.canOperateWithDocumentRegister(e.row.data, "allowUpdating");
     },
