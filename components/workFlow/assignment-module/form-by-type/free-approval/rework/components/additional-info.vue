@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="d-flex align-center">
-      <label class="control__label align-content-center" for="newDeadLine">{{
+      <label class="control__label align-content-center" for="newDeadLine">
+        {{
         $t("assignment.fields.newDeadline")
-      }}</label>
+        }}
+      </label>
       <div class="f-grow-1">
         <DxDateBox
           :readOnly="!inProcess || !canUpdate"
@@ -18,28 +20,22 @@
         ></DxDateBox>
       </div>
     </div>
-    <DxTextArea
+    <auto-text
       v-if="inProcess && canUpdate"
-      :placeholder="placeholder"
-      :height="height"
-      :max-length="maxLength"
-      :value.sync="value"
+      :value="value"
+      :options="autoComleteOptions"
       @valueChanged="onValueChanged"
-    >
-      <DxValidator v-if="isRequired" :validationGroup="assignmentValidatorName">
-        <DxRequiredRule :message="placeholder" />
-      </DxValidator>
-    </DxTextArea>
+    />
   </div>
 </template>
 
 <script>
 import { DxDateBox } from "devextreme-vue/date-box";
-import assignmentComment from "../../../../infrastructure/mixins/assignmentComment.js";
+import assignmentComment from "~/components/workFlow/assignment-module/infrastructure/mixins/assignmentComment.js";
 export default {
   mixins: [assignmentComment],
   components: {
-    DxDateBox,
+    DxDateBox
   },
   data() {
     return {
@@ -47,8 +43,22 @@ export default {
         `assignments/${this.assignmentId}/assignment`
       ].newDeadline,
       placeholder: this.$t("assignment.body.freeApprovalAssignment"),
-      isRequired: false,
+      isRequired: false
     };
+  },
+  computed: {
+    autoComleteOptions() {
+      return {
+        category: "Assignment",
+        entityType: this.assignment.assignmentType,
+        placeholder: this.placeholder,
+        height: this.height,
+        maxLength: this.maxLength,
+        validationGroup: this.assignmentValidatorName,
+        isRequired: this.isRequired,
+        requiredMessage: this.placeholder
+      };
+    }
   },
   methods: {
     newDeadlineChanged(e) {
@@ -56,8 +66,8 @@ export default {
         `assignments/${this.assignmentId}/SET_NEW_DEADLINE`,
         e.value
       );
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
