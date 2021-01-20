@@ -1,8 +1,9 @@
 <template>
-  <main >
+  <main>
     <Header :headerTitle="$t('menu.locality')"></Header>
     <DxDataGrid
-      id="gridContainer"      
+      id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -11,6 +12,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :onRowDblClick="edit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -43,7 +45,7 @@
         <DxRequiredRule :message="$t('translations.fields.localityIdRequired')" />
         <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
-                :reevaluate="false"
+          :reevaluate="false"
           :message="$t('translations.fields.localityAlreadyExists')"
           :validation-callback="validateLocalityName"
         ></DxAsyncRule>
@@ -72,7 +74,7 @@
 </template>
 <script>
 import Status from "~/infrastructure/constants/status";
-import EntityType from '~/infrastructure/constants/entityTypes'
+import EntityType from "~/infrastructure/constants/entityTypes";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import {
@@ -127,9 +129,12 @@ export default {
       }),
       entityType: EntityType.Locality,
       statusDataSource: this.$store.getters["status/status"](this)
-    }
+    };
   },
   methods: {
+    edit(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },
@@ -139,12 +144,20 @@ export default {
     getActiveRegionsDataStore(options) {
       return {
         store: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.sharedDirectory.Region
-      }),
-      paginate: true,
-      filter: options.data
-          ? ["status", "=", Status.Active, "or", "id", "=", options.data.regionId]
+          key: "id",
+          loadUrl: dataApi.sharedDirectory.Region
+        }),
+        paginate: true,
+        filter: options.data
+          ? [
+              "status",
+              "=",
+              Status.Active,
+              "or",
+              "id",
+              "=",
+              options.data.regionId
+            ]
           : undefined
       };
     },

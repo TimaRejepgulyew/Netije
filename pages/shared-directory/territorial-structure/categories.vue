@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('parties.additionalInfo.categories')"></Header>
     <DxDataGrid
       id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :data-source="dataSource"
       :remote-operations="false"
@@ -11,6 +12,7 @@
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{enabled:true, indicatorSrc:require('~/static/icons/loading.gif')}"
+      :onRowDblClick="edit"
       @init-new-row="onInitNewRow"
     >
       <DxGroupPanel :visible="true" />
@@ -58,7 +60,6 @@
         :caption="$t('translations.fields.note')"
         data-type="string"
       />
-      
     </DxDataGrid>
   </main>
 </template>
@@ -126,9 +127,12 @@ export default {
     }
   },
   methods: {
+    edit(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
-    },
+    }
   }
 };
 </script>
