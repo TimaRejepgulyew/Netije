@@ -29,6 +29,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @openFields="openFields"
           @showCard="showCard"
           :read-only="readOnly"
           @valueChanged="updateEmployee"
@@ -52,23 +53,23 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: {
     showClearButton: {
       type: Boolean,
-      default: true,
+      default: true
     },
     value: {},
     storeApi: {},
     messageRequired: {},
     validatorGroup: {},
     readOnly: {},
-    valueExpr: {},
+    valueExpr: {}
   },
   data() {
     return {
-      localEmployeeId: null,
+      localEmployeeId: null
     };
   },
   computed: {
@@ -76,17 +77,20 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee,
+          loadUrl: this.storeApi || dataApi.company.Employee
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       });
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    },
+    }
   },
   methods: {
+    openFields() {
+      this.$refs["employee"].instance.open();
+    },
     async reloadStore() {
       await this.employeeStore.reload();
       this.$refs["employee"].instance.repaint();
@@ -95,13 +99,11 @@ export default {
       this.$popup.employeeCard(
         this,
         {
-          employeeId: this.employeeId || this.localEmployeeId,
+          employeeId: this.employeeId || this.localEmployeeId
         },
         {
           height: "auto",
-          listeners: [
-            { eventName: "valueChanged", handlerName: "reloadStore" },
-          ],
+          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
         }
       );
     },
@@ -113,8 +115,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.reloadStore();
-    },
-  },
+    }
+  }
 };
 </script>
 

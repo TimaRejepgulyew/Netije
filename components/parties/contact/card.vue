@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Header :headerTitle="headerTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
-
+    <Header v-if="!isCard" :headerTitle="headerTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
     <toolbar :isCard="isCard" @saveChanges="saveChanges" :canSave="allowReading" />
     <DxForm
       ref="form"
@@ -133,7 +132,7 @@ export default {
   },
   computed: {
     isNew() {
-      return this.data ? false : true;
+      return this.data.id ? false : true;
     },
     headerTitle() {
       return this.isNew ? this.$t("menu.addingContact") : this.contact.name;

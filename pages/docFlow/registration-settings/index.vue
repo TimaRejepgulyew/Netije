@@ -1,8 +1,6 @@
 <template>
   <main>
-    <Header
-      :headerTitle="$t('docFlow.regSetting.registrationSettings')"
-    ></Header>
+    <Header :headerTitle="$t('docFlow.regSetting.registrationSettings')"></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -16,6 +14,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
+      :onRowDblClick="edit"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
@@ -32,11 +31,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="DocumentRegister"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="DocumentRegister" />
 
       <DxEditing
         :allow-deleting="allowDeleting"
@@ -54,16 +49,9 @@
         data-type="string"
       ></DxColumn>
 
-      <DxColumn
-        data-field="priority"
-        :caption="$t('registrationSettings.fields.priority')"
-      ></DxColumn>
+      <DxColumn data-field="priority" :caption="$t('registrationSettings.fields.priority')"></DxColumn>
 
-      <DxColumn
-        data-field="documentFlow"
-        :caption="$t('shared.documentFlow')"
-        data-type="string"
-      >
+      <DxColumn data-field="documentFlow" :caption="$t('shared.documentFlow')" data-type="string">
         <DxLookup
           :allow-clearing="true"
           :data-source="documentFlowDataSource"
@@ -83,10 +71,7 @@
         />
       </DxColumn>
 
-      <DxColumn
-        data-field="settingType"
-        :caption="$t('registrationSettings.fields.settingType')"
-      >
+      <DxColumn data-field="settingType" :caption="$t('registrationSettings.fields.settingType')">
         <DxLookup
           :allow-clearing="true"
           :data-source="settingTypeDataSource"
@@ -103,11 +88,7 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton
-          icon="more"
-          :text="$t('shared.more')"
-          :onClick="showRegistrationSettingsForm"
-        ></DxButton>
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="showRegistrationSettingsForm"></DxButton>
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
     </DxDataGrid>
@@ -181,6 +162,9 @@ export default {
     };
   },
   methods: {
+    edit(e) {
+      this.$router.push(`/docflow/registration-settings/${e.data.id}`);
+    },
     canUpdate(e) {
       return this.canOperateWithDocumentRegister(e.row.data, "allowUpdating");
     },

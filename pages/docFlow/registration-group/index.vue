@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('menu.registrationGroup')"></Header>
     <DxDataGrid
       id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -14,6 +15,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
+      :onRowDblClick="edit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -31,11 +33,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="RegistrationGroup"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
 
       <DxEditing
         :allow-updating="$store.getters['permissions/IsAdmin']"
@@ -83,8 +81,7 @@
         data-field="responsibleEmployee"
         :caption="$t('docFlow.fields.responsibleId')"
         editCellTemplate="responsibleEmployee"
-      >
-      </DxColumn>
+      ></DxColumn>
       <template #responsibleEmployee="{ data: cellInfo }">
         <employee-select-box
           :showClearButton="false"
@@ -92,16 +89,9 @@
           @valueChanged="value => onValueChanged(value, cellInfo)"
         />
       </template>
-      <DxColumn
-        :visible-index="2"
-        data-field="index"
-        :caption="$t('translations.fields.index')"
-      >
+      <DxColumn :visible-index="2" data-field="index" :caption="$t('translations.fields.index')">
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
-        <DxPatternRule
-          :pattern="indexPattern"
-          :message="$t('translations.fields.indexRule')"
-        />
+        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -185,6 +175,9 @@ export default {
     };
   },
   methods: {
+    edit(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();

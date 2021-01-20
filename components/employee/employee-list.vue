@@ -14,7 +14,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
-      :onRowDblClick="selectDocument"
+      :onRowDblClick="selectEmployee"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxHeaderFilter :visible="true" />
@@ -146,10 +146,8 @@ export default {
     };
   },
   methods: {
-    selectDocument(e) {
-      this.$emit("selected", {
-        id: e.key
-      });
+    selectEmployee(e) {
+      this.$router.push(`/company/staff/employees/${e.data.id}`);
     },
     editEmployee(e) {
       this.$router.push(`/company/staff/employees/${e.row.data.id}`);
@@ -174,6 +172,7 @@ export default {
   -webkit-user-select: none;
 }
 .dx-row.dx-data-row.dx-column-lines:hover {
+  cursor: pointer;
   color: forestgreen;
 }
 </style>
