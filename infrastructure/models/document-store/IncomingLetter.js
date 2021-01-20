@@ -97,7 +97,6 @@ export default class IncomingLetter extends ElectronicDocument {
       ...options?.actions,
       setCorrespondent({ commit, dispatch }, payload) {
         commit("SET_CORRESPONDENT_ID", payload);
-        dispatch("reevaluateDocumentName");
       }
     };
     super({ mutations, actions });

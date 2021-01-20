@@ -5,15 +5,15 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
   constructor(options) {
     const documentRegistrationActions = () => {
       return {
-        async registration({ dispatch }, payload) {
+        async registration({ commit }, payload) {
           const { data } = await this.$axios.post(
             dataApi.documentRegistration.RegisterDocument,
             payload
           );
 
-          dispatch("loadDocument", data);
+          commit("SET_DOCUMENT", data);
         },
-        async unRegister({ dispatch, state }) {
+        async unRegister({ commit, state }) {
           const { data } = await this.$axios.post(
             dataApi.documentRegistration.UnregisterDocument,
             {
@@ -21,7 +21,7 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
               documentId: state.document.id
             }
           );
-          dispatch("loadDocument", data);
+          commit("SET_DOCUMENT", data);
         }
       };
     };
@@ -153,23 +153,11 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
       },
       setDocumentKind({ commit, dispatch }, payload) {
         commit("SET_DOCUMENT_KIND", payload);
-        dispatch("reevaluateDocumentName");
       },
       setSubject({ commit, dispatch }, payload) {
         commit("SET_SUBJECT", payload);
-        dispatch("reevaluateDocumentName");
-      },
-      async reevaluateDocumentName({ state, commit }) {
-        if (state.document.documentKind?.generateDocumentName) {
-          const { data } = await this.$axios.post(
-            dataApi.documentModule.ReevaluateDocumentName,
-            state.document
-          );
-          commit("REVALUATE_NAME", data);
-        }
       },
       loadDocument({ commit }, payload) {
-        // commit("IS_REGISTERED", payload.document.registrationState);
         commit("SET_DOCUMENT", payload);
       }
     };

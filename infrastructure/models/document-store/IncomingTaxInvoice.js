@@ -89,21 +89,11 @@ export default class IncomingTaxInvoice extends ElectronicDocument {
       ...options?.actions,
       setLeadingDocument({ commit, dispatch }, payload) {
         commit("SET_LEADING_DOCUMENT", payload);
-        dispatch("reevaluateDocumentName");
       },
       setCounterparty({ commit, dispatch }, payload) {
         commit("SET_COUNTERPARTY", payload);
-        dispatch("reevaluateDocumentName");
+
       },
-      async reevaluateDocumentName({ state, commit }) {
-        if (state.document.documentKind.generateDocumentName) {
-          const { data } = await this.$axios.post(
-            dataApi.documentModule.ReevaluateDocumentName,
-            state.document
-          );
-          commit("SET_NAME", data);
-        }
-      }
     };
     super({ mutations, actions });
   }

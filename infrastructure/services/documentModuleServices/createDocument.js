@@ -7,10 +7,8 @@ export default async function(context, params) {
   switch (params.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await createDocumentTemplate(context);
-      break;
     default:
       return await createDocument(context, params);
-      break;
   }
 }
 
@@ -39,8 +37,8 @@ export async function createDocumentTemplate(context) {
 
   const { id: documentId, documentTypeGuid } = data.document;
   data.document.parameters = [];
-  documentModules.setStoreTemplate(documentTypeGuid);
-  await documentModules.registerModule(context, documentId);
+  const store = DocumentTemplateStoreFactory.createStore(documentTypeGuid);
+  documentModules.registerDocumentModule(context, documentId, store);
   loadDocumentToStore(context, documentId, data);
   return { documentId, documentTypeGuid };
 }

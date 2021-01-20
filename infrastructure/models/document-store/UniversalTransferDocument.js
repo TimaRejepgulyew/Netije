@@ -85,11 +85,9 @@ export default class UniversalTransferDocument extends ElectronicDocument {
       ...options?.actions,
       setLeadingDocument({ commit, dispatch }, payload) {
         commit("SET_LEADING_DOCUMENT", payload);
-        dispatch("reevaluateDocumentName");
       },
       setCounterparty({ commit, dispatch }, payload) {
         commit("SET_COUNTERPARTY", payload);
-        dispatch("reevaluateDocumentName");
       }
     };
     super({ mutations, actions });
