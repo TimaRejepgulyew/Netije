@@ -11,6 +11,14 @@ export default class StoreModule {
     });
     this.registeredModules[moduleId] = true;
   }
+  
+  async registerDocumentModule(context, moduleId,storeTemplate) {
+    await context.$store.registerModule(`${this.moduleName}/${moduleId}`, {
+      namespaced: true,
+      ...storeTemplate
+    });
+    this.registeredModules[moduleId] = true;
+  }
 
   async unregisterModule(context, moduleId) {
     await context.$store.unregisterModule(`${this.moduleName}/${moduleId}`);

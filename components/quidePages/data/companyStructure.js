@@ -99,6 +99,22 @@ export default function(context) {
           description: context.$t("companyStructure.company.departmentDescr"),
           path: pathGenerate("organization-structure/departments"),
           visible: isVisible(EntityType.BusinessUnit)
+        },
+        {
+          name: context.$t("companyStructure.company.visibilitySetting"),
+          description: context.$t(
+            "companyStructure.company.visibilitySettingDescr"
+          ),
+          path: pathGenerate("organization-structure/visibility-setting"),
+          visible: true
+        },
+        {
+          name: context.$t("companyStructure.company.visibilityRules"),
+          description: context.$t(
+            "companyStructure.company.visibilityRulesDescr"
+          ),
+          path: pathGenerate("organization-structure/visibility-rules"),
+          visible: true
         }
       ]
     },

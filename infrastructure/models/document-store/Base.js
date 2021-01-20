@@ -1,3 +1,5 @@
+import { assignIn as _assignIn, isEqual as _isEqual } from "lodash";
+
 import * as documentService from "~/infrastructure/services/documentService.js";
 import NumberingType from "~/infrastructure/constants/numberingTypes";
 import docmentKindService from "~/infrastructure/services/documentKind.js";
@@ -7,7 +9,8 @@ import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
 export default class Base {
   _checkDataChanged = checkDataChanged;
   _checkDataAsObjectChanged = (newValue, oldValue) => {
-    return checkDataChanged(newValue, oldValue);
+    console.log(checkDataChanged(newValue?.id, oldValue?.id));
+    return checkDataChanged(newValue?.id, oldValue?.id);
   };
   state = {
     document: {},
@@ -121,9 +124,39 @@ export default class Base {
       }
     },
     SET_DOCUMENT(state, payload) {
-      for (let item in payload) {
-        state[item] = payload[item];
+      if (_isEqual(state.document, {})) {
+        _assignIn(state, payload);
+        Object.assign(state.document, {});
+        console.log(state);
+        return;
       }
+      console.log(state, payload);
+      function assignObject(state, payload) {
+        for (let item in payload) {
+          if (item === "counterpartySignatoryId") {
+            debugger;
+          }
+          if (payload[item] === null) {
+            state[item] = null;
+            continue;
+          }
+          if (typeof payload[item] !== "object") {
+            if (state[item] !== payload[item]) state[item] = payload[item];
+            continue;
+          } else {
+            if (_isEqual(state[item], payload[item])) {
+              continue;
+            }
+            if (item === "document") assignObject(state[item], payload[item]);
+            else {
+              console.log("Property changed", item);
+              state[item] = payload[item];
+            }
+          }
+        }
+      }
+      assignObject(state, payload);
+      console.log(state);
     },
     IS_REGISTERED(state, payload) {
       state.isRegistered = payload === RegistrationState.Registered;
@@ -161,10 +194,6 @@ export default class Base {
         dataApi.documentModule.RemoveVersion + versionId
       );
     },
-    setDocumentKind({ commit }, payload) {
-      if (!payload) payload = docmentKindService.emptyDocumentKind();
-      commit("SET_DOCUMENT_KIND", payload);
-    },
     async delete({ state }) {
       await this.$axios.delete(
         `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
@@ -179,6 +208,15 @@ export default class Base {
       ...options?.actions,
       ...this.actions
     };
+  }
+  createStore() {
+    const state = () => this.stateOptions();
+    const getters = { ...this.getterOptions() };
+    const actions = {
+      ...this.actionOptions()
+    };
+    const mutations = { ...this.mutationOptions() };
+    return { state, getters, actions, mutations };
   }
   stateOptions() {
     return this.state;

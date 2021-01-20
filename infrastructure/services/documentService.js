@@ -13,6 +13,7 @@ const documentModules = new DocumentStoreTemplate({
 });
 
 function unload(context, documentId) {
+ 
   const overlays = context.$store.getters[`documents/${documentId}/overlays`];
   if (overlays === 0) {
     context.$store.commit(`documents/${documentId}/CLEAN_STATE`);

@@ -37,7 +37,7 @@
                 />
               </DxSimpleItem>
               <DxSimpleItem
-                data-field="documentKindId"
+                data-field="documentKind"
                 :editor-options="documentKindOptions"
                 editor-type="dxSelectBox"
               >
@@ -172,6 +172,8 @@
   </div>
 </template>
 <script>
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
+import Status from "~/infrastructure/constants/status";
 import ElExchangeLogs from "~/components/document-module/main-doc-form/el-exchange";
 import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";
 import { unload } from "~/infrastructure/services/documentService.js";
@@ -318,29 +320,23 @@ export default {
       return this.document.name;
     },
     documentKindOptions() {
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.docFlow.DocumentKind)
+        .filter(
+          ["documentTypeGuid", "=", this.document.documentTypeGuid],
+          "and",
+          ["status", "=", Status.Active]
+        )
+        .acceptCustomValues((e) => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
       return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.DocumentKind,
-          filter: [
-            ["documentTypeGuid", "=", this.document.documentTypeGuid],
-            "and",
-            ["status", "=", 0],
-          ],
-        }),
-        value: this.document.documentKindId,
-        onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/reevaluateDocumentName`
-          );
-        },
-        onSelectionChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setDocumentKind`,
-            e.selectedItem
-          );
-        },
+        ...options,
       };
     },
     readOnly() {
