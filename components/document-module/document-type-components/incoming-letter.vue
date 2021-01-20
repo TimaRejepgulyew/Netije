@@ -197,7 +197,7 @@ export default {
       return this.document.addressee;
     },
     department() {
-      console.log("computed department")
+      console.log("computed department");
       return this.document.department;
     },
     contactId() {
@@ -217,9 +217,6 @@ export default {
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
-    },
-    readOnly() {
-      return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
@@ -244,7 +241,7 @@ export default {
     },
     inResponseToOptions() {
       return {
-        readOnly: !this.correspondentId,
+        readOnly: !this.correspondentId || this.readOnly,
         dataSourceQuery: DocumentQuery.OutgoingLetter,
         dataSourceFilter: this.correspondentId
           ? ["correspondentId", "=", this.correspondentId]
@@ -325,10 +322,7 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE`, data);
     },
     setDepartment(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setBusinessUnit(data) {
       this.$store.commit(
