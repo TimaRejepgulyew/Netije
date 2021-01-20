@@ -26,8 +26,9 @@
     </template>
     <template #customfield="{data}">
       <custom-field
-       :read-only="readOnly"
+        :read-only="readOnly"
         @valueChanged="setContact"
+        @openFields="openFields"
         :correspondentId="correspondentId"
         :field-data="data"
       />
@@ -75,6 +76,9 @@ export default {
     }
   },
   methods: {
+    openFields() {
+      this.$refs["contact"].instance.open();
+    },
     valueChanged(e) {
       if (e.event) {
         this.$emit(

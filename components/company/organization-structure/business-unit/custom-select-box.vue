@@ -23,6 +23,7 @@
       </DxValidator>
       <template #customfield="{ data }">
         <custom-field
+          @openFields="openFields"
           @openCard="showPopup(data)"
           :read-only="readOnly"
           :field-data="data || value"
@@ -44,7 +45,7 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
-    customField,
+    customField
   },
   props: [
     "value",
@@ -52,40 +53,43 @@ export default {
     "messageRequired",
     "validatorGroup",
     "readOnly",
-    "valueExpr",
+    "valueExpr"
   ],
   computed: {
     businessUnitStore() {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.BusinessUnit,
+          loadUrl: this.storeApi || dataApi.company.BusinessUnit
         }),
         paginate: true,
         pageSize: 10,
-        filter: ["status", "=", Status.Active],
+        filter: ["status", "=", Status.Active]
       });
     },
     businessUnitId() {
       return this.valueExpr ? this.value : this.value?.id;
-    },
+    }
   },
   methods: {
+    openFields() {
+      this.$refs["businessUnit"].instance.open();
+    },
     showPopup() {
       this.$popup.bussiniesUnitCard(
         this,
         {
-          businessUnitId: this.businessUnitId,
+          businessUnitId: this.businessUnitId
         },
         {
-          height:'auto'
+          height: "auto"
         }
       );
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -3,6 +3,7 @@
     :read-only="readOnly"
     :data-source="dataStore"
     @valueChanged="valueChanged"
+    :openOnFieldClick="true"
     :showClearButton="true"
     :value="value"
     :value-expr="valueExpr"
@@ -13,10 +14,7 @@
     :page-size="10"
   >
     <DxValidator :validation-group="validatorGroup">
-      <DxRequiredRule
-        v-if="isRequired"
-        :message="$t(`translations.fields.${property}Required`)"
-      />
+      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
     </DxValidator>
     <template #item="{ data }">
       <div>

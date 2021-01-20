@@ -4,6 +4,7 @@
       :placeholder="$t('shared.select')"
       :read-only="readOnly"
       :value="fieldData && fieldData.name"
+      @focusIn="openField"
     />
     <contact-btn
       :readOnly="readOnly"
@@ -43,6 +44,9 @@ export default {
     }
   },
   methods: {
+    openField() {
+      this.$emit("openFields");
+    },
     valueChanged(data) {
       this.$emit("valueChanged", data);
     }

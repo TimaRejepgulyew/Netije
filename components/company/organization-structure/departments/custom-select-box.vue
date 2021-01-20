@@ -1,7 +1,7 @@
 <template>
   <div>
     <DxSelectBox
-      ref="businessUnit"
+      ref="department"
       :read-only="readOnly"
       :data-source="departmentUnitStore"
       @valueChanged="valueChanged"
@@ -23,6 +23,7 @@
       </DxValidator>
       <template #customfield="{ data }">
         <custom-field
+          @openFields="openFields"
           @openCard="showPopup"
           :read-only="readOnly"
           :field-data="data || value"
@@ -44,7 +45,7 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
-    customField,
+    customField
   },
   props: [
     "value",
@@ -53,13 +54,13 @@ export default {
     "validatorGroup",
     "readOnly",
     "valueExpr",
-    "businessUnitId",
+    "businessUnitId"
   ],
 
   data() {
     return {
       isCardOpened: false,
-      currentBusinessUnit: null,
+      currentBusinessUnit: null
     };
   },
   computed: {
@@ -67,40 +68,43 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Department,
+          loadUrl: this.storeApi || dataApi.company.Department
         }),
         paginate: true,
         pageSize: 10,
         filter: [
           ["businessUnitId", "=", this.businessUnitId],
           "and",
-          ["status", "=", Status.Active],
-        ],
+          ["status", "=", Status.Active]
+        ]
       });
     },
     departmentId() {
       return this.valueExpr ? this.value : this.value?.id;
-    },
+    }
   },
   methods: {
+    openFields() {
+      this.$refs["department"].instance.open();
+    },
     showPopup() {
       this.$popup.departmentCard(
         this,
         {
-          departmentId: this.departmentId,
+          departmentId: this.departmentId
         },
         {
           height: "auto",
           listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
+            { eventName: "valueChanged", handlerName: "valueChanged" }
+          ]
         }
       );
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    },
-  },
+    }
+  }
 };
 </script>
 
