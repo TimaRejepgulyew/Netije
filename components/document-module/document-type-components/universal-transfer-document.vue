@@ -23,15 +23,12 @@
         <DxLabel location="left" :text="$t('document.fields.isAdjustment')" />
       </DxSimpleItem>
       <DxSimpleItem
-        :visible="isAdjustment"
         data-field="corrected"
-        :editor-options="correctedOptions"
-        editor-type="dxSelectBox"
+        :visible="isAdjustment"
+        :isRequired="isAdjustment"
+        template="corrected"
       >
         <DxLabel location="left" :text="$t('document.fields.corrected')" />
-        <DxRequiredRule
-          :message="$t('document.validation.businessUnitIdRequired')"
-        />
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem
@@ -58,10 +55,7 @@
       </DxGroupItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
-      <DxSimpleItem
-        data-field="businessUnit"
-        template="businessUnitSelectBox"
-      >
+      <DxSimpleItem data-field="businessUnit" template="businessUnitSelectBox">
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
         <DxRequiredRule
           :message="$t('document.validation.businessUnitIdRequired')"
@@ -108,6 +102,17 @@
         <DxLabel location="left" :text="$t('document.fields.currencyId')" />
       </DxSimpleItem>
     </DxGroupItem>
+    <template #corrected>
+      <customSelectBoxDocument
+        :readOnly="correctedOptions.readOnly"
+        :dataSourceFilter="correctedOptions.dataSourceFilter"
+        :dataSourceQuery="correctedOptions.dataSourceQuery"
+        :validationGroup="documentValidatorName"
+        :value="document.corrected"
+        :isRequired="isAdjustment"
+        @valueChanged="setCorrected"
+      />
+    </template>
     <template #leadingDocument>
       <customSelectBoxDocument
         :readOnly="leadingDocumentOptions.readOnly"
@@ -131,6 +136,8 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        :readOnly="readOnly"
+        :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
         :value="contactId"
@@ -138,6 +145,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setCounterpartySignatoryId"
@@ -173,7 +181,6 @@
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="department"
@@ -198,7 +205,7 @@ import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
-import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter"
+import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -285,22 +292,11 @@ export default {
     },
     correctedOptions() {
       return {
-        readOnly: !this.counterpartyId,
-        deferRendering: false,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.AccountingDocuments}/${QuickFilter}`,
-          filter: this.counterpartyId
-            ? [
-                ["counterpartyId", "=", this.counterpartyId],
-                ["id", "<>", this.document.id],
-              ]
-            : undefined,
-        }),
-        value: this.document.corrected,
-        onValueChanged: (e) => {
-          this.setCorrected(e.value);
-        },
+        readOnly: !this.counterpartyId || this.readOnly,
+        dataSourceQuery: DocumentQuery.AccountingDocuments,
+        dataSourceFilter: this.counterpartyId
+          ? ["counterpartyId", "=", this.counterpartyId]
+          : undefined,
       };
     },
     leadingDocumentOptions() {
@@ -418,11 +414,8 @@ export default {
         data
       );
     },
-    setDepartament(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+    setDepartment(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

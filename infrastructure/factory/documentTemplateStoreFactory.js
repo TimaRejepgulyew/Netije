@@ -1,55 +1,76 @@
-import * as documentStoresTemplate from "~/infrastructure/storeTemplate/documentStores/index.js";
-export default class DocumentTemplateFactory {
+import {
+  DocumentTemplate,
+  IncomingLetter,
+  OutgoingLetter,
+  Addendum,
+  Memo,
+  OrderBase,
+  PowerOfAttorney,
+  SimpleDocument,
+  ContractStatement,
+  Contract,
+  IncomingInvoice,
+  IncomingTaxInvoice,
+  SupAgreement,
+  OutgoingTaxInvoice,
+  UniversalTransferDocument,
+  Waybill
+} from "~/infrastructure/storeTemplate/documentStores/index.js";
+import DocumentType from "~/infrastructure/constants/documentType";
+
+export default class DocumentTemplateStoreFactory {
+  constructor() {}
+
   static createStore(documentTypeGuid) {
     switch (documentTypeGuid) {
       case DocumentType.IncomingLetter:
-        return documentStoresTemplate.incomingLetter.createStore();
+        return new IncomingLetter().createStore();
       case DocumentType.OutgoingLetter:
-        return documentStoresTemplate.outgoingLetter.createStore();
+        return new OutgoingLetter().createStore();
 
       case DocumentType.Order:
       case DocumentType.CompanyDirective:
-        return documentStoresTemplate.orderBase.createStore();
+        return new OrderBase().createStore();
 
       case DocumentType.SimpleDocument:
-        return documentStoresTemplate.simpleDocument.createStore();
+        return new SimpleDocument().createStore();
 
       case DocumentType.Addendum:
-        return documentStoresTemplate.addendum.createStore();
+        return new Addendum().createStore();
 
       case DocumentType.Memo:
-        return documentStoresTemplate.memo.createStore();
+        return new Memo().createStore();
 
-      case DocumentType.PowerOfAttorney.createStore():
-        return documentStoresTemplate.powerOfAttorney.createStore();
+      case DocumentType.PowerOfAttorney:
+        return new PowerOfAttorney().createStore();
 
       case DocumentType.IncomingInvoice:
-        return documentStoresTemplate.incomingInvoice.createStore();
+        return new IncomingInvoice().createStore();
 
       case DocumentType.ContractStatement:
-        return documentStoresTemplate.contractStatement.createStore();
+        return new ContractStatement().createStore();
 
       case DocumentType.IncomingTaxInvoice:
-        return documentStoresTemplate.incomingTaxInvoice.createStore();
+        return new IncomingTaxInvoice().createStore();
 
       case DocumentType.OutgoingTaxInvoice:
-        return documentStoresTemplate.outgoingTaxInvoice.createStore();
+        return new OutgoingTaxInvoice().createStore();
 
       case DocumentType.UniversalTransferDocument:
-        return documentStoresTemplate.universalTransferDocument.createStore();
+        return new UniversalTransferDocument().createStore();
 
       case DocumentType.Waybill:
-        return documentStoresTemplate.waybill.createStore();
+        return new Waybill().createStore();
 
       case DocumentType.Contract:
-        return documentStoresTemplate.contract.createStore();
+        return new Contract().createStore();
 
       case DocumentType.SupAgreement:
-        return documentStoresTemplate.supAgreement.createStore();
+        return new SupAgreement().createStore();
 
       //TODO set DocumentTemplate Type Id
       case DocumentType.DocumentTemplate:
-        return documentStoresTemplate.documentTemplate.createStore();
+        return new DocumentTemplate().createStore();
 
       default:
         throw "unsupported document type store module";

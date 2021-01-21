@@ -2,7 +2,6 @@ import { assignIn as _assignIn, isEqual as _isEqual } from "lodash";
 
 import * as documentService from "~/infrastructure/services/documentService.js";
 import NumberingType from "~/infrastructure/constants/numberingTypes";
-import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
@@ -21,7 +20,6 @@ export default class Base {
     canUpdate: false,
     canDelete: false,
     canRegister: false,
-    isRegistered: false,
     skipRouteHandling: true,
     overlays: null,
     fullAccess: false
@@ -39,23 +37,22 @@ export default class Base {
     skipRouteHandling({ skipRouteHandling }) {
       return skipRouteHandling;
     },
-    canRegister({
-      canRegister,
-      document: {
-        documentKind: { numberingType }
+    canRegister({ canRegister, document: { documentKind } }) {
+      if (!documentKind) {
+        return false;
       }
-    }) {
-      return canRegister && numberingType != NumberingType.NotNumerable;
+      return (
+        canRegister && documentKind.numberingType !== NumberingType.NotNumerable
+      );
     },
     canExchange({ canExchange }) {
       return canExchange;
     },
-    isRegistrable({
-      document: {
-        documentKind: { numberingType }
+    isRegistrable({ document: { documentKind } }) {
+      if (!documentKind) {
+        return false;
       }
-    }) {
-      return numberingType != NumberingType.NotNumerable;
+      return documentKind.numberingType !== NumberingType.NotNumerable;
     },
     canUpdate({ canUpdate }) {
       return canUpdate;
@@ -65,10 +62,13 @@ export default class Base {
     },
 
     isRegistered({ document }) {
-      return document.registrationState == RegistrationState.Registered;
+      return document.registrationState === RegistrationState.Registered;
     },
-    readOnly({ canUpdate, isRegistered }) {
-      return !canUpdate || isRegistered;
+    readOnly({ canUpdate, document }) {
+      return (
+        !canUpdate ||
+        document.registrationState === RegistrationState.Registered
+      );
     },
     isDataChanged({ isDataChanged }) {
       return isDataChanged;
@@ -127,15 +127,10 @@ export default class Base {
       if (_isEqual(state.document, {})) {
         _assignIn(state, payload);
         Object.assign(state.document, {});
-        console.log(state);
         return;
       }
-      console.log(state, payload);
       function assignObject(state, payload) {
         for (let item in payload) {
-          if (item === "counterpartySignatoryId") {
-            debugger;
-          }
           if (payload[item] === null) {
             state[item] = null;
             continue;
@@ -149,17 +144,12 @@ export default class Base {
             }
             if (item === "document") assignObject(state[item], payload[item]);
             else {
-              console.log("Property changed", item);
               state[item] = payload[item];
             }
           }
         }
       }
       assignObject(state, payload);
-      console.log(state);
-    },
-    IS_REGISTERED(state, payload) {
-      state.isRegistered = payload === RegistrationState.Registered;
     },
     DATA_CHANGED(state, payload) {
       state.isDataChanged = payload;

@@ -93,7 +93,6 @@ export default class OutgoingLetter extends ElectronicDocument {
       },
       setCorrespondent({ commit, dispatch }, payload) {
         commit("SET_CORRESPONDENT_ID", payload);
-        dispatch("reevaluateDocumentName");
       }
     };
     super({ mutations, actions, state, getters });

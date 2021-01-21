@@ -1,34 +1,34 @@
-import * as documentTemplate from "./documentTemplate.js"
-import * as incomingLetter from "./incomingLetter.js"
-import * as outgoingLetter from "./outgoingLetter.js"
-import * as addendum from "./addendum.js"
-import * as memo from "./memo"
-import * as orderBase from "./orderBase"
-import * as powerOfAttorney from "./powerOfAttorney.js"
-import * as simpleDocument from "./simpleDocument.js"
-import * as contractStatement from "./contractStatement.js"
-import * as contract from "./contract.js"
-import * as incomingInvoice from "./incomingInvoice.js"
-import * as incomingTaxInvoice from "./incomingTaxInvoice.js"
-import * as outgoingTaxInvoice from "./outgoingTaxInvoice.js"
-import * as supAgreement from "./supAgreement.js"
-import * as universalTransferDocument from "./universalTransferDocument.js"
-import * as waybill from "./waybill.js"
+import DocumentTemplate from "../../models/document-store/DocumentTemplate";
+import IncomingLetter from "../../models/document-store/IncomingLetter";
+import OutgoingLetter from "../../models/document-store/OutgoingLetter";
+import Addendum from "../../models/document-store/Addendum";
+import Memo from "../../models/document-store/Memo";
+import OrderBase from "../../models/document-store/OrderBase";
+import PowerOfAttorney from "../../models/document-store/PowerOfAttorney";
+import SimpleDocument from "../../models/document-store/SimpleDocument";
+import ContractStatement from "../../models/document-store/ContractStatement";
+import Contract from "../../models/document-store/Contract";
+import IncomingInvoice from "../../models/document-store/IncomingInvoice";
+import IncomingTaxInvoice from "../../models/document-store/IncomingTaxInvoice";
+import OutgoingTaxInvoice from "../../models/document-store/OutgoingTaxInvoice";
+import SupAgreement from "../../models/document-store/SupAgreement";
+import UniversalTransferDocument from "../../models/document-store/UniversalTransferDocument";
+import Waybill from "../../models/document-store/Waybill";
 export {
-    documentTemplate,
-    universalTransferDocument,
-    incomingLetter,
-    outgoingLetter,
-    addendum,
-    memo,
-    orderBase,
-    powerOfAttorney,
-    simpleDocument,
-    contractStatement,
-    contract,
-    incomingInvoice,
-    incomingTaxInvoice,
-    supAgreement,
-    outgoingTaxInvoice,
-    waybill
-}
+  DocumentTemplate,
+  IncomingLetter,
+  OutgoingLetter,
+  Addendum,
+  Memo,
+  OrderBase,
+  PowerOfAttorney,
+  SimpleDocument,
+  ContractStatement,
+  Contract,
+  IncomingInvoice,
+  IncomingTaxInvoice,
+  SupAgreement,
+  OutgoingTaxInvoice,
+  UniversalTransferDocument,
+  Waybill
+};

@@ -3,25 +3,25 @@ export default class UniversalTransferDocument extends ElectronicDocument {
   constructor(options) {
     const mutations = {
       ...options?.mutations,
-      SET_IS_ADJUSTMENT:(state, payload)=> {
+      SET_IS_ADJUSTMENT: (state, payload) => {
         if (this._checkDataChanged(state.document.isAdjustment, payload)) {
           state.isDataChanged = true;
           state.document.isAdjustment = payload;
         }
       },
-      SET_COUNTERPARTY:(state, payload)=> {
+      SET_COUNTERPARTY: (state, payload) => {
         if (this._checkDataChanged(state.document.counterpartyId, payload)) {
           state.isDataChanged = true;
           state.document.counterpartyId = payload;
         }
       },
-      SET_CONTACT_ID:(state, payload)=> {
+      SET_CONTACT_ID: (state, payload) => {
         if (this._checkDataChanged(state.document.contactId, payload)) {
           state.isDataChanged = true;
           state.document.contactId = payload;
         }
       },
-      SET_COUNTERPART_SIGNATORY_ID:(state, payload)=> {
+      SET_COUNTERPART_SIGNATORY_ID: (state, payload) => {
         if (
           this._checkDataChanged(
             state.document.counterpartySignatoryId,
@@ -32,7 +32,7 @@ export default class UniversalTransferDocument extends ElectronicDocument {
           state.document.counterpartySignatoryId = payload;
         }
       },
-      SET_BUSINESS_UNIT:(state, payload)=> {
+      SET_BUSINESS_UNIT: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(state.document.businessUnit, payload)
         ) {
@@ -40,7 +40,7 @@ export default class UniversalTransferDocument extends ElectronicDocument {
           state.document.businessUnit = payload;
         }
       },
-      SET_DEPARTMENT:(state, payload)=> {
+      SET_DEPARTMENT: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(state.document.department, payload)
         ) {
@@ -48,7 +48,7 @@ export default class UniversalTransferDocument extends ElectronicDocument {
           state.document.department = payload;
         }
       },
-      SET_OUR_SIGNATORY:(state, payload)=> {
+      SET_OUR_SIGNATORY: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(state.document.ourSignatory, payload)
         ) {
@@ -57,13 +57,13 @@ export default class UniversalTransferDocument extends ElectronicDocument {
         }
       },
 
-      SET_CORRECTED:(state, payload)=> {
+      SET_CORRECTED: (state, payload) => {
         if (this._checkDataAsObjectChanged(state.document.corrected, payload)) {
           state.isDataChanged = true;
           state.document.corrected = payload;
         }
       },
-      SET_RESPONSIBLE_EMPLOYEE:(state, payload)=> {
+      SET_RESPONSIBLE_EMPLOYEE: (state, payload) => {
         if (
           this._checkDataAsObjectChanged(
             state.document.responsibleEmployee,
@@ -74,22 +74,37 @@ export default class UniversalTransferDocument extends ElectronicDocument {
           state.document.responsibleEmployee = payload;
         }
       },
-      SET_LEADING_DOCUMENT:(state, payload)=> {
-        if (this._checkDataAsObjectChanged(state.document.leadingDocument, payload)) {
+      SET_LEADING_DOCUMENT: (state, payload) => {
+        if (
+          this._checkDataAsObjectChanged(
+            state.document.leadingDocument,
+            payload
+          )
+        ) {
           state.isDataChanged = true;
           state.document.leadingDocument = payload;
         }
       },
+      SET_CURRENCY_ID: (state, payload) => {
+        if (this._checkDataChanged(payload, state.document.currencyId)) {
+          state.isDataChanged = true;
+          state.document.currencyId = payload;
+        }
+      },
+      SET_TOTAL_AMOUNT: (state, payload) => {
+        if (this._checkDataChanged(payload, state.document.totalAmount)) {
+          state.isDataChanged = true;
+          state.document.totalAmount = payload;
+        }
+      }
     };
     const actions = {
       ...options?.actions,
       setLeadingDocument({ commit, dispatch }, payload) {
         commit("SET_LEADING_DOCUMENT", payload);
-        dispatch("reevaluateDocumentName");
       },
       setCounterparty({ commit, dispatch }, payload) {
         commit("SET_COUNTERPARTY", payload);
-        dispatch("reevaluateDocumentName");
       }
     };
     super({ mutations, actions });

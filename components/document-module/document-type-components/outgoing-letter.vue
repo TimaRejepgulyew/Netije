@@ -203,7 +203,7 @@ export default {
     },
     inResponseToOptions() {
       return {
-        readOnly: !this.correspondentId,
+        readOnly: !this.correspondentId || this.readOnly,
         dataSourceQuery: DocumentQuery.IncomingLetter,
         dataSourceFilter: this.correspondentId
           ? ["correspondentId", "=", this.correspondentId]
@@ -238,16 +238,10 @@ export default {
       this.$store.commit(`documents/${this.documentId}/IN_RESPONSE_TO`, data);
     },
     setAddressee(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_ADDRESSE`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE`, data);
     },
     setPreparedBy(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_PREPARED_BY`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY`, data);
     },
     setOurSignatory(data) {
       this.$store.commit(
@@ -256,10 +250,7 @@ export default {
       );
     },
     setDepartment(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setBusinessUnit(data) {
       this.$store.commit(

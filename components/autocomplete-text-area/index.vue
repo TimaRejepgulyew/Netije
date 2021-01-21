@@ -30,11 +30,13 @@
       <div
         v-show="inFocus"
         class="tag"
-        v-for="(item,index) in filteredText"
+        v-for="(item, index) in filteredText"
         :key="index"
         :title="text"
       >
-        <div class="text" @click="()=>setText(item.text)">{{item.text}}</div>
+        <div class="text" @click="() => setText(item.text)">
+          {{ item.text }}
+        </div>
         <DxButton
           icon="clear"
           styling-mode="text"
@@ -61,41 +63,41 @@ export default {
     DxTextArea,
     DxValidator,
     DxRequiredRule,
-    DxButton
+    DxButton,
   },
   props: {
     value: {
       type: String,
-      default: ""
+      default: "",
     },
     options: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       tagBoxMaxWidth: 100,
       text: this.value || "",
-      inFocus: false
+      inFocus: false,
     };
   },
   computed: {
     autoText() {
       return this.$store.getters["autocomlete-texts/getAll"]({
         category: AutoTextCategory[this.options.category],
-        entityType: this.options.entityType
+        entityType: this.options.entityType,
       });
     },
     filteredText() {
-      return this.autoText.filter(item => {
+      return this.autoText.filter((item) => {
         return item.text.toLowerCase().indexOf(this.text.toLowerCase()) !== -1;
       });
-    }
+    },
   },
   methods: {
     ...mapActions({
-      deleteText: "autocomlete-texts/deleteText"
+      deleteText: "autocomlete-texts/deleteText",
     }),
     valueChanged(text) {
       setTimeout(() => {
@@ -111,13 +113,14 @@ export default {
     },
     setText(text) {
       this.text = text;
-    }
+      this.valueChanged(text);
+    },
   },
   mounted() {
     setTimeout(() => {
       this.tagBoxMaxWidth = this.$refs.textArea.$el.offsetWidth;
     }, 0);
-  }
+  },
 };
 </script>
 

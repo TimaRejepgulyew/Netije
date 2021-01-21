@@ -12,17 +12,22 @@
         :visible="numberingAndDateVisible"
         :caption="$t('document.groups.captions.numberAndDate')"
       >
-        <DxSimpleItem data-field="registrationNumber" :editor-options="registrationNumberOptions">
+        <DxSimpleItem
+          data-field="registrationNumber"
+          :editor-options="registrationNumberOptions"
+        >
           <DxLabel location="left" :text="registrationNumberHelptext" />
         </DxSimpleItem>
 
         <DxSimpleItem
           :visible="isRegistrable"
-          data-field="documentRegisterId"
+          data-field="documentRegister"
           :editor-options="documentRegisterOptions"
-          editor-type="dxSelectBox"
         >
-          <DxLabel location="left" :text="$t('document.fields.documentRegisterId')" />
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.documentRegisterId')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem
@@ -30,7 +35,10 @@
           :editor-options="registrationDateOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="left" :text="$t('document.fields.registrationDate')" />
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.registrationDate')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           :visible="deliveryMethodVisible"
@@ -38,7 +46,10 @@
           :editor-options="deliveryMethodOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="left" :text="$t('document.fields.deliveryMethodId')" />
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.deliveryMethodId')"
+          />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :caption="$t('document.groups.captions.storing')">
@@ -56,7 +67,10 @@
           :editor-options="placedToCaseFileDateOptions"
           editor-type="dxDateBox"
         >
-          <DxLabel location="left" :text="$t('document.fields.placedToCaseFileDate')" />
+          <DxLabel
+            location="left"
+            :text="$t('document.fields.placedToCaseFileDate')"
+          />
         </DxSimpleItem>
       </DxGroupItem>
     </DxGroupItem>
@@ -101,7 +115,8 @@ export default {
     },
     numberingAndDateVisible() {
       return (
-        this.document.documentKind.numberingType != NumberingType.NotNumberable
+        this.document.documentKind?.numberingType !==
+        NumberingType.NotNumberable
       );
     },
     canRegister() {
@@ -167,12 +182,10 @@ export default {
     },
     documentRegisterOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.DocumentRegister.All,
-          disabled: true,
-        }),
-        value: this.document.documentRegisterId,
+        disabled: true,
+        value: this.document.documentRegister
+          ? this.document.documentRegister.name
+          : "",
       };
     },
     caseFileOptions() {

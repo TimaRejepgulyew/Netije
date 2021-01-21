@@ -20,7 +20,6 @@ export default class Addendum extends ElectronicDocument {
       ...options?.actions,
       setLeadingDocument({ commit, dispatch }, payload) {
         commit("SET_LEADING_DOCUMENT", payload);
-        dispatch("reevaluateDocumentName");
       }
     };
     super({ mutations, actions });

@@ -1,20 +1,19 @@
 import dataApi from "~/static/dataApi";
 import BaseDocumentStore from "~/infrastructure/models/document-store/Base.js";
-import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
-import docmentKindService from "~/infrastructure/services/documentKind.js";
+
 export default class ElectronicDocumnent extends BaseDocumentStore {
   constructor(options) {
     const documentRegistrationActions = () => {
       return {
-        async registration({ dispatch }, payload) {
+        async registration({ commit }, payload) {
           const { data } = await this.$axios.post(
             dataApi.documentRegistration.RegisterDocument,
             payload
           );
 
-          dispatch("loadDocument", data);
+          commit("SET_DOCUMENT", data);
         },
-        async unRegister({ dispatch, state }) {
+        async unRegister({ commit, state }) {
           const { data } = await this.$axios.post(
             dataApi.documentRegistration.UnregisterDocument,
             {
@@ -22,7 +21,7 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
               documentId: state.document.id
             }
           );
-          dispatch("loadDocument", data);
+          commit("SET_DOCUMENT", data);
         }
       };
     };
@@ -118,10 +117,11 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
       ...documentRegistrationMutations(),
       SET_DOCUMENT_KIND: (state, payload) => {
         if (
-          this._checkDataChangedAsObject(state.document.documentKind, payload)
-        )
+          this._checkDataAsObjectChanged(state.document.documentKind, payload)
+        ) {
           state.isDataChanged = true;
-        state.document.documentKind = payload;
+          state.document.documentKind = payload;
+        }
       },
       REVALUATE_NAME: (state, payload) => {
         state.document.name = payload;
@@ -151,27 +151,13 @@ export default class ElectronicDocumnent extends BaseDocumentStore {
         );
         commit("UPDATE_LAST_VERSION", data);
       },
-      setDocumentKind({ commit }, payload) {
-        if (!payload) payload = docmentKindService.emptyDocumentKind();
+      setDocumentKind({ commit, dispatch }, payload) {
         commit("SET_DOCUMENT_KIND", payload);
       },
       setSubject({ commit, dispatch }, payload) {
         commit("SET_SUBJECT", payload);
-        dispatch("reevaluateDocumentName");
-      },
-      async reevaluateDocumentName({ state, commit }) {
-        if (state.document.documentKind.generateDocumentName) {
-          const { data } = await this.$axios.post(
-            dataApi.documentModule.ReevaluateDocumentName,
-            state.document
-          );
-          commit("REVALUATE_NAME", data);
-        }
       },
       loadDocument({ commit }, payload) {
-        //  TODO:  Создать функццю глубокого копирования
-        payload.document.documentKind = docmentKindService.emptyDocumentKind();
-        commit("IS_REGISTERED", payload.document.registrationState);
         commit("SET_DOCUMENT", payload);
       }
     };
