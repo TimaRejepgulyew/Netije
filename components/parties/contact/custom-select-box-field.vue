@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     openField() {
-      this.$emit("openFields");
+      if (!this.readOnly) this.$emit("openFields");
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
