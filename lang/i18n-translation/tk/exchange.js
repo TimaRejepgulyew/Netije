@@ -2,7 +2,15 @@ export default {
   exchangeOptions: "Elektron alyş-çalyş sazlamasy",
   providers: {
     netije: "Netije",
-    srd: "Srd",
+    srd: "Srd, eResminama",
+    intranet: "Içerki",
+    eResminama: "eResminama"
+  },
+  exchangeState: {
+    Recived: "Kabul edilen  ",
+    Sent: "Konturagenda iberilen",
+    Terminated: "Ýatyryldy",
+    Processed: "Işlenip-taýarlandy"
   },
   uploadCertificate: "Sertifikaty ýüklemek",
   routingType: {
@@ -13,10 +21,12 @@ export default {
     dispatch: "Urgratmak üçin",
     name: "Ady",
     note: "Bellikler",
+    settings: "Sazlamasy",
+    responsibleEmployee: "Kabul etmek üçin jogapkärdir",
     organizationId: "Guramanyň belgisi",
     publicKey: "Açyk açar",
     exchangeBoxType: "Prowaýder",
-    canExchange: "Rugsat bermek",
+    canExchange: "Elektron alyş-çalşyň rugsat bermek",
     businessUnit: "Guramamyz",
     responsible: "Jogapkär",
     password: "Açarsöz",

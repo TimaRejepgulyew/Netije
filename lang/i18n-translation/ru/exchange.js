@@ -2,7 +2,15 @@ export default {
   exchangeOptions: "Настройка электронного обмена",
   providers: {
     netije: "Netije",
-    srd: "Srd",
+    srd: "Srd, eResminama",
+    intranet: "Внутренний",
+    eResminama: "eResminama"
+  },
+  exchangeState: {
+    Recived: "Получен",
+    Sent: "Отправлен контрагенту",
+    Terminated: "Аннулирован",
+    Processed: "Обработан"
   },
   uploadCertificate: "Загрузить сертификат",
   routingType: {
@@ -13,10 +21,12 @@ export default {
     dispatch: "Отправка",
     name: "Имя",
     note: "Примечание",
+    settings: "Настройки",
+    responsibleEmployee: "Ответсвенный за приём",
     organizationId: "Ид огранизации",
     publicKey: "Публичный ключ",
     exchangeBoxType: "Провайдер",
-    canExchange: "Разрешить отправку",
+    canExchange: "Разрешить электронный обмен",
     businessUnit: "Наша организация",
     responsible: "Отвественный",
     password: "Пароль",
