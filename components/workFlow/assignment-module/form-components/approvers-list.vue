@@ -2,9 +2,9 @@
   <div>
     <DxDataGrid
       :data-source="data"
-      @rowRemoved="e => updateApprovers(e)"
-      @rowInserted="e => updateApprovers(e)"
-      @rowUpdated="e => updateApprovers(e)"
+      @rowRemoved="(e) => updateApprovers(e)"
+      @rowInserted="(e) => updateApprovers(e)"
+      @rowUpdated="(e) => updateApprovers(e)"
       :remote-operations="false"
       :allow-column-reordering="true"
       :row-alternation-enabled="true"
@@ -19,15 +19,18 @@
         mode="row"
       />
       <DxColumn
-        data-field="approverId"
+        data-field="approver"
         :caption="$t('assignment.fields.approver')"
+        cellTemplate="approver"
       >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="employeeStore"
-          value-expr="id"
-          display-expr="name"
-        />
+        <template #approver="{ data: cellInfo }">
+          <employee-select-box
+            v-if="cellInfo.value"
+            :readOnly="true"
+            :value="cellInfo.value"
+            messageRequired="assigment.validation.approverRequired"
+          ></employee-select-box>
+        </template>
         <DxRequiredRule
           :message="$t('assigment.validation.approverRequired')"
         />
@@ -61,7 +64,7 @@ import {
   DxScrolling,
   DxRequiredRule,
   DxButton,
-  DxLookup
+  DxLookup,
 } from "devextreme-vue/data-grid";
 export default {
   components: {
@@ -71,51 +74,48 @@ export default {
     DxScrolling,
     DxRequiredRule,
     DxButton,
-    DxLookup
+    DxLookup,
   },
   props: ["assignmentId"],
   data() {
     return {
-      data: this.$store.getters[`assignments/${this.assignmentId}/approvers`]
+      data: this.$store.getters[`assignments/${this.assignmentId}/approvers`],
     };
   },
   methods: {
     updateApprovers() {
       const payload = JSON.parse(JSON.stringify(this.data.slice()));
-      
+
       this.$store.commit(
         `assignments/${this.assignmentId}/SET_APPROVERS`,
         payload
       );
-    }
+    },
   },
   computed: {
-    // data() {
-    //   return this.$store.getters[`assigments/${this.assignmentId}/assignment`];
-    // },
     employeeStore() {
       return this.$dxStore({
         key: "id",
-        loadUrl: dataApi.company.Employee
+        loadUrl: dataApi.company.Employee,
       });
     },
     actionStore() {
       return [
         {
           id: FreeApprovalReworkActions.SendForApproval,
-          name: this.$t("assignment.stores.sendForApproval")
+          name: this.$t("assignment.stores.sendForApproval"),
         },
         {
           id: FreeApprovalReworkActions.DoNotSend,
-          name: this.$t("assignment.stores.doNotSend")
+          name: this.$t("assignment.stores.doNotSend"),
         },
         {
           id: FreeApprovalReworkActions.SendNotice,
-          name: this.$t("assignment.stores.sendNotice")
-        }
+          name: this.$t("assignment.stores.sendNotice"),
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 
