@@ -27,7 +27,7 @@ export default {
     organizationId: "Ид огранизации",
     publicKey: "Публичный ключ",
     exchangeBoxType: "Провайдер",
-    canExchange: "Разрешить отправку",
+    canExchange: "Разрешить электронный обмен",
     businessUnit: "Наша организация",
     responsible: "Отвественный",
     password: "Пароль",

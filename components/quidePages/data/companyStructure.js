@@ -4,7 +4,7 @@ import integrationIcon from "~/static/icons/quide-page/integration.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import employeeIcon from "~/static/icons/parties/person.svg";
 
-export default function(context) {
+export default function (context) {
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
@@ -106,7 +106,7 @@ export default function(context) {
             "companyStructure.company.visibilitySettingDescr"
           ),
           path: pathGenerate("organization-structure/visibility-setting"),
-          visible: true
+          visible: isAdmin()
         },
         {
           name: context.$t("companyStructure.company.visibilityRules"),
@@ -114,7 +114,7 @@ export default function(context) {
             "companyStructure.company.visibilityRulesDescr"
           ),
           path: pathGenerate("organization-structure/visibility-rules"),
-          visible: true
+          visible: isAdmin()
         }
       ]
     },

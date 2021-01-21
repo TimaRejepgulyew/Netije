@@ -27,7 +27,7 @@ export default {
     organizationId: "Guramanyň belgisi",
     publicKey: "Açyk açar",
     exchangeBoxType: "Prowaýder",
-    canExchange: "Rugsat bermek",
+    canExchange: "Elektron alyş-çalşyň rugsat bermek",
     businessUnit: "Guramamyz",
     responsible: "Jogapkär",
     password: "Açarsöz",

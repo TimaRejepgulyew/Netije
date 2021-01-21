@@ -56,7 +56,10 @@ export default {
     unlockEmployee: "/api/Employee/Unlock",
     ChangeEmployeePassword: `/api/Employee/ChangePassword`,
     JobTitle: `/api/JobTitle`,
-    ManagersAssistant: `/api/ManagersAssistant`
+    ManagersAssistant: `/api/ManagersAssistant`,
+  },
+  visibilitySettings: {
+    settings: "/api/VisibilitySetting"
   },
   admin: {
     Roles: `/api/Role`,
