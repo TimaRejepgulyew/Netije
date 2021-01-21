@@ -22,19 +22,27 @@
         data-field="approver"
         :caption="$t('assignment.fields.approver')"
         cellTemplate="approver"
+        editCellTemplate="editApprover"
       >
-        <template #approver="{ data: cellInfo }">
-          <employee-select-box
-            v-if="cellInfo.value"
-            :readOnly="true"
-            :value="cellInfo.value"
-            messageRequired="assigment.validation.approverRequired"
-          ></employee-select-box>
-        </template>
         <DxRequiredRule
           :message="$t('assigment.validation.approverRequired')"
         />
       </DxColumn>
+      <template #approver="{ data: cellInfo }">
+        <employee-select-box
+          v-if="cellInfo.value"
+          :readOnly="true"
+          :value="cellInfo.value"
+          messageRequired="assigment.validation.approverRequired"
+        ></employee-select-box>
+      </template>
+      <template #editApprover="{ data: cellInfo }">
+        <employee-select-box
+          :value="cellInfo.value"
+          messageRequired="assigment.validation.approverRequired"
+          @valueChanged="(value) => updateEmployeeId(value, cellInfo)"
+        ></employee-select-box>
+      </template>
       <DxColumn
         editor-type="dxCheckBox"
         :allowEditing="false"
@@ -56,6 +64,7 @@
 
 <script>
 import dataApi from "~/static/dataApi";
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import FreeApprovalReworkActions from "../../infrastructure/constants/freeApproveReworkActions.js";
 import {
   DxDataGrid,
@@ -75,6 +84,7 @@ export default {
     DxRequiredRule,
     DxButton,
     DxLookup,
+    employeeSelectBox,
   },
   props: ["assignmentId"],
   data() {
@@ -83,6 +93,10 @@ export default {
     };
   },
   methods: {
+    updateEmployeeId(value, cellInfo) {
+      cellInfo.setValue(value);
+      cellInfo.component.updateDimensions();
+    },
     updateApprovers() {
       const payload = JSON.parse(JSON.stringify(this.data.slice()));
 
