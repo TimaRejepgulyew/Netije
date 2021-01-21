@@ -3,6 +3,7 @@
     <DxToolbar>
       <DxItem
         locateInMenu="auto"
+        :disabled="addresseeId"
         :visible="inProcess"
         :options="btnApproveOptions"
         location="before"
@@ -10,6 +11,7 @@
       />
       <DxItem
         locateInMenu="auto"
+        :disabled="addresseeId"
         :visible="inProcess"
         :options="btnReworkOptions"
         location="before"
@@ -17,8 +19,8 @@
       />
       <DxItem
         locateInMenu="auto"
-        :disabled="!addresseeId"
-        :visible="inProcess && false"
+        :disabled="addresseeId"
+        :visible="inProcess"
         :options="btnForwardOptions"
         location="before"
         widget="dxButton"
@@ -64,6 +66,8 @@ export default {
   mixins: [toolbarMixin],
   computed: {
     addresseeId() {
+     
+      console.log( this.$store.getters[`assignments/${this.assignmentId}/assignment`]);
       return this.assignment.addresseeId;
     },
     btnApproveOptions() {

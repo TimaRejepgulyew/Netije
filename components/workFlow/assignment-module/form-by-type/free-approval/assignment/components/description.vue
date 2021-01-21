@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="false && !isRework">
+    <div v-if="!isRework">
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
         <employee-select-box
@@ -21,6 +21,14 @@ export default {
     employeeSelectBox,
   },
   props: ["assignmentId"],
+  methods: {
+    valueChanged(value) {
+      this.$store.commit(
+        `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
+        value
+      );
+    },
+  },
   computed: {
     isRework() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]

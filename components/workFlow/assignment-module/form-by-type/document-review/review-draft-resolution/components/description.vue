@@ -5,7 +5,7 @@
       <div class="f-grow-1">
         <employee-select-box
           valueExpr="id"
-          :read-only="!canUpdate"
+          :readOnly="readOnly"
           :value="addresseeId"
           @valueChanged="valueChanged"
         />
@@ -52,6 +52,9 @@ export default {
     },
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
+    },
+    readOnly(){
+        return this.$store.getters[`assignments/${this.assignmentId}/readOnly`];
     },
     projectResolutions() {
       const attachments = this.$store.getters[
