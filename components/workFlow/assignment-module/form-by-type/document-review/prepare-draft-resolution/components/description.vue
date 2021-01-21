@@ -6,7 +6,7 @@
         <employee-select-box
           valueExpr="id"
           :read-only="!canUpdate"
-          :value="addresseeId"
+          :value="addressee"
           @valueChanged="valueChanged"
         />
       </div>
@@ -35,9 +35,9 @@ export default {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .isRework;
     },
-    addresseeId() {
+    addressee() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-        .addresseeId;
+        .addressee;
     },
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];

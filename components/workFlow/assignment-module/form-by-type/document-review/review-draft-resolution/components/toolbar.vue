@@ -65,10 +65,10 @@ export default {
   },
   computed: {
     btnForwardDisabled() {
-      return !this.assignment.addresseeId;
+      return !this.assignment.addressee;
     },
     tollbarItemVisible() {
-      return this.assignment.addresseeId ? false : this.inProcess;
+      return this.assignment.addressee ? false : this.inProcess;
     },
     isRework() {
       if (this.inProcess) return this.assignment.isRework;

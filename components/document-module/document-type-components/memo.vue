@@ -45,7 +45,7 @@
         <DxSimpleItem data-field="assignee" template="assignee">
           <DxLabel location="left" :text="$t('document.fields.assigneeId')" />
         </DxSimpleItem>
-        <DxSimpleItem template="addressee" data-field="addresseeId">
+        <DxSimpleItem template="addressee" data-field="addressee">
           <DxRequiredRule
             :message="$t('document.validation.addresseeIdRequired')"
           />

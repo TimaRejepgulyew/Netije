@@ -59,7 +59,7 @@
       </DxSimpleItem>
 
       <DxSimpleItem data-field="addressee" template="addressee">
-        <DxLabel location="left" :text="$t('document.fields.addresseeId')" />
+        <DxLabel location="left" :text="$t('document.fields.')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="assignee" template="assignee">
         <DxLabel location="left" :text="$t('document.fields.assigneeId')" />

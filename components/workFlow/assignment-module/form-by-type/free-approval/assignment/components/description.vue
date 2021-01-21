@@ -4,9 +4,8 @@
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
         <employee-select-box
-          valueExpr="id"
           :read-only="!canUpdate"
-          :value="addresseeId"
+          :value="addressee"
           @valueChanged="valueChanged"
         />
       </div>
@@ -26,12 +25,17 @@ export default {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
         .isRework;
     },
-    addresseeId() {
+    addresse() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-        .addresseeId;
+        .addressee;
     },
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
+    },
+  },
+  methods: {
+    valueChanged(value) {
+      this.$store.commit("SET_ADDRESSE", value);
     },
   },
 };

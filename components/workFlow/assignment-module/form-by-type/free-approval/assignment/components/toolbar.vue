@@ -17,7 +17,7 @@
       />
       <DxItem
         locateInMenu="auto"
-        :disabled="!addresseeId"
+        :disabled="!addressee"
         :visible="inProcess && false"
         :options="btnForwardOptions"
         location="before"
@@ -63,8 +63,8 @@ export default {
   },
   mixins: [toolbarMixin],
   computed: {
-    addresseeId() {
-      return this.assignment.addresseeId;
+    addressee() {
+      return this.assignment.addressee;
     },
     btnApproveOptions() {
       return {
