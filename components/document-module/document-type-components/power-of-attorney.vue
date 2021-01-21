@@ -146,7 +146,7 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
     businessUnitId() {
-      return this.document.businessUnitI?.id;
+      return this.document.businessUnit?.id;
     },
     businessUnit() {
       return this.document.businessUnit;

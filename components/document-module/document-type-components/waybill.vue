@@ -134,7 +134,7 @@
       <employee-select-box
         :read-only="readOnly"
         :value="responsibleEmployee"
-        @valueChanged="setResponsibleEmployeeId"
+        @valueChanged="setResponsibleEmployee"
       />
     </template>
     <template #businessUnitSelectBox>
@@ -245,8 +245,8 @@ export default {
     validTill() {
       return this.document.validTill;
     },
-    responsibleEmployeeId() {
-      return this.document.responsibleEmployeeId;
+    responsibleEmployee() {
+      return this.document.responsibleEmployee;
     },
     leadingDocumentOptions() {
       return {

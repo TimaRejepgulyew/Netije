@@ -136,6 +136,8 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        :readOnly="readOnly"
+        :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
         :value="contactId"
@@ -143,6 +145,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setCounterpartySignatoryId"
@@ -178,7 +181,6 @@
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
         :value="department"
@@ -412,7 +414,7 @@ export default {
         data
       );
     },
-    setDepartament(data) {
+    setDepartment(data) {
       this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setValidTill(data) {

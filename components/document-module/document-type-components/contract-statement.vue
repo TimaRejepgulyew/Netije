@@ -132,7 +132,7 @@
     <template #responsibleEmployee>
       <employee-select-box
         :value="responsibleEmployee"
-        @valueChanged="setResponsibleEmployeeId"
+        @valueChanged="setResponsibleEmployee"
       />
     </template>
     <template #businessUnitSelectBox>
@@ -228,8 +228,8 @@ export default {
     businessUnitId() {
       return this.document.businessUnit?.id;
     },
-    departmentId() {
-      return this.document.departmentId;
+    department() {
+      return this.document.department;
     },
     contactId() {
       return this.document.contactId;
@@ -237,11 +237,11 @@ export default {
     counterpartySignatoryId() {
       return this.document.counterpartySignatoryId;
     },
-    ourSignatoryId() {
-      return this.document.ourSignatoryId;
+    ourSignatory() {
+      return this.document.ourSignatory;
     },
-    responsibleEmployeeId() {
-      return this.document.responsibleEmployeeId;
+    responsibleEmployee() {
+      return this.document.responsibleEmployee;
     },
     leadingDocumentOptions() {
       return {
@@ -363,7 +363,7 @@ export default {
         data
       );
     },
-    setDepartment(data) {
+   setDepartment (data) {
       this.$store.commit(
         `documents/${this.documentId}/SET_DEPARTMENT`,
         data
