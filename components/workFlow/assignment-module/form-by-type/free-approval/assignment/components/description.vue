@@ -14,29 +14,8 @@
 </template>
 
 <script>
-import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import ReaddresseMixin from "../../../../infrastructure/mixins/assignmentReaddressee.js";
 export default {
-  components: {
-    employeeSelectBox,
-  },
-  props: ["assignmentId"],
-  computed: {
-    isRework() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-        .isRework;
-    },
-    addresse() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-        .addressee;
-    },
-    canUpdate() {
-      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
-    },
-  },
-  methods: {
-    valueChanged(value) {
-      this.$store.commit("SET_ADDRESSE", value);
-    },
-  },
+  mixins: [ReaddresseMixin],
 };
 </script>

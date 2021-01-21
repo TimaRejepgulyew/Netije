@@ -3,6 +3,7 @@
     <DxToolbar>
       <DxItem
         locateInMenu="auto"
+        :disabled="isReaddresseed"
         :visible="inProcess"
         :options="btnApproveOptions"
         location="before"
@@ -10,6 +11,7 @@
       />
       <DxItem
         locateInMenu="auto"
+        :disabled="isReaddresseed"
         :visible="inProcess"
         :options="btnReworkOptions"
         location="before"
@@ -17,7 +19,7 @@
       />
       <DxItem
         locateInMenu="auto"
-        :disabled="!addressee"
+        :disabled="!isReaddresseed"
         :visible="inProcess && false"
         :options="btnForwardOptions"
         location="before"
@@ -65,6 +67,9 @@ export default {
   computed: {
     addressee() {
       return this.assignment.addressee;
+    },
+    isReaddresseed() {
+      return Boolean(this.addressee);
     },
     btnApproveOptions() {
       return {

@@ -1,9 +1,9 @@
 <template>
-  <div v-if="false">
+  <div v-if="showReaddressee">
     <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
     <div class="f-grow-1">
       <employee-select-box
-        :read-only="!canUpdate"
+        :read-only="!inProcess"
         :value="addressee"
         @valueChanged="valueChanged"
       />
@@ -12,29 +12,9 @@
 </template>
 
 <script>
-import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import ReaddresseMixin from "../../../../infrastructure/mixins/assignmentReaddressee.js";
 export default {
-  components: {
-    employeeSelectBox,
-  },
-  props: ["assignmentId"],
-  methods: {
-    valueChanged(id) {
-      this.$store.commit(
-        `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
-        id
-      );
-    },
-  },
-  computed: {
-    addressee() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-        .addressee;
-    },
-    canUpdate() {
-      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
-    },
-  },
+  mixins: [ReaddresseMixin],
 };
 </script>
 
