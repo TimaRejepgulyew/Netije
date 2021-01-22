@@ -44,14 +44,15 @@ export default {
     employeeTypeComponent,
     defaultType,
   },
-
-  props: [
-    "recipients",
-    "messageRequired",
-    "validatorGroup",
-    "readOnly",
-    "valueExpr",
-  ],
+  props: {
+    recipients: { default: [] },
+    messageRequired: {},
+    validatorGroup: {},
+    readOnly: {},
+    valueExpr: {
+      
+    },
+  },
   data() {
     return {
       needRepaint: false,
