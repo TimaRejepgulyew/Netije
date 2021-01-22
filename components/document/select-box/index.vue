@@ -2,6 +2,7 @@
   <div>
     <DxSelectBox
       ref="document"
+      @opened="onOpened"
       :read-only="readOnly"
       :data-source="documentStore"
       @valueChanged="valueChanged"
@@ -54,59 +55,70 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: {
     dataSourceFilter: {},
     dataSourceQuery: {
       type: Number,
-      default: DocumentQuery.All
+      default: DocumentQuery.All,
     },
     value: {},
     isRequired: {
       type: Boolean,
-      default: false
+      default: false,
     },
     messageRequired: {
-      type: String
+      type: String,
     },
     validationGroup: {
-      type: String
+      type: String,
     },
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     valueExpr: {},
     showClearButton: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
 
   data() {
     return {
+      dataSourceLoaded: this.valueExpr,
       currentDocumentId: null,
-      isCardOpened: false
+      isCardOpened: false,
     };
   },
   computed: {
     documentStore() {
-      return new DataSource({
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}/${QuickFilter.All}`
+          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}/${QuickFilter.All}`,
         }),
         filter: this.dataSourceFilter || [],
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+      return dataSource;
     },
     documentId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     openFields() {
       this.$refs["document"].instance.open();
     },
@@ -115,10 +127,12 @@ export default {
         this,
         {
           params: { documentTypeGuid, documentId: id },
-          handler: load
+          handler: load,
         },
         {
-          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
+          listeners: [
+            { eventName: "valueChanged", handlerName: "reloadStore" },
+          ],
         }
       );
     },
@@ -127,30 +141,31 @@ export default {
         this,
         {
           documentQuery: this.dataSourceQuery,
-          documentFilter: this.dataSourceFilter
+          documentFilter: this.dataSourceFilter,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "updateDocument" }
+            { eventName: "valueChanged", handlerName: "updateDocument" },
           ],
-          showLoadingPanel: false
+          showLoadingPanel: false,
         }
       );
+      this.onOpened();
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },
     reloadStore() {
       this.$refs["document"].instance.repaint();
-      this.documentStore.reload();
+      this.documentStore?.reload();
     },
     updateDocument(data) {
       this.reloadStore();
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.$refs["document"].instance.repaint();
-    }
-  }
+    },
+  },
 };
 </script>
 

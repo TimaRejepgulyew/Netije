@@ -26,12 +26,14 @@
       </DxGroupItem>
 
       <template #author>
-        <employee-text-box
+        <employee-select-box
           :value="author"
+          :readOnly="true"
         />
       </template>
       <template #performer>
-        <employee-text-box
+        <employee-select-box
+          :readOnly="true"
           :value="performer"
         />
       </template>
@@ -39,7 +41,7 @@
   </div>
 </template>
 <script>
-import employeeTextBox from "~/components/employee/custom-text-box/index.vue"
+import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
@@ -52,7 +54,7 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxForm,
-    employeeTextBox,
+    employeeSelectBox,
   },
   name: "info-form",
   props: ["assignmentId"],

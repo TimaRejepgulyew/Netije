@@ -2,6 +2,7 @@
   <div>
     <DxSelectBox
       ref="businessUnit"
+      @opened="onOpened"
       :read-only="readOnly"
       :data-source="businessUnitStore"
       @valueChanged="valueChanged"
@@ -45,7 +46,7 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
-    customField
+    customField,
   },
   props: [
     "value",
@@ -53,25 +54,41 @@ export default {
     "messageRequired",
     "validatorGroup",
     "readOnly",
-    "valueExpr"
+    "valueExpr",
   ],
+  data() {
+    return {
+      dataSourceLoaded: this.valueExpr,
+    };
+  },
   computed: {
     businessUnitStore() {
-      return new DataSource({
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.BusinessUnit
+          loadUrl: this.storeApi || dataApi.company.BusinessUnit,
         }),
         paginate: true,
         pageSize: 10,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+
+      return dataSource;
     },
     businessUnitId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     openFields() {
       this.$refs["businessUnit"].instance.open();
     },
@@ -79,18 +96,18 @@ export default {
       this.$popup.bussiniesUnitCard(
         this,
         {
-          businessUnitId: this.businessUnitId
+          businessUnitId: this.businessUnitId,
         },
         {
-          height: "auto"
+          height: "auto",
         }
       );
     },
     valueChanged(e) {
       console.log();
       this.$emit("valueChanged", e.value);
-    }
-  }
+    },
+  },
 };
 </script>
 

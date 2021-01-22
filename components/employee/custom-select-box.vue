@@ -1,6 +1,7 @@
 <template>
   <div>
     <DxSelectBox
+      @opened="onOpened"
       stylingMode="text"
       ref="employee"
       :read-only="readOnly"
@@ -70,12 +71,13 @@ export default {
   },
   data() {
     return {
+      dataSourceLoaded: this.valueExpr,
       localEmployeeId: null,
     };
   },
   computed: {
     employeeStore() {
-      return new DataSource({
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: this.storeApi || dataApi.company.Employee,
@@ -83,20 +85,32 @@ export default {
         paginate: true,
         pageSize: 10,
       });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+
+      return dataSource;
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
     },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     openFields() {
       this.$refs["employee"].instance.open();
     },
     async reloadStore() {
-      await this.employeeStore.reload();
+      await this.employeeStore?.reload();
       this.$refs["employee"].instance.repaint();
     },
     showCard() {
+      
       this.$popup.employeeCard(
         this,
         {

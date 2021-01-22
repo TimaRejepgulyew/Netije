@@ -2,6 +2,7 @@
   <div>
     <DxSelectBox
       ref="department"
+      @opened="onOpened"
       :read-only="readOnly"
       :data-source="departmentUnitStore"
       @valueChanged="valueChanged"
@@ -45,7 +46,7 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
-    customField
+    customField,
   },
   props: [
     "value",
@@ -54,36 +55,48 @@ export default {
     "validatorGroup",
     "readOnly",
     "valueExpr",
-    "businessUnitId"
+    "businessUnitId",
   ],
 
   data() {
     return {
+      dataSourceLoaded: this.valueExpr,
       isCardOpened: false,
-      currentBusinessUnit: null
+      currentBusinessUnit: null,
     };
   },
   computed: {
     departmentUnitStore() {
-      return new DataSource({
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Department
+          loadUrl: this.storeApi || dataApi.company.Department,
         }),
         paginate: true,
         pageSize: 10,
         filter: [
           ["businessUnitId", "=", this.businessUnitId],
           "and",
-          ["status", "=", Status.Active]
-        ]
+          ["status", "=", Status.Active],
+        ],
       });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+
+      return dataSource;
     },
     departmentId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     openFields() {
       this.$refs["department"].instance.open();
     },
@@ -91,20 +104,20 @@ export default {
       this.$popup.departmentCard(
         this,
         {
-          departmentId: this.departmentId
+          departmentId: this.departmentId,
         },
         {
           height: "auto",
           listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" }
-          ]
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    }
-  }
+    },
+  },
 };
 </script>
 

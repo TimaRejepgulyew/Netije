@@ -14,7 +14,10 @@
     :page-size="10"
   >
     <DxValidator :validation-group="validatorGroup">
-      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
+      <DxRequiredRule
+        v-if="isRequired"
+        :message="$t(`translations.fields.${property}Required`)"
+      />
     </DxValidator>
     <template #item="{ data }">
       <div>
@@ -38,7 +41,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     employeeTypeComponent,
-    defaultType
+    defaultType,
   },
   props: [
     "valueExpr",
@@ -47,23 +50,39 @@ export default {
     "validatorGroup",
     "readOnly",
     "dataApi",
-    "property"
+    "property",
   ],
   created() {},
   data() {
     return {
-      dataStore: new DataSource({
+      dataSourceLoaded: this.valueExpr,
+    };
+  },
+  computed: {
+    dataStore() {
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.dataApi || dataApi.recipient.list
+          loadUrl: this.dataApi || dataApi.recipient.list,
         }),
         paginate: true,
         pageSize: 10,
-        sort: [{ selector: "recipientType", desc: false }]
-      })
-    };
+        sort: [{ selector: "recipientType", desc: false }],
+      });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+
+      return dataSource;
+    },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     listItemByType(type) {
       switch (type) {
         case recipientType.Employee:
@@ -74,8 +93,8 @@ export default {
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    }
-  }
+    },
+  },
 };
 </script>
 

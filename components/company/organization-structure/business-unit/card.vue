@@ -1,15 +1,15 @@
 <template>
   <div v-if="data">
-    <Header :showTitle="!isCard" :headerTitle="data.name" :isbackButton="false"></Header>
+    <Header
+      :showTitle="!isCard"
+      :headerTitle="data.name"
+      :isbackButton="false"
+    ></Header>
     <DxForm :read-only="readOnly" :form-data="data" id="form" :col-count="2">
       <DxSimpleItem data-field="name" data-type="string">
         <DxLabel :text="$t('shared.name')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="headCompanyId"
-        :editor-options="headCompanyOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="headCompany" template="headCompanySelectBox">
         <DxLabel :text="$t('companyStructure.fields.headCompany')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="code">
@@ -44,11 +44,7 @@
       <DxSimpleItem data-field="postalAddress">
         <DxLabel :text="$t('translations.fields.postAddress')" />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="ceo"
-        :editor-options="ceoOptions"
-        editor-type="dxSelectBox"
-      >
+      <DxSimpleItem data-field="ceo" template="ceoSelectBox">
         <DxLabel :text="$t('translations.fields.ceo')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="email">
@@ -81,18 +77,29 @@
       >
         <DxLabel :text="$t('translations.fields.note')" />
       </DxSimpleItem>
+      <template #ceoSelectBox>
+        <employee-select-box :value="data.ceo" :readOnly="readOnly" />
+      </template>
+      <template #headCompanySelectBox>
+        <business-unit-select-box
+          :value="data.headCompany"
+          :read-only="readOnly"
+        />
+      </template>
     </DxForm>
   </div>
 </template>
 
 <script>
+import EmployeeSelectBox from "~/components/employee/custom-select-box.vue";
+import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import { DxForm, DxSimpleItem, DxLabel } from "devextreme-vue/form";
 import Header from "~/components/page/page__header";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import "devextreme/ui/text_area";
 export default {
-  props: ["data","isCard"],
+  props: ["data", "isCard"],
   data() {
     return {
       statusDataSource: this.$store.getters["status/status"](this),
@@ -104,18 +111,10 @@ export default {
     DxSimpleItem,
     DxLabel,
     Header,
+    BusinessUnitSelectBox,
+    EmployeeSelectBox,
   },
   computed: {
-    headCompanyOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.BusinessUnit,
-        }),
-        valueExpr: "id",
-        displayExpr: "name",
-      };
-    },
     regionIdOptions() {
       return {
         dataSource: this.$dxStore({
@@ -136,16 +135,7 @@ export default {
         displayExpr: "name",
       };
     },
-    ceoOptions() {
-      return {
-        dataSource: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee,
-        }),
-        valueExpr: "id",
-        displayExpr: "name",
-      };
-    },
+
     bankIdOptions() {
       return {
         dataSource: this.$dxStore({

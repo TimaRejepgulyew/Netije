@@ -25,15 +25,17 @@ import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton
+    DxButton,
   },
   props: ["fieldData", "readOnly"],
   computed: {
     showBtn() {
       return this.fieldData?.id
-        ? this.$store.getters["permissions/allowReading"](EntityType.Employee)
+        ? this.$store.getters["permissions/allowReading"](
+            EntityType.Employee
+          ) && !this.fieldData.isSystem
         : false;
-    }
+    },
   },
   methods: {
     openField() {
@@ -44,7 +46,7 @@ export default {
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
-    }
-  }
+    },
+  },
 };
 </script>
