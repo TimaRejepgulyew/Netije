@@ -32,7 +32,6 @@ export default {
   methods: {
     onValueChanged(value) {
       this.$store.commit(`assignments/${this.assignmentId}/SET_BODY`, value);
-      console.log(value);
     }
   }
 };

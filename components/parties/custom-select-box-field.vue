@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     openField() {
-      this.$emit("openFields");
+      if (!this.readOnly) this.$emit("openFields");
     },
     openGird() {
       this.$emit("openGridPopup");
