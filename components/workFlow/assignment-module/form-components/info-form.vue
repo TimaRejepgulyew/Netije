@@ -28,7 +28,6 @@
       <template #author>
         <employee-text-box
           :value="author"
-
         />
       </template>
       <template #performer>
