@@ -269,14 +269,14 @@ export default {
     },
   },
   methods: {
-    setDepartmentId(data) {
-      this.employee.departmentId = data;
+    setDepartment(data) {
+      this.employee.department = data;
     },
     setPhoto(data) {
       this.employee.personalPhoto = data;
     },
-    setBusinessUnitId(data) {
-      this.employee.businessUnitId = data;
+    setBusinessUnit(data) {
+      this.employee.businessUnit = data;
     },
     passwordComparison() {
       return this.employee.password;

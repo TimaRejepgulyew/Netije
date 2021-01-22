@@ -432,14 +432,14 @@ export default {
     },
   },
   methods: {
-    setDepartmentId(data) {
-      this.employee.departmentId = data;
+    setDepartment(data) {
+      this.employee.department = data;
     },
     setPersonId(data) {
       this.employee.personId = data;
     },
-    setBusinessUnitId(data) {
-      this.employee.businessUnitId = data;
+    setBusinessUnit(data) {
+      this.employee.businessUnit = data;
     },
     setPhoto(data) {
       this.employee.personalPhoto = data;
