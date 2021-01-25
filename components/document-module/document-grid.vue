@@ -33,7 +33,7 @@
     >
       <DxGrouping :auto-expand-all="false" />
       <DxSelection />
-      <DxHeaderFilter :visible="true" />
+    
 
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />

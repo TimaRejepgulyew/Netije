@@ -139,12 +139,10 @@ function CreateAssignmentCreatedColumn(context) {
   };
 }
 function CreateAuthorColumn(context) {
-  return CreateLookupColumn(
-    "authorId",
-    context,
-    dataApi.company.Employee,
-    true
-  );
+  return {
+    dataField: "author",
+    caption: context.$t("document.fields.authorId")
+  };
 }
 function CreateStatusColumn(context) {
   return CreateArrayLookupColumn(

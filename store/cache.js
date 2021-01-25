@@ -1,5 +1,6 @@
 import dataApi from "~/static/dataApi";
 export const state = () => ({
+  documentKinds: null,
   extension: null,
   loaded: false
 });
@@ -10,6 +11,9 @@ export const getters = {
   },
   extension({ extension }) {
     return extension;
+  },
+  documentKinds({ documentKinds }) {
+    return documentKinds;
   }
 };
 
@@ -39,6 +43,9 @@ export const actions = {
 };
 
 export const mutations = {
+  SET_DOCUMENT_KINDS(state, payload) {
+    state.documentKinds = payload;
+  },
   SET_LOADED(state, payload) {
     state.loaded = payload;
   },
