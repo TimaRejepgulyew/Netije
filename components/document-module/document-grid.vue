@@ -31,9 +31,9 @@
       @toolbar-preparing="onToolbarPreparing($event)"
       :focused-row-enabled="false"
     >
-      <DxGrouping :auto-expand-all="false" />
       <DxSelection />
-    
+      <DxGroupPanel :visible="true" />
+      <DxGrouping :auto-expand-all="false" />
 
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />

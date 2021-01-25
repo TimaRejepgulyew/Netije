@@ -174,22 +174,46 @@ export default {
   //     [7, 8, 9],
   //   ];
   //   const passed = [];
-  //   const verticalStart = 0;
-  //   const verticalLength = arr.length - 1;
-  //   const horizontalStart = 0;
-  //   const horizontalLength = arr[0].length - 1;
+  //   let verticalStart = 0;
+  //   let verticalLength = arr.length;
+  //   let horizontalStart = 0;
+  //   let horizontalLength = arr[0].length;
 
-  //   function throwLeft(arr) {
-  //     for (let item in arr[verticalStart]) {
-  //       if (arr[verticalStart][item] < horizontalLength)
-  //         passed.push(arr[verticalStart][item]);
-  //       console.log(passed, arr[verticalStart][item]);
+  //   function throwLeft(arr, callback) {
+  //     const pointPosition = arr[verticalStart];
+  //     for (let item in pointPosition) {
+  //       if (pointPosition[item] < horizontalStart) {
+  //         console.log("inn");
+  //         continue;
+  //       }
+  //       if (pointPosition[item] > horizontalLength) {
+  //         console.log("out");
+  //         continue;
+  //       }
+
+  //       passed.push(pointPosition[item]);
   //     }
-  //     horizontalStart++;
-  //     horizontalLength--;
+  //     console.log(passed, "throwLeft");
   //     verticalStart++;
+  //     throwBottom(arr);
   //   }
-  //   function throwBottom(arr) {}
+  //   function throwBottom(arr) {
+  //     const pointPosition = arr;
+  //     for (let item in pointPosition) {
+  //       if (pointPosition[item] < verticalLength) {
+  //         continue;
+  //       }
+  //       console.log(verticalStart, pointPosition[item],"verr");
+  //       if (pointPosition[item] >= verticalStart) {
+  //         continue;
+  //       }
+  //       console.log(pointPosition[item][horizontalLength - 1]);
+
+  //       passed.push(pointPosition[item][horizontalLength - 1]);
+  //     }
+  //     console.log(passed, "throwBottom");
+  //     horizontalLength--;
+  //   }
 
   //   throwLeft(arr);
   // },

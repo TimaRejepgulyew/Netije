@@ -15,7 +15,9 @@
 
         <DxGroupItem :col-count="2">
           <DxSimpleItem data-field="addressee" template="addressee">
-            <DxRequiredRule :message="$t('task.validation.addresseeRequired')" />
+            <DxRequiredRule
+              :message="$t('task.validation.addresseeRequired')"
+            />
             <DxLabel location="left" :text="$t('task.fields.addressee')" />
           </DxSimpleItem>
           <DxSimpleItem
@@ -26,16 +28,28 @@
             <DxLabel location="left" :text="$t('task.fields.deadLine')" />
           </DxSimpleItem>
         </DxGroupItem>
-        <DxSimpleItem template="resolutionObservers" data-field="resolutionObservers">
+        <DxSimpleItem
+          template="resolutionObservers"
+          data-field="resolutionObservers"
+        >
           <DxLabel location="left" :text="$t('task.fields.observers')" />
         </DxSimpleItem>
 
-        <DxSimpleItem v-if="isDraft" data-field="body" editor-type="dxTextArea" template="autoText">
+        <DxSimpleItem
+          v-if="isDraft"
+          data-field="body"
+          editor-type="dxTextArea"
+          template="autoText"
+        >
           <DxLabel location="left" :text="$t('task.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
       <template #autoText>
-        <auto-text :value="body" :options="autoComleteOptions" @valueChanged="setBody" />
+        <auto-text
+          :value="task.body"
+          :options="autoComleteOptions"
+          @valueChanged="setBody"
+        />
       </template>
       <template #addressee>
         <employee-select-box
@@ -66,7 +80,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 export default {
@@ -79,7 +93,7 @@ export default {
     employeeSelectBox,
     recipientTagBox,
     employeeTagBox,
-    AutoText
+    AutoText,
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
@@ -95,7 +109,7 @@ export default {
     },
     setBody(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_BODY`, value);
-    }
+    },
   },
   computed: {
     readOnly() {
@@ -114,7 +128,7 @@ export default {
       return {
         category: "Task",
         entityType: this.task.taskType,
-        height: 250
+        height: 250,
       };
     },
     isDraft() {
@@ -124,14 +138,9 @@ export default {
       return {
         readOnly: true,
         value: this.task.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
-      };
-    },
-    bodyOptions() {
-      return {
-        height: 250
+        },
       };
     },
     deadlineOptions() {
@@ -141,11 +150,11 @@ export default {
         value: this.task.deadline,
         useMaskBehavior: true,
         openOnFieldClick: true,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_DEADLINE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
