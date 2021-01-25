@@ -20,7 +20,9 @@
       :title="$t('translations.fields.passwordChange')"
     >
       <div>
-        <change-password-popup @hidePopup="hidePopup('changePasswordPupupVisible')" />
+        <change-password-popup
+          @hidePopup="hidePopup('changePasswordPupupVisible')"
+        />
       </div>
     </DxPopup>
     <DxForm
@@ -33,7 +35,11 @@
       :show-validation-summary="true"
       validation-group="updateEmployee"
     >
-      <DxGroupItem :col-span="5" :caption="$t('translations.fields.personalData')" :col-count="5">
+      <DxGroupItem
+        :col-span="5"
+        :caption="$t('translations.fields.personalData')"
+        :col-count="5"
+      >
         <DxGroupItem :col-span="1">
           <DxSimpleItem template="imageUploader">
             <DxLabel location="top" :text="$t('translations.fields.photo')" />
@@ -41,12 +47,22 @@
         </DxGroupItem>
         <DxGroupItem :col-span="4">
           <DxSimpleItem data-field="userName" data-type="string">
-            <DxLabel location="top" :text="$t('translations.fields.userName')" />
-            <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.userName')"
+            />
+            <DxRequiredRule
+              :message="$t('translations.fields.userNameRequired')"
+            />
           </DxSimpleItem>
-          <DxSimpleItem :editorOptions="{readOnly:true}" data-field="name">
-            <DxLabel location="top" :text="$t('translations.fields.fullName')" />
-            <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
+          <DxSimpleItem :editorOptions="{ readOnly: true }" data-field="name">
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.fullName')"
+            />
+            <DxRequiredRule
+              :message="$t('translations.fields.fullNameRequired')"
+            />
           </DxSimpleItem>
 
           <DxSimpleItem data-field="email">
@@ -64,21 +80,40 @@
           </DxSimpleItem>
         </DxGroupItem>
       </DxGroupItem>
-      <DxGroupItem :col-span="4" :caption="$t('translations.fields.departmentId')">
+      <DxGroupItem
+        :col-span="4"
+        :caption="$t('translations.fields.departmentId')"
+      >
         <DxSimpleItem
           data-field="jobTitleId"
           :editor-options="jobTitleOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.jobTitleId')"
+          />
         </DxSimpleItem>
-        <DxSimpleItem data-field="businessUnitId" template="businessUnitSelectBox">
-          <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
-          <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
+        <DxSimpleItem
+          data-field="businessUnit"
+          template="businessUnitSelectBox"
+        >
+          <DxLabel
+            location="top"
+            :text="$t('document.fields.businessUnitId')"
+          />
+          <DxRequiredRule
+            :message="$t('document.validation.businessUnitIdRequired')"
+          />
         </DxSimpleItem>
-        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
-          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
-          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
+        <DxSimpleItem data-field="department" template="departmentSelectBox">
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.departmentId')"
+          />
+          <DxRequiredRule
+            :message="$t('translations.fields.departmentIdRequired')"
+          />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="phone">
@@ -89,18 +124,28 @@
           editor-type="dxDateBox"
           data-field="dateOfAppointment"
         >
-          <DxLabel location="top" :text="$t('translations.fields.dateOfAppointment')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.dateOfAppointment')"
+          />
         </DxSimpleItem>
         <DxSimpleItem
           :editor-options="dateOfDismissal"
           editor-type="dxDateBox"
           data-field="dateOfDismissal"
         >
-          <DxLabel location="top" :text="$t('translations.fields.dateOfDismissal')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.dateOfDismissal')"
+          />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="3" :col-count="1">
-        <DxGroupItem :col-span="3" :col-count="1" :caption="$t('translations.fields.moreSettings')">
+        <DxGroupItem
+          :col-span="3"
+          :col-count="1"
+          :caption="$t('translations.fields.moreSettings')"
+        >
           <DxSimpleItem
             :col-span="3"
             data-field="status"
@@ -133,7 +178,10 @@
             :editor-options="lockoutEndDateOptions"
             :col-span="2"
           >
-            <DxLabel location="top" :text="$t('translations.fields.lockoutEndDate')" />
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.lockoutEndDate')"
+            />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -161,20 +209,6 @@
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <template #businessUnitSelectBox>
-        <business-unit-select-box
-          valueExpr="id"
-          :value="businessUnitId"
-          :read-only="readOnly"
-          validatorGroup="updateEmployee"
-          @valueChanged="
-            (data) => {
-              setBusinessUnitId(data);
-              setDepartmentId(null);
-            }
-          "
-        />
-      </template>
       <template #imageUploader>
         <image-uploader
           :read-only="readOnly"
@@ -186,23 +220,33 @@
           "
         />
       </template>
-      <template #departmentSelectBox>
-        <department-select-box
-          valueExpr="id"
+      <template #businessUnitSelectBox>
+        <business-unit-select-box
+          :value="businessUnit"
           :read-only="readOnly"
-          :value="departmentId"
-          :businessUnitId="businessUnitId"
+          validatorGroup="updateEmployee"
           @valueChanged="
             (data) => {
-              setDepartmentId(data);
+              setBusinessUnit(data);
+              setDepartment(null);
             }
           "
         />
       </template>
-      <!-- :notPerson="true" -->
+      <template #departmentSelectBox>
+        <department-select-box
+          :read-only="readOnly"
+          :value="department"
+          :businessUnitId="businessUnitId"
+          @valueChanged="
+            (data) => {
+              setDepartment(data);
+            }
+          "
+        />
+      </template>
       <template #personSelectBox>
         <person-select-box valueExpr="id" :read-only="true" :value="personId" />
-        <!-- :businessUnitId="businessUnitId" -->
       </template>
     </DxForm>
   </div>
@@ -226,17 +270,13 @@ import DxForm, {
   DxSimpleItem,
   DxLabel,
   DxRequiredRule,
-  DxCompareRule,
-  DxRangeRule,
-  DxPatternRule,
   DxEmailRule,
   DxAsyncRule,
   DxButtonItem,
-  DxCheckBox
+  DxCheckBox,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
-// import Vue from "vue";
+
 export default {
   components: {
     Header,
@@ -245,9 +285,6 @@ export default {
     DxLabel,
     DxButtonItem,
     DxRequiredRule,
-    DxCompareRule,
-    DxPatternRule,
-    DxRangeRule,
     DxEmailRule,
     DxForm,
     DxAsyncRule,
@@ -258,10 +295,10 @@ export default {
     BusinessUnitSelectBox,
     ImageUploader,
     DepartmentSelectBox,
-    PersonSelectBox
+    PersonSelectBox,
   },
   props: ["data", "isCard"],
-  provide: function() {
+  provide: function () {
     return { employeeId: this.employee.id };
   },
 
@@ -273,21 +310,21 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
+        showClearButton: true,
       },
       jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.JobTitle,
-        filter: ["status", "=", 0]
+        filter: ["status", "=", 0],
       }),
       passwordOptions: {
-        mode: "password"
+        mode: "password",
       },
       changePasswordPupupVisible: false,
       namePattern: /^[^0-9]+$/,
       lockoutEnabled: false,
       isLockedOut: false,
-      lockoutEndDate: null
+      lockoutEndDate: null,
     };
   },
   computed: {
@@ -302,69 +339,68 @@ export default {
         openOnFieldClick: true,
         type: "datetime",
         min: new Date().getTime(),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.lockoutEndDate = e.value;
-        }
+        },
       };
     },
     allowBlockingCheckBoxOptions() {
       return {
         value: this.lockoutEnabled,
         text: this.$t("translations.fields.allowBlocking"),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.lockoutEnabled = e.value;
-        }
+        },
       };
     },
     saveBlockingButtonOptions() {
       return {
         text: this.$t("buttons.save"),
-        onClick: () => {
-          let result = confirm(
+        onClick: async () => {
+          let result = await confirm(
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then(async dialogResult => {
-            if (dialogResult) {
-              await this.$axios.post(dataApi.company.lockEmployee, {
-                id: this.employee.id,
-                lockoutEndDate: this.lockoutEndDate,
-                lockoutEnabled: this.lockoutEnabled
-              });
-            }
-          });
-        }
+          if (result) {
+            await this.$axios.post(dataApi.company.lockEmployee, {
+              id: this.employee.id,
+              lockoutEndDate: this.lockoutEndDate,
+              lockoutEnabled: this.lockoutEnabled,
+            });
+          }
+        },
       };
     },
     unlockButtonOptions() {
       return {
         text: this.$t("buttons.unlock"),
-        onClick: () => {
-          let result = confirm(
+        onClick: async () => {
+          let result = await confirm(
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then(async dialogResult => {
-            if (dialogResult) {
-              try {
-                await this.$axios.post(dataApi.company.unlockEmployee, {
-                  id: this.employee.id
-                });
-                this.getLockInfo();
-              } catch (error) {}
-            }
-          });
-        }
+          if (result) {
+            try {
+              await this.$axios.post(dataApi.company.unlockEmployee, {
+                id: this.employee.id,
+              });
+              this.getLockInfo();
+            } catch (error) {}
+          }
+        },
       };
     },
     businessUnitId() {
-      return this.employee.businessUnitId;
+      return this.employee.businessUnit?.id;
     },
     personId() {
       return this.employee.personId;
     },
-    departmentId() {
-      return this.employee.departmentId;
+    businessUnit() {
+      return this.employee.businessUnit;
+    },
+    department() {
+      return this.employee.department;
     },
     readOnly() {
       return !this.$store.getters["permissions/allowUpdating"](this.entityType);
@@ -373,25 +409,12 @@ export default {
       return {
         useMaskBehavior: true,
         openOnFieldClick: true,
-        dateSerializationFormat: "yyyy-MM-dd"
+        dateSerializationFormat: "yyyy-MM-dd",
       };
     },
     dateOfDismissal() {
       return {
-        dateSerializationFormat: "yyyy-MM-dd"
-      };
-    },
-    departmentOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["status", "=", 0],
-            ["businessUnitId", "=", this.employee.businessUnitId]
-          ]
-        }),
-        value: this.employee.departmentId
+        dateSerializationFormat: "yyyy-MM-dd",
       };
     },
     popupPasswordOpt() {
@@ -404,19 +427,19 @@ export default {
         },
         height: 40,
         icon: "key",
-        text: this.$t("buttons.changePassword")
+        text: this.$t("buttons.changePassword"),
       };
-    }
+    },
   },
   methods: {
-    setDepartmentId(data) {
-      this.employee.departmentId = data;
+    setDepartment(data) {
+      this.employee.department = data;
     },
     setPersonId(data) {
       this.employee.personId = data;
     },
-    setBusinessUnitId(data) {
-      this.employee.businessUnitId = data;
+    setBusinessUnit(data) {
+      this.employee.businessUnit = data;
     },
     setPhoto(data) {
       this.employee.personalPhoto = data;
@@ -436,7 +459,7 @@ export default {
       return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
           id: this.employee.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -474,11 +497,11 @@ export default {
           dataApi.company.Employee + "/" + this.employee.id,
           file
         ),
-        e => {
+        (e) => {
           this.$emit("valueChanged", this.employee);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
     },
     async reload() {
@@ -502,11 +525,11 @@ export default {
           this.lockoutEndDate = data.lockoutEndDate;
         } catch (error) {}
       }
-    }
+    },
   },
   created() {
     this.getLockInfo();
-  }
+  },
 };
 </script>
 

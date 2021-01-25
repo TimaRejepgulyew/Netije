@@ -3,6 +3,7 @@
     <DxToolbar>
       <DxItem
         locateInMenu="auto"
+        :disabled="isReaddresseed"
         :visible="inProcess"
         :options="btnApproveOptions"
         location="before"
@@ -10,6 +11,7 @@
       />
       <DxItem
         locateInMenu="auto"
+        :disabled="isReaddresseed"
         :visible="inProcess"
         :options="btnReworkOptions"
         location="before"
@@ -17,7 +19,7 @@
       />
       <DxItem
         locateInMenu="auto"
-        :disabled="!addresseeId"
+        :disabled="!isReaddresseed"
         :visible="inProcess && false"
         :options="btnForwardOptions"
         location="before"
@@ -63,8 +65,11 @@ export default {
   },
   mixins: [toolbarMixin],
   computed: {
-    addresseeId() {
-      return this.assignment.addresseeId;
+    addressee() {
+      return this.assignment.addressee;
+    },
+    isReaddresseed() {
+      return Boolean(this.addressee);
     },
     btnApproveOptions() {
       return {

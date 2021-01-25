@@ -32,7 +32,6 @@
       >
         <DxGroupPanel :visible="true" />
         <DxGrouping :auto-expand-all="false" />
-        <DxHeaderFilter :visible="true" />
 
         <DxColumnChooser :enabled="true" />
         <DxColumnFixing :enabled="true" />
@@ -116,9 +115,8 @@
           format="dd.MM.yyyy HH:mm"
         />
         <DxColumn
-          data-field="author.name"
+          data-field="author"
           :caption="$t('task.fields.author')"
-          :allowHeaderFiltering="false"
           data-type="string"
         />
         <DxColumn

@@ -22,24 +22,14 @@
             :useIcons="true"
             mode="row"
           />
-          <!-- <DxColumn :width="110" :buttons="editButtons" type="buttons" /> -->
-
           <DxFilterRow :visible="true" />
-
           <DxSearchPanel position="after" :visible="true" />
-
           <DxColumn
             editCellTemplate="employeeSelectBox"
             cellTemplate="employeeSelectBox"
             data-field="employeeId"
             :caption="$t('shared.name')"
           ></DxColumn>
-          <!-- <DxLookup
-            :allow-clearing="true"
-            :data-source="getActiveEmployees"
-            value-expr="id"
-            display-expr="name"
-          />-->
           <template #employeeSelectBox="{data:cellInfo}">
             <employee-select-box
               valueExpr="id"
@@ -51,8 +41,6 @@
           </template>
         </DxDataGrid>
       </template>
-      <!-- TODO:V2.0<DxItem :title="$t('translations.fields.permissions')" template="permissions" />
-      <permissions slot="permissions" :data="data.id" />-->
     </DxTabPanel>
   </div>
 </template>

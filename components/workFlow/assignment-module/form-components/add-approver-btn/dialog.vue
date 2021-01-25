@@ -11,16 +11,14 @@
         <DxLabel location="left" :text="$t('assignment.fields.approver')" />
       </DxSimpleItem>
       <DxSimpleItem
-        data-field="dated"
-        :editor-options="datedOptions"
+        data-field="deadline"
+        :editor-options="deadlineOptions"
         editor-type="dxDateBox"
       >
         <DxLabel location="left" :text="$t('assignment.fields.newDeadline')" />
       </DxSimpleItem>
       <template #approver>
         <employee-select-box
-          valueExpr="id"
-          displayExpr="name"
           :value="approver"
           @valueChanged="onApproverChanged"
           validatorGroup="addApproverDialog"
@@ -49,7 +47,7 @@ import DxForm, {
   DxLabel,
   DxRequiredRule,
   DxButtonItem,
-  DxGroupItem
+  DxGroupItem,
 } from "devextreme-vue/form";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 export default {
@@ -60,34 +58,34 @@ export default {
     DxLabel,
     DxButtonItem,
     DxGroupItem,
-    employeeSelectBox
+    employeeSelectBox,
   },
   data() {
     return {
       closeButtonOptions: {
         text: this.$t("buttons.closed"),
-        onClick: this.closeDialog
+        onClick: this.closeDialog,
       },
       saveButtonOptions: {
         text: this.$t("buttons.add"),
-        useSubmitBehavior: true
+        useSubmitBehavior: true,
       },
       approver: null,
       deadline: this.$store.getters[
         `assignments/${this.assignmentId}/assignment`
-      ].deadline
+      ].deadline,
     };
   },
   props: ["assignmentId"],
   computed: {
-    datedOptions() {
+    deadlineOptions() {
       return {
         type: "datetime",
         useMaskBehavior: true,
         openOnFieldClick: true,
         min: new Date().getTime(),
         value: this.deadline,
-        onValueChanged: this.onApproverChanged
+        onValueChanged: this.onDeadlineChanged,
       };
     },
     inProcess() {
@@ -96,15 +94,15 @@ export default {
     isRework() {
       return this.assignment.isRework;
     },
-    addresseeId() {
-      return this.assignment.addresseeId;
+    addressee() {
+      return this.assignment.addressee;
     },
     canUpdate() {
       return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
     },
     assignment() {
       return this.$store.getters[`assignments/${this.assignmentId}/assignment`];
-    }
+    },
   },
   methods: {
     addApprover() {
@@ -112,7 +110,7 @@ export default {
         this.$axios.post(dataApi.assignment.AddApprover, {
           assignmentId: this.assignmentId,
           newDeadline: this.deadline,
-          approver: this.approver
+          approver: this.approver,
         }),
         () => {
           this.closeDialog();
@@ -123,13 +121,13 @@ export default {
     closeDialog() {
       this.$emit("close");
     },
-    onApproverChanged(e) {
-      this.approver = e;
+    onApproverChanged(value) {
+      this.approver = value;
     },
     onDeadlineChanged(e) {
       this.deadline = e.value;
-    }
-  }
+    },
+  },
 };
 </script>
 

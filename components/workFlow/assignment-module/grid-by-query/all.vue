@@ -29,7 +29,6 @@
       >
         <DxGroupPanel :visible="true" />
         <DxGrouping :auto-expand-all="false" />
-        <DxHeaderFilter :visible="true" />
 
         <DxColumnChooser :enabled="true" />
         <DxColumnFixing :enabled="true" />

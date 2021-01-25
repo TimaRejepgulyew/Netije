@@ -61,6 +61,9 @@ export const mutations = {
       state[item] = payload[item];
     }
   },
+  SET_ADDRESSEE(state, payload) {
+    state.assignment.addressee = payload;
+  },
   SET_APPROVERS(state, payload) {
     state.assignment.approvers = payload;
   },
@@ -69,9 +72,6 @@ export const mutations = {
   },
   SET_ATTACHMENT_GROUPS(state, payload) {
     state.assignment.attachmentGroups = payload;
-  },
-  SET_ADDRESSEE_ID(state, payload) {
-    state.assignment.addresseeId = payload;
   },
   SET_RESULT(state, payload) {
     state.assignment.result = payload;

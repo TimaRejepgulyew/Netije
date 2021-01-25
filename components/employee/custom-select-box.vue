@@ -1,6 +1,8 @@
 <template>
   <div>
     <DxSelectBox
+      @opened="onOpened"
+      stylingMode="text"
       ref="employee"
       :read-only="readOnly"
       :data-source="employeeStore"
@@ -53,57 +55,72 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: {
     showClearButton: {
       type: Boolean,
-      default: true
+      default: true,
     },
     value: {},
     storeApi: {},
     messageRequired: {},
     validatorGroup: {},
     readOnly: {},
-    valueExpr: {}
+    valueExpr: {},
   },
   data() {
     return {
-      localEmployeeId: null
+      dataSourceLoaded: this.valueExpr,
+      localEmployeeId: null,
     };
   },
   computed: {
     employeeStore() {
-      return new DataSource({
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
+          loadUrl: this.storeApi || dataApi.company.Employee,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+
+      return dataSource;
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     openFields() {
       this.$refs["employee"].instance.open();
     },
     async reloadStore() {
-      await this.employeeStore.reload();
+      await this.employeeStore?.reload();
       this.$refs["employee"].instance.repaint();
     },
     showCard() {
+      
       this.$popup.employeeCard(
         this,
         {
-          employeeId: this.employeeId || this.localEmployeeId
+          employeeId: this.employeeId || this.localEmployeeId,
         },
         {
           height: "auto",
-          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
+          listeners: [
+            { eventName: "valueChanged", handlerName: "reloadStore" },
+          ],
         }
       );
     },
@@ -115,8 +132,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.reloadStore();
-    }
-  }
+    },
+  },
 };
 </script>
 

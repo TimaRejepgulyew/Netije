@@ -25,26 +25,28 @@ import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton
+    DxButton,
   },
   props: ["fieldData", "readOnly"],
   computed: {
     showBtn() {
       return this.fieldData?.id
-        ? this.$store.getters["permissions/allowReading"](EntityType.Employee)
+        ? this.$store.getters["permissions/allowReading"](
+            EntityType.Employee
+          ) && !this.fieldData.isSystem
         : false;
-    }
+    },
   },
   methods: {
     openField() {
-      this.$emit("openFields");
+      if (!this.readOnly) this.$emit("openFields");
     },
     showCard() {
       this.$emit("showCard");
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
-    }
-  }
+    },
+  },
 };
 </script>

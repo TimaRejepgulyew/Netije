@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     openField() {
-      this.$emit("openFields");
+      if (!this.readOnly) this.$emit("openFields");
     },
     openGrid() {
       this.$emit("openGrid");

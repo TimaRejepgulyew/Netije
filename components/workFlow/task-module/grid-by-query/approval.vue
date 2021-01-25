@@ -32,7 +32,6 @@
       >
         <DxGroupPanel :visible="true" />
         <DxGrouping :auto-expand-all="false" />
-        <DxHeaderFilter :visible="true" />
 
         <DxColumnChooser :enabled="true" />
         <DxColumnFixing :enabled="true" />
@@ -117,9 +116,8 @@
           format="dd.MM.yyyy HH:mm"
         />
         <DxColumn
-          data-field="author.name"
+          data-field="author"
           :caption="$t('task.fields.author')"
-          :allowHeaderFiltering="false"
           data-type="string"
         />
         <DxColumn
@@ -146,8 +144,6 @@
 <script>
 import TaskQuery from "../../infrastructure/constants/query/taskQuery.js";
 import taskStoreMixin from "../infrastructure/mixins/gridСategories.js";
-import DataSource from "devextreme/data/data_source";
-import dataApi from "~/static/dataApi";
 export default {
   mixins: [taskStoreMixin],
   data() {

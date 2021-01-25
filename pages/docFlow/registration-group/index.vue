@@ -13,9 +13,8 @@
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif')
+        indicatorSrc: require('~/static/icons/loading.gif'),
       }"
-      :onRowDblClick="edit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -33,7 +32,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="RegistrationGroup" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="RegistrationGroup"
+      />
 
       <DxEditing
         :allow-updating="$store.getters['permissions/IsAdmin']"
@@ -86,12 +89,19 @@
         <employee-select-box
           :showClearButton="false"
           :value="cellInfo.value"
-          @valueChanged="value => onValueChanged(value, cellInfo)"
+          @valueChanged="(value) => onValueChanged(value, cellInfo)"
         />
       </template>
-      <DxColumn :visible-index="2" data-field="index" :caption="$t('translations.fields.index')">
+      <DxColumn
+        :visible-index="2"
+        data-field="index"
+        :caption="$t('translations.fields.index')"
+      >
         <DxRequiredRule :message="$t('translations.fields.indexRequired')" />
-        <DxPatternRule :pattern="indexPattern" :message="$t('translations.fields.indexRule')" />
+        <DxPatternRule
+          :pattern="indexPattern"
+          :message="$t('translations.fields.indexRule')"
+        />
       </DxColumn>
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -101,6 +111,7 @@
           display-expr="status"
         />
       </DxColumn>
+
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
@@ -134,7 +145,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxButton,
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 export default {
@@ -158,7 +170,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    employeeSelectBox
+    employeeSelectBox,
+    DxButton,
   },
   data() {
     return {
@@ -167,15 +180,16 @@ export default {
         loadUrl: dataApi.docFlow.RegistrationGroup,
         insertUrl: dataApi.docFlow.RegistrationGroup,
         updateUrl: dataApi.docFlow.RegistrationGroup,
-        removeUrl: dataApi.docFlow.RegistrationGroup
+        removeUrl: dataApi.docFlow.RegistrationGroup,
       }),
       entityType: EntityType.RegistrationGroup,
       statusDataSource: this.$store.getters["status/status"](this),
-      indexPattern: this.$store.getters["globalProperties/whitespacePattern"]
+      indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
     edit(e) {
+      console.log();
       this.$refs["gridContainer"].instance.editRow(e.rowIndex);
     },
     onValueChanged(value, cellInfo) {
@@ -195,7 +209,7 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         filter: options.data
@@ -206,11 +220,11 @@ export default {
               "or",
               "responsibleEmployeeId",
               "=",
-              options.data.responsibleEmployeeId
+              options.data.responsibleEmployeeId,
             ]
-          : undefined
+          : undefined,
       };
-    }
-  }
+    },
+  },
 };
 </script>

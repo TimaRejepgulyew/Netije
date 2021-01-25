@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div v-if="false">
+    <div v-if="showReaddressee">
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
         <employee-select-box
-          valueExpr="id"
-          :read-only="!canUpdate"
-          :value="addresseeId"
+          :read-only="!inProcess"
+          :value="addressee"
           @valueChanged="valueChanged"
         />
       </div>
@@ -22,11 +21,10 @@
 import { load } from "../../../../../infrastructure/services/taskService.js";
 import AttachmentGroup from "../../../../../infrastructure/constants/attachmentGroup.js";
 import resolutionTask from "../../../../../attachment/resolution-task-list.vue";
-
-import employeeSelectBox from "~/components/employee/custom-select-box.vue";
+import ReaddresseMixin from "../../../../infrastructure/mixins/assignmentReaddressee.js";
 export default {
+  mixins: [ReaddresseMixin],
   components: {
-    employeeSelectBox,
     resolutionTask,
   },
   props: ["assignmentId"],
@@ -37,22 +35,8 @@ export default {
         handler: load,
       });
     },
-
-    valueChanged(id) {
-      this.$store.commit(
-        `assignments/${this.assignmentId}/SET_ADDRESSEE_ID`,
-        id
-      );
-    },
   },
   computed: {
-    addresseeId() {
-      return this.$store.getters[`assignments/${this.assignmentId}/assignment`]
-        .addresseeId;
-    },
-    canUpdate() {
-      return this.$store.getters[`assignments/${this.assignmentId}/canUpdate`];
-    },
     projectResolutions() {
       const attachments = this.$store.getters[
         `assignments/${this.assignmentId}/assignment`

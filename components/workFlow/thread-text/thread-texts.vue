@@ -68,8 +68,7 @@ export default {
           key: "id",
           loadUrl: url + this.id,
         }),
-        paginate: true,
-        pageSize: 10,
+        paginate: false,
       }),
     };
   },

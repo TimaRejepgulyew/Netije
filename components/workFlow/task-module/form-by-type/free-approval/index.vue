@@ -9,13 +9,19 @@
       :validation-group="taskValidatorName"
     >
       <DxGroupItem>
-        <DxSimpleItem :editor-options="subjectOptions" :col-span="10" data-field="subject">
+        <DxSimpleItem
+          :editor-options="subjectOptions"
+          :col-span="10"
+          data-field="subject"
+        >
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="approvers" template="approvers">
-          <DxRequiredRule :message="$t('task.validation.approversRerquired ')" />
+          <DxRequiredRule
+            :message="$t('task.validation.approversRerquired ')"
+          />
           <DxLabel location="left" :text="$t('task.fields.approvers')" />
         </DxSimpleItem>
         <DxGroupItem :col-count="9">
@@ -33,8 +39,13 @@
             :editor-options="receiveOnCompletionOptions"
             editor-type="dxSelectBox"
           >
-            <DxRequiredRule :message="$t('task.validation.receiveOnCompletionRequired')" />
-            <DxLabel location="left" :text="$t('task.fields.receiveOnCompletion')" />
+            <DxRequiredRule
+              :message="$t('task.validation.receiveOnCompletionRequired')"
+            />
+            <DxLabel
+              location="left"
+              :text="$t('task.fields.receiveOnCompletion')"
+            />
           </DxSimpleItem>
           <DxSimpleItem
             :visible="false"
@@ -49,12 +60,21 @@
         <DxSimpleItem template="observers" data-field="observers">
           <DxLabel location="left" :text="$t('task.fields.copies')" />
         </DxSimpleItem>
-        <DxSimpleItem v-if="isDraft" data-field="body" editor-type="dxTextArea" template="autoText">
+        <DxSimpleItem
+          v-if="isDraft"
+          data-field="body"
+          editor-type="dxTextArea"
+          template="autoText"
+        >
           <DxLabel location="left" :text="$t('task.fields.comment')" />
         </DxSimpleItem>
       </DxGroupItem>
       <template #autoText>
-        <auto-text :value="body" :options="autoComleteOptions" @valueChanged="setBody" />
+        <auto-text
+          :value="body"
+          :options="autoComleteOptions"
+          @valueChanged="setBody"
+        />
       </template>
       <template #approvers>
         <recipient-tag-box
@@ -82,7 +102,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import DataSource from "devextreme/data/data_source";
@@ -94,7 +114,7 @@ export default {
     DxRequiredRule,
     DxForm,
     recipientTagBox,
-    AutoText
+    AutoText,
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
@@ -107,7 +127,8 @@ export default {
     },
     setBody(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_BODY`, value);
-    }
+      console.log(value);
+    },
   },
   computed: {
     readOnly() {
@@ -138,16 +159,16 @@ export default {
       return {
         readOnly: true,
         value: this.task.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
+        },
       };
     },
     autoComleteOptions() {
       return {
         category: "Task",
         entityType: this.task.taskType,
-        height: 250
+        height: 250,
       };
     },
     maxDeadlineOptions() {
@@ -157,44 +178,44 @@ export default {
         value: this.task.maxDeadline,
         useMaskBehavior: true,
         openOnFieldClick: true,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
-        }
+        },
       };
     },
     receiveNoticeOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
 
         value: this.task.receiveNotice,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `tasks/${this.taskId}/SET_RECEIVE_NOTICE`,
             e.value
           );
-        }
+        },
       };
     },
     receiveOnCompletionOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         dataSource: [
           { id: 0, name: this.$t("task.sources.assignment") },
-          { id: 1, name: this.$t("task.sources.notification") }
+          { id: 1, name: this.$t("task.sources.notification") },
         ],
         value: this.task.receiveOnCompletion,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `tasks/${this.taskId}/SET_RECEIVE_ON_COMPLETION`,
             e.value
           );
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

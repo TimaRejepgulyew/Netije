@@ -1,5 +1,7 @@
 <template>
   <DxTagBox
+    ref="recipients"
+    @opened="onOpened"
     :read-only="readOnly"
     :data-source="resipientStore"
     :show-selection-controls="false"
@@ -12,6 +14,7 @@
     searchExpr="name"
     :paginate="true"
     :page-size="10"
+    :deferRendering="true"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
@@ -39,29 +42,54 @@ export default {
     DxRequiredRule,
     DxTagBox,
     employeeTypeComponent,
-    defaultType
+    defaultType,
   },
-  props: [
-    "recipients",
-    "messageRequired",
-    "validatorGroup",
-    "readOnly",
-    "valueExpr"
-  ],
+  props: {
+    recipients: { default: [] },
+    messageRequired: {},
+    validatorGroup: {},
+    readOnly: {},
+    valueExpr: {
+      
+    },
+  },
   data() {
     return {
-      resipientStore: new DataSource({
+      needRepaint: false,
+      dataSourceLoaded: this.valueExpr,
+    };
+  },
+  computed: {
+    resipientStore() {
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.recipient.list
+          loadUrl: dataApi.recipient.list,
         }),
         paginate: true,
         pageSize: 10,
-        sort: [{ selector: "recipientType", desc: false }]
-      })
-    };
+        sort: [{ selector: "recipientType", desc: false }],
+      });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (
+        this.readOnly ||
+        (this.recipients !== null && this.recipients.length > 0)
+      ) {
+        this.needRepaint = true;
+        return this.recipients;
+      }
+
+      return dataSource;
+    },
   },
   methods: {
+    onOpened() {
+      if (!this.dataSourceLoaded) {
+      }
+      this.dataSourceLoaded = true;
+    },
     listItemByType(type) {
       switch (type) {
         case recipientType.Employee:
@@ -71,9 +99,14 @@ export default {
       }
     },
     setRecipient(e) {
+      console.log(e);
       this.$emit("setRecipients", e.value);
-    }
-  }
+      if (this.needRepaint) {
+        this.needRepaint = false;
+        this.$refs["recipients"].instance.repaint();
+      }
+    },
+  },
 };
 </script>
 

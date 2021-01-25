@@ -17,9 +17,8 @@
       />
       <DxItem
         locateInMenu="auto"
-        :disabled="btnForwardDisabled"
-        :visible2="!isRework"
-        :visible="false"
+        :disabled="!isReaddressed"
+        :visible="!isRework"
         :options="btnForwardOptions"
         location="before"
         widget="dxButton"
@@ -64,11 +63,11 @@ export default {
     };
   },
   computed: {
-    btnForwardDisabled() {
-      return !this.assignment.addresseeId;
+    isReaddressed() {
+      return Boolean(this.assignment.addressee);
     },
     tollbarItemVisible() {
-      return this.assignment.addresseeId ? false : this.inProcess;
+      return !this.isReaddressed && this.inProcess;
     },
     isRework() {
       if (this.inProcess) return this.assignment.isRework;
