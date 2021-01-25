@@ -452,8 +452,8 @@ function CreateAddresseConterPartColumn(context) {
 }
 function CreateAddresseColumn(context, visible = false) {
   return {
-    dataField: "adressee",
-    caption: context.$t("document.fields.adresseeId"),
+    dataField: "addressee",
+    caption: context.$t("document.fields.addresseeId"),
     visible
   };
 }
