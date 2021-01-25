@@ -59,7 +59,10 @@ export default {
     ManagersAssistant: `/api/ManagersAssistant`,
   },
   visibilitySettings: {
-    settings: "/api/VisibilitySetting"
+    settings: "/api/VisibilitySetting",
+  },
+  visibilityRule: {
+    rule: "/api/VisibilityRule"
   },
   admin: {
     Roles: `/api/Role`,
