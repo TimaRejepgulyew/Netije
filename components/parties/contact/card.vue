@@ -1,7 +1,16 @@
 <template>
   <div>
-    <Header v-if="!isCard" :headerTitle="headerTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
-    <toolbar :isCard="isCard" @saveChanges="saveChanges" :canSave="allowReading" />
+    <Header
+      v-if="!isCard"
+      :headerTitle="headerTitle"
+      :isbackButton="!isCard"
+      :isNew="isNew"
+    ></Header>
+    <toolbar
+      :isCard="isCard"
+      @saveChanges="saveChanges"
+      :canSave="allowReading"
+    />
     <DxForm
       ref="form"
       :read-only="!allowReading"
@@ -11,22 +20,44 @@
       validation-group="contact"
     >
       <DxGroupItem :col-count="2">
-        <DxSimpleItem data-field="name" :editor-options="nameOptions" :col-span="2">
+        <DxSimpleItem
+          data-field="name"
+          :editor-options="nameOptions"
+          :col-span="2"
+        >
           <DxLabel location="left" :text="$t('parties.fields.contactName')" />
           <DxRequiredRule :message="$t('shared.nameRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="personId" template="personSelectBox" :col-span="2">
+        <DxSimpleItem
+          data-field="personId"
+          template="personSelectBox"
+          :col-span="2"
+        >
           <DxLabel location="left" :text="$t('counterPart.Person')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="companyId" template="companySelectBox" :col-span="2">
+        <DxSimpleItem
+          data-field="companyId"
+          template="companySelectBox"
+          :col-span="2"
+        >
           <DxLabel location="left" :text="$t('parties.fields.company')" />
           <DxRequiredRule :message="$t('parties.validation.companyRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="jobTitle" editor-type="dxTextBox" :col-span="2">
-          <DxLabel location="left" :text="$t('translations.fields.jobTitleId')" />
+        <DxSimpleItem
+          data-field="jobTitle"
+          editor-type="dxTextBox"
+          :col-span="2"
+        >
+          <DxLabel
+            location="left"
+            :text="$t('translations.fields.jobTitleId')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="department" :col-span="2">
-          <DxLabel location="left" :text="$t('translations.fields.department')" />
+          <DxLabel
+            location="left"
+            :text="$t('translations.fields.department')"
+          />
         </DxSimpleItem>
         <DxSimpleItem data-field="phones" editor-type="dxTextBox">
           <DxLabel location="left" :text="$t('translations.fields.phones')" />
@@ -41,12 +72,20 @@
         <DxSimpleItem data-field="homepage" editor-type="dxTextBox">
           <DxLabel location="left" :text="$t('translations.fields.homepage')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="status" editor-type="dxSelectBox" :editor-options="statusOptions">
+        <DxSimpleItem
+          data-field="status"
+          editor-type="dxSelectBox"
+          :editor-options="statusOptions"
+        >
           <DxLabel location="left" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem data-field="note" editor-type="dxTextArea" :editor-options="{ height: 90 }">
+        <DxSimpleItem
+          data-field="note"
+          editor-type="dxTextArea"
+          :editor-options="{ height: 90 }"
+        >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -84,9 +123,8 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
-import DataSource from "devextreme/data/data_source";
 import PartiesSelectBox from "~/components/parties/custom-select-box.vue";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Header from "~/components/page/page__header.vue";
@@ -95,7 +133,6 @@ import Header from "~/components/page/page__header.vue";
 import Status from "~/infrastructure/constants/status.js";
 import EntityType from "~/infrastructure/constants/entityTypes.js";
 
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxRequiredRule,
@@ -110,16 +147,16 @@ export default {
     DxForm,
     PartiesSelectBox,
     Toolbar,
-    Header
+    Header,
   },
   props: {
     isCard: {
       type: Boolean,
-      default: true
+      default: true,
     },
     data: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -127,22 +164,49 @@ export default {
       contact: this.data,
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
-      personSelected: false
+      personSelected: false,
     };
   },
+  // created() {
+  //   const arr = [
+  //     [1, 2, 3],
+  //     [4, 5, 6],
+  //     [7, 8, 9],
+  //   ];
+  //   const passed = [];
+  //   const verticalStart = 0;
+  //   const verticalLength = arr.length - 1;
+  //   const horizontalStart = 0;
+  //   const horizontalLength = arr[0].length - 1;
+
+  //   function throwLeft(arr) {
+  //     for (let item in arr[verticalStart]) {
+  //       if (arr[verticalStart][item] < horizontalLength)
+  //         passed.push(arr[verticalStart][item]);
+  //       console.log(passed, arr[verticalStart][item]);
+  //     }
+  //     horizontalStart++;
+  //     horizontalLength--;
+  //     verticalStart++;
+  //   }
+  //   function throwBottom(arr) {}
+
+  //   throwLeft(arr);
+  // },
+
   computed: {
     isNew() {
-      return this.data.id ? false : true;
+      return this.data?.id ? false : true;
     },
     headerTitle() {
       return this.isNew ? this.$t("menu.addingContact") : this.contact.name;
     },
     contactId() {
-      return this.isNew ? null : this.contact.id;
+      return this.isNew ? null : this.contact?.id;
     },
     nameOptions() {
       return {
-        readOnly: this.personSelected
+        readOnly: this.personSelected,
       };
     },
     allowReading() {
@@ -156,17 +220,17 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
+        showClearButton: true,
       };
     },
     sexOptions() {
       return {
         dataSource: [
           { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") }
+          { id: 1, name: this.$t("sex.female") },
         ],
         displayExpr: "name",
-        valueExpr: "id"
+        valueExpr: "id",
       };
     },
     localityOptions() {
@@ -175,8 +239,8 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.contact.regionId]
-        ]
+          ["regionId", "=", this.contact.regionId],
+        ],
       });
     },
     regionOptions() {
@@ -184,27 +248,27 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         onValueChanged: () => {
           this.contact.localityId = null;
-        }
+        },
       };
     },
     headCompanyOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Company,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       });
     },
     bankOptions() {
       return this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       });
-    }
+    },
   },
   methods: {
     async personChanged(value) {
@@ -220,7 +284,7 @@ export default {
       this.$refs["form"].instance.repaint();
     },
     setCounterPart(data) {
-      this.$set(this.contact, "companyId", data.id);
+      this.$set(this.contact, "companyId", data?.id);
     },
     saveChanges() {
       return this.isNew ? this.postRequest() : this.putRequest();
@@ -255,7 +319,7 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>

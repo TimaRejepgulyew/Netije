@@ -18,6 +18,9 @@ export const getters = {
 };
 
 export const actions = {
+  async documentKinds({ commit }) {
+    
+  },
   async extension({ commit }) {
     const { data } = await this.$axios.get(
       dataApi.docFlow.AssociatedApplication
