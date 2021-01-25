@@ -116,7 +116,6 @@ const CreateIncomingLetterColumns = context => {
   return [
     ...CreateBaseColumn(context),
     CreateIncomingDocumentCorrespondentColumn(context),
-    CreateDeliveryMethodColumn(context),
     CreateAddresseColumn(context),
     CreateInNumberColumn(context),
     CreateDatedColumn(context),
@@ -128,9 +127,10 @@ const CreateInternalDocumentColumns = context => {
   return [...CreateBaseColumn(context)];
 };
 const CreateAddendumColumns = context => {
-  return [...CreateBaseColumn(context),
+  return [
+    ...CreateBaseColumn(context)
     //  CreateLeadingDocumentIdColumn(context)
-    ];
+  ];
 };
 const CreateOrderColumns = context => {
   return [
@@ -174,7 +174,6 @@ const CreateOutgoingLetterColumns = context => {
   return [
     ...CreateBaseColumn(context),
     CreateIncomingDocumentCorrespondentColumn(context),
-    CreateDeliveryMethodColumn(context),
     CreateAddresseConterPartColumn(context),
     CreateContactColumn(context),
     CreateOurSignatoryColumn(context),
@@ -435,13 +434,14 @@ function CreateIncomingDocumentCorrespondentColumn(context) {
 //     dataApi.documentModule.AllDocument
 //   );
 // }
-function CreateDeliveryMethodColumn(context) {
-  return CreateLookupColumn(
-    "deliveryMethodId",
-    context,
-    dataApi.docFlow.DeliveryMethod
-  );
-}
+// TODO obsolete
+// function CreateDeliveryMethodColumn(context) {
+//   return CreateLookupColumn(
+//     "deliveryMethodId",
+//     context,
+//     dataApi.docFlow.DeliveryMethod
+//   );
+// }
 function CreateAddresseConterPartColumn(context) {
   return CreateLookupColumn(
     "addresseeId",

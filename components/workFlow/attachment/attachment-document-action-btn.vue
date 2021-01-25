@@ -18,7 +18,6 @@ import DxMenu from "devextreme-vue/menu";
 import cardIcon from "~/static/icons/card.svg";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
-import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
     DxMenu
@@ -68,7 +67,7 @@ export default {
     },
     items() {
       const availableActions = [
-        ...this.attachment.entity?.availableActions,
+        ...this.attachment.entity?.documentKind?.availableActions,
         TaskType.SimpleTask
       ] || [TaskType.SimpleTask];
       const items = Object.values(

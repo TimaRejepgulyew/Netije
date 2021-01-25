@@ -44,10 +44,7 @@ import {
   load,
   createDocument,
 } from "~/infrastructure/services/documentService.js";
-import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import { DxButton } from "devextreme-vue";
-import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
 import DxSelectBox from "devextreme-vue/select-box";
 export default {
   components: {
