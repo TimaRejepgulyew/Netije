@@ -18,15 +18,16 @@ export default {
   additionalInfo: {
     title: "Baglanan maglumat",
     companies: "Edara-kärhanalar",
-    companiesDescr:
-      "Kontragent guramalaryň müşderileriň salgylanma kitabynyň açylmagy",
+    companiesDescr: "Kontragent guramalaryň müşderileriň salgylanma kitabynyň açylmagy",
     banks: "Banklar",
     banksDescr: "Kontragent banklaryň salgylanma kitabyny açmak",
     persons: "Şahsylar",
     personsDescr: "Şahsylaryň salgylanma kitabyny açmak",
     roles: "Rollar",
-    rolesDescr:
-      "Wezipeler işgärleri jogapkärçilikli toparlara bölmek üçin düzülendir"
+    rolesDescr: "Wezipeler işgärleri jogapkärçilikli toparlara bölmek üçin düzülendir",
+    visibleMembers: "Görünýän gatnaşyjylar",
+    excludedMembers: "Gatnaşanlar",
+    note: "Bellik",
   },
   integration: {
     title: "Integrasiýa",
