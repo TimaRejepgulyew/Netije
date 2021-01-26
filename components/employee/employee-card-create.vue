@@ -291,12 +291,27 @@ export default {
       );
     },
     generateFormData(data) {
-      const file = new FormData();
-      for (const key in data) {
-        if (data[key] !== null) {
-          file.append(key, data[key]);
+      function appenFormData(key, value) {
+        if (value !== null) {
+          file.append(key, value);
         }
       }
+      const file = new FormData();
+      appenFormData("userName", data.userName);
+      appenFormData("email", data.email);
+      appenFormData("firstName", data.firstName);
+      appenFormData("lastName", data.lastName);
+      appenFormData("middleName", data.middleName);
+      appenFormData("phone", data.phone);
+      appenFormData("jobTitleId", data.jobTitleId);
+      appenFormData("departmentId", data.department.id);
+      appenFormData("password", data.password);
+      appenFormData("confirmPassword", data.confirmPassword);
+      appenFormData("note", data.note);
+      appenFormData(
+        "personalPhoto",
+        typeof data.personalPhoto === "string" ? null : data.personalPhoto
+      );
       return file;
     },
     handleSubmit() {
