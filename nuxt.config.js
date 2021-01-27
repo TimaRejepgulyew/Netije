@@ -56,7 +56,8 @@ export default {
     "~/plugins/customValidator",
     "~/plugins/signalR",
     "~/plugins/popup",
-    "~/plugins/notification"
+    "~/plugins/notification",
+    "~/plugins/cache"
   ],
   /*
    ** Nuxt.js dev-modules
