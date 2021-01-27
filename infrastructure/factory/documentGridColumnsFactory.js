@@ -618,7 +618,8 @@ function CreateCacheLookupColumn(
     lookup: {
       dataSource: {
         store: context.$cacheStore(api),
-        paginate: true
+        paginate: true,
+        pageSize: 20
       },
       valueExpr,
       displayExpr
