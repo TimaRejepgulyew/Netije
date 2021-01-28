@@ -1,7 +1,8 @@
 <template>
   <div>
     <DxSelectBox
-      ref="businessUnit"
+      ref="department"
+      @opened="onOpened"
       :read-only="readOnly"
       :data-source="departmentUnitStore"
       @valueChanged="valueChanged"
@@ -23,6 +24,7 @@
       </DxValidator>
       <template #customfield="{ data }">
         <custom-field
+          @openFields="openFields"
           @openCard="showPopup"
           :read-only="readOnly"
           :field-data="data || value"
@@ -58,13 +60,14 @@ export default {
 
   data() {
     return {
+      dataSourceLoaded: this.valueExpr,
       isCardOpened: false,
       currentBusinessUnit: null,
     };
   },
   computed: {
     departmentUnitStore() {
-      return new DataSource({
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: this.storeApi || dataApi.company.Department,
@@ -77,12 +80,26 @@ export default {
           ["status", "=", Status.Active],
         ],
       });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+
+      return dataSource;
     },
     departmentId() {
       return this.valueExpr ? this.value : this.value?.id;
     },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
+    openFields() {
+      this.$refs["department"].instance.open();
+    },
     showPopup() {
       this.$popup.departmentCard(
         this,

@@ -48,38 +48,31 @@
       </DxGroupItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
-      <DxSimpleItem
-        data-field="businessUnitId"
-        template="businessUnitSelectBox"
-      >
+      <DxSimpleItem data-field="businessUnit" template="businessUnitSelectBox">
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
         <DxRequiredRule
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem
-        data-field="departmentId"
-        template="departmentSelectBox"
-      >
+      <DxSimpleItem data-field="department" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
         />
       </DxSimpleItem>
-  
-      <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
+
+      <DxSimpleItem data-field="ourSignatory" template="ourSignatory">
         <DxLabel location="left" :text="$t('document.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem
         template="responsibleEmployee"
-        data-field="responsibleEmployeeId"
+        data-field="responsibleEmployee"
       >
         <DxLabel
           location="left"
           :text="$t('document.fields.responsibleEmployeeId')"
         />
       </DxSimpleItem>
-
     </DxGroupItem>
     <DxGroupItem
       :col-span="2"
@@ -171,44 +164,44 @@
     <template #ourSignatory>
       <employee-select-box
         :readOnly="readOnly"
-        valueExpr="id"
-        :value="ourSignatoryId"
+        :value="ourSignatory"
         :storeApi="signatoryApi"
-        @valueChanged="setOurSignatoryId"
+        @valueChanged="setOurSignatory"
       />
     </template>
     <template #responsibleEmployee>
       <employee-select-box
         :readOnly="readOnly"
-        value-expr="id"
-        :value="responsibleEmployeeId"
-        @valueChanged="setResponsibleEmployeeId"
+        :value="responsibleEmployee"
+        @valueChanged="setResponsibleEmployee"
       />
     </template>
     <template #businessUnitSelectBox>
       <business-unit-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="businessUnitId"
-        @valueChanged="(data) => {
-                        setBusinessUnitId(data); 
-                        setAddresseeId(null);
-                        setDepartmentId(null)
-                    } "
+        :value="businessUnit"
+        @valueChanged="
+          (data) => {
+            setBusinessUnit(data);
+            setAddressee(null);
+            setDepartment(null);
+          }
+        "
       />
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="departmentId"
+        :value="department"
         :businessUnitId="businessUnitId"
-        @valueChanged="(data) => {
-                        setDepartmentId(data)
-                        setAddresseeId(null)
-                    } "
+        @valueChanged="
+          (data) => {
+            setDepartment(data);
+            setAddressee(null);
+          }
+        "
       />
     </template>
   </DxForm>
@@ -226,7 +219,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -239,14 +232,14 @@ export default {
     customSelectBoxContact,
     employeeSelectBox,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
       selectedCorrespondentType: null,
-      signatoryApi: dataApi.signatureSettings.Members
+      signatoryApi: dataApi.signatureSettings.Members,
     };
   },
   computed: {
@@ -274,23 +267,26 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-    departmentId() {
-      return this.document.departmentId;
+    department() {
+      return this.document.department;
     },
     contactId() {
       return this.document.contactId;
     },
+    businessUnit() {
+      return this.document.businessUnit;
+    },
     businessUnitId() {
-      return this.document.businessUnitId;
+      return this.businessUnit?.id;
     },
     counterpartySignatoryId() {
       return this.document.counterpartySignatoryId;
     },
-    ourSignatoryId() {
-      return this.document.ourSignatoryId;
+    ourSignatory() {
+      return this.document.ourSignatory;
     },
-    responsibleEmployeeId() {
-      return this.document.responsibleEmployeeId;
+    responsibleEmployee() {
+      return this.document.responsibleEmployee;
     },
     daysToFinishWorks() {
       return this.document.daysToFinishWorks;
@@ -305,9 +301,9 @@ export default {
       return {
         readOnly: this.readOnly,
         value: this.document.isStandard,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setIsStandard(e.value);
-        }
+        },
       };
     },
     currencyIdOptions() {
@@ -315,34 +311,34 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         readOnly: this.readOnly,
         value: this.document.currencyId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setCurrencyId(e.value);
-        }
+        },
       };
     },
     totalAmountOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         format: "#,##0.00",
         readOnly: this.readOnly,
         value: this.document.totalAmount,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setTotalAmount(e.value);
-        }
+        },
       };
     },
     isAutomaticRenewalOptions() {
       return {
         value: this.isAutomaticRenewal,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setAutomaticRenewal(e.value);
-        }
+        },
       };
     },
     documentGroupIdOptions() {
@@ -351,49 +347,49 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.docFlow.ContractCategories,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         value: this.document.documentGroupId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setDocumentGroupId(e.value);
-        }
+        },
       };
     },
     validFromOptions() {
       return {
         readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         useMaskBehavior: true,
         openOnFieldClick: true,
         value: this.document.validFrom,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setValidFrom(e.value);
-        }
+        },
       };
     },
     validTillOptions() {
       return {
         readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         useMaskBehavior: true,
         openOnFieldClick: true,
         value: this.validTill,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setValidTill(e.value);
-        }
+        },
       };
     },
     daysToFinishWorksOptions() {
       return {
         readOnly: this.readOnly,
         value: this.daysToFinishWorks,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setDaysToFinishWorks(e.value);
-        }
+        },
       };
     },
   },
@@ -428,29 +424,29 @@ export default {
         data && data.id
       );
     },
-    setOurSignatoryId(data) {
+    setOurSignatory(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        `documents/${this.documentId}/SET_OUR_SIGNATORY`,
         data
       );
     },
-    setResponsibleEmployeeId(data) {
+    setResponsibleEmployee(data) {
       return this.$store.commit(
-        `documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE_ID`,
+        `documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE`,
         data
       );
     },
-    setAddresseeId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
+    setAddressee(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE`, data);
     },
-    setBusinessUnitId(data) {
+    setBusinessUnit(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        `documents/${this.documentId}/SET_BUSINESS_UNIT`,
         data
       );
     },
-    setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+    setDepartment(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setDaysToFinishWorks(data) {
       this.$store.commit(
@@ -484,7 +480,7 @@ export default {
     },
     setIsStandard(data) {
       this.$store.commit(`documents/${this.documentId}/SET_IS_STANDARD`, data);
-    }
-  }
+    },
+  },
 };
 </script>

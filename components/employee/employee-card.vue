@@ -42,7 +42,7 @@
       >
         <DxGroupItem :col-span="1">
           <DxSimpleItem template="imageUploader">
-            <DxLabel location="top" text="Фото" />
+            <DxLabel location="top" :text="$t('translations.fields.photo')" />
           </DxSimpleItem>
         </DxGroupItem>
         <DxGroupItem :col-span="4">
@@ -55,7 +55,7 @@
               :message="$t('translations.fields.userNameRequired')"
             />
           </DxSimpleItem>
-          <DxSimpleItem data-field="name">
+          <DxSimpleItem :editorOptions="{ readOnly: true }" data-field="name">
             <DxLabel
               location="top"
               :text="$t('translations.fields.fullName')"
@@ -75,6 +75,9 @@
               :message="$t('translations.fields.emailAlreadyExists')"
             />
           </DxSimpleItem>
+          <DxSimpleItem data-field="personId" template="personSelectBox">
+            <DxLabel location="top" :text="$t('counterPart.Person')" />
+          </DxSimpleItem>
         </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem
@@ -92,7 +95,7 @@
           />
         </DxSimpleItem>
         <DxSimpleItem
-          data-field="businessUnitId"
+          data-field="businessUnit"
           template="businessUnitSelectBox"
         >
           <DxLabel
@@ -103,7 +106,7 @@
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+        <DxSimpleItem data-field="department" template="departmentSelectBox">
           <DxLabel
             location="top"
             :text="$t('translations.fields.departmentId')"
@@ -116,25 +119,85 @@
         <DxSimpleItem data-field="phone">
           <DxLabel location="top" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-      </DxGroupItem>
-      <DxGroupItem
-        :col-span="3"
-        :col-count="1"
-        :caption="$t('translations.fields.moreSettings')"
-      >
         <DxSimpleItem
-          :col-span="3"
-          data-field="status"
-          :editor-options="statusOptions"
-          editor-type="dxSelectBox"
+          :editor-options="dateOfAppointmentOptions"
+          editor-type="dxDateBox"
+          data-field="dateOfAppointment"
         >
-          <DxLabel location="top" :text="$t('translations.fields.status')" />
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.dateOfAppointment')"
+          />
         </DxSimpleItem>
-        <DxButtonItem
+        <DxSimpleItem
+          :editor-options="dateOfDismissal"
+          editor-type="dxDateBox"
+          data-field="dateOfDismissal"
+        >
+          <DxLabel
+            location="top"
+            :text="$t('translations.fields.dateOfDismissal')"
+          />
+        </DxSimpleItem>
+      </DxGroupItem>
+      <DxGroupItem :col-span="3" :col-count="1">
+        <DxGroupItem
           :col-span="3"
-          :button-options="popupPasswordOpt"
-          horizontal-alignment="left"
-        />
+          :col-count="1"
+          :caption="$t('translations.fields.moreSettings')"
+        >
+          <DxSimpleItem
+            :col-span="3"
+            data-field="status"
+            :editor-options="statusOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.status')" />
+          </DxSimpleItem>
+          <DxButtonItem
+            :col-span="3"
+            :button-options="popupPasswordOpt"
+            horizontal-alignment="left"
+          />
+        </DxGroupItem>
+        <DxGroupItem
+          :visible="isAdmin"
+          :col-span="3"
+          :col-count="2"
+          :caption="$t('translations.fields.userBlocking')"
+        >
+          <DxSimpleItem
+            editor-type="dxCheckBox"
+            :col-span="2"
+            :editor-options="allowBlockingCheckBoxOptions"
+          />
+
+          <DxSimpleItem
+            :visible="lockoutEnabled"
+            editor-type="dxDateBox"
+            :editor-options="lockoutEndDateOptions"
+            :col-span="2"
+          >
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.lockoutEndDate')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            :col-span="1"
+            editor-type="dxButton"
+            :editor-options="saveBlockingButtonOptions"
+            horizontal-alignment="left"
+          />
+          <DxSimpleItem
+            :col-span="1"
+            editor-type="dxButton"
+            :visible="isLockedOut"
+            :editor-options="unlockButtonOptions"
+            horizontal-alignment="right"
+          />
+        </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem :col-count="12" :col-span="12">
         <DxSimpleItem
@@ -146,50 +209,51 @@
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <template #businessUnitSelectBox>
-        <business-unit-select-box
-          valueExpr="id"
-          :value="businessUnitId"
-          :read-only="readOnly"
-          validatorGroup="updateEmployee"
-          @valueChanged="
-            data => {
-              setBusinessUnitId(data);
-              setDepartmentId(null);
-            }
-          "
-        />
-      </template>
       <template #imageUploader>
         <image-uploader
           :read-only="readOnly"
           :path="data.personalPhoto"
           @valueChanged="
-            data => {
+            (data) => {
               setPhoto(data);
+            }
+          "
+        />
+      </template>
+      <template #businessUnitSelectBox>
+        <business-unit-select-box
+          :value="businessUnit"
+          :read-only="readOnly"
+          validatorGroup="updateEmployee"
+          @valueChanged="
+            (data) => {
+              setBusinessUnit(data);
+              setDepartment(null);
             }
           "
         />
       </template>
       <template #departmentSelectBox>
         <department-select-box
-          valueExpr="id"
           :read-only="readOnly"
-          :value="departmentId"
+          :value="department"
           :businessUnitId="businessUnitId"
           @valueChanged="
-            data => {
-              setDepartmentId(data);
+            (data) => {
+              setDepartment(data);
             }
           "
         />
       </template>
+      <template #personSelectBox>
+        <person-select-box valueExpr="id" :read-only="true" :value="personId" />
+      </template>
     </DxForm>
-    <div ref="lolo"></div>
   </div>
 </template>
 <script>
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
+import PersonSelectBox from "~/components/parties/custom-select-box.vue";
 import ImageUploader from "~/components/employee/custom-image-uploader";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
@@ -199,22 +263,20 @@ import ChangePasswordPopup from "~/components/employee/change-password-popup";
 import Header from "~/components/page/page__header";
 import "devextreme-vue/text-area";
 import { DxPopup } from "devextreme-vue/popup";
+import { confirm } from "devextreme/ui/dialog";
 import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
   DxRequiredRule,
-  DxCompareRule,
-  DxRangeRule,
-  DxPatternRule,
   DxEmailRule,
   DxAsyncRule,
-  DxButtonItem
+  DxButtonItem,
+  DxCheckBox,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
-import notify from "devextreme/ui/notify";
-// import Vue from "vue";
+
 export default {
   components: {
     Header,
@@ -223,21 +285,20 @@ export default {
     DxLabel,
     DxButtonItem,
     DxRequiredRule,
-    DxCompareRule,
-    DxPatternRule,
-    DxRangeRule,
     DxEmailRule,
     DxForm,
     DxAsyncRule,
     DxPopup,
+    DxCheckBox,
     ChangePasswordPopup,
     Toolbar,
     BusinessUnitSelectBox,
     ImageUploader,
-    DepartmentSelectBox
+    DepartmentSelectBox,
+    PersonSelectBox,
   },
   props: ["data", "isCard"],
-  provide: function() {
+  provide: function () {
     return { employeeId: this.employee.id };
   },
 
@@ -249,41 +310,111 @@ export default {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
+        showClearButton: true,
       },
       jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.JobTitle,
-        filter: ["status", "=", 0]
+        filter: ["status", "=", 0],
       }),
       passwordOptions: {
-        mode: "password"
+        mode: "password",
       },
       changePasswordPupupVisible: false,
-      namePattern: /^[^0-9]+$/
+      namePattern: /^[^0-9]+$/,
+      lockoutEnabled: false,
+      isLockedOut: false,
+      lockoutEndDate: null,
     };
   },
   computed: {
-    businessUnitId() {
-      return this.employee.businessUnitId;
+    isAdmin() {
+      return this.$store.getters["permissions/IsAdmin"];
     },
-    departmentId() {
-      return this.employee.departmentId;
+    lockoutEndDateOptions() {
+      return {
+        value: this.lockoutEndDate,
+        dateSerializationFormat: "yyyy-MM-ddTHH:mm:ssx",
+        showClearButton: true,
+        openOnFieldClick: true,
+        type: "datetime",
+        min: new Date().getTime(),
+        onValueChanged: (e) => {
+          this.lockoutEndDate = e.value;
+        },
+      };
+    },
+    allowBlockingCheckBoxOptions() {
+      return {
+        value: this.lockoutEnabled,
+        text: this.$t("translations.fields.allowBlocking"),
+        onValueChanged: (e) => {
+          this.lockoutEnabled = e.value;
+        },
+      };
+    },
+    saveBlockingButtonOptions() {
+      return {
+        text: this.$t("buttons.save"),
+        onClick: async () => {
+          let result = await confirm(
+            this.$t("shared.areYouSure"),
+            this.$t("shared.confirm")
+          );
+          if (result) {
+            await this.$axios.post(dataApi.company.lockEmployee, {
+              id: this.employee.id,
+              lockoutEndDate: this.lockoutEndDate,
+              lockoutEnabled: this.lockoutEnabled,
+            });
+          }
+        },
+      };
+    },
+    unlockButtonOptions() {
+      return {
+        text: this.$t("buttons.unlock"),
+        onClick: async () => {
+          let result = await confirm(
+            this.$t("shared.areYouSure"),
+            this.$t("shared.confirm")
+          );
+          if (result) {
+            try {
+              await this.$axios.post(dataApi.company.unlockEmployee, {
+                id: this.employee.id,
+              });
+              this.getLockInfo();
+            } catch (error) {}
+          }
+        },
+      };
+    },
+    businessUnitId() {
+      return this.employee.businessUnit?.id;
+    },
+    personId() {
+      return this.employee.personId;
+    },
+    businessUnit() {
+      return this.employee.businessUnit;
+    },
+    department() {
+      return this.employee.department;
     },
     readOnly() {
       return !this.$store.getters["permissions/allowUpdating"](this.entityType);
     },
-    departmentOptions() {
+    dateOfAppointmentOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.company.Department,
-          filter: [
-            ["status", "=", 0],
-            ["businessUnitId", "=", this.employee.businessUnitId]
-          ]
-        }),
-        value: this.employee.departmentId
+        useMaskBehavior: true,
+        openOnFieldClick: true,
+        dateSerializationFormat: "yyyy-MM-dd",
+      };
+    },
+    dateOfDismissal() {
+      return {
+        dateSerializationFormat: "yyyy-MM-dd",
       };
     },
     popupPasswordOpt() {
@@ -296,16 +427,19 @@ export default {
         },
         height: 40,
         icon: "key",
-        text: this.$t("buttons.changePassword")
+        text: this.$t("buttons.changePassword"),
       };
-    }
+    },
   },
   methods: {
-    setDepartmentId(data) {
-      this.employee.departmentId = data;
+    setDepartment(data) {
+      this.employee.department = data;
     },
-    setBusinessUnitId(data) {
-      this.employee.businessUnitId = data;
+    setPersonId(data) {
+      this.employee.personId = data;
+    },
+    setBusinessUnit(data) {
+      this.employee.businessUnit = data;
     },
     setPhoto(data) {
       this.employee.personalPhoto = data;
@@ -325,7 +459,7 @@ export default {
       return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
           id: this.employee.id,
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
@@ -342,8 +476,10 @@ export default {
       appenFormData("email", data.email);
       appenFormData("name", data.name);
       appenFormData("phone", data.phone);
+      appenFormData("dateOfAppointment", data.dateOfAppointment);
+      appenFormData("dateOfDismissal", data.dateOfDismissal);
       appenFormData("jobTitleId", data.jobTitleId);
-      appenFormData("departmentId", data.departmentId);
+      appenFormData("departmentId", data.department.id);
       appenFormData("status", data.status);
       appenFormData("note", data.note);
       appenFormData(
@@ -353,7 +489,7 @@ export default {
       return file;
     },
     handleSubmit() {
-      var res = this.$refs["form"].instance.validate();
+      let res = this.$refs["form"].instance.validate();
       const file = this.generateFormData(this.employee);
       if (!res.isValid) return;
       this.$awn.asyncBlock(
@@ -361,14 +497,39 @@ export default {
           dataApi.company.Employee + "/" + this.employee.id,
           file
         ),
-        e => {
+        (e) => {
           this.$emit("valueChanged", this.employee);
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+    async reload() {
+      try {
+        let { data } = await this.$axios.get(
+          dataApi.company.Employee + "/" + this.employee.id
+        );
+        this.employee = data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getLockInfo() {
+      if (this.employee.id && this.isAdmin) {
+        try {
+          let { data } = await this.$axios.get(
+            dataApi.company.employeeLockInfoById + this.employee.id
+          );
+          this.isLockedOut = data.isLockedOut;
+          this.lockoutEnabled = data.isLockoutEnabled;
+          this.lockoutEndDate = data.lockoutEndDate;
+        } catch (error) {}
+      }
+    },
+  },
+  created() {
+    this.getLockInfo();
+  },
 };
 </script>
 

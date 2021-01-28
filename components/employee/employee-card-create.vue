@@ -15,28 +15,42 @@
       validation-group="createEmployee"
     >
       <DxGroupItem :caption="$t('translations.fields.personalData')">
-        <DxGroupItem
-          :col-count="5"
-        >
-          <DxSimpleItem
-            template="imageUploader"
-            :col-span="1"
-          >
+        <DxGroupItem :col-count="5">
+          <DxSimpleItem template="imageUploader" :col-span="1">
             <DxLabel location="top" text="Фото" />
           </DxSimpleItem>
-          <DxGroupItem 
-            :col-span="4"
-          >
-              <DxSimpleItem data-field="userName" data-type="string">
-              <DxLabel location="top" :text="$t('translations.fields.userName')" />
+          <DxGroupItem :col-span="4">
+            <DxSimpleItem data-field="userName" data-type="string">
+              <DxLabel
+                location="top"
+                :text="$t('translations.fields.userName')"
+              />
               <DxRequiredRule
                 :message="$t('translations.fields.userNameRequired')"
               />
             </DxSimpleItem>
-            <DxSimpleItem data-field="name">
-              <DxLabel location="top" :text="$t('translations.fields.fullName')" />
+            <DxSimpleItem data-field="firstName">
+              <DxLabel
+                location="top"
+                :text="$t('translations.fields.firstName')"
+              />
               <DxRequiredRule
                 :message="$t('translations.fields.fullNameRequired')"
+              />
+            </DxSimpleItem>
+            <DxSimpleItem data-field="lastName">
+              <DxLabel
+                location="top"
+                :text="$t('translations.fields.lastName')"
+              />
+              <DxRequiredRule
+                :message="$t('translations.fields.fullNameRequired')"
+              />
+            </DxSimpleItem>
+            <DxSimpleItem data-field="middleName">
+              <DxLabel
+                location="top"
+                :text="$t('translations.fields.middleName')"
               />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
@@ -90,19 +104,18 @@
           />
         </DxSimpleItem>
         <DxSimpleItem
-          data-field="businessUnitId"
+          data-field="businessUnit"
           template="businessUnitSelectBox"
         >
-          <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
+          <DxLabel
+            location="top"
+            :text="$t('document.fields.businessUnitId')"
+          />
           <DxRequiredRule
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="departmentId"
-          :editor-options="departmentOptions"
-          editor-type="dxSelectBox"
-        >
+        <DxSimpleItem data-field="department" template="departmentSelectBox">
           <DxLabel
             location="top"
             :text="$t('translations.fields.departmentId')"
@@ -127,20 +140,37 @@
       </DxGroupItem>
       <template #businessUnitSelectBox>
         <business-unit-select-box
-          valueExpr="id"
-          :value="businessUnitId"
+          :value="businessUnit"
+          :read-only="readOnly"
           validatorGroup="createEmployee"
-          @valueChanged=" (data) => {
-                          setBusinessUnitId(data)
-                          setDepartmentId(null)
-                      } "
+          @valueChanged="
+            (data) => {
+              setBusinessUnit(data);
+              setDepartment(null);
+            }
+          "
+        />
+      </template>
+      <template #departmentSelectBox>
+        <department-select-box
+          :read-only="readOnly"
+          :value="department"
+          validatorGroup="createEmployee"
+          :businessUnitId="businessUnitId"
+          @valueChanged="
+            (data) => {
+              setDepartment(data);
+            }
+          "
         />
       </template>
       <template #imageUploader>
         <image-uploader
-          @valueChanged="(data) => {
-            setPhoto(data)
-                      } " 
+          @valueChanged="
+            (data) => {
+              setPhoto(data);
+            }
+          "
         />
       </template>
     </DxForm>
@@ -149,6 +179,7 @@
 <script>
 import ImageUploader from "~/components/employee/custom-image-uploader";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
+import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Status from "~/infrastructure/constants/status";
 import "devextreme-vue/text-area";
@@ -182,37 +213,46 @@ export default {
     DxAsyncRule,
     Toolbar,
     BusinessUnitSelectBox,
-    ImageUploader
+    DepartmentSelectBox,
+    ImageUploader,
   },
   props: ["isCard"],
   data() {
     return {
       employee: {
         email: null,
-        name: null,
+        firstName: null,
+        lastName: null,
+        middleName: null,
         phone: null,
         jobTitleId: null,
-        businessUnitId: null,
-        departmentId: null,
+        businessUnit: null,
+        department: null,
         note: null,
         userName: null,
         password: null,
         confirmPassword: null,
-        personalPhoto:null,
+        personalPhoto: null,
       },
       passwordOptions: {
-        mode: "password"
+        mode: "password",
       },
       jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.JobTitle,
-        filter: ["status", "=", Status.Active]
+        filter: ["status", "=", Status.Active],
       }),
     };
   },
   computed: {
     businessUnitId() {
-      return this.employee.businessUnitId;
+      return this.employee.businessUnit?.id;
+    },
+    businessUnit() {
+      return this.employee.businessUnit;
+    },
+    department() {
+      return this.employee.department;
     },
     departmentOptions() {
       return {
@@ -221,22 +261,22 @@ export default {
           url: dataApi.company.Department,
           filter: [
             ["status", "=", 0],
-            ["businessUnitId", "=", this.employee.businessUnitId]
-          ]
+            ["businessUnitId", "=", this.employee.businessUnitId],
+          ],
         }),
-        value: this.employee.departmentId
+        value: this.employee.departmentId,
       };
-    }
+    },
   },
   methods: {
-    setDepartmentId(data){
-      this.employee.departmentId = data
+    setDepartment(data) {
+      this.employee.department = data;
     },
-    setPhoto(data){
-      this.employee.personalPhoto = data
+    setPhoto(data) {
+      this.employee.personalPhoto = data;
     },
-    setBusinessUnitId(data){
-      this.employee.businessUnitId = data
+    setBusinessUnit(data) {
+      this.employee.businessUnit = data;
     },
     passwordComparison() {
       return this.employee.password;
@@ -245,27 +285,42 @@ export default {
       var dataField = params.formItem.dataField;
       return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
-          [dataField]: params.value
+          [dataField]: params.value,
         },
         dataField
       );
     },
-    generateFormData(data){
-      const file = new FormData()
-      for (const key in data) {
-        if(data[key] !== null){
-          file.append(key,data[key])
+    generateFormData(data) {
+      function appenFormData(key, value) {
+        if (value !== null) {
+          file.append(key, value);
         }
       }
-      return file
+      const file = new FormData();
+      appenFormData("userName", data.userName);
+      appenFormData("email", data.email);
+      appenFormData("firstName", data.firstName);
+      appenFormData("lastName", data.lastName);
+      appenFormData("middleName", data.middleName);
+      appenFormData("phone", data.phone);
+      appenFormData("jobTitleId", data.jobTitleId);
+      appenFormData("departmentId", data.department.id);
+      appenFormData("password", data.password);
+      appenFormData("confirmPassword", data.confirmPassword);
+      appenFormData("note", data.note);
+      appenFormData(
+        "personalPhoto",
+        typeof data.personalPhoto === "string" ? null : data.personalPhoto
+      );
+      return file;
     },
     handleSubmit() {
       var res = this.$refs["form"].instance.validate();
-      let file = this.generateFormData(this.employee)
+      let file = this.generateFormData(this.employee);
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.company.Employee, file),
-        e => {
+        (e) => {
           if (!this.isCard) {
             this.$router.go(-1);
           } else {
@@ -273,9 +328,9 @@ export default {
           }
           this.$awn.success();
         },
-        e => this.$awn.alert()
+        (e) => this.$awn.alert()
       );
-    }
-  }
+    },
+  },
 };
 </script>

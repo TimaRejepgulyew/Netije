@@ -17,6 +17,10 @@ export default {
     BoxResponsible: "Отв. за аб. ящик"
   },
   fields: {
+    lastUpdate: "Последнее обновление",
+    counterparty: "Контрагент",
+    exchangeState: "Состояние эл. обмена",
+    author: "Автор",
     reception: "Приём",
     dispatch: "Отправка",
     name: "Имя",

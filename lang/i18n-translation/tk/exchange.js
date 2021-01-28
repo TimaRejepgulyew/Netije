@@ -17,6 +17,10 @@ export default {
     BoxResponsible: "Poçta gutusy jogapkäri"
   },
   fields: {
+    lastUpdate: "Soňky ütgeme",
+    counterparty: "Kontragent",
+    exchangeState: "Elektron alyş-çalşyň ýagdaýy",
+    author: "Awtory",
     reception: "Kabul etmek üçin",
     dispatch: "Urgratmak üçin",
     name: "Ady",
@@ -32,7 +36,7 @@ export default {
     password: "Açarsöz",
     certificate: "Sertifikat",
     routing: "Tabşyryg işlemek üçin",
-    status: "Ýagdaýy",
+    status: "Ýagdaýy"
   },
   validation: {
     nameRequired: "Adyny giriziň",
@@ -46,7 +50,7 @@ export default {
     statusRequired: "Ýagdaýy saýlaň"
   },
   headers: {
-    myExchangeIntegrations: "Guramalarymyzyň poçta gutulary",
-    myExchangeIntegration: "Poçta gutusy"
+    myExchangeIntegrations: "Guramalarymyzyň abuna gutulary",
+    myExchangeIntegration: "Abuna gutusy"
   }
 };

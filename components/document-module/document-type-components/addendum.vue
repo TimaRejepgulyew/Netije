@@ -7,7 +7,7 @@
     :validation-group="documentValidatorName"
   >
     <DxGroupItem>
-      <DxSimpleItem data-field="leadingDocumentId" template="leadingDocument">
+      <DxSimpleItem data-field="leadingDocument" template="leadingDocument">
         <DxLabel
           location="left"
           :text="$t('document.fields.leadingDocumentId')"
@@ -49,7 +49,7 @@ export default {
   methods: {
     setLeadingDocument(value) {
       this.$store.dispatch(
-        `documents/${this.documentId}/setLeadingDocumentId`,
+        `documents/${this.documentId}/setLeadingDocument`,
         value
       );
     }

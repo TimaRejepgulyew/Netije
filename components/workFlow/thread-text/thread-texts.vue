@@ -52,7 +52,7 @@ export default {
   watch: {
     isRefreshing: function (value) {
       if (value) {
-        this.$data.comments.reload();
+        this.comments.reload();
         this.$emit("refreshed");
       }
     },
@@ -68,8 +68,7 @@ export default {
           key: "id",
           loadUrl: url + this.id,
         }),
-        paginate: true,
-        pageSize: 10,
+        paginate: false,
       }),
     };
   },

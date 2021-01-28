@@ -1,3 +1,5 @@
+const path = require("path");
+
 export default {
   env: {
     oidcClientId:
@@ -53,7 +55,9 @@ export default {
     "~/plugins/customStore",
     "~/plugins/customValidator",
     "~/plugins/signalR",
-    "~/plugins/popup"
+    "~/plugins/popup",
+    "~/plugins/notification",
+    "~/plugins/cache"
   ],
   /*
    ** Nuxt.js dev-modules
@@ -115,6 +119,23 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {
+      (config.resolve.alias["globalize$"] = path.resolve(
+        __dirname,
+        "node_modules/globalize/dist/globalize.js"
+      )),
+        (config.resolve.alias["globalize"] = path.resolve(
+          __dirname,
+          "node_modules/globalize/dist/globalize"
+        )),
+        (config.resolve.alias["cldr$"] = path.resolve(
+          __dirname,
+          "node_modules/cldrjs/dist/cldr.js"
+        )),
+        (config.resolve.alias["cldr"] = path.resolve(
+          __dirname,
+          "node_modules/cldrjs/dist/cldr"
+        ));
+    }
   }
 };

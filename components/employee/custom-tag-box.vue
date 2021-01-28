@@ -1,5 +1,6 @@
 <template>
   <DxTagBox
+    @opened="onOpened"
     :readOnly="readOnly"
     :data-source="employeeStore"
     @valueChanged="valueChanged"
@@ -16,7 +17,7 @@
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #customSelectItem="{data}">
+    <template #customSelectItem="{ data }">
       <customSelectItem :item-data="data" />
     </template>
   </DxTagBox>
@@ -45,17 +46,33 @@ export default {
   created() {},
   data() {
     return {
-      employeeStore: new DataSource({
+      dataSourceLoaded: this.valueExpr,
+    };
+  },
+  computed: {
+    employeeStore() {
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee,
+          loadUrl: this.storeApi || dataApi.company.Employee,
         }),
         paginate: true,
         pageSize: 10,
-      }),
-    };
+      });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+
+      return dataSource;
+    },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },

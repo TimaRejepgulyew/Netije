@@ -3,7 +3,9 @@ export const TaskType = {
   AcquaintanceTask: "Resminama bilen tanyşmak ýumuşy",
   ActionItemExecutionTask: "Tabşyrygy ýerine ýetirmek üçin ýumuşy",
   DocumentReviewTask: "Resminamany gözden geçirmek ýumuşy",
-  FreeApprovalTask: "Ekrin ylalyşyk ýumuşy"
+  FreeApprovalTask: "Erkin ylalyşyk ýumuşy",
+  IntranetExchangeDocumentProcessingTask: "Içerki alyş-çalşygy",
+  ExchangeDocumentProcessingTask: "Elektron alyş-çalşygy"
 };
 export default {
   compoundActionItem: "Birleşdirilen tabşyryk",
@@ -49,12 +51,15 @@ export default {
     notification: "Tanyşdyrma"
   },
   fields: {
+    boxBase: "Abonentyň salgysy",
+    counterParty: "Kontragent",
+    sender: "Iberiji",
     finalDeadline: "Umumy möhlet",
     status: "Ýagdaýy",
     author: "Dörediji",
     assignedBy: "Berdi",
-    parallel: "Paralel",
-    gradually: "biri-biriniň yzyndan",
+    parallel: "Parallel",
+    gradually: "Biri-biriniň yzyndan",
     performers: "Ýerine ýetirijiler",
     start: "Başla",
     addressee: "Barmaly ýeri",
@@ -68,6 +73,7 @@ export default {
     deadLine: "Soňky senesi",
     isElectronicAcquaintance: "Elektron görnüşinde tanyşmak",
     observers: "Gözegçiler",
+
     acquaintMembers: "Kime tanyşdyrmaly",
     excludedPerformers: "Mundan başga",
     comment: "Teswir",

@@ -21,7 +21,9 @@ export default {
     regions: "Banklar",
     regionsDescr: "Kontragentler-banklaryň salgylanma kitabyny döretmek",
     countries: "Ýurtlar",
-    countriesDescr: "Ýurtlaryň salgylanma kitabyny açmak"
+    countriesDescr: "Ýurtlaryň salgylanma kitabyny açmak",
+    categories: "Kontragentler kategoriýalary",
+    categoriesDescr: "Kontragentlaryň kategoriýalary salgylanma kitabyny açmak",
   },
   contactPerson: {
     title: "Guramalaryň işgärleriniň habarlaşmak üçin belgileri",
@@ -38,6 +40,8 @@ export default {
       "Salgylanma kitaby ähli şahsy raýatlar-müşderiler barada maglumatlary saklamak üçin niýetlenendir"
   },
   fields: {
+    contactInformation: "Şahsy maglumatlar",
+    bankDetail: "Bank maglumatlary",
     correspondentAccount: "Hasap",
     contactName: "Belginiň ady",
     fax: "Faks",

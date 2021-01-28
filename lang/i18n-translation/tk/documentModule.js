@@ -43,7 +43,9 @@ export default {
     main: "Esasy häsiýetleri",
     relations: "Gatnaşyklary",
     history: "Taryhy",
-    tasks: "Tabşyryklary"
+    tasks: "Tabşyryklary",
+    extradition: "Resminamalaryň berilmegi",
+    exchangeLogs: "El. alyş-çalyş"
   },
   groups: {
     captions: {
@@ -67,7 +69,7 @@ export default {
     invalidExeption: "Ýol berilmeýän giňeltme",
     isStandardSupAgreement: "Birkysmy goşmaça ylalaşyk",
     isAdjustment: "Düzedişler",
-    correctedId: "Düzedilýär",
+    corrected: "Düzedilýär",
     isAutomaticRenewal: "Awtomatik täzelenme",
     currencyId: "Walýutasy",
     accountNumber: "Hasabyň belgisi",

@@ -30,9 +30,7 @@
         <div class="thread-text-status">
           <div
             class="task__item"
-            v-if="
-              data.item.entity.maxDeadline && displayDeadline(data.item.type)
-            "
+            v-if="data.item.entity.maxDeadline"
             :class="{ expired: data.item.isExpired }"
           >
             {{ $t("translations.fields.deadLine") }}:
@@ -56,52 +54,52 @@
   </div>
 </template>
 <script>
-import { load } from "~/infrastructure/services/taskService.js";
-import ActionItemType from "~/infrastructure/constants/actionItemType.js";
-import TaskTypeGuid from "~/infrastructure/constants/taskType.js";
-import statusIndicator from "~/components/workFlow/thread-text/indicator-state/task-indicators/status-indicator.vue";
-import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
-import TaskType from "~/infrastructure/models/TaskType.js";
+import TaskThreadTextModel from "../infrastructure/models/ThreadText/TaskThreadText.js";
+import { load } from "../infrastructure/services/taskService.js";
+import ActionItemType from "../infrastructure/constants/actionItemType.js";
+import TaskTypeGuid from "../infrastructure/constants/taskType.js";
+import statusIndicator from "./indicator-state/task-indicators/status-indicator.vue";
+import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
+import TaskType from "../infrastructure/models/TaskType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
+import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
     statusIndicator,
     threadTextComponentAuthor,
     userIcon,
-    treadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue")
+    treadTextComponent: () => import("./thread-text-component.vue"),
   },
   name: "task-item",
   props: ["data"],
-
-  methods: {
-    toDetailTask({ id, taskType }) {
-      this.$popup.taskCard(this, {
-        params: { taskId: id, taskType },
-        handler: load
-      });
+  computed: {
+    taskThreadText() {
+      return new TaskThreadTextModel(this);
     },
-    parseSubject(value) {
-      if (value.taskType === TaskTypeGuid.SimpleTask) {
-        return value.subject;
-      } else if (value.taskType === TaskTypeGuid.ActionItemExecutionTask) {
-        if (value.isCompoundActionItem)
-          return this.$t("task.compoundActionItem");
-        else if (value?.actionItemType === ActionItemType.Component)
-          return this.$t("task.actionItemType.Component");
-        else return new TaskType(this).getById(value.taskType).text;
-      } else return new TaskType(this).getById(value.taskType).text;
+  },
+  methods: {
+    // TODO maybe in future need to  use this functionality
+    // isLinkTask({ taskType }) {
+    //   switch (taskType) {
+    //     case TaskTypeGuid.IntranetExchangeDocumentProcessingTask:
+    //       return false;
+    //     default:
+    //       return true;
+    //   }
+    // },
+    toDetailTask({ id, taskType }) {
+      this.taskThreadText.showCard(this, { id, taskType });
+    },
+    parseSubject(entity) {
+      return this.taskThreadText.generateSubject(entity);
     },
     formatDate(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      if (date) return this.taskThreadText.formatDate(date);
     },
-    displayDeadline(type) {
-      return type !== WorkflowEntityTextType.Notice;
-    }
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" >
+</style>

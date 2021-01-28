@@ -121,5 +121,29 @@ export default {
     documentFlowRequired: "Resminama dolanyşygyny saýlaň",
     filesTypeIdRequired: "Faýlyň görnüşi boş bolmaly däldir",
     responsibleIdRequired: "Bellige alyş topary üçin jogapkäri saýlaň"
+  },
+  automaticAssignmentRules: {
+    automaticAssignmentRulesTitle: "Awtomatik hukuklary bellemegiň düzgünleri",
+    automaticAssignmentRulesDescription: "Resminamalara giriş hukuklaryny awtomatik bellemegiň düzgünleriniň sanawy",
+    name: "Ady",
+    documentKinds: "Resminamalaryň görnüşleri",
+    businessUnits: "Biziň guramalarymyz",
+    departments: "Bölümler",
+    grantRightsOnLeadingDocument: "Asyl resminama hukuk bermek",
+    grantRightsOnExistingDocuments: "Bar bolan resminamalara hukuk bermek",
+    note: "Bellik",
+    validation: {
+      requireName: "Adyňyzy ýazyň",
+      requireDocumentKinds: "Resminamalaryň görnüşlerini saýlaň",
+    },
+    groups: {
+      main: "Esasy",
+      members: "Gatnaşyjylar"
+    },
+    fields: {
+      name: "ФВн",
+      member: "Gatnaşyjy",
+      rightType: "Hukuk"
+    }
   }
 };

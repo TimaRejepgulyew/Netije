@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('menu.region')"></Header>
     <DxDataGrid
       id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -14,6 +15,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
+      :onRowDblClick="edit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -31,11 +33,7 @@
         :file-name="$t('translations.fields.regionId')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Region"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Region" />
 
       <DxEditing
         :allow-updating="
@@ -54,23 +52,15 @@
       <DxScrolling mode="virtual" />
       <DxColumn data-field="name" :caption="$t('translations.fields.regionId')">
         <DxRequiredRule :message="$t('translations.fields.regionIdRequired')" />
-        <DxStringLengthRule
-          :max="60"
-          :message="$t('shared.nameShouldNotBeMoreThan')"
-        />
+        <DxStringLengthRule :max="60" :message="$t('shared.nameShouldNotBeMoreThan')" />
         <DxAsyncRule
           :reevaluate="false"
           :message="$t('translations.fields.regionAlreadyExists')"
           :validation-callback="validateRegionName"
         ></DxAsyncRule>
       </DxColumn>
-      <DxColumn
-        data-field="countryId"
-        :caption="$t('sharedDirectory.fields.countryId')"
-      >
-        <DxRequiredRule
-          :message="$t('sharedDirectory.validation.countryIdRequired')"
-        />
+      <DxColumn data-field="countryId" :caption="$t('sharedDirectory.fields.countryId')">
+        <DxRequiredRule :message="$t('sharedDirectory.validation.countryIdRequired')" />
         <DxLookup
           :allow-clearing="true"
           :data-source="getActiveCountriesDataSource"
@@ -150,6 +140,9 @@ export default {
     };
   },
   methods: {
+    edit(e) {
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
     },

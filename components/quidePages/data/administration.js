@@ -1,6 +1,7 @@
 import licensingIcon from "~/static/icons/quide-page/licensing.svg";
 import usersIcon from "~/static/icons/quide-page/users.svg";
 import importIcon from "~/static/icons/quide-page/import-icon.svg";
+import reportIcon from "~/static/icons/quide-page/report-icon.svg"
 import dataApi from "~/static/dataApi";
 export default function (context) {
   function isVisible(accessKey) {
@@ -16,10 +17,9 @@ export default function (context) {
       items: [
         {
           name: context.$t("companyStructure.imports.importCompanies"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.companies, file);
+              return await context.$axios.post(dataApi.import.companies, file);
             }
           },
           visible: true,
@@ -27,10 +27,9 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importBank"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.banks, file);
+              return await context.$axios.post(dataApi.import.banks, file);
             }
           },
           visible: true,
@@ -38,10 +37,9 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importJobTitle"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.jobTitles, file);
+              return await context.$axios.post(dataApi.import.jobTitles, file);
             }
           },
           visible: true,
@@ -49,10 +47,9 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importEmployees"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.employees, file);
+              return await context.$axios.post(dataApi.import.employees, file);
             }
           },
           visible: true,
@@ -60,10 +57,9 @@ export default function (context) {
         },
         {
           name: context.$t("companyStructure.imports.importPersons"),
-          path: "import-btn",
           params: {
             async onChange(context, file) {
-              await context.$axios.post(dataApi.import.persons, file);
+              return await context.$axios.post(dataApi.import.persons, file);
             }
           },
           visible: true,
@@ -109,14 +105,55 @@ export default function (context) {
       ]
     },
     {
+      icon: reportIcon,
+      title: context.$t("reports.title"),
+      items: [
+        {
+          name: context.$t("reports.importIncomingReportTemplate"),
+          visible: true,
+          componentType: "reportUploadBtn",
+          params: {
+            docFlowId: "Incoming",
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.docFlow.DocumentRegisterReport.UploadTemplate, file);
+            }
+          }
+        },
+        {
+          name: context.$t("reports.importOutgoingReportTemplate"),
+          visible: true,
+          componentType: "reportUploadBtn",
+          params: {
+            docFlowId: "Outgoing",
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.docFlow.DocumentRegisterReport.UploadTemplate, file);
+            }
+          }
+        },
+        {
+          name: context.$t("reports.importInternalReportTemplate"),
+          visible: true,
+          componentType: "reportUploadBtn",
+          params: {
+            docFlowId: "Internal",
+            async onChange(context, file) {
+              await context.$axios.post(dataApi.docFlow.DocumentRegisterReport.UploadTemplate, file);
+            }
+          }
+        },
+      ]
+    },
+    {
       icon: licensingIcon,
       title: context.$t("licensing.headerTitle"),
       items: [
         {
           name: context.$t("licensing.information.title"),
-          path: pathGenerate("roles"),
           visible: true,
-          componentType: "licenseInformationBtn",
+          componentType: "popup",
+          params: {
+            popupName: "licenseInfo",
+          }
         },
       ]
     }

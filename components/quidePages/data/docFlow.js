@@ -4,7 +4,7 @@ import regSettingIcon from "~/static/icons/doc-flow-icon/regSettingIcon.svg";
 import caseFileSettingIcon from "~/static/icons/doc-flow-icon/caseFileSettingIcon.svg";
 import associatedAppSettingIcon from "~/static/icons/doc-flow-icon/associatedAppSettingIcon.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
-export default function(context) {
+export default function (context) {
   function mySettingVisible() {
     return (
       context.$store.getters["permissions/isUser"] &&
@@ -13,6 +13,9 @@ export default function(context) {
   }
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
+  }
+  function isAdmin() {
+    return context.$store.getters["permissions/IsAdmin"];
   }
   const pathGenerate = detail => {
     return `/docFlow/${detail}`;
@@ -57,6 +60,15 @@ export default function(context) {
           ),
           path: pathGenerate("document-template"),
           visible: isVisible(EntityType.DocumentTemplate)
+        },
+        {
+          name: context.$t("docFlow.automaticAssignmentRules.automaticAssignmentRulesTitle"),
+          description: context.$t(
+            "docFlow.automaticAssignmentRules.automaticAssignmentRulesDescription"
+          ),
+          path: pathGenerate("automatic-assignment-rules"),
+          //TODO:Fix when realize
+          visible: false
         }
       ]
     },

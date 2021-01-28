@@ -14,7 +14,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
-      :onRowDblClick="selectDocument"
+      :onRowDblClick="selectEmployee"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxHeaderFilter :visible="true" />
@@ -31,11 +31,7 @@
         :file-name="$t('menu.employee')"
       />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="Employee"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="Employee" />
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
@@ -48,49 +44,27 @@
         :useIcons="true"
         mode="inline"
       />
-
-      <DxColumn
-        data-field="name"
-        :caption="$t('shared.name')"
-        data-type="string"
-      ></DxColumn>
+      <DxColumn data-field="id" :caption="$t('shared.id')" data-type="string"></DxColumn>
+      <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
       <DxColumn
         data-field="userName"
         :caption="$t('translations.fields.userName')"
         data-type="string"
       ></DxColumn>
-      <DxColumn
-        data-field="jobTitleId"
-        :caption="$t('translations.fields.jobTitleId')"
-      >
-        <DxLookup
-          :data-source="jobTitleDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn data-field="jobTitleId" :caption="$t('translations.fields.jobTitleId')">
+        <DxLookup :data-source="jobTitleDataSource" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        :visible="false"
-        data-field="email"
-        :caption="$t('translations.fields.email')"
-      ></DxColumn>
+      <DxColumn :visible="false" data-field="email" :caption="$t('translations.fields.email')"></DxColumn>
 
-      <DxColumn
-        data-field="departmentId"
-        :caption="$t('translations.fields.departmentId')"
-      >
-        <DxLookup
-          :data-source="departmentsDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
+      <DxColumn data-field="businessUnitId" :caption="$t('translations.fields.businessUnitId')">
+        <DxLookup :data-source="businessUnitIdDataSource" value-expr="id" display-expr="name" />
+      </DxColumn>
+      <DxColumn data-field="departmentId" :caption="$t('translations.fields.departmentId')">
+        <DxLookup :data-source="departmentsDataSource" value-expr="id" display-expr="name" />
       </DxColumn>
 
-      <DxColumn
-        data-field="phone"
-        :caption="$t('translations.fields.phones')"
-      />
+      <DxColumn data-field="phone" :caption="$t('translations.fields.phones')" />
       <DxColumn :width="110" :buttons="editButtons" type="buttons" />
     </DxDataGrid>
   </main>
@@ -154,6 +128,10 @@ export default {
         key: "id",
         loadUrl: dataApi.company.Department
       }),
+      businessUnitIdDataSource: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.BusinessUnit
+      }),
       jobTitleDataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.company.JobTitle
@@ -168,10 +146,8 @@ export default {
     };
   },
   methods: {
-    selectDocument(e) {
-      this.$emit("selected", {
-        id: e.key
-      });
+    selectEmployee(e) {
+      this.$router.push(`/company/staff/employees/${e.data.id}`);
     },
     editEmployee(e) {
       this.$router.push(`/company/staff/employees/${e.row.data.id}`);
@@ -196,6 +172,7 @@ export default {
   -webkit-user-select: none;
 }
 .dx-row.dx-data-row.dx-column-lines:hover {
+  cursor: pointer;
   color: forestgreen;
 }
 </style>

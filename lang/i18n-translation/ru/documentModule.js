@@ -45,7 +45,9 @@ export default {
     main: "Свойства",
     relations: "Связи",
     history: "История",
-    tasks: "Задачи"
+    tasks: "Задачи",
+    extradition: "Выдача документов",
+    exchangeLogs: "Эл. обмен"
   },
   groups: {
     captions: {
@@ -71,7 +73,7 @@ export default {
     invalidExeption: "Недоступное разширение",
     isStandardSupAgreement: "Типовое",
     isAdjustment: "Корректировочный",
-    correctedId: "Корректирует",
+    corrected: "Корректирует",
     isAutomaticRenewal: "С автопролонгацией",
     currencyId: "Валюта",
     accountNumber: "Номер счета",

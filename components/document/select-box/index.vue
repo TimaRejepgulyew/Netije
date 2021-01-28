@@ -2,6 +2,7 @@
   <div>
     <DxSelectBox
       ref="document"
+      @opened="onOpened"
       :read-only="readOnly"
       :data-source="documentStore"
       @valueChanged="valueChanged"
@@ -26,6 +27,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @openFields="openFields"
           @openGrid="showDocumentGrid"
           @openCard="showDocumentCard"
           :read-only="readOnly"
@@ -46,6 +48,7 @@ import customField from "~/components/document/components/input-field.vue";
 import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
+import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter";
 export default {
   components: {
     DxValidator,
@@ -84,36 +87,52 @@ export default {
 
   data() {
     return {
+      dataSourceLoaded: this.valueExpr,
       currentDocumentId: null,
       isCardOpened: false,
     };
   },
   computed: {
     documentStore() {
-      return new DataSource({
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}/${QuickFilter.All}`,
         }),
         filter: this.dataSourceFilter || [],
         paginate: true,
         pageSize: 10,
       });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value) {
+        return [];
+      }
+      return dataSource;
     },
     documentId() {
       return this.valueExpr ? this.value : this.value?.id;
     },
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
+    openFields() {
+      this.$refs["document"].instance.open();
+    },
     showDocumentCard({ documentTypeGuid, id }) {
       this.$popup.documentCard(
         this,
         {
           params: { documentTypeGuid, documentId: id },
-          handler: load
+          handler: load,
         },
         {
-          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
+          listeners: [
+            { eventName: "valueChanged", handlerName: "reloadStore" },
+          ],
         }
       );
     },
@@ -122,22 +141,23 @@ export default {
         this,
         {
           documentQuery: this.dataSourceQuery,
-          documentFilter: this.dataSourceFilter
+          documentFilter: this.dataSourceFilter,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "updateDocument" }
+            { eventName: "valueChanged", handlerName: "updateDocument" },
           ],
-          showLoadingPanel: false
+          showLoadingPanel: false,
         }
       );
+      this.onOpened();
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
     },
     reloadStore() {
       this.$refs["document"].instance.repaint();
-      this.documentStore.reload();
+      this.documentStore?.reload();
     },
     updateDocument(data) {
       this.reloadStore();

@@ -5,6 +5,7 @@
       :placeholder="$t('shared.select')"
       :value="fieldData && fieldData.name"
       class="product-name"
+      @focusIn="openField"
     />
     <DxButton
       :visible="canShowInfo"
@@ -31,7 +32,7 @@ import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton,
+    DxButton
   },
   props: ["fieldData", "readOnly"],
   computed: {
@@ -40,6 +41,9 @@ export default {
     }
   },
   methods: {
+    openField() {
+      if (!this.readOnly) this.$emit("openFields");
+    },
     openGrid() {
       this.$emit("openGrid");
     },

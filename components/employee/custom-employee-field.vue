@@ -5,6 +5,7 @@
       :placeholder="$t('shared.select')"
       :value="fieldData && fieldData.name"
       class="product-name"
+      @focusIn="openField"
     />
     <DxButton
       :visible="showBtn"
@@ -30,11 +31,16 @@ export default {
   computed: {
     showBtn() {
       return this.fieldData?.id
-        ? this.$store.getters["permissions/allowReading"](EntityType.Employee)
+        ? this.$store.getters["permissions/allowReading"](
+            EntityType.Employee
+          ) && !this.fieldData.isSystem
         : false;
     },
   },
   methods: {
+    openField() {
+      if (!this.readOnly) this.$emit("openFields");
+    },
     showCard() {
       this.$emit("showCard");
     },

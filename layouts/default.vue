@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import "devextreme/localization/globalize/date";
 import AppContent from "./side-nav-inner-toolbar";
 import DxButton from "devextreme-vue/button";
 import TheFooter from "~/components/Layout/the-footer";
@@ -25,17 +26,21 @@ import { sizes, subscribe, unsubscribe } from "./media-query";
 import tkMessages from "../lang/devExtremeLocalization/tk.json";
 import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
+
+import supplemental from "devextreme-cldr-data/supplemental.json";
+import tkCldrData from "devextreme-cldr-data/tk.json";
+import ruCldrData from "devextreme-cldr-data/ru.json";
+import Globalize from "globalize";
 import syncfusionLocalizationRu from "@/lang/syncfusionLocalization/ru";
 import syncfusionLocalizationTk from "@/lang/syncfusionLocalization/tk";
 import { L10n, setCulture } from "@syncfusion/ej2-base";
-
 function getScreenSizeInfo() {
   const screenSizes = sizes();
 
   return {
     isXSmall: screenSizes["screen-x-small"],
     isLarge: screenSizes["screen-large"],
-    cssClasses: Object.keys(screenSizes).filter(cl => screenSizes[cl])
+    cssClasses: Object.keys(screenSizes).filter((cl) => screenSizes[cl]),
   };
 }
 
@@ -45,31 +50,33 @@ export default {
   data() {
     return {
       title: "TTDoc",
-      screen: getScreenSizeInfo()
+      screen: getScreenSizeInfo(),
     };
   },
   computed: {
     cssClasses() {
       return ["app"].concat(this.screen.cssClasses);
-    }
+    },
   },
   methods: {
     screenSizeChanged() {
       this.screen = getScreenSizeInfo();
-    }
+    },
   },
 
   beforeCreate() {
+    Globalize.load(tkCldrData, ruCldrData, supplemental);
+    Globalize.locale(this.$i18n.locale);
     loadMessages(tkMessages);
     loadMessages(ruMessages);
     locale(this.$i18n.locale);
     L10n.load({
       ru: {
-        ...syncfusionLocalizationRu
+        ...syncfusionLocalizationRu,
       },
       tk: {
-        ...syncfusionLocalizationTk
-      }
+        ...syncfusionLocalizationTk,
+      },
     });
   },
 
@@ -81,12 +88,13 @@ export default {
   },
   mounted() {
     this.$online.connectHub();
-    this.$notification.connectHub();
+    this.$notification.connectHub(this);
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
 
       setTimeout(() => this.$nuxt.$loading.finish(), 50000);
     });
+    this.$allowNotification();
   },
   beforeRouteEnter(to, from, next) {},
   beforeDestroy() {
@@ -97,8 +105,8 @@ export default {
   components: {
     TheFooter,
     AppContent,
-    DxButton
-  }
+    DxButton,
+  },
 };
 </script>
 

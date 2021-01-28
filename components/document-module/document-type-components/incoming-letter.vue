@@ -45,26 +45,23 @@
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem :col-count="2" :caption="$t('shared.whom')">
-      <DxSimpleItem
-        data-field="businessUnitId"
-        template="businessUnitSelectBox"
-      >
+      <DxSimpleItem data-field="businessUnit" template="businessUnitSelectBox">
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
         <DxRequiredRule
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+      <DxSimpleItem data-field="department" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
         />
       </DxSimpleItem>
 
-      <DxSimpleItem data-field="addresseeId" template="addressee">
+      <DxSimpleItem data-field="addressee" template="addressee">
         <DxLabel location="left" :text="$t('document.fields.addresseeId')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="assigneeId" template="assignee">
+      <DxSimpleItem data-field="assignee" template="assignee">
         <DxLabel location="left" :text="$t('document.fields.assigneeId')" />
       </DxSimpleItem>
     </DxGroupItem>
@@ -107,46 +104,42 @@
     </template>
     <template #addressee>
       <employee-select-box
-        valueExpr="id"
         :read-only="!canUpdate"
-        :value="addresseeId"
-        @valueChanged="setAddresseeId"
+        :value="addressee"
+        @valueChanged="setAddressee"
       />
     </template>
     <template #assignee>
       <employee-select-box
-        valueExpr="id"
         :read-only="readOnly"
-        :value="assigneeId"
-        @valueChanged="setAssigneeId"
+        :value="assignee"
+        @valueChanged="setAssignee"
       />
     </template>
     <template #businessUnitSelectBox>
       <business-unit-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="businessUnitId"
+        :value="businessUnit"
         @valueChanged="
-          data => {
-            setBusinessUnitId(data);
-            setAddresseeId(null);
-            setDepartmentId('');
+          (data) => {
+            setBusinessUnit(data);
+            setAddressee(null);
+            setDepartment(null);
           }
         "
       />
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="departmentId"
+        :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
-          data => {
-            setDepartmentId(data);
-            setAddresseeId(null);
+          (data) => {
+            setDepartment(data);
+            setAddressee(null);
           }
         "
       />
@@ -167,7 +160,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -181,27 +174,31 @@ export default {
     customSelectBoxDocument,
     employeeSelectBox,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
-      selectedCorrespondentType: null
+      selectedCorrespondentType: null,
     };
   },
   computed: {
     businessUnitId() {
-      return this.document.businessUnitId;
+      return this.document.businessUnit?.id;
     },
-    assigneeId() {
-      return this.document.assigneeId;
+    businessUnit() {
+      return this.document.businessUnit;
     },
-    addresseeId() {
-      return this.document.addresseeId;
+    assignee() {
+      return this.document.assignee;
     },
-    departmentId() {
-      return this.document.departmentId;
+    addressee() {
+      return this.document.addressee;
+    },
+    department() {
+      console.log("computed department");
+      return this.document.department;
     },
     contactId() {
       return this.document.contactId;
@@ -221,9 +218,6 @@ export default {
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
     },
-    readOnly() {
-      return this.$store.getters[`documents/${this.documentId}/readOnly`];
-    },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
@@ -237,21 +231,21 @@ export default {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
-          url: dataApi.docFlow.MailDeliveryMethod
+          url: dataApi.docFlow.MailDeliveryMethod,
         }),
         value: this.document.deliveryMethodId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setSetDeliveryMethodId(e.value);
-        }
+        },
       };
     },
     inResponseToOptions() {
       return {
-        readOnly: !this.correspondentId,
+        readOnly: !this.correspondentId || this.readOnly,
         dataSourceQuery: DocumentQuery.OutgoingLetter,
         dataSourceFilter: this.correspondentId
           ? ["correspondentId", "=", this.correspondentId]
-          : undefined
+          : undefined,
       };
     },
 
@@ -259,28 +253,28 @@ export default {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.document.inNumber,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setInNumber(e.value);
-        }
+        },
       };
     },
     datedOptions() {
       return {
         readOnly: this.isRegistered,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         useMaskBehavior: true,
         openOnFieldClick: true,
         value: this.document.dated,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setDated(e.value);
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     setCorrenspondent(data) {
@@ -314,10 +308,6 @@ export default {
     },
     setInResponseTo(data) {
       this.$store.commit(`documents/${this.documentId}/IN_RESPONSE_TO`, data);
-      this.$store.commit(
-        `documents/${this.documentId}/IN_RESPONSE_TO_ID`,
-        data?.id
-      );
     },
     setInNumber(data) {
       this.$store.commit(`documents/${this.documentId}/IN_NUMBER`, data);
@@ -325,21 +315,18 @@ export default {
     setDated(data) {
       this.$store.commit(`documents/${this.documentId}/DATED`, data);
     },
-    setAddresseeId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE_ID`, data);
+    setAddressee(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_ADDRESSE`, data);
     },
-    setAssigneeId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE_ID`, data);
+    setAssignee(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE`, data);
     },
-    setDepartmentId(data) {
+    setDepartment(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
+    },
+    setBusinessUnit(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
-    },
-    setBusinessUnitId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        `documents/${this.documentId}/SET_BUSINESS_UNIT`,
         data
       );
     },
@@ -351,7 +338,7 @@ export default {
     },
     handlerCorrespondentSelectionChanged(data) {
       this.selectedCorrespondentType = data;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -4,7 +4,7 @@ import dataApi from "~/static/dataApi";
 export default ({ app }, inject) => {
   async function isEntityExists(url, payload, propertyName) {
     const ds = new DataSource({
-      store: app.$dxStore({ key: "id", loadUrl: url },),
+      store: app.$dxStore({ key: "id", loadUrl: url }),
       paginate: true,
       pageSize: 10,
       requireTotalCount: true
@@ -159,15 +159,15 @@ export default ({ app }, inject) => {
 
   async function CaseFileDataFieldValueNotExists(payload, propertyName) {
     return (
-      (await isEntityExists(dataApi.docFlow.CaseFile.All, payload, propertyName)) ==
-      false
+      (await isEntityExists(
+        dataApi.docFlow.CaseFile.All,
+        payload,
+        propertyName
+      )) == false
     );
   }
 
-  async function DeliveryMethodDataFieldValueNotExists(
-    payload,
-    propertyName
-  ) {
+  async function DeliveryMethodDataFieldValueNotExists(payload, propertyName) {
     return (
       (await isEntityExists(
         dataApi.docFlow.DeliveryMethod,

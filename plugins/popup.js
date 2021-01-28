@@ -3,7 +3,7 @@ import Popup from "~/components/popups/index.vue";
 Vue.component("Popup", Popup);
 
 function BasePopup(template) {
-  return function(context, options, popupSettings) {
+  return function (context, options, popupSettings) {
     let popup = Vue.extend(Popup);
     let instance = new popup({
       parent: context,
@@ -46,7 +46,12 @@ export default ({ app }, inject) => {
     spreadSheet: BasePopup("spreadSheet"),
     licenseInfo: BasePopup("licenseInfo"),
     documentTemplateGrid: BasePopup("documentTemplateGrid"),
+    documentReports: BasePopup("documentReports"),
+    memberList: BasePopup("memberList"),
     exchangeOptions: BasePopup("exchangeOptions"),
+    searchSetting : BasePopup("searchSetting"),
+    documentExtradition: BasePopup("documentExtradition"),
+    documentTracking: BasePopup("documentTracking"),
   };
 
   const popups = [];
@@ -58,7 +63,7 @@ export default ({ app }, inject) => {
     popups.pop();
   });
 
-  document.addEventListener("keydown", function(e) {
+  document.addEventListener("keydown", function (e) {
     if (e.key == "Escape" && popups.length > 0) {
       var lastPopup = popups[popups.length - 1];
       if (lastPopup.closeOnEscapePress) {

@@ -4,6 +4,7 @@
       :read-only="readOnly"
       :placeholder="$t('shared.select')"
       :value="fieldData && fieldData.name"
+      @focusIn="openField"
       class="product-name"
     />
     <DxButton
@@ -26,7 +27,7 @@ export default {
     DxTextBox,
     DxButton
   },
-  props: ["fieldData","readOnly"],
+  props: ["fieldData", "readOnly"],
   computed: {
     showBtn() {
       return this.fieldData?.id
@@ -35,6 +36,9 @@ export default {
     }
   },
   methods: {
+    openField() {
+      if (!this.readOnly) this.$emit("openFields");
+    },
     openCard() {
       this.$emit("openCard");
     },

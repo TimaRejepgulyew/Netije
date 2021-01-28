@@ -1,12 +1,10 @@
 <template>
   <main>
-    <Header
-      :isbackButton="true"
-      :headerTitle="$t('contractCategories.title')"
-    ></Header>
+    <Header :isbackButton="true" :headerTitle="$t('contractCategories.title')"></Header>
     <DxDataGrid
       width="inherit"
       id="gridContainer"
+      ref="gridContainer"
       :errorRowEnabled="false"
       :show-borders="true"
       :data-source="dataSource"
@@ -18,6 +16,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif')
       }"
+      :onRowDblClick="edit"
       @toolbar-preparing="onToolbarPreparing($event)"
     >
       <DxGroupPanel :visible="true" />
@@ -34,11 +33,7 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring
-        :enabled="true"
-        type="localStorage"
-        storage-key="contractCategories"
-      />
+      <DxStateStoring :enabled="true" type="localStorage" storage-key="contractCategories" />
 
       <DxEditing
         :allow-deleting="
@@ -52,12 +47,7 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn
-        data-field="name"
-        :caption="$t('shared.name')"
-        alignment="left"
-        data-type="string"
-      ></DxColumn>
+      <DxColumn data-field="name" :caption="$t('shared.name')" alignment="left" data-type="string"></DxColumn>
 
       <DxColumn data-field="status" :caption="$t('translations.fields.status')">
         <DxLookup
@@ -68,11 +58,7 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton
-          icon="more"
-          :text="$t('shared.more')"
-          :onClick="contractCategoriesDetailForm"
-        ></DxButton>
+        <DxButton icon="more" :text="$t('shared.more')" :onClick="contractCategoriesDetailForm"></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -134,6 +120,9 @@ export default {
     };
   },
   methods: {
+    edit(e) {
+      this.$router.push(`/docflow/contract-categories/${e.data.id}`);
+    },
     contractCategoriesDetailForm(e) {
       this.$router.push(`/docflow/contract-categories/${e.row.data.id}`);
     },

@@ -5,10 +5,10 @@ export default {
     name: "Ady",
     description: "Duýduryş"
   },
-  heders: {
+  headers: {
     onlineUsers: "Işjeň ulanyjylar"
   },
-  confirm:{
-    sureTurnOffUser:"Siz hakykatanam ulanyjyny öçürjekmi?"
-  },
+  confirm: {
+    sureTurnOffUser: "Siz hakykatanam ulanyjyny öçürjekmi?"
+  }
 };

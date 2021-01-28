@@ -19,7 +19,6 @@ export default {
       this.$router.push("integration-exchange/create");
     },
     toDetail({ id }) {
-      console.log(id);
       this.$router.push("integration-exchange/" + id);
     },
   },

@@ -3,6 +3,7 @@
     <Header :headerTitle="$t('menu.registrationGroup')"></Header>
     <DxDataGrid
       id="gridContainer"
+      ref="gridContainer"
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
@@ -12,7 +13,7 @@
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif')
+        indicatorSrc: require('~/static/icons/loading.gif'),
       }"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
@@ -83,13 +84,12 @@
         data-field="responsibleEmployee"
         :caption="$t('docFlow.fields.responsibleId')"
         editCellTemplate="responsibleEmployee"
-      >
-      </DxColumn>
+      ></DxColumn>
       <template #responsibleEmployee="{ data: cellInfo }">
         <employee-select-box
           :showClearButton="false"
           :value="cellInfo.value"
-          @valueChanged="value => onValueChanged(value, cellInfo)"
+          @valueChanged="(value) => onValueChanged(value, cellInfo)"
         />
       </template>
       <DxColumn
@@ -111,6 +111,7 @@
           display-expr="status"
         />
       </DxColumn>
+
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
 
       <template #masterDetailTemplate="data">
@@ -144,7 +145,8 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring
+  DxStateStoring,
+  DxButton,
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 export default {
@@ -168,7 +170,8 @@ export default {
     DxColumnFixing,
     DxFilterRow,
     DxStateStoring,
-    employeeSelectBox
+    employeeSelectBox,
+    DxButton,
   },
   data() {
     return {
@@ -177,14 +180,18 @@ export default {
         loadUrl: dataApi.docFlow.RegistrationGroup,
         insertUrl: dataApi.docFlow.RegistrationGroup,
         updateUrl: dataApi.docFlow.RegistrationGroup,
-        removeUrl: dataApi.docFlow.RegistrationGroup
+        removeUrl: dataApi.docFlow.RegistrationGroup,
       }),
       entityType: EntityType.RegistrationGroup,
       statusDataSource: this.$store.getters["status/status"](this),
-      indexPattern: this.$store.getters["globalProperties/whitespacePattern"]
+      indexPattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
+    edit(e) {
+      console.log();
+      this.$refs["gridContainer"].instance.editRow(e.rowIndex);
+    },
     onValueChanged(value, cellInfo) {
       cellInfo.setValue(value);
       cellInfo.component.updateDimensions();
@@ -202,7 +209,7 @@ export default {
       return {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
         filter: options.data
@@ -213,11 +220,11 @@ export default {
               "or",
               "responsibleEmployeeId",
               "=",
-              options.data.responsibleEmployeeId
+              options.data.responsibleEmployeeId,
             ]
-          : undefined
+          : undefined,
       };
-    }
-  }
+    },
+  },
 };
 </script>

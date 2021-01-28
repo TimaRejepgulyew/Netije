@@ -22,6 +22,7 @@ export default {
   department: "Bölümler",
   employee: "Işgärler",
   addingEmployee: "Işgäri goşmak",
+  addingContact: "Belgi goşmak",
   managersAssistant: "Ýolbaşçylaryň kömekçileri",
   countries: "Ýurtlar",
   region: "Sebitler",
@@ -39,5 +40,5 @@ export default {
   actionItemExecutionTasks: "Tabşyryklar",
   logs: "Loglar",
   approvals: "Ylalyşyk",
-  documentTemplate:"Resminamanyň nusgalary"
+  documentTemplate: "Resminamanyň nusgalary"
 };

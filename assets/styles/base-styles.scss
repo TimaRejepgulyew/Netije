@@ -29,6 +29,9 @@
   margin-left: auto;
   padding: 0 5px;
   font-size: 14px;
+  .task__item {
+    white-space: nowrap;
+  }
   i {
     font-size: 16px;
   }

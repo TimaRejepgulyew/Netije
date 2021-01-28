@@ -6,7 +6,7 @@
     :validation-group="documentValidatorName"
   >
     <DxSimpleItem
-      data-field="leadingDocumentId"
+      data-field="leadingDocument"
       :col-span="2"
       template="leadingDocument"
     >
@@ -23,15 +23,12 @@
         <DxLabel location="left" :text="$t('document.fields.isAdjustment')" />
       </DxSimpleItem>
       <DxSimpleItem
+        data-field="corrected"
         :visible="isAdjustment"
-        data-field="correctedId"
-        :editor-options="correctedIdOptions"
-        editor-type="dxSelectBox"
+        :isRequired="isAdjustment"
+        template="corrected"
       >
-        <DxLabel location="left" :text="$t('document.fields.correctedId')" />
-        <DxRequiredRule
-          :message="$t('document.validation.businessUnitIdRequired')"
-        />
+        <DxLabel location="left" :text="$t('document.fields.corrected')" />
       </DxSimpleItem>
     </DxGroupItem>
     <DxGroupItem
@@ -58,28 +55,25 @@
       </DxGroupItem>
     </DxGroupItem>
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
-      <DxSimpleItem
-        data-field="businessUnitId"
-        template="businessUnitSelectBox"
-      >
+      <DxSimpleItem data-field="businessUnit" template="businessUnitSelectBox">
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
         <DxRequiredRule
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+      <DxSimpleItem data-field="department" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
         />
       </DxSimpleItem>
 
-      <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
+      <DxSimpleItem data-field="ourSignatory" template="ourSignatory">
         <DxLabel location="left" :text="$t('document.fields.signatory')" />
       </DxSimpleItem>
       <DxSimpleItem
         template="responsibleEmployee"
-        data-field="responsibleEmployeeId"
+        data-field="responsibleEmployee"
       >
         <DxLabel
           location="left"
@@ -108,6 +102,17 @@
         <DxLabel location="left" :text="$t('document.fields.currencyId')" />
       </DxSimpleItem>
     </DxGroupItem>
+    <template #corrected>
+      <customSelectBoxDocument
+        :readOnly="correctedOptions.readOnly"
+        :dataSourceFilter="correctedOptions.dataSourceFilter"
+        :dataSourceQuery="correctedOptions.dataSourceQuery"
+        :validationGroup="documentValidatorName"
+        :value="document.corrected"
+        :isRequired="isAdjustment"
+        @valueChanged="setCorrected"
+      />
+    </template>
     <template #leadingDocument>
       <customSelectBoxDocument
         :readOnly="leadingDocumentOptions.readOnly"
@@ -131,6 +136,8 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        :readOnly="readOnly"
+        :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
         :value="contactId"
@@ -138,6 +145,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         @valueChanged="setCounterpartySignatoryId"
@@ -146,45 +154,41 @@
     </template>
     <template #ourSignatory>
       <employee-select-box
-        valueExpr="id"
-        :value="ourSignatoryId"
+        :value="ourSignatory"
         :storeApi="signatoryApi"
-        @valueChanged="setOurSignatoryId"
+        @valueChanged="setOurSignatory"
       />
     </template>
     <template #responsibleEmployee>
       <employee-select-box
-        valueExpr="id"
-        :value="responsibleEmployeeId"
-        @valueChanged="setResponsibleEmployeeId"
+        :value="responsibleEmployee"
+        @valueChanged="setResponsibleEmployee"
       />
     </template>
     <template #businessUnitSelectBox>
       <business-unit-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="businessUnitId"
+        :value="businessUnit"
         @valueChanged="
           (data) => {
-            setBusinessUnitId(data);
-            setResponsibleEmployeeId(null);
-            setDepartmentId(null);
+            setBusinessUnit(data);
+            setResponsibleEmployee(null);
+            setDepartment(null);
           }
         "
       />
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="departmentId"
+        :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
           (data) => {
-            setDepartmentId(data);
-            setResponsibleEmployeeId(null);
+            setDepartment(data);
+            setResponsibleEmployee(null);
           }
         "
       />
@@ -201,6 +205,7 @@ import customSelectBox from "~/components/parties/custom-select-box.vue";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
+import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -243,7 +248,10 @@ export default {
       return this.document.validTill;
     },
     businessUnitId() {
-      return this.document.businessUnitId;
+      return this.document.businessUnit?.id;
+    },
+    businessUnit() {
+      return this.document.businessUnit;
     },
     isRegistered() {
       return this.$store.getters[`documents/${this.documentId}/isRegistered`];
@@ -254,8 +262,8 @@ export default {
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-    departmentId() {
-      return this.document.departmentId;
+    department() {
+      return this.document.department;
     },
     contactId() {
       return this.document.contactId;
@@ -263,11 +271,11 @@ export default {
     counterpartySignatoryId() {
       return this.document.counterpartySignatoryId;
     },
-    ourSignatoryId() {
-      return this.document.ourSignatoryId;
+    ourSignatory() {
+      return this.document.ourSignatory;
     },
-    responsibleEmployeeId() {
-      return this.document.responsibleEmployeeId;
+    responsibleEmployee() {
+      return this.document.responsibleEmployee;
     },
     isAdjustment() {
       return this.document.isAdjustment;
@@ -278,28 +286,17 @@ export default {
         value: this.isAdjustment,
         onValueChanged: (e) => {
           this.setIsAdjustment(e.value);
-          this.setCorrectedId(null);
+          this.setCorrected(null);
         },
       };
     },
-    correctedIdOptions() {
+    correctedOptions() {
       return {
-        readOnly: !this.counterpartyId,
-        deferRendering: false,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: `${dataApi.documentModule.Documents}${DocumentQuery.AccountingDocuments}`,
-          filter: this.counterpartyId
-            ? [
-                ["counterpartyId", "=", this.counterpartyId],
-                ["id", "<>", this.document.id],
-              ]
-            : undefined,
-        }),
-        value: this.document.correctedId,
-        onValueChanged: (e) => {
-          this.setCorrectedId(e.value);
-        },
+        readOnly: !this.counterpartyId || this.readOnly,
+        dataSourceQuery: DocumentQuery.AccountingDocuments,
+        dataSourceFilter: this.counterpartyId
+          ? ["counterpartyId", "=", this.counterpartyId]
+          : undefined,
       };
     },
     leadingDocumentOptions() {
@@ -373,7 +370,7 @@ export default {
           this.selectedCorrespondentType.type = null;
       }
       this.dispatchCounterparty(data);
-      this.setCorrectedId(null);
+      this.setCorrected(null);
       this.setContact(null);
       this.setLeadingDocument(null);
       this.setCounterpartySignatoryId(null);
@@ -396,20 +393,20 @@ export default {
         data && data.id
       );
     },
-    setOurSignatoryId(data) {
+    setOurSignatory(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        `documents/${this.documentId}/SET_OUR_SIGNATORY`,
         data
       );
     },
-    setResponsibleEmployeeId(data) {
+    setResponsibleEmployee(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE_ID`,
+        `documents/${this.documentId}/SET_RESPONSIBLE_EMPLOYEE`,
         data
       );
     },
-    setCorrectedId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED_ID`, data);
+    setCorrected(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_CORRECTED`, data);
     },
     setLeadingDocument(data) {
       this.$store.dispatch(
@@ -417,11 +414,8 @@ export default {
         data
       );
     },
-    setDepartamentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartment(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);
@@ -441,9 +435,9 @@ export default {
         data
       );
     },
-    setBusinessUnitId(data) {
+    setBusinessUnit(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        `documents/${this.documentId}/SET_BUSINESS_UNIT`,
         data
       );
     },

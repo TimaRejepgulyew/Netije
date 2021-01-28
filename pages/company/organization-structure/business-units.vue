@@ -2,6 +2,7 @@
   <main>
     <Header :headerTitle="$t('menu.businessUnit')"></Header>
     <DxTreeList
+      ref="bussinesUnit"
       remoteOperations: { filtering: true,sorting: true,grouping: true }
       parent-id-expr="headCompanyId"
       :data-source="dataSource"
@@ -14,6 +15,7 @@
         enabled: true,
         indicatorSrc: require('~/static/icons/loading.gif'),
       }"
+      :onRowDblClick="selectBussinesUnit"
       @row-updating="onRowUpdating"
       @init-new-row="onInitNewRow"
     >
@@ -57,6 +59,17 @@
         />
       </DxColumn>
       <DxColumn data-field="code" :caption="$t('shared.code')" :visible="false">
+        <DxPatternRule
+          :ignore-empty-value="false"
+          :pattern="codePattern"
+          :message="$t('validation.valueMustNotContainsSpaces')"
+        />
+        <DxAsyncRule
+          :reevaluate="false"
+          :ignore-empty-value="true"
+          :message="$t('shared.codeAlreadyExists')"
+          :validation-callback="validateEntityExists"
+        ></DxAsyncRule>
       </DxColumn>
       <DxColumn
         data-field="tin"
@@ -266,6 +279,9 @@ export default {
     };
   },
   methods: {
+    selectBussinesUnit(e){
+      this.$refs["bussinesUnit"].instance.editRow(e.rowIndex);
+    },
     onInitNewRow(e) {
       e.data.status = this.statusDataSource[Status.Active].id;
       if(e.data.headCompanyId === 0){

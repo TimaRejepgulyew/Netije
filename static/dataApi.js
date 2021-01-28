@@ -8,6 +8,11 @@ export default {
   Metadata: `/api/Metadata`,
   account: `/Identity/Account/Manage`,
   History: `/api/History/`,
+  DocumentTracking: {
+    getDocumentTracking: "/api/DocumentTracking/",
+    postDocumentTracking: "/api/DocumentTracking",
+    putDocumentTracking: "/api/DocumentTracking/"
+  },
   OidcConfiguration: `/_configuration/${process.env.oidcClientId}`,
   sharedDirectory: {
     Country: `/api/Country`,
@@ -30,20 +35,37 @@ export default {
     Bank: `/api/Bank`,
     Person: `/api/Person`,
     CounterPart: `/api/CounterPart`,
-    Contact: `/api/Contact`
+    Contact: `/api/Contact`,
+    Category: "/api/CounterpartCategory"
   },
   exchange: {
     GetExchangeInfoByCounterPartId: "/api/CounterPart/ExchangeInfo",
-    UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo",
+    UpdateExchangeInfo: "/api/CounterPart/UpdateExchangeInfo"
+  },
+  autocompleteTexts: {
+    load: "/api/AutoText",
+    delete: "/api/AutoText/"
   },
   company: {
     Department: `/api/Department`,
     DepartmentMembers: `/api/DepartmentMembers/`,
     BusinessUnit: `/api/BusinessUnit`,
     Employee: `/api/Employee`,
+    employeeLockInfoById: "/api/Employee/GetLockInfo/",
+    lockEmployee: "/api/Employee/Lock",
+    unlockEmployee: "/api/Employee/Unlock",
     ChangeEmployeePassword: `/api/Employee/ChangePassword`,
     JobTitle: `/api/JobTitle`,
-    ManagersAssistant: `/api/ManagersAssistant`
+    ManagersAssistant: `/api/ManagersAssistant`,
+  },
+  visibilitySettings: {
+    settings: "/api/VisibilitySetting",
+  },
+  visibilityRule: {
+    rule: "/api/VisibilityRule"
+  },
+  userGroup: {
+    group: "/api/ParticipantList"
   },
   admin: {
     Roles: `/api/Role`,
@@ -56,7 +78,14 @@ export default {
       СustomizableDocumentRegisters: `/api/DocumentRegister/СustomizableDocumentRegisters`,
       PreliminaryNumber: `/api/DocumentRegister/PreliminaryNumber`,
       DefaultDocumentRegister: `/api/DocumentRegister/SuitableDefaultDocumentRegister/`,
-      RegistrableDocumentRegisteres: `/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`
+      RegistrableDocumentRegisteres: `/api/DocumentRegister/SuitableRegistrableDocumentRegisters/`,
+      UserDocumentRegistersForRegistration:
+        "/api/DocumentRegister/UserDocumentRegistersForRegistration"
+    },
+    DocumentRegisterReport: {
+      UploadTemplate:
+        "/api/DocumentRegisterReport/UploadDocumentRegisterReportTemplate",
+      Generate: "/api/DocumentRegisterReport/Generate"
     },
     CaseFile: {
       Value: `/api/CaseFile`,
@@ -84,8 +113,10 @@ export default {
     Registries: `/api/DocumentRegistration/Registries/`
   },
   documentModule: {
-    Documents: `/api/OfficialDocument/`,
-    AllDocument: `/api/OfficialDocument/100`,
+    Documents: `/api/OfficialDocument/GetAll/`,
+    AllDocument: `/api/OfficialDocument/GetAll/100/0`,
+    SaveDocument: `/api/OfficialDocument/`,
+    CreateDocument: `/api/OfficialDocument/`,
     GetDocumentById: `/api/OfficialDocument/`,
     DeleteDocument: `/api/OfficialDocument/`,
     ReevaluateDocumentName: `/api/OfficialDocument/ReevaluateDocumentName`,
@@ -97,13 +128,17 @@ export default {
     ImportLastVersion: `/api/OfficialDocument/Export/`,
     RemoveVersion: `/api/OfficialDocument/Version/`,
     Last: `/api/OfficialDocument/Version/Last/`,
-    Exchange: `/api/OfficialDocument/Exchange`
+    Exchange: `/api/OfficialDocument/Exchange`,
+    ExchangeLogs: `/api/OfficialDocument/ExchangeLogs/`
   },
   documentTemplate: {
     Documents: `/api/DocumentTemplate`,
     GetDocumentById: `/api/DocumentTemplate/`,
     GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
     GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
+  },
+  accessRightRule: {
+    getAccessRightRule: "/api/AccessRightRule"
   },
   task: {
     GetTasksByDocument: `/api/Task/GetTasksByDocument/`,
@@ -132,6 +167,7 @@ export default {
   },
   accessRights: {
     List: `/api/AccessRights/`,
+    getById: `/api/AccessRights/`,
     AddRecipient: `/api/AccessRights`,
     UpdateRecipient: `/api/AccessRights/`,
     RemoveRecipient: `/api/AccessRights/`
@@ -162,9 +198,9 @@ export default {
   },
   import: {
     companies: `/api/Import/Companies`,
-    banks: `​/api/Import/Banks`,
-    jobTitles: `​/api/Import/JobTitles`,
-    persons: `​/api/Import/Persons`,
+    banks: `/api/Import/Banks`,
+    jobTitles: `/api/Import/JobTitles`,
+    persons: `/api/Import/Persons`,
     employees: `/api/Import/Employees`
   },
   spreadSheet: {

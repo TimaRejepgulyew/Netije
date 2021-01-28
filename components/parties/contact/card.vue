@@ -1,93 +1,118 @@
 <template>
   <div>
+    <Header
+      v-if="!isCard"
+      :headerTitle="headerTitle"
+      :isbackButton="!isCard"
+      :isNew="isNew"
+    ></Header>
     <toolbar
       :isCard="isCard"
-      @saveChanges="submit"
-      :canSave="$store.getters['permissions/allowReading'](EntityType.Contact)"
+      @saveChanges="saveChanges"
+      :canSave="allowReading"
     />
     <DxForm
       ref="form"
-      :read-only="
-        !$store.getters['permissions/allowReading'](EntityType.Contact)
-      "
+      :read-only="!allowReading"
       :form-data.sync="contact"
       :show-colon-after-label="true"
       :show-validation-summary="true"
       validation-group="contact"
     >
       <DxGroupItem :col-count="2">
-        <DxSimpleItem data-field="name">
-          <DxLabel location="top" :text="$t('parties.fields.contactName')" />
+        <DxSimpleItem
+          data-field="name"
+          :editor-options="nameOptions"
+          :col-span="2"
+        >
+          <DxLabel location="left" :text="$t('parties.fields.contactName')" />
           <DxRequiredRule :message="$t('shared.nameRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
-          editor-type="dxSelectBox"
-          :editor-options="correspondentOptions"
-          data-field="companyId"
+          data-field="personId"
+          template="personSelectBox"
+          :col-span="2"
         >
-          <DxLabel location="top" :text="$t('parties.fields.company')" />
+          <DxLabel location="left" :text="$t('counterPart.Person')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="companyId"
+          template="companySelectBox"
+          :col-span="2"
+        >
+          <DxLabel location="left" :text="$t('parties.fields.company')" />
           <DxRequiredRule :message="$t('parties.validation.companyRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem data-field="department">
+        <DxSimpleItem
+          data-field="jobTitle"
+          editor-type="dxTextBox"
+          :col-span="2"
+        >
           <DxLabel
-            location="top"
-            :text="$t('translations.fields.department')"
-          />
-        </DxSimpleItem>
-        <DxSimpleItem editor-type="dxTextBox" data-field="jobTitle">
-          <DxLabel
-            location="top"
+            location="left"
             :text="$t('translations.fields.jobTitleId')"
           />
         </DxSimpleItem>
-        <DxSimpleItem editor-type="dxTextBox" data-field="homepage">
-          <DxLabel location="top" :text="$t('translations.fields.homepage')" />
+        <DxSimpleItem data-field="department" :col-span="2">
+          <DxLabel
+            location="left"
+            :text="$t('translations.fields.department')"
+          />
         </DxSimpleItem>
-        <DxSimpleItem editor-type="dxTextBox" data-field="fax">
-          <DxLabel location="top" :text="$t('parties.fields.fax')" />
+        <DxSimpleItem data-field="phones" editor-type="dxTextBox">
+          <DxLabel location="left" :text="$t('translations.fields.phones')" />
         </DxSimpleItem>
-        <DxSimpleItem editor-type="dxTextBox" data-field="phones">
-          <DxLabel location="top" :text="$t('translations.fields.phones')" />
+        <DxSimpleItem data-field="fax" editor-type="dxTextBox">
+          <DxLabel location="left" :text="$t('parties.fields.fax')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="email">
-          <DxLabel location="top" />
+          <DxLabel location="left" />
           <DxEmailRule :message="$t('translations.fields.emailRule')" />
         </DxSimpleItem>
+        <DxSimpleItem data-field="homepage" editor-type="dxTextBox">
+          <DxLabel location="left" :text="$t('translations.fields.homepage')" />
+        </DxSimpleItem>
         <DxSimpleItem
-          :editor-options="statusOptions"
-          editor-type="dxSelectBox"
           data-field="status"
+          editor-type="dxSelectBox"
+          :editor-options="statusOptions"
         >
-          <DxLabel location="top" :text="$t('translations.fields.status')" />
+          <DxLabel location="left" :text="$t('translations.fields.status')" />
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
         <DxSimpleItem
           data-field="note"
-          :editor-options="{ height: 90 }"
           editor-type="dxTextArea"
+          :editor-options="{ height: 90 }"
         >
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
-      <template #counterPart>
-        <custom-select-box
-          validatorGroup="contact"
-          @setСounterPart="setCorrenspondent"
-          messageRequired="parties.validation.companyRequired"
-          :counterPart="contact.companyId"
+      <template #companySelectBox>
+        <parties-select-box
+          valueExpr="id"
+          :read-only="false"
           :notPerson="true"
+          :isPerson="false"
+          :value="contact.companyId"
+          @valueChanged="(value) => companyChanged(value)"
+        />
+      </template>
+      <template #personSelectBox>
+        <parties-select-box
+          valueExpr="id"
+          :read-only="false"
+          :isPerson="true"
+          :value="contact.personId"
+          @valueChanged="(value) => personChanged(value)"
+          @selectionChanged="(value) => personSelectionChanged(value)"
         />
       </template>
     </DxForm>
   </div>
 </template>
 <script>
-import customSelectBox from "~/components/parties/custom-select-box.vue";
-import Toolbar from "~/components/shared/base-toolbar.vue";
-import Status from "~/infrastructure/constants/status";
-import "devextreme-vue/text-area";
-import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -98,93 +123,89 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule
+  DxAsyncRule,
 } from "devextreme-vue/form";
-import EntityType from "~/infrastructure/constants/entityTypes";
-import dataApi from "~/static/dataApi";
+import PartiesSelectBox from "~/components/parties/custom-select-box.vue";
+import Toolbar from "~/components/shared/base-toolbar.vue";
+import Header from "~/components/page/page__header.vue";
+
+// CONSTANTS
+import Status from "~/infrastructure/constants/status.js";
+import EntityType from "~/infrastructure/constants/entityTypes.js";
+
 export default {
   components: {
-    DxGroupItem,
-    DxSimpleItem,
-    DxLabel,
     DxRequiredRule,
     DxCompareRule,
     DxPatternRule,
+    DxSimpleItem,
     DxRangeRule,
     DxEmailRule,
-    DxForm,
+    DxGroupItem,
     DxAsyncRule,
+    DxLabel,
+    DxForm,
+    PartiesSelectBox,
     Toolbar,
-    customSelectBox
+    Header,
   },
-  props: ["isCard", "data"],
-  async created() {
-    if (this.contactId) {
-      const { data } = await this.$axios.get(
-        `${dataApi.contragents.Contact}/${this.contactId}`
-      );
-      this.contact = data;
-    }
+  props: {
+    isCard: {
+      type: Boolean,
+      default: true,
+    },
+    data: {
+      type: Object,
+    },
   },
   data() {
     return {
       EntityType,
       contact: this.data,
-      correspondentOptions: {
-        dataSource: new DataSource({
-          store: this.$dxStore({
-            key: "id",
-            loadUrl: dataApi.contragents.CounterPart
-          }),
-          paginate: true,
-          pageSize: 10
-        }),
-        valueExpr: "id",
-        displayExpr: "name",
-        value: this.correspondentId,
-        readOnly: true
-      },
-      sexOptions: {
-        dataSource: [
-          { id: 0, name: this.$t("sex.male") },
-          { id: 1, name: this.$t("sex.female") }
-        ],
-        displayExpr: "name",
-        valueExpr: "id"
-      },
       namePattern: /^[^0-9]+$/,
       codePattern: this.$store.getters["globalProperties/whitespacePattern"],
-      headCompanyOptions: this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.contragents.Company,
-        filter: ["status", "=", Status.Active]
-      }),
-      bankOptions: this.$store.getters["globalProperties/FormOptions"]({
-        context: this,
-        url: dataApi.contragents.Bank,
-        filter: ["status", "=", Status.Active]
-      }),
+      personSelected: false,
+    };
+  },
+  
 
-      statusOptions: {
+  computed: {
+    isNew() {
+      return this.data?.id ? false : true;
+    },
+    headerTitle() {
+      return this.isNew ? this.$t("menu.addingContact") : this.contact.name;
+    },
+    contactId() {
+      return this.isNew ? null : this.contact?.id;
+    },
+    nameOptions() {
+      return {
+        readOnly: this.personSelected,
+      };
+    },
+    allowReading() {
+      return this.$store.getters["permissions/allowReading"](
+        this.EntityType.Contact
+      );
+    },
+    statusOptions() {
+      return {
         value: this.$store.getters["status/status"](this)[0].id,
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
         displayExpr: "status",
-        showClearButton: true
-      }
-    };
-  },
-  computed: {
-    regionOptions() {
+        showClearButton: true,
+      };
+    },
+    sexOptions() {
       return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.sharedDirectory.Region,
-          filter: ["status", "=", Status.Active]
-        }),
-        onValueChanged: () => {
-          this.contact.localityId = null;
-        }
+        dataSource: [
+          { id: 0, name: this.$t("sex.male") },
+          { id: 1, name: this.$t("sex.female") },
+        ],
+        displayExpr: "name",
+        valueExpr: "id",
       };
     },
     localityOptions() {
@@ -193,17 +214,55 @@ export default {
         url: dataApi.sharedDirectory.Locality,
         filter: [
           ["status", "=", Status.Active],
-          ["regionId", "=", this.contact.regionId]
-        ]
+          ["regionId", "=", this.contact.regionId],
+        ],
       });
-    }
+    },
+    regionOptions() {
+      return {
+        ...this.$store.getters["globalProperties/FormOptions"]({
+          context: this,
+          url: dataApi.sharedDirectory.Region,
+          filter: ["status", "=", Status.Active],
+        }),
+        onValueChanged: () => {
+          this.contact.localityId = null;
+        },
+      };
+    },
+    headCompanyOptions() {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.contragents.Company,
+        filter: ["status", "=", Status.Active],
+      });
+    },
+    bankOptions() {
+      return this.$store.getters["globalProperties/FormOptions"]({
+        context: this,
+        url: dataApi.contragents.Bank,
+        filter: ["status", "=", Status.Active],
+      });
+    },
   },
   methods: {
-    setCorrenspondent(data) {
-      this.$set(this.contact, "companyId", data.id);
+    async personChanged(value) {
+      this.contact.personId = await value;
+      this.$refs["form"].instance.repaint();
     },
-    submit() {
-      return this.counterpartId ? this.putRequest() : this.postRequest();
+    personSelectionChanged(value) {
+      this.contact.name = value ? value.name : null;
+      this.personSelected = value ? true : false;
+    },
+    async companyChanged(value) {
+      this.contact.companyId = await value;
+      this.$refs["form"].instance.repaint();
+    },
+    setCounterPart(data) {
+      this.$set(this.contact, "companyId", data?.id);
+    },
+    saveChanges() {
+      return this.isNew ? this.postRequest() : this.putRequest();
     },
     postRequest() {
       var res = this.$refs["form"].instance.validate();
@@ -224,7 +283,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.put(
-          `${dataApi.contragents.Contact}/${this.counterpartId}`,
+          `${dataApi.contragents.Contact}/${this.contactId}`,
           this.contact
         ),
         ({ data }) => {
@@ -235,7 +294,7 @@ export default {
           this.$awn.alert();
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>

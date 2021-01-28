@@ -1,6 +1,11 @@
 <template>
   <main>
-    <Header :showTitle="!isCard" :headerTitle="$t('menu.counterPart')"  :isbackButton="false" :isNew="false"></Header>
+    <Header
+      :showTitle="!isCard"
+      :headerTitle="$t('menu.counterPart')"
+      :isbackButton="false"
+      :isNew="false"
+    ></Header>
     <DxDataGrid
       id="gridContainer"
       :show-borders="true"
@@ -135,7 +140,7 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 import * as counterPartTypesIcon from "~/static/icons/parties/index.js";
 export default {
@@ -154,37 +159,46 @@ export default {
     DxColumnChooser,
     DxColumnFixing,
     DxFilterRow,
-    DxStateStoring,
+    DxStateStoring
   },
-  props:['isCard'],
+  props: ["isCard", "isPerson", "notPerson"],
   data() {
     return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.contragents.CounterPart,
+      dataSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.contragents.CounterPart
+        }),
+        paginate: true,
+        pageSize: 10,
+        filter: this.notPerson
+          ? ["type", "<>", "Person"]
+          : this.isPerson
+          ? ["type", "=", "Person"]
+          : null
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       regionsDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Region,
+          loadUrl: dataApi.sharedDirectory.Region
         }),
-        paginate: true,
+        paginate: true
       },
       localityDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.sharedDirectory.Locality,
+          loadUrl: dataApi.sharedDirectory.Locality
         }),
-        paginate: true,
+        paginate: true
       },
       banksDataSource: {
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Bank,
+          loadUrl: dataApi.contragents.Bank
         }),
-        paginate: true,
-      },
+        paginate: true
+      }
     };
   },
   methods: {
@@ -205,8 +219,8 @@ export default {
         default:
           throw "Unknown counterparty";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">

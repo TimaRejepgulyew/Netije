@@ -1,19 +1,25 @@
+import { assignIn as _assignIn, isEqual as _isEqual } from "lodash";
+
 import * as documentService from "~/infrastructure/services/documentService.js";
 import NumberingType from "~/infrastructure/constants/numberingTypes";
-import docmentKindService from "~/infrastructure/services/documentKind.js";
 import dataApi from "~/static/dataApi";
 import RegistrationState from "~/infrastructure/constants/documentRegistrationState.js";
 import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
 export default class Base {
+  _checkDataChanged = checkDataChanged;
+  _checkDataAsObjectChanged = (newValue, oldValue) => {
+    console.log(checkDataChanged(newValue?.id, oldValue?.id));
+    return checkDataChanged(newValue?.id, oldValue?.id);
+  };
   state = {
     document: {},
     documentState: {},
     isNew: false,
     isDataChanged: false,
+    canExchange: false,
     canUpdate: false,
     canDelete: false,
     canRegister: false,
-    isRegistered: false,
     skipRouteHandling: true,
     overlays: null,
     fullAccess: false
@@ -31,20 +37,22 @@ export default class Base {
     skipRouteHandling({ skipRouteHandling }) {
       return skipRouteHandling;
     },
-    canRegister({
-      canRegister,
-      document: {
-        documentKind: { numberingType }
+    canRegister({ canRegister, document: { documentKind } }) {
+      if (!documentKind) {
+        return false;
       }
-    }) {
-      return canRegister && numberingType != NumberingType.NotNumerable;
+      return (
+        canRegister && documentKind.numberingType !== NumberingType.NotNumerable
+      );
     },
-    isRegistrable({
-      document: {
-        documentKind: { numberingType }
+    canExchange({ canExchange }) {
+      return canExchange;
+    },
+    isRegistrable({ document: { documentKind } }) {
+      if (!documentKind) {
+        return false;
       }
-    }) {
-      return numberingType != NumberingType.NotNumerable;
+      return documentKind.numberingType !== NumberingType.NotNumerable;
     },
     canUpdate({ canUpdate }) {
       return canUpdate;
@@ -54,10 +62,13 @@ export default class Base {
     },
 
     isRegistered({ document }) {
-      return document.registrationState == RegistrationState.Registered;
+      return document.registrationState === RegistrationState.Registered;
     },
-    readOnly({ canUpdate, isRegistered }) {
-      return !canUpdate || isRegistered;
+    readOnly({ canUpdate, document }) {
+      return (
+        !canUpdate ||
+        document.registrationState === RegistrationState.Registered
+      );
     },
     isDataChanged({ isDataChanged }) {
       return isDataChanged;
@@ -85,7 +96,6 @@ export default class Base {
       state = {};
     },
     UPDATE_LAST_VERSION(state, payload) {
-      console.log(payload);
       if (payload)
         state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
       else {
@@ -98,28 +108,48 @@ export default class Base {
       state.document.canBeOpenedWithPreview = payload.canBeOpenedWithPreview;
       state.document.extension = payload.extension;
     },
-    SET_NAME(state, payload) {
-      if (checkDataChanged(state.document.name, payload)) {
+    SET_NAME: (state, payload) => {
+      if (this._checkDataChanged(payload, state.document.name)) {
+        state.document.name = payload;
         state.isDataChanged = true;
       }
-      state.document.name = payload;
     },
     SET_IS_NEW(state, payload) {
       state.isNew = payload;
     },
-    SET_NOTE(state, payload) {
-      if (checkDataChanged(state.document.note, payload)) {
+    SET_NOTE: (state, payload) => {
+      if (this._checkDataChanged(payload, state.document.note)) {
+        state.document.note = payload;
         state.isDataChanged = true;
       }
-      state.document.note = payload;
     },
     SET_DOCUMENT(state, payload) {
-      for (let item in payload) {
-        state[item] = payload[item];
+      if (_isEqual(state.document, {})) {
+        _assignIn(state, payload);
+        Object.assign(state.document, {});
+        return;
       }
-    },
-    IS_REGISTERED(state, payload) {
-      state.isRegistered = payload === RegistrationState.Registered;
+      function assignObject(state, payload) {
+        for (let item in payload) {
+          if (payload[item] === null) {
+            state[item] = null;
+            continue;
+          }
+          if (typeof payload[item] !== "object") {
+            if (state[item] !== payload[item]) state[item] = payload[item];
+            continue;
+          } else {
+            if (_isEqual(state[item], payload[item])) {
+              continue;
+            }
+            if (item === "document") assignObject(state[item], payload[item]);
+            else {
+              state[item] = payload[item];
+            }
+          }
+        }
+      }
+      assignObject(state, payload);
     },
     DATA_CHANGED(state, payload) {
       state.isDataChanged = payload;
@@ -154,10 +184,6 @@ export default class Base {
         dataApi.documentModule.RemoveVersion + versionId
       );
     },
-    setDocumentKind({ commit }, payload) {
-      if (!payload) payload = docmentKindService.emptyDocumentKind();
-      commit("SET_DOCUMENT_KIND", payload);
-    },
     async delete({ state }) {
       await this.$axios.delete(
         `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
@@ -170,12 +196,17 @@ export default class Base {
     this.state = { ...this.state, ...options?.state };
     this.actions = {
       ...options?.actions,
-      ...this.actions,
-      setDocumentKind({ commit }, payload) {
-        if (!payload) payload = docmentKindService.emptyDocumentKind();
-        commit("SET_DOCUMENT_KIND", payload);
-      }
+      ...this.actions
     };
+  }
+  createStore() {
+    const state = () => this.stateOptions();
+    const getters = { ...this.getterOptions() };
+    const actions = {
+      ...this.actionOptions()
+    };
+    const mutations = { ...this.mutationOptions() };
+    return { state, getters, actions, mutations };
   }
   stateOptions() {
     return this.state;

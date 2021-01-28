@@ -25,6 +25,9 @@ export default {
   PersonalSettings: 309,
   DocumentGroupBase: 310,
   AccessRightsRule: 311,
+  Certificate: 312,
+  RelationType: 313,
+  SignatureSetting: 314,
 
   ElectronicDocument: 400,
   OfficialDocument: 401,
@@ -51,7 +54,7 @@ export default {
   ContractBase: 422,
   Contract: 423,
   SupAgreement: 424,
-  DocumentTemplate: 425,
+  DocumentTemplate: 450,
 
   Roles: 500,
 
@@ -62,5 +65,13 @@ export default {
   DocumentReviewTask: 604,
   CheckReturnTask: 605,
   ApprovalTask: 606,
-  FreeApprovalTask: 607
+  FreeApprovalTask: 607,
+  StatusReportRequestTask: 608,
+  DeadlineExtensionTask: 609,
+  ExchangeDocumentProcessingTask: 610,
+  IntranetExchangeDocumentProcessingTask: 611,
+
+  IncomingDocumentRegisterReport: 700,
+  OutgoingDocumentRegisterReport: 701,
+  InnerDocumentRegisterReport: 702
 };

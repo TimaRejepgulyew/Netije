@@ -9,7 +9,7 @@
       key-expr="id"
       :visible="canUpdate"
       :dropDownOptions="{
-        width: '200px'
+        width: '200px',
       }"
       @item-click="onItemClick"
     >
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DxDropDownButton from "devextreme-vue/drop-down-button";
 import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 import { DxButton } from "devextreme-vue";
@@ -34,7 +35,7 @@ export default {
   components: {
     DxButton,
     DxDropDownButton,
-    toolbarItemUploadVersion
+    toolbarItemUploadVersion,
   },
   inject: ["trySaveDocument"],
   props: ["documentId"],
@@ -61,40 +62,46 @@ export default {
           id: 1,
           type: "upload",
           name: this.$t("buttons.upload"),
-          icon: "upload"
+          icon: "upload",
         },
         {
           id: 2,
           temp: "toolbarItemUploadVersion",
           type: "scaner",
           name: this.$t("buttons.fromScaner"),
-          icon: "print"
+          icon: "print",
         },
         {
           id: 3,
           disabled: this.isNew,
           type: "documentTemplate",
           name: this.$t("buttons.fromTemplate"),
-          icon: "doc"
+          icon: "doc",
         },
         {
           id: 4,
           type: "docxfile",
           name: this.$t("buttons.fromDocx"),
-          icon: "docxfile"
+          icon: "docxfile",
         },
         {
           id: 5,
           type: "xlsxfile",
           name: this.$t("buttons.fromXlsx"),
-          icon: "xlsxfile"
-        }
+          icon: "xlsxfile",
+        },
       ];
-    }
+    },
   },
   methods: {
     uploadVersion(data) {
       this.$store.dispatch(`documents/${this.documentId}/setVersion`, data);
+      if (!this.isNew)
+        if (DocumentTypeGuid.OutgoingLetter === this.document.documentTypeGuid)
+          this.$store.dispatch(`documents/${this.documentId}/updateExchange`, {
+            documentId: this.document.id,
+            documentTypeGuid: this.document.documentTypeGuid,
+          });
       this.$emit("uploadVersion");
       this.$awn.success();
     },
@@ -106,7 +113,7 @@ export default {
           this,
           "test.pdf"
         ),
-        res => {
+        (res) => {
           this.uploadVersion(res.data);
         },
         () => {}
@@ -119,7 +126,7 @@ export default {
           this.document,
           file
         ),
-        res => {
+        (res) => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -131,7 +138,7 @@ export default {
       const params = { templateId, documentId: this.documentId };
       this.$awn.asyncBlock(
         documentVersionService.createVersionFromTemplate(this, params),
-        res => {
+        (res) => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -147,7 +154,7 @@ export default {
           this,
           "test.docx"
         ),
-        res => {
+        (res) => {
           this.uploadVersion(res.data);
         },
         () => {
@@ -160,16 +167,16 @@ export default {
         this.$popup.documentTemplateGrid(
           this,
           {
-            documentId: this.documentId
+            documentId: this.documentId,
           },
           {
             showLoadingPanel: false,
             listeners: [
               {
                 eventName: "valueChanged",
-                handlerName: "pasteFromTemplate"
-              }
-            ]
+                handlerName: "pasteFromTemplate",
+              },
+            ],
           }
         );
       }
@@ -181,13 +188,13 @@ export default {
           readOnly: false,
           extension: ".docx",
           params: {
-            documentId: this.documentId
-          }
+            documentId: this.documentId,
+          },
         },
         isNew: true,
         listeners: [
-          { eventName: "valueChanged", handlerName: "pasteDocxVersion" }
-        ]
+          { eventName: "valueChanged", handlerName: "pasteDocxVersion" },
+        ],
       });
     },
     createExcelFile() {
@@ -197,13 +204,13 @@ export default {
           readOnly: false,
           extension: ".xlsx",
           params: {
-            documentId: this.documentId
-          }
+            documentId: this.documentId,
+          },
         },
         isNew: true,
         listeners: [
-          { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
-        ]
+          { eventName: "valueChanged", handlerName: "pasteXlsXVersion" },
+        ],
       });
     },
     onItemClick(e) {
@@ -216,15 +223,15 @@ export default {
           this.$popup.scannerDialog(
             this,
             {
-              documentId: this.documentId
+              documentId: this.documentId,
             },
             {
               listeners: [
                 {
                   eventName: "valueChanged",
-                  handlerName: "pasteVersionFromScanner"
-                }
-              ]
+                  handlerName: "pasteVersionFromScanner",
+                },
+              ],
             }
           );
           break;
@@ -232,15 +239,15 @@ export default {
           this.$popup.scannerDialog(
             this,
             {
-              documentId: this.documentId
+              documentId: this.documentId,
             },
             {
               listeners: [
                 {
                   eventName: "valueChanged",
-                  handlerName: "pasteVersionFromScanner"
-                }
-              ]
+                  handlerName: "pasteVersionFromScanner",
+                },
+              ],
             }
           );
           break;
@@ -258,20 +265,20 @@ export default {
               readOnly: false,
               extension: ".xlsx",
               params: {
-                documentId: this.documentId
-              }
+                documentId: this.documentId,
+              },
             },
             isNew: true,
             listeners: [
-              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" }
-            ]
+              { eventName: "valueChanged", handlerName: "pasteXlsXVersion" },
+            ],
           });
           break;
         default:
           break;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

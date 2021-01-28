@@ -37,7 +37,7 @@
                 />
               </DxSimpleItem>
               <DxSimpleItem
-                data-field="documentKindId"
+                data-field="documentKind"
                 :editor-options="documentKindOptions"
                 editor-type="dxSelectBox"
               >
@@ -52,9 +52,10 @@
 
               <DxSimpleItem
                 data-field="subject"
-                :editor-options="subjectOptions"
                 editor-type="dxTextArea"
+                template="autocomlete"
               >
+                <!-- :editor-options="subjectOptions" -->
                 <DxLabel
                   location="left"
                   :text="$t('document.fields.subject')"
@@ -100,7 +101,38 @@
           >
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.extradition')"
+            :disabled="isNew"
+          >
+            <DxSimpleItem
+              :col-span="8"
+              template="DocumentExtradition"
+            ></DxSimpleItem>
+          </DxTab>
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.exchangeLogs')"
+            :disabled="isNew"
+            v-if="canExchangePermission && isExchangeble"
+          >
+            <DxSimpleItem
+              :col-span="8"
+              template="ElExchangeLogs"
+            ></DxSimpleItem>
+          </DxTab>
         </DxTabbedItem>
+        <template #ElExchangeLogs>
+          <El-exchange-logs :documentId="documentId" />
+        </template>
+        <template #DocumentExtradition>
+          <DocumentExtradition
+            :entityTypeGuid="entityTypeGuid"
+            :id="documentId"
+            slot="history"
+          />
+        </template>
         <template #history>
           <History
             :entityTypeGuid="entityTypeGuid"
@@ -130,6 +162,13 @@
             :is="formByTypeGuid"
           ></component>
         </template>
+        <template #autocomlete>
+          <AutocomleteTextArea
+            :value="document.subject"
+            :options="autocomleteTextOptions"
+            @valueChanged="changeSubject"
+          />
+        </template>
       </DxForm>
       <transition name="fade">
         <docVersion
@@ -137,43 +176,55 @@
           :isCard="isCard"
           class="item--drawer"
           v-if="versionOpenState"
-        ></docVersion>
+        />
       </transition>
     </div>
   </div>
 </template>
 <script>
-import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";
-import { unload } from "~/infrastructure/services/documentService.js";
-import DocumentType from "~/infrastructure/models/DocumentType.js";
-import Header from "~/components/page/page__header";
-import lifeCycle from "~/components/document-module/main-doc-form/life-cycle.vue";
-import Relation from "~/components/document-module/main-doc-form/relation";
-import History from "~/components/page/history.vue";
-import docVersion from "~/components/document-module/main-doc-form/doc-version";
-import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
-import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-import EntityTypes from "~/infrastructure/constants/entityTypes.js";
-import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
-import * as documentTypeComponent from "~/components/document-module/document-type-components/index.js";
-import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import "devextreme-vue/text-area";
+import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
+import Status from "~/infrastructure/constants/status";
+// COMPONENTS
+
 import DxForm, {
   DxTabbedItem,
   DxTab,
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
+import AutocomleteTextArea from "~/components/autocomplete-text-area/index.vue";
+import { unload } from "~/infrastructure/services/documentService.js";
+import ElExchangeLogs from "~/components/document-module/main-doc-form/el-exchange";
+import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";
+import Header from "~/components/page/page__header";
+import lifeCycle from "~/components/document-module/main-doc-form/life-cycle.vue";
+import Relation from "~/components/document-module/main-doc-form/relation";
+import History from "~/components/page/history.vue";
+import DocumentExtradition from "~/components/page/document-extradition.vue";
+import docVersion from "~/components/document-module/main-doc-form/doc-version";
+import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
+import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
+import * as documentTypeComponent from "~/components/document-module/document-type-components/index.js";
+
+//CONSTANTS
+
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import EntityTypes from "~/infrastructure/constants/entityTypes.js";
+import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
+
+import DocumentType from "~/infrastructure/models/DocumentType.js";
 import dataApi from "~/static/dataApi";
 export default {
   components: {
     ...documentTypeComponent,
+    AutocomleteTextArea,
     DxTabbedItem,
     DxTab,
     Relation,
     History,
+    DocumentExtradition,
     docVersion,
     docRegistration,
     Toolbar,
@@ -184,7 +235,8 @@ export default {
     DxForm,
     lifeCycle,
     Header,
-    documentTasks
+    documentTasks,
+    ElExchangeLogs,
   },
   name: "document-card",
   destroyed() {
@@ -194,13 +246,13 @@ export default {
   props: ["isCard", "documentId"],
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name
+      title: this.$store.getters[`documents/${this.documentId}/document`].name,
     };
   },
-  provide: function() {
+  provide: function () {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName
+      documentValidatorName: this.documentValidatorName,
     };
   },
   created() {
@@ -223,12 +275,15 @@ export default {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
+        loop: "true",
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`
+      documentValidatorName: `OfficialDocument/${this.documentId}`,
     };
   },
   methods: {
+    changeSubject(value) {
+      this.$store.dispatch(`documents/${this.documentId}/setSubject`, value);
+    },
     onRemove() {
       this.$emit("onClose", this.documentId);
     },
@@ -253,9 +308,32 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    }
+    },
   },
   computed: {
+    isExchangeble() {
+      switch (this.document.documentTypeGuid) {
+        case DocumentTypeGuid.IncomingLetter:
+        case DocumentTypeGuid.OutgoingLetter:
+          return true;
+        default:
+          false;
+      }
+    },
+    autocomleteTextOptions() {
+      return {
+        category: "Document",
+        entityType: this.document.documentTypeGuid,
+        readOnly: this.readOnly,
+        height: 70,
+      };
+    },
+    canExchangePermission() {
+      return this.$store.getters["permissions/canExchange"](
+        EntityTypes.OfficialDocument
+      );
+    },
+
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
@@ -270,29 +348,30 @@ export default {
       return this.document.name;
     },
     documentKindOptions() {
+      const builder = new SelectBoxOptionsBuilder();
+      const options = builder
+        .withUrl(dataApi.docFlow.DocumentKind)
+        .filter(
+          ["documentTypeGuid", "=", this.document.documentTypeGuid],
+          "and",
+          ["status", "=", Status.Active]
+        )
+        .acceptCustomValues((e) => {
+          e.customItem = null;
+        })
+        .withoutDeferRendering()
+        .focusStateDisabled()
+        .clearValueExpr()
+        .build(this);
       return {
-        readOnly: this.readOnly,
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-          url: dataApi.docFlow.DocumentKind,
-          filter: [
-            ["documentTypeGuid", "=", this.document.documentTypeGuid],
-            "and",
-            ["status", "=", 0]
-          ]
-        }),
-        value: this.document.documentKindId,
-        onValueChanged: e => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/reevaluateDocumentName`
-          );
-        },
-        onSelectionChanged: e => {
+        ...options,
+        value: this.document.documentKind,
+        onValueChanged: (e) => {
           this.$store.dispatch(
             `documents/${this.documentId}/setDocumentKind`,
-            e.selectedItem
+            e.value
           );
-        }
+        },
       };
     },
     readOnly() {
@@ -350,21 +429,9 @@ export default {
         value: this.document.name,
         disabled:
           this.document.documentKind?.generateDocumentName || this.isRegistered,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
-        }
-      };
-    },
-    subjectOptions() {
-      return {
-        readOnly: this.readOnly,
-        value: this.document.subject,
-        onValueChanged: e => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setSubject`,
-            e.value
-          );
-        }
+        },
       };
     },
     noteOptions() {
@@ -373,18 +440,18 @@ export default {
         value: this.document.note,
         height: 70,
         autoResizeEnabled: true,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
 .wrapper--relative {
   position: relative;
-  height: 100%;
+  min-height: 79vh;
   overflow: hidden;
   .item--drawer {
     position: absolute;

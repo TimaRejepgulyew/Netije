@@ -21,10 +21,18 @@ import docFlow from "~/lang/i18n-translation/ru/docFlow.js";
 import scanner from "~/lang/i18n-translation/ru/scanner.js";
 import malwareScanResults from "~/lang/i18n-translation/ru/malwareScanResults.js";
 import onlineUsers from "~/lang/i18n-translation/ru/onlineUsers.js";
+import reports from "~/lang/i18n-translation/ru/reports.js";
 import exchange from "~/lang/i18n-translation/ru/exchange.js";
+import searching from "~/lang/i18n-translation/ru/searchingPanel.js";
+import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
+import recipientTagBox from "~/lang/i18n-translation/ru/recipientTagBox.js";
 export default {
+  recipientTagBox,
+  searching,
   exchange,
+  documentTracking,
   malwareScanResults,
+  reports,
   onlineUsers,
   scanner,
   paperWork,
@@ -35,6 +43,7 @@ export default {
   administration,
   documentSendAction,
   licensing,
+  notificationMessage: "Уведомление",
   status: {
     active: "Активный",
     closed: "Закрытый"
@@ -140,6 +149,8 @@ export default {
     },
     attach: "Вложите",
     name: "Наименование",
+    id: "Идентификатор",
+    category: "Категория",
     nameRequired: "Введите наименование",
     nameAlreadyExists: "Такое имя уже существует",
     nameShouldNotBeMoreThan: "Не должно быть больше 60 символов",
@@ -227,13 +238,19 @@ export default {
       dateOfBirth: "Дата рождения",
       dateOfBirthRequired: "Выберите дату рождения",
       sex: "Пол",
+      category: "Категория",
       APN: "Должность, место работы и номер телефона",
+      registrationAddress: "Адрес регистрации",
       legalAddress: "Юридический адрес",
       postAddress: "Почтовый адрес",
       phones: "Телефон",
       userName: "Логин пользователя",
       userNameRequired: "Введите логин пользователя",
       email: "Email",
+      person: "Персона",
+      photo: "Фото",
+      dateOfAppointment: "Дата приёма",
+      dateOfDismissal: "Дата увольнения",
       emailRule: "Email введен не верно",
       emailAlreadyExists: "Сотрудник с таким email уже существует",
       webSite: "Веб-сайт",
@@ -243,6 +260,7 @@ export default {
       tinAlreadyExists: "Такой ИНН уже существует",
       tinRule: "Инн должен быть без пробелов",
       account: "Номер счетa",
+      correspondentAccount: "Корр. счёт",
       accountRequired: "Введите номер счета",
       permissions: "Разрешения",
       nonresident: "Нерезидент",
@@ -293,6 +311,9 @@ export default {
       registration: "Регистрация",
       numbering: "Нумерация",
       moreSettings: "Дополнительные настройки",
+      userBlocking:"Блокировка пользователя",
+      allowBlocking:"Разрешить блокировку",
+      lockoutEndDate:"Дата окончания блокировки",
       moreAbout: "Подробнее",
       availableActions: "Действие по отправке",
       numberingSection: "Разрез нумерации",

@@ -10,7 +10,6 @@ export const state = () => ({
       100,
       {
         delete: false,
-        has: false,
         read: false,
         create: false,
         update: false
@@ -20,7 +19,6 @@ export const state = () => ({
       90,
       {
         delete: true,
-        has: true,
         read: true,
         create: true,
         update: true
@@ -30,7 +28,6 @@ export const state = () => ({
       80,
       {
         delete: false,
-        has: true,
         read: true,
         create: true,
         update: true
@@ -40,7 +37,6 @@ export const state = () => ({
       70,
       {
         delete: false,
-        has: true,
         read: true,
         create: true,
         update: false
@@ -50,10 +46,40 @@ export const state = () => ({
       60,
       {
         delete: false,
-        has: true,
         read: true,
         create: false,
         update: false
+      }
+    ],
+    [
+      0,
+      {
+        registration: true
+      }
+    ],
+
+    [
+      1,
+      {
+        deleteDocument: true
+      }
+    ],
+    [
+      2,
+      {
+        approval: true
+      }
+    ],
+    [
+      3,
+      {
+        execute: true
+      }
+    ],
+    [
+      4,
+      {
+        exchange: true
       }
     ]
   ])
@@ -72,6 +98,22 @@ export const getters = {
       return obj.update;
     }
     return false;
+  },
+  canExchange: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin || accessRights.isAuditor) {
+      return true;
+    }
+    let obj = accessRights.operations.get(entityType);
+    if (obj?.exchange) return true;
+    else return false;
+  },
+  canExecute: ({ accessRights }) => entityType => {
+    if (accessRights.isAdmin || accessRights.isAuditor) {
+      return true;
+    }
+    let obj = accessRights.operations.get(entityType);
+    if (obj?.execute) return true
+    else return false;
   },
   allowReading: ({ accessRights }) => entityType => {
     if (accessRights.isAdmin || accessRights.isAuditor) {
@@ -175,14 +217,18 @@ export const mutations = {
       isResponsibleForRegistrationSettings: payload.roles.includes(
         "ResponsibleForRegistrationSettings"
       ),
-      Roles: payload.roles,
-      operations: new Map(
-        payload.accessRights.map(({ entityType, operation }) => {
-          let obj = { ...state.access.get(operation) };
-          return [entityType, obj];
-        })
-      )
+      Roles: payload.roles
     };
+    const operations = new Map();
+    payload.accessRights.forEach(({ entityType, operation }) => {
+      let obj = { ...state.access.get(operation) };
+      if (operations.has(entityType)) {
+        const entry = operations.get(entityType);
+        obj = { ...obj, ...entry };
+      }
+      operations.set(entityType, obj);
+    });
+    accessRights.operations = operations;
     state.accessRights = accessRights;
     state.isLoaded = true;
   }

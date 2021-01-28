@@ -1,8 +1,11 @@
 <template>
   <DxSelectBox
+    @opened="onOpened"
+    ref="recipient"
     :read-only="readOnly"
     :data-source="dataStore"
     @valueChanged="valueChanged"
+    :openOnFieldClick="true"
     :showClearButton="true"
     :value="value"
     :value-expr="valueExpr"
@@ -11,12 +14,10 @@
     searchExpr="name"
     :paginate="true"
     :page-size="10"
+    :deferRendering="true"
   >
     <DxValidator :validation-group="validatorGroup">
-      <DxRequiredRule
-        v-if="isRequired"
-        :message="$t(`translations.fields.${property}Required`)"
-      />
+      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
     </DxValidator>
     <template #item="{ data }">
       <div>
@@ -54,7 +55,13 @@ export default {
   created() {},
   data() {
     return {
-      dataStore: new DataSource({
+      dataSourceLoaded: this.valueExpr,
+      needRepaint: false
+    };
+  },
+  computed: {
+    dataStore() {
+      const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: this.dataApi || dataApi.recipient.list
@@ -62,10 +69,22 @@ export default {
         paginate: true,
         pageSize: 10,
         sort: [{ selector: "recipientType", desc: false }]
-      })
-    };
+      });
+      if (this.dataSourceLoaded) {
+        return dataSource;
+      }
+      if (this.readOnly || this.value ) {
+        console.log("this.value", this.value);
+        return [this.value];
+      }
+
+      return dataSource;
+    }
   },
   methods: {
+    onOpened() {
+      this.dataSourceLoaded = true;
+    },
     listItemByType(type) {
       switch (type) {
         case recipientType.Employee:
@@ -76,6 +95,10 @@ export default {
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
+      if (this.needRepaint) {
+        this.needRepaint = false;
+        this.$refs["recipient"].instance.repaint();
+      }
     }
   }
 };

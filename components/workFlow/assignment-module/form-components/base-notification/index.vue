@@ -1,0 +1,44 @@
+<template>
+  <div>
+    <Toolbar :assignmentId="assignmentId" :isCard="isCard" v-if="canUpdate">
+      <slot name="createChildTask" slot="createChildTask"> </slot>
+      <slot name="importanceIndicator" slot="importanceIndicator"> </slot>
+    </Toolbar>
+    <DxForm
+      ref="form"
+      :col-count="10"
+      :show-colon-after-label="true"
+      :show-validation-summary="true"
+      :validation-group="assignmentValidatorName"
+    >
+      <DxGroupItem :col-span="7" :col-count="4">
+        <DxGroupItem template="info" :col-span="4"> </DxGroupItem>
+        <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>
+      </DxGroupItem>
+      <DxGroupItem template="attachments" :col-span="3" />
+      <template #info>
+        <slot name="info"></slot>
+      </template>
+
+      <template #thread-texts>
+        <slot name="thread-texts" />
+      </template>
+      <template #attachments>
+        <slot name="attachments" />
+      </template>
+    </DxForm>
+  </div>
+</template>
+<script>
+import Toolbar from "./components/toolbar";
+import formByType from "../../infrastructure/mixins/form-types.js";
+export default {
+  name: "base-notification",
+  mixins: [formByType],
+  components: {
+    Toolbar,
+  },
+};
+</script>
+
+

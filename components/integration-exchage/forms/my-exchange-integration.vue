@@ -8,7 +8,7 @@
     ></Header>
     <toolbar
       @saveChanges="handleSubmit"
-      :canSave="isNew && $store.getters['permissions/IsAdmin']"
+      :canSave="$store.getters['permissions/IsAdmin']"
     />
     <DxForm
       ref="form"
@@ -43,16 +43,6 @@
             :message="$t('exchange.validation.businessUnitRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="routing"
-          :editor-options="routingOptions"
-          editor-type="dxSelectBox"
-        >
-          <DxRequiredRule
-            :message="$t('exchange.validation.routingRequired')"
-          />
-          <DxLabel location="top" :text="$t('exchange.fields.routing')" />
-        </DxSimpleItem>
         <DxSimpleItem data-field="responsibleId" template="responsibleId">
           <DxLabel location="top" :text="$t('exchange.fields.responsible')" />
           <DxRequiredRule
@@ -70,11 +60,12 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-count="1" :col-span="2">
-        <DxSimpleItem :editor-options="passwordOptions" data-field="password">
+        <DxSimpleItem
+          :isRequired="hasSertificate"
+          :editor-options="passwordOptions"
+          data-field="password"
+        >
           <DxLabel location="top" :text="$t('exchange.fields.password')" />
-          <DxRequiredRule
-            :message="$t('exchange.validation.passwordRequired')"
-          />
         </DxSimpleItem>
         <DxSimpleItem template="certificate">
           <DxLabel location="top" :text="$t('exchange.fields.certificate')" />
@@ -115,7 +106,7 @@
 </template>
 <script>
 import Status from "~/infrastructure/constants/status";
-import RoutingTypeGuid from "../infrastructure/constants/routing.js";
+
 import CertificateUploader from "../components/certificate-uploader.vue";
 import EmployeeSelectBox from "~/components/employee/custom-select-box.vue";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
@@ -146,7 +137,7 @@ export default {
   props: ["data", "isCard"],
   created() {
     if (this.data) {
-      this.box = this.data;
+      this.box = { ...this.box, ...this.data };
     }
   },
   data() {
@@ -157,7 +148,6 @@ export default {
         organizationId: null,
         businessUnitId: null,
         responsibleId: null,
-        routing: RoutingTypeGuid.BoxResponsible,
         certificate: null,
         password: null,
         status: Status.Active,
@@ -168,31 +158,20 @@ export default {
         displayExpr: "status",
         showClearButton: true,
       },
-      routingDataSource: [
-        {
-          name: this.$t("exchange.routingType.BoxResponsible"),
-          id: RoutingTypeGuid.BoxResponsible,
-        },
-      ],
       passwordOptions: {
         mode: "password",
       },
     };
   },
   computed: {
-    routingOptions() {
-      return {
-        dataSource: this.routingDataSource,
-        valueExpr: "id",
-        displayExpr: "name",
-        showClearButton: true,
-      };
-    },
     isNew() {
       return this.data ? false : true;
     },
     readOnly() {
       return !this.$store.getters["permissions/IsAdmin"];
+    },
+    hasSertificate() {
+      return this.box.certificate ? true : false;
     },
   },
   methods: {
@@ -223,8 +202,7 @@ export default {
     },
     postRequest() {
       var res = this.$refs["form"].instance.validate();
-      console.log(this.box.certificate);
-      if (!res.isValid || !this.box.certificate) return;
+      if (!res.isValid || !this.hasSertificate) return;
       const file = this.generateFormData(this.box);
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.boxes.Boxes, file),
@@ -237,7 +215,7 @@ export default {
     },
     putRequest() {
       var res = this.$refs["form"].instance.validate();
-      if (!res.isValid || !this.box.certificate) return;
+      if (!res.isValid) return;
       const file = this.generateFormData(this.box);
       this.$awn.asyncBlock(
         this.$axios.put(dataApi.boxes.Boxes + "/" + this.box.id, file),

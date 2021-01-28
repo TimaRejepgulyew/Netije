@@ -8,6 +8,7 @@ export default {
     sendNotice: "Habarnamany ibermek"
   },
   fields: {
+    counterParty: "Kontragent",
     action: "Hereketi",
     approved: "Ylalyşyldy",
     approver: "Ylalaşyjy",
@@ -28,9 +29,15 @@ export default {
     Today: "Şu gün"
   },
   confirmMessage: {
+    sureTerminatedAssignmentConfirmation:
+      "Hakykatdanam hem giriş resminamany işläp- taýýarlamakdan ret etmekçimi",
+    sureProcessedAssignmentConfirmation:
+      "Hakykatdanam hem giriş resminamany işläp-taýýarlamakçy",
+    sureInformedAssignmentConfirmation:
+      " Hakykatdan hem garalmaga kabul ettiňiz",
     sureAbortConfirmation: "Siz hakykatdanam ýumuşy işlemegi besetjek mi ?",
     sureApprovalReworkAssignmentConfirmation:
-      "Siz hakykatdan ýumuşy gaýtadan işlendiňiz ",
+      "Siz hakykatdan ýumuşy gaýtadan işlendiňiz",
     sureFreeApprovalAssignmentConfirmation:
       "Siz hakykatdan resminama bilen ylalaşýarsyňyz?",
     sureFreeApprovalFinishAssignment:
@@ -80,6 +87,9 @@ export default {
   readdressToEmployee: "Işgäriň salgysyna geçirmelimi",
 
   result: {
+    ReAddress: "Iberilen",
+    Terminated: "Inkär edildi",
+    Processed: "Işlenildi",
     Reworked: "Düzedildi",
     Completed: "Tamamlandy",
     Approved: "Ylalaşyldy",

@@ -3,18 +3,16 @@ import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 export default async function(context, store) {
   switch (store.state.document.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
-      await saveDocumentTemplate(context, store);
-      break;
+      return await saveDocumentTemplate(context, store);
     default:
-      await saveDocument(context, store);
-      break;
+      return await saveDocument(context, store);
   }
 }
 
 export async function saveDocument(context, { commit, state, dispatch }) {
   const documentJson = JSON.stringify(state.document);
-  const response = await context.$axios.put(
-    dataApi.documentModule.Documents + state.document.id,
+  const { data } = await context.$axios.put(
+    dataApi.documentModule.SaveDocument + state.document.id,
     {
       documentJson,
       documentTypeGuid: state.document.documentTypeGuid
@@ -26,7 +24,8 @@ export async function saveDocument(context, { commit, state, dispatch }) {
     commit(`SET_IS_NEW`, false);
   }
   commit(`DATA_CHANGED`, false);
-  return response;
+  commit(`SET_DOCUMENT`, data);
+  return data;
 }
 
 export async function saveDocumentTemplate(
@@ -34,7 +33,7 @@ export async function saveDocumentTemplate(
   { commit, state, dispatch }
 ) {
   const documentJson = JSON.stringify(state.document);
-  const response = await context.$axios.put(
+  const { data } = await context.$axios.put(
     `${dataApi.documentTemplate.Documents}/${state.document.id}`,
     state.document
   );
@@ -44,5 +43,6 @@ export async function saveDocumentTemplate(
     commit(`SET_IS_NEW`, false);
   }
   commit(`DATA_CHANGED`, false);
-  return response;
+  commit(`SET_DOCUMENT`, data);
+  return data;
 }

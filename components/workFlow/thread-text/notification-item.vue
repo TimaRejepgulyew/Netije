@@ -15,7 +15,7 @@
         <div>
           <div @click="() => toDetailAssignment(data.item.entity)" class="link">
             <span class="text-italic">{{
-              parseSubject(data.item.entity.assignmentType)
+              parseSubject(data.item.entity)
             }}</span>
           </div>
 
@@ -46,44 +46,37 @@
   </div>
 </template>
 <script>
-import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
-import { isReadIndicator } from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
-import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
+import NotificationThreadTextModel from "../infrastructure/models/ThreadText/NotificationThreadText.js";
+import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
+import { isReadIndicator } from "./indicator-state/assignment-indicators/indicators.js";
+import { assignmentTypeName } from "../infrastructure/constants/assignmentType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
+import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
     threadTextComponentAuthor,
     userIcon,
     isReadIndicator,
-    threadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue")
+    threadTextComponent: () => import("./thread-text-component.vue"),
   },
   name: "task-item",
   props: ["data"],
-
+  computed: {
+    notificationThreadText() {
+      return new NotificationThreadTextModel(this);
+    },
+  },
   methods: {
-    isReadStatusText(isRead) {
-      return isRead ? this.$t("shared.read") : this.$t("shared.unread");
-    },
-    isReadStatusIcon(isRead) {
-      return isRead ? this.readIcon : this.unreadIcon;
-    },
     toDetailAssignment(params) {
-      this.$popup.assignmentCard(this, {
-        params: { assignmentId: params.id }
-      });
+      this.notificationThreadText.showCard(this, params);
     },
-    parseSubject(value) {
-      return assignmentTypeName(this)[value]?.text;
+    parseSubject(entity) {
+      return this.notificationThreadText.generateSubject(entity);
     },
     formatDate(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return this.notificationThreadText.formatDate(date);
     },
-    displayDeadline(type) {
-      return type !== WorkflowEntityTextType.Notice;
-    }
-  }
+  },
 };
 </script>

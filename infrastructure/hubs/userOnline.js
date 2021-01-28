@@ -1,6 +1,6 @@
 import dataApi from "~/static/dataApi";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-export default function(app) {
+export default function (app) {
   const connection = new HubConnectionBuilder()
     .withUrl(dataApi.hubs.UserOnline, {
       accessTokenFactory: () => app.store.getters["oidc/oidcAccessToken"]

@@ -29,7 +29,9 @@
       <custom-field
         :read-only="readOnly"
         :notPerson="notPerson"
+        :isPerson="isPerson"
         :field-data="data"
+        @openFields="openFields"
         @openGridPopup="openGridPopup(data)"
         @openCounterPartPopup="openCounterPartPopup(data)"
         @openCreateCounterPartPopup="openCreateCounterPartPopup"
@@ -50,39 +52,50 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: [
     "validatorGroup",
     "messageRequired",
     "value",
     "notPerson",
+    "isPerson",
     "disabled",
-    "readOnly",
+    "readOnly"
   ],
   data() {
     return {
       counterPartStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.CounterPart,
+          loadUrl: dataApi.contragents.CounterPart
         }),
         paginate: true,
         pageSize: 10,
-        filter: this.notPerson ? ["type", "<>", "Person"] : null,
-      }),
+        filter: this.notPerson
+          ? ["type", "<>", "Person"]
+          : this.isPerson
+          ? ["type", "=", "Person"]
+          : null
+      })
     };
   },
   methods: {
+    openFields() {
+      this.$refs["counterPart"].instance.open();
+    },
     openGridPopup(data) {
       this.$popup.counterPartGrid(
         this,
-        {},
+        {
+          isPerson: this.isPerson,
+          notPerson: this.notPerson
+        },
         {
           showLoadingPanel: false,
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" },
-          ],
+            { eventName: "valueChanged", handlerName: "setCounterPart" }
+          ]
         }
       );
     },
@@ -92,11 +105,12 @@ export default {
         {
           counterpartId: data.id,
           type: data.type.toLowerCase(),
+          isCard: true
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" },
-          ],
+            { eventName: "valueChanged", handlerName: "setCounterPart" }
+          ]
         }
       );
     },
@@ -105,12 +119,13 @@ export default {
         this,
         {
           type: data,
+          isCard: true
         },
         {
           showLoadingPanel: false,
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" },
-          ],
+            { eventName: "valueChanged", handlerName: "setCounterPart" }
+          ]
         }
       );
     },
@@ -126,8 +141,8 @@ export default {
     setCounterPart(data) {
       this.$emit("valueChanged", data.id);
       this.reloadStore();
-    },
-  },
+    }
+  }
 };
 </script>
 

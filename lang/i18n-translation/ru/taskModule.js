@@ -3,7 +3,9 @@ export const TaskType = {
   AcquaintanceTask: "Задача на ознакомление с документом",
   ActionItemExecutionTask: "Задача на исполнение поручения",
   DocumentReviewTask: "Задача на рассмотрение документа",
-  FreeApprovalTask: "Задача на cвободное согласование"
+  FreeApprovalTask: "Задача на cвободное согласование",
+  ExchangeDocumentProcessingTask: "Задача на эл. обмен",
+  IntranetExchangeDocumentProcessingTask: "Задача на внутренний эл. обмен"
 };
 export default {
   compoundActionItem: "Состовное поручение",
@@ -47,6 +49,9 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    boxBase: "Абонентский ящик",
+    counterParty: "Контрагент",
+    sender: "Отправитель",
     finalDeadline: "Общий срок",
     status: "Состояние",
     author: "Автор",
@@ -75,7 +80,7 @@ export default {
     approvers: "Согласующие",
     receiveOnCompletion: "По завершению получить",
     receiveNotice: "Уведомлять о замечаниях",
-    copies: "Копия"
+    copies: "Копии"
   },
   importance: {
     highImportance: "Высокая важность",

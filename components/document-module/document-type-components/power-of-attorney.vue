@@ -9,7 +9,7 @@
     <DxGroupItem :col-count="2">
       <DxGroupItem>
         <DxSimpleItem
-          data-field="businessUnitId"
+          data-field="businessUnit"
           template="businessUnitSelectBox"
         >
           <DxLabel
@@ -20,7 +20,7 @@
             :message="$t('document.validation.businessUnitIdRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+        <DxSimpleItem data-field="department" template="departmentSelectBox">
           <DxLabel location="left" :text="$t('document.fields.departmentId')" />
           <DxRequiredRule
             :message="$t('document.validation.departmentIdRequired')"
@@ -36,7 +36,6 @@
             :message="$t('document.validation.validTillRequired')"
           />
         </DxSimpleItem>
-
         <DxSimpleItem data-field="issuedToId" template="issuedToId">
           <DxLabel location="left" :text="$t('document.fields.issuedToId')" />
           <DxRequiredRule
@@ -46,13 +45,13 @@
       </DxGroupItem>
 
       <DxGroupItem>
-        <DxSimpleItem data-field="ourSignatoryId" template="ourSignatory">
+        <DxSimpleItem data-field="ourSignatory" template="ourSignatory">
           <DxLabel location="left" :text="$t('document.fields.signatory')" />
           <DxRequiredRule
             :message="$t('document.validation.ourSignatoryRequired')"
           />
         </DxSimpleItem>
-        <DxSimpleItem template="prepared" data-field="preparedById">
+        <DxSimpleItem template="prepared" data-field="preparedBy">
           <DxLabel location="left" :text="$t('document.fields.preparedById')" />
         </DxSimpleItem>
       </DxGroupItem>
@@ -60,57 +59,52 @@
     <template #ourSignatory>
       <employee-select-box
         :read-only="readOnly"
-        valueExpr="id"
         :validatorGroup="documentValidatorName"
         :storeApi="signatoryApi"
-        :value="ourSignatoryId"
-        @valueChanged="setOurSignatoryId"
+        :value="ourSignatory"
+        @valueChanged="setOurSignatory"
       />
     </template>
     <template #issuedToId>
       <employee-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="issuedToId"
-        @valueChanged="setIssuedToId"
+        :value="issuedTo"
+        @valueChanged="setIssuedTo"
       />
     </template>
     <template #prepared>
       <employee-select-box
         :read-only="readOnly"
-        valueExpr="id"
-        :value="preparedById"
-        @valueChanged="setPreparedById"
+        :value="preparedBy"
+        @valueChanged="setPreparedBy"
       />
     </template>
     <template #businessUnitSelectBox>
       <business-unit-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="businessUnitId"
+        :value="businessUnit"
         @valueChanged="
-          data => {
-            setBusinessUnitId(data);
-            setDepartmentId(null);
-            setIssuedToId(null);
+          (data) => {
+            setBusinessUnit(data);
+            setDepartment(null);
+            setIssuedTo(null);
           }
         "
       />
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="departmentId"
+        :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
-          data => {
-            setDepartmentId(data);
-            setOurSignatoryId(null);
-            setPreparedById(null);
+          (data) => {
+            setDepartment(data);
+            setOurSignatory(null);
+            setPreparedBy(null);
           }
         "
       />
@@ -127,7 +121,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -138,13 +132,13 @@ export default {
     DxRequiredRule,
     employeeSelectBox,
     BusinessUnitSelectBox,
-    DepartmentSelectBox
+    DepartmentSelectBox,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
   data() {
     return {
-      signatoryApi: dataApi.signatureSettings.Members
+      signatoryApi: dataApi.signatureSettings.Members,
     };
   },
   computed: {
@@ -152,25 +146,25 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
     businessUnitId() {
-      return this.document.businessUnitId;
+      return this.document.businessUnit?.id;
+    },
+    businessUnit() {
+      return this.document.businessUnit;
     },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
-    issuedToId() {
-      return this.document.issuedToId;
+    issuedTo() {
+      return this.document.issuedTo;
     },
-    preparedById() {
-      return this.document.preparedById;
+    preparedBy() {
+      return this.document.preparedBy;
     },
-    ourSignatoryId() {
-      return this.document.ourSignatoryId;
+    ourSignatory() {
+      return this.document.ourSignatory;
     },
-    businessUnitId() {
-      return this.document.businessUnitId;
-    },
-    departmentId() {
-      return this.document.departmentId;
+    department() {
+      return this.document.department;
     },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
@@ -181,16 +175,16 @@ export default {
           context: this,
           url: dataApi.company.Employee,
           filter: [
-            ["departmentId", "=", this.departmentId],
+            this.department ? ["departmentId", "=", this.department?.id] : [],
             "and",
-            ["status", "=", Status.Active]
-          ]
+            ["status", "=", Status.Active],
+          ],
         }),
         readOnly: this.readOnly,
-        value: this.document.preparedById,
-        onValueChanged: e => {
-          this.setPreparedById(e.value);
-        }
+        value: this.document.preparedBy,
+        onValueChanged: (e) => {
+          this.setPreparedBy(e.value);
+        },
       };
     },
     issuedToIdOptions() {
@@ -202,61 +196,64 @@ export default {
           filter: [
             ["businessUnitId", "=", this.businessUnitId],
             "and",
-            ["status", "=", Status.Active]
-          ]
+            ["status", "=", Status.Active],
+          ],
         }),
-        value: this.document.issuedToId,
-        onValueChanged: e => {
-          this.dispatchIssuedToId(e.value);
-        }
+        value: this.document.issuedTo,
+        onValueChanged: (e) => {
+          this.dispatchIssuedTo(e.value);
+        },
       };
     },
     validTillOptions() {
       return {
         readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         useMaskBehavior: true,
         openOnFieldClick: true,
         value: this.document.validTill,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setValidTill(e.value);
-        }
+        },
       };
-    }
+    },
   },
   methods: {
-    setPreparedById(data) {
+    setPreparedBy(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_PREPARED_BY_ID`,
+        `documents/${this.documentId}/SET_PREPARED_BY`,
         data
       );
     },
-    setOurSignatoryId(data) {
+    setOurSignatory(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_OUR_SIGNATORY_ID`,
+        `documents/${this.documentId}/SET_OUR_SIGNATORY`,
         data
       );
     },
-    dispatchIssuedToId(data) {
-      this.$store.dispatch(`documents/${this.documentId}/setIssuedToId`, data);
+    dispatchIssuedTo(data) {
+      this.$store.dispatch(`documents/${this.documentId}/setIssuedTo`, data);
     },
-    setIssuedToId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_ISSUED_TO_ID`, data);
+    setIssuedTo(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_ISSUED_TO`, data);
     },
-    setBusinessUnitId(data) {
+    setBusinessUnit(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        `documents/${this.documentId}/SET_BUSINESS_UNIT`,
         data
       );
     },
-    setDepartmentId(data) {
-      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT_ID`,data);
+    setDepartment(data) {
+      this.$store.commit(
+        `documents/${this.documentId}/SET_DEPARTMENT`,
+        data
+      );
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -5,13 +5,14 @@
       :data="data"
       @valueChanged="valueChanged"
       @close="close"
-      :isCard="true"
+      :isCard="options.isCard"
       v-if="data"
     />
     <component
       @valueChanged="valueChanged"
       @close="close"
       :is="options.type"
+      :isCard="options.isCard"
       v-if="!options.counterpartId"
     />
   </div>

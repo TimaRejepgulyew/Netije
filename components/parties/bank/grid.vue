@@ -51,6 +51,14 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
+      <DxColumn data-field="categoryId" :caption="$t('shared.category')">
+        <DxLookup
+          :allow-clearing="true"
+          :data-source="categoryStore"
+          value-expr="id"
+          display-expr="name"
+        />
+      </DxColumn>
       <DxColumn data-field="tin" :caption="$t('translations.fields.tin')"></DxColumn>
       <DxColumn data-field="regionId" :caption="$t('translations.fields.regionId')">
         <DxLookup
@@ -160,6 +168,10 @@ export default {
         key: "id",
         loadUrl: dataApi.contragents.Bank,
         removeUrl: dataApi.contragents.Bank
+      }),
+      categoryStore: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.contragents.Category
       }),
       statusDataSource: this.$store.getters["status/status"](this),
       editButtons: [

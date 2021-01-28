@@ -53,10 +53,14 @@ import documentGrid from "./document-grid-popup.vue";
 import documentEditor from "./document-editor-popup.vue";
 import pdfFileReader from "./pdf-file-reader-popup.vue";
 import imageViewer from "./image-viewer-popup.vue";
+import documentReports from "./document-reports-popup.vue";
 import spreadSheet from "./spread-sheet-popup";
 import scannerDialog from "./scaner-dialog-popup";
 import licenseInfo from "./license-info-popup";
+import searchSetting from "./searching-setting-popup";
+import documentTracking from "./document-tracking-popup";
 import documentTemplateGrid from "./document-template-grid.vue";
+import memberList from "./member-list-popup.vue";
 import exchangeOptions from "./exchange-options-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -82,7 +86,11 @@ export default {
     scannerDialog,
     licenseInfo,
     documentTemplateGrid,
-    exchangeOptions
+    documentReports,
+    memberList,
+    exchangeOptions,
+    searchSetting,
+    documentTracking
   },
   name: "base-popup",
   props: {

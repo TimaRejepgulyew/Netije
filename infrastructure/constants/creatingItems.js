@@ -1,5 +1,5 @@
 import DocumentCreateBtn from "~/infrastructure/models/DocumentCreateBtn.js";
-import TaskCreateBtn from "~/infrastructure/models/TaskCreateBtn.js";
+import TaskCreateBtn from "~/components/workFlow/infrastructure/models/TaskCreateBtn.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
 export default function(context) {
@@ -37,7 +37,6 @@ export default function(context) {
       icon: contractIcon,
       items: contractDocumentBtns,
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
-    },
-   
+    }
   ];
 }

@@ -30,7 +30,7 @@
         <div class="thread-text-status">
           <div
             class="task__item"
-            v-if="data.item.entity.deadline && displayDeadline(data.item.type)"
+            v-if="data.item.entity.deadline"
             :class="{ expired: data.item.isExpired }"
           >
             {{ $t("translations.fields.deadLine") }}:
@@ -57,52 +57,42 @@
   </div>
 </template>
 <script>
-import threadTextComponentAuthor from "~/components/workFlow/thread-text/thread-text-item-components/author.vue";
-import AssignmentStatus from "~/infrastructure/constants/assignmentStatus.js";
-import * as indicators from "~/components/workFlow/thread-text/indicator-state/assignment-indicators/indicators.js";
-import { assignmentTypeName } from "~/infrastructure/constants/assignmentType.js";
+import AssignmentThreadTextModel from "../infrastructure/models/ThreadText/AssignmentThreadText.js";
+import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
+import AssignmentStatus from "../infrastructure/constants/assignmentStatus.js";
+import * as indicators from "./indicator-state/assignment-indicators/indicators.js";
+import { assignmentTypeName } from "../infrastructure/constants/assignmentType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "~/infrastructure/constants/workflowEntityTextType";
+import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
 import moment from "moment";
 export default {
   components: {
     threadTextComponentAuthor,
     ...indicators,
     userIcon,
-    threadTextComponent: () =>
-      import("~/components/workFlow/thread-text/thread-text-component.vue")
+    threadTextComponent: () => import("./thread-text-component.vue"),
   },
   name: "task-item",
   props: ["data"],
+  computed: {
+    assignmentThreadText() {
+      return new AssignmentThreadTextModel(this);
+    },
+  },
   methods: {
     showIndicatorComponent(data) {
-      if (data.status === AssignmentStatus.Completed) {
-        return "result-indicator";
-      } else if (data.status === AssignmentStatus.Aborted) {
-        return "status-indicator";
-      } else if (data.status === AssignmentStatus.InProcess) {
-        if (data.isRead) {
-          return "status-indicator";
-        } else {
-          return "isRead-indicator";
-        }
-      }
+      return this.assignmentThreadText.getIndicatorByStatus(data);
     },
     toDetailAssignment(params) {
-      this.$popup.assignmentCard(this, {
-        params: { assignmentId: params.id }
-      });
+      this.assignmentThreadText.showCard(this, params);
     },
-    parseSubject(value) {
-      return assignmentTypeName(this)[value.assignmentType]?.text;
+    parseSubject(entity) {
+      return this.assignmentThreadText.generateSubject(entity);
     },
     formatDate(date) {
-      return moment(date).format("DD.MM.YYYY HH:mm");
+      return this.assignmentThreadText.formatDate(date);
     },
-    displayDeadline(type) {
-      return type !== WorkflowEntityTextType.Notice;
-    }
-  }
+  },
 };
 </script>
 <style></style>

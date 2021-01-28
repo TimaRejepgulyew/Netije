@@ -20,10 +20,21 @@ import paperWork from "~/lang/i18n-translation/tk/paperWork.js";
 import docFlow from "~/lang/i18n-translation/tk/docFlow.js";
 import buttons from "~/lang/i18n-translation/tk/buttons.js";
 import malwareScanResults from "~/lang/i18n-translation/tk/malwareScanResults.js";
+import reports from "~/lang/i18n-translation/tk/reports.js";
 import exchange from "~/lang/i18n-translation/tk/exchange.js";
+import searching from "~/lang/i18n-translation/tk/searchingPanel.js";
+import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
+import documentTracking from "~/lang/i18n-translation/tk/documentTracking.js";
+import recipientTagBox from "~/lang/i18n-translation/tk/recipientTagBox.js";
+
 export default {
+  recipientTagBox,
+  onlineUsers,
   exchange,
+  searching,
+  documentTracking,
   malwareScanResults,
+  reports,
   scanner,
   paperWork,
   parties,
@@ -33,6 +44,7 @@ export default {
   administration,
   documentSendAction,
   licensing,
+  notificationMessage: "Habarnama",
   status: {
     active: "Işjeň",
     closed: "Ýapyk"
@@ -140,6 +152,8 @@ export default {
     },
     attach: "Goşuň",
     name: "Ady",
+    id: "Kesgitleýji",
+    category: "Kategoriýa",
     nameRequired: "Adyny giriziň",
     nameAlreadyExists: "Şeýle ady öňden bar",
     nameShouldNotBeMoreThan: "At 60 belgiden uzyn bolmaly däldir",
@@ -228,13 +242,18 @@ export default {
       dateOfBirth: "Doglan senesi",
       dateOfBirthRequired: "Doglan senesini giriziň",
       sex: "jynsy",
+      category: "Kategoriýa",
       APN: "Wezipesi, iş orny we telefon belgisi (APN)",
+      registrationAddress: "Hasaba alyş salgysy",
       legalAddress: "Hukuk salgysy",
       postAddress: "Poçta salgysy",
       phones: "Telefon belgileri",
       userName: "Ulanyjynyň ady (Login)",
       userNameRequired: "Ulanyjynyň loginini giriziň",
       email: "email",
+      photo: "Surat",
+      dateOfAppointment: "Işe giren wagt",
+      dateOfDismissal: "Işden çykan wagt",
       emailRule: "email ýalňyş girizildi",
       emailAlreadyExists: "Şeýle email öňden bar",
       webSite: "Web-saýt",
@@ -244,6 +263,7 @@ export default {
       tinAlreadyExists: "Şeýle HSB öňden bar",
       tinRule: "HSB arasynda boşluklar bolmaly däldir",
       account: "Hasabyň belgisi",
+      correspondentAccount: "Habarçy hasaby",
       accountRequired: "Hasabyň belgisini giriziň",
       permissions: "Rugsatnamalar",
       nonresident: "Raýatlyga dahylly däl",
@@ -293,6 +313,9 @@ export default {
       registerTypeRequired: "Kitapçanyň görnüşini saýlaň",
       numbering: "San bilen belgilemek",
       moreSettings: "Goşmaça sazlamalar",
+      userBlocking: "Ulanyjy gulpy",
+      allowBlocking: "Blokirlemäge rugsat beriň",
+      lockoutEndDate: "Gulplama gutarýan senesi",
       moreAbout: "Has giňişleýin",
       availableActions: "Elýeter hereketler",
       numberingSection: "San goýmak bölümi",
@@ -311,7 +334,7 @@ export default {
       currentNumberRequired: "Häzirki tertip belgisini giriziň",
       regionAlreadyExists: "şeýle sebit öňden bar",
       localityAlreadyExists: "şeýle ilatly nokat öňden bar",
-      me: "Men"
+      me: "Men",
     },
     headers: headers
   },

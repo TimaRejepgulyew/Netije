@@ -58,18 +58,7 @@
         :caption="$t('exchange.fields.name')"
         data-type="string"
       ></DxColumn>
-      <DxColumn
-        data-field="routing"
-        :caption="$t('exchange.fields.routing')"
-        :visible="true"
-      >
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="routingDataSource"
-          value-expr="id"
-          display-expr="name"
-        />
-      </DxColumn>
+
       <DxColumn
         data-field="responsibleId"
         :caption="$t('exchange.fields.responsible')"
@@ -97,6 +86,7 @@
           :onClick="uploadKey"
           :text="$t('buttons.uploadKey')"
         />
+
         <DxButton name="delete" />
       </DxColumn>
       <DxColumn
@@ -114,7 +104,6 @@ import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import { saveAs } from "file-saver";
 import Header from "~/components/page/page__header";
-import RoutingTypeGuid from "../infrastructure/constants/routing.js";
 import {
   DxSearchPanel,
   DxDataGrid,
@@ -164,25 +153,14 @@ export default {
         }),
       }),
       statusDataSource: this.$store.getters["status/status"](this),
-      responsibleStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.company.Employee,
-        }),
-        paginate: true,
-        pageSize: 10,
+      responsibleStore: this.$dxStore({
+        key: "id",
+        loadUrl: dataApi.company.Employee,
       }),
-      routingDataSource: [
-        {
-          name: this.$t("exchange.routingType.BoxResponsible"),
-          id: RoutingTypeGuid.BoxResponsible,
-        },
-      ],
     };
   },
   methods: {
     uploadKey(e) {
-      console.log(e);
       this.$awn.asyncBlock(
         this.$axios.get(`${dataApi.boxes.PublickKey}${e.row.key}`, {
           responseType: "blob",

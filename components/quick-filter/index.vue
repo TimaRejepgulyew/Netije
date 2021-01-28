@@ -1,18 +1,21 @@
 <template>
-  <DxButtonGroup
-    :selected-item-keys="[value]"
-    :items="dataSource"
-    key-expr="id"
+  <DxDropDownButton
+    :useSelectMode="true"
     styling-mode="text"
+    display-expr="text"
+    width="150"
+    key-expr="id"
+    :selectedItemKey="value"
+    :items="dataSource"
     @item-click="itemClick"
   />
 </template>
 
 <script>
-import { DxButtonGroup } from "devextreme-vue";
+import DxDropDownButton from "devextreme-vue/drop-down-button";
 export default {
   components: {
-    DxButtonGroup
+    DxDropDownButton
   },
   props: {
     dataSource: {},
@@ -30,7 +33,7 @@ export default {
   },
   methods: {
     itemClick(e) {
-      this.value = e.itemIndex;
+      this.value = e.itemData.id;
       localStorage.setItem(`quick-filter-${this.storeKey}`, this.value);
     },
     valueChanged(value, oldValue) {

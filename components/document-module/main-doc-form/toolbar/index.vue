@@ -51,12 +51,16 @@
       <DxItem
         locateInMenu="auto"
         template="toolbarItemElExchange"
-        :visible="canElExchage"
+        :visible="(canElExchange || canIntranetExchange) && !exchanged"
         location="before"
         widget="dxButton"
       />
       <template #toolbarItemElExchange>
-        <toolbarItemElExchange :documentId="documentId" />
+        <toolbarItemElExchange
+          :canIntranetExchange="canIntranetExchange"
+          :canElExchange="canElExchange"
+          :documentId="documentId"
+        />
       </template>
       <DxItem :options="versionOptions" location="after" widget="dxButton" />
       <DxItem template="toolbarItemAccessRight" location="after" />
@@ -157,19 +161,38 @@ export default {
     };
   },
   computed: {
-    canElExchage() {
-      const isOutgoingDocument =
-        this.document.documentKind?.documentFlow === DocumentFlow.Outgoing;
-      const canExchangeCorespondent = this.document?.correspondent?.canExchange;
-
+    exchanged() {
+      return this.document.exchanged;
+    },
+    correspondent() {
+      return this.$store.getters[`documents/${this.documentId}/correspondent`];
+    },
+    canIntranetExchange() {
       return (
-        this.isRegistered,
-        isOutgoingDocument &&
-          // !canExchangeCorespondent &&
-          this.canUpdate &&
-          !this.isNew &&
-          !this.isDataChanged
+        this.correspondent?.type === "Company" &&
+        this.correspondent?.isSystem &&
+        this.canElExchange
       );
+    },
+    isOutgoingDocument() {
+      return this.document.documentKind?.documentFlow === DocumentFlow.Outgoing;
+    },
+    documentCanExchange() {
+      return this.$store.getters[`documents/${this.documentId}/canExchange`];
+    },
+    canElExchange() {
+      if (
+        this.isOutgoingDocument &&
+        this.documentCanExchange &&
+        this.canUpdate &&
+        !this.isNew &&
+        !this.isDataChanged &&
+        this.isRegistered
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];

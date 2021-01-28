@@ -1,80 +1,99 @@
 <template>
-  <DxTagBox
-    :read-only="readOnly"
-    :data-source="resipientStore"
-    :show-selection-controls="false"
+  <DxDropDownBox
+    ref="dropDownBox"
     @valueChanged="setRecipient"
-    :showClearButton="true"
-    :value="recipients"
-    :valueExpr="valueExpr"
-    displayExpr="name"
-    :searchEnabled="true"
-    searchExpr="name"
-    :paginate="true"
-    :page-size="10"
+    :value.sync="items"
+    :show-clear-button="true"
+    :read-only="readOnly"
+    field-template="customfield"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #item="{ data }">
+    <template #customfield>
+      <DxTagBox
+        width="100%"
+        @valueChanged="setRecipient"
+        :multiline="true"
+        displayExpr="name"
+        :value.sync="items"
+      />
+    </template>
+    <template #content>
       <div>
-        <component :data="data" :is="listItemByType(data.recipientType)" />
+        <div class="drop_down_content">
+          <div class="content">
+            <gropuList :selectedItems="items" :groupType="groupType" @selectItem="setItem" />
+          </div>
+          <div class="type">
+            <group-type @groupType="groupTypeChanged" />
+          </div>
+        </div>
       </div>
     </template>
-  </DxTagBox>
+  </DxDropDownBox>
 </template>
 
 <script>
-import defaultType from "~/components/recipient/components/list-item/default.vue";
-import employeeTypeComponent from "~/components/recipient/components/list-item/employee-type.vue";
-import recipientType from "~/infrastructure/constants/resipientType.js";
-import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
-
-import dataApi from "~/static/dataApi";
+import DxDropDownBox from "devextreme-vue/drop-down-box";
 import { DxTagBox } from "devextreme-vue";
-import DataSource from "devextreme/data/data_source";
+import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
+import groupType from "~/components/recipient/tag-box/components/group-type.vue";
+import gropuList from "~/components/recipient/tag-box/components/group-list.vue";
 export default {
   components: {
+    DxDropDownBox,
+    DxTagBox,
     DxValidator,
     DxRequiredRule,
-    DxTagBox,
-    employeeTypeComponent,
-    defaultType
+    groupType,
+    gropuList
   },
-  props: [
-    "recipients",
-    "messageRequired",
-    "validatorGroup",
-    "readOnly",
-    "valueExpr"
-  ],
+  props: {
+    recipients: {
+      type: Array,
+      default: []
+    },
+    readOnly: {
+      type: Boolean,
+      default: false
+    },
+    messageRequired: {},
+    validatorGroup: {},
+    valueExpr: {}
+  },
   data() {
     return {
-      resipientStore: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.recipient.list
-        }),
-        paginate: true,
-        pageSize: 10,
-        sort: [{ selector: "recipientType", desc: false }]
-      })
+      groupType: [],
+      items: this.recipients
     };
   },
   methods: {
-    listItemByType(type) {
-      switch (type) {
-        case recipientType.Employee:
-          return "employeeTypeComponent";
-        default:
-          return "defaultType";
-      }
-    },
     setRecipient(e) {
+      if (e.value === null) {
+        this.items = [];
+      } else {
+        this.items = e.value;
+      }
       this.$emit("setRecipients", e.value);
+    },
+    setItem(value) {
+      this.items = value;
+    },
+    groupTypeChanged(value) {
+      this.groupType = value;
     }
   }
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.drop_down_content {
+  display: flex;
+  width: 100%;
+  .type {
+    margin: 0 0 0 10px;
+    max-width: 250px;
+  }
+}
+</style>

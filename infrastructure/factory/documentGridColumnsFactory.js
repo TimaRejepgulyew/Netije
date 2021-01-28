@@ -1,3 +1,4 @@
+import DataSource from "devextreme/data/data_source";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DocumentVersionService from "~/infrastructure/services/documentVersionService";
 import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
@@ -41,8 +42,13 @@ const GetColumnsByDocumentType = (type, context) => {
     case DocumentQuery.Contract:
     case DocumentQuery.ContractualDocuments:
       return CreateContractColumns(context);
+    case DocumentQuery.IncomingTaxInvoice:
+      return CreateAccountingDocumentsColumns(context);
+    case DocumentQuery.OutgoingTaxInvoice:
+      return CreateAccountingDocumentsColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
+
     case "document-template":
       return createDocumentTemplateColumns(context);
     default:
@@ -111,11 +117,9 @@ const CreateIncomingLetterColumns = context => {
   return [
     ...CreateBaseColumn(context),
     CreateIncomingDocumentCorrespondentColumn(context),
-    CreateDeliveryMethodColumn(context),
     CreateAddresseColumn(context),
     CreateInNumberColumn(context),
     CreateDatedColumn(context),
-    CreateInResponseToIdColumn(context),
     CreateOrderColumn(context),
     CreateCounterpartySignatoryColumn(context)
   ];
@@ -124,7 +128,10 @@ const CreateInternalDocumentColumns = context => {
   return [...CreateBaseColumn(context)];
 };
 const CreateAddendumColumns = context => {
-  return [...CreateBaseColumn(context), CreateLeadingDocumentIdColumn(context)];
+  return [
+    ...CreateBaseColumn(context)
+    //  CreateLeadingDocumentIdColumn(context)
+  ];
 };
 const CreateOrderColumns = context => {
   return [
@@ -168,10 +175,7 @@ const CreateOutgoingLetterColumns = context => {
   return [
     ...CreateBaseColumn(context),
     CreateIncomingDocumentCorrespondentColumn(context),
-    CreateDeliveryMethodColumn(context),
     CreateAddresseConterPartColumn(context),
-    CreateInResponseToIdColumn(context),
-    CreateContactColumn(context),
     CreateOurSignatoryColumn(context),
     CreatePreparedColumn(context)
   ];
@@ -183,7 +187,7 @@ const CreateContractColumns = context => {
     CreateValidTillColumn(context),
     CreateValidFromColumn(context),
     CreateCounterpartySignatoryColumn(context),
-    CreateLeadingDocumentIdColumn(context, true, "contract"),
+    // CreateLeadingDocumentIdColumn(context, true, "contract"),
     CreateNumberColumn(context),
     CreateDateColumn(context),
     CreateTotalAmountColumn(context, true),
@@ -197,7 +201,7 @@ const CreateAccountingDocumentsColumns = context => {
     CreateValidTillColumn(context),
     CreateValidFromColumn(context),
     CreateCounterpartySignatoryColumn(context),
-    CreateLeadingDocumentIdColumn(context, true, "contract"),
+    // CreateLeadingDocumentIdColumn(context, true, "contract"),
     CreateNumberColumn(context),
     CreateDateColumn(context),
     CreateTotalAmountColumn(context, true),
@@ -314,15 +318,14 @@ function CreateValidFromColumn(context) {
   };
 }
 function CreateDocumentAuthorColumn(context, visible = false) {
-  return CreateLookupColumn(
-    "authorId",
-    context,
-    dataApi.company.Employee,
-    visible
-  );
+  return {
+    dataField: "author",
+    caption: context.$t("document.fields.authorId"),
+    visible: visible
+  };
 }
 function CreateCurrencyColumn(context, visible = false) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "currencyId",
     context,
     dataApi.sharedDirectory.Currency,
@@ -390,7 +393,7 @@ function CreateDocumentSubjectColumn(context) {
 }
 
 function CreateDocumentKindColumn(context) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "documentKindId",
     context,
     dataApi.docFlow.DocumentKind,
@@ -399,7 +402,7 @@ function CreateDocumentKindColumn(context) {
 }
 
 function CreateDocumentRegisterColumn(context) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "documentRegisterId",
     context,
     dataApi.docFlow.DocumentRegister.All,
@@ -416,29 +419,31 @@ function CreateDocumentRegistrationStateColumn(context) {
 }
 
 function CreateIncomingDocumentCorrespondentColumn(context) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "correspondentId",
     context,
     dataApi.contragents.CounterPart,
-    true
+    false
   );
 }
-function CreateInResponseToIdColumn(context) {
-  return CreateLookupColumn(
-    "inResponseToId",
-    context,
-    dataApi.documentModule.AllDocument
-  );
-}
-function CreateDeliveryMethodColumn(context) {
-  return CreateLookupColumn(
-    "deliveryMethodId",
-    context,
-    dataApi.docFlow.DeliveryMethod
-  );
-}
+//TODO  obsolete
+// function CreateInResponseToIdColumn(context) {
+//   return CreateLookupColumn(
+//     "inResponseToId",
+//     context,
+//     dataApi.documentModule.AllDocument
+//   );
+// }
+// TODO obsolete
+// function CreateDeliveryMethodColumn(context) {
+//   return CreateLookupColumn(
+//     "deliveryMethodId",
+//     context,
+//     dataApi.docFlow.DeliveryMethod
+//   );
+// }
 function CreateAddresseConterPartColumn(context) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "addresseeId",
     context,
     dataApi.contragents.CounterPart,
@@ -446,32 +451,29 @@ function CreateAddresseConterPartColumn(context) {
   );
 }
 function CreateAddresseColumn(context, visible = false) {
-  return CreateLookupColumn(
-    "addresseeId",
-    context,
-    dataApi.company.Employee,
+  return {
+    dataField: "addressee",
+    caption: context.$t("document.fields.addresseeId"),
     visible
-  );
+  };
 }
 function CreateBusinessUnitColumn(context) {
-  return CreateLookupColumn(
-    "businessUnitId",
-    context,
-    dataApi.company.BusinessUnit,
-    false
-  );
+  return {
+    dataField: "businessUnit",
+    caption: context.$t("document.fields.businessUnitId"),
+    visible: false
+  };
 }
 
 function CreateDepartmentColumn(context) {
-  return CreateLookupColumn(
-    "departmentId",
-    context,
-    dataApi.company.Department,
-    false
-  );
+  return {
+    dataField: "department",
+    caption: context.$t("document.fields.departmentId"),
+    visible: false
+  };
 }
 function CreateDocumentTypeGuidColumn(context, visible = false) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "documentTypeGuid",
     context,
     dataApi.docFlow.DocumentType,
@@ -481,7 +483,7 @@ function CreateDocumentTypeGuidColumn(context, visible = false) {
   );
 }
 function CreateCounterpartySignatoryColumn(context, visible = false) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "counterpartySignatoryId",
     context,
     dataApi.contragents.Contact,
@@ -489,15 +491,14 @@ function CreateCounterpartySignatoryColumn(context, visible = false) {
   );
 }
 function CreateOurSignatoryColumn(context, visible = false) {
-  return CreateLookupColumn(
-    "ourSignatoryId",
-    context,
-    dataApi.company.Employee,
+  return {
+    dataField: "ourSignatory",
+    caption: context.$t("document.fields.ourSignatoryId"),
     visible
-  );
+  };
 }
 function CreateCaseFileColumn(context, visible = false) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "caseFileId",
     context,
     dataApi.docFlow.CaseFile.All,
@@ -507,7 +508,7 @@ function CreateCaseFileColumn(context, visible = false) {
 }
 
 function CreateContactColumn(context, visible = false) {
-  return CreateLookupColumn(
+  return CreateCacheLookupColumn(
     "contactId",
     context,
     dataApi.contragents.Contact,
@@ -515,40 +516,38 @@ function CreateContactColumn(context, visible = false) {
   );
 }
 function CreatePreparedColumn(context, visible = false) {
-  return CreateLookupColumn(
-    "preparedById",
-    context,
-    dataApi.company.Employee,
+  return {
+    dataField: "preparedBy",
+    caption: context.$t("document.fields.preparedById"),
     visible
-  );
+  };
 }
 function CreateAssigneeIdColumn(context, visible = false) {
-  return CreateLookupColumn(
-    "assigneeId",
-    context,
-    dataApi.company.Employee,
+  return {
+    dataField: "assignee",
+    caption: context.$t("document.fields.assigneeId"),
     visible
-  );
+  };
 }
 function CreateIssuedToIdColumn(context, visible = true) {
-  return CreateLookupColumn(
-    "issuedToId",
-    context,
-    dataApi.company.Employee,
+  return {
+    dataField: "issuedTo",
+    caption: context.$t("document.fields.issuedToId"),
     visible
-  );
+  };
 }
-function CreateLeadingDocumentIdColumn(context, visible = true, caption) {
-  return CreateLookupColumn(
-    "leadingDocumentId",
-    context,
-    dataApi.documentModule.AllDocument,
-    visible,
-    "name",
-    "id",
-    "contract"
-  );
-}
+//TODO obsolete
+// function CreateLeadingDocumentIdColumn(context, visible = true, caption) {
+//   return CreateLookupColumn(
+//     "leadingDocumentId",
+//     context,
+//     dataApi.documentModule.AllDocument,
+//     visible,
+//     "name",
+//     "id",
+//     "contract"
+//   );
+// }
 function createExecutionStateColumn(context) {
   return CreateArrayLookupColumn(
     "executionState",
@@ -597,6 +596,30 @@ function CreateLookupColumn(
           loadUrl: api
         }),
         paginate: true
+      },
+      valueExpr,
+      displayExpr
+    }
+  };
+}
+function CreateCacheLookupColumn(
+  dataField,
+  context,
+  api,
+  visible = false,
+  displayExpr = "name",
+  valueExpr = "id",
+  caption
+) {
+  return {
+    dataField: dataField,
+    caption: context.$t(`document.fields.${caption || dataField}`),
+    visible,
+    lookup: {
+      dataSource: {
+        store: context.$cacheStore(api),
+        paginate: true,
+        pageSize: 20
       },
       valueExpr,
       displayExpr

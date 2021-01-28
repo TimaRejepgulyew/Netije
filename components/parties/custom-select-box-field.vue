@@ -1,11 +1,20 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex field_padding">
     <DxTextBox
       :placeholder="$t('shared.select')"
       :read-only="readOnly"
       :value="fieldData && fieldData.name"
+      @focusIn="openField"
+    />
+    <DxButton
+      v-if="isPerson"
+      :on-click="()=>createCounterPart('person')"
+      icon="plus"
+      stylingMode="text"
+      :hint="$t('buttons.add')"
     />
     <DxDropDownButton
+      v-else
       :focusStateEnabled="false"
       :hoverStateEnabled="false"
       :showArrowIcon="false"
@@ -43,17 +52,20 @@ export default {
   components: {
     DxTextBox,
     DxButton,
-    DxDropDownButton,
+    DxDropDownButton
   },
   props: {
     readOnly: {
-      type: Boolean,
+      type: Boolean
+    },
+    isPerson: {
+      type: Boolean
     },
     notPerson: {},
     fieldData: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
@@ -65,9 +77,9 @@ export default {
         {
           name: this.$t("counterPart.Person"),
           type: "person",
-          visible: !this.notPerson,
-        },
-      ],
+          visible: !this.notPerson
+        }
+      ]
     };
   },
   computed: {
@@ -77,28 +89,33 @@ export default {
       );
     },
     allowCreateCounterPart() {
-      return this.$store.getters["permissions/allowCreating"](
-        EntityType.Counterparty
+      return (
+        this.$store.getters["permissions/allowCreating"](
+          EntityType.Counterparty
+        ) && !this.readOnly
       );
     },
     cardGridBtnOptions() {
       return {
         icon: "more",
-        visible: !this.readOnly && this.allowReadCounterPartDetails,
+        visible: !this.readOnly && this.allowReadCounterPartDetails
       };
     },
     cardDetailCounterPartOptions() {
       return {
         icon: "info",
         hint: this.$t("buttons.showCard"),
-        visible: this.isSelected && this.allowReadCounterPartDetails,
+        visible: this.isSelected && this.allowReadCounterPartDetails
       };
     },
     isSelected() {
       return this.fieldData?.id ? true : false;
-    },
+    }
   },
   methods: {
+    openField() {
+      if (!this.readOnly) this.$emit("openFields");
+    },
     openGird() {
       this.$emit("openGridPopup");
     },
@@ -106,8 +123,8 @@ export default {
       this.$emit("openCounterPartPopup");
     },
     createCounterPart(e) {
-      this.$emit("openCreateCounterPartPopup",e.itemData.type);
-    },
-  },
+      this.$emit("openCreateCounterPartPopup", e.itemData?.type || e);
+    }
+  }
 };
 </script>

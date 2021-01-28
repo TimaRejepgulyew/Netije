@@ -14,18 +14,18 @@
   </div>
 </template>
 <script>
-import TaskType from "~/infrastructure/constants/taskType.js";
+import TaskType from "~/components/workFlow/infrastructure/constants/taskType.js";
 import sendIcon from "~/static/icons/send.svg";
 import DocumentSendAction from "~/infrastructure/models/DocumentSendAction.js";
 import { DxDropDownButton } from "devextreme-vue";
 export default {
   components: {
-    DxDropDownButton
+    DxDropDownButton,
   },
   props: ["documentId"],
   data() {
     return {
-      sendIcon
+      sendIcon,
     };
   },
 
@@ -34,24 +34,27 @@ export default {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
     items() {
+      if (!this.document.documentKind) {
+        return [];
+      }
       const availableActions = [
         ...this.document.documentKind?.availableActions,
-        TaskType.SimpleTask
+        TaskType.SimpleTask,
       ] || [TaskType.SimpleTask];
       const items = Object.values(
         new DocumentSendAction(this).init().filtering(availableActions)
       );
       return items;
-    }
+    },
   },
   methods: {
     createTask(e) {
       e.itemData.create(this, {
         documentId: +this.documentId,
-        documentTypeGuid: this.document.documentTypeGuid
+        documentTypeGuid: this.document.documentTypeGuid,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

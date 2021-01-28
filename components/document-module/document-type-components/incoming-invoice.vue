@@ -55,7 +55,7 @@
       </DxSimpleItem>
       >
       <DxSimpleItem
-        data-field="leadingDocumentId"
+        data-field="leadingDocument"
         :col-span="2"
         template="leadingDocument"
       >
@@ -66,7 +66,7 @@
 
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
       <DxSimpleItem
-        data-field="businessUnitId"
+        data-field="businessUnit"
         template="businessUnitSelectBox"
       >
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
@@ -74,7 +74,7 @@
           :message="$t('document.validation.businessUnitIdRequired')"
         />
       </DxSimpleItem>
-      <DxSimpleItem data-field="departmentId" template="departmentSelectBox">
+      <DxSimpleItem data-field="department" template="departmentSelectBox">
         <DxLabel location="left" :text="$t('document.fields.departmentId')" />
         <DxRequiredRule
           :message="$t('document.validation.departmentIdRequired')"
@@ -98,7 +98,7 @@
         :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
         @valueChanged="
-          data => {
+          (data) => {
             setCounterparty(data);
             setLeadingDocument(null);
           }
@@ -109,28 +109,26 @@
     </template>
     <template #businessUnitSelectBox>
       <business-unit-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="businessUnitId"
+        :value="businessUnit"
         @valueChanged="
-          data => {
-            setBusinessUnitId(data);
-            setDepartmentId(null);
+          (data) => {
+            setBusinessUnit(data);
+            setDepartment(null);
           }
         "
       />
     </template>
     <template #departmentSelectBox>
       <department-select-box
-        valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
-        :value="departmentId"
+        :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
-          data => {
-            setDepartmentId(data);
+          (data) => {
+            setDepartment(data);
           }
         "
       />
@@ -149,7 +147,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -161,7 +159,7 @@ export default {
     customSelectBox,
     BusinessUnitSelectBox,
     DepartmentSelectBox,
-    customSelectBoxDocument
+    customSelectBoxDocument,
   },
   props: ["documentId"],
   inject: ["documentValidatorName"],
@@ -175,39 +173,42 @@ export default {
     counterpartyId() {
       return this.document.counterpartyId;
     },
-    departmentId() {
-      return this.document.departmentId;
+    department() {
+      return this.document.department;
     },
     readOnly() {
       return this.$store.getters[`documents/${this.documentId}/readOnly`];
     },
     businessUnitId() {
-      return this.document.businessUnitId;
+      return this.document.businessUnit?.id;
+    },
+    businessUnit() {
+      return this.document.businessUnit;
     },
     numberOptions() {
       return {
         readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.document.number,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setNumber(e.value);
-        }
+        },
       };
     },
     dateOptions() {
       return {
         readOnly: this.readOnly,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         useMaskBehavior: true,
         openOnFieldClick: true,
         value: this.document.date,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setDate(e.value);
-        }
+        },
       };
     },
     leadingDocumentOptions() {
@@ -216,7 +217,7 @@ export default {
         dataSourceQuery: DocumentQuery.Contract,
         dataSourceFilter: this.counterpartyId
           ? ["counterpartyId", "=", this.counterpartyId]
-          : undefined
+          : undefined,
       };
     },
     currencyIdOptions() {
@@ -224,13 +225,13 @@ export default {
         ...this.$store.getters["globalProperties/FormOptions"]({
           context: this,
           url: dataApi.sharedDirectory.Currency,
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         }),
         readOnly: this.readOnly,
         value: this.document.currencyId,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setCurrencyId(e.value);
-        }
+        },
       };
     },
     totalAmountOptions() {
@@ -238,36 +239,30 @@ export default {
         format: "#,##0.00",
         readOnly: this.readOnly,
         value: this.document.totalAmount,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.setTotalAmount(e.value);
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     setCounterparty(data) {
       this.$store.commit(`documents/${this.documentId}/SET_COUNTERPARTY`, data);
     },
-    setBusinessUnitId(data) {
+    setBusinessUnit(data) {
       this.$store.commit(
-        `documents/${this.documentId}/SET_BUSINESS_UNIT_ID`,
+        `documents/${this.documentId}/SET_BUSINESS_UNIT`,
         data
       );
     },
-    setDepartmentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartment(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setTotalAmount(data) {
       this.$store.commit(`documents/${this.documentId}/SET_TOTAL_AMOUNT`, data);
     },
-    setDepartmentId(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT_ID`,
-        data
-      );
+    setDepartment(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setCurrencyId(data) {
       this.$store.commit(`documents/${this.documentId}/SET_CURRENCY_ID`, data);
@@ -283,7 +278,7 @@ export default {
     },
     setNumber(data) {
       this.$store.commit(`documents/${this.documentId}/NUMBER`, data);
-    }
-  }
+    },
+  },
 };
 </script>
