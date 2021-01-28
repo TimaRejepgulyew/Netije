@@ -64,6 +64,9 @@ export default {
   visibilityRule: {
     rule: "/api/VisibilityRule"
   },
+  userGroup: {
+    group: "/api/ParticipantList"
+  },
   admin: {
     Roles: `/api/Role`,
     RoleMembers: `/api/RoleMembers/`

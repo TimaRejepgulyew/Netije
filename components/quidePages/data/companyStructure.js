@@ -1,6 +1,7 @@
 import additionalInfoIcon from "~/static/icons/quide-page/additionalInfo.svg";
 import companyStructureIcon from "~/static/icons/quide-page/company-structure.svg";
 import integrationIcon from "~/static/icons/quide-page/integration.svg";
+import groupIcon from "~/static/icons/quide-page/group.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
 import employeeIcon from "~/static/icons/parties/person.svg";
 
@@ -130,7 +131,20 @@ export default function (context) {
           visible: true
         }
       ]
-    }
+    },
+    {
+      icon: groupIcon,
+      title: context.$t("companyStructure.groups.title"),
+      visible: isAdmin(),
+      items: [
+        {
+          name: context.$t("companyStructure.groups.group"),
+          description: context.$t("companyStructure.groups.groupDescr"),
+          path: pathGenerate("user-group"),
+          visible: true
+        }
+      ]
+    },
   ];
   return companyStructure;
 }

@@ -1,14 +1,14 @@
 <template>
-  <DxSelectBox
+  <DxTagBox
+    ref="recipients"
     @opened="onOpened"
-    ref="recipient"
     :read-only="readOnly"
-    :data-source="dataStore"
-    @valueChanged="valueChanged"
-    :openOnFieldClick="true"
+    :data-source="resipientStore"
+    :show-selection-controls="false"
+    @valueChanged="setRecipient"
     :showClearButton="true"
-    :value="value"
-    :value-expr="valueExpr"
+    :value="recipients"
+    :valueExpr="valueExpr"
     displayExpr="name"
     :searchEnabled="true"
     searchExpr="name"
@@ -16,73 +16,77 @@
     :page-size="10"
     :deferRendering="true"
   >
-    <DxValidator :validation-group="validatorGroup">
-      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
+    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+      <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #item="{ data }">
       <div>
         <component :data="data" :is="listItemByType(data.recipientType)" />
       </div>
     </template>
-  </DxSelectBox>
+  </DxTagBox>
 </template>
 
 <script>
-import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import defaultType from "~/components/recipient/components/list-item/default.vue";
 import employeeTypeComponent from "~/components/recipient/components/list-item/employee-type.vue";
 import recipientType from "~/infrastructure/constants/resipientType.js";
+import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
+
 import dataApi from "~/static/dataApi";
-import { DxSelectBox } from "devextreme-vue";
+import { DxTagBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
-    DxSelectBox,
+    DxTagBox,
     employeeTypeComponent,
-    defaultType
+    defaultType,
   },
-  props: [
-    "valueExpr",
-    "value",
-    "isRequired",
-    "validatorGroup",
-    "readOnly",
-    "dataApi",
-    "property"
-  ],
-  created() {},
+  props: {
+    recipients: { default: [] },
+    messageRequired: {},
+    validatorGroup: {},
+    readOnly: {},
+    valueExpr: {},
+  },
   data() {
     return {
+      needRepaint: false,
       dataSourceLoaded: this.valueExpr,
-      needRepaint: false
     };
   },
   computed: {
-    dataStore() {
+    resipientStore() {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.dataApi || dataApi.recipient.list
+          loadUrl: dataApi.recipient.list,
         }),
         paginate: true,
         pageSize: 10,
-        sort: [{ selector: "recipientType", desc: false }]
+        sort: [{ selector: "recipientType", desc: false }],
       });
       if (this.dataSourceLoaded) {
         return dataSource;
       }
-      if (this.readOnly || this.value ) {
-        console.log("this.value", this.value);
-        return [this.value];
+      if (
+        this.readOnly ||
+        (this.recipients !== null && this.recipients.length > 0)
+      ) {
+        this.needRepaint = true;
+        return this.recipients;
       }
 
       return dataSource;
-    }
+    },
   },
   methods: {
     onOpened() {
+        
+      if (!this.dataSourceLoaded) {
+      }
       this.dataSourceLoaded = true;
     },
     listItemByType(type) {
@@ -93,14 +97,15 @@ export default {
           return "defaultType";
       }
     },
-    valueChanged(e) {
-      this.$emit("valueChanged", e.value);
+    setRecipient(e) {
+      console.log(e);
+      this.$emit("setRecipients", e.value);
       if (this.needRepaint) {
         this.needRepaint = false;
-        this.$refs["recipient"].instance.repaint();
+        this.$refs["recipients"].instance.repaint();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

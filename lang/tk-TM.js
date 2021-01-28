@@ -25,8 +25,10 @@ import exchange from "~/lang/i18n-translation/tk/exchange.js";
 import searching from "~/lang/i18n-translation/tk/searchingPanel.js";
 import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
 import documentTracking from "~/lang/i18n-translation/tk/documentTracking.js";
+import recipientTagBox from "~/lang/i18n-translation/tk/recipientTagBox.js";
 
 export default {
+  recipientTagBox,
   onlineUsers,
   exchange,
   searching,

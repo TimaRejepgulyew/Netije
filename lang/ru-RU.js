@@ -25,7 +25,9 @@ import reports from "~/lang/i18n-translation/ru/reports.js";
 import exchange from "~/lang/i18n-translation/ru/exchange.js";
 import searching from "~/lang/i18n-translation/ru/searchingPanel.js";
 import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
+import recipientTagBox from "~/lang/i18n-translation/ru/recipientTagBox.js";
 export default {
+  recipientTagBox,
   searching,
   exchange,
   documentTracking,

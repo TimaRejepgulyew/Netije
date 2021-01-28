@@ -34,6 +34,13 @@ export default {
     exchange: "Abuna gutulary",
     exchangeDescr: "Abuna gutulary guramalarymyzyň elektron alyş-çalşygy üçin"
   },
+  groups: {
+    title: "Toparlar",
+    group: "Ulanyjylar topary",
+    groupDescr: "Ulanyjy toparlaryny döretmek we üýtgetmek",
+    members: "Gatnaşyjylar",
+    description: "Bellik"
+  },
   company: {
     title: "Guramaçylyk düzüm birligi",
     createBusinessUnit: "Biziň guramalarymyz",

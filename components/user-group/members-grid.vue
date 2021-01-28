@@ -8,25 +8,21 @@
       :allow-deleting="true"
     />
     <DxColumn
-      data-field="recipient"
-      edit-cell-template="recipient"
-      :caption="$t('companyStructure.company.whoSees')"
+      data-field="participant"
+      edit-cell-template="participant"
+      :caption="$t('companyStructure.groups.members')"
       :customizeText="customizeText"
     >
       <DxRequiredRule />
     </DxColumn>
     <DxColumn
-      data-field="visibleMember"
-      edit-cell-template="recipient"
-      :caption="$t('companyStructure.company.whomHeSees')"
-      :customizeText="customizeText"
-    >
-      <DxRequiredRule />
-    </DxColumn>
-    <template #recipient="cellInfo">
+      data-field="participant.description"
+      :allowUpdating="false"
+      :caption="$t('companyStructure.groups.description')"
+    ></DxColumn>
+    <template #participant="cellInfo">
       <RecipientSelectBox
         :value="cellInfo.data.value"
-        displayExpr="name"
         @valueChanged="value => onValueChanged(value, cellInfo.data)"
       />
     </template>
@@ -81,7 +77,7 @@ export default {
     }
   },
   updated() {
-    this.$emit("visibilitiesChanged", this.dataSource);
+    this.$emit("membersChanged", this.dataSource);
   }
 };
 </script>
