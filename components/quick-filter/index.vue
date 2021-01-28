@@ -62,7 +62,7 @@ export default {
   },
   watch: {
     value: {
-      handler: function (value, oldValue) {
+      handler(value, oldValue) {
         this.valueChanged(value);
       },
       immediate: true,
