@@ -127,7 +127,6 @@ export default {
     },
     setBody(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_BODY`, value);
-      console.log(value);
     },
   },
   computed: {

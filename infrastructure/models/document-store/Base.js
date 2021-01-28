@@ -8,7 +8,6 @@ import checkDataChanged from "~/infrastructure/services/checkDataChanged.js";
 export default class Base {
   _checkDataChanged = checkDataChanged;
   _checkDataAsObjectChanged = (newValue, oldValue) => {
-    console.log(checkDataChanged(newValue?.id, oldValue?.id));
     return checkDataChanged(newValue?.id, oldValue?.id);
   };
   state = {
