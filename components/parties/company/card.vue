@@ -256,9 +256,7 @@ export default {
   computed: {
     canExchange() {
       return (
-        this.$store.getters["permissions/IsAdmin"] &&
-        this.company.id &&
-        !this.company.isCardReadOnly
+        this.$store.getters["permissions/IsAdmin"] && this.company.id
       );
     },
     regionOptions() {
