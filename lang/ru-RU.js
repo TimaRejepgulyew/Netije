@@ -145,6 +145,8 @@ export default {
       serverError: "Ошибка сервера",
       notHaveAccessRightToRead: "У вас не достаточно прав на данный обьект"
     },
+    begining:"Начало",
+    end:"Конец",
     attach: "Вложите",
     name: "Наименование",
     id: "Идентификатор",

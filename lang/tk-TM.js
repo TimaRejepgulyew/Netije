@@ -148,6 +148,8 @@ export default {
       serverError: "Serwer ýalňyşlygy",
       notHaveAccessRightToRead: "Sizde obýekde doly däl rugsat"
     },
+    begining: "Başy",
+    end: "Soňy",
     attach: "Goşuň",
     name: "Ady",
     id: "Kesgitleýji",
@@ -332,7 +334,7 @@ export default {
       currentNumberRequired: "Häzirki tertip belgisini giriziň",
       regionAlreadyExists: "şeýle sebit öňden bar",
       localityAlreadyExists: "şeýle ilatly nokat öňden bar",
-      me: "Men",
+      me: "Men"
     },
     headers: headers
   },

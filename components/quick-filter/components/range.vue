@@ -1,21 +1,26 @@
 <template>
   <div class="d-flex align-center">
-    {{ this.$t("shared.from") }}:
     <DxDateBox
+      :placeholder="$t('shared.begining')"
       :useMaskBehavior="true"
+      :allowClearing="true"
       :openOnFieldClick="true"
       type="datetime"
-      name="fromValue"
+      id="fromValue"
       v-model="fromValue"
+      :max="new Date().getTime()"
       dateSerializationFormat="yyyy-MM-ddTHH:mm:ss"
       styling-mode="outlined"
-    ></DxDateBox
-    >/ {{ this.$t("shared.before") }}:
+    ></DxDateBox>
     <DxDateBox
+      :placeholder="$t('shared.end')"
       :useMaskBehavior="true"
       :openOnFieldClick="true"
+      :allowClearing="true"
       type="datetime"
       name="fromValue"
+      :min="fromValue"
+      :max="new Date().getTime()"
       v-model="beforeValue"
       dateSerializationFormat="yyyy-MM-ddTHH:mm:ss"
       styling-mode="outlined"
@@ -27,24 +32,27 @@
 import { DxDateBox } from "devextreme-vue/date-box";
 
 export default {
+  props: {
+    storeKey: {},
+  },
   components: {
     DxDateBox,
   },
-  created() {},
   data() {
     return {
-      fromValue: localStorage.hasOwnProperty(
-        `quick-filter-from-value-${this.storeKey}`
-      )
-        ? localStorage.getItem(`quick-filter-from-value-${this.storeKey}`)
-        : null,
+      isVisibleBeforeValueInput: false,
+      fromValue: null,
 
-      beforeValue: localStorage.hasOwnProperty(
-        `quick-filter-before-value-${this.storeKey}`
-      )
-        ? localStorage.getItem(`quick-filter-before-value-${this.storeKey}`)
-        : null,
+      beforeValue: null,
     };
+  },
+  methods: {
+    showEndInput() {
+      this.isVisibleBeforeValueInput = true;
+    },
+    hideEndInput() {
+      this.isVisibleBeforeValueInput = false;
+    },
   },
   computed: {
     filter() {
@@ -56,8 +64,15 @@ export default {
         : null;
       if (this.fromValue && this.beforeValue)
         return [partFromValue, "and", partBeforeValue];
+      else if (this.fromValue) {
+        return partFromValue;
+      } else if (this.beforeValue) {
+        return partBeforeValue;
+      }
+      return null;
     },
   },
+
   watch: {
     fromValue(newValue, oldValue) {
       if (newValue !== oldValue)

@@ -1,7 +1,11 @@
 <template>
   <div class="d-flex">
-    <RangeFilter @valueChanged="rangeFilterChanged"></RangeFilter>
+    <RangeFilter
+      :storeKey="storeKey"
+      @valueChanged="rangeFilterChanged"
+    ></RangeFilter>
     <DxDropDownButton
+      :disabled="disabledQuickFilter"
       :useSelectMode="true"
       styling-mode="text"
       display-expr="text"
@@ -31,6 +35,7 @@ export default {
   },
   data() {
     return {
+      disabledQuickFilter: false,
       value: localStorage.hasOwnProperty(`quick-filter-${this.storeKey}`)
         ? +localStorage.getItem(`quick-filter-${this.storeKey}`)
         : this.defaultValue,
@@ -38,8 +43,14 @@ export default {
   },
   methods: {
     rangeFilterChanged(value) {
-      console.log(value);
       this.$emit("rangeFilter", value);
+      if (value) {
+        this.disabledQuickFilter = true;
+        const quickFilterAll = this.dataSource.find((el) => el.value === "All");
+        this.value = quickFilterAll.id;
+      } else {
+        this.disabledQuickFilter = false;
+      }
     },
     itemClick(e) {
       this.value = e.itemData.id;
