@@ -98,24 +98,16 @@ export default {
         dataSource: Object.values(counterpartyExchangeBoxType),
         displayExpr: this.customizeText,
         onValueChanged: e => {
-<<<<<<< HEAD
           this.counterPart.employee = null;
-=======
->>>>>>> recipient-visibility-restriction
           this.exchangeBoxType = e.value;
         }
       };
     },
-<<<<<<< HEAD
     isIntranet() {
       return this.exchangeBoxType === counterpartyExchangeBoxType.intranet;
     },
     ifEResminama() {
       return this.exchangeBoxType === counterpartyExchangeBoxType.eResminama;
-=======
-    ifEResminama() {
-      return this.exchangeBoxType == counterpartyExchangeBoxType.eResminama;
->>>>>>> recipient-visibility-restriction
     }
   },
   methods: {
