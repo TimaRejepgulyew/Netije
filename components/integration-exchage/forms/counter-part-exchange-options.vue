@@ -27,7 +27,7 @@
       <DxGroupItem>
         <DxGroupItem :caption="$t('exchange.fields.reception')">
           <DxSimpleItem
-            :isRequired="true"
+            :isRequired="isIntranet"
             :visible="isIntranet"
             data-field="responsibleEmployee"
             template="employee"
@@ -129,7 +129,7 @@ export default {
     },
     isIntranet() {
       return this.exchangeBoxType === counterpartyExchangeBoxType.intranet;
-    },
+    }
   },
   methods: {
     changeEmployee(value) {
