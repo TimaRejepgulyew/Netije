@@ -6,7 +6,7 @@
       :show-borders="true"
       :errorRowEnabled="false"
       :data-source="dataSource"
-      :remote-operations="true"
+      :remote-operations="false"
       :allow-column-resizing="true"
       :column-auto-width="true"
       :load-panel="{
@@ -95,10 +95,10 @@ export default {
   },
   methods: {
     selectEmployee(e) {
-      this.$router.push(`/company/staff/employees/${e.data.id}`);
+      this.$router.push(`/company/user-group/${e.data.id}`);
     },
     editEmployee(e) {
-      this.$router.push(`/company/staff/employees/${e.row.data.id}`);
+      this.$router.push(`/company/user-group/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
       const addButton = e.toolbarOptions.items.find(btn => {

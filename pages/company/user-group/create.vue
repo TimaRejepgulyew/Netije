@@ -1,5 +1,5 @@
 <template>
-  <group-card :isCard="false" />
+  <group-card />
 </template>
 
 <script>
