@@ -50,7 +50,7 @@ export default {
   methods: {
     sendToIntranetExchange() {},
     async sendToElExchange() {
-      if (!this.document?.ourSignatoryId) {
+      if (!this.document?.ourSignatory) {
         alert(
           this.$t("document.validation.ourSignatoryRequired"),
           this.$t("shared.error")
