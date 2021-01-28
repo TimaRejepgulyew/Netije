@@ -57,6 +57,7 @@ export default {
     "~/plugins/signalR",
     "~/plugins/popup",
     "~/plugins/notification",
+    "~/plugins/cache"
   ],
   /*
    ** Nuxt.js dev-modules

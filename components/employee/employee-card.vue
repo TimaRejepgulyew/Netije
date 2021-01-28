@@ -479,7 +479,7 @@ export default {
       appenFormData("dateOfAppointment", data.dateOfAppointment);
       appenFormData("dateOfDismissal", data.dateOfDismissal);
       appenFormData("jobTitleId", data.jobTitleId);
-      appenFormData("departmentId", data.departmentId);
+      appenFormData("departmentId", data.department.id);
       appenFormData("status", data.status);
       appenFormData("note", data.note);
       appenFormData(
