@@ -1,6 +1,11 @@
 <template>
   <div>
     <QuickFilter
+      @rangeFilter="
+        (filter) => {
+          valueChanged(QuiсkFilterGuid.All, filter);
+        }
+      "
       :defaultValue="defaultFilter"
       :dataSource="QuiсkFilterItems"
       :storeKey="'assignment-' + assignmentQuery"
@@ -19,6 +24,7 @@ export default {
   data() {
     return {
       defaultFilter: QuiсkFilterGuid.InProcess,
+      QuiсkFilterGuid,
     };
   },
   computed: {
@@ -32,8 +38,8 @@ export default {
     },
   },
   methods: {
-    valueChanged(data) {
-      this.$emit("valueChanged", data);
+    valueChanged(quickFilter, filter) {
+      this.$emit("valueChanged", quickFilter, filter);
     },
   },
 };

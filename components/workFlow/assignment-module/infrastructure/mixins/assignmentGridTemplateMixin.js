@@ -67,12 +67,14 @@ export default {
     }
   },
   methods: {
-    setFilter(filter) {
+    setStore(quickFilter, filter) {
+      console.log(filter);
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}/${filter}`
+          loadUrl: `${dataApi.assignment.Assignments}${this.assignmentQuery}/${quickFilter}`
         }),
+        filter,
         sort: [{ selector: "created", desc: true }]
       });
     },
