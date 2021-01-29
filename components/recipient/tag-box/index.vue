@@ -80,7 +80,11 @@ export default {
   },
   computed: {
     multiline() {
-      return this.items.length > 1;
+      if (this.items === null) {
+        return false;
+      } else {
+        return this.items.length > 1;
+      }
     },
     isUserGroup() {
       return this.groupType === "userGroup";

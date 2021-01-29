@@ -14,7 +14,7 @@
         <DxRequiredRule />
       </DxSimpleItem>
       <DxSimpleItem data-field="recipients" template="recipients">
-        <DxLabel :visible="false" />
+        <DxLabel :text="$t('translations.fields.members')" />
       </DxSimpleItem>
       <template #recipients>
         <RecipientTagBox
