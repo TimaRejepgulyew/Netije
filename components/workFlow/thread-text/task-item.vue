@@ -20,7 +20,10 @@
           </div>
 
           <div class="list__content d-flex">
-            <threadTextComponentAuthor :author="data.item.author" />
+            <threadTextComponentAuthor
+              :author="data.item.author"
+              :writtenBy="data.item.writtenBy"
+            />
             <div>
               <i class="dx-icon dx-icon-event"></i>
               {{ formatDate(data.item.modificationDate) }}
@@ -55,15 +58,9 @@
 </template>
 <script>
 import TaskThreadTextModel from "../infrastructure/models/ThreadText/TaskThreadText.js";
-import { load } from "../infrastructure/services/taskService.js";
-import ActionItemType from "../infrastructure/constants/actionItemType.js";
-import TaskTypeGuid from "../infrastructure/constants/taskType.js";
 import statusIndicator from "./indicator-state/task-indicators/status-indicator.vue";
 import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
-import TaskType from "../infrastructure/models/TaskType.js";
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
-import moment from "moment";
 export default {
   components: {
     statusIndicator,
