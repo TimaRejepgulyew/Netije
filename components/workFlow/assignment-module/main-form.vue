@@ -7,6 +7,7 @@
     >
     </Header>
     <component
+
       :is="assignmentFormByType"
       @onComplete="onComplete"
       @pasteAttachment="pasteAttachment"
@@ -109,7 +110,7 @@ export default {
         assignmentType: this.assignment.assignmentType,
       });
     },
-    onComplete(res) {
+    onComplete() {
       this.changeThreadTextsResreshTracker(true);
     },
     reload() {

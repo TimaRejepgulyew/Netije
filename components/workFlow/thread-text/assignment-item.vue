@@ -19,7 +19,7 @@
             }}</span>
           </div>
 
-          <div class="list__content ">
+          <div class="list__content d-flex">
             <threadTextComponentAuthor
               :author="data.item.author"
               :writtenBy="data.item.writtenBy"

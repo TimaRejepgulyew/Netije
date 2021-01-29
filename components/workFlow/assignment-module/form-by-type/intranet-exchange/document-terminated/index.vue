@@ -4,7 +4,7 @@
       :assignmentId="assignmentId"
       :isCard="isCard"
       v-if="canUpdate"
-      @complete="onComplete"
+      @onComplete="onComplete"
     >
       <slot name="createChildTask" slot="createChildTask"> </slot>
       <slot name="importanceIndicator" slot="importanceIndicator"> </slot>

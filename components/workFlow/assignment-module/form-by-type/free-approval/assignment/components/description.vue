@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!isRework">
+    <div v-if="!isRework && false">
       <label class="pr-2">{{ $t("assignment.readdressToEmployee") }}</label>
       <div class="f-grow-1">
         <employee-select-box
