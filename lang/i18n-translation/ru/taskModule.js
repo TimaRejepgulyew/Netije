@@ -49,6 +49,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
+    writtenBy:"замещает",
     boxBase: "Абонентский ящик",
     counterParty: "Контрагент",
     sender: "Отправитель",

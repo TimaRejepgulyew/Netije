@@ -19,8 +19,11 @@
             }}</span>
           </div>
 
-          <div class="list__content d-flex">
-            <threadTextComponentAuthor :author="data.item.author" />
+          <div class="list__content ">
+            <threadTextComponentAuthor
+              :author="data.item.author"
+              :writtenBy="data.item.writtenBy"
+            />
             <div>
               <i class="dx-icon dx-icon-event"></i>
               {{ formatDate(data.item.modificationDate) }}
@@ -59,12 +62,10 @@
 <script>
 import AssignmentThreadTextModel from "../infrastructure/models/ThreadText/AssignmentThreadText.js";
 import threadTextComponentAuthor from "./thread-text-item-components/author.vue";
-import AssignmentStatus from "../infrastructure/constants/assignmentStatus.js";
+
 import * as indicators from "./indicator-state/assignment-indicators/indicators.js";
-import { assignmentTypeName } from "../infrastructure/constants/assignmentType.js";
+
 import userIcon from "~/components/Layout/userIcon.vue";
-import WorkflowEntityTextType from "../infrastructure/constants/workflowEntityTextType";
-import moment from "moment";
 export default {
   components: {
     threadTextComponentAuthor,

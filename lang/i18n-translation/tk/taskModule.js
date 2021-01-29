@@ -51,6 +51,7 @@ export default {
     notification: "Tanyşdyrma"
   },
   fields: {
+    writtenBy: "orun tutýar",
     boxBase: "Abonentyň salgysy",
     counterParty: "Kontragent",
     sender: "Iberiji",
