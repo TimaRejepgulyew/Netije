@@ -23,7 +23,11 @@
       <div>
         <div class="drop_down_content">
           <div class="content">
-            <gropuList :selectedItems="items" :groupType="groupType" @selectItem="setItem" />
+            <gropuList
+              :selectedItems="items"
+              :groupType="groupType"
+              @selectItem="setItem"
+            />
           </div>
           <div class="type">
             <group-type @groupType="groupTypeChanged" />
@@ -47,25 +51,25 @@ export default {
     DxValidator,
     DxRequiredRule,
     groupType,
-    gropuList
+    gropuList,
   },
   props: {
     recipients: {
       type: Array,
-      default: []
+      default: [],
     },
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     messageRequired: {},
     validatorGroup: {},
-    valueExpr: {}
+    valueExpr: {},
   },
   data() {
     return {
       groupType: [],
-      items: this.recipients
+      items: this.recipients,
     };
   },
   methods: {
@@ -82,8 +86,8 @@ export default {
     },
     groupTypeChanged(value) {
       this.groupType = value;
-    }
-  }
+    },
+  },
 };
 </script>
 

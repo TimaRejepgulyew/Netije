@@ -12,6 +12,11 @@
         :dataSource="QuiсkFilterItems"
         :storeKey="'document-' + documentQuery"
         @valueChanged="setStore"
+        @rangeFilter="
+          (filter) => {
+            setStore(defaultFilter, filter);
+          }
+        "
       />
     </Header>
     <DxDataGrid
@@ -69,14 +74,12 @@ import QuickFilter from "~/components/quick-filter/index.vue";
 import DocumentQuickFilterModel from "~/infrastructure/models/quickFilter/document.js";
 import DocumentQuickFilterGuid from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
-import routeGenerator from "~/infrastructure/routing/routeGenerator.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
 import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 import documentIcon from "~/components/page/document-icon";
-import DocumentService from "~/infrastructure/services/documentVersionService";
 import {
   DxSearchPanel,
   DxFilterPanel,
@@ -98,7 +101,6 @@ import {
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import DataSource from "devextreme/data/data_source";
-import ElectronicDocument from "~/infrastructure/models/document-store/ElectronicDocument.js";
 export default {
   components: {
     documentIcon,
@@ -151,12 +153,13 @@ export default {
     };
   },
   methods: {
-    setStore(filter) {
+    setStore(quickFilter, filter) {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}/${filter}`,
+          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}/${quickFilter}`,
         }),
+        filter,
       });
     },
     itemClick(e) {
