@@ -100,21 +100,23 @@ export default {
       } else {
         this.items = e.value;
       }
-      this.$emit("setRecipients", e.value);
+      this.$emit("setRecipients", this.items);
     },
     setItem(value) {
       this.items = value;
     },
     selectUserGroupItem(value) {
+      const newArray = [];
       value.forEach(element => {
         if (
           this.items.every(el => {
             return el.id !== element.id;
           })
         ) {
-          this.items.push(element);
+          newArray.push(element);
         }
       });
+      this.items = this.items.concat(newArray);
     },
     groupTypeChanged(value) {
       this.groupType = value;
