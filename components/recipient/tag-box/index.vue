@@ -15,7 +15,7 @@
         width="100%"
         @valueChanged="setRecipient"
         :openOnFieldClick="false"
-        :multiline="true"
+        :multiline="multiline"
         displayExpr="name"
         :value.sync="items"
       />
@@ -79,6 +79,13 @@ export default {
     };
   },
   computed: {
+    multiline() {
+      if (this.items === null) {
+        return false;
+      } else {
+        return this.items.length > 1;
+      }
+    },
     isUserGroup() {
       return this.groupType === "userGroup";
     }
