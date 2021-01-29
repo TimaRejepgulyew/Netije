@@ -88,7 +88,6 @@ export default {
     },
     showCard(e) {
       this.closeDropDown();
-
       this.$popup.userGroup(
         this,
         {
