@@ -1,7 +1,13 @@
 <template>
   <div>
-    <Header :headerTitle="headerTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
-    <toolbar @saveChanges="saveChanges" :canSave="true" />
+    <Header :headerTitle="headerTitle" v-if="!isCard" :isNew="isNew"></Header>
+    <toolbar
+      v-if="!readOnly"
+      @saveChanges="saveChanges"
+      :entityId="group.id"
+      :isNew="isNew"
+      :canSave="true"
+    />
     <DxForm :form-data="group">
       <DxSimpleItem data-field="name" editor-type="dxTextBox">
         <DxLabel :text="$t('shared.name')" />
@@ -11,7 +17,10 @@
         <DxLabel :visible="false" />
       </DxSimpleItem>
       <template #recipients>
-        <MembersGrid @membersChanged="membersChanged" :value="group.members" />
+        <RecipientTagBox
+          :recipients="group.participants"
+          @setRecipients="value => participantChanged(value)"
+        />
       </template>
     </DxForm>
   </div>
@@ -25,9 +34,9 @@ import {
   DxRequiredRule,
   DxLabel
 } from "devextreme-vue/form";
-import MembersGrid from "~/components/user-group/members-grid.vue";
+import RecipientTagBox from "~/components/recipient/tag-box/index.vue";
 import Header from "~/components/page/page__header.vue";
-import Toolbar from "~/components/shared/base-toolbar.vue";
+import Toolbar from "~/components/user-group/card-toolbar.vue";
 import dataApi from "~/static/dataApi";
 
 export default {
@@ -39,7 +48,7 @@ export default {
     DxLabel,
     Header,
     Toolbar,
-    MembersGrid
+    RecipientTagBox
   },
   props: {
     value: {
@@ -51,6 +60,9 @@ export default {
     }
   },
   computed: {
+    readOnly() {
+      return this.group.operation === 60;
+    },
     group() {
       return {
         name: "",
@@ -68,7 +80,7 @@ export default {
     }
   },
   methods: {
-    membersChanged(value) {
+    participantChanged(value) {
       this.group.participants = value;
     },
     postGroup() {
@@ -105,6 +117,9 @@ export default {
     saveChanges() {
       this.isNew ? this.postGroup() : this.putGroup();
     }
+  },
+  created() {
+    console.log("this.value", this.value);
   }
 };
 </script>

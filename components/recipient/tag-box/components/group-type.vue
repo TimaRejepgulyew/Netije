@@ -38,7 +38,7 @@ export default {
         },
         {
           name: this.$t("recipientTagBox.customGroup"),
-          value: [recipientType.UserGroup]
+          value: "userGroup"
         }
       ]
     };

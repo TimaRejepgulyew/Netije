@@ -44,6 +44,7 @@ export default {
   filter: "Фильтр",
   stop: "Прекратить",
   accept: "Принять",
+  detail: "Подробнее",
   cancel: "Назад",
   delete: "Удалить",
   deleteLink: "Удалить ссылку",

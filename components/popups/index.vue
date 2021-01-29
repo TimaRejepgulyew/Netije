@@ -18,7 +18,6 @@
           </div>
           <div class="custom_popup_content">
             <component
-              ref="content"
               @loadStatus="showComponent"
               @showTitle="setTitle"
               @valueChanged="valueChanged"
@@ -62,6 +61,7 @@ import documentTracking from "./document-tracking-popup";
 import documentTemplateGrid from "./document-template-grid.vue";
 import memberList from "./member-list-popup.vue";
 import exchangeOptions from "./exchange-options-popup.vue";
+import userGroup from "./user-group-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
@@ -90,7 +90,8 @@ export default {
     memberList,
     exchangeOptions,
     searchSetting,
-    documentTracking
+    documentTracking,
+    userGroup
   },
   name: "base-popup",
   props: {
@@ -187,12 +188,9 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.showLoadIndicator();
     this.$eventBus.$on("close-popup", this.closePopup);
-    setTimeout(() => {
-      this.$el.focus();
-    }, 200);
   },
   created() {
     this.$eventBus.$emit("popup-created", {

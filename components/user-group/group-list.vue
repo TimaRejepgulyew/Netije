@@ -26,7 +26,13 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxEditing :allow-updating="true" :allow-adding="true" :useIcons="true" mode="inline" />
+      <DxEditing
+        :allow-updating="true"
+        :allow-adding="true"
+        :allow-deleting="true"
+        :useIcons="true"
+        mode="inline"
+      />
       <DxColumn data-field="name" :caption="$t('shared.name')" data-type="string"></DxColumn>
 
       <DxColumn :width="110" :buttons="editButtons" type="buttons" />
@@ -89,7 +95,8 @@ export default {
           hint: "card",
           icon: "card",
           onClick: this.editEmployee
-        }
+        },
+        "delete"
       ]
     };
   },

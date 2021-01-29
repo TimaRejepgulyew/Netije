@@ -5,5 +5,4 @@ export default {
   RegistrationGroup: 3,
   Employee: 4,
   SystemUser: 5,
-  UserGroup: 6
 };

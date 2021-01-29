@@ -19,15 +19,15 @@ export default {
 </script>
 
 <style lang="scss">
-.grey {
-  color: gray;
-  font-size: 14px;
-}
-.dx-state-focused,
-.dx-state-active {
-  .grey {
-    color: #fff;
-    font-size: 14px;
-  }
-}
+// .grey {
+//   color: gray;
+//   font-size: 14px;
+// }
+// .dx-state-focused,
+// .dx-state-active {
+//   .grey {
+//     // color: #fff;
+//     font-size: 14px;
+//   }
+// }
 </style>

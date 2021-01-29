@@ -3,9 +3,9 @@
     ref="dropDownBox"
     @valueChanged="setRecipient"
     :value.sync="items"
-    :show-clear-button="true"
     :read-only="readOnly"
     field-template="customfield"
+    :show-clear-button="true"
   >
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
@@ -14,6 +14,7 @@
       <DxTagBox
         width="100%"
         @valueChanged="setRecipient"
+        :openOnFieldClick="false"
         :multiline="true"
         displayExpr="name"
         :value.sync="items"
@@ -23,7 +24,12 @@
       <div>
         <div class="drop_down_content">
           <div class="content">
-            <gropuList :selectedItems="items" :groupType="groupType" @selectItem="setItem" />
+            <userGropuList
+              v-if="isUserGroup"
+              @closeDropDown="closeDropDown"
+              @selectUserGroupItem="selectUserGroupItem"
+            />
+            <gropuList v-else :selectedItems="items" :groupType="groupType" @selectItem="setItem" />
           </div>
           <div class="type">
             <group-type @groupType="groupTypeChanged" />
@@ -40,6 +46,9 @@ import { DxTagBox } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import groupType from "~/components/recipient/tag-box/components/group-type.vue";
 import gropuList from "~/components/recipient/tag-box/components/group-list.vue";
+import userGropuList from "~/components/recipient/tag-box/components/user-group-list.vue";
+
+import recipientType from "~/infrastructure/constants/resipientType.js";
 export default {
   components: {
     DxDropDownBox,
@@ -47,7 +56,8 @@ export default {
     DxValidator,
     DxRequiredRule,
     groupType,
-    gropuList
+    gropuList,
+    userGropuList
   },
   props: {
     recipients: {
@@ -68,7 +78,15 @@ export default {
       items: this.recipients
     };
   },
+  computed: {
+    isUserGroup() {
+      return this.groupType === "userGroup";
+    }
+  },
   methods: {
+    closeDropDown() {
+      this.$refs["dropDownBox"].instance.close();
+    },
     setRecipient(e) {
       if (e.value === null) {
         this.items = [];
@@ -80,6 +98,17 @@ export default {
     setItem(value) {
       this.items = value;
     },
+    selectUserGroupItem(value) {
+      value.forEach(element => {
+        if (
+          this.items.every(el => {
+            return el.id !== element.id;
+          })
+        ) {
+          this.items.push(element);
+        }
+      });
+    },
     groupTypeChanged(value) {
       this.groupType = value;
     }
@@ -88,6 +117,9 @@ export default {
 </script>
 
 <style lang="scss">
+// .dx-dropdowneditor-input-wrapper .dx-selectbox-container {
+//   width: 100%;
+// }
 .drop_down_content {
   display: flex;
   width: 100%;

@@ -28,6 +28,7 @@ import DataSource from "devextreme/data/data_source";
 
 import defaultType from "~/components/recipient/components/list-item/default.vue";
 import employeeTypeComponent from "~/components/recipient/components/list-item/employee-type.vue";
+import userGroup from "~/components/recipient/tag-box/components/user-group-list-item.vue";
 
 import recipientType from "~/infrastructure/constants/resipientType.js";
 import dataApi from "~/static/dataApi";
@@ -36,7 +37,8 @@ export default {
   components: {
     DxList,
     employeeTypeComponent,
-    defaultType
+    defaultType,
+    userGroup
   },
   props: {
     selectedItems: {},
@@ -59,9 +61,6 @@ export default {
     }
   },
   computed: {
-    isUserGroup() {
-      return this.groupType[0] === recipientType.isUserGroup;
-    },
     resipientFilter() {
       let filter = ["recipientType", "=", this.groupType[0]];
       if (this.groupType.length > 1) {
@@ -89,11 +88,15 @@ export default {
   },
   methods: {
     listItemByType(type) {
-      switch (type) {
-        case recipientType.Employee:
-          return "employeeTypeComponent";
-        default:
-          return "defaultType";
+      if (type !== undefined) {
+        switch (type) {
+          case recipientType.Employee:
+            return "employeeTypeComponent";
+          default:
+            return "defaultType";
+        }
+      } else {
+        return "userGroup";
       }
     }
   }

@@ -9,6 +9,7 @@ export default {
   Employee: 102,
   JobTitle: 103,
   ManagersAssistant: 104,
+  ParticipantList: 105,
 
   Counterparty: 200,
   Contact: 201,

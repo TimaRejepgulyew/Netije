@@ -38,6 +38,7 @@ export default {
   add: "Goşmak",
   complete: "Ýerine ýetirildi",
   accept: "Kabul etmek",
+  detail: "Giňişleýin",
   reworked: "Işlenildi",
   rework: "Gaýtadan işlemäge iberildi",
   filter: "Filtr",
