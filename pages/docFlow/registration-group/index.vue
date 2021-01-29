@@ -189,7 +189,6 @@ export default {
   },
   methods: {
     edit(e) {
-      console.log();
       this.$refs["gridContainer"].instance.editRow(e.rowIndex);
     },
     onValueChanged(value, cellInfo) {

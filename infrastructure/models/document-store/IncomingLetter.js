@@ -36,15 +36,11 @@ export default class IncomingLetter extends ElectronicDocument {
         if (
           this._checkDataAsObjectChanged(state.document.businessUnit, payload)
         ) {
-          console.log(state.document.businessUnit, payload);
           state.isDataChanged = true;
           state.document.businessUnit = payload;
         }
       },
       SET_DEPARTMENT: (state, payload) => {
-        console.log(
-          this._checkDataAsObjectChanged(state.document.department, payload)
-        );
         if (
           this._checkDataAsObjectChanged(state.document.department, payload)
         ) {

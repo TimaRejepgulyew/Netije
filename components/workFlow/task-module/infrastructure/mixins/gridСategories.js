@@ -56,12 +56,13 @@ export default {
     };
   },
   methods: {
-    setFilter(filter) {
+    setStore(quickFilter,filter) {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.task.Task}${this.taskQuery}/${filter}`
+          loadUrl: `${dataApi.task.Task}${this.taskQuery}/${quickFilter}`
         }),
+        filter,
         sort: [{ selector: "created", desc: true }]
       });
     },

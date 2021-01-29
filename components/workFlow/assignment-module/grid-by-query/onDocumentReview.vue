@@ -3,7 +3,7 @@
     <Header :isbackButton="true" :headerTitle="headerTitle">
       <toolbar-item-quick-filter
         slot="toolbar"
-        @valueChanged="setFilter"
+        @valueChanged="setStore"
         :assignmentQuery="+assignmentQuery"
       />
     </Header>

@@ -104,7 +104,6 @@ export default {
       );
     },
     valueChanged(e) {
-      console.log();
       this.$emit("valueChanged", e.value);
     },
   },

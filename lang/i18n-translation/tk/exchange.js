@@ -3,6 +3,7 @@ export default {
   providers: {
     netije: "Netije",
     srd: "Srd, eResminama",
+    intranet: "Içerki",
     eResminama: "eResminama"
   },
   exchangeState: {
@@ -24,6 +25,8 @@ export default {
     dispatch: "Urgratmak üçin",
     name: "Ady",
     note: "Bellikler",
+    settings: "Sazlamasy",
+    responsibleEmployee: "Kabul etmek üçin jogapkärdir",
     organizationId: "Guramanyň belgisi",
     publicKey: "Açyk açar",
     exchangeBoxType: "Prowaýder",

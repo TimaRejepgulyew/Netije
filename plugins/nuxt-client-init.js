@@ -1,7 +1,6 @@
 import dataApi from "~/static/dataApi";
 import { vuexOidcCreateStoreModule } from "vuex-oidc";
 import { WebStorageStateStore } from "oidc-client";
-
 export default async function({ store, $axios }) {
   const { data } = await $axios.get(dataApi.OidcConfiguration);
   const config = data;
@@ -19,9 +18,9 @@ export default async function({ store, $axios }) {
       publicRoutePaths: ["/callback"]
     },
     {
-      // userLoaded: (user) => {
-      //   console.log("OIDC user is loaded:", user);
-      // },
+      userLoaded: user => {
+        console.log("OIDC user is loaded:", user);
+      }
       // user1Unloaded: () => console.log("OIDC user is unloaded"),
       // accessTokenExpiring: () => console.log("Access token will expire"),
       // accessTokenExpired: () => console.log("Access token did expire"),

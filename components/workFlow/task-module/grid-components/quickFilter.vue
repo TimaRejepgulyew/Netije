@@ -4,6 +4,11 @@
       :defaultValue="defaultFilter"
       :dataSource="QuiсkFilterItems"
       :storeKey="'task-' + taskQuery"
+      @rangeFilter="
+        (filter) => {
+          valueChanged(QuiсkFilterGuid.All, filter);
+        }
+      "
       @valueChanged="valueChanged"
     />
   </div>
@@ -18,24 +23,25 @@ export default {
   props: ["taskQuery"],
   data() {
     return {
-      defaultFilter: QuiсkFilterGuid.InProcess
+      defaultFilter: QuiсkFilterGuid.InProcess,
+      QuiсkFilterGuid,
     };
   },
   computed: {
     QuiсkFilterItems() {
       return Object.values(new TaskQuickFilterModel(this).getAll()).map(
-        item => {
+        (item) => {
           item.hint = item.text;
           return item;
         }
       );
-    }
+    },
   },
   methods: {
-    valueChanged(data) {
-      this.$emit("valueChanged", data);
-    }
-  }
+    valueChanged(quickFilter, filter) {
+      this.$emit("valueChanged", quickFilter, filter);
+    },
+  },
 };
 </script>
 

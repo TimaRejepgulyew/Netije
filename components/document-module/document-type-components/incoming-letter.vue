@@ -197,7 +197,6 @@ export default {
       return this.document.addressee;
     },
     department() {
-      console.log("computed department");
       return this.document.department;
     },
     contactId() {

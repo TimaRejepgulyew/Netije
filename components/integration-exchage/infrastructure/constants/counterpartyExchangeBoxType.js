@@ -1,5 +1,5 @@
 export default {
     netije: 0,
     srd: 1,
-    // eResminama: 2
+    intranet: 2147483647
 }

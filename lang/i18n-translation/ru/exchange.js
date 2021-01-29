@@ -3,6 +3,7 @@ export default {
   providers: {
     netije: "Netije",
     srd: "Srd, eResminama",
+    intranet: "Внутренний",
     eResminama: "eResminama"
   },
   exchangeState: {
@@ -24,6 +25,8 @@ export default {
     dispatch: "Отправка",
     name: "Имя",
     note: "Примечание",
+    settings: "Настройки",
+    responsibleEmployee: "Ответсвенный за приём",
     organizationId: "Ид огранизации",
     publicKey: "Публичный ключ",
     exchangeBoxType: "Провайдер",
