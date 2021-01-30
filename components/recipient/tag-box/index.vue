@@ -130,11 +130,8 @@ export default {
 //   width: 100%;
 // }
 .drop_down_content {
-  display: flex;
-  width: 100%;
-  .type {
-    margin: 0 0 0 10px;
-    max-width: 250px;
-  }
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  grid-column-gap: 20px;
 }
 </style>
