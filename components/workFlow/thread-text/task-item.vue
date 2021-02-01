@@ -4,7 +4,7 @@
       class="comment__item mY-1 ml-1"
       :class="{ 'current-comment': data.item.isCurrent }"
     >
-      <div class="d-flex js-space-between">
+      <div class="d-flex js-space-between ">
         <div>
           <user-icon
             class="f-size-30"
@@ -110,4 +110,5 @@ export default {
 </script>
 
 <style lang="scss" >
+
 </style>

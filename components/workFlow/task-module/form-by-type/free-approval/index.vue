@@ -13,6 +13,7 @@
           :editor-options="subjectOptions"
           :col-span="10"
           data-field="subject"
+          editor-type="dxTextArea"
         >
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
@@ -104,8 +105,6 @@ import DxForm, {
   DxLabel,
   DxRequiredRule,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
 export default {
   components: {
     DxGroupItem,
@@ -156,6 +155,7 @@ export default {
     },
     subjectOptions() {
       return {
+        autoResizeEnabled: true,
         readOnly: true,
         value: this.task.subject,
         onValueChanged: (e) => {

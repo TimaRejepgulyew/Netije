@@ -6,7 +6,11 @@
       :show-colon-after-label="true"
       :show-validation-summary="true"
     >
-      <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
+      <DxSimpleItem
+        :editor-options="subjectOptions"
+        data-field="subject"
+        editor-type="dxTextArea"
+      >
         <DxLabel location="left" :text="$t('assignment.fields.subject')" />
       </DxSimpleItem>
       <DxGroupItem :col-count="3">
@@ -26,23 +30,17 @@
       </DxGroupItem>
 
       <template #author>
-        <employee-select-box
-          :value="author"
-          :readOnly="true"
-        />
+        <employee-select-box :value="author" :readOnly="true" />
       </template>
       <template #performer>
-        <employee-select-box
-          :readOnly="true"
-          :value="performer"
-        />
+        <employee-select-box :readOnly="true" :value="performer" />
       </template>
     </DxForm>
   </div>
 </template>
 <script>
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import dataApi from "~/static/dataApi";
+import "devextreme/ui/text_area";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -70,6 +68,7 @@ export default {
     },
     subjectOptions() {
       return {
+        autoResizeEnabled: true,
         readOnly: true,
       };
     },

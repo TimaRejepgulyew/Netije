@@ -8,7 +8,11 @@
       :validation-group="taskValidatorName"
     >
       <DxGroupItem>
-        <DxSimpleItem :editor-options="subjectOptions" data-field="subject">
+        <DxSimpleItem
+          :editor-options="subjectOptions"
+          data-field="subject"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
@@ -136,6 +140,7 @@ export default {
     },
     subjectOptions() {
       return {
+        autoResizeEnabled: true,
         readOnly: true,
         value: this.task.subject,
         onValueChanged: (e) => {

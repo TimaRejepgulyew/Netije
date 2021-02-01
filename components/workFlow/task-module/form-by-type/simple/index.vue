@@ -8,7 +8,12 @@
   >
     <DxGroupItem>
       <DxGroupItem :col-count="10">
-        <DxSimpleItem :editor-options="subjectOptions" :col-span="8" data-field="subject">
+        <DxSimpleItem
+          :editor-options="subjectOptions"
+          :col-span="8"
+          data-field="subject"
+          editor-type="dxTextArea"
+        >
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
@@ -41,16 +46,29 @@
         <DxRequiredRule :message="$t('task.validation.performersRequired')" />
         <DxLabel location="left" :text="$t('task.fields.performers')" />
       </DxSimpleItem>
-      <DxSimpleItem :disabled="true" template="observers" data-field="observers">
+      <DxSimpleItem
+        :disabled="true"
+        template="observers"
+        data-field="observers"
+      >
         <DxLabel location="left" :text="$t('task.fields.observers')" />
       </DxSimpleItem>
 
-      <DxSimpleItem v-if="isDraft" data-field="body" editor-type="dxTextArea" template="autoText">
+      <DxSimpleItem
+        v-if="isDraft"
+        data-field="body"
+        editor-type="dxTextArea"
+        template="autoText"
+      >
         <DxLabel location="left" :text="$t('task.fields.comment')" />
       </DxSimpleItem>
     </DxGroupItem>
     <template #autoText>
-      <auto-text :value="body" :options="autoComleteOptions" @valueChanged="setBody" />
+      <auto-text
+        :value="body"
+        :options="autoComleteOptions"
+        @valueChanged="setBody"
+      />
     </template>
     <template #performers>
       <recipient-tag-box
@@ -71,15 +89,15 @@
   </DxForm>
 </template>
 <script>
+import "devextreme/ui/text_area";
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import AutoText from "~/components/autocomplete-text-area/index.vue";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
-  DxRequiredRule
+  DxRequiredRule,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     recipientTagBox,
@@ -88,7 +106,7 @@ export default {
     DxLabel,
     DxRequiredRule,
     DxForm,
-    AutoText
+    AutoText,
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],
@@ -101,7 +119,7 @@ export default {
     },
     setBody(value) {
       this.$store.commit(`tasks/${this.taskId}/SET_BODY`, value);
-    }
+    },
   },
   computed: {
     readOnly() {
@@ -132,15 +150,16 @@ export default {
       return {
         category: "Task",
         entityType: this.task.taskType,
-        height: 250
+        height: 250,
       };
     },
     subjectOptions() {
       return {
+        autoResizeEnabled: true,
         value: this.task.subject,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_SUBJECT`, e.value);
-        }
+        },
       };
     },
     maxDeadlineOptions() {
@@ -150,20 +169,20 @@ export default {
         value: this.task.maxDeadline,
         useMaskBehavior: true,
         openOnFieldClick: true,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_MAX_DEADLINE`, e.value);
-        }
+        },
       };
     },
     needsReviewOptions() {
       return {
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.task.needsReview,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_NEEDS_REVIEW`, e.value);
-        }
+        },
       };
     },
     routeTypeOptions() {
@@ -172,14 +191,14 @@ export default {
         valueExpr: "id",
         dataSource: [
           { id: 0, name: this.$t("task.fields.gradually") },
-          { id: 1, name: this.$t("task.fields.parallel") }
+          { id: 1, name: this.$t("task.fields.parallel") },
         ],
         value: this.task.routeType,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`tasks/${this.taskId}/SET_ROUTE_TYPE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>

@@ -13,6 +13,7 @@
           :editor-options="subjectOptions"
           :col-span="10"
           data-field="subject"
+          editor-type="dxTextArea"
         >
           <DxLabel location="left" :text="$t('task.fields.subjectTask')" />
         </DxSimpleItem>
@@ -35,14 +36,12 @@
 <script>
 import businessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxLabel,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
+import "devextreme/ui/text_area";
 export default {
   components: {
     DxGroupItem,
@@ -78,6 +77,7 @@ export default {
     },
     subjectOptions() {
       return {
+        autoResizeEnabled: true,
         readOnly: true,
         value: this.task.subject,
       };
