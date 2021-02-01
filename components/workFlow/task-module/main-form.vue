@@ -186,7 +186,10 @@ export default {
         taskId: this.taskId,
         taskType: this.task.taskType,
       });
-      this.$emit("onClose");
+      this.$emit("onClose", {
+        taskId: this.taskId,
+        taskType: this.task.taskType,
+      });
     },
     onRemove() {
       this.$emit("onRemove");

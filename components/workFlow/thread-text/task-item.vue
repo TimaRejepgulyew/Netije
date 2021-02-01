@@ -86,7 +86,18 @@ export default {
     //   }
     // },
     toDetailTask({ id, taskType }) {
-      this.taskThreadText.showCard(this, { id, taskType });
+      this.taskThreadText.showCard(
+        this,
+        { id, taskType },
+        {
+          listeners: [
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
+        }
+      );
+    },
+    valueChanged() {
+      this.$emit("valueChanged");
     },
     parseSubject(entity) {
       return this.taskThreadText.generateSubject(entity);

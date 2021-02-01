@@ -4,6 +4,7 @@
       :assignmentId="assignmentId"
       :isCard="isCard"
       @pasteAttachment="pasteAttachment"
+      @created="created"
       v-if="canUpdate"
       @onComplete="onComplete"
     >
@@ -50,6 +51,11 @@ export default {
   components: {
     Toolbar,
     AdditionalInfo,
+  },
+  methods: {
+    created() {
+      this.$emit("created");
+    },
   },
 };
 </script>

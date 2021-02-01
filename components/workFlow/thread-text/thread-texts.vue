@@ -22,6 +22,7 @@
           <template #item="item">
             <div class="list-container">
               <thread-text-component
+                @valueChanged="reloadStore"
                 :data="item.data"
                 :type="item.data.item.type"
               />
@@ -71,6 +72,13 @@ export default {
         paginate: false,
       }),
     };
+  },
+  methods: {
+    reloadStore() {
+      setTimeout(() => {
+        this.comments.reload();
+      }, 3000);
+    },
   },
   computed: {
     refreshOptions() {

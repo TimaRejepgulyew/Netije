@@ -14,21 +14,21 @@ import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    DxButton
+    DxButton,
   },
   props: {
     parentAssignmentId: {
-      type: Number
+      type: Number,
     },
     visible: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
   data() {
     return {
-      actionItemExecutionIcon
+      actionItemExecutionIcon,
     };
   },
   methods: {
@@ -37,19 +37,20 @@ export default {
         this,
         {
           params: this.parentAssignmentId,
-          handler: CreateChildActionItemExecution
+          handler: CreateChildActionItemExecution,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" }
-          ]
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },
     valueChanged({ taskId, taskType }) {
       this.$emit("valueChanged", { taskId, taskType });
-    }
-  }
+      this.$emit("created");
+    },
+  },
 };
 </script>
 

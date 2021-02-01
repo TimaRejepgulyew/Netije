@@ -85,8 +85,14 @@ export default {
       return this.assignmentThreadText.getIndicatorByStatus(data);
     },
     toDetailAssignment(params) {
-      this.assignmentThreadText.showCard(this, params);
+      this.assignmentThreadText.showCard(this, params, {
+        listeners: [{ eventName: "valueChanged", handlerName: "valueChanged" }],
+      });
     },
+    valueChanged() {
+      this.$emit("valueChanged");
+    },
+
     parseSubject(entity) {
       return this.assignmentThreadText.generateSubject(entity);
     },

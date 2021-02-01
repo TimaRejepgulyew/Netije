@@ -7,14 +7,15 @@
     >
     </Header>
     <component
-
       :is="assignmentFormByType"
       @onComplete="onComplete"
+      @created="() => changeThreadTextsResreshTracker(true)"
       @pasteAttachment="pasteAttachment"
       :assignmentId="assignmentId"
       :isCard="isCard"
     >
       <CreateChildTaskBtn
+        @created="() => changeThreadTextsResreshTracker(true)"
         slot="createChildTask"
         :parentAssignmentId="assignmentId"
       />
@@ -45,11 +46,7 @@
   </form>
 </template>
 <script>
-//devExtreme components
-import DxForm, { DxGroupItem } from "devextreme-vue/form";
-
 //services and constants
-import dataApi from "~/static/dataApi";
 import Importance from "../infrastructure/constants/taskImportance.js";
 import { unload } from "../infrastructure/services/assignmentService.js";
 

@@ -1,5 +1,9 @@
 <template>
-  <component :data="data" :is="getComponentByType" />
+  <component
+    @valueChanged="valueChanged"
+    :data="data"
+    :is="getComponentByType"
+  />
 </template>
 
 <script>
@@ -11,11 +15,15 @@ export default {
   components: {
     taskTreadText,
     assignmentTreadText,
-    notificationTreadText
+    notificationTreadText,
   },
   name: "text-mediator",
   props: ["data", "type"],
-  created() {},
+  methods: {
+    valueChanged() {
+      this.$emit("valueChanged");
+    },
+  },
   computed: {
     getComponentByType() {
       switch (this.type) {
@@ -26,8 +34,8 @@ export default {
         case WorkflowEntityTextType.Assignment:
           return "assignment-tread-text";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

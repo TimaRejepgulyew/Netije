@@ -6,6 +6,7 @@
       @pasteAttachment="pasteAttachment"
       v-if="canUpdate"
       @onComplete="onComplete"
+      @created="created"
     >
       <slot name="createChildTask" slot="createChildTask"> </slot>
       <slot name="importanceIndicator" slot="importanceIndicator"> </slot>
@@ -50,6 +51,11 @@ export default {
   components: {
     Toolbar,
     AdditionalInfo,
+  },
+  methods: {
+    created() {
+      this.$emit("created");
+    },
   },
 };
 </script>

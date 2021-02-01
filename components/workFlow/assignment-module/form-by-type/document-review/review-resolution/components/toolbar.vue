@@ -15,7 +15,10 @@
         location="before"
       />
       <template #createChildActionItemBtn>
-        <createChildActionItemBtn :parentAssignmentId="assignmentId" />
+        <createChildActionItemBtn
+          @created="created"
+          :parentAssignmentId="assignmentId"
+        />
       </template>
       <DxItem
         locateInMenu="auto"
@@ -42,6 +45,11 @@ export default {
   mixins: [toolbarMixin],
   components: {
     createChildActionItemBtn,
+  },
+  methods: {
+    created() {
+      this.$emit("created");
+    },
   },
   computed: {
     btnSendToAssigneeOptions() {

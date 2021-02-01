@@ -15,21 +15,21 @@ import createChildTaskIcon from "~/static/icons/create-child-task-btn-icon.svg";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {
-    DxButton
+    DxButton,
   },
   props: {
     parentAssignmentId: {
-      type: Number
+      type: Number,
     },
     visible: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
   data() {
     return {
-      createChildTaskIcon
+      createChildTaskIcon,
     };
   },
   methods: {
@@ -38,19 +38,20 @@ export default {
         this,
         {
           params: this.parentAssignmentId,
-          handler: createSubtaskByAssignment
+          handler: createSubtaskByAssignment,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" }
-          ]
+            { eventName: "valueChanged", handlerName: "valueChanged" },
+          ],
         }
       );
     },
     valueChanged({ taskId, taskType }) {
       this.$emit("valueChanged", { taskId, taskType });
-    }
-  }
+      this.$emit("created");
+    },
+  },
 };
 </script>
 

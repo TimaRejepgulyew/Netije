@@ -3,6 +3,7 @@
     <Toolbar
       :assignmentId="assignmentId"
       :isCard="isCard"
+      @created="created"
       @pasteAttachment="pasteAttachment"
       v-if="canUpdate"
       @onComplete="onComplete"
@@ -58,6 +59,11 @@ export default {
     Toolbar,
     AdditionalInfo,
     Descriptions,
+  },
+  methods: {
+    created() {
+      this.$emit("created");
+    },
   },
 };
 </script>

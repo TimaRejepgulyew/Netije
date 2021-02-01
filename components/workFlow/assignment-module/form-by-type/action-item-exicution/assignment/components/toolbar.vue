@@ -25,7 +25,10 @@
         location="before"
       />
       <template #createSubTaskActionItemBtn>
-        <CreateSubTaskActionItemBtn :parentAssignmentId="assignmentId" />
+        <CreateSubTaskActionItemBtn
+          @created="created"
+          :parentAssignmentId="assignmentId"
+        />
       </template>
       <DxItem
         locateInMenu="auto"
@@ -114,6 +117,9 @@ export default {
     },
   },
   methods: {
+    created() {
+      this.$emit("created");
+    },
     pasteAttachment(options) {
       this.$emit("pasteAttachment", options);
     },

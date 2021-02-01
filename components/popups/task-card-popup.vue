@@ -3,6 +3,7 @@
     :isCard="true"
     @onClose="close"
     @onClosed="valueChanged"
+    @onStart="close"
     v-if="taskId"
     :taskId="taskId"
   />
