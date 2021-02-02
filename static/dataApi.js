@@ -67,6 +67,9 @@ export default {
   userGroup: {
     group: "/api/ParticipantList"
   },
+  phraseTemplate: {
+    phrase: "/api/PhraseTemplate"
+  },
   admin: {
     Roles: `/api/Role`,
     RoleMembers: `/api/RoleMembers/`

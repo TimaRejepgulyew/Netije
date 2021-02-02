@@ -19,7 +19,7 @@ export default {
     return {
       data: null,
       showCard: false,
-      headerTitle: this.$t("companyStructure.groups.group")
+      headerTitle: this.$t("companyStructure.additionally.group")
     };
   },
   async created() {

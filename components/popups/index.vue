@@ -62,6 +62,7 @@ import documentTemplateGrid from "./document-template-grid.vue";
 import memberList from "./member-list-popup.vue";
 import exchangeOptions from "./exchange-options-popup.vue";
 import userGroup from "./user-group-popup.vue";
+import autoText from "./auto-text-popup.vue";
 import indicatorIcon from "~/static/icons/loading.gif";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
 export default {
@@ -91,7 +92,8 @@ export default {
     exchangeOptions,
     searchSetting,
     documentTracking,
-    userGroup
+    userGroup,
+    autoText
   },
   name: "base-popup",
   props: {

@@ -1,6 +1,7 @@
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import DxTextArea from "devextreme-vue/text-area";
-import AutoText from "~/components/autocomplete-text-area/index.vue";
+import AutoText  from "~/components/autocomplete-text/text-area/index.vue";
+
 export default {
   components: {
     DxValidator,

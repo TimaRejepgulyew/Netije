@@ -123,7 +123,8 @@ import abortingReasonMessage from "../../form-components/action-item-exicution/a
 import compoundActionItemComponent from "../../form-components/action-item-exicution/compound-action-item";
 import mainActionItemComponent from "../../form-components/action-item-exicution/main-action-item";
 
-import AutoText from "~/components/autocomplete-text-area/index.vue";
+import AutoText from "~/components/autocomplete-text/text-area/index.vue";
+
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";

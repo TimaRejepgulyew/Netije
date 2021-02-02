@@ -29,6 +29,7 @@ export default {
   Certificate: 312,
   RelationType: 313,
   SignatureSetting: 314,
+  PhraseTemplate: 315,
 
   ElectronicDocument: 400,
   OfficialDocument: 401,

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <DxButton :icon="icon" :on-click="showPopup" :hint="$t('shared.access')" />
-  </div>
+  <DxButton stylingMode="text" :icon="icon" :on-click="showPopup" :hint="$t('shared.access')" />
 </template>
 
 <script>
@@ -9,13 +7,13 @@ import { DxButton } from "devextreme-vue";
 import icon from "~/static/icons/access-right.svg";
 export default {
   components: {
-    DxButton,
+    DxButton
   },
 
   props: ["entityType", "entityId"],
   data() {
     return {
-      icon,
+      icon
     };
   },
   methods: {
@@ -24,19 +22,19 @@ export default {
         this,
         {
           entityType: this.entityType,
-          entityId: this.entityId,
+          entityId: this.entityId
         },
         {
           position: "flex-start",
           width: "60vw",
           height: "auto",
           listeners: [
-            { eventName: "valueChanged", handlerName: "valueChanged" },
-          ],
+            { eventName: "valueChanged", handlerName: "valueChanged" }
+          ]
         }
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
