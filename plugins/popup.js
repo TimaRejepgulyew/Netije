@@ -53,6 +53,7 @@ export default ({ app }, inject) => {
     documentExtradition: BasePopup("documentExtradition"),
     documentTracking: BasePopup("documentTracking"),
     userGroup: BasePopup("userGroup"),
+    autoText: BasePopup("autoText"),
   };
 
   const popups = [];

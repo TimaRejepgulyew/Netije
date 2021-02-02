@@ -84,7 +84,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: this.$t("companyStructure.groups.group"),
+      headerTitle: this.$t("companyStructure.additionally.group"),
       dataSource: this.$dxStore({
         key: "id",
         loadUrl: dataApi.userGroup.group,
@@ -92,7 +92,6 @@ export default {
       }),
       editButtons: [
         {
-          hint: "card",
           icon: "card",
           onClick: this.editEmployee
         },

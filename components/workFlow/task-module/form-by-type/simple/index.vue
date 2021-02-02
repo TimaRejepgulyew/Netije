@@ -91,7 +91,7 @@
 <script>
 import "devextreme/ui/text_area";
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
-import AutoText from "~/components/autocomplete-text-area/index.vue";
+import AutoText from "~/components/autocomplete-text/text-area/index.vue";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,

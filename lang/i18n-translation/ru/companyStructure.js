@@ -35,12 +35,15 @@ export default {
     exchange: "Наши абонентские ящики электронного обмена",
     exchangeDescr: "Настройка подключений к электронному обмена электронными документами."
   },
-  groups: {
-    title: "Группы",
+  additionally: {
+    title: "Дополнительно",
     group: "Группы пользователей",
     groupDescr: "Настройка и создание групп пользователей",
     members: "Участники",
-    description: "Описание"
+    description: "Описание",
+    phraseTemplates: "Шаблоны фраз",
+    phraseTemplatesDescr: "Настройка и создание общих фраз",
+    phrase:"Фраза"
   },
   company: {
     title: "Организационная структура",

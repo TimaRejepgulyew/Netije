@@ -78,7 +78,8 @@
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
-import AutoText from "~/components/autocomplete-text-area/index.vue";
+import AutoText from "~/components/autocomplete-text/text-area/index.vue";
+
 import "devextreme-vue/text-area";
 import DxForm, {
   DxGroupItem,

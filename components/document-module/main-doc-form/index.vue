@@ -194,7 +194,7 @@ import DxForm, {
   DxRequiredRule,
   DxLabel,
 } from "devextreme-vue/form";
-import AutocomleteTextArea from "~/components/autocomplete-text-area/index.vue";
+import AutocomleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
 import { unload } from "~/infrastructure/services/documentService.js";
 import ElExchangeLogs from "~/components/document-module/main-doc-form/el-exchange";
 import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";

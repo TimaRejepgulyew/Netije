@@ -134,15 +134,21 @@ export default function (context) {
     },
     {
       icon: groupIcon,
-      title: context.$t("companyStructure.groups.title"),
+      title: context.$t("companyStructure.additionally.title"),
       visible: isAdmin(),
       items: [
         {
-          name: context.$t("companyStructure.groups.group"),
-          description: context.$t("companyStructure.groups.groupDescr"),
+          name: context.$t("companyStructure.additionally.group"),
+          description: context.$t("companyStructure.additionally.groupDescr"),
           path: pathGenerate("user-group"),
           visible: true
-        }
+        },
+        {
+          name: context.$t("companyStructure.additionally.phraseTemplates"),
+          description: context.$t("companyStructure.additionally.phraseTemplatesDescr"),
+          path: pathGenerate("phrase-templates"),
+          visible: true
+        },
       ]
     },
   ];

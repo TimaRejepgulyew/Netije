@@ -75,7 +75,7 @@ export default {
     },
     headerTitle() {
       return this.isNew
-        ? this.$t("companyStructure.groups.group")
+        ? this.$t("companyStructure.additionally.group")
         : this.group.name;
     }
   },
