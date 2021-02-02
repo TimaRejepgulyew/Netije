@@ -37,10 +37,12 @@ export default {
   additionally: {
     title: "Goşmaça",
     group: "Ulanyjylar topary",
-    groupDescr: "Ulanyjy toparlaryny döretmek we üýtgetmek",
+    groupDescr: "Ulanyjy toparlaryny sazlamak we döretmek",
     members: "Gatnaşyjylar",
     description: "Bellik",
-    phraseTemplates: "Sözlem nusgasy"
+    phraseTemplates: "Umumy sözlemleri nusgasy",
+    phraseTemplatesDescr: "Umumy sözlemleri sazlamak we döretmek",
+    phrase: "Umumy sözlemleri"
   },
   company: {
     title: "Guramaçylyk düzüm birligi",
