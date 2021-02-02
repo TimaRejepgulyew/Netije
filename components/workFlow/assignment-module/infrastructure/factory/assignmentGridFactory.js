@@ -58,7 +58,7 @@ const CreateButtons = context => {
 const isReviewDraftResolution = e => {
   return (
     e.row.data.assignmentType ===
-      AssignmentType.ReviewDraftResolutionAssignment &&
+    AssignmentType.ReviewDraftResolutionAssignment &&
     e.row.data.status === AssignmentStatusGuid.InProcess
   );
 };
@@ -89,6 +89,7 @@ const CreateBaseColumns = context => {
     CreateDeadlineColumn(context),
     CreateAssignmentCreatedColumn(context),
     CreateAuthorColumn(context),
+    CreateCounterpartyColumn(context),
     CreateStatusColumn(context)
   ];
 };
@@ -144,6 +145,22 @@ function CreateAuthorColumn(context) {
     caption: context.$t("document.fields.authorId")
   };
 }
+function CreateCounterpartyColumn(context) {
+  return {
+    dataField: "additionalInfo.counterpartyId",
+    caption: context.$t("document.fields.correspondentId"),
+    lookup: {
+      dataSource: {
+        store: context.$cacheStore(dataApi.contragents.CounterPart),
+        paginate: true,
+        pageSize: 20
+      },
+      valueExpr: "id",
+      displayExpr: "name"
+    }
+  };
+}
+
 function CreateStatusColumn(context) {
   return CreateArrayLookupColumn(
     "status",
