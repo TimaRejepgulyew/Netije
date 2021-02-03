@@ -6,7 +6,6 @@ export default async function({ store, app }) {
   ) {
     await store.dispatch("permissions/load");
     const employeeId = store.getters[`permissions/employeeId`];
-    console.log("employeeId");
     const sendUserId = clientNotification(app);
     sendUserId(employeeId);
   }

@@ -19,7 +19,6 @@ export default async function({ store, $axios }) {
     },
     {
       userLoaded: user => {
-        console.log("OIDC user is loaded:", user);
       }
       // user1Unloaded: () => console.log("OIDC user is unloaded"),
       // accessTokenExpiring: () => console.log("Access token will expire"),

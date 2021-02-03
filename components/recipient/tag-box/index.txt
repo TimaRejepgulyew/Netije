@@ -98,7 +98,6 @@ export default {
       }
     },
     setRecipient(e) {
-      console.log(e);
       this.$emit("setRecipients", e.value);
       if (this.needRepaint) {
         this.needRepaint = false;

@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     setStore(quickFilter, filter) {
-      console.log(filter);
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",

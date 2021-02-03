@@ -63,7 +63,7 @@ const CreateButtons = context => {
   };
 };
 const hasMainAttachment = e => {
-  console.log();
+
   return e.row.data.additionalInfo?.hasMainAttachment;
 };
 const isReviewDraftResolution = e => {
@@ -78,7 +78,6 @@ const previewDocument = async (e, context) => {
     dataApi.assignment.MainAttachmentInfo + e.row.data.id
   );
   if (!data.hasVersion) {
-    console.log();
     await alert(
       context.$t("shared.alert.hasnotVersion"),
       context.$t(`scanner.alert.error`)

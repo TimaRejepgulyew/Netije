@@ -142,7 +142,7 @@ export default {
       }, 0);
     },
     editRow(e) {
-      //   console.log(e);
+
       this.$refs["gridContainer"].instance.editRow(e.rowIndex);
     },
     onValueChanged(value, cellInfo) {

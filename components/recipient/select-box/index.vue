@@ -74,7 +74,6 @@ export default {
         return dataSource;
       }
       if (this.readOnly || this.value ) {
-        console.log("this.value", this.value);
         return [this.value];
       }
 
