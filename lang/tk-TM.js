@@ -148,7 +148,8 @@ export default {
     alert: {
       notification: "Duýduryş",
       serverError: "Serwer ýalňyşlygy",
-      notHaveAccessRightToRead: "Sizde obýekde doly däl rugsat"
+      notHaveAccessRightToRead: "Sizde obýekde doly däl rugsat",
+      hasnotVersion:"Resminamanyň wersiýasy ýüklenmedi"
     },
     begining: "Başy",
     end: "Soňy",

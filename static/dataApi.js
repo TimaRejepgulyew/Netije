@@ -186,7 +186,8 @@ export default {
     MarkAsRead: `/api/Assignment/MarkAsRead`,
     TextsByAssignment: `/api/WorkflowEntityText/ByAssignment/`,
     CompleteDraftResolutionAssignments: `/api/Assignment/CompleteDraftResolutionsAssignments`,
-    AddApprover: `/api/Assignment/AddApprover`
+    AddApprover: `/api/Assignment/AddApprover`,
+    MainAttachmentInfo : `/api/Assignment/GetMainAttachmentInfo/`
   },
   recipient: {
     list: `/api/Recipient`

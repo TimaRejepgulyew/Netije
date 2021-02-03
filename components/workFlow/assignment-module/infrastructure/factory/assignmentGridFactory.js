@@ -1,3 +1,4 @@
+import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 import AssignmentQuery from "../../../infrastructure/constants/query/assignmentQuery";
 import AssignmentStatus from "../../../infrastructure/models/AssignmentStatus.js";
 import AssignmentStatusGuid from "../../../infrastructure/constants/assignmentStatus";
@@ -7,6 +8,7 @@ import dataApi from "~/static/dataApi";
 import { sendResult } from "../../../infrastructure/services/assignmentService.js";
 import { ForExecution as forExecutionIcon } from "~/static/icons/status/assignmentResult.js";
 import { confirm } from "devextreme/ui/dialog";
+import { alert } from "devextreme/ui/dialog";
 const GetColumnsByAssignmentQuery = (type, context) => {
   switch (type) {
     case AssignmentQuery.All:
@@ -50,19 +52,49 @@ const CreateButtons = context => {
         icon: forExecutionIcon,
         text: context.$t("document.preview"),
         onClick: e => addResolution(e.row.data, context)
+      },
+      {
+        visible: hasMainAttachment,
+        icon: "pdffile",
+        text: context.$t("document.preview"),
+        onClick: e => previewDocument(e, context)
       }
     ]
   };
 };
-
+const hasMainAttachment = e => {
+  console.log();
+  return e.row.data.additionalInfo?.hasMainAttachment;
+};
 const isReviewDraftResolution = e => {
   return (
     e.row.data.assignmentType ===
-    AssignmentType.ReviewDraftResolutionAssignment &&
+      AssignmentType.ReviewDraftResolutionAssignment &&
     e.row.data.status === AssignmentStatusGuid.InProcess
   );
 };
-
+const previewDocument = async (e, context) => {
+  const { data } = await context.$axios.get(
+    dataApi.assignment.MainAttachmentInfo + e.row.data.id
+  );
+  if (!data.hasVersion) {
+    console.log();
+    await alert(
+      context.$t("shared.alert.hasnotVersion"),
+      context.$t(`scanner.alert.error`)
+    );
+    return;
+  }
+  DocumentVersionViewer({
+    context,
+    options: {
+      readOnly: true,
+      extension: data.extension,
+      params: { documentId: data.attachmentId }
+    },
+    lastVersion: true
+  });
+};
 const addResolution = async ({ assignmentType, id, body }, context) => {
   const response = await confirm(
     context.$t(
