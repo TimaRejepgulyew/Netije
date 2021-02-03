@@ -58,6 +58,10 @@
       <template #importanceIndicator>
         <slot name="importanceIndicator" />
       </template>
+      <DxItem location="before" template="markAsUnread" />
+      <template #markAsUnread>
+        <slot name="markAsUnread" />
+      </template>
     </DxToolbar>
   </div>
 </template>

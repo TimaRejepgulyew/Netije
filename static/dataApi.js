@@ -184,6 +184,7 @@ export default {
     GetAssignmentById: `/api/Assignment/GetAssignmentById/`,
     CompleteAssignment: `/api/Assignment/CompleteAssignment`,
     MarkAsRead: `/api/Assignment/MarkAsRead`,
+    MarkAsUnread: `/api/Assignment/MarkAsUnread`,
     TextsByAssignment: `/api/WorkflowEntityText/ByAssignment/`,
     CompleteDraftResolutionAssignments: `/api/Assignment/CompleteDraftResolutionsAssignments`,
     AddApprover: `/api/Assignment/AddApprover`,

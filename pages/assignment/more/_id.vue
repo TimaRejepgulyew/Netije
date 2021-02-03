@@ -1,5 +1,6 @@
 <template>
   <assignment-card
+    @onClose="onClose"
     @complete="backToRoute"
     :assignmentId="+$route.params.id"
     :isCard="false"
@@ -19,6 +20,9 @@ export default {
   },
   methods: {
     backToRoute() {
+      this.$router.go(-1);
+    },
+    onClose() {
       this.$router.go(-1);
     },
   },

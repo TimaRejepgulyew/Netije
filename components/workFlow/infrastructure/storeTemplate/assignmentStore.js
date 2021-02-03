@@ -9,6 +9,7 @@ export const state = () => ({
 });
 
 export const getters = {
+
   overlays({ overlays }) {
     return overlays;
   },

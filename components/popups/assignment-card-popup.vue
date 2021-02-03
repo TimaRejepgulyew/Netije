@@ -1,5 +1,6 @@
 <template>
   <card-assignment
+    @onClose="close"
     v-if="assignmentId"
     :assignmentId="assignmentId"
     :isCard="true"

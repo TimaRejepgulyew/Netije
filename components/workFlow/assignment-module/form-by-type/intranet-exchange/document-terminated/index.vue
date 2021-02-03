@@ -8,6 +8,7 @@
     >
       <slot name="createChildTask" slot="createChildTask"> </slot>
       <slot name="importanceIndicator" slot="importanceIndicator"> </slot>
+      <slot name="markAsUnread" slot="markAsUnread"></slot>
     </Toolbar>
 
     <DxForm
@@ -19,7 +20,7 @@
     >
       <DxGroupItem :col-span="7" :col-count="4">
         <DxGroupItem template="info" :col-span="4"> </DxGroupItem>
-        <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>                    
+        <DxGroupItem template="thread-texts" :col-span="4"> </DxGroupItem>
       </DxGroupItem>
       <DxGroupItem template="attachments" :col-span="3" />
       <template #info>
