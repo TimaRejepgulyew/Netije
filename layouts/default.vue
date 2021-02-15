@@ -13,6 +13,7 @@
           </template>
         </app-content>
       </div>
+      <Chat />
     </div>
   </transition>
 </template>
@@ -26,6 +27,7 @@ import { sizes, subscribe, unsubscribe } from "./media-query";
 import tkMessages from "../lang/devExtremeLocalization/tk.json";
 import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
+import Chat from "~/components/chat/index.vue";
 
 import supplemental from "devextreme-cldr-data/supplemental.json";
 import tkCldrData from "devextreme-cldr-data/tk.json";
@@ -40,28 +42,34 @@ function getScreenSizeInfo() {
   return {
     isXSmall: screenSizes["screen-x-small"],
     isLarge: screenSizes["screen-large"],
-    cssClasses: Object.keys(screenSizes).filter((cl) => screenSizes[cl]),
+    cssClasses: Object.keys(screenSizes).filter(cl => screenSizes[cl])
   };
 }
 
 export default {
   name: "app",
   middleware: ["cache"],
+  components: {
+    TheFooter,
+    AppContent,
+    DxButton,
+    Chat
+  },
   data() {
     return {
       title: "TTDoc",
-      screen: getScreenSizeInfo(),
+      screen: getScreenSizeInfo()
     };
   },
   computed: {
     cssClasses() {
       return ["app"].concat(this.screen.cssClasses);
-    },
+    }
   },
   methods: {
     screenSizeChanged() {
       this.screen = getScreenSizeInfo();
-    },
+    }
   },
 
   beforeCreate() {
@@ -72,11 +80,11 @@ export default {
     locale(this.$i18n.locale);
     L10n.load({
       ru: {
-        ...syncfusionLocalizationRu,
+        ...syncfusionLocalizationRu
       },
       tk: {
-        ...syncfusionLocalizationTk,
-      },
+        ...syncfusionLocalizationTk
+      }
     });
   },
 
@@ -87,6 +95,7 @@ export default {
     );
   },
   mounted() {
+
     this.$online.connectHub();
     this.$notification.connectHub(this);
     this.$nextTick(() => {
@@ -100,13 +109,7 @@ export default {
   beforeDestroy() {
     unsubscribe(this.screenSizeChanged);
     window.removeEventListener("vuexoidc:userSignedOut");
-  },
-
-  components: {
-    TheFooter,
-    AppContent,
-    DxButton,
-  },
+  }
 };
 </script>
 
@@ -124,6 +127,7 @@ body {
 #root {
   width: 100%;
   height: 100%;
+  display: flex;
 }
 
 * {

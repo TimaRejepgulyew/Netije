@@ -118,8 +118,5 @@ export default {
       this.isNew ? this.postGroup() : this.putGroup();
     }
   },
-  created() {
-    console.log("this.value", this.value);
-  }
 };
 </script>

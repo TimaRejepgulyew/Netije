@@ -10,9 +10,6 @@ export default {
     color: "white"
   },
   mode: "spa",
-  /*
-   ** Headers of the page
-   */
   head: {
     title: process.env.npm_package_name || "",
     meta: [
@@ -29,13 +26,6 @@ export default {
   router: {
     middleware: ["authorization", "authorization-callback", "metadata"]
   },
-
-  /*
-   ** Customize the progress-bar color
-   */
-  /*
-   ** Global CSS
-   */
   css: [
     { src: "devextreme/dist/css/dx.common.css", lang: "css" },
     { src: "~/assets/themes/generated/theme.base.css", lang: "css" },
@@ -44,9 +34,6 @@ export default {
     { src: "~/assets/styles/base-styles.scss", lang: "css" },
     { src: "vue-awesome-notifications/dist/styles/style.scss", lang: "css" }
   ],
-  /*
-   ** Plugins to load before mounting the App
-   */
   plugins: [
     "~/plugins/eventBus",
     "~/plugins/axios",
@@ -57,18 +44,11 @@ export default {
     "~/plugins/signalR",
     "~/plugins/popup",
     "~/plugins/notification",
-    "~/plugins/cache"
+    "~/plugins/cache",
+    "~/plugins/socket",
   ],
-  /*
-   ** Nuxt.js dev-modules
-   */
   buildModules: [],
-  /*
-   ** Nuxt.js modules
-   */
-
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     [
       "nuxt-i18n",
@@ -105,20 +85,10 @@ export default {
           syncRouteParams: true
         }
       }
-    ]
+    ],
   ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
   axios: {},
-  /*
-   ** Build configuration
-   */
   build: {
-    /*
-     ** You can extend webpack config here
-     */
     extend(config, ctx) {
       (config.resolve.alias["globalize$"] = path.resolve(
         __dirname,
