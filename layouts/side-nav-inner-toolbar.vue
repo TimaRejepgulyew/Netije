@@ -52,7 +52,7 @@ export default {
   props: {
     title: String,
     isXSmall: Boolean,
-    isLarge: Boolean,
+    isLarge: Boolean
   },
   methods: {
     toggleMenu(e) {
@@ -66,14 +66,14 @@ export default {
     handleSideBarClick() {
       if (this.menuOpened === false) this.menuTemporaryOpened = true;
       this.menuOpened = true;
-    },
+    }
   },
   data() {
     return {
       menuOpened: this.isLarge,
       menuTemporaryOpened: false,
       list: [],
-      property: [],
+      property: []
     };
   },
   computed: {
@@ -88,12 +88,12 @@ export default {
         minMenuSize: 0,
         menuOpened: this.isLarge,
         closeOnOutsideClick: shaderEnabled,
-        shaderEnabled,
+        shaderEnabled
       };
     },
     headerMenuTogglerEnabled() {
       return this.isXSmall;
-    },
+    }
   },
 
   watch: {
@@ -107,7 +107,7 @@ export default {
         this.menuOpened = false;
         this.menuTemporaryOpened = false;
       }
-    },
+    }
   },
   components: {
     DxButton,
@@ -117,8 +117,8 @@ export default {
     DxItem,
     HeaderToolbar,
     SideNavMenu,
-    Header,
-  },
+    Header
+  }
 };
 </script>
 
@@ -153,9 +153,7 @@ export default {
   margin: 5px;
   position: relative;
   box-sizing: border-box;
-  min-height: 90vh;
-  height: auto;
-  height: 90vh;
+  flex-grow: 1;
   background: $base-bg;
   padding: 0.5vh 0.5vw;
   overflow: auto;
