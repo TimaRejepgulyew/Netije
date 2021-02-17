@@ -1,39 +1,17 @@
-import personalSettingIcon from "~/static/icons/doc-flow-icon/personalSettingIcon.svg";
 import documentSettingIcon from "~/static/icons/doc-flow-icon/documentSettingIcon.svg";
 import regSettingIcon from "~/static/icons/doc-flow-icon/regSettingIcon.svg";
 import caseFileSettingIcon from "~/static/icons/doc-flow-icon/caseFileSettingIcon.svg";
 import associatedAppSettingIcon from "~/static/icons/doc-flow-icon/associatedAppSettingIcon.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
+
 export default function (context) {
-  function mySettingVisible() {
-    return (
-      context.$store.getters["permissions/isUser"] &&
-      isVisible(EntityType.PersonalSettings)
-    );
-  }
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
-  }
-  function isAdmin() {
-    return context.$store.getters["permissions/IsAdmin"];
   }
   const pathGenerate = detail => {
     return `/docFlow/${detail}`;
   };
   const docFlowItem = [
-    {
-      icon: personalSettingIcon,
-      title: context.$t("docFlow.personalSetting.title"),
-      visible: mySettingVisible(),
-      items: [
-        {
-          name: context.$t("docFlow.personalSetting.mySetting"),
-          description: context.$t("docFlow.personalSetting.mySettingDescr"),
-          path: pathGenerate("personal-settings"),
-          visible: mySettingVisible()
-        }
-      ]
-    },
     {
       icon: documentSettingIcon,
       title: context.$t("docFlow.documentSetting.title"),
