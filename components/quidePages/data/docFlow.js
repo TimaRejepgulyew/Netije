@@ -48,6 +48,12 @@ export default function (context) {
           visible: isVisible(EntityType.DocumentKind)
         },
         {
+          name: context.$t("docFlow.documentSetting.docType"),
+          description: context.$t("docFlow.documentSetting.docTypeDescr"),
+          path: pathGenerate("document-type"),
+          visible: isAdmin()
+        },
+        {
           name: context.$t("docFlow.documentSetting.categories"),
           description: context.$t("docFlow.documentSetting.categoriesDescr"),
           path: pathGenerate("contract-categories"),

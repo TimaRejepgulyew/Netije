@@ -1,0 +1,243 @@
+<template>
+  <div>
+    <div>
+      <Header
+        :isNew="true"
+        :isbackButton="true"
+        :headerTitle="$t('translations.headers.addDocumentKind')"
+      ></Header>
+      <toolbar @saveChanges="handleSubmit" :canSave="true" />
+      <DxForm
+        ref="form"
+        :col-count="1"
+        :form-data.sync="documentKind"
+        :read-only="false"
+        :show-colon-after-label="true"
+      >
+        <DxGroupItem :col-count="1">
+          <DxSimpleItem data-field="code" data-type="string">
+            <DxRequiredRule :message="$t('shared.codeRequired')" />
+            <DxLabel location="top" :text="$t('shared.code')" />
+            <DxPatternRule
+              :ignore-empty-value="false"
+              :pattern="codePattern"
+              :message="$t('validation.valueMustNotContainsSpaces')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem data-field="name">
+            <DxLabel location="top" :text="$t('shared.name')" />
+            <DxRequiredRule :message="$t('shared.nameRequired')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem data-field="shortName">
+            <DxLabel location="top" :text="$t('shared.shortName')" />
+            <DxRequiredRule :message="$t('shared.shortNameRequired')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            data-field="documentFlow"
+            :editor-options="documentFlowOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('docFlow.fields.documentFlow')" />
+            <DxRequiredRule
+              :message="$t('docFlow.validation.documentFlowRequired')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            data-field="numberingType"
+            :editor-options="numberingTypeOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.numberingType')"
+            />
+            <DxRequiredRule
+              :message="$t('translations.fields.numberingTypeRequired')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            data-field="documentTypeGuid"
+            :editor-options="docTypeOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('menu.documentType')" />
+            <DxRequiredRule
+              :message="$t('translations.fields.documentTypeGuidRequired')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            :editor-options="tagboxOptions"
+            editor-type="dxTagBox"
+            data-field="availableActions"
+          >
+            <DxLabel
+              location="top"
+              :text="$t('translations.fields.availableActions')"
+            />
+          </DxSimpleItem>
+          <DxSimpleItem
+            data-field="status"
+            :editor-options="statusOptions"
+            editor-type="dxSelectBox"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.status')" />
+          </DxSimpleItem>
+          <DxSimpleItem
+            data-field="generateDocumentName"
+            editor-type="dxCheckBox"
+          >
+            <DxLabel
+              location="top"
+              alignment="left"
+              :text="$t('translations.fields.generateDocumentName')"
+            />
+          </DxSimpleItem>
+
+          <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
+            <DxLabel location="top" alignment="left" :text="$t('docFlow.fields.isDefault')" />
+          </DxSimpleItem>
+
+          <DxSimpleItem
+            data-field="note"
+            :col-span="2"
+            editor-type="dxTextArea"
+          >
+            <DxLabel location="top" :text="$t('translations.fields.note')" />
+          </DxSimpleItem>
+        </DxGroupItem>
+      </DxForm>
+    </div>
+  </div>
+</template>
+<script>
+import Toolbar from "~/components/shared/base-toolbar.vue";
+import "devextreme-vue/text-area";
+import Status from "~/infrastructure/constants/status";
+import NumberingType from "~/infrastructure/constants/numberingTypes";
+import { DxTagBox } from "devextreme-vue/tag-box";
+import Header from "~/components/page/page__header";
+import DataSource from "devextreme/data/data_source";
+import DxForm, {
+  DxGroupItem,
+  DxSimpleItem,
+  DxLabel,
+  DxRequiredRule,
+  DxCompareRule,
+  DxRangeRule,
+  DxStringLengthRule,
+  DxPatternRule,
+} from "devextreme-vue/form";
+import dataApi from "~/static/dataApi";
+
+export default {
+  components: {
+    Header,
+    DxGroupItem,
+    DxSimpleItem,
+    DxLabel,
+    DxRequiredRule,
+    DxCompareRule,
+    DxPatternRule,
+    DxRangeRule,
+    DxForm,
+    Toolbar,
+  },
+  data() {
+    return {
+      documentKind: {
+        status: Status.Active,
+        name: "",
+        documentFlow: null,
+        note: "",
+        shortName: "",
+        numberingType: null,
+        generateDocumentName: false,
+        isDefault: false,
+        documentTypeGuid: null,
+        code: "",
+        availableActions: [],
+      },
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
+    };
+  },
+  methods: {
+    handleSubmit() {
+      var res = this.$refs["form"].instance.validate();
+      if (!res.isValid) return;
+      this.$awn.asyncBlock(
+        this.$axios.post(dataApi.docFlow.DocumentKind, this.documentKind),
+        (res) => {
+          this.$router.go(-1);
+          this.$awn.success();
+        },
+        (err) => this.$awn.alert()
+      );
+    },
+  },
+  computed: {
+    statusOptions() {
+      return {
+        valueExpr: "id",
+        displayExpr: "status",
+        dataSource: this.$store.getters["status/status"](this),
+      };
+    },
+    numberingTypeOptions() {
+      return {
+        dataSource: this.$store.getters["docflow/numberingType"](this),
+        valueExpr: "id",
+        displayExpr: "name",
+      };
+    },
+    documentFlowOptions() {
+      return {
+        dataSource: this.$store.getters["docflow/docflow"](this),
+        valueExpr: "id",
+        displayExpr: "name",
+        onValueChanged: (e) => {
+          this.documentKind.documentTypeGuid = null;
+        },
+      };
+    },
+    tagboxOptions() {
+      return {
+        dataSource: {
+          store: this.$dxStore({
+            key: "id",
+            loadUrl: dataApi.docFlow.DocumentSendAction,
+          }),
+          filter: ["status", "=", Status.Active],
+        },
+        valueExpr: "id",
+        displayExpr: "name",
+      };
+    },
+    docTypeOptions() {
+      return {
+        dataSource: {
+          store: this.$dxStore({
+            key: "documentTypeGuid",
+            loadUrl: dataApi.docFlow.DocumentType,
+          }),
+          filter: [
+            ["status", "=", Status.Active],
+            "and",
+            ["documentFlow", "=", this.documentKind.documentFlow],
+          ],
+        },
+        valueExpr: "documentTypeGuid",
+        displayExpr: "name",
+      };
+    },
+  },
+};
+</script>
+<style>
+</style>
+
