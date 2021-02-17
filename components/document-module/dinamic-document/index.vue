@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     showBuilder() {
-      this.builder.removeStore();
+      this.builder.addNewElement();
       // console.log(this.builder);
     }
   },

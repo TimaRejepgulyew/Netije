@@ -1,5 +1,6 @@
 import StoreModule from "~/infrastructure/services/StoreModule.js"
 import * as dinamicDocumentsStoreTemplate from "~/components/document-module/dinamic-document/infrastructure/storeTemplate/dinamic-documents.js";
+import Item from "~/components/document-module/dinamic-document/infrastructure/classes/Item.js"
 
 const dinamicTypeStoreModule = new StoreModule({
     moduleName: "dinamicType",
@@ -18,23 +19,7 @@ const defaultElement = {
     editorType: "dxTextBox"
 }
 
-class Item {
-    constructor(context, options) {
-        this.id = options.id;
-        this.colSpan = options.colSpan;
-        this.dataField = options.dataField;
-        this.isRequired = options.isRequired;
-        this.editorType = options.editorType;
-        this.label = options.label;
-        // this.context = context
-        this.editorOptions = {
-            onFocusIn: () => {
-                console.log(this.id);
-                context.$emit("onFocusField", this.id);
-            },
-        }
-    }
-}
+
 
 
 class DinamicTypeGenerator {
