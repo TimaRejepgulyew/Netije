@@ -7,7 +7,7 @@
         <DxLabel location="left" :text="$t('companyStructure.company.limitVisibility')" />
       </DxSimpleItem>
       <DxSimpleItem template="whoSees" data-field="unrestrictedRecipients">
-        <DxLabel location="left" :text="$t('companyStructure.company.whoSees')" />
+        <DxLabel location="left" :text="$t('companyStructure.company.whoSeesAll')" />
       </DxSimpleItem>
       <DxSimpleItem template="hiddenEmployees" data-field="hiddenRecipients">
         <DxLabel location="left" :text="$t('companyStructure.company.hiddenEmployees')" />
