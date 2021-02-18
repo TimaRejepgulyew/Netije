@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Toolbar :fieldIndex="focusedFieldIndex"></Toolbar>
+  <div v-if="builder">
+    <Toolbar @addNewElement="addNewElement" :fieldIndex="focusedFieldIndex"></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -17,20 +17,14 @@
                 :col-count="8"
                 :caption="$t('dinamicDocuments.captions.static')"
               >
-                <DxSimpleItem
-                  :col-span="8"
-                  template="static-field"
-                ></DxSimpleItem>
+                <DxSimpleItem :col-span="8" template="static-field"></DxSimpleItem>
               </DxGroupItem>
               <DxGroupItem
                 :col-span="8"
                 :col-count="8"
                 :caption="$t('dinamicDocuments.captions.dinamic')"
               >
-                <DxSimpleItem
-                  :col-span="8"
-                  template="dinamic-document"
-                ></DxSimpleItem>
+                <DxSimpleItem :col-span="8" template="dinamic-document"></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
             <DxGroupItem :col-span="2" :col-count="1">
@@ -46,7 +40,7 @@
           <LifeCycleBlock :readOnly="true"></LifeCycleBlock>
         </template>
         <template #dinamic-document>
-          <Dinamic-document @onFocusField="setFocusIndex"></Dinamic-document>
+          <Dinamic-document :items="builder.elements" @onFocusField="setFocusIndex"></Dinamic-document>
         </template>
         <template #static-field>
           <StaticField :readOnly="true"></StaticField>
@@ -58,10 +52,7 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field
-            slot="content"
-            :filedIndex="focusedFieldIndex"
-          ></Update-field>
+          <Update-field slot="content" :filedIndex="focusedFieldIndex"></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -82,8 +73,10 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
+
+import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 export default {
   components: {
     CustomDrawer,
@@ -99,24 +92,31 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm,
+    DxForm
   },
   data() {
     return {
       focusedFieldIndex: null,
+      builder: null,
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true",
-      },
+        loop: "true"
+      }
     };
   },
   methods: {
     setFocusIndex(index) {
       this.focusedFieldIndex = index;
     },
+    addNewElement() {
+      this.builder.addNewElement();
+    }
   },
+  created() {
+    this.builder = new DinamicTypeControler(this);
+  }
 };
 </script>
 

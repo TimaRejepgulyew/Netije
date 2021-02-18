@@ -9,7 +9,6 @@ class Item {
         // this.context = context
         this.editorOptions = {
             onFocusIn: () => {
-                console.log(this.id);
                 context.$emit("onFocusField", this.id);
             },
         }
