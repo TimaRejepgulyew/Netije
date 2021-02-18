@@ -15,7 +15,9 @@ const obj = {
                 editorOptions: {},
                 editorType: "dxTextBox"
             },
-        ]
+        ],
+        overlays: 0,
+        isDataChanged: false,
     },
     getters: {
         getAllElements(state) {
@@ -29,6 +31,12 @@ const obj = {
                 }
             });
             return el
+        },
+        getOverlays({ overlays }) {
+            return overlays
+        },
+        isDataChanged({ isDataChanged }) {
+            return isDataChanged
         }
     },
     mutations: {
@@ -36,11 +44,13 @@ const obj = {
             state.elements = payload
         },
         AddNewElement(state, payload) {
+            state.isDataChanged = true
             state.elements.push(payload)
         },
         IntroduceElement(state, { id, payload }) {
             state.elements.forEach((element, index) => {
                 if (element.id === id) {
+                    state.isDataChanged = true
                     state.elements.splice(index + 1, 0, payload)
                 }
             });
@@ -48,6 +58,7 @@ const obj = {
         ChangeElement(state, payload) {
             state.elements.forEach((element, index) => {
                 if (element.id === payload.id) {
+                    state.isDataChanged = true
                     state.elements[index] = payload
                 }
             });
@@ -55,15 +66,31 @@ const obj = {
         RemoveElement(state, id) {
             state.elements.forEach((element, index) => {
                 if (element.id === id) {
+                    state.isDataChanged = true
                     state.elements.splice(index, 1);
                 }
             });
         },
+        IncrementOverlays(state) {
+            if (state.overlays <= 0) {
+                state.overlays++;
+            }
+        },
+        DecrementOverlays(state) {
+            if (state.overlays >= 0) {
+                state.overlays--;
+            }
+        },
+
     },
     actions: {
         async get_elements({ commit }, id) {
             const { data } = await this.$axios.get(dataApi.dinamicTypes.get, id)
             commit("SetElements", data)
+        },
+        async save_elements() {
+            await this.$axios.post(dataApi.dinamicTypes.post, id)
+            state.isDataChanged = false
         }
     }
 }

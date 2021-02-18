@@ -20,18 +20,25 @@ const defaultElement = {
 }
 
 
-
-
-class DinamicTypeGenerator {
+class DinamicTypeControler {
     constructor(context, id) {
         this.context = context
         this.id = id ? id : "constructor"
-        this.store = DinamicTypeGenerator.generateStore(this.context, this.id)
-        this.elements = DinamicTypeGenerator.getElements(this.store, this.id)
+        this.store = DinamicTypeControler.generateStore(this.context, this.id)
+        this.elements = DinamicTypeControler.getElements(this.store, this.id)
+        this.isDataChanged = DinamicTypeControler.checkDataChanged(this.store, this.id)
+    }
+    static checkDataChanged(store, id) {
+        return store.getters[`dinamicType/${id}/isDataChanged`]
     }
     static generateStore(context, id) {
-        dinamicTypeStoreModule.registerModule(context, id);
-        return context.$store
+        let overlay = this.context.$store.getters[`dinamicType/${this.id}/getOverlays`]
+        if (overlay) {
+            this.context.$store.commit(`dinamicType/${id}/IncrementOverlays`)
+            return context.$store
+        } else {
+            dinamicTypeStoreModule.registerModule(context, id);
+        }
     }
     static getElements(store, id) {
         return store.getters[`dinamicType/${id}/getAllElements`]
@@ -47,7 +54,7 @@ class DinamicTypeGenerator {
     }
     addNewElement(id) {
         const newItem = new Item(this.context, {
-            id: DinamicTypeGenerator.generateId(),
+            id: DinamicTypeControler.generateId(),
             ...defaultElement
         })
         if (id) {
@@ -63,10 +70,15 @@ class DinamicTypeGenerator {
         this.store.commit(`dinamicType/${this.id}/RemoveElement`, id)
     }
     removeStore() {
-        dinamicTypeStoreModule.unregisterModule(this.context, this.id);
+        let overlay = this.context.$store.getters[`dinamicType/${this.id}/getOverlays`]
+        if (overlay) {
+            this.context.$store.commit(`dinamicType/${this.id}/DecrementOverlays`)
+        } else {
+            dinamicTypeStoreModule.unregisterModule(this.context, this.id);
+        }
     }
 }
 
+const Test = new DinamicTypeControler()
 
-
-export default DinamicTypeGenerator
+export default DinamicTypeControler
