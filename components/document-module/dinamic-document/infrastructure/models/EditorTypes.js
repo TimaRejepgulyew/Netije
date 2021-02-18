@@ -4,7 +4,7 @@ export default class EditorTypes {
   constructor(context) {
     this.elements = generatorMapObj({
       Constant: EditorTypeGuid,
-      translateName: "dinamicDocument.editorTypes",
+      translateName: "dinamicDocuments.editorTypes",
       context: context
     });
   }

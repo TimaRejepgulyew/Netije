@@ -11,6 +11,7 @@ export default {
     DepartmentBox: "Селектор отделов",
     CounterPartBox: "Селектор контрагентов",
     ContactBox: "Селектор контактов",
+    DxTextArea: "Текстовая область",
     DxTextBox: "Текстовое поле",
     DxDateBox: "Поле для даты",
     DxNumberBox: "Поле для чисел",

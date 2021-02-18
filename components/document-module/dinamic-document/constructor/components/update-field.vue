@@ -2,7 +2,7 @@
   <DxForm
     :scrolling-enabled="true"
     ref="form"
-    :form-data="{ test: 'nnn', best: 'mmm' }"
+    :form-data="currentField"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :col-count="1"
@@ -15,7 +15,7 @@
       >
         <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
       </DxSimpleItem>
-      <DxGroupItem :items="fieldSetting" />
+      <DxGroupItem v-if="!isUpdating" :items="fieldSetting" />
     </DxGroupItem>
   </DxForm>
 </template>
@@ -30,6 +30,7 @@ import DxForm, {
 } from "devextreme-vue/form";
 import editorTypes, {
   getDefaultEditorType,
+  getFieldSettingByEditorType,
 } from "../../infrastructure/factory/EditorTypes.factory";
 
 export default {
@@ -41,8 +42,16 @@ export default {
   },
   data() {
     return {
+      isUpdating: false,
       fieldSetting: getDefaultEditorType(this, "constructor").dataSource,
       editorTypes: editorTypes(this, "constructor"),
+      currentField: {
+        editorType: "EmployeeBox",
+        colSpan: 2,
+        dataField: "Сотрудник",
+        translationTk: "tukmentçe",
+        translationRu: "Русский",
+      },
     };
   },
   components: {
@@ -57,72 +66,27 @@ export default {
     editorTypeOptions() {
       return {
         onSelectionChanged: (e) => {
-          console.log(e);
+          console.log(e.selectedItem);
+          console.log(this);
+          // if (e.selectedItem?.dataSource !== this.fieldSetting)
+          this.isUpdating = true;
+          this.fieldSetting = e.selectedItem?.dataSource;
+          this.isUpdating = false;
         },
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,
-        value: "DxTextBox",
         onValueChanged: this.change,
         isRequired: true,
       };
     },
-    currentField() {
-      return {
-        editorType: 0,
-        colSpan: 2,
-        dataField: "dwadawda",
-        translationTk: "tukmentçe",
-        translationRu: "Русский",
-      };
-      if (this.fieldIndex === null) {
-        return {};
-      }
-      return this.$store.getters[
-        `dinamic-document-constructor/getFieldByIndex`
-      ](this.fieldIndex);
-    },
   },
   methods: {
-    changeDataFied(value) {
-      this.$store.dispatch("dinamicDocument/dataField", {
-        index: this.fieldIndex,
-        value,
-      });
-    },
-    changeColSpan(value) {
-      this.$store.dispatch("dinamicDocument/colSpan", {
-        index: this.fieldIndex,
-        value,
-      });
-    },
-    changeEditorType(value) {
-      this.$store.dispatch("dinamicDocument/editorType", {
-        index: this.fieldIndex,
-        value,
-      });
-    },
-    changeTraslation(value) {
-      this.$store.dispatch("dinamicDocument/translation", {
-        index: this.fieldIndex,
-        value,
-      });
-    },
-    changeIsRequired(value) {
-      this.$store.dispatch("dinamicDocument/isRequired", {
-        index: this.fieldIndex,
-        value,
-      });
-    },
-    changeIsMultiple(value) {
-      this.$store.dispatch("dinamicDocument/isMultiple", {
-        index: this.fieldIndex,
-        value,
-      });
-    },
-    change(value, e) {
-      // this.$store.dispatch("dinamicDocument/changeField", { fieldName, value });
-      console.log(value, e);
+    change(value) {
+      console.log(value === this.currentField.editorType);
+      // if (value !== this.currentField.editorType) {
+      //   // this.currentField.editorType = value;
+      // }
     },
   },
 };

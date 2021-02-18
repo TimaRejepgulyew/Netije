@@ -11,7 +11,6 @@
     >
       <template #autocomlete="{ data }">
         <AutocomleteTextArea
-          :visible="data.ed"
           @focusIn="(value) => data.editorOptions.onFocusIn()"
           value="test"
           :options="{}"

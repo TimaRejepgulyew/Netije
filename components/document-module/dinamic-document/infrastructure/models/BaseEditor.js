@@ -17,98 +17,81 @@ export class BaseEditor {
   _setStoreId(id) {
     this.storeId = id;
   }
-  _changeColSpan(value) {
-    // colSpan change like service or store
-  }
-  _changeDataField(value) {
-    // dataField change like service or store
-  }
-  _changeTranslationTk(value) {
-    // translationTk change like service or store
-  }
-  _changeTranslationRu(value) {
-    // translationRu change like service or store
-  }
-  _changeIsRequired(value) {
-    // isrequired change like service or store
-  }
-  _setBaseValue(context, value) {
-    this.text = context.$t(`dinamicDocument.editorTypes.${value}`);
+  _changeColSpan = value => {
+    console.log(this);
+    console.log(value, this.context);
+    // this.context.currentField.colSpan = value;
+  };
+  _changeDataField = value => {
+    console.log(this);
+    this.context.currentField.dataField = value;
+  };
+  _changeTranslationTk = value => {
+    console.log(this);
+    this.context.currentField.translationTk = value;
+  };
+  _changeTranslationRu = value => {
+    console.log(this);
+    this.context.currentField.translationRu = value;
+  };
+  _changeIsRequired = value => {
+    console.log(this);
+    this.context.currentField.isRequired = value;
+  };
+  _setBaseValue = (context, value) => {
+    this.text = context.$t(`dinamicDocuments.editorTypes.${value}`);
     this.id = EditorTypes[value];
-    
-  }
-  get _dataField() {
+  };
+  _dataField = () => {
     return {
       dataField: "dataField",
       label: {
         text: this.context.$t("dinamicDocuments.updateField.dataField")
       },
       editorOptions: {
-        value: this.context.currentField?.dataField,
         onValueChanged: this._changeDataFied
       },
       isRequired: true
     };
-  }
-  get _translationTk() {
+  };
+  _translationTk = () => {
     return {
       dataField: "dataField",
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationTk")
       },
       editorOptions: {
-        value: this.context.currentField?.translationTk,
         onValueChanged: this._changeTranslationTk
       },
       isRequired: true
     };
-  }
-  get _translationRu() {
+  };
+  _translationRu = () => {
     return {
       dataField: "dataField",
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationRu")
       },
       editorOptions: {
-        value: this.context.currentField?.translationRu,
         onValueChanged: this._changeTranslationRu
       },
       isRequired: true
     };
-  }
-  get _editorType() {
-    return {
-      dataField: "editorType",
-      editorOptions: {
-        valueExpr: "id",
-        displayExpr: "name",
-        // dataSource: this.fieldSetting,
-        value: this.context.currentField?.editorType,
-        onValueChanged: this.context.change,
-        isRequired: true
-      },
-      label: {
-        text: this.context.$t("dinamicDocuments.updateField.editorType")
-      },
-      editorType: "dxSelectBox"
-    };
-  }
-  get _colSpan() {
+  };
+  _colSpan = () => {
     return {
       dataField: "colSpan",
       editorOptions: {
-        value: this.context.currentField?.colSpan,
         onValueChanged: this._changeColSpan
       },
       label: { text: this.context.$t("dinamicDocuments.updateField.colSpan") },
       editorType: "dxNumberBox"
     };
-  }
-  get _isRequired() {
+  };
+  _isRequired = () => {
     return {
       dataField: "isRequired",
       editorOptions: {
-        value: this.context.currentField?.isRequired,
         onValueChanged: this._changeIsRequired
       },
       label: {
@@ -116,29 +99,27 @@ export class BaseEditor {
       },
       editorType: "dxSwitch"
     };
-  }
-  get _isMultiple() {
+  };
+  _isMultiple = () => {
     return {
       dataField: "isMultiple",
       editorOptions: {
-        value: this.context.currentField?.isMultiple
-        //   onValueChanged: this.change
+        // onValueChanged: this.change
       },
       label: {
         text: this.context.$t("dinamicDocuments.updateField.isMultiple")
       },
       editorType: "dxSwitch"
     };
-  }
+  };
   get fieldSetting() {
     return [
-      // this._editorType,
-      this._isMultiple,
-      this._isRequired,
-      this._colSpan,
-      this._translationRu,
-      this._translationTk,
-      this._dataField
+      this._isMultiple(),
+      this._isRequired(),
+      this._colSpan(),
+      this._translationRu(),
+      this._translationTk(),
+      this._dataField()
     ];
   }
 }
