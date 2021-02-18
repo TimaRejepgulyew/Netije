@@ -1,13 +1,13 @@
-import { DxTextBox } from "../models/DxTextBox";
-import { DxTextAreaBox } from "../models/DxTextAreaBox";
-import { DxDateBox } from "../models/DxDateBox";
-import { DxCheckBox } from "../models/DxCheckBox";
-import { EmployeeBox } from "../models/EmployeeBox";
-import { RecipientBox } from "../models/RecipientBox";
-import { BusinessUnitBox } from "../models/BusinessUnitBox";
-import { DepartmentBox } from "../models/DepartmentBox";
-import { CounterPartBox } from "../models/CounterPartBox";
-import { ContactBox } from "../models/ContactBox";
+import { DxTextBox } from "../models/EditorTypes/DxTextBox";
+import { DxTextAreaBox } from "../models/EditorTypes/DxTextAreaBox";
+import { DxDateBox } from "../models/EditorTypes/DxDateBox";
+import { DxCheckBox } from "../models/EditorTypes/DxCheckBox";
+import { EmployeeBox } from "../models/EditorTypes/EmployeeBox";
+import { RecipientBox } from "../models/EditorTypes/RecipientBox";
+import { BusinessUnitBox } from "../models/EditorTypes/BusinessUnitBox";
+import { DepartmentBox } from "../models/EditorTypes/DepartmentBox";
+import { CounterPartBox } from "../models/EditorTypes/CounterPartBox";
+import { ContactBox } from "../models/EditorTypes/ContactBox";
 class EditorTypes {
   static DxTextBox = DxTextBox;
   static DxTextAreaBox = DxTextAreaBox;
@@ -37,6 +37,7 @@ class EditorTypes {
     return new DxTextBox(context, storeId).getObject();
   }
   static getEditorType(context, storeId, editortypeId) {
+    // get Editor type by id did not realize
     if (editortypeId)
       return new DxTextBox(context, storeId).getObject().dataSource;
     else return null;

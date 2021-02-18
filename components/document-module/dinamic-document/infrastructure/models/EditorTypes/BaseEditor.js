@@ -1,4 +1,4 @@
-import EditorTypes from "../constants/editorTypes";
+import EditorTypes from "../../constants/editorTypes";
 export class BaseEditor {
   constructor({ context, value, storeId }) {
     this.context = context;
@@ -9,7 +9,6 @@ export class BaseEditor {
     return {
       text: this.text,
       id: this.id,
-      value: this.value,
       isRequired: false,
       dataSource: this.fieldSetting
     };
@@ -17,27 +16,6 @@ export class BaseEditor {
   _setStoreId(id) {
     this.storeId = id;
   }
-  _changeColSpan = value => {
-    console.log(this);
-    console.log(value, this.context);
-    // this.context.currentField.colSpan = value;
-  };
-  _changeDataField = value => {
-    console.log(this);
-    this.context.currentField.dataField = value;
-  };
-  _changeTranslationTk = value => {
-    console.log(this);
-    this.context.currentField.translationTk = value;
-  };
-  _changeTranslationRu = value => {
-    console.log(this);
-    this.context.currentField.translationRu = value;
-  };
-  _changeIsRequired = value => {
-    console.log(this);
-    this.context.currentField.isRequired = value;
-  };
   _setBaseValue = (context, value) => {
     this.text = context.$t(`dinamicDocuments.editorTypes.${value}`);
     this.id = EditorTypes[value];

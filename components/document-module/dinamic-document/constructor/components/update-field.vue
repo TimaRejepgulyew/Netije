@@ -12,6 +12,7 @@
         dataField="editorType"
         editorType="dxSelectBox"
         :editorOptions="editorTypeOptions"
+        :isRequired="true"
       >
         <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
       </DxSimpleItem>
@@ -76,17 +77,8 @@ export default {
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,
-        onValueChanged: this.change,
         isRequired: true,
       };
-    },
-  },
-  methods: {
-    change(value) {
-      console.log(value === this.currentField.editorType);
-      // if (value !== this.currentField.editorType) {
-      //   // this.currentField.editorType = value;
-      // }
     },
   },
 };

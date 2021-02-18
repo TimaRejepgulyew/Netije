@@ -1,10 +1,11 @@
-import EditorTypeGuid from "../constants/editorTypes";
+import DateTypeGuid from "../../constants/dateTypes";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
-export default class EditorTypes {
+
+export class DateTypes {
   constructor(context) {
     this.elements = generatorMapObj({
-      Constant: EditorTypeGuid,
-      translateName: "dinamicDocuments.editorTypes",
+      Constant: DateTypeGuid,
+      translateName: "dinamicDocuments.dateTypes",
       context: context
     });
   }
