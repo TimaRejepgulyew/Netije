@@ -54,97 +54,6 @@ export default {
   },
 
   computed: {
-    // editorTypes() {
-    //   return new EditorTypes(context).getAll();
-    // },
-    // fieldSetting() {
-    //   return [
-    //     {
-    //       itemType: "group",
-    //       caption: this.$t("dinamicDocuments.captions.updateField"),
-    //       items: [
-    //         {
-    //           dataField: "dataField",
-    //           label: {
-    //             text: this.$t("dinamicDocuments.updateField.dataField"),
-    //           },
-    //           editorOptions: {
-    //             value: this.currentField?.dataField,
-    //             onValueChanged: this.changeDataFied,
-    //           },
-    //           isRequired: true,
-    //         },
-    //         {
-    //           dataField: "translationTk",
-    //           label: {
-    //             text: this.$t("dinamicDocuments.updateField.translationTk"),
-    //           },
-    //           editorOptions: {
-    //             value: this.currentField?.translationTk,
-    //             onValueChanged: this.changeDataFied,
-    //           },
-    //           isRequired: true,
-    //         },
-    //         {
-    //           dataField: "translationRu",
-    //           label: {
-    //             text: this.$t("dinamicDocuments.updateField.translationRu"),
-    //           },
-    //           editorOptions: {
-    //             value: this.currentField?.translationRu,
-    //             onValueChanged: this.changeDataFied,
-    //           },
-    //           isRequired: true,
-    //         },
-    //         {
-    //           dataField: "colSpan",
-    //           editorOptions: {
-    //             value: this.currentField?.colSpan,
-    //             onValueChanged: this.changeColSpan,
-    //           },
-    //           label: { text: this.$t("dinamicDocuments.updateField.colSpan") },
-    //           editorType: "dxNumberBox",
-    //         },
-    //         {
-    //           dataField: "isRequired",
-    //           editorOptions: {
-    //             value: this.currentField?.isRequired,
-    //             onValueChanged: this.change,
-    //           },
-    //           label: {
-    //             text: this.$t("dinamicDocuments.updateField.isRequired"),
-    //           },
-    //           editorType: "dxSwitch",
-    //         },
-    //         {
-    //           dataField: "isMultiple",
-    //           editorOptions: {
-    //             value: this.currentField?.isMultiple,
-    //             onValueChanged: this.change,
-    //           },
-    //           label: {
-    //             text: this.$t("dinamicDocuments.updateField.isMultiple"),
-    //           },
-    //           editorType: "dxSwitch",
-    //         },
-    //         {
-    //           dataField: "editorType",
-    //           editorOptions: {
-    //             displayExpr: "text",
-    //             dataSource: this.editorTypes,
-    //             value: this.currentField?.editorType,
-    //             onValueChanged: this.change,
-    //             isRequired: true,
-    //           },
-    //           label: {
-    //             text: this.$t("dinamicDocuments.updateField.editorType"),
-    //           },
-    //           editorType: "dxSelectBox",
-    //         },
-    //       ],
-    //     },
-    //   ];
-    // },
     editorTypeOptions() {
       return {
         onSelectionChanged: (e) => {
@@ -153,13 +62,14 @@ export default {
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,
-        value: this.currentField?.editorType,
+        value: "DxTextBox",
         onValueChanged: this.change,
         isRequired: true,
       };
     },
     currentField() {
       return {
+        editorType: 0,
         colSpan: 2,
         dataField: "dwadawda",
         translationTk: "tukmentçe",

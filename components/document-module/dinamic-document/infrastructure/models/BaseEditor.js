@@ -35,7 +35,7 @@ export class BaseEditor {
   _setBaseValue(context, value) {
     this.text = context.$t(`dinamicDocument.editorTypes.${value}`);
     this.id = EditorTypes[value];
-    this.value = value;
+    
   }
   get _dataField() {
     return {
