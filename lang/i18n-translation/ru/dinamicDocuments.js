@@ -22,8 +22,8 @@ export default {
     isRequired: "Обязательное",
     isMultiple: "Мультивыбор",
     editorType: "Тип поля",
-    tranlationTk: "Перевод на тукменский",
-    tranlationRu: "Перевод на русский"
+    translationTk: "Перевод на тукменский",
+    translationRu: "Перевод на русский"
   },
   buttons: {
     addField: "Добавить поле",

@@ -1,6 +1,6 @@
-import BaseEditor from "./BaseEditor";
-
 import { BaseEditor } from "./BaseEditor";
-export default class DefaultEditor extends BaseEditor {
-  constructor() {}
+export  class DefaultEditor extends BaseEditor {
+  constructor(options) {
+    super(options);
+  }
 }
