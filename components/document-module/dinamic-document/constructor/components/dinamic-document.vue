@@ -6,7 +6,7 @@
       :form-data="{ test: 'nnn', best: 'mmm' }"
       :show-colon-after-label="true"
       :show-validation-summary="false"
-      :col-count="3"
+      :col-count="2"
       :items="items"
     >
       <template #autocomlete="{ data }">
