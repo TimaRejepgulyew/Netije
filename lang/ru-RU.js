@@ -1,3 +1,4 @@
+import dinamicDocuments from "./i18n-translation/ru/dinamicDocuments.js";
 import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/ru/administration.js";
 import licensing from "~/lang/i18n-translation/ru/licensing.js";
@@ -27,6 +28,7 @@ import searching from "~/lang/i18n-translation/ru/searchingPanel.js";
 import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/ru/recipientTagBox.js";
 export default {
+  dinamicDocuments,
   recipientTagBox,
   searching,
   exchange,
@@ -146,7 +148,7 @@ export default {
       notification: "Предупреждение",
       serverError: "Ошибка сервера",
       notHaveAccessRightToRead: "У вас не достаточно прав на данный обьект",
-      hasnotVersion:"Не удалось загрузить версию документа"
+      hasnotVersion: "Не удалось загрузить версию документа"
     },
     begining: "Начало",
     end: "Конец",
