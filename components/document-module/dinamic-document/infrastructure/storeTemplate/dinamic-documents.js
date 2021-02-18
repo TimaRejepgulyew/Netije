@@ -32,11 +32,11 @@ const obj = {
             });
             return el
         },
-        getOverlays({ overlays }) {
-            return overlays
+        getOverlays(state) {
+            return state.overlays
         },
-        isDataChanged({ isDataChanged }) {
-            return isDataChanged
+        isDataChanged(state) {
+            return state.isDataChanged
         }
     },
     mutations: {
@@ -81,6 +81,12 @@ const obj = {
                 state.overlays--;
             }
         },
+        StartDataTracking(state,) {
+            state.isDataChanged = true
+        },
+        StopDataTracking(state,) {
+            state.isDataChanged = false
+        },
 
     },
     actions: {
@@ -88,9 +94,14 @@ const obj = {
             const { data } = await this.$axios.get(dataApi.dinamicTypes.get, id)
             commit("SetElements", data)
         },
-        async save_elements() {
-            await this.$axios.post(dataApi.dinamicTypes.post, id)
-            state.isDataChanged = false
+        async create_dinamic_type({ commit }) {
+            // await this.$axios.post(dataApi.dinamicTypes.post,)
+            commit("StopDataTracking")
+
+        },
+        async change_dinamic_type({ state }, id) {
+            await this.$axios.put(dataApi.dinamicTypes.put, id)
+            commit("StopDataTracking")
         }
     }
 }

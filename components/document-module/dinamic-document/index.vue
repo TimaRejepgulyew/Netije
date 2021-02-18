@@ -1,7 +1,8 @@
 <template>
   <div>
     <DxForm :items="builder.elements"></DxForm>
-    <button @click="showBuilder">Показать всю правду</button>
+    <button @click="showBuilder" :class="{active : builder.isDataChanged}">Показать всю правду</button>
+    <button @click="saveBuilder">Спаси и сохрони</button>
   </div>
 </template>
 
@@ -38,8 +39,13 @@ export default {
   },
   methods: {
     showBuilder() {
+      console.log(this.builder);
       this.builder.addNewElement();
+      console.log(this.builder);
       // console.log(this.builder);
+    },
+    saveBuilder() {
+      this.builder.saveType();
     }
   },
   created() {
@@ -49,4 +55,9 @@ export default {
 </script>
 
 <style lang="scss">
+button {
+  &.active {
+    background-color: red;
+  }
+}
 </style>
