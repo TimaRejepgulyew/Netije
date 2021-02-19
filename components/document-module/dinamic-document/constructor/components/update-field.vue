@@ -1,30 +1,30 @@
 <template>
-  <DxForm
-    :scrolling-enabled="true"
-    ref="form"
-    :form-data="currentField"
-    :show-colon-after-label="true"
-    :show-validation-summary="false"
-    :col-count="1"
-  >
-    <DxGroupItem :caption="$t('dinamicDocuments.captions.updateField')">
-      <DxSimpleItem
-        dataField="editorType"
-        editorType="dxSelectBox"
-        :editorOptions="editorTypeOptions"
-        :isRequired="true"
-      >
-        <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
-      </DxSimpleItem>
-      <DxGroupItem v-if="!isUpdating" :items="fieldSetting" />
-      <!-- <DxButtonItem
-        name="save"
-        itemType="tabbed"
-        verticalAlignment="top"
-        :buttonOptions="saveButtonOptions"
-      /> -->
-    </DxGroupItem>
-  </DxForm>
+  <form @submit="saveAndRender">
+    <DxForm
+      :scrolling-enabled="true"
+      ref="form"
+      :form-data="currentField"
+      :show-colon-after-label="true"
+      :show-validation-summary="false"
+      :col-count="1"
+    >
+      <DxGroupItem :caption="$t('dinamicDocuments.captions.updateField')">
+        <DxButtonItem
+          horizontalAlignment="left"
+          :buttonOptions="saveButtonOptions"
+        />
+        <DxSimpleItem
+          dataField="editorType"
+          editorType="dxSelectBox"
+          :editorOptions="editorTypeOptions"
+          :isRequired="true"
+        >
+          <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
+        </DxSimpleItem>
+        <DxGroupItem v-if="!isUpdating" :items="fieldSetting" />
+      </DxGroupItem>
+    </DxForm>
+  </form>
 </template>
 
 <script>
@@ -51,7 +51,11 @@ export default {
   data() {
     return {
       isUpdating: false,
-      fieldSetting: getDefaultEditorType(this, "constructor").dataSource,
+      fieldSetting: getFieldSettingByEditorType(
+        this,
+        "constructor",
+        "DxDateBox"
+      ),
       editorTypes: editorTypes(this, "constructor"),
       currentField: {
         dateType: "Date",
@@ -74,7 +78,11 @@ export default {
 
   computed: {
     saveButtonOptions() {
-      return {};
+      return {
+        useSubmitBehavior: true,
+        icon: "save",
+        text: this.$t("dinamicDocuments.buttons.saveAndRender"),
+      };
     },
     editorTypeOptions() {
       return {
@@ -89,6 +97,11 @@ export default {
         dataSource: this.editorTypes,
         isRequired: true,
       };
+    },
+  },
+  methods: {
+    saveAndRender() {
+      // save
     },
   },
 };

@@ -37,9 +37,11 @@ class EditorTypes {
     return new DxTextBox(context, storeId).getObject();
   }
   static getEditorType(context, storeId, editortypeId) {
+    console.log(EditorTypes.DxTextBox);
     // get Editor type by id did not realize
     if (editortypeId)
-      return new DxTextBox(context, storeId).getObject().dataSource;
+      return new EditorTypes[editortypeId](context, storeId).getObject()
+        .dataSource;
     else return null;
   }
 }
