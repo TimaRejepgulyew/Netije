@@ -1,5 +1,5 @@
 <template>
-  <form @submit="saveAndRender">
+  <form @submit.prevent="saveAndRender">
     <DxForm
       :scrolling-enabled="true"
       ref="form"
@@ -92,6 +92,7 @@ export default {
           this.fieldSetting = e.selectedItem?.dataSource;
           this.isUpdating = false;
         },
+        showClearButton: true,
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,

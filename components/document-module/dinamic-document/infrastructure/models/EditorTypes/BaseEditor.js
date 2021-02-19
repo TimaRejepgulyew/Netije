@@ -26,7 +26,10 @@ export class BaseEditor {
       label: {
         text: this.context.$t("dinamicDocuments.updateField.dataField")
       },
-      isRequired: true
+      isRequired: true,
+      editorOptions: {
+        showClearButton: true
+      }
     };
   };
   _translationTk = () => {
@@ -35,7 +38,10 @@ export class BaseEditor {
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationTk")
       },
-      isRequired: true
+      isRequired: true,
+      editorOptions: {
+        showClearButton: true
+      }
     };
   };
   _translationRu = () => {
@@ -44,14 +50,22 @@ export class BaseEditor {
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationRu")
       },
-      isRequired: true
+      isRequired: true,
+      editorOptions: {
+        showClearButton: true
+      }
     };
   };
   _colSpan = () => {
     return {
       dataField: "colSpan",
       label: { text: this.context.$t("dinamicDocuments.updateField.colSpan") },
-      editorType: "dxNumberBox"
+      editorType: "dxNumberBox",
+      editorOptions: {
+        max: "2",
+        min: "1",
+        showClearButton: true
+      }
     };
   };
   _isRequired = () => {
@@ -59,6 +73,9 @@ export class BaseEditor {
       dataField: "isRequired",
       label: {
         text: this.context.$t("dinamicDocuments.updateField.isRequired")
+      },
+      editorOptions: {
+        showClearButton: true
       },
       editorType: "dxSwitch"
     };
