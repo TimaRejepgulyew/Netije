@@ -9,7 +9,7 @@
   >
     <DxGroupItem :caption="$t('dinamicDocuments.captions.updateField')">
       <DxSimpleItem
-        dataField="editorType"
+        data-field="editorType"
         editorType="dxSelectBox"
         :editorOptions="editorTypeOptions"
       >
@@ -22,27 +22,30 @@
 
 <script>
 // import EditorTypes from "../../infrastructure/models/EditorTypes";
+
+import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+
 import DxForm, {
   DxSimpleItem,
   DxGroupItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import editorTypes, {
-  getDefaultEditorType,
+  getDefaultEditorType
 } from "../../infrastructure/factory/EditorTypes.factory";
 
 export default {
   props: {
     fieldIndex: {
       type: Number,
-      default: () => null,
-    },
+      default: () => null
+    }
   },
   data() {
     return {
-      fieldSetting: getDefaultEditorType(this, "constructor").dataSource,
-      editorTypes: editorTypes(this, "constructor"),
+      // fieldSetting: getDefaultEditorType(this, "constructor").dataSource,
+      editorTypes: editorTypes(this, "constructor")
     };
   },
   components: {
@@ -50,13 +53,24 @@ export default {
     DxSimpleItem,
     DxGroupItem,
     DxRequiredRule,
-    DxLabel,
+    DxLabel
   },
 
   computed: {
+    fieldSetting() {
+      // let elem = DinamicTypeControler.getElementById(
+      //   this,
+      //   this.storeId,
+      //   this.fieldIndex
+      // );
+      let elem = {};
+      console.log(this.storeId);
+      console.log("elem", elem);
+      return elem;
+    },
     editorTypeOptions() {
       return {
-        onSelectionChanged: (e) => {
+        onSelectionChanged: e => {
           console.log(e);
         },
         valueExpr: "id",
@@ -64,7 +78,7 @@ export default {
         dataSource: this.editorTypes,
         value: "DxTextBox",
         onValueChanged: this.change,
-        isRequired: true,
+        isRequired: true
       };
     },
     currentField() {
@@ -73,7 +87,7 @@ export default {
         colSpan: 2,
         dataField: "dwadawda",
         translationTk: "tukmentçe",
-        translationRu: "Русский",
+        translationRu: "Русский"
       };
       if (this.fieldIndex === null) {
         return {};
@@ -81,50 +95,50 @@ export default {
       return this.$store.getters[
         `dinamic-document-constructor/getFieldByIndex`
       ](this.fieldIndex);
-    },
+    }
   },
   methods: {
     changeDataFied(value) {
       this.$store.dispatch("dinamicDocument/dataField", {
         index: this.fieldIndex,
-        value,
+        value
       });
     },
     changeColSpan(value) {
       this.$store.dispatch("dinamicDocument/colSpan", {
         index: this.fieldIndex,
-        value,
+        value
       });
     },
     changeEditorType(value) {
       this.$store.dispatch("dinamicDocument/editorType", {
         index: this.fieldIndex,
-        value,
+        value
       });
     },
     changeTraslation(value) {
       this.$store.dispatch("dinamicDocument/translation", {
         index: this.fieldIndex,
-        value,
+        value
       });
     },
     changeIsRequired(value) {
       this.$store.dispatch("dinamicDocument/isRequired", {
         index: this.fieldIndex,
-        value,
+        value
       });
     },
     changeIsMultiple(value) {
       this.$store.dispatch("dinamicDocument/isMultiple", {
         index: this.fieldIndex,
-        value,
+        value
       });
     },
     change(value, e) {
       // this.$store.dispatch("dinamicDocument/changeField", { fieldName, value });
       console.log(value, e);
-    },
-  },
+    }
+  }
 };
 </script>
 

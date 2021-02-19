@@ -50,13 +50,15 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 
 import saveIcon from "~/static/icons/save.svg";
 import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
+
+import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 export default {
   components: {
     DxButton,
     DxToolbar,
     DxItem
   },
-  props: ["isCard", "fieldIndex"],
+  props: ["isCard", "fieldIndex", "storeId"],
   // inject: ["trySaveDocument"],
   data() {
     return {
@@ -74,7 +76,7 @@ export default {
     addFieldButtonOptions() {
       return {
         onClick: () => {
-          this.$emit("addNewElement");
+          DinamicTypeControler.addNewElement(this, this.storeId);
         },
         icon: "plus",
         text: this.$t("dinamicDocuments.buttons.addField")
@@ -82,10 +84,13 @@ export default {
     },
     removeFieldButtonOptions() {
       return {
-        onClick: this.$store.dispatch(
-          "dinamic-documents/create/remove",
-          this.fieldIndex
-        ),
+        onClick: () => {
+          DinamicTypeControler.removeElement(
+            this,
+            this.storeId,
+            this.fieldIndex
+          );
+        },
         icon: "trash",
         text: this.$t("dinamicDocuments.buttons.removeField")
       };
@@ -101,9 +106,11 @@ export default {
       };
     },
     isDataChanged() {
-      return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
+      return this.$store.getters[`dinamicType/${this.storeId}/isDataChanged`];
     },
-
+    canUpdate() {
+      return false;
+    },
     saveButtonOptions() {
       return {
         icon: saveIcon,

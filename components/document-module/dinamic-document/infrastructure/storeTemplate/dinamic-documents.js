@@ -8,13 +8,21 @@ const obj = {
                 fieldName: "",
                 colSpan: 2,
                 isRequired: false,
-                label: {
-                    text: "Новое поле",
-                    location: "left",
-                },
+                translationRu: "Новое поле",
+                translationTk: "Taze",
                 editorOptions: {},
                 editorType: "dxTextBox"
             },
+            {
+                id: 31,
+                fieldName: "",
+                colSpan: 2,
+                isRequired: false,
+                translationRu: "Новое поле",
+                translationTk: "Taze",
+                editorOptions: {},
+                editorType: "dxTextBox"
+            }
         ],
         overlays: 0,
         isDataChanged: false,

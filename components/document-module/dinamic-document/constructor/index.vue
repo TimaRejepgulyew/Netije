@@ -1,6 +1,6 @@
 <template>
   <div v-if="builder">
-    <Toolbar @addNewElement="addNewElement" :fieldIndex="focusedFieldIndex"></Toolbar>
+    <Toolbar :fieldIndex="focusedFieldIndex" :storeId="storeId"></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -52,7 +52,7 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field slot="content" :filedIndex="focusedFieldIndex"></Update-field>
+          <Update-field slot="content" :storeId="storeId" :filedIndex="focusedFieldIndex"></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -97,6 +97,7 @@ export default {
   data() {
     return {
       focusedFieldIndex: null,
+      storeId: "constructor",
       builder: null,
       tabPanelOptions: {
         focusStateEnabled: false,
@@ -107,11 +108,17 @@ export default {
     };
   },
   methods: {
-    setFocusIndex(index) {
-      this.focusedFieldIndex = index;
+    setFocusIndex(id) {
+      console.log("id", id);
+      this.focusedFieldIndex = id;
     },
-    addNewElement() {
-      this.builder.addNewElement();
+
+    removeElement() {
+      DinamicTypeControler.removeElement(
+        this,
+        this.builder.id,
+        this.focusedFieldIndex
+      );
     }
   },
   created() {
