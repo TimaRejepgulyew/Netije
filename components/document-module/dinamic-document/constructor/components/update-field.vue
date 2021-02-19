@@ -1,5 +1,5 @@
 <template>
-  <form @submit="saveAndRender">
+  <form @submit.prevent="saveAndRender">
     <DxForm
       :scrolling-enabled="true"
       ref="form"
@@ -9,12 +9,9 @@
       :col-count="1"
     >
       <DxGroupItem :caption="$t('dinamicDocuments.captions.updateField')">
-        <DxButtonItem
-          horizontalAlignment="left"
-          :buttonOptions="saveButtonOptions"
-        />
+        <DxButtonItem horizontalAlignment="left" :buttonOptions="saveButtonOptions" />
         <DxSimpleItem
-          dataField="editorType"
+          data-field="editorType"
           editorType="dxSelectBox"
           :editorOptions="editorTypeOptions"
           :isRequired="true"
@@ -52,15 +49,10 @@ export default {
   watch: {
     fieldIndex: {
       handler: function(value) {
-        console.log(value);
         if (value) {
-          console.log(this.currentField);
-          this.currentField = DinamicTypeControler.getElementById(
-            this,
-            this.storeId,
-            value
-          );
-          console.log(this.currentField);
+          this.currentField = {
+            ...DinamicTypeControler.getElementById(this, this.storeId, value)
+          };
         }
       },
       immediate: true
@@ -99,7 +91,7 @@ export default {
       return {
         useSubmitBehavior: true,
         icon: "save",
-        text: this.$t("dinamicDocuments.buttons.saveAndRender"),
+        text: this.$t("dinamicDocuments.buttons.saveAndRender")
       };
     },
     editorTypeOptions() {
@@ -115,13 +107,13 @@ export default {
         dataSource: this.editorTypes,
         isRequired: true
       };
-    },
+    }
   },
   methods: {
     saveAndRender() {
-      // save
-    },
-  },
+      DinamicTypeControler.changeElement(this, this.storeId, this.currentField);
+    }
+  }
 };
 </script>
 

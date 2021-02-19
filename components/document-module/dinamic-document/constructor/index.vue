@@ -1,5 +1,5 @@
 <template>
-  <div v-if="builder">
+  <div>
     <Toolbar :fieldIndex="focusedFieldIndex" :storeId="storeId"></Toolbar>
     <section class="wrapper--relative">
       <DxForm
@@ -40,7 +40,7 @@
           <LifeCycleBlock :readOnly="true"></LifeCycleBlock>
         </template>
         <template #dinamic-document>
-          <Dinamic-document :items="builder.elements" @onFocusField="setFocusIndex"></Dinamic-document>
+          <Dinamic-document :documentType="storeId" @onFocusField="setFocusIndex"></Dinamic-document>
         </template>
         <template #static-field>
           <StaticField :readOnly="true"></StaticField>
@@ -76,7 +76,6 @@ import DxForm, {
   DxLabel
 } from "devextreme-vue/form";
 
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 export default {
   components: {
     CustomDrawer,
@@ -98,7 +97,6 @@ export default {
     return {
       focusedFieldIndex: null,
       storeId: "constructor",
-      builder: null,
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: false,
@@ -110,19 +108,7 @@ export default {
   methods: {
     setFocusIndex(id) {
       this.focusedFieldIndex = id;
-      console.log("focusedFieldIndex", this.focusedFieldIndex);
-    },
-
-    removeElement() {
-      DinamicTypeControler.removeElement(
-        this,
-        this.builder.id,
-        this.focusedFieldIndex
-      );
     }
-  },
-  created() {
-    this.builder = new DinamicTypeControler(this);
   }
 };
 </script>

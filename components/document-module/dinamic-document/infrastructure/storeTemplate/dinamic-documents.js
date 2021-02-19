@@ -5,29 +5,26 @@ const obj = {
         elements: [
             {
                 id: 21,
-                fieldName: "",
-                dateType: "Date",
+                dataField: "haha",
                 colSpan: 1,
                 isRequired: false,
                 translationRu: "Новое поле",
                 translationTk: "Taze",
-                editorOptions: {},
                 editorType: "dxTextBox"
             },
             {
                 id: 31,
-                fieldName: "",
-                dateType: "Date",
+                dataField: "huhu",
                 colSpan: 2,
                 isRequired: false,
                 translationRu: "Новое поле",
                 translationTk: "Taze",
-                editorOptions: {},
-                editorType: "dxTextBox"
+                editorType: "dxDateBox"
             }
         ],
         overlays: 0,
         isDataChanged: false,
+        needRerender: false,
     },
     getters: {
         getAllElements(state) {
@@ -47,6 +44,9 @@ const obj = {
         },
         isDataChanged(state) {
             return state.isDataChanged
+        },
+        needRerender(state) {
+            return state.needRerender
         }
     },
     mutations: {
@@ -68,7 +68,9 @@ const obj = {
         ChangeElement(state, payload) {
             state.elements.forEach((element, index) => {
                 if (element.id === payload.id) {
+                    state.needRerender = true
                     state.isDataChanged = true
+                    console.log("element changed", state.needRerender);
                     state.elements[index] = payload
                 }
             });
@@ -91,11 +93,19 @@ const obj = {
                 state.overlays--;
             }
         },
-        StartDataTracking(state,) {
+        StartDataTracking(state) {
             state.isDataChanged = true
         },
-        StopDataTracking(state,) {
+
+        StopDataTracking(state) {
             state.isDataChanged = false
+        },
+        StartRerender(state) {
+            state.needRerender = true
+        },
+
+        StopRerender(state) {
+            state.needRerender = false
         },
 
     },

@@ -31,7 +31,7 @@ export class BaseEditor {
   };
   _translationTk = () => {
     return {
-      dataField: "dataField",
+      dataField: "translationTk",
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationTk")
       },
@@ -40,7 +40,7 @@ export class BaseEditor {
   };
   _translationRu = () => {
     return {
-      dataField: "dataField",
+      dataField: "translationRu",
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationRu")
       },

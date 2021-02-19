@@ -3,7 +3,7 @@ import * as dinamicDocumentsStoreTemplate from "~/components/document-module/din
 import BaseItem from "~/components/document-module/dinamic-document/infrastructure/models/items/BaseItem.js"
 
 const dinamicTypeStoreModule = new StoreModule({
-    moduleName: "dinamicType",
+    moduleName: "dinamicDocumentComponents",
     storeTemplate: dinamicDocumentsStoreTemplate
 });
 
@@ -18,25 +18,17 @@ const defaultElement = {
 
 
 class DinamicTypeControler {
-    constructor(context, id) {
-        this.context = context
-        this.id = id ? id : "constructor"
-        this.store = DinamicTypeControler.generateStore(this.context, this.id)
-        this.elements = DinamicTypeControler.getElements(this.store, this.id)
-        this.isDataChanged = false
-    }
-    static generateStore(context, id) {
-        let overlay = context.$store.getters[`dinamicType/${id}/getOverlays`]
+    static generateStore(context, documentType) {
+        let overlay = context.$store.getters[`dinamicDocumentComponents/${documentType}/getOverlays`]
         if (overlay) {
-            context.$store.commit(`dinamicType/${id}/IncrementOverlays`)
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/IncrementOverlays`)
         } else {
-            dinamicTypeStoreModule.registerModule(context, id);
+            dinamicTypeStoreModule.registerModule(context, documentType);
         }
         return context.$store
-
     }
-    static getElements(store, id) {
-        return store.getters[`dinamicType/${id}/getAllElements`]
+    static getElements(context, documentType) {
+        return context.$store.getters[`dinamicDocumentComponents/${documentType}/getAllElements`]
     }
     static generateId() {
         let date = new Date().getDate()
@@ -44,51 +36,49 @@ class DinamicTypeControler {
         let randomNumber = Math.floor(Math.random() * (1000000 - 1 + 1)) + 1
         return date + seconds + randomNumber
     }
-    static getElementById(context, storeId, elementId) {
-        console.log("context",context);
-        console.log("storeId",storeId);
-        console.log("elementId",elementId);
-        return context.$store.getters[`dinamicType/${storeId}/getElementById`](elementId)
+    static getElementById(context, documentType, elementId) {
+        return context.$store.getters[`dinamicDocumentComponents/${documentType}/getElementById`](elementId)
     }
-    static removeElement(context, storeId, elementId) {
-        console.log("context", context);
-        console.log("storeId", storeId);
-        console.log("elementId", elementId);
-        context.$store.commit(`dinamicType/${storeId}/RemoveElement`, elementId)
+    static removeElement(context, documentType, elementId) {
+        context.$store.commit(`dinamicDocumentComponents/${documentType}/RemoveElement`, elementId)
     }
-    static changeElement(context, storeId, newElement) {
-        context.$store.commit(`dinamicType/${storeId}/ChangeElement`, newElement)
+    static changeElement(context, documentType, newElement) {
+        context.$store.commit(`dinamicDocumentComponents/${documentType}/ChangeElement`, newElement)
     }
-    static removeStore(context, storeId) {
-        let overlay = context.$store.getters[`dinamicType/${storeId}/getOverlays`]
+    static removeStore(context, documentType) {
+        let overlay = context.$store.getters[`dinamicDocumentComponents/${documentType}/getOverlays`]
         if (overlay) {
-            context.$store.commit(`dinamicType/${storeId}/DecrementOverlays`)
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/DecrementOverlays`)
         } else {
-            dinamicTypeStoreModule.unregisterModule(context, storeId);
+            dinamicTypeStoreModule.unregisterModule(context, documentType);
         }
     }
-    checkDataChanged() {
-        this.isDataChanged = this.store.getters[`dinamicType/${this.id}/isDataChanged`]
-    }
-    static addNewElement(context, storeId, elementId) {
+    static addNewElement(context, documentType, elementId) {
         const newItem = {
             id: DinamicTypeControler.generateId(),
             ...defaultElement
         }
         if (elementId) {
-            context.$store.commit(`dinamicType/${storeId}/IntroduceElement`, { elementId, payload: newItem })
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/IntroduceElement`, { elementId, payload: newItem })
         } else {
-            context.$store.commit(`dinamicType/${storeId}/AddNewElement`, newItem)
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/AddNewElement`, newItem)
         }
-        // checkDataChanged()
     }
+    static renderForm(context, documentType) {
+        context.$store.commit(`dinamicDocumentComponents/${documentType}/StartRerender`)
+        setTimeout(() => {
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/StopRerender`)
+        }, 1000)
+    }
+    // checkDataChanged() {
+    //     this.isDataChanged = this.store.getters[`dinamicDocumentComponents/${this.id}/isDataChanged`]
+    // }
     saveType(id) {
         if (this.id === "constructor") {
-            this.store.dispatch(`dinamicType/${this.id}/create_dinamic_type`)
+            this.store.dispatch(`dinamicDocumentComponents/${this.id}/create_dinamic_type`)
         } else {
-            this.store.dispatch(`dinamicType/${this.id}/change_dinamic_type`, id)
+            this.store.dispatch(`dinamicDocumentComponents/${this.id}/change_dinamic_type`, id)
         }
-        this.checkDataChanged()
     }
 
 }
