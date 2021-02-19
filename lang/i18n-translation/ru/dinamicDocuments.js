@@ -35,6 +35,7 @@ export default {
   buttons: {
     addField: "Добавить поле",
     addFieldUnder: "Добавить поле под",
-    removeField: "Удалить поле"
+    removeField: "Удалить поле",
+    saveAndRender: "Сохранить и отрендерить"
   }
 };
