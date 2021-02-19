@@ -5,7 +5,7 @@ const editorType = {
   DxCheckBox: "DxCheckBox",
   DxTextArea: "DxTextArea",
   EmployeeBox: "EmployeeBox",
-  Recipient: "RecipientBox",
+  RecipientBox: "RecipientBox",
   BusinessUnitBox: "BusinessUnitBox",
   DepartmentBox: "DepartmentBox",
   DocumentBox: "DocumentBox",

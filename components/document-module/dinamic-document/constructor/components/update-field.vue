@@ -2,7 +2,7 @@
   <DxForm
     :scrolling-enabled="true"
     ref="form"
-    :form-data="{ test: 'nnn', best: 'mmm' }"
+    :form-data="currentField"
     :show-colon-after-label="true"
     :show-validation-summary="false"
     :col-count="1"
@@ -12,10 +12,17 @@
         data-field="editorType"
         editorType="dxSelectBox"
         :editorOptions="editorTypeOptions"
+        :isRequired="true"
       >
         <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
       </DxSimpleItem>
-      <DxGroupItem :items="fieldSetting" />
+      <DxGroupItem v-if="!isUpdating" :items="fieldSetting" />
+      <!-- <DxButtonItem
+        name="save"
+        itemType="tabbed"
+        verticalAlignment="top"
+        :buttonOptions="saveButtonOptions"
+      /> -->
     </DxGroupItem>
   </DxForm>
 </template>
@@ -29,10 +36,12 @@ import DxForm, {
   DxSimpleItem,
   DxGroupItem,
   DxRequiredRule,
-  DxLabel
+  DxButtonItem,
+  DxLabel,
 } from "devextreme-vue/form";
 import editorTypes, {
-  getDefaultEditorType
+  getDefaultEditorType,
+  getFieldSettingByEditorType,
 } from "../../infrastructure/factory/EditorTypes.factory";
 
 export default {
@@ -44,8 +53,17 @@ export default {
   },
   data() {
     return {
-      // fieldSetting: getDefaultEditorType(this, "constructor").dataSource,
-      editorTypes: editorTypes(this, "constructor")
+      isUpdating: false,
+      fieldSetting: getDefaultEditorType(this, "constructor").dataSource,
+      editorTypes: editorTypes(this, "constructor"),
+      currentField: {
+        dateType: "Date",
+        editorType: "EmployeeBox",
+        colSpan: 2,
+        dataField: "Сотрудник",
+        translationTk: "tukmentçe",
+        translationRu: "Русский",
+      },
     };
   },
   components: {
@@ -53,92 +71,29 @@ export default {
     DxSimpleItem,
     DxGroupItem,
     DxRequiredRule,
-    DxLabel
+    DxLabel,
+    DxButtonItem,
   },
 
   computed: {
-    fieldSetting() {
-      // let elem = DinamicTypeControler.getElementById(
-      //   this,
-      //   this.storeId,
-      //   this.fieldIndex
-      // );
-      let elem = {};
-      console.log(this.storeId);
-      console.log("elem", elem);
-      return elem;
+    saveButtonOptions() {
+      return {};
     },
     editorTypeOptions() {
       return {
-        onSelectionChanged: e => {
-          console.log(e);
+        onSelectionChanged: (e) => {
+          // if (e.selectedItem?.dataSource !== this.fieldSetting)
+          this.isUpdating = true;
+          this.fieldSetting = e.selectedItem?.dataSource;
+          this.isUpdating = false;
         },
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,
-        value: "DxTextBox",
-        onValueChanged: this.change,
-        isRequired: true
+        isRequired: true,
       };
     },
-    currentField() {
-      return {
-        editorType: 0,
-        colSpan: 2,
-        dataField: "dwadawda",
-        translationTk: "tukmentçe",
-        translationRu: "Русский"
-      };
-      if (this.fieldIndex === null) {
-        return {};
-      }
-      return this.$store.getters[
-        `dinamic-document-constructor/getFieldByIndex`
-      ](this.fieldIndex);
-    }
   },
-  methods: {
-    changeDataFied(value) {
-      this.$store.dispatch("dinamicDocument/dataField", {
-        index: this.fieldIndex,
-        value
-      });
-    },
-    changeColSpan(value) {
-      this.$store.dispatch("dinamicDocument/colSpan", {
-        index: this.fieldIndex,
-        value
-      });
-    },
-    changeEditorType(value) {
-      this.$store.dispatch("dinamicDocument/editorType", {
-        index: this.fieldIndex,
-        value
-      });
-    },
-    changeTraslation(value) {
-      this.$store.dispatch("dinamicDocument/translation", {
-        index: this.fieldIndex,
-        value
-      });
-    },
-    changeIsRequired(value) {
-      this.$store.dispatch("dinamicDocument/isRequired", {
-        index: this.fieldIndex,
-        value
-      });
-    },
-    changeIsMultiple(value) {
-      this.$store.dispatch("dinamicDocument/isMultiple", {
-        index: this.fieldIndex,
-        value
-      });
-    },
-    change(value, e) {
-      // this.$store.dispatch("dinamicDocument/changeField", { fieldName, value });
-      console.log(value, e);
-    }
-  }
 };
 </script>
 

@@ -10,7 +10,6 @@
     >
       <template #autocomlete="{ data }">
         <AutocomleteTextArea
-          :visible="data.ed"
           @focusIn="(value) => data.editorOptions.onFocusIn()"
           value="test"
           :options="{}"
@@ -49,9 +48,8 @@ export default {
     },
     change(value, e) {
       this.$store.dispatch("dinamicDocument/changeField", { e, value });
-      console.log(value, e);
-    }
-  }
+    },
+  },
 };
 </script>
 
