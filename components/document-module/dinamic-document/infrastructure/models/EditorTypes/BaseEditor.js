@@ -26,9 +26,6 @@ export class BaseEditor {
       label: {
         text: this.context.$t("dinamicDocuments.updateField.dataField")
       },
-      editorOptions: {
-        onValueChanged: this._changeDataFied
-      },
       isRequired: true
     };
   };
@@ -37,9 +34,6 @@ export class BaseEditor {
       dataField: "dataField",
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationTk")
-      },
-      editorOptions: {
-        onValueChanged: this._changeTranslationTk
       },
       isRequired: true
     };
@@ -50,18 +44,12 @@ export class BaseEditor {
       label: {
         text: this.context.$t("dinamicDocuments.updateField.translationRu")
       },
-      editorOptions: {
-        onValueChanged: this._changeTranslationRu
-      },
       isRequired: true
     };
   };
   _colSpan = () => {
     return {
       dataField: "colSpan",
-      editorOptions: {
-        onValueChanged: this._changeColSpan
-      },
       label: { text: this.context.$t("dinamicDocuments.updateField.colSpan") },
       editorType: "dxNumberBox"
     };
@@ -69,30 +57,27 @@ export class BaseEditor {
   _isRequired = () => {
     return {
       dataField: "isRequired",
-      editorOptions: {
-        onValueChanged: this._changeIsRequired
-      },
       label: {
         text: this.context.$t("dinamicDocuments.updateField.isRequired")
       },
       editorType: "dxSwitch"
     };
   };
-  _isMultiple = () => {
-    return {
-      dataField: "isMultiple",
-      editorOptions: {
-        // onValueChanged: this.change
-      },
-      label: {
-        text: this.context.$t("dinamicDocuments.updateField.isMultiple")
-      },
-      editorType: "dxSwitch"
-    };
-  };
+  // _isMultiple = () => {
+  //   return {
+  //     dataField: "isMultiple",
+  //     editorOptions: {
+  //       // onValueChanged: this.change
+  //     },
+  //     label: {
+  //       text: this.context.$t("dinamicDocuments.updateField.isMultiple")
+  //     },
+  //     editorType: "dxSwitch"
+  //   };
+  // };
   get fieldSetting() {
     return [
-      this._isMultiple(),
+      // this._isMultiple(),
       this._isRequired(),
       this._colSpan(),
       this._translationRu(),

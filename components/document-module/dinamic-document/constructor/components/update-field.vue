@@ -17,6 +17,12 @@
         <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
       </DxSimpleItem>
       <DxGroupItem v-if="!isUpdating" :items="fieldSetting" />
+      <DxButtonItem
+        name="save"
+        itemType="tabbed"
+        verticalAlignment="top"
+        :buttonOptions="saveButtonOptions"
+      />
     </DxGroupItem>
   </DxForm>
 </template>
@@ -27,6 +33,7 @@ import DxForm, {
   DxSimpleItem,
   DxGroupItem,
   DxRequiredRule,
+  DxButtonItem,
   DxLabel,
 } from "devextreme-vue/form";
 import editorTypes, {
@@ -47,6 +54,7 @@ export default {
       fieldSetting: getDefaultEditorType(this, "constructor").dataSource,
       editorTypes: editorTypes(this, "constructor"),
       currentField: {
+        dateType: "Date",
         editorType: "EmployeeBox",
         colSpan: 2,
         dataField: "Сотрудник",
@@ -61,14 +69,13 @@ export default {
     DxGroupItem,
     DxRequiredRule,
     DxLabel,
+    DxButtonItem,
   },
 
   computed: {
     editorTypeOptions() {
       return {
         onSelectionChanged: (e) => {
-          console.log(e.selectedItem);
-          console.log(this);
           // if (e.selectedItem?.dataSource !== this.fieldSetting)
           this.isUpdating = true;
           this.fieldSetting = e.selectedItem?.dataSource;

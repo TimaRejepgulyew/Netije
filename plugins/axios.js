@@ -15,8 +15,8 @@ export default function({ store, app: { router, $axios, i18n } }) {
       if (error.response.status === 404) {
         router.push("/error/404");
         return;
-      } 
-       if (
+      }
+      if (
         error.response.headers["content-type"] ===
         "application/problem+json; charset=utf-8"
       ) {
@@ -40,10 +40,8 @@ export default function({ store, app: { router, $axios, i18n } }) {
           );
         }
       } else {
-        console.log(error);
       }
     } catch (e) {
-      console.log(error);
       console.log(e);
     }
   });

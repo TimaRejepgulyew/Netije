@@ -66,7 +66,6 @@ export default {
           };
         }
         onFocusIn() {
-          console.log(this.index);
           this.context.$emit("onFocusField", this.index);
         }
       }
@@ -152,7 +151,6 @@ export default {
   methods: {
     change(value, e) {
       this.$store.dispatch("dinamicDocument/changeField", { e, value });
-      console.log(value, e);
     },
   },
 };
