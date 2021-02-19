@@ -2,6 +2,7 @@ export default {
   freeApprovalTasks: "Ylalyşyk",
   addNewRecipient: "Hukuklaryň täze kabul edijilerini goşuň",
   addDocumentKind: "Resminama görnüşini goşuň",
+  addDocumentType: "Resminama görnüşini goşuň",
   addendum: "Resminama goşundy",
   memo: "Gulluk ýazgysy",
   order: "Buýruk",

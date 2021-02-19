@@ -20,25 +20,17 @@
             template="businessUnitSelectBox"
           >
             <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
-            <DxRequiredRule
-              :message="$t('document.validation.businessUnitIdRequired')"
-            />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="departmentId"
-            template="departmentSelectBox"
-            >
+            template="departmentSelectBox">
               <DxLabel location="top" :text="$t('document.fields.departmentId')" />
-              <DxRequiredRule
-                :message="$t('document.validation.departmentIdRequired')"
-              />
             </DxSimpleItem>
         </DxGroupItem>
         <template #businessUnitSelectBox>
           <business-unit-select-box
             valueExpr="id"
             :value="businessUnitId"
-            validatorGroup="personalSettings"
             @valueChanged=" (data) => {
                             setBusinessUnitId(data)
                             setDepartmentId(null)
@@ -49,7 +41,6 @@
           <department-select-box
             valueExpr="id"
             :value="departmentId"
-            validatorGroup="personalSettings"
             :businessUnitId="businessUnitId"
             @valueChanged="(data) => {
                             setDepartmentId(data)
@@ -61,14 +52,12 @@
   </div>
 </template>
 <script>
+
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import EntityType from "~/infrastructure/constants/entityTypes";
-import Status from "~/infrastructure/constants/status";
-import { DxTagBox } from "devextreme-vue/tag-box";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,

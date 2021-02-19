@@ -2,6 +2,7 @@ export default {
   freeApprovalTasks: "Согласование",
   addNewRecipient: "Добавить субъект прав",
   addDocumentKind: "Добавление вида документа",
+  addDocumentType: "Добавление типа документа",
   addendum: "Приложение к документу",
   memo: "Служебная записка",
   order: "Приказ",

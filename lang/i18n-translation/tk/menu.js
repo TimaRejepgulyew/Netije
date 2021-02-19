@@ -33,6 +33,7 @@ export default {
   documentRegister: "Bellige alyş kitapçalary",
   documentType: "Resminamanyň görnüşi",
   documentKind: "Resminama görnüşleri",
+  documentType: "Resminamalaryň görnüşi",
   registrationSetting: "Bellige alyş sazlamalary",
   registrationGroup: "Bellige alyş toparlary",
   contacts: "Habarlaşmak üçin belgiler",

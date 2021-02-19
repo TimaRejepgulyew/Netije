@@ -1,16 +1,10 @@
-import personalSettingIcon from "~/static/icons/doc-flow-icon/personalSettingIcon.svg";
 import documentSettingIcon from "~/static/icons/doc-flow-icon/documentSettingIcon.svg";
 import regSettingIcon from "~/static/icons/doc-flow-icon/regSettingIcon.svg";
 import caseFileSettingIcon from "~/static/icons/doc-flow-icon/caseFileSettingIcon.svg";
 import associatedAppSettingIcon from "~/static/icons/doc-flow-icon/associatedAppSettingIcon.svg";
 import EntityType from "~/infrastructure/constants/entityTypes";
+
 export default function (context) {
-  function mySettingVisible() {
-    return (
-      context.$store.getters["permissions/isUser"] &&
-      isVisible(EntityType.PersonalSettings)
-    );
-  }
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
@@ -21,19 +15,6 @@ export default function (context) {
     return `/docFlow/${detail}`;
   };
   const docFlowItem = [
-    {
-      icon: personalSettingIcon,
-      title: context.$t("docFlow.personalSetting.title"),
-      visible: mySettingVisible(),
-      items: [
-        {
-          name: context.$t("docFlow.personalSetting.mySetting"),
-          description: context.$t("docFlow.personalSetting.mySettingDescr"),
-          path: pathGenerate("personal-settings"),
-          visible: mySettingVisible()
-        }
-      ]
-    },
     {
       icon: documentSettingIcon,
       title: context.$t("docFlow.documentSetting.title"),
@@ -46,6 +27,12 @@ export default function (context) {
           description: context.$t("docFlow.documentSetting.docKindDescr"),
           path: pathGenerate("document-kind"),
           visible: isVisible(EntityType.DocumentKind)
+        },
+        {
+          name: context.$t("docFlow.documentSetting.docType"),
+          description: context.$t("docFlow.documentSetting.docTypeDescr"),
+          path: pathGenerate("document-type"),
+          visible: isAdmin()
         },
         {
           name: context.$t("docFlow.documentSetting.categories"),

@@ -1,12 +1,7 @@
 <template>
   <div class="navBar">
     <DxToolbar>
-      <DxItem
-        locateInMenu="auto"
-        :options="saveButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
+      <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
         locateInMenu="auto"
         :options="saveAndBackButtonOptions"
@@ -33,11 +28,7 @@
         location="before"
         widget="dxButton"
       />
-      <DxItem
-        :options="removeDocumentButtonOptions"
-        location="after"
-        widget="dxButton"
-      />
+      <DxItem :options="removeDocumentButtonOptions" location="after" widget="dxButton" />
     </DxToolbar>
   </div>
 </template>
@@ -59,13 +50,15 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 
 import saveIcon from "~/static/icons/save.svg";
 import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
+
+import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 export default {
   components: {
     DxButton,
     DxToolbar,
-    DxItem,
+    DxItem
   },
-  props: ["isCard", "fieldIndex"],
+  props: ["isCard", "fieldIndex", "storeId"],
   // inject: ["trySaveDocument"],
   data() {
     return {
@@ -75,26 +68,31 @@ export default {
         type: "back",
         onClick: () => {
           this.$router.go(-1);
-        },
-      },
+        }
+      }
     };
   },
   computed: {
     addFieldButtonOptions() {
       return {
-        onClick: this.$store.dispatch("dinamic-documents/create/addField"),
+        onClick: () => {
+          DinamicTypeControler.addNewElement(this, this.storeId);
+        },
         icon: "plus",
-        text: this.$t("dinamicDocuments.buttons.addField"),
+        text: this.$t("dinamicDocuments.buttons.addField")
       };
     },
     removeFieldButtonOptions() {
       return {
-        onClick: this.$store.dispatch(
-          "dinamic-documents/create/remove",
-          this.fieldIndex
-        ),
+        onClick: () => {
+          DinamicTypeControler.removeElement(
+            this,
+            this.storeId,
+            this.fieldIndex
+          );
+        },
         icon: "trash",
-        text: this.$t("dinamicDocuments.buttons.removeField"),
+        text: this.$t("dinamicDocuments.buttons.removeField")
       };
     },
     createFieldUnderButtonOptions() {
@@ -104,18 +102,20 @@ export default {
           this.fieldIndex
         ),
         icon: "plus",
-        text: this.$t("dinamicDocuments.addFieldUnderUnder"),
+        text: this.$t("dinamicDocuments.addFieldUnderUnder")
       };
     },
     isDataChanged() {
-      return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
+      return this.$store.getters[`dinamicType/${this.storeId}/isDataChanged`];
     },
-
+    canUpdate() {
+      return false;
+    },
     saveButtonOptions() {
       return {
         icon: saveIcon,
         disabled: !this.canUpdate || !this.isDataChanged,
-        onClick: async () => {},
+        onClick: async () => {}
       };
     },
     saveAndBackButtonOptions() {
@@ -123,7 +123,7 @@ export default {
         icon: saveAndCloseIcon,
         hint: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate || !this.isDataChanged,
-        onClick: async () => {},
+        onClick: async () => {}
       };
     },
     removeDocumentButtonOptions() {
@@ -136,21 +136,21 @@ export default {
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then((dialogResult) => {
+          result.then(dialogResult => {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$store.dispatch(`documents/${this.documentId}/delete`),
-                (e) => {
+                e => {
                   this.$emit("onRemove");
                   this.$awn.success();
                 },
-                (e) => {
+                e => {
                   this.$awn.alert();
                 }
               );
             }
           });
-        },
+        }
       };
     },
     refreshButtonOptions() {
@@ -162,10 +162,10 @@ export default {
             refresh(this, { documentTypeGuid, documentId: id }),
             () => {}
           );
-        },
+        }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

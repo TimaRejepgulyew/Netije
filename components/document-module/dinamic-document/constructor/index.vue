@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Toolbar :fieldIndex="focusedFieldIndex"></Toolbar>
+    <Toolbar :fieldIndex="focusedFieldIndex" :storeId="storeId"></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -34,16 +34,13 @@
                 :col-count="8"
                 :caption="$t('dinamicDocuments.captions.dinamic')"
               >
-                <DxSimpleItem
-                  :col-span="8"
-                  template="dinamic-document"
-                ></DxSimpleItem>
+                <DxSimpleItem :col-span="8" template="dinamic-document"></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
         </DxTabbedItem>
         <template #dinamic-document>
-          <Dinamic-document @onFocusField="setFocusIndex"></Dinamic-document>
+          <Dinamic-document :documentType="storeId" @onFocusField="setFocusIndex"></Dinamic-document>
         </template>
       </DxForm>
       <transition name="fade">
@@ -52,10 +49,7 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field
-            slot="content"
-            :filedIndex="focusedFieldIndex"
-          ></Update-field>
+          <Update-field slot="content" :storeId="storeId" :fieldIndex="focusedFieldIndex"></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -74,8 +68,9 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
+
 export default {
   components: {
     CustomDrawer,
@@ -88,7 +83,7 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm,
+    DxForm
   },
   provide: function () {
     return {
@@ -99,12 +94,13 @@ export default {
   data() {
     return {
       focusedFieldIndex: null,
+      storeId: "constructor",
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true",
-      },
+        loop: "true"
+      }
     };
   },
   computed: {

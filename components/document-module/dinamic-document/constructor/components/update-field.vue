@@ -9,12 +9,9 @@
       :col-count="1"
     >
       <DxGroupItem :caption="$t('dinamicDocuments.captions.updateField')">
-        <DxButtonItem
-          horizontalAlignment="left"
-          :buttonOptions="saveButtonOptions"
-        />
+        <DxButtonItem horizontalAlignment="left" :buttonOptions="saveButtonOptions" />
         <DxSimpleItem
-          dataField="editorType"
+          data-field="editorType"
           editorType="dxSelectBox"
           :editorOptions="editorTypeOptions"
           :isRequired="true"
@@ -29,24 +26,37 @@
 
 <script>
 // import EditorTypes from "../../infrastructure/models/EditorTypes";
+
+import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+
 import DxForm, {
   DxSimpleItem,
   DxGroupItem,
   DxRequiredRule,
   DxButtonItem,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import editorTypes, {
   getDefaultEditorType,
-  getFieldSettingByEditorType,
+  getFieldSettingByEditorType
 } from "../../infrastructure/factory/EditorTypes.factory";
 
 export default {
   props: {
+    fieldIndex: {},
+    storeId: {}
+  },
+  watch: {
     fieldIndex: {
-      type: Number,
-      default: () => null,
-    },
+      handler: function(value) {
+        if (value) {
+          this.currentField = {
+            ...DinamicTypeControler.getElementById(this, this.storeId, value)
+          };
+        }
+      },
+      immediate: true
+    }
   },
   data() {
     return {
@@ -63,8 +73,8 @@ export default {
         colSpan: 2,
         dataField: "Сотрудник",
         translationTk: "tukmentçe",
-        translationRu: "Русский",
-      },
+        translationRu: "Русский"
+      }
     };
   },
   components: {
@@ -73,7 +83,7 @@ export default {
     DxGroupItem,
     DxRequiredRule,
     DxLabel,
-    DxButtonItem,
+    DxButtonItem
   },
 
   computed: {
@@ -81,12 +91,12 @@ export default {
       return {
         useSubmitBehavior: true,
         icon: "save",
-        text: this.$t("dinamicDocuments.buttons.saveAndRender"),
+        text: this.$t("dinamicDocuments.buttons.saveAndRender")
       };
     },
     editorTypeOptions() {
       return {
-        onSelectionChanged: (e) => {
+        onSelectionChanged: e => {
           // if (e.selectedItem?.dataSource !== this.fieldSetting)
           this.isUpdating = true;
           this.fieldSetting = e.selectedItem?.dataSource;
@@ -96,15 +106,15 @@ export default {
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,
-        isRequired: true,
+        isRequired: true
       };
-    },
+    }
   },
   methods: {
     saveAndRender() {
-      // save
-    },
-  },
+      DinamicTypeControler.changeElement(this, this.storeId, this.currentField);
+    }
+  }
 };
 </script>
 
