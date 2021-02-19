@@ -17,12 +17,12 @@
         <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
       </DxSimpleItem>
       <DxGroupItem v-if="!isUpdating" :items="fieldSetting" />
-      <DxButtonItem
+      <!-- <DxButtonItem
         name="save"
         itemType="tabbed"
         verticalAlignment="top"
         :buttonOptions="saveButtonOptions"
-      />
+      /> -->
     </DxGroupItem>
   </DxForm>
 </template>
@@ -73,6 +73,9 @@ export default {
   },
 
   computed: {
+    saveButtonOptions() {
+      return {};
+    },
     editorTypeOptions() {
       return {
         onSelectionChanged: (e) => {
