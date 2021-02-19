@@ -52,7 +52,7 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field slot="content" :storeId="storeId" :filedIndex="focusedFieldIndex"></Update-field>
+          <Update-field slot="content" :storeId="storeId" :fieldIndex="focusedFieldIndex"></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -109,8 +109,8 @@ export default {
   },
   methods: {
     setFocusIndex(id) {
-      console.log("id", id);
       this.focusedFieldIndex = id;
+      console.log("focusedFieldIndex", this.focusedFieldIndex);
     },
 
     removeElement() {

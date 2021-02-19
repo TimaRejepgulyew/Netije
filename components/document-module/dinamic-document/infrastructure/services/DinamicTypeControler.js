@@ -45,6 +45,9 @@ class DinamicTypeControler {
         return date + seconds + randomNumber
     }
     static getElementById(context, storeId, elementId) {
+        console.log("context",context);
+        console.log("storeId",storeId);
+        console.log("elementId",elementId);
         return context.$store.getters[`dinamicType/${storeId}/getElementById`](elementId)
     }
     static removeElement(context, storeId, elementId) {

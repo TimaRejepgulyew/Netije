@@ -6,7 +6,8 @@ const obj = {
             {
                 id: 21,
                 fieldName: "",
-                colSpan: 2,
+                dateType: "Date",
+                colSpan: 1,
                 isRequired: false,
                 translationRu: "Новое поле",
                 translationTk: "Taze",
@@ -16,6 +17,7 @@ const obj = {
             {
                 id: 31,
                 fieldName: "",
+                dateType: "Date",
                 colSpan: 2,
                 isRequired: false,
                 translationRu: "Новое поле",

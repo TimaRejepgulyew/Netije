@@ -22,7 +22,7 @@
         itemType="tabbed"
         verticalAlignment="top"
         :buttonOptions="saveButtonOptions"
-      /> -->
+      />-->
     </DxGroupItem>
   </DxForm>
 </template>
@@ -37,18 +37,33 @@ import DxForm, {
   DxGroupItem,
   DxRequiredRule,
   DxButtonItem,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import editorTypes, {
   getDefaultEditorType,
-  getFieldSettingByEditorType,
+  getFieldSettingByEditorType
 } from "../../infrastructure/factory/EditorTypes.factory";
 
 export default {
   props: {
+    fieldIndex: {},
+    storeId: {}
+  },
+  watch: {
     fieldIndex: {
-      type: Number,
-      default: () => null
+      handler: function(value) {
+        console.log(value);
+        if (value) {
+          console.log(this.currentField);
+          this.currentField = DinamicTypeControler.getElementById(
+            this,
+            this.storeId,
+            value
+          );
+          console.log(this.currentField);
+        }
+      },
+      immediate: true
     }
   },
   data() {
@@ -62,8 +77,8 @@ export default {
         colSpan: 2,
         dataField: "Сотрудник",
         translationTk: "tukmentçe",
-        translationRu: "Русский",
-      },
+        translationRu: "Русский"
+      }
     };
   },
   components: {
@@ -72,7 +87,7 @@ export default {
     DxGroupItem,
     DxRequiredRule,
     DxLabel,
-    DxButtonItem,
+    DxButtonItem
   },
 
   computed: {
@@ -81,7 +96,7 @@ export default {
     },
     editorTypeOptions() {
       return {
-        onSelectionChanged: (e) => {
+        onSelectionChanged: e => {
           // if (e.selectedItem?.dataSource !== this.fieldSetting)
           this.isUpdating = true;
           this.fieldSetting = e.selectedItem?.dataSource;
@@ -90,10 +105,10 @@ export default {
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,
-        isRequired: true,
+        isRequired: true
       };
-    },
-  },
+    }
+  }
 };
 </script>
 
