@@ -64,12 +64,6 @@ class DinamicTypeControler {
             context.$store.commit(`dinamicDocumentComponents/${documentType}/AddNewElement`, newItem)
         }
     }
-    static renderForm(context, documentType) {
-        context.$store.commit(`dinamicDocumentComponents/${documentType}/StartRerender`)
-        setTimeout(() => {
-            context.$store.commit(`dinamicDocumentComponents/${documentType}/StopRerender`)
-        }, 1000)
-    }
     // checkDataChanged() {
     //     this.isDataChanged = this.store.getters[`dinamicDocumentComponents/${this.id}/isDataChanged`]
     // }

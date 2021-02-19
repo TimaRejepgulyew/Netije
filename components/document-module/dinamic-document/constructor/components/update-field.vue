@@ -53,6 +53,7 @@ export default {
           this.currentField = {
             ...DinamicTypeControler.getElementById(this, this.storeId, value)
           };
+          console.log(this.currentField);
         }
       },
       immediate: true
