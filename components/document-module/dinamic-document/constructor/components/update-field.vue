@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 import DxForm, {
   DxSimpleItem,
   DxGroupItem,
@@ -36,6 +35,8 @@ import DxForm, {
   DxButtonItem,
   DxLabel,
 } from "devextreme-vue/form";
+import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+import { FieldGenerator } from "../../infrastructure/services/dinamicFieldDatagenerator";
 import editorTypes, {
   getDefaultEditorType,
   getFieldSettingByEditorType,
@@ -76,7 +77,7 @@ export default {
         "dxDateBox"
       ),
       editorTypes: editorTypes(this, "constructor"),
-      currentField: {}
+      currentField: {},
     };
   },
   components: {
@@ -98,28 +99,17 @@ export default {
     },
     editorTypeOptions() {
       return {
-        onSelectionChanged: e => {
+        onValueChanged: (e) => {
+          this.currentField = FieldGenerator.generatorData({
+            editorType: e.value,
+            fieldData: this.currentField,
+          });
+          console.log(this.currentField);
+        },
+        onSelectionChanged: (e) => {
           this.isUpdating = true;
           this.fieldSetting = e.selectedItem?.dataSource;
           this.isUpdating = false;
-          // const currentFieldArray = Object.entries(this.currentField);
-          // const fieldSett = [...this.fieldSetting];
-          // let res = currentFieldArray.filter(el => {
-          //   if (el[0] === "id") {
-          //     return true;
-          //   }
-          //   return fieldSett.some(element => {
-          //     return element.dataField === el[0];
-          //   });
-          // });
-          // res = Object.fromEntries(res);
-          // console.log(res);
-          // for (let key in this.currentField) {
-          //   delete this.currentField[key];
-          // }
-          // for (let key in res) {
-          //   this.$set(this.currentField, key, res[ley]);
-          // }
         },
         showClearButton: true,
         valueExpr: "id",
@@ -133,8 +123,8 @@ export default {
     saveAndRender() {
       console.log(this.currentField);
       // DinamicTypeControler.changeElement(this, this.documentType, this.currentField);
-    }
-  }
+    },
+  },
 };
 </script>
 

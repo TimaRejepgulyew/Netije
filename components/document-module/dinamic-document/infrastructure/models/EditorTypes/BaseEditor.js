@@ -5,6 +5,20 @@ export class BaseEditor {
     this._setBaseValue(context, value);
     this._setStoreId(storeId);
   }
+  static get baseSettingField() {
+    return ["id", "dataField", "translationRu", "translationTk", "editorType"];
+  }
+  static clearFields(prevField) {
+    let baseFields = BaseEditor.baseSettingField;
+    let fieldArray = Object.entries(prevField);
+    return Object.fromEntries(
+      fieldArray.filter(el => {
+        return baseFields.some(field => {
+          return field === el[0];
+        });
+      })
+    );
+  }
   getObject() {
     return {
       text: this.text,
