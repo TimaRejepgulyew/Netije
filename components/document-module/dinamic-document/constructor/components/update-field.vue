@@ -44,16 +44,19 @@ import editorTypes, {
 export default {
   props: {
     fieldIndex: {},
-    storeId: {}
+    documentType: {}
   },
   watch: {
     fieldIndex: {
       handler: function(value) {
         if (value) {
           this.currentField = {
-            ...DinamicTypeControler.getElementById(this, this.storeId, value)
+            ...DinamicTypeControler.getElementById(
+              this,
+              this.documentType,
+              value
+            )
           };
-          console.log(this.currentField);
         }
       },
       immediate: true
@@ -68,14 +71,7 @@ export default {
         "DxDateBox"
       ),
       editorTypes: editorTypes(this, "constructor"),
-      currentField: {
-        dateType: "Date",
-        editorType: "EmployeeBox",
-        colSpan: 2,
-        dataField: "Сотрудник",
-        translationTk: "tukmentçe",
-        translationRu: "Русский"
-      }
+      currentField: {}
     };
   },
   components: {
@@ -98,10 +94,27 @@ export default {
     editorTypeOptions() {
       return {
         onSelectionChanged: e => {
-          // if (e.selectedItem?.dataSource !== this.fieldSetting)
           this.isUpdating = true;
           this.fieldSetting = e.selectedItem?.dataSource;
           this.isUpdating = false;
+          // const currentFieldArray = Object.entries(this.currentField);
+          // const fieldSett = [...this.fieldSetting];
+          // let res = currentFieldArray.filter(el => {
+          //   if (el[0] === "id") {
+          //     return true;
+          //   }
+          //   return fieldSett.some(element => {
+          //     return element.dataField === el[0];
+          //   });
+          // });
+          // res = Object.fromEntries(res);
+          // console.log(res);
+          // for (let key in this.currentField) {
+          //   delete this.currentField[key];
+          // }
+          // for (let key in res) {
+          //   this.$set(this.currentField, key, res[ley]);
+          // }
         },
         valueExpr: "id",
         displayExpr: "text",
@@ -112,7 +125,8 @@ export default {
   },
   methods: {
     saveAndRender() {
-      DinamicTypeControler.changeElement(this, this.storeId, this.currentField);
+      console.log(this.currentField);
+      // DinamicTypeControler.changeElement(this, this.documentType, this.currentField);
     }
   }
 };

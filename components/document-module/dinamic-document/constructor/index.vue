@@ -52,7 +52,7 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field slot="content" :storeId="storeId" :fieldIndex="focusedFieldIndex"></Update-field>
+          <Update-field slot="content" :documentType="storeId" :fieldIndex="focusedFieldIndex"></Update-field>
         </CustomDrawer>
       </transition>
     </section>
