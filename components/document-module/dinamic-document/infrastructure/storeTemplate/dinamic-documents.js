@@ -24,7 +24,6 @@ const obj = {
         ],
         overlays: 0,
         isDataChanged: false,
-        needRerender: false,
     },
     getters: {
         getAllElements(state) {
@@ -45,9 +44,6 @@ const obj = {
         isDataChanged(state) {
             return state.isDataChanged
         },
-        needRerender(state) {
-            return state.needRerender
-        }
     },
     mutations: {
         SetElements(state, payload) {
@@ -66,12 +62,16 @@ const obj = {
             });
         },
         ChangeElement(state, payload) {
+            console.log("payload", payload);
             state.elements.forEach((element, index) => {
                 if (element.id === payload.id) {
-                    state.needRerender = true
                     state.isDataChanged = true
-                    console.log("element changed", state.needRerender);
-                    state.elements[index] = payload
+                    // for (const key in payload) {
+                    //     console.log(key);
+                    // }
+                    state.elements[index] = { ...payload }
+                    state.elements.push({})
+                    state.elements.pop({})
                 }
             });
         },
@@ -100,14 +100,6 @@ const obj = {
         StopDataTracking(state) {
             state.isDataChanged = false
         },
-        StartRerender(state) {
-            state.needRerender = true
-        },
-
-        StopRerender(state) {
-            state.needRerender = false
-        },
-
     },
     actions: {
         async get_elements({ commit }, id) {
