@@ -8,7 +8,7 @@
       :col-count="2"
       :items="items"
     >
-      <template #DocumentBox="{ data }">
+      <template #DocumentSelectBox="{ data }">
         <DocumentBox
           @focusIn="(value) => data.editorOptions.onFocusIn()"
           :readOnly="readOnly"
@@ -41,6 +41,7 @@
       </template>
       <template #ContactSelectbox="{ data }">
         <Contact-select-box
+          @focusIn="(value) => data.editorOptions.onFocusIn()"
           :disabled="readOnly"
           @valueChanged="(value) => change(data, value)"
           :value="data.editorOptions.value"
@@ -48,6 +49,7 @@
       </template>
       <template #EmployeeSelectBox="{ data }">
         <Employee-select-box
+          @focusIn="(value) => data.editorOptions.onFocusIn()"
           :read-only="readOnly"
           :value="data.editorOptions.value"
           @valueChanged="(value) => change(data, value)"
@@ -55,6 +57,7 @@
       </template>
       <template #BusinessUnitSelectBox="{ data }">
         <Business-unit-select-box
+          @focusIn="(value) => data.editorOptions.onFocusIn()"
           :read-only="readOnly"
           :validatorGroup="documentValidatorName"
           :value="data.editorOptions.value"
@@ -63,6 +66,7 @@
       </template>
       <template #DepartmentSelectBox="{ data }">
         <Department-select-box
+          @focusIn="(value) => data.editorOptions.onFocusIn()"
           :read-only="readOnly"
           :validatorGroup="documentValidatorName"
           :value="data.editorOptions.value"
