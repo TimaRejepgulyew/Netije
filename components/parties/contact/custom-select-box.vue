@@ -21,10 +21,10 @@
     <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
-    <template #customSelectItem="{data}">
+    <template #customSelectItem="{ data }">
       <custom-select-item :item-data="data" />
     </template>
-    <template #customfield="{data}">
+    <template #customfield="{ data }">
       <custom-field
         :read-only="readOnly"
         @valueChanged="setContact"
@@ -48,7 +48,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: [
     "readOnly",
@@ -57,7 +57,7 @@ export default {
     "value",
     "filter",
     "correspondentId",
-    "disabled"
+    "disabled",
   ],
   data() {
     return {};
@@ -67,13 +67,15 @@ export default {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.Contact
+          loadUrl: dataApi.contragents.Contact,
         }),
         paginate: true,
         pageSize: 10,
-        filter: ["companyId", "=", this.correspondentId]
+        filter: this.correspondentId
+          ? ["companyId", "=", this.correspondentId]
+          : null,
       });
-    }
+    },
   },
   methods: {
     openFields() {
@@ -90,8 +92,8 @@ export default {
     setContact(data) {
       this.$emit("valueChanged", data);
       this.$refs["contact"].instance.repaint();
-    }
-  }
+    },
+  },
 };
 </script>
 

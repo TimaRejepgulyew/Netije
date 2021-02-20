@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Toolbar :fieldIndex="focusedFieldIndex" :storeId="storeId"></Toolbar>
+    <Toolbar
+      :fieldIndex="focusedFieldIndex"
+      :documentType="documentType"
+    ></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -34,13 +37,19 @@
                 :col-count="8"
                 :caption="$t('dinamicDocuments.captions.dinamic')"
               >
-                <DxSimpleItem :col-span="8" template="dinamic-document"></DxSimpleItem>
+                <DxSimpleItem
+                  :col-span="8"
+                  template="dinamic-document"
+                ></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
         </DxTabbedItem>
         <template #dinamic-document>
-          <Dinamic-document :documentType="storeId" @onFocusField="setFocusIndex"></Dinamic-document>
+          <Dinamic-document
+            :documentType="documentType"
+            @onFocusField="setFocusIndex"
+          ></Dinamic-document>
         </template>
       </DxForm>
       <transition name="fade">
@@ -49,7 +58,11 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field slot="content" :storeId="storeId" :fieldIndex="focusedFieldIndex"></Update-field>
+          <Update-field
+            slot="content"
+            :documentType="documentType"
+            :fieldIndex="focusedFieldIndex"
+          ></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -68,7 +81,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 
 export default {
@@ -83,8 +96,13 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm
+    DxForm,
   },
+  // props: {
+  //   documentType: {
+  //     default: "contructor",
+  //   },
+  // },
   provide: function () {
     return {
       trySaveDocumentType: this.trySave,
@@ -94,17 +112,21 @@ export default {
   data() {
     return {
       focusedFieldIndex: null,
-      storeId: "constructor",
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
-      }
+        loop: "true",
+      },
     };
   },
   computed: {
-    documentValidatorName: `DinamicDocument/${this.documentType}`,
+    documentType() {
+      return "contructor";
+    },
+    documentValidatorName() {
+      return `DinamicDocument/${this.documentType}`;
+    },
     isNew() {
       return this.$store.getters[
         `dinamicDocumentComponents/${this.documentType}/state`
@@ -133,7 +155,7 @@ export default {
         },
         value: this.$store.getters[
           `dinamicDocumentComponents/${this.documentType}/components`
-        ]?.documentType,
+        ],
       };
     },
   },
@@ -142,7 +164,7 @@ export default {
       if (this.$refs["form"].instance.validate().isValid) {
         if (this.isDataChanged) {
           await this.$awn.asyncBlock(
-            this.$store.dispatch(`documents/${this.documentId}/save`)
+            this.$store.dispatch(`documents/${this.documentType}/save`)
           );
         }
         return true;

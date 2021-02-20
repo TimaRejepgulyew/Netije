@@ -25,10 +25,7 @@
 </template>
 
 <script>
-// import EditorTypes from "../../infrastructure/models/EditorTypes";
-
 import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
-
 import DxForm, {
   DxSimpleItem,
   DxGroupItem,
@@ -44,14 +41,14 @@ import editorTypes, {
 export default {
   props: {
     fieldIndex: {},
-    storeId: {}
+    documentType: {}
   },
   watch: {
     fieldIndex: {
       handler: function(value) {
         if (value) {
           this.currentField = {
-            ...DinamicTypeControler.getElementById(this, this.storeId, value)
+            ...DinamicTypeControler.getElementById(this, this.documentType, value)
           };
         }
       },
@@ -112,7 +109,7 @@ export default {
   },
   methods: {
     saveAndRender() {
-      DinamicTypeControler.changeElement(this, this.storeId, this.currentField);
+      DinamicTypeControler.changeElement(this, this.documentType, this.currentField);
     }
   }
 };

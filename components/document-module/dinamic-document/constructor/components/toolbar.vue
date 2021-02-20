@@ -1,7 +1,12 @@
 <template>
   <div class="navBar">
     <DxToolbar>
-      <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
+      <DxItem
+        locateInMenu="auto"
+        :options="saveButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
       <DxItem
         locateInMenu="auto"
         :options="saveAndBackButtonOptions"
@@ -28,58 +33,46 @@
         location="before"
         widget="dxButton"
       />
-      <DxItem :options="removeDocumentButtonOptions" location="after" widget="dxButton" />
+      <DxItem
+        :options="removeDocumentButtonOptions"
+        location="after"
+        widget="dxButton"
+      />
     </DxToolbar>
   </div>
 </template>
 <script>
 //servises
-
+import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 //components
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import { DxButton } from "devextreme-vue";
-
-//constants
-import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-
-import dataApi from "~/static/dataApi";
-import Docflow from "~/infrastructure/constants/docflows";
-import EntityType from "~/infrastructure/constants/entityTypes";
 //icons
-
 import saveIcon from "~/static/icons/save.svg";
 import saveAndCloseIcon from "~/static/icons/save-and-close.svg";
-
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 export default {
   components: {
     DxButton,
     DxToolbar,
-    DxItem
+    DxItem,
   },
-  props: ["isCard", "fieldIndex", "storeId"],
-  // inject: ["trySaveDocument"],
+  props: ["isCard", "fieldIndex", "documentType"],
+  inject: ["trySaveDocumentType"],
   data() {
     return {
       saveIcon,
       saveAndCloseIcon,
-      backButtonOptions: {
-        type: "back",
-        onClick: () => {
-          this.$router.go(-1);
-        }
-      }
     };
   },
   computed: {
     addFieldButtonOptions() {
       return {
         onClick: () => {
-          DinamicTypeControler.addNewElement(this, this.storeId);
+          DinamicTypeControler.addNewElement(this, this.documentType);
         },
         icon: "plus",
-        text: this.$t("dinamicDocuments.buttons.addField")
+        text: this.$t("dinamicDocuments.buttons.addField"),
       };
     },
     removeFieldButtonOptions() {
@@ -87,12 +80,12 @@ export default {
         onClick: () => {
           DinamicTypeControler.removeElement(
             this,
-            this.storeId,
+            this.documentType,
             this.fieldIndex
           );
         },
         icon: "trash",
-        text: this.$t("dinamicDocuments.buttons.removeField")
+        text: this.$t("dinamicDocuments.buttons.removeField"),
       };
     },
     createFieldUnderButtonOptions() {
@@ -102,11 +95,13 @@ export default {
           this.fieldIndex
         ),
         icon: "plus",
-        text: this.$t("dinamicDocuments.addFieldUnderUnder")
+        text: this.$t("dinamicDocuments.addFieldUnderUnder"),
       };
     },
     isDataChanged() {
-      return this.$store.getters[`dinamicType/${this.storeId}/isDataChanged`];
+      return this.$store.getters[
+        `dinamicType/${this.documentType}/isDataChanged`
+      ];
     },
     canUpdate() {
       return false;
@@ -115,7 +110,9 @@ export default {
       return {
         icon: saveIcon,
         disabled: !this.canUpdate || !this.isDataChanged,
-        onClick: async () => {}
+        onClick: async () => {
+          await this.trySaveDocumentType();
+        },
       };
     },
     saveAndBackButtonOptions() {
@@ -123,7 +120,7 @@ export default {
         icon: saveAndCloseIcon,
         hint: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate || !this.isDataChanged,
-        onClick: async () => {}
+        onClick: async () => {},
       };
     },
     removeDocumentButtonOptions() {
@@ -136,36 +133,30 @@ export default {
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then(dialogResult => {
+          result.then((dialogResult) => {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$store.dispatch(`documents/${this.documentId}/delete`),
-                e => {
+                (e) => {
                   this.$emit("onRemove");
                   this.$awn.success();
                 },
-                e => {
+                (e) => {
                   this.$awn.alert();
                 }
               );
             }
           });
-        }
+        },
       };
     },
     refreshButtonOptions() {
       return {
         icon: "refresh",
-        onClick: () => {
-          const { documentTypeGuid, id } = this.document;
-          this.$awn.asyncBlock(
-            refresh(this, { documentTypeGuid, documentId: id }),
-            () => {}
-          );
-        }
+        onClick: () => {},
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
