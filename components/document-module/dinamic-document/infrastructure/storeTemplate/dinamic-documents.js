@@ -5,7 +5,7 @@ const obj = {
         docFlow: "",
         docType: "Prig Skok",
         isNew: true,
-        overlays: 0,
+        overlays: 1,
         isDataChanged: false,
         elements: [
             {
@@ -41,7 +41,7 @@ const obj = {
             });
             return el
         },
-        getOverlays(state) {
+        overlays(state) {
             return state.overlays
         },
         docType(state) {
@@ -92,14 +92,10 @@ const obj = {
             });
         },
         IncrementOverlays(state) {
-            if (state.overlays <= 0) {
-                state.overlays++;
-            }
+            state.overlays++;
         },
         DecrementOverlays(state) {
-            if (state.overlays >= 0) {
-                state.overlays--;
-            }
+            state.overlays--;
         },
         StartDataTracking(state) {
             state.isDataChanged = true
@@ -120,19 +116,26 @@ const obj = {
     },
     actions: {
         async get_dinamic_type({ commit }, id) {
+            console.log("Element Geted");
             // const { data } = await this.$axios.get(dataApi.dinamicTypes.get, id)
             // commit("SetElements", data)
             commit("SetIsNew", false)
         },
         async create_dinamic_type({ commit }) {
+            console.log("Element Created");
             // await this.$axios.post(dataApi.dinamicTypes.post,)
             // commit("StopDataTracking")
-
         },
         async change_dinamic_type({ state }, id) {
+            console.log("Element Changed");
             // await this.$axios.put(dataApi.dinamicTypes.put, id)
             // commit("StopDataTracking")
-        }
+        },
+        async remove_dinamic_type({ state }, id) {
+            console.log("Element Removed");
+            // await this.$axios.put(dataApi.dinamicTypes.put, id)
+            // commit("StopDataTracking")
+        },
     }
 }
 

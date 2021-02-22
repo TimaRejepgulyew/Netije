@@ -18,18 +18,6 @@ const defaultElement = {
 
 
 class DinamicTypeControler {
-    static generateStore(context, documentType) {
-        let overlay = context.$store.getters[`dinamicDocumentComponents/${documentType}/getOverlays`]
-        if (overlay) {
-            context.$store.commit(`dinamicDocumentComponents/${documentType}/IncrementOverlays`)
-        } else {
-            dinamicTypeStoreModule.registerModule(context, documentType);
-            if (documentType !== "constructor") {
-                context.$store.dispatch(`dinamicDocumentComponents/${documentType}/get_dinamic_type`, documentType)
-            }
-        }
-        return context.$store
-    }
     static getElements(context, documentType) {
         return context.$store.getters[`dinamicDocumentComponents/${documentType}/getAllElements`]
     }
@@ -48,14 +36,6 @@ class DinamicTypeControler {
     static changeElement(context, documentType, newElement) {
         context.$store.commit(`dinamicDocumentComponents/${documentType}/ChangeElement`, newElement)
     }
-    static removeStore(context, documentType) {
-        let overlay = context.$store.getters[`dinamicDocumentComponents/${documentType}/getOverlays`]
-        if (overlay) {
-            context.$store.commit(`dinamicDocumentComponents/${documentType}/DecrementOverlays`)
-        } else {
-            dinamicTypeStoreModule.unregisterModule(context, documentType);
-        }
-    }
     static addNewElement(context, documentType, elementId) {
         const newItem = {
             id: DinamicTypeControler.generateId(),
@@ -67,12 +47,37 @@ class DinamicTypeControler {
             context.$store.commit(`dinamicDocumentComponents/${documentType}/AddNewElement`, newItem)
         }
     }
+    static async generateStore(context, documentType) {
+        let overlay = context.$store.getters[`dinamicDocumentComponents/${documentType}/overlays`]
+        if (overlay) {
+            console.log("overlay", overlay);
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/IncrementOverlays`)
+        } else {
+            dinamicTypeStoreModule.registerModule(context, documentType);
+            if (documentType !== "constructor") {
+                await context.$store.dispatch(`dinamicDocumentComponents/${documentType}/get_dinamic_type`, documentType)
+            }
+        }
+        return context.$store
+    }
+    static removeStore(context, documentType) {
+        let overlay = context.$store.getters[`dinamicDocumentComponents/${documentType}/overlays`]
+        if (overlay === 1) {
+            dinamicTypeStoreModule.unregisterModule(context, documentType);
+        } else {
+            console.log("overlay", overlay);
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/DecrementOverlays`)
+        }
+    }
     static async saveType(context, storeId) {
         if (storeId === "constructor") {
             await context.$store.dispatch(`dinamicDocumentComponents/${storeId}/create_dinamic_type`)
         } else {
             await context.$store.dispatch(`dinamicDocumentComponents/${storeId}/change_dinamic_type`)
         }
+    }
+    static async removeType(context, storeId) {
+        await context.$store.dispatch(`dinamicDocumentComponents/${storeId}/remove_dinamic_type`)
     }
 
 }

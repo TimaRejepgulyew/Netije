@@ -55,8 +55,6 @@ export default {
               value
             )
           };
-          console.log(this.currentField);
-          console.log(this.$refs);
           this.fieldSetting = getFieldSettingByEditorType(
             this,
             this.documentType,
