@@ -24,6 +24,9 @@ class DinamicTypeControler {
             context.$store.commit(`dinamicDocumentComponents/${documentType}/IncrementOverlays`)
         } else {
             dinamicTypeStoreModule.registerModule(context, documentType);
+            if (documentType !== "constructor") {
+                context.$store.dispatch(`dinamicDocumentComponents/${documentType}/get_dinamic_type`, documentType)
+            }
         }
         return context.$store
     }
@@ -59,19 +62,16 @@ class DinamicTypeControler {
             ...defaultElement
         }
         if (elementId) {
-            context.$store.commit(`dinamicDocumentComponents/${documentType}/IntroduceElement`, { elementId, payload: newItem })
+            context.$store.commit(`dinamicDocumentComponents/${documentType}/IntroduceElement`, { id: elementId, payload: newItem })
         } else {
             context.$store.commit(`dinamicDocumentComponents/${documentType}/AddNewElement`, newItem)
         }
     }
-    // checkDataChanged() {
-    //     this.isDataChanged = this.store.getters[`dinamicDocumentComponents/${this.id}/isDataChanged`]
-    // }
-    saveType(id) {
-        if (this.id === "constructor") {
-            this.store.dispatch(`dinamicDocumentComponents/${this.id}/create_dinamic_type`)
+    static async saveType(context, storeId) {
+        if (storeId === "constructor") {
+            await context.$store.dispatch(`dinamicDocumentComponents/${storeId}/create_dinamic_type`)
         } else {
-            this.store.dispatch(`dinamicDocumentComponents/${this.id}/change_dinamic_type`, id)
+            await context.$store.dispatch(`dinamicDocumentComponents/${storeId}/change_dinamic_type`)
         }
     }
 

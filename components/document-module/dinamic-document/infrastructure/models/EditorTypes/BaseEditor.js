@@ -78,6 +78,7 @@ export class BaseEditor {
       editorOptions: {
         max: "2",
         min: "1",
+        showSpinButtons: true,
         showClearButton: true
       }
     };

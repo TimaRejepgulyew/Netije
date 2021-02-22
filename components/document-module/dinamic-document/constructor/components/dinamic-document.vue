@@ -125,12 +125,6 @@ export default {
       this.$store.dispatch("dinamicDocument/changeField", { e, value });
     },
   },
-  created() {
-    DinamicTypeControler.generateStore(this, this.documentType);
-  },
-  beforeDestroy() {
-    DinamicTypeControler.removeStore(this, this.documentType);
-  },
 };
 </script>
 
