@@ -1,10 +1,10 @@
 import { SeletBoxField } from "./SelectBoxField";
-export class EmployeeBoxField extends SeletBoxField {
-  template = "EmployeeSelectBox";
+export class ContactBoxField extends SeletBoxField {
+  template = "ContactSelectBox";
   constructor(context, { editorType, isMultiple, ...options }) {
     console.log(options);
     if (isMultiple) {
-      this.template = "EmployeeTagBox";
+      this.template = "ContactTagBox";
     }
 
     super(context, options);
