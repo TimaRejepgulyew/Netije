@@ -73,6 +73,8 @@
           @valueChanged="(value) => change(data, value)"
         />
       </template>
+      <!-- <template #RecipientSelectBox={data}>
+        </template -->
     </DxForm>
   </div>
 </template>
@@ -83,6 +85,7 @@ import DinamicTypeBuilder from "~/components/document-module/dinamic-document/in
 import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 //components
 import DxForm from "devextreme-vue/form";
+import RecipientSelectBox from "~/components/document/select-box/index.vue";
 import DocumentBox from "~/components/document/select-box/index.vue";
 import AutocomleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
@@ -100,6 +103,7 @@ export default {
     ContactSelectBox,
     BusinessUnitSelectBox,
     CounterPartSelectBox,
+    RecipientSelectBox,
   },
   props: {
     documentType: {},
