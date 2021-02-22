@@ -1,12 +1,7 @@
 <template>
   <div class="navBar">
     <DxToolbar>
-      <DxItem
-        locateInMenu="auto"
-        :options="saveButtonOptions"
-        location="before"
-        widget="dxButton"
-      />
+      <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
         locateInMenu="auto"
         :options="saveAndBackButtonOptions"
@@ -20,24 +15,26 @@
         widget="dxButton"
       />
       <DxItem
+        locateInMenu="auto"
+        :options="createFieldUnderButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
         :visible="fieldIndex !== null"
         locateInMenu="auto"
         :options="removeFieldButtonOptions"
         location="before"
         widget="dxButton"
       />
-      <DxItem
+      <!-- <DxItem
         locateInMenu="auto"
         :options="refreshButtonOptions"
         :visible="!isDataChanged"
         location="before"
         widget="dxButton"
-      />
-      <DxItem
-        :options="removeDocumentButtonOptions"
-        location="after"
-        widget="dxButton"
-      />
+      />-->
+      <DxItem :options="removeDocumentButtonOptions" location="after" widget="dxButton" />
     </DxToolbar>
   </div>
 </template>
@@ -55,14 +52,14 @@ export default {
   components: {
     DxButton,
     DxToolbar,
-    DxItem,
+    DxItem
   },
   props: ["isCard", "fieldIndex", "documentType"],
   inject: ["trySaveDocumentType"],
   data() {
     return {
       saveIcon,
-      saveAndCloseIcon,
+      saveAndCloseIcon
     };
   },
   computed: {
@@ -72,7 +69,7 @@ export default {
           DinamicTypeControler.addNewElement(this, this.documentType);
         },
         icon: "plus",
-        text: this.$t("dinamicDocuments.buttons.addField"),
+        text: this.$t("dinamicDocuments.buttons.addField")
       };
     },
     removeFieldButtonOptions() {
@@ -85,22 +82,26 @@ export default {
           );
         },
         icon: "trash",
-        text: this.$t("dinamicDocuments.buttons.removeField"),
+        text: this.$t("dinamicDocuments.buttons.removeField")
       };
     },
     createFieldUnderButtonOptions() {
       return {
-        onClick: this.$store.dispatch(
-          "dinamic-documents/create/addField",
-          this.fieldIndex
-        ),
+        onClick: () => {
+          DinamicTypeControler.addNewElement(
+            this,
+            this.documentType,
+            this.fieldIndex
+          );
+        },
         icon: "plus",
-        text: this.$t("dinamicDocuments.addFieldUnderUnder"),
+        visible: this.fieldIndex,
+        text: this.$t("dinamicDocuments.buttons.addFieldUnder")
       };
     },
     isDataChanged() {
       return this.$store.getters[
-        `dinamicType/${this.documentType}/isDataChanged`
+        `dinamicDocumentComponents/${this.documentType}/isDataChanged`
       ];
     },
     canUpdate() {
@@ -109,10 +110,10 @@ export default {
     saveButtonOptions() {
       return {
         icon: saveIcon,
-        disabled: !this.canUpdate || !this.isDataChanged,
+        disabled: !this.isDataChanged,
         onClick: async () => {
           await this.trySaveDocumentType();
-        },
+        }
       };
     },
     saveAndBackButtonOptions() {
@@ -120,7 +121,7 @@ export default {
         icon: saveAndCloseIcon,
         hint: this.$t("buttons.saveAndBack"),
         disabled: !this.canUpdate || !this.isDataChanged,
-        onClick: async () => {},
+        onClick: async () => {}
       };
     },
     removeDocumentButtonOptions() {
@@ -133,30 +134,30 @@ export default {
             this.$t("shared.areYouSure"),
             this.$t("shared.confirm")
           );
-          result.then((dialogResult) => {
+          result.then(dialogResult => {
             if (dialogResult) {
               this.$awn.asyncBlock(
                 this.$store.dispatch(`documents/${this.documentId}/delete`),
-                (e) => {
+                e => {
                   this.$emit("onRemove");
                   this.$awn.success();
                 },
-                (e) => {
+                e => {
                   this.$awn.alert();
                 }
               );
             }
           });
-        },
+        }
       };
     },
     refreshButtonOptions() {
       return {
         icon: "refresh",
-        onClick: () => {},
+        onClick: () => {}
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

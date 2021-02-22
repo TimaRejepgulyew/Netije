@@ -146,45 +146,41 @@ export default {
   },
   computed: {
     items() {
-      const items = [
-        {
-          editorType: "dxTextBox",
-          dataField: "NewValue",
-          translationRu: "Новое поле",
-          translationTk: "Taze mevdanca",
-          colSpan: 2,
-          id: 1,
-        },
-        {
-          editorType: "EmployeeBox",
-          dataField: "NewValue2",
-          isMultiple: false,
-          isRequired: true,
-          translationRu: "Новое поле2",
-          translationTk: "Taze mevdanca2",
-          colSpan: 2,
-          id: 2,
-        },
-      ];
-     
+      // const items = [
+      //   {
+      //     editorType: "dxTextBox",
+      //     dataField: "NewValue",
+      //     translationRu: "Новое поле",
+      //     translationTk: "Taze mevdanca",
+      //     colSpan: 2,
+      //     id: 1,
+      //   },
+      //   {
+      //     editorType: "EmployeeBox",
+      //     dataField: "NewValue2",
+      //     isMultiple: false,
+      //     isRequired: true,
+      //     translationRu: "Новое поле2",
+      //     translationTk: "Taze mevdanca2",
+      //     colSpan: 2,
+      //     id: 2,
+      //   },
+      // ];
+
+      let items = DinamicTypeControler.getElements(this, this.documentType);
+      console.log(items);
       const generatedItems = new devExtremeFieldFactory(this, items);
       return generatedItems;
     },
   },
   methods: {
     onFocusIn(data) {
-      console.log(data, "data");
-      this.$emit("onFocusField", data.id);
+      console.log(data, "dat1a");
+      this.$emit("onFocusField", data.name);
     },
     change(value, e) {
       this.$store.dispatch("dinamicDocument/changeField", { e, value });
     },
-  },
-  created() {
-    // DinamicTypeControler.generateStore(this, this.documentType);
-  },
-  beforeDestroy() {
-    // DinamicTypeControler.removeStore(this, this.documentType);
   },
 };
 </script>

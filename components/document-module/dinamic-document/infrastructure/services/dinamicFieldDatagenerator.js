@@ -20,7 +20,6 @@ export class FieldGenerator {
   static CounterPartBox = CounterPartBox;
   static ContactBox = ContactBox;
   static generatorData({ editorType, fieldData }) {
-    console.log(editorType);
     if (editorType) {
       const newFieldData = FieldGenerator[editorType].clearFields(fieldData);
       return newFieldData;

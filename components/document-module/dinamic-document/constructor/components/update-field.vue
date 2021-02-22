@@ -9,10 +9,7 @@
       :col-count="1"
     >
       <DxGroupItem :caption="$t('dinamicDocuments.captions.updateField')">
-        <DxButtonItem
-          horizontalAlignment="left"
-          :buttonOptions="saveButtonOptions"
-        />
+        <DxButtonItem horizontalAlignment="left" :buttonOptions="saveButtonOptions" />
         <DxSimpleItem
           data-field="editorType"
           editorType="dxSelectBox"
@@ -33,31 +30,33 @@ import DxForm, {
   DxGroupItem,
   DxRequiredRule,
   DxButtonItem,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 import { FieldGenerator } from "../../infrastructure/services/dinamicFieldDatagenerator";
 import editorTypes, {
   getDefaultEditorType,
-  getFieldSettingByEditorType,
+  getFieldSettingByEditorType
 } from "../../infrastructure/factory/EditorTypes.factory";
 
 export default {
   props: {
     fieldIndex: {},
-    documentType: {},
+    documentType: {}
   },
   watch: {
     fieldIndex: {
-      handler: function (value) {
+      handler: function(value) {
         if (value) {
           this.currentField = {
             ...DinamicTypeControler.getElementById(
               this,
               this.documentType,
               value
-            ),
+            )
           };
+          console.log(this.currentField);
+          console.log(this.$refs);
           this.fieldSetting = getFieldSettingByEditorType(
             this,
             this.documentType,
@@ -65,8 +64,8 @@ export default {
           );
         }
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   data() {
     return {
@@ -77,7 +76,7 @@ export default {
         "dxDateBox"
       ),
       editorTypes: editorTypes(this, "constructor"),
-      currentField: {},
+      currentField: {}
     };
   },
   components: {
@@ -86,27 +85,25 @@ export default {
     DxGroupItem,
     DxRequiredRule,
     DxLabel,
-    DxButtonItem,
+    DxButtonItem
   },
-
   computed: {
     saveButtonOptions() {
       return {
         useSubmitBehavior: true,
         icon: "save",
-        text: this.$t("dinamicDocuments.buttons.saveAndRender"),
+        text: this.$t("dinamicDocuments.buttons.saveAndRender")
       };
     },
     editorTypeOptions() {
       return {
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.currentField = FieldGenerator.generatorData({
             editorType: e.value,
-            fieldData: this.currentField,
+            fieldData: this.currentField
           });
-          console.log(this.currentField);
         },
-        onSelectionChanged: (e) => {
+        onSelectionChanged: e => {
           this.isUpdating = true;
           this.fieldSetting = e.selectedItem?.dataSource;
           this.isUpdating = false;
@@ -115,16 +112,19 @@ export default {
         valueExpr: "id",
         displayExpr: "text",
         dataSource: this.editorTypes,
-        isRequired: true,
+        isRequired: true
       };
-    },
+    }
   },
   methods: {
     saveAndRender() {
-      console.log(this.currentField);
-      // DinamicTypeControler.changeElement(this, this.documentType, this.currentField);
-    },
-  },
+      DinamicTypeControler.changeElement(
+        this,
+        this.documentType,
+        this.currentField
+      );
+    }
+  }
 };
 </script>
 
