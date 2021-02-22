@@ -125,8 +125,11 @@ export default {
   },
   methods: {
     saveAndRender() {
-      console.log(this.currentField);
-      // DinamicTypeControler.changeElement(this, this.documentType, this.currentField);
+      DinamicTypeControler.changeElement(
+        this,
+        this.documentType,
+        this.currentField
+      );
     }
   }
 };

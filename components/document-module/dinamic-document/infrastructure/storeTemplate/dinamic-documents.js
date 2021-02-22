@@ -66,10 +66,8 @@ const obj = {
             state.elements.forEach((element, index) => {
                 if (element.id === payload.id) {
                     state.isDataChanged = true
-                    // for (const key in payload) {
-                    //     console.log(key);
-                    // }
                     state.elements[index] = { ...payload }
+                    console.log(state.elements[index]);
                     state.elements.push({})
                     state.elements.pop({})
                 }
