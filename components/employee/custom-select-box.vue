@@ -31,6 +31,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @focusIn="focusIn"
           @openFields="openFields"
           @showCard="showCard"
           :read-only="readOnly"
@@ -99,6 +100,9 @@ export default {
     },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },
@@ -110,7 +114,6 @@ export default {
       this.$refs["employee"].instance.repaint();
     },
     showCard() {
-      
       this.$popup.employeeCard(
         this,
         {

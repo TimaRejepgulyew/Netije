@@ -3,7 +3,7 @@ const editorType = {
   DxDateBox: "dxDateBox",
   DxNumberBox: "dxNumberBox",
   DxCheckBox: "dxCheckBox",
-  DxTextArea: "dxTextArea",
+  DxTextArea: "dxTextAreaBox",
   EmployeeBox: "EmployeeBox",
   RecipientBox: "RecipientBox",
   BusinessUnitBox: "BusinessUnitBox",

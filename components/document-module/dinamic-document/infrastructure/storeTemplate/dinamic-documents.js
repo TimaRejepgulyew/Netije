@@ -137,12 +137,9 @@ const obj = {
             // commit("StopDataTracking")
         },
     }
-}
-
-
-
-
-export const state = () => (obj.state)
-export const getters = obj.getters
-export const actions = obj.actions
-export const mutations = obj.mutations
+  }
+  
+export const state = () => obj.state;
+export const getters = obj.getters;
+export const actions = obj.actions;
+export const mutations = obj.mutations;

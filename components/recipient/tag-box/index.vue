@@ -1,5 +1,6 @@
 <template>
   <DxDropDownBox
+    @focusIn="focusIn"
     ref="dropDownBox"
     @valueChanged="setRecipient"
     :value.sync="items"
@@ -29,7 +30,12 @@
               @closeDropDown="closeDropDown"
               @selectUserGroupItem="selectUserGroupItem"
             />
-            <gropuList v-else :selectedItems="items" :groupType="groupType" @selectItem="setItem" />
+            <gropuList
+              v-else
+              :selectedItems="items"
+              :groupType="groupType"
+              @selectItem="setItem"
+            />
           </div>
           <div class="type">
             <group-type @groupType="groupTypeChanged" />
@@ -57,25 +63,25 @@ export default {
     DxRequiredRule,
     groupType,
     gropuList,
-    userGropuList
+    userGropuList,
   },
   props: {
     recipients: {
       type: Array,
-      default: []
+      default: [],
     },
     readOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     messageRequired: {},
     validatorGroup: {},
-    valueExpr: {}
+    valueExpr: {},
   },
   data() {
     return {
       groupType: [],
-      items: this.recipients
+      items: this.recipients,
     };
   },
   computed: {
@@ -88,9 +94,12 @@ export default {
     },
     isUserGroup() {
       return this.groupType === "userGroup";
-    }
+    },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.recipients);
+    },
     closeDropDown() {
       this.$refs["dropDownBox"].instance.close();
     },
@@ -107,9 +116,9 @@ export default {
     },
     selectUserGroupItem(value) {
       const newArray = [];
-      value.forEach(element => {
+      value.forEach((element) => {
         if (
-          this.items.every(el => {
+          this.items.every((el) => {
             return el.id !== element.id;
           })
         ) {
@@ -120,8 +129,8 @@ export default {
     },
     groupTypeChanged(value) {
       this.groupType = value;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,5 +1,6 @@
 <template>
   <DxSelectBox
+    @focusin="focusIn"
     @opened="onOpened"
     ref="recipient"
     :read-only="readOnly"
@@ -17,7 +18,10 @@
     :deferRendering="true"
   >
     <DxValidator :validation-group="validatorGroup">
-      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
+      <DxRequiredRule
+        v-if="isRequired"
+        :message="$t(`translations.fields.${property}Required`)"
+      />
     </DxValidator>
     <template #item="{ data }">
       <div>
@@ -41,7 +45,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     employeeTypeComponent,
-    defaultType
+    defaultType,
   },
   props: [
     "valueExpr",
@@ -50,13 +54,12 @@ export default {
     "validatorGroup",
     "readOnly",
     "dataApi",
-    "property"
+    "property",
   ],
-  created() {},
   data() {
     return {
       dataSourceLoaded: this.valueExpr,
-      needRepaint: false
+      needRepaint: false,
     };
   },
   computed: {
@@ -64,23 +67,26 @@ export default {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.dataApi || dataApi.recipient.list
+          loadUrl: this.dataApi || dataApi.recipient.list,
         }),
         paginate: true,
         pageSize: 10,
-        sort: [{ selector: "recipientType", desc: false }]
+        sort: [{ selector: "recipientType", desc: false }],
       });
       if (this.dataSourceLoaded) {
         return dataSource;
       }
-      if (this.readOnly || this.value ) {
+      if (this.readOnly || this.value) {
         return [this.value];
       }
 
       return dataSource;
-    }
+    },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },
@@ -98,8 +104,8 @@ export default {
         this.needRepaint = false;
         this.$refs["recipient"].instance.repaint();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
