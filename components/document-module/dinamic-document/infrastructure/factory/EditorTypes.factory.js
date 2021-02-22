@@ -9,10 +9,10 @@ import { DepartmentBox } from "../models/EditorTypes/DepartmentBox";
 import { CounterPartBox } from "../models/EditorTypes/CounterPartBox";
 import { ContactBox } from "../models/EditorTypes/ContactBox";
 class EditorTypes {
-  static DxTextBox = DxTextBox;
-  static DxTextAreaBox = DxTextAreaBox;
-  static DxDateBox = DxDateBox;
-  static DxCheckBox = DxCheckBox;
+  static dxTextBox = DxTextBox;
+  static dxTextAreaBox = DxTextAreaBox;
+  static dxDateBox = DxDateBox;
+  static dxCheckBox = DxCheckBox;
   static EmployeeBox = EmployeeBox;
   static RecipientBox = RecipientBox;
   static BusinessUnitBox = BusinessUnitBox;
@@ -36,9 +36,7 @@ class EditorTypes {
   static getDefaultEditorType(context, storeId) {
     return new DxTextBox(context, storeId).getObject();
   }
-  static getEditorType(context, storeId, editortypeId) {
-    console.log(EditorTypes.DxTextBox);
-    // get Editor type by id did not realize
+  static getFieldSettingByEditorType(context, storeId, editortypeId) {
     if (editortypeId)
       return new EditorTypes[editortypeId](context, storeId).getObject()
         .dataSource;
@@ -52,5 +50,5 @@ export const getDefaultEditorType = (context, storeId) => {
   return EditorTypes.getDefaultEditorType(context, storeId);
 };
 export const getFieldSettingByEditorType = (context, storeId, editortypeId) => {
-  EditorTypes.getEditorType(context, storeId, editortypeId);
+  EditorTypes.getFieldSettingByEditorType(context, storeId, editortypeId);
 };

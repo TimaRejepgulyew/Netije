@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Toolbar :fieldIndex="focusedFieldIndex" :storeId="storeId"></Toolbar>
+    <Toolbar
+      :fieldIndex="focusedFieldIndex"
+      :documentType="documentType"
+    ></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -8,42 +11,45 @@
         ref="form"
         :show-colon-after-label="true"
         :show-validation-summary="false"
+        :validation-group="documentValidatorName"
       >
         <DxTabbedItem :tab-panel-options="tabPanelOptions">
           <DxTab :col-count="6">
-            <DxGroupItem :col-span="4" :col-count="8">
-              <DxGroupItem
+            <DxGroupItem :col-span="6" :col-count="8">
+              <DxSimpleItem
+                :isRequired="true"
                 :col-span="8"
-                :col-count="8"
-                :caption="$t('dinamicDocuments.captions.static')"
+                editorType="dxTextBox"
+                :editorOptions="documentTypeOptions"
               >
-                <DxSimpleItem :col-span="8" template="static-field"></DxSimpleItem>
-              </DxGroupItem>
+                <DxLabel :text="$t('dinamicDocuments.fields.documentType')" />
+              </DxSimpleItem>
+              <DxSimpleItem
+                :isRequired="true"
+                :col-span="8"
+                editorType="dxSelectBox"
+                :editorOptions="documentFlowOptions"
+              >
+                <DxLabel :text="$t('dinamicDocuments.fields.docFlow')" />
+              </DxSimpleItem>
               <DxGroupItem
                 :col-span="8"
                 :col-count="8"
                 :caption="$t('dinamicDocuments.captions.dinamic')"
               >
-                <DxSimpleItem :col-span="8" template="dinamic-document"></DxSimpleItem>
+                <DxSimpleItem
+                  :col-span="8"
+                  template="dinamic-document"
+                ></DxSimpleItem>
               </DxGroupItem>
-            </DxGroupItem>
-            <DxGroupItem :col-span="2" :col-count="1">
-              <DxSimpleItem template="registrationBlock"></DxSimpleItem>
-              <DxSimpleItem template="lifeCycle"></DxSimpleItem>
             </DxGroupItem>
           </DxTab>
         </DxTabbedItem>
-        <template #registrationBlock>
-          <Registrationblock :readOnly="true"></Registrationblock>
-        </template>
-        <template #lifeCycle>
-          <LifeCycleBlock :readOnly="true"></LifeCycleBlock>
-        </template>
         <template #dinamic-document>
-          <Dinamic-document :documentType="storeId" @onFocusField="setFocusIndex"></Dinamic-document>
-        </template>
-        <template #static-field>
-          <StaticField :readOnly="true"></StaticField>
+          <Dinamic-document
+            :documentType="documentType"
+            @onFocusField="setFocusIndex"
+          ></Dinamic-document>
         </template>
       </DxForm>
       <transition name="fade">
@@ -52,7 +58,11 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field slot="content" :documentType="storeId" :fieldIndex="focusedFieldIndex"></Update-field>
+          <Update-field
+            slot="content"
+            :documentType="documentType"
+            :fieldIndex="focusedFieldIndex"
+          ></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -62,27 +72,22 @@
 <script>
 import CustomDrawer from "./components/custom-drawer";
 import Toolbar from "./components/toolbar.vue";
-import StaticField from "../../components/static-field-document.vue";
 import UpdateField from "./components/update-field.vue";
 import DinamicDocument from "./components/dinamic-document.vue";
-import Registrationblock from "../../main-doc-form/doc-registration";
-import LifeCycleBlock from "./components/life-cycle-block";
+
 import DxForm, {
   DxTabbedItem,
   DxTab,
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 
 export default {
   components: {
     CustomDrawer,
-    Registrationblock,
-    LifeCycleBlock,
     Toolbar,
-    StaticField,
     DinamicDocument,
     UpdateField,
     DxTabbedItem,
@@ -91,31 +96,93 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm
+    DxForm,
+  },
+  // props: {
+  //   documentType: {
+  //     default: "contructor",
+  //   },
+  // },
+  provide: function () {
+    return {
+      trySaveDocumentType: this.trySave,
+      documentValidatorName: this.documentValidatorName,
+    };
   },
   data() {
     return {
       focusedFieldIndex: null,
-      storeId: "constructor",
       tabPanelOptions: {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
-      }
+        loop: "true",
+      },
     };
   },
+  computed: {
+    documentType() {
+      return "contructor";
+    },
+    documentValidatorName() {
+      return `DinamicDocument/${this.documentType}`;
+    },
+    isNew() {
+      return this.$store.getters[
+        `dinamicDocumentComponents/${this.documentType}/state`
+      ]?.isNew;
+    },
+    documentFlowOptions() {
+      return {
+        showClearButton: true,
+        valueExpr: "id",
+        displayExpr: "name",
+        onValueChanged: () => {
+          /// setDocFlow
+        },
+        dataSource: this.$store.getters["docflow/docflow"](this),
+        value: this.$store.getters[
+          `dinamicDocumentComponents/${this.documentType}/components`
+        ]?.docFlow,
+      };
+    },
+    documentTypeOptions() {
+      return {
+        disabled: this.isNew,
+        showClearButton: true,
+        onValueChanged: () => {
+          /// setDocumentType
+        },
+        value: this.$store.getters[
+          `dinamicDocumentComponents/${this.documentType}/components`
+        ],
+      };
+    },
+  },
   methods: {
-    setFocusIndex(id) {
-      this.focusedFieldIndex = id;
-    }
-  }
+    async trySave() {
+      if (this.$refs["form"].instance.validate().isValid) {
+        if (this.isDataChanged) {
+          await this.$awn.asyncBlock(
+            this.$store.dispatch(`documents/${this.documentType}/save`)
+          );
+        }
+        return true;
+      } else {
+        return false;
+      }
+    },
+    setFocusIndex(index) {
+      this.focusedFieldIndex = index;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "~assets/themes/generated/variables.base.scss";
 @import "~assets/dx-styles.scss";
+
 .wrapper--relative {
   position: relative;
   min-height: 84vh;

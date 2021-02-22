@@ -1,6 +1,7 @@
 <template>
   <div>
     <DxSelectBox
+      @focusIn="focusIn"
       ref="document"
       @opened="onOpened"
       :read-only="readOnly"
@@ -116,6 +117,9 @@ export default {
     },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },

@@ -17,6 +17,7 @@ export class DxDateBox extends DefaultEditor {
         text: this.context.$t("dinamicDocuments.updateField.dateType")
       },
       editorOptions: {
+        showClearButton: true,
         onValueChanged: e => {
           console.log(e, this);
         },
@@ -59,7 +60,7 @@ export class DxDateBox extends DefaultEditor {
   get fieldSetting() {
     return [
       ...super.fieldSetting,
-      this._dateType(),
+      this._dateType()
       // this._minDate(),
       // this._maxDate()
     ];

@@ -9,6 +9,10 @@ export default {
     DateTime: "Дата и время",
     Time: "Время"
   },
+  fields: {
+    documentType: "Тип документа",
+    docFlow: "Документопоток"
+  },
   editorTypes: {
     EmployeeBox: "Селектор сотрудников",
     RecipientBox: "Селектор получателей",
