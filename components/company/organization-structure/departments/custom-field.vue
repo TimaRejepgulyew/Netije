@@ -25,7 +25,7 @@ import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton
+    DxButton,
   },
   props: ["fieldData", "readOnly"],
   computed: {
@@ -33,10 +33,11 @@ export default {
       return this.fieldData?.id
         ? this.$store.getters["permissions/allowReading"](EntityType.Employee)
         : false;
-    }
+    },
   },
   methods: {
     openField() {
+      this.$emit("focusIn");
       if (!this.readOnly) this.$emit("openFields");
     },
     openCard() {
@@ -44,7 +45,7 @@ export default {
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
-    }
-  }
+    },
+  },
 };
 </script>

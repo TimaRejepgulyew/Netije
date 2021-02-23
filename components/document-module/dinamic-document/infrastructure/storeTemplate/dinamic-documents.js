@@ -15,7 +15,8 @@ const obj = {
         isRequired: false,
         translationRu: "Новое поле",
         translationTk: "Taze",
-        editorType: "dxTextBox"
+        editorType: "dxDateBox",
+        dateType: "dateTime"
       },
       {
         id: 31,

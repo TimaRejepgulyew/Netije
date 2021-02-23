@@ -24,6 +24,7 @@
       </DxValidator>
       <template #customfield="{ data }">
         <custom-field
+          @focusIn="focusIn"
           @openFields="openFields"
           @openCard="showPopup(data)"
           :read-only="readOnly"
@@ -86,6 +87,9 @@ export default {
     },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn");
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },

@@ -1,6 +1,5 @@
 import StoreModule from "~/infrastructure/services/StoreModule.js";
 import * as dinamicDocumentsStoreTemplate from "~/components/document-module/dinamic-document/infrastructure/storeTemplate/dinamic-documents.js";
-import BaseItem from "~/components/document-module/dinamic-document/infrastructure/models/items/BaseItem.js";
 
 const dinamicTypeStoreModule = new StoreModule({
   moduleName: "dinamicDocumentComponents",

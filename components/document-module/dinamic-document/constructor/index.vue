@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Toolbar :fieldIndex="focusedFieldIndex" :documentType="documentType"></Toolbar>
+    <Toolbar
+      :fieldIndex="focusedFieldIndex"
+      :documentType="documentType"
+    ></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -34,13 +37,19 @@
                 :col-count="8"
                 :caption="$t('dinamicDocuments.captions.dinamic')"
               >
-                <DxSimpleItem :col-span="8" template="dinamic-document"></DxSimpleItem>
+                <DxSimpleItem
+                  :col-span="8"
+                  template="dinamic-document"
+                ></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
         </DxTabbedItem>
         <template #dinamic-document>
-          <Dinamic-document :documentType="documentType" @onFocusField="setFocusIndex"></Dinamic-document>
+          <Dinamic-document
+            :documentType="documentType"
+            @onFocusField="setFocusIndex"
+          ></Dinamic-document>
         </template>
       </DxForm>
       <transition name="fade">
@@ -49,7 +58,11 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field slot="content" :documentType="documentType" :fieldIndex="focusedFieldIndex"></Update-field>
+          <Update-field
+            slot="content"
+            :documentType="documentType"
+            :fieldIndex="focusedFieldIndex"
+          ></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -70,7 +83,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 
 export default {
@@ -85,17 +98,17 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm
+    DxForm,
   },
   // props: {
   //   documentType: {
   //     default: "contructor",
   //   },
   // },
-  provide: function() {
+  provide: function () {
     return {
       trySaveDocumentType: this.trySave,
-      documentValidatorName: this.documentValidatorName
+      documentValidatorName: null,
     };
   },
   data() {
@@ -105,8 +118,8 @@ export default {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
-      }
+        loop: "true",
+      },
     };
   },
   computed: {
@@ -131,12 +144,12 @@ export default {
         value: this.$store.getters[
           `dinamicDocumentComponents/${this.documentType}/docFlow`
         ],
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `dinamicDocumentComponents/${this.documentType}/ChangeDocFlow`,
             e.value
           );
-        }
+        },
       };
     },
     documentTypeOptions() {
@@ -146,14 +159,14 @@ export default {
         value: this.$store.getters[
           `dinamicDocumentComponents/${this.documentType}/docType`
         ],
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `dinamicDocumentComponents/${this.documentType}/ChangeDocType`,
             e.value
           );
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     async trySave() {
@@ -163,14 +176,14 @@ export default {
     },
     setFocusIndex(index) {
       this.focusedFieldIndex = index;
-    }
+    },
   },
   created() {
     DinamicTypeControler.generateStore(this, this.documentType);
   },
   beforeDestroy() {
     DinamicTypeControler.removeStore(this, this.documentType);
-  }
+  },
 };
 </script>
 

@@ -32,16 +32,17 @@ import { DxTextBox } from "devextreme-vue";
 export default {
   components: {
     DxTextBox,
-    DxButton
+    DxButton,
   },
   props: ["fieldData", "readOnly"],
   computed: {
     canShowInfo() {
       return this.fieldData ? true : false;
-    }
+    },
   },
   methods: {
     openField() {
+      this.$emit("focusIn");
       if (!this.readOnly) this.$emit("openFields");
     },
     openGrid() {
@@ -49,7 +50,7 @@ export default {
     },
     openCard() {
       this.$emit("openCard", this.fieldData);
-    }
-  }
+    },
+  },
 };
 </script>

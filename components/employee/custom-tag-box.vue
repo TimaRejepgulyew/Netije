@@ -1,5 +1,6 @@
 <template>
   <DxTagBox
+    @focusIn="focusIn"
     @opened="onOpened"
     :readOnly="readOnly"
     :data-source="employeeStore"
@@ -70,6 +71,9 @@ export default {
     },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },

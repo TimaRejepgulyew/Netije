@@ -6,7 +6,14 @@ export class BaseEditor {
     this._setStoreId(storeId);
   }
   static get baseSettingField() {
-    return ["id", "dataField", "translationRu", "translationTk", "editorType"];
+    return [
+      "id",
+      "dataField",
+      "translationRu",
+      "translationTk",
+      "editorType",
+      "colSpan"
+    ];
   }
   static clearFields(prevField) {
     let baseFields = BaseEditor.baseSettingField;

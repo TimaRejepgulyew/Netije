@@ -17,10 +17,8 @@ export class DxDateBox extends DefaultEditor {
         text: this.context.$t("dinamicDocuments.updateField.dateType")
       },
       editorOptions: {
+       
         showClearButton: true,
-        onValueChanged: e => {
-          console.log(e, this);
-        },
         dataSource: this._dateTypes(),
         valueExpr: "id",
         displayExpr: "text"

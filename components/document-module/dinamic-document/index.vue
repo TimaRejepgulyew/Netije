@@ -1,7 +1,9 @@
 <template>
   <div>
     <DxForm :items="builder.elements"></DxForm>
-    <button @click="showBuilder" :class="{active : builder.isDataChanged}">Показать всю правду</button>
+    <button @click="showBuilder" :class="{ active: builder.isDataChanged }">
+      Показать всю правду
+    </button>
     <button @click="saveBuilder">Спаси и сохрони</button>
   </div>
 </template>
@@ -13,7 +15,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 
 import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
@@ -25,32 +27,32 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,
-    DxLabel
+    DxLabel,
   },
   data() {
     return {
-      builder: null
+      builder: null,
     };
   },
   computed: {
+    readOnly() {
+      return false;
+    },
     items() {
       return this.builder.getElements();
-    }
+    },
   },
   methods: {
     showBuilder() {
-      console.log(this.builder);
       this.builder.addNewElement();
-      console.log(this.builder);
-      // console.log(this.builder);
     },
     saveBuilder() {
       this.builder.saveType();
-    }
+    },
   },
   created() {
     this.builder = new DinamicTypeControler(this);
-  }
+  },
 };
 </script>
 

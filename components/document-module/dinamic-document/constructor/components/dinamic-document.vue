@@ -9,7 +9,7 @@
       :items="items"
     >
       <template #DocumentSelectBox="{ data }">
-        <DocumentBox
+        <DocumentSelectBox
           @focusIn="(value) => onFocusIn(data)"
           :readOnly="readOnly"
           :dataSourceFilter="data.editorOptions.dataSourceFilter"
@@ -39,7 +39,7 @@
           :value="data.editorOptions.value"
         />
       </template>
-      <template #ContactSelectbox="{ data }">
+      <template #ContactSelectBox="{ data }">
         <Contact-select-box
           @focusIn="(value) => onFocusIn(data)"
           :disabled="readOnly"
@@ -108,14 +108,13 @@
 
 <script>
 //servises
-import DinamicTypeBuilder from "~/components/document-module/dinamic-document/infrastructure/services/dinamicTypeBuilder.js";
 import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
 import { devExtremeFieldFactory } from "../../infrastructure/factory/devextremeField.factory";
 //components
 import DxForm from "devextreme-vue/form";
-import RecipientSelectBox from "~/components/document/select-box/index.vue";
+import RecipientSelectBox from "~/components/recipient/select-box/index.vue";
 import RecipientTagBox from "~/components/recipient/tag-box/index.vue";
-import DocumentBox from "~/components/document/select-box/index.vue";
+import DocumentSelectBox from "~/components/document/select-box/index.vue";
 import AutocomleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import EmployeeSelectBox from "~/components/employee/custom-select-box.vue";
@@ -126,7 +125,7 @@ export default {
   components: {
     DxForm,
     AutocomleteTextArea,
-    DocumentBox,
+    DocumentSelectBox,
     DepartmentSelectBox,
     EmployeeSelectBox,
     ContactSelectBox,
@@ -135,6 +134,7 @@ export default {
     RecipientSelectBox,
     RecipientTagBox,
   },
+  inject: ["documentValidatorName"],
   props: {
     documentType: {},
     documentId: {},
@@ -145,37 +145,18 @@ export default {
     };
   },
   computed: {
+    readOnly() {
+      return false;
+    },
     items() {
-      // const items = [
-      //   {
-      //     editorType: "dxTextBox",
-      //     dataField: "NewValue",
-      //     translationRu: "Новое поле",
-      //     translationTk: "Taze mevdanca",
-      //     colSpan: 2,
-      //     id: 1,
-      //   },
-      //   {
-      //     editorType: "EmployeeBox",
-      //     dataField: "NewValue2",
-      //     isMultiple: false,
-      //     isRequired: true,
-      //     translationRu: "Новое поле2",
-      //     translationTk: "Taze mevdanca2",
-      //     colSpan: 2,
-      //     id: 2,
-      //   },
-      // ];
-
       let items = DinamicTypeControler.getElements(this, this.documentType);
-      console.log(items);
       const generatedItems = new devExtremeFieldFactory(this, items);
+      console.log(generatedItems);
       return generatedItems;
     },
   },
   methods: {
     onFocusIn(data) {
-      console.log(data, "dat1a");
       this.$emit("onFocusField", data.name);
     },
     change(value, e) {

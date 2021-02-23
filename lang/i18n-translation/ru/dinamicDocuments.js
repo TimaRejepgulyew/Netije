@@ -17,6 +17,7 @@ export default {
     EmployeeBox: "Селектор сотрудников",
     RecipientBox: "Селектор получателей",
     BusinessUnitBox: "Селектор компаний",
+    DocumentBox: "Селектор документов",
     DepartmentBox: "Селектор отделов",
     CounterPartBox: "Селектор контрагентов",
     ContactBox: "Селектор контактов",
