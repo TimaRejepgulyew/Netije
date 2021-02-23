@@ -9,6 +9,7 @@ import { DepartmentBox } from "../models/EditorTypes/DepartmentBox";
 import { CounterPartBox } from "../models/EditorTypes/CounterPartBox";
 import { ContactBox } from "../models/EditorTypes/ContactBox";
 import { DocumentBox } from "../models/EditorTypes/DocumentBox";
+import { AutoCompleteBox } from "../models/EditorTypes/AutoCompleteBox";
 export class FieldGenerator {
   static dxTextBox = DxTextBox;
   static dxTextArea = DxTextArea;
@@ -21,6 +22,7 @@ export class FieldGenerator {
   static CounterPartBox = CounterPartBox;
   static ContactBox = ContactBox;
   static DocumentBox = DocumentBox;
+  static AutoCompleteBox = AutoCompleteBox;
   static generatorData({ editorType, fieldData }) {
     if (editorType) {
       const newFieldData = FieldGenerator[editorType].clearFields(fieldData);

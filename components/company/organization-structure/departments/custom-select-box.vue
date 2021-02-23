@@ -76,7 +76,7 @@ export default {
         }),
         paginate: true,
         pageSize: 10,
-        filter: businessUnitId
+        filter: this.businessUnitId
           ? [
               ["businessUnitId", "=", this.businessUnitId],
               "and",

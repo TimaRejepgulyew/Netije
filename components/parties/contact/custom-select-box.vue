@@ -26,6 +26,7 @@
     </template>
     <template #customfield="{ data }">
       <custom-field
+        @focusIn="focusIn"
         :read-only="readOnly"
         @valueChanged="setContact"
         @openFields="openFields"
@@ -78,6 +79,9 @@ export default {
     },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     openFields() {
       this.$refs["contact"].instance.open();
     },

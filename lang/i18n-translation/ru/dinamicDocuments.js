@@ -14,6 +14,7 @@ export default {
     docFlow: "Документопоток"
   },
   editorTypes: {
+    AutoCompleteBox: "Автозаполняемое текстовое поле",
     EmployeeBox: "Селектор сотрудников",
     RecipientBox: "Селектор получателей",
     BusinessUnitBox: "Селектор компаний",

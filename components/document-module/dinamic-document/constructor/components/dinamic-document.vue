@@ -20,12 +20,12 @@
           @valueChanged="(value) => change(data, value)"
         />
       </template>
-      <template #AutocompleteBox="{ data }">
-        <AutocomleteTextArea
+      <template #AutoCompleteBox="{ data }">
+        <Auto-complete-text-area
           @focusIn="(value) => onFocusIn(data)"
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
-          value="test"
+          :value="data.editorOptions.value"
           :options="{}"
           @valueChanged="(value) => change(data, value)"
         />
@@ -112,7 +112,7 @@ import DxForm from "devextreme-vue/form";
 import RecipientSelectBox from "~/components/recipient/select-box/index.vue";
 import RecipientTagBox from "~/components/recipient/tag-box/index.vue";
 import DocumentSelectBox from "~/components/document/select-box/index.vue";
-import AutocomleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
+import AutoCompleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import EmployeeSelectBox from "~/components/employee/custom-select-box.vue";
 import ContactSelectBox from "~/components/parties/contact/custom-select-box.vue";
@@ -121,7 +121,7 @@ import CounterPartSelectBox from "~/components/parties/custom-select-box.vue";
 export default {
   components: {
     DxForm,
-    AutocomleteTextArea,
+    AutoCompleteTextArea,
     DocumentSelectBox,
     DepartmentSelectBox,
     EmployeeSelectBox,

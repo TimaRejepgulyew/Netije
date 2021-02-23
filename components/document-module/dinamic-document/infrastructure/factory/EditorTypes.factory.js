@@ -9,6 +9,7 @@ import { DepartmentBox } from "../models/EditorTypes/DepartmentBox";
 import { DocumentBox } from "../models/EditorTypes/DocumentBox";
 import { CounterPartBox } from "../models/EditorTypes/CounterPartBox";
 import { ContactBox } from "../models/EditorTypes/ContactBox";
+import { AutoCompleteBox } from "../models/EditorTypes/AutoCompleteBox";
 class EditorTypes {
   static dxTextBox = DxTextBox;
   static dxTextArea = DxTextArea;
@@ -21,6 +22,7 @@ class EditorTypes {
   static DepartmentBox = DepartmentBox;
   static CounterPartBox = CounterPartBox;
   static ContactBox = ContactBox;
+  static AutoCompleteBox = AutoCompleteBox;
   constructor(context, storeId) {
     return [
       new DxTextBox(context, storeId).getObject(),
@@ -33,7 +35,8 @@ class EditorTypes {
       new DepartmentBox(context, storeId).getObject(),
       new CounterPartBox(context, storeId).getObject(),
       new ContactBox(context, storeId).getObject(),
-      new DocumentBox(context,storeId).getObject()
+      new DocumentBox(context, storeId).getObject(),
+      new AutoCompleteBox(context, storeId).getObject()
     ];
   }
   static getDefaultEditorType(context, storeId) {
