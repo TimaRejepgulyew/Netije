@@ -4,9 +4,10 @@ const obj = {
     state: {
         docFlow: "",
         docType: "Prig Skok",
-        isNew: true,
         overlays: 1,
+        isNew: true,
         isDataChanged: false,
+        needRerender: false,
         elements: [
             {
                 id: 21,
@@ -15,7 +16,7 @@ const obj = {
                 isRequired: false,
                 translationRu: "Новое поле",
                 translationTk: "Taze",
-                editorType: "dxTextBox"
+                editorType: "dxDateBox"
             },
             {
                 id: 31,
@@ -50,6 +51,9 @@ const obj = {
         docFlow(state) {
             return state.docFlow
         },
+        needRerender(state) {
+            return state.needRerender
+        },
         isNew(state) {
             return state.isNew
         },
@@ -64,6 +68,7 @@ const obj = {
         AddNewElement(state, payload) {
             state.isDataChanged = true
             state.elements.push(payload)
+            state.needRerender = false
         },
         IntroduceElement(state, { id, payload }) {
             state.elements.forEach((element, index) => {
@@ -74,8 +79,15 @@ const obj = {
             });
         },
         ChangeElement(state, payload) {
+            let err
             state.elements.forEach((element, index) => {
-                if (element.id === payload.id) {
+                if (element.id !== payload.id && element.dataField === payload.dataField) {
+                    err = true
+                    throw new Error("There should not be two identical dataField")
+                }
+            });
+            state.elements.forEach((element, index) => {
+                if (element.id === payload.id && !err) {
                     state.isDataChanged = true
                     state.elements[index] = { ...payload }
                     state.elements.push({})
@@ -137,8 +149,8 @@ const obj = {
             // commit("StopDataTracking")
         },
     }
-  }
-  
+}
+
 export const state = () => obj.state;
 export const getters = obj.getters;
 export const actions = obj.actions;

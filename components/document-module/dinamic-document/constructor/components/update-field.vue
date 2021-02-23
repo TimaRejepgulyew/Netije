@@ -38,6 +38,7 @@ import editorTypes, {
   getDefaultEditorType,
   getFieldSettingByEditorType
 } from "../../infrastructure/factory/EditorTypes.factory";
+import { alert } from "devextreme/ui/dialog";
 
 export default {
   props: {
@@ -115,12 +116,20 @@ export default {
     }
   },
   methods: {
-    saveAndRender() {
-      DinamicTypeControler.changeElement(
-        this,
-        this.documentType,
-        this.currentField
-      );
+    async saveAndRender() {
+      try {
+        await DinamicTypeControler.changeElement(
+          this,
+          this.documentType,
+          this.currentField
+        );
+      } catch (error) {
+        alert(
+          this.$t(`dinamicDocuments.updateField.dataFieldNameError`),
+          this.$t(`scanner.alert.error`)
+        );
+        console.log("error", error);
+      }
     }
   }
 };

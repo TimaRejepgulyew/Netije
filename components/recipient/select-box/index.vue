@@ -18,10 +18,7 @@
     :deferRendering="true"
   >
     <DxValidator :validation-group="validatorGroup">
-      <DxRequiredRule
-        v-if="isRequired"
-        :message="$t(`translations.fields.${property}Required`)"
-      />
+      <DxRequiredRule v-if="isRequired" :message="$t(`translations.fields.${property}Required`)" />
     </DxValidator>
     <template #item="{ data }">
       <div>
@@ -45,7 +42,7 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     employeeTypeComponent,
-    defaultType,
+    defaultType
   },
   props: [
     "valueExpr",
@@ -54,12 +51,12 @@ export default {
     "validatorGroup",
     "readOnly",
     "dataApi",
-    "property",
+    "property"
   ],
   data() {
     return {
       dataSourceLoaded: this.valueExpr,
-      needRepaint: false,
+      needRepaint: false
     };
   },
   computed: {
@@ -67,11 +64,11 @@ export default {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.dataApi || dataApi.recipient.list,
+          loadUrl: this.dataApi || dataApi.recipient.list
         }),
         paginate: true,
         pageSize: 10,
-        sort: [{ selector: "recipientType", desc: false }],
+        sort: [{ selector: "recipientType", desc: false }]
       });
       if (this.dataSourceLoaded) {
         return dataSource;
@@ -81,10 +78,11 @@ export default {
       }
 
       return dataSource;
-    },
+    }
   },
   methods: {
     focusIn() {
+      console.log("focusIn");
       this.$emit("focusIn", this.value);
     },
     onOpened() {
@@ -104,8 +102,8 @@ export default {
         this.needRepaint = false;
         this.$refs["recipient"].instance.repaint();
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -33,7 +33,7 @@
         :visible="true"
         location="before"
         widget="dxButton"
-      /> -->
+      />-->
       <DxItem :options="removeDocumentButtonOptions" location="after" widget="dxButton" />
     </DxToolbar>
   </div>
@@ -126,7 +126,7 @@ export default {
         onClick: async () => {
           try {
             await this.trySaveDocumentType();
-            this.$router.go(-1);
+            this.$emit("close");
           } catch (error) {}
         }
       };
@@ -162,8 +162,7 @@ export default {
     refreshButtonOptions() {
       return {
         icon: "refresh",
-        onClick: () => {
-        }
+        onClick: () => {}
       };
     }
   }

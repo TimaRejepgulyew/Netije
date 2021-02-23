@@ -28,11 +28,10 @@ export class devExtremeFieldFactory {
     const res = [];
     for (let field of fields) {
       const fieldEd = field.editorType;
-      console.log(fieldEd);
       res.push(new this[fieldEd](сontext, field).getFielOptions());
     }
     console.log(res);
     return res;
   }
-  static devExtremeFieldGenerate(context, fields) {}
+  static devExtremeFieldGenerate(context, fields) { }
 }
