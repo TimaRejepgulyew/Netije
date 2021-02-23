@@ -30,7 +30,7 @@
       <!-- <DxItem
         locateInMenu="auto"
         :options="refreshButtonOptions"
-        :visible="!isDataChanged"
+        :visible="true"
         location="before"
         widget="dxButton"
       />-->
@@ -63,6 +63,16 @@ export default {
     };
   },
   computed: {
+    isNew() {
+      return this.$store.getters[
+        `dinamicDocumentComponents/${this.documentType}/isNew`
+      ];
+    },
+    isDataChanged() {
+      return this.$store.getters[
+        `dinamicDocumentComponents/${this.documentType}/isDataChanged`
+      ];
+    },
     addFieldButtonOptions() {
       return {
         onClick: () => {
@@ -99,14 +109,6 @@ export default {
         text: this.$t("dinamicDocuments.buttons.addFieldUnder")
       };
     },
-    isDataChanged() {
-      return this.$store.getters[
-        `dinamicDocumentComponents/${this.documentType}/isDataChanged`
-      ];
-    },
-    canUpdate() {
-      return false;
-    },
     saveButtonOptions() {
       return {
         icon: saveIcon,
@@ -120,8 +122,13 @@ export default {
       return {
         icon: saveAndCloseIcon,
         hint: this.$t("buttons.saveAndBack"),
-        disabled: !this.canUpdate || !this.isDataChanged,
-        onClick: async () => {}
+        disabled: !this.isDataChanged,
+        onClick: async () => {
+          try {
+            await this.trySaveDocumentType();
+            this.$emit("close");
+          } catch (error) {}
+        }
       };
     },
     removeDocumentButtonOptions() {
@@ -129,6 +136,7 @@ export default {
         icon: "trash",
         type: "normal",
         hint: this.$t("document.remove"),
+        visible: !this.isNew,
         onClick: () => {
           let result = confirm(
             this.$t("shared.areYouSure"),
@@ -137,7 +145,7 @@ export default {
           result.then(dialogResult => {
             if (dialogResult) {
               this.$awn.asyncBlock(
-                this.$store.dispatch(`documents/${this.documentId}/delete`),
+                DinamicTypeControler.removeType(this, this.documentType),
                 e => {
                   this.$emit("onRemove");
                   this.$awn.success();

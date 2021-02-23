@@ -109,7 +109,8 @@ import DinamicTypeControler from "~/components/document-module/dinamic-document/
 import { devExtremeFieldFactory } from "../../infrastructure/factory/devextremeField.factory";
 //components
 import DxForm from "devextreme-vue/form";
-import RecipientSelectBox from "~/components/recipient/select-box/index.vue";
+import { DxLoadIndicator } from "devextreme-vue/load-indicator";
+import RecipientSelectBox from "~/components/document/select-box/index.vue";
 import RecipientTagBox from "~/components/recipient/tag-box/index.vue";
 import DocumentSelectBox from "~/components/document/select-box/index.vue";
 import AutoCompleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
@@ -130,6 +131,7 @@ export default {
     CounterPartSelectBox,
     RecipientSelectBox,
     RecipientTagBox,
+    DxLoadIndicator,
   },
   inject: ["documentValidatorName"],
   props: {
@@ -145,8 +147,19 @@ export default {
     readOnly() {
       return false;
     },
+    needRerender() {
+      return this.$store.getters[
+        `dinamicDocumentComponents/${this.documentType}/needRerender`
+      ];
+    },
     items() {
       let items = DinamicTypeControler.getElements(this, this.documentType);
+      if (this.$refs["form"]) {
+        this.$refs["form"].instance.beginUpdate();
+        this.$refs["form"].instance.repaint();
+        this.$refs["form"].instance.updateDimensions();
+        this.$refs["form"].instance.resetValues();
+      }
       const generatedItems = new devExtremeFieldFactory(this, items);
       console.log(generatedItems);
       return generatedItems;

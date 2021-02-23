@@ -15,7 +15,7 @@
       >
         <DxTabbedItem :tab-panel-options="tabPanelOptions">
           <DxTab :col-count="6">
-            <DxGroupItem :col-span="6" :col-count="8">
+            <DxGroupItem :col-span="4" :col-count="8">
               <DxSimpleItem
                 :isRequired="true"
                 :col-span="8"
