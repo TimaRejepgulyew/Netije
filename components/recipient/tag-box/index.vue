@@ -8,7 +8,7 @@
     field-template="customfield"
     :show-clear-button="true"
   >
-    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+    <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #customfield>
@@ -45,7 +45,6 @@
     </template>
   </DxDropDownBox>
 </template>
-
 <script>
 import DxDropDownBox from "devextreme-vue/drop-down-box";
 import { DxTagBox } from "devextreme-vue";
@@ -53,8 +52,6 @@ import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import groupType from "~/components/recipient/tag-box/components/group-type.vue";
 import gropuList from "~/components/recipient/tag-box/components/group-list.vue";
 import userGropuList from "~/components/recipient/tag-box/components/user-group-list.vue";
-
-import recipientType from "~/infrastructure/constants/resipientType.js";
 export default {
   components: {
     DxDropDownBox,
@@ -66,7 +63,7 @@ export default {
     userGropuList,
   },
   props: {
-    recipients: {
+    value: {
       type: Array,
       default: [],
     },
@@ -74,14 +71,21 @@ export default {
       type: Boolean,
       default: false,
     },
-    messageRequired: {},
-    validatorGroup: {},
+    isRequired: {
+      default: false,
+    },
+    messageRequired: {
+      type: String,
+    },
+    validatorGroup: {
+      type: String,
+    },
     valueExpr: {},
   },
   data() {
     return {
       groupType: [],
-      items: this.recipients,
+      items: this.value,
     };
   },
   computed: {
@@ -98,7 +102,7 @@ export default {
   },
   methods: {
     focusIn() {
-      this.$emit("focusIn", this.recipients);
+      this.$emit("focusIn", this.value);
     },
     closeDropDown() {
       this.$refs["dropDownBox"].instance.close();
@@ -109,7 +113,7 @@ export default {
       } else {
         this.items = e.value;
       }
-      this.$emit("setRecipients", this.items);
+      this.$emit("valueChanged", this.items);
     },
     setItem(value) {
       this.items = value;

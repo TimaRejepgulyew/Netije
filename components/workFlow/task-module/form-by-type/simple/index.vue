@@ -74,16 +74,17 @@
       <recipient-tag-box
         :messageRequired="$t('task.validation.performersRequired')"
         :validator-group="taskValidatorName"
+        :isRequired="true"
         :read-only="readOnly"
-        :recipients="performers"
-        @setRecipients="setPerformers"
+        :value="performers"
+        @valueChanged="setPerformers"
       />
     </template>
     <template #observers>
       <recipient-tag-box
         :read-only="readOnly"
-        :recipients="observers"
-        @setRecipients="setObservers"
+        :value="observers"
+        @valueChanged="setObservers"
       />
     </template>
   </DxForm>

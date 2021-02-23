@@ -81,15 +81,16 @@
         <recipient-tag-box
           :read-only="readOnly"
           :validatorGroup="taskValidatorName"
-          :recipients="approvers"
-          @setRecipients="setApprovers"
+          :isRequired="true"
+          :value="approvers"
+          @valueChanged="setApprovers"
         />
       </template>
       <template #observers>
         <recipient-tag-box
           :read-only="readOnly"
-          :recipients="observers"
-          @setRecipients="setObservers"
+          :value="observers"
+          @valueChanged="setObservers"
         />
       </template>
     </DxForm>

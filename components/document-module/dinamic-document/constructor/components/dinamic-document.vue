@@ -82,9 +82,7 @@
         <Recipient-select-box
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
-          :validatorGroup="
-            data.editorOptions.isRequired ? documentValidatorName : null
-          "
+          :validatorGroup="documentValidatorName"
           :value="data.editorOptions.value"
           :isRequired="data.editorOptions.isRequired"
           @valueChanged="(value) => change(data, value)"
@@ -94,12 +92,10 @@
         <Recipient-tag-box
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
-          :validatorGroup="
-            data.editorOptions.isRequired ? documentValidatorName : null
-          "
-          :recipients="data.editorOptions.value"
+          :validatorGroup="documentValidatorName"
+          :value="data.editorOptions.value"
           :isRequired="data.editorOptions.isRequired"
-          @setRecipients="(value) => change(data, value)"
+          @valueChanged="(value) => change(data, value)"
         />
       </template>
     </DxForm>
