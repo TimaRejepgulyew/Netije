@@ -129,8 +129,7 @@ export default {
     BusinessUnitSelectBox,
     CounterPartSelectBox,
     RecipientSelectBox,
-    RecipientTagBox,
-    DxLoadIndicator
+    RecipientTagBox
   },
   inject: ["documentValidatorName"],
   props: {
