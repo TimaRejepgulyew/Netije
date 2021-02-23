@@ -2,7 +2,7 @@ import dataApi from "~/static/dataApi";
 
 const obj = {
     state: {
-        docFlow: "",
+        docFlow: null,
         docType: "Prig Skok",
         overlays: 1,
         isNew: true,
