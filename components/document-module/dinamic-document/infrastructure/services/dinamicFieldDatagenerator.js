@@ -1,5 +1,5 @@
 import { DxTextBox } from "../models/EditorTypes/DxTextBox";
-import { DxTextAreaBox } from "../models/EditorTypes/DxTextAreaBox";
+import { DxTextArea } from "../models/EditorTypes/DxTextArea";
 import { DxDateBox } from "../models/EditorTypes/DxDateBox";
 import { DxCheckBox } from "../models/EditorTypes/DxCheckBox";
 import { EmployeeBox } from "../models/EditorTypes/EmployeeBox";
@@ -8,9 +8,11 @@ import { BusinessUnitBox } from "../models/EditorTypes/BusinessUnitBox";
 import { DepartmentBox } from "../models/EditorTypes/DepartmentBox";
 import { CounterPartBox } from "../models/EditorTypes/CounterPartBox";
 import { ContactBox } from "../models/EditorTypes/ContactBox";
+import { DocumentBox } from "../models/EditorTypes/DocumentBox";
+import { AutoCompleteBox } from "../models/EditorTypes/AutoCompleteBox";
 export class FieldGenerator {
   static dxTextBox = DxTextBox;
-  static dxTextAreaBox = DxTextAreaBox;
+  static dxTextArea = DxTextArea;
   static dxDateBox = DxDateBox;
   static dxCheckBox = DxCheckBox;
   static EmployeeBox = EmployeeBox;
@@ -19,6 +21,8 @@ export class FieldGenerator {
   static DepartmentBox = DepartmentBox;
   static CounterPartBox = CounterPartBox;
   static ContactBox = ContactBox;
+  static DocumentBox = DocumentBox;
+  static AutoCompleteBox = AutoCompleteBox;
   static generatorData({ editorType, fieldData }) {
     if (editorType) {
       const newFieldData = FieldGenerator[editorType].clearFields(fieldData);

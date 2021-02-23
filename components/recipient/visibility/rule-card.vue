@@ -1,13 +1,21 @@
 <template>
   <div>
-    <Header :headerTitle="headerTitle" :isbackButton="!isCard" :isNew="isNew"></Header>
+    <Header
+      :headerTitle="headerTitle"
+      :isbackButton="!isCard"
+      :isNew="isNew"
+    ></Header>
     <toolbar @saveChanges="saveChanges" :canSave="true" />
     <DxForm :form-data="rule">
       <DxSimpleItem data-field="name" editor-type="dxTextBox">
         <DxLabel :text="$t('shared.name')" />
         <DxRequiredRule />
       </DxSimpleItem>
-      <DxSimpleItem data-field="status" editor-type="dxSelectBox" :editor-options="statusOptions">
+      <DxSimpleItem
+        data-field="status"
+        editor-type="dxSelectBox"
+        :editor-options="statusOptions"
+      >
         <DxLabel :text="$t('shared.status')" />
       </DxSimpleItem>
       <DxSimpleItem data-field="recipients" template="ruleRecipients">
@@ -16,13 +24,17 @@
       <DxSimpleItem data-field="excludedMembers" template="excludedMembers">
         <DxLabel :text="$t('companyStructure.company.seesApartFrom')" />
       </DxSimpleItem>
-      <DxSimpleItem data-field="note" editor-type="dxTextArea" :editor-options="{height:'120'}">
+      <DxSimpleItem
+        data-field="note"
+        editor-type="dxTextArea"
+        :editor-options="{ height: '120' }"
+      >
         <DxLabel :text="$t('companyStructure.company.note')" />
       </DxSimpleItem>
       <template #excludedMembers>
         <RecipientTagBox
-          :recipients="rule.excludedMembers"
-          @setRecipients="value => excludedMembersChanged(value)"
+          :value="rule.excludedMembers"
+          @valueChanged="(value) => excludedMembersChanged(value)"
         />
       </template>
       <template #ruleRecipients>
@@ -43,7 +55,7 @@ import {
   DxSimpleItem,
   DxGroupItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import RuleRecipientsGrid from "~/components/recipient/visibility/rule-recipients-grid.vue";
 import RecipientTagBox from "~/components/recipient/tag-box/index.vue";
@@ -65,16 +77,16 @@ export default {
     Toolbar,
     RecipientTagBox,
     RecipientSelectBox,
-    RuleRecipientsGrid
+    RuleRecipientsGrid,
   },
   props: {
     value: {
-      type: Object
+      type: Object,
     },
     isCard: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     rule() {
@@ -84,7 +96,7 @@ export default {
         recipients: [],
         excludedMembers: [],
         note: "",
-        ...this.value
+        ...this.value,
       };
     },
     isNew() {
@@ -99,9 +111,9 @@ export default {
       return {
         dataSource: this.$store.getters["status/status"](this),
         valueExpr: "id",
-        displayExpr: "status"
+        displayExpr: "status",
       };
-    }
+    },
   },
   methods: {
     recipientsChanged(value) {
@@ -113,13 +125,13 @@ export default {
     postRule() {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.visibilityRule.rule, this.rule),
-        e => {
+        (e) => {
           if (!this.isCard) {
             this.$router.go(-1);
           }
           this.$awn.success();
         },
-        e => {
+        (e) => {
           this.$alert();
         }
       );
@@ -130,20 +142,20 @@ export default {
           dataApi.visibilityRule.rule + "/" + this.rule.id,
           this.rule
         ),
-        e => {
+        (e) => {
           this.$awn.success();
           if (!this.isCard) {
             this.$router.go(-1);
           }
         },
-        e => {
+        (e) => {
           this.$alert();
         }
       );
     },
     saveChanges() {
       this.isNew ? this.postRule() : this.putRule();
-    }
-  }
+    },
+  },
 };
 </script>

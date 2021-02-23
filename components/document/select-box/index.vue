@@ -1,7 +1,6 @@
 <template>
   <div>
     <DxSelectBox
-      @focusIn="focusIn"
       ref="document"
       @opened="onOpened"
       :read-only="readOnly"
@@ -28,6 +27,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @focusIn="focusIn"
           @openFields="openFields"
           @openGrid="showDocumentGrid"
           @openCard="showDocumentCard"
@@ -42,7 +42,6 @@
 <script>
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import { load } from "~/infrastructure/services/documentService.js";
-import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import customSelectItem from "~/components/document/components/list-item.vue";
 import customField from "~/components/document/components/input-field.vue";

@@ -60,6 +60,7 @@
       <employee-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :storeApi="signatoryApi"
         :value="ourSignatory"
         @valueChanged="setOurSignatory"
@@ -69,6 +70,7 @@
       <employee-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="issuedTo"
         @valueChanged="setIssuedTo"
       />
@@ -84,6 +86,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -98,6 +101,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
@@ -222,10 +226,7 @@ export default {
   },
   methods: {
     setPreparedBy(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_PREPARED_BY`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY`, data);
     },
     setOurSignatory(data) {
       this.$store.commit(
@@ -246,10 +247,7 @@ export default {
       );
     },
     setDepartment(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

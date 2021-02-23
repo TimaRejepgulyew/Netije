@@ -24,32 +24,33 @@ export default {
   components: {
     DxTextBox,
     DxButton,
-    contactBtn
+    contactBtn,
   },
   props: {
     readOnly: {
-      type: Boolean
+      type: Boolean,
     },
     correspondentId: {},
     fieldData: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   computed: {
     allowReadContactDetails() {
       return this.$store.getters["permissions/allowReading"](
         EntityType.Contact
       );
-    }
+    },
   },
   methods: {
     openField() {
+      this.$emit("focusIn");
       if (!this.readOnly) this.$emit("openFields");
     },
     valueChanged(data) {
       this.$emit("valueChanged", data);
-    }
-  }
+    },
+  },
 };
 </script>

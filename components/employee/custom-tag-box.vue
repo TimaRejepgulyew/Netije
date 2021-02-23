@@ -1,5 +1,6 @@
 <template>
   <DxTagBox
+    @focusIn="focusIn"
     @opened="onOpened"
     :readOnly="readOnly"
     :data-source="employeeStore"
@@ -14,7 +15,7 @@
     :page-size="10"
     item-template="customSelectItem"
   >
-    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+    <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #customSelectItem="{ data }">
@@ -36,14 +37,16 @@ export default {
     DxTagBox,
     customSelectItem,
   },
-  props: [
-    "value",
-    "messageRequired",
-    "validatorGroup",
-    "readOnly",
-    "valueExpr",
-  ],
-  created() {},
+  props: {
+    value: {},
+    isRequired: {
+      default: false,
+    },
+    messageRequired: {},
+    validatorGroup: {},
+    readOnly: {},
+    valueExpr: {},
+  },
   data() {
     return {
       dataSourceLoaded: this.valueExpr,
@@ -70,6 +73,9 @@ export default {
     },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },
