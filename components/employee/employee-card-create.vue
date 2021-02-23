@@ -143,6 +143,7 @@
           :value="businessUnit"
           :read-only="readOnly"
           validatorGroup="createEmployee"
+          :isRequired="true"
           @valueChanged="
             (data) => {
               setBusinessUnit(data);
@@ -156,6 +157,7 @@
           :read-only="readOnly"
           :value="department"
           validatorGroup="createEmployee"
+          :isRequired="true"
           :businessUnitId="businessUnitId"
           @valueChanged="
             (data) => {

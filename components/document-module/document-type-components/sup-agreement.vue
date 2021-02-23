@@ -128,6 +128,7 @@
         :readOnly="readOnly"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         @valueChanged="setCounterparty"
         messageRequired="document.validation.counterPartRequired"
         :value="counterpartyId"
@@ -170,6 +171,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -184,6 +186,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
@@ -412,10 +415,7 @@ export default {
       );
     },
     setDepartment(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

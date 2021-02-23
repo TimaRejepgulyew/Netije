@@ -19,7 +19,7 @@
       field-template="customfield"
       :deferRendering="true"
     >
-      <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+      <DxValidator v-if="isRequired" :validation-group="validatorGroup">
         <DxRequiredRule />
       </DxValidator>
       <template #customfield="{ data }">
@@ -56,6 +56,7 @@ export default {
     "validatorGroup",
     "readOnly",
     "valueExpr",
+    "isRequired",
   ],
   data() {
     return {

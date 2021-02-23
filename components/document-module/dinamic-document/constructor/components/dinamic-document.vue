@@ -15,6 +15,7 @@
           :dataSourceFilter="data.editorOptions.dataSourceFilter"
           :dataSourceQuery="data.editorOptions.dataSourceQuery"
           :validationGroup="documentValidatorName"
+          :isRequired="data.editorOptions.isRequired"
           :value="data.editorOptions.value"
           @valueChanged="(value) => change(data, value)"
         />
@@ -22,6 +23,8 @@
       <template #AutocompleteBox="{ data }">
         <AutocomleteTextArea
           @focusIn="(value) => onFocusIn(data)"
+          :isRequired="data.editorOptions.isRequired"
+          :validatorGroup="documentValidatorName"
           value="test"
           :options="{}"
           @valueChanged="(value) => change(data, value)"
@@ -32,9 +35,8 @@
           @focusIn="(value) => onFocusIn(data)"
           value-expr="id"
           :readOnly="readOnly"
-          :validatorGroup="
-            data.editorOptions.isRequired ? documentValidatorName : null
-          "
+          :isRequired="data.editorOptions.isRequired"
+          :validatorGroup="documentValidatorName"
           @valueChanged="(value) => change(data, value)"
           :value="data.editorOptions.value"
         />
@@ -51,9 +53,8 @@
         <Employee-select-box
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
-          :validatorGroup="
-            data.editorOptions.isRequired ? documentValidatorName : null
-          "
+          :validatorGroup="documentValidatorName"
+          :isRequired="data.editorOptions.isRequired"
           :value="data.editorOptions.value"
           @valueChanged="(value) => change(data, value)"
         />
@@ -62,6 +63,7 @@
         <Business-unit-select-box
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
+          :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
           :value="data.editorOptions.value"
           @valueChanged="(value) => change(data, value)"
@@ -71,9 +73,8 @@
         <Department-select-box
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
-          :validatorGroup="
-            data.editorOptions.isRequired ? documentValidatorName : null
-          "
+          :isRequired="data.editorOptions.isRequired"
+          :validatorGroup="documentValidatorName"
           :value="data.editorOptions.value"
           @valueChanged="(value) => change(data, value)"
         />

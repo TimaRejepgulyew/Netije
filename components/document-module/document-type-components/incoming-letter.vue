@@ -71,6 +71,7 @@
         :dataSourceFilter="inResponseToOptions.dataSourceFilter"
         :dataSourceQuery="inResponseToOptions.dataSourceQuery"
         :validationGroup="documentValidatorName"
+        :isRequired="true"
         :value="document.inResponseTo"
         @valueChanged="setInResponseTo"
       />
@@ -80,6 +81,7 @@
         value-expr="id"
         :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         messageRequired="document.validation.counterPartRequired"
@@ -120,6 +122,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -134,6 +137,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="

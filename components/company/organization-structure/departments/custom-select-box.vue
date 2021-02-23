@@ -19,7 +19,7 @@
       field-template="customfield"
       :deferRendering="true"
     >
-      <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+      <DxValidator v-if="isRequired" :validation-group="validatorGroup">
         <DxRequiredRule />
       </DxValidator>
       <template #customfield="{ data }">
@@ -52,6 +52,7 @@ export default {
   props: [
     "value",
     "storeApi",
+    "isRequired",
     "messageRequired",
     "validatorGroup",
     "readOnly",
@@ -75,11 +76,13 @@ export default {
         }),
         paginate: true,
         pageSize: 10,
-        filter: [
-          ["businessUnitId", "=", this.businessUnitId],
-          "and",
-          ["status", "=", Status.Active],
-        ],
+        filter: businessUnitId
+          ? [
+              ["businessUnitId", "=", this.businessUnitId],
+              "and",
+              ["status", "=", Status.Active],
+            ]
+          : ["status", "=", Status.Active],
       });
       if (this.dataSourceLoaded) {
         return dataSource;

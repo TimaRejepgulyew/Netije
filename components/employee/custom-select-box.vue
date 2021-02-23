@@ -22,7 +22,7 @@
       field-template="customfield"
       :deferRendering="true"
     >
-      <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+      <DxValidator v-if="isRequired" :validation-group="validatorGroup">
         <DxRequiredRule />
       </DxValidator>
 
@@ -64,6 +64,9 @@ export default {
       default: true,
     },
     value: {},
+    isRequired: {
+      default: false,
+    },
     storeApi: {},
     messageRequired: {},
     validatorGroup: {},

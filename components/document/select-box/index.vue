@@ -42,7 +42,6 @@
 <script>
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import { load } from "~/infrastructure/services/documentService.js";
-import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import customSelectItem from "~/components/document/components/list-item.vue";
 import customField from "~/components/document/components/input-field.vue";

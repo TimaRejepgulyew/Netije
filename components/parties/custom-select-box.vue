@@ -1,6 +1,5 @@
 <template>
   <DxSelectBox
-    @focusIn="focusIn"
     ref="counterPart"
     :read-only="readOnly"
     :data-source="counterPartStore"
@@ -20,7 +19,7 @@
     item-template="customSelectItem"
     field-template="customfield"
   >
-    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+    <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #customSelectItem="{ data }">
@@ -28,6 +27,7 @@
     </template>
     <template #customfield="{ data }">
       <custom-field
+        @focusIn="focusIn"
         :read-only="readOnly"
         :notPerson="notPerson"
         :isPerson="isPerson"
@@ -56,6 +56,7 @@ export default {
     customField,
   },
   props: [
+    "isRequired",
     "validatorGroup",
     "messageRequired",
     "value",

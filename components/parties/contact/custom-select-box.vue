@@ -18,7 +18,7 @@
     item-template="customSelectItem"
     field-template="customfield"
   >
-    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+    <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #customSelectItem="{ data }">
@@ -53,9 +53,9 @@ export default {
   props: [
     "readOnly",
     "validatorGroup",
+    "isRequired",
     "messageRequired",
     "value",
-    "filter",
     "correspondentId",
     "disabled",
   ],
