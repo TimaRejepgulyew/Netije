@@ -12,7 +12,6 @@
         <DocumentSelectBox
           @focusIn="(value) => onFocusIn(data)"
           :readOnly="readOnly"
-          :dataSourceFilter="data.editorOptions.dataSourceFilter"
           :dataSourceQuery="data.editorOptions.dataSourceQuery"
           :validationGroup="documentValidatorName"
           :isRequired="data.editorOptions.isRequired"
@@ -23,10 +22,12 @@
       <template #AutoCompleteBox="{ data }">
         <Auto-complete-text-area
           @focusIn="(value) => onFocusIn(data)"
-          :isRequired="data.editorOptions.isRequired"
-          :validatorGroup="documentValidatorName"
           :value="data.editorOptions.value"
-          :options="{}"
+          :options="{
+            isRequired: data.editorOptions.isRequired,
+            validationGroup: documentValidatorName,
+            readOnly: readOnly,
+          }"
           @valueChanged="(value) => change(data, value)"
         />
       </template>
@@ -129,7 +130,7 @@ export default {
     BusinessUnitSelectBox,
     CounterPartSelectBox,
     RecipientSelectBox,
-    RecipientTagBox
+    RecipientTagBox,
   },
   inject: ["documentValidatorName"],
   props: {

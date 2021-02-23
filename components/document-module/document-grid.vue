@@ -75,7 +75,8 @@ import DocumentQuickFilterModel from "~/infrastructure/models/quickFilter/docume
 import DocumentQuickFilterGuid from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
-import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
+import { DocumentQuery as DocumentQueryModel } from "~/infrastructure/models/DocumentQuery.js";
+
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -189,9 +190,8 @@ export default {
         }
       );
     },
-
     generateHeaderTitle() {
-      return generateNameByDocQuery(this.documentQuery, this);
+      return new DocumentQueryModel(this).getById(this.documentQuery).text;
     },
     columns() {
       return ColumnFactory.CreateColumns(this.documentQuery, this);

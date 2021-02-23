@@ -1,5 +1,5 @@
 const DocumentQuery = {
-  All: 100,
+  AllDocuments: 100,
   IncomingDocument: 101,
   OutgoingDocument: 102,
   InternalDocument: 103,
@@ -24,14 +24,3 @@ const DocumentQuery = {
   SupAgreement: 16
 };
 export default DocumentQuery;
-export function generateNameByDocQuery(key, context) {
-  const documentQueryName = new Map();
-  for (let el in DocumentQuery) {
-    documentQueryName.set(
-      DocumentQuery[el],
-      context.$t(`DocumentQuery.${el[0].toLowerCase() + el.slice(1)}`)
-    );
-  }
-  if (key) return documentQueryName.get(key);
-  documentQueryName;
-}

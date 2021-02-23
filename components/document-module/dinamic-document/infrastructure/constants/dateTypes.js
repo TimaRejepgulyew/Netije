@@ -1,6 +1,6 @@
 const DateTypes = {
-  Date: "Date",
-  DateTime: "DateTime",
-  Time: "Time"
+  Date: "date",
+  DateTime: "datetime",
+  Time: "time"
 };
 export default DateTypes;

@@ -29,8 +29,10 @@ export default {
     DxCheckBox: "Чекбокс"
   },
   updateField: {
+    documentQuery: "Категория документов",
     dataField: "Название поля",
-    dataFieldNameError: "Поле с таким названием уже присутствует в данном типе документа",
+    dataFieldNameError:
+      "Поле с таким названием уже присутствует в данном типе документа",
     colSpan: "Занимаемое место",
     isRequired: "Обязательное",
     isMultiple: "Мультивыбор",
