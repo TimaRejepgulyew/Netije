@@ -12,11 +12,7 @@
         :dataSource="QuiсkFilterItems"
         :storeKey="'document-' + documentQuery"
         @valueChanged="setStore"
-        @rangeFilter="
-          (filter) => {
-            setStore(defaultFilter, filter);
-          }
-        "
+      
       />
     </Header>
     <DxDataGrid
@@ -155,6 +151,7 @@ export default {
   },
   methods: {
     setStore(quickFilter, filter) {
+      console.log(quickFilter, filter);
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",

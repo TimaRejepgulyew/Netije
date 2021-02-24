@@ -1,11 +1,6 @@
 <template>
   <div>
     <QuickFilter
-      @rangeFilter="
-        (filter) => {
-          valueChanged(QuiсkFilterGuid.All, filter);
-        }
-      "
       :defaultValue="defaultFilter"
       :dataSource="QuiсkFilterItems"
       :storeKey="'assignment-' + assignmentQuery"

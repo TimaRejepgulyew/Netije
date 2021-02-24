@@ -4,11 +4,6 @@
       :defaultValue="defaultFilter"
       :dataSource="QuiсkFilterItems"
       :storeKey="'task-' + taskQuery"
-      @rangeFilter="
-        (filter) => {
-          valueChanged(QuiсkFilterGuid.All, filter);
-        }
-      "
       @valueChanged="valueChanged"
     />
   </div>
