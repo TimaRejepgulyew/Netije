@@ -60,6 +60,16 @@
           @valueChanged="(value) => change(data, value)"
         />
       </template>
+      <template #EmployeeTagBox="{ data }">
+        <Employee-tag-box
+          @focusIn="(value) => onFocusIn(data)"
+          :read-only="readOnly"
+          :validatorGroup="documentValidatorName"
+          :isRequired="data.editorOptions.isRequired"
+          :value="data.editorOptions.value"
+          @valueChanged="(value) => change(data, value)"
+        />
+      </template>
       <template #BusinessUnitSelectBox="{ data }">
         <Business-unit-select-box
           @focusIn="(value) => onFocusIn(data)"
@@ -95,7 +105,7 @@
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
           :validatorGroup="documentValidatorName"
-          :value="data.editorOptions.value"
+          :value="data.editorOptions.value || []"
           :isRequired="data.editorOptions.isRequired"
           @valueChanged="(value) => change(data, value)"
         />
@@ -116,6 +126,7 @@ import DocumentSelectBox from "~/components/document/select-box/index.vue";
 import AutoCompleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import EmployeeSelectBox from "~/components/employee/custom-select-box.vue";
+import EmployeeTagBox from "~/components/employee/custom-tag-box.vue";
 import ContactSelectBox from "~/components/parties/contact/custom-select-box.vue";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import CounterPartSelectBox from "~/components/parties/custom-select-box.vue";
@@ -126,6 +137,7 @@ export default {
     DocumentSelectBox,
     DepartmentSelectBox,
     EmployeeSelectBox,
+    EmployeeTagBox,
     ContactSelectBox,
     BusinessUnitSelectBox,
     CounterPartSelectBox,
