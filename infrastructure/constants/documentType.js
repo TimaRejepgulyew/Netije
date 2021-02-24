@@ -16,6 +16,7 @@ const DocumentTypeGuid = {
   Waybill: 14,
   Contract: 15,
   SupAgreement: 16,
+  DynamicDocument: 17,
   DocumentTemplate: 100
 };
 export const mapToEntityType = documentTypeGuid => {

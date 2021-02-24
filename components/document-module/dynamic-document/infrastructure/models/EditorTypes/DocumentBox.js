@@ -12,7 +12,7 @@ export class DocumentBox extends SelectBoxEditor {
       dataField: "documentQuery",
       editorType: "dxSelectBox",
       label: {
-        text: this.context.$t("dinamicDocuments.updateField.documentQuery")
+        text: this.context.$t("dynamicDocuments.updateField.documentQuery")
       },
       editorOptions: {
         dataSource: this._documentQueries(),

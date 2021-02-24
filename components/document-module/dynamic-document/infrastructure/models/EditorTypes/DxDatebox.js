@@ -14,7 +14,7 @@ export class DxDateBox extends DefaultEditor {
       dataField: "dateType",
       editorType: "dxSelectBox",
       label: {
-        text: this.context.$t("dinamicDocuments.updateField.dateType")
+        text: this.context.$t("dynamicDocuments.updateField.dateType")
       },
       editorOptions: {
        
@@ -33,7 +33,7 @@ export class DxDateBox extends DefaultEditor {
   //     dataField: "minDate",
   //     editorType: "dxDateBox",
   //     label: {
-  //       text: this.context.$t("dinamicDocuments.updateField.minDate")
+  //       text: this.context.$t("dynamicDocuments.updateField.minDate")
   //     },
   //     editorOptions: {
   //       openOnFieldClick: true
@@ -47,7 +47,7 @@ export class DxDateBox extends DefaultEditor {
   //     dataField: "maxDate",
   //     editorType: "dxDateBox",
   //     label: {
-  //       text: this.context.$t("dinamicDocuments.updateField.maxDate")
+  //       text: this.context.$t("dynamicDocuments.updateField.maxDate")
   //     },
   //     editorOptions: {
   //       openOnFieldClick: true

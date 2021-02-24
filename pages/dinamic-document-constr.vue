@@ -1,12 +1,12 @@
 <template>
-  <dinamicDocumentConstructor />
+  <dynamicDocumentConstructor />
 </template>
 
 <script>
-import dinamicDocumentConstructor from "~/components/document-module/dinamic-document/constructor/index.vue";
+import dynamicDocumentConstructor from "~/components/document-module/dynamic-document/constructor/index.vue";
 export default {
   components: {
-    dinamicDocumentConstructor,
+    dynamicDocumentConstructor,
     
   },
   

@@ -18,7 +18,7 @@ import DxForm, {
   DxLabel,
 } from "devextreme-vue/form";
 
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 export default {
   components: {
     DxForm,
@@ -51,7 +51,7 @@ export default {
     },
   },
   created() {
-    this.builder = new DinamicTypeControler(this);
+    this.builder = new DynamicTypeControler(this);
   },
 };
 </script>

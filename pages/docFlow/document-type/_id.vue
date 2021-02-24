@@ -1,14 +1,14 @@
 <template>
   <div>
-    <DinamicDocument />
+    <DynamicDocument />
   </div>
 </template>
 
 <script>
-import DinamicDocument from "~/components/document-module/dinamic-document/index.vue";
+import DynamicDocument from "~/components/document-module/dynamic-document/index.vue";
 export default {
   components: {
-    DinamicDocument
+    DynamicDocument
   }
 };
 </script>

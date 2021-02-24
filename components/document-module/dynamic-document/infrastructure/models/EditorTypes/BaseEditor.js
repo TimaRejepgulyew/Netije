@@ -38,14 +38,14 @@ export class BaseEditor {
     this.storeId = id;
   }
   _setBaseValue = (context, value) => {
-    this.text = context.$t(`dinamicDocuments.editorTypes.${value}`);
+    this.text = context.$t(`dynamicDocuments.editorTypes.${value}`);
     this.id = EditorTypes[value];
   };
   _dataField = () => {
     return {
       dataField: "dataField",
       label: {
-        text: this.context.$t("dinamicDocuments.updateField.dataField")
+        text: this.context.$t("dynamicDocuments.updateField.dataField")
       },
       isRequired: true,
       editorOptions: {
@@ -57,7 +57,7 @@ export class BaseEditor {
     return {
       dataField: "translationTk",
       label: {
-        text: this.context.$t("dinamicDocuments.updateField.translationTk")
+        text: this.context.$t("dynamicDocuments.updateField.translationTk")
       },
       isRequired: true,
       editorOptions: {
@@ -69,7 +69,7 @@ export class BaseEditor {
     return {
       dataField: "translationRu",
       label: {
-        text: this.context.$t("dinamicDocuments.updateField.translationRu")
+        text: this.context.$t("dynamicDocuments.updateField.translationRu")
       },
       isRequired: true,
       editorOptions: {
@@ -80,7 +80,7 @@ export class BaseEditor {
   _colSpan = () => {
     return {
       dataField: "colSpan",
-      label: { text: this.context.$t("dinamicDocuments.updateField.colSpan") },
+      label: { text: this.context.$t("dynamicDocuments.updateField.colSpan") },
       editorType: "dxNumberBox",
       editorOptions: {
         max: "2",
@@ -94,7 +94,7 @@ export class BaseEditor {
     return {
       dataField: "isRequired",
       label: {
-        text: this.context.$t("dinamicDocuments.updateField.isRequired")
+        text: this.context.$t("dynamicDocuments.updateField.isRequired")
       },
       editorOptions: {
         showClearButton: true
@@ -109,7 +109,7 @@ export class BaseEditor {
   //       // onValueChanged: this.change
   //     },
   //     label: {
-  //       text: this.context.$t("dinamicDocuments.updateField.isMultiple")
+  //       text: this.context.$t("dynamicDocuments.updateField.isMultiple")
   //     },
   //     editorType: "dxSwitch"
   //   };

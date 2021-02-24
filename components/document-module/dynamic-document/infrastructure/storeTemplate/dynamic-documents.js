@@ -127,25 +127,25 @@ const obj = {
         },
     },
     actions: {
-        async get_dinamic_type({ commit }, id) {
+        async get_dynamic_type({ commit }, id) {
             console.log("Element Geted");
-            // const { data } = await this.$axios.get(dataApi.dinamicTypes.get, id)
+            // const { data } = await this.$axios.get(dataApi.dynamicTypes.get, id)
             // commit("SetElements", data)
             commit("SetIsNew", false)
         },
-        async create_dinamic_type({ commit }) {
+        async create_dynamic_type({ commit }) {
             console.log("Element Created");
-            // await this.$axios.post(dataApi.dinamicTypes.post,)
+            // await this.$axios.post(dataApi.dynamicTypes.post,)
             // commit("StopDataTracking")
         },
-        async change_dinamic_type({ state }, id) {
+        async change_dynamic_type({ state }, id) {
             console.log("Element Changed");
-            // await this.$axios.put(dataApi.dinamicTypes.put, id)
+            // await this.$axios.put(dataApi.dynamicTypes.put, id)
             // commit("StopDataTracking")
         },
-        async remove_dinamic_type({ state }, id) {
+        async remove_dynamic_type({ state }, id) {
             console.log("Element Removed");
-            // await this.$axios.put(dataApi.dinamicTypes.put, id)
+            // await this.$axios.put(dataApi.dynamicTypes.put, id)
             // commit("StopDataTracking")
         },
     }

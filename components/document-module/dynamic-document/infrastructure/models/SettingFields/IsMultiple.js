@@ -4,7 +4,7 @@ export class IsMultiple {
     this.options = {
       dataField: "isMultiple",
       label: {
-        text: context.$t("dinamicDocuments.updateField.isMultiple")
+        text: context.$t("dynamicDocuments.updateField.isMultiple")
       },
       editorOptions: {
         showClearButton: true

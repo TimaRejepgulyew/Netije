@@ -1,7 +1,7 @@
 export default {
   captions: {
     static: "Статичные поля",
-    dinamic: "Динамичные поля",
+    dynamic: "Динамичные поля",
     updateField: "Настройки поля"
   },
   dateTypes: {

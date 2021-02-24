@@ -22,7 +22,7 @@
                 editorType="dxTextBox"
                 :editorOptions="documentTypeOptions"
               >
-                <DxLabel :text="$t('dinamicDocuments.fields.documentType')" />
+                <DxLabel :text="$t('dynamicDocuments.fields.documentType')" />
               </DxSimpleItem>
               <DxSimpleItem
                 :isRequired="true"
@@ -30,26 +30,26 @@
                 editorType="dxSelectBox"
                 :editorOptions="documentFlowOptions"
               >
-                <DxLabel :text="$t('dinamicDocuments.fields.docFlow')" />
+                <DxLabel :text="$t('dynamicDocuments.fields.docFlow')" />
               </DxSimpleItem>
               <DxGroupItem
                 :col-span="8"
                 :col-count="8"
-                :caption="$t('dinamicDocuments.captions.dinamic')"
+                :caption="$t('dynamicDocuments.captions.dynamic')"
               >
                 <DxSimpleItem
                   :col-span="8"
-                  template="dinamic-document"
+                  template="dynamic-document"
                 ></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
         </DxTabbedItem>
-        <template #dinamic-document>
-          <Dinamic-document
+        <template #dynamic-document>
+          <Dynamic-document
             :documentType="documentType"
             @onFocusField="setFocusIndex"
-          ></Dinamic-document>
+          ></Dynamic-document>
         </template>
       </DxForm>
       <transition name="fade">
@@ -73,9 +73,9 @@
 import CustomDrawer from "./components/custom-drawer";
 import Toolbar from "./components/toolbar.vue";
 import UpdateField from "./components/update-field.vue";
-import DinamicDocument from "./components/dinamic-document.vue";
+import DynamicDocument from "./components/dynamic-document.vue";
 
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 
 import DxForm, {
   DxTabbedItem,
@@ -90,7 +90,7 @@ export default {
   components: {
     CustomDrawer,
     Toolbar,
-    DinamicDocument,
+    DynamicDocument,
     UpdateField,
     DxTabbedItem,
     DxTab,
@@ -127,11 +127,11 @@ export default {
       return "constructor";
     },
     documentValidatorName() {
-      return `DinamicDocument/${this.documentType}`;
+      return `DynamicDocument/${this.documentType}`;
     },
     isNew() {
       return this.$store.getters[
-        `dinamicDocumentComponents/${this.documentType}/isNew`
+        `dynamicDocumentComponents/${this.documentType}/isNew`
       ];
     },
     documentFlowOptions() {
@@ -142,11 +142,11 @@ export default {
         dataSource: this.$store.getters["docflow/docflow"](this),
         disabled: !this.isNew,
         value: this.$store.getters[
-          `dinamicDocumentComponents/${this.documentType}/docFlow`
+          `dynamicDocumentComponents/${this.documentType}/docFlow`
         ],
         onValueChanged: (e) => {
           this.$store.commit(
-            `dinamicDocumentComponents/${this.documentType}/ChangeDocFlow`,
+            `dynamicDocumentComponents/${this.documentType}/ChangeDocFlow`,
             e.value
           );
         },
@@ -157,11 +157,11 @@ export default {
         disabled: !this.isNew,
         showClearButton: true,
         value: this.$store.getters[
-          `dinamicDocumentComponents/${this.documentType}/docType`
+          `dynamicDocumentComponents/${this.documentType}/docType`
         ],
         onValueChanged: (e) => {
           this.$store.commit(
-            `dinamicDocumentComponents/${this.documentType}/ChangeDocType`,
+            `dynamicDocumentComponents/${this.documentType}/ChangeDocType`,
             e.value
           );
         },
@@ -171,7 +171,7 @@ export default {
   methods: {
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
-        await DinamicTypeControler.saveType(this, this.documentType);
+        await DynamicTypeControler.saveType(this, this.documentType);
       }
     },
     setFocusIndex(index) {
@@ -179,10 +179,10 @@ export default {
     },
   },
   created() {
-    DinamicTypeControler.generateStore(this, this.documentType);
+    DynamicTypeControler.generateStore(this, this.documentType);
   },
   beforeDestroy() {
-    DinamicTypeControler.removeStore(this, this.documentType);
+    DynamicTypeControler.removeStore(this, this.documentType);
   },
 };
 </script>
