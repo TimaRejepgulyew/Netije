@@ -3,7 +3,9 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import controlIcon from "~/static/icons/quide-page/control.svg";
 import reportIcon from "~/static/icons/quide-page/report-icon.svg";
 import documentIcon from "~/static/icons/quide-page/documents.svg";
-export default function(context) {
+import personalSettingIcon from "~/static/icons/doc-flow-icon/personalSettingIcon.svg";
+
+export default function (context) {
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
@@ -14,6 +16,30 @@ export default function(context) {
     return `/document-module/${detail}`;
   };
   const paperWork = [
+    {
+      icon: personalSettingIcon,
+      title: context.$t("docFlow.personalSetting.title"),
+      items: [
+        {
+          name: context.$t("docFlow.personalSetting.mySetting"),
+          description: context.$t("docFlow.personalSetting.mySettingDescr"),
+          path: pathGenerate("personal-settings"),
+          visible: true
+        }
+      ]
+    },
+    {
+      icon: controlIcon,
+      title: context.$t("paperWork.control.title"),
+      items: [
+        {
+          name: context.$t("paperWork.control.actionItemExicution"),
+          description: context.$t("paperWork.control.actionItemExicutionDescr"),
+          path: "/task/taskCategory/action-item-execution",
+          visible: isVisible(EntityType.ActionItemExecutionTask)
+        }
+      ]
+    },
     {
       icon: documentIcon,
       title: context.$t("paperWork.documents.title"),
@@ -39,18 +65,7 @@ export default function(context) {
       ]
     },
 
-    {
-      icon: controlIcon,
-      title: context.$t("paperWork.control.title"),
-      items: [
-        {
-          name: context.$t("paperWork.control.actionItemExicution"),
-          description: context.$t("paperWork.control.actionItemExicutionDescr"),
-          path: "/task/taskCategory/action-item-execution",
-          visible: isVisible(EntityType.ActionItemExecutionTask)
-        }
-      ]
-    },
+    
     {
       icon: reportIcon,
       title: context.$t("paperWork.reports.title"),
