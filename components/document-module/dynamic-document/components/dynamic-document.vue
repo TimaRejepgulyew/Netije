@@ -6,7 +6,7 @@
       :show-colon-after-label="true"
       :show-validation-summary="false"
       :col-count="2"
-      :items="items"
+      :items="formElements"
     >
       <template #DocumentSelectBox="{ data }">
         <DocumentSelectBox
@@ -116,8 +116,8 @@
 
 <script>
 //servises
-import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
-import { devExtremeFieldFactory } from "../../infrastructure/factory/devextremeField.factory";
+import DynamicTypeControler from "../infrastructure/services/DynamicTypeControler.js";
+import { devExtremeFieldFactory } from "../infrastructure/factory/devextremeField.factory";
 //components
 import DxForm from "devextreme-vue/form";
 import RecipientSelectBox from "~/components/recipient/select-box/index.vue";
@@ -155,13 +155,25 @@ export default {
     };
   },
   computed: {
+    document() {
+      if (this.documentId) {
+        return this.$store.getters[`documents/${this.documentId}/document`];
+      }
+      return {};
+    },
+
     readOnly() {
+      if (this.documentId) {
+        return this.$store.getters[`documents/${this.documentId}/readOnly`];
+      }
       return false;
     },
-    items() {
-      let items = DynamicTypeControler.getElements(this, this.documentType);
-      const generatedItems = new devExtremeFieldFactory(this, items);
-      console.log(generatedItems);
+    formElements() {
+      let formElements = DynamicTypeControler.getElements(
+        this,
+        this.documentType
+      );
+      const generatedItems = new devExtremeFieldFactory(this, formElements);
       return generatedItems;
     },
   },
@@ -169,8 +181,11 @@ export default {
     onFocusIn(data) {
       this.$emit("onFocusField", data.name);
     },
-    change(value, e) {
-      this.$store.dispatch("dynamicDocument/changeField", { e, value });
+    change(value, data) {
+      this.$store.commit(`documents/${this.documentType}/SET_DYNAMIC_FIELD`, {
+        data,
+        value,
+      });
     },
   },
 };

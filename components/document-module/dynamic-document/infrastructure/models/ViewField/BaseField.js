@@ -18,6 +18,7 @@ export class BaseField {
       isRequired = false
     }
   ) {
+    this.context = context;
     this.id = id;
     this.name = id;
     this.colSpan = colSpan;
@@ -28,11 +29,18 @@ export class BaseField {
       context.onFocusIn(this);
     };
     this._setLabel(context, { translationRu, translationTk });
+    this._setEventValueChanged();
+    console.log(this);
   }
   getFielOptions() {
     return this;
   }
-
+  _setEventValueChanged() {
+    this.editorOptions.onValueChanged = e => {
+      console.log(this);
+      this.context.change(e.value, this);
+    };
+  }
   _setLabel(context, { translationRu, translationTk }) {
     this.label = {
       text: context.$i18n.locale === "ru" ? translationRu : translationTk

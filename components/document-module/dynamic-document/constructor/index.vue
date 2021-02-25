@@ -73,8 +73,7 @@
 import CustomDrawer from "./components/custom-drawer";
 import Toolbar from "./components/toolbar.vue";
 import UpdateField from "./components/update-field.vue";
-import DynamicDocument from "./components/dynamic-document.vue";
-
+import DynamicDocument from "../components/dynamic-document.vue";
 import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 
 import DxForm, {

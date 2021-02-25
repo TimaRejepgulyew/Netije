@@ -157,6 +157,7 @@
         </template>
         <template #formByTypeGuid>
           <component
+            :documentType="document.documentTypeId"
             :documentId="documentId"
             :isCard="isCard"
             :is="formByTypeGuid"
@@ -216,6 +217,7 @@ import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 
 import DocumentType from "~/infrastructure/models/DocumentType.js";
 import dataApi from "~/static/dataApi";
+
 export default {
   components: {
     ...documentTypeComponent,
@@ -422,6 +424,8 @@ export default {
           return "universal-transfer-document";
         case DocumentTypeGuid.Waybill:
           return "waybill";
+        case DocumentTypeGuid.DynamicDocument:
+          return "dynamic-document";
       }
     },
     nameOptions() {

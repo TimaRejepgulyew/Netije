@@ -275,9 +275,6 @@ export default {
     responsibleEmployee() {
       return this.document.responsibleEmployee;
     },
-    readOnly() {
-      return this.$store.getters[`documents/${this.documentId}/readOnly`];
-    },
     validTill() {
       return this.document.validTill;
     },

@@ -13,6 +13,7 @@ import incomingTaxInvoice from "~/components/document-module/document-type-compo
 import outgoingTaxInvoice from "~/components/document-module/document-type-components/outgoing-tax-invoice.vue";
 import universalTransferDocument from "~/components/document-module/document-type-components/universal-transfer-document.vue";
 import waybill from "~/components/document-module/document-type-components/waybill.vue";
+import dynamicDocument from "~/components/document-module/dynamic-document/components/dynamic-document";
 export {
   powerOfAttorney,
   memo,
@@ -28,5 +29,6 @@ export {
   incomingTaxInvoice,
   outgoingTaxInvoice,
   universalTransferDocument,
-  waybill
+  waybill,
+  dynamicDocument
 };
