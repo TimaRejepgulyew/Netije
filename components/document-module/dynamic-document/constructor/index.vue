@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Toolbar @close="close" :fieldIndex="focusedFieldIndex" :documentType="documentType"></Toolbar>
+    <Toolbar
+      @clearIndex="setFocusIndex(null)"
+      @close="close"
+      :fieldIndex="focusedFieldIndex"
+      :documentType="documentType"
+    ></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"

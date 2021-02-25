@@ -59,8 +59,6 @@
 
       <DxColumn type="buttons">
         <DxButton icon="more" :text="$t('shared.more')" :onClick="documentKindDetailForm"></DxButton>
-
-        <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
     </DxDataGrid>
   </main>
