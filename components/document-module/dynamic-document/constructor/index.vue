@@ -1,6 +1,8 @@
 <template>
   <div>
     <Toolbar
+      @clearIndex="setFocusIndex(null)"
+      @close="close"
       :fieldIndex="focusedFieldIndex"
       :documentType="documentType"
     ></Toolbar>

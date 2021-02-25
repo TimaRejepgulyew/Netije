@@ -2,39 +2,42 @@
   <div class="navBar">
     <DxToolbar>
       <DxItem widget="dxButton" location="before" :options="backButtonOptions" />
-      <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
+        v-if="isNew"
+        locateInMenu="auto"
+        :options="saveButtonOptions"
+        location="before"
+        widget="dxButton"
+      />
+      <DxItem
+        v-if="isNew"
         locateInMenu="auto"
         :options="saveAndBackButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
+        v-if="isNew"
         locateInMenu="auto"
         :options="addFieldButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
+        v-if="isNew"
         locateInMenu="auto"
         :options="createFieldUnderButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
+        v-if="isNew"
         :visible="fieldIndex !== null"
         locateInMenu="auto"
         :options="removeFieldButtonOptions"
         location="before"
         widget="dxButton"
       />
-      <!-- <DxItem
-        locateInMenu="auto"
-        :options="refreshButtonOptions"
-        :visible="true"
-        location="before"
-        widget="dxButton"
-      />-->
       <DxItem :options="removeDocumentButtonOptions" location="after" widget="dxButton" />
     </DxToolbar>
   </div>
@@ -100,6 +103,7 @@ export default {
             this.documentType,
             this.fieldIndex
           );
+          this.$emit("clearIndex");
         },
         icon: "trash",
         text: this.$t("dynamicDocuments.buttons.removeField")
