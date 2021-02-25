@@ -5,7 +5,7 @@ export class DateTypes {
   constructor(context) {
     this.elements = generatorMapObj({
       Constant: DateTypeGuid,
-      translateName: "dinamicDocuments.dateTypes",
+      translateName: "dynamicDocuments.dateTypes",
       context: context
     });
   }

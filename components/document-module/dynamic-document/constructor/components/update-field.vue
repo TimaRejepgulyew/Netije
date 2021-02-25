@@ -8,7 +8,7 @@
       :show-validation-summary="false"
       :col-count="1"
     >
-      <DxGroupItem :caption="$t('dinamicDocuments.captions.updateField')">
+      <DxGroupItem :caption="$t('dynamicDocuments.captions.updateField')">
         <DxButtonItem horizontalAlignment="left" :buttonOptions="saveButtonOptions" />
         <DxSimpleItem
           data-field="editorType"
@@ -16,7 +16,7 @@
           :editorOptions="editorTypeOptions"
           :isRequired="true"
         >
-          <DxLabel :text="$t('dinamicDocuments.updateField.editorType')" />
+          <DxLabel :text="$t('dynamicDocuments.updateField.editorType')" />
         </DxSimpleItem>
         <DxGroupItem v-if="!isUpdating" :items="fieldSetting" />
       </DxGroupItem>
@@ -32,8 +32,8 @@ import DxForm, {
   DxButtonItem,
   DxLabel
 } from "devextreme-vue/form";
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
-import { FieldGenerator } from "../../infrastructure/services/dinamicFieldDatagenerator";
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
+import { FieldGenerator } from "../../infrastructure/services/dynamicFieldDatagenerator";
 import editorTypes, {
   getDefaultEditorType,
   getFieldSettingByEditorType
@@ -50,7 +50,7 @@ export default {
       handler: function(value) {
         if (value) {
           this.currentField = {
-            ...DinamicTypeControler.getElementById(
+            ...DynamicTypeControler.getElementById(
               this,
               this.documentType,
               value
@@ -91,7 +91,7 @@ export default {
       return {
         useSubmitBehavior: true,
         icon: "save",
-        text: this.$t("dinamicDocuments.buttons.saveAndRender")
+        text: this.$t("dynamicDocuments.buttons.saveAndRender")
       };
     },
     editorTypeOptions() {
@@ -118,17 +118,16 @@ export default {
   methods: {
     async saveAndRender() {
       try {
-        await DinamicTypeControler.changeElement(
+        await DynamicTypeControler.changeElement(
           this,
           this.documentType,
           this.currentField
         );
       } catch (error) {
         alert(
-          this.$t(`dinamicDocuments.updateField.dataFieldNameError`),
+          this.$t(`dynamicDocuments.updateField.dataFieldNameError`),
           this.$t(`scanner.alert.error`)
         );
-        console.log("error", error);
       }
     }
   }

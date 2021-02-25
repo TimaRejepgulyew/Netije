@@ -40,7 +40,7 @@
 </template>
 <script>
 //servises
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 //components
 import { confirm } from "devextreme/ui/dialog";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
@@ -65,40 +65,40 @@ export default {
   computed: {
     isNew() {
       return this.$store.getters[
-        `dinamicDocumentComponents/${this.documentType}/isNew`
+        `dynamicDocumentComponents/${this.documentType}/isNew`
       ];
     },
     isDataChanged() {
       return this.$store.getters[
-        `dinamicDocumentComponents/${this.documentType}/isDataChanged`
+        `dynamicDocumentComponents/${this.documentType}/isDataChanged`
       ];
     },
     addFieldButtonOptions() {
       return {
         onClick: () => {
-          DinamicTypeControler.addNewElement(this, this.documentType);
+          DynamicTypeControler.addNewElement(this, this.documentType);
         },
         icon: "plus",
-        text: this.$t("dinamicDocuments.buttons.addField")
+        text: this.$t("dynamicDocuments.buttons.addField")
       };
     },
     removeFieldButtonOptions() {
       return {
         onClick: () => {
-          DinamicTypeControler.removeElement(
+          DynamicTypeControler.removeElement(
             this,
             this.documentType,
             this.fieldIndex
           );
         },
         icon: "trash",
-        text: this.$t("dinamicDocuments.buttons.removeField")
+        text: this.$t("dynamicDocuments.buttons.removeField")
       };
     },
     createFieldUnderButtonOptions() {
       return {
         onClick: () => {
-          DinamicTypeControler.addNewElement(
+          DynamicTypeControler.addNewElement(
             this,
             this.documentType,
             this.fieldIndex
@@ -106,7 +106,7 @@ export default {
         },
         icon: "plus",
         visible: this.fieldIndex,
-        text: this.$t("dinamicDocuments.buttons.addFieldUnder")
+        text: this.$t("dynamicDocuments.buttons.addFieldUnder")
       };
     },
     saveButtonOptions() {
@@ -145,7 +145,7 @@ export default {
           result.then(dialogResult => {
             if (dialogResult) {
               this.$awn.asyncBlock(
-                DinamicTypeControler.removeType(this, this.documentType),
+                DynamicTypeControler.removeType(this, this.documentType),
                 e => {
                   this.$emit("onRemove");
                   this.$awn.success();

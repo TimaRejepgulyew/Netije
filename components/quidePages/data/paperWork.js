@@ -65,7 +65,7 @@ export default function (context) {
       ]
     },
 
-    
+
     {
       icon: reportIcon,
       title: context.$t("paperWork.reports.title"),

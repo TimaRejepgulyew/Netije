@@ -1,9 +1,6 @@
 <template>
   <div>
-    <Toolbar
-      :fieldIndex="focusedFieldIndex"
-      :documentType="documentType"
-    ></Toolbar>
+    <Toolbar :fieldIndex="focusedFieldIndex" :documentType="documentType"></Toolbar>
     <section class="wrapper--relative">
       <DxForm
         :scrolling-enabled="true"
@@ -22,7 +19,7 @@
                 editorType="dxTextBox"
                 :editorOptions="documentTypeOptions"
               >
-                <DxLabel :text="$t('dinamicDocuments.fields.documentType')" />
+                <DxLabel :text="$t('dynamicDocuments.fields.documentType')" />
               </DxSimpleItem>
               <DxSimpleItem
                 :isRequired="true"
@@ -30,26 +27,20 @@
                 editorType="dxSelectBox"
                 :editorOptions="documentFlowOptions"
               >
-                <DxLabel :text="$t('dinamicDocuments.fields.docFlow')" />
+                <DxLabel :text="$t('dynamicDocuments.fields.docFlow')" />
               </DxSimpleItem>
               <DxGroupItem
                 :col-span="8"
                 :col-count="8"
-                :caption="$t('dinamicDocuments.captions.dinamic')"
+                :caption="$t('dynamicDocuments.captions.dynamic')"
               >
-                <DxSimpleItem
-                  :col-span="8"
-                  template="dinamic-document"
-                ></DxSimpleItem>
+                <DxSimpleItem :col-span="8" template="dynamic-document"></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
         </DxTabbedItem>
-        <template #dinamic-document>
-          <Dinamic-document
-            :documentType="documentType"
-            @onFocusField="setFocusIndex"
-          ></Dinamic-document>
+        <template #dynamic-document>
+          <dynamic-document :documentType="documentType" @onFocusField="setFocusIndex"></dynamic-document>
         </template>
       </DxForm>
       <transition name="fade">
@@ -58,11 +49,7 @@
           v-if="focusedFieldIndex !== null"
           class="item--drawer"
         >
-          <Update-field
-            slot="content"
-            :documentType="documentType"
-            :fieldIndex="focusedFieldIndex"
-          ></Update-field>
+          <Update-field slot="content" :documentType="documentType" :fieldIndex="focusedFieldIndex"></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -73,9 +60,9 @@
 import CustomDrawer from "./components/custom-drawer";
 import Toolbar from "./components/toolbar.vue";
 import UpdateField from "./components/update-field.vue";
-import DinamicDocument from "./components/dinamic-document.vue";
+import dynamicDocument from "./components/dynamic-document.vue";
 
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 
 import DxForm, {
   DxTabbedItem,
@@ -83,14 +70,14 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel,
+  DxLabel
 } from "devextreme-vue/form";
 
 export default {
   components: {
     CustomDrawer,
     Toolbar,
-    DinamicDocument,
+    dynamicDocument,
     UpdateField,
     DxTabbedItem,
     DxTab,
@@ -98,17 +85,17 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm,
+    DxForm
   },
-  // props: {
-  //   documentType: {
-  //     default: "contructor",
-  //   },
-  // },
-  provide: function () {
+  props: {
+    documentType: {
+      default: "constructor"
+    }
+  },
+  provide: function() {
     return {
       trySaveDocumentType: this.trySave,
-      documentValidatorName: null,
+      documentValidatorName: null
     };
   },
   data() {
@@ -118,20 +105,17 @@ export default {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true",
-      },
+        loop: "true"
+      }
     };
   },
   computed: {
-    documentType() {
-      return "constructor";
-    },
     documentValidatorName() {
-      return `DinamicDocument/${this.documentType}`;
+      return `DynamicDocument/${this.documentType}`;
     },
     isNew() {
       return this.$store.getters[
-        `dinamicDocumentComponents/${this.documentType}/isNew`
+        `dynamicDocumentComponents/${this.documentType}/isNew`
       ];
     },
     documentFlowOptions() {
@@ -142,14 +126,14 @@ export default {
         dataSource: this.$store.getters["docflow/docflow"](this),
         disabled: !this.isNew,
         value: this.$store.getters[
-          `dinamicDocumentComponents/${this.documentType}/docFlow`
+          `dynamicDocumentComponents/${this.documentType}/docFlow`
         ],
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(
-            `dinamicDocumentComponents/${this.documentType}/ChangeDocFlow`,
+            `dynamicDocumentComponents/${this.documentType}/ChangeDocFlow`,
             e.value
           );
-        },
+        }
       };
     },
     documentTypeOptions() {
@@ -157,33 +141,33 @@ export default {
         disabled: !this.isNew,
         showClearButton: true,
         value: this.$store.getters[
-          `dinamicDocumentComponents/${this.documentType}/docType`
+          `dynamicDocumentComponents/${this.documentType}/docType`
         ],
-        onValueChanged: (e) => {
+        onValueChanged: e => {
           this.$store.commit(
-            `dinamicDocumentComponents/${this.documentType}/ChangeDocType`,
+            `dynamicDocumentComponents/${this.documentType}/ChangeDocType`,
             e.value
           );
-        },
+        }
       };
-    },
+    }
   },
   methods: {
     async trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
-        await DinamicTypeControler.saveType(this, this.documentType);
+        await DynamicTypeControler.saveType(this, this.documentType);
       }
     },
     setFocusIndex(index) {
       this.focusedFieldIndex = index;
-    },
+    }
   },
   created() {
-    DinamicTypeControler.generateStore(this, this.documentType);
+    DynamicTypeControler.generateStore(this, this.documentType);
   },
   beforeDestroy() {
-    DinamicTypeControler.removeStore(this, this.documentType);
-  },
+    DynamicTypeControler.removeStore(this, this.documentType);
+  }
 };
 </script>
 

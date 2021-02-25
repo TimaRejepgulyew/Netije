@@ -14,10 +14,10 @@ export class DxDateBox extends DefaultEditor {
       dataField: "dateType",
       editorType: "dxSelectBox",
       label: {
-        text: this.context.$t("dinamicDocuments.updateField.dateType")
+        text: this.context.$t("dynamicDocuments.updateField.dateType")
       },
       editorOptions: {
-       
+
         showClearButton: true,
         dataSource: this._dateTypes(),
         valueExpr: "id",
@@ -28,12 +28,11 @@ export class DxDateBox extends DefaultEditor {
   };
   // _minDate = () => {
   //   const type = this.context.fieldSetting;
-  //   console.log(type);
   //   return {
   //     dataField: "minDate",
   //     editorType: "dxDateBox",
   //     label: {
-  //       text: this.context.$t("dinamicDocuments.updateField.minDate")
+  //       text: this.context.$t("dynamicDocuments.updateField.minDate")
   //     },
   //     editorOptions: {
   //       openOnFieldClick: true
@@ -42,12 +41,11 @@ export class DxDateBox extends DefaultEditor {
   //   };
   // };
   // _maxDate = () => {
-  //   // console.log(this.context);
   //   return {
   //     dataField: "maxDate",
   //     editorType: "dxDateBox",
   //     label: {
-  //       text: this.context.$t("dinamicDocuments.updateField.maxDate")
+  //       text: this.context.$t("dynamicDocuments.updateField.maxDate")
   //     },
   //     editorOptions: {
   //       openOnFieldClick: true

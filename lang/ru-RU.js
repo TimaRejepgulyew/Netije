@@ -1,4 +1,4 @@
-import dinamicDocuments from "./i18n-translation/ru/dinamicDocuments.js";
+import dynamicDocuments from "./i18n-translation/ru/dynamicDocuments.js";
 import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/ru/administration.js";
 import licensing from "~/lang/i18n-translation/ru/licensing.js";
@@ -28,7 +28,7 @@ import searching from "~/lang/i18n-translation/ru/searchingPanel.js";
 import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/ru/recipientTagBox.js";
 export default {
-  dinamicDocuments,
+  dynamicDocuments,
   recipientTagBox,
   searching,
   exchange,
@@ -93,7 +93,8 @@ export default {
     incomingLetter: "Входящие письма",
     companyDirective: "Распоряжения",
     simpleDocument: "Простые документы",
-    universaltransferdocument: "Универсальный передаточный документ"
+    universaltransferdocument: "Универсальный передаточный документ",
+    dynamicDocument: "Динамические документы"
   },
   createItemDialog: {
     ...DocumentType,

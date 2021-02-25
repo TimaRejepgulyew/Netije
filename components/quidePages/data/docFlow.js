@@ -29,6 +29,11 @@ export default function (context) {
           visible: isVisible(EntityType.DocumentKind)
         },
         {
+          name: context.$t("docFlow.documentSetting.docTypeCreate"),
+          path: pathGenerate("document-type/create"),
+          visible: isAdmin()
+        },
+        {
           name: context.$t("docFlow.documentSetting.docType"),
           description: context.$t("docFlow.documentSetting.docTypeDescr"),
           path: pathGenerate("document-type"),

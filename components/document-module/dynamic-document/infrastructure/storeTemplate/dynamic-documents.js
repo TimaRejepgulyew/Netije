@@ -3,31 +3,12 @@ import dataApi from "~/static/dataApi";
 const obj = {
     state: {
         docFlow: null,
-        docType: "Prig Skok",
+        docType: "",
         overlays: 1,
         isNew: true,
         isDataChanged: false,
         needRerender: false,
-        elements: [
-            {
-                id: 21,
-                dataField: "haha",
-                colSpan: 1,
-                isRequired: false,
-                translationRu: "Новое поле",
-                translationTk: "Taze",
-                editorType: "dxDateBox"
-            },
-            {
-                id: 31,
-                dataField: "huhu",
-                colSpan: 2,
-                isRequired: false,
-                translationRu: "Новое поле",
-                translationTk: "Taze",
-                editorType: "dxDateBox"
-            }
-        ],
+        elements: [],
     },
     getters: {
         getAllElements(state) {
@@ -103,6 +84,15 @@ const obj = {
                 }
             });
         },
+        CleanState(state) {
+            state.docFlow = null
+            state.docType = ""
+            state.overlays = 1
+            state.isNew = true
+            state.isDataChanged = false
+            state.needRerender = false
+            state.elements = []
+        },
         IncrementOverlays(state) {
             state.overlays++;
         },
@@ -127,25 +117,26 @@ const obj = {
         },
     },
     actions: {
-        async get_dinamic_type({ commit }, id) {
-            console.log("Element Geted");
-            // const { data } = await this.$axios.get(dataApi.dinamicTypes.get, id)
+        async get_dynamic_type({ commit }, id) {
+            // const { data } = await this.$axios.get(dataApi.dynamicTypes.get, id)
             // commit("SetElements", data)
             commit("SetIsNew", false)
         },
-        async create_dinamic_type({ commit }) {
-            console.log("Element Created");
-            // await this.$axios.post(dataApi.dinamicTypes.post,)
+        async create_dynamic_type({ commit, state }) {
+            let jsonElements = JSON.stringify(state.elements);
+            await this.$axios.post(dataApi.dynamicDocument.createDocumentType, {
+                name: state.docType,
+                documentFlow: state.docFlow,
+                form: jsonElements
+            })
+            commit("StopDataTracking")
+        },
+        async change_dynamic_type({ state }, id) {
+            // await this.$axios.put(dataApi.dynamicTypes.put, id)
             // commit("StopDataTracking")
         },
-        async change_dinamic_type({ state }, id) {
-            console.log("Element Changed");
-            // await this.$axios.put(dataApi.dinamicTypes.put, id)
-            // commit("StopDataTracking")
-        },
-        async remove_dinamic_type({ state }, id) {
-            console.log("Element Removed");
-            // await this.$axios.put(dataApi.dinamicTypes.put, id)
+        async remove_dynamic_type({ state }, id) {
+            // await this.$axios.put(dataApi.dynamicTypes.put, id)
             // commit("StopDataTracking")
         },
     }

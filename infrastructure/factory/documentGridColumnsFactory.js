@@ -48,6 +48,8 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateAccountingDocumentsColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
+    case DocumentQuery.DynamicDocuments:
+      return CreateDynamicDocumentsColumns(context);
 
     case "document-template":
       return createDocumentTemplateColumns(context);
@@ -218,6 +220,17 @@ const createDocumentTemplateColumns = context => {
     CreateDocumentTemplateStatus(context)
   ];
 };
+
+const CreateDynamicDocumentsColumns = context => {
+  return [
+    CreateDocumentNameColumn(context),
+    // CreateDocumentModifiedColumn(context, true),
+    // CreateDocumentAuthorColumn(context, true),
+    // CreateDocumentCreatedColumn(context),
+  ];
+};
+
+
 const GetDefaultColumn = () => {
   return {
     dataField: "extension",

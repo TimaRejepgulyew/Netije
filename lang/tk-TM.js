@@ -1,3 +1,4 @@
+import dynamicDocuments from "./i18n-translation/tk/dynamicDocuments.js";
 import sharedDirectory from "~/lang/i18n-translation/tk/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/tk/administration.js";
 import licensing from "~/lang/i18n-translation/tk/licensing.js";
@@ -28,6 +29,7 @@ import documentTracking from "~/lang/i18n-translation/tk/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/tk/recipientTagBox.js";
 
 export default {
+  dynamicDocuments,
   recipientTagBox,
   onlineUsers,
   exchange,
@@ -93,8 +95,9 @@ export default {
     outgoingLetter: "Çykyş hatlary",
     incomingLetter: "Gelýän hatlar",
     companyDirective: "Kärhananyň içindäki buýruklar",
+    simpleDocument: "Ýönekeý resminamalar",
+    dynamicDocument: "Dinamiki resminamalar"
 
-    simpleDocument: "Ýönekeý resminamalar"
   },
   createItemDialog: {
     ...DocumentType,
@@ -149,7 +152,7 @@ export default {
       notification: "Duýduryş",
       serverError: "Serwer ýalňyşlygy",
       notHaveAccessRightToRead: "Sizde obýekde doly däl rugsat",
-      hasnotVersion:"Resminamanyň wersiýasy ýüklenmedi"
+      hasnotVersion: "Resminamanyň wersiýasy ýüklenmedi"
     },
     begining: "Başy",
     end: "Soňy",

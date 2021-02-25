@@ -7,6 +7,7 @@
       :show-validation-summary="false"
       :col-count="2"
       :items="items"
+      :form-data="formData"
     >
       <template #DocumentSelectBox="{ data }">
         <DocumentSelectBox
@@ -105,7 +106,7 @@
 
 <script>
 //servises
-import DinamicTypeControler from "~/components/document-module/dinamic-document/infrastructure/services/DinamicTypeControler.js";
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 import { devExtremeFieldFactory } from "../../infrastructure/factory/devextremeField.factory";
 //components
 import DxForm from "devextreme-vue/form";
@@ -138,7 +139,10 @@ export default {
   },
   data() {
     return {
-      builder: null
+      builder: null,
+      formData: {
+        haha: "lolo"
+      }
     };
   },
   computed: {
@@ -146,18 +150,18 @@ export default {
       return false;
     },
     items() {
-      let items = DinamicTypeControler.getElements(this, this.documentType);
+      let items = DynamicTypeControler.getElements(this, this.documentType);
       const generatedItems = new devExtremeFieldFactory(this, items);
-      console.log(generatedItems);
       return generatedItems;
     }
   },
   methods: {
     onFocusIn(data) {
       this.$emit("onFocusField", data.name);
+      this.$refs["form"].instance.repaint();
     },
     change(value, e) {
-      this.$store.dispatch("dinamicDocument/changeField", { e, value });
+      this.$store.dispatch("dynamicDocument/changeField", { e, value });
     }
   }
 };
