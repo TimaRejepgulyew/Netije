@@ -140,7 +140,7 @@ import DxForm, {
   DxCompareRule,
   DxRangeRule,
   DxStringLengthRule,
-  DxPatternRule
+  DxPatternRule,
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 
@@ -155,20 +155,20 @@ export default {
     DxPatternRule,
     DxRangeRule,
     DxForm,
-    Toolbar
+    Toolbar,
   },
   async asyncData({ app, params }) {
     var res = await app.$axios.get(
       dataApi.docFlow.DocumentKind + "/" + params.id
     );
     return {
-      documentKind: res.data
+      documentKind: res.data,
     };
   },
   data() {
     return {
       entityType: EntityType.DocumentKind,
-      codePattern: this.$store.getters["globalProperties/whitespacePattern"]
+      codePattern: this.$store.getters["globalProperties/whitespacePattern"],
     };
   },
   methods: {
@@ -178,10 +178,10 @@ export default {
       const object = { ...this.documentKind };
       this.$awn.asyncBlock(
         this.$axios.put(`${dataApi.docFlow.DocumentKind}/${object.id}`, object),
-        res => this.$awn.success(),
-        err => this.$awn.alert()
+        (res) => this.$awn.success(),
+        (err) => this.$awn.alert()
       );
-    }
+    },
   },
   computed: {
     hasDependencies() {
@@ -191,7 +191,7 @@ export default {
       return {
         valueExpr: "id",
         displayExpr: "status",
-        dataSource: this.$store.getters["status/status"](this)
+        dataSource: this.$store.getters["status/status"](this),
       };
     },
 
@@ -200,7 +200,7 @@ export default {
         dataSource: this.$store.getters["docflow/numberingType"](this),
         valueExpr: "id",
         displayExpr: "name",
-        disabled: this.hasDependencies
+        disabled: this.hasDependencies,
       };
     },
     documentFlowOptions() {
@@ -209,9 +209,9 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         disabled: this.hasDependencies,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.documentKind.documentTypeGuid = null;
-        }
+        },
       };
     },
     tagboxOptions() {
@@ -219,12 +219,12 @@ export default {
         dataSource: {
           store: this.$dxStore({
             key: "id",
-            loadUrl: dataApi.docFlow.DocumentSendAction
+            loadUrl: dataApi.docFlow.DocumentSendAction,
           }),
-          filter: ["status", "=", Status.Active]
+          filter: ["status", "=", Status.Active],
         },
         valueExpr: "id",
-        displayExpr: "name"
+        displayExpr: "name",
       };
     },
     docTypeOptions() {
@@ -232,19 +232,19 @@ export default {
         dataSource: {
           store: this.$dxStore({
             key: "documentTypeGuid",
-            loadUrl: dataApi.docFlow.DocumentType
+            loadUrl: dataApi.docFlow.DocumentType,
           }),
           filter: [
             ["status", "=", Status.Active],
             "and",
-            ["documentFlow", "=", this.documentKind.documentFlow]
-          ]
+            ["documentFlow", "=", this.documentKind.documentFlow],
+          ],
         },
-        valueExpr: "documentTypeGuid",
+        valueExpr: "id",
         displayExpr: "name",
-        disabled: this.hasDependencies
+        disabled: this.hasDependencies,
       };
-    }
-  }
+    },
+  },
 };
 </script>

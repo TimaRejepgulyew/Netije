@@ -22,7 +22,7 @@ export default class DocumentCreateButton extends DocumentType {
     for (let element in this.elements) {
       this.elements[element].create = async context => {
         const { documentTypeGuid, documentId } = await create(context, {
-          documentType: +element
+          documentTypeId: +element
         });
         return { documentTypeGuid, documentId };
       };

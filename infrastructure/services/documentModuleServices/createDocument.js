@@ -7,6 +7,8 @@ export default async function(context, params) {
   switch (params.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await createDocumentTemplate(context);
+    // case DocumentTypeGuid.DynamicDocument:
+    //   return await createDynamicDocument(context);
     default:
       return await createDocument(context, params);
   }
@@ -42,6 +44,12 @@ export async function createDocumentTemplate(context) {
   loadDocumentToStore(context, documentId, data);
   return { documentId, documentTypeGuid };
 }
+// export async function createDynamicDocument(context, params) {
+//   const { data } = await context.$axios.post(
+//     dataApi.documentTemplate.Documents,
+//     {}
+//   );
+// }
 
 export async function createLeadingDocument(context, params) {
   const { documentId, documentTypeGuid, name } = await createDocument(

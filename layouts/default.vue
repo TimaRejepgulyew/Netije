@@ -81,6 +81,26 @@ export default {
   },
 
   created() {
+    // const arr = [0, 0, 1, 1, 1, 2, 3, 4, 5, 6, 6, 6, 7, 7,8];
+    // function Path(arr) {
+    //   let repeat = 0;
+    //   let i = 0;
+    //   for (let j = 0; j < arr.length; j++) {
+    //     if (arr[j] !== arr[i]) {
+    //       repeat = 0;
+    //       i++;
+    //       arr[i] = arr[j];
+    //     } else if (arr[j] === arr[i]) {
+    //       repeat++;
+    //       if (repeat < 2) {
+    //         i++;
+    //         arr[i] = arr[j];
+    //       }
+    //     }
+    //   }
+    //   return arr;
+    // }
+    // console.log(Path(arr));
     subscribe(this.screenSizeChanged);
     window.addEventListener("vuexoidc:userSignedOut", () =>
       this.$store.dispatch("oidc/signOutOidc")
