@@ -54,10 +54,9 @@ class DynamicTypeControler {
         } else {
             dynamicTypeStoreModule.registerModule(context, documentType);
             if (documentType !== "constructor") {
-                await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/get_dynamic_type`, documentType)
+                await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/get_dynamic_type_by_id`, documentType)
             }
         }
-        return context.$store
     }
     static removeStore(context, documentType) {
         let overlay = context.$store.getters[`dynamicDocumentComponents/${documentType}/overlays`]
@@ -68,15 +67,15 @@ class DynamicTypeControler {
             context.$store.commit(`dynamicDocumentComponents/${documentType}/DecrementOverlays`)
         }
     }
-    static async saveType(context, storeId) {
-        if (storeId === "constructor") {
-            await context.$store.dispatch(`dynamicDocumentComponents/${storeId}/create_dynamic_type`)
+    static async saveType(context, documentType) {
+        if (documentType === "constructor") {
+            await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/create_dynamic_type`)
         } else {
-            await context.$store.dispatch(`dynamicDocumentComponents/${storeId}/change_dynamic_type`)
+            await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/change_dynamic_type`, documentType)
         }
     }
-    static async removeType(context, storeId) {
-        await context.$store.dispatch(`dynamicDocumentComponents/${storeId}/remove_dynamic_type`)
+    static async removeType(context, documentType) {
+        await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/remove_dynamic_type`, documentType)
     }
 
 }

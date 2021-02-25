@@ -48,7 +48,6 @@
       <DxScrolling mode="virtual" />
 
       <DxColumn data-field="name" :caption="$t('shared.name')" alignment="left" data-type="string"></DxColumn>
-
       <DxColumn data-field="documentFlow" :caption="$t('docFlow.fields.documentFlow')">
         <DxLookup
           :allow-clearing="true"
@@ -58,14 +57,6 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="status" :caption="$t('translations.fields.status')">
-        <DxLookup
-          :allow-clearing="true"
-          :data-source="statusDataSource"
-          value-expr="id"
-          display-expr="status"
-        />
-      </DxColumn>
       <DxColumn type="buttons">
         <DxButton icon="more" :text="$t('shared.more')" :onClick="documentKindDetailForm"></DxButton>
 
@@ -98,6 +89,7 @@ import {
 
 import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
+import DataSource from "devextreme/data/data_source";
 
 export default {
   components: {
@@ -120,12 +112,16 @@ export default {
   },
   data() {
     return {
-      dataSource: this.$dxStore({
-        key: "id",
-        loadUrl: dataApi.dynamicDocument.getType,
-        removeUrl: dataApi.dynamicDocument.getType
+      dataSource: new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: dataApi.dynamicDocument.documentType,
+          removeUrl: dataApi.dynamicDocument.documentType
+        }),
+        paginate: true,
+        pageSize: 10,
+        filter: ["documentTypeGuid", "=", DocumentQuery.DynamicDocument]
       }),
-      filter: ["documentType", "=", DocumentQuery.DynamicDocument],
       entityType: EntityType.DocumentKind,
       statusDataSource: this.$store.getters["status/status"](this),
       documentFlow: this.$store.getters["docflow/docflow"](this),

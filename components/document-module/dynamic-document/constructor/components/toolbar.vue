@@ -1,6 +1,7 @@
 <template>
   <div class="navBar">
     <DxToolbar>
+      <DxItem widget="dxButton" location="before" :options="backButtonOptions" />
       <DxItem locateInMenu="auto" :options="saveButtonOptions" location="before" widget="dxButton" />
       <DxItem
         locateInMenu="auto"
@@ -82,6 +83,15 @@ export default {
         text: this.$t("dynamicDocuments.buttons.addField")
       };
     },
+    backButtonOptions() {
+      return {
+        onClick: () => {
+          this.$router.go(-1);
+        },
+        stylingMode: "text",
+        icon: "back"
+      };
+    },
     removeFieldButtonOptions() {
       return {
         onClick: () => {
@@ -136,7 +146,7 @@ export default {
         icon: "trash",
         type: "normal",
         hint: this.$t("document.remove"),
-        visible: !this.isNew,
+        visible: this.isNew,
         onClick: () => {
           let result = confirm(
             this.$t("shared.areYouSure"),
@@ -147,7 +157,7 @@ export default {
               this.$awn.asyncBlock(
                 DynamicTypeControler.removeType(this, this.documentType),
                 e => {
-                  this.$emit("onRemove");
+                  this.$emit("close");
                   this.$awn.success();
                 },
                 e => {

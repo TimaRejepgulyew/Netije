@@ -165,10 +165,21 @@ export default {
     },
   },
   methods: {
-    async trySave() {
+    trySave() {
       if (this.$refs["form"].instance.validate().isValid) {
-        await DynamicTypeControler.saveType(this, this.documentType);
+        this.$awn.asyncBlock(
+          DynamicTypeControler.saveType(this, this.documentType),
+          e => {
+            this.$awn.success();
+          },
+          e => {
+            this.$awn.alert();
+          }
+        );
       }
+    },
+    close() {
+      this.$router.go(-1);
     },
     setFocusIndex(index) {
       this.focusedFieldIndex = index;
