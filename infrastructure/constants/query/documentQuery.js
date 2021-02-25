@@ -21,6 +21,7 @@ const DocumentQuery = {
   Universaltransferdocument: 13,
   Waybill: 14,
   Contract: 15,
-  SupAgreement: 16
+  SupAgreement: 16,
+  DynamicDocument: 17
 };
 export default DocumentQuery;

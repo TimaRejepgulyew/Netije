@@ -7,6 +7,7 @@
       :show-validation-summary="false"
       :col-count="2"
       :items="formElements"
+      :form-data="document"
     >
       <template #DocumentSelectBox="{ data }">
         <DocumentSelectBox
@@ -173,7 +174,7 @@ export default {
         this,
         this.documentType
       );
-      console.log(formElements);
+      console.log(formElements, this.documentType);
       const generatedItems = new devExtremeFieldFactory(this, formElements);
       return generatedItems;
     },
@@ -181,6 +182,7 @@ export default {
   methods: {
     onFocusIn(data) {
       this.$emit("onFocusField", data.name);
+      this.$refs["form"].instance.repaint();
     },
     change(value, data) {
       this.$store.commit(`documents/${this.documentType}/SET_DYNAMIC_FIELD`, {

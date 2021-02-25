@@ -99,11 +99,11 @@ export default {
     DxLabel,
     DxForm,
   },
-  // props: {
-  //   documentType: {
-  //     default: "contructor",
-  //   },
-  // },
+  props: {
+    documentType: {
+      default: "constructor",
+    },
+  },
   provide: function () {
     return {
       trySaveDocumentType: this.trySave,
@@ -122,9 +122,6 @@ export default {
     };
   },
   computed: {
-    documentType() {
-      return "constructor";
-    },
     documentValidatorName() {
       return `DynamicDocument/${this.documentType}`;
     },

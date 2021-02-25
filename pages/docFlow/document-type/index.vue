@@ -96,6 +96,9 @@ import {
   DxButton
 } from "devextreme-vue/data-grid";
 
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
+import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
+
 export default {
   components: {
     Header,
@@ -119,22 +122,14 @@ export default {
     return {
       dataSource: this.$dxStore({
         key: "id",
-        loadUrl: dataApi.docFlow.DocumentKind,
-        insertUrl: dataApi.docFlow.DocumentKind,
-        updateUrl: dataApi.docFlow.DocumentKind,
-        removeUrl: dataApi.docFlow.DocumentKind
+        loadUrl: dataApi.dynamicDocument.getType,
+        removeUrl: dataApi.dynamicDocument.getType
       }),
+      filter: ["documentType", "=", DocumentQuery.DynamicDocument],
       entityType: EntityType.DocumentKind,
       statusDataSource: this.$store.getters["status/status"](this),
       documentFlow: this.$store.getters["docflow/docflow"](this),
-      numberingType: this.$store.getters["docflow/numberingType"](this),
-      documentTypeDataSource: {
-        store: this.$dxStore({
-          key: "documentTypeGuid",
-          loadUrl: dataApi.docFlow.DocumentType
-        }),
-        paginate: true
-      }
+      numberingType: this.$store.getters["docflow/numberingType"](this)
     };
   },
   methods: {
@@ -149,8 +144,8 @@ export default {
         return btn.name == "addRowButton";
       });
       if (addButton) {
-        addButton.options.onClick = () => {
-          this.$router.push("/docflow/document-type/create");
+        addButton.options.onClick = async () => {
+          this.$router.push(`/docflow/document-type/create`);
         };
       }
     }

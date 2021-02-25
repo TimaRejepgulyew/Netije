@@ -115,6 +115,10 @@ export default {
     CaseFiles: `/api/DocumentRegistration/CaseFiles`,
     Registries: `/api/DocumentRegistration/Registries/`
   },
+  dynamicDocument: {
+    documentType: "/api/DocumentType",
+    createDocumentType: "/api/DocumentType/CreateDynamicDocumentType"
+  },
   documentModule: {
     Documents: `/api/OfficialDocument/GetAll/`,
     AllDocument: `/api/OfficialDocument/GetAll/100/0`,
@@ -188,7 +192,7 @@ export default {
     TextsByAssignment: `/api/WorkflowEntityText/ByAssignment/`,
     CompleteDraftResolutionAssignments: `/api/Assignment/CompleteDraftResolutionsAssignments`,
     AddApprover: `/api/Assignment/AddApprover`,
-    MainAttachmentInfo : `/api/Assignment/GetMainAttachmentInfo/`
+    MainAttachmentInfo: `/api/Assignment/GetMainAttachmentInfo/`
   },
   recipient: {
     list: `/api/Recipient`

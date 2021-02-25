@@ -140,7 +140,11 @@ export const actions = {
                 path: `/document-module/${DocumentQuery.PowerOfAttorney}`
               }
             ]
-          }
+          },
+          {
+            text: this.$i18n.t("DocumentQuery.dynamicDocument"),
+            path: `/document-module/${DocumentQuery.DynamicDocument}`
+          },
         ]
       },
       {

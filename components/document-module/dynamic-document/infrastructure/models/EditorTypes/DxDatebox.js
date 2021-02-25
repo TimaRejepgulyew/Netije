@@ -17,7 +17,7 @@ export class DxDateBox extends DefaultEditor {
         text: this.context.$t("dynamicDocuments.updateField.dateType")
       },
       editorOptions: {
-       
+
         showClearButton: true,
         dataSource: this._dateTypes(),
         valueExpr: "id",
@@ -28,7 +28,6 @@ export class DxDateBox extends DefaultEditor {
   };
   // _minDate = () => {
   //   const type = this.context.fieldSetting;
-  //   console.log(type);
   //   return {
   //     dataField: "minDate",
   //     editorType: "dxDateBox",
@@ -42,7 +41,6 @@ export class DxDateBox extends DefaultEditor {
   //   };
   // };
   // _maxDate = () => {
-  //   // console.log(this.context);
   //   return {
   //     dataField: "maxDate",
   //     editorType: "dxDateBox",

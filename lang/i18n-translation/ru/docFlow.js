@@ -51,6 +51,7 @@ export default {
     title: "Настройки документов",
     docKind: "Виды документов",
     docType: "Типы документов",
+    docTypeCreate:"Создать тип документа",
     documentTemplate: "Шаблоны документов",
     documentTemplateDescr:
       "Перечень унифицированных форм, используемых при создании документов.",

@@ -128,7 +128,6 @@ export default {
           this.$t(`dynamicDocuments.updateField.dataFieldNameError`),
           this.$t(`scanner.alert.error`)
         );
-        console.log("error", error);
       }
     }
   }

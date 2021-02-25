@@ -1,17 +1,24 @@
 <template>
-  <div>
-    <DynamicDocument />
-  </div>
+  <dynamicDocumentConstructor :documentType="documentType" />
 </template>
 
 <script>
-import DynamicDocument from "~/components/document-module/dynamic-document/index.vue";
+import dynamicDocumentConstructor from "~/components/document-module/dynamic-document/constructor/index.vue";
+
 export default {
   components: {
-    DynamicDocument
-  }
+    dynamicDocumentConstructor,
+  },
+  data() {
+    return {
+      documentType: null,
+    };
+  },
+  created() {
+    this.documentType = this.$route.params.id;
+  },
 };
 </script>
 
-<style lang="scss">
+<style>
 </style>
