@@ -117,25 +117,41 @@ const obj = {
         },
     },
     actions: {
-        async get_dynamic_type({ commit }, id) {
-            // const { data } = await this.$axios.get(dataApi.dynamicTypes.get, id)
-            // commit("SetElements", data)
-            commit("SetIsNew", false)
+        async get_dynamic_type_by_id({ commit }, documentType) {
+            const { data } = await this.$axios.get(dataApi.dynamicDocument.documentType + "/" + documentType)
+            let elements = JSON.parse(data.form)
+            commit("ChangeDocFlow", data.documentFlow)
+            commit("ChangeDocType", data.name)
+            commit("SetElements", elements)
+            commit("SetIsNew", !data.isModifiedDocumentType)
         },
         async create_dynamic_type({ commit, state }) {
+            try {
+                let jsonElements = JSON.stringify(state.elements);
+                await this.$axios.post(dataApi.dynamicDocument.createDocumentType, {
+                    name: state.docType,
+                    documentFlow: state.docFlow,
+                    form: jsonElements
+                })
+                commit("StopDataTracking")
+            } catch (error) {
+            }
+        },
+        async change_dynamic_type({ commit, state }, documentType) {
             let jsonElements = JSON.stringify(state.elements);
-            await this.$axios.post(dataApi.dynamicDocument.createDocumentType, {
-                name: state.docType,
-                documentFlow: state.docFlow,
-                form: jsonElements
-            })
-            commit("StopDataTracking")
+            try {
+                await this.$axios.put(dataApi.dynamicDocument.documentType + "/" + documentType, {
+                    id: documentType * 1,
+                    name: state.docType,
+                    documentFlow: state.docFlow,
+                    form: jsonElements
+                })
+                commit("StopDataTracking")
+            } catch (error) {
+            }
         },
-        async change_dynamic_type({ state }, id) {
-            // await this.$axios.put(dataApi.dynamicTypes.put, id)
-            // commit("StopDataTracking")
-        },
-        async remove_dynamic_type({ state }, id) {
+        async remove_dynamic_type({ state }, documentType) {
+            await this.$axios.delete(dataApi.dynamicDocument.documentType + "/" + documentType)
             // await this.$axios.put(dataApi.dynamicTypes.put, id)
             // commit("StopDataTracking")
         },
