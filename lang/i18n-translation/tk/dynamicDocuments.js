@@ -29,6 +29,8 @@ export default {
   updateField: {
     dataField: "Название поля",
     dataFieldNameError: "Поле с таким названием уже присутствует в данном типе документа",
+    dataFieldNoNameError:
+      "Названия полей не должны быть пустыми",
     colSpan: "Занимаемое место",
     isRequired: "Обязательное",
     isMultiple: "Мультивыбор",

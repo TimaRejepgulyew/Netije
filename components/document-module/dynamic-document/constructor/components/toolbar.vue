@@ -3,14 +3,14 @@
     <DxToolbar>
       <DxItem widget="dxButton" location="before" :options="backButtonOptions" />
       <DxItem
-        v-if="isNew"
+        :visible="isNew"
         locateInMenu="auto"
         :options="saveButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
-        v-if="isNew"
+        :visible="isNew"
         locateInMenu="auto"
         :options="saveAndBackButtonOptions"
         location="before"
@@ -24,15 +24,14 @@
         widget="dxButton"
       />
       <DxItem
-        v-if="isNew"
+        :visible="isNew"
         locateInMenu="auto"
         :options="createFieldUnderButtonOptions"
         location="before"
         widget="dxButton"
       />
       <DxItem
-        v-if="isNew"
-        :visible="fieldIndex !== null"
+        :visible="fieldIndex !== null && isNew"
         locateInMenu="auto"
         :options="removeFieldButtonOptions"
         location="before"
@@ -140,7 +139,7 @@ export default {
         onClick: async () => {
           try {
             await this.trySaveDocumentType();
-            this.$emit("close");
+            // this.$emit("close");
           } catch (error) {}
         }
       };
