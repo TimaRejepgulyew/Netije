@@ -65,7 +65,7 @@
           </DxSimpleItem>
 
           <DxSimpleItem
-            data-field="documentTypeGuid"
+            data-field="documentTypeId"
             :editor-options="docTypeOptions"
             editor-type="dxSelectBox"
           >
@@ -231,7 +231,7 @@ export default {
       return {
         dataSource: {
           store: this.$dxStore({
-            key: "documentTypeGuid",
+            key: "id",
             loadUrl: dataApi.docFlow.DocumentType,
           }),
           filter: [

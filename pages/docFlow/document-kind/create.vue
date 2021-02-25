@@ -61,7 +61,7 @@
           </DxSimpleItem>
 
           <DxSimpleItem
-            data-field="documentTypeGuid"
+            data-field="documentTypeId"
             :editor-options="docTypeOptions"
             editor-type="dxSelectBox"
           >
@@ -100,7 +100,11 @@
           </DxSimpleItem>
 
           <DxSimpleItem data-field="isDefault" editor-type="dxCheckBox">
-            <DxLabel location="top" alignment="left" :text="$t('docFlow.fields.isDefault')" />
+            <DxLabel
+              location="top"
+              alignment="left"
+              :text="$t('docFlow.fields.isDefault')"
+            />
           </DxSimpleItem>
 
           <DxSimpleItem
@@ -159,7 +163,7 @@ export default {
         numberingType: null,
         generateDocumentName: false,
         isDefault: false,
-        documentTypeGuid: null,
+        documentTypeId: null,
         code: "",
         availableActions: [],
       },
@@ -201,7 +205,7 @@ export default {
         valueExpr: "id",
         displayExpr: "name",
         onValueChanged: (e) => {
-          this.documentKind.documentTypeGuid = null;
+          this.documentKind.documentTypeId = null;
         },
       };
     },
@@ -222,7 +226,7 @@ export default {
       return {
         dataSource: {
           store: this.$dxStore({
-            key: "documentTypeGuid",
+            key: "id",
             loadUrl: dataApi.docFlow.DocumentType,
           }),
           filter: [
@@ -231,7 +235,7 @@ export default {
             ["documentFlow", "=", this.documentKind.documentFlow],
           ],
         },
-        valueExpr: "documentTypeGuid",
+        valueExpr: "id",
         displayExpr: "name",
       };
     },

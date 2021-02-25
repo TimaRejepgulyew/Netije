@@ -55,9 +55,13 @@ export const mapToEntityType = documentTypeGuid => {
       return entityTypes.SupAgreement;
     case DocumentTypeGuid.DocumentTemplate:
       return entityTypes.DocumentTemplate;
+    case DocumentTypeGuid.DynamicDocument:
+      //TODO set entity
+      return entityTypes.IncomingLetter;
 
     default:
-      throw "Unsupported document type";
+      entityTypes.IncomingLetter;
+    // throw "Unsupported document type";
   }
 };
 export default DocumentTypeGuid;

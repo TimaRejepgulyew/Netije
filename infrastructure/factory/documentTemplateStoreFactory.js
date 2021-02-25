@@ -14,7 +14,8 @@ import {
   SupAgreement,
   OutgoingTaxInvoice,
   UniversalTransferDocument,
-  Waybill
+  Waybill,
+  DynamicDocument
 } from "~/infrastructure/storeTemplate/documentStores/index.js";
 import DocumentType from "~/infrastructure/constants/documentType";
 
@@ -71,7 +72,8 @@ export default class DocumentTemplateStoreFactory {
       //TODO set DocumentTemplate Type Id
       case DocumentType.DocumentTemplate:
         return new DocumentTemplate().createStore();
-
+      case DocumentType.DynamicDocument:
+        return new DynamicDocument().createStore();
       default:
         throw "unsupported document type store module";
     }

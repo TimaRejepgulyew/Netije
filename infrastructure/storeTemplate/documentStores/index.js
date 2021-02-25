@@ -14,6 +14,7 @@ import OutgoingTaxInvoice from "../../models/document-store/OutgoingTaxInvoice";
 import SupAgreement from "../../models/document-store/SupAgreement";
 import UniversalTransferDocument from "../../models/document-store/UniversalTransferDocument";
 import Waybill from "../../models/document-store/Waybill";
+import DynamicDocument from "../../models/document-store/DynamicDocument";
 export {
   DocumentTemplate,
   IncomingLetter,
@@ -30,5 +31,6 @@ export {
   SupAgreement,
   OutgoingTaxInvoice,
   UniversalTransferDocument,
-  Waybill
+  Waybill,
+  DynamicDocument
 };

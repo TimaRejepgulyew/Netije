@@ -2,7 +2,19 @@ import DocumentCreateBtn from "~/infrastructure/models/DocumentCreateBtn.js";
 import TaskCreateBtn from "~/components/workFlow/infrastructure/models/TaskCreateBtn.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
-export default function(context) {
+import { DynamicDocumentCreateBtn } from "~/infrastructure/models/DynamicDocumentCreateBtn";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import dataApi from "~/static/dataApi";
+export default async function(context) {
+  const filter = `["documentTypeGuid","=",${DocumentTypeGuid.DynamicDocument}]`;
+  const { data } = await context.$axios.get(
+    `${dataApi.docFlow.DocumentType}?filter=${filter}`
+  );
+  console.log(data.data);
+  const dynamicDocumentCreateBtn = new Array(
+    ...Object.values(new DynamicDocumentCreateBtn(data.data).getAll())
+  );
+  console.log(dynamicDocumentCreateBtn);
   const paperWorkDocumentBtns = Object.values(
     new DocumentCreateBtn(context).init().filterPaperWorkDocument()
   );
@@ -37,6 +49,11 @@ export default function(context) {
       icon: contractIcon,
       items: contractDocumentBtns,
       visible: context.$store.getters["permissions/isResponsibleForContracts"]
+    },
+    {
+      text: context.$t("createItemDialog.dynamicDocuments"),
+      icon: paperWorkDocumentBtns,
+      items: dynamicDocumentCreateBtn
     }
   ];
 }

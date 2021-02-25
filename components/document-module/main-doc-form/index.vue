@@ -354,7 +354,7 @@ export default {
       const options = builder
         .withUrl(dataApi.docFlow.DocumentKind)
         .filter(
-          ["documentTypeGuid", "=", this.document.documentTypeGuid],
+          ["documentTypeId", "=", this.document.documentTypeGuid],
           "and",
           ["status", "=", Status.Active]
         )
