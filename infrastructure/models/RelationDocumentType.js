@@ -39,7 +39,7 @@ export default class RelationDocumentType extends DocumentType {
       ) => {
         context.$popup.documentCard(context, {
           params: {
-            documentType: +element,
+            documentTypeId: +element,
             ...params
           },
           handler

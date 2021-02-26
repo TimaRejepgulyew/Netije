@@ -8,7 +8,7 @@ export default async function(context, { documentTypeGuid, documentId }) {
       requiestApi = `${dataApi.documentTemplate.GetDocumentById}${documentId}`;
       break;
     default:
-      requiestApi = `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`;
+      requiestApi = `${dataApi.documentModule.GetDocumentById}${documentId}`;
       break;
   }
   refresh(context, documentId, requiestApi);

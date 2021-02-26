@@ -104,51 +104,51 @@ export const actions = {
         icon: "file",
         items: [
           {
-            text: this.$i18n.t("DocumentQuery.incomingLetter"),
+            text: this.$i18n.t("DocumentQuery.IncomingLetter"),
             path: `/document-module/${DocumentQuery.IncomingLetter}`
           },
           {
-            text: this.$i18n.t("DocumentQuery.outgoingLetter"),
+            text: this.$i18n.t("DocumentQuery.OutgoingLetter"),
             path: `/document-module/${DocumentQuery.OutgoingLetter}`
           },
           {
-            text: this.$i18n.t("DocumentQuery.internalDocument"),
+            text: this.$i18n.t("DocumentQuery.InternalDocument"),
             path: `/document-module/${DocumentQuery.InternalDocument}`,
             items: [
               {
-                text: this.$i18n.t("DocumentQuery.order"),
+                text: this.$i18n.t("DocumentQuery.Order"),
                 path: `/document-module/${DocumentQuery.Order}`
               },
               {
-                text: this.$i18n.t("DocumentQuery.companyDirective"),
+                text: this.$i18n.t("DocumentQuery.CompanyDirective"),
                 path: `/document-module/${DocumentQuery.CompanyDirective}`
               },
               {
-                text: this.$i18n.t("DocumentQuery.simpleDocument"),
+                text: this.$i18n.t("DocumentQuery.SimpleDocument"),
                 path: `/document-module/${DocumentQuery.SimpleDocument}`
               },
               {
-                text: this.$i18n.t("DocumentQuery.addendum"),
+                text: this.$i18n.t("DocumentQuery.Addendum"),
                 path: `/document-module/${DocumentQuery.Addendum}`
               },
               {
-                text: this.$i18n.t("DocumentQuery.memo"),
+                text: this.$i18n.t("DocumentQuery.Memo"),
                 path: `/document-module/${DocumentQuery.Memo}`
               },
               {
-                text: this.$i18n.t("DocumentQuery.powerOfAttorney"),
+                text: this.$i18n.t("DocumentQuery.PowerOfAttorney"),
                 path: `/document-module/${DocumentQuery.PowerOfAttorney}`
               }
             ]
           },
           {
-            text: this.$i18n.t("DocumentQuery.dynamicDocument"),
+            text: this.$i18n.t("DocumentQuery.DynamicDocument"),
             path: `/document-module/${DocumentQuery.DynamicDocument}`
-          },
+          }
         ]
       },
       {
-        text: this.$i18n.t("menu.contractualDocuments"),
+        text: this.$i18n.t("menu.ContractualDocuments"),
         icon: contractIcon,
         path: `/document-module/${DocumentQuery.ContractualDocuments}`,
         visible: hasContractAccess(rootGetters)

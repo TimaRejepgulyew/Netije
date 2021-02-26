@@ -14,17 +14,16 @@ import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 import { createLeadingDocument } from "~/infrastructure/services/documentService.js";
-import dataApi from "~/static/dataApi.js";
 import DxButton from "devextreme-vue/button";
 export default {
   components: {
-    DxButton
+    DxButton,
   },
   props: ["leadingDocumentId"],
   data() {
     return {
       isOpenDocumentCard: false,
-      outgoingLetterId: null
+      outgoingLetterId: null,
     };
   },
   computed: {
@@ -32,7 +31,7 @@ export default {
       return new DocumentTypeModel(this).getById(
         DocumentTypeGuid.OutgoingLetter
       );
-    }
+    },
   },
   methods: {
     // to popupComponent
@@ -40,7 +39,7 @@ export default {
       this.$emit("pasteAttachment", {
         attachmentId: id,
         groupId: 7,
-        entityTypeGuid: mapToEntityType(documentTypeGuid)
+        entityTypeGuid: mapToEntityType(documentTypeGuid),
       });
     },
     createOutgoingLetter() {
@@ -48,20 +47,19 @@ export default {
         this,
         {
           params: {
-            documentType: DocumentTypeGuid.OutgoingLetter,
-            leadingDocumentType: DocumentTypeGuid.IncomingLetter,
-            leadingDocumentId: this.leadingDocumentId
+            documentTypeId: DocumentTypeGuid.OutgoingLetter,
+            leadingDocumentId: this.leadingDocumentId,
           },
-          handler: createLeadingDocument
+          handler: createLeadingDocument,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "pasteAttachment" }
-          ]
+            { eventName: "valueChanged", handlerName: "pasteAttachment" },
+          ],
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
