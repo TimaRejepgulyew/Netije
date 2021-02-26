@@ -183,6 +183,7 @@
   </div>
 </template>
 <script>
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import Status from "~/infrastructure/constants/status";
 // COMPONENTS
@@ -244,6 +245,11 @@ export default {
   destroyed() {
     if (!this.isNew) this.onClosed();
     unload(this, this.documentId);
+    if (DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid)
+      DynamicTypeControler.removeStore(
+        this,
+        this.document.dynamicDocumentTypeId
+      );
   },
   props: ["isCard", "documentId"],
   head() {

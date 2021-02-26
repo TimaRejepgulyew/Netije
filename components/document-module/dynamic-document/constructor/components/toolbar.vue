@@ -139,8 +139,10 @@ export default {
         onClick: async () => {
           try {
             await this.trySaveDocumentType();
-            // this.$emit("close");
-          } catch (error) {}
+            this.$emit("close");
+          } catch (error) {
+            console.log("error", error);
+          }
         }
       };
     },

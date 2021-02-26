@@ -163,9 +163,11 @@ export default {
         this.$awn.asyncBlock(
           DynamicTypeControler.saveType(this, this.documentType),
           e => {
+            console.log("azaza");
             this.$awn.success();
           },
           e => {
+            console.log("uzuzu");
             this.$awn.alert();
           }
         );
@@ -180,6 +182,7 @@ export default {
           this.$t(`dynamicDocuments.updateField.dataFieldNoNameError`),
           this.$t(`scanner.alert.error`)
         );
+        throw new Error(error);
       }
     },
     close() {
