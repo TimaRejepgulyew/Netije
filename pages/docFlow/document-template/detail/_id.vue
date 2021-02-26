@@ -14,14 +14,14 @@ import documentChangeTracker from "~/infrastructure/services/documentChangeTrack
 import documentTemplateCard from "~/components/docFlow/document-template/card.vue";
 export default {
   components: {
-    documentTemplateCard
+    documentTemplateCard,
   },
   async asyncData({ app, params, router, $axios }) {
     await load(
       { $store: app.store, $axios },
       {
-        documentTypeGuid: DocumentType.DocumentTemplate,
-        documentId: +params.id
+        documentTypeId: DocumentType.DocumentTemplate,
+        documentId: +params.id,
       }
     );
   },
@@ -53,8 +53,8 @@ export default {
       );
       if (result) {
         await load(this, {
-          documentTypeGuid: DocumentType.DocumentTemplate,
-          documentId: +this.$route.params.id
+          documentTypeId: DocumentType.DocumentTemplate,
+          documentId: +this.$route.params.id,
         });
       }
     }
@@ -63,8 +63,8 @@ export default {
   methods: {
     onClose() {
       this.$router.push(`/docFlow/document-template/`);
-    }
-  }
+    },
+  },
 };
 </script>
 

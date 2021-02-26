@@ -16,12 +16,12 @@ class RelationDropDownItemOption {
       this[option] = options[option];
     }
   }
- 
+
   async create(context, params) {
     const { documentId, documentTypeGuid } = await createLeadingDocument(
       context,
       {
-        documentType: +this.id,
+        documentTypeId: +this.id,
         ...params
       }
     );

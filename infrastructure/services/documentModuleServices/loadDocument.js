@@ -1,6 +1,7 @@
 import dataApi from "~/static/dataApi";
 import { documentModules } from "~/infrastructure/services/documentService.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 import DocumentTemplateStoreFactory from "~/infrastructure/factory/documentTemplateStoreFactory.js";
 export default async function(context, { documentId, documentTypeGuid }) {
   switch (documentTypeGuid) {
@@ -9,6 +10,14 @@ export default async function(context, { documentId, documentTypeGuid }) {
         documentId,
         documentTypeGuid
       });
+    case DocumentTypeGuid.DynamicDocument:
+      await load(context, { documentId, documentTypeGuid });
+      const dynamicDocumentTypeId =
+        context.$store.getters[`documents/${documentId}/document`]
+          .dynamicDocumentTypeId;
+      await DynamicTypeControler.generateStore(context, dynamicDocumentTypeId);
+      return { documentId, documentTypeGuid };
+
     default:
       return await load(context, { documentId, documentTypeGuid });
   }
@@ -17,7 +26,7 @@ export default async function(context, { documentId, documentTypeGuid }) {
 export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
     const { data } = await context.$axios.get(
-      `${dataApi.documentModule.GetDocumentById}${documentTypeGuid}/${documentId}`
+      `${dataApi.documentModule.GetDocumentById}${documentId}`
     );
     const store = DocumentTemplateStoreFactory.createStore(documentTypeGuid);
     documentModules.registerDocumentModule(context, documentId, store);
@@ -27,7 +36,6 @@ export async function load(context, { documentTypeGuid, documentId }) {
   if (!context.$store.getters[`documents/${documentId}/isNew`]) {
     context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   }
-
   return { documentId, documentTypeGuid };
 }
 

@@ -3,11 +3,11 @@ import DynamicTypeControler from "~/components/document-module/dynamic-document/
 import toRouter from "~/infrastructure/services/toRouterDetail.js";
 
 async function create(context, params) {
-  await DynamicTypeControler.generateStore(context, params.documentTypeId);
   const { documentTypeGuid, documentId } = await createDocument(
     context,
     params
   );
+  await DynamicTypeControler.generateStore(context, params.documentTypeId);
   const route = `/document-module/detail/${documentTypeGuid}/${documentId}`;
   let replaceOldRoute = false;
   if (context.$route.name.includes("document-module-detail-type-id")) {
@@ -30,7 +30,8 @@ export class DynamicDocumentCreateBtn {
       documentType.create = async context => {
         console.log(documentType);
         const { documentTypeGuid, documentId } = await create(context, {
-          documentTypeId: +documentType.id
+          documentTypeId: +documentType.id,
+          documentTypeGuid: +documentType.documentTypeGuid
         });
         return { documentTypeGuid, documentId };
       };

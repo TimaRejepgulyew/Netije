@@ -157,7 +157,7 @@
         </template>
         <template #formByTypeGuid>
           <component
-            :documentType="document.documentTypeId"
+            :documentType="document.dynamicDocumentTypeId"
             :documentId="documentId"
             :isCard="isCard"
             :is="formByTypeGuid"
@@ -258,6 +258,7 @@ export default {
     };
   },
   created() {
+    console.log(this.document);
     if (this.isNew) {
       this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
     }

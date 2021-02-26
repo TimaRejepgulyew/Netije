@@ -71,7 +71,7 @@
         :dataSourceFilter="inResponseToOptions.dataSourceFilter"
         :dataSourceQuery="inResponseToOptions.dataSourceQuery"
         :validationGroup="documentValidatorName"
-        :isRequired="true"
+        :isRequired="false"
         :value="document.inResponseTo"
         @valueChanged="setInResponseTo"
       />
