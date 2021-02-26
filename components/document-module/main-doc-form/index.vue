@@ -351,14 +351,26 @@ export default {
       return this.document.name;
     },
     documentKindOptions() {
+      const generateFilter = (document) => {
+        switch (document.documentTypeGuid) {
+          case DocumentTypeGuid.DynamicDocument:
+            return [
+              ["documentTypeId", "=", this.document.dynamicDocumentTypeId],
+              "and",
+              ["status", "=", Status.Active],
+            ];
+          default:
+            return [
+              ["documentTypeId", "=", this.document.documentTypeGuid],
+              "and",
+              ["status", "=", Status.Active],
+            ];
+        }
+      };
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.docFlow.DocumentKind)
-        .filter(
-          ["documentTypeId", "=", this.document.documentTypeGuid],
-          "and",
-          ["status", "=", Status.Active]
-        )
+        .filter(generateFilter(this.document))
         .acceptCustomValues((e) => {
           e.customItem = null;
         })
