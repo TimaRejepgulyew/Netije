@@ -112,9 +112,15 @@ const obj = {
             state.isNew = payload;
         },
         ChangeDocType(state, payload) {
+            if (state.docType != payload) {
+                state.isDataChanged = true;
+            }
             state.docType = payload;
         },
         ChangeDocFlow(state, payload) {
+            if (state.docFlow != payload) {
+                state.isDataChanged = true;
+            }
             state.docFlow = payload;
         },
         CheckDataField(state) {
@@ -135,39 +141,34 @@ const obj = {
             commit("ChangeDocType", data.name);
             commit("SetElements", elements);
             commit("SetIsNew", !data.isModifiedDocumentType);
+            commit("StopDataTracking");
         },
         async create_dynamic_type({ commit, state }) {
-            try {
-                let jsonElements = JSON.stringify(state.elements);
-                await this.$axios.post(dataApi.dynamicDocument.createDocumentType, {
-                    name: state.docType,
-                    documentFlow: state.docFlow,
-                    form: jsonElements
-                });
-                commit("StopDataTracking");
-            } catch (error) { }
+            let jsonElements = JSON.stringify(state.elements);
+            await this.$axios.post(dataApi.dynamicDocument.createDocumentType, {
+                name: state.docType,
+                documentFlow: state.docFlow,
+                form: jsonElements
+            });
+            commit("StopDataTracking");
         },
         async change_dynamic_type({ commit, state }, documentType) {
             let jsonElements = JSON.stringify(state.elements);
-            try {
-                await this.$axios.put(
-                    dataApi.dynamicDocument.documentType + "/" + documentType,
-                    {
-                        id: documentType * 1,
-                        name: state.docType,
-                        documentFlow: state.docFlow,
-                        form: jsonElements
-                    }
-                );
-                commit("StopDataTracking");
-            } catch (error) { }
+            await this.$axios.put(
+                dataApi.dynamicDocument.documentType + "/" + documentType,
+                {
+                    id: documentType * 1,
+                    name: state.docType,
+                    documentFlow: state.docFlow,
+                    form: jsonElements
+                }
+            );
+            commit("StopDataTracking");
         },
         async remove_dynamic_type({ state }, documentType) {
             await this.$axios.delete(
                 dataApi.dynamicDocument.documentType + "/" + documentType
             );
-            // await this.$axios.put(dataApi.dynamicTypes.put, id)
-            // commit("StopDataTracking")
         }
     }
 };
