@@ -12,7 +12,6 @@
         :dataSource="QuiсkFilterItems"
         :storeKey="'document-' + documentQuery"
         @valueChanged="setStore"
-      
       />
     </Header>
     <DxDataGrid
@@ -188,7 +187,8 @@ export default {
       );
     },
     generateHeaderTitle() {
-      return new DocumentQueryModel(this).getById(this.documentQuery).text;
+      console.log(new DocumentQueryModel(this));
+      // return new DocumentQueryModel(this).getById(this.documentQuery).text;
     },
     columns() {
       return ColumnFactory.CreateColumns(this.documentQuery, this);
