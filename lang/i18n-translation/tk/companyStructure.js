@@ -53,7 +53,25 @@ export default {
     department: "Müdirlikler",
     departmentDescr:
       "Biziň kärhanamyzyň işiniň çäginde, öz işlerini alyp barýan, kärhananyň düzüm birlikleriň bölekleri",
-    createDepartment: "Müdirlikler döretmek"
+    createDepartment: "Müdirlikler döretmek",
+    visibilitySetting: "Gurama-gurluşyny görmekligiň sazlamasy",
+    visibilitySettingDescr: "Işgärler üçin gurama-gurluşyna rugsady çäklendirmek",
+    limitVisibility: "Gurama-gurluşyny görmekligi çäklendirmek",
+    whoSeesAll: "Tutuş gurama-gurluşy görýänler",
+    hiddenEmployees: "Gizlin işgärler",
+    visibilityRules: "Gurama-gurluşy görmeklik düzgünleri",
+    visibilityRulesDescr: "Guramalarymyzyň, bölümlerimiziň we işgärlerimiziň elýeterliligini düzmek. Düzgünleriň işlemegi üçin gurama-gurluşy görmeklik sazlamalarynda çäklendirmäni işlediň",
+    visibleMembers: "Görünýän gatnaşyjylar",
+    excludedMembers: "Çykarylan gatnaşyjylar",
+    whoSees: "Kim görýär",
+    whomHeSees: "Kimi görýär",
+    seesApartFrom: "Bulardan başgalry görýär ",
+    note: "Bellik"
+
+
+
+
+
   },
   fields: {
     headCompany: "Baş guramasy"

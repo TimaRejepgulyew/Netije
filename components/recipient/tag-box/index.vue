@@ -62,7 +62,7 @@ export default {
   props: {
     recipients: {
       type: Array,
-      default: []
+      default: () => []
     },
     readOnly: {
       type: Boolean,
