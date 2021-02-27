@@ -126,6 +126,7 @@ export default {
       return {
         icon: saveIcon,
         disabled: !this.isDataChanged,
+        visible: this.documentType != "constructor",
         onClick: async () => {
           await this.trySaveDocumentType();
         }
