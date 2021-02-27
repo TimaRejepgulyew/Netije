@@ -47,7 +47,7 @@ const obj = {
                 return {
                     dataField: element.dataField,
                     isRequired: element.isRequired || false,
-                    isMultiply: element.multiply || false,
+                    isMultiply: element.isMultiple || false,
                     editorType: element.editorType
                 }
             })
