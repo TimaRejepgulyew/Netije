@@ -32,21 +32,37 @@
             >
               <DxSimpleItem data-field="name" :editor-options="nameOptions">
                 <DxLabel location="left" :text="$t('document.fields.name')" />
-                <DxRequiredRule :message="$t('document.validation.nameRequired')" />
+                <DxRequiredRule
+                  :message="$t('document.validation.nameRequired')"
+                />
               </DxSimpleItem>
               <DxSimpleItem
                 data-field="documentKind"
                 :editor-options="documentKindOptions"
                 editor-type="dxSelectBox"
               >
-                <DxLabel location="left" :text="$t('document.fields.documentKindId')" />
-                <DxRequiredRule :message="$t('document.validation.documentKindIdRequired')" />
+                <DxLabel
+                  location="left"
+                  :text="$t('document.fields.documentKindId')"
+                />
+                <DxRequiredRule
+                  :message="$t('document.validation.documentKindIdRequired')"
+                />
               </DxSimpleItem>
 
-              <DxSimpleItem data-field="subject" editor-type="dxTextArea" template="autocomlete">
+              <DxSimpleItem
+                data-field="subject"
+                editor-type="dxTextArea"
+                template="autocomlete"
+              >
                 <!-- :editor-options="subjectOptions" -->
-                <DxLabel location="left" :text="$t('document.fields.subject')" />
-                <DxRequiredRule :message="$t('document.validation.subjectRequired')" />
+                <DxLabel
+                  location="left"
+                  :text="$t('document.fields.subject')"
+                />
+                <DxRequiredRule
+                  :message="$t('document.validation.subjectRequired')"
+                />
               </DxSimpleItem>
               <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
               <DxSimpleItem
@@ -64,17 +80,36 @@
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('document.tabs.relations')" :disabled="isDataChanged">
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.relations')"
+            :disabled="isDataChanged"
+          >
             <DxSimpleItem :col-span="8" template="relation"></DxSimpleItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('document.tabs.tasks')" :disabled="isNew">
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.tasks')"
+            :disabled="isNew"
+          >
             <DxSimpleItem :col-span="8" template="documentTasks"></DxSimpleItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('document.tabs.history')" :disabled="isNew">
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.history')"
+            :disabled="isNew"
+          >
             <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
           </DxTab>
-          <DxTab :col-count="8" :title="$t('document.tabs.extradition')" :disabled="isNew">
-            <DxSimpleItem :col-span="8" template="DocumentExtradition"></DxSimpleItem>
+          <DxTab
+            :col-count="8"
+            :title="$t('document.tabs.extradition')"
+            :disabled="isNew"
+          >
+            <DxSimpleItem
+              :col-span="8"
+              template="DocumentExtradition"
+            ></DxSimpleItem>
           </DxTab>
           <DxTab
             :col-count="8"
@@ -82,17 +117,28 @@
             :disabled="isNew"
             v-if="canExchangePermission && isExchangeble"
           >
-            <DxSimpleItem :col-span="8" template="ElExchangeLogs"></DxSimpleItem>
+            <DxSimpleItem
+              :col-span="8"
+              template="ElExchangeLogs"
+            ></DxSimpleItem>
           </DxTab>
         </DxTabbedItem>
         <template #ElExchangeLogs>
           <El-exchange-logs :documentId="documentId" />
         </template>
         <template #DocumentExtradition>
-          <DocumentExtradition :entityTypeGuid="entityTypeGuid" :id="documentId" slot="history" />
+          <DocumentExtradition
+            :entityTypeGuid="entityTypeGuid"
+            :id="documentId"
+            slot="history"
+          />
         </template>
         <template #history>
-          <History :entityTypeGuid="entityTypeGuid" :id="documentId" slot="history"></History>
+          <History
+            :entityTypeGuid="entityTypeGuid"
+            :id="documentId"
+            slot="history"
+          ></History>
         </template>
         <template #relation>
           <Relation :documentId="documentId" :isCard="isCard"></Relation>
@@ -104,7 +150,10 @@
           <life-cycle :documentId="documentId" :isCard="isCard" />
         </template>
         <template #registrationBlock>
-          <doc-registration :documentId="documentId" :isCard="isCard"></doc-registration>
+          <doc-registration
+            :documentId="documentId"
+            :isCard="isCard"
+          ></doc-registration>
         </template>
         <template #formByTypeGuid>
           <component
@@ -145,7 +194,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import AutocomleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
 import { unload } from "~/infrastructure/services/documentService.js";
@@ -190,7 +239,7 @@ export default {
     lifeCycle,
     Header,
     documentTasks,
-    ElExchangeLogs
+    ElExchangeLogs,
   },
   name: "document-card",
   destroyed() {
@@ -205,13 +254,13 @@ export default {
   props: ["isCard", "documentId"],
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name
+      title: this.$store.getters[`documents/${this.documentId}/document`].name,
     };
   },
-  provide: function() {
+  provide: function () {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName
+      documentValidatorName: this.documentValidatorName,
     };
   },
   created() {
@@ -235,9 +284,9 @@ export default {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
+        loop: "true",
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`
+      documentValidatorName: `OfficialDocument/${this.documentId}`,
     };
   },
   methods: {
@@ -268,7 +317,7 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    }
+    },
   },
   computed: {
     isExchangeble() {
@@ -285,7 +334,7 @@ export default {
         category: "Document",
         entityType: this.document.documentTypeGuid,
         readOnly: this.readOnly,
-        height: 70
+        height: 70,
       };
     },
     canExchangePermission() {
@@ -308,15 +357,27 @@ export default {
       return this.document.name;
     },
     documentKindOptions() {
+      const generateFilter = (document) => {
+        switch (document.documentTypeGuid) {
+          case DocumentTypeGuid.DynamicDocument:
+            return [
+              ["documentTypeId", "=", this.document.dynamicDocumentTypeId],
+              "and",
+              ["status", "=", Status.Active],
+            ];
+          default:
+            return [
+              ["documentTypeId", "=", this.document.documentTypeGuid],
+              "and",
+              ["status", "=", Status.Active],
+            ];
+        }
+      };
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.docFlow.DocumentKind)
-        .filter(
-          ["documentTypeId", "=", this.document.documentTypeGuid],
-          "and",
-          ["status", "=", Status.Active]
-        )
-        .acceptCustomValues(e => {
+        .filter(generateFilter(this.document))
+        .acceptCustomValues((e) => {
           e.customItem = null;
         })
         .withoutDeferRendering()
@@ -326,12 +387,12 @@ export default {
       return {
         ...options,
         value: this.document.documentKind,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.dispatch(
             `documents/${this.documentId}/setDocumentKind`,
             e.value
           );
-        }
+        },
       };
     },
     readOnly() {
@@ -391,9 +452,9 @@ export default {
         value: this.document.name,
         disabled:
           this.document.documentKind?.generateDocumentName || this.isRegistered,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
-        }
+        },
       };
     },
     noteOptions() {
@@ -402,12 +463,12 @@ export default {
         value: this.document.note,
         height: 70,
         autoResizeEnabled: true,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

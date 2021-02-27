@@ -7,6 +7,7 @@
       :show-validation-summary="false"
       :col-count="2"
       :items="formElements"
+      :validation-group="documentValidatorName"
     >
       <template #DocumentSelectBox="{ data }">
         <DocumentSelectBox
