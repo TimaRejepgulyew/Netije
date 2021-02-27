@@ -8,7 +8,7 @@ const obj = {
         isNew: true,
         isDataChanged: false,
         needRerender: false,
-        elements: []
+        elements: [],
     },
     getters: {
         getAllElements(state) {
@@ -40,6 +40,18 @@ const obj = {
         },
         isDataChanged(state) {
             return state.isDataChanged;
+        },
+        controls(state) {
+            let controls = state.elements.map((element) => {
+                console.log(element);
+                return {
+                    dataField: element.dataField,
+                    isRequired: element.isRequired || false,
+                    isMultiply: element.multiply || false,
+                    editorType: element.editorType
+                }
+            })
+            return controls
         }
     },
     mutations: {
@@ -143,16 +155,17 @@ const obj = {
             commit("SetIsNew", !data.isModifiedDocumentType);
             commit("StopDataTracking");
         },
-        async create_dynamic_type({ commit, state }) {
+        async create_dynamic_type({ commit, state, getters }) {
             let jsonElements = JSON.stringify(state.elements);
             await this.$axios.post(dataApi.dynamicDocument.createDocumentType, {
                 name: state.docType,
                 documentFlow: state.docFlow,
-                form: jsonElements
+                form: jsonElements,
+                controls: getters.controls
             });
             commit("StopDataTracking");
         },
-        async change_dynamic_type({ commit, state }, documentType) {
+        async change_dynamic_type({ commit, state, getters }, documentType) {
             let jsonElements = JSON.stringify(state.elements);
             await this.$axios.put(
                 dataApi.dynamicDocument.documentType + "/" + documentType,
@@ -160,7 +173,8 @@ const obj = {
                     id: documentType * 1,
                     name: state.docType,
                     documentFlow: state.docFlow,
-                    form: jsonElements
+                    form: jsonElements,
+                    controls: getters.controls
                 }
             );
             commit("StopDataTracking");
