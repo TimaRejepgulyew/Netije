@@ -126,7 +126,7 @@ export default {
       return {
         icon: saveIcon,
         disabled: !this.isDataChanged,
-        visible: this.documentType != "constructor",
+        visible: this.documentType != "create",
         onClick: async () => {
           await this.trySaveDocumentType();
         }
@@ -141,8 +141,7 @@ export default {
           try {
             await this.trySaveDocumentType();
             this.$emit("close");
-          } catch (error) {
-          }
+          } catch (error) {}
         }
       };
     },
@@ -151,7 +150,7 @@ export default {
         icon: "trash",
         type: "normal",
         hint: this.$t("document.remove"),
-        visible: this.isNew,
+        visible: this.isNew && this.documentType != "create",
         onClick: () => {
           let result = confirm(
             this.$t("shared.areYouSure"),
