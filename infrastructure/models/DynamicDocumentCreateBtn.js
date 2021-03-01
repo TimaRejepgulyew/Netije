@@ -23,12 +23,10 @@ async function create(context, params) {
 export class DynamicDocumentCreateBtn {
   elements = [];
   constructor(documentTypes) {
-    console.log(documentTypes);
     documentTypes.forEach(documentType => {
       documentType.icon = "docx";
       documentType.text = documentType.name;
       documentType.create = async context => {
-        console.log(documentType);
         const { documentTypeGuid, documentId } = await create(context, {
           documentTypeId: +documentType.id,
           documentTypeGuid: +documentType.documentTypeGuid

@@ -43,7 +43,6 @@ const obj = {
         },
         controls(state) {
             let controls = state.elements.map((element) => {
-                console.log(element);
                 return {
                     dataField: element.dataField,
                     isRequired: element.isRequired || false,

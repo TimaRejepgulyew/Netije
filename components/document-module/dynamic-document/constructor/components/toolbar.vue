@@ -142,7 +142,6 @@ export default {
             await this.trySaveDocumentType();
             this.$emit("close");
           } catch (error) {
-            console.log("error", error);
           }
         }
       };

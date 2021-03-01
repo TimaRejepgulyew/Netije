@@ -173,11 +173,9 @@ export default {
         this.$awn.asyncBlock(
           DynamicTypeControler.saveType(this, this.documentType),
           (e) => {
-            console.log("azaza");
             this.$awn.success();
           },
           (e) => {
-            console.log("uzuzu");
             this.$awn.alert();
           }
         );

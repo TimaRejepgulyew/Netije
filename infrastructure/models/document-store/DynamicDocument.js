@@ -5,7 +5,6 @@ export default class DynamicDocument extends ElectronicDocument {
       ...options?.mutations,
 
       SET_DYNAMIC_FIELD: (state, { data, value }) => {
-        console.log(data);
         state.document[data.dataField] = value;
         state.isDataChanged = true;
       }
