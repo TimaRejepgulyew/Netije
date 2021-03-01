@@ -246,13 +246,12 @@ export default {
     if (this.isNew === false) this.onClosed();
     unload(this, this.documentId);
     if (DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid) {
-      console.log(this.document.dynamicDocumentTypeId);
-      console.log("destoyed", this.$store);
       DynamicTypeControler.removeStore(
         this,
         this.document.dynamicDocumentTypeId
       );
     }
+    unload(this, this.documentId);
   },
   props: ["isCard", "documentId"],
   head() {

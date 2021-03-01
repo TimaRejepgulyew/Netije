@@ -49,7 +49,7 @@ class DynamicTypeControler {
     static async generateStore(context, documentType, isNewDocument = false) {
         if (!dynamicTypeStoreModule.hasModule(documentType)) {
             dynamicTypeStoreModule.registerModule(context, documentType);
-            if (documentType !== "constructor") {
+            if (documentType !== "create") {
                 await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/get_dynamic_type_by_id`, documentType)
             }
         }
@@ -59,7 +59,7 @@ class DynamicTypeControler {
     }
     static removeStore(context, documentType) {
         let overlay = context.$store.getters[`dynamicDocumentComponents/${documentType}/overlays`]
-        if (overlay === 1) {
+        if (overlay === 0) {
             context.$store.commit(`dynamicDocumentComponents/${documentType}/CLEAN_STATE`)
             dynamicTypeStoreModule.unregisterModule(context, documentType);
         } else {
@@ -67,7 +67,7 @@ class DynamicTypeControler {
         }
     }
     static async saveType(context, documentType) {
-        if (documentType === "constructor") {
+        if (documentType === "create") {
             await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/create_dynamic_type`)
         } else {
             await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/change_dynamic_type`, documentType)
