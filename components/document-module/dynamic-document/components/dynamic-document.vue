@@ -143,16 +143,16 @@ export default {
     BusinessUnitSelectBox,
     CounterPartSelectBox,
     RecipientSelectBox,
-    RecipientTagBox,
+    RecipientTagBox
   },
   inject: ["documentValidatorName"],
   props: {
     documentType: {},
-    documentId: {},
+    documentId: {}
   },
   data() {
     return {
-      builder: null,
+      builder: null
     };
   },
   computed: {
@@ -176,7 +176,7 @@ export default {
       );
       const generatedItems = new devExtremeFieldFactory(this, formElements);
       return generatedItems;
-    },
+    }
   },
   methods: {
     onFocusIn(data) {
@@ -185,10 +185,10 @@ export default {
     change(value, data) {
       this.$store.commit(`documents/${this.documentId}/SET_DYNAMIC_FIELD`, {
         data,
-        value,
+        value
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
