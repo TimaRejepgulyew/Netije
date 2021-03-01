@@ -183,7 +183,7 @@ export default {
       this.$emit("onFocusField", data.name);
     },
     change(value, data) {
-      this.$store.commit(`documents/${this.documentType}/SET_DYNAMIC_FIELD`, {
+      this.$store.commit(`documents/${this.documentId}/SET_DYNAMIC_FIELD`, {
         data,
         value,
       });

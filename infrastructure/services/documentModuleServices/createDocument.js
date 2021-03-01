@@ -20,8 +20,11 @@ export async function createDocument(context, params) {
     dataApi.documentModule.CreateDocument,
     params
   );
+  console.log(data);
   const { id: documentId, documentTypeGuid } = data.document;
-  const store = DocumentTemplateStoreFactory.createStore(documentTypeGuid);
+  const store = DocumentTemplateStoreFactory.createStore(
+    params.documentTypeGuid
+  );
   documentModules.registerDocumentModule(context, documentId, store);
   loadDocumentToStore(context, documentId, data);
 

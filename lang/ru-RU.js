@@ -3,9 +3,7 @@ import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/ru/administration.js";
 import licensing from "~/lang/i18n-translation/ru/licensing.js";
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
-import documentRegistration, {
-  DocumentType
-} from "~/lang/i18n-translation/ru/documentRegistration.js";
+import documentRegistration from "~/lang/i18n-translation/ru/documentRegistration.js";
 import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
 import buttons from "~/lang/i18n-translation/ru/buttons.js";
@@ -93,11 +91,13 @@ export default {
     IncomingLetter: "Входящие письма",
     CompanyDirective: "Распоряжения",
     SimpleDocument: "Простые документы",
-    Universaltransferdocument: "Универсальный передаточный документ"
+    Universaltransferdocument: "Универсальный передаточный документ",
+    DocumentTemplate: "Шаблоны документов",
+    DynamicDocument: "Динамические документы"
   },
   createItemDialog: {
-    ...DocumentType,
     ...TaskType,
+    dynamicDocuments: "Динамические документы",
     select: "Выбрать",
     create: "Создать",
     recordManagementGroup: "Делопроизводственные документы",

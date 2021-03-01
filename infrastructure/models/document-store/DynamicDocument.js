@@ -10,7 +10,7 @@ export default class DynamicDocument extends ElectronicDocument {
       }
     };
     const actions = {
-      ...options?.actions,
+      ...options?.actions
     };
     super({ mutations, actions });
   }
