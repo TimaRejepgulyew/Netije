@@ -24,7 +24,7 @@ export class DynamicDocumentCreateBtn {
   elements = [];
   constructor(documentTypes) {
     documentTypes.forEach(documentType => {
-      documentType.icon = "docx";
+      documentType.icon = "doc";
       documentType.text = documentType.name;
       documentType.create = async context => {
         const { documentTypeGuid, documentId } = await create(context, {

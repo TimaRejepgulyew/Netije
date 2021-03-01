@@ -93,10 +93,11 @@ export default {
     SimpleDocument: "Простые документы",
     Universaltransferdocument: "Универсальный передаточный документ",
     DocumentTemplate: "Шаблоны документов",
-    DynamicDocument:"Динамические документы"
+    DynamicDocument: "Динамические документы"
   },
   createItemDialog: {
     ...TaskType,
+    dynamicDocuments: "Динамические документы",
     select: "Выбрать",
     create: "Создать",
     recordManagementGroup: "Делопроизводственные документы",

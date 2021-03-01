@@ -2,6 +2,7 @@ import DocumentCreateBtn from "~/infrastructure/models/DocumentCreateBtn.js";
 import TaskCreateBtn from "~/components/workFlow/infrastructure/models/TaskCreateBtn.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
+import dynamicDocumentIcon from "~/static/icons/document-type/dynamic-document.svg";
 import { DynamicDocumentCreateBtn } from "~/infrastructure/models/DynamicDocumentCreateBtn";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import dataApi from "~/static/dataApi";
@@ -50,7 +51,7 @@ export default async function(context) {
     },
     {
       text: context.$t("createItemDialog.dynamicDocuments"),
-      icon: paperWorkDocumentBtns,
+      icon: dynamicDocumentIcon,
       items: dynamicDocumentCreateBtn
     }
   ];
