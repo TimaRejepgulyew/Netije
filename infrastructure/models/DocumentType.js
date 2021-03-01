@@ -9,6 +9,9 @@ export default class DocumentType {
       context: context,
       iconStores: documentTypeIcon
     });
+    for (let element in this.elements) {
+      this.elements[element].documentTypeGuid = this.elements[element].id;
+    }
   }
   filtering(allowTypes) {
     const filterObj = {};

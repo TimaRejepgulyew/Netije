@@ -12,15 +12,15 @@ import { confirm } from "devextreme/ui/dialog";
 import documentChangeTracker from "~/infrastructure/services/documentChangeTracker.js";
 export default {
   components: {
-    mainDocumentForm
+    mainDocumentForm,
   },
   async asyncData({ app, params, router, $axios }) {
-  
+    console.log(app.store.getters[`documents/${+params.id}/isNew`]);
     await load(
       { $store: app.store, $axios },
       {
         documentTypeGuid: +params.type,
-        documentId: +params.id
+        documentId: +params.id,
       }
     );
   },
@@ -52,7 +52,7 @@ export default {
       if (result) {
         await load(this, {
           documentTypeGuid: +this.$route.params.type,
-          documentId: +this.$route.params.id
+          documentId: +this.$route.params.id,
         });
       }
     }
@@ -61,7 +61,7 @@ export default {
   methods: {
     onClose() {
       this.$router.push(`/document-module/${this.$route.params.type}`);
-    }
-  }
+    },
+  },
 };
 </script>

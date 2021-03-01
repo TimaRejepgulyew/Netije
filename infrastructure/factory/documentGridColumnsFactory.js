@@ -48,7 +48,7 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateAccountingDocumentsColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
-    case DocumentQuery.DynamicDocuments:
+    case DocumentQuery.DynamicDocument:
       return CreateDynamicDocumentsColumns(context);
 
     case "document-template":
@@ -223,13 +223,22 @@ const createDocumentTemplateColumns = context => {
 
 const CreateDynamicDocumentsColumns = context => {
   return [
+    CreateDocumentSubjectColumn(context),
+    CreateDocumentTypeGuidColumn(context),
     CreateDocumentNameColumn(context),
-    // CreateDocumentModifiedColumn(context, true),
-    // CreateDocumentAuthorColumn(context, true),
-    // CreateDocumentCreatedColumn(context),
+    CreateDocumentCreatedColumn(context),
+    CreateDocumentModifiedColumn(context),
+    createExecutionStateColumn(context),
+    CreateDocumentAuthorColumn(context),
+    CreateDocumentRegistrationStateColumn(context),
+    CreateDocumentRegisterColumn(context),
+    CreateDocumentKindColumn(context),
+    CreateDocumentRegistrationNumberColumn(context),
+    CreateDocumentRegistrationDateColumn(context),
+    CreatePlacedToCaseFileDateColumn(context),
+    CreateCaseFileColumn(context)
   ];
 };
-
 
 const GetDefaultColumn = () => {
   return {

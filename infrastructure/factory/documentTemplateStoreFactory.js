@@ -69,7 +69,6 @@ export default class DocumentTemplateStoreFactory {
       case DocumentType.SupAgreement:
         return new SupAgreement().createStore();
 
-      //TODO set DocumentTemplate Type Id
       case DocumentType.DocumentTemplate:
         return new DocumentTemplate().createStore();
       case DocumentType.DynamicDocument:
