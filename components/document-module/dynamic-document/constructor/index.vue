@@ -39,22 +39,32 @@
                 :col-count="8"
                 :caption="$t('dynamicDocuments.captions.dynamic')"
               >
-                <DxSimpleItem :col-span="8" template="dynamic-document"></DxSimpleItem>
+                <DxSimpleItem
+                  :col-span="8"
+                  template="dynamic-document"
+                ></DxSimpleItem>
               </DxGroupItem>
             </DxGroupItem>
           </DxTab>
         </DxTabbedItem>
         <template #dynamic-document>
-          <Dynamic-document :documentType="documentType" @onFocusField="setFocusIndex"></Dynamic-document>
+          <Dynamic-document
+            :documentType="documentType"
+            @onFocusField="setFocusIndex"
+          ></Dynamic-document>
         </template>
       </DxForm>
       <transition name="fade">
         <CustomDrawer
           @close="() => setFocusIndex(null)"
           v-if="focusedFieldIndex !== null"
-          class="item--drawer"
+          class="item--drawer--update-box"
         >
-          <Update-field slot="content" :documentType="documentType" :fieldIndex="focusedFieldIndex"></Update-field>
+          <Update-field
+            slot="content"
+            :documentType="documentType"
+            :fieldIndex="focusedFieldIndex"
+          ></Update-field>
         </CustomDrawer>
       </transition>
     </section>
@@ -75,7 +85,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 
 export default {
@@ -90,17 +100,17 @@ export default {
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm
+    DxForm,
   },
   props: {
     documentType: {
-      default: "constructor"
-    }
+      default: "constructor",
+    },
   },
-  provide: function() {
+  provide: function () {
     return {
       trySaveDocumentType: this.trySave,
-      documentValidatorName: null
+      documentValidatorName: null,
     };
   },
   data() {
@@ -110,8 +120,8 @@ export default {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
-      }
+        loop: "true",
+      },
     };
   },
   computed: {
@@ -133,12 +143,12 @@ export default {
         value: this.$store.getters[
           `dynamicDocumentComponents/${this.documentType}/docFlow`
         ],
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `dynamicDocumentComponents/${this.documentType}/ChangeDocFlow`,
             e.value
           );
-        }
+        },
       };
     },
     documentTypeOptions() {
@@ -148,25 +158,25 @@ export default {
         value: this.$store.getters[
           `dynamicDocumentComponents/${this.documentType}/docType`
         ],
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `dynamicDocumentComponents/${this.documentType}/ChangeDocType`,
             e.value
           );
-        }
+        },
       };
-    }
+    },
   },
   methods: {
     saveDocument() {
       if (this.$refs["form"].instance.validate().isValid) {
         this.$awn.asyncBlock(
           DynamicTypeControler.saveType(this, this.documentType),
-          e => {
+          (e) => {
             console.log("azaza");
             this.$awn.success();
           },
-          e => {
+          (e) => {
             console.log("uzuzu");
             this.$awn.alert();
           }
@@ -192,14 +202,14 @@ export default {
       if (this.isNew) {
         this.focusedFieldIndex = index;
       }
-    }
+    },
   },
   created() {
     DynamicTypeControler.generateStore(this, this.documentType);
   },
   beforeDestroy() {
     DynamicTypeControler.removeStore(this, this.documentType);
-  }
+  },
 };
 </script>
 
@@ -211,7 +221,7 @@ export default {
   position: relative;
   min-height: 84vh;
   overflow: hidden;
-  .item--drawer {
+  .item--drawer--update-box {
     box-sizing: border-box;
     border: 1px solid $base-border-color;
     border-radius: 5px;

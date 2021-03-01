@@ -148,19 +148,19 @@ export const actions = {
         ]
       },
       {
-        text: this.$i18n.t("menu.ContractualDocuments"),
+        text: this.$i18n.t("DocumentQuery.ContractualDocuments"),
         icon: contractIcon,
         path: `/document-module/${DocumentQuery.ContractualDocuments}`,
         visible: hasContractAccess(rootGetters)
       },
       {
-        text: this.$i18n.t("menu.accountingDocuments"),
+        text: this.$i18n.t("DocumentQuery.AccountingDocuments"),
         icon: financialArchiveIcon,
         path: `/document-module/${DocumentQuery.AccountingDocuments}`,
         visible: hasAccountingDocumentBaseAccess(rootGetters)
       },
       {
-        text: this.$i18n.t("menu.contractors"),
+        text: this.$i18n.t("DocumentQuery.ContractualDocuments"),
         icon: "group",
         visible:
           hasCounterPartyAccess(rootGetters) &&

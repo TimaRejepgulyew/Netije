@@ -1,48 +1,50 @@
 export default {
   captions: {
-    static: "Статичные поля",
-    dynamic: "Динамичные поля",
-    updateField: "Настройки поля"
+    dynamic: "Dinamiki meýdançalar",
+    updateField: "Meýdançanyň sazlamalary"
   },
   dateTypes: {
-    Date: "Дата",
-    DateTime: "Дата и время",
-    Time: "Время"
+    Date: "Senesi",
+    DateTime: "Sagat we senesi",
+    Time: "Sagat"
   },
   fields: {
-    documentType: "Тип документа",
-    docFlow: "Документопоток"
+    documentType: "Resminamanyň görnüşi",
+    docFlow: "Resminamalar dolanyşygy"
   },
   editorTypes: {
-    EmployeeBox: "Селектор сотрудников",
-    RecipientBox: "Селектор получателей",
-    BusinessUnitBox: "Селектор компаний",
-    DepartmentBox: "Селектор отделов",
-    CounterPartBox: "Селектор контрагентов",
-    ContactBox: "Селектор контактов",
-    DxTextArea: "Текстовая область",
-    DxTextBox: "Текстовое поле",
-    DxDateBox: "Поле для даты",
-    DxNumberBox: "Поле для чисел",
-    DxCheckBox: "Чекбокс"
+    EmployeeBox: "Işgär saýlaýjysy",
+    RecipientBox: "Alyjy saýlaýjysy",
+    BusinessUnitBox: "Gurama saýlaýjysy",
+    DepartmentBox: "Bölüm saýlaýjysy",
+    CounterPartBox: "Kontragent saýlaýjy",
+    ContactBox: "Habarlaşmak üçin salgy saýlaýjy",
+    DxTextArea: "Tekst meýdançasy",
+    DxTextBox: "Tekst girişi",
+    DxDateBox: "Sene meýdançasy",
+    DxNumberBox: "San meýdançasy",
+    DxCheckBox: "Bellik gutusy(çek boks)",
+    DocumentBox:"Resminamalaryň meýdançasy",
+    AutoCompleteBox:"Awtomatiki dolduryjy tekst meýdançasy"
   },
   updateField: {
-    dataField: "Название поля",
-    dataFieldNameError: "Поле с таким названием уже присутствует в данном типе документа",
-    dataFieldNoNameError:
-      "Названия полей не должны быть пустыми",
-    colSpan: "Занимаемое место",
-    isRequired: "Обязательное",
-    isMultiple: "Мультивыбор",
-    editorType: "Тип поля",
-    translationTk: "Перевод на тукменский",
-    translationRu: "Перевод на русский",
-    dateType: "Тип даты"
+    dataField: "Meýdançanyň ady",
+    dataFieldNameError:
+      "Bu resminama görnüşinde bu at bilen bir meýdançasy eýýäm bar",
+    dataFieldNoNameError: "Meýdançanyň atlary boş bolmaly däldir",
+    colSpan: "Tutýan ýeri",
+    isRequired: "Hökmany",
+    isMultiple: "Köp saýlaň",
+    editorType: "Meýdançanyň görnüşi",
+    translationTk: "Tukmen diline terjime",
+    translationRu: "Rus diline terjime",
+    dateType: "Sene görnüşi",
+    documentQuery:"Resminama kategoriýalary"
   },
   buttons: {
-    addField: "Добавить поле",
-    addFieldUnder: "Добавить поле под",
-    removeField: "Удалить поле",
-    saveAndRender: "Сохранить и отрендерить"
+    addField: "Meýdançany goşmak",
+    addFieldUnder: "Aşagyndan meýdançany goşmak",
+    removeField: "Meýdançany pozmak",
+    saveAndRender: "Düzmek"
   }
 };

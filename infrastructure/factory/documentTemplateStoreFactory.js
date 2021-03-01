@@ -73,6 +73,7 @@ export default class DocumentTemplateStoreFactory {
       case DocumentType.DocumentTemplate:
         return new DocumentTemplate().createStore();
       case DocumentType.DynamicDocument:
+        console.log("dynamic");
         return new DynamicDocument().createStore();
       default:
         throw "unsupported document type store module";

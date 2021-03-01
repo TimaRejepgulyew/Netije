@@ -264,7 +264,6 @@ export default {
     };
   },
   created() {
-    console.log(this.document);
     if (this.isNew) {
       this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
     }

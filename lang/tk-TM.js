@@ -4,9 +4,7 @@ import administration from "~/lang/i18n-translation/tk/administration.js";
 import licensing from "~/lang/i18n-translation/tk/licensing.js";
 import documentModule from "~/lang/i18n-translation/tk/documentModule.js";
 import scanner from "~/lang/i18n-translation/tk/scanner.js";
-import documentRegistration, {
-  DocumentType
-} from "~/lang/i18n-translation/tk/documentRegistration.js";
+import documentRegistration from "~/lang/i18n-translation/tk/documentRegistration.js";
 import taskModule, { TaskType } from "~/lang/i18n-translation/tk/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/tk/lifeCycleState.js";
 import recipientType from "~/lang/i18n-translation/tk/recipientType.js";
@@ -71,36 +69,36 @@ export default {
   //   valueMustNotContainsSpaces: "В значении не должны присутствовать пробелы"
   // },
   DocumentQuery: {
-    contractsAndSupAgreements: "Şertnamalar we goşmaça ylalaşyk",
-    universaltransferdocument: "Uniwersal geçiriş resminamasy",
-    contractStatement: "Ýerine ýetirilen işleriň delilnamasy",
-    all: "Ähli resminamalar",
-    incomingDocument: "Gelýän resminamalar",
-    outgoingDocument: "Çykyş resminamalary",
-    accountingDocuments: "Maliýe resminamalary",
-    contractualDocuments: "Şertnamalar",
-    internalDocument: "Içerki resminamalar",
-    supAgreement: "Goşmaça ylalaşyklar",
-    incomingInvoice: "Töleg üçin gelýän hasaplar",
-    сontractStatement: "Ýerine ýetirilen işleriň delilnamalary",
-    incomingTaxInvoice: "Gelip gowşan hasap-inwoýslar",
-    outgoingTaxInvoice: "Tölemek üçin berlen hasap-inwoýslar",
-    universalTransferDocument: "Uniwersal geçiriş resminamalary",
-    waybill: "Ýol ýanhatlary",
-    contract: "Şertnamalar",
-    addendum: "Resmianama goşundylar",
-    memo: "Gulluk ýazgylary",
-    order: "Buýruklar",
-    powerOfAttorney: "Ynanç hatlary",
-    outgoingLetter: "Çykyş hatlary",
-    incomingLetter: "Gelýän hatlar",
-    companyDirective: "Kärhananyň içindäki buýruklar",
-    simpleDocument: "Ýönekeý resminamalar",
-    dynamicDocument: "Dinamiki resminamalar"
-
+    СontractsAndSupAgreements: "Şertnamalar we goşmaça ylalaşyk",
+    Universaltransferdocument: "Uniwersal geçiriş resminamasy",
+    ContractStatement: "Ýerine ýetirilen işleriň delilnamasy",
+    All: "Ähli resminamalar",
+    IncomingDocument: "Gelýän resminamalar",
+    OutgoingDocument: "Çykyş resminamalary",
+    AccountingDocuments: "Maliýe resminamalary",
+    ContractualDocuments: "Şertnamalar",
+    InternalDocument: "Içerki resminamalar",
+    SupAgreement: "Goşmaça ylalaşyklar",
+    IncomingInvoice: "Töleg üçin gelýän hasaplar",
+    ContractStatement: "Ýerine ýetirilen işleriň delilnamalary",
+    IncomingTaxInvoice: "Gelip gowşan hasap-inwoýslar",
+    OutgoingTaxInvoice: "Tölemek üçin berlen hasap-inwoýslar",
+    UniversalTransferDocument: "Uniwersal geçiriş resminamalary",
+    Waybill: "Ýol ýanhatlary",
+    Contract: "Şertnamalar",
+    Addendum: "Resmianama goşundylar",
+    Memo: "Gulluk ýazgylary",
+    Order: "Buýruklar",
+    PowerOfAttorney: "Ynanç hatlary",
+    OutgoingLetter: "Çykyş hatlary",
+    IncomingLetter: "Gelýän hatlar",
+    CompanyDirective: "Kärhananyň içindäki buýruklar",
+    SimpleDocument: "Ýönekeý resminamalar",
+    DocumentTemplate: "Resminamalaryň nusgalary",
+    DynamicDocument: "Dinamiki resminamalar",
+    ContractsAndSupAgreements: "Şertnamalar we goşmaça şertnamalar"
   },
   createItemDialog: {
-    ...DocumentType,
     ...TaskType,
     select: "Saýlamak",
     create: "Döretmek",
