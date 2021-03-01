@@ -15,10 +15,6 @@ export default {
       documentType: null
     };
   },
-  // async asyncData({ $axios, params }) {
-  //   DynamicTypeControler.generateStore(this, this.documentType);
-
-  // },
   created() {
     this.documentType = this.$route.params.id;
   }

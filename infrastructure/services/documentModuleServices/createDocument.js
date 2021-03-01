@@ -4,7 +4,7 @@ import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { documentModules } from "~/infrastructure/services/documentService.js";
 import DocumentTemplateStoreFactory from "~/infrastructure/factory/documentTemplateStoreFactory.js";
 import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
-export default async function(context, params) {
+export default async function (context, params) {
   switch (params.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await createDocumentTemplate(context);
@@ -50,7 +50,7 @@ export async function createDynamicDocument(context, params) {
     context,
     params
   );
-  await DynamicTypeControler.generateStore(context, params.documentTypeId);
+  await DynamicTypeControler.generateStore(context, params.documentTypeId, true);
   return { documentId, documentTypeGuid };
 }
 

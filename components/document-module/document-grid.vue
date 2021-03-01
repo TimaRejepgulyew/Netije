@@ -150,7 +150,6 @@ export default {
   },
   methods: {
     setStore(quickFilter, filter) {
-      console.log(quickFilter, filter);
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
@@ -187,7 +186,6 @@ export default {
       );
     },
     generateHeaderTitle() {
-      console.log(new DocumentQueryModel(this));
       // return new DocumentQueryModel(this).getById(this.documentQuery).text;
     },
     columns() {

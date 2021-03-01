@@ -30,14 +30,12 @@ export class BaseField {
     };
     this._setLabel(context, { translationRu, translationTk });
     this._setEventValueChanged();
-    console.log(this);
   }
   getFielOptions() {
     return this;
   }
   _setEventValueChanged() {
     this.editorOptions.onValueChanged = e => {
-      console.log(this);
       this.context.change(e.value, this);
     };
   }

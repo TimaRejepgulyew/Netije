@@ -4,7 +4,7 @@ const obj = {
     state: {
         docFlow: null,
         docType: "",
-        overlays: 1,
+        overlays: 0,
         isNew: true,
         isDataChanged: false,
         needRerender: false,
@@ -43,7 +43,6 @@ const obj = {
         },
         controls(state) {
             let controls = state.elements.map((element) => {
-                console.log(element);
                 return {
                     dataField: element.dataField,
                     isRequired: element.isRequired || false,
@@ -55,15 +54,15 @@ const obj = {
         }
     },
     mutations: {
-        SetElements(state, payload) {
+        SET_ELEMENTS(state, payload) {
             state.elements = payload;
         },
-        AddNewElement(state, payload) {
+        ADD_NEW_ELEMENT(state, payload) {
             state.isDataChanged = true;
             state.elements.push(payload);
             state.needRerender = false;
         },
-        IntroduceElement(state, { id, payload }) {
+        INSERT_UNDER_ELEMENT(state, { id, payload }) {
             state.elements.forEach((element, index) => {
                 if (element.id === id) {
                     state.isDataChanged = true;
@@ -71,7 +70,7 @@ const obj = {
                 }
             });
         },
-        ChangeElement(state, payload) {
+        CHANGE_ELEMENT(state, payload) {
             let err;
             state.elements.forEach((element, index) => {
                 if (
@@ -91,7 +90,7 @@ const obj = {
                 }
             });
         },
-        RemoveElement(state, id) {
+        REMOVE_ELEMENT(state, id) {
             state.elements.forEach((element, index) => {
                 if (element.id === id) {
                     state.isDataChanged = true;
@@ -99,43 +98,43 @@ const obj = {
                 }
             });
         },
-        CleanState(state) {
+        CLEAN_STATE(state) {
             state.docFlow = null;
             state.docType = "";
-            state.overlays = 1;
+            state.overlays = 0;
             state.isNew = true;
             state.isDataChanged = false;
             state.needRerender = false;
             state.elements = [];
         },
-        IncrementOverlays(state) {
+        INCREMENT_OVERLAYS(state) {
             state.overlays++;
         },
-        DecrementOverlays(state) {
+        DECREMENT_OVERLAYS(state) {
             state.overlays--;
         },
-        StartDataTracking(state) {
+        START_DATA_TRACKING(state) {
             state.isDataChanged = true;
         },
-        StopDataTracking(state) {
+        STOP_DATA_TRACKING(state) {
             state.isDataChanged = false;
         },
-        SetIsNew(state, payload) {
+        SET_IS_NEW(state, payload) {
             state.isNew = payload;
         },
-        ChangeDocType(state, payload) {
+        CHANGE_DOC_TYPE(state, payload) {
             if (state.docType != payload) {
                 state.isDataChanged = true;
             }
             state.docType = payload;
         },
-        ChangeDocFlow(state, payload) {
+        CHANGE_DOC_FLOW(state, payload) {
             if (state.docFlow != payload) {
                 state.isDataChanged = true;
             }
             state.docFlow = payload;
         },
-        CheckDataField(state) {
+        CHECK_DATA_FIELD(state) {
             state.elements.forEach(element => {
                 if (element.dataField == "") {
                     throw new Error("datafield must not be empty")
@@ -149,11 +148,11 @@ const obj = {
                 dataApi.dynamicDocument.documentType + "/" + documentType
             );
             let elements = JSON.parse(data.form);
-            commit("ChangeDocFlow", data.documentFlow);
-            commit("ChangeDocType", data.name);
-            commit("SetElements", elements);
-            commit("SetIsNew", !data.isModifiedDocumentType);
-            commit("StopDataTracking");
+            commit("CHANGE_DOC_FLOW", data.documentFlow);
+            commit("CHANGE_DOC_TYPE", data.name);
+            commit("SET_ELEMENTS", elements);
+            commit("SET_IS_NEW", !data.isModifiedDocumentType);
+            commit("STOP_DATA_TRACKING");
         },
         async create_dynamic_type({ commit, state, getters }) {
             let jsonElements = JSON.stringify(state.elements);
@@ -163,7 +162,7 @@ const obj = {
                 form: jsonElements,
                 controls: getters.controls
             });
-            commit("StopDataTracking");
+            commit("STOP_DATA_TRACKING");
         },
         async change_dynamic_type({ commit, state, getters }, documentType) {
             let jsonElements = JSON.stringify(state.elements);
@@ -177,7 +176,7 @@ const obj = {
                     controls: getters.controls
                 }
             );
-            commit("StopDataTracking");
+            commit("STOP_DATA_TRACKING");
         },
         async remove_dynamic_type({ state }, documentType) {
             await this.$axios.delete(

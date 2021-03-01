@@ -30,10 +30,10 @@ class DynamicTypeControler {
         return context.$store.getters[`dynamicDocumentComponents/${documentType}/getElementById`](elementId)
     }
     static removeElement(context, documentType, elementId) {
-        context.$store.commit(`dynamicDocumentComponents/${documentType}/RemoveElement`, elementId)
+        context.$store.commit(`dynamicDocumentComponents/${documentType}/REMOVE_ELEMENT`, elementId)
     }
     static changeElement(context, documentType, newElement) {
-        context.$store.commit(`dynamicDocumentComponents/${documentType}/ChangeElement`, newElement)
+        context.$store.commit(`dynamicDocumentComponents/${documentType}/CHANGE_ELEMENT`, newElement)
     }
     static addNewElement(context, documentType, elementId) {
         const newItem = {
@@ -41,29 +41,29 @@ class DynamicTypeControler {
             ...defaultElement
         }
         if (elementId) {
-            context.$store.commit(`dynamicDocumentComponents/${documentType}/IntroduceElement`, { id: elementId, payload: newItem })
+            context.$store.commit(`dynamicDocumentComponents/${documentType}/INSERT_UNDER_ELEMENT`, { id: elementId, payload: newItem })
         } else {
-            context.$store.commit(`dynamicDocumentComponents/${documentType}/AddNewElement`, newItem)
+            context.$store.commit(`dynamicDocumentComponents/${documentType}/ADD_NEW_ELEMENT`, newItem)
         }
     }
-    static async generateStore(context, documentType) {
-        let overlay = context.$store.getters[`dynamicDocumentComponents/${documentType}/overlays`]
-        if (overlay) {
-            context.$store.commit(`dynamicDocumentComponents/${documentType}/IncrementOverlays`)
-        } else {
+    static async generateStore(context, documentType, isNewDocument = false) {
+        if (!dynamicTypeStoreModule.hasModule(documentType)) {
             dynamicTypeStoreModule.registerModule(context, documentType);
             if (documentType !== "constructor") {
                 await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/get_dynamic_type_by_id`, documentType)
             }
         }
+        if (isNewDocument) {
+            context.$store.commit(`dynamicDocumentComponents/${documentType}/INCREMENT_OVERLAYS`)
+        }
     }
     static removeStore(context, documentType) {
         let overlay = context.$store.getters[`dynamicDocumentComponents/${documentType}/overlays`]
         if (overlay === 1) {
-            context.$store.commit(`dynamicDocumentComponents/${documentType}/CleanState`)
+            context.$store.commit(`dynamicDocumentComponents/${documentType}/CLEAN_STATE`)
             dynamicTypeStoreModule.unregisterModule(context, documentType);
         } else {
-            context.$store.commit(`dynamicDocumentComponents/${documentType}/DecrementOverlays`)
+            context.$store.commit(`dynamicDocumentComponents/${documentType}/DECREMENT_OVERLAYS`)
         }
     }
     static async saveType(context, documentType) {
@@ -74,7 +74,7 @@ class DynamicTypeControler {
         }
     }
     static checkDataField(context, documentType) {
-        context.$store.commit(`dynamicDocumentComponents/${documentType}/CheckDataField`)
+        context.$store.commit(`dynamicDocumentComponents/${documentType}/CHECK_DATA_FIELD`)
     }
     static async removeType(context, documentType) {
         await context.$store.dispatch(`dynamicDocumentComponents/${documentType}/remove_dynamic_type`, documentType)

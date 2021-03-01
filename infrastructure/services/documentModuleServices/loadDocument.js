@@ -3,7 +3,7 @@ import { documentModules } from "~/infrastructure/services/documentService.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 import DocumentTemplateStoreFactory from "~/infrastructure/factory/documentTemplateStoreFactory.js";
-export default async function(context, { documentId, documentTypeGuid }) {
+export default async function (context, { documentId, documentTypeGuid }) {
   switch (documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await loadDocumentTemplate(context, {

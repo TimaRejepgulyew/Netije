@@ -20,7 +20,7 @@ import {
 import DocumentType from "~/infrastructure/constants/documentType";
 
 export default class DocumentTemplateStoreFactory {
-  constructor() {}
+  constructor() { }
 
   static createStore(documentTypeGuid) {
     switch (documentTypeGuid) {

@@ -135,7 +135,7 @@ export default {
         ],
         onValueChanged: e => {
           this.$store.commit(
-            `dynamicDocumentComponents/${this.documentType}/ChangeDocFlow`,
+            `dynamicDocumentComponents/${this.documentType}/CHANGE_DOC_FLOW`,
             e.value
           );
         }
@@ -150,7 +150,7 @@ export default {
         ],
         onValueChanged: e => {
           this.$store.commit(
-            `dynamicDocumentComponents/${this.documentType}/ChangeDocType`,
+            `dynamicDocumentComponents/${this.documentType}/CHANGE_DOC_TYPE`,
             e.value
           );
         }
@@ -163,11 +163,9 @@ export default {
         this.$awn.asyncBlock(
           DynamicTypeControler.saveType(this, this.documentType),
           e => {
-            console.log("azaza");
             this.$awn.success();
           },
           e => {
-            console.log("uzuzu");
             this.$awn.alert();
           }
         );
@@ -196,9 +194,11 @@ export default {
   },
   created() {
     DynamicTypeControler.generateStore(this, this.documentType);
+    console.log(this.$store);
   },
-  beforeDestroy() {
+  destroyed() {
     DynamicTypeControler.removeStore(this, this.documentType);
+    console.log(this.$store);
   }
 };
 </script>

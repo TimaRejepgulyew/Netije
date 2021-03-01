@@ -10,11 +10,9 @@ export default async function(context) {
   const { data } = await context.$axios.get(
     `${dataApi.docFlow.DocumentType}?filter=${filter}`
   );
-  console.log(data.data);
   const dynamicDocumentCreateBtn = new Array(
     ...Object.values(new DynamicDocumentCreateBtn(data.data).getAll())
   );
-  console.log(dynamicDocumentCreateBtn);
   const paperWorkDocumentBtns = Object.values(
     new DocumentCreateBtn(context).init().filterPaperWorkDocument()
   );

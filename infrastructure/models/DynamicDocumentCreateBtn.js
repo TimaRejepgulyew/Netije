@@ -7,7 +7,6 @@ async function create(context, params) {
     context,
     params
   );
-  await DynamicTypeControler.generateStore(context, params.documentTypeId);
   const route = `/document-module/detail/${documentTypeGuid}/${documentId}`;
   let replaceOldRoute = false;
   if (context.$route.name.includes("document-module-detail-type-id")) {
@@ -23,12 +22,10 @@ async function create(context, params) {
 export class DynamicDocumentCreateBtn {
   elements = [];
   constructor(documentTypes) {
-    console.log(documentTypes);
     documentTypes.forEach(documentType => {
       documentType.icon = "docx";
       documentType.text = documentType.name;
       documentType.create = async context => {
-        console.log(documentType);
         const { documentTypeGuid, documentId } = await create(context, {
           documentTypeId: +documentType.id,
           documentTypeGuid: +documentType.documentTypeGuid
