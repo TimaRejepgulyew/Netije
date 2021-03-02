@@ -15,7 +15,6 @@ export default {
     mainDocumentForm,
   },
   async asyncData({ app, params, router, $axios }) {
-    console.log(app.store.getters[`documents/${+params.id}/isNew`]);
     await load(
       { $store: app.store, $axios },
       {

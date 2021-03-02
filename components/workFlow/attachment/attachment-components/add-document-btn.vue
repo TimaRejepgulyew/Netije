@@ -95,7 +95,6 @@ export default {
   },
   methods: {
     itemClick({ itemData }) {
-      console.log(itemData);
       if (!itemData.items) {
         if (itemData.type === "select") this.$emit("showDocumentGrid");
         else

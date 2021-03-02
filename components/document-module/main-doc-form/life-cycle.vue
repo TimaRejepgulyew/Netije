@@ -138,7 +138,6 @@ export default {
           this.itemVisible.externalApprovalState = true;
           break;
         case DocumentType.DynamicDocument:
-          console.log(this.documentTypeGuid);
           this.itemVisible.registrationState = true;
           this.itemVisible.executionState = true;
           this.itemVisible.controlExecutionState = true;

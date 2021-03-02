@@ -174,7 +174,6 @@ export default {
         this,
         this.documentType
       );
-      console.log(formElements);
       const generatedItems = new devExtremeFieldFactory(this, formElements);
       if (generatedItems) return generatedItems;
       return [];

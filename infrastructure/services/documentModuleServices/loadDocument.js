@@ -11,12 +11,10 @@ export default async function(context, { documentId, documentTypeGuid }) {
         documentTypeGuid
       });
     case DocumentTypeGuid.DynamicDocument:
-      await load(context, { documentId, documentTypeGuid });
-      const dynamicDocumentTypeId =
-        context.$store.getters[`documents/${documentId}/document`]
-          .dynamicDocumentTypeId;
-      await DynamicTypeControler.generateStore(context, dynamicDocumentTypeId);
-      return { documentId, documentTypeGuid };
+      return await loadDynamicDocument(context, {
+        documentId,
+        documentTypeGuid
+      });
 
     default:
       return await load(context, { documentId, documentTypeGuid });
@@ -39,6 +37,14 @@ export async function load(context, { documentTypeGuid, documentId }) {
   return { documentId, documentTypeGuid };
 }
 
+export async function loadDynamicDocument() {
+  await load(context, { documentId, documentTypeGuid });
+  const dynamicDocumentTypeId =
+    context.$store.getters[`documents/${documentId}/document`]
+      .dynamicDocumentTypeId;
+  await DynamicTypeControler.generateStore(context, dynamicDocumentTypeId);
+  return { documentId, documentTypeGuid };
+}
 export async function loadDocumentTemplate(
   context,
   { documentTypeGuid, documentId }
