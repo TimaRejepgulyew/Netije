@@ -244,7 +244,7 @@ export default {
   name: "document-card",
   destroyed() {
     if (this.isNew === false) this.onClosed();
-    unload(this, this.documentId);
+
     if (DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid) {
       DynamicTypeControler.removeStore(
         this,
