@@ -252,6 +252,7 @@ export default {
       );
     }
     unload(this, this.documentId);
+    console.log(this.$store);
   },
   props: ["isCard", "documentId"],
   head() {
