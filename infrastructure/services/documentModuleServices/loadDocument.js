@@ -37,7 +37,10 @@ export async function load(context, { documentTypeGuid, documentId }) {
   return { documentId, documentTypeGuid };
 }
 
-export async function loadDynamicDocument() {
+export async function loadDynamicDocument(
+  context,
+  { documentId, documentTypeGuid }
+) {
   await load(context, { documentId, documentTypeGuid });
   const dynamicDocumentTypeId =
     context.$store.getters[`documents/${documentId}/document`]
