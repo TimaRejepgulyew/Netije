@@ -3,7 +3,7 @@ import { documentModules } from "~/infrastructure/services/documentService.js";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 import DocumentTemplateStoreFactory from "~/infrastructure/factory/documentTemplateStoreFactory.js";
-export default async function (context, { documentId, documentTypeGuid }) {
+export default async function(context, { documentId, documentTypeGuid }) {
   switch (documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await loadDocumentTemplate(context, {
@@ -33,7 +33,7 @@ export async function load(context, { documentTypeGuid, documentId }) {
     loadDocumentToStore(context, documentId, data);
     context.$store.commit(`documents/${documentId}/DATA_CHANGED`, false);
   }
-  if (!context.$store.getters[`documents/${documentId}/isNew`]) {
+  if (context.$store.getters[`documents/${documentId}/isNew`] === false) {
     context.$store.commit(`documents/${documentId}/INCREMENT_OVERLAYS`);
   }
   return { documentId, documentTypeGuid };

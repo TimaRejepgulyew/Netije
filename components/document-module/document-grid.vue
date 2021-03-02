@@ -186,7 +186,7 @@ export default {
       );
     },
     generateHeaderTitle() {
-      // return new DocumentQueryModel(this).getById(this.documentQuery).text;
+       return new DocumentQueryModel(this).getById(this.documentQuery).text;
     },
     columns() {
       return ColumnFactory.CreateColumns(this.documentQuery, this);
