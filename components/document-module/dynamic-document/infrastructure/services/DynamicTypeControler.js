@@ -59,7 +59,7 @@ class DynamicTypeControler {
     }
     static removeStore(context, documentType) {
         let overlay = context.$store.getters[`dynamicDocumentComponents/${documentType}/overlays`]
-        if (overlay === 0) {
+        if (overlay === 1) {
             context.$store.commit(`dynamicDocumentComponents/${documentType}/CLEAN_STATE`)
             dynamicTypeStoreModule.unregisterModule(context, documentType);
         } else {
