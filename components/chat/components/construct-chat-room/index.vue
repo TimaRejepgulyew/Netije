@@ -5,6 +5,7 @@
       <h3>Групповой чат</h3>
       <p>Закрытый чат виден только приглашенным пользователям.</p>
       <p>В чате можно обсуждать рабочие вопросы, которые касаются конкретных людей.</p>
+      <h1 class="start_btn" @click="createRoom">Начать чат</h1>
     </div>
   </div>
 </template>
@@ -22,6 +23,14 @@ export default {
     ChatTextArea,
     DxLoadIndicator,
     ConstructorChatRoomHeader
+  },
+  methods: {
+    createRoom() {
+      this.$chat.createRoom({
+        roomType: 0,
+        members: [2]
+      });
+    }
   }
 };
 </script>
@@ -40,6 +49,14 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+  .start_btn {
+    
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }
 </style>

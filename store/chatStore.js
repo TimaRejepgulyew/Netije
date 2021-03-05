@@ -184,7 +184,7 @@ export const mutations = {
                 case RoomType.Private:
                     let opponent = room.members[0].id == state.userId ? room.members[1] : room.members[0];
                     return {
-                        id: room.id,
+                        id: room["_id"],
                         employeeId: opponent.id,
                         roomType: room.roomType,
                         roomName: opponent.name,
@@ -194,7 +194,7 @@ export const mutations = {
                     }
                 case RoomType.Group:
                     return {
-                        id: room.id,
+                        id: room["_id"],
                         roomType: room.roomType,
                         roomName: room.name,
                         members: room.members,

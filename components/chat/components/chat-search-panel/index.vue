@@ -56,6 +56,7 @@ export default {
   },
   methods: {
     createRoom(roomType) {
+
       this.$emit("createRoom", roomType);
     }
   }
