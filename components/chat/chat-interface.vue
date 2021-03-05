@@ -8,10 +8,11 @@
       </div>
       <div class="chat_interface_content">
         <div class="contacts">
-          <ContactList />
+          <ContactList @createRoom="createRoom" />
         </div>
         <div class="chat_room">
-          <ChatRoom />
+          <ConstructChatRoom v-if="isCreateRoom" />
+          <ChatRoom v-else />
         </div>
       </div>
     </div>
@@ -21,10 +22,12 @@
 
 <script>
 import ContactList from "~/components/chat/contact-list.vue";
-import ChatRoom from "~/components/chat/chat-room.vue";
+import ChatRoom from "~/components/chat/components/chat-room/index.vue";
+import ConstructChatRoom from "~/components/chat/components/construct-chat-room/index.vue";
 export default {
   components: {
     ContactList,
+    ConstructChatRoom,
     ChatRoom
   },
   props: {
@@ -35,12 +38,17 @@ export default {
   },
   data() {
     return {
-      chat: "Чат"
+      chat: "Чат",
+      isCreateRoom: false
     };
   },
   methods: {
+    createRoom(roomType) {
+      this.isCreateRoom = true;
+    },
     focusOut() {
       this.$emit("focusOut");
+      this.isCreateRoom = false;
     }
   }
 };
@@ -85,7 +93,6 @@ export default {
     width: 70px;
     border-radius: 10px 0 0 10px;
     color: #fff;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
     cursor: pointer;
     .close {
       width: 20px;

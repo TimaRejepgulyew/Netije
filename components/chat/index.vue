@@ -27,11 +27,6 @@ export default {
     focusOut() {
       this.isActive = false;
     }
-  },
-  sockets: {
-    connect() {
-      console.log("Client IO connected");
-    }
   }
 };
 </script>

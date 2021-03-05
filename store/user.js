@@ -1,12 +1,15 @@
 export const state = () => ({
     employeeId: null,
     name: null,
-    personalPhotoHash:null,
+    personalPhotoHash: null,
 });
 
 export const getters = {
     name({ name }) {
         return name;
+    },
+    employeeId({ employeeId }) {
+        return employeeId;
     },
     personalPhotoHash({ personalPhotoHash }) {
         return personalPhotoHash;
@@ -23,6 +26,6 @@ export const mutations = {
 
 export const actions = {
     initUser({ commit, dispatch }, payload) {
-        commit("INIT_USER",payload)
+        commit("INIT_USER", payload)
     }
 }

@@ -95,7 +95,6 @@ export default {
     );
   },
   mounted() {
-
     this.$online.connectHub();
     this.$notification.connectHub(this);
     this.$nextTick(() => {
@@ -131,6 +130,7 @@ body {
 }
 
 * {
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
   box-sizing: border-box;
   &::-webkit-scrollbar {
     width: 5px;

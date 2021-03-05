@@ -1,8 +1,13 @@
 <template>
   <div id="list_container">
-    <DxList :data-source="contacts" height="100%" :search-enabled="true" search-expr="name">
+    <chatSearchPanel @createRoom="createRoom" />
+    <DxList :data-source="dataSource" height="100%" search-expr="name">
+      <!-- :searchEditorOptions="searchEditorOptions" -->
+      <!-- :search-enabled="true" -->
       <template #item="{ data }">
-        <custom-select-item :item-data="data" />
+        <div @click="setCurrentRoom(data.id)">
+          <roomInfo :room="data" />
+        </div>
       </template>
     </DxList>
     <!-- <div class="notifications_btn">Уведомления</div> -->
@@ -13,29 +18,72 @@
 <script>
 import DxList from "devextreme-vue/list";
 import DataSource from "devextreme/data/data_source";
+import ArrayStore from "devextreme/data/array_store";
 import dataApi from "~/static/dataApi";
-import customSelectItem from "~/components/employee/custom-select-box-item.vue";
+import roomInfo from "~/components/chat/components/room-info.vue";
+import chatSearchPanel from "~/components/chat/components/chat-search-panel/index.vue";
 
 export default {
   components: {
     DxList,
-    customSelectItem
+    roomInfo,
+    chatSearchPanel
   },
   data() {
-    return {};
+    return {
+      searchInProgress: false,
+      searchValue: ""
+    };
   },
   computed: {
-    contacts() {
+    dataSource() {
+      if (this.searchValue !== "" || this.searchInProgress) {
+        return this.rooms;
+      }
+      return this.lastRooms;
+    },
+    searchEditorOptions() {
+      return {
+        template: "searchPanel"
+        // value: this.searchValue,
+        // onValueChanged: e => {
+        //   this.searchValue = e.value;
+        // },
+        // onFocusIn: () => {
+        //   this.searchInProgress = true;
+        // },
+        // onFocusOut: () => {
+        //   this.searchInProgress = false;
+        // }
+      };
+    },
+    rooms() {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
           loadUrl: dataApi.company.Employee
         }),
+        filter: ["name", "contains", this.searchValue],
         paginate: false,
         pageSize: 10,
         displayExpr: "name"
       });
       return dataSource;
+    },
+    lastRooms() {
+      const dataSource = new ArrayStore({
+        key: "id",
+        data: this.$store.getters["chatStore/rooms"]
+      });
+      return dataSource;
+    }
+  },
+  methods: {
+    setCurrentRoom(id) {
+      this.$store.commit("chatStore/SET_CURRENT_ROOM", id);
+    },
+    createRoom(roomType) {
+      this.$emit("createRoom", roomType);
     }
   }
 };

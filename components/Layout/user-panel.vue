@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import scannerIcon from "~/static/icons/scanner/scanner_netije.svg"
+import scannerIcon from "~/static/icons/scanner/scanner_netije.svg";
 import DxContextMenu from "devextreme-vue/context-menu";
 import DxList from "devextreme-vue/list";
 import DxButton from "devextreme-vue/button";
@@ -47,9 +47,9 @@ export default {
       },
       menuItems: [
         {
-          text:this.$t("panel.downloadScannerApp"),
-          icon:scannerIcon,
-          onClick:this.downloadScanner
+          text: this.$t("panel.downloadScannerApp"),
+          icon: scannerIcon,
+          onClick: this.downloadScanner
         },
         {
           text: this.$t("panel.profile"),
@@ -60,7 +60,7 @@ export default {
           text: this.$t("panel.logout"),
           icon: "runner",
           onClick: this.onLogoutClick
-        },
+        }
       ]
     };
   },
@@ -68,13 +68,13 @@ export default {
     fullName() {
       return this.$store.getters["user/name"];
     },
-    imagePath(){
+    imagePath() {
       return this.$store.getters["user/personalPhotoHash"];
     }
   },
   methods: {
-    downloadScanner(){
-      window.open('/WebClient.msi', '_blank')
+    downloadScanner() {
+      window.open("/WebClient.msi", "_blank");
     },
     onLogoutClick() {
       this.$store.dispatch("oidc/signOutOidc");
@@ -82,7 +82,7 @@ export default {
     onProfileClick() {
       window.location.href = dataApi.account;
     }
-  },
+  }
 };
 </script>
 
@@ -102,6 +102,7 @@ export default {
     text-overflow: ellipsis;
     font-size: 12px;
     color: $base-text-color;
+    margin: 0 0 0 10px;
   }
 }
 

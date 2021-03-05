@@ -1,71 +1,65 @@
-<template :style="{background:stringToColor}">
-  <div class="avatar">
-    <img v-if="path" :src="imagePath" />
+<template>
+  <div class="avatar" :style="{background:stringToColor}">
+    <img :src="imagePath" v-if="room.roomPhotoHash " />
     <span v-else>{{nameToWord}}{{lastNameToWord}}</span>
   </div>
 </template>
 
 <script>
 import dataApi from "~/static/dataApi";
-import axios from "axios";
+import UserIcon from "~/components/chat/components/room-icon.vue";
 export default {
   props: {
-    fullName: {
-      type: String,
-      default: null
-    },
-    path: {
-      type: String,
-      default: null
-    }
+    room: {}
+  },
+  data() {
+    return {
+      groupImg: require("~/static/icons/quide-page/company-structure.svg")
+    };
   },
   computed: {
     imagePath() {
-      return dataApi.UserPhotoHash + this.path + ".png";
+      return dataApi.UserPhotoHash + this.room.roomPhotoHash + ".png";
     },
     stringToColor() {
+      let i, value, nameLength;
       let hash = 0;
       let color = "#";
-      let i;
-      let value;
-      let nameLength;
-
-      if (!this.fullName) {
+      if (!this.room.roomName) {
         return color + "333333";
       }
-
-      nameLength = this.fullName.length;
-
+      nameLength = this.room.roomName.length;
       for (i = 0; i < nameLength; i++) {
-        hash = this.fullName.charCodeAt(i) + ((hash << 5) - hash);
+        hash = this.room.roomName.charCodeAt(i) + ((hash << 5) - hash);
       }
-
       for (i = 0; i < 3; i++) {
         value = (hash >> (i * 8)) & 0xff;
         color += ("00" + value.toString(16)).substr(-2);
       }
-
       return color;
     },
     nameToWord() {
-      if (this.fullName)
-        return this.fullName
+      if (this.room.roomName)
+        return this.room.roomName
           .split(" ")[0]
           .toUpperCase()
           .substr(0, 1);
     },
     lastNameToWord() {
-      if (this.fullName.split(" ").length > 1)
-        return this.fullName
+      if (this.room.roomName.split(" ").length > 1)
+        return this.room.roomName
           .split(" ")[1]
           .toUpperCase()
           .substr(0, 1);
     }
+  },
+  created() {
+    // console.log(this.room);
   }
 };
 </script>
 
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 .avatar {
   display: flex;
   justify-content: center;

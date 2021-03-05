@@ -9,6 +9,11 @@
     :valueExpr="valueExpr"
     displayExpr="name"
     :searchEnabled="true"
+    :focusStateEnabled="focusStateEnabled"
+    :hoverStateEnabled="hoverStateEnabled"
+    :activeStateEnabled="activeStateEnabled"
+    :height="height"
+    :stylingMode="stylingMode"
     searchExpr="name"
     :paginate="true"
     :page-size="10"
@@ -34,7 +39,7 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxTagBox,
-    customSelectItem,
+    customSelectItem
   },
   props: [
     "value",
@@ -42,11 +47,16 @@ export default {
     "validatorGroup",
     "readOnly",
     "valueExpr",
+    "height",
+    "stylingMode",
+    "focusStateEnabled",
+    "hoverStateEnabled",
+    "activeStateEnabled"
   ],
   created() {},
   data() {
     return {
-      dataSourceLoaded: this.valueExpr,
+      dataSourceLoaded: this.valueExpr
     };
   },
   computed: {
@@ -54,10 +64,10 @@ export default {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee,
+          loadUrl: this.storeApi || dataApi.company.Employee
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       });
       if (this.dataSourceLoaded) {
         return dataSource;
@@ -67,7 +77,7 @@ export default {
       }
 
       return dataSource;
-    },
+    }
   },
   methods: {
     onOpened() {
@@ -75,8 +85,8 @@ export default {
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    },
-  },
+    }
+  }
 };
 </script>
 

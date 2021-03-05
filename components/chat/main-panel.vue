@@ -1,19 +1,32 @@
 <template>
   <div id="main_panel">
-    <div @click="selectRoom" class="cell" v-for="(user,index) in 10" :key="index">
-      <userIcon :fullName="`Лахан Макараевич`" />
+    <div
+      class="cell"
+      v-for="(room,index) in rooms"
+      :key="index"
+      :title="room.roomName"
+      @click="selectRoom(room.id)"
+    >
+      <roomIcon :room="room" />
     </div>
   </div>
 </template>
 
 <script>
-import userIcon from "~/components/Layout/userIcon.vue";
+import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
+import roomIcon from "~/components/chat/components/room-icon.vue";
 export default {
   components: {
-    userIcon
+    roomIcon
+  },
+  computed: {
+    rooms() {
+      return this.$store.getters["chatStore/rooms"];
+    }
   },
   methods: {
-    selectRoom() {
+    selectRoom(id) {
+      this.$store.commit("chatStore/SET_CURRENT_ROOM", id);
       this.$emit("selectRoom");
     }
   }
@@ -30,19 +43,17 @@ export default {
   grid-template-columns: 1fr;
   grid-template-rows: repeat(10, 60px);
   justify-items: center;
-  //   height: 40px;
   .cell {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    // transition: 0.3s;
     &:hover {
       background-color: rgba($color: #ddd, $alpha: 0.7);
     }
-    .user-info-avatar {
-      margin: 0;
+    .avatar {
+      transform: scale(1.3);
     }
   }
 }
