@@ -12,9 +12,7 @@ export default async function (context, store) {
 }
 
 export async function saveDocument(context, { commit, state, dispatch }) {
-  // const documentJson = JSON.stringify(state.document);
-  const { data } = await context.$axios.put(
-    GenerateApi(state.document.documentTypeGuid) + "/" + state.document.id,
+  const { data } = await context.$axios.put(`${GenerateApi(state.document.documentTypeGuid)}/${state.document.id}`,
     state.document
   );
 
