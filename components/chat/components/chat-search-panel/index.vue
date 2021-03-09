@@ -33,6 +33,11 @@ export default {
     items() {
       return [
         {
+          text: "Создать чат",
+          roomType: RoomType.Private,
+          onClick: e => this.createRoom(e.itemData.roomType)
+        },
+        {
           text: "Создать груповой чат",
           roomType: RoomType.Group,
           onClick: e => this.createRoom(e.itemData.roomType)
@@ -56,7 +61,6 @@ export default {
   },
   methods: {
     createRoom(roomType) {
-
       this.$emit("createRoom", roomType);
     }
   }

@@ -1,26 +1,27 @@
 <template>
   <div>
     <DxSelectBox
-      @opened="onOpened"
-      stylingMode="text"
       ref="employee"
+      field-template="customfield"
+      displayExpr="name"
+      searchExpr="name"
+      item-template="customSelectItem"
       :read-only="readOnly"
       :data-source="employeeStore"
-      @valueChanged="valueChanged"
       :showClearButton="showClearButton"
+      :stylingMode="stylingMode"
       :value="value"
       :openOnFieldClick="false"
       :focusStateEnabled="false"
       :valueExpr="valueExpr"
       :acceptCustomValue="true"
-      displayExpr="name"
       :searchEnabled="true"
-      searchExpr="name"
+      :height="height"
       :paginate="true"
       :page-size="10"
-      item-template="customSelectItem"
-      field-template="customfield"
       :deferRendering="true"
+      @valueChanged="valueChanged"
+      @opened="onOpened"
     >
       <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
         <DxRequiredRule />
@@ -55,24 +56,26 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: {
     showClearButton: {
       type: Boolean,
-      default: true,
+      default: true
     },
     value: {},
     storeApi: {},
     messageRequired: {},
     validatorGroup: {},
     readOnly: {},
-    valueExpr: {},
+    stylingMode: {},
+    height: {},
+    valueExpr: {}
   },
   data() {
     return {
       dataSourceLoaded: this.valueExpr,
-      localEmployeeId: null,
+      localEmployeeId: null
     };
   },
   computed: {
@@ -80,10 +83,10 @@ export default {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee,
+          loadUrl: this.storeApi || dataApi.company.Employee
         }),
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       });
       if (this.dataSourceLoaded) {
         return dataSource;
@@ -96,7 +99,7 @@ export default {
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    },
+    }
   },
   methods: {
     onOpened() {
@@ -110,17 +113,14 @@ export default {
       this.$refs["employee"].instance.repaint();
     },
     showCard() {
-      
       this.$popup.employeeCard(
         this,
         {
-          employeeId: this.employeeId || this.localEmployeeId,
+          employeeId: this.employeeId || this.localEmployeeId
         },
         {
           height: "auto",
-          listeners: [
-            { eventName: "valueChanged", handlerName: "reloadStore" },
-          ],
+          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
         }
       );
     },
@@ -132,8 +132,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.reloadStore();
-    },
-  },
+    }
+  }
 };
 </script>
 

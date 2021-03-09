@@ -11,7 +11,7 @@
           <ContactList @createRoom="createRoom" />
         </div>
         <div class="chat_room">
-          <ConstructChatRoom v-if="isCreateRoom" />
+          <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
           <ChatRoom v-else />
         </div>
       </div>
@@ -23,11 +23,11 @@
 <script>
 import ContactList from "~/components/chat/contact-list.vue";
 import ChatRoom from "~/components/chat/components/chat-room/index.vue";
-import ConstructChatRoom from "~/components/chat/components/construct-chat-room/index.vue";
+import ConstructorChatRoom from "~/components/chat/components/constructor-chat-room/index.vue";
 export default {
   components: {
     ContactList,
-    ConstructChatRoom,
+    ConstructorChatRoom,
     ChatRoom
   },
   props: {
@@ -39,11 +39,13 @@ export default {
   data() {
     return {
       chat: "Чат",
-      isCreateRoom: false
+      isCreateRoom: false,
+      roomType: null
     };
   },
   methods: {
     createRoom(roomType) {
+      this.roomType = roomType;
       this.isCreateRoom = true;
     },
     focusOut() {

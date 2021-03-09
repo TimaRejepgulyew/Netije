@@ -1,6 +1,16 @@
 <template>
   <div id="constructor_chat_room">
-    <ConstructorChatRoomHeader />
+    <div id="constructor_chat_room_header">
+      <div class="selector">
+        <EmployeeTagBox
+          :activeStateEnabled="false"
+          :hoverStateEnabled="false"
+          :focusStateEnabled="false"
+          :stylingMode="'underlined'"
+          :height="60"
+        />
+      </div>
+    </div>
     <div class="chat_room_messages">
       <h3>Групповой чат</h3>
       <p>Закрытый чат виден только приглашенным пользователям.</p>
@@ -13,16 +23,22 @@
 <script>
 import customSelectItem from "~/components/employee/custom-select-box-item.vue";
 import ChatTextArea from "~/components/chat/chat-text-area.vue";
-import ConstructorChatRoomHeader from "~/components/chat/components/construct-chat-room/constructor-chat-room-header.vue";
 import { DxLoadIndicator } from "devextreme-vue/load-indicator";
 import moment from "moment";
+import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
+import EmployeeTagBox from "~/components/employee/custom-tag-box.vue";
 
 export default {
   components: {
     customSelectItem,
     ChatTextArea,
     DxLoadIndicator,
-    ConstructorChatRoomHeader
+    EmployeeTagBox
+  },
+  props: {
+    roomType: {
+      type: Number
+    }
   },
   methods: {
     createRoom() {
@@ -31,12 +47,24 @@ export default {
         members: [2]
       });
     }
+  },
+  created() {
+    console.log("this.roomType", this.roomType);
   }
 };
 </script>
 
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
+#constructor_chat_room_header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 0 5px;
+  .selector {
+    flex-grow: 1;
+  }
+}
 #constructor_chat_room {
   width: 100%;
   height: 100%;
@@ -51,7 +79,6 @@ export default {
     justify-content: center;
   }
   .start_btn {
-    
     cursor: pointer;
     transition: 0.3s;
     &:hover {

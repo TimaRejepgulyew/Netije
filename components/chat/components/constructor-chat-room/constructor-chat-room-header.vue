@@ -1,14 +1,14 @@
 <template>
   <div id="constructor_chat_room_header">
     <div class="selector">
-      <!-- <EmployeeTaxBox
+      <EmployeeTaxBox
         :activeStateEnabled="false"
         :hoverStateEnabled="false"
         :focusStateEnabled="false"
         :stylingMode="'underlined'"
         :height="60"
-      />-->
-      <EmployeeSelectBox />
+      />
+      <!-- <EmployeeSelectBox /> -->
     </div>
   </div>
 </template>
