@@ -2,11 +2,11 @@
   <div id="chat_room">
     <ChatHeader :room="currentRoom" />
     <div class="chat_room_messages">
-      <div class="loadIndicator" v-if="needLoading">
+      <!-- <div class="loadIndicator" v-if="needLoading">
         <DxLoadIndicator height="75px" width="75px" />
-      </div>
+      </div>-->
+      <!-- v-else -->
       <div
-        v-else
         class="messages"
         :class="{ user_message: message.me }"
         v-for="(message, index) in messages"
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="chat_room_text_area">
-      <!-- <ChatTextArea @sendMessage="sendMessage" /> -->
+      <ChatTextArea @sendMessage="sendMessage" />
     </div>
   </div>
 </template>

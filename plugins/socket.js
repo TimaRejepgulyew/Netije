@@ -138,7 +138,10 @@ export default function ({ store }, inject) {
 
     class ChatInterface {
         static sendMessage(msg) {
-            socket.emit("message", msg);
+            socket.emit("message", {
+                roomId: "60422aea0818df444cc1ccd7",
+                text: msg
+            });
         }
         static createRoom(room) {
             socket.emit("createRoom", room);
