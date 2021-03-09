@@ -115,13 +115,13 @@ export default function ({ store }, inject) {
     ]
 
     const socket = SocketIO(server, options)
+    store.commit("chatStore/SET_ROOMS", rooms)
     socket.on("connect", () => {
         console.log("Connected to chat");
         setTimeout(() => {
             store.commit("chatStore/SET_USER_ID", store.getters["user/employeeId"])
         }, 0)
         socket.emit("allRooms");
-        store.commit("chatStore/SET_ROOMS", rooms)
         // socket.emit("allRooms", (rooms) => {
         //     console.log("rooms", rooms);
         // })

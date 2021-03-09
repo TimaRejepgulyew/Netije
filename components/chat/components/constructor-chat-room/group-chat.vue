@@ -8,6 +8,7 @@
           :focusStateEnabled="false"
           :stylingMode="'underlined'"
           :height="60"
+          @valueChanged="membersSelected"
         />
       </div>
     </div>
@@ -15,7 +16,9 @@
       <h3>Групповой чат</h3>
       <p>Закрытый чат виден только приглашенным пользователям.</p>
       <p>В чате можно обсуждать рабочие вопросы, которые касаются конкретных людей.</p>
-      <h1 class="start_btn" @click="createRoom">Начать чат</h1>
+      <h1 class="start_btn">
+        <span v-if="hasMember" @click="createRoom">Начать чат</span>
+      </h1>
     </div>
   </div>
 </template>
@@ -40,11 +43,30 @@ export default {
       type: Number
     }
   },
+  data() {
+    return {
+      members: null
+    };
+  },
+  computed: {
+    hasMember() {
+      return this.members ? true : false;
+    }
+  },
   methods: {
+    membersSelected(val) {
+      if (val.length > 0) {
+        this.members = val.map(el => {
+          return el.id;
+        });
+      } else {
+        this.members = null;
+      }
+    },
     createRoom() {
       this.$chat.createRoom({
-        roomType: 0,
-        members: [2]
+        roomType: RoomType.Group,
+        members: this.members
       });
     }
   },
@@ -79,6 +101,7 @@ export default {
     justify-content: center;
   }
   .start_btn {
+    height: 41px;
     cursor: pointer;
     transition: 0.3s;
     &:hover {

@@ -5,7 +5,7 @@
         <EmployeeSelectBox
           :stylingMode="'underlined'"
           :value="member"
-          @valueChanged="emloyeeSelected"
+          @valueChanged="changeMember"
         />
       </div>
     </div>
@@ -13,7 +13,9 @@
       <h3>Чат</h3>
       <p>Чат один на один виден только вам и вашему собеседнику.</p>
       <p>Найти нужного человека можно по имени, фамилии, должности или отделу.</p>
-      <h1 class="start_btn" @click="createRoom">Начать чат</h1>
+      <h1 class="start_btn">
+        <span v-if="hasMember" @click="createRoom">Начать чат</span>
+      </h1>
     </div>
   </div>
 </template>
@@ -38,10 +40,14 @@ export default {
       member: null
     };
   },
+  computed: {
+    hasMember() {
+      return this.member ? true : false;
+    }
+  },
   methods: {
-    emloyeeSelected(val) {
+    changeMember(val) {
       this.member = val;
-      console.log("val", this.member);
     },
     createRoom() {
       this.$chat.createRoom({
@@ -81,6 +87,7 @@ export default {
     justify-content: center;
   }
   .start_btn {
+    height: 41px;
     cursor: pointer;
     transition: 0.3s;
     &:hover {
