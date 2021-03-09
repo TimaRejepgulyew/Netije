@@ -92,7 +92,7 @@ import {
   DxStateStoring
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
-import DocumentApi from "~/infrastructure/services/documentApi.js";
+import { GenerateGridApi } from "~/infrastructure/services/documentApi.js";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
@@ -150,7 +150,7 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${DocumentApi(this.documentQuery)}/${quickFilter}`
+          loadUrl: `${GenerateGridApi(this.documentQuery)}/${quickFilter}`
         }),
         filter
       });

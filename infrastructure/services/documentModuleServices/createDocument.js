@@ -4,7 +4,7 @@ import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { documentModules } from "~/infrastructure/services/documentService.js";
 import DocumentTemplateStoreFactory from "~/infrastructure/factory/documentTemplateStoreFactory.js";
 import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
-import DocumentApi from "~/infrastructure/services/documentApi.js";
+import { GenerateApi } from "~/infrastructure/services/documentApi.js";
 export default async function (context, params) {
   switch (params.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
@@ -17,12 +17,9 @@ export default async function (context, params) {
 }
 
 export async function createDocument(context, params) {
-  console.log("docApi", DocumentApi(params.documentTypeGuid));
+  console.log("docApi", GenerateApi(params.documentTypeGuid));
   // DocumentApi(params.documentTypeGuid)
-  const { data } = await context.$axios.post(
-    dataApi.documentModule.CreateDocument,
-    params
-  );
+  const { data } = await context.$axios.post(GenerateApi(params.documentTypeGuid), { leadingDocumentId: 0 });
   const { id: documentId, documentTypeGuid } = data.document;
   const store = DocumentTemplateStoreFactory.createStore(
     params.documentTypeGuid
