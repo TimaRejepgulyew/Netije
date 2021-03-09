@@ -1,10 +1,6 @@
 <template>
   <main>
-    <Header
-      :headerTitle="generateHeaderTitle"
-      :showTitle="!isCard"
-      :isbackButton="!isCard"
-    >
+    <Header :headerTitle="generateHeaderTitle" :showTitle="!isCard" :isbackButton="!isCard">
       <QuickFilter
         :visible="!isCard"
         slot="toolbar"
@@ -93,9 +89,10 @@ import {
   DxColumnChooser,
   DxColumnFixing,
   DxFilterRow,
-  DxStateStoring,
+  DxStateStoring
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
+import DocumentApi from "~/infrastructure/services/documentApi.js";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
@@ -119,17 +116,17 @@ export default {
     DxFilterRow,
     DxStateStoring,
     Header,
-    QuickFilter,
+    QuickFilter
   },
   props: {
     documentQuery: {
       type: Number,
-      default: DocumentQuery.All,
+      default: DocumentQuery.All
     },
     isCard: {
-      type: Boolean,
+      type: Boolean
     },
-    documentFilter: {},
+    documentFilter: {}
   },
 
   data() {
@@ -139,13 +136,13 @@ export default {
       filterBuilderPopupPosition: this.$store.getters[
         "paper-work/filterBuilderPopupPosition"
       ],
-      selectDocument: (e) => {
+      selectDocument: e => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: e.data.documentTypeGuid,
+          documentTypeGuid: e.data.documentTypeGuid
         });
       },
-      defaultFilter: DocumentQuickFilterGuid.All,
+      defaultFilter: DocumentQuickFilterGuid.All
     };
   },
   methods: {
@@ -153,9 +150,9 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}/${quickFilter}`,
+          loadUrl: `${DocumentApi(this.documentQuery)}/${quickFilter}`
         }),
-        filter,
+        filter
       });
     },
     itemClick(e) {
@@ -171,30 +168,30 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          },
-        },
+          }
+        }
       });
-    },
+    }
   },
   computed: {
     QuiсkFilterItems() {
       return Object.values(new DocumentQuickFilterModel(this).getAll()).map(
-        (item) => {
+        item => {
           item.hint = item.text;
           return item;
         }
       );
     },
     generateHeaderTitle() {
-       return new DocumentQueryModel(this).getById(this.documentQuery).text;
+      return new DocumentQueryModel(this).getById(this.documentQuery).text;
     },
     columns() {
       return ColumnFactory.CreateColumns(this.documentQuery, this);
     },
     urlByTypeGuid() {
       return this.$store.getters["paper-work/urlByTypeGuid"];
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">

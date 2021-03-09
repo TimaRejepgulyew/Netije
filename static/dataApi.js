@@ -115,6 +115,9 @@ export default {
     CaseFiles: `/api/DocumentRegistration/CaseFiles`,
     Registries: `/api/DocumentRegistration/Registries/`
   },
+  documents: {
+    incomingLetter: "/api/IncomingLetter"
+  },
   dynamicDocument: {
     documentType: "/api/DocumentType",
     createDocumentType: "/api/DocumentType/CreateDynamicDocumentType"
