@@ -119,6 +119,10 @@ export default {
     getAll: "/api/IncomingLetter/getAll",
     document: "/api/IncomingLetter"
   },
+  outgoingLetter: {
+    getAll: "/api/OutgoingLetter/GetAll",
+    document: "/api/OutgoingLetter"
+  },
   dynamicDocument: {
     documentType: "/api/DocumentType",
     createDocumentType: "/api/DocumentType/CreateDynamicDocumentType"

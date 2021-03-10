@@ -185,7 +185,7 @@ export default class Base {
     },
     async delete({ state }) {
       await this.$axios.delete(
-        `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
+        `${dataApi.documentModule.DeleteDocument}${state.document.id}`
       );
     }
   };
