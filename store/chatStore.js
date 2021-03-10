@@ -35,13 +35,12 @@ export const mutations = {
         state.rooms.forEach(element => {
             if (element.id === id) {
                 state.currentRoom = element
-                for (let key in state.messages) {
-                    if (key == id) {
-                        state.currentRoomMessages = state.messages[key]
-                        state.needLoading = false
-                        return
-                    }
-                }
+                // for (let key in state.messages) {
+                //     if (key == id) {
+                //         state.currentRoomMessages = state.messages[key]
+                //         return
+                //     }
+                // }
                 return
             }
         });
@@ -52,6 +51,7 @@ export const mutations = {
     },
     SET_MESSAGES(state, payload) {
         state.messages[payload.roomId] = payload.messages
+        state.needLoading = false
     },
     SET_ROOMS(state, payload) {
         let rooms = payload.map((room) => {

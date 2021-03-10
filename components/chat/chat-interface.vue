@@ -1,21 +1,23 @@
 <template>
   <div>
     <div @click="focusOut" class="color_wrapper" v-if="isActive"></div>
-    <div id="chat_interface" :class="{active:isActive}">
-      <div @click="focusOut" class="close_btn" v-if="isActive">
-        <span class="close"></span>
-        {{chat}}
-      </div>
-      <div class="chat_interface_content">
-        <div class="contacts">
-          <ContactList @createRoom="createRoom" />
+    <transition name="slide-fade">
+      <div v-if="isActive" id="chat_interface">
+        <div @click="focusOut" class="close_btn">
+          <span class="close"></span>
+          {{chat}}
         </div>
-        <div class="chat_room">
-          <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
-          <ChatRoom v-else />
+        <div class="chat_interface_content">
+          <div class="contacts">
+            <ContactList @setRoom="setRoom" @createRoom="createRoom" />
+          </div>
+          <div class="chat_room">
+            <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
+            <ChatRoom v-else />
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -48,6 +50,9 @@ export default {
       this.roomType = roomType;
       this.isCreateRoom = true;
     },
+    setRoom() {
+      this.isCreateRoom = false;
+    },
     focusOut() {
       this.$emit("focusOut");
       this.isCreateRoom = false;
@@ -58,6 +63,19 @@ export default {
 
 <style lang="scss">
 @import "~assets/themes/generated/variables.base.scss";
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
 .color_wrapper {
   position: fixed;
   left: 0;
@@ -76,12 +94,9 @@ export default {
   height: 100%;
   width: 80vw;
   top: 0;
-  right: -100%;
+  right: 0;
   transition: 0.3s;
   outline: none;
-  &.active {
-    right: 00;
-  }
   .close_btn {
     display: flex;
     align-items: center;

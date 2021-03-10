@@ -44,7 +44,9 @@ export default function ({ store }, inject) {
             });
         }
         static messagesByRoomId(roomId) {
-            socket.emit("messagesByRoomId", roomId);
+            setTimeout(() => {
+                socket.emit("messagesByRoomId", roomId);
+            }, 5000)
         }
         static createRoom(room) {
             socket.emit("createRoom", room);

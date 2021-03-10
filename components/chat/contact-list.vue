@@ -2,15 +2,12 @@
   <div id="list_container">
     <chatSearchPanel @createRoom="createRoom" />
     <DxList :data-source="dataSource" height="100%" search-expr="name">
-      <!-- :searchEditorOptions="searchEditorOptions" -->
-      <!-- :search-enabled="true" -->
       <template #item="{ data }">
         <div @click="setCurrentRoom(data.id)">
           <roomInfo :room="data" />
         </div>
       </template>
     </DxList>
-    <!-- <div class="notifications_btn">Уведомления</div> -->
   </div>
 </template>
 
@@ -81,6 +78,7 @@ export default {
   methods: {
     setCurrentRoom(id) {
       this.$store.commit("chatStore/SET_CURRENT_ROOM", id);
+      this.$emit("setRoom");
     },
     createRoom(roomType) {
       this.$emit("createRoom", roomType);

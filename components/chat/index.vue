@@ -8,11 +8,9 @@
 <script>
 import mainPanel from "~/components/chat/main-panel.vue";
 import chatInterface from "~/components/chat/chat-interface.vue";
-import userIcon from "~/components/Layout/userIcon.vue";
 export default {
   components: {
     mainPanel,
-    userIcon,
     chatInterface
   },
   data() {
@@ -39,5 +37,12 @@ export default {
   width: 60px;
   padding: 50px 0;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
 }
 </style>

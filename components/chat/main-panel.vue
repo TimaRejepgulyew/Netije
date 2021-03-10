@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
 import roomIcon from "~/components/chat/components/room-icon.vue";
 export default {
   components: {
