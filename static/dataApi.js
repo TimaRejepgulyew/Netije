@@ -123,10 +123,57 @@ export default {
     getAll: "/api/OutgoingLetter/GetAll",
     document: "/api/OutgoingLetter"
   },
-
   order: {
     getAll: "/api/Order/GetAll",
     document: "/api/Order"
+  },
+  addendum: {
+    getAll: "/api/Addendum/GetAll",
+    document: "/api/Addendum"
+  },
+  companyDirective: {
+    getAll: "/api/CompanyDirective/GetAll",
+    document: "/api/CompanyDirective"
+  },
+  contractStatement: {
+    getAll: "/api/ContractStatement/GetAll",
+    document: "/api/ContractStatement"
+  },
+  incomingInvoice: {
+    getAll: "/api/IncomingInvoice/GetAll",
+    document: "/api/IncomingInvoice"
+  },
+  incomingTaxInvoice: {
+    getAll: "/api/IncomingTaxInvoice/GetAll",
+    document: "/api/IncomingTaxInvoice"
+  },
+  outgoingTaxInvoice: {
+    getAll: "/api/OutgoingTaxInvoice/GetAll",
+    document: "/api/OutgoingTaxInvoice"
+  },
+  memo: {
+    getAll: "/api/Memo/GetAll",
+    document: "/api/Memo"
+  },
+  powerOfAttorney: {
+    getAll: "/api/PowerOfAttorney/GetAll",
+    document: "/api/PowerOfAttorney"
+  },
+  simpleDocument: {
+    getAll: "/api/SimpleDocument/GetAll",
+    document: "/api/SimpleDocument"
+  },
+  supAgreement: {
+    getAll: "/api/SupAgreement/GetAll",
+    document: "/api/SupAgreement"
+  },
+  universaltransferdocument: {
+    getAll: "/api/Universaltransferdocument/GetAll",
+    document: "/api/Universaltransferdocument"
+  },
+  Waybill: {
+    getAll: "/api/Waybill/GetAll",
+    document: "/api/Waybill"
   },
 
   dynamicDocument: {
