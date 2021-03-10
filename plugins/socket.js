@@ -49,6 +49,10 @@ export default function ({ store }, inject) {
         static createRoom(room) {
             socket.emit("createRoom", room);
         }
+        static readMessagesInRoom(roomId) {
+            console.log(roomId)
+            socket.emit("readMessagesInRoom", roomId);
+        }
     }
 
     inject("chat", ChatInterface);

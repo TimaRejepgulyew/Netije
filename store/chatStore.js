@@ -48,7 +48,7 @@ export const mutations = {
     },
     ADD_MESSAGE(state, payload) {
         state.currentRoomMessages.push(payload)
-        state.messages[roomId].push(payload)
+        state.messages[payload.roomId].push(payload)
     },
     SET_MESSAGES(state, payload) {
         state.messages[payload.roomId] = payload.messages

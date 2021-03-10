@@ -14,7 +14,7 @@
         :key="index"
       >
         <div class="message">{{ message.text }}</div>
-        <div class="time" v-if="message.time">{{ formatDate(message.time ) }}</div>
+        <div class="time" v-if="message.created">{{ formatDate(message.created) }}</div>
       </div>
     </div>
     <div class="chat_room_text_area">
@@ -77,6 +77,7 @@ export default {
         text: value,
         roomId: this.currentRoom.id
       });
+      this.$chat.readMessagesInRoom(this.currentRoom.id);
     }
   }
 };
