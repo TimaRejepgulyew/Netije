@@ -2,19 +2,19 @@
   <div id="chat_room">
     <ChatHeader :room="currentRoom" />
     <div class="chat_room_messages">
-      <!-- <div class="loadIndicator" v-if="needLoading">
+      <div class="loadIndicator" v-if="needLoading">
         <DxLoadIndicator height="75px" width="75px" />
-      </div>-->
-      <!-- v-else -->
+      </div>
       <div
+        v-else
         class="messages"
-        :class="{ user_message: message.me }"
+        :class="{ user_message:isOwnMessage( message.author) }"
         v-for="(message, index) in messages"
         ref="message"
         :key="index"
       >
-        <div class="message">{{ message.message }}</div>
-        <div class="time" v-if="message.time">{{ message.time | formatDate }}</div>
+        <div class="message">{{ message.text }}</div>
+        <div class="time" v-if="message.time">{{ formatDate(message.time ) }}</div>
       </div>
     </div>
     <div class="chat_room_text_area">
@@ -45,20 +45,26 @@ export default {
       return this.$store.getters["chatStore/currentRoom"];
     },
     messages() {
+      console.log(this.$store.getters["chatStore/currentRoomMessages"]);
       return this.$store.getters["chatStore/currentRoomMessages"];
     }
   },
   watch: {
+    currentRoom(val) {
+      this.$chat.messagesByRoomId(val.id);
+    },
     messages(val) {
       this.showLastMessage();
     }
   },
-  filters: {
+  methods: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    }
-  },
-  methods: {
+    },
+    isOwnMessage(authorId) {
+      let a = this.$store.getters["chatStore/userId"];
+      return 1 == authorId ? true : false;
+    },
     showLastMessage() {
       setTimeout(() => {
         let el = this.$refs.message[this.$refs.message.length - 1];
@@ -67,7 +73,11 @@ export default {
       }, 0);
     },
     sendMessage(value) {
-      this.$chat.sendMessage(value);
+      console.log(this.$store.getters["chatStore/userId"]);
+      this.$chat.sendMessage({
+        text: value,
+        roomId: this.currentRoom.id
+      });
     }
   }
 };

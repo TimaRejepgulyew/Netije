@@ -6,145 +6,13 @@ export const state = () => ({
     needLoading: true,
     userId: null,
     rooms: [],
-    messages: {
-        23: [
-            {
-                me: true,
-                message: "Hello",
-                time: new Date()
-            },
-            {
-                me: false,
-                message: "Дратути",
-                time: new Date()
-            },
-            {
-                me: true,
-                message: "Рамзамзам"
-            },
-            {
-                me: false,
-                message: "Локопоко"
-            },
-            {
-                me: true,
-                message: "Hello"
-            },
-            {
-                me: false,
-                message:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                time: new Date()
-            },
-            {
-                me: true,
-                message:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                time: new Date()
-            },
-            {
-                me: false,
-                message: "Локопоко"
-            },
-            {
-                me: true,
-                message: "Hello"
-            },
-            {
-                me: false,
-                message: "Дратути"
-            },
-            {
-                me: true,
-                message: "Рамзамзам"
-            },
-            {
-                me: false,
-                message: "Локопоко"
-            },
-            {
-                me: true,
-                message: "Hello"
-            },
-            {
-                me: false,
-                message: "Дратути"
-            },
-            {
-                me: true,
-                message: "Рамзамзам"
-            },
-            {
-                me: false,
-                message: "Локопоко"
-            },
-            {
-                me: true,
-                message: "Hello"
-            },
-            {
-                me: false,
-                message: "Дратути"
-            },
-            {
-                me: true,
-                message: "Рамзамзам"
-            },
-            {
-                me: false,
-                message: "Локопоко"
-            },
-            {
-                me: true,
-                message: "Hello"
-            },
-            {
-                me: false,
-                message: "Дратути"
-            },
-            {
-                me: true,
-                message: "Рамзамзам"
-            },
-            {
-                me: false,
-                message: "Локопоко"
-            },
-            {
-                me: true,
-                message: "Hello"
-            },
-            {
-                me: false,
-                message: "Дратути"
-            },
-            {
-                me: true,
-                message: "Рамзамзам"
-            },
-            {
-                me: false,
-                message: "Локопоко"
-            }
-        ],
-        54: [
-            {
-                me: false,
-                message:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                time: new Date()
-            },
-            {
-                me: true,
-                message:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                time: new Date()
-            },
-        ]
-    }
+    messages: {}
 })
 
 export const getters = {
+    userId(state) {
+        return state.userId
+    },
     currentRoom(state) {
         return state.currentRoom
     },
@@ -177,6 +45,13 @@ export const mutations = {
                 return
             }
         });
+    },
+    ADD_MESSAGE(state, payload) {
+        state.currentRoomMessages.push(payload)
+        state.messages[roomId].push(payload)
+    },
+    SET_MESSAGES(state, payload) {
+        state.messages[payload.roomId] = payload.messages
     },
     SET_ROOMS(state, payload) {
         let rooms = payload.map((room) => {
