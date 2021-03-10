@@ -8,6 +8,8 @@ export function GenerateGridApi(docQuery) {
             return dataApi.incomingLetter.getAll
         case DocumentQuery.OutgoingLetter:
             return dataApi.outgoingLetter.getAll
+        case DocumentQuery.Order:
+            return dataApi.order.getAll
         default:
             break;
     }
@@ -18,6 +20,8 @@ export function GenerateApi(docQuery) {
             return dataApi.incomingLetter.document
         case DocumentQuery.OutgoingLetter:
             return dataApi.outgoingLetter.document
+        case DocumentQuery.Order:
+            return dataApi.order.document
         default:
             break;
     }

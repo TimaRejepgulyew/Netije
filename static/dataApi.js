@@ -123,6 +123,12 @@ export default {
     getAll: "/api/OutgoingLetter/GetAll",
     document: "/api/OutgoingLetter"
   },
+
+  order: {
+    getAll: "/api/Order/GetAll",
+    document: "/api/Order"
+  },
+
   dynamicDocument: {
     documentType: "/api/DocumentType",
     createDocumentType: "/api/DocumentType/CreateDynamicDocumentType"
