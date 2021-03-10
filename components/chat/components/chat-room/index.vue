@@ -45,7 +45,6 @@ export default {
       return this.$store.getters["chatStore/currentRoom"];
     },
     messages() {
-      console.log(this.$store.getters["chatStore/currentRoomMessages"]);
       return this.$store.getters["chatStore/currentRoomMessages"];
     }
   },
