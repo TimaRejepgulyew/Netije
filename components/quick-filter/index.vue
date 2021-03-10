@@ -36,18 +36,21 @@ export default {
   data() {
     return {
       disabledQuickFilter: false,
+      rangeFilter: null,
       value: localStorage.hasOwnProperty(`quick-filter-${this.storeKey}`)
         ? +localStorage.getItem(`quick-filter-${this.storeKey}`)
         : this.defaultValue,
     };
   },
   methods: {
-    rangeFilterChanged(value) {
-      this.$emit("rangeFilter", value);
-      if (value) {
+    rangeFilterChanged(rangeFilter) {
+      this.rangeFilter = rangeFilter;
+      if (rangeFilter) {
         this.disabledQuickFilter = true;
+
         const quickFilterAll = this.dataSource.find((el) => el.value === "All");
         this.value = quickFilterAll.id;
+        localStorage.setItem(`quick-filter-${this.storeKey}`, this.value);
       } else {
         this.disabledQuickFilter = false;
       }
@@ -57,10 +60,16 @@ export default {
       localStorage.setItem(`quick-filter-${this.storeKey}`, this.value);
     },
     valueChanged(value, oldValue) {
-      if (value !== null) this.$emit("valueChanged", value);
+      this.$emit("valueChanged", this.value, this.rangeFilter);
     },
   },
   watch: {
+    rangeFilter: {
+      handler(value, oldValue) {
+        this.valueChanged(value);
+      },
+      immediate: true,
+    },
     value: {
       handler(value, oldValue) {
         this.valueChanged(value);

@@ -41,12 +41,11 @@
           :file-name="$t('assignment.gridFileName')"
         />
 
-        // TODO Remove state storing because save scroling
-        <!-- <DxStateStoring
+        <DxStateStoring
           :enabled="true"
           type="localStorage"
           :storage-key="'assignment' + assignmentQuery"
-        /> -->
+        />
         <DxSearchPanel position="after" :visible="true" />
         <DxScrolling mode="virtual" />
         <template #importanceIconColumn="cell">

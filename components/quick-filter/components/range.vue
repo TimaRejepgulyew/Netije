@@ -47,16 +47,35 @@ export default {
         `quick-filter-from-value-${this.storeKey}`
       )
         ? localStorage.getItem(`quick-filter-from-value-${this.storeKey}`)
-        : undefined,
+        : null,
 
       beforeValue: localStorage.hasOwnProperty(
         `quick-filter-before-value-${this.storeKey}`
       )
         ? localStorage.getItem(`quick-filter-before-value-${this.storeKey}`)
-        : undefined,
+        : null,
     };
   },
   methods: {
+    fromValueChanged(value) {
+      if (value === null) {
+        localStorage.setItem(`quick-filter-from-value-${this.storeKey}`, "");
+      } else {
+        localStorage.setItem(`quick-filter-from-value-${this.storeKey}`, value);
+      }
+      this.$emit("valueChanged", this.filter);
+    },
+    beforeValueChanged(value) {
+      if (value === null) {
+        localStorage.setItem(`quick-filter-before-value-${this.storeKey}`, "");
+      } else {
+        localStorage.setItem(
+          `quick-filter-before-value-${this.storeKey}`,
+          value
+        );
+      }
+      this.$emit("valueChanged", this.filter);
+    },
     showEndInput() {
       this.isVisibleBeforeValueInput = true;
     },
@@ -85,32 +104,17 @@ export default {
 
   watch: {
     fromValue: {
-      handler(newValue, oldValue) {
-        if (newValue !== oldValue && newValue)
-          localStorage.setItem(
-            `quick-filter-from-value-${this.storeKey}`,
-            newValue
-          );
-        if (!newValue) {
-          localStorage.setItem(`quick-filter-from-value-${this.storeKey}`, "");
-        }
-        this.$emit("valueChanged", this.filter);
+      handler(value) {
+        this.fromValueChanged(value);
       },
-      immediate: true,
     },
     beforeValue: {
+      handler(value) {
+        this.beforeValueChanged(value);
+      },
+    },
+    filter: {
       handler(newValue, oldValue) {
-        if (newValue !== oldValue && newValue)
-          localStorage.setItem(
-            `quick-filter-before-value-${this.storeKey}`,
-            newValue
-          );
-        if (!newValue) {
-          localStorage.setItem(
-            `quick-filter-before-value-${this.storeKey}`,
-            ""
-          );
-        }
         this.$emit("valueChanged", this.filter);
       },
       immediate: true,

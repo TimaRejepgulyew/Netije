@@ -42,6 +42,7 @@
         @reloadAttachment="reload"
         :attachmentGroups="attachmentGroups"
       />
+      <MarkAsUnread slot="markAsUnread" @onClose="onClose" :assignmentId="assignmentId" />
     </component>
   </form>
 </template>
@@ -56,6 +57,7 @@ import CreateChildTaskBtn from "./form-components/toolbar-components/create-chil
 import AssignmentFormComponent from "./form-by-type/exchange/AssignmentFormComponent";
 import Info from "./form-components/info-form.vue";
 import importantIndicator from "./form-components/impartant-indicator";
+import MarkAsUnread from "./form-components/toolbar-components/mark-as-unread";
 export default {
   components: {
     threadTexts: () => import("../thread-text/thread-texts.vue"),
@@ -64,6 +66,7 @@ export default {
     Header,
     importantIndicator,
     CreateChildTaskBtn,
+    MarkAsUnread,
   },
   name: "assignment",
   props: ["assignmentId", "isCard"],
@@ -100,6 +103,9 @@ export default {
           this.threadTextsResreshTracker = value;
         }, 3000);
       } else this.threadTextsResreshTracker = value;
+    },
+    onClose() {
+      this.$emit("onClose");
     },
     onClosed() {
       this.$emit("onClosed", {

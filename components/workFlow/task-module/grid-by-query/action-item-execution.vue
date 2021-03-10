@@ -43,12 +43,12 @@
           :allow-export-selected-data="true"
           :file-name="$t('task.taskQuery.actionItemExicution')"
         />
-        // TODO Remove state storing because save scroling
-        <!-- <DxStateStoring
+
+        <DxStateStoring
           :enabled="true"
           type="localStorage"
           :storage-key="'task' + taskQuery"
-        /> -->
+        />
 
         <DxEditing
           :allow-updating="false"

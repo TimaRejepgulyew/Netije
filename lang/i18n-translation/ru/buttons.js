@@ -1,4 +1,5 @@
 export default {
+  markAsUnread: "Прочитать позже",
   informed: "Принять к сведению",
   processed: "Принять",
   terminated: "Отказать",

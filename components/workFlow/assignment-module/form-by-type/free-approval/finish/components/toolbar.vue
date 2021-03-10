@@ -20,6 +20,10 @@
       <template #importanceIndicator>
         <slot name="importanceIndicator" />
       </template>
+      <DxItem location="before" template="markAsUnread" />
+      <template #markAsUnread>
+        <slot name="markAsUnread" />
+      </template>
     </DxToolbar>
   </div>
 </template>
@@ -42,9 +46,7 @@ export default {
               this.$t("shared.confirm")
             );
             if (response) {
-              this.setResult(
-                ReviewResult.Completed
-              );
+              this.setResult(ReviewResult.Completed);
               this.completeAssignment();
             }
           }

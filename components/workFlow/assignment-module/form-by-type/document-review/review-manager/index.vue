@@ -10,6 +10,7 @@
     >
       <slot name="createChildTask" slot="createChildTask"> </slot>
       <slot name="importanceIndicator" slot="importanceIndicator"> </slot>
+      <slot name="markAsUnread" slot="markAsUnread"></slot>
     </Toolbar>
 
     <DxForm

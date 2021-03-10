@@ -1,4 +1,5 @@
 export default {
+  markAsUnread: "Okalmady diýip bellemek",
   intranetExchange: "Içerki el. alyş-çalyş",
   informed: "Kabul etmek",
   processed: "Kabul etmek",

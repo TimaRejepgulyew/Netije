@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import dataApi from "~/static/dataApi";
 import DocumentTypeModel from "~/infrastructure/models/DocumentType.js";
 export default {
   components: {
