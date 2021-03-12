@@ -61,23 +61,7 @@ export default {
       }
     },
     loadMessage() {
-      setTimeout(() => {
-        this.$store.commit("chatStore/SET_MESSAGES", {
-          id: 2,
-          messages: [
-            {
-              text: "Твари твари",
-              id: "321234",
-              author: {
-                id: 21,
-                jobTitle: "Секретарь",
-                name: "Kent Klark Supermenovich",
-                avatar: null
-              }
-            }
-          ]
-        });
-      }, 3000);
+      this.$chat.messagesByRoomId(this.currentRoom.id);
     },
     showLastMessage(behaviorOptions = "smooth") {
       setTimeout(() => {
@@ -92,7 +76,7 @@ export default {
         text: value,
         roomId: this.currentRoom.id
       });
-      this.$chat.readMessagesInRoom(this.currentRoom.id);
+      // this.$chat.readMessagesInRoom(this.currentRoom.id);
     }
   },
   created() {

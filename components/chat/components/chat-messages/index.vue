@@ -3,7 +3,7 @@
     <div class="avatar">
       <roomIcon :room="message.author" />
     </div>
-    <div class="messages" :class="{ user_message:isOwnMessage( message.author) }" >
+    <div class="messages" :class="{ user_message:isOwnMessage( message.author) }">
       <div class="message">{{ message.text }}</div>
       <div class="time" v-if="message.created">{{ formatDate(message.created) }}</div>
     </div>
@@ -31,8 +31,7 @@ export default {
   },
   methods: {
     isOwnMessage(authorId) {
-      let a = this.$store.getters["chatStore/userId"];
-      return 1 == authorId ? true : false;
+      return this.$store.getters["chatStore/userId"] == authorId ? true : false;
     },
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");

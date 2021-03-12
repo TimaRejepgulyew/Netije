@@ -33,7 +33,7 @@ export default {
 
 <style lang="scss">
 #chat_room_header {
-  padding: 5px 20px;
+  padding: 20px;
   display: flex;
   align-items: center;
 }

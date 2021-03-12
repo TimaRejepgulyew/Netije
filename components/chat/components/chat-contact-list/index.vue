@@ -1,9 +1,9 @@
 <template>
   <div id="list_container">
-    <chatSearchPanel @inFocus="inFocus" @createRoom="createRoom" />
+    <chatSearchPanel @inFocus="inFocus" @createRoom="openCreateRoomPanel" />
     <DxList :data-source="dataSource" height="100%" search-expr="name">
       <template #item="{ data }">
-        <div @click="setCurrentRoom(data)">
+        <div @click="checkRoom(data)">
           <roomInfo :room="data" />
         </div>
       </template>
@@ -79,11 +79,23 @@ export default {
     inFocus() {
       this.searchInProgress = true;
     },
+    checkRoom(room) {
+      console.log(room);
+      if (this.$store.getters["chatStore/checkRoom"](room)) {
+        this.setCurrentRoom(room);
+      } else {
+        this.createRoom(room);
+      }
+    },
     setCurrentRoom(room) {
       this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
       this.$emit("setRoom");
     },
-    createRoom(roomType) {
+    createRoom(room) {
+      this.$chat.createRoom(room.id);
+      // this.$store.commit("chatStore/ADD_NEW_ROOM", room);
+    },
+    openCreateRoomPanel(roomType) {
       this.$emit("createRoom", roomType);
     }
   }

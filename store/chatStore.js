@@ -237,6 +237,18 @@ export const getters = {
     },
     needLoading(state) {
         return state.needLoading
+    },
+    checkRoom: state => room => {
+        let result = state.rooms.find(element => {
+            if (element.id == room.id) {
+                return element
+            }
+        })
+        if (result == undefined) {
+            return false
+        } else {
+            return true
+        }
     }
 }
 
@@ -252,9 +264,20 @@ export const mutations = {
         state.currentRoom = null
         state.currentRoomMessages = null
     },
+    UPDATE_ROOM(state, payload) {
+        state.rooms.forEach(element => {
+            if (element.id == payload.id) {
+                element = payload
+                return
+            }
+        });
+    },
     ADD_MESSAGE(state, payload) {
         state.currentRoomMessages.push(payload)
         state.messages[payload.roomId].push(payload)
+    },
+    ADD_NEW_ROOM(state, payload) {
+        state.rooms.unshift(payload)
     },
     SET_MESSAGES(state, payload) {
         state.messages[payload.id] = payload.messages

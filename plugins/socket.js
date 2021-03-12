@@ -1,5 +1,6 @@
 import SocketIO from 'socket.io-client'
 
+const employeeId = 22
 
 const rooms = [
     {
@@ -63,7 +64,7 @@ const message = [
 
 
 export default function ({ store }, inject) {
-    store.commit("chatStore/SET_ROOMS", rooms)
+    // store.commit("chatStore/SET_ROOMS", rooms)
 
     const server = "http://192.168.4.159:5000"
     const token = store.getters["oidc/oidcAccessToken"]
@@ -71,17 +72,17 @@ export default function ({ store }, inject) {
         reconnectionDelayMax: 10000,
         path: "/socket",
         auth: {
-            employeeId: 1,
+            employeeId: employeeId,
             token: token
         }
     }
-
     const socket = SocketIO(server, options)
     socket.on("connect", () => {
         console.log("Connected to chat");
         socket.emit("allRooms");
         setTimeout(() => {
-            store.commit("chatStore/SET_USER_ID", store.getters["user/employeeId"])
+            store.commit("chatStore/SET_USER_ID", employeeId)
+            // store.commit("chatStore/SET_USER_ID", store.getters["user/employeeId"])
         }, 0)
     });
     socket.on("joinedToRoom", (data) => {
@@ -91,9 +92,13 @@ export default function ({ store }, inject) {
         console.log("message", data);
         store.commit("chatStore/ADD_MESSAGE", data)
     });
+    socket.on("roomUpdate", (data) => {
+        console.log("roomUpdate", data);
+        store.commit("chatStore/UPDATE_ROOM", data)
+    })
     socket.on("allRooms", (data) => {
-        // store.commit("chatStore/SET_ROOMS", data)
         console.log("allRooms", data);
+        store.commit("chatStore/SET_ROOMS", data)
     });
     socket.on("messagesByRoomId", (data) => {
         console.log("messagesByRoomId", data);
@@ -107,12 +112,10 @@ export default function ({ store }, inject) {
             });
         }
         static messagesByRoomId(roomId) {
-            setTimeout(() => {
-                socket.emit("messagesByRoomId", roomId);
-            }, 5000)
+            socket.emit("messagesByRoomId", roomId);
         }
-        static createRoom(room) {
-            socket.emit("createRoom", room);
+        static createRoom(userId, roomType = 0) {
+            socket.emit("createRoom", userId, roomType);
         }
         static readMessagesInRoom(roomId) {
             console.log(roomId)

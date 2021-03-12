@@ -2,7 +2,12 @@
   <div class="room_info_wrapper">
     <chatIcon :name="room.name" :avatar="room.avatar" />
     <div class="room_information">
-      <div class="room_name">{{room.name}}</div>
+      <div class="room_name">
+        {{room.name}}
+        <span v-if="room.id == currentUser">
+          <b>(Это вы)</b>
+        </span>
+      </div>
       <!-- <div class="room_description" v-if="room.lastMessage.text">{{room.lastMessage.text}}</div> -->
     </div>
   </div>
@@ -17,6 +22,11 @@ export default {
   props: {
     room: {
       default: () => {}
+    }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.getters["chatStore/userId"];
     }
   }
 };
