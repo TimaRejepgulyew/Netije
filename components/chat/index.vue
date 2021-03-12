@@ -1,6 +1,6 @@
 <template>
   <div id="chat_wrapper">
-    <mainPanel @selectRoom="selectRoom" />
+    <mainPanel @openForm="openForm" />
     <chatInterface :isActive="isActive" @focusOut="focusOut" />
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
     };
   },
   methods: {
-    selectRoom() {
+    openForm() {
       this.isActive = true;
     },
     focusOut() {

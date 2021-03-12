@@ -1,9 +1,9 @@
 <template>
   <div id="list_container">
-    <chatSearchPanel @createRoom="createRoom" />
+    <chatSearchPanel @inFocus="inFocus" @createRoom="createRoom" />
     <DxList :data-source="dataSource" height="100%" search-expr="name">
       <template #item="{ data }">
-        <div @click="setCurrentRoom(data.id)">
+        <div @click="setCurrentRoom(data)">
           <roomInfo :room="data" />
         </div>
       </template>
@@ -18,7 +18,7 @@ import DataSource from "devextreme/data/data_source";
 import ArrayStore from "devextreme/data/array_store";
 import dataApi from "~/static/dataApi";
 import roomInfo from "~/components/chat/components/room-info.vue";
-import chatSearchPanel from "~/components/chat/components/chat-search-panel/index.vue";
+import chatSearchPanel from "~/components/chat/components/chat-contact-list/chat-search-panel.vue";
 
 export default {
   components: {
@@ -76,8 +76,11 @@ export default {
     }
   },
   methods: {
-    setCurrentRoom(id) {
-      this.$store.commit("chatStore/SET_CURRENT_ROOM", id);
+    inFocus() {
+      this.searchInProgress = true;
+    },
+    setCurrentRoom(room) {
+      this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
       this.$emit("setRoom");
     },
     createRoom(roomType) {

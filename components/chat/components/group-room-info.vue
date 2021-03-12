@@ -1,6 +1,6 @@
 <template>
   <div class="room_info_wrapper">
-    <roomIcon :room="room" />
+    <chatIcon :name="room.name" :avatar="room.avatar" />
     <div class="room_information">
       <div class="room_name">{{room.roomName}}</div>
       <div class="room_description">
@@ -10,19 +10,17 @@
           :title="member.name"
           @click="showEmployeeCard(member.id)"
         >
-          <userIcon :path="member.personalPhotoHash" :fullName="member.name" />
+          <chatIcon :avatar="member.personalPhotoHash" :name="member.name" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import roomIcon from "~/components/chat/components/room-icon.vue";
-import userIcon from "~/components/Layout/userIcon.vue";
+import chatIcon from "~/components/chat/components/chat-icon.vue";
 export default {
   components: {
-    roomIcon,
-    userIcon
+    chatIcon
   },
   props: {
     room: {
@@ -41,9 +39,6 @@ export default {
         }
       );
     }
-  },
-  created() {
-    // console.log(this.room);
   }
 };
 </script>

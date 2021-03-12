@@ -1,36 +1,28 @@
 <template>
   <div class="avatar" :style="{background:stringToColor}">
-    <img :src="imagePath" v-if="room.avatar " />
+    <img :src="imagePath" v-if="avatar " />
     <span v-else>{{nameToWord}}{{lastNameToWord}}</span>
   </div>
 </template>
 
 <script>
 import dataApi from "~/static/dataApi";
-import UserIcon from "~/components/chat/components/room-icon.vue";
 export default {
-  props: {
-    room: {}
-  },
-  data() {
-    return {
-      groupImg: require("~/static/icons/quide-page/company-structure.svg")
-    };
-  },
+  props: ["avatar", "name"],
   computed: {
     imagePath() {
-      return dataApi.UserPhotoHash + this.room.avatar + ".png";
+      return dataApi.UserPhotoHash + this.avatar + ".png";
     },
     stringToColor() {
       let i, value, nameLength;
       let hash = 0;
       let color = "#";
-      if (!this.room.name) {
+      if (!this.name) {
         return color + "333333";
       }
-      nameLength = this.room.name.length;
+      nameLength = this.name.length;
       for (i = 0; i < nameLength; i++) {
-        hash = this.room.name.charCodeAt(i) + ((hash << 5) - hash);
+        hash = this.name.charCodeAt(i) + ((hash << 5) - hash);
       }
       for (i = 0; i < 3; i++) {
         value = (hash >> (i * 8)) & 0xff;
@@ -39,22 +31,19 @@ export default {
       return color;
     },
     nameToWord() {
-      if (this.room.name)
-        return this.room.name
+      if (this.name)
+        return this.name
           .split(" ")[0]
           .toUpperCase()
           .substr(0, 1);
     },
     lastNameToWord() {
-      if (this.room.name.split(" ").length > 1)
-        return this.room.name
+      if (this.name.split(" ").length > 1)
+        return this.name
           .split(" ")[1]
           .toUpperCase()
           .substr(0, 1);
     }
-  },
-  created() {
-    // console.log(this.room);
   }
 };
 </script>

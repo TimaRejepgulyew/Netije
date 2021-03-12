@@ -2,20 +2,14 @@
   <div id="chat_room">
     <ChatHeader :room="currentRoom" />
     <div class="chat_room_messages">
-      <div class="loadIndicator" v-if="needLoading">
-        <DxLoadIndicator height="75px" width="75px" />
-      </div>
-      <div
-        v-else
-        class="messages"
-        :class="{ user_message:isOwnMessage( message.author) }"
-        v-for="(message, index) in messages"
+      <DxLoadIndicator v-if="needLoading" class="loadIndicator" height="75px" width="75px" />
+      <ChatMessage
         ref="message"
+        v-else
+        v-for="(msg,index) in messages"
+        :message="msg"
         :key="index"
-      >
-        <div class="message">{{ message.text }}</div>
-        <div class="time" v-if="message.created">{{ formatDate(message.created) }}</div>
-      </div>
+      />
     </div>
     <div class="chat_room_text_area">
       <ChatTextArea @sendMessage="sendMessage" />
@@ -24,18 +18,18 @@
 </template>
 
 <script>
-import customSelectItem from "~/components/employee/custom-select-box-item.vue";
 import ChatTextArea from "~/components/chat/chat-text-area.vue";
 import ChatHeader from "~/components/chat/components/chat-room/chat-header.vue";
+import ChatMessage from "~/components/chat/components/chat-messages/index.vue";
 import { DxLoadIndicator } from "devextreme-vue/load-indicator";
 import moment from "moment";
 
 export default {
   components: {
-    customSelectItem,
     ChatTextArea,
     DxLoadIndicator,
-    ChatHeader
+    ChatHeader,
+    ChatMessage
   },
   computed: {
     needLoading() {
@@ -50,35 +44,60 @@ export default {
   },
   watch: {
     currentRoom(val) {
-      this.$chat.messagesByRoomId(val.id);
+      // console.log(val);
     },
     messages(val) {
       this.showLastMessage();
+      this.checkMessage();
     }
   },
   methods: {
-    formatDate(value) {
-      return moment(value).format("MM.DD.YYYY HH:mm");
+    checkMessage() {
+      if (this.messages == undefined) {
+        this.$store.commit("chatStore/ENABLE_LOAD_PANEL");
+        this.loadMessage();
+      } else {
+        this.$store.commit("chatStore/DISABLE_LOAD_PANEL");
+      }
     },
-    isOwnMessage(authorId) {
-      let a = this.$store.getters["chatStore/userId"];
-      return 1 == authorId ? true : false;
-    },
-    showLastMessage() {
+    loadMessage() {
       setTimeout(() => {
-        let el = this.$refs.message[this.$refs.message.length - 1];
-        el.scrollIntoView({ behavior: "smooth" });
+        this.$store.commit("chatStore/SET_MESSAGES", {
+          id: 2,
+          messages: [
+            {
+              text: "Твари твари",
+              id: "321234",
+              author: {
+                id: 21,
+                jobTitle: "Секретарь",
+                name: "Kent Klark Supermenovich",
+                avatar: null
+              }
+            }
+          ]
+        });
+      }, 3000);
+    },
+    showLastMessage(behaviorOptions = "smooth") {
+      setTimeout(() => {
+        let el = this.$refs.message[this.$refs.message.length - 1].$el;
+        el.scrollIntoView({ behavior: behaviorOptions });
         el.click();
       }, 0);
     },
     sendMessage(value) {
-      console.log(this.$store.getters["chatStore/userId"]);
+      this.showLastMessage();
       this.$chat.sendMessage({
         text: value,
         roomId: this.currentRoom.id
       });
       this.$chat.readMessagesInRoom(this.currentRoom.id);
     }
+  },
+  created() {
+    this.checkMessage();
+    if (this.messages) this.showLastMessage("auto");
   }
 };
 </script>
@@ -89,8 +108,8 @@ export default {
 #chat_room {
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-template-rows: 60px 1fr 150px;
+  display: flex;
+  flex-direction: column;
   .loadIndicator {
     position: absolute;
     width: 75px;
@@ -101,37 +120,13 @@ export default {
   }
   .chat_room_messages {
     position: relative;
+    flex-grow: 1;
     background-color: rgba(215, 221, 230, 0.5);
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-
-    padding: 0 0 0 0 !important;
+    padding: 0 10px !important;
     margin: 0 !important;
-    .messages {
-      padding: 5px 10px;
-      margin: 10px;
-      border: 1px solid $base-border-color;
-      align-self: flex-start;
-      max-width: 60%;
-      background-color: #fff;
-      border-radius: 10px 10px 10px 0;
-      &.user_message {
-        align-self: flex-end;
-        background-color: $base-accent;
-        border-radius: 10px 10px 0 10px;
-        color: #fff;
-        // align-self: end;
-      }
-      .message {
-        font-size: 16px;
-      }
-      .time {
-        font-size: 12px;
-        display: flex;
-        justify-content: flex-end;
-      }
-    }
   }
   .chat_room_text_area {
     padding: 5px 10px 10px 10px;

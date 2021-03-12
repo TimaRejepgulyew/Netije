@@ -13,7 +13,8 @@
           </div>
           <div class="chat_room">
             <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
-            <ChatRoom v-else />
+            <ChatRoom v-if="currentRoom && !isCreateRoom" />
+            <EmptyLaout v-if="currentRoom == null" />
           </div>
         </div>
       </div>
@@ -23,14 +24,16 @@
 
 
 <script>
-import ContactList from "~/components/chat/contact-list.vue";
+import ContactList from "~/components/chat/components/chat-contact-list/index.vue";
 import ChatRoom from "~/components/chat/components/chat-room/index.vue";
+import EmptyLaout from "~/components/chat/components/chat-room-layouts/empty-layout.vue";
 import ConstructorChatRoom from "~/components/chat/components/constructor-chat-room/index.vue";
 export default {
   components: {
     ContactList,
     ConstructorChatRoom,
-    ChatRoom
+    ChatRoom,
+    EmptyLaout
   },
   props: {
     isActive: {
@@ -45,6 +48,11 @@ export default {
       roomType: null
     };
   },
+  computed: {
+    currentRoom() {
+      return this.$store.getters["chatStore/currentRoom"];
+    }
+  },
   methods: {
     createRoom(roomType) {
       this.roomType = roomType;
@@ -55,6 +63,7 @@ export default {
     },
     focusOut() {
       this.$emit("focusOut");
+      this.$store.commit("chatStore/CLEAR_CURRENT_ROOM");
       this.isCreateRoom = false;
     }
   }

@@ -1,19 +1,19 @@
 <template>
   <div class="room_info_wrapper">
-    <roomIcon :room="room" />
+    <chatIcon :name="room.name" :avatar="room.avatar" />
     <div class="room_information">
       <div class="room_name">
-        <span @click="showEmployeeCard">{{room.roomName}}</span>
+        <span @click="showEmployeeCard">{{room.name}}</span>
       </div>
-      <div class="room_description">{{room.roomJobTitle}}</div>
+      <div class="room_description">{{room.user.jobTitle}}</div>
     </div>
   </div>
 </template>
 <script>
-import roomIcon from "~/components/chat/components/room-icon.vue";
+import chatIcon from "~/components/chat/components/chat-icon.vue";
 export default {
   components: {
-    roomIcon
+    chatIcon
   },
   props: {
     room: {
@@ -25,7 +25,7 @@ export default {
       this.$popup.employeeCard(
         this,
         {
-          employeeId: this.room.employeeId
+          employeeId: this.room.user.id
         },
         {
           height: "auto"

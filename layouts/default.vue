@@ -108,12 +108,6 @@ export default {
   beforeDestroy() {
     unsubscribe(this.screenSizeChanged);
     window.removeEventListener("vuexoidc:userSignedOut");
-  },
-
-  components: {
-    TheFooter,
-    AppContent,
-    DxButton
   }
 };
 </script>
@@ -132,6 +126,7 @@ body {
 #root {
   width: 100%;
   height: 100vh;
+  display: flex;
 }
 
 * {

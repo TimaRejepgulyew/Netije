@@ -1,22 +1,25 @@
 <template>
   <div id="main_panel">
+    <div @click="openForm" class="cell" title="Поиск контактов">
+      <i class="dx-icon-search dx-icon-custom-style search_icon"></i>
+    </div>
     <div
       class="cell"
       v-for="(room,index) in rooms"
       :key="index"
-      :title="room.roomName"
-      @click="selectRoom(room.id)"
+      :title="room.name"
+      @click="selectRoom(room)"
     >
-      <roomIcon :room="room" />
+      <chatIcon :name="room.name" :avatar="room.avatar" />
     </div>
   </div>
 </template>
 
 <script>
-import roomIcon from "~/components/chat/components/room-icon.vue";
+import chatIcon from "~/components/chat/components/chat-icon.vue";
 export default {
   components: {
-    roomIcon
+    chatIcon
   },
   computed: {
     rooms() {
@@ -24,9 +27,12 @@ export default {
     }
   },
   methods: {
-    selectRoom(id) {
-      this.$store.commit("chatStore/SET_CURRENT_ROOM", id);
-      this.$emit("selectRoom");
+    openForm() {
+      this.$emit("openForm");
+    },
+    selectRoom(room) {
+      this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
+      this.openForm();
     }
   }
 };
@@ -42,6 +48,10 @@ export default {
   grid-template-columns: 1fr;
   grid-template-rows: repeat(10, 60px);
   justify-items: center;
+  .search_icon {
+    color: #009a40;
+    font-size: 30px;
+  }
   .cell {
     width: 100%;
     display: flex;

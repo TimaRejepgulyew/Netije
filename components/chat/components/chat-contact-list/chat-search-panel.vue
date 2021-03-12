@@ -1,7 +1,13 @@
 <template>
   <div id="chat_search_panel">
     <div class="text_box">
-      <DxTextBox :buttons="searchPanelButtons" stylingMode="underlined" />
+      <DxTextBox
+        :buttons="searchPanelButtons"
+        @value-changed="valueChanged"
+        @focus-in="focusIn"
+        :value.sync="searchValue"
+        stylingMode="underlined"
+      />
     </div>
     <DxDropDownButton
       icon="rename"
@@ -27,7 +33,9 @@ export default {
     DxDropDownButton
   },
   data() {
-    return {};
+    return {
+      searchValue: ""
+    };
   },
   computed: {
     items() {
@@ -60,8 +68,15 @@ export default {
     }
   },
   methods: {
+    focusIn() {
+      this.$emit("inFocus");
+      console.log("focus in");
+    },
     createRoom(roomType) {
       this.$emit("createRoom", roomType);
+    },
+    valueChanged(e) {
+      console.log(e);
     }
   }
 };
