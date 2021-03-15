@@ -87,6 +87,7 @@ export default function ({ store }, inject) {
     });
     socket.on("joinedToRoom", (data) => {
         console.log("joinedToRoom", data);
+        store.commit("chatStore/ADD_NEW_ROOM", data)
     });
     socket.on("message", (data) => {
         console.log("message", data);
@@ -115,6 +116,7 @@ export default function ({ store }, inject) {
             socket.emit("messagesByRoomId", roomId);
         }
         static createRoom(userId, roomType = 0) {
+            console.log("create room", userId);
             socket.emit("createRoom", userId, roomType);
         }
         static readMessagesInRoom(roomId) {
