@@ -17,7 +17,8 @@ export default async function (context, params) {
 }
 
 export async function createDocument(context, params) {
-  const { data } = await context.$axios.post(GenerateApi(params.documentTypeGuid), {});
+  
+  const { data } = await context.$axios.post(GenerateApi(params.documentTypeGuid), params);
   const { id: documentId, documentTypeGuid } = data.document;
   const store = DocumentTemplateStoreFactory.createStore(
     params.documentTypeGuid
