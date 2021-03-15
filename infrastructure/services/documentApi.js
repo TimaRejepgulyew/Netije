@@ -34,8 +34,9 @@ export function GenerateGridApi(docQuery) {
             return dataApi.universaltransferdocument.getAll
         case DocumentQuery.Waybill:
             return dataApi.waybill.getAll
+        case DocumentQuery.AllDocuments:
+            return dataApi.officialDocument.getAll
         default:
-            console.log(docQuery)
             break;
     }
 }
@@ -72,6 +73,8 @@ export function GenerateApi(docQuery) {
         case DocumentQuery.Waybill:
             return dataApi.waybill.document
         default:
+            console.log("docQuerySolo", docQuery)
+
             break;
     }
 }

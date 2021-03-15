@@ -175,6 +175,10 @@ export default {
     getAll: "/api/Waybill/GetAll",
     document: "/api/Waybill"
   },
+  officialDocument: {
+    getAll: "/api/OfficialDocument/GetAllOfficialDocument",
+    document: "/api/Waybill"
+  },
 
   dynamicDocument: {
     documentType: "/api/DocumentType",

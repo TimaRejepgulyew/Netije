@@ -63,7 +63,7 @@ export default {
     dataSourceFilter: {},
     dataSourceQuery: {
       type: Number,
-      default: DocumentQuery.All
+      default: DocumentQuery.AllDocuments
     },
     value: {},
     isRequired: {
@@ -168,6 +168,10 @@ export default {
       else this.$emit("valueChanged", data);
       this.$refs["document"].instance.repaint();
     }
+  },
+  created() {
+    console.log("DocumentQuery.All", DocumentQuery.All);
+    console.log("this.dataSourceQuery", this.dataSourceQuery);
   }
 };
 </script>
