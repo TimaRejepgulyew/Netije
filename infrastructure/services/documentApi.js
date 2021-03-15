@@ -36,7 +36,13 @@ export function GenerateGridApi(docQuery) {
             return dataApi.waybill.getAll
         case DocumentQuery.AllDocuments:
             return dataApi.officialDocument.getAll
+        case DocumentQuery.ContractualDocuments:
+            return dataApi.contractualDocuments.getAll
+        case DocumentQuery.AccountingDocuments:
+            return dataApi.accountingDocuments.getAll
         default:
+            console.log("docQueryGrid", docQuery)
+
             break;
     }
 }

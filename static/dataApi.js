@@ -177,7 +177,12 @@ export default {
   },
   officialDocument: {
     getAll: "/api/OfficialDocument/GetAllOfficialDocument",
-    document: "/api/Waybill"
+  },
+  contractualDocuments: {
+    getAll: "/api/OfficialDocument/GetAllContractualDocument",
+  },
+  accountingDocuments: {
+    getAll: "/api/OfficialDocument/GetAllAccounting",
   },
 
   dynamicDocument: {
