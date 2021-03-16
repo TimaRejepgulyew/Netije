@@ -1,13 +1,13 @@
-<template :style="{background:stringToColor}">
-  <div class="avatar">
+<template>
+  <div class="avatar" :style="{ background: stringToColor }">
     <img v-if="path" :src="imagePath" />
-    <span v-else>{{nameToWord}}{{lastNameToWord}}</span>
+    <span v-else>{{ nameToWord }}{{ lastNameToWord }}</span>
   </div>
 </template>
 
 <script>
 import dataApi from "~/static/dataApi";
-import axios from "axios";
+
 export default {
   props: {
     fullName: {
@@ -26,25 +26,17 @@ export default {
     stringToColor() {
       let hash = 0;
       let color = "#";
-      let i;
-      let value;
-      let nameLength;
-
+      let i, value, nameLength;
       if (!this.fullName) {
         return color + "333333";
       }
-
-      nameLength = this.fullName.length;
-
-      for (i = 0; i < nameLength; i++) {
+      for (i = 0; i < this.fullName.length; i++) {
         hash = this.fullName.charCodeAt(i) + ((hash << 5) - hash);
       }
-
       for (i = 0; i < 3; i++) {
         value = (hash >> (i * 8)) & 0xff;
         color += ("00" + value.toString(16)).substr(-2);
       }
-
       return color;
     },
     nameToWord() {
