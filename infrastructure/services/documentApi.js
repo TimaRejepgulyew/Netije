@@ -40,6 +40,8 @@ export function GenerateGridApi(docQuery) {
             return dataApi.contractualDocuments.getAll
         case DocumentQuery.AccountingDocuments:
             return dataApi.accountingDocuments.getAll
+        case DocumentQuery.InternalDocument:
+            return dataApi.internalDocument.getAll
         default:
             console.log("docQueryGrid", docQuery)
 

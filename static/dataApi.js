@@ -184,6 +184,9 @@ export default {
   accountingDocuments: {
     getAll: "/api/OfficialDocument/GetAllAccounting",
   },
+  internalDocument: {
+    getAll: "/api/OfficialDocument/GetAllInternalDocument",
+  },
 
   dynamicDocument: {
     documentType: "/api/DocumentType",
