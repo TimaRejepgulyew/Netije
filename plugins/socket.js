@@ -1,6 +1,6 @@
 import SocketIO from 'socket.io-client'
 
-const employeeId = 22
+const employeeId = 21
 
 const rooms = [
     {
@@ -81,8 +81,8 @@ export default function ({ store }, inject) {
         console.log("Connected to chat");
         socket.emit("allRooms");
         setTimeout(() => {
-            store.commit("chatStore/SET_USER_ID", employeeId)
-            // store.commit("chatStore/SET_USER_ID", store.getters["user/employeeId"])
+            // store.commit("chatStore/SET_USER_ID", employeeId)
+            store.commit("chatStore/SET_USER_ID", store.getters["user/employeeId"])
         }, 0)
     });
     socket.on("joinedToRoom", (data) => {

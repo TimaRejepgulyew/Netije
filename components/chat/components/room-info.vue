@@ -3,7 +3,7 @@
     <chatIcon :name="room.name" :avatar="room.avatar" />
     <div class="room_information">
       <div class="room_name">
-        {{room.name}}
+        {{ room.name }}
         <span v-if="room.id == currentUser">
           <b>(Это вы)</b>
         </span>
@@ -26,6 +26,10 @@ export default {
   },
   computed: {
     currentUser() {
+      console.log(
+        `this.$store.getters["chatStore/userId"]`,
+        this.$store.getters["chatStore/userId"]
+      );
       return this.$store.getters["chatStore/userId"];
     }
   }
