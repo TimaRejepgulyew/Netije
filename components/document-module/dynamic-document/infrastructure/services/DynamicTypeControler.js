@@ -54,11 +54,13 @@ class DynamicTypeControler {
             }
         }
         if (isNewDocument) {
+            console.log(context.$store.commit(`dynamicDocumentComponents/${documentType}/INCREMENT_OVERLAYS`));
             context.$store.commit(`dynamicDocumentComponents/${documentType}/INCREMENT_OVERLAYS`)
         }
     }
     static removeStore(context, documentType) {
         let overlay = context.$store.getters[`dynamicDocumentComponents/${documentType}/overlays`]
+        console.log(overlay)
         if (overlay === 1) {
             context.$store.commit(`dynamicDocumentComponents/${documentType}/CLEAN_STATE`)
             dynamicTypeStoreModule.unregisterModule(context, documentType);
