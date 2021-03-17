@@ -49,24 +49,20 @@ import HeaderToolbar from "~/components/Layout/header-toolbar";
 import SideNavMenu from "~/components/Layout/side-nav-menu";
 
 export default {
+  components: {
+    DxButton,
+    DxDrawer,
+    DxScrollView,
+    DxToolbar,
+    DxItem,
+    HeaderToolbar,
+    SideNavMenu,
+    Header
+  },
   props: {
     title: String,
     isXSmall: Boolean,
     isLarge: Boolean
-  },
-  methods: {
-    toggleMenu(e) {
-      const pointerEvent = e.event;
-      pointerEvent.stopPropagation();
-      if (this.menuOpened) {
-        this.menuTemporaryOpened = false;
-      }
-      this.menuOpened = !this.menuOpened;
-    },
-    handleSideBarClick() {
-      if (this.menuOpened === false) this.menuTemporaryOpened = true;
-      this.menuOpened = true;
-    }
   },
   data() {
     return {
@@ -76,8 +72,9 @@ export default {
       property: []
     };
   },
-  computed: {
+    computed: {
     menuItems() {
+      console.log(this.$store.getters["menu/menuList"]);
       return this.$store.getters["menu/menuList"];
     },
     drawerOptions() {
@@ -95,8 +92,7 @@ export default {
       return this.isXSmall;
     }
   },
-
-  watch: {
+    watch: {
     isLarge() {
       if (!this.menuTemporaryOpened) {
         this.menuOpened = this.isLarge;
@@ -109,16 +105,24 @@ export default {
       }
     }
   },
-  components: {
-    DxButton,
-    DxDrawer,
-    DxScrollView,
-    DxToolbar,
-    DxItem,
-    HeaderToolbar,
-    SideNavMenu,
-    Header
-  }
+  methods: {
+    toggleMenu(e) {
+      const pointerEvent = e.event;
+      pointerEvent.stopPropagation();
+      if (this.menuOpened) {
+        this.menuTemporaryOpened = false;
+      }
+      this.menuOpened = !this.menuOpened;
+    },
+    handleSideBarClick() {
+      if (this.menuOpened === false) this.menuTemporaryOpened = true;
+      this.menuOpened = true;
+    }
+  },
+
+
+
+
 };
 </script>
 
