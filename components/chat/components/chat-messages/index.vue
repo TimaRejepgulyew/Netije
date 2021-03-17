@@ -1,11 +1,19 @@
 <template>
-  <div class="message_wrapper">
+  <div
+    class="message_wrapper"
+    :class="{ user_messages: isOwnMessage(message.author.id) }"
+  >
     <div class="avatar">
       <roomIcon :room="message.author" />
     </div>
-    <div class="messages" :class="{ user_message:isOwnMessage( message.author) }">
+    <div
+      class="messages"
+      :class="{ user_message: isOwnMessage(message.author.id) }"
+    >
       <div class="message">{{ message.text }}</div>
-      <div class="time" v-if="message.created">{{ formatDate(message.created) }}</div>
+      <div class="time" v-if="message.created">
+        {{ formatDate(message.created) }}
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +44,9 @@ export default {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
     }
+  },
+  created() {
+    console.log(this.message);
   }
 };
 </script>
@@ -46,11 +57,13 @@ export default {
   display: flex;
   align-items: flex-start;
   margin: 10px;
+  &.user_messages {
+    align-self: flex-end;
+  }
   .messages {
     padding: 5px 10px;
     margin: 0 0 0 10px;
     border: 1px solid $base-border-color;
-    align-self: flex-start;
     max-width: 60%;
     background-color: #fff;
     border-radius: 0 10px 10px 10px;

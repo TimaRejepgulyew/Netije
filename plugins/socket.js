@@ -2,70 +2,8 @@ import SocketIO from 'socket.io-client'
 
 const employeeId = 21
 
-const rooms = [
-    {
-        id: "1",
-        name: "Mammedow Hoaj Kaltushka",
-        avatar: "676e6a63-8497-498b-af81-6cdf6ed2bb5d",
-        user: {
-            jobTitle: "Главный бухгалтер",
-            id: 20,
-        },
-        lastMessage: {
-            text: "Откуда Ты?",
-            id: "213123123",
-            author: {
-                id: 20,
-                jobTitle: "Главный бухгалтер",
-                name: "Mammedow Hoaj Kaltushka",
-                personalPhotoHash: "676e6a63-8497-498b-af81-6cdf6ed2bb5d",
-            }
-        },
-        unreadMessageCount: 12,
-        lastRead: new Date(),
-        roomType: 0
-    },
-    {
-        id: "2",
-        name: "Kent Klark Supermenovich",
-        avatar: null,
-        user: {
-            id: 21,
-            jobTitle: "Секретарь",
-        },
-        lastMessage: {
-            text: "Грязный нигер",
-            id: "321234",
-            author: {
-                id: 21,
-                jobTitle: "Секретарь",
-                name: "Kent Klark Supermenovich",
-                personalPhotoHash: null,
-            }
-        },
-        unreadMessageCount: 12,
-        lastRead: new Date(),
-        roomType: 0
-    },
-]
-
-const message = [
-    {
-        text: "Лохи лохи",
-        id: "321234",
-        author: {
-            id: 21,
-            jobTitle: "Секретарь",
-            name: "Kent Klark Supermenovich",
-            personalPhotoHash: null,
-        }
-    }
-]
-
-
 export default function ({ store }, inject) {
     // store.commit("chatStore/SET_ROOMS", rooms)
-
     const server = "http://192.168.4.159:5000"
     const token = store.getters["oidc/oidcAccessToken"]
     const options = {
@@ -83,7 +21,7 @@ export default function ({ store }, inject) {
         setTimeout(() => {
             // store.commit("chatStore/SET_USER_ID", employeeId)
             store.commit("chatStore/SET_USER_ID", store.getters["user/employeeId"])
-        }, 0)
+        }, 1000)
     });
     socket.on("joinedToRoom", (data) => {
         console.log("joinedToRoom", data);
