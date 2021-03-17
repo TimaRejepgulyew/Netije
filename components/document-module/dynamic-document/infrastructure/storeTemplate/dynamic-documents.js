@@ -155,7 +155,6 @@ const obj = {
             commit("STOP_DATA_TRACKING");
         },
         async create_dynamic_type({ commit, state, getters }) {
-            console.log(dataApi.dynamicDocument.createDocumentType, "T=his dsoghaisdfghksdfjghksdf");
             let jsonElements = JSON.stringify(state.elements);
             await this.$axios.post(dataApi.dynamicDocument.createDocumentType, {
                 name: state.docType,

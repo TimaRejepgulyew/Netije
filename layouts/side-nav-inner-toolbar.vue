@@ -74,7 +74,6 @@ export default {
   },
     computed: {
     menuItems() {
-      console.log(this.$store.getters["menu/menuList"]);
       return this.$store.getters["menu/menuList"];
     },
     drawerOptions() {

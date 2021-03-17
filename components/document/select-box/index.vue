@@ -169,10 +169,6 @@ export default {
       this.$refs["document"].instance.repaint();
     }
   },
-  created() {
-    console.log("DocumentQuery.All", DocumentQuery.All);
-    console.log("this.dataSourceQuery", this.dataSourceQuery);
-  }
 };
 </script>
 

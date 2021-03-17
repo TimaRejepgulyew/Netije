@@ -197,7 +197,6 @@ export default {
   },
   destroyed() {
     DynamicTypeControler.removeStore(this, this.documentType);
-    console.log(this.$store);
   }
 };
 </script>
