@@ -190,7 +190,9 @@ export default {
 
   dynamicDocument: {
     documentType: "/api/DocumentType",
-    createDocumentType: "/api/DocumentType/CreateDynamicDocumentType"
+    createDocumentType: "/api/DocumentType/CreateDynamicDocumentType",
+    getAll: "/api/DynamicDocument/GetAll",
+    document: "/api/DynamicDocument"
   },
   documentModule: {
     Documents: `/api/OfficialDocument/GetAll/`,
