@@ -70,13 +70,11 @@ export default {
   methods: {
     focusIn() {
       this.$emit("inFocus");
-      console.log("focus in");
     },
     createRoom(roomType) {
       this.$emit("createRoom", roomType);
     },
     valueChanged(e) {
-      console.log(e);
     }
   }
 };

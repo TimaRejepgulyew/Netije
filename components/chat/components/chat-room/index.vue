@@ -44,7 +44,6 @@ export default {
   },
   watch: {
     currentRoom(val) {
-      // console.log(val);
     },
     messages(val) {
       this.showLastMessage();

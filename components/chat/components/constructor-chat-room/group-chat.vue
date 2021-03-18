@@ -71,7 +71,6 @@ export default {
     }
   },
   created() {
-    console.log("this.roomType", this.roomType);
   }
 };
 </script>

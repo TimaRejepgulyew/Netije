@@ -8,7 +8,7 @@
     </div>
     <div
       class="messages"
-      :class="{ user_message: isOwnMessage(message.author.id) }"
+      :class="{ user_msg: isOwnMessage(message.author.id) }"
     >
       <div class="message">{{ message.text }}</div>
       <div class="time" v-if="message.created">
@@ -21,6 +21,7 @@
 
 <script>
 import roomIcon from "~/components/chat/components/room-icon.vue";
+import moment from "moment";
 
 export default {
   components: {
@@ -46,7 +47,7 @@ export default {
     }
   },
   created() {
-    console.log(this.message);
+    // console.log(this.message);
   }
 };
 </script>
@@ -61,17 +62,19 @@ export default {
     align-self: flex-end;
   }
   .messages {
+    min-width: 120px;
     padding: 5px 10px;
     margin: 0 0 0 10px;
     border: 1px solid $base-border-color;
     max-width: 60%;
     background-color: #fff;
     border-radius: 0 10px 10px 10px;
-    &.user_message {
-      align-self: flex-end;
+    &.user_msg {
       background-color: $base-accent;
-      border-radius: 10px 10px 0 10px;
+      border-radius: 10px 0 10px 10px;
       color: #fff;
+      margin: 0 10px 0 0;
+      order: -1;
       // align-self: end;
     }
     .message {

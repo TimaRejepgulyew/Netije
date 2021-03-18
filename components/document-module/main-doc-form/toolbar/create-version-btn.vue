@@ -99,7 +99,6 @@ export default {
   methods: {
     uploadVersion(data) {
       this.$store.dispatch(`documents/${this.documentId}/setVersion`, data);
-      console.log(this.isNew);
       if (!this.isNew) {
         if (DocumentTypeGuid.OutgoingLetter === this.document.documentTypeGuid)
           this.$store.dispatch(`documents/${this.documentId}/updateExchange`, {

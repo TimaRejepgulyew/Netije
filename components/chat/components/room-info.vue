@@ -26,10 +26,6 @@ export default {
   },
   computed: {
     currentUser() {
-      console.log(
-        `this.$store.getters["chatStore/userId"]`,
-        this.$store.getters["chatStore/userId"]
-      );
       return this.$store.getters["chatStore/userId"];
     }
   }
