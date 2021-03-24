@@ -1,7 +1,7 @@
 <template>
-  <div class="avatar" :style="{background:stringToColor}">
-    <img :src="imagePath" v-if="avatar " />
-    <span v-else>{{nameToWord}}{{lastNameToWord}}</span>
+  <div class="avatar" :style="{ background: stringToColor }">
+    <img :src="imagePath" v-if="avatar" />
+    <span v-else>{{ nameToWord }}{{ lastNameToWord }}</span>
   </div>
 </template>
 
@@ -61,7 +61,6 @@ export default {
   color: white;
   background: #333333;
   overflow: hidden;
-  cursor: pointer;
   img {
     height: 25px;
   }

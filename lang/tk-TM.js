@@ -26,8 +26,10 @@ import searching from "~/lang/i18n-translation/tk/searchingPanel.js";
 import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
 import documentTracking from "~/lang/i18n-translation/tk/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/tk/recipientTagBox.js";
+import chatInterface from "~/lang/i18n-translation/tk/chatInterface.js";
 
 export default {
+  chatInterface,
   recipientTagBox,
   onlineUsers,
   exchange,
@@ -149,7 +151,7 @@ export default {
       notification: "Duýduryş",
       serverError: "Serwer ýalňyşlygy",
       notHaveAccessRightToRead: "Sizde obýekde doly däl rugsat",
-      hasnotVersion:"Resminamanyň wersiýasy ýüklenmedi"
+      hasnotVersion: "Resminamanyň wersiýasy ýüklenmedi"
     },
     begining: "Başy",
     end: "Soňy",

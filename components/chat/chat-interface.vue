@@ -5,7 +5,6 @@
       <div v-if="isActive" id="chat_interface">
         <div @click="focusOut" class="close_btn">
           <span class="close"></span>
-          {{chat}}
         </div>
         <div class="chat_interface_content">
           <div class="contacts">
@@ -43,7 +42,6 @@ export default {
   },
   data() {
     return {
-      chat: "Чат",
       isCreateRoom: false,
       roomType: null
     };
@@ -112,11 +110,11 @@ export default {
     justify-content: center;
     position: absolute;
     z-index: 1000;
-    left: -70px;
+    left: -50px;
     top: 5vh;
     background-color: $base-accent;
     height: 40px;
-    width: 70px;
+    min-width: 50px;
     border-radius: 10px 0 0 10px;
     color: #fff;
     cursor: pointer;

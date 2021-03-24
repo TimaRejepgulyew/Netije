@@ -1,16 +1,13 @@
 <template>
   <div
     class="message_wrapper"
-    :class="{ user_messages: isOwnMessage(message.author.id) }"
+    :class="{ user_message: isOwnMessage(message.author.id) }"
   >
     <div class="avatar">
       <roomIcon :room="message.author" />
     </div>
-    <div
-      class="messages"
-      :class="{ user_msg: isOwnMessage(message.author.id) }"
-    >
-      <div class="message">{{ message.text }}</div>
+    <div class="message">
+      <div class="text">{{ message.text }}</div>
       <div class="time" v-if="message.created">
         {{ formatDate(message.created) }}
       </div>
@@ -40,7 +37,7 @@ export default {
   },
   methods: {
     isOwnMessage(authorId) {
-      return this.$store.getters["chatStore/userId"] == authorId ? true : false;
+      return this.$store.getters["user/employeeId"] == authorId ? true : false;
     },
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
@@ -56,28 +53,25 @@ export default {
 @import "~assets/themes/generated/variables.base.scss";
 .message_wrapper {
   display: flex;
-  align-items: flex-start;
+  justify-content: flex-start;
   margin: 10px;
-  &.user_messages {
-    align-self: flex-end;
+  &.user_message {
+    justify-content: flex-end;
+    .message {
+      order: -1;
+      color: #fff;
+      background-color: $base-accent;
+      border-radius: 10px 0 10px 10px;
+    }
   }
-  .messages {
-    min-width: 120px;
+  .message {
     padding: 5px 10px;
-    margin: 0 0 0 10px;
+    margin: 0 10px;
     border: 1px solid $base-border-color;
     max-width: 60%;
     background-color: #fff;
     border-radius: 0 10px 10px 10px;
-    &.user_msg {
-      background-color: $base-accent;
-      border-radius: 10px 0 10px 10px;
-      color: #fff;
-      margin: 0 10px 0 0;
-      order: -1;
-      // align-self: end;
-    }
-    .message {
+    .text {
       font-size: 16px;
     }
     .time {

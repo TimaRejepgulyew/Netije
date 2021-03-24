@@ -80,8 +80,9 @@ export default {
       this.searchInProgress = true;
     },
     checkRoom(room) {
-      if (this.$store.getters["chatStore/checkRoom"](room)) {
+      if (this.$store.getters["chatStore/hasRoom"](room)) {
         this.setCurrentRoom(room);
+        this.searchInProgress = false;
       } else {
         this.createRoom(room);
       }

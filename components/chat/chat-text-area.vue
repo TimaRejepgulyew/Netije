@@ -8,7 +8,6 @@
       v-model.trim="value"
       @enter-key="sendMessage"
     />
-    <!-- :value.sync="value" -->
   </div>
 </template>
 

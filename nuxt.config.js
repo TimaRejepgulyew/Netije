@@ -4,7 +4,8 @@ export default {
   env: {
     oidcClientId:
       process.env.NODE_ENV !== "production" ? "TTDoc.UI" : "TTDoc.UI-prod",
-    serverUrl: "https://192.168.4.158"
+    serverUrl: "https://192.168.4.158",
+    chatServerUrl: "https://192.168.4.159:5000"
   },
   loading: {
     color: "white"

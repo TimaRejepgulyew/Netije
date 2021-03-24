@@ -2,11 +2,16 @@
   <div id="chat_room">
     <ChatHeader :room="currentRoom" />
     <div class="chat_room_messages">
-      <DxLoadIndicator v-if="needLoading" class="loadIndicator" height="75px" width="75px" />
+      <DxLoadIndicator
+        v-if="needLoading"
+        class="loadIndicator"
+        height="75px"
+        width="75px"
+      />
       <ChatMessage
         ref="message"
         v-else
-        v-for="(msg,index) in messages"
+        v-for="(msg, index) in messages"
         :message="msg"
         :key="index"
       />
@@ -40,10 +45,14 @@ export default {
     },
     messages() {
       return this.$store.getters["chatStore/currentRoomMessages"];
+    },
+    unreadMessagesCount() {
+      return this.$store.getters["chatStore/currentRoom"].unreadMessageCount;
     }
   },
   watch: {
     currentRoom(val) {
+      this.readMessages();
     },
     messages(val) {
       this.showLastMessage();
@@ -61,6 +70,7 @@ export default {
     },
     loadMessage() {
       this.$chat.messagesByRoomId(this.currentRoom.id);
+      this.$store.commit("chatStore/DISABLE_LOAD_PANEL");
     },
     showLastMessage(behaviorOptions = "smooth") {
       setTimeout(() => {
@@ -75,11 +85,16 @@ export default {
         text: value,
         roomId: this.currentRoom.id
       });
-      // this.$chat.readMessagesInRoom(this.currentRoom.id);
+    },
+    readMessages() {
+      if (this.unreadMessagesCount >= 1) {
+        this.$chat.readMessagesInRoom(this.currentRoom.id);
+      }
     }
   },
   created() {
     this.checkMessage();
+    this.readMessages();
     if (this.messages) this.showLastMessage("auto");
   }
 };

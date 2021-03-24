@@ -26,7 +26,9 @@ import exchange from "~/lang/i18n-translation/ru/exchange.js";
 import searching from "~/lang/i18n-translation/ru/searchingPanel.js";
 import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/ru/recipientTagBox.js";
+import chatInterface from "~/lang/i18n-translation/ru/chatInterface.js";
 export default {
+  chatInterface,
   recipientTagBox,
   searching,
   exchange,

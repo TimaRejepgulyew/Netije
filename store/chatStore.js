@@ -4,15 +4,11 @@ export const state = () => ({
     currentRoom: null,
     currentRoomMessages: null,
     needLoading: true,
-    userId: null,
     rooms: [],
     messages: {}
 })
 
 export const getters = {
-    userId(state) {
-        return state.userId
-    },
     currentRoom(state) {
         return state.currentRoom
     },
@@ -25,9 +21,9 @@ export const getters = {
     needLoading(state) {
         return state.needLoading
     },
-    checkRoom: state => room => {
+    hasRoom: state => room => {
         let result = state.rooms.find(element => {
-            if (element.id == room.id) {
+            if (element.user.id == room.id) {
                 return element
             }
         })
@@ -40,9 +36,6 @@ export const getters = {
 }
 
 export const mutations = {
-    SET_USER_ID(state, id) {
-        state.userId = id
-    },
     SET_CURRENT_ROOM(state, room) {
         state.currentRoom = room
         state.currentRoomMessages = state.messages[room.id]
@@ -52,16 +45,22 @@ export const mutations = {
         state.currentRoomMessages = null
     },
     UPDATE_ROOM(state, payload) {
-        state.rooms.forEach(element => {
-            if (element.id == payload.id) {
-                element = payload
-                return
-            }
-        });
+        if (state.currentRoom?.id == payload.id) {
+            state.currentRoom.unreadMessageCount = 0
+            console.log("Current room");
+        } else {
+            let i = state.rooms.findIndex(element => element.id == payload.id)
+            state.rooms[i] = payload
+            state.rooms.push(null)
+            state.rooms.pop()
+        }
     },
     ADD_MESSAGE(state, payload) {
-        state.currentRoomMessages.push(payload)
-        state.messages[payload.roomId].push(payload)
+        if (state.messages[payload.roomId]) {
+            state.messages[payload.roomId].push(payload)
+        } else {
+            console.log("No room message");
+        }
     },
     ADD_NEW_ROOM(state, payload) {
         state.rooms.unshift(payload)
