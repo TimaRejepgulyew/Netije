@@ -1,10 +1,7 @@
 import SocketIO from 'socket.io-client'
-import { Manager } from 'socket.io-client'
 
 
 export default ({ app, store }, inject) => {
-    const token = store.getters["oidc/oidcAccessToken"]
-    const employeeId = 21
     const options = {
         reconnectionDelayMax: 10000,
         path: "/socket",
@@ -18,13 +15,18 @@ export default ({ app, store }, inject) => {
     setTimeout(() => {
         socket.auth["token"] = `Bearer ${store.getters["oidc/oidcAccessToken"]}`
         socket.connect()
-    }, 100)
+    }, 300)
 
 
     socket.on("connect", () => {
         console.log("Connected to chat");
         socket.emit("allRooms");
     });
+    socket.on("authorized", () => {
+        console.log("Authorized");
+        socket.emit("allRooms");
+    });
+
     socket.on("joinedToRoom", (data) => {
         console.log("joinedToRoom", data);
         store.commit("chatStore/ADD_NEW_ROOM", data)

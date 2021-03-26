@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div @click="focusOut" class="color_wrapper" v-if="isActive"></div>
+    <div @click="closeForm" class="color-wrapper" v-if="isActive" />
     <transition name="slide-fade">
-      <div v-if="isActive" id="chat_interface">
-        <div @click="focusOut" class="close_btn">
-          <span class="close"></span>
-        </div>
-        <div class="chat_interface_content">
-          <div class="contacts">
+      <div v-if="isActive" id="bar-interface">
+        <button @click="closeForm" class="close-btn">
+          <i class="dx-icon-close" />
+        </button>
+        <div class="bar-interface-content">
+          <div class="left-side">
             <ContactList @setRoom="setRoom" @createRoom="createRoom" />
           </div>
-          <div class="chat_room">
-            <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
+          <div class="right-side">
+            <EmptyLayout v-if="currentRoom == null" />
             <ChatRoom v-if="currentRoom && !isCreateRoom" />
-            <EmptyLaout v-if="currentRoom == null" />
+            <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
           </div>
         </div>
       </div>
@@ -23,16 +23,16 @@
 
 
 <script>
-import ContactList from "~/components/chat/components/chat-contact-list/index.vue";
+import ContactList from "~/components/chat/components/contact-list/index.vue";
 import ChatRoom from "~/components/chat/components/chat-room/index.vue";
-import EmptyLaout from "~/components/chat/components/chat-room-layouts/empty-layout.vue";
+import EmptyLayout from "~/components/chat/components/chat-room-layouts/empty-layout.vue";
 import ConstructorChatRoom from "~/components/chat/components/constructor-chat-room/index.vue";
 export default {
   components: {
     ContactList,
     ConstructorChatRoom,
     ChatRoom,
-    EmptyLaout
+    EmptyLayout
   },
   props: {
     isActive: {
@@ -59,8 +59,8 @@ export default {
     setRoom() {
       this.isCreateRoom = false;
     },
-    focusOut() {
-      this.$emit("focusOut");
+    closeForm() {
+      this.$emit("closeForm");
       this.$store.commit("chatStore/CLEAR_CURRENT_ROOM");
       this.isCreateRoom = false;
     }
@@ -69,7 +69,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 
 .slide-fade-enter-active {
   transition: all 0.3s ease;
@@ -83,28 +82,26 @@ export default {
   opacity: 0;
 }
 
-.color_wrapper {
+.color-wrapper {
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100vh;
-  z-index: 999;
+  z-index: 500;
   background-color: rgba(#000, 0.8);
-  transition: 0.3s;
 }
 
-#chat_interface {
+#bar-interface {
   position: fixed;
-  background-color: #fff;
+  background-color: $base-bg;
   z-index: 1000;
   height: 100%;
   width: 80vw;
   top: 0;
   right: 0;
   transition: 0.3s;
-  outline: none;
-  .close_btn {
+  .close-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,45 +109,21 @@ export default {
     z-index: 1000;
     left: -50px;
     top: 5vh;
-    background-color: $base-accent;
     height: 40px;
-    min-width: 50px;
+    width: 50px;
     border-radius: 10px 0 0 10px;
     color: #fff;
     cursor: pointer;
-    .close {
-      width: 20px;
-      height: 20px;
-      opacity: 1;
-      &:hover {
-        opacity: 1;
-      }
-      &:before,
-      &:after {
-        position: absolute;
-        top: 13px;
-        left: 20px;
-        content: "";
-        height: 15px;
-        width: 2px;
-        background-color: #fff;
-      }
-      &:before {
-        transform: rotate(45deg);
-      }
-      &:after {
-        transform: rotate(-45deg);
-      }
-    }
+    background-color: $base-accent;
   }
-  .chat_interface_content {
+  .bar-interface-content {
     height: 100%;
     width: 100%;
     display: flex;
-    .contacts {
+    .left-side {
       width: 20vw;
     }
-    .chat_room {
+    .right-side {
       width: 100%;
       height: 100%;
     }

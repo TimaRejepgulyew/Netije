@@ -1,3 +1,7 @@
 export default {
-    chat: "Söhbet"
+    chat: "Söhbet",
+    searchContacts: "Aragatnaşyklary gözläň",
+    createChat: "Söhbet dörediň",
+    createGroupChat: "Toparlaýyn söhbetdeşlik dörediň",
+    userInit: "Bu siz",
 }

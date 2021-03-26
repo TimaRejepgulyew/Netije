@@ -2,11 +2,12 @@
   <div id="chat_search_panel">
     <div class="text_box">
       <DxTextBox
+        ref="searchTextBox"
+        stylingMode="underlined"
+        valueChangeEvent="input"
         :buttons="searchPanelButtons"
         @value-changed="valueChanged"
-        @focus-in="focusIn"
-        :value.sync="searchValue"
-        stylingMode="underlined"
+        @focus-in="focusIn(true)"
       />
     </div>
     <DxDropDownButton
@@ -14,7 +15,7 @@
       stylingMode="text"
       :showArrowIcon="false"
       :focusStateEnabled="false"
-      :items="items"
+      :items="dropDownButtonItems"
       displayExpr="text"
       valueExpr="roomType"
       :drop-down-options="{ width: 200 }"
@@ -32,21 +33,16 @@ export default {
     DxTextBox,
     DxDropDownButton
   },
-  data() {
-    return {
-      searchValue: ""
-    };
-  },
   computed: {
-    items() {
+    dropDownButtonItems() {
       return [
         {
-          text: "Создать чат",
+          text: this.$t("chatInterface.createChat"),
           roomType: RoomType.Private,
           onClick: e => this.createRoom(e.itemData.roomType)
         },
         {
-          text: "Создать груповой чат",
+          text: this.$t("chatInterface.createGroupChat"),
           roomType: RoomType.Group,
           onClick: e => this.createRoom(e.itemData.roomType)
         }
@@ -61,20 +57,24 @@ export default {
             icon: "search",
             activeStateEnabled: false,
             focusStateEnabled: false,
-            hoverStateEnabled: false
+            hoverStateEnabled: false,
+            onClick: () => {
+              this.$refs["searchTextBox"].instance.focus();
+            }
           }
         }
       ];
     }
   },
   methods: {
-    focusIn() {
-      this.$emit("inFocus");
+    focusIn(value) {
+      this.$emit("inFocus", value);
     },
     createRoom(roomType) {
       this.$emit("createRoom", roomType);
     },
     valueChanged(e) {
+      this.$emit("valueChanged", e.value.trim());
     }
   }
 };

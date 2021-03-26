@@ -29,15 +29,21 @@ export default {
   },
   css: [
     { src: "devextreme/dist/css/dx.common.css", lang: "css" },
-    { src: "~/assets/themes/generated/theme.base.css", lang: "css" },
-    { src: "~/assets/themes/generated/theme.additional.css", lang: "css" },
-    { src: "~/assets/extentions/flaticon.css", lang: "css" },
-    { src: "~/assets/styles/base-styles.scss", lang: "css" },
-    { src: "vue-awesome-notifications/dist/styles/style.scss", lang: "css" }
+    { src: 'devextreme/dist/css/dx.custom-theme.css', lang: "css" },
+    { src: "vue-awesome-notifications/dist/styles/style.scss", lang: "css" },
+    { src: "~/assets/themes/insex.scss", lang: "scss" },
+    { src: "~/assets/flaticon/flaticon.css", lang: "css" },
   ],
+  styleResources: {
+    scss: [
+      '~/assets/themes/variables.base.scss',
+      '~/assets/themes/base-styles.scss',
+    ],
+  },
   plugins: [
     "~/plugins/eventBus",
     "~/plugins/axios",
+    "~/plugins/data-api",
     "~/plugins/nuxt-client-init",
     "~plugins/vue-notifications",
     "~/plugins/customStore",
@@ -48,8 +54,8 @@ export default {
     "~/plugins/cache",
     "~/plugins/socket",
   ],
-  buildModules: [],
   modules: [
+    '@nuxtjs/style-resources',
     "@nuxtjs/axios",
     [
       "nuxt-i18n",
@@ -88,7 +94,7 @@ export default {
       }
     ],
   ],
-  axios: {},
+  buildModules: [],
   build: {
     extend(config, ctx) {
       (config.resolve.alias["globalize$"] = path.resolve(

@@ -204,7 +204,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/themes/generated/variables.base.scss";
 .popup-fade-enter-active,
 .popup-fade-leave-active {
   transition: 0.5s;

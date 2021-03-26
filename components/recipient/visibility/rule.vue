@@ -125,8 +125,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .dx-row.dx-data-row.dx-column-lines {
   -webkit-user-select: none;
 }

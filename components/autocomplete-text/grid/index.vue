@@ -151,8 +151,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .access_right_btn {
   opacity: 0;
   width: 1px;

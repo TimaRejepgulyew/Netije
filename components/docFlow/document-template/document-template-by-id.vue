@@ -15,7 +15,7 @@
       :column-auto-width="false"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif')
+        indicatorSrc: require('~/static/icons/loading.gif'),
       }"
       :onRowDblClick="selectDocument"
       @toolbar-preparing="onToolbarPreparing($event)"
@@ -45,10 +45,7 @@
 
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
-      <DxColumn
-        data-field="name"
-        :caption="$t('document.fields.name')"
-      ></DxColumn>
+      <DxColumn data-field="name" :caption="$t('document.fields.name')"></DxColumn>
       <DxColumn
         data-field="modified"
         :caption="$t('document.fields.modified')"
@@ -88,7 +85,7 @@ import {
   DxColumnFixing,
   DxFilterRow,
   DxStateStoring,
-  DxButton
+  DxButton,
 } from "devextreme-vue/data-grid";
 import DataSource from "devextreme/data/data_source";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
@@ -113,7 +110,7 @@ export default {
     DxFilterRow,
     DxStateStoring,
     DxButton,
-    Header
+    Header,
   },
   props: ["isCard", "documentId"],
   data() {
@@ -121,27 +118,25 @@ export default {
       store: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl:
-            dataApi.documentTemplate.GetDocumentTemplateByParams +
-            this.documentId
+          loadUrl: dataApi.documentTemplate.GetDocumentTemplateByParams + this.documentId,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       }),
       employeeSource: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.company.Employee
+          loadUrl: dataApi.company.Employee,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       }),
-      selectDocument: e => {
+      selectDocument: (e) => {
         this.$emit("selectedDocument", {
           id: e.key,
-          documentTypeGuid: DocumentTypeGuid.DocumentTemplate
+          documentTypeGuid: DocumentTypeGuid.DocumentTemplate,
         });
-      }
+      },
     };
   },
   methods: {
@@ -153,16 +148,15 @@ export default {
           icon: "refresh",
           onClick: () => {
             this.store.reload();
-          }
-        }
+          },
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
+
 .dx-row.dx-data-row.dx-column-lines {
   -webkit-user-select: none;
 }

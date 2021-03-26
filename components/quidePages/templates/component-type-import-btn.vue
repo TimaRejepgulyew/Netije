@@ -71,7 +71,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 
 .input_file {
   width: 1px;

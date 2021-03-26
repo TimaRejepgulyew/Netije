@@ -21,9 +21,16 @@ export const getters = {
     needLoading(state) {
         return state.needLoading
     },
-    hasRoom: state => room => {
+    roomByUser: state => user => {
+        return state.rooms.find(element => {
+            if (element.user.id == user.id) {
+                return element
+            }
+        })
+    },
+    hasRoom: state => user => {
         let result = state.rooms.find(element => {
-            if (element.user.id == room.id) {
+            if (element.user.id == user.id) {
                 return element
             }
         })

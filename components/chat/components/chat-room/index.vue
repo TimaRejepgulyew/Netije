@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import ChatTextArea from "~/components/chat/chat-text-area.vue";
+import ChatTextArea from "~/components/chat/components/chat-text-area.vue";
 import ChatHeader from "~/components/chat/components/chat-room/chat-header.vue";
 import ChatMessage from "~/components/chat/components/chat-messages/index.vue";
 import { DxLoadIndicator } from "devextreme-vue/load-indicator";
@@ -101,7 +101,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 
 #chat_room {
   width: 100%;

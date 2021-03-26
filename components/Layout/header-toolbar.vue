@@ -99,15 +99,12 @@ export default {
     UserPanel,
     LangPanel,
     CreateBtnPanel,
-    infoPanel,
+    infoPanel
   }
 };
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
 .header-component {
   flex: 0 0 auto;
   z-index: 1;

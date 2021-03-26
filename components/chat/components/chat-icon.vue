@@ -1,27 +1,43 @@
 <template>
-  <div class="avatar" :style="{ background: stringToColor }">
-    <img :src="imagePath" v-if="avatar" />
+  <div
+    class="avatar"
+    :style="{
+      background: stringToColor,
+      width: size + 'px',
+      height: size + 'px',
+      fontSize: fontSize + 'px'
+    }"
+  >
+    <img :src="imagePath" v-if="path" />
     <span v-else>{{ nameToWord }}{{ lastNameToWord }}</span>
   </div>
 </template>
 
 <script>
-import dataApi from "~/static/dataApi";
 export default {
-  props: ["avatar", "name"],
+  props: {
+    path: {
+      type: String,
+      default: null
+    },
+    name: {
+      type: String,
+      default: "No Name"
+    },
+    size: {
+      type: Number,
+      default: 25
+    }
+  },
   computed: {
     imagePath() {
-      return dataApi.UserPhotoHash + this.avatar + ".png";
+      return this.$dataApi.UserPhotoHash + this.path + ".png";
     },
     stringToColor() {
-      let i, value, nameLength;
+      let i, value;
       let hash = 0;
       let color = "#";
-      if (!this.name) {
-        return color + "333333";
-      }
-      nameLength = this.name.length;
-      for (i = 0; i < nameLength; i++) {
+      for (i = 0; i < this.name.length; i++) {
         hash = this.name.charCodeAt(i) + ((hash << 5) - hash);
       }
       for (i = 0; i < 3; i++) {
@@ -43,6 +59,9 @@ export default {
           .split(" ")[1]
           .toUpperCase()
           .substr(0, 1);
+    },
+    fontSize() {
+      return this.size / 2.5;
     }
   }
 };
@@ -53,10 +72,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 25px;
-  height: 25px;
   border-radius: 50%;
-  font-size: 12px;
   line-height: 10px;
   color: white;
   background: #333333;

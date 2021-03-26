@@ -15,7 +15,10 @@
     <div class="chat_room_messages">
       <h3>Групповой чат</h3>
       <p>Закрытый чат виден только приглашенным пользователям.</p>
-      <p>В чате можно обсуждать рабочие вопросы, которые касаются конкретных людей.</p>
+      <p>
+        В чате можно обсуждать рабочие вопросы, которые касаются конкретных
+        людей.
+      </p>
       <h1 class="start_btn">
         <span v-if="hasMember" @click="createRoom">Начать чат</span>
       </h1>
@@ -25,7 +28,7 @@
 
 <script>
 import customSelectItem from "~/components/employee/custom-select-box-item.vue";
-import ChatTextArea from "~/components/chat/chat-text-area.vue";
+import ChatTextArea from "~/components/chat/components/chat-text-area.vue";
 import { DxLoadIndicator } from "devextreme-vue/load-indicator";
 import moment from "moment";
 import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
@@ -70,13 +73,11 @@ export default {
       });
     }
   },
-  created() {
-  }
+  created() {}
 };
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 #constructor_chat_room_header {
   width: 100%;
   display: flex;

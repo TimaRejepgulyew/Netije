@@ -62,7 +62,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 #constructor_chat_room_header {
   width: 100%;
   display: flex;

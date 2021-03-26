@@ -185,8 +185,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .border-top {
   margin-top: 20px;
   display: flex;

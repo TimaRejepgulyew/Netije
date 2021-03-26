@@ -1,6 +1,5 @@
 <template>
   <div class="side-navigation-menu" @click="forwardClick">
-    <slot />
     <div class="menu-container">
       <dx-tree-view
         expand-event="dblclick"
@@ -11,7 +10,7 @@
         :select-nodes-recursive="true"
         :select-by-click="true"
         :focus-state-enabled="true"
-        :items="items"
+        :items="menuItems"
         :ref="treeViewRef"
         :search-enabled="true"
         @initialized="handleMenuInitialized"
@@ -19,8 +18,8 @@
         @selection-changed="handleSelectionChange"
         @content-ready="handleSelectionChange"
       >
-        <template #assignment-item="item">
-         <sideNavBarCustomItem :item="item" />
+        <template #assignment-item="{data}">
+          <sideNavBarCustomItem :item="data" />
         </template>
       </dx-tree-view>
     </div>
@@ -33,17 +32,49 @@ import DxTreeView from "devextreme-vue/ui/tree-view";
 const treeViewRef = "treeViewRef";
 
 export default {
+  components: {
+    DxTreeView,
+    sideNavBarCustomItem
+  },
   props: {
     items: Array,
     selectedItem: String,
-    compactMode: Boolean,
+    compactMode: Boolean
   },
   data() {
     return {
-      treeViewRef,
+      treeViewRef
     };
   },
+  computed: {
+    menuItems() {
+      let i = 0;
+      let arr = [...this.items];
+      while (i < arr.length) {
+        if (arr[i].visible === false) {
+          arr.splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
+      return arr;
+    }
+  },
+  watch: {
+    $route() {
+      this.updateSelection();
+    },
+    compactMode() {
+      if (this.compactMode) {
+        this.treeView.collapseAll();
+      }
+    }
+  },
   methods: {
+    isVisibleItems(item) {
+      console.log(item);
+      return true;
+    },
     forwardClick(...args) {
       this.$emit("click", args);
     },
@@ -59,7 +90,7 @@ export default {
 
       this.$router.push({
         path: e.itemData.path,
-        params: { theNameYouGive: new Date() },
+        params: { theNameYouGive: new Date() }
       });
 
       const pointerEvent = e.event;
@@ -76,7 +107,7 @@ export default {
       const rootNodes = element.querySelectorAll(
         `.${nodeClass}:not(.${leafNodeClass})`
       );
-      Array.from(rootNodes).forEach((node) => {
+      Array.from(rootNodes).forEach(node => {
         node.classList.remove(selectedClass);
       });
 
@@ -98,7 +129,7 @@ export default {
       }
 
       this.treeView.selectItem(this.$route.path);
-    },
+    }
   },
   mounted() {
     this.treeView = this.$refs[treeViewRef] && this.$refs[treeViewRef].instance;
@@ -106,27 +137,11 @@ export default {
     if (this.compactMode) {
       this.treeView.collapseAll();
     }
-  },
-  watch: {
-    $route() {
-      this.updateSelection();
-    },
-    compactMode() {
-      if (this.compactMode) {
-        this.treeView.collapseAll();
-      }
-    },
-  },
-  components: {
-    DxTreeView,
-    sideNavBarCustomItem,
-  },
+  }
 };
 </script>
 
 <style lang="scss">
-@import "~assets/dx-styles.scss";
-@import "~assets/themes/generated/variables.base.scss";
 .justify-items-center {
   position: relative;
   justify-content: flex-start;

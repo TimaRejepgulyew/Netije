@@ -49,6 +49,3 @@ export default {
 };
 </script>
 
-<style>
-@import "../../node_modules/@syncfusion/ej2-vue-documenteditor/styles/material.css";
-</style>

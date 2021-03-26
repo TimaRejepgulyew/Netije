@@ -19,7 +19,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
 
 .guide--link {
   cursor: pointer;

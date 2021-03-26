@@ -33,7 +33,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 
 .align-center {
   align-items: center;

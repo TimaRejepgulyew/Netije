@@ -61,8 +61,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .expander {
   border-radius: $base-border-radius;
   border: 0.5px solid $base-border-color;

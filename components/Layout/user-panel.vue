@@ -87,7 +87,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 
 .user-info {
   display: flex;

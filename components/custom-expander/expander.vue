@@ -19,8 +19,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .expander_container {
   padding: 8px;
   box-sizing: border-box;

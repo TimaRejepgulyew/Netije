@@ -13,7 +13,7 @@
           </template>
         </app-content>
       </div>
-      <Chat />
+      <RightBar />
     </div>
   </transition>
 </template>
@@ -27,7 +27,7 @@ import { sizes, subscribe, unsubscribe } from "./media-query";
 import tkMessages from "../lang/devExtremeLocalization/tk.json";
 import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
-import Chat from "~/components/chat/index.vue";
+import RightBar from "~/components/chat/index.vue";
 
 import supplemental from "devextreme-cldr-data/supplemental.json";
 import tkCldrData from "devextreme-cldr-data/tk.json";
@@ -53,7 +53,7 @@ export default {
     TheFooter,
     AppContent,
     DxButton,
-    Chat
+    RightBar
   },
   data() {
     return {
@@ -113,8 +113,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
+
 html,
 body {
   margin: 0px;
@@ -141,6 +140,10 @@ body {
     cursor: pointer;
   }
 }
+button {
+  outline: none;
+  border: none;
+}
 .text--error {
   color: red;
 }
@@ -164,7 +167,6 @@ body {
 }
 
 .app {
-  background-color: darken($base-bg, 5);
   display: flex;
   height: 100vh;
   width: 100%;

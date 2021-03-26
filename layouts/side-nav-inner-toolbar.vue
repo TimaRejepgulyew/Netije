@@ -123,9 +123,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-
 .side-nav-outer-toolbar {
   flex-direction: column;
   display: flex;
@@ -140,6 +137,9 @@ export default {
 .layout-body {
   flex: 1;
   min-height: 0;
+  .dx-drawer-panel-content {
+    border-right: 1px solid $base-border-color;
+  }
 }
 
 .content {

@@ -50,7 +50,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 .message_wrapper {
   display: flex;
   justify-content: flex-start;
