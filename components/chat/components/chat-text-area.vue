@@ -1,6 +1,7 @@
 <template>
   <div id="chat_text_area">
     <DxTextArea
+      id="text-area"
       height="135px"
       placeholder="Введите сообщение"
       stylingMode="underlined"
@@ -8,15 +9,24 @@
       v-model.trim="value"
       @enter-key="sendMessage"
     />
+
+    <DxButton
+      icon="export"
+      type="success"
+      stylingMode="text"
+      @click="sendMessage"
+    />
   </div>
 </template>
 
 
 <script>
 import DxTextArea from "devextreme-vue/text-area";
+import DxButton from "devextreme-vue/button";
 export default {
   components: {
-    DxTextArea
+    DxTextArea,
+    DxButton
   },
   data() {
     return {
@@ -36,8 +46,12 @@ export default {
 
 <style lang="scss">
 #chat_text_area {
+  display: flex;
   .dx-texteditor.dx-editor-underlined {
     border: none !important;
+  }
+  #text-area {
+    flex-grow: 1;
   }
 }
 </style>

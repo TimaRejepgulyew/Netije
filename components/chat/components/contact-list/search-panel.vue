@@ -39,12 +39,12 @@ export default {
         {
           text: this.$t("chatInterface.createChat"),
           roomType: RoomType.Private,
-          onClick: e => this.createRoom(e.itemData.roomType)
+          onClick: e => this.openRoomConstructor(e.itemData.roomType)
         },
         {
           text: this.$t("chatInterface.createGroupChat"),
           roomType: RoomType.Group,
-          onClick: e => this.createRoom(e.itemData.roomType)
+          onClick: e => this.openRoomConstructor(e.itemData.roomType)
         }
       ];
     },
@@ -70,8 +70,8 @@ export default {
     focusIn(value) {
       this.$emit("inFocus", value);
     },
-    createRoom(roomType) {
-      this.$emit("createRoom", roomType);
+    openRoomConstructor(roomType) {
+      this.$emit("openRoomConstructor", roomType);
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value.trim());

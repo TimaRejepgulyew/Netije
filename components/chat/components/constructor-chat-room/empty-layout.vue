@@ -1,6 +1,6 @@
 <template>
   <div class="empty_layout">
-    <h3>Начните диалог, выбрав контакт из списка.</h3>
+    <h3>{{ $t("chatInterface.emptyLayout") }}</h3>
   </div>
 </template>
 

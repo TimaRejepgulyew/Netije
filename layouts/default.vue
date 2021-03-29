@@ -113,7 +113,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 html,
 body {
   margin: 0px;
@@ -129,6 +128,8 @@ body {
 }
 
 * {
+  padding: 0;
+  margin: 0;
   font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
   box-sizing: border-box;
   &::-webkit-scrollbar {

@@ -44,6 +44,10 @@ export default {
       return this.$store.getters["chatStore/currentRoom"];
     },
     messages() {
+      console.log(
+        "messages",
+        this.$store.getters["chatStore/currentRoomMessages"]
+      );
       return this.$store.getters["chatStore/currentRoomMessages"];
     },
     unreadMessagesCount() {
@@ -101,7 +105,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 #chat_room {
   width: 100%;
   height: 100%;
@@ -126,7 +129,7 @@ export default {
     margin: 0 !important;
   }
   .chat_room_text_area {
-    padding: 5px 10px 10px 10px;
+    padding: 5px 5px 5px 10px;
   }
 }
 </style>

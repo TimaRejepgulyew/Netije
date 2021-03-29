@@ -8,12 +8,15 @@
         </button>
         <div class="bar-interface-content">
           <div class="left-side">
-            <ContactList @setRoom="setRoom" @createRoom="createRoom" />
+            <ContactList
+              @setRoom="setRoom"
+              @openRoomConstructor="openRoomConstructor"
+            />
           </div>
           <div class="right-side">
-            <EmptyLayout v-if="currentRoom == null" />
-            <ChatRoom v-if="currentRoom && !isCreateRoom" />
             <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
+            <ChatRoom v-if="currentRoom && !isCreateRoom" />
+            <EmptyLayout v-if="currentRoom == null && !isCreateRoom" />
           </div>
         </div>
       </div>
@@ -25,7 +28,7 @@
 <script>
 import ContactList from "~/components/chat/components/contact-list/index.vue";
 import ChatRoom from "~/components/chat/components/chat-room/index.vue";
-import EmptyLayout from "~/components/chat/components/chat-room-layouts/empty-layout.vue";
+import EmptyLayout from "~/components/chat/components/constructor-chat-room/empty-layout.vue";
 import ConstructorChatRoom from "~/components/chat/components/constructor-chat-room/index.vue";
 export default {
   components: {
@@ -52,7 +55,7 @@ export default {
     }
   },
   methods: {
-    createRoom(roomType) {
+    openRoomConstructor(roomType) {
       this.roomType = roomType;
       this.isCreateRoom = true;
     },
@@ -69,7 +72,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .slide-fade-enter-active {
   transition: all 0.3s ease;
 }

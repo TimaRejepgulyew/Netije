@@ -3,26 +3,28 @@
     class="message_wrapper"
     :class="{ user_message: isOwnMessage(message.author.id) }"
   >
-    <div class="avatar">
-      <roomIcon :room="message.author" />
-    </div>
-    <div class="message">
-      <div class="text">{{ message.text }}</div>
-      <div class="time" v-if="message.created">
+    <chatIcon
+      :name="message.author.name"
+      :path="message.author.avatar"
+      :size="30"
+    />
+    <div class="chat_message" :title="fullDate(message.created)">
+      <span class="text">{{ message.text }}</span>
+      <span class="time" v-if="message.created">
         {{ formatDate(message.created) }}
-      </div>
+      </span>
     </div>
   </div>
 </template>
 
 
 <script>
-import roomIcon from "~/components/chat/components/room-icon.vue";
+import chatIcon from "~/components/chat/components/chat-icon.vue";
 import moment from "moment";
 
 export default {
   components: {
-    roomIcon
+    chatIcon
   },
   props: {
     message: {
@@ -30,21 +32,18 @@ export default {
       default: () => {}
     }
   },
-  computed: {
-    needLoading() {
-      return this.$store.getters["chatStore/needLoading"];
-    }
-  },
   methods: {
     isOwnMessage(authorId) {
       return this.$store.getters["user/employeeId"] == authorId ? true : false;
     },
+    fullDate(value) {
+      moment.locale("ru");
+      return moment(value).format("LL");
+    },
     formatDate(value) {
-      return moment(value).format("MM.DD.YYYY HH:mm");
+      moment.locale("ru");
+      return moment(value).format("LT");
     }
-  },
-  created() {
-    // console.log(this.message);
   }
 };
 </script>
@@ -52,31 +51,37 @@ export default {
 <style lang="scss">
 .message_wrapper {
   display: flex;
-  justify-content: flex-start;
+  align-items: flex-start;
   margin: 10px;
   &.user_message {
     justify-content: flex-end;
-    .message {
+    .chat_message {
       order: -1;
-      color: #fff;
-      background-color: $base-accent;
-      border-radius: 10px 0 10px 10px;
+      .text {
+        color: #fff;
+        background-color: $base-accent;
+        border-radius: 10px 0 10px 10px;
+      }
+      .time {
+        order: -1;
+      }
     }
   }
-  .message {
-    padding: 5px 10px;
+  .chat_message {
+    display: flex;
+    align-items: flex-end;
     margin: 0 10px;
-    border: 1px solid $base-border-color;
     max-width: 60%;
-    background-color: #fff;
-    border-radius: 0 10px 10px 10px;
     .text {
       font-size: 16px;
+      padding: 5px 10px;
+      border: 1px solid $base-border-color;
+      background-color: #fff;
+      border-radius: 0 10px 10px 10px;
     }
     .time {
-      font-size: 12px;
-      display: flex;
-      justify-content: flex-end;
+      font-size: 10px;
+      margin: 5px;
     }
   }
 }

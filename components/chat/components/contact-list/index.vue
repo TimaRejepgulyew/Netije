@@ -3,7 +3,7 @@
     <SearchPanel
       @valueChanged="setSearchValue"
       @inFocus="inFocus"
-      @createRoom="openCreateRoomPanel"
+      @openRoomConstructor="openRoomConstructor"
     />
     <LastRoomsList v-if="showLastRooms" @setCurrentRoom="setCurrentRoom" />
     <AllRoomsList
@@ -48,13 +48,15 @@ export default {
       this.searchValue = value;
     },
     setCurrentRoom(room) {
+      this.searchInProgress = false;
       this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
     },
     createRoom(user) {
       this.$chat.createRoom(user.id);
     },
-    openCreateRoomPanel(roomType) {
-      this.$emit("createRoom", roomType);
+    openRoomConstructor(roomType) {
+      this.searchInProgress = false;
+      this.$emit("openRoomConstructor", roomType);
     }
   }
 };
