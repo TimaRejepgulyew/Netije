@@ -29,6 +29,7 @@ export default {
   },
   computed: {
     currentUser() {
+      console.log("this.room", this.room);
       return this.$store.getters["user/employeeId"];
     }
   }

@@ -8,7 +8,7 @@
       fontSize: fontSize + 'px'
     }"
   >
-    <img :src="imagePath" v-if="path" />
+    <img :src="imagePath" :style="{ height: size + 'px' }" v-if="path" />
     <span v-else>{{ nameToWord }}{{ lastNameToWord }}</span>
   </div>
 </template>

@@ -11,7 +11,7 @@
     />
 
     <DxButton
-      icon="export"
+      :icon="sendArrowIcon"
       type="success"
       stylingMode="text"
       @click="sendMessage"
@@ -23,6 +23,7 @@
 <script>
 import DxTextArea from "devextreme-vue/text-area";
 import DxButton from "devextreme-vue/button";
+// import SendArrowIcon from "~/static/icons/send-message-btn.svg";
 export default {
   components: {
     DxTextArea,
@@ -30,7 +31,8 @@ export default {
   },
   data() {
     return {
-      value: ""
+      value: "",
+      sendArrowIcon:require("~/static/icons/send-message-btn.svg")
     };
   },
   methods: {

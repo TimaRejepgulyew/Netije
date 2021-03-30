@@ -5,7 +5,7 @@
   >
     <chatIcon
       :name="message.author.name"
-      :path="message.author.avatar"
+      :path="message.author.personalPhotoHash"
       :size="30"
     />
     <div class="chat_message" :title="fullDate(message.created)">
@@ -37,6 +37,7 @@ export default {
       return this.$store.getters["user/employeeId"] == authorId ? true : false;
     },
     fullDate(value) {
+      console.log(this.message);
       moment.locale("ru");
       return moment(value).format("LL");
     },
@@ -58,8 +59,7 @@ export default {
     .chat_message {
       order: -1;
       .text {
-        color: #fff;
-        background-color: $base-accent;
+        background-color: #e2ffc9;
         border-radius: 10px 0 10px 10px;
       }
       .time {
@@ -73,10 +73,10 @@ export default {
     margin: 0 10px;
     max-width: 60%;
     .text {
-      font-size: 16px;
+      font-size: 14px;
       padding: 5px 10px;
       border: 1px solid $base-border-color;
-      background-color: #fff;
+      background-color: #fbfbfb;
       border-radius: 0 10px 10px 10px;
     }
     .time {

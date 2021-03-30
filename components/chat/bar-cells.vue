@@ -33,6 +33,7 @@ export default {
   },
   computed: {
     rooms() {
+      console.log("rooms", this.$store.getters["chatStore/rooms"]);
       return this.$store.getters["chatStore/rooms"];
     }
   },
