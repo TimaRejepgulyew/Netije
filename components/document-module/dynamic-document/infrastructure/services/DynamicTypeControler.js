@@ -47,7 +47,6 @@ class DynamicTypeControler {
         }
     }
     static async generateStore(context, documentType, isNewDocument = false) {
-        console.log("dynamicTypeStoreModule.hasModule(documentType)", dynamicTypeStoreModule.hasModule(documentType))
         if (!dynamicTypeStoreModule.hasModule(documentType)) {
             dynamicTypeStoreModule.registerModule(context, documentType);
             if (documentType !== "create") {
@@ -60,7 +59,6 @@ class DynamicTypeControler {
     }
     static removeStore(context, documentType) {
         let overlay = context.$store.getters[`dynamicDocumentComponents/${documentType}/overlays`]
-        console.log("removeOverlay", overlay)
         if (overlay <= 1) {
             context.$store.commit(`dynamicDocumentComponents/${documentType}/CLEAN_STATE`)
             dynamicTypeStoreModule.unregisterModule(context, documentType);
