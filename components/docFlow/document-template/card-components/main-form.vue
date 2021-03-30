@@ -66,7 +66,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 export default {
   components: {
@@ -76,7 +76,7 @@ export default {
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,
-    DxLabel
+    DxLabel,
   },
   props: ["documentId", "isCard"],
   inject: ["documentValidatorName"],
@@ -108,7 +108,7 @@ export default {
     nameOptions() {
       return {
         value: this.document?.name,
-        onValueChanged: this.setName
+        onValueChanged: this.setName,
       };
     },
     documentTypeOptions() {
@@ -122,7 +122,7 @@ export default {
       return {
         ...options,
         value: this.documentTypeId,
-        onValueChanged: this.setDocumentTypeId
+        onValueChanged: this.setDocumentTypeId,
       };
     },
     documentKindsOptions() {
@@ -132,7 +132,7 @@ export default {
         .filter([
           ["status", "=", Status.Active],
           "and",
-          ["documentTypeGuid", "=", this.documentTypeId]
+          ["documentTypeId", "=", this.documentTypeId],
         ])
         .clearValueExpr()
         .withoutDeferRendering()
@@ -140,7 +140,7 @@ export default {
       return {
         ...options,
         value: this.documentKinds,
-        onValueChanged: this.setDocumentKinds
+        onValueChanged: this.setDocumentKinds,
       };
     },
     businessUnitsOptions() {
@@ -153,12 +153,12 @@ export default {
       return {
         ...options,
         value: this.businessUnits,
-        onValueChanged: this.setBusinessUnits
+        onValueChanged: this.setBusinessUnits,
       };
     },
     departmentsOptions() {
       let departmentByBusinessUnitFilter = [];
-      this.businessUnits.map(item => {
+      this.businessUnits.map((item) => {
         departmentByBusinessUnitFilter.push(["businessUnitId", "=", item.id]);
         departmentByBusinessUnitFilter.push("or");
       });
@@ -175,16 +175,16 @@ export default {
       return {
         ...options,
         onValueChanged: this.setDepartments,
-        value: this.departments
+        value: this.departments,
       };
     },
     descriptionOptions() {
       return {
         height: 150,
         value: this.document?.description,
-        onValueChanged: this.setDescription
+        onValueChanged: this.setDescription,
       };
-    }
+    },
   },
   methods: {
     setName(e) {
@@ -232,8 +232,8 @@ export default {
         `documents/${this.documentId}/SET_DESCRIPTION`,
         e.value
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
