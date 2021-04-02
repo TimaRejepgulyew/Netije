@@ -37,7 +37,6 @@ export default {
       return this.$store.getters["user/employeeId"] == authorId ? true : false;
     },
     fullDate(value) {
-      console.log(this.message);
       moment.locale("ru");
       return moment(value).format("LL");
     },

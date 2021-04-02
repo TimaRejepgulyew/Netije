@@ -73,7 +73,14 @@ export const mutations = {
         state.rooms.unshift(payload)
     },
     SET_MESSAGES(state, payload) {
-        state.messages[payload.roomId] = payload.messages
+        console.log("payload.messages",payload.messages)
+        let messages = payload.messages.reverse()
+        console.log("messages",messages)
+        if (state.messages[payload.roomId]) {
+            state.messages[payload.roomId].unshift(...messages)
+        } else {
+            state.messages[payload.roomId] = messages
+        }
         state.currentRoomMessages = state.messages[payload.roomId]
         state.needLoading = false
     },

@@ -1,7 +1,7 @@
 import SocketIO from 'socket.io-client'
 
 
-export default ({ app, store }, inject) => {
+export default ({app, store}, inject) => {
     const options = {
         reconnectionDelayMax: 10000,
         path: "/socket",
@@ -53,14 +53,18 @@ export default ({ app, store }, inject) => {
             console.log("emitMessage", msg);
             socket.emit("message", msg);
         }
-        static messagesByRoomId(roomId) {
-            console.log("emitMessagesByRoomId", roomId);
-            socket.emit("messagesByRoomId", roomId);
+
+        static messagesByRoomId(payload) {
+            console.log("payload", payload)
+            console.log("emitMessagesByRoomId", payload);
+            socket.emit("messagesByRoomId", payload);
         }
+
         static createRoom(userId, roomType = 0) {
             console.log("emitCreateRoom", userId, roomType);
             socket.emit("createRoom", userId, roomType);
         }
+
         static readMessagesInRoom(roomId) {
             console.log("emitReadMessagesInRoom", roomId);
             socket.emit("readMessagesInRoom", roomId);

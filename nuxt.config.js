@@ -31,7 +31,7 @@ export default {
     { src: "devextreme/dist/css/dx.common.css", lang: "css" },
     { src: 'devextreme/dist/css/dx.custom-theme.css', lang: "css" },
     { src: "vue-awesome-notifications/dist/styles/style.scss", lang: "css" },
-    { src: "~/assets/themes/insex.scss", lang: "scss" },
+    { src: "~/assets/themes/index.scss", lang: "scss" },
     { src: "~/assets/flaticon/flaticon.css", lang: "css" },
   ],
   styleResources: {
