@@ -251,5 +251,10 @@ export default {
   boxes: {
     Boxes: `/api/Boxes`,
     PublickKey: `/api/Boxes/PublicKey/`
+  },
+  chat:{
+    Rooms:"/api/Rooms",
+    Messages:"/api/Messages/",
+    Users:"/api/Users"
   }
 };

@@ -1,5 +1,6 @@
 import SocketIO from 'socket.io-client'
-
+import MessageService from '../components/chat/infrastructure/services/message.service'
+import  RoomService from "../components/chat/infrastructure/services/room.service"
 
 export default ({app, store}, inject) => {
     const options = {
@@ -23,8 +24,7 @@ export default ({app, store}, inject) => {
         socket.emit("allRooms");
     });
     socket.on("authorized", () => {
-        console.log("Authorized");
-        socket.emit("allRooms");
+        ChatControler.allRooms()
     });
 
     socket.on("joinedToRoom", (data) => {
@@ -39,14 +39,14 @@ export default ({app, store}, inject) => {
         console.log("roomUpdated", data);
         store.commit("chatStore/UPDATE_ROOM", data)
     })
-    socket.on("allRooms", (data) => {
-        console.log("allRooms", data);
-        store.commit("chatStore/SET_ROOMS", data)
-    });
-    socket.on("messagesByRoomId", (data) => {
-        console.log("messagesByRoomId", data);
-        store.commit("chatStore/SET_MESSAGES", data)
-    });
+    // socket.on("allRooms", (data) => {
+    //     console.log("allRooms", data);
+    //     store.commit("chatStore/SET_ROOMS", data)
+    // });
+    // socket.on("messagesByRoomId", (data) => {
+    //     console.log("messagesByRoomId", data);
+    //     store.commit("chatStore/SET_MESSAGES", data)
+    // });
 
     class ChatControler {
         static sendMessage(msg) {
@@ -54,10 +54,10 @@ export default ({app, store}, inject) => {
             socket.emit("message", msg);
         }
 
-        static messagesByRoomId(payload) {
-            console.log("payload", payload)
-            console.log("emitMessagesByRoomId", payload);
-            socket.emit("messagesByRoomId", payload);
+        static async messagesByRoomId(payload) {
+       const data =  await  MessageService.messages(payload)
+       console.log(data);
+         store.commit("chatStore/SET_ROOMS", data)
         }
 
         static createRoom(userId, roomType = 0) {
@@ -68,6 +68,10 @@ export default ({app, store}, inject) => {
         static readMessagesInRoom(roomId) {
             console.log("emitReadMessagesInRoom", roomId);
             socket.emit("readMessagesInRoom", roomId);
+        }
+        static async  allRooms(){
+            const rooms = await RoomService.allRooms(app)
+            store.commit("chatStore/SET_ROOMS", rooms)
         }
     }
 
