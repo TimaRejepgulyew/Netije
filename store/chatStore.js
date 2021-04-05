@@ -72,16 +72,14 @@ export const mutations = {
     ADD_NEW_ROOM(state, payload) {
         state.rooms.unshift(payload)
     },
-    SET_MESSAGES(state, payload) {
-        console.log("payload.messages",payload.messages)
-        let messages = payload.messages.reverse()
-        console.log("messages",messages)
-        if (state.messages[payload.roomId]) {
-            state.messages[payload.roomId].unshift(...messages)
+    SET_MESSAGES(state, { data } = payload) {
+        let messages = data.messages.reverse()
+        if (state.messages[data.roomId]) {
+            state.messages[data.roomId].unshift(...messages)
         } else {
-            state.messages[payload.roomId] = messages
+            state.messages[data.roomId] = messages
         }
-        state.currentRoomMessages = state.messages[payload.roomId]
+        state.currentRoomMessages = state.messages[data.roomId]
         state.needLoading = false
     },
     ENABLE_LOAD_PANEL(state) {
