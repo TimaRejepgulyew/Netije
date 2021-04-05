@@ -36,12 +36,7 @@ export default {
     ChatTextArea,
     DxLoadIndicator,
     ChatHeader,
-    ChatMessage,
-  },
-  data() {
-    return {
-      skip: 1,
-    };
+    ChatMessage
   },
   computed: {
     needLoading() {
@@ -59,7 +54,7 @@ export default {
     },
     unreadMessagesCount() {
       return this.$store.getters["chatStore/currentRoom"].unreadMessageCount;
-    },
+    }
   },
   watch: {
     currentRoom(val) {
@@ -68,7 +63,7 @@ export default {
     messages(val) {
       this.showLastMessage();
       this.checkMessage();
-    },
+    }
   },
   methods: {
     checkMessage() {
@@ -85,37 +80,36 @@ export default {
     loadMessage() {
       this.$chat.messagesByRoomId({
         roomId: this.currentRoom.id,
-        skip: this.skip,
-        take: 20,
+        take: 15,
+        skip: this.messages?.length || 0
       });
-      this.skip++;
       this.$store.commit("chatStore/DISABLE_LOAD_PANEL");
     },
     showLastMessage(behaviorOptions = "smooth") {
-      setTimeout(() => {
-        let el = this.$refs.message[this.$refs.message.length - 1].$el;
-        el.scrollIntoView({ behavior: behaviorOptions });
-        el.click();
-      }, 0);
+    //   setTimeout(() => {
+    //     let el = this.$refs.message[this.$refs.message.length - 1].$el;
+    //     el.scrollIntoView({ behavior: behaviorOptions });
+    //     el.click();
+    //   }, 0);
     },
     sendMessage(value) {
       this.showLastMessage();
       this.$chat.sendMessage({
         text: value,
-        roomId: this.currentRoom.id,
+        roomId: this.currentRoom.id
       });
     },
     readMessages() {
       if (this.unreadMessagesCount >= 1) {
         this.$chat.readMessagesInRoom(this.currentRoom.id);
       }
-    },
+    }
   },
   created() {
     this.checkMessage();
     this.readMessages();
     if (this.messages) this.showLastMessage("auto");
-  },
+  }
 };
 </script>
 
