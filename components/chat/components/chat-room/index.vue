@@ -46,10 +46,6 @@ export default {
       return this.$store.getters["chatStore/currentRoom"];
     },
     messages() {
-      console.log(
-        "messages",
-        this.$store.getters["chatStore/currentRoomMessages"]
-      );
       return this.$store.getters["chatStore/currentRoomMessages"];
     },
     unreadMessagesCount() {

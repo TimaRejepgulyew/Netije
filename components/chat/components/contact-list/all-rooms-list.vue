@@ -15,26 +15,26 @@ import RoomInfo from "~/components/chat/components/contact-list/room-info.vue";
 export default {
   components: {
     DxList,
-    RoomInfo
+    RoomInfo,
   },
   props: {
     searchValue: {
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     dataSource() {
       return new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.$dataApi.company.Employee
+          loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.Users}`,
         }),
         filter: ["name", "contains", this.searchValue],
         paginate: false,
-        pageSize: 10,
-        displayExpr: "name"
+        pageSize: 15,
+        displayExpr: "name",
       });
-    }
+    },
   },
   methods: {
     checkRoom(user) {
@@ -44,8 +44,8 @@ export default {
       } else {
         this.$emit("createRoom", user);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
