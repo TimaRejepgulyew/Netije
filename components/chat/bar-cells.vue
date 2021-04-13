@@ -16,7 +16,6 @@
                 @click="selectRoom(room)"
             >
                 <ChatIcon :size="35" :name="room.name" :path="room.avatar" />
-
                 <i class="unread_message_count" v-if="room.unreadMessageCount">
                     {{ room.unreadMessageCount }}
                 </i>

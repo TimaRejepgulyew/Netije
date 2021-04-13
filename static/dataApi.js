@@ -188,7 +188,7 @@ export default {
     TextsByAssignment: `/api/WorkflowEntityText/ByAssignment/`,
     CompleteDraftResolutionAssignments: `/api/Assignment/CompleteDraftResolutionsAssignments`,
     AddApprover: `/api/Assignment/AddApprover`,
-    MainAttachmentInfo : `/api/Assignment/GetMainAttachmentInfo/`
+    MainAttachmentInfo: `/api/Assignment/GetMainAttachmentInfo/`
   },
   recipient: {
     list: `/api/Recipient`
@@ -252,9 +252,10 @@ export default {
     Boxes: `/api/Boxes`,
     PublickKey: `/api/Boxes/PublicKey/`
   },
-  chat:{
-    Rooms:"/api/Rooms",
-    Messages:"/api/Messages/",
-    Users:"/api/Users"
+  chat: {
+    Rooms: "/api/Rooms",
+    Messages: "/api/Messages/",
+    Users: "/api/Users",
+    CreateRoom: "/api/Rooms/createRoom"
   }
 };

@@ -51,8 +51,8 @@ export default {
             this.searchInProgress = false;
             this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
         },
-        createRoom(user) {
-            this.$chat.createRoom(user.id);
+        async createRoom(user) {
+            await this.$chat.createRoom(user);
         },
         openRoomConstructor(roomType) {
             this.searchInProgress = false;

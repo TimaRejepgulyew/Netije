@@ -1,6 +1,6 @@
 <template>
     <div class="room_info_wrapper">
-        <chatIcon :name="room.name" :avatar="room.avatar" />
+        <chatIcon :name="room.name" :path="room.avatar" />
         <div class="room_information">
             <div class="room_name">
                 <span @click="showEmployeeCard">{{ room.name }}</span>
@@ -23,6 +23,7 @@ export default {
     },
     methods: {
         showEmployeeCard() {
+            console.log(this.room);
             this.$popup.employeeCard(
                 this,
                 {

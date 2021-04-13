@@ -4,6 +4,7 @@ export default {
     createChat: "Создать чат",
     createGroupChat: "Создать груповой чат",
     userInit: "Это вы",
+    loadMessages: "Загрузить сообщения",
     emptyLayout: "Начните диалог, выбрав контакт из списка.",
     privateChatHeader: "Чат",
     privateChatDescription: "Чат",

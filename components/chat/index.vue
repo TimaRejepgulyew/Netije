@@ -27,6 +27,9 @@ export default {
             this.isActive = false;
         },
     },
+    mounted() {
+        this.$chat.connect();
+    },
 };
 </script>
 

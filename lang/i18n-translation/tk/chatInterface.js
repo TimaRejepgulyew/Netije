@@ -4,5 +4,6 @@ export default {
     createChat: "Söhbet dörediň",
     createGroupChat: "Toparlaýyn söhbetdeşlik dörediň",
     userInit: "Bu siz",
+    loadMessages: "Habarlary ýükläň",
     emptyLayout: "Sanawdan bir kontakt saýlap, söhbetdeşlige başlaň."
 }

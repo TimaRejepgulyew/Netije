@@ -13,18 +13,13 @@ export default async ({ app, store }, inject) => {
         auth: {}
     };
     const socket = new SocketIO(process.env.chatServerUrl, options);
-    setTimeout(() => {
-        console.log("socket");
-        options.extraHeaders.access_token = `${store.getters["oidc/oidcAccessToken"]}`;
-        socket.connect();
-    }, 300);
 
     socket.on("connect", msg => {
         console.log("Connected to chat");
         socket.emit("authenticated", msg);
         ChatControler.allRooms();
     });
-    socket.on("authorized", () => {});
+    socket.on("authorized", () => { });
 
     socket.on("joinedToRoom", data => {
         console.log("joinedToRoom", data);
@@ -44,15 +39,19 @@ export default async ({ app, store }, inject) => {
             console.log("emitMessage", msg);
             socket.emit("message", msg);
         }
-        static async users() {}
+        static async users() { }
         static async messagesByRoomId(payload) {
             const data = await MessageService.messages(app, payload);
             store.commit("chatStore/SET_MESSAGES", data);
         }
 
-        static createRoom(userId, roomType = 0) {
-            console.log("emitCreateRoom", userId, roomType);
-            socket.emit("createRoom", userId, roomType);
+        static async createRoom(user, roomType = 0) {
+            console.log("emitCreateRoom", user, roomType);
+            const rooms = await RoomService.createRoom(app, {
+                user,
+                roomType
+            });
+            console.log("rooms", rooms);
         }
 
         static readMessagesInRoom(roomId) {
@@ -63,6 +62,10 @@ export default async ({ app, store }, inject) => {
             const rooms = await RoomService.allRooms(app);
             console.log("allRoom", rooms);
             store.commit("chatStore/SET_ROOMS", rooms);
+        }
+        static connect() {
+            options.extraHeaders.access_token = `${store.getters["oidc/oidcAccessToken"]}`;
+            socket.connect();
         }
     }
 
