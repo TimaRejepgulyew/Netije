@@ -48,7 +48,7 @@ export default async ({ app, store }, inject) => {
         static async createRoom(user, roomType = 0) {
             console.log("emitCreateRoom", user, roomType);
             const rooms = await RoomService.createRoom(app, {
-                user,
+                user: user.id,
                 roomType
             });
             console.log("rooms", rooms);
