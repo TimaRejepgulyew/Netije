@@ -15,7 +15,7 @@
                 :title="room.name"
                 @click="selectRoom(room)"
             >
-                <ChatIcon :size="35" :name="room.name" :path="room.avatar"/>
+                <ChatIcon :size="35" :name="room.name" :path="room.avatar" />
 
                 <i class="unread_message_count" v-if="room.unreadMessageCount">
                     {{ room.unreadMessageCount }}
@@ -30,13 +30,13 @@ import ChatIcon from "~/components/chat/components/chat-icon.vue";
 
 export default {
     components: {
-        ChatIcon
+        ChatIcon,
     },
     computed: {
         rooms() {
             console.log("rooms", this.$store.getters["chatStore/rooms"]);
             return this.$store.getters["chatStore/rooms"];
-        }
+        },
     },
     methods: {
         selectRoom(room) {
@@ -45,8 +45,8 @@ export default {
         },
         openForm() {
             this.$emit("openForm");
-        }
-    }
+        },
+    },
 };
 </script>
 

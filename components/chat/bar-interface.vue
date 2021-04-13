@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div @click="closeForm" class="color-wrapper" v-if="isActive"/>
+        <div @click="closeForm" class="color-wrapper" v-if="isActive" />
         <transition name="slide-fade">
             <div v-if="isActive" id="bar-interface">
                 <button @click="closeForm" class="close-btn">
-                    <i class="dx-icon-close"/>
+                    <i class="dx-icon-close" />
                 </button>
                 <div class="bar-interface-content">
                     <div class="left-side">
@@ -14,16 +14,15 @@
                         />
                     </div>
                     <div class="right-side">
-                        <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom"/>
-                        <ChatRoom v-if="currentRoom && !isCreateRoom"/>
-                        <EmptyLayout v-if="currentRoom == null && !isCreateRoom"/>
+                        <ConstructorChatRoom :roomType="roomType" v-if="isCreateRoom" />
+                        <ChatRoom v-if="currentRoom && !isCreateRoom" />
+                        <EmptyLayout v-if="currentRoom == null && !isCreateRoom" />
                     </div>
                 </div>
             </div>
         </transition>
     </div>
 </template>
-
 
 <script>
 import ContactList from "~/components/chat/components/contact-list/index.vue";
@@ -36,24 +35,24 @@ export default {
         ContactList,
         ConstructorChatRoom,
         ChatRoom,
-        EmptyLayout
+        EmptyLayout,
     },
     props: {
         isActive: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     data() {
         return {
             isCreateRoom: false,
-            roomType: null
+            roomType: null,
         };
     },
     computed: {
         currentRoom() {
             return this.$store.getters["chatStore/currentRoom"];
-        }
+        },
     },
     methods: {
         openRoomConstructor(roomType) {
@@ -67,8 +66,8 @@ export default {
             this.$emit("closeForm");
             this.$store.commit("chatStore/CLEAR_CURRENT_ROOM");
             this.isCreateRoom = false;
-        }
-    }
+        },
+    },
 };
 </script>
 

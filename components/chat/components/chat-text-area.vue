@@ -46,11 +46,10 @@
     </div>
 </template>
 
-
 <script>
 import DxTextArea from "devextreme-vue/text-area";
 import DxButton from "devextreme-vue/button";
-import {DxTooltip} from "devextreme-vue/tooltip";
+import { DxTooltip } from "devextreme-vue/tooltip";
 
 import Smiles from "~/components/chat/infrastructure/constants/smiles-list.js";
 
@@ -58,20 +57,20 @@ export default {
     components: {
         DxTextArea,
         DxButton,
-        DxTooltip
+        DxTooltip,
     },
     data() {
         return {
             value: "",
             smilesIsOpen: false,
             sendArrowIcon: require("~/static/icons/send-message-btn.svg"),
-            smileIcon: require("~/static/icons/smile.svg")
+            smileIcon: require("~/static/icons/smile.svg"),
         };
     },
     computed: {
         smiles() {
             return Smiles;
-        }
+        },
     },
     methods: {
         focusOut(e) {
@@ -92,8 +91,8 @@ export default {
                 this.$emit("sendMessage", this.value);
                 this.value = "";
             }
-        }
-    }
+        },
+    },
 };
 </script>
 

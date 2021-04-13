@@ -1,6 +1,6 @@
 <template>
     <div class="room_info_wrapper">
-        <ChatIcon :name="room.name" :path="room.avatar"/>
+        <ChatIcon :name="room.name" :path="room.avatar || room.personalPhotoHash" />
         <div class="room_information">
             <div class="room_name">
                 <b v-if="room.id == currentUser">
@@ -20,20 +20,18 @@ import ChatIcon from "~/components/chat/components/chat-icon.vue";
 
 export default {
     components: {
-        ChatIcon
+        ChatIcon,
     },
     props: {
         room: {
-            default: () => {
-            }
-        }
+            default: () => {},
+        },
     },
     computed: {
         currentUser() {
-            console.log("this.room", this.room);
             return this.$store.getters["user/employeeId"];
-        }
-    }
+        },
+    },
 };
 </script>
 <style lang="scss" scoped>
