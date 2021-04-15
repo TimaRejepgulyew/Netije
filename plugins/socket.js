@@ -1,6 +1,6 @@
 import SocketIO from "socket.io-client";
-import MessageService from "../components/chat/infrastructure/services/message.service";
-import RoomService from "../components/chat/infrastructure/services/room.service";
+import MessageService from "~/components/chat/infrastructure/services/message.service";
+import RoomService from "~/components/chat/infrastructure/services/room.service";
 
 export default async ({ app, store }, inject) => {
     const options = {
@@ -16,10 +16,8 @@ export default async ({ app, store }, inject) => {
 
     socket.on("connect", msg => {
         console.log("Connected to chat");
-        socket.emit("authenticated", msg);
         ChatControler.allRooms();
     });
-    socket.on("authorized", () => { });
 
     socket.on("joinedToRoom", data => {
         console.log("joinedToRoom", data);
@@ -39,7 +37,6 @@ export default async ({ app, store }, inject) => {
             console.log("emitMessage", msg);
             socket.emit("message", msg);
         }
-        static async users() { }
         static async messagesByRoomId(payload) {
             const data = await MessageService.messages(app, payload);
             store.commit("chatStore/SET_MESSAGES", data);
