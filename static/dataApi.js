@@ -253,10 +253,10 @@ export default {
         PublickKey: `/api/Boxes/PublicKey/`
     },
     chat: {
-        Rooms: "/api/Rooms",
-        Messages: "/api/Messages/",
-        Users: "/api/Users",
-        CreatePrivateRoom: "/api/Rooms/CreatePrivateRoom",
-        CreateGroupRoom: "/api/Rooms/CreateGroupRoom"
+        Room: "/api/Room",
+        Message: "/api/Message",
+        User: "/api/User",
+        CreatePrivateRoom: "/api/Room/CreatePrivateRoom",
+        CreateGroupRoom: "/api/Room/CreateGroupRoom"
     }
 };

@@ -27,7 +27,7 @@ export default {
             return new DataSource({
                 store: this.$dxStore({
                     key: "id",
-                    loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.Users}`,
+                    loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.User}`,
                 }),
                 filter: ["name", "contains", this.searchValue],
                 paginate: false,

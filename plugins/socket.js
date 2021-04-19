@@ -32,12 +32,14 @@ export default async ({ app, store }, inject) => {
     });
 
     class ChatControler {
-        static sendMessage(msg) {
-            console.log("emitMessage", msg);
-            socket.emit("message", msg);
+        static async sendMessage(msg) {
+            const data = await MessageService.postMessages(app, msg);
+            console.log("emitMessage", data);
+            store.commit("chatStore/ADD_MESSAGE", data);
+
         }
         static async messagesByRoomId(payload) {
-            const data = await MessageService.messages(app, payload);
+            const data = await MessageService.getMessages(app, payload);
             store.commit("chatStore/SET_MESSAGES", data);
         }
 
