@@ -17,6 +17,7 @@ export default ({ app }, inject) => {
       async: app.i18n.t("notification.messages.async"),
       "async-block": app.i18n.t("notification.messages.asyncBlock")
     },
+    
     position: "bottom-right"
   };
   Vue.use(VueAWN, options);
