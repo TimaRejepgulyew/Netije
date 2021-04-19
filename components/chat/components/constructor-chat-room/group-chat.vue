@@ -30,7 +30,6 @@
 import customSelectItem from "~/components/employee/custom-select-box-item.vue";
 import ChatTextArea from "~/components/chat/components/chat-text-area.vue";
 import { DxLoadIndicator } from "devextreme-vue/load-indicator";
-import moment from "moment";
 import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
 import EmployeeTagBox from "~/components/employee/custom-tag-box.vue";
 

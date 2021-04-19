@@ -1,19 +1,19 @@
 <template>
-    <div id="list_container">
-        <SearchPanel
-            :searchInProgress="searchInProgress"
-            @valueChanged="setSearchValue"
-            @inFocus="inFocus"
-            @openRoomConstructor="openRoomConstructor"
-        />
-        <LastRoomsList v-if="showLastRooms" @setCurrentRoom="setCurrentRoom" />
-        <AllRoomsList
-            v-else
-            :searchValue="searchValue"
-            @setCurrentRoom="setCurrentRoom"
-            @createRoom="createRoom"
-        />
-    </div>
+  <div id="list_container">
+    <SearchPanel
+      :searchInProgress="searchInProgress"
+      @valueChanged="setSearchValue"
+      @inFocus="inFocus"
+      @openRoomConstructor="openRoomConstructor"
+    />
+    <LastRoomsList v-if="showLastRooms" @setCurrentRoom="setCurrentRoom" />
+    <AllRoomsList
+      v-else
+      :searchValue="searchValue"
+      @setCurrentRoom="setCurrentRoom"
+      @createRoom="createRoom"
+    />
+  </div>
 </template>
 
 <script>
@@ -21,51 +21,52 @@ import SearchPanel from "~/components/chat/components/contact-list/search-panel.
 import LastRoomsList from "~/components/chat/components/contact-list/last-rooms-list.vue";
 import AllRoomsList from "~/components/chat/components/contact-list/all-rooms-list.vue";
 export default {
-    components: {
-        SearchPanel,
-        LastRoomsList,
-        AllRoomsList,
+  components: {
+    SearchPanel,
+    LastRoomsList,
+    AllRoomsList,
+  },
+  data() {
+    return {
+      searchInProgress: false,
+      searchValue: "",
+    };
+  },
+  computed: {
+    showLastRooms() {
+      if (this.searchValue || this.searchInProgress) {
+        return false;
+      }
+      return true;
     },
-    data() {
-        return {
-            searchInProgress: false,
-            searchValue: "",
-        };
+  },
+  methods: {
+    inFocus(value) {
+      this.searchInProgress = value;
     },
-    computed: {
-        showLastRooms() {
-            if (this.searchValue || this.searchInProgress) {
-                return false;
-            }
-            return true;
-        },
+    setSearchValue(value) {
+      this.searchValue = value;
     },
-    methods: {
-        inFocus(value) {
-            this.searchInProgress = value;
-        },
-        setSearchValue(value) {
-            this.searchValue = value;
-        },
-        setCurrentRoom(room) {
-            this.searchInProgress = false;
-            this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
-        },
-        async createRoom(user) {
-            await this.$chat.createRoom(user);
-        },
-        openRoomConstructor(roomType) {
-            this.searchInProgress = false;
-            this.$emit("openRoomConstructor", roomType);
-        },
+    setCurrentRoom(room) {
+      this.searchInProgress = false;
+      this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
     },
+    async createRoom(user) {
+      console.log("createRoom");
+      await this.$chat.createPrivateRoom(user);
+    },
+    openRoomConstructor(roomType) {
+      this.searchInProgress = false;
+      this.$emit("openRoomConstructor", roomType);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 #list_container {
-    padding: 10px 10px 10px 10px;
-    height: 100%;
-    border-right: 1px solid $base-border-color;
+  padding: 10px 10px 10px 10px;
+  height: 100%;
+  border-right: 1px solid $base-border-color;
 }
 </style>

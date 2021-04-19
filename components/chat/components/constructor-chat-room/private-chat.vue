@@ -14,7 +14,7 @@
       <p>Чат один на один виден только вам и вашему собеседнику.</p>
       <p>Найти нужного человека можно по имени, фамилии, должности или отделу.</p>
       <h1 class="start_btn">
-        <span v-if="hasMember" @click="createRoom">Начать чат</span>
+        <span v-if="hasMember" @click="createPrivateRoom">Начать чат</span>
       </h1>
     </div>
   </div>
@@ -49,8 +49,8 @@ export default {
     changeMember(val) {
       this.member = val;
     },
-    createRoom() {
-      this.$chat.createRoom({
+    createPrivateRoom() {
+      this.$chat.createPrivateRoom({
         roomType: RoomType.Private,
         members: [this.member.id]
       });

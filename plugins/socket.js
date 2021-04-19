@@ -21,7 +21,6 @@ export default async ({ app, store }, inject) => {
 
     socket.on("joinedToRoom", data => {
         console.log("joinedToRoom", data);
-        store.commit("chatStore/ADD_NEW_ROOM", data);
     });
     socket.on("message", data => {
         console.log("message", data);
@@ -42,13 +41,13 @@ export default async ({ app, store }, inject) => {
             store.commit("chatStore/SET_MESSAGES", data);
         }
 
-        static async createRoom(user, roomType = 0) {
+        static async createPrivateRoom(user, roomType = 0) {
             console.log("emitCreateRoom", user, roomType);
-            const rooms = await RoomService.createRoom(app, {
-                user: user.id,
+            const room = await RoomService.createPrivateRoom(app, {
+                members: [user.id],
                 roomType
             });
-            console.log("rooms", rooms);
+            store.commit("chatStore/ADD_NEW_ROOM", room);
         }
 
         static readMessagesInRoom(roomId) {

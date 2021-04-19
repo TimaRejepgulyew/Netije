@@ -5,8 +5,8 @@ export default class RoomService {
     console.log(data);
     return data
   }
-  static async createRoom(ctx, room) {
-    const { data } = await ctx.$axios.post(`${process.env.chatServerUrl}${dataApi.chat.CreateRoom}`, room)
+  static async createPrivateRoom(ctx, room) {
+    const { data } = await ctx.$axios.post(`${process.env.chatServerUrl}${dataApi.chat.CreatePrivateRoom}`, room)
     console.log(data);
     return data
   }
