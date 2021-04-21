@@ -3,7 +3,7 @@
         <chatIcon :name="room.name" :path="room.avatar" />
         <div class="room_information">
             <div class="room_name">
-                <!-- <span @click="showEmployeeCard">{{ room.name }}</span> -->
+                <span @click="showEmployeeCard">{{ room.name }}</span>
             </div>
             <!-- <div class="room_description">{{ room.user.jobTitle }}</div> -->
         </div>
@@ -34,6 +34,9 @@ export default {
                 }
             );
         },
+    },
+    mounted() {
+        console.log("комната", this.room);
     },
 };
 </script>

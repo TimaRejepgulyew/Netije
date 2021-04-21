@@ -10,7 +10,7 @@
         <div class="rooms-cell">
             <div
                 class="cell"
-                v-for="(room, index) in rooms"
+                v-for="(room, index) in rooms.filter((el) => el.messageCount > 0)"
                 :key="index"
                 :title="room.name"
                 @click="selectRoom(room)"

@@ -51,21 +51,19 @@ export const mutations = {
         state.currentRoom = null
         state.currentRoomMessages = null
     },
-    UPDATE_ROOM(state, payload) {
-        if (state.currentRoom?.id == payload.id) {
-            state.currentRoom.unreadMessageCount = 0
-            console.log("Current room");
-        } else {
-            let i = state.rooms.findIndex(element => element.id == payload.id)
-            state.rooms[i] = payload
-            state.rooms.push(null)
-            state.rooms.pop()
-        }
+    JOINED_TO_ROOM(state, payload) {
+        state.rooms.unshift(payload)
     },
     ADD_MESSAGE(state, payload) {
         if (state.messages[payload.roomId]) {
+            // state.rooms.find(payload.roomId).messageCount
             state.messages[payload.roomId].push(payload)
         } else {
+            state.rooms.forEach(room => {
+                if (room.id === payload.roomId) {
+                    room.messageCount++
+                }
+            })
             console.log("No room message");
         }
     },

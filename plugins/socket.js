@@ -21,14 +21,11 @@ export default async ({ app, store }, inject) => {
 
     socket.on("joinedToRoom", data => {
         console.log("joinedToRoom", data);
+        store.commit("chatStore/JOINED_TO_ROOM", data);
     });
     socket.on("message", data => {
         console.log("message", data);
         store.commit("chatStore/ADD_MESSAGE", data);
-    });
-    socket.on("roomUpdated", data => {
-        console.log("roomUpdated", data);
-        store.commit("chatStore/UPDATE_ROOM", data);
     });
 
     class ChatControler {
@@ -56,11 +53,13 @@ export default async ({ app, store }, inject) => {
             console.log("emitReadMessagesInRoom", roomId);
             socket.emit("readMessagesInRoom", roomId);
         }
+
         static async allRooms() {
             const rooms = await RoomService.allRooms(app);
             console.log("allRoom", rooms);
             store.commit("chatStore/SET_ROOMS", rooms);
         }
+        
         static connect() {
             options.extraHeaders.access_token = `${store.getters["oidc/oidcAccessToken"]}`;
             socket.connect();
