@@ -98,7 +98,7 @@ export default {
         },
         readMessages() {
             if (this.unreadMessagesCount >= 1) {
-                this.$chat.readMessagesInRoom(this.currentRoom.id);
+                this.$chat.markAsRead(this.currentRoom.id);
             }
         },
     },

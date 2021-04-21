@@ -255,6 +255,7 @@ export default {
     chat: {
         Room: "/api/Room",
         Message: "/api/Message",
+        MarkAsRead: "/api/Message/MarkAsRead",
         User: "/api/User",
         CreatePrivateRoom: "/api/Room/CreatePrivateRoom",
         CreateGroupRoom: "/api/Room/CreateGroupRoom"
