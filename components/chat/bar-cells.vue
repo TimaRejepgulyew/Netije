@@ -2,7 +2,7 @@
     <div id="cells-wrapper">
         <div
             class="cell search"
-            :title="$t('chatInterface.searchContacts')"
+            :title="$t('chat.searchContacts')"
             @click="openForm"
         >
             <i class="dx-icon-search dx-icon-custom-style search_icon"></i>
@@ -33,13 +33,11 @@ export default {
     },
     computed: {
         rooms() {
-            console.log("rooms", this.$store.getters["chatStore/rooms"]);
             return this.$store.getters["chatStore/rooms"];
         },
     },
     methods: {
         selectRoom(room) {
-            this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
             this.openForm();
         },
         openForm() {

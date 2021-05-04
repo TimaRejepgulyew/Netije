@@ -523,7 +523,6 @@ export default {
     },
     created() {
         this.getLockInfo();
-        console.log(this.data);
     },
 };
 </script>

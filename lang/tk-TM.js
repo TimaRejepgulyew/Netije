@@ -26,10 +26,10 @@ import searching from "~/lang/i18n-translation/tk/searchingPanel.js";
 import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
 import documentTracking from "~/lang/i18n-translation/tk/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/tk/recipientTagBox.js";
-import chatInterface from "~/lang/i18n-translation/tk/chatInterface.js";
+import chat from "~/lang/i18n-translation/tk/chat.js";
 
 export default {
-  chatInterface,
+  chat,
   recipientTagBox,
   onlineUsers,
   exchange,

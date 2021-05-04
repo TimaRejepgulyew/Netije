@@ -72,7 +72,6 @@ export default {
   },
   methods: {
     isVisibleItems(item) {
-      console.log(item);
       return true;
     },
     forwardClick(...args) {

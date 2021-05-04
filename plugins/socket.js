@@ -47,20 +47,22 @@ export default async ({ app, store }, inject) => {
             const data = await MessageService.getMessages(app, payload);
             store.commit("chatStore/SET_MESSAGES", data);
         }
-        static async createGroupRoom(members) {
+        static async createGroupRoom({ members, name }) {
             const room = await RoomService.createGroupRoom(app, {
-                members: members,
+                members,
+                name,
                 roomType: RoomTypes.Group
             });
             store.commit("chatStore/ADD_NEW_ROOM", room);
+            return room.id;
         }
-        static async createPrivateRoom(user, roomType = RoomTypes.Private) {
-            console.log("emitCreateRoom", user, roomType);
+        static async createPrivateRoom(members) {
             const room = await RoomService.createPrivateRoom(app, {
-                members: [user.id],
-                roomType
+                members,
+                roomType: RoomTypes.Private
             });
             store.commit("chatStore/ADD_NEW_ROOM", room);
+            return room.id;
         }
 
         static markAsRead(roomId) {
@@ -73,7 +75,7 @@ export default async ({ app, store }, inject) => {
             console.log("allRoom", rooms);
             store.commit("chatStore/SET_ROOMS", rooms);
         }
-        
+
         static connect() {
             options.extraHeaders.access_token = `${store.getters["oidc/oidcAccessToken"]}`;
             socket.connect();

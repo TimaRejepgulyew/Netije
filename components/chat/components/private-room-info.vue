@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         showEmployeeCard() {
-            console.log(this.room);
             this.$popup.employeeCard(
                 this,
                 {
@@ -34,9 +33,6 @@ export default {
                 }
             );
         },
-    },
-    mounted() {
-        console.log("комната", this.room);
     },
 };
 </script>

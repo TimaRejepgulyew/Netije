@@ -34,24 +34,27 @@
 </template>
 
 <script>
-import { DxTextBox, DxButton as DxTextBoxButton } from "devextreme-vue/text-box";
+import {
+    DxTextBox,
+    DxButton as DxTextBoxButton
+} from "devextreme-vue/text-box";
 import DxDropDownButton from "devextreme-vue/drop-down-button";
 import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
 export default {
     components: {
         DxTextBox,
         DxTextBoxButton,
-        DxDropDownButton,
+        DxDropDownButton
     },
     props: {
         searchInProgress: {
             type: Boolean,
-            default: false,
-        },
+            default: false
+        }
     },
     data() {
         return {
-            searchValue: "",
+            searchValue: ""
         };
     },
     computed: {
@@ -64,7 +67,7 @@ export default {
                 hoverStateEnabled: false,
                 onClick: () => {
                     this.$refs["searchTextBox"].instance.focus();
-                },
+                }
             };
         },
         customClearButtonOptions() {
@@ -78,23 +81,23 @@ export default {
                 onClick: () => {
                     this.value = "";
                     this.inFocus(false);
-                },
+                }
             };
         },
         dropDownButtonItems() {
             return [
                 {
-                    text: this.$t("chatInterface.createChat"),
+                    text: this.$t("chat.createChat"),
                     roomType: RoomType.Private,
-                    onClick: (e) => this.openRoomConstructor(e.itemData.roomType),
+                    onClick: e => this.openRoomConstructor(e.itemData.roomType)
                 },
                 {
-                    text: this.$t("chatInterface.createGroupChat"),
+                    text: this.$t("chat.createGroupChat"),
                     roomType: RoomType.Group,
-                    onClick: (e) => this.openRoomConstructor(e.itemData.roomType),
-                },
+                    onClick: e => this.openRoomConstructor(e.itemData.roomType)
+                }
             ];
-        },
+        }
     },
     methods: {
         inFocus(condition) {
@@ -105,8 +108,8 @@ export default {
         },
         valueChanged(e) {
             this.$emit("valueChanged", this.searchValue.trim());
-        },
-    },
+        }
+    }
 };
 </script>
 

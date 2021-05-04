@@ -52,7 +52,6 @@ export default {
       this.$store.commit("chatStore/SET_CURRENT_ROOM", room);
     },
     async createRoom(user) {
-      console.log("createRoom");
       await this.$chat.createPrivateRoom(user);
     },
     openRoomConstructor(roomType) {

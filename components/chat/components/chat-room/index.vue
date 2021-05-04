@@ -3,7 +3,7 @@
         <ChatHeader :room="currentRoom" />
         <div class="chat_room_messages">
             <button @click="getMessage" class="get-message-btn">
-                {{ $t("chatInterface.loadMessages") }}
+                {{ $t("chat.loadMessages") }}
             </button>
             <DxLoadIndicator
                 v-if="needLoading"

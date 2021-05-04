@@ -1,6 +1,6 @@
 <template>
   <div class="empty_layout">
-    <h3>{{ $t("chatInterface.emptyLayout") }}</h3>
+    <h3>{{ $t("chat.emptyLayout") }}</h3>
   </div>
 </template>
 

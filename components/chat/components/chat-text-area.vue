@@ -74,7 +74,6 @@ export default {
     },
     methods: {
         focusOut(e) {
-            console.log("event", e);
         },
         setSmile(smile) {
             this.value += this.renderSmile(smile);

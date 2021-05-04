@@ -254,6 +254,7 @@ export default {
     },
     chat: {
         Room: "/api/Room",
+        RoomsByFilter: "/api/Room/roomsByFilter",
         Message: "/api/Message",
         MarkAsRead: "/api/Message/MarkAsRead",
         User: "/api/User",

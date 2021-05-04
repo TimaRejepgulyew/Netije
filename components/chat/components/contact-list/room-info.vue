@@ -4,7 +4,7 @@
         <div class="room_information">
             <div class="room_name">
                 <b v-if="room.id == currentUser">
-                    ({{ $t("chatInterface.userInit") }})
+                    ({{ $t("chat.userInit") }})
                 </b>
                 {{ room.name }}
                 <!-- <div class="room_description" v-if="room.lastMessage.text">{{room.lastMessage.text}}</div> -->

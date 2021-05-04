@@ -1,11 +1,20 @@
 <template>
-    <DxList :data-source="dataSource" height="100%" search-expr="name">
-        <template :disabled="true" #item="{ data }">
-            <div @click="checkRoom(data)">
-                <RoomInfo :room="data" />
-            </div>
-        </template>
-    </DxList>
+    <div>
+        <DxList :data-source="employeeList" height="100%" search-expr="name">
+            <template :disabled="true" #item="{ data }">
+                <div @click="checkRoom(data)">
+                    <RoomInfo :room="data" />
+                </div>
+            </template>
+        </DxList>
+        <DxList :data-source="groupRoomList" height="100%" search-expr="name">
+            <template :disabled="true" #item="{ data }">
+                <div @click="checkRoom(data)">
+                    <RoomInfo :room="data" />
+                </div>
+            </template>
+        </DxList>
+    </div>
 </template>
 
 <script>
@@ -15,29 +24,45 @@ import RoomInfo from "~/components/chat/components/contact-list/room-info.vue";
 export default {
     components: {
         DxList,
-        RoomInfo,
+        RoomInfo
     },
     props: {
         searchValue: {
-            type: String,
-        },
+            type: String
+        }
     },
     computed: {
-        dataSource() {
+        employeeList() {
             return new DataSource({
                 store: this.$dxStore({
                     key: "id",
-                    loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.User}`,
+                    loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.User}`
                 }),
                 filter: ["name", "contains", this.searchValue],
                 paginate: false,
                 pageSize: 15,
-                displayExpr: "name",
+                displayExpr: "name"
+            });
+        },
+        groupRoomList() {
+            return new DataSource({
+                store: this.$dxStore({
+                    key: "id",
+                    loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.RoomsByFilter}`
+                }),
+                filter: [
+                    ["name", "contains", this.searchValue],
+                    "and",
+                    ["roomType", "=", 1]
+                ],
+                paginate: false,
+                pageSize: 15,
+                displayExpr: "name"
             });
         },
         currentUser() {
             return this.$store.getters["user/employeeId"];
-        },
+        }
     },
     methods: {
         checkRoom(user) {
@@ -48,8 +73,8 @@ export default {
             } else {
                 this.$emit("createRoom", user);
             }
-        },
-    },
+        }
+    }
 };
 </script>
 
