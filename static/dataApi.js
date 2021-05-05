@@ -256,6 +256,7 @@ export default {
         Room: "/api/Room",
         RoomsByFilter: "/api/Room/roomsByFilter",
         Message: "/api/Message",
+        File: "/api/Message/file",
         MarkAsRead: "/api/Message/MarkAsRead",
         User: "/api/User",
         CreatePrivateRoom: "/api/Room/CreatePrivateRoom",

@@ -39,9 +39,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header-chatig-room {
-    height: 50px;
+    height: auto;
     padding: 8px;
-    margin: 8px;
     display: flex;
     align-items: center;
     .avatar {

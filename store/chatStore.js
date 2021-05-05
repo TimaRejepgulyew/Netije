@@ -17,6 +17,11 @@ export const getters = {
             );
         });
     },
+    messageCount: state => roomId => {
+        const room = state.rooms.find(room => room.id === roomId);
+        if (room) return room.messageCount;
+        else 0;
+    },
     getRoom: state => roomId => {
         return state.rooms.find(room => room.id === roomId);
     },
@@ -37,7 +42,8 @@ export const mutations = {
         }
     },
     ADD_MESSAGE(state, message) {
-        if (getters["hasMessages"](message.roomId)) {
+        console.log("add message", message);
+        if (state.messages[message.roomId]) {
             state.messages[message.roomId].push(message);
             return;
         } else {
@@ -62,18 +68,21 @@ export const mutations = {
         state.rooms = payload;
     },
     INCREMENT_MESSAGE_COUNT(state, message) {
+        console.log(message);
         state.rooms = state.rooms.map(room => {
-            if (room.id === message.id) {
-                room.messageCount++;
+            if (room.id === message.roomId) {
+                room.messageCount += 1;
                 room.lastMessage = message;
                 return room;
             }
+            console.log(room);
             return room;
         });
     },
     INCREMENT_UNREAD_MESSAGE_COUNT(state, message) {
+        console.log(message);
         state.rooms = state.rooms.map(room => {
-            if (room.id === message.id) {
+            if (room.id === message.roomId) {
                 if (!room.unreadMessageCount) room.unreadMessage = message;
                 room.unreadMessageCount++;
                 return room;

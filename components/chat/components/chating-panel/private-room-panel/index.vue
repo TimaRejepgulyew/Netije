@@ -2,14 +2,14 @@
     <div class="chating_container">
         <room-header :room="room" />
         <list-messages :roomId="roomId" class="message--list__container" />
-        <texting-panel />
+        <texting-panel @sendFile="sendFile" @sendMessage="sendMessage" />
     </div>
 </template>
 
 <script>
 import listMessages from "../components/list-messages.vue";
 import roomHeader from "./components/header.vue";
-import textingPanel from "../../chat-text-area";
+import textingPanel from "../components/texting-panel";
 export default {
     components: {
         listMessages,
@@ -22,6 +22,14 @@ export default {
     computed: {
         room() {
             return this.$store.getters["chatStore/getRoom"](this.roomId);
+        }
+    },
+    methods: {
+        sendMessage(value) {
+            this.$chat.sendMessage({ roomId: this.roomId, text: value });
+        },
+        sendFile(files) {
+            this.$chat.sendFile({ roomId: this.roomId, files: files });
         }
     }
 };

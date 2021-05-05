@@ -3,6 +3,9 @@ export default {
         privateRoom: "Чаты",
         groupRoom: "Группавые чаты"
     },
+    textArea:{
+        placeHolder:"Введите сообщения"
+    },
     chat: "Чат",
     was: "Был",
     creatingPanel: {

@@ -31,12 +31,21 @@ export default {
 </script>
 <style lang="scss">
 .message--list__container {
+    border-right: 1px solid $base-border-color;
     background: url("../../../../static/icons/chating-backgroud.svg");
-    overflow: scroll;
+    height: auto;
+    width: auto;
+    overflow: auto;
+    //  padding: 50px 0;
+}
+.header-chatig-room {
+    border-bottom: 1px solid $base-border-color;
 }
 .chating_container {
     display: grid;
     height: 100%;
-    grid-template-rows: 70px auto 150px;
+    overflow: hidden;
+    min-width: 44vw;
+    grid-template-rows: minmax(80px, 100px) auto 100px;
 }
 </style>

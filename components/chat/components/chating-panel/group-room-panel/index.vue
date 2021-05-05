@@ -6,12 +6,12 @@
             :key="roomId"
             class="message--list__container"
         />
-        <texting-panel />
+        <texting-panel @sendMessage="sendMessage" />
     </div>
 </template>
 
 <script>
-import textingPanel from "../../chat-text-area";
+import textingPanel from "../components/texting-panel";
 import listMessages from "../components/list-messages.vue";
 import roomHeader from "./components/header.vue";
 export default {
@@ -26,6 +26,11 @@ export default {
     computed: {
         room() {
             return this.$store.getters["chatStore/getRoom"](this.roomId);
+        }
+    },
+    methods: {
+        sendMessage(value) {
+            this.$chat.sendMessage({ roomId: this.roomId, text: value });
         }
     }
 };

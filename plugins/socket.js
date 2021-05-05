@@ -27,8 +27,7 @@ export default async ({ app, store }, inject) => {
     });
     socket.on("message", data => {
         console.log("message", data);
-        store.commit("chatStore/ADD_MESSAGE", data);
-        store.commit("chatStore/iNCREMENT_MSG_ROOM", data);
+        store.dispatch("chatStore/getMessage", data);
     });
     socket.on("roomUpdated", data => {
         console.log("roomUpdated", data);
@@ -41,7 +40,12 @@ export default async ({ app, store }, inject) => {
         static async sendMessage(msg) {
             const data = await MessageService.postMessages(app, msg);
             console.log("emitMessage", data);
-            store.commit("chatStore/ADD_MESSAGE", data);
+            store.dispatch("chatStore/sendMessage", data);
+        }
+        static async sendFile(msg) {
+            const data = await MessageService.postFiles(app, msg);
+            console.log("emitFiles", data);
+            store.dispatch("chatStore/sendMessage", data);
         }
         static async messagesByRoomId(payload) {
             const data = await MessageService.getMessages(app, payload);

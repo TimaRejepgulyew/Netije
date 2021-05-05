@@ -1,5 +1,6 @@
 <template>
-    <div >
+    <div>
+        {{ messageCount }}
         <div class=" d-flex justify-center ">
             <DxButton
                 v-if="canLoading"
@@ -9,35 +10,31 @@
                 :text="$t('chat.loadMessages')"
             />
         </div>
-        <DxList
-            class="message--list"
-            pageLoadMode="scrollBottom"
-            :data-source="messages"
-            :focusStateEnabled="false"
-            :activeStateEnabled="false"
-            :search-enabled="false"
-            :hoverStateEnabled="false"
-            search-expr="recipient.name"
-        >
-            <template #item="{data}">
-                <div>
-                    <message-item :message="data" :key="data._id" />
-                </div>
-            </template>
-        </DxList>
+        <div class="message--list">
+            <component
+                ref="message"
+                v-for="data in messages"
+                :message="data"
+                :key="data._id"
+                :is="componentType(data.type)"
+            />
+        </div>
     </div>
 </template>
-
 <script>
 import MessageService from "../../../infrastructure/services/message.service.js";
 import DxList from "devextreme-vue/list";
 import messageItem from "./message-item";
+import fileItem from "./file-item";
 import { DxButton } from "devextreme-vue";
+import MessageType from "../../../infrastructure/constants/messageType.js";
+
 export default {
     components: {
         DxList,
         DxButton,
-        messageItem
+        messageItem,
+        fileItem
     },
     props: {
         roomId: {
@@ -53,6 +50,7 @@ export default {
                     this.roomId.toString()
                 )
             ];
+        this.showLastMessage();
     },
     data() {
         return {
@@ -62,7 +60,21 @@ export default {
             canLoading: true
         };
     },
+    watch: {
+        messageCount: function(value, oldValue) {
+            console.log(value, "messageCount");
+            this.refreshMessages();
+        }
+    },
     computed: {
+        messageCount() {
+            return this.$store.getters["chatStore/messageCount"](this.roomId);
+        },
+        currentMessages() {
+            return this.$store.getters["chatStore/getMessages"](
+                this.roomId.toString()
+            );
+        },
         skip() {
             return this.messages.length;
         },
@@ -70,8 +82,27 @@ export default {
             return this.$store.getters["chatStore/hasMessages"](this.roomId);
         }
     },
-
     methods: {
+        componentType(type) {
+            if (type === MessageType.Message) {
+                return "messageItem";
+            } else {
+                return "fileItem";
+            }
+        },
+        refreshMessages() {
+            this.messages = this.$store.getters["chatStore/getMessages"](
+                this.roomId.toString()
+            );
+            this.showLastMessage();
+        },
+        showLastMessage(behaviorOptions = "smooth") {
+            setTimeout(() => {
+                let el = this.$refs.message[this.$refs.message.length - 1].$el;
+                el.scrollIntoView(false);
+                el.click();
+            }, 0);
+        },
         async loadMessages() {
             this.isLoading = true;
             const data = await MessageService.getMessages(this, {
@@ -79,8 +110,7 @@ export default {
                 take: this.take,
                 roomId: this.roomId
             });
-            this.messages = [...data.data.messages, ...this.messages];
-            console.log(data.totalCount);
+            this.messages = [...data.data.messages.reverse(), ...this.messages];
             if (data.totalCount === -1) {
                 this.canLoading = false;
             }
@@ -88,15 +118,12 @@ export default {
     }
 };
 </script>
-
 <style lang="scss">
 .justify-center {
     padding: 8px;
     justify-content: center;
 }
 .message--list {
-    .dx-list-item {
-        border-top: 0px;
-    }
+    width: 100%;
 }
 </style>

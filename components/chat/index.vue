@@ -1,14 +1,15 @@
 <template>
     <div id="right-bar-wrapper">
-        <bar-cells v-if="!isActive" class="miniRoomList" @openForm="openForm" />
-        <template v-else>
-            <button @click="closeForm" class="close-btn">
-                <i class="dx-icon-close" />
-            </button>
-            <transition name="slide-fade">
+        <bar-cells class="miniRoomList" @openForm="openForm" />
+
+        <transition name="slide-fade">
+            <main @click.self="closeForm" v-if="isActive" class="chatContainer">
+                <button @click="closeForm" class="close-btn">
+                    <i class="dx-icon-close" />
+                </button>
                 <main-chat-panel class="main-chat-panel" />
-            </transition>
-        </template>
+            </main>
+        </transition>
     </div>
 </template>
 
@@ -47,7 +48,6 @@ export default {
     justify-content: center;
     position: relative;
     z-index: 999;
-    left: -70vw;
     top: 5%;
     height: 40px;
     width: 50px;
@@ -56,19 +56,26 @@ export default {
     cursor: pointer;
     background-color: $base-border-color;
 }
-.main-chat-panel {
-    right: 0;
-    top: 0;
+.chatContainer {
     z-index: 1000;
-    position: absolute;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+
+    display: flex;
+    justify-content: flex-end;
+}
+.main-chat-panel {
     background-color: $base-bg;
     color: $base-text-color;
-    width: 70vw;
-    height: 100%;
+    width: 60vw;
+    max-height: 100vh;
     overflow: hidden;
 }
 .miniRoomList {
-    // background: $base-border-color;
     z-index: 1000;
     height: 100%;
     min-width: 60px;
@@ -91,7 +98,7 @@ export default {
 }
 .slide-fade-enter-active {
     transition: 0.2s;
-    width: 50vw;
+    width: 100vw;
 }
 
 .slide-fade-leave-active {
@@ -102,5 +109,6 @@ export default {
 // .slide-fade-leave-to,
 .slide-fade-enter {
     transition: 0.2s;
+    width: 100vw;
 }
 </style>

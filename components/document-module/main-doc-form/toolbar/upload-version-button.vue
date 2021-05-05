@@ -1,58 +1,65 @@
 <template>
-  <input
-    type="file"
-    :accept="acceptExtension"
-    id="versionFileUploader"
-    @change="uploadVersionFromFile"
-  />
+    <input
+        type="file"
+        :accept="acceptExtension"
+        id="versionFileUploader"
+        @change="uploadVersionFromFile"
+    />
 </template>
 
 <script>
 import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 import dataApi from "~/static/dataApi";
 export default {
-  props: ["documentId"],
-  data() {
-    return {
-      associatedApplication: [],
-    };
-  },
-  computed: {
-    acceptExtension() {
-      return this.$store.getters["cache/acceptExtension"];
+    props: ["documentId"],
+    data() {
+        return {
+            associatedApplication: [],
+        };
     },
-    document() {
-      return this.$store.getters[`documents/${this.documentId}/document`];
-    },
-  },
-  methods: {
-    uploadVersionFromFile(e) {
-      const file = e.target.files[0];
-      if (!this.document.subject) {
-        this.$store.dispatch(
-          `documents/${this.documentId}/setSubject`,
-          file.name.split(".").slice(0, -1).join(".")
-        );
-      }
-      this.$awn.async(
-        documentVersionService.createVersionFromFile(this.document, file, this),
-        (res) => {
-          this.$emit("uploadVersion", res.data);
+    computed: {
+        acceptExtension() {
+            return this.$store.getters["cache/acceptExtension"];
         },
-        () => {}
-      );
-      e.target.value = "";
+        document() {
+            return this.$store.getters[`documents/${this.documentId}/document`];
+        }
     },
-  },
+    methods: {
+        uploadVersionFromFile(e) {
+            const file = e.target.files[0];
+            if (!this.document.subject) {
+                this.$store.dispatch(
+                    `documents/${this.documentId}/setSubject`,
+                    file.name
+                        .split(".")
+                        .slice(0, -1)
+                        .join(".")
+                );
+            }
+            this.$awn.async(
+                documentVersionService.createVersionFromFile(
+                    this.document,
+                    file,
+                    this
+                ),
+                res => {
+                    this.$emit("uploadVersion", res.data);
+                },
+                () => {}
+            );
+            e.target.value = "";
+        }
+    }
 };
 </script>
 
- <style lang="scss">
+<style lang="scss">
 #versionFileUploader {
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  z-index: -1;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    z-index: -1;
 }
 </style>

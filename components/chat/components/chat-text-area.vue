@@ -5,7 +5,7 @@
                 id="text-area"
                 height="100px"
                 @focus-out="focusOut"
-                placeholder="Введите сообщение"
+                :placeholder="$t('chat.textArea.placeHolder')"
                 stylingMode="underlined"
                 valueChangeEvent="input"
                 v-model.trim="value"
@@ -50,31 +50,29 @@
 import DxTextArea from "devextreme-vue/text-area";
 import DxButton from "devextreme-vue/button";
 import { DxTooltip } from "devextreme-vue/tooltip";
-
 import Smiles from "~/components/chat/infrastructure/constants/smiles-list.js";
 
 export default {
     components: {
         DxTextArea,
         DxButton,
-        DxTooltip,
+        DxTooltip
     },
     data() {
         return {
             value: "",
             smilesIsOpen: false,
             sendArrowIcon: require("~/static/icons/send-message-btn.svg"),
-            smileIcon: require("~/static/icons/smile.svg"),
+            smileIcon: require("~/static/icons/smile.svg")
         };
     },
     computed: {
         smiles() {
             return Smiles;
-        },
+        }
     },
     methods: {
-        focusOut(e) {
-        },
+        focusOut(e) {},
         setSmile(smile) {
             this.value += this.renderSmile(smile);
             this.smilesIsOpen = false;
@@ -86,12 +84,12 @@ export default {
             this.smilesIsOpen = !this.smilesIsOpen;
         },
         sendMessage(e) {
-            if (this.value != "") {
+            if (this.value) {
                 this.$emit("sendMessage", this.value);
                 this.value = "";
             }
-        },
-    },
+        }
+    }
 };
 </script>
 
@@ -115,6 +113,7 @@ export default {
 }
 
 #chat-text-area {
+    border-top: 1px solid $base-border-color;
     .text-area-body {
         display: flex;
     }

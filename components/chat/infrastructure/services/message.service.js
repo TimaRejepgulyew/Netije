@@ -1,4 +1,5 @@
 import dataApi from "~/static/dataApi";
+import MessageType from "../constants/messageType";
 export default class MessageService {
     static async getMessages(ctx, { take, skip, roomId }) {
         const {
@@ -27,6 +28,29 @@ export default class MessageService {
             `${process.env.chatServerUrl}${dataApi.chat.Message}`,
             payload
         );
+        return data;
+    }
+    static async postFiles(ctx, payload) {
+        console.log(payload);
+        let formData = await new FormData();
+
+        formData.append("roomId", payload.roomId);
+        formData.append("type", MessageType.File);
+        formData.append("text", "send file");
+        for (const file of payload.files) {
+            formData.append("attachments", file, file.name);
+        }
+        console.log(formData);
+        const { data } = await ctx.$axios.post(
+            `${process.env.chatServerUrl}${dataApi.chat.File}`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+        );
+
         return data;
     }
     static async sendFile(ctx, roomId, files) {

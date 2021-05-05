@@ -90,34 +90,27 @@ export default {
 
 <style lang="scss">
 .aside {
+    border-right: 1px solid $base-border-color;
     flex-basis: 300px;
     min-width: 300px;
 }
-.chating-panel {
-    flex-grow: 1;
-}
-.creating-panel {
-    flex-grow: 1;
-}
+
 .slide-to-top-enter-active {
     transition: 0.3s;
-    // opacity: 0.5;
-    // transform: translateY(50vh);
+  
 }
 
 .slide-to-top-leave-active {
-    transition: 0.5s;
-    // transform: translateY(-60vh);
-    // opacity: 0.5;
+    transition: 0.3s;
 }
 .slide-to-top-leave-to {
-    transition: 0.5s;
-    transform: translateY(-80vh);
+    transition: 0.3s;
+    transform: translateY(80vh);
     opacity: 0.5;
 }
 .slide-to-top-enter {
-    transition: 0.5s;
-    transform: translateY(80vh);
+    transition: 0.3s;
+    transform: translateY(-80vh);
     opacity: 0.5;
 }
 .unread-message-count {
@@ -127,7 +120,7 @@ export default {
     min-width: 25px;
     height: 25px;
     border-radius: 50%;
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
