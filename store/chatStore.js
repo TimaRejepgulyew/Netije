@@ -13,7 +13,7 @@ export const getters = {
         return state.rooms.find(room => {
             return (
                 room.roomType === RoomType.Private &&
-                members.some(member => member.id === userId)
+                room.members.some(member => member.id === userId)
             );
         });
     },
@@ -47,7 +47,7 @@ export const mutations = {
             state.messages[message.roomId].push(message);
             return;
         } else {
-            state.messages[message.roomId].push(message);
+            state.messages[message.roomId] = [message];
             return;
         }
     },

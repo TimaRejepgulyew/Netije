@@ -14,7 +14,7 @@
                 stylingMode="underlined"
                 :showClearButton="true"
                 valueChangeEvent="input"
-                v-model.trim="searchValue"
+                v-model="searchValue"
             >
             </DxTextBox>
         </div>
@@ -50,7 +50,7 @@ export default {
     watch: {
         searchValue: function(value) {
             if (value) {
-                this.$emit("input", value);
+                this.$emit("input", value.trim());
             } else {
                 this.$emit("clear", value);
             }

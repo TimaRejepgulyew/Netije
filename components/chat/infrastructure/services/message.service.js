@@ -31,7 +31,6 @@ export default class MessageService {
         return data;
     }
     static async postFiles(ctx, payload) {
-        console.log(payload);
         let formData = await new FormData();
 
         formData.append("roomId", payload.roomId);
@@ -40,7 +39,6 @@ export default class MessageService {
         for (const file of payload.files) {
             formData.append("attachments", file, file.name);
         }
-        console.log(formData);
         const { data } = await ctx.$axios.post(
             `${process.env.chatServerUrl}${dataApi.chat.File}`,
             formData,

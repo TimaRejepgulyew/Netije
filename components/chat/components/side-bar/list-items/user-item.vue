@@ -1,5 +1,5 @@
 <template>
-    <section class="d-flex">
+    <section class="d-flex" @click="openPrivateChatByUser(data)">
         <div class="user-icon">
             <chatIcon :path="data.personalPhotoHash" :name="data.name" />
         </div>
@@ -23,8 +23,9 @@ export default {
         data: {
             type: Object,
             required: true
-        }
+        },
     },
+    inject: ["openPrivateChatByUser"],
     computed: {
         isOnline() {
             moment.locale("ru");

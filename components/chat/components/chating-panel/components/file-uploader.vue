@@ -16,7 +16,6 @@ export default {
     },
     methods: {
         uploadFiles(e) {
-            console.log(e.target.files);
             this.$emit("uploadFiles", e.target.files);
         }
     },

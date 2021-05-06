@@ -84,7 +84,6 @@ export default {
     },
     methods: {
         upload() {
-            console.log(this.$refs.uploadBtn.$el);
             this.$refs.uploadBtn.$el.click();
         },
         focusOut(e) {},

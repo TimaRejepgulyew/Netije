@@ -19,6 +19,7 @@
             >
                 <template #item="{data}">
                     <user-item
+                        :disabled="true"
                         class="has-white-space"
                         @click="openPrivateChat(data)"
                         :data="data"
@@ -37,7 +38,6 @@
             </div>
             <DxList
                 slot="group"
-                pageLoadMode="nextButton"
                 :data-source="roomsList"
                 :focusStateEnabled="false"
                 :activeStateEnabled="false"
@@ -80,6 +80,9 @@ export default {
     methods: {},
     inject: ["openPrivateChatByUser", "openGroupChat"],
     computed: {
+        myId() {
+            return this.$store.getters["user/employeeId"];
+        },
         roomType() {
             return RoomType;
         },
@@ -89,7 +92,11 @@ export default {
                     key: "id",
                     loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.User}`
                 }),
-                filter: ["name", "contains", this.searchValue],
+                filter: [
+                    ["name", "contains", this.searchValue],
+                    "and",
+                    ["id", "<>", this.myId]
+                ],
                 paginate: true,
                 pageSize: 5,
                 displayExpr: "name"

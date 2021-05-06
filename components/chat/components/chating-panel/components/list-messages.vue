@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{ messageCount }}
         <div class=" d-flex justify-center ">
             <DxButton
                 v-if="canLoading"
@@ -62,7 +61,6 @@ export default {
     },
     watch: {
         messageCount: function(value, oldValue) {
-            console.log(value, "messageCount");
             this.refreshMessages();
         }
     },
@@ -96,12 +94,12 @@ export default {
             );
             this.showLastMessage();
         },
-        showLastMessage(behaviorOptions = "smooth") {
-            setTimeout(() => {
+        showLastMessage() {
+            if (this.$refs.message) {
                 let el = this.$refs.message[this.$refs.message.length - 1].$el;
                 el.scrollIntoView(false);
                 el.click();
-            }, 0);
+            }
         },
         async loadMessages() {
             this.isLoading = true;

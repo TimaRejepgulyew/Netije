@@ -97,7 +97,6 @@ export default {
 
 .slide-to-top-enter-active {
     transition: 0.3s;
-  
 }
 
 .slide-to-top-leave-active {

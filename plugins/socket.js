@@ -52,21 +52,20 @@ export default async ({ app, store }, inject) => {
             store.commit("chatStore/SET_MESSAGES", data);
         }
         static async createGroupRoom({ members, name }) {
-            const room = await RoomService.createGroupRoom(app, {
+            const roomId = await RoomService.createGroupRoom(app, {
                 members,
                 name,
                 roomType: RoomTypes.Group
             });
-            store.commit("chatStore/ADD_NEW_ROOM", room);
-            return room.id;
+            return roomId;
         }
         static async createPrivateRoom(members) {
-            const room = await RoomService.createPrivateRoom(app, {
+            const roomId = await RoomService.createPrivateRoom(app, {
                 members,
                 roomType: RoomTypes.Private
             });
-            store.commit("chatStore/ADD_NEW_ROOM", room);
-            return room.id;
+            console.log("socket", roomId);
+            return roomId;
         }
 
         static markAsRead(roomId) {
