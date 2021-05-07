@@ -71,7 +71,7 @@ export default {
     },
     data() {
         return {
-            activePanel: "creating-panel",
+            activePanel: "emplty-panel",
             options: { roomType: 1 }
         };
     },

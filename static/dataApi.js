@@ -260,6 +260,7 @@ export default {
         MarkAsRead: "/api/Message/MarkAsRead",
         User: "/api/User",
         CreatePrivateRoom: "/api/Room/CreatePrivateRoom",
-        CreateGroupRoom: "/api/Room/CreateGroupRoom"
+        CreateGroupRoom: "/api/Room/CreateGroupRoom",
+        DownloadFile: "/api/Message/downloadFile/"
     }
 };

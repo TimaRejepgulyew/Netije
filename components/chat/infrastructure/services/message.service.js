@@ -1,5 +1,6 @@
 import dataApi from "~/static/dataApi";
 import MessageType from "../constants/messageType";
+import { saveAs } from "file-saver";
 export default class MessageService {
     static async getMessages(ctx, { take, skip, roomId }) {
         const {
@@ -32,7 +33,6 @@ export default class MessageService {
     }
     static async postFiles(ctx, payload) {
         let formData = await new FormData();
-
         formData.append("roomId", payload.roomId);
         formData.append("type", MessageType.File);
         formData.append("text", "send file");
@@ -70,10 +70,15 @@ export default class MessageService {
     static async downloadAttachment(ctx, attachment) {
         const {
             data
-        } = await context.$axios.get(
+        } = await ctx.$axios.get(
             `${process.env.chatServerUrl}${dataApi.chat.DownloadFile}${attachment.id}`,
             { responseType: "blob" }
         );
-        return data;
+        console.log(data);
+        const blob = new Blob([data], {
+            type: `data:${data.type}`
+        });
+        console.log(blob);
+           saveAs(blob, `${attachment.name}${attachment.extension}`);
     }
 }

@@ -1,6 +1,10 @@
 <template>
     <div>
-        <component :roomId="options.roomId" :is="panelByType" />
+        <component
+            :roomId="options.roomId"
+            :is="panelByType"
+            :key="options.roomId"
+        />
     </div>
 </template>
 

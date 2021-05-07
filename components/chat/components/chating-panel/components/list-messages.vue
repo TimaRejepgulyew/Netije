@@ -95,7 +95,8 @@ export default {
             this.showLastMessage();
         },
         showLastMessage() {
-            if (this.$refs.message) {
+            if (true) {
+
                 let el = this.$refs.message[this.$refs.message.length - 1].$el;
                 el.scrollIntoView(false);
                 el.click();
