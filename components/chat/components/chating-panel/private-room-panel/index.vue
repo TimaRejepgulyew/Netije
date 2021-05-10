@@ -2,7 +2,7 @@
     <div class="chating_container">
         <room-header :room="room" />
         <list-messages :roomId="roomId" class="message--list__container" />
-        <texting-panel @sendFile="sendFile" @sendMessage="sendMessage" />
+        <texting-panel @sendFiles="sendFiles" @sendMessage="sendMessage" />
     </div>
 </template>
 
@@ -28,8 +28,10 @@ export default {
         sendMessage(value) {
             this.$chat.sendMessage({ roomId: this.roomId, text: value });
         },
-        sendFile(files) {
-            this.$chat.sendFile({ roomId: this.roomId, files: files });
+        sendFiles(files) {
+            this.$awn.async(
+                this.$chat.sendFiles({ roomId: this.roomId, files: files })
+            );
         }
     }
 };

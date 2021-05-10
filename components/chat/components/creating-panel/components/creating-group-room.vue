@@ -52,16 +52,13 @@
 
 <script>
 import customSelectItem from "~/components/employee/custom-select-box-item.vue";
-import ChatTextArea from "~/components/chat/components/chat-text-area.vue";
 import { DxLoadIndicator } from "devextreme-vue/load-indicator";
-import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
 import EmployeeTagBox from "~/components/employee/custom-tag-box.vue";
 import { DxTextBox } from "devextreme-vue/text-box";
 import { DxButton } from "devextreme-vue";
 export default {
     components: {
         customSelectItem,
-        ChatTextArea,
         DxLoadIndicator,
         EmployeeTagBox,
         DxTextBox,
@@ -93,7 +90,7 @@ export default {
                 name: this.groupName,
                 members: this.members
             });
-            this.openGroupChat({ roomId });
+            this.openGroupChat(roomId);
         }
     }
 };

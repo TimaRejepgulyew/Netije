@@ -17,6 +17,9 @@ export default {
         privateRoomPanel,
         groupRoomPanel
     },
+    created() {
+        console.log(this.options);
+    },
     props: {
         options: {
             type: Object,
@@ -36,7 +39,7 @@ export default {
 <style lang="scss">
 .message--list__container {
     border-right: 1px solid $base-border-color;
-    background: url("../../../../static/icons/chating-backgroud.svg");
+    background: url("../../../../static/icons/chat/chating-backgroud.svg");
     height: auto;
     width: auto;
     overflow: auto;

@@ -1,5 +1,5 @@
 <template>
-    <section class="d-flex align-center">
+    <section @click="openGroupChat(data.id)" class="d-flex align-center">
         <div class="user-icon">
             <chatIcon :path="data.avatar" :name="data.name" />
         </div>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import backArrow from "~/static/icons/chat/back-arrow.svg";
 import chatIcon from "~/components/chat/components/chat-icon.vue";
 export default {
     components: {
@@ -21,13 +22,20 @@ export default {
     props: {
         data: {
             type: Object,
-            required: true
+            required: true,
+            backArrow
         }
-    }
+    },
+    inject: ["openGroupChat"]
 };
 </script>
 
 <style lang="scss">
+.backArrow {
+    display: block;
+    width: 30px;
+    height: 30px;
+}
 .user-icon {
     padding: 8px;
 }

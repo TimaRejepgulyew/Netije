@@ -74,7 +74,7 @@ export default {
         },
         async createPrivateRoom() {
             const roomId = await this.$chat.createPrivateRoom([this.member]);
-            this.openPrivateChat({ roomId });
+            this.openPrivateChat(roomId);
         }
     }
 };

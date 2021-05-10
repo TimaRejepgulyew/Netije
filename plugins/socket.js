@@ -49,7 +49,7 @@ export default async ({ app, store }, inject) => {
             const data = await MessageService.postMessages(app, msg);
             console.log("emitMessage", data);
         }
-        static async sendFile(msg) {
+        static async sendFiles(msg) {
             const data = await MessageService.postFiles(app, msg);
             console.log("emitFiles", data);
         }

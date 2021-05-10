@@ -1,5 +1,6 @@
 <template>
     <div>
+        <DxLoadPanel :visible.sync="isLoading" :indicatorSrc="indicatorIcon" />
         <div class=" d-flex justify-center">
             <DxButton
                 v-if="canLoading"
@@ -21,6 +22,8 @@
     </div>
 </template>
 <script>
+import indicatorIcon from "~/static/icons/loading.gif";
+import { DxLoadPanel } from "devextreme-vue/load-panel";
 import MessageService from "../../../infrastructure/services/message.service.js";
 import DxList from "devextreme-vue/list";
 import messageItem from "./message-item";
@@ -33,6 +36,7 @@ export default {
         DxButton,
         messageItem,
         fileItem,
+        DxLoadPanel
     },
     props: {
         roomId: {
@@ -56,6 +60,7 @@ export default {
             take: 15,
             messages: [],
             canLoading: true,
+            indicatorIcon
         };
     },
     watch: {
@@ -105,14 +110,14 @@ export default {
             this.showLastMessage();
         },
         showLastMessage() {
-            if (true) {
-                setTimeout(() => {
+            setTimeout(() => {
+                if (this.$refs.message) {
                     let el = this.$refs.message[this.$refs.message.length - 1]
                         .$el;
                     el.scrollIntoView(false);
                     el.click();
-                }, 0);
-            }
+                }
+            }, 0);
         },
         async loadMessages() {
             this.isLoading = true;
@@ -122,6 +127,7 @@ export default {
                 roomId: this.roomId
             });
             this.messages = [...data.data.messages.reverse(), ...this.messages];
+            this.isLoading = false;
             if (data.totalCount === -1) {
                 this.canLoading = false;
             }

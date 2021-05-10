@@ -73,7 +73,7 @@ export default {
         return {
             value: "",
             smilesIsOpen: false,
-            fileClip:require("~/static/icons/clip.svg"),
+            fileClip:require("~/static/icons/chat/clip.svg"),
             sendArrowIcon: require("~/static/icons/send-message-btn.svg"),
             smileIcon: require("~/static/icons/smile.svg")
         };
@@ -106,7 +106,7 @@ export default {
         },
 
         uploadAttachments(files) {
-            this.$emit("sendFile", files);
+            this.$emit("sendFiles", files);
         }
     }
 };

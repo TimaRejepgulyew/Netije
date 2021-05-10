@@ -6,7 +6,7 @@
             :key="roomId"
             class="message--list__container"
         />
-        <texting-panel @sendMessage="sendMessage" />
+        <texting-panel @sendFiles="sendFiles" @sendMessage="sendMessage" />
     </div>
 </template>
 
@@ -31,6 +31,11 @@ export default {
     methods: {
         sendMessage(value) {
             this.$chat.sendMessage({ roomId: this.roomId, text: value });
+        },
+        sendFiles(files) {
+            this.$awn.async(
+                this.$chat.sendFiles({ roomId: this.roomId, files: files })
+            );
         }
     }
 };
