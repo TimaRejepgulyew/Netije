@@ -26,7 +26,7 @@
                     <document-icon
                         class="file-icon"
                         size="md"
-                        :extension="attachment.extension"
+                        :extension="attachment.extension.toLowerCase() || null"
                     />
                 </div>
             </div>

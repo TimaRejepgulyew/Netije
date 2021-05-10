@@ -10,7 +10,7 @@
                     @click="openSmiles"
                 />
                 <DxButton
-                    icon="file"
+                    :icon="fileClip"
                     type="normal"
                     stylingMode="text"
                     @click="upload"
@@ -73,6 +73,7 @@ export default {
         return {
             value: "",
             smilesIsOpen: false,
+            fileClip:require("~/static/icons/clip.svg"),
             sendArrowIcon: require("~/static/icons/send-message-btn.svg"),
             smileIcon: require("~/static/icons/smile.svg")
         };
@@ -112,7 +113,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .smile {
     display: block;
     font-size: 20px;

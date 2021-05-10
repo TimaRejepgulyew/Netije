@@ -51,22 +51,6 @@ export default class MessageService {
 
         return data;
     }
-    static async sendFile(ctx, roomId, files) {
-        let formData = new FormData();
-        formData.append("attachments", files);
-        formData.append("roomId", roomId);
-        formData.append("text", "Files");
-        formData.append("type", 1);
-        return await ctx.$axios.post(
-            `${process.env.chatServerUrl}${dataApi.chat.File}`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            }
-        );
-    }
     static async downloadAttachment(ctx, attachment) {
         const {
             data
@@ -74,11 +58,9 @@ export default class MessageService {
             `${process.env.chatServerUrl}${dataApi.chat.DownloadFile}${attachment.id}`,
             { responseType: "blob" }
         );
-        console.log(data);
         const blob = new Blob([data], {
             type: `data:${data.type}`
         });
-        console.log(blob);
            saveAs(blob, `${attachment.name}${attachment.extension}`);
     }
 }

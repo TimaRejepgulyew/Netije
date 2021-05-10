@@ -5,14 +5,10 @@
         </div>
         <div>
             <div>{{ data.name }}</div>
-            <div
-                class="small-text"
-                :class="{ 'color-green': chatingWith.active }"
-            >
-                {{ isOnline }}
+            <div class="small-text">
+                {{ data.lastMessage.text }}
             </div>
         </div>
-        <div class="unread-message-count" v-if="data.unreadMessageCount">{{ data.unreadMessageCount }}</div>
     </section>
 </template>
 

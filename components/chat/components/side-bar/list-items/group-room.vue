@@ -3,7 +3,12 @@
         <div class="user-icon">
             <chatIcon :path="data.avatar" :name="data.name" />
         </div>
-        <div class="d-flex ">{{ data.name }}</div>
+        <div>
+            <div>{{ data.name }}</div>
+            <div class="small-text">
+                {{ data.lastMessage.text }}
+            </div>
+        </div>
     </section>
 </template>
 

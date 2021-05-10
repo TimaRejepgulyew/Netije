@@ -1,12 +1,22 @@
 <template>
-    <DxList :data-source="arrayStore" height="100%">
+    <DxList :data-source="arrayStore" :scrolingEnabled="true" height="94vh">
         <template #item="{ data }">
-            <div @click="showRoom(data)" v-if="data.messageCount > 0">
+            <div
+                class="room-menu_container"
+                @click="showRoom(data)"
+                v-if="data.messageCount > 0"
+            >
                 <component
                     :is="roomTypeComponent(data.roomType)"
                     v-if="data.messageCount > 0"
                     :data="data"
                 />
+                <div
+                    class="unread-message-count"
+                    v-if="data.unreadMessageCount"
+                >
+                    {{ data.unreadMessageCount }}
+                </div>
             </div>
         </template>
     </DxList>
@@ -29,9 +39,16 @@ export default {
         arrayStore() {
             return new ArrayStore({
                 key: "id",
-                data: this.$store.getters["chatStore/rooms"].filter(el => {
-                    if (el.messageCount > 0) return el;
-                })
+                data: this.$store.getters["chatStore/rooms"]
+                    .filter(el => {
+                        if (el.messageCount > 0) return el;
+                    })
+                    .sort(function(a, b) {
+                        return (
+                            new Date(b.lastMessage?.created) -
+                            new Date(a.lastMessage?.created)
+                        );
+                    })
             });
         }
     },
@@ -50,4 +67,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.room-menu_container {
+    display: flex;
+    justify-content: flex-start;
+    
+}
+</style>

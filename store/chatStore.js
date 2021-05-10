@@ -17,6 +17,11 @@ export const getters = {
             );
         });
     },
+    unreadMessageCount: state => roomId => {
+        const room = state.rooms.find(room => room.id === roomId);
+        if (room) return room.unreadMessageCount;
+        else 0;
+    },
     messageCount: state => roomId => {
         const room = state.rooms.find(room => room.id === roomId);
         if (room) return room.messageCount;
@@ -89,10 +94,44 @@ export const mutations = {
             }
             return room;
         });
+    },
+    USER_ONLINE(state, { roomId, user }) {
+        state.rooms.find(room => {
+            if (room.id === roomId) {
+                const memberIndex = room.members.findIndex(
+                    (member, index) => member.id === user.id
+                );
+                if (memberIndex !== -1) {
+                    room.members[memberIndex] = user;
+                }
+                return true;
+            }
+            return false;
+        });
+    },
+    USER_OFFLINE(state, { roomId, user }) {
+        state.rooms.forEach(room => {
+            if (room.id === roomId) {
+                const memberIndex = room.members.findIndex(
+                    (member, index) => member.id === user.id
+                );
+                if (memberIndex !== -1) {
+                    room.members[memberIndex] = user;
+                    console.log(room.members[memberIndex]);
+                }
+            }
+        });
+        console.log(state.rooms);
     }
 };
 
 export const actions = {
+    userOnline({ commit }, { roomId, user }) {
+        commit("USER_ONLINE", { roomId, user });
+    },
+    userOffline({ commit }, { roomId, user }) {
+        commit("USER_OFFLINE", { roomId, user });
+    },
     sendMessage({ commit }, message) {
         commit("INCREMENT_MESSAGE_COUNT", message);
         commit("ADD_MESSAGE", message);

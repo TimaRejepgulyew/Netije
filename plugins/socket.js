@@ -18,8 +18,13 @@ export default async ({ app, store }, inject) => {
         console.log("Connected to chat");
         ChatControler.allRooms();
     });
-    socket.on("userOnline", user => {
-        console.log("userOnline", user);
+    socket.on("userOnline", data => {
+        store.dispatch("chatStore/userOnline", data);
+        console.log("userOnline", data);
+    });
+    socket.on("userOffline", data => {
+        store.dispatch("chatStore/userOffline", data);
+        console.log("userOffline", data);
     });
     socket.on("joinedToRoom", data => {
         console.log("joinedToRoom", data);
@@ -27,25 +32,26 @@ export default async ({ app, store }, inject) => {
     });
     socket.on("message", data => {
         console.log("message", data);
-        store.dispatch("chatStore/getMessage", data);
+        const ownId = store.getters["user/employeeId"];
+        if (data.author.id === ownId)
+            store.dispatch("chatStore/sendMessage", data);
+        else store.dispatch("chatStore/getMessage", data);
     });
     socket.on("roomUpdated", data => {
         console.log("roomUpdated", data);
         store.commit("chatStore/UPDATE_ROOM", data);
     });
-    socket.on("userOffline", data => {
-        console.log("userOffline", data);
-    });
     class ChatControler {
+        static async invateToRoom(roomId, users) {
+            RoomService.inviteToRoom(app, roomId, users);
+        }
         static async sendMessage(msg) {
             const data = await MessageService.postMessages(app, msg);
             console.log("emitMessage", data);
-            store.dispatch("chatStore/sendMessage", data);
         }
         static async sendFile(msg) {
             const data = await MessageService.postFiles(app, msg);
             console.log("emitFiles", data);
-            store.dispatch("chatStore/sendMessage", data);
         }
         static async messagesByRoomId(payload) {
             const data = await MessageService.getMessages(app, payload);

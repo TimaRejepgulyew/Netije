@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class=" d-flex justify-center ">
+        <div class=" d-flex justify-center">
             <DxButton
                 v-if="canLoading"
                 stylingMode="text"
@@ -9,7 +9,7 @@
                 :text="$t('chat.loadMessages')"
             />
         </div>
-        <div class="message--list">
+        <div class="message--list ">
             <component
                 ref="message"
                 v-for="data in messages"
@@ -27,13 +27,12 @@ import messageItem from "./message-item";
 import fileItem from "./file-item";
 import { DxButton } from "devextreme-vue";
 import MessageType from "../../../infrastructure/constants/messageType.js";
-
 export default {
     components: {
         DxList,
         DxButton,
         messageItem,
-        fileItem
+        fileItem,
     },
     props: {
         roomId: {
@@ -56,15 +55,26 @@ export default {
             isLoading: false,
             take: 15,
             messages: [],
-            canLoading: true
+            canLoading: true,
         };
     },
     watch: {
+        unreadMessageCount: {
+            handler: function(value) {
+                if (value) this.$chat.markAsRead(this.roomId);
+            },
+            immediate: true
+        },
         messageCount: function(value, oldValue) {
             this.refreshMessages();
         }
     },
     computed: {
+        unreadMessageCount() {
+            return this.$store.getters["chatStore/unreadMessageCount"](
+                this.roomId
+            );
+        },
         messageCount() {
             return this.$store.getters["chatStore/messageCount"](this.roomId);
         },
@@ -96,10 +106,12 @@ export default {
         },
         showLastMessage() {
             if (true) {
-
-                let el = this.$refs.message[this.$refs.message.length - 1].$el;
-                el.scrollIntoView(false);
-                el.click();
+                setTimeout(() => {
+                    let el = this.$refs.message[this.$refs.message.length - 1]
+                        .$el;
+                    el.scrollIntoView(false);
+                    el.click();
+                }, 0);
             }
         },
         async loadMessages() {

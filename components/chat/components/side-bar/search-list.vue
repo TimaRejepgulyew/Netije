@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="list_expander">
         <custom-expander
             :expantedDefault="true"
             :header="{ text: 'сотрудники' }"
@@ -11,11 +11,13 @@
             </div>
             <DxList
                 slot="users"
+                :show-selection-controls="true"
                 pageLoadMode="nextButton"
                 :data-source="usersList"
                 :focusStateEnabled="false"
                 :activeStateEnabled="false"
                 :search-enabled="false"
+                :scrolingEnabled="true"
             >
                 <template #item="{data}">
                     <user-item
@@ -42,6 +44,7 @@
                 :focusStateEnabled="false"
                 :activeStateEnabled="false"
                 :search-enabled="false"
+                :scrolingEnabled="true"
             >
                 <template #item="{data}">
                     <group-room-item
@@ -129,5 +132,9 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
+}
+.list_expander {
+    height: 94vh;
+    overflow: scroll;
 }
 </style>

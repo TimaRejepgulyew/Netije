@@ -113,8 +113,8 @@ export default {
     opacity: 0.5;
 }
 .unread-message-count {
-    position: relative;
-    right: -90px;
+    margin-left: auto;
+    justify-self: flex-end;
     background: $base-accent;
     min-width: 25px;
     height: 25px;
