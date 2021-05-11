@@ -31,10 +31,6 @@ export const getters = {
         return state.rooms.find(room => room.id === roomId);
     },
     hasMessages: state => roomId => {
-        console.log( state.messages[roomId.toString()] &&
-        state.rooms.find(room => room.id === roomId).messageCount
-        ? true
-        : false);
         return state.messages[roomId.toString()] &&
             state.rooms.find(room => room.id === roomId).messageCount
             ? true
@@ -54,7 +50,6 @@ export const mutations = {
         }
     },
     ADD_MESSAGE(state, message) {
-        console.log("add message", message);
         if (state.messages[message.roomId]) {
             state.messages[message.roomId].push(message);
             return;
@@ -64,6 +59,7 @@ export const mutations = {
         }
     },
     ADD_NEW_ROOM(state, room) {
+        console.log("test", room);
         state.rooms.unshift(room);
     },
     SET_MESSAGES(state, data) {
@@ -80,19 +76,16 @@ export const mutations = {
         state.rooms = payload;
     },
     INCREMENT_MESSAGE_COUNT(state, message) {
-        console.log(message);
         state.rooms = state.rooms.map(room => {
             if (room.id === message.roomId) {
                 room.messageCount += 1;
                 room.lastMessage = message;
                 return room;
             }
-            console.log(room);
             return room;
         });
     },
     INCREMENT_UNREAD_MESSAGE_COUNT(state, message) {
-        console.log(message);
         state.rooms = state.rooms.map(room => {
             if (room.id === message.roomId) {
                 if (!room.unreadMessageCount) room.unreadMessage = message;
@@ -124,11 +117,9 @@ export const mutations = {
                 );
                 if (memberIndex !== -1) {
                     room.members[memberIndex] = user;
-                    console.log(room.members[memberIndex]);
                 }
             }
         });
-        console.log(state.rooms);
     }
 };
 

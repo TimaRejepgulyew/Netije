@@ -15,24 +15,20 @@ export default async ({ app, store }, inject) => {
     const socket = new SocketIO(process.env.chatServerUrl, options);
 
     socket.on("connect", msg => {
-        console.log("Connected to chat");
         ChatControler.allRooms();
     });
     socket.on("userOnline", data => {
         store.dispatch("chatStore/userOnline", data);
-        console.log("userOnline", data);
     });
     socket.on("userOffline", data => {
         store.dispatch("chatStore/userOffline", data);
-        console.log("userOffline", data);
     });
     socket.on("joinedToRoom", data => {
-        console.log("joinedToRoom", data);
+        console.log(data, "data");
+        store.commit("chatStore/ADD_NEW_ROOM", data);
         socket.emit("joinToRoom", data.id);
     });
     socket.on("message", data => {
-        console.log("message", data);
-
         const ownId = store.getters["user/employeeId"];
         if (data.author.id === ownId)
             store.dispatch("chatStore/sendMessage", data);
@@ -41,21 +37,15 @@ export default async ({ app, store }, inject) => {
             app.$message(app, data);
         }
     });
-    socket.on("roomUpdated", data => {
-        console.log("roomUpdated", data);
-        store.commit("chatStore/UPDATE_ROOM", data);
-    });
     class ChatControler {
         static async invateToRoom(roomId, users) {
             RoomService.inviteToRoom(app, roomId, users);
         }
         static async sendMessage(msg) {
             const data = await MessageService.postMessages(app, msg);
-            console.log("emitMessage", data);
         }
         static async sendFiles(msg) {
             const data = await MessageService.postFiles(app, msg);
-            console.log("emitFiles", data);
         }
         static async messagesByRoomId(payload) {
             const data = await MessageService.getMessages(app, payload);
@@ -74,18 +64,15 @@ export default async ({ app, store }, inject) => {
                 members,
                 roomType: RoomTypes.Private
             });
-            console.log("socket", roomId);
             return roomId;
         }
 
         static markAsRead(roomId) {
-            console.log("emitmarkAsRead", roomId);
             MessageService.markAsRead(app, roomId);
         }
 
         static async allRooms() {
             const rooms = await RoomService.allRooms(app);
-            console.log("allRoom", rooms);
             store.commit("chatStore/SET_ROOMS", rooms);
         }
 

@@ -25,7 +25,6 @@ export default ({ app }, inject) => {
         };
     }
     function message(ctx, message) {
-        console.log(app, "message");
         let options = {
             body: message.text,
             icon: "/favicon.ico"
@@ -33,12 +32,6 @@ export default ({ app }, inject) => {
         audio.play();
         audio.currentTime = 0;
         let notification = new Notification(message.author.name, options);
-        notification.onclick = function() {
-            // app.$popup.assignmentCard(context, {
-            //     params: { assignmentId: id }
-            // });
-            // window.focus();
-        };
     }
     inject("message", message);
     inject("notify", notify);
