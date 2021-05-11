@@ -1,5 +1,5 @@
 <template>
-    <div id="right-bar-wrapper">
+    <div v-if="!isAdmin" id="right-bar-wrapper">
         <bar-cells class="miniRoomList" @openForm="openForm" />
 
         <transition name="slide-fade">
@@ -7,7 +7,11 @@
                 <button @click="closeForm" class="close-btn">
                     <i class="dx-icon-close" />
                 </button>
-                <main-chat-panel class="main-chat-panel" />
+                <main-chat-panel
+                    :defaultPanel="defaultPanel"
+                    :defaultOptions="defaultOptions"
+                    class="main-chat-panel"
+                />
             </main>
         </transition>
     </div>
@@ -23,15 +27,28 @@ export default {
     },
     data() {
         return {
-            isActive: false
+            isActive: false,
+            defaultOptions: {},
+            defaultPanel: "empty-panel"
         };
     },
-
     mounted() {
         this.$chat.connect();
     },
+    computed: {
+        isAdmin() {
+            return this.$store.getters["permissions/IsAdmin"];
+        }
+    },
     methods: {
-        openForm() {
+        openForm(options) {
+            if (options) {
+                this.defaultOptions = options;
+                this.defaultPanel = "chating-panel";
+            } else {
+                this.defaultPanel = "empty-panel";
+                this.defaultOptions = {};
+            }
             this.isActive = true;
         },
         closeForm() {

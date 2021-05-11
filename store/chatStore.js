@@ -31,7 +31,14 @@ export const getters = {
         return state.rooms.find(room => room.id === roomId);
     },
     hasMessages: state => roomId => {
-        return state.messages[roomId.toString()] ? true : false;
+        console.log( state.messages[roomId.toString()] &&
+        state.rooms.find(room => room.id === roomId).messageCount
+        ? true
+        : false);
+        return state.messages[roomId.toString()] &&
+            state.rooms.find(room => room.id === roomId).messageCount
+            ? true
+            : false;
     },
     getMessages: state => roomId => {
         return state.messages[roomId.toString()];

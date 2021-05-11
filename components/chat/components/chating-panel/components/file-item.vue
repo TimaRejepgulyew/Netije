@@ -74,11 +74,11 @@ export default {
                 : false;
         },
         fullDate(value) {
-            moment.locale("ru");
+            moment.locale(this.$i18n.locale);
             return moment(value).format("LL");
         },
         formatDate(value) {
-            moment.locale("ru");
+            moment.locale(this.$i18n.locale);
             return moment(value).format("LT");
         }
     }

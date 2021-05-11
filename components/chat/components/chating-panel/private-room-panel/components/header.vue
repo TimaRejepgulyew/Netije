@@ -46,7 +46,7 @@ export default {
             return this.room.members.find(member => member.id !== this.ownId);
         },
         isOnline() {
-            moment.locale("ru");
+            moment.locale(this.$i18n.locale);
             return this.chatingWith.active
                 ? this.$t("chat.online")
                 : `${this.$t("chat.was")} ${moment(

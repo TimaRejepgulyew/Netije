@@ -3,14 +3,14 @@
         <div
             class="cell search"
             :title="$t('chat.searchContacts')"
-            @click="openForm"
+            @click="openForm()"
         >
             <i class="dx-icon-search dx-icon-custom-style search_icon"></i>
         </div>
         <div class="rooms-cell">
             <div
                 class="cell"
-                v-for="(room, index) in rooms.filter((el) => el.messageCount > 0)"
+                v-for="(room, index) in rooms.filter(el => el.messageCount > 0)"
                 :key="index"
                 :title="room.name"
                 @click="selectRoom(room)"
@@ -26,24 +26,33 @@
 
 <script>
 import ChatIcon from "~/components/chat/components/chat-icon.vue";
-
+import ArrayStore from "devextreme/data/array_store";
 export default {
     components: {
-        ChatIcon,
+        ChatIcon
     },
     computed: {
         rooms() {
-            return this.$store.getters["chatStore/rooms"];
-        },
+            return this.$store.getters["chatStore/rooms"]
+                .filter(el => {
+                    if (el.messageCount > 0) return el;
+                })
+                .sort(function(a, b) {
+                    return (
+                        new Date(b.lastMessage?.created) -
+                        new Date(a.lastMessage?.created)
+                    );
+                });
+        }
     },
     methods: {
-        selectRoom(room) {
-            this.openForm();
+        selectRoom({ id: roomId, roomType }) {
+            this.openForm({ roomId, roomType });
         },
-        openForm() {
-            this.$emit("openForm");
-        },
-    },
+        openForm(options) {
+            this.$emit("openForm", options);
+        }
+    }
 };
 </script>
 

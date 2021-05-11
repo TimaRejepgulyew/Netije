@@ -32,10 +32,14 @@ export default async ({ app, store }, inject) => {
     });
     socket.on("message", data => {
         console.log("message", data);
+
         const ownId = store.getters["user/employeeId"];
         if (data.author.id === ownId)
             store.dispatch("chatStore/sendMessage", data);
-        else store.dispatch("chatStore/getMessage", data);
+        else {
+            store.dispatch("chatStore/getMessage", data);
+            app.$message(app, data);
+        }
     });
     socket.on("roomUpdated", data => {
         console.log("roomUpdated", data);

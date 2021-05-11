@@ -69,10 +69,22 @@ export default {
             }
         };
     },
+    props: {
+        defaultPanel: {
+            type: String,
+            default: () => "emplty-panel"
+        },
+        defaultOptions: {
+            type: Object,
+            default: () => {
+                return {};
+            }
+        }
+    },
     data() {
         return {
-            activePanel: "emplty-panel",
-            options: { roomType: 1 }
+            activePanel: this.defaultPanel,
+            options: this.defaultOptions
         };
     },
     methods: {

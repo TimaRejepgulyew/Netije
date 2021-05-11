@@ -23,12 +23,12 @@ export default {
         data: {
             type: Object,
             required: true
-        },
+        }
     },
     inject: ["openPrivateChatByUser"],
     computed: {
         isOnline() {
-            moment.locale("ru");
+            moment.locale(this.$i18n.locale);
             return this.data.active
                 ? this.$t("chat.online")
                 : `${this.$t("chat.was")} ${moment(

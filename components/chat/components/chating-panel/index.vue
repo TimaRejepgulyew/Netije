@@ -17,9 +17,6 @@ export default {
         privateRoomPanel,
         groupRoomPanel
     },
-    created() {
-        console.log(this.options);
-    },
     props: {
         options: {
             type: Object,
