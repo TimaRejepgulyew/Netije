@@ -23,9 +23,6 @@ export default ({ app }, inject) => {
             });
             window.focus();
         };
-        // setTimeout(() => {
-        //   notification.close();
-        // }, 4000);
     }
     function message(ctx, message) {
         console.log(app, "message");

@@ -1,5 +1,3 @@
-import licensing from "../lang/i18n-translation/ru/licensing";
-
 export default {
     UserPhotoHash:
         process.env.NODE_ENV === "production"
