@@ -4,9 +4,6 @@ import RoomService from "~/components/chat/infrastructure/services/room.service"
 import RoomTypes from "~/components/chat/infrastructure/constants/roomType";
 export default async ({ app, store }, inject) => {
     const options = {
-        extraHeaders: {
-            // Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
-        },
         reconnectionDelayMax: 10000,
         path: "/socket",
         autoConnect: false,

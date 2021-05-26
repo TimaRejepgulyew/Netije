@@ -33,7 +33,7 @@ export default {
         };
     },
     mounted() {
-        this.$chat.connect();
+        if (!this.$store.getters["permissions/IsAdmin"]) this.$chat.connect();
     },
     computed: {
         isAdmin() {
