@@ -6,7 +6,7 @@ export default {
             process.env.NODE_ENV !== "production"
                 ? "TTDoc.UI"
                 : "TTDoc.UI-prod",
-        serverUrl: "https://192.168.4.170",
+        serverUrl: "https://localhost:5001",
         chatServerUrl: "https://192.168.4.159:5000"
     },
     loading: {
