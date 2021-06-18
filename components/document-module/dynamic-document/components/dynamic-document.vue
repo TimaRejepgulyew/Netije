@@ -16,14 +16,14 @@
           :dataSourceQuery="data.editorOptions.dataSourceQuery"
           :validationGroup="documentValidatorName"
           :isRequired="data.editorOptions.isRequired"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
           @valueChanged="(value) => change(data, value)"
         />
       </template>
       <template #AutoCompleteBox="{ data }">
         <Auto-complete-text-area
           @focusIn="(value) => onFocusIn(data)"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
           :options="{
             isRequired: data.editorOptions.isRequired,
             validationGroup: documentValidatorName,
@@ -40,7 +40,7 @@
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
           @valueChanged="(value) => change(data, value)"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
         />
       </template>
       <template #ContactSelectBox="{ data }">
@@ -48,7 +48,7 @@
           @focusIn="(value) => onFocusIn(data)"
           :disabled="readOnly"
           @valueChanged="(value) => change(data, value)"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
         />
       </template>
       <template #EmployeeSelectBox="{ data }">
@@ -57,7 +57,7 @@
           :read-only="readOnly"
           :validatorGroup="documentValidatorName"
           :isRequired="data.editorOptions.isRequired"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
           @valueChanged="(value) => change(data, value)"
         />
       </template>
@@ -67,7 +67,7 @@
           :read-only="readOnly"
           :validatorGroup="documentValidatorName"
           :isRequired="data.editorOptions.isRequired"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
           @valueChanged="(value) => change(data, value)"
         />
       </template>
@@ -77,7 +77,7 @@
           :read-only="readOnly"
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
           @valueChanged="(value) => change(data, value)"
         />
       </template>
@@ -87,7 +87,7 @@
           :read-only="readOnly"
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
           @valueChanged="(value) => change(data, value)"
         />
       </template>
@@ -96,7 +96,7 @@
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
           :validatorGroup="documentValidatorName"
-          :value="data.editorOptions.value"
+          :value="value(data.dataField)"
           :isRequired="data.editorOptions.isRequired"
           @valueChanged="(value) => change(data, value)"
         />
@@ -106,7 +106,7 @@
           @focusIn="(value) => onFocusIn(data)"
           :read-only="readOnly"
           :validatorGroup="documentValidatorName"
-          :value="data.editorOptions.value || []"
+          :value="value(data.dataField) || []"
           :isRequired="data.editorOptions.isRequired"
           @valueChanged="(value) => change(data, value)"
         />
@@ -180,10 +180,16 @@ export default {
     },
   },
   methods: {
+    value(dataField) {
+      console.log(dataField);
+      return this.$store.getters[`documents/${this.documentId}/value`](
+        dataField
+      );
+    },
     onFocusIn(data) {
       this.$emit("onFocusField", data.name);
     },
-    change(data, value) {
+    change(value, data) {
       this.$store.commit(`documents/${this.documentId}/SET_DYNAMIC_FIELD`, {
         data,
         value,

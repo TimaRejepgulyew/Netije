@@ -28,6 +28,7 @@ export class BaseField {
     this.editorOptions.onFocusIn = data => {
       context.onFocusIn(this);
     };
+    this.editorOptions.value = context.value(dataField);
     this._setLabel(context, { translationRu, translationTk });
     this._setEventValueChanged();
   }
@@ -36,7 +37,7 @@ export class BaseField {
   }
   _setEventValueChanged() {
     this.editorOptions.onValueChanged = e => {
-      this.context.change(e.value, this);
+      this.context.change(e.value, { dataField: this.dataField });
     };
   }
   _setLabel(context, { translationRu, translationTk }) {

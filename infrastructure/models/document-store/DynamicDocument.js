@@ -9,9 +9,15 @@ export default class DynamicDocument extends ElectronicDocument {
         state.isDataChanged = true;
       }
     };
+    const getters = {
+      value: ({ document }) => dataField => {
+        console.log(document[dataField]);
+        return document[dataField];
+      }
+    };
     const actions = {
       ...options?.actions
     };
-    super({ mutations, actions });
+    super({ mutations, actions, getters });
   }
 }

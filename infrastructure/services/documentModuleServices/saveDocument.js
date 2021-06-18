@@ -2,7 +2,7 @@ import dataApi from "~/static/dataApi";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import { GenerateApi } from "~/infrastructure/services/documentApi.js";
 
-export default async function (context, store) {
+export default async function(context, store) {
   switch (store.state.document.documentTypeGuid) {
     case DocumentTypeGuid.DocumentTemplate:
       return await saveDocumentTemplate(context, store);
@@ -12,7 +12,9 @@ export default async function (context, store) {
 }
 
 export async function saveDocument(context, { commit, state, dispatch }) {
-  const { data } = await context.$axios.put(`${GenerateApi(state.document.documentTypeGuid)}/${state.document.id}`,
+  console.log(state.document);
+  const { data } = await context.$axios.put(
+    `${GenerateApi(state.document.documentTypeGuid)}/${state.document.id}`,
     state.document
   );
 

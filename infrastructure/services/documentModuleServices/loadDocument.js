@@ -25,8 +25,6 @@ export default async function (context, { documentId, documentTypeGuid }) {
 
 export async function load(context, { documentTypeGuid, documentId }) {
   if (!documentModules.hasModule(documentId)) {
-    console.log("documentTypeGuid", documentTypeGuid);
-    console.log("documentId", documentId);
     const { data } = await context.$axios.get(`${GenerateApi(documentTypeGuid)}/${documentId}`);
     const store = DocumentTemplateStoreFactory.createStore(documentTypeGuid);
     documentModules.registerDocumentModule(context, documentId, store);
