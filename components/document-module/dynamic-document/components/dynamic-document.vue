@@ -181,10 +181,12 @@ export default {
   },
   methods: {
     value(dataField) {
-      console.log(dataField);
-      return this.$store.getters[`documents/${this.documentId}/value`](
-        dataField
-      );
+      if (this.documentId) {
+        return this.$store.getters["documentst/" + this.documentId + "/value"](
+          dataField
+        );
+      }
+
     },
     onFocusIn(data) {
       this.$emit("onFocusField", data.name);
