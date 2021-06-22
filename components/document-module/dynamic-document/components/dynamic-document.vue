@@ -17,7 +17,7 @@
           :validationGroup="documentValidatorName"
           :isRequired="data.editorOptions.isRequired"
           :value="value(data.dataField)"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
       <template #AutoCompleteBox="{ data }">
@@ -29,7 +29,7 @@
             validationGroup: documentValidatorName,
             readOnly: readOnly,
           }"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
       <template #CounterPartSelectBox="{ data }">
@@ -39,7 +39,7 @@
           :readOnly="readOnly"
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
           :value="value(data.dataField)"
         />
       </template>
@@ -47,7 +47,7 @@
         <Contact-select-box
           @focusIn="(value) => onFocusIn(data)"
           :disabled="readOnly"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
           :value="value(data.dataField)"
         />
       </template>
@@ -58,7 +58,7 @@
           :validatorGroup="documentValidatorName"
           :isRequired="data.editorOptions.isRequired"
           :value="value(data.dataField)"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
       <template #EmployeeTagBox="{ data }">
@@ -68,7 +68,7 @@
           :validatorGroup="documentValidatorName"
           :isRequired="data.editorOptions.isRequired"
           :value="value(data.dataField)"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
       <template #BusinessUnitSelectBox="{ data }">
@@ -78,7 +78,7 @@
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
           :value="value(data.dataField)"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
       <template #DepartmentSelectBox="{ data }">
@@ -88,7 +88,7 @@
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
           :value="value(data.dataField)"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
       <template #RecipientSelectBox="{ data }">
@@ -98,7 +98,7 @@
           :validatorGroup="documentValidatorName"
           :value="value(data.dataField)"
           :isRequired="data.editorOptions.isRequired"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
       <template #RecipientTagBox="{ data }">
@@ -108,7 +108,7 @@
           :validatorGroup="documentValidatorName"
           :value="value(data.dataField) || []"
           :isRequired="data.editorOptions.isRequired"
-          @valueChanged="(value) => change(data, value)"
+          @valueChanged="(value) => change(value, data)"
         />
       </template>
     </DxForm>
@@ -182,16 +182,16 @@ export default {
   methods: {
     value(dataField) {
       if (this.documentId) {
-        return this.$store.getters["documentst/" + this.documentId + "/value"](
+        return this.$store.getters[`documents/${this.documentId}/value`](
           dataField
         );
       }
-
     },
     onFocusIn(data) {
       this.$emit("onFocusField", data.name);
     },
     change(value, data) {
+      console.log(value, data);
       this.$store.commit(`documents/${this.documentId}/SET_DYNAMIC_FIELD`, {
         data,
         value,

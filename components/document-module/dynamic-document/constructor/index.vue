@@ -173,7 +173,6 @@ export default {
     },
     async trySave() {
       try {
-        
         await DynamicTypeControler.checkDataField(this, this.documentType);
         this.saveDocument();
       } catch (error) {
