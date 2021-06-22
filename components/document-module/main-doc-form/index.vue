@@ -208,7 +208,7 @@ import DocumentExtradition from "~/components/page/document-extradition.vue";
 import docVersion from "~/components/document-module/main-doc-form/doc-version";
 import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
 import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
-import * as documentTypeComponent from "~/components/document-module/document-type-components/index.js";
+import * as documentTypeComponent from "../document-type-components/index.js";
 
 //CONSTANTS
 

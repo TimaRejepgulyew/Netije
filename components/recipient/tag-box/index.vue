@@ -65,7 +65,7 @@ export default {
   props: {
     value: {
       type: Array,
-      default: [],
+      default: () => [],
     },
     readOnly: {
       type: Boolean,

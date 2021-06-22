@@ -26,7 +26,7 @@ export class BaseField {
     this.isRequired = isRequired;
     this.editorOptions.isRequired = isRequired;
     this.editorOptions.onFocusIn = data => {
-      context.onFocusIn(this);
+      context?.onFocusIn(this);
     };
     this.editorOptions.value = context.value(dataField);
     this._setLabel(context, { translationRu, translationTk });
