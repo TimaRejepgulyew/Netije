@@ -131,6 +131,7 @@ export const actions = {
         commit("USER_OFFLINE", { roomId, user });
     },
     sendMessage({ commit }, message) {
+        console.log(message);
         commit("INCREMENT_MESSAGE_COUNT", message);
         commit("ADD_MESSAGE", message);
     },
