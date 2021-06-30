@@ -24,7 +24,6 @@ export default async ({ app, store }, inject) => {
         store.dispatch("chatStore/userOffline", data);
     });
     socket.on("joinedToRoom", data => {
-        console.log(data, "data");
         store.commit("chatStore/ADD_NEW_ROOM", data);
         socket.emit("joinToRoom", data.id);
     });
@@ -61,6 +60,7 @@ export default async ({ app, store }, inject) => {
             });
             return roomId;
         }
+
         static async createPrivateRoom(members) {
             const roomId = await RoomService.createPrivateRoom(app, {
                 members,
