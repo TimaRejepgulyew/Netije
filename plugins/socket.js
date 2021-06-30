@@ -6,8 +6,11 @@ export default async ({ app, store }, inject) => {
     const options = {
         reconnectionDelayMax: 10000,
         path: "/socket",
-        autoConnect: false,
-        auth: {}
+        autoConnect: true,
+        auth: {},
+        extraHeaders: {
+            Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
+        },
     };
     const socket = new SocketIO(process.env.chatServerUrl, options);
 
@@ -21,7 +24,6 @@ export default async ({ app, store }, inject) => {
         store.dispatch("chatStore/userOffline", data);
     });
     socket.on("joinedToRoom", data => {
-        console.log(data, "data");
         store.commit("chatStore/ADD_NEW_ROOM", data);
         socket.emit("joinToRoom", data.id);
     });
@@ -39,10 +41,12 @@ export default async ({ app, store }, inject) => {
             RoomService.inviteToRoom(app, roomId, users);
         }
         static async sendMessage(msg) {
-            const data = await MessageService.postMessages(app, msg);
+            const data = await MessageService.postMessages(app, msg)
+            store.dispatch("chatStore/sendMessage", data);
         }
         static async sendFiles(msg) {
             const data = await MessageService.postFiles(app, msg);
+            store.dispatch("chatStore/sendMessage", data);
         }
         static async messagesByRoomId(payload) {
             const data = await MessageService.getMessages(app, payload);
@@ -56,6 +60,7 @@ export default async ({ app, store }, inject) => {
             });
             return roomId;
         }
+
         static async createPrivateRoom(members) {
             const roomId = await RoomService.createPrivateRoom(app, {
                 members,
