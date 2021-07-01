@@ -84,7 +84,9 @@
         data-field="responsibleEmployee"
         :caption="$t('docFlow.fields.responsibleId')"
         editCellTemplate="responsibleEmployee"
-      ></DxColumn>
+      >
+         <DxRequiredRule :message="$t('shared.responsibleEmployeeRequired')" />
+      </DxColumn>
       <template #responsibleEmployee="{ data: cellInfo }">
         <employee-select-box
           :showClearButton="false"
@@ -111,9 +113,7 @@
           display-expr="status"
         />
       </DxColumn>
-
       <DxMasterDetail :enabled="true" template="masterDetailTemplate" />
-
       <template #masterDetailTemplate="data">
         <member-list :data="data.data" />
       </template>
@@ -127,7 +127,6 @@ import EntityType from "~/infrastructure/constants/entityTypes";
 import MemberList from "~/components/docFlow/registration-group/master-detail-member-list";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
-
 import {
   DxMasterDetail,
   DxSearchPanel,
