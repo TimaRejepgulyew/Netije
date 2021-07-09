@@ -17,11 +17,11 @@
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
-          <DxSimpleItem data-field="addressee" template="addressee">
+          <DxSimpleItem data-field="addressees" template="addressees">
             <DxRequiredRule
               :message="$t('task.validation.addresseeRequired')"
             />
-            <DxLabel location="left" :text="$t('task.fields.addressee')" />
+            <DxLabel location="left" :text="$t('task.fields.addressees')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="deadline"
@@ -53,7 +53,7 @@
           @valueChanged="setBody"
         />
       </template>
-      <template #addressee>
+      <template #addressees>
         <recipient-tag-box
           :read-only="readOnly"
           :messageRequired="$t('task.validation.addresseeRequired')"
