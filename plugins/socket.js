@@ -10,7 +10,7 @@ export default async ({ app, store }, inject) => {
         auth: {},
         extraHeaders: {
             Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
-        },
+        }
     };
     const socket = new SocketIO(process.env.chatServerUrl, options);
 
@@ -41,7 +41,7 @@ export default async ({ app, store }, inject) => {
             RoomService.inviteToRoom(app, roomId, users);
         }
         static async sendMessage(msg) {
-            const data = await MessageService.postMessages(app, msg)
+            const data = await MessageService.postMessages(app, msg);
             store.dispatch("chatStore/sendMessage", data);
         }
         static async sendFiles(msg) {
@@ -79,7 +79,8 @@ export default async ({ app, store }, inject) => {
         }
 
         static connect() {
-            options.extraHeaders.access_token = `${store.getters["oidc/oidcAccessToken"]}`;
+            options.extraHeaders.Authorization = `Bearer ${store.getters["oidc/oidcAccessToken"]}`;
+            console.log(store.getters["oidc/oidcAccessToken"]);
             socket.connect();
         }
     }
