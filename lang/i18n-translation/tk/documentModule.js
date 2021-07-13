@@ -58,6 +58,7 @@ export default {
     }
   },
   fields: {
+    documentDeadline: "Resminamanyň möhleti",
     lifeCycle: "Ýaşaýyş aýlawy",
     state: "Ýagdaýy",
     registrationState: "Bellige almak",
@@ -126,6 +127,7 @@ export default {
     value: "Manysy"
   },
   validation: {
+    documentDeadline: "Resminamanyň möhleti giriziň",
     paramsValueRequired: "Manysy giriziň",
     paramsValueRule: "Many nädogry girizildi",
     stateRequired: "Ýagdaýy giriziň",
