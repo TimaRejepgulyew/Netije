@@ -4,7 +4,7 @@ export default {
 	env: {
 		oidcClientId: process.env.NODE_ENV !== 'production' ? 'TTDoc.UI' : 'TTDoc.UI-prod',
 		serverUrl: 'https://192.168.4.177',
-		chatServerUrl: 'https://192.168.4.166:4000'
+		chatServerUrl: 'https://192.168.4.161:4000'
 	},
 	loading: {
 		color: 'white'
@@ -24,10 +24,10 @@ export default {
 				content: process.env.npm_package_description || ''
 			}
 		],
-		link: [ { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' } ]
+		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
 	},
 	router: {
-		middleware: [ 'authorization', 'authorization-callback', 'metadata' ]
+		middleware: ['authorization', 'authorization-callback', 'metadata']
 	},
 	css: [
 		{ src: 'devextreme/dist/css/dx.common.css', lang: 'css' },
@@ -40,7 +40,7 @@ export default {
 		{ src: '~/assets/flaticon/flaticon.css', lang: 'css' }
 	],
 	styleResources: {
-		scss: [ '~/assets/themes/variables.base.scss', '~/assets/themes/base-styles.scss' ]
+		scss: ['~/assets/themes/variables.base.scss', '~/assets/themes/base-styles.scss']
 	},
 	plugins: [
 		'~/plugins/eventBus',

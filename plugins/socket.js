@@ -42,11 +42,9 @@ export default async ({ app, store }, inject) => {
         }
         static async sendMessage(msg) {
             const data = await MessageService.postMessages(app, msg);
-            store.dispatch("chatStore/sendMessage", data);
         }
         static async sendFiles(msg) {
             const data = await MessageService.postFiles(app, msg);
-            store.dispatch("chatStore/sendMessage", data);
         }
         static async messagesByRoomId(payload) {
             const data = await MessageService.getMessages(app, payload);
@@ -79,8 +77,7 @@ export default async ({ app, store }, inject) => {
         }
 
         static connect() {
-            options.extraHeaders.Authorization = `Bearer ${store.getters["oidc/oidcAccessToken"]}`;
-            console.log(store.getters["oidc/oidcAccessToken"]);
+            options.extraHeaders.Authorization = store.getters["oidc/oidcAccessToken"];
             socket.connect();
         }
     }
