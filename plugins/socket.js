@@ -56,6 +56,7 @@ export default async ({ app, store }, inject) => {
                     Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
                 }
             };
+
             const socket = new SocketIO(dataApi.chat.baseUrl, options);
             socket.on("connect", msg => {
                 ChatControler.allRooms();
