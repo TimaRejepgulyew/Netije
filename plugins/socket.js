@@ -4,39 +4,7 @@ import RoomService from "~/components/chat/infrastructure/services/room.service"
 import RoomTypes from "~/components/chat/infrastructure/constants/roomType";
 import dataApi from '~/static/dataApi.js'
 export default async ({ app, store }, inject) => {
-    const options = {
-        reconnectionDelayMax: 10000,
-        path: "/socket",
-        autoConnect: true,
-        auth: {},
-        extraHeaders: {
-            Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
-        }
-    };
-    const socket = new SocketIO(dataApi.chat.baseUrl, options);
 
-    socket.on("connect", msg => {
-        ChatControler.allRooms();
-    });
-    socket.on("userOnline", data => {
-        store.dispatch("chatStore/userOnline", data);
-    });
-    socket.on("userOffline", data => {
-        store.dispatch("chatStore/userOffline", data);
-    });
-    socket.on("joinedToRoom", data => {
-        store.commit("chatStore/ADD_NEW_ROOM", data);
-        socket.emit("joinToRoom", data.id);
-    });
-    socket.on("message", data => {
-        const ownId = store.getters["user/employeeId"];
-        if (data.author.id === ownId)
-            store.dispatch("chatStore/sendMessage", data);
-        else {
-            store.dispatch("chatStore/getMessage", data);
-            app.$message(app, data);
-        }
-    });
     class ChatControler {
         static async invateToRoom(roomId, users) {
             RoomService.inviteToRoom(app, roomId, users);
@@ -73,12 +41,44 @@ export default async ({ app, store }, inject) => {
         }
 
         static async allRooms() {
+            console.log(store.getters["oidc/oidcAccessToken"]);
             const rooms = await RoomService.allRooms(app);
             store.commit("chatStore/SET_ROOMS", rooms);
         }
 
         static connect() {
-            options.extraHeaders.Authorization = store.getters["oidc/oidcAccessToken"];
+            const options = {
+                reconnectionDelayMax: 10000,
+                path: "/socket",
+                autoConnect: true,
+                auth: {},
+                extraHeaders: {
+                    Authorization: store.getters["oidc/oidcAccessToken"]
+                }
+            };
+            const socket = new SocketIO(dataApi.chat.baseUrl, options);
+            socket.on("connect", msg => {
+                ChatControler.allRooms();
+            });
+            socket.on("userOnline", data => {
+                store.dispatch("chatStore/userOnline", data);
+            });
+            socket.on("userOffline", data => {
+                store.dispatch("chatStore/userOffline", data);
+            });
+            socket.on("joinedToRoom", data => {
+                store.commit("chatStore/ADD_NEW_ROOM", data);
+                socket.emit("joinToRoom", data.id);
+            });
+            socket.on("message", data => {
+                const ownId = store.getters["user/employeeId"];
+                if (data.author.id === ownId)
+                    store.dispatch("chatStore/sendMessage", data);
+                else {
+                    store.dispatch("chatStore/getMessage", data);
+                    app.$message(app, data);
+                }
+            });
             socket.connect();
         }
     }
