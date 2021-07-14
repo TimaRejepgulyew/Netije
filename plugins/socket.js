@@ -53,7 +53,7 @@ export default async ({ app, store }, inject) => {
                 autoConnect: true,
                 auth: {},
                 extraHeaders: {
-                    Authorization: store.getters["oidc/oidcAccessToken"]
+                    Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
                 }
             };
             const socket = new SocketIO(dataApi.chat.baseUrl, options);
