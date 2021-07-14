@@ -2,6 +2,7 @@ import SocketIO from "socket.io-client";
 import MessageService from "~/components/chat/infrastructure/services/message.service";
 import RoomService from "~/components/chat/infrastructure/services/room.service";
 import RoomTypes from "~/components/chat/infrastructure/constants/roomType";
+import dataApi from '~/static/dataApi.js'
 export default async ({ app, store }, inject) => {
     const options = {
         reconnectionDelayMax: 10000,
@@ -12,7 +13,7 @@ export default async ({ app, store }, inject) => {
             Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
         }
     };
-    const socket = new SocketIO(process.env.chatServerUrl, options);
+    const socket = new SocketIO(dataApi.chat.baseUrl, options);
 
     socket.on("connect", msg => {
         ChatControler.allRooms();

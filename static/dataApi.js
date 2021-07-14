@@ -1,3 +1,4 @@
+const chatBaseUrl = process.env.NODE_ENV === "production" ? `${document.location.protocol}//${document.location.hostname}:4000` : process.env.chatServerUrl
 export default {
     UserPhotoHash:
         process.env.NODE_ENV === "production"
@@ -251,14 +252,15 @@ export default {
         PublickKey: `/api/Boxes/PublicKey/`
     },
     chat: {
-        Room: "/api/Room",
-        RoomsByFilter: "/api/Room/roomsByFilter",
-        Message: "/api/Message",
-        File: "/api/Message/file",
-        MarkAsRead: "/api/Message/MarkAsRead",
-        User: "/api/User",
-        CreatePrivateRoom: "/api/Room/CreatePrivateRoom",
-        CreateGroupRoom: "/api/Room/CreateGroupRoom",
-        DownloadFile: "/api/Message/downloadFile/"
+        baseUrl: chatBaseUrl,
+        Room: `${chatBaseUrl}/api/Room`,
+        RoomsByFilter: `${chatBaseUrl}/api/Room/roomsByFilter`,
+        Message: `${chatBaseUrl}/api/Message`,
+        File: `${chatBaseUrl}/api/Message/file`,
+        MarkAsRead: `${chatBaseUrl}/api/Message/MarkAsRead`,
+        User: `${chatBaseUrl}/api/User`,
+        CreatePrivateRoom: `${chatBaseUrl}/api/Room/CreatePrivateRoom`,
+        CreateGroupRoom: `${chatBaseUrl}/api/Room/CreateGroupRoom`,
+        DownloadFile: `${chatBaseUrl}/api/Message/downloadFile/`
     }
 };

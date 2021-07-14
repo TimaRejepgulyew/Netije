@@ -6,7 +6,7 @@ export default class MessageService {
         const {
             data
         } = await ctx.$axios.get(
-            `${process.env.chatServerUrl}${dataApi.chat.Message}/${roomId}`,
+            `${dataApi.chat.Message}/${roomId}`,
             { params: { take, skip } }
         );
         ctx.$store.commit("chatStore/SET_MESSAGES", {
@@ -17,7 +17,7 @@ export default class MessageService {
     }
     static async markAsRead(ctx, roomId) {
         const { data } = await ctx.$axios.post(
-            `${process.env.chatServerUrl}${dataApi.chat.MarkAsRead}`,
+            `${dataApi.chat.MarkAsRead}`,
             {
                 roomId
             }
@@ -26,7 +26,7 @@ export default class MessageService {
     }
     static async postMessages(ctx, payload) {
         const { data } = await ctx.$axios.post(
-            `${process.env.chatServerUrl}${dataApi.chat.Message}`,
+            `${dataApi.chat.Message}`,
             payload
         );
         return data;
@@ -40,7 +40,7 @@ export default class MessageService {
             formData.append("attachments", file, file.name);
         }
         const { data } = await ctx.$axios.post(
-            `${process.env.chatServerUrl}${dataApi.chat.File}`,
+            `${dataApi.chat.File}`,
             formData,
             {
                 headers: {
@@ -55,12 +55,12 @@ export default class MessageService {
         const {
             data
         } = await ctx.$axios.get(
-            `${process.env.chatServerUrl}${dataApi.chat.DownloadFile}${attachment.id}`,
+            `${dataApi.chat.DownloadFile}${attachment.id}`,
             { responseType: "blob" }
         );
         const blob = new Blob([data], {
             type: `data:${data.type}`
         });
-           saveAs(blob, `${attachment.name}${attachment.extension}`);
+        saveAs(blob, `${attachment.name}${attachment.extension}`);
     }
 }
