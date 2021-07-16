@@ -7,7 +7,7 @@ export const DocumentType = {
   PowerOfAttorney: "Доверенность",
   Order: "Приказ",
   Memo: "Служебная записка",
-  InternalDocument: "Внутрений документ",
+  InternalDocuments: "Внутрений документ",
   SupAgreement: "Дополнительное соглашение",
   IncomingInvoice: "Входящий счет на оплату",
   ContractStatement: "Акт выполненных работ",

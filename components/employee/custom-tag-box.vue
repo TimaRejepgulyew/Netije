@@ -51,9 +51,9 @@ export default {
     "stylingMode",
     "focusStateEnabled",
     "hoverStateEnabled",
-    "activeStateEnabled"
+    "activeStateEnabled",
+    "storeApi"
   ],
-  created() {},
   data() {
     return {
       dataSourceLoaded: this.valueExpr

@@ -3,14 +3,16 @@
     <i
       v-if="typeof item.icon == 'string'"
       class="dx-icon"
-      :class="['dx-icon-'+item.icon]"
+      :class="['dx-icon-' + item.icon]"
     ></i>
     <img v-else :src="item.icon" alt />
-    <div>{{item.text}}</div>
+    <div>{{ item.text }}</div>
     <div
       v-if="getCountNotificationHub"
       class="unRead-counter unRead-counter--position"
-    >{{getCountNotificationHub}}</div>
+    >
+      {{ getCountNotificationHub }}
+    </div>
   </div>
 </template>
 
@@ -29,7 +31,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .justify-items-center {
   position: relative;

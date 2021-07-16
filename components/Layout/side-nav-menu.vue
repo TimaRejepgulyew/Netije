@@ -18,8 +18,11 @@
         @selection-changed="handleSelectionChange"
         @content-ready="handleSelectionChange"
       >
-        <template #assignment-item="{data}">
-          <sideNavBarCustomItem :item="data" />
+        <template #assignment-item="{ data }">
+          <assignmentItem :item="data" />
+        </template>
+        <template #document-item="{ data }">
+          <documentItem :documentQueryModel="documentQueryModel" :item="data" />
         </template>
       </dx-tree-view>
     </div>
@@ -27,26 +30,32 @@
 </template>
 
 <script>
-import sideNavBarCustomItem from "~/components/Layout/side-nav-bar-custom-item.vue";
+import documentItem from "./side-bar-items/document.vue";
+import assignmentItem from "./side-bar-items/assignment.vue";
 import DxTreeView from "devextreme-vue/ui/tree-view";
+import DocumentQueryModel from "~/infrastructure/models/DocumentQuery.js";
 const treeViewRef = "treeViewRef";
 
 export default {
   components: {
     DxTreeView,
-    sideNavBarCustomItem
+    assignmentItem,
+    documentItem,
   },
   props: {
     items: Array,
     selectedItem: String,
-    compactMode: Boolean
+    compactMode: Boolean,
   },
   data() {
     return {
-      treeViewRef
+      treeViewRef,
     };
   },
   computed: {
+    documentQueryModel() {
+      return new DocumentQueryModel(this);
+    },
     menuItems() {
       let i = 0;
       let arr = [...this.items];
@@ -58,7 +67,7 @@ export default {
         }
       }
       return arr;
-    }
+    },
   },
   watch: {
     $route() {
@@ -68,7 +77,7 @@ export default {
       if (this.compactMode) {
         this.treeView.collapseAll();
       }
-    }
+    },
   },
   methods: {
     isVisibleItems(item) {
@@ -89,7 +98,7 @@ export default {
 
       this.$router.push({
         path: e.itemData.path,
-        params: { theNameYouGive: new Date() }
+        params: { theNameYouGive: new Date() },
       });
 
       const pointerEvent = e.event;
@@ -106,7 +115,7 @@ export default {
       const rootNodes = element.querySelectorAll(
         `.${nodeClass}:not(.${leafNodeClass})`
       );
-      Array.from(rootNodes).forEach(node => {
+      Array.from(rootNodes).forEach((node) => {
         node.classList.remove(selectedClass);
       });
 
@@ -128,7 +137,7 @@ export default {
       }
 
       this.treeView.selectItem(this.$route.path);
-    }
+    },
   },
   mounted() {
     this.treeView = this.$refs[treeViewRef] && this.$refs[treeViewRef].instance;
@@ -136,7 +145,7 @@ export default {
     if (this.compactMode) {
       this.treeView.collapseAll();
     }
-  }
+  },
 };
 </script>
 

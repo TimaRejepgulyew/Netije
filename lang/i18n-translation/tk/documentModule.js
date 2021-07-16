@@ -7,7 +7,7 @@ export const DocumentType = {
   PowerOfAttorney: "Ynanç haty",
   Order: "Buýruk",
   Memo: "Gulluk ýazgysy",
-  InternalDocument: "Içerki resminamalar",
+  InternalDocuments: "Içerki resminamalar",
   SupAgreement: "Goşmaça ylalaşyk",
   IncomingInvoice: "Töleg üçin gelen hasap",
   ContractStatement: "Ýerine ýetirilen işleriň delilnamasy",

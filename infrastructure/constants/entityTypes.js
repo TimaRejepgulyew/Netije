@@ -35,7 +35,7 @@ export default {
   OfficialDocument: 401,
   IncomingDocument: 402,
   OutgoingDocument: 403,
-  InternalDocument: 404,
+  InternalDocuments: 404,
   BaseOrder: 405,
   IncomingLetter: 406,
   OutgoingLetter: 407,
