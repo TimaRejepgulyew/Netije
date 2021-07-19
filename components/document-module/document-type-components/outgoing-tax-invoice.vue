@@ -120,6 +120,7 @@
     </template>
     <template #counterparty>
       <custom-select-box
+        valueExpr="id"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
         :isRequired="true"
@@ -130,6 +131,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
         :value="contactId"

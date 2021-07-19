@@ -109,6 +109,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         :value="contactId"
@@ -117,6 +118,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        valueExpr="id"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         :value="counterpartySignatoryId"

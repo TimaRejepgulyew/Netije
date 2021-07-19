@@ -58,6 +58,7 @@
     </template>
     <template #correspondent>
       <custom-select-box
+        valueExpr="id"
         :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
         :isRequired="true"
@@ -69,6 +70,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setAddressee"

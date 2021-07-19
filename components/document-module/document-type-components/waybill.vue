@@ -91,7 +91,6 @@
         :dataSourceFilter="leadingDocumentOptions.dataSourceFilter"
         :dataSourceQuery="leadingDocumentOptions.dataSourceQuery"
         :validationGroup="documentValidatorName"
-        
         :value="document.leadingDocument"
         :isRequired="true"
         @valueChanged="setLeadingDocument"
@@ -99,6 +98,7 @@
     </template>
     <template #counterparty>
       <custom-select-box
+        valueExpr="id"
         :read-only="readOnly"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
@@ -110,6 +110,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :read-only="readOnly"
         :correspondentId="counterpartyId"
         @valueChanged="setContact"
@@ -118,6 +119,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        valueExpr="id"
         :read-only="readOnly"
         :correspondentId="counterpartyId"
         @valueChanged="setCounterpartySignatoryId"

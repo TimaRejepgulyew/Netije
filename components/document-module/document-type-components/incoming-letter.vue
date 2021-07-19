@@ -90,6 +90,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        value-expr="id"
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setContact"
@@ -98,6 +99,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        value-expr="id"
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setCounterpartySignatoryId"
@@ -251,7 +253,6 @@ export default {
           : undefined,
       };
     },
-
     inNumberOptions() {
       return {
         readOnly: this.isRegistered,

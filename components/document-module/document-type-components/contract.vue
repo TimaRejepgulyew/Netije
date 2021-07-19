@@ -135,6 +135,7 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        valueExpr="id"
         :readOnly="readOnly"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :isRequired="true"
@@ -146,6 +147,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
@@ -155,6 +157,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        valueExpr="id"
         :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
