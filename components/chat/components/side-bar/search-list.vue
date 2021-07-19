@@ -1,60 +1,57 @@
 <template>
-    <div class="list_expander">
-        <custom-expander
-            :expantedDefault="true"
-            :header="{ text: 'сотрудники' }"
-            bodyTemplate="users"
-            headerTemplate="header"
-        >
-            <div class="header-list" slot="header">
-                <list-header :type="roomType.Private" />
-            </div>
-            <DxList
-                slot="users"
-                :show-selection-controls="true"
-                pageLoadMode="nextButton"
-                :data-source="usersList"
-                :focusStateEnabled="false"
-                :activeStateEnabled="false"
-                :search-enabled="false"
-                :scrolingEnabled="true"
-            >
-                <template #item="{data}">
-                    <user-item
-                        :disabled="true"
-                        class="has-white-space"
-                        @click="openPrivateChat(data)"
-                        :data="data"
-                    />
-                </template>
-            </DxList>
-        </custom-expander>
-        <custom-expander
-            :expantedDefault="true"
-            :header="{ text: 'группы' }"
-            bodyTemplate="group"
-            headerTemplate="header"
-        >
-            <div class="header-list" slot="header">
-                <list-header :type="roomType.Group" />
-            </div>
-            <DxList
-                slot="group"
-                :data-source="roomsList"
-                :focusStateEnabled="false"
-                :activeStateEnabled="false"
-                :search-enabled="false"
-                :scrolingEnabled="true"
-            >
-                <template #item="{data}">
-                    <group-room-item
-                        @click="openGroupChat(data._id)"
-                        :data="data"
-                    />
-                </template>
-            </DxList>
-        </custom-expander>
-    </div>
+  <div class="list_expander">
+    <custom-expander
+      :expantedDefault="true"
+      :header="{ text: 'сотрудники' }"
+      bodyTemplate="users"
+      headerTemplate="header"
+    >
+      <div class="header-list" slot="header">
+        <list-header :type="roomType.Private" />
+      </div>
+      <DxList
+        slot="users"
+        :show-selection-controls="true"
+        pageLoadMode="nextButton"
+        :data-source="usersList"
+        :focusStateEnabled="false"
+        :activeStateEnabled="false"
+        :search-enabled="false"
+        :scrolingEnabled="true"
+      >
+        <template #item="{ data }">
+          <user-item
+            :disabled="true"
+            class="has-white-space"
+            @click="openPrivateChat(data)"
+            :data="data"
+          />
+        </template>
+      </DxList>
+    </custom-expander>
+    <custom-expander
+      :expantedDefault="true"
+      :header="{ text: 'группы' }"
+      bodyTemplate="group"
+      headerTemplate="header"
+    >
+      <div class="header-list" slot="header">
+        <list-header :type="roomType.Group" />
+      </div>
+      <DxList
+        slot="group"
+        :data-source="roomsList"
+        :focusStateEnabled="false"
+        :activeStateEnabled="false"
+        :search-enabled="false"
+        :scrolingEnabled="true"
+      >
+        <template #item="{ data }">
+          <group-room-item @click="openGroupChat(data._id)" :data="data" />
+        </template>
+      </DxList>
+    </custom-expander>
+  </div>
 </template>
 
 <script>
@@ -93,7 +90,7 @@ export default {
             return new DataSource({
                 store: this.$dxStore({
                     key: "id",
-                    loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.User}`
+                    loadUrl: `${this.$dataApi.chat.User}`
                 }),
                 filter: [
                     ["name", "contains", this.searchValue],
@@ -109,7 +106,7 @@ export default {
             return new DataSource({
                 store: this.$dxStore({
                     key: "id",
-                    loadUrl: `${process.env.chatServerUrl}${this.$dataApi.chat.RoomsByFilter}`
+                    loadUrl: `${this.$dataApi.chat.RoomsByFilter}`
                 }),
                 filter: [
                     ["name", "contains", this.searchValue],
@@ -127,14 +124,14 @@ export default {
 
 <style class="scss">
 .has-white-space {
-    height: auto;
-    width: 20vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: pre;
+  height: auto;
+  width: 20vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
 }
 .list_expander {
-    height: 94vh;
-    overflow: scroll;
+  height: 94vh;
+  overflow: scroll;
 }
 </style>
