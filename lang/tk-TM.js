@@ -27,8 +27,9 @@ import onlineUsers from "~/lang/i18n-translation/tk/onlineUsers.js";
 import documentTracking from "~/lang/i18n-translation/tk/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/tk/recipientTagBox.js";
 import chat from "~/lang/i18n-translation/tk/chat.js";
-
+import filterText from "~/lang/i18n-translation/tk/filterText.js";
 export default {
+  filterText,
   chat,
   recipientTagBox,
   onlineUsers,

@@ -4,6 +4,17 @@
       <div class="toolbar--position-top">
         <DxToolbar>
           <DxItem
+            v-for="item in filterOptions"
+            :options="{
+              text: item.text,
+              onClick: () => changeFilter(item.id),
+              type: filter === item.id ? 'default' : 'normal',
+            }"
+            :key="item.id"
+            location="before"
+            widget="dxButton"
+          />
+          <DxItem
             :options="refreshOptions"
             location="after"
             widget="dxButton"
@@ -34,6 +45,7 @@
   </div>
 </template>
 <script>
+import Filter from "../infrastructure/models/FilterText.js";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
@@ -64,16 +76,31 @@ export default {
         ? dataApi.task.TextsByTask
         : dataApi.assignment.TextsByAssignment;
     return {
+      filter: 0,
       comments: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: url + this.id,
+          loadUrl: `${url}${this.id}/0`,
         }),
         paginate: false,
       }),
     };
   },
   methods: {
+    changeFilter(filter) {
+      this.filter = filter;
+      const url =
+        this.entityType === "task"
+          ? dataApi.task.TextsByTask
+          : dataApi.assignment.TextsByAssignment;
+      this.comments = new DataSource({
+        store: this.$dxStore({
+          key: "id",
+          loadUrl: `${url}${this.id}/${filter}`,
+        }),
+        paginate: false,
+      });
+    },
     reloadStore() {
       setTimeout(() => {
         this.comments.reload();
@@ -81,6 +108,9 @@ export default {
     },
   },
   computed: {
+    filterOptions() {
+      return new Filter(this).getAll();
+    },
     refreshOptions() {
       return {
         icon: "refresh",
