@@ -9,7 +9,7 @@
     :value="value"
     :openOnFieldClick="false"
     :focusStateEnabled="false"
-    valueExpr="id"
+    :valueExpr="valueExpr"
     displayExpr="name"
     :disabled="disabled"
     :searchEnabled="true"
@@ -64,6 +64,7 @@ export default {
     "isPerson",
     "disabled",
     "readOnly",
+    "valueExpr",
   ],
   data() {
     return {

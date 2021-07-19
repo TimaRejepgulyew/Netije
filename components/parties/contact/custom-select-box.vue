@@ -9,7 +9,7 @@
     :openOnFieldClick="false"
     :focusStateEnabled="false"
     :disabled="disabled"
-    valueExpr="id"
+    :valueExpr="valueExpr"
     displayExpr="name"
     :searchEnabled="true"
     searchExpr="name"
@@ -59,6 +59,7 @@ export default {
     "value",
     "correspondentId",
     "disabled",
+    "valueExpr",
   ],
   data() {
     return {};
