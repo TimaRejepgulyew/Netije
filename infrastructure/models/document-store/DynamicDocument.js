@@ -11,7 +11,6 @@ export default class DynamicDocument extends ElectronicDocument {
     };
     const getters = {
       value: ({ document }) => dataField => {
-        console.log(document[dataField]);
         return document[dataField];
       }
     };

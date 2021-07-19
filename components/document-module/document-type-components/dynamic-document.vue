@@ -32,7 +32,6 @@
       </template>
       <template #CounterPartSelectBox="{ data }">
         <Counter-part-select-box
-          value-expr="id"
           :readOnly="readOnly"
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
@@ -146,7 +145,6 @@ export default {
       this,
       DynamicTypeControler.getElements(this, this.documentType)
     );
-    console.log(this.dynamicElements);
   },
   data() {
     return {
@@ -171,9 +169,6 @@ export default {
   },
   methods: {
     value(dataField, test) {
-      if (test) {
-        console.log(dataField);
-      }
       if (this.documentId) {
         return this.$store.getters[`documents/${this.documentId}/value`](
           dataField
@@ -184,7 +179,6 @@ export default {
       this.$emit("onFocusField", data.name);
     },
     change(value, data) {
-      console.log(value, data);
       this.$store.commit(`documents/${this.documentId}/SET_DYNAMIC_FIELD`, {
         data,
         value,

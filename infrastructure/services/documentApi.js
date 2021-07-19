@@ -46,7 +46,6 @@ export function GenerateGridApi(docQuery) {
             return dataApi.internalDocument.getAll
         default:
             console.log("docQueryGrid", docQuery)
-
             break;
     }
 }
@@ -84,7 +83,7 @@ export function GenerateApi(docQuery) {
             return dataApi.waybill.document
         case DocumentQuery.DynamicDocument:
             return dataApi.dynamicDocument.document
-            default:
+        default:
             console.log("docQuerySolo", docQuery)
 
             break;

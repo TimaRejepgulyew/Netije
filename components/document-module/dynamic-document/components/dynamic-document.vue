@@ -35,7 +35,6 @@
       <template #CounterPartSelectBox="{ data }">
         <Counter-part-select-box
           @focusIn="(value) => onFocusIn(data)"
-          value-expr="id"
           :readOnly="readOnly"
           :isRequired="data.editorOptions.isRequired"
           :validatorGroup="documentValidatorName"
@@ -191,7 +190,6 @@ export default {
       this.$emit("onFocusField", data.name);
     },
     change(value, data) {
-      console.log(value, data);
       this.$store.commit(`documents/${this.documentId}/SET_DYNAMIC_FIELD`, {
         data,
         value,

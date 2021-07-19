@@ -29,7 +29,6 @@ export class devExtremeFieldFactory {
 	DocumentBox = DocumentBoxField;
 	AutoCompleteBox = AutoCompleteField;
 	constructor(сontext, fields = []) {
-		console.log(fields);
 		const res = [];
 		for (let field of fields) {
 			const fieldEd = field.editorType;
