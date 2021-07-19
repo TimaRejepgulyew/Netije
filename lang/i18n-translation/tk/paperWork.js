@@ -7,8 +7,8 @@ export default {
         incomingLetterDescr: "Ähli giriş resminamalary görkezmek",
         outgoingLetter: "Çykyş resminamalar",
         outgoingLetterDescr: "Ähli çykyş resminamalary görkezmek",
-        internalDocument: "Içki resminamalar",
-        internalDocumentDescr: "Ähli içki resminamalary görkezmek"
+        internalDocuments: "Içki resminamalar",
+        internalDocumentsDescr: "Ähli içki resminamalary görkezmek"
     },
     control: {
         title: "Gözegçilik",
@@ -21,8 +21,8 @@ export default {
         incomingDocumentDescription: "Gelýän hasaba alnan resminamalaryň sanawy.",
         outgoingDocument: "Çykýan resminama zurnalurnaly",
         outgoingDocumentDescription: "Çykýan hasaba alnan resminamalaryň sanawy.",
-        internalDocument: "Içerki resminamalar zurnalurnaly",
-        internalDocumentDescription: "Içerki hasaba alnan resminamalaryň sanawy.",
+        internalDocuments: "Içerki resminamalar zurnalurnaly",
+        internalDocumentsDescription: "Içerki hasaba alnan resminamalaryň sanawy.",
         beginDate: "Başlanan senesi",
         endDate: "Tamamlanan senesi",
         journal: "Zurnal",

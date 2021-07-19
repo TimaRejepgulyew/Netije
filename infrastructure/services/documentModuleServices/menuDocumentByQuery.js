@@ -21,8 +21,8 @@ export default (context, rootGetters) => {
         template: "document-item",
         path: `/document-module/${DocumentQuery.OutgoingLetter}`
     },]
-    const internalDocument = [{
-        text: context.$i18n.t("DocumentQuery.internalDocument"),
+    const internalDocuments = [{
+        text: context.$i18n.t("DocumentQuery.internalDocuments"),
         template: "document-item",
         query: DocumentQuery.InternalDocuments,
         path: `/document-module/${DocumentQuery.InternalDocuments}`,
@@ -75,6 +75,6 @@ export default (context, rootGetters) => {
         path: "/document-module",
         icon: "file",
         template: "document-item",
-        items: [...incomingDocument, ...outgoingDocument, ...internalDocument,]
+        items: [...incomingDocument, ...outgoingDocument, ...internalDocuments,]
     }, ...accountingDocuments, ...contractualDocuments,]
 };

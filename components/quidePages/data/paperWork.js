@@ -63,8 +63,8 @@ export default function (context) {
         {
           componentType: "document",
           params: { query: DocumentQuery.InternalDocuments, },
-          name: context.$t("paperWork.documents.internalDocument"),
-          description: context.$t("paperWork.documents.internalDocumentDescr"),
+          name: context.$t("paperWork.documents.internalDocuments"),
+          description: context.$t("paperWork.documents.internalDocumentsDescr"),
           visible: true,
           path: pathGenerate(DocumentQuery.InternalDocuments)
         }
@@ -117,9 +117,9 @@ export default function (context) {
           }
         },
         {
-          name: context.$t("paperWork.reports.internalDocument"),
+          name: context.$t("paperWork.reports.internalDocuments"),
           description: context.$t(
-            "paperWork.reports.internalDocumentDescription"
+            "paperWork.reports.internalDocumentsDescription"
           ),
           visible: hasAccess(EntityType.InnerDocumentRegisterReport),
           componentType: "popup",
@@ -127,7 +127,7 @@ export default function (context) {
             popupName: "documentReports",
             options: {
               reportId: "Internal",
-              popupTitle: "paperWork.reports.internalDocument"
+              popupTitle: "paperWork.reports.internalDocuments"
             },
             popupOptions: {
               showLoadingPanel: false,

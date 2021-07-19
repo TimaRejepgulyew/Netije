@@ -80,7 +80,7 @@ export default {
     outgoingDocument: "Çykyş resminamalary",
     accountingDocuments: "Maliýe resminamalary",
     contractualDocuments: "Şertnamalar",
-    internalDocument: "Içerki resminamalar",
+    internalDocuments: "Içerki resminamalar",
     supAgreement: "Goşmaça ylalaşyklar",
     incomingInvoice: "Töleg üçin gelýän hasaplar",
     сontractStatement: "Ýerine ýetirilen işleriň delilnamalary",

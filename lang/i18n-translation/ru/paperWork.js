@@ -7,8 +7,8 @@ export default {
         incomingLetterDescr: "Показать все входящие документы.",
         outgoingLetter: "Исходящие документы",
         outgoingLetterDescr: "Показать все исходящие документы.",
-        internalDocument: "Внутренние документы",
-        internalDocumentDescr: "Показать все внутренние документы."
+        internalDocuments: "Внутренние документы",
+        internalDocumentsDescr: "Показать все внутренние документы."
     },
     control: {
         title: "Контроль",
@@ -21,8 +21,8 @@ export default {
         incomingDocumentDescription: "Список входящих зарегистрированных документов.",
         outgoingDocument: "Журнал исходящих документов",
         outgoingDocumentDescription: "Список исходящих зарегистрированных документов.",
-        internalDocument: "Журнал внутренних документов",
-        internalDocumentDescription: "Список внутренних зарегистрированных документов.",
+        internalDocuments: "Журнал внутренних документов",
+        internalDocumentsDescription: "Список внутренних зарегистрированных документов.",
         beginDate: "Дата начала",
         endDate: "Дата завершения",
         journal: "Журнал",
