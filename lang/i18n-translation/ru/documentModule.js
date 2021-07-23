@@ -7,7 +7,7 @@ export const DocumentType = {
   PowerOfAttorney: "Доверенность",
   Order: "Приказ",
   Memo: "Служебная записка",
-  InternalDocument: "Внутрений документ",
+  InternalDocuments: "Внутрений документ",
   SupAgreement: "Дополнительное соглашение",
   IncomingInvoice: "Входящий счет на оплату",
   ContractStatement: "Акт выполненных работ",
@@ -60,6 +60,7 @@ export default {
     }
   },
   fields: {
+    documentDeadline: "Время жизни документа",
     value: "Значение",
     status: "Состояние",
     lifeCycle: "Жизненый цикл",
@@ -130,6 +131,7 @@ export default {
     description: "Описание"
   },
   validation: {
+    documentDeadline: "Введите время жизни документа",
     paramsValueRequired: "Введите значение",
     paramsValueRule: "Значение введенно не корректно",
     stateRequired: "Введите состояние",

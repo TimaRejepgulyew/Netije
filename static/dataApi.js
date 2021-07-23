@@ -115,6 +115,7 @@ export default {
         Registries: `/api/DocumentRegistration/Registries/`
     },
     documentModule: {
+        GetAllCountDocument: "/api/OfficialDocument/GetAllCountDocument",
         Documents: `/api/OfficialDocument/GetAll/`,
         AllDocument: `/api/OfficialDocument/GetAll/100/0`,
         SaveDocument: `/api/OfficialDocument/`,

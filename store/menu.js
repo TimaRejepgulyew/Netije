@@ -1,10 +1,8 @@
 import EntityType from "~/infrastructure/constants/entityTypes";
-import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
-import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
-import contractIcon from "~/static/icons/document-type/contract.svg";
 import assignmentMenuByRole
     from "~/components/workFlow/assignment-module/infrastructure/factory/assignmentMenuByRole.js";
-
+import AssignmentQuery from "~/components/workFlow/infrastructure/constants/query/assignmentQuery.js";
+import documentMenuByQuery from "~/infrastructure/services/documentModuleServices/menuDocumentByQuery.js"
 export const state = () => ({
     menuList: []
 });
@@ -62,7 +60,7 @@ export const hasDocflowAccess = rootGetters => {
 };
 
 export const getters = {
-    menuList({menuList}) {
+    menuList({ menuList }) {
         return menuList;
     }
 };
@@ -72,10 +70,10 @@ export const mutations = {
         state.menuList = payload;
     }
 };
-import AssignmentQuery from "~/components/workFlow/infrastructure/constants/query/assignmentQuery.js";
+
 
 export const actions = {
-    initialize({commit, rootGetters}) {
+    initialize({ commit, rootGetters }) {
         const data = [
             {
                 notificationType: "assignment",
@@ -101,63 +99,7 @@ export const actions = {
                     }
                 ]
             },
-            {
-                text: this.$i18n.t("menu.recordManagementGroup"),
-                path: "/document-module",
-                icon: "file",
-                items: [
-                    {
-                        text: this.$i18n.t("DocumentQuery.incomingLetter"),
-                        path: `/document-module/${DocumentQuery.IncomingLetter}`
-                    },
-                    {
-                        text: this.$i18n.t("DocumentQuery.outgoingLetter"),
-                        path: `/document-module/${DocumentQuery.OutgoingLetter}`
-                    },
-                    {
-                        text: this.$i18n.t("DocumentQuery.internalDocument"),
-                        path: `/document-module/${DocumentQuery.InternalDocument}`,
-                        items: [
-                            {
-                                text: this.$i18n.t("DocumentQuery.order"),
-                                path: `/document-module/${DocumentQuery.Order}`
-                            },
-                            {
-                                text: this.$i18n.t("DocumentQuery.compancyDirective"),
-                                path: `/document-module/${DocumentQuery.CompanyDirective}`
-                            },
-                            {
-                                text: this.$i18n.t("DocumentQuery.simpleDocument"),
-                                path: `/document-module/${DocumentQuery.SimpleDocument}`
-                            },
-                            {
-                                text: this.$i18n.t("DocumentQuery.addendum"),
-                                path: `/document-module/${DocumentQuery.Addendum}`
-                            },
-                            {
-                                text: this.$i18n.t("DocumentQuery.memo"),
-                                path: `/document-module/${DocumentQuery.Memo}`
-                            },
-                            {
-                                text: this.$i18n.t("DocumentQuery.powerOfAttorney"),
-                                path: `/document-module/${DocumentQuery.PowerOfAttorney}`
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                text: this.$i18n.t("menu.contractualDocuments"),
-                icon: contractIcon,
-                path: `/document-module/${DocumentQuery.ContractualDocuments}`,
-                visible: hasContractAccess(rootGetters)
-            },
-            {
-                text: this.$i18n.t("menu.accountingDocuments"),
-                icon: financialArchiveIcon,
-                path: `/document-module/${DocumentQuery.AccountingDocuments}`,
-                visible: hasAccountingDocumentBaseAccess(rootGetters)
-            },
+            ...documentMenuByQuery(this, rootGetters),
             {
                 text: this.$i18n.t("menu.contractors"),
                 icon: "group",

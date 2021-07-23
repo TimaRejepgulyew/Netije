@@ -1,21 +1,21 @@
 <template>
-    <transition name="fade">
-        <div id="root">
-            <div :class="cssClasses">
-                <app-content
-                    class="content"
-                    :title="title"
-                    :is-x-small="screen.isXSmall"
-                    :is-large="screen.isLarge"
-                >
-                    <template #footer>
-                        <the-footer class="footer" />
-                    </template>
-                </app-content>
-            </div>
-            <RightBar />
-        </div>
-    </transition>
+  <transition name="fade">
+    <div id="root">
+      <div :class="cssClasses">
+        <app-content
+          class="content"
+          :title="title"
+          :is-x-small="screen.isXSmall"
+          :is-large="screen.isLarge"
+        >
+          <template #footer>
+            <the-footer class="footer" />
+          </template>
+        </app-content>
+      </div>
+      <RightBar />
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -38,157 +38,155 @@ import syncfusionLocalizationTk from "@/lang/syncfusionLocalization/tk";
 import { L10n, setCulture } from "@syncfusion/ej2-base";
 
 function getScreenSizeInfo() {
-    const screenSizes = sizes();
+  const screenSizes = sizes();
 
-    return {
-        isXSmall: screenSizes["screen-x-small"],
-        isLarge: screenSizes["screen-large"],
-        cssClasses: Object.keys(screenSizes).filter(cl => screenSizes[cl])
-    };
+  return {
+    isXSmall: screenSizes["screen-x-small"],
+    isLarge: screenSizes["screen-large"],
+    cssClasses: Object.keys(screenSizes).filter((cl) => screenSizes[cl]),
+  };
 }
 
 export default {
-    name: "app",
-    middleware: ["cache"],
-    components: {
-        TheFooter,
-        AppContent,
-        DxButton,
-        RightBar
+  name: "app",
+  middleware: ["cache"],
+  components: {
+    TheFooter,
+    AppContent,
+    DxButton,
+    RightBar,
+  },
+  data() {
+    return {
+      title: "TTDoc",
+      screen: getScreenSizeInfo(),
+    };
+  },
+  computed: {
+    cssClasses() {
+      return ["app"].concat(this.screen.cssClasses);
     },
-    created(){
+  },
+  methods: {
+    screenSizeChanged() {
+      this.screen = getScreenSizeInfo();
+    },
+  },
 
-    },
-    data() {
-        return {
-            title: "TTDoc",
-            screen: getScreenSizeInfo()
-        };
-    },
-    computed: {
-        cssClasses() {
-            return ["app"].concat(this.screen.cssClasses);
-        }
-    },
-    methods: {
-        screenSizeChanged() {
-            this.screen = getScreenSizeInfo();
-        }
-    },
+  beforeCreate() {
+    Globalize.load(tkCldrData, ruCldrData, supplemental);
+    Globalize.locale(this.$i18n.locale);
+    loadMessages(tkMessages);
+    loadMessages(ruMessages);
+    locale(this.$i18n.locale);
+    L10n.load({
+      ru: {
+        ...syncfusionLocalizationRu,
+      },
+      tk: {
+        ...syncfusionLocalizationTk,
+      },
+    });
+  },
 
-    beforeCreate() {
-        Globalize.load(tkCldrData, ruCldrData, supplemental);
-        Globalize.locale(this.$i18n.locale);
-        loadMessages(tkMessages);
-        loadMessages(ruMessages);
-        locale(this.$i18n.locale);
-        L10n.load({
-            ru: {
-                ...syncfusionLocalizationRu
-            },
-            tk: {
-                ...syncfusionLocalizationTk
-            }
-        });
-    },
+  async created() {
+    subscribe(this.screenSizeChanged);
+    window.addEventListener("vuexoidc:userSignedOut", () =>
+      this.$store.dispatch("oidc/signOutOidc")
+    );
+    await this.$store.dispatch("document-count/loadDocumentCount");
+  },
+  mounted() {
+    this.$online.connectHub();
+    this.$notification.connectHub(this);
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
 
-    created() {
-        subscribe(this.screenSizeChanged);
-        window.addEventListener("vuexoidc:userSignedOut", () =>
-            this.$store.dispatch("oidc/signOutOidc")
-        );
-    },
-    mounted() {
-        this.$online.connectHub();
-        this.$notification.connectHub(this);
-        this.$nextTick(() => {
-            this.$nuxt.$loading.start();
-
-            setTimeout(() => this.$nuxt.$loading.finish(), 50000);
-        });
-        this.$allowNotification();
-    },
-    beforeRouteEnter(to, from, next) {},
-    beforeDestroy() {
-        unsubscribe(this.screenSizeChanged);
-        window.removeEventListener("vuexoidc:userSignedOut");
-    }
+      setTimeout(() => this.$nuxt.$loading.finish(), 50000);
+    });
+    this.$allowNotification();
+  },
+  beforeRouteEnter(to, from, next) {},
+  beforeDestroy() {
+    unsubscribe(this.screenSizeChanged);
+    window.removeEventListener("vuexoidc:userSignedOut");
+  },
 };
 </script>
 
 <style lang="scss">
 html,
 body {
-    margin: 0px;
-    min-height: 100%;
-    height: 100%;
-    overflow: auto;
+  margin: 0px;
+  min-height: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
 #root {
-    width: 100%;
-    height: 100vh;
-    display: flex;
+  width: 100%;
+  height: 100vh;
+  display: flex;
 }
 
 * {
-    padding: 0;
-    margin: 0;
-    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
+  box-sizing: border-box;
 
-    &::-webkit-scrollbar {
-        width: 5px;
-    }
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        border-radius: 6px;
-        background-color: rgba($color: #000000, $alpha: 0.3);
-        cursor: pointer;
-    }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    cursor: pointer;
+  }
 }
 
 button {
-    outline: none;
-    border: none;
+  outline: none;
+  border: none;
 }
 
 .text--error {
-    color: red;
+  color: red;
 }
 
 .d-flex {
-    .item {
-        flex-grow: 1;
-        padding-right: 15px;
-        width: 20%;
-    }
+  .item {
+    flex-grow: 1;
+    padding-right: 15px;
+    width: 20%;
+  }
 
-    .f-grow-3 {
-        flex-grow: 3;
-    }
+  .f-grow-3 {
+    flex-grow: 3;
+  }
 
-    .btn--group {
-        margin-top: 30px;
-        padding-top: 350px;
-    }
+  .btn--group {
+    margin-top: 30px;
+    padding-top: 350px;
+  }
 }
 
 .navBar {
-    background-color: darken($base-bg, 1);
+  background-color: darken($base-bg, 1);
 }
 
 .app {
-    display: flex;
-    height: 100vh;
-    width: 100%;
+  display: flex;
+  height: 100vh;
+  width: 100%;
 }
 
 .grid--title {
-    color: #333;
+  color: #333;
 }
 
 .list__content {
-    justify-self: flex-start;
+  justify-self: flex-start;
 }
 </style>

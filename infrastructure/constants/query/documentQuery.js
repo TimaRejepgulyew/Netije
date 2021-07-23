@@ -2,7 +2,7 @@ const DocumentQuery = {
   All: 100,
   IncomingDocument: 101,
   OutgoingDocument: 102,
-  InternalDocument: 103,
+  InternalDocuments: 103,
   ContractualDocuments: 104,
   AccountingDocuments: 105,
   ContractsAndSupAgreements: 106,

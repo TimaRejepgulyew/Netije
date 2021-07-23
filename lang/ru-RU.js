@@ -148,7 +148,7 @@ export default {
       notification: "Предупреждение",
       serverError: "Ошибка сервера",
       notHaveAccessRightToRead: "У вас не достаточно прав на данный обьект",
-      hasnotVersion:"Не удалось загрузить версию документа"
+      hasnotVersion: "Не удалось загрузить версию документа"
     },
     begining: "Начало",
     end: "Конец",

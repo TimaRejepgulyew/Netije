@@ -45,27 +45,33 @@ export default function (context) {
       title: context.$t("paperWork.documents.title"),
       items: [
         {
+          componentType: "document",
+          params: { query: DocumentQuery.IncomingLetter },
           name: context.$t("paperWork.documents.incomingLetter"),
           description: context.$t("paperWork.documents.incomingLetterDescr"),
           path: pathGenerate(DocumentQuery.IncomingLetter),
           visible: isVisible(EntityType.IncomingLetter)
         },
         {
+          componentType: "document",
+          params: { query: DocumentQuery.OutgoingLetter, },
           name: context.$t("paperWork.documents.outgoingLetter"),
           description: context.$t("paperWork.documents.outgoingLetterDescr"),
           visible: isVisible(EntityType.OutgoingLetter),
           path: pathGenerate(DocumentQuery.OutgoingLetter)
         },
         {
+          componentType: "document",
+          params: { query: DocumentQuery.InternalDocuments, },
           name: context.$t("paperWork.documents.internalDocument"),
           description: context.$t("paperWork.documents.internalDocumentDescr"),
           visible: true,
-          path: pathGenerate(DocumentQuery.InternalDocument)
+          path: pathGenerate(DocumentQuery.InternalDocuments)
         }
       ]
     },
 
-    
+
     {
       icon: reportIcon,
       title: context.$t("paperWork.reports.title"),
