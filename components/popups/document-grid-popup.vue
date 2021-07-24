@@ -8,7 +8,7 @@
 </template>
 
 <script>
-
+import DocumentQuery from "~/infrastructure/constants/query/DocumentQuery.js";
 import { DocumentQuery as DocumentQueryModel } from "~/infrastructure/models/DocumentQuery.js";
 export default {
   components: {
@@ -27,8 +27,9 @@ export default {
   },
   computed: {
     generateHeaderTitle() {
-      return new DocumentQueryModel(this).getById(this.options.documentQuery)
-        .text;
+      return new DocumentQueryModel(this).getById(
+        this.options.documentQuery || DocumentQuery.AllDocuments
+      ).text;
     },
   },
   methods: {

@@ -19,7 +19,7 @@ export default {
 
 const GetColumnsByDocumentType = (type, context) => {
   switch (type) {
-    case DocumentQuery.All:
+    case DocumentQuery.AllDocuments:
       return CreateElectronicDocumentColumns(context);
     case DocumentQuery.IncomingLetter:
       return CreateIncomingLetterColumns(context);

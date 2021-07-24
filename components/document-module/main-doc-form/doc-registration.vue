@@ -7,9 +7,7 @@
   >
     <DxGroupItem :col-count="1">
       <DxGroupItem :caption="$t('document.groups.captions.numberAndDate')">
-        <DxSimpleItem
-          data-field="registrationNumber"
-        >
+        <DxSimpleItem :data-field="$t('document.fields.registrationNumber')">
           <DxLabel location="left" />
         </DxSimpleItem>
 

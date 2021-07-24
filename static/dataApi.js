@@ -115,6 +115,9 @@ export default {
     CaseFiles: `/api/DocumentRegistration/CaseFiles`,
     Registries: `/api/DocumentRegistration/Registries/`
   },
+  officialDocument: {
+    getAll: "/api/OfficialDocument/GetAllOfficialDocument",
+  },
   incomingLetter: {
     getAll: "/api/IncomingLetter/getAll",
     document: "/api/IncomingLetter"
@@ -174,9 +177,6 @@ export default {
   Waybill: {
     getAll: "/api/Waybill/GetAll",
     document: "/api/Waybill"
-  },
-  officialDocument: {
-    getAll: "/api/OfficialDocument/GetAllOfficialDocument",
   },
   contractualDocuments: {
     getAll: "/api/OfficialDocument/GetAllContractualDocument",
