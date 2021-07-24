@@ -50,6 +50,7 @@ import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
+import FilterText from "../infrastructure/constants/filterText/index.js";
 export default {
   components: {
     DxToolbar,
@@ -80,7 +81,7 @@ export default {
       comments: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${url}${this.id}/0`,
+          loadUrl: `${url}${this.id}/${FilterText.All}`,
         }),
         paginate: false,
       }),
