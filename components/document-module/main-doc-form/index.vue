@@ -187,14 +187,13 @@ import DynamicTypeControler from "~/components/document-module/dynamic-document/
 import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import Status from "~/infrastructure/constants/status";
 // COMPONENTS
-
 import DxForm, {
   DxTabbedItem,
   DxTab,
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import AutocomleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
 import { unload } from "~/infrastructure/services/documentService.js";
@@ -211,11 +210,9 @@ import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
 import * as documentTypeComponent from "../document-type-components/index.js";
 
 //CONSTANTS
-
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-
 import DocumentType from "~/infrastructure/models/DocumentType.js";
 import dataApi from "~/static/dataApi";
 
@@ -239,7 +236,7 @@ export default {
     lifeCycle,
     Header,
     documentTasks,
-    ElExchangeLogs
+    ElExchangeLogs,
   },
   name: "document-card",
   destroyed() {
@@ -256,13 +253,13 @@ export default {
   props: ["isCard", "documentId"],
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name
+      title: this.$store.getters[`documents/${this.documentId}/document`].name,
     };
   },
-  provide: function() {
+  provide: function () {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName
+      documentValidatorName: this.documentValidatorName,
     };
   },
   created() {
@@ -285,9 +282,9 @@ export default {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
+        loop: "true",
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`
+      documentValidatorName: `OfficialDocument/${this.documentId}`,
     };
   },
   methods: {
@@ -318,7 +315,7 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    }
+    },
   },
   computed: {
     isExchangeble() {
@@ -335,7 +332,7 @@ export default {
         category: "Document",
         entityType: this.document.documentTypeGuid,
         readOnly: this.readOnly,
-        height: 70
+        height: 70,
       };
     },
     canExchangePermission() {
@@ -358,19 +355,19 @@ export default {
       return this.document.name;
     },
     documentKindOptions() {
-      const generateFilter = document => {
+      const generateFilter = (document) => {
         switch (document.documentTypeGuid) {
           case DocumentTypeGuid.DynamicDocument:
             return [
               ["documentTypeId", "=", this.document.dynamicDocumentTypeId],
               "and",
-              ["status", "=", Status.Active]
+              ["status", "=", Status.Active],
             ];
           default:
             return [
               ["documentTypeId", "=", this.document.documentTypeGuid],
               "and",
-              ["status", "=", Status.Active]
+              ["status", "=", Status.Active],
             ];
         }
       };
@@ -378,7 +375,7 @@ export default {
       const options = builder
         .withUrl(dataApi.docFlow.DocumentKind)
         .filter(generateFilter(this.document))
-        .acceptCustomValues(e => {
+        .acceptCustomValues((e) => {
           e.customItem = null;
         })
         .withoutDeferRendering()
@@ -388,12 +385,12 @@ export default {
       return {
         ...options,
         value: this.document.documentKind,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.dispatch(
             `documents/${this.documentId}/setDocumentKind`,
             e.value
           );
-        }
+        },
       };
     },
     readOnly() {
@@ -453,9 +450,9 @@ export default {
         value: this.document.name,
         disabled:
           this.document.documentKind?.generateDocumentName || this.isRegistered,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
-        }
+        },
       };
     },
     noteOptions() {
@@ -464,12 +461,12 @@ export default {
         value: this.document.note,
         height: 70,
         autoResizeEnabled: true,
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
-        }
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
