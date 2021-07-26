@@ -1,7 +1,6 @@
 import DocumentQuery from "../../constants/query/documentQuery";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
-//TODO in dymanic document add dynamic count too
 export default (context, rootGetters) => {
     const hasContractAccess = rootGetters => {
         return rootGetters["permissions/isResponsibleForContracts"];
@@ -53,6 +52,12 @@ export default (context, rootGetters) => {
             }
         ]
     }]
+    const dynamicDocument = [{
+        text: context.$i18n.t("DocumentQuery.DynamicDocument"),
+        template: "document-item",
+        query: DocumentQuery.DynamicDocument,
+        path: `/document-module/${DocumentQuery.DynamicDocument}`
+    }]
     const accountingDocuments = [{
         text: context.$i18n.t("menu.accountingDocuments"),
         icon: financialArchiveIcon,
@@ -75,6 +80,6 @@ export default (context, rootGetters) => {
         path: "/document-module",
         icon: "file",
         template: "document-item",
-        items: [...incomingDocument, ...outgoingDocument, ...internalDocument,]
+        items: [...incomingDocument, ...outgoingDocument, ...internalDocument, ...dynamicDocument]
     }, ...accountingDocuments, ...contractualDocuments,]
 };

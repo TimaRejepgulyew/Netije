@@ -66,19 +66,14 @@ export default function (context) {
           name: context.$t("paperWork.documents.internalDocument"),
           description: context.$t("paperWork.documents.internalDocumentDescr"),
           visible: true,
-<<<<<<< HEAD
           path: pathGenerate(DocumentQuery.InternalDocument)
         },
         {
           name: context.$t("paperWork.documents.dynamicDocument"),
           description: context.$t("paperWork.documents.dynamicDocumentDescr"),
           visible: true,
-          path: pathGenerate(DocumentQuery.DynamicDocument )
+          path: pathGenerate(DocumentQuery.DynamicDocument)
         },
-=======
-          path: pathGenerate(DocumentQuery.InternalDocuments)
-        }
->>>>>>> develop
       ]
     },
 
