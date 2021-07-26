@@ -51,7 +51,6 @@
 <script>
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import dataApi from "~/static/dataApi";
-import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
 import DxForm, {
   DxSimpleItem,
   DxButtonItem,

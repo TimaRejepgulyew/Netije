@@ -4,24 +4,33 @@
     <toolbar @saveChanges="saveChanges" :canSave="true" />
     <DxForm ref="form" :form-data.sync="settings">
       <DxSimpleItem editorType="dxCheckBox" data-field="needRestrictVisibility">
-        <DxLabel location="left" :text="$t('companyStructure.company.limitVisibility')" />
+        <DxLabel
+          location="left"
+          :text="$t('companyStructure.company.limitVisibility')"
+        />
       </DxSimpleItem>
       <DxSimpleItem template="whoSees" data-field="unrestrictedRecipients">
-        <DxLabel location="left" :text="$t('companyStructure.company.whoSeesAll')" />
+        <DxLabel
+          location="left"
+          :text="$t('companyStructure.company.whoSeesAll')"
+        />
       </DxSimpleItem>
       <DxSimpleItem template="hiddenEmployees" data-field="hiddenRecipients">
-        <DxLabel location="left" :text="$t('companyStructure.company.hiddenEmployees')" />
+        <DxLabel
+          location="left"
+          :text="$t('companyStructure.company.hiddenEmployees')"
+        />
       </DxSimpleItem>
       <template #whoSees>
         <RecipientTagBox
-          :recipients="settings.unrestrictedRecipients"
-          @setRecipients="changeUnrestrictedRecipients"
+          :value="settings.unrestrictedRecipients"
+          @valueChanged="changeUnrestrictedRecipients"
         />
       </template>
       <template #hiddenEmployees>
         <RecipientTagBox
-          :recipients="settings.hiddenRecipients"
-          @setRecipients="changeHiddenEmployees"
+          :value="settings.hiddenRecipients"
+          @valueChanged="changeHiddenEmployees"
         />
       </template>
     </DxForm>
@@ -33,7 +42,7 @@ import {
   DxForm,
   DxSimpleItem,
   DxGroupItem,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import Header from "~/components/page/page__header.vue";
 import Toolbar from "~/components/shared/base-toolbar.vue";
@@ -48,13 +57,13 @@ export default {
     DxLabel,
     Header,
     Toolbar,
-    RecipientTagBox
+    RecipientTagBox,
   },
 
   data() {
     return {
       headerTitle: this.$t("companyStructure.company.visibilitySetting"),
-      settings: null
+      settings: null,
     };
   },
   methods: {
@@ -67,14 +76,14 @@ export default {
     async saveChanges() {
       this.$awn.asyncBlock(
         this.$axios.put(dataApi.visibilitySettings.settings, this.settings),
-        e => {
+        (e) => {
           this.$awn.success();
         },
-        e => {
+        (e) => {
           this.$awn.alert();
         }
       );
-    }
+    },
   },
   created() {
     this.$awn.asyncBlock(
@@ -82,10 +91,10 @@ export default {
       ({ data }) => {
         this.settings = data;
       },
-      e => {
+      (e) => {
         this.$awn.alert();
       }
     );
-  }
+  },
 };
 </script>

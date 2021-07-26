@@ -1,6 +1,13 @@
 <template>
   <div>
-    <div class="text_area_wrapper" :class="{focused:inFocus && !options.readOnly}" tabindex="-1">
+    <div
+      class="text_area_wrapper"
+      :class="{
+        focused: inFocus && !options.readOnly,
+        readOnly: options.readOnly,
+      }"
+      tabindex="-1"
+    >
       <div>
         <DxTextArea
           ref="textArea"
@@ -60,7 +67,9 @@
         :key="index"
         :title="text"
       >
-        <div class="text" @click="() => setText(item.text)">{{ item.text }}</div>
+        <div class="text" @click="() => setText(item.text)">
+          {{ item.text }}
+        </div>
         <DxButton
           icon="clear"
           styling-mode="text"
@@ -89,47 +98,47 @@ export default {
     DxTextArea,
     DxValidator,
     DxRequiredRule,
-    DxButton
+    DxButton,
   },
   props: {
     value: {
       type: String,
-      default: ""
+      default: "",
     },
     options: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       tagBoxMaxWidth: 100,
       text: this.value || "",
-      inFocus: false
+      inFocus: false,
     };
   },
   computed: {
     autoText() {
       return this.$store.getters["autocomlete-texts/getAll"]({
         category: AutoTextCategory[this.options.category],
-        entityType: this.options.entityType
+        entityType: this.options.entityType,
       });
     },
     autoTextPopupButtonOptions() {
       return {
         icon: "endswith",
-        stylingMode: "text"
+        stylingMode: "text",
       };
     },
     filteredText() {
-      return this.autoText.filter(item => {
+      return this.autoText.filter((item) => {
         return item.text.toLowerCase().indexOf(this.text.toLowerCase()) !== -1;
       });
-    }
+    },
   },
   methods: {
     ...mapActions({
-      deleteText: "autocomlete-texts/deleteText"
+      deleteText: "autocomlete-texts/deleteText",
     }),
     valueChanged(text) {
       this.$emit("valueChanged", this.text);
@@ -140,6 +149,7 @@ export default {
     },
     focusIn() {
       this.inFocus = true;
+      this.$emit("focusIn", this.text);
     },
     setText(text) {
       this.text = text;
@@ -148,12 +158,12 @@ export default {
     addAutoText() {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.phraseTemplate.phrase, {
-          phrase: this.text
+          phrase: this.text,
         }),
-        e => {
+        (e) => {
           this.$awn.success();
         },
-        e => {
+        (e) => {
           this.$alert();
         }
       );
@@ -167,16 +177,16 @@ export default {
           position: "flex-start",
           width: "60vw",
           height: "80vh",
-          listeners: [{ eventName: "valueChanged", handlerName: "setText" }]
+          listeners: [{ eventName: "valueChanged", handlerName: "setText" }],
         }
       );
-    }
+    },
   },
   mounted() {
     setTimeout(() => {
       this.tagBoxMaxWidth = this.$refs.textArea.$el.offsetWidth;
     }, 0);
-  }
+  },
 };
 </script>
 
@@ -199,6 +209,18 @@ export default {
   }
   .dx-texteditor.dx-editor-underlined {
     border: none !important;
+  }
+}
+.readOnly {
+  border: 1px dashed rgba($color: #ddd, $alpha: 1);
+  &.focused {
+    border: 1px dashed #009a40;
+  }
+  &:focus {
+    border: 1px dashed rgba($color: #4cae4c, $alpha: 0.5);
+  }
+  &:hover {
+    border: 1px dashed rgba($color: #4cae4c, $alpha: 0.5);
   }
 }
 .tag_box {

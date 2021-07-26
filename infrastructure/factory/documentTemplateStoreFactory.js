@@ -14,12 +14,13 @@ import {
   SupAgreement,
   OutgoingTaxInvoice,
   UniversalTransferDocument,
-  Waybill
+  Waybill,
+  DynamicDocument
 } from "~/infrastructure/storeTemplate/documentStores/index.js";
 import DocumentType from "~/infrastructure/constants/documentType";
 
 export default class DocumentTemplateStoreFactory {
-  constructor() {}
+  constructor() { }
 
   static createStore(documentTypeGuid) {
     switch (documentTypeGuid) {
@@ -68,10 +69,10 @@ export default class DocumentTemplateStoreFactory {
       case DocumentType.SupAgreement:
         return new SupAgreement().createStore();
 
-      //TODO set DocumentTemplate Type Id
       case DocumentType.DocumentTemplate:
         return new DocumentTemplate().createStore();
-
+      case DocumentType.DynamicDocument:
+        return new DynamicDocument().createStore();
       default:
         throw "unsupported document type store module";
     }

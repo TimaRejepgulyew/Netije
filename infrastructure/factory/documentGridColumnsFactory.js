@@ -19,14 +19,14 @@ export default {
 
 const GetColumnsByDocumentType = (type, context) => {
   switch (type) {
-    case DocumentQuery.All:
+    case DocumentQuery.AllDocuments:
       return CreateElectronicDocumentColumns(context);
     case DocumentQuery.IncomingLetter:
       return CreateIncomingLetterColumns(context);
     case DocumentQuery.OutgoingLetter:
       return CreateOutgoingLetterColumns(context);
     case DocumentQuery.InternalDocuments:
-      return CreateInternalDocumentColumns(context);
+      return CreateInternalDocumentsColumns(context);
     case DocumentQuery.Addendum:
       return CreateAddendumColumns(context);
     case DocumentQuery.Order:
@@ -48,6 +48,8 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateAccountingDocumentsColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
+    case DocumentQuery.DynamicDocument:
+      return CreateDynamicDocumentsColumns(context);
 
     case "document-template":
       return createDocumentTemplateColumns(context);
@@ -124,7 +126,7 @@ const CreateIncomingLetterColumns = context => {
     CreateCounterpartySignatoryColumn(context)
   ];
 };
-const CreateInternalDocumentColumns = context => {
+const CreateInternalDocumentsColumns = context => {
   return [...CreateBaseColumn(context)];
 };
 const CreateAddendumColumns = context => {
@@ -218,6 +220,26 @@ const createDocumentTemplateColumns = context => {
     CreateDocumentTemplateStatus(context)
   ];
 };
+
+const CreateDynamicDocumentsColumns = context => {
+  return [
+    CreateDocumentSubjectColumn(context),
+    CreateDocumentTypeGuidColumn(context),
+    CreateDocumentNameColumn(context),
+    CreateDocumentCreatedColumn(context),
+    CreateDocumentModifiedColumn(context),
+    createExecutionStateColumn(context),
+    CreateDocumentAuthorColumn(context),
+    CreateDocumentRegistrationStateColumn(context),
+    CreateDocumentRegisterColumn(context),
+    CreateDocumentKindColumn(context),
+    CreateDocumentRegistrationNumberColumn(context),
+    CreateDocumentRegistrationDateColumn(context),
+    CreatePlacedToCaseFileDateColumn(context),
+    CreateCaseFileColumn(context)
+  ];
+};
+
 const GetDefaultColumn = () => {
   return {
     dataField: "extension",

@@ -135,8 +135,10 @@
     </DxGroupItem>
     <template #counterparty>
       <custom-select-box
+        valueExpr="id"
         :readOnly="readOnly"
         @selectionChanged="handlerCorrespondentSelectionChanged"
+        :isRequired="true"
         :validatorGroup="documentValidatorName"
         @valueChanged="setCounterparty"
         messageRequired="document.validation.counterPartRequired"
@@ -145,6 +147,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
@@ -154,6 +157,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        valueExpr="id"
         :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
@@ -180,6 +184,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -194,6 +199,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
@@ -212,7 +218,6 @@ import BusinessUnitSelectBox from "~/components/company/organization-structure/b
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import customSelectBoxContact from "~/components/parties/contact/custom-select-box.vue";
 import customSelectBox from "~/components/parties/custom-select-box.vue";
-import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import Status from "~/infrastructure/constants/status";
 import dataApi from "~/static/dataApi";
 import DxForm, {

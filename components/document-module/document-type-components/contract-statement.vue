@@ -101,6 +101,7 @@
         messageRequired="document.validation.counterPartRequired"
         :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="counterpartyId"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         @valueChanged="setCounterparty"
@@ -108,6 +109,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         :value="contactId"
@@ -116,6 +118,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        valueExpr="id"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
         :value="counterpartySignatoryId"
@@ -139,6 +142,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -153,6 +157,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
@@ -363,11 +368,8 @@ export default {
         data
       );
     },
-   setDepartment (data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+    setDepartment(data) {
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setValidTill(data) {
       this.$store.commit(`documents/${this.documentId}/SET_VALID_TILL`, data);

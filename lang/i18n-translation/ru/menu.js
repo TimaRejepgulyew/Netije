@@ -1,5 +1,5 @@
 export default {
-  documentTemplate:"Шаблоны документов",
+  documentTemplate: "Шаблоны документов",
   recordManagementGroup: "Делопроизводство",
   accountingDocuments: "Финансовые документы",
   contractualDocuments: "Договоры",
@@ -36,11 +36,12 @@ export default {
   documentRegister: "Журналы регистрации",
   documentType: "Тип документа",
   documentKind: "Виды документов",
+  documentType: "Типы документов",
   registrationSetting: "Настройки регистрации",
   registrationGroup: "Группы регистрации",
   contacts: "Контакты",
   associatedApp: "Обработчики приложений",
   actionItemExecutionTasks: "Поручения",
   logs: "Логи",
-  approvals:"Согласование",
+  approvals: "Согласование",
 }

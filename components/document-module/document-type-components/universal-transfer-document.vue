@@ -126,9 +126,11 @@
     </template>
     <template #counterparty>
       <custom-select-box
+        valueExpr="id"
         :readOnly="readOnly"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         @valueChanged="setCounterparty"
         messageRequired="document.validation.counterPartRequired"
         :value="counterpartyId"
@@ -136,6 +138,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
@@ -145,6 +148,7 @@
     </template>
     <template #counterPartSignatury>
       <custom-select-box-contact
+        valueExpr="id"
         :readOnly="readOnly"
         :disabled="!isCompany"
         :correspondentId="counterpartyId"
@@ -169,6 +173,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -183,6 +188,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="

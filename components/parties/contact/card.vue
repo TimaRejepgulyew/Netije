@@ -120,11 +120,11 @@ import DxForm, {
   DxRequiredRule,
   DxCompareRule,
   DxRangeRule,
-  DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
   DxAsyncRule,
 } from "devextreme-vue/form";
+import dataApi from "~/static/dataApi";
 import PartiesSelectBox from "~/components/parties/custom-select-box.vue";
 import Toolbar from "~/components/shared/base-toolbar.vue";
 import Header from "~/components/page/page__header.vue";
@@ -167,7 +167,6 @@ export default {
       personSelected: false,
     };
   },
-  
 
   computed: {
     isNew() {

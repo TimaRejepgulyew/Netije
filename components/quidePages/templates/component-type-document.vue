@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import DocumentQuery from "~/infrastructure/models/DocumentQuery";
+import { DocumentQuery } from "~/infrastructure/models/DocumentQuery";
 export default {
   props: ["item"],
   methods: {
@@ -19,10 +19,10 @@ export default {
   },
   computed: {
     count() {
-      console.log(value, this.item.params.query);
       const value = new DocumentQuery(this).getById(
         this.item.params.query
       ).value;
+      console.log(value, this.item.params.query);
       return this.$store.getters["document-count/documentCount"](
         value.charAt(0).toLowerCase() + value.slice(1)
       );

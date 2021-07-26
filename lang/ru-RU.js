@@ -1,10 +1,9 @@
+import dynamicDocuments from "./i18n-translation/ru/dynamicDocuments.js";
 import sharedDirectory from "~/lang/i18n-translation/ru/sharedDirectory.js";
 import administration from "~/lang/i18n-translation/ru/administration.js";
 import licensing from "~/lang/i18n-translation/ru/licensing.js";
 import documentModule from "~/lang/i18n-translation/ru/documentModule.js";
-import documentRegistration, {
-  DocumentType
-} from "~/lang/i18n-translation/ru/documentRegistration.js";
+import documentRegistration from "~/lang/i18n-translation/ru/documentRegistration.js";
 import taskModule, { TaskType } from "~/lang/i18n-translation/ru/taskModule.js";
 import lifeCycleState from "~/lang/i18n-translation/ru/lifeCycleState.js";
 import buttons from "~/lang/i18n-translation/ru/buttons.js";
@@ -28,6 +27,7 @@ import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/ru/recipientTagBox.js";
 import chat from "~/lang/i18n-translation/ru/chat.js";
 export default {
+  dynamicDocuments,
   chat,
   recipientTagBox,
   searching,
@@ -69,35 +69,37 @@ export default {
     valueMustNotContainsSpaces: "В значении не должны присутствовать пробелы"
   },
   DocumentQuery: {
-    all: "Все документы",
-    incomingDocument: "Входящие документы",
-    outgoingDocument: "Исходящие документы",
-    accountingDocuments: "Финансовые документы",
-    contractualDocuments: "Договоры",
-    contractStatement: "Акт выполненных работ",
-    contractsAndSupAgreements: "Договоры и дополнительные соглашения",
-    internalDocument: "Внутрение документы",
-    supAgreement: "Дополнительные соглашения",
-    incomingInvoice: "Входящие счета на оплату",
-    сontractStatement: "Акты выполненных работ",
-    incomingTaxInvoice: "Счет-фактуры полученные",
-    outgoingTaxInvoice: "Счет-фактуры выставленные",
-    universalTransferDocument: "Универсальные передаточный документы",
-    waybill: "Накладные",
-    contract: "Договоры",
-    addendum: "Приложения к документу",
-    memo: "Служебные записки",
-    order: "Приказы",
-    powerOfAttorney: "Доверенности",
-    outgoingLetter: "Исходящие письма",
-    incomingLetter: "Входящие письма",
-    companyDirective: "Распоряжения",
-    simpleDocument: "Простые документы",
-    universaltransferdocument: "Универсальный передаточный документ"
+    AllDocuments: "Все документы",
+    IncomingDocument: "Входящие документы",
+    OutgoingDocument: "Исходящие документы",
+    AccountingDocuments: "Финансовые документы",
+    ContractualDocuments: "Договоры",
+    ContractStatement: "Акт выполненных работ",
+    ContractsAndSupAgreements: "Договоры и дополнительные соглашения",
+    InternalDocuments: "Внутрение документы",
+    SupAgreement: "Дополнительные соглашения",
+    IncomingInvoice: "Входящие счета на оплату",
+    ContractStatement: "Акты выполненных работ",
+    IncomingTaxInvoice: "Счет-фактуры полученные",
+    OutgoingTaxInvoice: "Счет-фактуры выставленные",
+    UniversalTransferDocument: "Универсальные передаточный документы",
+    Waybill: "Накладные",
+    Contract: "Договоры",
+    Addendum: "Приложения к документу",
+    Memo: "Служебные записки",
+    Order: "Приказы",
+    PowerOfAttorney: "Доверенности",
+    OutgoingLetter: "Исходящие письма",
+    IncomingLetter: "Входящие письма",
+    CompanyDirective: "Распоряжения",
+    SimpleDocument: "Простые документы",
+    Universaltransferdocument: "Универсальный передаточный документ",
+    DocumentTemplate: "Шаблоны документов",
+    DynamicDocument: "Динамические документы"
   },
   createItemDialog: {
-    ...DocumentType,
     ...TaskType,
+    dynamicDocuments: "Динамические документы",
     select: "Выбрать",
     create: "Создать",
     recordManagementGroup: "Делопроизводственные документы",

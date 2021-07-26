@@ -23,7 +23,7 @@
       @valueChanged="valueChanged"
       @opened="onOpened"
     >
-      <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+      <DxValidator v-if="isRequired" :validation-group="validatorGroup">
         <DxRequiredRule />
       </DxValidator>
 
@@ -32,6 +32,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @focusIn="focusIn"
           @openFields="openFields"
           @showCard="showCard"
           :read-only="readOnly"
@@ -64,6 +65,9 @@ export default {
       default: true
     },
     value: {},
+    isRequired: {
+      default: false,
+    },
     storeApi: {},
     messageRequired: {},
     validatorGroup: {},
@@ -102,6 +106,9 @@ export default {
     }
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },

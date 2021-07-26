@@ -14,7 +14,6 @@
   </div>
 </template>
 <script>
-import { createLeadingDocument } from "~/infrastructure/services/documentService.js";
 import RelationDocumentType from "~/infrastructure/models/RelationDocumentType.js";
 import RelationDropDownBtnOption from "~/infrastructure/builders/relationDropDown.js";
 import { DxDropDownButton } from "devextreme-vue";
@@ -23,14 +22,14 @@ export default {
     DxDropDownButton,
   },
   props: ["documentId"],
-  
+
   computed: {
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
     dropDownConfigure() {
       return new RelationDropDownBtnOption({
-        items: this.items
+        items: this.items,
       });
     },
     items() {
@@ -39,17 +38,16 @@ export default {
           .init(this.document.documentTypeGuid)
           .getAll()
       );
-    }
+    },
   },
   methods: {
     createRelation(e) {
       e.itemData.create(this, {
         params: {
-          leadingDocumentType: this.document.documentTypeGuid,
-          leadingDocumentId: +this.documentId
-        }
+          leadingDocumentId: +this.documentId,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>

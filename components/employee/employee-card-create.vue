@@ -92,6 +92,7 @@
           :value="businessUnit"
           :read-only="isCard"
           validatorGroup="createEmployee"
+          :isRequired="true"
           @valueChanged="
             (data) => {
               setBusinessUnit(data);
@@ -105,6 +106,7 @@
           :read-only="isCard"
           :value="department"
           validatorGroup="createEmployee"
+          :isRequired="true"
           :businessUnitId="businessUnitId"
           @valueChanged="
             (data) => {

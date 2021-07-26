@@ -12,7 +12,6 @@
         :dataSource="QuiсkFilterItems"
         :storeKey="'document-' + documentQuery"
         @valueChanged="setStore"
-      
       />
     </Header>
     <DxDataGrid
@@ -71,7 +70,8 @@ import DocumentQuickFilterModel from "~/infrastructure/models/quickFilter/docume
 import DocumentQuickFilterGuid from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import QuiсkFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter.js";
 import ColumnFactory from "~/infrastructure/factory/documentGridColumnsFactory.js";
-import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
+import { DocumentQuery as DocumentQueryModel } from "~/infrastructure/models/DocumentQuery.js";
+
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
 import { DxLoadPanel } from "devextreme-vue/load-panel";
@@ -96,6 +96,7 @@ import {
   DxStateStoring,
 } from "devextreme-vue/data-grid";
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
+import { GenerateGridApi } from "~/infrastructure/services/documentApi.js";
 import DataSource from "devextreme/data/data_source";
 export default {
   components: {
@@ -124,7 +125,7 @@ export default {
   props: {
     documentQuery: {
       type: Number,
-      default: DocumentQuery.All,
+      default: DocumentQuery.AllDocuments,
     },
     isCard: {
       type: Boolean,
@@ -136,9 +137,8 @@ export default {
     return {
       activeFilter: QuiсkFilter.All,
       store: null,
-      filterBuilderPopupPosition: this.$store.getters[
-        "paper-work/filterBuilderPopupPosition"
-      ],
+      filterBuilderPopupPosition:
+        this.$store.getters["paper-work/filterBuilderPopupPosition"],
       selectDocument: (e) => {
         this.$emit("selectedDocument", {
           id: e.key,
@@ -153,7 +153,7 @@ export default {
       this.store = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.documentQuery}/${quickFilter}`,
+          loadUrl: `${GenerateGridApi(this.documentQuery)}/${quickFilter}`,
         }),
         filter,
       });
@@ -185,9 +185,8 @@ export default {
         }
       );
     },
-
     generateHeaderTitle() {
-      return generateNameByDocQuery(this.documentQuery, this);
+      return new DocumentQueryModel(this).getById(this.documentQuery).text;
     },
     columns() {
       return ColumnFactory.CreateColumns(this.documentQuery, this);

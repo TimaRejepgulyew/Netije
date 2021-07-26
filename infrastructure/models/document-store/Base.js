@@ -162,12 +162,12 @@ export default class Base {
     SKIP_ROUTE_HANDLING(state, payload) {
       state.skipRouteHandling = payload;
     },
-    START_DATA_TRACKING(state) {
-      state.trackDataChange = true;
-    },
-    STOP_DATA_TRACKING(state) {
-      state.trackDataChange = false;
-    },
+    // START_DATA_TRACKING(state) {
+    //   state.trackDataChange = true;
+    // },
+    // STOP_DATA_TRACKING(state) {
+    //   state.trackDataChange = false;
+    // },
     CLEAR_DOCUMENT(state) {
       state.document = {};
     },
@@ -191,7 +191,7 @@ export default class Base {
     },
     async delete({ state }) {
       await this.$axios.delete(
-        `${dataApi.documentModule.DeleteDocument}${state.document.documentTypeGuid}/${state.document.id}`
+        `${dataApi.documentModule.DeleteDocument}${state.document.id}`
       );
     }
   };

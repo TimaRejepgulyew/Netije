@@ -75,7 +75,6 @@ import DxForm, {
   DxRequiredRule,
   DxLabel,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxGroupItem,
@@ -145,6 +144,12 @@ export default {
         case DocumentType.UniversalTransferDocument:
           this.itemVisible.internalApprovalState = true;
           this.itemVisible.externalApprovalState = true;
+          break;
+        case DocumentType.DynamicDocument:
+          this.itemVisible.registrationState = true;
+          this.itemVisible.executionState = true;
+          this.itemVisible.controlExecutionState = true;
+          this.itemVisible.internalApprovalState = true;
           break;
       }
     },

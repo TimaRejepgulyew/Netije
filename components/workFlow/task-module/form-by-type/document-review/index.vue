@@ -65,8 +65,8 @@
       <template #resolutionObservers>
         <recipient-tag-box
           :read-only="readOnly"
-          :recipients="resolutionObservers"
-          @setRecipients="setResolutionObservers"
+          :value="resolutionObservers"
+          @valueChanged="setResolutionObservers"
         />
       </template>
     </DxForm>

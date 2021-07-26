@@ -86,22 +86,23 @@
         <recipient-tag-box
           :read-only="readOnly"
           :validatorGroup="taskValidatorName"
-          :recipients="performers"
-          @setRecipients="setPerformers"
+          :isRequired="true"
+          :value="performers"
+          @valueChanged="setPerformers"
         />
       </template>
       <template #observers>
         <recipient-tag-box
           :read-only="readOnly"
-          :recipients="observers"
-          @setRecipients="setObservers"
+          :value="observers"
+          @valueChanged="setObservers"
         />
       </template>
       <template #excludedPerformers>
         <recipient-tag-box
           :read-only="readOnly"
-          :recipients="excludedPerformers"
-          @setRecipients="setExcludedPerformers"
+          :value="excludedPerformers"
+          @valueChanged="setExcludedPerformers"
         />
       </template>
     </DxForm>

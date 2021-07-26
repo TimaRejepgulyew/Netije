@@ -16,7 +16,8 @@ export const DocumentType = {
   UniversalTransferDocument: "Универсальный передаточный документ",
   Waybill: "Накладная",
   Contract: "Договор",
-  DocumentTemplate: "Шаблон документов"
+  DocumentTemplate: "Шаблон документов",
+  DynamicDocument:"Динамические документы"
 };
 export default {
   remove: "Удалить",

@@ -86,6 +86,7 @@
           :value="box.businessUnitId"
           :read-only="readOnly"
           validatorGroup="integration-box-form"
+          :isRequired="true"
           @valueChanged="setBusinessUnitId"
         />
       </template>
@@ -95,6 +96,7 @@
           :value="box.responsibleId"
           :read-only="readOnly"
           validatorGroup="integration-box-form"
+          :isRequired="true"
           @valueChanged="setResponsibleId"
         />
       </template>

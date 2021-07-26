@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import dataApi from "~/static/dataApi";
-import { generateNameByDocQuery } from "~/infrastructure/constants/query/documentQuery.js";
+import DocumentQuery from "~/infrastructure/constants/query/DocumentQuery.js";
+import { DocumentQuery as DocumentQueryModel } from "~/infrastructure/models/DocumentQuery.js";
 export default {
   components: {
     documentGrid: () =>
@@ -27,7 +27,9 @@ export default {
   },
   computed: {
     generateHeaderTitle() {
-      return generateNameByDocQuery(this.options.documentQuery, this);
+      return new DocumentQueryModel(this).getById(
+        this.options.documentQuery || DocumentQuery.AllDocuments
+      ).text;
     },
   },
   methods: {

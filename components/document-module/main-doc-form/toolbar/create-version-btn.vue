@@ -27,9 +27,7 @@ import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import DxDropDownButton from "devextreme-vue/drop-down-button";
 import documentVersionService from "~/infrastructure/services/documentVersionService.js";
 import { DxButton } from "devextreme-vue";
-import dataApi from "~/static/dataApi";
 import toolbarItemUploadVersion from "~/components/document-module/main-doc-form/toolbar/upload-version-button.vue";
-import { click } from "@syncfusion/ej2-vue-spreadsheet";
 import DocumentVersionViewer from "~/infrastructure/services/documentVersionViewer.js";
 export default {
   components: {

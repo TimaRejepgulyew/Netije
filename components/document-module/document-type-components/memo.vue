@@ -70,6 +70,7 @@
     <template #prepared>
       <employee-select-box
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :read-only="readOnly"
         :value="preparedBy"
         @valueChanged="setPreparedBy"
@@ -79,6 +80,7 @@
       <employee-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         @valueChanged="setAddressee"
       />
     </template>
@@ -87,6 +89,7 @@
         valueExpr="id"
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -101,6 +104,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="
@@ -117,8 +121,6 @@
 import DepartmentSelectBox from "~/components/company/organization-structure/departments/custom-select-box";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
-import Status from "~/infrastructure/constants/status";
-import dataApi from "~/static/dataApi";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -172,10 +174,7 @@ export default {
   },
   methods: {
     setPreparedBy(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_PREPARED_BY`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_PREPARED_BY`, data);
     },
     setOurSignatory(data) {
       this.$store.commit(
@@ -190,10 +189,7 @@ export default {
       this.$store.commit(`documents/${this.documentId}/SET_ASSIGNEE`, data);
     },
     setDepartment(data) {
-      this.$store.commit(
-        `documents/${this.documentId}/SET_DEPARTMENT`,
-        data
-      );
+      this.$store.commit(`documents/${this.documentId}/SET_DEPARTMENT`, data);
     },
     setBusinessUnit(data) {
       this.$store.commit(

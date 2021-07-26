@@ -43,7 +43,6 @@
   </div>
 </template>
 <script>
-import businessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box.vue";
 import DxForm, {
   DxGroupItem,
   DxSimpleItem,
@@ -56,7 +55,6 @@ export default {
     DxSimpleItem,
     DxLabel,
     DxForm,
-    businessUnitSelectBox,
   },
   props: ["taskId", "canUpdate"],
   inject: ["taskValidatorName"],

@@ -157,6 +157,7 @@
         </template>
         <template #formByTypeGuid>
           <component
+            :documentType="document.dynamicDocumentTypeId"
             :documentId="documentId"
             :isCard="isCard"
             :is="formByTypeGuid"
@@ -182,10 +183,10 @@
   </div>
 </template>
 <script>
+import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
 import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
 import Status from "~/infrastructure/constants/status";
 // COMPONENTS
-
 import DxForm, {
   DxTabbedItem,
   DxTab,
@@ -206,16 +207,15 @@ import DocumentExtradition from "~/components/page/document-extradition.vue";
 import docVersion from "~/components/document-module/main-doc-form/doc-version";
 import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
 import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
-import * as documentTypeComponent from "~/components/document-module/document-type-components/index.js";
+import * as documentTypeComponent from "../document-type-components/index.js";
 
 //CONSTANTS
-
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-
 import DocumentType from "~/infrastructure/models/DocumentType.js";
 import dataApi from "~/static/dataApi";
+
 export default {
   components: {
     ...documentTypeComponent,
@@ -240,7 +240,14 @@ export default {
   },
   name: "document-card",
   destroyed() {
-    if (!this.isNew) this.onClosed();
+    if (this.isNew === false) this.onClosed();
+
+    if (DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid) {
+      DynamicTypeControler.removeStore(
+        this,
+        this.document.dynamicDocumentTypeId
+      );
+    }
     unload(this, this.documentId);
   },
   props: ["isCard", "documentId"],
@@ -348,14 +355,26 @@ export default {
       return this.document.name;
     },
     documentKindOptions() {
+      const generateFilter = (document) => {
+        switch (document.documentTypeGuid) {
+          case DocumentTypeGuid.DynamicDocument:
+            return [
+              ["documentTypeId", "=", this.document.dynamicDocumentTypeId],
+              "and",
+              ["status", "=", Status.Active],
+            ];
+          default:
+            return [
+              ["documentTypeId", "=", this.document.documentTypeGuid],
+              "and",
+              ["status", "=", Status.Active],
+            ];
+        }
+      };
       const builder = new SelectBoxOptionsBuilder();
       const options = builder
         .withUrl(dataApi.docFlow.DocumentKind)
-        .filter(
-          ["documentTypeGuid", "=", this.document.documentTypeGuid],
-          "and",
-          ["status", "=", Status.Active]
-        )
+        .filter(generateFilter(this.document))
         .acceptCustomValues((e) => {
           e.customItem = null;
         })
@@ -422,6 +441,8 @@ export default {
           return "universal-transfer-document";
         case DocumentTypeGuid.Waybill:
           return "waybill";
+        case DocumentTypeGuid.DynamicDocument:
+          return "dynamic-document";
       }
     },
     nameOptions() {

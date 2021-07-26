@@ -88,7 +88,7 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import { unload } from "~/infrastructure/services/documentService.js";
 import dataApi from "~/static/dataApi";
@@ -112,7 +112,7 @@ export default {
     DxRequiredRule,
     DxLabel,
     mainForm,
-    paramsForm
+    paramsForm,
   },
   props: ["documentId", "isCard"],
   data() {
@@ -123,9 +123,9 @@ export default {
         focusStateEnabled: false,
         animationEnabled: false,
         swipeEnabled: false,
-        loop: "true"
+        loop: "true",
       },
-      documentValidatorName: `OfficialDocument/${this.documentId}`
+      documentValidatorName: `OfficialDocument/${this.documentId}`,
     };
   },
   destroyed() {
@@ -143,13 +143,13 @@ export default {
   },
   head() {
     return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name
+      title: this.$store.getters[`documents/${this.documentId}/document`].name,
     };
   },
-  provide: function() {
+  provide: function () {
     return {
       trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName
+      documentValidatorName: this.documentValidatorName,
     };
   },
   methods: {
@@ -178,11 +178,11 @@ export default {
     },
     openVersion() {
       this.versionOpenState = !this.versionOpenState;
-    }
+    },
   },
   computed: {
     headerTitle() {
-      return this.document.name || this.$t("document.header.documentTemplate");
+      return this.document.name || this.$t("document.headers.documentTemplate");
     },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
@@ -198,8 +198,8 @@ export default {
     },
     isNew() {
       return this.$store.getters[`documents/${this.documentId}/isNew`];
-    }
-  }
+    },
+  },
 };
 </script>
 

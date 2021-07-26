@@ -52,15 +52,16 @@
         :readOnly="inResponseToOptions.readOnly"
         :dataSourceFilter="inResponseToOptions.dataSourceFilter"
         :dataSourceQuery="inResponseToOptions.dataSourceQuery"
-        :validationGroup="documentValidatorName"
         :value="document.inResponseTo"
         @valueChanged="setInResponseTo"
       />
     </template>
     <template #correspondent>
       <custom-select-box
+        valueExpr="id"
         :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         @valueChanged="setCorrenspondent"
         @selectionChanged="handlerCorrespondentSelectionChanged"
         messageRequired="document.validation.counterPartRequired"
@@ -69,6 +70,7 @@
     </template>
     <template #contact>
       <custom-select-box-contact
+        valueExpr="id"
         :disabled="!isCompany || readOnly"
         :correspondentId="correspondentId"
         @valueChanged="setAddressee"
@@ -80,6 +82,7 @@
       <employee-select-box
         :read-only="!canUpdate"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="preparedBy"
         @valueChanged="setPreparedBy"
       />
@@ -96,6 +99,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -109,6 +113,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="

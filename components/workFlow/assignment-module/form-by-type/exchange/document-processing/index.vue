@@ -37,6 +37,7 @@
       <DxGroupItem template="attachments" :col-span="3" />
       <template #counterparty>
         <counterparty-custom-select-box
+          valueExpr="id"
           :readOnly="true"
           :value="correspondentId"
         />

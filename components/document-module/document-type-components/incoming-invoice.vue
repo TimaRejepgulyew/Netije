@@ -65,10 +65,7 @@
     </DxGroupItem>
 
     <DxGroupItem :col-span="2" :col-count="2" :caption="$t('shared.ourSide')">
-      <DxSimpleItem
-        data-field="businessUnit"
-        template="businessUnitSelectBox"
-      >
+      <DxSimpleItem data-field="businessUnit" template="businessUnitSelectBox">
         <DxLabel location="left" :text="$t('document.fields.businessUnitId')" />
         <DxRequiredRule
           :message="$t('document.validation.businessUnitIdRequired')"
@@ -97,6 +94,7 @@
         value-expr="id"
         :readOnly="readOnly"
         :validatorGroup="documentValidatorName"
+         :isRequired="true"
         @valueChanged="
           (data) => {
             setCounterparty(data);
@@ -111,6 +109,7 @@
       <business-unit-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="businessUnit"
         @valueChanged="
           (data) => {
@@ -124,6 +123,7 @@
       <department-select-box
         :read-only="readOnly"
         :validatorGroup="documentValidatorName"
+        :isRequired="true"
         :value="department"
         :businessUnitId="businessUnitId"
         @valueChanged="

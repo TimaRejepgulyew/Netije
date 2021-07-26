@@ -28,7 +28,6 @@ import tkMessages from "../lang/devExtremeLocalization/tk.json";
 import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
 import RightBar from "~/components/chat/index.vue";
-
 import supplemental from "devextreme-cldr-data/supplemental.json";
 import tkCldrData from "devextreme-cldr-data/tk.json";
 import ruCldrData from "devextreme-cldr-data/ru.json";
@@ -36,7 +35,6 @@ import Globalize from "globalize";
 import syncfusionLocalizationRu from "@/lang/syncfusionLocalization/ru";
 import syncfusionLocalizationTk from "@/lang/syncfusionLocalization/tk";
 import { L10n, setCulture } from "@syncfusion/ej2-base";
-
 function getScreenSizeInfo() {
   const screenSizes = sizes();
 
