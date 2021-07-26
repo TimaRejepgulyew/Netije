@@ -40,7 +40,7 @@
             >{{$t("workFlow.fields.observers")}}: {{task.entity.actionItemObservers.map(recipient=>recipient.name).join(", ")}}</div>
           </div> -->
 
-          <div class="d-flex ">
+          <div class="d-flex">
             <i>{{ task.entity.body }}</i>
           </div>
         </div>
@@ -53,27 +53,27 @@
 import moment from "moment";
 import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment/attachment-task-action-btn.vue";
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import actionItemExecutionIcon from "~/static/icons/action-item-execution.svg";
 export default {
   components: {
-    actionBtn
+    actionBtn,
   },
   props: ["task"],
   data() {
     return {
-      actionItemExecutionIcon
+      actionItemExecutionIcon,
     };
   },
   methods: {
     showCard(task) {
       this.$emit("showCard", task);
-    }
+    },
   },
   filters: {
     formatDate(value) {
       return moment(value).format("MM.DD.YYYY HH:mm");
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -13,7 +13,7 @@
 <script>
 import DocumentService from "~/infrastructure/services/documentVersionService";
 import actionBtn from "~/components/workFlow/attachment/attachment-task-action-btn.vue";
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import actionItemExecutionIcon from "~/static/icons/action-item-execution.svg";
 export default {
   components: {
     actionBtn
