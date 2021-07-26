@@ -76,7 +76,7 @@ export default {
     ContractualDocuments: "Договоры",
     ContractStatement: "Акт выполненных работ",
     ContractsAndSupAgreements: "Договоры и дополнительные соглашения",
-    InternalDocument: "Внутрение документы",
+    InternalDocuments: "Внутрение документы",
     SupAgreement: "Дополнительные соглашения",
     IncomingInvoice: "Входящие счета на оплату",
     ContractStatement: "Акты выполненных работ",

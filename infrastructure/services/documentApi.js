@@ -44,8 +44,8 @@ export function GenerateGridApi(docQuery) {
             return dataApi.accountingDocuments.getAll
         case DocumentQuery.DynamicDocument:
             return dataApi.dynamicDocument.getAll
-        case DocumentQuery.InternalDocument:
-            return dataApi.internalDocument.getAll
+        case DocumentQuery.InternalDocuments:
+            return dataApi.internalDocuments.getAll
         default:
             console.log("docQueryGrid", docQuery)
             break;

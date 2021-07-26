@@ -183,8 +183,8 @@ export default {
   accountingDocuments: {
     getAll: "/api/OfficialDocument/GetAllAccounting",
   },
-  internalDocument: {
-    getAll: "/api/OfficialDocument/GetAllInternalDocument",
+  internalDocuments: {
+    getAll: "/api/OfficialDocument/GetAllInternalDocuments",
   },
 
   dynamicDocument: {
