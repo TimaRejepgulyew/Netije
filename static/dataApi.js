@@ -1,4 +1,4 @@
-const chatBaseUrl = process.env.NODE_ENV === "production" ? `${document.location.protocol}//${document.location.hostname}:4000` : process.env.chatServerUrl
+const chatBaseUrl = process.env.NODE_ENV === "production" ? `${document.location.origin}/chat` : process.env.chatServerUrl
 export default {
   UserPhotoHash:
     process.env.NODE_ENV === "production"
