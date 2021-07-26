@@ -13,6 +13,7 @@
           </template>
         </app-content>
       </div>
+      <RightBar />
     </div>
   </transition>
 </template>
@@ -26,6 +27,7 @@ import { sizes, subscribe, unsubscribe } from "./media-query";
 import tkMessages from "../lang/devExtremeLocalization/tk.json";
 import ruMessages from "../lang/devExtremeLocalization/ru.json";
 import { locale, loadMessages } from "devextreme/localization";
+import RightBar from "~/components/chat/index.vue";
 
 import supplemental from "devextreme-cldr-data/supplemental.json";
 import tkCldrData from "devextreme-cldr-data/tk.json";
@@ -34,6 +36,7 @@ import Globalize from "globalize";
 import syncfusionLocalizationRu from "@/lang/syncfusionLocalization/ru";
 import syncfusionLocalizationTk from "@/lang/syncfusionLocalization/tk";
 import { L10n, setCulture } from "@syncfusion/ej2-base";
+
 function getScreenSizeInfo() {
   const screenSizes = sizes();
 
@@ -47,6 +50,12 @@ function getScreenSizeInfo() {
 export default {
   name: "app",
   middleware: ["cache"],
+  components: {
+    TheFooter,
+    AppContent,
+    DxButton,
+    RightBar,
+  },
   data() {
     return {
       title: "TTDoc",
@@ -80,11 +89,12 @@ export default {
     });
   },
 
-  created() {
+  async created() {
     subscribe(this.screenSizeChanged);
     window.addEventListener("vuexoidc:userSignedOut", () =>
       this.$store.dispatch("oidc/signOutOidc")
     );
+    await this.$store.dispatch("document-count/loadDocumentCount");
   },
   mounted() {
     this.$online.connectHub();
@@ -111,8 +121,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 html,
 body {
   margin: 0px;
@@ -124,31 +132,46 @@ body {
 #root {
   width: 100%;
   height: 100vh;
+  display: flex;
 }
 
 * {
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
   box-sizing: border-box;
+
   &::-webkit-scrollbar {
     width: 5px;
   }
+
   &::-webkit-scrollbar-thumb {
     border-radius: 6px;
     background-color: rgba($color: #000000, $alpha: 0.3);
     cursor: pointer;
   }
 }
+
+button {
+  outline: none;
+  border: none;
+}
+
 .text--error {
   color: red;
 }
+
 .d-flex {
   .item {
     flex-grow: 1;
     padding-right: 15px;
     width: 20%;
   }
+
   .f-grow-3 {
     flex-grow: 3;
   }
+
   .btn--group {
     margin-top: 30px;
     padding-top: 350px;
@@ -160,7 +183,6 @@ body {
 }
 
 .app {
-  background-color: darken($base-bg, 5);
   display: flex;
   height: 100vh;
   width: 100%;

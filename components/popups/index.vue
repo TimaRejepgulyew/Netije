@@ -204,7 +204,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/themes/generated/variables.base.scss";
 .popup-fade-enter-active,
 .popup-fade-leave-active {
   transition: 0.5s;
@@ -255,8 +254,7 @@ export default {
         flex-grow: 1;
         font-size: 20px;
         font-weight: 400;
-        font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana,
-          sans-serif;
+
       }
       .icon {
         cursor: pointer;
@@ -270,7 +268,6 @@ export default {
       overflow-y: scroll;
       padding: 20px 20px 20px 20px;
       max-height: 90vh;
-      font-family: "Helvetica Neue", "Segoe UI", Helvetica, Verdana, sans-serif;
     }
   }
 }

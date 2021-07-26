@@ -91,7 +91,7 @@ import DxTextArea from "devextreme-vue/text-area";
 import DxButton from "devextreme-vue/button";
 import { mapActions } from "vuex";
 import Widget from "devextreme/ui/widget/ui.widget";
-import dataApi from "~/static/dataApi";
+
 
 export default {
   components: {

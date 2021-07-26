@@ -38,6 +38,9 @@ export default {
   inject: ["trySaveDocument"],
   props: ["documentId"],
   computed: {
+    isNew() {
+      return this.$store.getters[`documents/${this.documentId}/isNew`];
+    },
     document() {
       return this.$store.getters[`documents/${this.documentId}/document`];
     },
@@ -94,12 +97,13 @@ export default {
   methods: {
     uploadVersion(data) {
       this.$store.dispatch(`documents/${this.documentId}/setVersion`, data);
-      if (!this.isNew)
+      if (!this.isNew) {
         if (DocumentTypeGuid.OutgoingLetter === this.document.documentTypeGuid)
           this.$store.dispatch(`documents/${this.documentId}/updateExchange`, {
             documentId: this.document.id,
             documentTypeGuid: this.document.documentTypeGuid,
           });
+      }
       this.$emit("uploadVersion");
       this.$awn.success();
     },

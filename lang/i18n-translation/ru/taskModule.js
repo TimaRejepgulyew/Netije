@@ -49,7 +49,7 @@ export default {
   },
   attachment: "Вложения",
   fields: {
-    writtenBy:"замещает",
+    writtenBy: "замещает",
     boxBase: "Абонентский ящик",
     counterParty: "Контрагент",
     sender: "Отправитель",
@@ -61,6 +61,7 @@ export default {
     gradually: "Друг за другом",
     performers: "Исполнители",
     start: "Старт",
+    addressees: "Адресаты",
     addressee: "Адресат",
     deadline: "Cрок",
     createdDate: "Дата создания",

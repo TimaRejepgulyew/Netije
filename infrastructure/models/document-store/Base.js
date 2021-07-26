@@ -113,6 +113,12 @@ export default class Base {
         state.isDataChanged = true;
       }
     },
+    SET_DOCMUMENT_DEADLINE: (state, payload) => {
+      if (this._checkDataChanged(payload, state.document.documentDeadline)) {
+        state.document.documentDeadline = payload;
+        state.isDataChanged = true;
+      }
+    },
     SET_IS_NEW(state, payload) {
       state.isNew = payload;
     },

@@ -225,7 +225,6 @@
           :value="businessUnit"
           :read-only="readOnly"
           validatorGroup="updateEmployee"
-          :isRequired="true"
           @valueChanged="
             (data) => {
               setBusinessUnit(data);
@@ -533,4 +532,3 @@ export default {
   },
 };
 </script>
-

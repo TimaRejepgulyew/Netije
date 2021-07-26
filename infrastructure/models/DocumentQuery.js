@@ -1,6 +1,5 @@
 import DocumentQueryGuid from "~/infrastructure/constants/query/documentQuery.js";
 import generatorMapObj from "~/infrastructure/services/generatorMapObj.js";
-
 export class DocumentQuery {
   constructor(context) {
     this.elements = generatorMapObj({

@@ -155,7 +155,3 @@ export default {
   methods: {}
 };
 </script>
-<style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
-</style>

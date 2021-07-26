@@ -64,7 +64,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
 .file-uploader-block {
   background: $base-bg;
   padding: 20px;

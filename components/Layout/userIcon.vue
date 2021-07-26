@@ -1,59 +1,42 @@
 <template>
-  <div>
-    <div>
-      <div class="image_wrapper" v-if="path">
-        <img class="user_image" :src="imagePath" >
-      </div>
-      <div
-        class="user-info-avatar"
-        :style="{background:stringToColor}"
-        id="avatar"
-        v-else
-      >{{nameToWord}}{{lastNameToWord}}</div>
-    </div>
+  <div class="avatar" :style="{ background: stringToColor }">
+    <img v-if="path" :src="imagePath" />
+    <span v-else>{{ nameToWord }}{{ lastNameToWord }}</span>
   </div>
 </template>
 
 <script>
 import dataApi from "~/static/dataApi";
-import axios from "axios";
+
 export default {
   props: {
-    fullName:{
+    fullName: {
       type: String,
-      default:null
+      default: null
     },
-    path:{
-      type:String,
-      default:null
+    path: {
+      type: String,
+      default: null
     }
   },
   computed: {
-    imagePath(){
-      return dataApi.UserPhotoHash + this.path + '.png'
+    imagePath() {
+      return dataApi.UserPhotoHash + this.path + ".png";
     },
     stringToColor() {
       let hash = 0;
       let color = "#";
-      let i;
-      let value;
-      let nameLength;
-
+      let i, value, nameLength;
       if (!this.fullName) {
         return color + "333333";
       }
-
-      nameLength = this.fullName.length;
-
-      for (i = 0; i < nameLength; i++) {
+      for (i = 0; i < this.fullName.length; i++) {
         hash = this.fullName.charCodeAt(i) + ((hash << 5) - hash);
       }
-
       for (i = 0; i < 3; i++) {
         value = (hash >> (i * 8)) & 0xff;
         color += ("00" + value.toString(16)).substr(-2);
       }
-
       return color;
     },
     nameToWord() {
@@ -70,42 +53,26 @@ export default {
           .toUpperCase()
           .substr(0, 1);
     }
-  },
+  }
 };
 </script>
 
-<style  scoped>
-.user-info-avatar {
+<style lang="scss"  scoped>
+.avatar {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 25px;
   height: 25px;
+  border-radius: 50%;
   font-size: 12px;
-  border-radius: 15px;
-  text-align: center;
-  margin-right: 10px;
+  line-height: 10px;
   color: white;
   background: #333333;
-}
-
-.image_wrapper{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
+  overflow: hidden;
+  cursor: pointer;
+  img {
     height: 25px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    margin:0 10px 0 0;
-    overflow: hidden;
-}
-.user_image{
-  height: 25px;
-}
-
-.user-info-name {
-  display: inline-block;
+  }
 }
 </style>

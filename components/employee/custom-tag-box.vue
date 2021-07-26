@@ -1,19 +1,24 @@
 <template>
   <DxTagBox
-    @focusIn="focusIn"
-    @opened="onOpened"
-    :readOnly="readOnly"
-    :data-source="employeeStore"
-    @valueChanged="valueChanged"
-    :showClearButton="true"
-    :value="value"
-    :valueExpr="valueExpr"
-    displayExpr="name"
-    :searchEnabled="true"
     searchExpr="name"
+    displayExpr="name"
+    item-template="customSelectItem"
+    :showClearButton="true"
+    :searchEnabled="true"
     :paginate="true"
     :page-size="10"
-    item-template="customSelectItem"
+    :value="value"
+    :height="height"
+    :valueExpr="valueExpr"
+    :readOnly="readOnly"
+    :data-source="employeeStore"
+    :stylingMode="stylingMode"
+    :focusStateEnabled="focusStateEnabled"
+    :hoverStateEnabled="hoverStateEnabled"
+    :activeStateEnabled="activeStateEnabled"
+    @opened="onOpened"
+    @valueChanged="valueChanged"
+    @focusIn="focusIn"
   >
     <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
@@ -37,16 +42,20 @@ export default {
     DxTagBox,
     customSelectItem,
   },
-  props: {
-    value: {},
-    isRequired: {
-      default: false,
-    },
-    messageRequired: {},
-    validatorGroup: {},
-    readOnly: {},
-    valueExpr: {},
-  },
+  props: [
+    "value",
+    "isRequired",
+    "messageRequired",
+    "validatorGroup",
+    "readOnly",
+    "valueExpr",
+    "height",
+    "stylingMode",
+    "focusStateEnabled",
+    "hoverStateEnabled",
+    "activeStateEnabled",
+    "storeApi",
+  ],
   data() {
     return {
       dataSourceLoaded: this.valueExpr,

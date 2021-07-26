@@ -25,7 +25,7 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateIncomingLetterColumns(context);
     case DocumentQuery.OutgoingLetter:
       return CreateOutgoingLetterColumns(context);
-    case DocumentQuery.InternalDocument:
+    case DocumentQuery.InternalDocuments:
       return CreateInternalDocumentColumns(context);
     case DocumentQuery.Addendum:
       return CreateAddendumColumns(context);

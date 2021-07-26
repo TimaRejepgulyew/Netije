@@ -1,35 +1,21 @@
 {
-  "applicationEngine": "vue",
-  "build": {
-      "commands": [
-          {
-              "command": "build-theme",
-              "options": {
-                  "inputFile": "assets/themes/metadata.base.json",
-                  "outputFile": "assets/themes/generated/theme.base.css"
-              }
-          },
-          {
-              "command": "build-theme",
-              "options": {
-                  "inputFile": "assets/themes/metadata.additional.json",
-                  "outputFile": "assets/themes/generated/theme.additional.css"
-              }
-          },
-          {
-              "command": "export-theme-vars",
-              "options": {
-                  "inputFile": "assets/themes/metadata.base.json",
-                  "outputFile": "assets/themes/generated/variables.base.scss"
-              }
-          },
-          {
-              "command": "export-theme-vars",
-              "options": {
-                  "inputFile": "assets/themes/metadata.additional.json",
-                  "outputFile": "assets/themes/generated/variables.additional.scss"
-              }
-          }
-      ]
-  }
+    "applicationEngine": "vue",
+    "build": {
+        "commands": [
+            {
+                "command": "build-theme",
+                "options": {
+                    "inputFile": "assets/themes/metadata.base.json",
+                    "outputFile": "node_modules/devextreme/dist/css/dx.custom-theme.css"
+                }
+            },
+            {
+                "command": "export-theme-vars",
+                "options": {
+                    "inputFile": "assets/themes/metadata.base.json",
+                    "outputFile": "assets/themes/variables.base.scss"
+                }
+            }
+        ]
+    }
 }

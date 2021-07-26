@@ -40,8 +40,7 @@ export default {
 </script>
 
 <style lang="scss" >
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
+
 .grid__header {
   display: flex;
 

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <Header
-      :headerTitle="this.$t('menu.addingEmployee')"
-      :isbackButton="!isCard"
-      :isNew="true"
-    ></Header>
+    <Header :headerTitle="this.$t('menu.addingEmployee')" :isbackButton="!isCard" :isNew="true"></Header>
     <toolbar @saveChanges="handleSubmit" :canSave="true" />
     <DxForm
       ref="form"
@@ -21,37 +17,19 @@
           </DxSimpleItem>
           <DxGroupItem :col-span="4">
             <DxSimpleItem data-field="userName" data-type="string">
-              <DxLabel
-                location="top"
-                :text="$t('translations.fields.userName')"
-              />
-              <DxRequiredRule
-                :message="$t('translations.fields.userNameRequired')"
-              />
+              <DxLabel location="top" :text="$t('translations.fields.userName')" />
+              <DxRequiredRule :message="$t('translations.fields.userNameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="firstName">
-              <DxLabel
-                location="top"
-                :text="$t('translations.fields.firstName')"
-              />
-              <DxRequiredRule
-                :message="$t('translations.fields.fullNameRequired')"
-              />
+              <DxLabel location="top" :text="$t('translations.fields.firstName')" />
+              <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="lastName">
-              <DxLabel
-                location="top"
-                :text="$t('translations.fields.lastName')"
-              />
-              <DxRequiredRule
-                :message="$t('translations.fields.fullNameRequired')"
-              />
+              <DxLabel location="top" :text="$t('translations.fields.lastName')" />
+              <DxRequiredRule :message="$t('translations.fields.fullNameRequired')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="middleName">
-              <DxLabel
-                location="top"
-                :text="$t('translations.fields.middleName')"
-              />
+              <DxLabel location="top" :text="$t('translations.fields.middleName')" />
             </DxSimpleItem>
             <DxSimpleItem data-field="email">
               <DxLabel location="top" />
@@ -67,22 +45,15 @@
         </DxGroupItem>
         <DxSimpleItem :editor-options="passwordOptions" data-field="password">
           <DxLabel location="top" :text="$t('translations.fields.password')" />
-          <DxRequiredRule
-            :message="$t('translations.fields.passwordRequired')"
-          />
+          <DxRequiredRule :message="$t('translations.fields.passwordRequired')" />
         </DxSimpleItem>
         <DxSimpleItem
           :editor-options="passwordOptions"
           editor-type="dxTextBox"
           data-field="confirmPassword"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.confirmPassword')"
-          />
-          <DxRequiredRule
-            :message="$t('translations.fields.confirmPasswordRequired')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.confirmPassword')" />
+          <DxRequiredRule :message="$t('translations.fields.confirmPasswordRequired')" />
           <DxCompareRule
             :comparison-target="passwordComparison"
             :message="$t('translations.fields.confirmPasswordRule')"
@@ -95,34 +66,16 @@
           :editor-options="jobTitleOptions"
           editor-type="dxSelectBox"
         >
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.jobTitleId')"
-          />
-          <DxRequiredRule
-            :message="$t('translations.fields.jobTitleIdRequired')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.jobTitleId')" />
+          <DxRequiredRule :message="$t('translations.fields.jobTitleIdRequired')" />
         </DxSimpleItem>
-        <DxSimpleItem
-          data-field="businessUnit"
-          template="businessUnitSelectBox"
-        >
-          <DxLabel
-            location="top"
-            :text="$t('document.fields.businessUnitId')"
-          />
-          <DxRequiredRule
-            :message="$t('document.validation.businessUnitIdRequired')"
-          />
+        <DxSimpleItem data-field="businessUnit" template="businessUnitSelectBox">
+          <DxLabel location="top" :text="$t('document.fields.businessUnitId')" />
+          <DxRequiredRule :message="$t('document.validation.businessUnitIdRequired')" />
         </DxSimpleItem>
         <DxSimpleItem data-field="department" template="departmentSelectBox">
-          <DxLabel
-            location="top"
-            :text="$t('translations.fields.departmentId')"
-          />
-          <DxRequiredRule
-            :message="$t('translations.fields.departmentIdRequired')"
-          />
+          <DxLabel location="top" :text="$t('translations.fields.departmentId')" />
+          <DxRequiredRule :message="$t('translations.fields.departmentIdRequired')" />
         </DxSimpleItem>
 
         <DxSimpleItem data-field="phone">
@@ -130,18 +83,14 @@
         </DxSimpleItem>
       </DxGroupItem>
       <DxGroupItem :col-span="2">
-        <DxSimpleItem
-          data-field="note"
-          :editor-options="{ height: 90 }"
-          editor-type="dxTextArea"
-        >
+        <DxSimpleItem data-field="note" :editor-options="{ height: 90 }" editor-type="dxTextArea">
           <DxLabel location="top" :text="$t('translations.fields.note')" />
         </DxSimpleItem>
       </DxGroupItem>
       <template #businessUnitSelectBox>
         <business-unit-select-box
           :value="businessUnit"
-          :read-only="readOnly"
+          :read-only="isCard"
           validatorGroup="createEmployee"
           :isRequired="true"
           @valueChanged="
@@ -154,7 +103,7 @@
       </template>
       <template #departmentSelectBox>
         <department-select-box
-          :read-only="readOnly"
+          :read-only="isCard"
           :value="department"
           validatorGroup="createEmployee"
           :isRequired="true"
@@ -196,7 +145,7 @@ import DxForm, {
   DxStringLengthRule,
   DxPatternRule,
   DxEmailRule,
-  DxAsyncRule,
+  DxAsyncRule
 } from "devextreme-vue/form";
 import dataApi from "~/static/dataApi";
 import Header from "~/components/page/page__header";
@@ -216,7 +165,7 @@ export default {
     Toolbar,
     BusinessUnitSelectBox,
     DepartmentSelectBox,
-    ImageUploader,
+    ImageUploader
   },
   props: ["isCard"],
   data() {
@@ -234,16 +183,16 @@ export default {
         userName: null,
         password: null,
         confirmPassword: null,
-        personalPhoto: null,
+        personalPhoto: null
       },
       passwordOptions: {
-        mode: "password",
+        mode: "password"
       },
       jobTitleOptions: this.$store.getters["globalProperties/FormOptions"]({
         context: this,
         url: dataApi.company.JobTitle,
-        filter: ["status", "=", Status.Active],
-      }),
+        filter: ["status", "=", Status.Active]
+      })
     };
   },
   computed: {
@@ -263,12 +212,12 @@ export default {
           url: dataApi.company.Department,
           filter: [
             ["status", "=", 0],
-            ["businessUnitId", "=", this.employee.businessUnitId],
-          ],
+            ["businessUnitId", "=", this.employee.businessUnitId]
+          ]
         }),
-        value: this.employee.departmentId,
+        value: this.employee.departmentId
       };
-    },
+    }
   },
   methods: {
     setDepartment(data) {
@@ -287,7 +236,7 @@ export default {
       var dataField = params.formItem.dataField;
       return this.$customValidator.EmployeeDataFieldValueNotExists(
         {
-          [dataField]: params.value,
+          [dataField]: params.value
         },
         dataField
       );
@@ -322,7 +271,7 @@ export default {
       if (!res.isValid) return;
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.company.Employee, file),
-        (e) => {
+        e => {
           if (!this.isCard) {
             this.$router.go(-1);
           } else {
@@ -330,9 +279,9 @@ export default {
           }
           this.$awn.success();
         },
-        (e) => this.$awn.alert()
+        e => this.$awn.alert()
       );
-    },
-  },
+    }
+  }
 };
 </script>

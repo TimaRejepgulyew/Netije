@@ -1,5 +1,5 @@
 import clientNotification from "~/infrastructure/hubs/client-notification.js";
-export default async function({ store, app }) {
+export default async function ({ store, app }) {
   if (
     !store.getters["permissions/isPermissionsLoaded"] &&
     store.getters["oidc/oidcUser"] != null

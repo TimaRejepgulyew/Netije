@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import document from "./component-type-document";
 import isLink from "./component-type-links";
 import uploadBtn from "./component-type-import-btn";
 import reportUploadBtn from "./component-type-report-import-btn";
@@ -27,14 +28,13 @@ export default {
     isLink,
     uploadBtn,
     reportUploadBtn,
+    document,
     Popup,
   },
 };
 </script>
 
 <style lang="scss">
-@import "~assets/themes/generated/variables.base.scss";
-
 .align-center {
   align-items: center;
 }

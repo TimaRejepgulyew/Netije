@@ -1,5 +1,4 @@
-import licensing from "../lang/i18n-translation/ru/licensing";
-
+const chatBaseUrl = process.env.NODE_ENV === "production" ? `${document.location.protocol}//${document.location.hostname}:4000` : process.env.chatServerUrl
 export default {
   UserPhotoHash:
     process.env.NODE_ENV === "production"
@@ -56,10 +55,10 @@ export default {
     unlockEmployee: "/api/Employee/Unlock",
     ChangeEmployeePassword: `/api/Employee/ChangePassword`,
     JobTitle: `/api/JobTitle`,
-    ManagersAssistant: `/api/ManagersAssistant`,
+    ManagersAssistant: `/api/ManagersAssistant`
   },
   visibilitySettings: {
-    settings: "/api/VisibilitySetting",
+    settings: "/api/VisibilitySetting"
   },
   visibilityRule: {
     rule: "/api/VisibilityRule"
@@ -194,7 +193,14 @@ export default {
     getAll: "/api/DynamicDocument/GetAll",
     document: "/api/DynamicDocument"
   },
+  documentTemplate: {
+    Documents: `/api/DocumentTemplate`,
+    GetDocumentById: `/api/DocumentTemplate/`,
+    GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
+    GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
+  },
   documentModule: {
+    GetAllCountDocument: "/api/OfficialDocument/GetAllCountDocument",
     Documents: `/api/OfficialDocument/GetAll/`,
     AllDocument: `/api/OfficialDocument/GetAll/100/0`,
     SaveDocument: `/api/OfficialDocument/`,
@@ -212,12 +218,6 @@ export default {
     Last: `/api/OfficialDocument/Version/Last/`,
     Exchange: `/api/OfficialDocument/Exchange`,
     ExchangeLogs: `/api/OfficialDocument/ExchangeLogs/`
-  },
-  documentTemplate: {
-    Documents: `/api/DocumentTemplate`,
-    GetDocumentById: `/api/DocumentTemplate/`,
-    GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
-    GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
   },
   accessRightRule: {
     getAccessRightRule: "/api/AccessRightRule"
@@ -330,5 +330,17 @@ export default {
   boxes: {
     Boxes: `/api/Boxes`,
     PublickKey: `/api/Boxes/PublicKey/`
+  },
+  chat: {
+    baseUrl: chatBaseUrl,
+    Room: `${chatBaseUrl}/api/Room`,
+    RoomsByFilter: `${chatBaseUrl}/api/Room/roomsByFilter`,
+    Message: `${chatBaseUrl}/api/Message`,
+    File: `${chatBaseUrl}/api/Message/file`,
+    MarkAsRead: `${chatBaseUrl}/api/Message/MarkAsRead`,
+    User: `${chatBaseUrl}/api/User`,
+    CreatePrivateRoom: `${chatBaseUrl}/api/Room/CreatePrivateRoom`,
+    CreateGroupRoom: `${chatBaseUrl}/api/Room/CreateGroupRoom`,
+    DownloadFile: `${chatBaseUrl}/api/Message/downloadFile/`
   }
 };

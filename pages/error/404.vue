@@ -2,7 +2,14 @@
   <div id="notfound">
     <div class="notfound">
       <div class="notfound-404">
-        <h1 :style="{background:textTexture,'-webkit-background-clip': 'text'}">404</h1>
+        <h1
+          :style="{
+            background: textTexture,
+            '-webkit-background-clip': 'text'
+          }"
+        >
+          404
+        </h1>
       </div>
       <p>Извините страница котурую вы ищите не существует</p>
       <p>Bagyslan sizin gozleyan sahypasy yok.</p>
@@ -22,8 +29,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;

@@ -7,7 +7,7 @@
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
     >
-      <DxGroupItem>
+      <>
         <DxSimpleItem
           :editor-options="subjectOptions"
           data-field="subject"
@@ -17,12 +17,11 @@
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
-        <DxGroupItem :col-count="2">
-          <DxSimpleItem data-field="addressee" template="addressee">
+          <DxSimpleItem data-field="addressees" template="addressees">
             <DxRequiredRule
               :message="$t('task.validation.addresseeRequired')"
             />
-            <DxLabel location="left" :text="$t('task.fields.addressee')" />
+            <DxLabel location="left" :text="$t('task.fields.addressees')" />
           </DxSimpleItem>
           <DxSimpleItem
             data-field="deadline"
@@ -31,7 +30,6 @@
           >
             <DxLabel location="left" :text="$t('task.fields.deadLine')" />
           </DxSimpleItem>
-        </DxGroupItem>
         <DxSimpleItem
           template="resolutionObservers"
           data-field="resolutionObservers"
@@ -55,13 +53,13 @@
           @valueChanged="setBody"
         />
       </template>
-      <template #addressee>
-        <employee-select-box
+      <template #addressees>
+        <recipient-tag-box
           :read-only="readOnly"
           :messageRequired="$t('task.validation.addresseeRequired')"
           :validator-group="taskValidatorName"
-          :value="addressee"
-          @valueChanged="setAddressee"
+          :recipients="addressee"
+          @setRecipients="setAddressee"
         />
       </template>
       <template #resolutionObservers>

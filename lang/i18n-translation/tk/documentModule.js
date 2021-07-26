@@ -7,7 +7,7 @@ export const DocumentType = {
   PowerOfAttorney: "Ynanç haty",
   Order: "Buýruk",
   Memo: "Gulluk ýazgysy",
-  InternalDocument: "Içerki resminamalar",
+  InternalDocuments: "Içerki resminamalar",
   SupAgreement: "Goşmaça ylalaşyk",
   IncomingInvoice: "Töleg üçin gelen hasap",
   ContractStatement: "Ýerine ýetirilen işleriň delilnamasy",
@@ -60,6 +60,7 @@ export default {
     }
   },
   fields: {
+    documentDeadline: "Resminamanyň möhleti",
     lifeCycle: "Ýaşaýyş aýlawy",
     state: "Ýagdaýy",
     registrationState: "Bellige almak",
@@ -128,6 +129,7 @@ export default {
     value: "Manysy"
   },
   validation: {
+    documentDeadline: "Resminamanyň möhleti giriziň",
     paramsValueRequired: "Manysy giriziň",
     paramsValueRule: "Many nädogry girizildi",
     stateRequired: "Ýagdaýy giriziň",

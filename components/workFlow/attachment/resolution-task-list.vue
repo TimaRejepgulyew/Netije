@@ -78,8 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/themes/generated/variables.base.scss";
-@import "~assets/dx-styles.scss";
 .align-stretch {
   align-content: stretch;
 }
