@@ -92,6 +92,7 @@ export default {
     },
 
     handleItemClick(e) {
+      console.log(e.itemData);
       if (!e.itemData.path || this.compactMode) {
         return;
       }
