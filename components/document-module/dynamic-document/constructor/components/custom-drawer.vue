@@ -4,7 +4,7 @@
     <div class="closeButton" @click="close">
       <div class="custom-button--close">
         <i class="dx-icon dx-icon-close"></i>
-        close
+        {{ $t("buttons.closed") }}
       </div>
     </div>
     <div class="custom-drawer-content">

@@ -42,7 +42,7 @@
 </template>
 <script>
 import createChildActionItemBtn from "../../../../form-components/toolbar-components/create-children-action-item-btn.vue";
-import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
+import sendToAssigneeIcon from "~/static/icons/send-to-assignee.svg";
 import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {

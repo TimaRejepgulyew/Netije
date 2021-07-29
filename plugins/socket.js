@@ -49,14 +49,14 @@ export default async ({ app, store }, inject) => {
         static connect() {
             const options = {
                 reconnectionDelayMax: 10000,
-                path: "/socket",
+                path: "/chat",
                 autoConnect: true,
                 auth: {},
                 extraHeaders: {
                     Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
                 }
             };
-
+            console.log(dataApi.chat.baseUrl, 'coonecting');
             const socket = new SocketIO(dataApi.chat.baseUrl, options);
             socket.on("connect", msg => {
                 ChatControler.allRooms();
