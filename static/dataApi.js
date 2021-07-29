@@ -114,6 +114,7 @@ export default {
     CaseFiles: `/api/DocumentRegistration/CaseFiles`,
     Registries: `/api/DocumentRegistration/Registries/`
   },
+
   officialDocument: {
     getAll: "/api/OfficialDocument/GetAllOfficialDocument",
   },
@@ -193,12 +194,16 @@ export default {
     getAll: "/api/DynamicDocument/GetAll",
     document: "/api/DynamicDocument"
   },
+  allDocuments: {
+    getAll: "/api/OfficialDocument/GetAll/100"
+  },
   documentTemplate: {
     Documents: `/api/DocumentTemplate`,
     GetDocumentById: `/api/DocumentTemplate/`,
     GetDocumentTemplateByParams: `/api/DocumentTemplate/getDocumentTemplateByParams/`,
     GetAllMergeFieldName: `/api/DocumentTemplate/getAllMergeFieldName/`
   },
+
   documentModule: {
     GetAllCountDocument: "/api/OfficialDocument/GetAllCountDocument",
     Documents: `/api/OfficialDocument/GetAll/`,
