@@ -1,12 +1,12 @@
 <template>
   <DxForm :show-colon-after-label="true" :show-validation-summary="false">
-    <DxSimpleItem
+    <!-- <DxSimpleItem
       data-field="documentDeadline"
       :editor-options="documentDeadlineOptions"
       editor-type="dxDateBox"
     >
       <DxLabel location="left" :text="$t('document.fields.documentDeadline')" />
-    </DxSimpleItem>
+    </DxSimpleItem> -->
 
     <DxSimpleItem
       editor-type="dxSelectBox"
@@ -155,21 +155,21 @@ export default {
     },
   },
   computed: {
-    documentDeadlineOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-        }),
-        visible: this.canUpdate,
-        readOnly: this.isRegistered,
-        useMaskBehavior: true,
-        openOnFieldClick: true,
-        onValueChanged: (e) => {
-          this.setDocumentDeadline(e.value);
-        },
-        value: this.document.documentDeadline,
-      };
-    },
+    // documentDeadlineOptions() {
+    //   return {
+    //     ...this.$store.getters["globalProperties/FormOptions"]({
+    //       context: this,
+    //     }),
+    //     visible: this.canUpdate,
+    //     readOnly: this.isRegistered,
+    //     useMaskBehavior: true,
+    //     openOnFieldClick: true,
+    //     onValueChanged: (e) => {
+    //       this.setDocumentDeadline(e.value);
+    //     },
+    //     value: this.document.documentDeadline,
+    //   };
+    // },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
