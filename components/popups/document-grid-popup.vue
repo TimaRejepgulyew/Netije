@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import DocumentQuery from "~/infrastructure/constants/query/DocumentQuery.js";
+import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import { DocumentQuery as DocumentQueryModel } from "~/infrastructure/models/DocumentQuery.js";
 export default {
   components: {

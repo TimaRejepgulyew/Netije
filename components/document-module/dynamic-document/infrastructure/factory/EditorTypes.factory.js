@@ -1,6 +1,6 @@
 import { DxTextBox } from "../models/EditorTypes/DxTextBox";
 import { DxTextArea } from "../models/EditorTypes/DxTextArea";
-import { DxDateBox } from "../models/EditorTypes/DxDateBox";
+import { DxDateBox } from "../models/EditorTypes/DxDatebox";
 import { DxCheckBox } from "../models/EditorTypes/DxCheckBox";
 import { EmployeeBox } from "../models/EditorTypes/EmployeeBox";
 import { RecipientBox } from "../models/EditorTypes/RecipientBox";

@@ -1,4 +1,5 @@
 const chatBaseUrl = process.env.NODE_ENV === "production" ? `${document.location.origin}:4000/chat` : process.env.chatServerUrl
+const chatSocketUrl = process.env.NODE_ENV === "production" ? `${document.location.origin}:4000` : process.env.chatServerUrl
 export default {
   UserPhotoHash:
     process.env.NODE_ENV === "production"
@@ -337,7 +338,7 @@ export default {
     PublickKey: `/api/Boxes/PublicKey/`
   },
   chat: {
-    baseUrl: chatBaseUrl,
+    baseUrl: chatSocketUrl,
     Room: `${chatBaseUrl}/api/Room`,
     RoomsByFilter: `${chatBaseUrl}/api/Room/roomsByFilter`,
     Message: `${chatBaseUrl}/api/Message`,

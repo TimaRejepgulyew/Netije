@@ -1,12 +1,12 @@
 <template>
   <DxForm :show-colon-after-label="true" :show-validation-summary="false">
-    <DxSimpleItem
+    <!-- <DxSimpleItem
       data-field="documentDeadline"
       :editor-options="documentDeadlineOptions"
       editor-type="dxDateBox"
     >
       <DxLabel location="left" :text="$t('document.fields.documentDeadline')" />
-    </DxSimpleItem>
+    </DxSimpleItem> -->
 
     <DxSimpleItem
       editor-type="dxSelectBox"
@@ -63,7 +63,7 @@
 </template>
 <script>
 import DocumentType from "~/infrastructure/constants/documentType.js";
-import generateLifeCycleItemState from "~/infrastructure/services/documentLifeCyclegenerator.js";
+import generateLifeCycleItemState from "~/infrastructure/services/documentlifeCycleGenerator.js";
 import { InternalApprovalStateStore } from "~/infrastructure/constants/internalApprovalState.js";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
 import { ExternalApprovalStateStore } from "~/infrastructure/constants/externalApprovalState.js";
@@ -155,21 +155,21 @@ export default {
     },
   },
   computed: {
-    documentDeadlineOptions() {
-      return {
-        ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this,
-        }),
-        visible: this.canUpdate,
-        readOnly: this.isRegistered,
-        useMaskBehavior: true,
-        openOnFieldClick: true,
-        onValueChanged: (e) => {
-          this.setDocumentDeadline(e.value);
-        },
-        value: this.document.documentDeadline,
-      };
-    },
+    // documentDeadlineOptions() {
+    //   return {
+    //     ...this.$store.getters["globalProperties/FormOptions"]({
+    //       context: this,
+    //     }),
+    //     visible: this.canUpdate,
+    //     readOnly: this.isRegistered,
+    //     useMaskBehavior: true,
+    //     openOnFieldClick: true,
+    //     onValueChanged: (e) => {
+    //       this.setDocumentDeadline(e.value);
+    //     },
+    //     value: this.document.documentDeadline,
+    //   };
+    // },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },

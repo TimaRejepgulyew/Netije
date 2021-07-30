@@ -7,7 +7,7 @@ export default async ({ app, store }, inject) => {
 
     class ChatControler {
         static async invateToRoom(roomId, users) {
-            RoomService.inviteToRoom(app, roomId, users);
+            await RoomService.inviteToRoom(app, roomId, users);
         }
         static async sendMessage(msg) {
             const data = await MessageService.postMessages(app, msg);
@@ -49,7 +49,6 @@ export default async ({ app, store }, inject) => {
         static connect() {
             const options = {
                 reconnectionDelayMax: 10000,
-                path: "/chat",
                 autoConnect: true,
                 auth: {},
                 extraHeaders: {
