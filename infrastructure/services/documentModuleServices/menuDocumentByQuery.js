@@ -52,12 +52,12 @@ export default (context, rootGetters) => {
             }
         ]
     }]
-    const dynamicDocument = [{
-        text: context.$i18n.t("DocumentQuery.DynamicDocument"),
-        template: "document-item",
-        query: DocumentQuery.DynamicDocument,
-        path: `/document-module/${DocumentQuery.DynamicDocument}`
-    }]
+    // const dynamicDocument = [{
+    //     text: context.$i18n.t("DocumentQuery.DynamicDocument"),
+    //     template: "document-item",
+    //     query: DocumentQuery.DynamicDocument,
+    //     path: `/document-module/${DocumentQuery.DynamicDocument}`
+    // }]
     const accountingDocuments = [{
         text: context.$i18n.t("menu.accountingDocuments"),
         icon: financialArchiveIcon,
@@ -80,6 +80,8 @@ export default (context, rootGetters) => {
         path: "/document-module",
         icon: "file",
         template: "document-item",
-        items: [...incomingDocument, ...outgoingDocument, ...internalDocuments, ...dynamicDocument]
+        items: [...incomingDocument, ...outgoingDocument, ...internalDocuments,
+            // ...dynamicDocument
+        ]
     }, ...accountingDocuments, ...contractualDocuments,]
 };

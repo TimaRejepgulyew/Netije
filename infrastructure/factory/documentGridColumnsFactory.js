@@ -48,9 +48,8 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateAccountingDocumentsColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
-    case DocumentQuery.DynamicDocument:
-      return CreateDynamicDocumentsColumns(context);
-
+    // case DocumentQuery.DynamicDocument:
+    //   return CreateDynamicDocumentsColumns(context);
     case "document-template":
       return createDocumentTemplateColumns(context);
     default:
@@ -221,24 +220,24 @@ const createDocumentTemplateColumns = context => {
   ];
 };
 
-const CreateDynamicDocumentsColumns = context => {
-  return [
-    CreateDocumentSubjectColumn(context),
-    CreateDocumentTypeGuidColumn(context),
-    CreateDocumentNameColumn(context),
-    CreateDocumentCreatedColumn(context),
-    CreateDocumentModifiedColumn(context),
-    createExecutionStateColumn(context),
-    CreateDocumentAuthorColumn(context),
-    CreateDocumentRegistrationStateColumn(context),
-    CreateDocumentRegisterColumn(context),
-    CreateDocumentKindColumn(context),
-    CreateDocumentRegistrationNumberColumn(context),
-    CreateDocumentRegistrationDateColumn(context),
-    CreatePlacedToCaseFileDateColumn(context),
-    CreateCaseFileColumn(context)
-  ];
-};
+// const CreateDynamicDocumentsColumns = context => {
+//   return [
+//     CreateDocumentSubjectColumn(context),
+//     CreateDocumentTypeGuidColumn(context),
+//     CreateDocumentNameColumn(context),
+//     CreateDocumentCreatedColumn(context),
+//     CreateDocumentModifiedColumn(context),
+//     createExecutionStateColumn(context),
+//     CreateDocumentAuthorColumn(context),
+//     CreateDocumentRegistrationStateColumn(context),
+//     CreateDocumentRegisterColumn(context),
+//     CreateDocumentKindColumn(context),
+//     CreateDocumentRegistrationNumberColumn(context),
+//     CreateDocumentRegistrationDateColumn(context),
+//     CreatePlacedToCaseFileDateColumn(context),
+//     CreateCaseFileColumn(context)
+//   ];
+// };
 
 const GetDefaultColumn = () => {
   return {

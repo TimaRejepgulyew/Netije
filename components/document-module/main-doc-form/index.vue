@@ -242,12 +242,12 @@ export default {
   destroyed() {
     if (this.isNew === false) this.onClosed();
 
-    if (DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid) {
-      DynamicTypeControler.removeStore(
-        this,
-        this.document.dynamicDocumentTypeId
-      );
-    }
+    // if (DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid) {
+    //   DynamicTypeControler.removeStore(
+    //     this,
+    //     this.document.dynamicDocumentTypeId
+    //   );
+    // }
     unload(this, this.documentId);
   },
   props: ["isCard", "documentId"],
@@ -357,12 +357,12 @@ export default {
     documentKindOptions() {
       const generateFilter = (document) => {
         switch (document.documentTypeGuid) {
-          case DocumentTypeGuid.DynamicDocument:
-            return [
-              ["documentTypeId", "=", this.document.dynamicDocumentTypeId],
-              "and",
-              ["status", "=", Status.Active],
-            ];
+          // case DocumentTypeGuid.DynamicDocument:
+          //   return [
+          //     ["documentTypeId", "=", this.document.dynamicDocumentTypeId],
+          //     "and",
+          //     ["status", "=", Status.Active],
+          //   ];
           default:
             return [
               ["documentTypeId", "=", this.document.documentTypeGuid],
@@ -441,8 +441,8 @@ export default {
           return "universal-transfer-document";
         case DocumentTypeGuid.Waybill:
           return "waybill";
-        case DocumentTypeGuid.DynamicDocument:
-          return "dynamic-document";
+        // case DocumentTypeGuid.DynamicDocument:
+        //   return "dynamic-document";
       }
     },
     nameOptions() {

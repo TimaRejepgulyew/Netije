@@ -10,7 +10,7 @@ export default function generateLifeCycleItemState(context, documentTypeGuid) {
   switch (documentTypeGuid) {
     case DocumentType.IncomingLetter:
     case DocumentType.OutgoingLetter:
-    case DocumentType.DynamicDocument:
+      // case DocumentType.DynamicDocument:
       return lifeCycleStateStoreType1(context);
     case DocumentType.Order:
     case DocumentType.CompanyDirective:

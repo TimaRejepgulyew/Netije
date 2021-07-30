@@ -1,15 +1,14 @@
 <template>
-  <dynamicDocumentConstructor />
+  <div></div>
+  <!-- <dynamicDocumentConstructor /> -->
 </template>
 
 <script>
-import dynamicDocumentConstructor from "~/components/document-module/dynamic-document/constructor/index.vue";
+// import dynamicDocumentConstructor from "~/components/document-module/dynamic-document/constructor/index.vue";
 export default {
   components: {
-    dynamicDocumentConstructor,
-    
+    // dynamicDocumentConstructor,
   },
-  
 };
 </script>
 

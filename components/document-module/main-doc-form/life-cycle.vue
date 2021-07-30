@@ -145,12 +145,12 @@ export default {
           this.itemVisible.internalApprovalState = true;
           this.itemVisible.externalApprovalState = true;
           break;
-        case DocumentType.DynamicDocument:
-          this.itemVisible.registrationState = true;
-          this.itemVisible.executionState = true;
-          this.itemVisible.controlExecutionState = true;
-          this.itemVisible.internalApprovalState = true;
-          break;
+        // case DocumentType.DynamicDocument:
+        //   this.itemVisible.registrationState = true;
+        //   this.itemVisible.executionState = true;
+        //   this.itemVisible.controlExecutionState = true;
+        //   this.itemVisible.internalApprovalState = true;
+        //   break;
       }
     },
   },

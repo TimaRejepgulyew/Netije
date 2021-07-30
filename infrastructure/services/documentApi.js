@@ -42,8 +42,8 @@ export function GenerateGridApi(docQuery) {
             return dataApi.contractualDocuments.getAll
         case DocumentQuery.AccountingDocuments:
             return dataApi.accountingDocuments.getAll
-        case DocumentQuery.DynamicDocument:
-            return dataApi.dynamicDocument.getAll
+        // case DocumentQuery.DynamicDocument:
+        //     return dataApi.dynamicDocument.getAll
         case DocumentQuery.InternalDocuments:
             return dataApi.internalDocuments.getAll
         default:
@@ -83,8 +83,8 @@ export function GenerateApi(docQuery) {
             return dataApi.universaltransferdocument.document
         case DocumentQuery.Waybill:
             return dataApi.waybill.document
-        case DocumentQuery.DynamicDocument:
-            return dataApi.dynamicDocument.document
+        // case DocumentQuery.DynamicDocument:
+        //     return dataApi.dynamicDocument.document
         default:
             console.log("docQuerySolo", docQuery)
 

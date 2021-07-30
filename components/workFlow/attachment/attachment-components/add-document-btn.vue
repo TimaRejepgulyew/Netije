@@ -17,21 +17,21 @@ import DocumentTypyModel from "~/infrastructure/models/DocumentType.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
 import DxMenu from "devextreme-vue/menu";
-import dynamicDocumentIcon from "~/static/icons/document-type/dynamic-document.svg";
-import { DynamicDocumentCreateBtn } from "~/infrastructure/models/DynamicDocumentCreateBtn";
+// import dynamicDocumentIcon from "~/static/icons/document-type/dynamic-document.svg";
+// import { DynamicDocumentCreateBtn } from "~/infrastructure/models/DynamicDocumentCreateBtn";
 import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 export default {
   components: {
     DxMenu,
   },
   async created() {
-    const filter = `["documentTypeGuid","=",${DocumentTypeGuid.DynamicDocument}]`;
-    const { data } = await this.$axios.get(
-      `${dataApi.docFlow.DocumentType}?filter=${filter}`
-    );
-    this.dynamicDocumentCreateBtn = new Array(
-      ...Object.values(new DynamicDocumentCreateBtn(data.data).getAll())
-    );
+    // const filter = `["documentTypeGuid","=",${DocumentTypeGuid.DynamicDocument}]`;
+    // const { data } = await this.$axios.get(
+    //   `${dataApi.docFlow.DocumentType}?filter=${filter}`
+    // );
+    // this.dynamicDocumentCreateBtn = new Array(
+    //   ...Object.values(new DynamicDocumentCreateBtn(data.data).getAll())
+    // );
   },
   data() {
     return {
@@ -69,23 +69,25 @@ export default {
                   text: this.$t("createItemDialog.accountingDocumentsGroup"),
                   icon: financialArchiveIcon,
                   items: Object.values(this.filterContractBtns),
-                  visible: this.$store.getters[
-                    "permissions/isResponsibleFinansicalArchive"
-                  ],
+                  visible:
+                    this.$store.getters[
+                      "permissions/isResponsibleFinansicalArchive"
+                    ],
                 },
                 {
                   text: this.$t("createItemDialog.contractualDocumentsGroup"),
                   icon: contractIcon,
                   items: Object.values(this.filterFinancialArchiveBtns),
-                  visible: this.$store.getters[
-                    "permissions/isResponsibleForContracts"
-                  ],
+                  visible:
+                    this.$store.getters[
+                      "permissions/isResponsibleForContracts"
+                    ],
                 },
-                {
-                  text: this.$t("createItemDialog.dynamicDocuments"),
-                  icon: dynamicDocumentIcon,
-                  items: this.dynamicDocumentCreateBtn,
-                },
+                // {
+                //   text: this.$t("createItemDialog.dynamicDocuments"),
+                //   icon: dynamicDocumentIcon,
+                //   items: this.dynamicDocumentCreateBtn,
+                // },
               ],
             },
           ],

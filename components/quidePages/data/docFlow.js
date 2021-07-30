@@ -33,12 +33,12 @@ export default function (context) {
           path: pathGenerate("document-type/create"),
           visible: isAdmin()
         },
-        {
-          name: context.$t("docFlow.documentSetting.docType"),
-          description: context.$t("docFlow.documentSetting.docTypeDescr"),
-          path: pathGenerate("document-type"),
-          visible: isAdmin()
-        },
+        // {
+        //   name: context.$t("docFlow.documentSetting.docType"),
+        //   description: context.$t("docFlow.documentSetting.docTypeDescr"),
+        //   path: pathGenerate("document-type"),
+        //   visible: isAdmin()
+        // },
         {
           name: context.$t("docFlow.documentSetting.categories"),
           description: context.$t("docFlow.documentSetting.categoriesDescr"),

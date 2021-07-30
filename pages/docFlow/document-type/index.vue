@@ -1,5 +1,6 @@
 <template>
-  <main>
+  <div></div>
+  <!-- <main>
     <Header :headerTitle="$t('menu.documentType')"></Header>
     <DxDataGrid
       width="inherit"
@@ -61,88 +62,88 @@
         <DxButton icon="more" :text="$t('shared.more')" :onClick="documentKindDetailForm"></DxButton>
       </DxColumn>
     </DxDataGrid>
-  </main>
+  </main> -->
 </template>
 <script>
-import EntityType from "~/infrastructure/constants/entityTypes";
-import dataApi from "~/static/dataApi";
-import Header from "~/components/page/page__header";
-import {
-  DxSearchPanel,
-  DxDataGrid,
-  DxColumn,
-  DxEditing,
-  DxHeaderFilter,
-  DxScrolling,
-  DxLookup,
-  DxGrouping,
-  DxGroupPanel,
-  DxExport,
-  DxColumnChooser,
-  DxColumnFixing,
-  DxStateStoring,
-  DxFilterRow,
-  DxButton
-} from "devextreme-vue/data-grid";
+// import EntityType from "~/infrastructure/constants/entityTypes";
+// import dataApi from "~/static/dataApi";
+// import Header from "~/components/page/page__header";
+// import {
+//   DxSearchPanel,
+//   DxDataGrid,
+//   DxColumn,
+//   DxEditing,
+//   DxHeaderFilter,
+//   DxScrolling,
+//   DxLookup,
+//   DxGrouping,
+//   DxGroupPanel,
+//   DxExport,
+//   DxColumnChooser,
+//   DxColumnFixing,
+//   DxStateStoring,
+//   DxFilterRow,
+//   DxButton
+// } from "devextreme-vue/data-grid";
 
-import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
-import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
-import DataSource from "devextreme/data/data_source";
+// import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
+// import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
+// import DataSource from "devextreme/data/data_source";
 
-export default {
-  components: {
-    Header,
-    DxSearchPanel,
-    DxDataGrid,
-    DxColumn,
-    DxEditing,
-    DxHeaderFilter,
-    DxScrolling,
-    DxLookup,
-    DxGrouping,
-    DxGroupPanel,
-    DxExport,
-    DxColumnChooser,
-    DxColumnFixing,
-    DxStateStoring,
-    DxFilterRow,
-    DxButton
-  },
-  data() {
-    return {
-      dataSource: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: dataApi.dynamicDocument.documentType,
-          removeUrl: dataApi.dynamicDocument.documentType
-        }),
-        paginate: true,
-        pageSize: 10,
-        filter: ["documentTypeGuid", "=", DocumentQuery.DynamicDocument]
-      }),
-      entityType: EntityType.DocumentKind,
-      statusDataSource: this.$store.getters["status/status"](this),
-      documentFlow: this.$store.getters["docflow/docflow"](this),
-      numberingType: this.$store.getters["docflow/numberingType"](this)
-    };
-  },
-  methods: {
-    edit(e) {
-      this.$router.push(`/docflow/document-type/${e.data.id}`);
-    },
-    documentKindDetailForm(e) {
-      this.$router.push(`/docflow/document-type/${e.row.data.id}`);
-    },
-    onToolbarPreparing(e) {
-      const addButton = e.toolbarOptions.items.find(btn => {
-        return btn.name == "addRowButton";
-      });
-      if (addButton) {
-        addButton.options.onClick = async () => {
-          this.$router.push(`/docflow/document-type/create`);
-        };
-      }
-    }
-  }
-};
+// export default {
+//   components: {
+//     Header,
+//     DxSearchPanel,
+//     DxDataGrid,
+//     DxColumn,
+//     DxEditing,
+//     DxHeaderFilter,
+//     DxScrolling,
+//     DxLookup,
+//     DxGrouping,
+//     DxGroupPanel,
+//     DxExport,
+//     DxColumnChooser,
+//     DxColumnFixing,
+//     DxStateStoring,
+//     DxFilterRow,
+//     DxButton
+//   },
+//   data() {
+//     return {
+//       dataSource: new DataSource({
+//         store: this.$dxStore({
+//           key: "id",
+//           loadUrl: dataApi.dynamicDocument.documentType,
+//           removeUrl: dataApi.dynamicDocument.documentType
+//         }),
+//         paginate: true,
+//         pageSize: 10,
+//         filter: ["documentTypeGuid", "=", DocumentQuery.DynamicDocument]
+//       }),
+//       entityType: EntityType.DocumentKind,
+//       statusDataSource: this.$store.getters["status/status"](this),
+//       documentFlow: this.$store.getters["docflow/docflow"](this),
+//       numberingType: this.$store.getters["docflow/numberingType"](this)
+//     };
+//   },
+//   methods: {
+//     edit(e) {
+//       this.$router.push(`/docflow/document-type/${e.data.id}`);
+//     },
+//     documentKindDetailForm(e) {
+//       this.$router.push(`/docflow/document-type/${e.row.data.id}`);
+//     },
+//     onToolbarPreparing(e) {
+//       const addButton = e.toolbarOptions.items.find(btn => {
+//         return btn.name == "addRowButton";
+//       });
+//       if (addButton) {
+//         addButton.options.onClick = async () => {
+//           this.$router.push(`/docflow/document-type/create`);
+//         };
+//       }
+//     }
+//   }
+// };
 </script>

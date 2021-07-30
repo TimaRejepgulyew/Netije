@@ -22,6 +22,6 @@ const DocumentQuery = {
   Waybill: 14,
   Contract: 15,
   SupAgreement: 16,
-  DynamicDocument: 17
+  // DynamicDocument: 17
 };
 export default DocumentQuery;
