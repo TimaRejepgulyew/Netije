@@ -5,7 +5,7 @@ import { DepartmentBoxField } from '../models/ViewField/DepartmentBoxField';
 import { DxDateBoxField } from '../models/ViewField/dxDateBoxField';
 
 import { RecipientBoxField } from '../models/ViewField/RecipientBoxField';
-import { DxCheckBoxField } from '../models/ViewField/dxCheckBoxField';
+import { DxCheckBoxField } from '../models/ViewField/dxCheckboxField';
 
 import { BusinessUnitBoxField } from '../models/ViewField/BusinessUnitBoxField';
 import { DxTextAreaField } from '../models/ViewField/dxTextAreaField';

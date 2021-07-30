@@ -63,7 +63,7 @@
 </template>
 <script>
 import DocumentType from "~/infrastructure/constants/documentType.js";
-import generateLifeCycleItemState from "~/infrastructure/services/documentLifeCyclegenerator.js";
+import generateLifeCycleItemState from "~/infrastructure/services/documentlifeCycleGenerator.js";
 import { InternalApprovalStateStore } from "~/infrastructure/constants/internalApprovalState.js";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
 import { ExternalApprovalStateStore } from "~/infrastructure/constants/externalApprovalState.js";
