@@ -9,7 +9,7 @@
         />
         <div class="selector">
           <EmployeeTagBox
-            :storeApi="$dataApi.chat.user"
+            :storeApi="$dataApi.chat.User"
             :value="members"
             valueExpr="id"
             @valueChanged="membersSelected"
