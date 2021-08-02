@@ -9,7 +9,7 @@ export default async function (context, { documentTypeGuid, documentId }) {
       requiestApi = `${dataApi.documentTemplate.GetDocumentById}${documentId}`;
       break;
     default:
-      requiestApi = `${GenerateApi(documentTypeGuid)}${documentId}`;
+      requiestApi = `${GenerateApi(documentTypeGuid)}/${documentId}`;
       break;
   }
   refresh(context, documentId, requiestApi);
