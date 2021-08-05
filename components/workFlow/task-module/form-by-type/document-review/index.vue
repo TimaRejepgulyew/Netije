@@ -7,7 +7,7 @@
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
     >
-      <>
+      <DxGroupItem>
         <DxSimpleItem
           :editor-options="subjectOptions"
           data-field="subject"
@@ -17,19 +17,17 @@
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
-          <DxSimpleItem data-field="addressees" template="addressees">
-            <DxRequiredRule
-              :message="$t('task.validation.addresseeRequired')"
-            />
-            <DxLabel location="left" :text="$t('task.fields.addressees')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="deadline"
-            :editor-options="deadlineOptions"
-            editor-type="dxDateBox"
-          >
-            <DxLabel location="left" :text="$t('task.fields.deadLine')" />
-          </DxSimpleItem>
+        <DxSimpleItem data-field="addressee" template="addressee">
+          <DxRequiredRule :message="$t('task.validation.addresseeRequired')" />
+          <DxLabel location="left" :text="$t('task.fields.addressee')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="deadline"
+          :editor-options="deadlineOptions"
+          editor-type="dxDateBox"
+        >
+          <DxLabel location="left" :text="$t('task.fields.deadLine')" />
+        </DxSimpleItem>
         <DxSimpleItem
           template="resolutionObservers"
           data-field="resolutionObservers"
@@ -53,13 +51,13 @@
           @valueChanged="setBody"
         />
       </template>
-      <template #addressees>
-        <recipient-tag-box
+      <template #addressee>
+        <recipient-select-box
           :read-only="readOnly"
           :messageRequired="$t('task.validation.addresseeRequired')"
           :validator-group="taskValidatorName"
-          :recipients="addressee"
-          @setRecipients="setAddressee"
+          :value="addressee"
+          @valueChanged="setAddressee"
         />
       </template>
       <template #resolutionObservers>
@@ -74,6 +72,7 @@
 </template>
 <script>
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
+import recipientSelectBox from "~/components/recipient/select-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import AutoText from "~/components/autocomplete-text/text-area/index.vue";
@@ -85,7 +84,6 @@ import DxForm, {
   DxLabel,
   DxRequiredRule,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxGroupItem,
@@ -95,6 +93,7 @@ export default {
     DxForm,
     employeeSelectBox,
     recipientTagBox,
+    recipientSelectBox,
     employeeTagBox,
     AutoText,
   },
