@@ -14,7 +14,7 @@
       :column-auto-width="true"
       :load-panel="{
         enabled: true,
-        indicatorSrc: require('~/static/icons/loading.gif')
+        indicatorSrc: require('~/static/icons/loading.gif'),
       }"
       :onRowDblClick="edit"
       @toolbar-preparing="onToolbarPreparing($event)"
@@ -33,7 +33,11 @@
       <DxColumnChooser :enabled="true" />
       <DxColumnFixing :enabled="true" />
 
-      <DxStateStoring :enabled="true" type="localStorage" storage-key="documentKind" />
+      <DxStateStoring
+        :enabled="true"
+        type="localStorage"
+        storage-key="documentKind"
+      />
 
       <DxEditing
         :allow-deleting="
@@ -47,9 +51,17 @@
       <DxSearchPanel position="after" :visible="true" />
       <DxScrolling mode="virtual" />
 
-      <DxColumn data-field="name" :caption="$t('shared.name')" alignment="left" data-type="string"></DxColumn>
+      <DxColumn
+        data-field="name"
+        :caption="$t('shared.name')"
+        alignment="left"
+        data-type="string"
+      ></DxColumn>
 
-      <DxColumn data-field="documentFlow" :caption="$t('docFlow.fields.documentFlow')">
+      <DxColumn
+        data-field="documentFlow"
+        :caption="$t('docFlow.fields.documentFlow')"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="documentFlow"
@@ -58,7 +70,10 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="numberingType" :caption="$t('translations.fields.numberingType')">
+      <DxColumn
+        data-field="numberingType"
+        :caption="$t('translations.fields.numberingType')"
+      >
         <DxLookup
           :allow-clearing="true"
           :data-source="numberingType"
@@ -67,11 +82,11 @@
         />
       </DxColumn>
 
-      <DxColumn data-field="documentTypeGuid" :caption="$t('menu.documentType')">
+      <DxColumn data-field="documentTypeId" :caption="$t('menu.documentType')">
         <DxLookup
           :allow-clearing="true"
           :data-source="documentTypeDataSource"
-          value-expr="documentTypeGuid"
+          value-expr="id"
           display-expr="name"
         />
       </DxColumn>
@@ -86,7 +101,11 @@
         />
       </DxColumn>
       <DxColumn type="buttons">
-        <DxButton icon="more" :text="$t('shared.more')" :onClick="documentKindDetailForm"></DxButton>
+        <DxButton
+          icon="more"
+          :text="$t('shared.more')"
+          :onClick="documentKindDetailForm"
+        ></DxButton>
 
         <DxButton icon="trash" name="delete"></DxButton>
       </DxColumn>
@@ -112,7 +131,7 @@ import {
   DxColumnFixing,
   DxStateStoring,
   DxFilterRow,
-  DxButton
+  DxButton,
 } from "devextreme-vue/data-grid";
 
 export default {
@@ -132,7 +151,7 @@ export default {
     DxColumnFixing,
     DxStateStoring,
     DxFilterRow,
-    DxButton
+    DxButton,
   },
   data() {
     return {
@@ -141,7 +160,7 @@ export default {
         loadUrl: dataApi.docFlow.DocumentKind,
         insertUrl: dataApi.docFlow.DocumentKind,
         updateUrl: dataApi.docFlow.DocumentKind,
-        removeUrl: dataApi.docFlow.DocumentKind
+        removeUrl: dataApi.docFlow.DocumentKind,
       }),
       entityType: EntityType.DocumentKind,
       statusDataSource: this.$store.getters["status/status"](this),
@@ -149,11 +168,11 @@ export default {
       numberingType: this.$store.getters["docflow/numberingType"](this),
       documentTypeDataSource: {
         store: this.$dxStore({
-          key: "documentTypeGuid",
-          loadUrl: dataApi.docFlow.DocumentType
+          key: "id",
+          loadUrl: dataApi.docFlow.DocumentType,
         }),
-        paginate: true
-      }
+        paginate: true,
+      },
     };
   },
   methods: {
@@ -164,7 +183,7 @@ export default {
       this.$router.push(`/docflow/document-kind/${e.row.data.id}`);
     },
     onToolbarPreparing(e) {
-      const addButton = e.toolbarOptions.items.find(btn => {
+      const addButton = e.toolbarOptions.items.find((btn) => {
         return btn.name == "addRowButton";
       });
       if (addButton) {
@@ -172,7 +191,7 @@ export default {
           this.$router.push("/docflow/document-kind/create");
         };
       }
-    }
-  }
+    },
+  },
 };
 </script>

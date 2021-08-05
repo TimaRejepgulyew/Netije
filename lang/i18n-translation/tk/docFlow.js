@@ -52,7 +52,11 @@ export default {
     documentTemplateDescr:
       "Resminamalar döredilende ulanylýan bitewi formalaryň sanawy.",
     docKind: "Resminamalaryň görnüşleri",
+    docType: "Resminamalaryň görnüşi",
+    docTypeCreate: "Resminamalaryň görnüşi döretmek",
     docKindDescr:
+      "Resminama akuwynyň, belginiň görnüşiniň anyklaýan resminamalaryň klassifikasiýasy",
+    docTypeDescr:
       "Resminama akuwynyň, belginiň görnüşiniň anyklaýan resminamalaryň klassifikasiýasy",
     categories: "Resminamalaryň kategoriýasy",
     categoriesDescr:

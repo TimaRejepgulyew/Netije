@@ -8,7 +8,9 @@ export default {
         outgoingLetter: "Исходящие документы",
         outgoingLetterDescr: "Показать все исходящие документы.",
         internalDocuments: "Внутренние документы",
-        internalDocumentsDescr: "Показать все внутренние документы."
+        internalDocumentsDescr: "Показать все внутренние документы.",
+        dynamicDocument: "Динамические документы",
+        dynamicDocumentDescr: "Показать все динамические документы",
     },
     control: {
         title: "Контроль",

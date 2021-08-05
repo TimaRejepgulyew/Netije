@@ -18,8 +18,8 @@
       </DxSimpleItem>
       <template #recipients>
         <RecipientTagBox
-          :recipients="group.participants"
-          @setRecipients="value => participantChanged(value)"
+          :value="group.participants"
+          @valueChanged="(value) => participantChanged(value)"
         />
       </template>
     </DxForm>
@@ -32,7 +32,7 @@ import {
   DxSimpleItem,
   DxGroupItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
 import RecipientTagBox from "~/components/recipient/tag-box/index.vue";
 import Header from "~/components/page/page__header.vue";
@@ -48,16 +48,16 @@ export default {
     DxLabel,
     Header,
     Toolbar,
-    RecipientTagBox
+    RecipientTagBox,
   },
   props: {
     value: {
-      type: Object
+      type: Object,
     },
     isCard: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     readOnly() {
@@ -67,7 +67,7 @@ export default {
       return {
         name: "",
         participants: [],
-        ...this.value
+        ...this.value,
       };
     },
     isNew() {
@@ -77,7 +77,7 @@ export default {
       return this.isNew
         ? this.$t("companyStructure.additionally.group")
         : this.group.name;
-    }
+    },
   },
   methods: {
     participantChanged(value) {
@@ -86,13 +86,13 @@ export default {
     postGroup() {
       this.$awn.asyncBlock(
         this.$axios.post(dataApi.userGroup.group, this.group),
-        e => {
+        (e) => {
           if (!this.isCard) {
             this.$router.go(-1);
           }
           this.$awn.success();
         },
-        e => {
+        (e) => {
           this.$alert();
         }
       );
@@ -103,20 +103,20 @@ export default {
           dataApi.userGroup.group + "/" + this.group.id,
           this.group
         ),
-        e => {
+        (e) => {
           this.$awn.success();
           if (!this.isCard) {
             this.$router.go(-1);
           }
         },
-        e => {
+        (e) => {
           this.$alert();
         }
       );
     },
     saveChanges() {
       this.isNew ? this.postGroup() : this.putGroup();
-    }
+    },
   },
 };
 </script>

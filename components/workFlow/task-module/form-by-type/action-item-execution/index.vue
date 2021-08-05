@@ -99,8 +99,8 @@
       <template #actionItemObservers>
         <recipient-tag-box
           :read-only="readOnly"
-          :recipients="actionItemObservers"
-          @setRecipients="setActionItemObservers"
+          :value="actionItemObservers"
+          @valueChanged="setActionItemObservers"
         />
       </template>
       <template #coAssignees>
@@ -124,6 +124,7 @@
           :read-only="readOnly"
           :messageRequired="$t('task.validation.assigneeRequired')"
           :validator-group="taskValidatorName"
+          :isRequired="true"
           :value="assignee"
           @valueChanged="setAssignee"
         />

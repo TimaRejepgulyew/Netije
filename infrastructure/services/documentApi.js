@@ -4,6 +4,8 @@ import dataApi from "~/static/dataApi";
 
 export function GenerateGridApi(docQuery) {
     switch (docQuery) {
+        case DocumentQuery.AllDocuments:
+            return dataApi.allDocuments.getAll
         case DocumentQuery.IncomingLetter:
             return dataApi.incomingLetter.getAll
         case DocumentQuery.OutgoingLetter:
@@ -85,7 +87,6 @@ export function GenerateApi(docQuery) {
             return dataApi.dynamicDocument.document
         default:
             console.log("docQuerySolo", docQuery)
-
             break;
     }
 }

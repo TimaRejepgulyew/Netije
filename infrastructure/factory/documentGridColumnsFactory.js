@@ -19,7 +19,7 @@ export default {
 
 const GetColumnsByDocumentType = (type, context) => {
   switch (type) {
-    case DocumentQuery.All:
+    case DocumentQuery.AllDocuments:
       return CreateElectronicDocumentColumns(context);
     case DocumentQuery.IncomingLetter:
       return CreateIncomingLetterColumns(context);
@@ -48,6 +48,8 @@ const GetColumnsByDocumentType = (type, context) => {
       return CreateAccountingDocumentsColumns(context);
     case DocumentQuery.AccountingDocuments:
       return CreateAccountingDocumentsColumns(context);
+    case DocumentQuery.DynamicDocument:
+      return CreateDynamicDocumentsColumns(context);
 
     case "document-template":
       return createDocumentTemplateColumns(context);
@@ -218,6 +220,26 @@ const createDocumentTemplateColumns = context => {
     CreateDocumentTemplateStatus(context)
   ];
 };
+
+const CreateDynamicDocumentsColumns = context => {
+  return [
+    CreateDocumentSubjectColumn(context),
+    CreateDocumentTypeGuidColumn(context),
+    CreateDocumentNameColumn(context),
+    CreateDocumentCreatedColumn(context),
+    CreateDocumentModifiedColumn(context),
+    createExecutionStateColumn(context),
+    CreateDocumentAuthorColumn(context),
+    CreateDocumentRegistrationStateColumn(context),
+    CreateDocumentRegisterColumn(context),
+    CreateDocumentKindColumn(context),
+    CreateDocumentRegistrationNumberColumn(context),
+    CreateDocumentRegistrationDateColumn(context),
+    CreatePlacedToCaseFileDateColumn(context),
+    CreateCaseFileColumn(context)
+  ];
+};
+
 const GetDefaultColumn = () => {
   return {
     dataField: "extension",

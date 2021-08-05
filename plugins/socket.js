@@ -7,7 +7,7 @@ export default async ({ app, store }, inject) => {
 
     class ChatControler {
         static async invateToRoom(roomId, users) {
-            RoomService.inviteToRoom(app, roomId, users);
+            await RoomService.inviteToRoom(app, roomId, users);
         }
         static async sendMessage(msg) {
             const data = await MessageService.postMessages(app, msg);
@@ -49,14 +49,13 @@ export default async ({ app, store }, inject) => {
         static connect() {
             const options = {
                 reconnectionDelayMax: 10000,
-                path: "/socket",
                 autoConnect: true,
                 auth: {},
                 extraHeaders: {
                     Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
                 }
             };
-
+            console.log(dataApi.chat.baseUrl, 'coonecting');
             const socket = new SocketIO(dataApi.chat.baseUrl, options);
             socket.on("connect", msg => {
                 ChatControler.allRooms();

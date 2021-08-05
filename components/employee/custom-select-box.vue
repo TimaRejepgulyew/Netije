@@ -23,7 +23,7 @@
       @valueChanged="valueChanged"
       @opened="onOpened"
     >
-      <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+      <DxValidator v-if="isRequired" :validation-group="validatorGroup">
         <DxRequiredRule />
       </DxValidator>
 
@@ -32,6 +32,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @focusIn="focusIn"
           @openFields="openFields"
           @showCard="showCard"
           :read-only="readOnly"
@@ -56,26 +57,32 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: {
     showClearButton: {
       type: Boolean,
-      default: true
+      default: true,
     },
     value: {},
-    storeApi: {},
+    isRequired: {
+      default: false,
+    },
+    storeApi: {
+      type: String,
+      default: dataApi.company.Employee,
+    },
     messageRequired: {},
     validatorGroup: {},
     readOnly: {},
     stylingMode: {},
     height: {},
-    valueExpr: {}
+    valueExpr: {},
   },
   data() {
     return {
       dataSourceLoaded: this.valueExpr,
-      localEmployeeId: null
+      localEmployeeId: null,
     };
   },
   computed: {
@@ -83,10 +90,10 @@ export default {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
+          loadUrl: this.storeApi,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
       if (this.dataSourceLoaded) {
         return dataSource;
@@ -99,9 +106,12 @@ export default {
     },
     employeeId() {
       return this.valueExpr ? this.value : this.value?.id;
-    }
+    },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },
@@ -116,11 +126,13 @@ export default {
       this.$popup.employeeCard(
         this,
         {
-          employeeId: this.employeeId || this.localEmployeeId
+          employeeId: this.employeeId || this.localEmployeeId,
         },
         {
           height: "auto",
-          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
+          listeners: [
+            { eventName: "valueChanged", handlerName: "reloadStore" },
+          ],
         }
       );
     },
@@ -132,8 +144,8 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.reloadStore();
-    }
-  }
+    },
+  },
 };
 </script>
 

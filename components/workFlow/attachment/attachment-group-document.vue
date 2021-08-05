@@ -38,7 +38,7 @@
 
 <script>
 import addDocumentBtn from "./attachment-components/add-document-btn.vue";
-  import documentField from "./field-document-attachment.vue";
+import documentField from "./field-document-attachment.vue";
 import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
 import {
   load,
@@ -80,11 +80,11 @@ export default {
         }
       );
     },
-    createDocument(documentType) {
+    createDocument(params) {
       this.$popup.documentCard(
         this,
         {
-          params: { documentType },
+          params: params,
           handler: createDocument,
         },
         {

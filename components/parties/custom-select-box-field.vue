@@ -8,7 +8,7 @@
     />
     <DxButton
       v-if="isPerson"
-      :on-click="()=>createCounterPart('person')"
+      :on-click="() => createCounterPart('person')"
       icon="plus"
       stylingMode="text"
       :hint="$t('buttons.add')"
@@ -52,20 +52,20 @@ export default {
   components: {
     DxTextBox,
     DxButton,
-    DxDropDownButton
+    DxDropDownButton,
   },
   props: {
     readOnly: {
-      type: Boolean
+      type: Boolean,
     },
     isPerson: {
-      type: Boolean
+      type: Boolean,
     },
     notPerson: {},
     fieldData: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -77,9 +77,9 @@ export default {
         {
           name: this.$t("counterPart.Person"),
           type: "person",
-          visible: !this.notPerson
-        }
-      ]
+          visible: !this.notPerson,
+        },
+      ],
     };
   },
   computed: {
@@ -98,22 +98,23 @@ export default {
     cardGridBtnOptions() {
       return {
         icon: "more",
-        visible: !this.readOnly && this.allowReadCounterPartDetails
+        visible: !this.readOnly && this.allowReadCounterPartDetails,
       };
     },
     cardDetailCounterPartOptions() {
       return {
         icon: "info",
         hint: this.$t("buttons.showCard"),
-        visible: this.isSelected && this.allowReadCounterPartDetails
+        visible: this.isSelected && this.allowReadCounterPartDetails,
       };
     },
     isSelected() {
       return this.fieldData?.id ? true : false;
-    }
+    },
   },
   methods: {
     openField() {
+      this.$emit("focusIn");
       if (!this.readOnly) this.$emit("openFields");
     },
     openGird() {
@@ -124,7 +125,7 @@ export default {
     },
     createCounterPart(e) {
       this.$emit("openCreateCounterPartPopup", e.itemData?.type || e);
-    }
-  }
+    },
+  },
 };
 </script>

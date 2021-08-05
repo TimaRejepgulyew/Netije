@@ -18,8 +18,9 @@
     :activeStateEnabled="activeStateEnabled"
     @opened="onOpened"
     @valueChanged="valueChanged"
+    @focusIn="focusIn"
   >
-    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+    <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #customSelectItem="{ data }">
@@ -39,10 +40,11 @@ export default {
     DxValidator,
     DxRequiredRule,
     DxTagBox,
-    customSelectItem
+    customSelectItem,
   },
   props: [
     "value",
+    "isRequired",
     "messageRequired",
     "validatorGroup",
     "readOnly",
@@ -52,11 +54,11 @@ export default {
     "focusStateEnabled",
     "hoverStateEnabled",
     "activeStateEnabled",
-    "storeApi"
+    "storeApi",
   ],
   data() {
     return {
-      dataSourceLoaded: this.valueExpr
+      dataSourceLoaded: this.valueExpr,
     };
   },
   computed: {
@@ -64,10 +66,10 @@ export default {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: this.storeApi || dataApi.company.Employee
+          loadUrl: this.storeApi || dataApi.company.Employee,
         }),
         paginate: true,
-        pageSize: 10
+        pageSize: 10,
       });
       if (this.dataSourceLoaded) {
         return dataSource;
@@ -77,18 +79,18 @@ export default {
       }
 
       return dataSource;
-    }
+    },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },
     valueChanged(e) {
       this.$emit("valueChanged", e.value);
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style>
-</style>

@@ -8,7 +8,9 @@ export default {
         outgoingLetter: "Çykyş resminamalar",
         outgoingLetterDescr: "Ähli çykyş resminamalary görkezmek",
         internalDocuments: "Içki resminamalar",
-        internalDocumentsDescr: "Ähli içki resminamalary görkezmek"
+        internalDocumentsDescr: "Ähli içki resminamalary görkezmek",
+        dynamicDocument: "Dinamiki resminamalar",
+        dynamicDocumentDescr: "Ähli dinamiki resminamalary görkezmek",
     },
     control: {
         title: "Gözegçilik",

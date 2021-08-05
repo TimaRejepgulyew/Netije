@@ -40,6 +40,7 @@
         <employee-select-box
           :read-only="readOnly"
           :messageRequired="$t('task.validation.assigneeRequired')"
+
           :validator-group="taskValidatorName"
           :value="assignee"
           @valueChanged="setAssignee"
@@ -49,7 +50,7 @@
   </div>
 </template>
 <script>
-import recipientTagBox from "~/components/recipient/tag-box/index.vue";
+
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import "devextreme-vue/text-area";
@@ -65,7 +66,6 @@ export default {
   components: {
     employeeSelectBox,
     employeeTagBox,
-    recipientTagBox,
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,

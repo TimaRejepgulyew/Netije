@@ -9,7 +9,7 @@
     :value="value"
     :openOnFieldClick="false"
     :focusStateEnabled="false"
-    valueExpr="id"
+    :valueExpr="valueExpr"
     displayExpr="name"
     :disabled="disabled"
     :searchEnabled="true"
@@ -19,7 +19,7 @@
     item-template="customSelectItem"
     field-template="customfield"
   >
-    <DxValidator v-if="validatorGroup" :validation-group="validatorGroup">
+    <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
     </DxValidator>
     <template #customSelectItem="{ data }">
@@ -27,6 +27,7 @@
     </template>
     <template #customfield="{ data }">
       <custom-field
+        @focusIn="focusIn"
         :read-only="readOnly"
         :notPerson="notPerson"
         :isPerson="isPerson"
@@ -52,23 +53,25 @@ export default {
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField
+    customField,
   },
   props: [
+    "isRequired",
     "validatorGroup",
     "messageRequired",
     "value",
     "notPerson",
     "isPerson",
     "disabled",
-    "readOnly"
+    "readOnly",
+    "valueExpr",
   ],
   data() {
     return {
       counterPartStore: new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: dataApi.contragents.CounterPart
+          loadUrl: dataApi.contragents.CounterPart,
         }),
         paginate: true,
         pageSize: 10,
@@ -76,11 +79,14 @@ export default {
           ? ["type", "<>", "Person"]
           : this.isPerson
           ? ["type", "=", "Person"]
-          : null
-      })
+          : null,
+      }),
     };
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     openFields() {
       this.$refs["counterPart"].instance.open();
     },
@@ -89,13 +95,13 @@ export default {
         this,
         {
           isPerson: this.isPerson,
-          notPerson: this.notPerson
+          notPerson: this.notPerson,
         },
         {
           showLoadingPanel: false,
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" }
-          ]
+            { eventName: "valueChanged", handlerName: "setCounterPart" },
+          ],
         }
       );
     },
@@ -105,12 +111,12 @@ export default {
         {
           counterpartId: data.id,
           type: data.type.toLowerCase(),
-          isCard: true
+          isCard: true,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" }
-          ]
+            { eventName: "valueChanged", handlerName: "setCounterPart" },
+          ],
         }
       );
     },
@@ -119,13 +125,13 @@ export default {
         this,
         {
           type: data,
-          isCard: true
+          isCard: true,
         },
         {
           showLoadingPanel: false,
           listeners: [
-            { eventName: "valueChanged", handlerName: "setCounterPart" }
-          ]
+            { eventName: "valueChanged", handlerName: "setCounterPart" },
+          ],
         }
       );
     },
@@ -141,8 +147,8 @@ export default {
     setCounterPart(data) {
       this.$emit("valueChanged", data.id);
       this.reloadStore();
-    }
-  }
+    },
+  },
 };
 </script>
 

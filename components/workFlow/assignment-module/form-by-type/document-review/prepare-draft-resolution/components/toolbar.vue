@@ -54,10 +54,10 @@
   </div>
 </template>
 <script>
-import sendToAssigneeIcon from "~/static/icons/sendToAssignee.svg";
+import sendToAssigneeIcon from "~/static/icons/send-to-assignee.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import exploredIcon from "~/static/icons/status/explored.svg";
-import resolutionIcon from "~/static/icons/addResolution.svg";
+import resolutionIcon from "~/static/icons/add-resolution.svg";
 import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {

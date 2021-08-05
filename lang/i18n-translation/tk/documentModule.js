@@ -15,7 +15,9 @@ export const DocumentType = {
   OutgoingTaxInvoice: "Tölemek üçin berlen hasap-onwoýs",
   UniversalTransferDocument: "Uniwersal geçiriş resminamasy",
   Waybill: "Ýol ýanhaty",
-  Contract: "Şertnama"
+  Contract: "Şertnama",
+  DocumentTemplate: "Resminamalaryň nusgalary",
+  DynamicDocument: "Dinamiki resminamalar"
 };
 export default {
   remove: "Pozmak",
@@ -58,6 +60,7 @@ export default {
     }
   },
   fields: {
+    documentDeadline: "Resminamanyň möhleti",
     lifeCycle: "Ýaşaýyş aýlawy",
     state: "Ýagdaýy",
     registrationState: "Bellige almak",
@@ -126,6 +129,7 @@ export default {
     value: "Manysy"
   },
   validation: {
+    documentDeadline: "Resminamanyň möhleti giriziň",
     paramsValueRequired: "Manysy giriziň",
     paramsValueRule: "Many nädogry girizildi",
     stateRequired: "Ýagdaýy giriziň",

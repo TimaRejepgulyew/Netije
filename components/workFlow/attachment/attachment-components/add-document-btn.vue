@@ -12,13 +12,31 @@
 </template>
 
 <script>
+import dataApi from "~/static/dataApi";
 import DocumentTypyModel from "~/infrastructure/models/DocumentType.js";
 import financialArchiveIcon from "~/static/icons/document-type/financial-archive.svg";
 import contractIcon from "~/static/icons/document-type/contract.svg";
 import DxMenu from "devextreme-vue/menu";
+import dynamicDocumentIcon from "~/static/icons/document-type/dynamic-document.svg";
+import { DynamicDocumentCreateBtn } from "~/infrastructure/models/DynamicDocumentCreateBtn";
+import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
 export default {
   components: {
-    DxMenu
+    DxMenu,
+  },
+  async created() {
+    const filter = `["documentTypeGuid","=",${DocumentTypeGuid.DynamicDocument}]`;
+    const { data } = await this.$axios.get(
+      `${dataApi.docFlow.DocumentType}?filter=${filter}`
+    );
+    this.dynamicDocumentCreateBtn = new Array(
+      ...Object.values(new DynamicDocumentCreateBtn(data.data).getAll())
+    );
+  },
+  data() {
+    return {
+      dynamicDocumentCreateBtn: [],
+    };
   },
   computed: {
     documentTypeModel() {
@@ -45,7 +63,7 @@ export default {
                 {
                   text: this.$t("createItemDialog.recordManagementGroup"),
                   icon: "file",
-                  items: Object.values(this.paperWorkGroupBtns)
+                  items: Object.values(this.paperWorkGroupBtns),
                 },
                 {
                   text: this.$t("createItemDialog.accountingDocumentsGroup"),
@@ -53,7 +71,7 @@ export default {
                   items: Object.values(this.filterContractBtns),
                   visible: this.$store.getters[
                     "permissions/isResponsibleFinansicalArchive"
-                  ]
+                  ],
                 },
                 {
                   text: this.$t("createItemDialog.contractualDocumentsGroup"),
@@ -61,23 +79,32 @@ export default {
                   items: Object.values(this.filterFinancialArchiveBtns),
                   visible: this.$store.getters[
                     "permissions/isResponsibleForContracts"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+                  ],
+                },
+                {
+                  text: this.$t("createItemDialog.dynamicDocuments"),
+                  icon: dynamicDocumentIcon,
+                  items: this.dynamicDocumentCreateBtn,
+                },
+              ],
+            },
+          ],
+        },
       ];
-    }
+    },
   },
   methods: {
     itemClick({ itemData }) {
       if (!itemData.items) {
         if (itemData.type === "select") this.$emit("showDocumentGrid");
-        else this.$emit("createDocument", itemData.id);
+        else
+          this.$emit("createDocument", {
+            documentTypeId: itemData.id,
+            documentTypeGuid: itemData.documentTypeGuid,
+          });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

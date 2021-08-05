@@ -8,6 +8,9 @@ export default function (context) {
   function isVisible(accessKey) {
     return context.$store.getters["permissions/allowReading"](accessKey);
   }
+  function isAdmin() {
+    return context.$store.getters["permissions/IsAdmin"];
+  }
   const pathGenerate = detail => {
     return `/docFlow/${detail}`;
   };
@@ -24,6 +27,17 @@ export default function (context) {
           description: context.$t("docFlow.documentSetting.docKindDescr"),
           path: pathGenerate("document-kind"),
           visible: isVisible(EntityType.DocumentKind)
+        },
+        {
+          name: context.$t("docFlow.documentSetting.docTypeCreate"),
+          path: pathGenerate("document-type/create"),
+          visible: isAdmin()
+        },
+        {
+          name: context.$t("docFlow.documentSetting.docType"),
+          description: context.$t("docFlow.documentSetting.docTypeDescr"),
+          path: pathGenerate("document-type"),
+          visible: isAdmin()
         },
         {
           name: context.$t("docFlow.documentSetting.categories"),

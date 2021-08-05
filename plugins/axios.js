@@ -41,10 +41,8 @@ export default function ({ store, app: { router, $axios, i18n } }) {
           );
         }
       } else {
-        console.log(error);
       }
     } catch (e) {
-      console.log(error);
       console.log(e);
     }
   });

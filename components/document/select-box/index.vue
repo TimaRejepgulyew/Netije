@@ -27,6 +27,7 @@
       </template>
       <template #customfield="{ data }">
         <custom-field
+          @focusIn="focusIn"
           @openFields="openFields"
           @openGrid="showDocumentGrid"
           @openCard="showDocumentCard"
@@ -41,7 +42,6 @@
 <script>
 import DocumentQuery from "~/infrastructure/constants/query/documentQuery.js";
 import { load } from "~/infrastructure/services/documentService.js";
-import { DxButton } from "devextreme-vue";
 import { DxValidator, DxRequiredRule } from "devextreme-vue/validator";
 import customSelectItem from "~/components/document/components/list-item.vue";
 import customField from "~/components/document/components/input-field.vue";
@@ -49,47 +49,49 @@ import dataApi from "~/static/dataApi";
 import { DxSelectBox } from "devextreme-vue";
 import DataSource from "devextreme/data/data_source";
 import QuickFilter from "~/infrastructure/constants/quickFilter/documentQuiсkFilter";
+import { GenerateGridApi } from "~/infrastructure/services/documentApi.js";
+
 export default {
   components: {
     DxValidator,
     DxRequiredRule,
     DxSelectBox,
     customSelectItem,
-    customField,
+    customField
   },
   props: {
     dataSourceFilter: {},
     dataSourceQuery: {
       type: Number,
-      default: DocumentQuery.All,
+      default: DocumentQuery.AllDocuments
     },
     value: {},
     isRequired: {
       type: Boolean,
-      default: false,
+      default: false
     },
     messageRequired: {
-      type: String,
+      type: String
     },
     validationGroup: {
-      type: String,
+      type: String
     },
     readOnly: {
       type: Boolean,
-      default: false,
+      default: false
     },
     valueExpr: {},
     showClearButton: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
 
   data() {
     return {
       dataSourceLoaded: this.valueExpr,
       currentDocumentId: null,
-      isCardOpened: false,
+      isCardOpened: false
     };
   },
   computed: {
@@ -97,11 +99,11 @@ export default {
       const dataSource = new DataSource({
         store: this.$dxStore({
           key: "id",
-          loadUrl: `${dataApi.documentModule.Documents}${this.dataSourceQuery}/${QuickFilter.All}`,
+          loadUrl: `${GenerateGridApi(this.dataSourceQuery)}/${QuickFilter.All}`
         }),
         filter: this.dataSourceFilter || [],
         paginate: true,
-        pageSize: 10,
+        pageSize: 10
       });
       if (this.dataSourceLoaded) {
         return dataSource;
@@ -113,9 +115,12 @@ export default {
     },
     documentId() {
       return this.valueExpr ? this.value : this.value?.id;
-    },
+    }
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn", this.value);
+    },
     onOpened() {
       this.dataSourceLoaded = true;
     },
@@ -127,12 +132,10 @@ export default {
         this,
         {
           params: { documentTypeGuid, documentId: id },
-          handler: load,
+          handler: load
         },
         {
-          listeners: [
-            { eventName: "valueChanged", handlerName: "reloadStore" },
-          ],
+          listeners: [{ eventName: "valueChanged", handlerName: "reloadStore" }]
         }
       );
     },
@@ -141,13 +144,13 @@ export default {
         this,
         {
           documentQuery: this.dataSourceQuery,
-          documentFilter: this.dataSourceFilter,
+          documentFilter: this.dataSourceFilter
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "updateDocument" },
+            { eventName: "valueChanged", handlerName: "updateDocument" }
           ],
-          showLoadingPanel: false,
+          showLoadingPanel: false
         }
       );
       this.onOpened();
@@ -164,7 +167,7 @@ export default {
       if (this.valueExpr) this.$emit("valueChanged", data[this.valueExpr]);
       else this.$emit("valueChanged", data);
       this.$refs["document"].instance.repaint();
-    },
+    }
   },
 };
 </script>

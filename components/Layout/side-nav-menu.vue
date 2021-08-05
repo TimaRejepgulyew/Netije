@@ -33,7 +33,7 @@
 import documentItem from "./side-bar-items/document.vue";
 import assignmentItem from "./side-bar-items/assignment.vue";
 import DxTreeView from "devextreme-vue/ui/tree-view";
-import DocumentQueryModel from "~/infrastructure/models/DocumentQuery.js";
+import { DocumentQuery as DocumentQueryModel } from "~/infrastructure/models/DocumentQuery.js";
 const treeViewRef = "treeViewRef";
 
 export default {
@@ -92,6 +92,7 @@ export default {
     },
 
     handleItemClick(e) {
+      console.log(e.itemData);
       if (!e.itemData.path || this.compactMode) {
         return;
       }

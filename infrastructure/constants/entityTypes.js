@@ -57,7 +57,7 @@ export default {
   Contract: 423,
   SupAgreement: 424,
   DocumentTemplate: 450,
-
+  DynamicDocument: 703,
   Roles: 500,
 
   Task: 600,

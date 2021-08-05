@@ -55,7 +55,7 @@
 import returnManagersAssistantIcon from "~/static/icons/status/forrework.svg";
 import forwardIcon from "~/static/icons/status/forward.svg";
 import informedIcon from "~/static/icons/status/explored.svg";
-import resolutionIcon from "~/static/icons/addResolution.svg";
+import resolutionIcon from "~/static/icons/add-resolution.svg";
 import { ReviewResult } from "../infrastructure.js";
 import toolbarMixin from "../../../../infrastructure/mixins/toolbar.js";
 export default {

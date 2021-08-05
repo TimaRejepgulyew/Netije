@@ -18,9 +18,12 @@ export default {
   components: {
     DxTreeView,
   },
+  async created() {
+    this.createItems = await createItems(this);
+  },
   data() {
     return {
-      createItems: createItems(this),
+      createItems: [],
       treeView: this.$refs["treeViewRef"] && this.$refs["treeViewRef"].instance,
     };
   },

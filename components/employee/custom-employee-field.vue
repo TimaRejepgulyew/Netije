@@ -38,7 +38,11 @@ export default {
     },
   },
   methods: {
+    focusIn() {
+      this.$emit("focusIn");
+    },
     openField() {
+      this.$emit("focusIn");
       if (!this.readOnly) this.$emit("openFields");
     },
     showCard() {

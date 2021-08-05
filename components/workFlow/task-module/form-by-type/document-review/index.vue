@@ -17,21 +17,17 @@
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
-        <DxGroupItem :col-count="2">
-          <DxSimpleItem data-field="addressee" template="addressee">
-            <DxRequiredRule
-              :message="$t('task.validation.addresseeRequired')"
-            />
-            <DxLabel location="left" :text="$t('task.fields.addressee')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="deadline"
-            :editor-options="deadlineOptions"
-            editor-type="dxDateBox"
-          >
-            <DxLabel location="left" :text="$t('task.fields.deadLine')" />
-          </DxSimpleItem>
-        </DxGroupItem>
+        <DxSimpleItem data-field="addressee" template="addressee">
+          <DxRequiredRule :message="$t('task.validation.addresseeRequired')" />
+          <DxLabel location="left" :text="$t('task.fields.addressee')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="deadline"
+          :editor-options="deadlineOptions"
+          editor-type="dxDateBox"
+        >
+          <DxLabel location="left" :text="$t('task.fields.deadLine')" />
+        </DxSimpleItem>
         <DxSimpleItem
           template="resolutionObservers"
           data-field="resolutionObservers"
@@ -67,8 +63,8 @@
       <template #resolutionObservers>
         <recipient-tag-box
           :read-only="readOnly"
-          :recipients="resolutionObservers"
-          @setRecipients="setResolutionObservers"
+          :value="resolutionObservers"
+          @valueChanged="setResolutionObservers"
         />
       </template>
     </DxForm>
@@ -87,7 +83,6 @@ import DxForm, {
   DxLabel,
   DxRequiredRule,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxGroupItem,

@@ -1,5 +1,13 @@
 <template>
   <DxForm :show-colon-after-label="true" :show-validation-summary="false">
+    <!-- <DxSimpleItem
+      data-field="documentDeadline"
+      :editor-options="documentDeadlineOptions"
+      editor-type="dxDateBox"
+    >
+      <DxLabel location="left" :text="$t('document.fields.documentDeadline')" />
+    </DxSimpleItem> -->
+
     <DxSimpleItem
       editor-type="dxSelectBox"
       data-field="lifeCycleState"
@@ -55,7 +63,7 @@
 </template>
 <script>
 import DocumentType from "~/infrastructure/constants/documentType.js";
-import generateLifeCycleItemState from "~/infrastructure/services/documentLifeCyclegenerator.js";
+import generateLifeCycleItemState from "~/infrastructure/services/documentlifeCycleGenerator.js";
 import { InternalApprovalStateStore } from "~/infrastructure/constants/internalApprovalState.js";
 import { RegistrationStateStore } from "~/infrastructure/constants/documentRegistrationState.js";
 import { ExternalApprovalStateStore } from "~/infrastructure/constants/externalApprovalState.js";
@@ -65,16 +73,15 @@ import DxForm, {
   DxGroupItem,
   DxSimpleItem,
   DxRequiredRule,
-  DxLabel
+  DxLabel,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,
     DxLabel,
-    DxForm
+    DxForm,
   },
   props: ["documentId"],
   data() {
@@ -85,8 +92,8 @@ export default {
         internalApprovalState: false,
         externalApprovalState: false,
         executionState: false,
-        controlExecutionState: false
-      }
+        controlExecutionState: false,
+      },
     };
   },
   created() {
@@ -138,10 +145,31 @@ export default {
           this.itemVisible.internalApprovalState = true;
           this.itemVisible.externalApprovalState = true;
           break;
+        case DocumentType.DynamicDocument:
+          this.itemVisible.registrationState = true;
+          this.itemVisible.executionState = true;
+          this.itemVisible.controlExecutionState = true;
+          this.itemVisible.internalApprovalState = true;
+          break;
       }
-    }
+    },
   },
   computed: {
+    // documentDeadlineOptions() {
+    //   return {
+    //     ...this.$store.getters["globalProperties/FormOptions"]({
+    //       context: this,
+    //     }),
+    //     visible: this.canUpdate,
+    //     readOnly: this.isRegistered,
+    //     useMaskBehavior: true,
+    //     openOnFieldClick: true,
+    //     onValueChanged: (e) => {
+    //       this.setDocumentDeadline(e.value);
+    //     },
+    //     value: this.document.documentDeadline,
+    //   };
+    // },
     canUpdate() {
       return this.$store.getters[`documents/${this.documentId}/canUpdate`];
     },
@@ -155,16 +183,16 @@ export default {
       return {
         readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_LIFE_CYCLE_STATE`,
             e.value
           );
         },
         value: this.document.lifeCycleState,
-        dataSource: generateLifeCycleItemState(this, this.documentTypeGuid)
+        dataSource: generateLifeCycleItemState(this, this.documentTypeGuid),
       };
     },
     registrationStateOptions() {
@@ -172,76 +200,76 @@ export default {
         visible: this.itemVisible.registrationState,
         readOnly: true,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
         value: this.document.registrationState,
-        dataSource: RegistrationStateStore(this)
+        dataSource: RegistrationStateStore(this),
       };
     },
     internalApprovalStateOptions() {
       return {
         readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_INTERNAL_APPROVAL_STATE`,
             e.value
           );
         },
         value: this.document.internalApprovalState,
-        dataSource: InternalApprovalStateStore(this)
+        dataSource: InternalApprovalStateStore(this),
       };
     },
     externalApprovalStateOptions() {
       return {
         readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_EXTERNAL_APPROVAL_STATE`,
             e.value
           );
         },
         value: this.document.externalApprovalState,
-        dataSource: ExternalApprovalStateStore(this)
+        dataSource: ExternalApprovalStateStore(this),
       };
     },
     executionStateOptions() {
       return {
         readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_EXECUTION_STATE`,
             e.value
           );
         },
         value: this.document.executionState,
-        dataSource: ExecutionStateStore(this)
+        dataSource: ExecutionStateStore(this),
       };
     },
     controlExecutionStateOptions() {
       return {
         readOnly: !this.canUpdate,
         ...this.$store.getters["globalProperties/FormOptions"]({
-          context: this
+          context: this,
         }),
-        onValueChanged: e => {
+        onValueChanged: (e) => {
           this.$store.commit(
             `documents/${this.documentId}/SET_CONTROL_EXECUTION_STATE`,
             e.value
           );
         },
         value: this.document.controlExecutionState,
-        dataSource: ControlExecutionStateStore(this)
+        dataSource: ControlExecutionStateStore(this),
       };
-    }
-  }
+    },
+  },
 };
 </script>

@@ -10,7 +10,7 @@
 </template>
 <script>
 import { CreateChildActionItemExecution } from "../../../infrastructure/services/taskService.js";
-import actionItemExecutionIcon from "~/static/icons/actionItemExecution.svg";
+import actionItemExecutionIcon from "~/static/icons/action-item-execution.svg";
 import { DxButton } from "devextreme-vue";
 export default {
   components: {

@@ -95,7 +95,6 @@ import EmployeeSelectBox from "~/components/employee/custom-select-box.vue";
 import BusinessUnitSelectBox from "~/components/company/organization-structure/business-unit/custom-select-box";
 import { DxForm, DxSimpleItem, DxLabel } from "devextreme-vue/form";
 import Header from "~/components/page/page__header";
-import DataSource from "devextreme/data/data_source";
 import dataApi from "~/static/dataApi";
 import "devextreme/ui/text_area";
 export default {
