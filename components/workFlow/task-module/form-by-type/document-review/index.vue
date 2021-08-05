@@ -52,7 +52,7 @@
         />
       </template>
       <template #addressee>
-        <recipient-select-box
+        <employee-select-box
           :read-only="readOnly"
           :messageRequired="$t('task.validation.addresseeRequired')"
           :validator-group="taskValidatorName"
@@ -72,7 +72,6 @@
 </template>
 <script>
 import recipientTagBox from "~/components/recipient/tag-box/index.vue";
-import recipientSelectBox from "~/components/recipient/select-box/index.vue";
 import employeeSelectBox from "~/components/employee/custom-select-box.vue";
 import employeeTagBox from "~/components/employee/custom-tag-box.vue";
 import AutoText from "~/components/autocomplete-text/text-area/index.vue";
@@ -93,7 +92,6 @@ export default {
     DxForm,
     employeeSelectBox,
     recipientTagBox,
-    recipientSelectBox,
     employeeTagBox,
     AutoText,
   },
