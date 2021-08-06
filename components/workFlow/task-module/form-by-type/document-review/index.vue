@@ -7,7 +7,7 @@
       :show-validation-summary="true"
       :validation-group="taskValidatorName"
     >
-      <>
+      <DxGroupItem>
         <DxSimpleItem
           :editor-options="subjectOptions"
           data-field="subject"
@@ -17,19 +17,17 @@
           <DxRequiredRule :message="$t('task.validation.subjectRequired')" />
         </DxSimpleItem>
 
-          <DxSimpleItem data-field="addressees" template="addressees">
-            <DxRequiredRule
-              :message="$t('task.validation.addresseeRequired')"
-            />
-            <DxLabel location="left" :text="$t('task.fields.addressees')" />
-          </DxSimpleItem>
-          <DxSimpleItem
-            data-field="deadline"
-            :editor-options="deadlineOptions"
-            editor-type="dxDateBox"
-          >
-            <DxLabel location="left" :text="$t('task.fields.deadLine')" />
-          </DxSimpleItem>
+        <DxSimpleItem data-field="addressee" template="addressee">
+          <DxRequiredRule :message="$t('task.validation.addresseeRequired')" />
+          <DxLabel location="left" :text="$t('task.fields.addressee')" />
+        </DxSimpleItem>
+        <DxSimpleItem
+          data-field="deadline"
+          :editor-options="deadlineOptions"
+          editor-type="dxDateBox"
+        >
+          <DxLabel location="left" :text="$t('task.fields.deadLine')" />
+        </DxSimpleItem>
         <DxSimpleItem
           template="resolutionObservers"
           data-field="resolutionObservers"
@@ -53,13 +51,13 @@
           @valueChanged="setBody"
         />
       </template>
-      <template #addressees>
-        <recipient-tag-box
+      <template #addressee>
+        <employee-select-box
           :read-only="readOnly"
           :messageRequired="$t('task.validation.addresseeRequired')"
           :validator-group="taskValidatorName"
-          :recipients="addressee"
-          @setRecipients="setAddressee"
+          :value="addressee"
+          @valueChanged="setAddressee"
         />
       </template>
       <template #resolutionObservers>
@@ -85,7 +83,6 @@ import DxForm, {
   DxLabel,
   DxRequiredRule,
 } from "devextreme-vue/form";
-import dataApi from "~/static/dataApi";
 export default {
   components: {
     DxGroupItem,

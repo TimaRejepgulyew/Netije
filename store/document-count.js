@@ -17,9 +17,14 @@ export const mutations = {
 
 };
 export const actions = {
+    //TODO not test it 
     async loadDocumentCount({ commit }) {
-        const { data } = await this.$axios.get(`${this.$dataApi.documentModule.GetAllCountDocument}/100`)
-        console.log(data);
-        commit("COUNT_UPDATE", data)
+        try {
+            const { data } = await this.$axios.get(`${this.$dataApi.documentModule.GetAllCountDocument}/100`)
+            commit("COUNT_UPDATE", data)
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 };

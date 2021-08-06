@@ -5,7 +5,7 @@
   "author": "Timur Kleperson",
   "private": true,
   "scripts": {
-    "dev": "cross-env-shell nuxt",
+    "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt build && nuxt start",
     "generate": "nuxt generate",
