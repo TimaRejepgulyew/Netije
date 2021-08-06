@@ -2,6 +2,7 @@ import licensingIcon from "~/static/icons/quide-page/licensing.svg";
 import usersIcon from "~/static/icons/quide-page/users.svg";
 import importIcon from "~/static/icons/quide-page/import-icon.svg";
 import reportIcon from "~/static/icons/quide-page/report-icon.svg"
+import gear from "~/static/icons/quide-page/gear.svg"
 import dataApi from "~/static/dataApi";
 export default function (context) {
   function isVisible(accessKey) {
@@ -146,6 +147,21 @@ export default function (context) {
     {
       icon: licensingIcon,
       title: context.$t("licensing.headerTitle"),
+      items: [
+        {
+          name: context.$t("licensing.information.title"),
+          visible: true,
+          componentType: "popup",
+          params: {
+            popupName: "licenseInfo",
+          }
+        },
+      ]
+    },
+
+    {
+      icon: licensingIcon,
+      title: context.$t("modulesConfig.headerTitle"),
       items: [
         {
           name: context.$t("licensing.information.title"),
