@@ -46,7 +46,6 @@ import toolbarItemStartBtn from "./start-btn.vue";
 import toolbarItemImportanceChanger from "./importance-changer.vue";
 import toolbarItemAccessRight from "~/components/access-right/entity-access-right/access-right.vue";
 // services and constants
-import AssignmentType from "../../../infrastructure/constants/assignmentType";
 import ToolbarByTaskType from "../../infrastructure/factory/taskToolbarByTaskType.js";
 import { mapToEntityType } from "../../../infrastructure/constants/taskType.js";
 //toolbar btn icon
