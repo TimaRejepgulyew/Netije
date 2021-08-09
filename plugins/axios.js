@@ -4,7 +4,6 @@ export default function ({ store, app: { router, $axios, i18n } }) {
   if (process.env.NODE_ENV === "production") {
     $axios.setBaseURL(document.location.origin);
   } else {
-    console.log(document.location)
     $axios.setBaseURL(process.env.serverUrl);
   }
   $axios.onError(error => {

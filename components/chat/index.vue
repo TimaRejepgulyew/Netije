@@ -33,7 +33,6 @@ export default {
     };
   },
   mounted() {
-    console.log("insdex", this.$store.getters["oidc/oidcAccessToken"]);
     if (!this.$store.getters["permissions/IsAdmin"]) this.$chat.connect();
   },
   computed: {
