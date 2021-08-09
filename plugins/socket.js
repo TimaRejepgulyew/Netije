@@ -47,39 +47,39 @@ export default async ({ app, store }, inject) => {
         }
 
         static connect() {
-            const options = {
-                reconnectionDelayMax: 10000,
-                autoConnect: true,
-                auth: {},
-                extraHeaders: {
-                    Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
-                }
-            };
-            console.log(dataApi.chat.baseUrl, 'coonecting');
-            const socket = new SocketIO(dataApi.chat.baseUrl, options);
-            socket.on("connect", msg => {
-                ChatControler.allRooms();
-            });
-            socket.on("userOnline", data => {
-                store.dispatch("chatStore/userOnline", data);
-            });
-            socket.on("userOffline", data => {
-                store.dispatch("chatStore/userOffline", data);
-            });
-            socket.on("joinedToRoom", data => {
-                store.commit("chatStore/ADD_NEW_ROOM", data);
-                socket.emit("joinToRoom", data.id);
-            });
-            socket.on("message", data => {
-                const ownId = store.getters["user/employeeId"];
-                if (data.author.id === ownId)
-                    store.dispatch("chatStore/sendMessage", data);
-                else {
-                    store.dispatch("chatStore/getMessage", data);
-                    app.$message(app, data);
-                }
-            });
-            socket.connect();
+            // const options = {
+            //     reconnectionDelayMax: 10000,
+            //     autoConnect: true,
+            //     auth: {},
+            //     extraHeaders: {
+            //         Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
+            //     }
+            // };
+            // console.log(dataApi.chat.baseUrl, 'coonecting');
+            // const socket = new SocketIO(dataApi.chat.baseUrl, options);
+            // socket.on("connect", msg => {
+            //     ChatControler.allRooms();
+            // });
+            // socket.on("userOnline", data => {
+            //     store.dispatch("chatStore/userOnline", data);
+            // });
+            // socket.on("userOffline", data => {
+            //     store.dispatch("chatStore/userOffline", data);
+            // });
+            // socket.on("joinedToRoom", data => {
+            //     store.commit("chatStore/ADD_NEW_ROOM", data);
+            //     socket.emit("joinToRoom", data.id);
+            // });
+            // socket.on("message", data => {
+            //     const ownId = store.getters["user/employeeId"];
+            //     if (data.author.id === ownId)
+            //         store.dispatch("chatStore/sendMessage", data);
+            //     else {
+            //         store.dispatch("chatStore/getMessage", data);
+            //         app.$message(app, data);
+            //     }
+            // });
+            // socket.connect();
         }
     }
 

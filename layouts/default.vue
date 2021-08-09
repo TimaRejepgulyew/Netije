@@ -13,7 +13,7 @@
           </template>
         </app-content>
       </div>
-      <RightBar />
+      <!-- <RightBar /> -->
     </div>
   </transition>
 </template>
