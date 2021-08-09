@@ -29,11 +29,15 @@ export async function createSubTask(context, params) {
 
 export async function createActionItemExicutionTask(
   context,
-  parentAssignmentId
+  {
+    parentAssignmentId,
+    taskType
+  }
 ) {
   return await createTask(
     context,
     {
+      taskType,
       parentAssignmentId
     },
     dataApi.task.CreateDraftResolutionActionItemExecutionTask
