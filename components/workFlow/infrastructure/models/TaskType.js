@@ -36,4 +36,7 @@ export default class TaskType {
 
     return filterObj;
   }
+  getResolutionTask() {
+    return this.filtering([TaskTypeGuid.DocumentReviewTask, TaskTypeGuid.ActionItemExecutionTask])
+  }
 }
