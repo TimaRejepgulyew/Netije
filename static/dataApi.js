@@ -246,6 +246,8 @@ export default {
     CreateSubtaskByTask: "/api/Task/CreateSubtask",
 
     CreateChildActionItemExecution: `/api/Task/CreateChildActionItemExecutionTask`,
+    //TODO
+    //CreateDraftResolutionTask: `/api/Task/CreateDraftResolutionTask`,
     CreateDraftResolutionActionItemExecutionTask: `/api/Task/CreateDraftResolutionActionItemExecutionTask`,
 
     Abort: `/api/Task/Abort`,
