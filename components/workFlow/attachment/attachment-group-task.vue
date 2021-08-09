@@ -3,15 +3,10 @@
     <div class="d-flex align-center">
       <span class="dx-form-group-caption">{{ group.groupTitle }}</span>
       <sup v-if="group.isRequired" class="red">*</sup>
-      <DxButton
+      <addResolutonBtn
         :id="'addAttachment' + group.groupId"
-        class="btn--green"
-        :visible="group.canAddAttachments"
-        icon="plus"
-        styling-mode="text"
-        :hint="$t('buttons.add')"
-        :on-click="createTask"
-      ></DxButton>
+        @createTask="createTask"
+      />
     </div>
     <ul v-if="hasGroupItem">
       <li v-for="groupItem in group.entities" :key="groupItem.entityId">
@@ -39,27 +34,25 @@
 <script>
 import {
   createActionItemExicutionTask,
-  load
+  load,
 } from "../infrastructure/services/taskService.js";
-import { mapToEntityType } from "../infrastructure/constants/taskType.js";
+import TaskType from "../infrastructure/constants/taskType.js";
 import taskField from "./field-task-attachment.vue";
 import { DxButton } from "devextreme-vue";
-import dataApi from "~/static/dataApi";
-import DataSource from "devextreme/data/data_source";
-import EntityTypes from "~/infrastructure/constants/entityTypes.js";
 import DxSelectBox from "devextreme-vue/select-box";
-
+import addResolutonBtn from "./attachment-components/add-resolution-btn.vue";
 export default {
   components: {
     DxSelectBox,
     DxButton,
-    taskField
+    taskField,
+    addResolutonBtn,
   },
   name: "attachment-group-task",
   data() {
     return {
       taskId: null,
-      isOpenCard: false
+      isOpenCard: false,
     };
   },
 
@@ -70,27 +63,32 @@ export default {
         this,
         {
           params: { taskType, taskId: id },
-          handler: load
+          handler: load,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "reloadAttachmment" }
-          ]
+            { eventName: "valueChanged", handlerName: "reloadAttachmment" },
+          ],
         }
       );
     },
 
-    createTask() {
+    createTask(params) {
       this.$popup.taskCard(
         this,
         {
-          params: this.assignmentId,
-          handler: createActionItemExicutionTask
+          params: {
+            parentAssignmentId: this.assignmentId,
+            taskType: params
+              ? params.taskType
+              : TaskType.ActionItemExecutionTask,
+          },
+          handler: createActionItemExicutionTask,
         },
         {
           listeners: [
-            { eventName: "valueChanged", handlerName: "reloadAttachmment" }
-          ]
+            { eventName: "valueChanged", handlerName: "reloadAttachmment" },
+          ],
         }
       );
     },
@@ -99,18 +97,17 @@ export default {
     },
     reloadAttachmment() {
       this.$emit("reloadAttachment");
-    }
+    },
   },
   computed: {
     hasGroupItem() {
       return this.group.entities;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-
 .red {
   color: red;
   font-size: 17px;
