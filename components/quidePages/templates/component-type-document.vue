@@ -22,7 +22,6 @@ export default {
       const value = new DocumentQuery(this).getById(
         this.item.params.query
       ).value;
-      console.log(value, this.item.params.query);
       return this.$store.getters["document-count/documentCount"](
         value.charAt(0).toLowerCase() + value.slice(1)
       );

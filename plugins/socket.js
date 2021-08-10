@@ -41,7 +41,6 @@ export default async ({ app, store }, inject) => {
         }
 
         static async allRooms() {
-            console.log(store.getters["oidc/oidcAccessToken"]);
             const rooms = await RoomService.allRooms(app);
             store.commit("chatStore/SET_ROOMS", rooms);
         }

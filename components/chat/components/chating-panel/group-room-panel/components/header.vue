@@ -112,7 +112,6 @@ export default {
   },
   methods: {
     // showMenu() {
-    //     console.log("this.groupRoomMenuOpen");
     //     this.groupRoomMenuOpen = true;
     // },
     // inviteToRoom(){
