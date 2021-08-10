@@ -59,7 +59,6 @@ export const mutations = {
         }
     },
     ADD_NEW_ROOM(state, room) {
-        console.log(room);
         state.rooms.unshift(room);
     },
     SET_MESSAGES(state, data) {

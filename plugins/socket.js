@@ -41,7 +41,6 @@ export default async ({ app, store }, inject) => {
         }
 
         static async allRooms() {
-            console.log(store.getters["oidc/oidcAccessToken"]);
             const rooms = await RoomService.allRooms(app);
             store.commit("chatStore/SET_ROOMS", rooms);
         }
@@ -55,7 +54,6 @@ export default async ({ app, store }, inject) => {
                     Authorization: `Bearer ${store.getters["oidc/oidcAccessToken"]}`
                 }
             };
-            console.log(dataApi.chat.baseUrl, 'coonecting');
             const socket = new SocketIO(dataApi.chat.baseUrl, options);
             socket.on("connect", msg => {
                 ChatControler.allRooms();

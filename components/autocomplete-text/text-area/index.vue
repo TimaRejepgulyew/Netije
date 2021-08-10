@@ -92,7 +92,6 @@ import DxButton from "devextreme-vue/button";
 import { mapActions } from "vuex";
 import Widget from "devextreme/ui/widget/ui.widget";
 
-
 export default {
   components: {
     DxTextArea,
@@ -157,7 +156,7 @@ export default {
     },
     addAutoText() {
       this.$awn.asyncBlock(
-        this.$axios.post(dataApi.phraseTemplate.phrase, {
+        this.$axios.post(this.$dataApi.phraseTemplate.phrase, {
           phrase: this.text,
         }),
         (e) => {
