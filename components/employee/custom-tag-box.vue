@@ -18,7 +18,7 @@
     :activeStateEnabled="activeStateEnabled"
     @opened="onOpened"
     @valueChanged="valueChanged"
-    @focusIn="focusIn"
+    :onFocusIn="focusIn"
   >
     <DxValidator v-if="isRequired" :validation-group="validatorGroup">
       <DxRequiredRule :message="$t(messageRequired)" />
@@ -86,6 +86,7 @@ export default {
       this.$emit("focusIn", this.value);
     },
     onOpened() {
+      this.focusIn();
       this.dataSourceLoaded = true;
     },
     valueChanged(e) {
