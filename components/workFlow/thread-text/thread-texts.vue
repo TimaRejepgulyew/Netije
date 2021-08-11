@@ -8,8 +8,8 @@
             :options="{
               text: item.text,
               onClick: () => changeFilter(item.id),
-              type: filter === item.id ? 'default' : 'normal',
             }"
+            :type="filter === item.id ? 'default' : 'normal'"
             :key="item.id"
             location="before"
             widget="dxButton"
@@ -45,6 +45,7 @@
   </div>
 </template>
 <script>
+import FilterThreadText from "../infrastructure/services/threadTextFilter.js";
 import Filter from "../infrastructure/models/FilterText.js";
 import DxToolbar, { DxItem } from "devextreme-vue/toolbar";
 import DataSource from "devextreme/data/data_source";
@@ -52,6 +53,9 @@ import dataApi from "~/static/dataApi";
 import DxList from "devextreme-vue/list";
 import FilterText from "../infrastructure/constants/filterText/index.js";
 export default {
+  services: {
+    filter: null,
+  },
   components: {
     DxToolbar,
     DxItem,
@@ -71,6 +75,9 @@ export default {
       }
     },
   },
+  created() {
+    // this.$options.services.filter = new FilterThreadText().filter;
+  },
   data() {
     const url =
       this.entityType === "task"
@@ -88,8 +95,13 @@ export default {
     };
   },
   methods: {
-    changeFilter(filter) {
+    async changeFilter(filter) {
       this.filter = filter;
+      const data = await new FilterThreadText().filter({
+        threadText: { name: "Test" },
+        filter,
+      });
+      console.log(data);
       const url =
         this.entityType === "task"
           ? dataApi.task.TextsByTask
