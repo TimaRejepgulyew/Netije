@@ -1,100 +1,101 @@
-const path = require("path");
+const path = require('path')
 
 export default {
     env: {
         oidcClientId:
-            process.env.NODE_ENV !== "production"
-                ? "TTDoc.UI"
-                : "TTDoc.UI-prod",
-        serverUrl: "https://192.168.4.154:5001",
-        chatServerUrl: "https://192.168.4.161:4000"
+            process.env.NODE_ENV !== 'production'
+                ? 'TTDoc.UI'
+                : 'TTDoc.UI-prod',
+        serverUrl: 'https://192.168.4.154:5001',
+        chatServerUrl: 'https://192.168.4.161:4000'
     },
     loading: {
-        color: "white"
+        color: 'white'
     },
     ssr: false,
     head: {
-        title: process.env.npm_package_name || "",
+        title: process.env.npm_package_name || '',
         meta: [
-            { charset: "utf-8" },
+            { charset: 'utf-8' },
             {
-                name: "viewport",
-                content: "width=device-width, initial-scale=1"
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1'
             },
             {
-                hid: "description",
-                name: "description",
-                content: process.env.npm_package_description || ""
+                hid: 'description',
+                name: 'description',
+                content: process.env.npm_package_description || ''
             }
         ],
-        link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+        link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     },
     router: {
-        middleware: ["authorization", "authorization-callback", "metadata"]
+        middleware: ['authorization', 'authorization-callback', 'metadata']
     },
     css: [
-        { src: "devextreme/dist/css/dx.common.css", lang: "css" },
-        { src: "devextreme/dist/css/dx.custom-theme.css", lang: "css" },
+        { src: 'devextreme/dist/css/dx.common.css', lang: 'css' },
+        { src: 'devextreme/dist/css/dx.custom-theme.css', lang: 'css' },
         {
-            src: "vue-awesome-notifications/dist/styles/style.scss",
-            lang: "css"
+            src: 'vue-awesome-notifications/dist/styles/style.scss',
+            lang: 'css'
         },
-        { src: "~/assets/themes/index.scss", lang: "scss" },
-        { src: "~/assets/flaticon/flaticon.css", lang: "css" }
+        { src: '~/assets/themes/index.scss', lang: 'scss' },
+        { src: '~/assets/flaticon/flaticon.css', lang: 'css' }
     ],
     styleResources: {
         scss: [
-            "~/assets/themes/variables.base.scss",
-            "~/assets/themes/base-styles.scss"
+            '~/assets/themes/variables.base.scss',
+            '~/assets/themes/base-styles.scss'
         ]
     },
     plugins: [
-        "~/plugins/eventBus",
-        "~/plugins/axios",
-        "~/plugins/data-api",
-        "~/plugins/nuxt-client-init",
-        "~plugins/vue-notifications",
-        "~/plugins/customStore",
-        "~/plugins/customValidator",
-        "~/plugins/signalR",
-        "~/plugins/popup",
-        "~/plugins/notification",
-        "~/plugins/cache",
-        "~/plugins/socket"
+        '~/plugins/eventBus',
+        '~/plugins/axios',
+        '~/plugins/data-api',
+        '~/plugins/nuxt-client-init',
+        '~plugins/vue-notifications',
+        '~/plugins/customStore',
+        '~/plugins/customValidator',
+        '~/plugins/signalR',
+        '~/plugins/popup',
+        '~/plugins/notification',
+        '~/plugins/cache',
+        '~/plugins/socket',
+        { src: '~/plugins/web-worker.js', ssr: false }
     ],
     modules: [
-        "@nuxtjs/style-resources",
-        "@nuxtjs/axios",
+        '@nuxtjs/style-resources',
+        '@nuxtjs/axios',
         [
-            "nuxt-i18n",
+            'nuxt-i18n',
             {
                 locales: [
                     {
-                        name: "Русский",
-                        code: "ru",
-                        iso: "ru-RU",
-                        file: "ru-RU.js"
+                        name: 'Русский',
+                        code: 'ru',
+                        iso: 'ru-RU',
+                        file: 'ru-RU.js'
                     },
                     {
-                        name: "Turkmen",
-                        code: "tk",
-                        iso: "tk-TM",
-                        file: "tk-TM.js"
+                        name: 'Turkmen',
+                        code: 'tk',
+                        iso: 'tk-TM',
+                        file: 'tk-TM.js'
                     }
                 ],
                 detectBrowserLanguage: {
                     useCookie: true,
-                    cookieKey: "locale",
+                    cookieKey: 'locale',
                     alwaysRedirect: true,
-                    fallbackLocale: "ru"
+                    fallbackLocale: 'ru'
                 },
-                strategy: "no_prefix",
+                strategy: 'no_prefix',
                 lazy: true,
-                langDir: "lang/",
-                defaultLocale: "ru",
+                langDir: 'lang/',
+                defaultLocale: 'ru',
                 // rootRedirect: '',
                 vuex: {
-                    moduleName: "i18n",
+                    moduleName: 'i18n',
                     syncLocale: true,
                     syncMessages: true,
                     syncRouteParams: true
@@ -104,23 +105,30 @@ export default {
     ],
     buildModules: [],
     build: {
-        extend(config, ctx) {
-            (config.resolve.alias["globalize$"] = path.resolve(
+        extend (config, ctx) {
+            if (ctx.isClient) {
+                config.module.rules.push({
+                    test: /\.worker\.js$/,
+                    use: { loader: 'worker-loader' },
+                    exclude: /(node_modules)/
+                })
+            }
+            ;(config.resolve.alias['globalize$'] = path.resolve(
                 __dirname,
-                "node_modules/globalize/dist/globalize.js"
+                'node_modules/globalize/dist/globalize.js'
             )),
-                (config.resolve.alias["globalize"] = path.resolve(
+                (config.resolve.alias['globalize'] = path.resolve(
                     __dirname,
-                    "node_modules/globalize/dist/globalize"
+                    'node_modules/globalize/dist/globalize'
                 )),
-                (config.resolve.alias["cldr$"] = path.resolve(
+                (config.resolve.alias['cldr$'] = path.resolve(
                     __dirname,
-                    "node_modules/cldrjs/dist/cldr.js"
+                    'node_modules/cldrjs/dist/cldr.js'
                 )),
-                (config.resolve.alias["cldr"] = path.resolve(
+                (config.resolve.alias['cldr'] = path.resolve(
                     __dirname,
-                    "node_modules/cldrjs/dist/cldr"
-                ));
+                    'node_modules/cldrjs/dist/cldr'
+                ))
         }
     }
-};
+}

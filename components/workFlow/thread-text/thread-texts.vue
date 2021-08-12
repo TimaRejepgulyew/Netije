@@ -68,14 +68,20 @@ export default {
   name: "thread-texts",
   props: ["id", "entityType", "isRefreshing"],
   watch: {
-    isRefreshing: function (value) {
+    isRefreshing: async function (value) {
       if (value) {
-        this.comments.reload();
+        this.comments = await this.load();
         this.$emit("refreshed");
       }
     },
   },
-  created() {
+  async created() {
+    if (!this.$options.services.filter) {
+      this.$options.services = new FilterThreadText(this);
+    }
+    this.comments = await this.load();
+    if (this.filter !== FilterText.All) {
+    }
     // this.$options.services.filter = new FilterThreadText().filter;
   },
   data() {
@@ -84,39 +90,27 @@ export default {
         ? dataApi.task.TextsByTask
         : dataApi.assignment.TextsByAssignment;
     return {
-      filter: 0,
-      comments: new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: `${url}${this.id}/${FilterText.All}`,
-        }),
-        paginate: false,
-      }),
+      url: url,
+      filter: FilterText.All,
+      comments: [],
     };
   },
   methods: {
+    async load() {
+      const { data } = await this.$axios.get(`${this.url}${this.id}`);
+      return data;
+    },
     async changeFilter(filter) {
       this.filter = filter;
-      const data = await new FilterThreadText().filter({
-        threadText: { name: "Test" },
+      const data = await this.$options.services.filter({
+        threadText: this.comments,
         filter,
       });
       console.log(data);
-      const url =
-        this.entityType === "task"
-          ? dataApi.task.TextsByTask
-          : dataApi.assignment.TextsByAssignment;
-      this.comments = new DataSource({
-        store: this.$dxStore({
-          key: "id",
-          loadUrl: `${url}${this.id}/${filter}`,
-        }),
-        paginate: false,
-      });
     },
     reloadStore() {
-      setTimeout(() => {
-        this.comments.reload();
+      setTimeout(async () => {
+        this.comments = await this.load();
       }, 3000);
     },
   },
