@@ -4,6 +4,7 @@
       <span class="dx-form-group-caption">{{ group.groupTitle }}</span>
       <sup v-if="group.isRequired" class="red">*</sup>
       <addResolutonBtn
+       v-if="group.canAddAttachments"
         :id="'addAttachment' + group.groupId"
         @createTask="createTask"
       />
