@@ -26,7 +26,7 @@
           :hover-state-enabled="false"
           :activeStateEnabled="false"
           :focusStateEnabled="false"
-          :data-source="comments"
+          :data-source="filteredText"
           :search-enabled="false"
           height="50vh"
         >
@@ -70,7 +70,7 @@ export default {
   watch: {
     isRefreshing: async function (value) {
       if (value) {
-        this.comments = await this.load();
+        this.reloadStore();
         this.$emit("refreshed");
       }
     },
@@ -80,7 +80,13 @@ export default {
       this.$options.services = new FilterThreadText(this);
     }
     this.comments = await this.load();
-    if (this.filter !== FilterText.All) {
+    if (this.filter == FilterText.All) {
+      this.filteredText = [...this.comments];
+    } else {
+      this.filteredText = this.$options.services.filter(
+        [...this.comments],
+        this.filter
+      );
     }
     // this.$options.services.filter = new FilterThreadText().filter;
   },
@@ -92,6 +98,7 @@ export default {
     return {
       url: url,
       filter: FilterText.All,
+      filteredText: [],
       comments: [],
     };
   },
@@ -107,11 +114,11 @@ export default {
         filter,
       });
       console.log(data);
+      this.filteredText = data;
     },
-    reloadStore() {
-      setTimeout(async () => {
-        this.comments = await this.load();
-      }, 3000);
+    async reloadStore() {
+      this.comments = await this.load();
+      this.filteredText = [...this.comments];
     },
   },
   computed: {
@@ -122,7 +129,7 @@ export default {
       return {
         icon: "refresh",
         onClick: () => {
-          this.comments.reload();
+          this.reloadStore();
         },
       };
     },
