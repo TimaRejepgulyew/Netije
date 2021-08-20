@@ -1,10 +1,10 @@
 const chatBaseUrl =
     process.env.NODE_ENV === 'production'
-        ? `${document.location.origin}:4000/chat`
+        ? `${document.location.origin}/chat`
         : process.env.chatServerUrl
 const chatSocketUrl =
     process.env.NODE_ENV === 'production'
-        ? `${document.location.origin}:4000`
+        ? `${document.location.origin}`
         : process.env.chatServerUrl
 export default {
     UserPhotoHash:
