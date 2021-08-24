@@ -1,9 +1,9 @@
 export default {
     type: {
-        All: "Все",
-        MyAssignment: "Мои задания",
-        Work: "В работе",
-        Expired: "Просроченные",
-        WithComments: "С комментариями"
+        All: 'Все',
+        Mine: 'Мои задания',
+        InProcess: 'В работе',
+        Expired: 'Просроченные',
+        HasBody: 'С комментариями'
     }
 }
