@@ -7,9 +7,9 @@
                         v-for="item in filterOptions"
                         :options="{
                             text: item.text,
-                            onClick: () => changeFilter(item.id)
+                            onClick: () => changeFilter(item.id),
+                            type: filter === item.id ? 'success' : 'normal'
                         }"
-                        :type="filter === item.id ? 'default' : 'normal'"
                         :key="item.id"
                         location="before"
                         widget="dxButton"
