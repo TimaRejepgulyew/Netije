@@ -8,38 +8,20 @@
       "
     >
       <div class="icon">
-        <img :src="actionItemExecutionIcon" />
+        <img :src="documentReviewIcon" />
       </div>
       <div>
         <div class="max-width-5vw">{{ task.entity.subject }}</div>
-
         <div>
           <div class="d-flex">
-            <div v-if="task.entity.assignee">
-              {{ $t("shared.whom") }}: {{ task.entity.assignee.name }},
+            <div v-if="task.entity.addressee">
+              {{ $t("shared.whom") }}: {{ task.entity.addressee.name }},
               <span v-if="task.entity.maxDeadline">
                 {{ $t("shared.deadLine") }}
                 {{ task.entity.maxDeadline | formatDate }}
               </span>
             </div>
           </div>
-          <div class="d-flex">
-            <div v-if="task.entity.isUnderControl">
-              {{ $t("resolution-task-list.fields.supervisor") }}:
-              {{ task.entity.supervisor.name }}
-            </div>
-          </div>
-          <!-- <div class="d-flex">
-            <div
-              v-if="task.entity.coAssignees.length >0"
-            >{{$t("workFlow.fields.coAssignees")}}: {{task.entity.coAssignees.map(employee=>employee.name).join(", ")}}</div>
-          </div>
-          <div class="d-flex">
-            <div
-              v-if="task.entity.actionItemObservers.length >0"
-            >{{$t("workFlow.fields.observers")}}: {{task.entity.actionItemObservers.map(recipient=>recipient.name).join(", ")}}</div>
-          </div> -->
-
           <div class="d-flex">
             <i>{{ task.entity.body }}</i>
           </div>
@@ -52,7 +34,7 @@
 <script>
 import moment from "moment";
 import actionBtn from "~/components/workFlow/attachment/attachment-task-action-btn.vue";
-import actionItemExecutionIcon from "~/static/icons/action-item-execution.svg";
+import documentReviewIcon from "~/static/icons/document-review.svg";
 export default {
   components: {
     actionBtn,
@@ -60,7 +42,7 @@ export default {
   props: ["task"],
   data() {
     return {
-      actionItemExecutionIcon,
+      documentReviewIcon,
     };
   },
   methods: {

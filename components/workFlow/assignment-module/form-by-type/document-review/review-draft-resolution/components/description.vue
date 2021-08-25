@@ -12,7 +12,7 @@
     </div>
     <ul>
       <li v-for="item in projectResolutions.entities" :key="item.attachmentId">
-        <resolutionTask :key="item.attachmentId" :task="item" />
+        <resolutionTask :key="item.attachmentId" :data="item" />
       </li>
     </ul>
   </div>
@@ -20,7 +20,7 @@
 <script>
 import { load } from "../../../../../infrastructure/services/taskService.js";
 import AttachmentGroup from "../../../../../infrastructure/constants/attachmentGroup.js";
-import resolutionTask from "../../../../../attachment/resolution-task-list.vue";
+import resolutionTask from "../../../../form-components/resolution-list-items/index.vue";
 import ReaddresseMixin from "../../../../infrastructure/mixins/assignmentReaddressee.js";
 export default {
   mixins: [ReaddresseMixin],
@@ -38,9 +38,9 @@ export default {
   },
   computed: {
     projectResolutions() {
-      const attachments = this.$store.getters[
-        `assignments/${this.assignmentId}/assignment`
-      ].attachmentGroups;
+      const attachments =
+        this.$store.getters[`assignments/${this.assignmentId}/assignment`]
+          .attachmentGroups;
       return attachments.find((attachment) => {
         return attachment.groupId === AttachmentGroup.Resolution;
       });
