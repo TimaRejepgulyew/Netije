@@ -26,7 +26,9 @@ import searching from "~/lang/i18n-translation/ru/searchingPanel.js";
 import documentTracking from "~/lang/i18n-translation/ru/documentTracking.js";
 import recipientTagBox from "~/lang/i18n-translation/ru/recipientTagBox.js";
 import chat from "~/lang/i18n-translation/ru/chat.js";
+import filterText from "~/lang/i18n-translation/ru/filterText.js";
 export default {
+  filterText,
   dynamicDocuments,
   chat,
   recipientTagBox,

@@ -87,7 +87,6 @@ export function GenerateApi(docQuery) {
             return dataApi.dynamicDocument.document
         default:
             console.log("docQuerySolo", docQuery)
-
             break;
     }
 }

@@ -28,5 +28,5 @@ export default async function ({ store, $axios }) {
     }
   );
   store.registerModule("oidc", storeModule);
-  store.dispatch("document-count/loadDocumentCount");
+  // store.dispatch("document-count/loadDocumentCount");
 }
