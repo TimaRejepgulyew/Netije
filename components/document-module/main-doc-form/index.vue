@@ -1,513 +1,585 @@
 <template>
-  <div>
-    <Header
-      :headerTitle="generateHeaderTitle"
-      :isbackButton="!isCard"
-      :showTitle="!isCard"
-      :isNew="isNew"
-    ></Header>
-    <toolbar
-      :documentId="documentId"
-      :isCard="isCard"
-      @onClose="onClose"
-      @openVersion="openVersion"
-      @onRemove="onRemove"
-    ></toolbar>
-    <div class="wrapper--relative">
-      <DxForm
-        :scrolling-enabled="true"
-        class="mt-1"
-        ref="form"
-        :read-only="readOnly"
-        :show-colon-after-label="true"
-        :show-validation-summary="false"
-        :validation-group="documentValidatorName"
-      >
-        <DxTabbedItem :tab-panel-options="tabPanelOptions">
-          <DxTab :col-count="12" :title="$t('document.tabs.main')">
-            <DxGroupItem
-              :col-span="8"
-              :col-count="1"
-              :caption="$t('document.groups.captions.main')"
+    <div>
+        <Header
+            :headerTitle="generateHeaderTitle"
+            :isbackButton="!isCard"
+            :showTitle="!isCard"
+            :isNew="isNew"
+        ></Header>
+        <toolbar
+            :documentId="documentId"
+            :isCard="isCard"
+            @onClose="onClose"
+            @openVersion="openVersion"
+            @onRemove="onRemove"
+        ></toolbar>
+        <div class="wrapper--relative">
+            <DxForm
+                :scrolling-enabled="true"
+                class="mt-1"
+                ref="form"
+                :read-only="readOnly"
+                :show-colon-after-label="true"
+                :show-validation-summary="false"
+                :validation-group="documentValidatorName"
             >
-              <DxSimpleItem data-field="name" :editor-options="nameOptions">
-                <DxLabel location="left" :text="$t('document.fields.name')" />
-                <DxRequiredRule
-                  :message="$t('document.validation.nameRequired')"
-                />
-              </DxSimpleItem>
-              <DxSimpleItem
-                data-field="documentKind"
-                :editor-options="documentKindOptions"
-                editor-type="dxSelectBox"
-              >
-                <DxLabel
-                  location="left"
-                  :text="$t('document.fields.documentKindId')"
-                />
-                <DxRequiredRule
-                  :message="$t('document.validation.documentKindIdRequired')"
-                />
-              </DxSimpleItem>
+                <DxTabbedItem :tab-panel-options="tabPanelOptions">
+                    <DxTab :col-count="12" :title="$t('document.tabs.main')">
+                        <DxGroupItem
+                            :col-span="8"
+                            :col-count="1"
+                            :caption="$t('document.groups.captions.main')"
+                        >
+                            <DxSimpleItem
+                                data-field="name"
+                                :editor-options="nameOptions"
+                            >
+                                <DxLabel
+                                    location="left"
+                                    :text="$t('document.fields.name')"
+                                />
+                                <DxRequiredRule
+                                    :message="
+                                        $t('document.validation.nameRequired')
+                                    "
+                                />
+                            </DxSimpleItem>
+                            <DxSimpleItem
+                                data-field="documentKind"
+                                :editor-options="documentKindOptions"
+                                editor-type="dxSelectBox"
+                            >
+                                <DxLabel
+                                    location="left"
+                                    :text="$t('document.fields.documentKindId')"
+                                />
+                                <DxRequiredRule
+                                    :message="
+                                        $t(
+                                            'document.validation.documentKindIdRequired'
+                                        )
+                                    "
+                                />
+                            </DxSimpleItem>
 
-              <DxSimpleItem
-                data-field="subject"
-                editor-type="dxTextArea"
-                template="autocomlete"
-              >
-                <!-- :editor-options="subjectOptions" -->
-                <DxLabel
-                  location="left"
-                  :text="$t('document.fields.subject')"
+                            <DxSimpleItem
+                                data-field="subject"
+                                editor-type="dxTextArea"
+                                template="autocomlete"
+                            >
+                                <!-- :editor-options="subjectOptions" -->
+                                <DxLabel
+                                    location="left"
+                                    :text="$t('document.fields.subject')"
+                                />
+                                <DxRequiredRule
+                                    :message="
+                                        $t(
+                                            'document.validation.subjectRequired'
+                                        )
+                                    "
+                                />
+                            </DxSimpleItem>
+                            <DxSimpleItem
+                                template="formByTypeGuid"
+                            ></DxSimpleItem>
+                            <DxSimpleItem
+                                data-field="note"
+                                :editor-options="noteOptions"
+                                editor-type="dxTextArea"
+                            >
+                                <DxLabel
+                                    location="left"
+                                    :text="$t('document.fields.note')"
+                                />
+                            </DxSimpleItem>
+                        </DxGroupItem>
+                        <DxGroupItem :col-span="4">
+                            <DxSimpleItem
+                                template="registrationBlock"
+                            ></DxSimpleItem>
+                            <DxGroupItem
+                                :caption="
+                                    $t('document.groups.captions.lifeCycle')
+                                "
+                            >
+                                <DxSimpleItem
+                                    template="lifeCycle"
+                                ></DxSimpleItem>
+                            </DxGroupItem>
+                        </DxGroupItem>
+                    </DxTab>
+                    <DxTab
+                        :col-count="8"
+                        :title="$t('document.tabs.relations')"
+                        :disabled="isDataChanged"
+                    >
+                        <DxSimpleItem
+                            :col-span="8"
+                            template="relation"
+                        ></DxSimpleItem>
+                    </DxTab>
+                    <DxTab
+                        :col-count="8"
+                        :title="$t('document.tabs.tasks')"
+                        :disabled="isNew"
+                    >
+                        <DxSimpleItem
+                            :col-span="8"
+                            template="documentTasks"
+                        ></DxSimpleItem>
+                    </DxTab>
+                    <DxTab
+                        :col-count="8"
+                        :title="$t('document.tabs.history')"
+                        :disabled="isNew"
+                    >
+                        <DxSimpleItem
+                            :col-span="8"
+                            template="history"
+                        ></DxSimpleItem>
+                    </DxTab>
+                    <DxTab
+                        :col-count="8"
+                        :title="$t('document.tabs.extradition')"
+                        :disabled="isNew"
+                    >
+                        <DxSimpleItem
+                            :col-span="8"
+                            template="DocumentExtradition"
+                        ></DxSimpleItem>
+                    </DxTab>
+                    <DxTab
+                        :col-count="8"
+                        :title="$t('document.tabs.exchangeLogs')"
+                        :disabled="isNew"
+                        v-if="canExchangePermission && isExchangeble"
+                    >
+                        <DxSimpleItem
+                            :col-span="8"
+                            template="ElExchangeLogs"
+                        ></DxSimpleItem>
+                    </DxTab>
+                </DxTabbedItem>
+                <template #ElExchangeLogs>
+                    <El-exchange-logs :documentId="documentId" />
+                </template>
+                <template #DocumentExtradition>
+                    <DocumentExtradition
+                        :entityTypeGuid="entityTypeGuid"
+                        :id="documentId"
+                        slot="history"
+                    />
+                </template>
+                <template #history>
+                    <History
+                        :entityTypeGuid="entityTypeGuid"
+                        :id="documentId"
+                        slot="history"
+                    ></History>
+                </template>
+                <template #relation>
+                    <Relation
+                        :documentId="documentId"
+                        :isCard="isCard"
+                    ></Relation>
+                </template>
+                <template #documentTasks>
+                    <document-tasks :documentId="documentId" :isCard="isCard" />
+                </template>
+                <template #lifeCycle>
+                    <life-cycle :documentId="documentId" :isCard="isCard" />
+                </template>
+                <template #registrationBlock>
+                    <doc-registration
+                        :documentId="documentId"
+                        :isCard="isCard"
+                    ></doc-registration>
+                </template>
+                <template #formByTypeGuid>
+                    <component
+                        :documentType="document.dynamicDocumentTypeId"
+                        :documentId="documentId"
+                        :isCard="isCard"
+                        :is="formByTypeGuid"
+                    ></component>
+                </template>
+                <template #autocomlete>
+                    <AutocomleteTextArea
+                        :value="document.subject"
+                        :options="autocomleteTextOptions"
+                        @valueChanged="changeSubject"
+                    />
+                </template>
+            </DxForm>
+            <transition name="fade">
+                <docVersion
+                    :documentId="documentId"
+                    :isCard="isCard"
+                    class="item--drawer"
+                    v-if="versionOpenState"
                 />
-                <DxRequiredRule
-                  :message="$t('document.validation.subjectRequired')"
-                />
-              </DxSimpleItem>
-              <DxSimpleItem template="formByTypeGuid"></DxSimpleItem>
-              <DxSimpleItem
-                data-field="note"
-                :editor-options="noteOptions"
-                editor-type="dxTextArea"
-              >
-                <DxLabel location="left" :text="$t('document.fields.note')" />
-              </DxSimpleItem>
-            </DxGroupItem>
-            <DxGroupItem :col-span="4">
-              <DxSimpleItem template="registrationBlock"></DxSimpleItem>
-              <DxGroupItem :caption="$t('document.groups.captions.lifeCycle')">
-                <DxSimpleItem template="lifeCycle"></DxSimpleItem>
-              </DxGroupItem>
-            </DxGroupItem>
-          </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.relations')"
-            :disabled="isDataChanged"
-          >
-            <DxSimpleItem :col-span="8" template="relation"></DxSimpleItem>
-          </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.tasks')"
-            :disabled="isNew"
-          >
-            <DxSimpleItem :col-span="8" template="documentTasks"></DxSimpleItem>
-          </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.history')"
-            :disabled="isNew"
-          >
-            <DxSimpleItem :col-span="8" template="history"></DxSimpleItem>
-          </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.extradition')"
-            :disabled="isNew"
-          >
-            <DxSimpleItem
-              :col-span="8"
-              template="DocumentExtradition"
-            ></DxSimpleItem>
-          </DxTab>
-          <DxTab
-            :col-count="8"
-            :title="$t('document.tabs.exchangeLogs')"
-            :disabled="isNew"
-            v-if="canExchangePermission && isExchangeble"
-          >
-            <DxSimpleItem
-              :col-span="8"
-              template="ElExchangeLogs"
-            ></DxSimpleItem>
-          </DxTab>
-        </DxTabbedItem>
-        <template #ElExchangeLogs>
-          <El-exchange-logs :documentId="documentId" />
-        </template>
-        <template #DocumentExtradition>
-          <DocumentExtradition
-            :entityTypeGuid="entityTypeGuid"
-            :id="documentId"
-            slot="history"
-          />
-        </template>
-        <template #history>
-          <History
-            :entityTypeGuid="entityTypeGuid"
-            :id="documentId"
-            slot="history"
-          ></History>
-        </template>
-        <template #relation>
-          <Relation :documentId="documentId" :isCard="isCard"></Relation>
-        </template>
-        <template #documentTasks>
-          <document-tasks :documentId="documentId" :isCard="isCard" />
-        </template>
-        <template #lifeCycle>
-          <life-cycle :documentId="documentId" :isCard="isCard" />
-        </template>
-        <template #registrationBlock>
-          <doc-registration
-            :documentId="documentId"
-            :isCard="isCard"
-          ></doc-registration>
-        </template>
-        <template #formByTypeGuid>
-          <component
-            :documentType="document.dynamicDocumentTypeId"
-            :documentId="documentId"
-            :isCard="isCard"
-            :is="formByTypeGuid"
-          ></component>
-        </template>
-        <template #autocomlete>
-          <AutocomleteTextArea
-            :value="document.subject"
-            :options="autocomleteTextOptions"
-            @valueChanged="changeSubject"
-          />
-        </template>
-      </DxForm>
-      <transition name="fade">
-        <docVersion
-          :documentId="documentId"
-          :isCard="isCard"
-          class="item--drawer"
-          v-if="versionOpenState"
-        />
-      </transition>
+            </transition>
+        </div>
     </div>
-  </div>
 </template>
 <script>
-import DynamicTypeControler from "~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js";
-import SelectBoxOptionsBuilder from "~/infrastructure/builders/selectBoxOptionsBuilder.js";
-import Status from "~/infrastructure/constants/status";
+import DynamicTypeControler from '~/components/document-module/dynamic-document/infrastructure/services/DynamicTypeControler.js'
+import SelectBoxOptionsBuilder from '~/infrastructure/builders/selectBoxOptionsBuilder.js'
+import Status from '~/infrastructure/constants/status'
 // COMPONENTS
 import DxForm, {
-  DxTabbedItem,
-  DxTab,
-  DxGroupItem,
-  DxSimpleItem,
-  DxRequiredRule,
-  DxLabel,
-} from "devextreme-vue/form";
-import AutocomleteTextArea from "~/components/autocomplete-text/text-area/index.vue";
-import { unload } from "~/infrastructure/services/documentService.js";
-import ElExchangeLogs from "~/components/document-module/main-doc-form/el-exchange";
-import documentTasks from "~/components/document-module/main-doc-form/document-tasks.vue";
-import Header from "~/components/page/page__header";
-import lifeCycle from "~/components/document-module/main-doc-form/life-cycle.vue";
-import Relation from "~/components/document-module/main-doc-form/relation";
-import History from "~/components/page/history.vue";
-import DocumentExtradition from "~/components/page/document-extradition.vue";
-import docVersion from "~/components/document-module/main-doc-form/doc-version";
-import docRegistration from "~/components/document-module/main-doc-form/doc-registration";
-import Toolbar from "~/components/document-module/main-doc-form/toolbar/index";
-import * as documentTypeComponent from "../document-type-components/index.js";
-
-//CONSTANTS
-import DocumentTypeGuid from "~/infrastructure/constants/documentType.js";
-import EntityTypes from "~/infrastructure/constants/entityTypes.js";
-import { mapToEntityType } from "~/infrastructure/constants/documentType.js";
-import DocumentType from "~/infrastructure/models/DocumentType.js";
-import dataApi from "~/static/dataApi";
-
-export default {
-  components: {
-    ...documentTypeComponent,
-    AutocomleteTextArea,
     DxTabbedItem,
     DxTab,
-    Relation,
-    History,
-    DocumentExtradition,
-    docVersion,
-    docRegistration,
-    Toolbar,
     DxGroupItem,
     DxSimpleItem,
     DxRequiredRule,
-    DxLabel,
-    DxForm,
-    lifeCycle,
-    Header,
-    documentTasks,
-    ElExchangeLogs,
-  },
-  name: "document-card",
-  destroyed() {
-    if (this.isNew === false) this.onClosed();
+    DxLabel
+} from 'devextreme-vue/form'
+import AutocomleteTextArea from '~/components/autocomplete-text/text-area/index.vue'
+import { unload } from '~/infrastructure/services/documentService.js'
+import ElExchangeLogs from '~/components/document-module/main-doc-form/el-exchange'
+import documentTasks from '~/components/document-module/main-doc-form/document-tasks.vue'
+import Header from '~/components/page/page__header'
+import lifeCycle from '~/components/document-module/main-doc-form/life-cycle.vue'
+import Relation from '~/components/document-module/main-doc-form/relation'
+import History from '~/components/page/history.vue'
+import DocumentExtradition from '~/components/page/document-extradition.vue'
+import docVersion from '~/components/document-module/main-doc-form/doc-version'
+import docRegistration from '~/components/document-module/main-doc-form/doc-registration'
+import Toolbar from '~/components/document-module/main-doc-form/toolbar/index'
+import * as documentTypeComponent from '../document-type-components/index.js'
 
-    if (DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid) {
-      DynamicTypeControler.removeStore(
-        this,
-        this.document.dynamicDocumentTypeId
-      );
-    }
-    unload(this, this.documentId);
-  },
-  props: ["isCard", "documentId"],
-  head() {
-    return {
-      title: this.$store.getters[`documents/${this.documentId}/document`].name,
-    };
-  },
-  provide: function () {
-    return {
-      trySaveDocument: this.trySave,
-      documentValidatorName: this.documentValidatorName,
-    };
-  },
-  created() {
-    if (this.isNew) {
-      this.$store.commit(`documents/${this.documentId}/DATA_CHANGED`, true);
-    }
-    this.$store.commit(
-      `documents/${this.documentId}/SKIP_ROUTE_HANDLING`,
-      false
-    );
-  },
-  data() {
-    return {
-      versionOpenState: false,
-      entityTypeGuid: mapToEntityType(
-        this.$store.getters[`documents/${this.documentId}/document`]
-          .documentTypeGuid
-      ),
-      tabPanelOptions: {
-        focusStateEnabled: false,
-        animationEnabled: false,
-        swipeEnabled: false,
-        loop: "true",
-      },
-      documentValidatorName: `OfficialDocument/${this.documentId}`,
-    };
-  },
-  methods: {
-    changeSubject(value) {
-      this.$store.dispatch(`documents/${this.documentId}/setSubject`, value);
-    },
-    onRemove() {
-      this.$emit("onClose", this.documentId);
-    },
-    onClosed() {
-      const { documentTypeGuid, id } = this.document;
-      this.$emit("onClosed", { documentTypeGuid, id });
-    },
-    onClose() {
-      this.$emit("onClose");
-    },
-    async trySave() {
-      if (this.$refs["form"].instance.validate().isValid) {
-        if (this.isDataChanged) {
-          await this.$awn.asyncBlock(
-            this.$store.dispatch(`documents/${this.documentId}/save`)
-          );
-        }
-        return true;
-      } else {
-        return false;
-      }
-    },
-    openVersion() {
-      this.versionOpenState = !this.versionOpenState;
-    },
-  },
-  computed: {
-    isExchangeble() {
-      switch (this.document.documentTypeGuid) {
-        case DocumentTypeGuid.IncomingLetter:
-        case DocumentTypeGuid.OutgoingLetter:
-          return true;
-        default:
-          false;
-      }
-    },
-    autocomleteTextOptions() {
-      return {
-        category: "Document",
-        entityType: this.document.documentTypeGuid,
-        readOnly: this.readOnly,
-        height: 70,
-      };
-    },
-    canExchangePermission() {
-      return this.$store.getters["permissions/canExchange"](
-        EntityTypes.OfficialDocument
-      );
-    },
+//CONSTANTS
+import DocumentTypeGuid from '~/infrastructure/constants/documentType.js'
+import EntityTypes from '~/infrastructure/constants/entityTypes.js'
+import { mapToEntityType } from '~/infrastructure/constants/documentType.js'
+import DocumentType from '~/infrastructure/models/DocumentType.js'
+import dataApi from '~/static/dataApi'
 
-    document() {
-      return this.$store.getters[`documents/${this.documentId}/document`];
+export default {
+    components: {
+        ...documentTypeComponent,
+        AutocomleteTextArea,
+        DxTabbedItem,
+        DxTab,
+        Relation,
+        History,
+        DocumentExtradition,
+        docVersion,
+        docRegistration,
+        Toolbar,
+        DxGroupItem,
+        DxSimpleItem,
+        DxRequiredRule,
+        DxLabel,
+        DxForm,
+        lifeCycle,
+        Header,
+        documentTasks,
+        ElExchangeLogs
     },
-    isNew() {
-      return this.$store.getters[`documents/${this.documentId}/isNew`];
-    },
-    generateHeaderTitle() {
-      if (this.isNew) {
-        return new DocumentType(this).getById(this.document.documentTypeGuid)
-          .text;
-      }
-      return this.document.name;
-    },
-    documentKindOptions() {
-      const generateFilter = (document) => {
-        switch (document.documentTypeGuid) {
-          case DocumentTypeGuid.DynamicDocument:
-            return [
-              ["documentTypeId", "=", this.document.dynamicDocumentTypeId],
-              "and",
-              ["status", "=", Status.Active],
-            ];
-          default:
-            return [
-              ["documentTypeId", "=", this.document.documentTypeGuid],
-              "and",
-              ["status", "=", Status.Active],
-            ];
+    name: 'document-card',
+    destroyed () {
+        if (this.isNew === false) this.onClosed()
+
+        if (
+            DocumentTypeGuid.DynamicDocument === this.document.documentTypeGuid
+        ) {
+            DynamicTypeControler.removeStore(
+                this,
+                this.document.dynamicDocumentTypeId
+            )
         }
-      };
-      const builder = new SelectBoxOptionsBuilder();
-      const options = builder
-        .withUrl(dataApi.docFlow.DocumentKind)
-        .filter(generateFilter(this.document))
-        .acceptCustomValues((e) => {
-          e.customItem = null;
-        })
-        .withoutDeferRendering()
-        .focusStateDisabled()
-        .clearValueExpr()
-        .build(this);
-      return {
-        ...options,
-        value: this.document.documentKind,
-        onValueChanged: (e) => {
-          this.$store.dispatch(
-            `documents/${this.documentId}/setDocumentKind`,
-            e.value
-          );
+        unload(this, this.documentId)
+    },
+    props: ['isCard', 'documentId'],
+    head () {
+        return {
+            title: this.$store.getters[`documents/${this.documentId}/document`]
+                .name
+        }
+    },
+    provide: function () {
+        return {
+            trySaveDocument: this.trySave,
+            documentValidatorName: this.documentValidatorName
+        }
+    },
+    created () {
+        if (this.isNew) {
+            this.$store.commit(
+                `documents/${this.documentId}/DATA_CHANGED`,
+                true
+            )
+        }
+        this.$store.commit(
+            `documents/${this.documentId}/SKIP_ROUTE_HANDLING`,
+            false
+        )
+    },
+    data () {
+        return {
+            versionOpenState: false,
+            entityTypeGuid: mapToEntityType(
+                this.$store.getters[`documents/${this.documentId}/document`]
+                    .documentTypeGuid
+            ),
+            tabPanelOptions: {
+                focusStateEnabled: false,
+                animationEnabled: false,
+                swipeEnabled: false,
+                loop: 'true'
+            },
+            documentValidatorName: `OfficialDocument/${this.documentId}`
+        }
+    },
+    methods: {
+        changeSubject (value) {
+            this.$store.dispatch(
+                `documents/${this.documentId}/setSubject`,
+                value
+            )
         },
-      };
-    },
-    readOnly() {
-      return this.$store.getters[`documents/${this.documentId}/readOnly`];
-    },
-    isRegistered() {
-      return this.$store.getters[`documents/${this.documentId}/isRegistered`];
-    },
-    canUpdate() {
-      return this.$store.getters[`documents/${this.documentId}/canUpdate`];
-    },
-    isDataChanged() {
-      return this.$store.getters[`documents/${this.documentId}/isDataChanged`];
-    },
-    isNew() {
-      return this.$store.getters[`documents/${this.documentId}/isNew`];
-    },
-    formByTypeGuid() {
-      switch (this.document.documentTypeGuid) {
-        case DocumentTypeGuid.IncomingLetter:
-          return "incoming-letter";
-        case DocumentTypeGuid.OutgoingLetter:
-          return "outgoing-letter";
-        case DocumentTypeGuid.Order:
-        case DocumentTypeGuid.CompanyDirective:
-          return "order-base";
-        case DocumentTypeGuid.SimpleDocument:
-          return "simple-document";
-        case DocumentTypeGuid.Addendum:
-          return "addendum";
-        case DocumentTypeGuid.Memo:
-          return "memo";
-        case DocumentTypeGuid.PowerOfAttorney:
-          return "power-of-attorney";
-        case DocumentTypeGuid.Contract:
-          return "contract";
-        case DocumentTypeGuid.IncomingInvoice:
-          return "incoming-invoice";
-        case DocumentTypeGuid.SupAgreement:
-          return "sup-agreement";
-        case DocumentTypeGuid.ContractStatement:
-          return "contract-statement";
-        case DocumentTypeGuid.IncomingTaxInvoice:
-          return "incoming-taxInvoice";
-        case DocumentTypeGuid.OutgoingTaxInvoice:
-          return "outgoing-tax-invoice";
-        case DocumentTypeGuid.UniversalTransferDocument:
-          return "universal-transfer-document";
-        case DocumentTypeGuid.Waybill:
-          return "waybill";
-        case DocumentTypeGuid.DynamicDocument:
-          return "dynamic-document";
-      }
-    },
-    nameOptions() {
-      return {
-        value: this.document.name,
-        disabled:
-          this.document.documentKind?.generateDocumentName || this.isRegistered,
-        onValueChanged: (e) => {
-          this.$store.commit(`documents/${this.documentId}/SET_NAME`, e.value);
+        onRemove () {
+            this.$emit('onClose', this.documentId)
         },
-      };
-    },
-    noteOptions() {
-      return {
-        readOnly: !this.canUpdate,
-        value: this.document.note,
-        height: 70,
-        autoResizeEnabled: true,
-        onValueChanged: (e) => {
-          this.$store.commit(`documents/${this.documentId}/SET_NOTE`, e.value);
+        onClosed () {
+            const { documentTypeGuid, id } = this.document
+            this.$emit('onClosed', { documentTypeGuid, id })
         },
-      };
+        onClose () {
+            this.$emit('onClose')
+        },
+        async trySave () {
+            if (this.$refs['form'].instance.validate().isValid) {
+                if (this.isDataChanged) {
+                    await this.$awn.asyncBlock(
+                        this.$store.dispatch(
+                            `documents/${this.documentId}/save`
+                        )
+                    )
+                }
+                return true
+            } else {
+                return false
+            }
+        },
+        openVersion () {
+            this.versionOpenState = !this.versionOpenState
+        }
     },
-  },
-};
+    computed: {
+        isExchangeble () {
+            switch (this.document.documentTypeGuid) {
+                case DocumentTypeGuid.IncomingLetter:
+                case DocumentTypeGuid.OutgoingLetter:
+                    return true
+                default:
+                    false
+            }
+        },
+        autocomleteTextOptions () {
+            return {
+                category: 'Document',
+                entityType: this.document.documentTypeGuid,
+                readOnly: this.readOnly,
+                height: 70
+            }
+        },
+        canExchangePermission () {
+            return this.$store.getters['permissions/canExchange'](
+                EntityTypes.OfficialDocument
+            )
+        },
+
+        document () {
+            return this.$store.getters[`documents/${this.documentId}/document`]
+        },
+        isNew () {
+            return this.$store.getters[`documents/${this.documentId}/isNew`]
+        },
+        generateHeaderTitle () {
+            if (this.isNew) {
+                return new DocumentType(this).getById(
+                    this.document.documentTypeGuid
+                ).text
+            }
+            return this.document.name
+        },
+        documentKindOptions () {
+            const generateFilter = document => {
+                switch (document.documentTypeGuid) {
+                    case DocumentTypeGuid.DynamicDocument:
+                        return [
+                            [
+                                'documentTypeId',
+                                '=',
+                                this.document.dynamicDocumentTypeId
+                            ],
+                            'and',
+                            ['status', '=', Status.Active]
+                        ]
+                    default:
+                        return [
+                            [
+                                'documentTypeId',
+                                '=',
+                                this.document.documentTypeGuid
+                            ],
+                            'and',
+                            ['status', '=', Status.Active]
+                        ]
+                }
+            }
+            const builder = new SelectBoxOptionsBuilder()
+            const options = builder
+                .withUrl(dataApi.docFlow.DocumentKind)
+                .filter(generateFilter(this.document))
+                .acceptCustomValues(e => {
+                    e.customItem = null
+                })
+                .withoutDeferRendering()
+                .focusStateDisabled()
+                .clearValueExpr()
+                .build(this)
+            return {
+                ...options,
+                value: this.document.documentKind,
+                onValueChanged: e => {
+                    this.$store.dispatch(
+                        `documents/${this.documentId}/setDocumentKind`,
+                        e.value
+                    )
+                }
+            }
+        },
+        readOnly () {
+            return this.$store.getters[`documents/${this.documentId}/readOnly`]
+        },
+        isRegistered () {
+            return this.$store.getters[
+                `documents/${this.documentId}/isRegistered`
+            ]
+        },
+        canUpdate () {
+            return this.$store.getters[`documents/${this.documentId}/canUpdate`]
+        },
+        isDataChanged () {
+            return this.$store.getters[
+                `documents/${this.documentId}/isDataChanged`
+            ]
+        },
+        isNew () {
+            return this.$store.getters[`documents/${this.documentId}/isNew`]
+        },
+        formByTypeGuid () {
+            switch (this.document.documentTypeGuid) {
+                case DocumentTypeGuid.IncomingLetter:
+                    return 'incoming-letter'
+                case DocumentTypeGuid.OutgoingLetter:
+                    return 'outgoing-letter'
+                case DocumentTypeGuid.Order:
+                case DocumentTypeGuid.CompanyDirective:
+                    return 'order-base'
+                case DocumentTypeGuid.SimpleDocument:
+                    return 'simple-document'
+                case DocumentTypeGuid.Addendum:
+                    return 'addendum'
+                case DocumentTypeGuid.Memo:
+                    return 'memo'
+                case DocumentTypeGuid.PowerOfAttorney:
+                    return 'power-of-attorney'
+                case DocumentTypeGuid.Contract:
+                    return 'contract'
+                case DocumentTypeGuid.IncomingInvoice:
+                    return 'incoming-invoice'
+                case DocumentTypeGuid.SupAgreement:
+                    return 'sup-agreement'
+                case DocumentTypeGuid.ContractStatement:
+                    return 'contract-statement'
+                case DocumentTypeGuid.IncomingTaxInvoice:
+                    return 'incoming-taxInvoice'
+                case DocumentTypeGuid.OutgoingTaxInvoice:
+                    return 'outgoing-tax-invoice'
+                case DocumentTypeGuid.UniversalTransferDocument:
+                    return 'universal-transfer-document'
+                case DocumentTypeGuid.Waybill:
+                    return 'waybill'
+                case DocumentTypeGuid.DynamicDocument:
+                    return 'dynamic-document'
+            }
+        },
+        nameOptions () {
+            return {
+                value: this.document.name,
+                disabled:
+                    this.document.documentKind?.generateDocumentName ||
+                    this.isRegistered,
+                onValueChanged: e => {
+                    this.$store.commit(
+                        `documents/${this.documentId}/SET_NAME`,
+                        e.value
+                    )
+                }
+            }
+        },
+        noteOptions () {
+            return {
+                readOnly: !this.canUpdate,
+                value: this.document.note,
+                height: 70,
+                autoResizeEnabled: true,
+                onValueChanged: e => {
+                    this.$store.commit(
+                        `documents/${this.documentId}/SET_NOTE`,
+                        e.value
+                    )
+                }
+            }
+        }
+    }
+}
 </script>
 <style lang="scss">
 .wrapper--relative {
-  position: relative;
-  min-height: 79vh;
-  overflow: hidden;
-  .item--drawer {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+    position: relative;
+    min-height: 79vh;
+    overflow: hidden;
+    .item--drawer {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 }
 
 .dx-form-group-with-caption .dx-form-group.dx-form-group-with-caption {
-  padding-left: 0px;
+    padding-left: 0px;
 }
 .mt-1 {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 .bg-white {
-  width: 20%;
-  background: white;
+    width: 20%;
+    background: white;
 }
 .fade-enter,
 .fade-leave-to {
-  transform: translateX(40vw);
+    transform: translateX(40vw);
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: transform 0.5s;
+    transition: transform 0.5s;
 }
 .right {
-  display: flex;
-  justify-content: space-between;
-  .filter__header {
-    justify-self: flex-start;
-  }
+    display: flex;
+    justify-content: space-between;
+    .filter__header {
+        justify-self: flex-start;
+    }
 }
 .toolbar--sticky {
-  position: sticky;
-  top: 0;
+    position: sticky;
+    top: 0;
 }
 </style>
