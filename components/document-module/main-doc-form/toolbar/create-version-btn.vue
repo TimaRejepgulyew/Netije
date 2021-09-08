@@ -78,6 +78,7 @@ export default {
           type: "documentTemplate",
           name: this.$t("buttons.fromTemplate"),
           icon: "doc",
+          visible: this.$store.getters["modulesConfig/getTemplate"],
         },
         {
           id: 4,

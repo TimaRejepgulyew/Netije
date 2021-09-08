@@ -51,7 +51,7 @@ export default function (context) {
             "docFlow.documentSetting.documentTemplateDescr"
           ),
           path: pathGenerate("document-template"),
-          visible: isVisible(EntityType.DocumentTemplate)
+          visible: isVisible(EntityType.DocumentTemplate) && context.$store.getters["modulesConfig/getTemplate"],
         },
         {
           name: context.$t("docFlow.automaticAssignmentRules.automaticAssignmentRulesTitle"),
