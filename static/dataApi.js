@@ -74,6 +74,9 @@ export default {
     Roles: `/api/Role`,
     RoleMembers: `/api/RoleMembers/`
   },
+  modulesConfig: {
+    config: `/api/`
+  },
   docFlow: {
     DocumentRegister: {
       Value: `/api/DocumentRegister`,
