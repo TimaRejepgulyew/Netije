@@ -208,9 +208,9 @@ export default {
     },
     canEditVersion() {
       return (
-        canEdit(this.document.extension) &&
+        (canEdit(this.document.extension) &&
         this.canUpdate &&
-        this.document.canBeOpenedWithPreview
+        this.document.canBeOpenedWithPreview) && this.$store.getters["modulesConfig/getFilesEditing"]
       );
     },
     hasVersions() {

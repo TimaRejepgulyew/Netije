@@ -41,18 +41,20 @@ export default async function(context) {
       icon: financialArchiveIcon,
       items: financialArchiveDocumentBtns,
       visible:
-        context.$store.getters["permissions/isResponsibleFinansicalArchive"]
+        context.$store.getters["permissions/isResponsibleFinansicalArchive"] && context.$store.getters["modulesConfig/getAccountingDocs"]
     },
     {
       text: context.$t("createItemDialog.contractualDocumentsGroup"),
       icon: contractIcon,
       items: contractDocumentBtns,
-      visible: context.$store.getters["permissions/isResponsibleForContracts"]
+      visible: context.$store.getters["permissions/isResponsibleForContracts"] && context.$store.getters["modulesConfig/getContractualDocs"]
     },
     {
       text: context.$t("createItemDialog.dynamicDocuments"),
       icon: dynamicDocumentIcon,
-      items: dynamicDocumentCreateBtn
+      items: dynamicDocumentCreateBtn,
+      visible: context.$store.getters["modulesConfig/getDynamicDocuments"]
     }
+
   ];
 }

@@ -24,7 +24,7 @@
       </div>
     </div>
     <div
-      v-if="item.data.malwareScanResult !== undefined"
+      v-if="item.data.malwareScanResult !== undefined && this.$store.getters['modulesConfig/getAntivirus']"
       class="malware_scan_result"
     >
       <img

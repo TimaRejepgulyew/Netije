@@ -107,7 +107,7 @@ export default function (context) {
             "companyStructure.company.visibilitySettingDescr"
           ),
           path: pathGenerate("organization-structure/visibility-setting"),
-          visible: isAdmin()
+          visible: isAdmin() && context.$store.getters['modulesConfig/getOrgLimitation']
         },
         {
           name: context.$t("companyStructure.company.visibilityRules"),
@@ -115,7 +115,7 @@ export default function (context) {
             "companyStructure.company.visibilityRulesDescr"
           ),
           path: pathGenerate("organization-structure/visibility-rules"),
-          visible: isAdmin()
+          visible: isAdmin() && context.$store.getters['modulesConfig/getOrgLimitation']
         }
       ]
     },
