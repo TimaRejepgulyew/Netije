@@ -1,5 +1,5 @@
 <template>
-    <div id="cells-wrapper">
+    <div id="cells-wrapper" v-if='this.$store.getters["modulesConfig/getChat"]'>
         <div
             class="cell search"
             :title="$t('chat.searchContacts')"
