@@ -338,7 +338,7 @@ export default {
     canExchangePermission() {
       return this.$store.getters["permissions/canExchange"](
         EntityTypes.OfficialDocument
-      );
+      ) && (this.$store.getters["modulesConfig/getInternalExchange"] || this.$store.getters["modulesConfig/getExternalExchange"]);
     },
 
     document() {

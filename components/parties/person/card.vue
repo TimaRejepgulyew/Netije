@@ -263,7 +263,8 @@ export default {
       return (
         this.$store.getters["permissions/IsAdmin"] &&
         this.person.id &&
-        !this.person.isCardReadOnly
+        !this.person.isCardReadOnly &&
+        (this.$store.getters["modulesConfig/getInternalExchange"] || this.$store.getters["modulesConfig/getExternalExchange"])
       );
     },
     readOnly() {

@@ -256,7 +256,8 @@ export default {
   computed: {
     canExchange() {
       return (
-        this.$store.getters["permissions/IsAdmin"] && this.company.id
+        this.$store.getters["permissions/IsAdmin"] && this.company.id && 
+        (this.$store.getters["modulesConfig/getInternalExchange"] || this.$store.getters["modulesConfig/getExternalExchange"])
       );
     },
     regionOptions() {

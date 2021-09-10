@@ -221,7 +221,8 @@ export default {
       return (
         this.$store.getters["permissions/IsAdmin"] &&
         this.company.id &&
-        !this.company.isCardReadOnly
+        !this.company.isCardReadOnly && 
+        (this.$store.getters['modulesConfig/getInternalExchange'] || this.$store.getters['modulesConfig/getExternalExchange'])
       );
     },
     regionOptions() {
