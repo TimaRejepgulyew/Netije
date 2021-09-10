@@ -24,8 +24,7 @@ export default (context, rootGetters) => {
             path: `/document-module/${DocumentQuery.OutgoingLetter}`
         }
     ];
-    const internalDocuments = rootGetters["modulesConfig/getInternalExchange"]
-        ? [
+    const internalDocuments = [
               {
                   text: context.$i18n.t("DocumentQuery.InternalDocuments"),
                   template: "document-item",
@@ -62,8 +61,7 @@ export default (context, rootGetters) => {
                       }
                   ]
               }
-          ]
-        : "";
+          ];
 
     const dynamicDocument = rootGetters["modulesConfig/getDynamicDocuments"]
         ? [
