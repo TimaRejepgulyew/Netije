@@ -44,4 +44,5 @@ export default {
   actionItemExecutionTasks: "Поручения",
   logs: "Логи",
   approvals: "Согласование",
+  chat: "Чат"
 }
