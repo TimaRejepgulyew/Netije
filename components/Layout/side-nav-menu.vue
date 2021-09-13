@@ -92,7 +92,10 @@ export default {
     },
 
     handleItemClick(e) {
-      console.log(e.itemData);
+      if (e.itemIndex === 17) {
+        this.$store.commit('chat/openForm');
+      }
+      
       if (!e.itemData.path || this.compactMode) {
         return;
       }

@@ -20,17 +20,12 @@
 <script>
 import barCells from "~/components/chat/bar-cells.vue";
 import mainChatPanel from "./components/main-chat-panel.vue";
+import { mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
   components: {
     barCells,
     mainChatPanel,
-  },
-  data() {
-    return {
-      isActive: false,
-      defaultOptions: {},
-      defaultPanel: "empty-panel",
-    };
   },
   mounted() {
     console.log("insdex", this.$store.getters["oidc/oidcAccessToken"]);
@@ -40,21 +35,17 @@ export default {
     isAdmin() {
       return this.$store.getters["permissions/IsAdmin"];
     },
+    ...mapGetters('chat', [
+      'isActive',
+      'defaultOptions',
+      'defaultPanel'
+    ])
   },
   methods: {
-    openForm(options) {
-      if (options) {
-        this.defaultOptions = options;
-        this.defaultPanel = "chating-panel";
-      } else {
-        this.defaultPanel = "empty-panel";
-        this.defaultOptions = {};
-      }
-      this.isActive = true;
-    },
-    closeForm() {
-      this.isActive = false;
-    },
+    ...mapMutations({
+      openForm: 'chat/openForm',
+      closeForm: 'chat/closeForm'
+    })
   },
 };
 </script>

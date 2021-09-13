@@ -41,5 +41,6 @@ export default {
   actionItemExecutionTasks: "Tabşyryklar",
   logs: "Loglar",
   approvals: "Ylalyşyk",
-  documentTemplate: "Resminamanyň nusgalary"
+  documentTemplate: "Resminamanyň nusgalary",
+  chat: "Söhbet otagy"
 };
