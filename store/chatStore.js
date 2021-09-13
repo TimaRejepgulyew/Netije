@@ -2,7 +2,10 @@ import RoomType from "~/components/chat/infrastructure/constants/roomType.js";
 
 export const state = () => ({
     rooms: [],
-    messages: {}
+    messages: {},
+    isActive: false,
+    defaultOptions: {},
+    defaultPanel: "empty-panel"
 });
 
 export const getters = {
@@ -38,6 +41,17 @@ export const getters = {
     },
     getMessages: state => roomId => {
         return state.messages[roomId.toString()];
+    },
+    isActive(state) {
+        return state.isActive;
+    },
+
+    defaultOptions(state) {
+        return state.defaultOptions;
+    },
+
+    defaultPanel(state) {
+        return state.defaultPanel;
     }
 };
 export const mutations = {
@@ -120,6 +134,19 @@ export const mutations = {
                 }
             }
         });
+    },
+    openForm(state, options) {
+        if (options) {
+            state.defaultOptions = options;
+            state.defaultPanel = "chating-panel";
+        } else {
+            state.defaultPanel = "empty-panel";
+            state.defaultOptions = {};
+        }
+        state.isActive = true;
+    },
+    closeForm(state) {
+        state.isActive = false;
     }
 };
 
