@@ -267,7 +267,12 @@ export const actions = {
           //   path: "/admin/logs"
           // }
         ]
-      }
+      },
+      {
+        text: this.$i18n.t("menu.chat"),
+        icon: "message",
+        visible: !rootGetters["permissions/IsAdmin"],
+},
     ];
     commit("SET_MENU_ITEMS", data);
   }
