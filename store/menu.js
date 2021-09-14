@@ -271,7 +271,7 @@ export const actions = {
       {
         text: this.$i18n.t("menu.chat"),
         icon: "message",
-        visible: !rootGetters["permissions/IsAdmin"],
+        visible: !rootGetters["permissions/IsAdmin"] && rootGetters["modulesConfig/getChat"],
 },
     ];
     commit("SET_MENU_ITEMS", data);
