@@ -35,7 +35,7 @@ export default {
     isAdmin() {
       return this.$store.getters["permissions/IsAdmin"];
     },
-    ...mapGetters('chat', [
+    ...mapGetters('chatStore', [
       'isActive',
       'defaultOptions',
       'defaultPanel'
@@ -43,8 +43,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      openForm: 'chat/openForm',
-      closeForm: 'chat/closeForm'
+      openForm: 'chatStore/openForm',
+      closeForm: 'chatStore/closeForm'
     })
   },
 };
