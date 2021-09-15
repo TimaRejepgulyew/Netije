@@ -1,5 +1,5 @@
 <template>
-    <div id="cells-wrapper" v-if='this.$store.getters["modulesConfig/getChat"]'>
+    <div id="cells-wrapper" v-if='showChat'>
         <div
             class="cell search"
             :title="$t('chat.searchContacts')"
@@ -43,6 +43,9 @@ export default {
                         new Date(a.lastMessage?.created)
                     );
                 });
+        },
+        showChat() {
+            return this.$store.getters["modulesConfig/getChat"];
         }
     },
     methods: {
