@@ -68,7 +68,6 @@
 import { unload } from "../infrastructure/services/taskService.js";
 import TaskTypeModel from "../infrastructure/models/TaskType.js";
 import TaskType from "../infrastructure/constants/taskType";
-import taskChangeTracker from "./infrastructure/services/taskChangeTracker.js";
 
 //components taskType
 import documentReviewTask from "./form-by-type/document-review/index.vue";
