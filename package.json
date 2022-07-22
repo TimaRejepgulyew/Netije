@@ -2,7 +2,7 @@
   "name": "netije",
   "version": "1.0.0",
   "description": "Netije Nuxt SPA",
-  "author": "Timur Kleperson",
+  "author": "Timur Rejepgulyyev",
   "private": true,
   "scripts": {
     "dev": "nuxt",
